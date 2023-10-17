@@ -1,0 +1,195 @@
+## Model relationship types
+
+In order to handle the loaded/lazy states of relationships, the code generated models wrap relationships in `ModelReference` and `ModelList` types.
+
+```java
+public final class Post implements Model {
+  
+  public ModelList<Comment> getComments()
+}
+
+public final class Comment implements Model {
+  
+  public ModelReference<Post> getPost()
+}
+```
+
+ModelReference and ModelList types are either Lazy (Default) or Loaded. 
+
+* ModelReference<M\>
+    - LazyModelReference<M\>
+    - LoadedModelReference<M\>
+* ModelList<M\>
+    - LazyModelList<M\>
+    - LoadedModelList<M\>
+
+### Unwrap ModelReference type
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+void getPostFromComment(Comment comment) {
+    ModelReference<Post> postReference = comment.getPost();
+    if (postReference instanceof LoadedModelReference) {
+        LoadedModelReference<Post> loadedPost = ((LoadedModelReference<Post>) postReference);
+        Post post = loadedPost.getValue();
+        Log.i("MyAmplifyApp", "Post: " + post);
+    } else if (postReference instanceof LazyModelReference) {
+        LazyModelReference<Post> lazyPost = ((LazyModelReference<Post>) postReference);
+        lazyPost.fetchModel(
+            post -> Log.i("MyAmplifyApp", "Post: $post"),
+            error -> Log.e("MyAmplifyApp", "Failed to fetch post", error)
+        );
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+fun getPostFromComment(comment: Comment) {
+    when (val postReference = comment.post) {
+        is LoadedModelReference -> {
+            val post = postReference.value
+            Log.i("MyAmplifyApp", "Post: $post")
+        }
+        is LazyModelReference -> {
+            postReference.fetchModel(
+                { post -> Log.i("MyAmplifyApp", "Post: $post") },
+                { Log.e("MyAmplifyApp", "Failed to fetch post", it) }
+            )
+        }
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+suspend fun getPostFromComment(comment: Comment) {
+    try {
+        val post = when (val postReference = comment.post) {
+            is LoadedModelReference -> {
+                postReference.value
+            }
+
+            is LazyModelReference -> {
+                postReference.fetchModel()
+            }
+        }
+        Log.i("MyAmplifyApp", "Post: $post")
+    } catch (error: ApiException) {
+        Log.e("MyAmplifyApp", "Failed to fetch post", error)
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+
+### Unwrap ModelList type
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+void getCommentsForPost(Post post) {
+    ModelList<Comment> commentsModelList = post.getComments();
+    if (commentsModelList instanceof LoadedModelList) {
+        LoadedModelList<Comment> loadedComments = ((LoadedModelList<Comment>) commentsModelList);
+        // Eager loading loads the 1st page only.
+        loadedComments.getItems();
+    } else if (commentsModelList instanceof LazyModelList) {
+        LazyModelList<Comment> lazyComments = ((LazyModelList<Comment>) commentsModelList);
+        fetchComments(lazyComments, null);
+    }
+}
+
+void fetchComments(LazyModelList<Comment> lazyComments, PaginationToken token) {
+    lazyComments.fetchPage(
+        token,
+        page -> {
+            List<Comment> comments = page.getItems();
+            Log.i("MyAmplifyApp", "Page of comments: " + comments);
+            if (page.getHasNextPage()) {
+                PaginationToken nextToken = page.getNextToken();
+                fetchComments(lazyComments, nextToken); // recursively fetch next page
+            }
+        },
+        error -> Log.e("MyAmplifyApp", "Failed to fetch comments page", error)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+// Post comes from server response
+fun getCommentsForPost(post: Post) {
+    when (val commentsModelList = post.comments) {
+        is LoadedModelList -> {
+            // Eager loading loads the 1st page only.
+            commentsModelList.items
+        }
+        is LazyModelList -> {
+            // Helper method to load all pages
+            fetchComments(commentsModelList)
+        }
+    }
+}
+
+// Helper method for callback approach
+fun fetchComments(lazyComments: LazyModelList<Comment>, token: PaginationToken? = null) {
+    lazyComments.fetchPage(
+        token,
+        { page ->
+            val comments = page.items
+            Log.i("MyAmplifyApp", "Page of comments: $comments")
+            if (page.hasNextPage) {
+                val nextToken = page.nextToken
+                fetchComments(lazyComments, nextToken) // recursively fetch next page
+            }
+        },
+        { Log.e("MyAmplifyApp", "Failed to fetch comments page", it) }
+    )
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+suspend fun getCommentsForPost(post: Post) {
+    try {
+        val comments = when (val commentsModelList = post.comments) {
+            is LoadedModelList -> {
+                // Eager loading loads the 1st page only.
+                commentsModelList.items
+            }
+            is LazyModelList -> {
+                var page = commentsModelList.fetchPage()
+                var loadedComments = mutableListOf(page.items) // initial page of comments
+                // loop through all pages to fetch the full list of comments
+                while (page.hasNextPage) {
+                    val nextToken = page.nextToken
+                    page = commentsModelList.fetchPage(nextToken)
+                    // add the page of comments to the comments variable
+                    loadedComments += page.items
+                }
+                loadedComments
+            }
+        }
+        Log.i("MyAmplifyApp", "Comments: $comments")
+    } catch (error: ApiException) {
+        Log.e("MyAmplifyApp", "Failed to fetch comments", error)
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>

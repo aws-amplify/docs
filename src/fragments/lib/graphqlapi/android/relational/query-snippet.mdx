@@ -1,0 +1,80 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.API.query(
+    ModelQuery.get(Post.class, new Post.PostIdentifier("123")),
+    response -> {
+        Post post = response.getData();
+        ModelList<Comment> commentsModelList = post.getComments();
+
+        if (commentsModelList instanceof LoadedModelList) {
+            List<Comment> comments =
+                ((LoadedModelList<Comment>) commentsModelList).getItems();
+            Log.i("MyAmplifyApp", "Loaded " + comments.size() + " comments.");
+        } else if (commentsModelList instanceof LazyModelList) {
+            ((LazyModelList<Comment>) commentsModelList).fetchPage(
+                page -> {
+                    List<Comment> comments = page.getItems();
+                    Log.i("MyAmplifyApp", "Loaded " + comments.size() + " comments.");
+                },
+                failure -> Log.e("MyAmplifyApp, ", "Failed to fetch comments", failure)
+            );
+        }
+    },
+    failure -> Log.e("MyAmplifyApp", "Failed to query post.", failure)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.API.query(
+    ModelQuery[Post::class.java, Post.PostIdentifier("123")],
+    { response ->
+        val post = response.data
+        when (val commentsModelList = post.comments) {
+            is LoadedModelList -> {
+                val comments = commentsModelList.items
+                Log.i("MyAmplifyApp", "Loaded ${comments.size} comments")
+            }
+            is LazyModelList -> {
+                commentsModelList.fetchPage(
+                    { page ->
+                        val comments = page.items
+                        Log.i("MyAmplifyApp", "Fetched ${comments.size} comments")
+                    },
+                    { Log.e("MyAmplifyApp, ", "Failed to fetch comments", it) }
+                )
+            }
+        }
+    },
+    { Log.e("MyAmplifyApp, ", "Failed to fetch post", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val response =
+        Amplify.API.query(ModelQuery[Post::class.java, Post.PostIdentifier("123")])
+    val post = response.data
+    val comments = when (val commentsModelList = post.comments) {
+        is LoadedModelList -> {
+            commentsModelList.items
+        }
+        is LazyModelList -> {
+            commentsModelList.fetchPage().items
+        }
+    }
+    Log.i("MyAmplifyApp", "Fetched ${comments.size} comments")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "Failed to fetch post and its comments", error)
+}
+```
+
+</Block>
+</BlockSwitcher>
