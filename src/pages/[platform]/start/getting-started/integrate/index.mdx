@@ -1,8 +1,23 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
   title: `Integrate in your app`,
   description: `Getting started with Amplify Libraries - How to integrate Amplify into your app`,
-  filterKey: `integration`,
+  platforms: ['android', 'flutter', 'swift']
 };
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
 
 import ios0 from "/src/fragments/start/getting-started/ios/integrate.mdx";
 

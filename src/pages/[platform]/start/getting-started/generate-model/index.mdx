@@ -1,8 +1,23 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
   title: `Generate model files`,
   description: `Getting started with Amplify Libraries - Generate model files`,
-  filterKey: `integration`,
+  platforms: ['android', 'flutter', 'swift']
 };
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
 
 import ios0 from "/src/fragments/start/getting-started/ios/generate-model.mdx";
 

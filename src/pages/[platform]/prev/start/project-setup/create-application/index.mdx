@@ -1,7 +1,23 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
   title: `Create your application`,
   description: `Project setup for Amplify prior to adding category specific example.`
+  platforms: ['android', 'angular', 'flutter', 'javascript', 'nextjs', 'react', 'react-native', 'swift', 'vue']
 };
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
