@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Heading, Text, Flex, View, Button } from '@aws-amplify/ui-react';
+import { Heading, Text, Flex, Button } from '@aws-amplify/ui-react';
 import { Layout } from '@/components/Layout';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
@@ -31,14 +31,15 @@ export default function Page() {
         </Text>
 
         <Flex>
-          <Button variation="primary" size="large">
-            How Amplify Works
+          <Button variation="primary" size="large" gap="small">
+            How Amplify Works{' '}
+            <IconChevron
+              aria-hidden="true"
+              className="icon-rotate-270"
+              fontSize=".875em"
+            />
           </Button>
           <GetStartedPopover />
-        </Flex>
-        <Flex>
-          <IconChevron />
-          <IconChevron className="icon-rotate-90" />
         </Flex>
       </Flex>
       <Flex direction="column">

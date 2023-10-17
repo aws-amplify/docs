@@ -1,5 +1,6 @@
 .amplify-icon {
   transform-origin: center center;
+  transition: transform 0.2s ease-out;
 }
 .icon {
   transform-origin: center center;
@@ -14,5 +15,17 @@
   }
   &-rotate-360 {
     transform: rotate(360deg);
+  }
+  &-rotate-90-reverse {
+    transform: rotate(-90deg);
+  }
+  &-rotate-180-reverse {
+    transform: rotate(-180deg);
+  }
+  &-rotate-270-reverse {
+    transform: rotate(-270deg);
+  }
+  &-rotate-360-reverse {
+    transform: rotate(-360deg);
   }
 }

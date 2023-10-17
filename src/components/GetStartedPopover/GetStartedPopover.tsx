@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import classNames from 'classnames';
 import {
   Button,
   Flex,
@@ -46,14 +47,21 @@ export const GetStartedPopover = ({}) => {
           size="large"
           className="split-button__end"
         >
-          <IconChevron aria-hidden="true" className="split-button__end-icon" />
+          <IconChevron
+            aria-hidden="true"
+            className={classNames('split-button__end-icon', {
+              'icon-rotate-180-reverse': expanded
+            })}
+          />
           <VisuallyHidden>
             Toggle getting started guides navigation
           </VisuallyHidden>
         </Button>
 
         <View
-          className={`popover${expanded ? ' popover--expanded' : ''}`}
+          className={classNames('popover', {
+            'popover--expanded': expanded
+          })}
           as="nav"
           tabIndex={0}
           ref={contentRef}
