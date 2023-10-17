@@ -5,9 +5,7 @@ export const meta = {
 
 <InlineFilter filters={["js"]}>
 
-[comment]: # (source content from /src/fragments/lib/ssr/js/getting-started.mdx ; /src/fragments/lib/ssr/js/next-js-callout.mdx ; /src/fragments/start/getting-started/next/api.mdx ; aws.amazon.com/blogs/mobile/ssr-support-for-aws-amplify-javascript-libraries/)
-
-Server-Side Rendering (SSR) can help improve your search engine optimization, security, and load speed. Amplify JavaScript requires slight modifications to work well on the server-side. In this guide we will review how SSR helps with keeping your apps secure and how to implement Auth with SSR.
+Server-Side Rendering (SSR) can help improve your search engine optimization, security, and load speed. Amplify JavaScript requires slight modifications to work more efficiently on the server-side. In this guide we will review how SSR helps with keeping your apps secure and how to implement Auth with SSR.
 
 <Accordion title='Review the tradeoffs between client-side and SSR auth flows' headingLevel='4' eyebrow='Learn more'>
 
@@ -16,12 +14,20 @@ However, there are tradeoffs for each to keep in mind.
 
 | Render Type | Benefits | Constraints |
 |-|-|-|  
-| Client-Side | - Faster page loads after initial authentication <br/>- Less server load <br/>- Simpler setup <br/>- Credentials not exposed in backend since managed client-side in browser <br/>- Tokens are transient and less vulnerable if leaked <br/> -No roundtrips to the server for authorization | - Initial load authentication delay <br/>- SEO unfriendly <br/>- Impacts user experience <br/>- Client-side security risks |
+| Client-Side | - Faster page loads after initial authentication <br/>- Less server load <br/>- Simpler setup <br/>- Credentials not exposed in backend since managed client-side in browser <br/>- Tokens are transient and less vulnerable if leaked <br/> - No roundtrips to the server for authorization | - Initial load authentication delay <br/>- SEO unfriendly <br/>- Impacts user experience <br/>- Client-side security risks |
 | Server-Side | - Authentication on initial page load <br/>- SEO friendly <br/>- Improved user experience <br/>- Credentials never enter browser <br/>- Access tokens are not exposed in the browser <br/>- Session authorization is done on each request | - Slower first load time <br/>- More server load <br/>- Server-side security risks |
 
 </Accordion>
 
 <br/>
+
+You can implement Amplify Auth on both the client-side and server-side of your application. [Server-Side Rendering in Next.js](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-server-side-props) allows you to render pages on the server on each request. This helps you determine if the content should be rendered and returned based on the current user's authentication state.
+
+<Callout warning>
+
+SSR functionality in Amplify was primarily built for compatibility with Next.js [page components](https://nextjs.org/docs/basic-features/pages), and their [getServerSideProps data fetching mechanism](https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props). Compatibility with other frameworks or Next.js features cannot be guaranteed.
+
+</Callout>
 
 Before you begin, you will need:
 
@@ -30,17 +36,13 @@ Before you begin, you will need:
 - A Node.js backend available to run React server-side
 - Server route handlers and templates set up to handle requests
 
-<Callout warning>
-
-SSR functionality in Amplify was primarily built for compatibility with Next.js [page components](https://nextjs.org/docs/basic-features/pages), and their [getServerSideProps data fetching mechanism](https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props). Compatibility with other frameworks or Next.js features cannot be guaranteed.
-
-</Callout>
-
-You can implement Amplify Auth on both the client-side and server-side of your application. [Server-Side Rendering in Next.js](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-server-side-props) allows you to render pages on the server on each request. This helps you determine if the content should be rendered and returned to the current user's authentication state.
-
 ## Use Auth in SSR with Next.js Pages Router
 
-To start working with Amplify Auth on your Server-Side pages, you will first need to enable SSR by updating the Amplify configuration on your app. When using the Amplify CLI, the **aws-exports.js** file is created and updated automatically for you based upon the resources you added and configured. For client-only apps, `Amplify.configure(awsExports)` is all you need. However, to enable SSR support, you will also add `ssr: true`:
+To start working with Amplify Auth on your Server-Side pages, you will first need to enable SSR by updating the Amplify configuration on your app and then update your client-side and server-side code.
+
+### Enable SSR support
+
+When using the Amplify CLI, the **aws-exports.js** file is created and updated automatically for you based upon the resources you added and configured. For client-only apps, `Amplify.configure(awsExports)` is all you need. However, to enable SSR support, you will also add `ssr: true`:
 
 ```js
 import { Amplify } from "aws-amplify";
@@ -53,13 +55,15 @@ By providing `ssr: true`, Amplify persists credentials on the client in cookies 
 
 <Callout>
 
-**Note:** It is recommend to perform the actual sign in on the client in order to have an authenticated user available on the server side.
+**Note:** It is recommend to perform the actual sign in on the client in order to have an authenticated user available on the server-side.
 
 </Callout>
 
+### Initialize Amplify Auth on client and server-side
+
 Once your application is configured with `ssr: true`, the client-side credentials are passed to the server via cookies. The `withSSRContext()` utility then creates an instance of `Amplify` scoped to a single request (`req`) using those cookie credentials.
 
-For client-side code rendered in the browser, you would use the top-level imports:
+For client-side code rendered in the browser, you will use the top-level imports:
 
 ```js
 import { Auth } from "aws-amplify";
@@ -74,7 +78,7 @@ async function handleCurrentUser() {
 } 
 ```
 
-But when on the server, you would use Auth from `withSSRContext()`.
+But when on the server, you will use Auth from `withSSRContext()` with the `getServerSideProps` function:
 
 ```js
 import { withSSRContext } from "aws-amplify";
@@ -94,17 +98,19 @@ This will give you access to the currently authenticated user with the request o
 
 <Callout>
 
-**Note:** Server-side functions that don't have a request (`req`) object (e.g. Next.js' `getStaticProps` and `getStaticPaths`) should still use `withSSRContext()`. However, please note that it is **not** possible to check for an authenticated user when using these functions. Amplify relies on cookies that are sent from the browser to check for a current user session when used on the server. Additionally each request on the server creates a copy of Amplify that scopes the credentials and the user session to *just one* request.
+**Note:** Server-side functions that don't have a request (`req`) object (e.g. Next.js' `getStaticProps` and `getStaticPaths`) should still use `withSSRContext()`. However, please note that it is **not** possible to check for an authenticated user when using these functions. Amplify relies on cookies that are sent from the browser to check for a current user session when used on the server. Additionally, each request on the server creates a copy of Amplify that scopes the credentials and the user session to *just one* request.
 
 </Callout>
 
-You should now be able to use Auth in SSR with Next.js pages router using `getServerSideProps`.
+You should now be able to use Auth in SSR with Next.js Pages Router using `getServerSideProps`.
 
 ## Use Auth in SSR with Next.js App Router
 
 Amplify JavaScript can be used with the [Next.js App Router](https://nextjs.org/docs/app) ("app/" directory) for Next.js v13.4 and later. You will need to apply a few changes.
 
-First, run `Amplify.configure({ ...awsExports, ssr: true })` in **both** the client-side and server-side code. In order to use Amplify with Next.js App Router, you **must** run `Amplify.configure()` in both Client and Server Components. The `ssr` option **must** be enabled.
+### Initialize Amplify Auth on client and server-side
+
+You will need to run `Amplify.configure({ ...awsExports, ssr: true })` in **both** the client-side and server-side code. In order to use Amplify with Next.js App Router, you **must** run `Amplify.configure()` in both Client and Server Components. The `ssr` option **must** be enabled.
 
 Here is an example with the Next.js App Router Client Component containing your login flow (e.g. `app/page.tsx`):
 
@@ -136,7 +142,7 @@ export default async function Page() {
 }
 ```
 
-Next, prepare a request object for `withSSRContext` to perform server-side operations that require authentication.  Here is an example of a Next.js App Router Server Component that checks for the current authenticated user:
+Then you can prepare a request object for `withSSRContext` to perform server-side operations that require authentication.  Here is an example of a Next.js App Router Server Component that checks for the current authenticated user:
 
 ```js
 import { Amplify, withSSRContext } from 'aws-amplify';
@@ -146,7 +152,7 @@ import awsExports from '@/aws-exports';
 Amplify.configure({ ...awsExports, ssr: true });
 
 export default async function Page() {
-  // Construct a req object & prepare an SSR enabled version of Amplify
+  // Construct a req object and prepare an SSR enabled version of Amplify
   const req = {
     headers: {
       cookie: headers().get('cookie'),
@@ -167,8 +173,6 @@ export default async function Page() {
 You can now use the Next.js App Router with authentication for SSR.
 
 ## Known Limitations
-
-[comment]: # (A number of these will be resolved in V6)
 
 There are some known limitations when using Amplify with SSR that will be addressed in future versions of Amplify. Please understand and be aware of these known limitations:
 - [Amplify Causing Errors With Next.js middleware](https://github.com/aws-amplify/amplify-js/issues/9145)
