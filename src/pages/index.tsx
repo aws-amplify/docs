@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Heading, Text, Flex, View, Button } from '@aws-amplify/ui-react';
 import { Layout } from '@/components/Layout';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
+import { IconChevron } from '@/components/Icons';
 
 import { trackPageVisit } from '@/utils/track';
 
@@ -35,6 +36,10 @@ export default function Page() {
           </Button>
           <GetStartedPopover />
         </Flex>
+        <Flex>
+          <IconChevron />
+          <IconChevron className="icon-rotate-90" />
+        </Flex>
       </Flex>
       <Flex direction="column">
         <Heading level={2}>
@@ -47,6 +52,7 @@ export default function Page() {
           on AWS. Get started by selecting your preferred framework.
         </Text>
       </Flex>
+
       <Flex direction="column" alignItems="flex-start">
         <Heading level={2}>Features for JavaScript</Heading>
         <Button as="a" href="/">
