@@ -2,16 +2,7 @@ import React, { useEffect } from 'react';
 import { Heading, Text, Flex, Button } from '@aws-amplify/ui-react';
 import { debounce } from '@/utils/debounce';
 import { Layout } from '@/components/Layout';
-import {
-  IconAndroid,
-  IconAngular,
-  IconFlutter,
-  IconJS,
-  IconNext,
-  IconReact,
-  IconSwift,
-  IconVue
-} from '@/components/Icons';
+import { GetStartedPopover } from '@/components/GetStartedPopover';
 
 import { trackPageVisit } from '@/utils/track';
 
@@ -58,7 +49,7 @@ export default function Page() {
           <Button variation="primary" size="large">
             How Amplify Works
           </Button>
-          <Button>Get Started</Button>
+          <GetStartedPopover />
         </Flex>
       </Flex>
       <Flex direction="column">
