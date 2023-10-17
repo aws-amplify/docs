@@ -1,4 +1,3 @@
-* @aws-amplify/documentation-team 
 /src/fragments/ @abdallahshaban557 @aws-amplify/documentation-team 
 /src/pages/ @abdallahshaban557 @aws-amplify/documentation-team 
 
@@ -85,6 +84,7 @@
 /src/**/**/utilities @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Docs Engineering
+/*.* @aws-amplify/documentation-team
 /src/components @aws-amplify/documentation-team
 /src/constants @aws-amplify/documentation-team 
 /src/directory @aws-amplify/documentation-team 
