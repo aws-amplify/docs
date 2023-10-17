@@ -43,10 +43,6 @@ input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }
 </Block>
 <Block name="AWS CDK">
 
-```graphql
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }
-```
-
 In your CDK construct, you'll need to enable this "sandbox mode" via an input parameter, rather than as part of the Graphql schema definition:
 
 ```ts
@@ -108,7 +104,18 @@ When you run `amplify add auth`, the  Amplify CLI generates scoped down IAM poli
 Designate an IAM role for unauthenticated identities by setting the `iamConfig` property:
 
 ```ts
-const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
+// Note: this sample uses the alpha Cognito Identity Pool construct, but is not required, CfnIdentityPool can be used as well
+import cognito_identitypool from '@aws-cdk/aws-cognito-identitypool-alpha';
+
+const identityPool = new cognito_identitypool.IdentityPool(stack, 'MyNewIdentityPool', {
+  allowUnauthenticatedIdentities: true,
+  authenticationProviders: { userPools: [new cognito_identitypool.UserPoolAuthenticationProvider({
+    userPool: <your_identity_pool>,
+    userPoolClient: <your_identity_pool_client>,
+  })] },
+});
+
+new AmplifyGraphqlApi(this, "MyNewApi", {
   definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, "schema.graphql")),
   authorizationModes: {
     defaultAuthorizationMode: 'API_KEY',
@@ -116,19 +123,13 @@ const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
       expires: cdk.Duration.days(30)
     },
     iamConfig: {
-      identityPoolId: "<region>:<id string>", // <-- pass in your identity pool ID
-      unauthenticatedUserRole: ..., // <-- pass in your unauthenticatedUserRole here
-      authenticatedUserRole: ... // <-- pass in your authenticatedUserRole here
+      identityPoolId: identityPool.identityPoolId,
+      authenticatedUserRole: identityPool.authenticatedRole,
+      unauthenticatedUserRole: identityPool.unauthenticatedRole,
     }
   },
 })
 ```
-
-<Callout warning>
-
-**Note:** You must pass the identity pool ID as a string in the format above. Using a reference through a CDK token is currently not supported.
-
-</Callout>
 
 </Block>
 </BlockSwitcher>
@@ -230,7 +231,18 @@ When you run `amplify add auth`, the  Amplify CLI generates scoped down IAM poli
 Designate an IAM role for authenticated identities by setting the `iamConfig` property:
 
 ```ts
-const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
+// Note: this sample uses the alpha Cognito Identity Pool construct, but is not required, CfnIdentityPool can be used as well
+import cognito_identitypool from '@aws-cdk/aws-cognito-identitypool-alpha';
+
+const identityPool = new cognito_identitypool.IdentityPool(stack, 'MyNewIdentityPool', {
+  allowUnauthenticatedIdentities: true,
+  authenticationProviders: { userPools: [new cognito_identitypool.UserPoolAuthenticationProvider({
+    userPool: <your_identity_pool>,
+    userPoolClient: <your_identity_pool_client>,
+  })] },
+});
+
+new AmplifyGraphqlApi(this, "MyNewApi", {
   definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, "schema.graphql")),
   authorizationModes: {
     defaultAuthorizationMode: 'API_KEY',
@@ -238,19 +250,13 @@ const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
       expires: cdk.Duration.days(30)
     },
     iamConfig: {
-      identityPoolId: "<region>:<id string>", // <-- pass in your identity pool ID
-      unauthenticatedUserRole: ..., // <-- pass in your unauthenticatedUserRole here
-      authenticatedUserRole: ... // <-- pass in your authenticatedUserRole here
+      identityPoolId: identityPool.identityPoolId,
+      authenticatedUserRole: identityPool.authenticatedRole,
+      unauthenticatedUserRole: identityPool.unauthenticatedRole,
     }
   },
 })
 ```
-
-<Callout warning>
-
-**Note:** You must pass the identity pool ID as a string in the format above. Using a reference through a CDK token is currently not supported.
-
-</Callout>
 
 </Block>
 </BlockSwitcher>
