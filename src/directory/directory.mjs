@@ -208,6 +208,11 @@ export const directory = {
             filters: ['android', 'ios', 'flutter']
           },
           {
+            title: 'Use existing Amazon Cognito resources',
+            route: '/lib/auth/existing-resources',
+            filters: ['ios', 'flutter']
+          },
+          {
             title: 'Under the hood',
             route: '/lib/auth/overview',
             filters: ['android', 'ios', 'js', 'react-native']
@@ -311,6 +316,11 @@ export const directory = {
             title: 'Subscribe to data',
             route: '/lib/graphqlapi/subscribe-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Relational models',
+            route: '/lib/graphqlapi/relational',
+            filters: ['android']
           },
           {
             title: 'Working with files and attachments',
@@ -1266,6 +1276,11 @@ export const directory = {
             title: 'Escape hatch',
             route: '/lib-v1/auth/escapehatch',
             filters: ['android', 'ios']
+          },
+          {
+            title: 'Use existing Amazon Cognito resources',
+            route: '/lib-v1/auth/existing-resources',
+            filters: ['ios', 'flutter']
           },
           {
             title: 'Under the hood',
