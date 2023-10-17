@@ -96,6 +96,8 @@
   },
   "resolutions": {
     "**/trim": "0.0.3",
+    "@babel/core": "^7.23.2",
+    "@babel/traverse": "^7.23.2",
     "loader-utils": "2.0.4",
     "minimatch": "3.1.2",
     "json5": "2.2.2",
