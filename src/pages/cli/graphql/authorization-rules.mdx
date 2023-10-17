@@ -110,8 +110,8 @@ import cognito_identitypool from '@aws-cdk/aws-cognito-identitypool-alpha';
 const identityPool = new cognito_identitypool.IdentityPool(stack, 'MyNewIdentityPool', {
   allowUnauthenticatedIdentities: true,
   authenticationProviders: { userPools: [new cognito_identitypool.UserPoolAuthenticationProvider({
-    userPool: <your_identity_pool>,
-    userPoolClient: <your_identity_pool_client>,
+    userPool: <your_user_pool>,
+    userPoolClient: <your_user_pool_client>,
   })] },
 });
 
@@ -237,8 +237,8 @@ import cognito_identitypool from '@aws-cdk/aws-cognito-identitypool-alpha';
 const identityPool = new cognito_identitypool.IdentityPool(stack, 'MyNewIdentityPool', {
   allowUnauthenticatedIdentities: true,
   authenticationProviders: { userPools: [new cognito_identitypool.UserPoolAuthenticationProvider({
-    userPool: <your_identity_pool>,
-    userPoolClient: <your_identity_pool_client>,
+    userPool: <your_user_pool>,
+    userPoolClient: <your_user_pool_client>,
   })] },
 });
 
