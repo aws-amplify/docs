@@ -30,7 +30,7 @@ export const MenuHeaderStyle = styled.div`
     justify-content: space-between;
     align-items: center;
     height: 64px;
-    border-bottom: 2px solid #D1D5DB;
+    border-bottom: 2px solid #d1d5db;
     margin-bottom: 35px;
 
     h2 {
@@ -80,7 +80,9 @@ export const MenuStyle = styled.div`
     flex-basis: 20rem;
     z-index: 0;
     left: unset;
-    overflow: unset;
+    overflow: scroll;
+    height: auto;
+    max-height: 100vh;
   }
   ${MQTablet} {
     width: 20rem;

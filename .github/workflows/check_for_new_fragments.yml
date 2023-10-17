@@ -1,0 +1,35 @@
+name: Block PRs with New Fragments
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  checkForNewFragments:
+    name: Check for new fragments
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0 https://github.com/actions/checkout/commit/f43a0e5ff2bd294095638e18286ca9a3d1956744
+      - name: Check if there are new fragments
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1 https://github.com/actions/github-script/commit/d7906e4ad0b1822421a7e6a35d5ca353c962f410
+        id: new-fragments-boolean
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const { getAddedFragments } = require('./.github/workflows/scripts/check_for_new_fragments.js');
+            return getAddedFragments({github, context, core});
+      - name: Add Comment to PR if new fragments have been added
+        if: ${{ steps.new-fragments-boolean.outputs.result > 0 }}
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1 https://github.com/actions/github-script/commit/d7906e4ad0b1822421a7e6a35d5ca353c962f410
+        env:
+          CURRENT_BRANCH: ${{ github.head_ref }}
+          CURRENT_REPO: ${{ github.repository }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { addComment } = require('./.github/workflows/scripts/check_for_new_fragments.js');
+            addComment({github, context});
+      - name: Fail if new fragments have been added
+        if: ${{ steps.new-fragments-boolean.outputs.result > 0 }}
+        run: exit 1
+     
