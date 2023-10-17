@@ -5,11 +5,9 @@ export const meta = {
 
 <InlineFilter filters={["js", "react-native"]}>
 
-[comment]: # (source content from src/fragments/lib/auth/js/social.mdx ; src/fragments/lib/auth/common/setup_auth_provider.mdx ; src/fragments/lib/auth/common/configure_auth_category.mdx ; /src/fragments/cli/lambda_triggers_callout.mdx ; /src/fragments/lib/auth/js/overview.mdx ; /src/fragments/lib/auth/js/react-native-social.mdx ; /src/fragments/lib/auth/js/react-native-withoauth.mdx)
+You can enable your users to sign-in and authenticate with your app using their existing accounts with social providers like Apple, Amazon, Facebook, and Google. Once you configure your backend resources, you can then configure your app to sign in users for that provider. This process will securely exchange credentials and gather user information. This information can then be used to create a new user in your app or link the social account to an existing user. Incorporating social provider sign-in provides your users with a streamlined registration, more sign-in options, and an integrated experience across their existing accounts and your app.
 
-You can enable your users to sign-in and authenticate with your app using their existing accounts with social providers like Apple, Amazon, Facebook, and Google. Once you configure your backend resources, you can configure your app to sign in users for that provider. This process will securely exchange credentials and gather user information. This information can then be used to create a new user in your app or link the social account to an existing user. Incorporating social provider sign-in provides your users with a streamlined registration, more sign-in options, and an integrated experience across their existing accounts and your app.
-
-In this guide we will review how you can add sign-in with social providers by first setting up your developer account with the provider. After this is set up you can then configure your Auth category and integrate social sign-in with your app.
+In this guide we will review how you can add sign-in with social providers by first setting up your developer account with the provider. After this step, you can then configure your Auth category and integrate social sign-in with your app.
 
 Before you begin you will need:
 - An Amplify project
@@ -17,11 +15,11 @@ Before you begin you will need:
 
 <Accordion title='Review how OAuth authentication works' headingLevel='3' eyebrow='Learn more'>
 
-Incorporating social provider sign-in provides your users more sign-in options with providers such as Facebook, Google, or Amazon. The preferred way to do this is via an OAuth redirect which lets users sign in using their social media account and a corresponding user is created in User Pools. 
+The preferred way to incorporate social provider sign-in is via an OAuth redirect which lets users sign in using their social media account and creates a corresponding user in the Cognito User Pool. 
 
 [OAuth 2.0](https://en.wikipedia.org/wiki/OAuth) is the common Authorization framework used by web and mobile applications for accessing user information ("scopes") in a limited manner. Common analogies you will hear in OAuth is that of boarding a plane or staying in a hotel - showing your identification is the authentication piece (signing into an app) and using the boarding pass/hotel key is what you are authorized to access.
 
-OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after a login. With this design you do not need to include an SDK for the social provider in your app. After you set up your developer account with these social providers you can configure the `Auth` category by running `amplify add auth` and selecting the social provider option and then use `Auth.federatedSignIn()` in your app to either show a pre-built "Hosted UI" or pass in a provider name (e.g. `Auth.federatedSignIn({provider: 'Facebook'})`) to interface directly and build your own UI.
+OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after they sign in. With this design you do not need to include an SDK for the social provider in your app. After you set up your developer account with these social providers you can configure the `Auth` category by running `amplify add auth` and selecting the social provider option. You can then use `Auth.federatedSignIn()` in your app to either show a pre-built "Hosted UI" or pass in a provider name (e.g. `Auth.federatedSignIn({provider: 'Facebook'})`) to interface directly and build your own UI.
 	
 ![Image](/images/SocialAuthZ.png)
 	
@@ -60,7 +58,7 @@ Before you configure social sign-in with Amplify Auth you will need to set up yo
 7. On the left navigation bar, choose *Settings* and then *Basic*.
 ![App ID and App Secret in the basic settings tab of the dashboard.](/images/cognitoHostedUI/facebook4.png)
 
-8. Note the *App ID* and the *App Secret*. You will use them in the next section during the CLI flow.
+8. Note the *App ID* and the *App Secret*. You will use them in the next section in the CLI flow.
 
 </Block>
 <Block name="Google Sign-In">
@@ -76,7 +74,7 @@ Before you configure social sign-in with Amplify Auth you will need to set up yo
 4. Type in project name and click *CREATE*.
 ![The create button is circled in the new project page.](/images/cognitoHostedUI/google3.png)
 
-5. Once the project is created, from the left *Navigation menu*, select *APIs & Services*, then select *Credentials*.
+5. Once the project is created, from the left navigation menu, select *APIs & Services*, then select *Credentials*.
 ![The top left menu icon is selected, then the APIs and services option, then the credentials option.](/images/cognitoHostedUI/google4.png)
 
 6. Click *CONFIGURE CONSENT SCREEN*.
@@ -85,7 +83,7 @@ Before you configure social sign-in with Amplify Auth you will need to set up yo
 7. Click *CREATE*.
 ![The create button is circled in the OAuth consent screen section.](/images/cognitoHostedUI/google6.png)
 
-8. Type in *App Information* and *Developer contact information* which are required field and click *SAVE AND CONTINUE* three times (OAuth consent screen -> Scopes -> Test Users) to finish setting up consent screen.
+8. Type in *App Information* and *Developer contact information* which are required fields and click *SAVE AND CONTINUE* three times (OAuth consent screen -> Scopes -> Test Users) to finish setting up the consent screen.
 
 9. Back under the *Credentials* tab, Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
 ![The Create credentials button is circled, then the oauth client ID button is circled in the credentials section.](/images/cognitoHostedUI/google7.png).
@@ -105,7 +103,7 @@ Before you configure social sign-in with Amplify Auth you will need to set up yo
 
 2. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
 
-3. You need to create an Amazon security profile to receive the Amazon client ID and client secret. Choose *Create a Security Profile*.
+3. You need to create an Amazon security profile to receive the Amazon Client ID and Client Secret. Choose *Create a Security Profile*.
 ![The login with Amazon console with a create a new security profile button displayed.](/images/cognitoHostedUI/amazon1.png)
 
 4. Type in a *Security Profile Name*, a *Security Profile Description*, and a *Consent Privacy Notice URL*.
@@ -113,7 +111,7 @@ Before you configure social sign-in with Amplify Auth you will need to set up yo
 
 5. Choose *Save*.
 
-6. Choose *Show Client ID and Client Secret* to show the client ID and secret. You will need them for the next section in the CLI flow.
+6. Choose *Show Client ID* and *Client Secret* to show the client ID and secret. You will need them for the next section in the CLI flow.
 ![Choosing client ID and client secret.](/images/cognitoHostedUI/amazon3.png)
 
 </Block>
@@ -126,7 +124,7 @@ Before you configure social sign-in with Amplify Auth you will need to set up yo
 
 3. On the left navigation bar, select *Identifier*.
 
-4. On the Identifiers page, select the *+* icon.
+4. On the *Identifiers* page, select the *plus icon (+)*.
 
 5. On the *Register a New Identifier* page, select *App IDs*.
 
@@ -141,12 +139,12 @@ Before you configure social sign-in with Amplify Auth you will need to set up yo
 
 10. On the *Identifiers* page, on the right, select *App IDs*, and then select *Services ID*.
 
-11. Select the *+* icon and, on the *Register a New Identifier* page, select *Services IDs*.
+11. Select the *plus icon (+)* and, on the *Register a New Identifier* page, select *Services IDs*.
 
-12. Provide a description in the *Description* text box and provide an identifier for the service ID.
+12. Provide a description in the *Description* text box and provide an identifier for the Service ID.
 ![Register a services ID in the certificates, identifiers and profiles section.](/images/cognitoHostedUI/apple2.png)
 
-13. Select *Continue* and register the service ID.
+13. Select *Continue* and register the Service ID.
 
 </Block>
 </BlockSwitcher>
@@ -296,11 +294,11 @@ You need to now inform your social provider of this URL:
 
 3. On the left navigation bar, select *Identifiers* and then select *Service IDs* from the drop down list on the right.
 
-4. Select the service ID created when you set up your auth provider as outlined in the section above.
+4. Select the Service ID created when you set up your auth provider as outlined in the section above.
 
 5. Enable *Sign In with Apple* and select *Configure*.
 
-6. Under *Primary App ID* select the app ID that was created before.
+6. Under *Primary App ID* select the App ID that was created before.
 
 7. Type your user pool domain into *Domains and Subdomains*.
 
@@ -313,14 +311,14 @@ You need to now inform your social provider of this URL:
 
 11. On the main *Certificates, Identifiers & Profiles*, select *Keys*.
 
-12. On the *Keys* page, select the *+* icon.
+12. On the *Keys* page, select the *plus icon (+)*.
 
 13. Provide a name for the key under *Key Name*.
 
 14. Enable *Sign in with Apple* and select *Configure*.
 ![The sign in with apple option is enabled and the key name text field is filled out.](/images/cognitoHostedUI/apple4.png)
 
-15. Under *Primary App ID* select the app ID that was created before.
+15. Under *Primary App ID* select the App ID that was created before.
 
 16. Click on *Save*.
 
@@ -352,7 +350,7 @@ After configuring the OAuth endpoints (with Cognito Hosted UI), you can integrat
 
 </Callout>
 
-If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via [Hub](/lib/utilities/hub/q/platform/js/). You can also use Hub eventing system to catch errors when using `Auth.federatedSignIn()` by listening for the `signIn_failure` event.
+If you are looking to add a custom state, you are able to do so by passing a string value (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) and listening for the custom state via [Hub](/lib/utilities/hub/q/platform/js/). You can also use the Hub eventing system to catch errors using `Auth.federatedSignIn()` to listen for the `signIn_failure` event.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -481,7 +479,7 @@ function App() {
 
 <InlineFilter filters={["react-native"]}>
 
-If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via [Hub](/lib/utilities/hub/q/platform/react-native/).
+If you are looking to add a custom state, you are able to do so by passing a string value (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) and listening for the custom state via [Hub](/lib/utilities/hub/q/platform/react-native/).
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -1396,7 +1394,7 @@ const styles = StyleSheet.create({
 
 </InlineFilter>
 
-### Deploy backend environment with auth parameters for social sign-in
+### Deploy your backend environment with auth parameters for social sign-in
 
 When you create or update your authentication configuration, Amplify will setup the configuration locally, but it does not automatically deploy the changes to your backend environment. You will need to run `amplify push` to deploy the changes to your backed environment.
 
@@ -1412,19 +1410,19 @@ Congratulations! You finished the **Add social provider sign-in** guide. In this
 
 ## Next steps
 
-Now that you social provider sign-in you may also want to learn more additional ways to customize these workflows. We recommend you learn more about:
+Now that you have social provider sign-in you may also want to learn additional ways to customize these workflows. We recommend you learn more about:
 
 <InlineFilter filters={["js"]}>
 
-- [Password and user management](/lib/auth/manageusers/q/platform/js/)
+- [Password and user management](/lib/auth/password_management/q/platform/js/)
 - [Identity Pool Federation](/lib/auth/advanced/q/platform/js/#identity-pool-federation)
-- [Working with Hub](lib/utilities/hub/q/platform/js/)
+- [Working with Hub](/lib/utilities/hub/q/platform/js/)
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
-- [Password and user management](/lib/auth/manageusers/q/platform/react-native/)
+- [Password and user management](/lib/auth/password_management/q/platform/react-native/)
 - [Identity Pool Federation](/lib/auth/advanced/q/platform/react-native/#identity-pool-federation)
 - [Working with Hub](/lib/utilities/hub/q/platform/react-native/)
 
