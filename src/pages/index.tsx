@@ -45,7 +45,7 @@ export default function Page() {
           libraries, CLI, and services, you can easily connect your frontend to
           the cloud for authentication, storage, APIs, and more.
         </Text>
-        <Flex>
+        <Flex className="home-intro__cta">
           <Button variation="primary" size="large">
             How Amplify Works
           </Button>
