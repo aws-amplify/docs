@@ -61,7 +61,15 @@ h4 {
 /* A elements that don't have a class get default styles */
 a:not([class]) {
   text-decoration-skip-ink: auto;
-  color: currentColor;
+
+  color: var(--amplify-components-link-color);
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
+  &:focus {
+    outline: 2px solid var(--amplify-colors-border-focus);
+  }
 }
 
 /* Make images easier to work with */
@@ -82,6 +90,10 @@ select {
 /* Make sure textareas without a rows attribute are not tiny */
 textarea:not([rows]) {
   min-height: 10em;
+}
+
+.max-inline-content {
+  max-width: 80ch;
 }
 
 .plain-list {

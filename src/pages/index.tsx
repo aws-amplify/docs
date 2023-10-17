@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Heading, Text, Flex, View, Button } from '@aws-amplify/ui-react';
+import { Heading, Text, Flex, Button } from '@aws-amplify/ui-react';
+import { debounce } from '@/utils/debounce';
 import { Layout } from '@/components/Layout';
 import {
   IconAndroid,
@@ -26,6 +27,22 @@ export default function Page() {
     trackPageVisit();
   }, []);
 
+  const handleScroll = debounce((e) => {
+    const bodyScroll = e.target.documentElement.scrollTop;
+    if (bodyScroll > 50) {
+      document.body.classList.add('scrolled');
+    } else if (document.body.classList.contains('scrolled')) {
+      document.body.classList.remove('scrolled');
+    }
+  });
+
+  React.useLayoutEffect(() => {
+    document.addEventListener('scroll', handleScroll);
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <Flex className="home-content">
       <Flex className="home-intro">
@@ -37,16 +54,6 @@ export default function Page() {
           libraries, CLI, and services, you can easily connect your frontend to
           the cloud for authentication, storage, APIs, and more.
         </Text>
-        <Flex fontSize="3rem">
-          <IconAndroid />
-          <IconAngular />
-          <IconFlutter />
-          <IconJS />
-          <IconNext />
-          <IconReact />
-          <IconSwift />
-          <IconVue />
-        </Flex>
         <Flex>
           <Button variation="primary" size="large">
             How Amplify Works
