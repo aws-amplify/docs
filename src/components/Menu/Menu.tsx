@@ -24,7 +24,11 @@ export function Menu({ currentPlatform }: MenuProps): ReactElement {
               query: { platform: currentPlatform }
             }}
           >
-            <View className="menu__list-item__link__inner" marginBottom="16px">
+            <View
+              className="menu__list-item__link__inner"
+              marginBottom="16px"
+              fontWeight={700}
+            >
               How Amplify works
             </View>
           </Link>
