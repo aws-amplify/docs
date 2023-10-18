@@ -1,6 +1,25 @@
 export const meta = {
   title: `Remove files`,
-  description: `Learn more about how to remove files using Amplify's storage category`
+  description: `Learn more about how to remove files using Amplify's storage category`,
+  filterKey: "platform",
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { INTEGRATION_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
@@ -26,3 +45,47 @@ import android2 from '/src/fragments/lib-v1/storage/android/remove.mdx';
 import flutter3 from '/src/fragments/lib-v1/storage/flutter/remove.mdx';
 
 <Fragments fragments={{ flutter: flutter3 }} />
+
+<InlineFilter filters={['js']}>
+
+Delete stored data from the storage bucket. To remove a file, you need to provide the key. `accessLevel` can be 'guest', 'private', or 'protected', defaulting to 'guest'.
+Files can only be deleted for the current user. Deletion capabilities do not extend to files associated with other users.
+
+## Guest level remove
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  await remove({ key: filename });
+} catch (error) {
+  console.log('Error ', error);
+}
+
+```
+
+## Protected level remove
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  await remove({ key: filename, options: { accessLevel: 'protected' } });
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+
+## Private level remove
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  await remove({ key: filename, options: { accessLevel: 'private' } });
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+
+</InlineFilter>

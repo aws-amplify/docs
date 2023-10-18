@@ -1,6 +1,25 @@
 export const meta = {
   title: `Create your application`,
-  description: `Project setup for Amplify prior to adding category specific example.`
+  description: `Project setup for Amplify prior to adding category specific example.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 import ios0 from '/src/fragments/lib/project-setup/native_common/create-application/common.mdx';

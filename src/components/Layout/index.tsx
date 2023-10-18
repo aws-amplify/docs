@@ -3,14 +3,14 @@ import SecondaryNav from '../SecondaryNav/index';
 import Footer from '../Footer/index';
 import { LayoutStyle } from './styles';
 import { Container } from '../Container';
-import { useRouter } from 'next/router';
 import { GlobalNav, NavMenuItem } from '../GlobalNav/GlobalNav';
 import {
   LEFT_NAV_LINKS,
   RIGHT_NAV_LINKS,
   SOCIAL_LINKS
 } from '../../utils/globalnav';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
+import { trackPageVisit } from '../../utils/track';
 
 const Layout = forwardRef(function Layout(
   {
@@ -26,8 +26,9 @@ const Layout = forwardRef(function Layout(
   },
   footerRef
 ) {
-  const router = useRouter();
-  if (!router.isReady) return <></>;
+  useEffect(() => {
+    trackPageVisit();
+  }, []);
 
   const filterMetadata = filterKey
     ? filterMetadataByOption[filterKey].label

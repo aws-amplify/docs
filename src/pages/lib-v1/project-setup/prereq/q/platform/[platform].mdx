@@ -1,6 +1,25 @@
 export const meta = {
   title: `Prerequisites`,
-  description: `Project Setup with Amplify - Prerequisites`
+  description: `Project Setup with Amplify - Prerequisites`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
@@ -21,6 +40,9 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import android1 from '/src/fragments/lib-v1/project-setup/native_common/prereq/common_header.mdx';
 
+import js0 from '/src/fragments/lib/project-setup/native_common/prereq/common_header.mdx';
+
+<Fragments fragments={{ js: js0 }} />
 <Fragments fragments={{ android: android1 }} />
 
 import ios3 from '/src/fragments/lib-v1/project-setup/ios/prereq/prereq.mdx';
@@ -50,3 +72,7 @@ import flutter5 from '/src/fragments/lib-v1/project-setup/flutter/prereq/prereq.
 import flutter8 from '/src/fragments/lib-v1/project-setup/native_common/prereq/common_body.mdx';
 
 <Fragments fragments={{ flutter: flutter8 }} />
+
+import js1 from '/src/fragments/lib/project-setup/native_common/prereq/common_body.mdx';
+
+<Fragments fragments={{ js: js1 }} />

@@ -64,6 +64,12 @@ function generatePathMap(
     '/lib-v1/q/platform/flutter': {
       page: '/lib-v1/q/platform/[platform]'
     },
+    '/lib-v1/q/platform/js': {
+      page: '/lib-v1/q/platform/[platform]'
+    },
+    '/lib-v1/q/platform/react-native': {
+      page: '/lib-v1/q/platform/[platform]'
+    },
     '/sdk/q/platform/js': {
       page: '/sdk/q/platform/[platform]'
     },
@@ -74,6 +80,9 @@ function generatePathMap(
       page: '/sdk/q/platform/[platform]'
     },
     '/sdk/q/platform/flutter': {
+      page: '/sdk/q/platform/[platform]'
+    },
+    '/sdk/q/platform/react-native': {
       page: '/sdk/q/platform/[platform]'
     },
     '/console': {
@@ -116,19 +125,6 @@ function generatePathMap(
         filterKind = 'platform';
       } else if (route.startsWith('/start')) {
         filterKind = 'integration';
-      }
-
-      if (filterKind !== '') {
-        const aOrAn = 'aeiou'.includes(filterKind[0]) ? 'an' : 'a';
-        pathMap[route] = {
-          page: '/ChooseFilterPage',
-          query: {
-            address: route,
-            directoryPath: '/ChooseFilterPage',
-            filterKind: filterKind,
-            message: `Choose ${aOrAn} ${filterKind}:`
-          }
-        };
       }
     }
 
@@ -199,17 +195,6 @@ function generatePathMap(
         page: `${route}/q/${routeType}/[${routeType}]`
       };
     });
-    const aOrAn = 'aeiou'.includes(routeType[0]) ? 'an' : 'a';
-    pathMap[route] = {
-      page: '/ChooseFilterPage',
-      query: {
-        address: route,
-        directoryPath: '/ChooseFilterPage',
-        filterKind: routeType,
-        filters: filters,
-        message: `Choose ${aOrAn} ${routeType}:`
-      }
-    };
   }
   return pathMap;
 }

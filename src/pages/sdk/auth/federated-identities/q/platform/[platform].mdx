@@ -1,16 +1,35 @@
 export const meta = {
   title: `Federated identities`,
   description: `Federated Sign In can be used to obtain federated “Identity ID” using external providers. Learn how to setup external sign-in providers like SAML provider, Facebook, Google, Sign in with Apple. `,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import all0 from "/src/fragments/sdk/library-callout.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{all: all0}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
-import ios1 from "/src/fragments/sdk/auth/ios/federated-identities.mdx";
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
 
-<Fragments fragments={{ios: ios1}} />
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
 
-import android2 from "/src/fragments/sdk/auth/android/federated-identities.mdx";
+import all0 from '/src/fragments/sdk/library-callout.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ all: all0 }} />
+
+import ios1 from '/src/fragments/sdk/auth/ios/federated-identities.mdx';
+
+<Fragments fragments={{ ios: ios1 }} />
+
+import android2 from '/src/fragments/sdk/auth/android/federated-identities.mdx';
+
+<Fragments fragments={{ android: android2 }} />

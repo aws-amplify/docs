@@ -3,6 +3,17 @@ import { render, screen } from '@testing-library/react';
 import Directory from '../index';
 import directory from '../../../../directory/directory.mjs';
 
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: ''
+    };
+  }
+}));
+
 describe('Directory', () => {
   const directoryKeys = Object.keys(directory);
 
