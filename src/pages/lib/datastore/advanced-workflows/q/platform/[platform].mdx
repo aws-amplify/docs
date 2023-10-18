@@ -1,20 +1,39 @@
 export const meta = {
   title: `Advanced workflows`,
   description: `Learn more about advanced workflows in the Amplify DataStore category, including custom primary keys.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import ios0 from "/src/fragments/lib/datastore/native_common/advanced-workflows.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{ios: ios0}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
-import android0 from "/src/fragments/lib/datastore/native_common/advanced-workflows.mdx";
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
 
-<Fragments fragments={{android: android0}} />
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
 
-import flutter0 from "/src/fragments/lib/datastore/native_common/advanced-workflows.mdx";
+import ios0 from '/src/fragments/lib/datastore/native_common/advanced-workflows.mdx';
 
-<Fragments fragments={{flutter: flutter0}} />
+<Fragments fragments={{ ios: ios0 }} />
 
-import js0 from "/src/fragments/lib/datastore/native_common/advanced-workflows.mdx";
+import android0 from '/src/fragments/lib/datastore/native_common/advanced-workflows.mdx';
 
-<Fragments fragments={{js: js0, 'react-native': js0 }} />
+<Fragments fragments={{ android: android0 }} />
+
+import flutter0 from '/src/fragments/lib/datastore/native_common/advanced-workflows.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />
+
+import js0 from '/src/fragments/lib/datastore/native_common/advanced-workflows.mdx';
+
+<Fragments fragments={{ js: js0, 'react-native': js0 }} />

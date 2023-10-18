@@ -1,6 +1,25 @@
 export const meta = {
   title: `Calling DynamoDB from Lambda in Node.js`,
   description: `How to interact with a DynamoDB database from a Lambda function in Node.js`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 The easiest way to interact with DynamoDB from Lambda in a Node.js environment is to use the [DynamoDB document client](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html). In this guide you will learn how to interact with a DynamoDB database from a Lambda function using the Node.js runtime.
@@ -16,21 +35,20 @@ const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 const params = {
-  TableName : 'your-table-name',
+  TableName: 'your-table-name',
   /* Item properties will depend on your application concerns */
   Item: {
-     id: '12345',
-     price: 100.00
+    id: '12345',
+    price: 100.0
   }
-}
+};
 
 exports.handler = async (event) => {
   try {
     await docClient.put(params).promise();
-    return { body: 'Successfully created item!' }
+    return { body: 'Successfully created item!' };
   } catch (err) {
-    
-    return { error: err }
+    return { error: err };
   }
 };
 ```
@@ -44,21 +62,21 @@ const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 const params = {
-  TableName : 'your-table-name',
+  TableName: 'your-table-name',
   /* Item properties will depend on your application concerns */
   Key: {
     id: '12345'
   }
-}
+};
 
 exports.handler = async (event, context) => {
   try {
-    const data = await docClient.get(params).promise()
-    return { body: JSON.stringify(data) }
+    const data = await docClient.get(params).promise();
+    return { body: JSON.stringify(data) };
   } catch (err) {
-    return { error: err }
+    return { error: err };
   }
-}
+};
 ```
 
 ### Scanning a table
@@ -70,17 +88,17 @@ const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 const params = {
-  TableName : 'your-table-name'
-}
+  TableName: 'your-table-name'
+};
 
 exports.handler = async (event, context) => {
   try {
-    const data = await docClient.scan(params).promise()
-    return { body: JSON.stringify(data) }
+    const data = await docClient.scan(params).promise();
+    return { body: JSON.stringify(data) };
   } catch (err) {
-    return { error: err }
+    return { error: err };
   }
-}
+};
 ```
 
 ### Querying a table
@@ -97,16 +115,16 @@ var params = {
   KeyConditionExpression: '#name = :value',
   ExpressionAttributeValues: { ':value': 'shoes' },
   ExpressionAttributeNames: { '#name': 'name' }
-}
+};
 
 exports.handler = async (event, context) => {
   try {
-    const data = await docClient.query(params).promise()
-    return { body: JSON.stringify(data) }
+    const data = await docClient.query(params).promise();
+    return { body: JSON.stringify(data) };
   } catch (err) {
-    return { error: err }
+    return { error: err };
   }
-}
+};
 ```
 
 ### Delete an item from a table
@@ -124,14 +142,14 @@ var params = {
     id: '12345'
   },
   ReturnValues: NONE | ALL_OLD | UPDATED_OLD | ALL_NEW | UPDATED_NEW
-}
+};
 
 exports.handler = async (event, context) => {
   try {
-    const data = await docClient.delete(params).promise()
-    return { body: JSON.stringify(data) }
+    const data = await docClient.delete(params).promise();
+    return { body: JSON.stringify(data) };
   } catch (err) {
-    return { error: err }
+    return { error: err };
   }
-}
+};
 ```

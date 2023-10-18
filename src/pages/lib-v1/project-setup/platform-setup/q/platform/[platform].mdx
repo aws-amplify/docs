@@ -1,6 +1,25 @@
 export const meta = {
   title: `Platform Setup`,
-  description: `Instructions for platform-specific configurations needed for amplify-flutter`
+  description: `Instructions for platform-specific configurations needed for amplify-flutter`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';

@@ -129,7 +129,11 @@
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.js"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss)$": "<rootDir>/src/__mocks__/styleMock.js"
+    },
+    "transformIgnorePatterns": []
   },
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
