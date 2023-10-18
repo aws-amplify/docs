@@ -11,20 +11,6 @@ enum Levels {
   Page = 3
 }
 
-const pathHelper = (path: string) => {
-  const prefix = 'pages/[platform]/';
-
-  const pathNoPrefix = path.slice(prefix.length).split('.')[0];
-
-  const lastIndex = pathNoPrefix.lastIndexOf('/index');
-
-  if (lastIndex > -1) {
-    return pathNoPrefix.substring(0, lastIndex);
-  } else {
-    return pathNoPrefix;
-  }
-};
-
 type PageNode = {
   title: string;
   platforms: string[];
@@ -72,7 +58,7 @@ export function MenuItem({
     }
   }, []);
 
-  const pathname = `/${currentPlatform}/${pathHelper(pageNode.route)}/`;
+  const pathname = pageNode.route.replace('[platform]', currentPlatform) + '/';
   const current = router.asPath === pathname;
 
   const currentStyle = current ? 'menu__list-item__link--current' : '';
@@ -122,7 +108,7 @@ export function MenuItem({
         <Link
           className={`menu__list-item__link ${listItemLinkStyle} ${currentStyle}`}
           href={{
-            pathname: `/[platform]/${pathHelper(pageNode.route)}`,
+            pathname: `${pageNode.route}`,
             query: { platform: currentPlatform }
           }}
           onClick={level > Levels.Category ? toggleDrawer : undefined}
