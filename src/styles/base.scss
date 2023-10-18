@@ -91,3 +91,16 @@ textarea:not([rows]) {
 .plain-list ul {
   margin: 0;
 }
+
+/* Content area fixes */
+.main {
+  flex-direction: column;
+  gap: var(--amplify-space-large);
+  .amplify-heading--2 {
+    margin-top: var(--amplify-space-large);
+  }
+  .amplify-heading--2,
+  .amplify-heading--3 {
+    scroll-margin-top: 9rem;
+  }
+}

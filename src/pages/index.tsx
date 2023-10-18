@@ -64,6 +64,7 @@ Page.getLayout = function getLayout(page) {
       pageDescription={meta.description}
       url={meta.url}
       pageType="home"
+      hasTOC={false}
     >
       {page}
     </Layout>

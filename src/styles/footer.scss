@@ -5,6 +5,8 @@
   border-top: 1px solid var(--amplify-colors-neutral-20);
   color: var(--amplify-colors-font-secondary);
   font-size: var(--amplify-font-sizes-small);
+  background: var(--amplify-colors-background-primary);
+  z-index: 1;
 }
 .footer__content {
   flex-direction: column;

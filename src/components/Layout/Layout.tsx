@@ -21,7 +21,8 @@ export const Layout = forwardRef(function Layout(
     pageDescription,
     platform,
     url,
-    pageType = 'inner'
+    pageType = 'inner',
+    hasTOC = true
   }: {
     children: any;
     pageTitle?: string;
@@ -29,6 +30,7 @@ export const Layout = forwardRef(function Layout(
     platform?: string;
     url?: string;
     pageType?: 'home' | 'inner';
+    hasTOC?: boolean;
   },
   footerRef
 ) {
@@ -91,21 +93,21 @@ export const Layout = forwardRef(function Layout(
             rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
             currentSite="Docs"
           />
-          <View className={`layout-search layout-search--${pageType}`}>
-            <Flex className="search-menu-bar">
-              <Button
-                onClick={() => toggleMenuOpen(true)}
-                size="small"
-                className="search-menu-toggle mobile-toggle"
-              >
-                <IconMenu aria-hidden="true" />
-                Menu
-              </Button>
-              <View className="search-menu-bar__search">
-                <SearchBar />
-              </View>
-            </Flex>
-          </View>
+          <Flex className={`layout-search layout-search--${pageType}`}>
+            <Button
+              onClick={() => toggleMenuOpen(true)}
+              size="small"
+              className="search-menu-toggle mobile-toggle"
+            >
+              <IconMenu aria-hidden="true" />
+              Menu
+            </Button>
+            <View
+              className={`layout-search__search layout-search__search--${pageType}`}
+            >
+              <SearchBar />
+            </View>
+          </Flex>
           <View
             className={`layout-sidebar${
               menuOpen ? ' layout-sidebar--expanded' : ''
@@ -141,9 +143,11 @@ export const Layout = forwardRef(function Layout(
           </View>
 
           <View className="layout-main">
-            <Flex as="main" className="main">
+            {hasTOC ? <TableOfContents /> : ''}
+            <Flex as="main" className={`main${hasTOC ? ' main--toc' : ''}`}>
               {children}
             </Flex>
+
             <Footer />
           </View>
         </View>

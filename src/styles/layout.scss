@@ -1,7 +1,5 @@
 .layout-wrapper {
   min-height: 100vh;
-  --layout-sidebar-width: 340px;
-  --layout-search-height: 4.8rem;
   background-color: var(--amplify-colors-background-primary);
   &--home {
     background-image: radial-gradient(hsla(176, 68%, 41%, 0.21), #fff);
@@ -74,10 +72,6 @@
   overscroll-behavior: contain;
 }
 
-.main {
-  flex-direction: column;
-}
-
 @keyframes menu {
   0% {
     transform: translate(-100%, 0);
@@ -102,6 +96,11 @@
   }
   .layout-search {
     height: var(--layout-search-height);
+  }
+  .layout-search--inner {
+    padding-inline-start: calc(
+      var(--layout-sidebar-width) + var(--amplify-space-xxl)
+    );
   }
   .mobile-toggle {
     display: none;
@@ -129,5 +128,12 @@
     );
     padding-inline: calc(var(--layout-sidebar-width) + var(--amplify-space-xxl))
       var(--amplify-space-xxl);
+    padding-block-end: 0;
+  }
+}
+
+@media (min-width: 1360px) {
+  .main--toc {
+    margin-inline-end: var(--layout-toc-width);
   }
 }

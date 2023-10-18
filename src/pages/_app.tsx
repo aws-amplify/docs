@@ -6,7 +6,7 @@ import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
 
 function MyApp({ Component, pageProps }) {
-  const { meta, platform, url } = pageProps;
+  const { meta, platform, url, hasTOC } = pageProps;
   const getLayout =
     Component.getLayout ||
     ((page) => (
@@ -15,6 +15,7 @@ function MyApp({ Component, pageProps }) {
         pageDescription={meta?.description ? meta.description : ''}
         url={url}
         platform={platform ? platform : ''}
+        hasTOC={hasTOC}
       >
         {page}
       </Layout>

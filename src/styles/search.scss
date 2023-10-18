@@ -1,5 +1,8 @@
-.search-menu-bar__search {
+.layout-search__search {
   margin-inline-start: auto;
+  &--inner {
+    margin-inline-start: 0;
+  }
 }
 
 .search-menu-toggle {
