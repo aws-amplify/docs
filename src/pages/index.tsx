@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { Heading, Text, Flex, Button } from '@aws-amplify/ui-react';
 import { debounce } from '@/utils/debounce';
 import { Layout } from '@/components/Layout';
@@ -27,7 +27,7 @@ export default function Page() {
     }
   });
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     document.addEventListener('scroll', handleScroll);
     return () => {
       document.removeEventListener('scroll', handleScroll);
