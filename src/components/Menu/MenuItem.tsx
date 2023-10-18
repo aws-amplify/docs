@@ -48,9 +48,15 @@ export function MenuItem({
 }: MenuItemProps): ReactElement {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const toggleDrawer = useCallback(() => {
+  const toggleDrawer = () => {
     setOpen((prevOpen) => !prevOpen);
-  }, []);
+  };
+
+  const handleFocus = () => {
+    if (parentSetOpen && level === 3) {
+      parentSetOpen(true);
+    }
+  };
 
   useEffect(() => {
     if (current) {
@@ -69,18 +75,20 @@ export function MenuItem({
   const pathname = `/${currentPlatform}/${pathHelper(pageNode.route)}/`;
   const current = router.asPath === pathname;
 
-  const currentStyle = current ? 'menu__item--current' : '';
+  const currentStyle = current ? 'menu__list-item__link--current' : '';
 
-  let categoryStyle = '';
+  let listItemStyle = '';
+  let listItemLinkStyle = '';
   switch (level) {
     case Levels.Category:
-      categoryStyle = 'menu__item--category';
+      listItemStyle = 'menu__list-item--category';
+      listItemLinkStyle = 'menu__list-item__link--category';
       break;
     case Levels.Subcategory:
-      categoryStyle = 'menu__item--subcategory';
+      listItemLinkStyle = 'menu__list-item__link--subcategory';
       break;
     default:
-      categoryStyle = 'menu__item--page';
+      listItemLinkStyle = 'menu__list-item__link--page';
       break;
   }
 
@@ -90,49 +98,50 @@ export function MenuItem({
 
   if (pageNode.isExternal) {
     return (
-      <li key={pageNode.route}>
-        <AmplifyUILink href={pageNode.route} isExternal={true}>
-          <View
-            className={`menu__item`}
-            onClick={level > Levels.Category ? toggleDrawer : undefined}
-          >
-            <Flex
-              className={`menu__item__inner ${categoryStyle} ${currentStyle}`}
-            >
-              {pageNode.title}
-              <IconExternalLink />
-            </Flex>
-          </View>
+      <li key={pageNode.route} className="menu__list-item">
+        <AmplifyUILink
+          className={`menu__list-item__link ${listItemLinkStyle} ${currentStyle}`}
+          href={pageNode.route}
+          isExternal={true}
+          onClick={level > Levels.Category ? toggleDrawer : undefined}
+        >
+          <Flex className="menu__list-item__link__inner">
+            {pageNode.title}
+            <IconExternalLink />
+          </Flex>
         </AmplifyUILink>
       </li>
     );
   } else if (pageNode.platforms.includes(currentPlatform)) {
     return (
-      <li key={pageNode.route}>
+      <li
+        onFocus={handleFocus}
+        key={pageNode.route}
+        className={`menu__list-item ${listItemStyle}`}
+      >
         <Link
+          className={`menu__list-item__link ${listItemLinkStyle} ${currentStyle}`}
           href={{
             pathname: `/[platform]/${pathHelper(pageNode.route)}`,
             query: { platform: currentPlatform }
           }}
+          onClick={level > Levels.Category ? toggleDrawer : undefined}
           passHref
         >
-          <View
-            className={`menu__item ${categoryStyle} ${currentStyle}`}
-            onClick={level > Levels.Category ? toggleDrawer : undefined}
-          >
-            <Flex
-              className={`menu__item__inner ${categoryStyle} ${currentStyle}`}
-            >
-              {pageNode.title}
-              {pageNode.children && level !== Levels.Category && (
-                <IconChevron className={open ? 'menu__item--open' : ''} />
-              )}
-            </Flex>
-          </View>
+          <Flex className="menu__list-item__link__inner">
+            {pageNode.title}
+            {pageNode.children && level !== Levels.Category && (
+              <IconChevron
+                className={open ? '' : 'menu__list-item__link__inner--close'}
+              />
+            )}
+          </Flex>
         </Link>
         {pageNode.children && (
           <ul
-            style={!open && level > Levels.Category ? { display: 'none' } : {}}
+            className={`menu__list ${
+              !open && level > Levels.Category ? 'menu__list--hide' : ''
+            }`}
           >
             {pageNode.children.map((child) => (
               <MenuItem

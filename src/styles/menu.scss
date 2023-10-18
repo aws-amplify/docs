@@ -1,55 +1,69 @@
 .menu {
-  ul,
-  li {
+  &__list {
     list-style-type: none;
     margin: 0;
     padding: 0;
-  }
 
-  a {
-    color: inherit;
-    text-decoration: none;
-
-    &:hover {
-      color: inherit;
+    &--hide {
+      height: 0;
+      opacity: 0;
+      overflow: hidden;
     }
   }
 
-  &__item {
-    &__inner {
-      width: 100%;
-      padding: var(--amplify-space-xs) var(--amplify-space-large);
-      justify-content: space-between;
-      align-items: center;
-    }
+  &__list-item {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 
     &--category {
-      font-weight: 700;
-      font-size: 16px;
+      &:not(:first-child) {
+        margin-top: 25px;
+      }
     }
 
-    &--subcategory {
-      font-size: 14px;
-    }
+    &__link {
+      color: inherit;
+      text-decoration: none;
 
-    &--page {
-      font-size: 12px;
-      color: var(--amplify-colors-neutral-80);
-    }
+      &:hover {
+        color: inherit;
+      }
 
-    &--current {
-      color: var(--amplify-colors-teal-80);
-    }
+      &__inner {
+        padding: var(--amplify-space-xs) var(--amplify-space-large);
+        justify-content: space-between;
+        align-items: center;
 
-    &--open {
-      // rotate the chevron icon around the center
-      transform-box: fill-box;
-      transform-origin: center;
-      transform: rotate(90deg);
-    }
+        &--close {
+          // rotate the chevron icon around the center
+          transform-box: fill-box;
+          transform-origin: center;
+          transform: rotate(270deg);
+        }
 
-    &:hover {
-      background-color: var(--amplify-colors-overlay-5);
+        &:hover {
+          background-color: var(--amplify-colors-overlay-5);
+        }
+      }
+
+      &--category {
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      &--subcategory {
+        font-size: 0.9rem;
+      }
+
+      &--page {
+        font-size: 0.75rem;
+        color: var(--amplify-colors-neutral-80);
+      }
+
+      &--current {
+        color: var(--amplify-colors-teal-80);
+      }
     }
   }
 }
