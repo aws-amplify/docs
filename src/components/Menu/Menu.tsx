@@ -3,6 +3,7 @@ import { View, Text } from '@aws-amplify/ui-react';
 import { MenuItem } from './MenuItem';
 import { PageNode, directory } from './buildDirectory.mjs';
 import { Platform } from '@/data/platforms';
+import Link from 'next/link';
 
 type MenuProps = {
   currentPlatform: Platform;
@@ -14,23 +15,33 @@ export function Menu({ currentPlatform }: MenuProps): ReactElement {
 
   return (
     <nav className="menu">
-      <View marginBottom="16px" className="menu__item">
-        <Text className="menu__item__inner menu__item--category">
-          How Amplify works
-        </Text>
-      </View>
-      <ul>
-        {platformOverviewPage.children &&
-          platformOverviewPage.children.map((child) => {
-            return (
-              <MenuItem
-                pageNode={child as PageNode}
-                parentSetOpen={null}
-                level={1}
-                currentPlatform={currentPlatform}
-              />
-            );
-          })}
+      <ul className="menu__list">
+        <li className="menu__list-item">
+          <Link
+            className="menu__list-item__link"
+            href={{
+              pathname: `/[platform]`,
+              query: { platform: currentPlatform }
+            }}
+          >
+            <View className="menu__list-item__link__inner" marginBottom="16px">
+              How Amplify works
+            </View>
+          </Link>
+        </li>
+        <ul className="menu__list">
+          {platformOverviewPage.children &&
+            platformOverviewPage.children.map((child) => {
+              return (
+                <MenuItem
+                  pageNode={child as PageNode}
+                  parentSetOpen={null}
+                  level={1}
+                  currentPlatform={currentPlatform}
+                />
+              );
+            })}
+        </ul>
       </ul>
     </nav>
   );
