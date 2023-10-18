@@ -1523,7 +1523,8 @@
     "userids",
     "xmark",
     "refreshable",
-    "querytransfers"
+    "querytransfers",
+    "generatemodelsforlazyloadandcustomselectionset"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
