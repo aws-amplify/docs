@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import { ReactElement, useCallback, useEffect, useState } from 'react';
-import { Link as AmplifyUILink, Flex, View } from '@aws-amplify/ui-react';
+import { ReactElement, useEffect, useState } from 'react';
+import { Link as AmplifyUILink, Flex } from '@aws-amplify/ui-react';
 import { IconExternalLink, IconChevron } from '@/components/Icons';
 import Link from 'next/link';
 import { Platform } from '@/data/platforms';
