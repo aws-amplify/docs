@@ -1,12 +1,3 @@
-// import fs from 'fs';
-// import path from 'path';
-
-// const metaObjectProperties = {
-//   title: 'title',
-//   description: 'description',
-//   platforms: 'platforms'
-// };
-
 /**
  * @typedef PageNode
  * @type {object}
@@ -14,140 +5,80 @@
  * @property {string} description - Description of the page
  * @property {booleam} isExternal - The node is an external link
  * @property {string[]} platforms - The platforms that the pages apply to
- * @property {string} route - The page's file path
+ * @property {string} route - The page's file path or external URL
  * @property {PageNode[]} children - The children pages - optional
- * @property {boolean} isExternal - Denotes whether or not the node is an external link
  */
 
-// async function visitPage(directoryPath) {
-//   /** @type {PageNode} */
-//   const node = {
-//     route: path.basename(directoryPath)
-//   };
-
-//   const contents = fs.readdirSync(directoryPath);
-
-//   for (const item of contents) {
-//     if (
-//       path.extname(item).toLowerCase() === '.mdx' ||
-//       path.extname(item).toLowerCase() === ''
-//     ) {
-//       const itemPath = path.join(directoryPath, item);
-
-//       // Check if the item is a directory
-//       if (fs.statSync(itemPath).isDirectory()) {
-//         // Recurse
-//         visitPage(itemPath);
-
-//         if (contents.includes('index.mdx')) {
-//           // Root file for the directory
-//           // Get the frontmatter here
-//           const { meta } = await import(path.join(directoryPath, 'index.mdx'));
-
-//           for (const key of Object.keys(meta)) {
-//             node[key] = meta[key];
-//           }
-//         }
-//       } else {
-//         if (item === 'index.mdx') {
-//           // Skip this file since we already got the data when checking the directory
-//           continue;
-//         } else {
-//           // Child page
-//           const { meta } = await import(itemPath);
-
-//           for (const key of Object.keys(meta)) {
-//             node[key] = meta[key];
-//           }
-
-//           if (!Object.prototype.hasOwnProperty.call(node, 'children')) {
-//             node.children = [node];
-//           } else {
-//             node.children.push(node);
-//           }
-//         }
-//       }
-//     }
-//   }
-
-//   return node;
-// }
-
-// const result = await visitPage(
-//   '/Users/timngyn/Development/github/aws-amplify/docs/src/pages/'
-// );
-
-// console.log(result);
-
+/**
+ * @type {PageNode}
+ */
 export const directory = {
   title: 'Amplify Docs',
   description:
     'Amplify documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.',
-  route: 'pages/index.tsx',
+  route: '/index.tsx',
   children: [
     {
       title: 'Overview',
       description: `This is a description for the overview page.`,
       platforms: ['javascript', 'android'],
-      route: 'pages/[platform]/index.tsx',
+      route: '/[platform]/index.tsx',
       children: [
         {
           title: `Get started`,
           description: `A getting started page`,
           platforms: ['android', 'javascript'],
-          route: 'pages/[platform]/get-started/index.mdx',
+          route: '/[platform]/get-started',
           children: [
             {
               title: `Project setup`,
               description: `Project setup`,
               platforms: ['android', 'javascript'],
-              route: 'pages/[platform]/get-started/project-setup/index.mdx'
+              route: '/[platform]/get-started/project-setup'
             },
             {
               title: `Sample apps`,
               description: `Sample apps`,
               platforms: ['android', 'javascript'],
-              route: 'pages/[platform]/get-started/sample-apps/index.mdx'
+              route: '/[platform]/get-started/sample-apps'
             },
             {
               title: `Tutorials`,
               description: `Tutorials`,
               platforms: ['android', 'javascript'],
-              route: 'pages/[platform]/get-started/tutorials/index.mdx',
+              route: '/[platform]/get-started/tutorials',
               children: [
                 {
                   title: `Connect API and Database`,
                   description: `Connect API and Database`,
                   platforms: ['android', 'javascript'],
                   route:
-                    'pages/[platform]/get-started/tutorials/connect-api-and-database.mdx'
+                    '/[platform]/get-started/tutorials/connect-api-and-database'
                 },
                 {
                   title: `Deploy and Host App`,
                   description: `Deploy and Host App`,
                   platforms: ['android', 'javascript'],
-                  route:
-                    'pages/[platform]/get-started/tutorials/deploy-and-host-app.mdx'
+                  route: '/[platform]/get-started/tutorials/deploy-and-host-app'
                 },
                 {
                   title: `Setup Amplify`,
                   description: `Setup Amplify`,
                   platforms: ['android', 'javascript'],
-                  route:
-                    'pages/[platform]/get-started/tutorials/setup-amplify.mdx'
+                  route: '/[platform]/get-started/tutorials/setup-amplify'
                 },
                 {
                   title: `Setup fullstack project`,
                   description: `Setup fullstack project`,
                   platforms: ['android', 'javascript'],
                   route:
-                    'pages/[platform]/get-started/tutorials/setup-fullstack-project.mdx'
+                    '/[platform]/get-started/tutorials/setup-fullstack-project'
                 },
                 {
                   title: `Next Steps`,
                   description: `Next Steps`,
                   platforms: ['android', 'javascript'],
-                  route: 'pages/[platform]/get-started/tutorials/next-steps.mdx'
+                  route: '/[platform]/get-started/tutorials/next-steps'
                 }
               ]
             }
@@ -157,19 +88,19 @@ export const directory = {
           title: 'Build a backend',
           description: 'Build a backend',
           platforms: ['android', 'javascript'],
-          route: 'pages/[platform]/build-a-backend/index.mdx',
+          route: '/[platform]/build-a-backend',
           children: [
             {
               title: `API GraphQL`,
               description: `API GraphQL`,
               platforms: ['android', 'javascript'],
-              route: 'pages/[platform]/build-a-backend/api-graphql/index.mdx'
+              route: '/[platform]/build-a-backend/api-graphql'
             },
             {
               title: `API (Rest)`,
               description: `API (Rest)`,
               platforms: ['android', 'javascript'],
-              route: 'pages/[platform]/build-a-backend/api-rest/index.mdx'
+              route: '/[platform]/build-a-backend/api-rest'
             }
           ]
         },
@@ -177,7 +108,7 @@ export const directory = {
           title: 'Build a UI',
           description: 'Build a UI',
           platforms: ['android', 'javascript'],
-          route: 'pages/[platform]/build-a-ui/index.mdx',
+          route: '/[platform]/build-a-ui',
           children: [
             {
               title: 'UI Library Docs',
