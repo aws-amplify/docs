@@ -131,9 +131,7 @@ export function MenuItem({
           <Flex className="menu__list-item__link__inner">
             {pageNode.title}
             {pageNode.children && level !== Levels.Category && (
-              <IconChevron
-                className={open ? '' : 'menu__list-item__link__inner--close'}
-              />
+              <IconChevron className={open ? '' : 'icon-rotate-90-reverse'} />
             )}
           </Flex>
         </Link>

@@ -35,13 +35,6 @@
         justify-content: space-between;
         align-items: center;
 
-        &--close {
-          // rotate the chevron icon around the center
-          transform-box: fill-box;
-          transform-origin: center;
-          transform: rotate(270deg);
-        }
-
         &:hover {
           background-color: var(--amplify-colors-overlay-5);
         }
