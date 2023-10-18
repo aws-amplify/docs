@@ -1,5 +1,4 @@
 import React from 'react';
-import { ExternalLinkGraphic } from './styles';
 import { trackExternalLink } from '../../utils/track';
 import { ExternalLinkIcon } from '../Icons';
 
@@ -9,18 +8,20 @@ type ExternalLinkProps = {
   href: string;
   anchorTitle?: string;
   icon?: boolean;
+  className?: string;
 };
 
 const ExternalLink: React.FC<ExternalLinkProps> = ({
   children,
-  graphic,
   href,
   anchorTitle,
-  icon
+  icon,
+  className
 }) => {
   return (
     <a
       href={href}
+      className={className}
       rel="noopener noreferrer"
       target="_blank"
       title={anchorTitle}
@@ -29,14 +30,6 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
       }}
     >
       {children}
-      {graphic && (
-        <ExternalLinkGraphic
-          alt="External link"
-          src={`/assets/external-link-${graphic}.svg`}
-          width="8"
-          height="8"
-        />
-      )}
       {icon && <ExternalLinkIcon />}
     </a>
   );

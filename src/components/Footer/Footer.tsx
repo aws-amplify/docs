@@ -1,6 +1,6 @@
 import ExternalLink from '../ExternalLink';
 import * as links from '../../constants/links';
-import { Text, View, VisuallyHidden, Flex } from '@aws-amplify/ui-react';
+import { VisuallyHidden, Flex } from '@aws-amplify/ui-react';
 import {
   IconDiscord,
   IconTwitter,
@@ -24,8 +24,14 @@ export const Footer = () => {
         </p>
         <p>
           All rights reserved. View the{' '}
-          <ExternalLink href={links.TERMS}>site terms</ExternalLink> and{' '}
-          <ExternalLink href={links.PRIVACY}>privacy policy</ExternalLink>.
+          <ExternalLink href={links.TERMS} className="footer-link">
+            site terms
+          </ExternalLink>{' '}
+          and{' '}
+          <ExternalLink href={links.PRIVACY} className="footer-link">
+            privacy policy
+          </ExternalLink>
+          .
         </p>
         <p>
           Flutter and the related logo are trademarks of Google LLC. We are not
@@ -34,19 +40,28 @@ export const Footer = () => {
       </Flex>
       <Flex as="ul" className="footer__links">
         <li>
-          <ExternalLink href={links.TWITTER}>
+          <ExternalLink
+            href={links.TWITTER}
+            className="footer-link footer-link--social"
+          >
             <IconTwitter aria-hidden="true" />
             <VisuallyHidden>Twitter</VisuallyHidden>
           </ExternalLink>
         </li>
         <li>
-          <ExternalLink href={links.DISCORD}>
+          <ExternalLink
+            href={links.DISCORD}
+            className="footer-link footer-link--social"
+          >
             <IconDiscord aria-hidden="true" />
             <VisuallyHidden>Discord</VisuallyHidden>
           </ExternalLink>
         </li>
         <li>
-          <ExternalLink href={links.GITHUB}>
+          <ExternalLink
+            href={links.GITHUB}
+            className="footer-link footer-link--social"
+          >
             <IconGithub aria-hidden="true" />
             <VisuallyHidden>Github</VisuallyHidden>
           </ExternalLink>
