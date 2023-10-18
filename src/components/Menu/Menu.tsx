@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { View, Text } from '@aws-amplify/ui-react';
+import { View } from '@aws-amplify/ui-react';
 import { MenuItem } from './MenuItem';
 import { PageNode, directory } from './buildDirectory.mjs';
 import { Platform } from '@/data/platforms';
