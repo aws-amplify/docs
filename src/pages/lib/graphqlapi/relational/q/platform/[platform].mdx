@@ -1,6 +1,25 @@
 export const meta = {
   title: `Relational models`,
-  description: `Learn more about how API (GraphQL) handles relationships between Models, such as "has one", "has many", "belongs to".`
+  description: `Learn more about how API (GraphQL) handles relationships between Models, such as "has one", "has many", "belongs to".`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 API (GraphQL) has the capability to handle relationships between Models, such as _has one_, _has many_, and _belongs to_. In Amplify GraphQL APIs, this is done with the `@hasOne`, `@hasMany` and `@belongsTo` directives as defined in the [GraphQL data modeling documentation](/cli/graphql/data-modeling).
