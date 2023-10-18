@@ -22,6 +22,8 @@ export const getStaticProps = (context) => {
   };
 };
 
+<InlineFilter filters={["android"]}>
+
 API (GraphQL) has the capability to handle relationships between Models, such as _has one_, _has many_, and _belongs to_. In Amplify GraphQL APIs, this is done with the `@hasOne`, `@hasMany` and `@belongsTo` directives as defined in the [GraphQL data modeling documentation](/cli/graphql/data-modeling).
 
 By default, GraphQL APIs requests generate a selection set with a depth of 0. Connected relationship models are not returned in the initial request, but can be lazily loaded as needed with an additional API request. We provide mechanisms to customize the selection set, which allows connected relationships to be eagerly loaded on the initial request.
@@ -850,5 +852,7 @@ ModelQuery.get<PostEditor, PostEditorPath>(
 This query fetches a postEditor and eagerly loads its post and comments
 </Block>
 </BlockSwitcher>
+
+</InlineFilter>
 
 </InlineFilter>
