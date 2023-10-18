@@ -10,6 +10,7 @@ import { TestNav } from '@/components/TestNav';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
+import { TableOfContents } from '@/components/TableOfContents';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { trackPageVisit } from '../../utils/track';
 
