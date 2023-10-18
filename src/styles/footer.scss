@@ -16,6 +16,20 @@
   list-style: none;
 }
 
+.footer-link {
+  color: var(--amplify-colors-font-primary);
+  &:hover {
+    color: var(--amplify-colors-font-interactive);
+    text-decoration: none;
+  }
+  &:focus {
+    outline: 2px solid var(--amplify-colors-border-focus);
+  }
+  &--social {
+    font-size: 2rem;
+  }
+}
+
 @media (min-width: 600px) {
   .footer {
     flex-direction: row;

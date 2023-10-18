@@ -8,10 +8,11 @@ import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
 import { TestNav } from '@/components/TestNav';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import { SpaceShip } from '@/components/SpaceShip';
 import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
-import { trackPageVisit } from '../../utils/track';
+import { trackPageVisit } from '@/utils/track';
 
 export const Layout = forwardRef(function Layout(
   {
@@ -85,6 +86,7 @@ export const Layout = forwardRef(function Layout(
       </Head>
       <ThemeProvider theme={defaultTheme}>
         <View className={`layout-wrapper layout-wrapper--${pageType}`}>
+          {pageType === 'home' ? <SpaceShip /> : null}
           <GlobalNav
             leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
             rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
