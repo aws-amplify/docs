@@ -30,6 +30,11 @@
         color: inherit;
       }
 
+      &:focus {
+        outline: 2px auto var(--amplify-colors-border-focus);
+        outline-offset: -1px;
+      }
+
       &__inner {
         padding: var(--amplify-space-xs) var(--amplify-space-large);
         justify-content: space-between;
