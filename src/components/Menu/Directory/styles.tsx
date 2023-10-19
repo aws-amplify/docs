@@ -76,7 +76,6 @@ export const ProductRootLinkStyle = styled.a<ProductRootLinkProps>(
   display: flex;
   flex-direction: row;
   font-weight: 700;
-  margin-top: 2rem;
 
   display: block;
   width: 100%;
@@ -90,3 +89,7 @@ export const ProductRootLinkStyle = styled.a<ProductRootLinkProps>(
   }
 `
 );
+
+export const DirectoryDiv = styled.div`
+  margin-top: 2rem;
+`;

@@ -6,7 +6,8 @@ import {
   DirectoryGroupHeaderStyle,
   DirectoryGroupItemStyle,
   DirectoryLinksStyle,
-  ProductRootLinkStyle
+  ProductRootLinkStyle,
+  DirectoryDiv
 } from './styles';
 import type { DirectoryItem } from '../../../directory/directory';
 
@@ -40,6 +41,7 @@ class DirectoryGroup extends React.Component<
       // this page is available in specific filtered versions (one of which is the globally-selected)
       (filters && filters.includes(this.props.filterKey))
     );
+
   };
 
   constructor(props) {
@@ -114,29 +116,56 @@ export default class Directory extends React.Component<DirectoryProps> {
   render() {
     const directory = getProductDirectory(this.props.url) as {
       productRoot: { title: string; route: string };
-      items: { title: string; items: DirectoryItem[] }[];
+      items: {
+        route: string; title: string; items: DirectoryItem[] 
+}[];
     };
     const productRoot = directory.productRoot;
+    const multipleContentPages = Object.entries(directory.items).filter((item) => item[1].items.length == 0).length > 1; 
 
     return (
-      <div>
-        <InternalLink href={productRoot.route}>
-          <ProductRootLinkStyle
-            isActive={this.props.url.split('/q')[0] === productRoot.route}
-          >
-            {productRoot.title}
-          </ProductRootLinkStyle>
-        </InternalLink>
-        {Object.entries(directory.items).map((folderName) => (
-          <DirectoryGroup
-            title={folderName[1].title}
-            items={folderName[1].items}
-            url={this.props.url}
-            filterKey={this.props.filterKey}
-            key={folderName[1].title}
-          />
-        ))}
-      </div>
+      <DirectoryDiv> 
+        { !multipleContentPages ? (
+          <div>
+          <InternalLink href={productRoot.route}>
+            <ProductRootLinkStyle
+              isActive={this.props.url.split('/q')[0] === productRoot.route}
+            >
+              {productRoot.title}
+            </ProductRootLinkStyle>
+          </InternalLink>
+          {Object.entries(directory.items).map((folderName) => (
+            <DirectoryGroup
+              title={folderName[1].title}
+              items={folderName[1].items}
+              url={this.props.url}
+              filterKey={this.props.filterKey}
+              key={folderName[1].title}
+            />
+          ))}
+          </div>
+        ) : (
+          Object.entries(directory.items).map((folderName) => (
+            folderName[1].route ? (
+              <InternalLink href={folderName[1].route}>
+                <ProductRootLinkStyle
+                    isActive={this.props.url.split('/q')[0] === folderName[1].route}
+                  >
+                  <h4>{folderName[1].title}</h4>
+                </ProductRootLinkStyle>
+              </InternalLink>
+            ) : (
+            <DirectoryGroup
+              title={folderName[1].title}
+              items={folderName[1].items}
+              url={this.props.url}
+              filterKey={this.props.filterKey}
+              key={folderName[1].title}
+            />
+            )
+          ))
+        )}
+      </DirectoryDiv>
     );
   }
 }

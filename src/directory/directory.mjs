@@ -2315,6 +2315,22 @@ export const directory = {
       route: '/start'
     },
     items: {
+      'how-amplify-works': {
+        title: 'How Amplify Works',
+        route: '/start/how-amplify-works',
+        filters: [
+          'js',
+          'react',
+          'react-native',
+          'angular',
+          'vue',
+          'next',
+          'android',
+          'ios',
+          'flutter'
+        ],
+        items: []
+      },
       start: {
         title: 'Getting started',
         route: '/start',
