@@ -4,6 +4,9 @@ export const defaultTheme: Theme = {
   name: 'default-theme',
   tokens: {
     colors: {
+      blue: {
+        10: { value: 'hsl(207, 76%, 90%)' }
+      },
       neutral: {
         100: { value: 'hsl(213, 28%, 19%)' } // Amazon Squid Ink
       },
