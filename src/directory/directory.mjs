@@ -2316,7 +2316,7 @@ export const directory = {
     },
     items: {
       'how-amplify-works': {
-        title: 'How Amplify Works',
+        title: 'How Amplify works',
         route: '/start/how-amplify-works',
         filters: [
           'js',
