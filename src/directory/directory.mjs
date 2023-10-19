@@ -1,16 +1,5 @@
 /**
- * @typedef PageNode
- * @type {object}
- * @property {string} title - Title of the page
- * @property {string} description - Description of the page
- * @property {booleam} isExternal - The node is an external link
- * @property {string[]} platforms - The platforms that the pages apply to
- * @property {string} route - The page's file path or external URL
- * @property {PageNode[]} children - The children pages - optional
- */
-
-/**
- * @type {PageNode}
+ * @type {import('./directory').PageNode}
  */
 export const directory = {
   title: 'Amplify Docs',
