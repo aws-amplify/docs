@@ -64,6 +64,16 @@ export const defaultTheme: Theme = {
           paddingInlineStart: { value: '{space.xl.value}' },
           paddingInlineEnd: { value: '{space.xl.value}' }
         }
+      },
+      message: {
+        paddingBlock: { value: '{space.large}' },
+        paddingInline: { value: '{space.large}' },
+        borderRadius: { value: '{radii.small}' },
+        filled: {
+          info: {
+            color: { value: '{colors.font.primary}' }
+          }
+        }
       }
     }
   }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import Callout from '../index';
+import { Callout } from '../Callout';
 
 describe('Callout', () => {
   it('should render the Callout component', async () => {

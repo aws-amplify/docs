@@ -7,7 +7,7 @@ import { YoutubeEmbed } from './src/components/YoutubeEmbed';
 import Accordion from './src/components/Accordion';
 import Block from './src/components/Block';
 import BlockSwitcher from './src/components/BlockSwitcher';
-import Callout from './src/components/Callout';
+import { Callout } from './src/components/Callout';
 import { Card, CardDetail, CardGraphic } from './src/components/Card';
 import ExternalLinkButton from './src/components/ExternalLinkButton';
 import Fragments from './src/components/Fragments';

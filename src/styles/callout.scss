@@ -1,0 +1,15 @@
+/* Callout uses Amplify UI Message component */
+.amplify-message {
+  /* Style markdown links so they have enough contrast against different
+  colored message backgrounds */
+  &--info {
+    a:not([class]) {
+      color: var(--amplify-colors-blue-100);
+    }
+  }
+  &--warning {
+    a:not([class]) {
+      color: var(--amplify-colors-orange-100);
+    }
+  }
+}
