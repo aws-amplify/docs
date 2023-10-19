@@ -29,5 +29,5 @@ export type PageNode = {
   /**
    * The children pages
    */
-  children?: PageNode[];
+  children: PageNode[] | undefined;
 };

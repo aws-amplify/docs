@@ -1,23 +1,17 @@
 import { useRouter } from 'next/router';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useContext, useEffect, useState } from 'react';
 import { Link as AmplifyUILink, Flex } from '@aws-amplify/ui-react';
 import { IconExternalLink, IconChevron } from '@/components/Icons';
 import Link from 'next/link';
 import { Platform } from '@/data/platforms';
+import { LayoutContext } from '@/components/Layout';
+import { PageNode } from 'src/directory/directory';
 
 enum Levels {
   Category = 1,
   Subcategory = 2,
   Page = 3
 }
-
-type PageNode = {
-  title: string;
-  platforms: string[];
-  children: PageNode[];
-  route: string;
-  isExternal: boolean;
-};
 
 type MenuItemProps = {
   pageNode: PageNode;
@@ -32,10 +26,18 @@ export function MenuItem({
   level,
   currentPlatform
 }: MenuItemProps): ReactElement {
+  const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const toggleDrawer = () => {
-    setOpen((prevOpen) => !prevOpen);
+
+  const onLinkClick = () => {
+    if (level > Levels.Category) {
+      setOpen((prevOpen) => !prevOpen);
+    }
+
+    if (menuOpen) {
+      toggleMenuOpen(false);
+    }
   };
 
   const handleFocus = () => {
@@ -89,7 +91,7 @@ export function MenuItem({
           className={`menu__list-item__link ${listItemLinkStyle} ${currentStyle}`}
           href={pageNode.route}
           isExternal={true}
-          onClick={level > Levels.Category ? toggleDrawer : undefined}
+          onClick={onLinkClick}
         >
           <Flex className="menu__list-item__link__inner">
             {pageNode.title}
@@ -111,7 +113,7 @@ export function MenuItem({
             pathname: `${pageNode.route}`,
             query: { platform: currentPlatform }
           }}
-          onClick={level > Levels.Category ? toggleDrawer : undefined}
+          onClick={onLinkClick}
           passHref
         >
           <Flex className="menu__list-item__link__inner">

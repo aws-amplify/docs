@@ -16,7 +16,9 @@ import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { trackPageVisit } from '../../utils/track';
-import { Menu } from '../Menu';
+import { Menu } from '@/components/Menu';
+import { LayoutProvider } from '@/components/Layout';
+import { directory } from 'src/directory/directory.mjs';
 
 export const Layout = forwardRef(function Layout(
   {
@@ -46,6 +48,12 @@ export const Layout = forwardRef(function Layout(
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
   if (!router.isReady) return <></>;
+
+  const rootPage = directory;
+  const platformOverviewPage =
+    rootPage.children && rootPage.children.length === 1
+      ? rootPage.children[0]
+      : undefined;
 
   // [platform] will always be the very first subpath right?
   // when using `router.asPath` it returns a string that starts with a '/'
@@ -101,71 +109,76 @@ export const Layout = forwardRef(function Layout(
           key="twitter:image"
         />
       </Head>
-      <ThemeProvider theme={defaultTheme}>
-        <View className={`layout-wrapper layout-wrapper--${pageType}`}>
-          {pageType === 'home' ? <SpaceShip /> : null}
-          <GlobalNav
-            leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
-            rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-            currentSite="Docs"
-          />
-          <View className={`layout-search layout-search--${pageType}`}>
-            <Flex className="search-menu-bar">
-              <Button
-                onClick={() => toggleMenuOpen(true)}
-                size="small"
-                className="search-menu-toggle mobile-toggle"
-              >
-                <IconMenu aria-hidden="true" />
-                Menu
-              </Button>
-              <View className="search-menu-bar__search">
-                <SearchBar />
-              </View>
-            </Flex>
-          </View>
-          <View
-            className={`layout-sidebar${
-              menuOpen ? ' layout-sidebar--expanded' : ''
-            }`}
-          >
-            <View
-              className={`layout-sidebar__backdrop${
-                menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
-              }`}
-              onClick={() => toggleMenuOpen(false)}
-            ></View>
-            <View
-              className={`layout-sidebar__inner${
-                menuOpen ? ' layout-sidebar__inner--expanded' : ''
-              }`}
-            >
-              <div className="layout-sidebar-platform">
+      <LayoutProvider value={{ menuOpen, toggleMenuOpen }}>
+        <ThemeProvider theme={defaultTheme}>
+          <View className={`layout-wrapper layout-wrapper--${pageType}`}>
+            {pageType === 'home' ? <SpaceShip /> : null}
+            <GlobalNav
+              leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
+              rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+              currentSite="Docs"
+            />
+            <View className={`layout-search layout-search--${pageType}`}>
+              <Flex className="search-menu-bar">
                 <Button
+                  onClick={() => toggleMenuOpen(true)}
                   size="small"
-                  colorTheme="overlay"
-                  className="mobile-toggle"
-                  onClick={() => toggleMenuOpen(false)}
+                  className="search-menu-toggle mobile-toggle"
                 >
-                  <IconDoubleChevron aria-hidden="true" />
+                  <IconMenu aria-hidden="true" />
                   Menu
                 </Button>
-                [ Platform switcher goes here]
-              </div>
-              <div className="layout-sidebar-menu">
-                <Menu currentPlatform={currentPlatform} />
-              </div>
+                <View className="search-menu-bar__search">
+                  <SearchBar />
+                </View>
+              </Flex>
+            </View>
+            <View
+              className={`layout-sidebar${
+                menuOpen ? ' layout-sidebar--expanded' : ''
+              }`}
+            >
+              <View
+                className={`layout-sidebar__backdrop${
+                  menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
+                }`}
+                onClick={() => toggleMenuOpen(false)}
+              ></View>
+              <View
+                className={`layout-sidebar__inner${
+                  menuOpen ? ' layout-sidebar__inner--expanded' : ''
+                }`}
+              >
+                <div className="layout-sidebar-platform">
+                  <Button
+                    size="small"
+                    colorTheme="overlay"
+                    className="mobile-toggle"
+                    onClick={() => toggleMenuOpen(false)}
+                  >
+                    <IconDoubleChevron aria-hidden="true" />
+                    Menu
+                  </Button>
+                  [ Platform switcher goes here]
+                </div>
+                <div className="layout-sidebar-menu">
+                  <Menu
+                    currentPlatform={currentPlatform}
+                    platformOverviewPage={platformOverviewPage}
+                  />
+                </div>
+              </View>
+            </View>
+
+            <View className="layout-main">
+              <Flex as="main" className="main">
+                {children}
+              </Flex>
+              <Footer />
             </View>
           </View>
-
-          <View className="layout-main">
-            <Flex as="main" className="main">
-              {children}
-            </Flex>
-            <Footer />
-          </View>
-        </View>
-      </ThemeProvider>
+        </ThemeProvider>
+      </LayoutProvider>
     </>
   );
 });
