@@ -5,13 +5,13 @@ export const directory = {
   title: 'Amplify Docs',
   description:
     'Amplify documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.',
-  route: '/index.tsx',
+  route: '/',
   children: [
     {
       title: 'Overview',
       description: `This is a description for the overview page.`,
       platforms: ['javascript', 'android'],
-      route: '/[platform]/index.tsx',
+      route: '/[platform]',
       children: [
         {
           title: `Get started`,
