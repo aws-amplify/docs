@@ -1,16 +1,35 @@
 export const meta = {
   title: `Events`,
   description: `You can use the AWS Android SDK for Pinpoint to report usage data, or events, to Amazon Pinpoint. You can report events to capture information such as session times, users’ purchasing behavior, sign-in attempts, or any custom event type that you need.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import all0 from "/src/fragments/sdk/library-callout.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{all: all0}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
-import ios1 from "/src/fragments/sdk/analytics/ios/events.mdx";
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
 
-<Fragments fragments={{ios: ios1}} />
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
 
-import android2 from "/src/fragments/sdk/analytics/android/events.mdx";
+import all0 from '/src/fragments/sdk/library-callout.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ all: all0 }} />
+
+import ios1 from '/src/fragments/sdk/analytics/ios/events.mdx';
+
+<Fragments fragments={{ ios: ios1 }} />
+
+import android2 from '/src/fragments/sdk/analytics/android/events.mdx';
+
+<Fragments fragments={{ android: android2 }} />

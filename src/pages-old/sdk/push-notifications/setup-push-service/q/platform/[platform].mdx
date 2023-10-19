@@ -1,28 +1,47 @@
 export const meta = {
   title: `Setting up push notification services`,
   description: `Learn how to setup the various push notification services for your mobile app.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import all0 from "/src/fragments/sdk/library-callout.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{all: all0}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
-import ios1 from "/src/fragments/sdk/push-notifications/ios/setup-apns.mdx";
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
 
-<Fragments fragments={{ios: ios1}} />
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
 
-import android2 from "/src/fragments/sdk/push-notifications/android/setup-fcm.mdx";
+import all0 from '/src/fragments/sdk/library-callout.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ all: all0 }} />
 
-import android3 from "/src/fragments/sdk/push-notifications/android/handle-fcm.mdx";
+import ios1 from '/src/fragments/sdk/push-notifications/ios/setup-apns.mdx';
 
-<Fragments fragments={{android: android3}} />
+<Fragments fragments={{ ios: ios1 }} />
 
-import android4 from "/src/fragments/sdk/push-notifications/android/handle-adm.mdx";
+import android2 from '/src/fragments/sdk/push-notifications/android/setup-fcm.mdx';
 
-<Fragments fragments={{android: android4}} />
+<Fragments fragments={{ android: android2 }} />
 
-import android5 from "/src/fragments/sdk/push-notifications/android/handle-baidu.mdx";
+import android3 from '/src/fragments/sdk/push-notifications/android/handle-fcm.mdx';
 
-<Fragments fragments={{android: android5}} />
+<Fragments fragments={{ android: android3 }} />
+
+import android4 from '/src/fragments/sdk/push-notifications/android/handle-adm.mdx';
+
+<Fragments fragments={{ android: android4 }} />
+
+import android5 from '/src/fragments/sdk/push-notifications/android/handle-baidu.mdx';
+
+<Fragments fragments={{ android: android5 }} />

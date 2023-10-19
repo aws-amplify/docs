@@ -1,11 +1,30 @@
 export const meta = {
   title: `Use Transfer Acceleration`,
   description: `How to enable and use S3's Transfer Acceleration on your S3 bucket`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import js from "/src/fragments/lib/storage/js/transfer-acceleration.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{js: js, 'react-native': js}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import js from '/src/fragments/lib/storage/js/transfer-acceleration.mdx';
+
+<Fragments fragments={{ js: js, 'react-native': js }} />
 
 import androidDoc from '/src/fragments/lib/storage/native_common/transfer-acceleration/common.mdx';
 
