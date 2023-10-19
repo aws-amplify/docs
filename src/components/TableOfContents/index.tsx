@@ -7,10 +7,11 @@ import {
   H3AnchorStyle,
   HeaderStyle
 } from './styles';
-import { forwardRef, useEffect } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { MQDesktop } from '../media';
 import { CloseIcon } from '../Icons';
+import { truncate } from 'fs';
 
 const stickyHeaderHeight = 124;
 function scroll(hash) {
@@ -24,26 +25,26 @@ function scroll(hash) {
 function TableOfContents({ children, title, buttonsRef }, ref) {
   const router = useRouter();
   const MQDesktopJS = MQDesktop.substring(6);
-  const onDesktop =
-    typeof window === 'undefined'
-      ? false
-      : window.matchMedia(MQDesktopJS).matches;
-
-  if (children.length === 0) {
-    return <></>;
-  }
-  window.onload = (_) => {
-    if (window.location.href.includes('#')) {
-      const hash = window.location.href.split('#')[1];
-      scroll(hash);
-    }
-  };
+  const [onDesktop, setOnDesktop] = useState(true);
 
   let headers = [];
   let headerQueries = [];
   let activeLink = 0;
   let previousLink = -1;
   useEffect(() => {
+    setOnDesktop(
+      typeof window === 'undefined'
+        ? false
+        : window.matchMedia(MQDesktopJS).matches
+    );
+
+    window.onload = (_) => {
+      if (window.location.href.includes('#')) {
+        const hash = window.location.href.split('#')[1];
+        scroll(hash);
+      }
+    };
+
     const idSet = new Set();
     const pageHeadings = document.querySelectorAll('a > h2, a > h3');
     const headings = [];
@@ -56,7 +57,6 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
         headings.push(heading);
       }
     });
-    // console.log(document.getElementById('toc')?.querySelectorAll('a'))
     const headings2 = document.getElementById('toc')?.querySelectorAll('a');
     for (let i = 0; i < headings.length; ++i) {
       const id = headings[i].id;
@@ -77,13 +77,15 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
         setTimeout(scroll.bind(undefined, uniqueId), 50);
         return false;
       };
-      headings2[i].onclick = () => {
-        if (headings[i].classList.contains('docs-expander__title')) {
-          uniqueId = headings[i].parentNode.parentNode.parentNode.id;
-        }
-        setTimeout(scroll.bind(undefined, uniqueId), 50);
-        return false;
-      };
+      if (headings2 && headings2[i]) {
+        headings2[i].onclick = () => {
+          if (headings[i].classList.contains('docs-expander__title')) {
+            uniqueId = headings[i].parentNode.parentNode.parentNode.id;
+          }
+          setTimeout(scroll.bind(undefined, uniqueId), 50);
+          return false;
+        };
+      }
     }
     headers = Array.from(headings).map((heading) => heading.id);
     headerQueries = headers.map((header) => {
@@ -150,7 +152,7 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
     }
   };
 
-  return (
+  return children.length ? (
     <TOCStyle id="toc" ref={ref}>
       <TOCInnerStyle>
         {!onDesktop && (
@@ -175,6 +177,8 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
         })}
       </TOCInnerStyle>
     </TOCStyle>
+  ) : (
+    <></>
   );
 }
 

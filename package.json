@@ -15,7 +15,7 @@
     "@algolia/autocomplete-shared": "^1.5.6",
     "@algolia/autocomplete-theme-classic": "^1.6.1",
     "@algolia/client-search": "^4.13.0",
-    "@aws-amplify/amplify-cli-core": "^4.2.7",
+    "@aws-amplify/amplify-cli-core": "^4.2.10",
     "@aws-amplify/ui-react": "^5.3.1",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
@@ -28,6 +28,7 @@
     "aws-amplify": "^5.0.5",
     "classnames": "^2.3.2",
     "copy-to-clipboard": "^3.2.1",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "emotion": "^10.0.23",
     "eslint-config-next": "^13.2.4",
@@ -58,6 +59,7 @@
   },
   "devDependencies": {
     "@next/mdx": "^13.5.4",
+    "@next/bundle-analyzer": "^13.5.3",
     "@stencil/core": "^1.17.0",
     "@stencil/eslint-plugin": "^0.2.1",
     "@stencil/router": "^1.0.1",
@@ -85,9 +87,11 @@
     "jest": "^26.6.3",
     "jest-cli": "^26.6.3",
     "prettier": "^3.0.3",
+    "next-bundle-analyzer": "^0.6.7",
     "puppeteer": "^20.8.2",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "sass": "^1.54.8",
+    "serve": "^14.2.1",
     "tiny-glob": "0.2.9",
     "ts-jest": "^26.0.3",
     "ts-node": "^8.5.0",
@@ -96,6 +100,8 @@
   },
   "resolutions": {
     "**/trim": "0.0.3",
+    "@babel/core": "^7.23.2",
+    "@babel/traverse": "^7.23.2",
     "loader-utils": "2.0.4",
     "minimatch": "3.1.2",
     "json5": "2.2.2",
@@ -127,7 +133,11 @@
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.js"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss)$": "<rootDir>/src/__mocks__/styleMock.js"
+    },
+    "transformIgnorePatterns": []
   },
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
@@ -140,6 +150,8 @@
     "build:release": "yarn build && next-image-export-optimizer --exportFolderPath client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
-    "prepare": "husky install"
+    "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test",
+    "prepare": "husky install",
+    "analyze": "ANALYZE=true yarn next-build"
   }
 }

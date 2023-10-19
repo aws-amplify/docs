@@ -1,12 +1,31 @@
 export const meta = {
   title: `Register device`,
   description: `Register a device with the push notification service and Amazon Pinpoint.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import android0 from "/src/fragments/lib/push-notifications/common/register-device.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{android: android0}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
-import ios1 from "/src/fragments/lib/push-notifications/common/register-device.mdx";
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
 
-<Fragments fragments={{ios: ios1}} />
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import android0 from '/src/fragments/lib/push-notifications/common/register-device.mdx';
+
+<Fragments fragments={{ android: android0 }} />
+
+import ios1 from '/src/fragments/lib/push-notifications/common/register-device.mdx';
+
+<Fragments fragments={{ ios: ios1 }} />
