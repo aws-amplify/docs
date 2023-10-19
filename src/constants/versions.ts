@@ -1,4 +1,4 @@
-module.exports = {
+export const versions = {
   ANDROID_VERSION: "2.14.1",
   ANDROID_DEVPREVIEW: "1.36.5-dev-preview.0",
   ANDROID_V1_VERSION: "1.38.8",
