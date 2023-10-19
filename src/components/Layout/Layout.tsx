@@ -47,7 +47,6 @@ export const Layout = forwardRef(function Layout(
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
-  if (!router.isReady) return <></>;
 
   const rootPage = directory;
   const platformOverviewPage =
