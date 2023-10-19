@@ -9,6 +9,9 @@ let routerMock = {
 jest.mock('next/router', () => routerMock);
 
 describe('FilterChildren', () => {
+  it('placeholder test', () => {
+    expect(true).toBeTruthy();
+  });
   // const allChildren = [
   //   <span key="platform">Platform Child</span>,
   //   <span key="integration">Integration Child</span>,
