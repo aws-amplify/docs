@@ -82,7 +82,7 @@
   border-bottom: 1px solid var(--amplify-colors-neutral-20);
 }
 .layout-sidebar-menu {
-  padding: var(--amplify-space-large);
+  padding: var(--amplify-space-large) 0;
   overflow-y: auto;
   overscroll-behavior: contain;
 }

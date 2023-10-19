@@ -33,3 +33,5 @@ export const PLATFORM_DISPLAY_NAMES: Record<Platform, string> = {
   swift: 'Swift',
   vue: 'Vue'
 };
+
+export const DEFAULT_PLATFORM: Platform = 'javascript';
