@@ -74,6 +74,10 @@ h3 {
   & > h2 {
     margin-top: var(--amplify-space-large);
   }
+  & > h2,
+  & > h3 {
+    scroll-margin-block: 9rem;
+  }
 }
 
 /* A elements that don't have a class get default styles */
