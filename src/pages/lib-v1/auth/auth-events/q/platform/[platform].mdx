@@ -40,10 +40,10 @@ Hub.listen('auth', ({ payload }) => {
       console.log('user have been signedIn successfully.');
       break;
     case 'signedOut':
-      console.log('user have been signedOut.');
+      console.log('user have been signedOut successfully.');
       break;
     case 'tokenRefresh':
-      console.log('auth tokens have been refreshed successfully.');
+      console.log('auth tokens have been refreshed.');
       break;
     case 'tokenRefresh_failure':
       console.log('failure while refreshing auth tokens.');
