@@ -60,7 +60,7 @@ Using default provider  awscloudformation
 When you initialize a new Amplify project, a few things happen:
 
 - It creates a top level directory called **amplify** that stores your backend definition. During the tutorial you'll add capabilities such as a GraphQL API and authentication. As you add features, the **amplify** folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
-- It creates a file called **aws-exports.js** in the **src** directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
+- It creates a file called **amplifyconfiguration.js** in the **src** directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
 - It modifies the **.gitignore** file, adding some generated files to the ignore list
 - A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources
 
@@ -80,10 +80,10 @@ Open **src/index.js** and add the following code below the last import:
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-import awsExports from './aws-exports';
+import awsExports from './amplifyconfiguration.json';
 Amplify.configure(awsExports);
 ```
 
-And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in **aws-exports.js** will update automatically.
+And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in **amplifyconfiguration.json.js** will update automatically.
 
 Now that your React app is set up and Amplify is initialized, you can add an API in the next step.

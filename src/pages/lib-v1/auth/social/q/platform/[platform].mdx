@@ -129,7 +129,7 @@ import React, { useEffect, useState } from 'react';
 import { Amplify } from 'aws-amplify';
 import { Hub } from 'aws-amplify/utils';
 import { signInWithRedirect, signOut, getCurrentUser } from 'aws-amplify/auth';
-import awsConfig from './aws-exports';
+import awsConfig from './amplifyconfiguration.json';
 
 Amplify.configure(awsConfig);
 
@@ -184,7 +184,7 @@ import React, { useEffect, useState } from 'react';
 import { Amplify } from 'aws-amplify';
 import { Hub } from 'aws-amplify/utils';
 import { signInWithRedirect, signOut, getCurrentUser } from 'aws-amplify/auth';
-import awsConfig from './aws-exports';
+import awsConfig from './amplifyconfiguration.json';
 
 Amplify.configure(awsConfig);
 
@@ -245,7 +245,7 @@ For *Sign in Redirect URI(s)* inputs, you can put one URI for local development 
 **Note:** if you have multiple redirect URI inputs, you'll need to handle both of them where you configure your Amplify project. For example:
 
 ```javascript
-import awsConfig from './aws-exports';
+import awsConfig from './amplifyconfiguration.json';
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||

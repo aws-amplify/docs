@@ -100,7 +100,7 @@ https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
 When you initialize a new Amplify project, a few things happen:
 
 - It creates a top level directory called `amplify` that stores your backend definition. During the tutorial you'll add capabilities such as authentication, GraphQL API, storage, and set up authorization rules for the API. As you add features, the `amplify` folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
-- It creates a file called `aws-exports.js` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
+- It creates a file called `amplifyconfiguration.json` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
 - It modifies the `.gitignore` file, adding some generated files to the ignore list.
 - A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources.
 
@@ -124,15 +124,15 @@ import ui_callout from '/src/fragments/lib-v1/v6/callout/ui.mdx';
 
 <Fragments fragments={{ 'all': ui_callout }} />
 
-### Strictly typing `aws-exports`
+### Strictly typing `amplifyconfiguration.json`
 
 If you have TypeScript [strict mode](https://www.typescriptlang.org/tsconfig/#strict) on and see the error
 
 ```
-Could not find a declaration file for module './aws-exports'. 'aws-exports.js' implicitly has an 'any' type.
+Could not find a declaration file for module './amplifyconfiguration.json'. 'amplifyconfiguration.json.js' implicitly has an 'any' type.
 ```
 
-Create a `aws-exports.d.ts` file on the same level as aws-exports with the following content:
+Create a `amplifyconfiguration.json.d.ts` file on the same level as amplifyconfiguration.json with the following content:
 
 ```ts
 declare const awsmobile: Record<string, any>
