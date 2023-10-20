@@ -19,6 +19,7 @@ import { trackPageVisit } from '../../utils/track';
 import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
 import { directory } from 'src/directory/directory.mjs';
+import { PlatformNavigator } from '@/components/PlatformNavigator';
 
 export const Layout = forwardRef(function Layout(
   {
@@ -158,7 +159,9 @@ export const Layout = forwardRef(function Layout(
                     <IconDoubleChevron aria-hidden="true" />
                     Menu
                   </Button>
-                  [ Platform switcher goes here]
+                  <PlatformNavigator
+                    currentPlatform={PLATFORM_DISPLAY_NAMES[currentPlatform]}
+                  />
                 </div>
                 <div className="layout-sidebar-menu">
                   <Menu
