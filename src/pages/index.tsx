@@ -4,6 +4,12 @@ import { Layout } from '@/components/Layout';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 
 import { trackPageVisit } from '@/utils/track';
+import LinkCard from '@/components/LinkCard';
+import LinkCardCollection from '@/components/LinkCardCollection';
+import { IconGithub } from '@/components/Icons';
+import { IconDiscord } from '@/components/Icons';
+import { IconAmplify } from '@/components/Icons';
+import { IconLearn } from '@/components/Icons';
 
 const meta = {
   title: 'Amplify Docs',
@@ -47,10 +53,40 @@ export default function Page() {
           on AWS. Get started by selecting your preferred framework.
         </Text>
       </Flex>
+      <LinkCardCollection>
+        <LinkCard
+          isExternal={true}
+          href={''}
+          render={() => <IconGithub fontSize="2rem" />}
+        >
+          {'JavaScript Libraries on Github'}
+        </LinkCard>
+        <LinkCard
+          isExternal={true}
+          href={''}
+          render={() => <IconDiscord fontSize="2rem" />}
+        >
+          {'Amplify Discord'}
+        </LinkCard>
+        <LinkCard
+          isExternal={true}
+          href={''}
+          render={() => <IconAmplify fontSize="2rem" />}
+        >
+          {"What's next for Amplify"}
+        </LinkCard>
+        <LinkCard
+          isExternal={true}
+          href={''}
+          render={() => <IconLearn fontSize="2rem" />}
+        >
+          {'Amplify Learn'}
+        </LinkCard>
+      </LinkCardCollection>
       <Flex direction="column" alignItems="flex-start">
         <Heading level={2}>Features for JavaScript</Heading>
         <Button as="a" href="/">
-          View all features
+          {'View all features'}
         </Button>
       </Flex>
     </Flex>
