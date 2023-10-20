@@ -238,6 +238,23 @@ import gqlv2callout from "/src/fragments/cli/gqlv2callout.mdx";
 
 Create a one-directional one-to-one relationship between two models using the `@hasOne` directive.
 
+```mermaid
+classDiagram
+  direction LR;
+
+class Project {
+  id: ID!
+  name: String
+}
+
+class Team {
+  id: ID!
+  name: String!
+}
+
+Project --> Team : team @hasOne
+```
+
 In the example below, a Project has a Team.
 ```graphql
 type Project @model {
@@ -325,6 +342,23 @@ A `@hasOne` relationship always uses a reference to the primary key of the relat
 <Fragments fragments={{all: gqlv2callout}} />
 
 Create a one-directional one-to-many relationship between two models using the `@hasMany` directive.
+
+```mermaid
+classDiagram
+  direction LR;
+
+class Post {
+  id: ID!
+  title: String
+}
+
+class Comment {
+  id: ID!
+  content: String!
+}
+
+Post --> Comment : comments @hasMany
+```
 
 ```graphql
 type Post @model {
@@ -442,6 +476,24 @@ Make a "has one" or "has many" relationship bi-directional with the `@belongsTo`
 
 For 1:1 relationships, the @belongsTo directive solely facilitates the ability for you to query from both sides of the relationship. When updating a bi-directional hasOne relationship, you must update both sides of the relationship with corresponding IDs.
 
+```mermaid
+classDiagram
+  direction LR;
+
+class Project {
+  id: ID!
+  name: String
+}
+
+class Team {
+  id: ID!
+  name: String!
+}
+
+Project --> Team : team @hasOne
+Team --> Project : project @belongsTo
+```
+
 ```graphql
 type Project @model {
   id: ID!
@@ -512,6 +564,24 @@ const teamProject = updatedTeam.project; // access project from team
 </Block>
 
 <Block name='Bi-directional "has many" relationship'>
+
+```mermaid
+classDiagram
+  direction LR;
+
+class Post {
+  id: ID!
+  title: String
+}
+
+class Comment {
+  id: ID!
+  content: String!
+}
+
+Post --> Comment : comments @hasMany
+Comment --> Post : post @belongsTo
+```
 
 ```graphql
 type Post @model {
