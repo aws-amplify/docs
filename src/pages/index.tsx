@@ -28,7 +28,7 @@ export default function Page() {
     }
   });
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     document.addEventListener('scroll', handleScroll);
     return () => {
       document.removeEventListener('scroll', handleScroll);
