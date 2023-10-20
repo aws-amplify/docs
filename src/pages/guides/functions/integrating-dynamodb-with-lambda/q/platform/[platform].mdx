@@ -1,6 +1,25 @@
 export const meta = {
   title: `Integrating DynamoDB with Lambda`,
   description: `How to integrate a DynamoDB table with a Lambda function`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 In this guide you will learn how to do three things:
@@ -58,7 +77,7 @@ To learn how to interact with DynamoDB from Lambda, check out [Calling DynamoDB 
 
 ### Creating a new DynamoDB Database and integrate with an existing Lambda function
 
-First, create the database using the __storage__ category:
+First, create the database using the **storage** category:
 
 ```sh
 amplify add storage

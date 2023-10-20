@@ -1,0 +1,12 @@
+import ChooseFilterPage from '@/components/ChooseFilterPage';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+<ChooseFilterPage
+  directoryPath="/ChooseFilterPage"
+  address="/lib/restapi/delete"
+  filterKind="platform"
+  filters={['android', 'ios', 'flutter', 'js', 'react-native']}
+  currentFilter="all"
+  message={'Choose a platform:'}
+/>
