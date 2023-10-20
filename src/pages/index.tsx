@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import { Heading, Text, Flex, Button } from '@aws-amplify/ui-react';
 import { debounce } from '@/utils/debounce';
 import { Layout } from '@/components/Layout';
