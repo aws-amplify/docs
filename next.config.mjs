@@ -91,7 +91,6 @@ export default async (phase, { defaultConfig }) => {
       // !! WARN !!
       ignoreBuildErrors: true
     },
-    exportPathMap,
     trailingSlash: true,
     transpilePackages: [
       '@algolia/autocomplete-shared',

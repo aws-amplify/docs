@@ -1,9 +1,27 @@
 export const meta = {
   title: `Escape hatch`,
   description: `Advanced use cases in Amplify Flutter`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import flutter from "/src/fragments/lib/project-setup/flutter/escape-hatch/escape-hatch.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{flutter: flutter}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import flutter from '/src/fragments/lib/project-setup/flutter/escape-hatch/escape-hatch.mdx';
+
+<Fragments fragments={{ flutter: flutter }} />
