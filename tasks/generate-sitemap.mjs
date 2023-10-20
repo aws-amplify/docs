@@ -57,7 +57,6 @@ const getFilePath = (filePaths) => {
       return filePaths[i];
     }
   }
-  console.log(filePaths);
   return '';
 };
 
