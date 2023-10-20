@@ -1,20 +1,39 @@
 export const meta = {
   title: `Under the hood`,
   description: `Learn more about the foundational auth concepts for cloud-based application and how they work with Amplify.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import js0 from "/src/fragments/lib/auth/js/overview.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{js: js0}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
-import reactnative0 from "/src/fragments/lib/auth/js/overview.mdx";
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
 
-<Fragments fragments={{'react-native': reactnative0}} />
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
 
-import ios1 from "/src/fragments/lib/auth/common/overview.mdx";
+import js0 from '/src/fragments/lib/auth/js/overview.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ js: js0 }} />
 
-import android2 from "/src/fragments/lib/auth/common/overview.mdx";
+import reactnative0 from '/src/fragments/lib/auth/js/overview.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ 'react-native': reactnative0 }} />
+
+import ios1 from '/src/fragments/lib/auth/common/overview.mdx';
+
+<Fragments fragments={{ ios: ios1 }} />
+
+import android2 from '/src/fragments/lib/auth/common/overview.mdx';
+
+<Fragments fragments={{ android: android2 }} />

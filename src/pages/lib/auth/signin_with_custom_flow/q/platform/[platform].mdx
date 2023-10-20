@@ -1,6 +1,25 @@
 export const meta = {
   title: `Sign in with custom flow`,
-  description: `Use AWS Cognito Auth plugin to sign in a user into AWS Cognito User Pool using user defined custom flow`
+  description: `Use AWS Cognito Auth plugin to sign in a user into AWS Cognito User Pool using user defined custom flow`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 import ios0 from '/src/fragments/lib/auth/native_common/signin_with_custom_flow/common.mdx';
@@ -9,7 +28,7 @@ import ios0 from '/src/fragments/lib/auth/native_common/signin_with_custom_flow/
 
 import android2 from '/src/fragments/lib/auth/native_common/signin_with_custom_flow/common.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ android: android2 }} />
 
 import flutter1 from '/src/fragments/lib/auth/native_common/signin_with_custom_flow/common.mdx';
 

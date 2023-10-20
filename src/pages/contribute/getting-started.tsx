@@ -56,6 +56,7 @@ const Code = ({ children, color }) => {
     <Text
       className="code-snippet"
       backgroundColor={color ? color : 'brand.stone'}
+      as="span"
     >
       {children}
     </Text>

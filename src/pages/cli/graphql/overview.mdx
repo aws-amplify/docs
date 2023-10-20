@@ -38,6 +38,23 @@ Edit the file in your editor: <...>/schema.graphql
 
 Accept the default values and your code editor should show a GraphQL schema for a Todo app with the following code:
 
+```graphql
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/auth
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+```
+
+<Callout warning>
+
+`input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }` allows you to get started quickly without worrying about authorization rules. Review the [Authorization rules](/cli/graphql/authorization-rules) section to setup the appropriate access control for your GraphQL API.
+</Callout>
+
 </Block>
 <Block name="AWS CDK">
 
@@ -81,27 +98,20 @@ export class BackendStack extends cdk.Stack {
 
 Then create your GraphQL schema where you describe your data model. Create a new file called `schema.graphql` in your stack's folder with the following code:
 
-</Block>
-</BlockSwitcher>
-
 ```graphql
-# This "input" configures a global authorization rule to enable public access to
-# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/auth
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
-
-type Todo @model {
+type Todo @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
   description: String
 }
 ```
 
+`@auth(rules: [{ allow: public }]` designates that anyone authenticated with an API key can create, read, update, and delete "Todo" records.
+
+</Block>
+</BlockSwitcher>
+
 Every GraphQL `type` with the `@model` directive is automatically backed by a new DynamoDB database table and generates create, read, update, and delete GraphQL queries and mutations for you.
-
-<Callout warning>
-
-`input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }` allows you to get started quickly without worrying about authorization rules. Review the [Authorization rules](/cli/graphql/authorization-rules) section to setup the appropriate access control for your GraphQL API.
-</Callout>
 
 Now let's deploy your changes to the cloud:
 
