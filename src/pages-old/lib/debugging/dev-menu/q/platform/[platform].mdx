@@ -1,12 +1,31 @@
 export const meta = {
   title: `Developer Menu`,
   description: `Amplify developer menu helps you quickly file GitHub issues with critical information (environment and device information) automatically added to the issue description. Learn how to setup, activate, and use the developer menu.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import ios0 from "/src/fragments/lib/debugging/native_common/dev-menu/common.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{ios: ios0}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
-import android1 from "/src/fragments/lib/debugging/native_common/dev-menu/common.mdx";
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
 
-<Fragments fragments={{android: android1}} />
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import ios0 from '/src/fragments/lib/debugging/native_common/dev-menu/common.mdx';
+
+<Fragments fragments={{ ios: ios0 }} />
+
+import android1 from '/src/fragments/lib/debugging/native_common/dev-menu/common.mdx';
+
+<Fragments fragments={{ android: android1 }} />

@@ -47,7 +47,25 @@ export const Layout = forwardRef(function Layout(
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
-  if (!router.isReady) return <></>;
+
+  const rootPage = directory;
+  const platformOverviewPage =
+    rootPage.children && rootPage.children.length === 1
+      ? rootPage.children[0]
+      : undefined;
+
+  // [platform] will always be the very first subpath right?
+  // when using `router.asPath` it returns a string that starts with a '/'
+  // To get the "platform" the client was trying to visit, we have to get the string at index 1
+  // Doing this because when visiting a 404 page, there is no `router.query.platform`, so we have
+  // to check where the user was trying to visit from
+  const asPathPlatform = router.asPath.split('/')[1] as Platform;
+
+  const currentPlatform = platform
+    ? platform
+    : PLATFORMS.includes(asPathPlatform)
+    ? asPathPlatform
+    : DEFAULT_PLATFORM;
 
   const rootPage = directory;
   const platformOverviewPage =

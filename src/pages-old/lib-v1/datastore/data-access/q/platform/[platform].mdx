@@ -1,6 +1,25 @@
 export const meta = {
   title: `Manipulating data`,
-  description: `Learn how to save, query, paginate, update, delete and observe data in DataStore.`
+  description: `Learn how to save, query, paginate, update, delete and observe data in DataStore.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
