@@ -46,9 +46,10 @@ export function Menu({
         </li>
         <ul className="menu__list">
           {platformOverviewPage?.children &&
-            platformOverviewPage.children.map((child) => {
+            platformOverviewPage.children.map((child, index) => {
               return (
                 <MenuItem
+                  key={index}
                   pageNode={child as PageNode}
                   parentSetOpen={null}
                   level={1}
