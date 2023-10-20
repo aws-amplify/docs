@@ -7,6 +7,7 @@ export { IconDiscord } from './IconDiscord';
 export { IconDoubleChevron } from './IconDoubleChevron';
 export { IconFlutter } from './IconFlutter';
 export { IconGithub } from './IconGithub';
+export { IconInfo } from './IconInfo';
 export { IconJS } from './IconJS';
 export { IconLearn } from './IconLearn';
 export { IconMenu } from './IconMenu';

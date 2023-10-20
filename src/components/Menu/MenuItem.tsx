@@ -129,8 +129,9 @@ export function MenuItem({
               !open && level > Levels.Category ? 'menu__list--hide' : ''
             }`}
           >
-            {pageNode.children.map((child) => (
+            {pageNode.children.map((child, index) => (
               <MenuItem
+                key={index}
                 pageNode={child}
                 parentSetOpen={setOpen}
                 level={level + 1}

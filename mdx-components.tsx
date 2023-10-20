@@ -7,11 +7,8 @@ import { YoutubeEmbed } from './src/components/YoutubeEmbed';
 import Accordion from './src/components/Accordion';
 import Block from './src/components/Block';
 import BlockSwitcher from './src/components/BlockSwitcher';
-import Callout from './src/components/Callout';
-import { Card, CardDetail, CardGraphic } from './src/components/Card';
-import ExternalLinkButton from './src/components/ExternalLinkButton';
+import { Callout } from './src/components/Callout';
 import Fragments from './src/components/Fragments';
-import InternalLinkButton from './src/components/InternalLinkButton';
 import { MDXCode, MDXHeading, MDXLink } from './src/components/MDXComponents';
 import MigrationAlert from './src/components/MigrationAlert';
 import preToCodeBlock from './src/utils/pre-to-code-block';
@@ -51,13 +48,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     Block,
     BlockSwitcher,
     Callout,
-    Card,
-    CardDetail,
-    CardGraphic,
-    ExternalLinkButton,
     Fragments,
     InlineFilter,
-    InternalLinkButton,
     MigrationAlert,
     YoutubeEmbed,
     ...components
