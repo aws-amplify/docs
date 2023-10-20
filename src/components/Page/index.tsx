@@ -5,7 +5,8 @@ import Layout from '../Layout/index';
 import MetaContent from './metaContent';
 import {
   getChapterDirectory,
-  isProductRoot
+  isProductRoot,
+  isStandalonePage
 } from '../../utils/getLocalDirectory';
 import { useEffect, useRef, useState, createContext } from 'react';
 import {
@@ -112,12 +113,13 @@ export default function Page({
   }
 
   meta.chapterTitle = '';
-  if (meta && !isProductRoot(url)) {
+  if (meta && !isProductRoot(url) && meta && !isStandalonePage(url)) {
     const { title: chapTitle } = getChapterDirectory(url) as {
       title: string;
     };
     meta.chapterTitle = chapTitle;
   }
+
   const basePath = 'docs.amplify.aws';
   meta.url = basePath + router.asPath;
 

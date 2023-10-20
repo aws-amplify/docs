@@ -12,7 +12,8 @@ import {
 import {
   getChapterDirectory,
   getProductDirectory,
-  isProductRoot
+  isProductRoot,
+  isStandalonePage
 } from '../../utils/getLocalDirectory';
 
 const H3 = styled.h3`
@@ -48,6 +49,9 @@ function ChooseFilterPage({
     title = (getProductDirectory(url) as {
       productRoot: { title: string };
     }).productRoot.title;
+  } else if (isStandalonePage(url)) {
+    const path = url.split('/')[url.split('/').length - 1];
+    title = getProductDirectory(url)?.items[path].title;
   } else {
     const chapterDirectory = getChapterDirectory(url);
     if (typeof chapterDirectory !== 'undefined') {

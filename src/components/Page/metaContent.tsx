@@ -41,6 +41,8 @@ export default function MetaContent({
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [onDesktop, setOnDesktop] = useState(true);
 
+  // console.log('chapterTitle:', chapterTitle, 'title:', title);
+
   // Slice off the "@media " string at the start for use in JS instead of CSS
   const MQDesktopJS = MQDesktop.substring(6);
   // If the media query matches, then the user is on desktop and should not see the mobile toggle
