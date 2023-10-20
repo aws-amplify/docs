@@ -38,10 +38,11 @@ export function getChapterDirectory(pathname: string): object {
 }
 
 export function isStandalonePage(pathname: string): boolean {
-  const path = pathname.slice(0, pathname.indexOf('/q')).split('/');
+  const path = pathname.split('/');
+
   if (
     !isProductRoot(pathname) &&
-    directory[path[1]].items[path[path.length - 1]].items.length == 0
+    directory[path[1]].items[path[2]].items.length == 0
   ) {
     return true;
   }

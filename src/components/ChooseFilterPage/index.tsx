@@ -51,7 +51,9 @@ function ChooseFilterPage({
     }).productRoot.title;
   } else if (isStandalonePage(url)) {
     const path = url.split('/')[url.split('/').length - 1];
-    title = getProductDirectory(url)?.items[path].title;
+    title = (getProductDirectory(url) as {
+      items: { title: string };
+    }).items[path].title;
   } else {
     const chapterDirectory = getChapterDirectory(url);
     if (typeof chapterDirectory !== 'undefined') {
