@@ -618,7 +618,7 @@
         ]
       },
       "addTimestampFields": {
-        "description": "Add read-only timestamp fields in modelgen. For more infomation please refer change logs of amplify repos",
+        "description": "Add read-only timestamp fields in modelgen. For more information please refer change logs of amplify repos",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.51.2",

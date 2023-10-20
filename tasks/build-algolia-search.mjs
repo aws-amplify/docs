@@ -312,7 +312,7 @@ async function tryParseImports(
     articles.push({ searchableText, source, meta, filename });
     readPages(cb);
   } catch (e) {
-    console.log('Pages remaing:', pageValues.length);
+    console.log('Pages remaining:', pageValues.length);
     console.error(`cannot parse ES imports in '${filename}'`);
     console.error(e);
     readPages(cb);
@@ -413,7 +413,7 @@ function titleCase(str) {
   return titleCaseCategory;
 }
 
-// modifed version of '../generatePathMap.cjs.js'
+// modified version of '../generatePathMap.cjs.js'
 var category = null;
 function generatePathMap(obj, pathMap = {}, subcategory) {
   for (const [_, value] of Object.entries(obj)) {
