@@ -2,102 +2,55 @@
  * @type {import('./directory').PageNode}
  */
 export const directory = {
-  title: 'Amplify Docs',
-  description:
-    'Amplify documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.',
-  route: '/',
+  path: 'src/pages/index.tsx',
   children: [
     {
-      title: 'Overview',
-      description: `This is a description for the overview page.`,
-      platforms: ['javascript', 'android'],
-      route: '/[platform]',
+      path: 'src/pages/[platform]/index.tsx',
       children: [
         {
-          title: `Get started`,
-          description: `A getting started page`,
-          platforms: ['android', 'javascript'],
-          route: '/[platform]/get-started',
+          path: 'src/pages/[platform]/get-started/index.mdx',
           children: [
             {
-              title: `Project setup`,
-              description: `Project setup`,
-              platforms: ['android', 'javascript'],
-              route: '/[platform]/get-started/project-setup'
+              path: 'src/pages/[platform]/get-started/project-setup/index.mdx'
             },
             {
-              title: `Sample apps`,
-              description: `Sample apps`,
-              platforms: ['android', 'javascript'],
-              route: '/[platform]/get-started/sample-apps'
+              path: 'src/pages/[platform]/get-started/sample-apps/index.mdx'
             },
             {
-              title: `Tutorials`,
-              description: `Tutorials`,
-              platforms: ['android', 'javascript'],
-              route: '/[platform]/get-started/tutorials',
+              path: 'src/pages/[platform]/get-started/tutorials/index.mdx',
               children: [
                 {
-                  title: `Connect API and Database`,
-                  description: `Connect API and Database`,
-                  platforms: ['android', 'javascript'],
-                  route:
-                    '/[platform]/get-started/tutorials/connect-api-and-database'
+                  path: 'src/pages/[platform]/get-started/tutorials/connect-api-and-database.mdx'
                 },
                 {
-                  title: `Deploy and Host App`,
-                  description: `Deploy and Host App`,
-                  platforms: ['android', 'javascript'],
-                  route: '/[platform]/get-started/tutorials/deploy-and-host-app'
+                  path: 'src/pages/[platform]/get-started/tutorials/deploy-and-host-app.mdx'
                 },
                 {
-                  title: `Setup Amplify`,
-                  description: `Setup Amplify`,
-                  platforms: ['android', 'javascript'],
-                  route: '/[platform]/get-started/tutorials/setup-amplify'
+                  path: 'src/pages/[platform]/get-started/tutorials/setup-amplify.mdx'
                 },
                 {
-                  title: `Setup fullstack project`,
-                  description: `Setup fullstack project`,
-                  platforms: ['android', 'javascript'],
-                  route:
-                    '/[platform]/get-started/tutorials/setup-fullstack-project'
+                  path: 'src/pages/[platform]/get-started/tutorials/setup-fullstack-project.mdx'
                 },
                 {
-                  title: `Next Steps`,
-                  description: `Next Steps`,
-                  platforms: ['android', 'javascript'],
-                  route: '/[platform]/get-started/tutorials/next-steps'
+                  path: 'src/pages/[platform]/get-started/tutorials/next-steps.mdx'
                 }
               ]
             }
           ]
         },
         {
-          title: 'Build a backend',
-          description: 'Build a backend',
-          platforms: ['android', 'javascript'],
-          route: '/[platform]/build-a-backend',
+          path: 'src/pages/[platform]/build-a-backend/index.mdx',
           children: [
             {
-              title: `API GraphQL`,
-              description: `API GraphQL`,
-              platforms: ['android', 'javascript'],
-              route: '/[platform]/build-a-backend/api-graphql'
+              path: 'src/pages/[platform]/build-a-backend/api-graphql/index.mdx'
             },
             {
-              title: `API (Rest)`,
-              description: `API (Rest)`,
-              platforms: ['android', 'javascript'],
-              route: '/[platform]/build-a-backend/api-rest'
+              path: 'src/pages/[platform]/build-a-backend/api-rest/index.mdx'
             }
           ]
         },
         {
-          title: 'Build a UI',
-          description: 'Build a UI',
-          platforms: ['android', 'javascript'],
-          route: '/[platform]/build-a-ui',
+          path: 'src/pages/[platform]/build-a-ui/index.mdx',
           children: [
             {
               title: 'UI Library Docs',
