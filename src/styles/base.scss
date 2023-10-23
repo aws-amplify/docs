@@ -81,7 +81,8 @@ h3 {
 }
 
 /* A elements that don't have a class get default styles */
-a:not([class]) {
+a:not([class]),
+.amplify-link {
   text-decoration-skip-ink: auto;
 
   color: var(--amplify-components-link-color);
