@@ -4,8 +4,7 @@ import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 export const meta = {
   title: `Overview`,
   description: `This is a description for the overview page.`,
-  platforms: ['javascript', 'android'],
-  hasTOC: false
+  platforms: ['javascript', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -16,6 +15,7 @@ export function getStaticProps(context) {
   return {
     props: {
       platform: context.params.platform,
+      hasTOC: false,
       meta
     }
   };

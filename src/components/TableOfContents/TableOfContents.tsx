@@ -13,8 +13,7 @@ export const TableOfContents = ({}) => {
 
   useEffect(() => {
     const headings: Headings = [];
-    const pageHeadings = document.querySelectorAll('.main h2, .main h3');
-    console.log(pageHeadings);
+    const pageHeadings = document.querySelectorAll('.main > h2, .main > h3');
     pageHeadings.forEach((node) => {
       const { innerText, id, localName } = node as HTMLElement;
       if (innerText && id && (localName == 'h2' || localName == 'h3')) {
@@ -38,9 +37,9 @@ export const TableOfContents = ({}) => {
         ''
       )}
       <View as="ul" className="toc-list">
-        {headers.map(({ linkText, hash, level }) => {
+        {headers.map(({ linkText, hash, level }, index) => {
           return (
-            <View as="li" className="toc-item">
+            <View as="li" className="toc-item" key={`toc-${index}`}>
               <Link
                 href={`#${hash}`}
                 className={`toc-item__link toc-item__link--${level}`}
