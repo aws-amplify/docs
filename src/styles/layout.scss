@@ -103,7 +103,7 @@
   }
 }
 
-@media (min-width: 800px) {
+@media (min-width: $mq-mobile) {
   .main {
     margin-bottom: auto;
   }

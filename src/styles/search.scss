@@ -1,11 +1,16 @@
 .layout-search__search {
   margin-inline-start: auto;
-  &--inner {
-    margin-inline-start: 0;
-  }
 }
 
 .search-menu-toggle {
   gap: var(--amplify-space-xxxs);
   align-self: center;
+}
+
+@media (min-width: $mq-mobile) {
+  .layout-search__search {
+    &--inner {
+      margin-inline-start: 0;
+    }
+  }
 }
