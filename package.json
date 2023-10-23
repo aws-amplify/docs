@@ -144,7 +144,6 @@
     "clean": "rm -rf node_modules yarn.lock",
     "refresh": "yarn clean && yarn",
     "test": "jest",
-    "predev": "node src/directory/generateDirectory.mjs",
     "dev": "next dev",
     "spellcheck": "cspell \"src/**/*.mdx\" --no-progress",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
@@ -153,6 +152,7 @@
     "next-build": "next build",
     "next-start": "next start",
     "prepare": "husky install",
-    "analyze": "ANALYZE=true yarn next-build"
+    "analyze": "ANALYZE=true yarn next-build",
+    "postinstall": "node src/directory/generateDirectory.mjs"
   }
 }
