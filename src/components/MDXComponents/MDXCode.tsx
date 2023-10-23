@@ -25,7 +25,7 @@ const addVersions = (code: string) => {
 };
 
 export const MDXCode = (props) => {
-  const { codeString, language } = props;
+  const { codeString, language, fileName } = props;
   const [copied, setCopied] = React.useState(false);
   const [code, setCode] = React.useState(codeString);
   const copy = () => {
@@ -48,29 +48,32 @@ export const MDXCode = (props) => {
             {codeString}
           </div>
           <View className="pre-wrapper">
-            <pre style={style} className="pre">
-              {tokens.map((line, i) => (
-                <div key={i} {...getLineProps({ line })}>
-                  <span className="line-number">{i + 1}</span>
-                  {line.map((token, key) => (
-                    <span key={key} {...getTokenProps({ token })} />
-                  ))}
-                </div>
-              ))}
-            </pre>
-            <CopyToClipboard text={codeString} onCopy={copy}>
-              <Button
-                size="small"
-                variation="link"
-                disabled={copied}
-                className="code-copy"
-                position="absolute"
-                right="xxxs"
-                top="xxxs"
-              >
-                {copied ? 'Copied!' : 'Copy'}
-              </Button>
-            </CopyToClipboard>
+            <View className="pre-wrapper__inner">
+              {fileName ? <div className="pre-filename">{fileName}</div> : null}
+              <pre style={style} className="pre">
+                {tokens.map((line, i) => (
+                  <div key={i} {...getLineProps({ line })}>
+                    <span className="line-number">{i + 1}</span>
+                    {line.map((token, key) => (
+                      <span key={key} {...getTokenProps({ token })} />
+                    ))}
+                  </div>
+                ))}
+              </pre>
+              <CopyToClipboard text={codeString} onCopy={copy}>
+                <Button
+                  size="small"
+                  variation="link"
+                  disabled={copied}
+                  className="code-copy"
+                  position="absolute"
+                  right="xxxs"
+                  top="xxxs"
+                >
+                  {copied ? 'Copied!' : 'Copy'}
+                </Button>
+              </CopyToClipboard>
+            </View>
           </View>
         </>
       )}

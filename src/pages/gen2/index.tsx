@@ -66,24 +66,46 @@ const Gen2Overview = () => {
         </Card>
         <View>Develop</View>
         <MDXCode
+          fileName="amplify/data/resource.ts"
           language="typescript"
-          codeString="
-import { a, defineData } from 'aws-amplify-backend'
+          codeString={`import { a, defineData } from 'aws-amplify-backend';
 
-const schema = a. schema ( {
-  Todo: a. model ({
-  title: a.string), description: a.string .optionall), priority: a. enum(['low',
-  'medium', 'high']). default ('low'),
+const schema = a.schema({
+  Todo: a.model({
+    title: a.string(), 
+    description: a.string().optional(), 
+    priority: a.enum(['low','medium', 'high']).default('low'),
   }),
-}
+});
+
 export type Schema = typeof schema;
-export default defineData {
-schema, })"
+
+export default defineData ({
+  schema, 
+});`}
         ></MDXCode>
         <View>??</View>
         <View>Deploy and host your apps</View>
         <View>Scale</View>
-        <View>Code block</View>
+        <MDXCode
+          fileName="amplify/custom/Backup.ts"
+          language="typescript"
+          codeString={`import { Construct } from 'constructs';
+import * as cdk from 'aws-cdk-lib';
+import * as backup from 'aws-cdk-lib/aws-backup'; 
+import * as events from 'aws-cdk-lib/aws-events';
+import * as rds from 'aws-cdk-lib/aws-rds';
+
+/**
+ * Define the stack's props
+ */
+export type BackupStackProps = {
+  /**
+   * Database instance to back up
+   */
+  database: rds.DatabaseInstance; 
+}`}
+        ></MDXCode>
       </Grid>
     </>
   );
