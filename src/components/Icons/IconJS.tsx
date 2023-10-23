@@ -3,6 +3,7 @@ import { Icon } from '@aws-amplify/ui-react';
 export const IconJS = ({ ...rest }) => {
   return (
     <Icon
+      aria-hidden="true"
       {...rest}
       viewBox={{
         minX: 0,
