@@ -14,15 +14,20 @@ export function YoutubeEmbed({
   width = '560',
   height = '315'
 }: YoutubeEmbedProps) {
+  const styles = {
+    '--youtube-embed-width': width,
+    '--youtube-embed-height': height
+  } as React.CSSProperties;
+
   return (
     <iframe
-      width={width}
-      height={height}
+      style={styles}
       sandbox="allow-scripts allow-same-origin allow-popups"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen
       src={`https://www.youtube-nocookie.com/embed/${embedId}`}
       title="YouTube video player"
+      className="youtube-embed"
     ></iframe>
   );
 }

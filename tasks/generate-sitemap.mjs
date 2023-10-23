@@ -2,7 +2,7 @@
 import * as fs from 'fs';
 import { execSync } from 'child_process';
 import { createRequire } from 'module';
-import directory from '../src/directory/directory.mjs';
+import { directory } from '../src/directory/directory.mjs';
 
 const require = createRequire(import.meta.url);
 const generatePathMap = require('../generatePathMap.cjs');

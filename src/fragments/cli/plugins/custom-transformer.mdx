@@ -105,16 +105,18 @@ The table below shows the lifecycle methods that a transformer plugin can implem
 
 <table>
   <thead>
-    <th colspan="2">Lifecycle method</th>
-    <th>Description</th>
+    <tr>
+      <th colSpan="2">Lifecycle method</th>
+      <th>Description</th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <td colspan="2">before</td>
+      <td colSpan="2">before</td>
       <td>initialization of the transformer</td>
     </tr>
     <tr>
-      <td rowspan="10">GraphQL visitor pattern functions</td>
+      <td rowSpan="10">GraphQL visitor pattern functions</td>
       <td>object</td>
       <td>for each type that has the directive defined by the transformer</td>
     </tr>
@@ -155,23 +157,23 @@ The table below shows the lifecycle methods that a transformer plugin can implem
       <td>for each inputValue that has the directive defined by the transformer</td>
     </tr>
     <tr>
-      <td colspan="2">prepare</td>
+      <td colSpan="2">prepare</td>
       <td>transformer register themselves in the `TransformerContext` (as data provider or data enhancer)</td>
     </tr>
     <tr>
-      <td colspan="2">validate</td>
+      <td colSpan="2">validate</td>
       <td>transformer validates the directive arguments</td>
     </tr>
     <tr>
-      <td colspan="2">transformSchema</td>
+      <td colSpan="2">transformSchema</td>
       <td>transformer updates/augments the output schema</td>
     </tr>
     <tr>
-      <td colspan="2">generateResolvers</td>
+      <td colSpan="2">generateResolvers</td>
       <td>transformer generates resources such as resolvers, IAM policies, Tables, etc.</td>
     </tr>
     <tr>
-      <td colspan="2">after</td>
+      <td colSpan="2">after</td>
       <td>cleanup, this lifecycle method is invoked in reverse order for the registered transformers</td>
     </tr>
   </tbody>

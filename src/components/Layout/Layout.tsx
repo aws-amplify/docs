@@ -1,36 +1,50 @@
 import { useState, forwardRef, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Flex, View, Button, ThemeProvider } from '@aws-amplify/ui-react';
-
+import {
+  Flex,
+  View,
+  Button,
+  ThemeProvider,
+  IconsProvider
+} from '@aws-amplify/ui-react';
+import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
 import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
-import { TestNav } from '@/components/TestNav';
-import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import {
+  DEFAULT_PLATFORM,
+  PLATFORMS,
+  PLATFORM_DISPLAY_NAMES,
+  Platform
+} from '@/data/platforms';
+import { SpaceShip } from '@/components/SpaceShip';
 import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
-import { TableOfContents } from '@/components/TableOfContents';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { trackPageVisit } from '../../utils/track';
+import { Menu } from '@/components/Menu';
+import { LayoutProvider } from '@/components/Layout';
+import { directory } from 'src/directory/directory.mjs';
+import { TableOfContents } from '@/components/TableOfContents';
 
 export const Layout = forwardRef(function Layout(
   {
     children,
-    pageTitle,
+    hasTOC = true,
     pageDescription,
-    platform,
-    url,
+    pageTitle,
     pageType = 'inner',
-    hasTOC = true
+    platform,
+    url
   }: {
     children: any;
-    pageTitle?: string;
-    pageDescription?: string;
-    platform?: string;
-    url?: string;
-    pageType?: 'home' | 'inner';
     hasTOC?: boolean;
+    pageDescription?: string;
+    pageTitle?: string;
+    pageType?: 'home' | 'inner';
+    platform?: Platform;
+    url?: string;
   },
   footerRef
 ) {
@@ -43,7 +57,25 @@ export const Layout = forwardRef(function Layout(
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
-  if (!router.isReady) return <></>;
+
+  const rootPage = directory;
+  const platformOverviewPage =
+    rootPage.children && rootPage.children.length === 1
+      ? rootPage.children[0]
+      : undefined;
+
+  // [platform] will always be the very first subpath right?
+  // when using `router.asPath` it returns a string that starts with a '/'
+  // To get the "platform" the client was trying to visit, we have to get the string at index 1
+  // Doing this because when visiting a 404 page, there is no `router.query.platform`, so we have
+  // to check where the user was trying to visit from
+  const asPathPlatform = router.asPath.split('/')[1] as Platform;
+
+  const currentPlatform = platform
+    ? platform
+    : PLATFORMS.includes(asPathPlatform)
+    ? asPathPlatform
+    : DEFAULT_PLATFORM;
 
   const title = [
     pageTitle,
@@ -86,72 +118,80 @@ export const Layout = forwardRef(function Layout(
           key="twitter:image"
         />
       </Head>
-      <ThemeProvider theme={defaultTheme}>
-        <View className={`layout-wrapper layout-wrapper--${pageType}`}>
-          <GlobalNav
-            leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
-            rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-            currentSite="Docs"
-          />
-          <Flex className={`layout-search layout-search--${pageType}`}>
-            <Button
-              onClick={() => toggleMenuOpen(true)}
-              size="small"
-              className="search-menu-toggle mobile-toggle"
-            >
-              <IconMenu aria-hidden="true" />
-              Menu
-            </Button>
-            <View
-              className={`layout-search__search layout-search__search--${pageType}`}
-            >
-              <SearchBar />
-            </View>
-          </Flex>
-          <View
-            className={`layout-sidebar${
-              menuOpen ? ' layout-sidebar--expanded' : ''
-            }`}
-          >
-            <View
-              className={`layout-sidebar__backdrop${
-                menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
-              }`}
-              onClick={() => toggleMenuOpen(false)}
-            ></View>
-            <View
-              className={`layout-sidebar__inner${
-                menuOpen ? ' layout-sidebar__inner--expanded' : ''
-              }`}
-            >
-              <div className="layout-sidebar-platform">
+      <LayoutProvider value={{ menuOpen, toggleMenuOpen }}>
+        <ThemeProvider theme={defaultTheme}>
+          <IconsProvider icons={defaultIcons}>
+            <View className={`layout-wrapper layout-wrapper--${pageType}`}>
+              {pageType === 'home' ? <SpaceShip /> : null}
+              <GlobalNav
+                leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
+                rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+                currentSite="Docs"
+              />
+              <Flex className={`layout-search layout-search--${pageType}`}>
                 <Button
+                  onClick={() => toggleMenuOpen(true)}
                   size="small"
-                  colorTheme="overlay"
-                  className="mobile-toggle"
-                  onClick={() => toggleMenuOpen(false)}
+                  className="search-menu-toggle mobile-toggle"
                 >
-                  <IconDoubleChevron aria-hidden="true" />
+                  <IconMenu aria-hidden="true" />
                   Menu
                 </Button>
-                [ Platform switcher goes here]
-              </div>
-              <div className="layout-sidebar-menu">
-                <TestNav />
-              </div>
+                <View
+                  className={`layout-search__search layout-search__search--${pageType}`}
+                >
+                  <SearchBar />
+                </View>
+              </Flex>
+              <View
+                className={`layout-sidebar${
+                  menuOpen ? ' layout-sidebar--expanded' : ''
+                }`}
+              >
+                <View
+                  className={`layout-sidebar__backdrop${
+                    menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
+                  }`}
+                  onClick={() => toggleMenuOpen(false)}
+                ></View>
+                <View
+                  className={`layout-sidebar__inner${
+                    menuOpen ? ' layout-sidebar__inner--expanded' : ''
+                  }`}
+                >
+                  <div className="layout-sidebar-platform">
+                    <Button
+                      size="small"
+                      colorTheme="overlay"
+                      className="mobile-toggle"
+                      onClick={() => toggleMenuOpen(false)}
+                    >
+                      <IconDoubleChevron aria-hidden="true" />
+                      Menu
+                    </Button>
+                    [ Platform switcher goes here]
+                  </div>
+                  <div className="layout-sidebar-menu">
+                    <Menu
+                      currentPlatform={currentPlatform}
+                      platformOverviewPage={platformOverviewPage}
+                    />
+                  </div>
+                </View>
+              </View>
+
+              <View className="layout-main">
+                {hasTOC ? <TableOfContents /> : ''}
+                <Flex as="main" className={`main${hasTOC ? ' main--toc' : ''}`}>
+                  {children}
+                </Flex>
+
+                <Footer />
+              </View>
             </View>
-          </View>
-
-          <View className="layout-main">
-            {hasTOC ? <TableOfContents /> : ''}
-            <Flex as="main" className={`main${hasTOC ? ' main--toc' : ''}`}>
-              {children}
-            </Flex>
-
-            <Footer />
-          </View>
-        </View>
-      </ThemeProvider>
+          </IconsProvider>
+        </ThemeProvider>
+      </LayoutProvider>
     </>
   );
 });

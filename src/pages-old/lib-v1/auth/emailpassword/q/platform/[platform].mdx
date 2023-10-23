@@ -1,6 +1,25 @@
 export const meta = {
   title: `Enable sign-up, sign-in, and sign-out`,
   description: `Learn how to use Amplify's sign up, sign in and sign out APIs.`,
+  filterKey: "platform",
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { INTEGRATION_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 <InlineFilter filters={["js"]}>
@@ -318,3 +337,4 @@ Now that you completed setting up Amplify Auth with username/password you may al
   - [Multi-factor authentication](/lib-v1/auth/mfa/q/platform/js/)
 
 </InlineFilter>
+

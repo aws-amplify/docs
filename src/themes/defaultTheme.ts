@@ -4,6 +4,9 @@ export const defaultTheme: Theme = {
   name: 'default-theme',
   tokens: {
     colors: {
+      blue: {
+        10: { value: 'hsl(207, 76%, 90%)' }
+      },
       neutral: {
         100: { value: 'hsl(213, 28%, 19%)' } // Amazon Squid Ink
       },
@@ -63,6 +66,16 @@ export const defaultTheme: Theme = {
         large: {
           paddingInlineStart: { value: '{space.xl.value}' },
           paddingInlineEnd: { value: '{space.xl.value}' }
+        }
+      },
+      message: {
+        paddingBlock: { value: '{space.large}' },
+        paddingInline: { value: '{space.large}' },
+        borderRadius: { value: '{radii.small}' },
+        filled: {
+          info: {
+            color: { value: '{colors.font.primary}' }
+          }
         }
       }
     }

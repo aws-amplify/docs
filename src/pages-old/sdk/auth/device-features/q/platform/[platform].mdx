@@ -1,16 +1,35 @@
 export const meta = {
   title: `Device features`,
   description: `You can use the device related features of Amazon Cognito UserPools by enabling the Devices features.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import all0 from "/src/fragments/sdk/library-callout.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{all: all0}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
-import ios1 from "/src/fragments/sdk/auth/ios/device-features.mdx";
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
 
-<Fragments fragments={{ios: ios1}} />
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
 
-import android2 from "/src/fragments/sdk/auth/android/device-features.mdx";
+import all0 from '/src/fragments/sdk/library-callout.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ all: all0 }} />
+
+import ios1 from '/src/fragments/sdk/auth/ios/device-features.mdx';
+
+<Fragments fragments={{ ios: ios1 }} />
+
+import android2 from '/src/fragments/sdk/auth/android/device-features.mdx';
+
+<Fragments fragments={{ android: android2 }} />

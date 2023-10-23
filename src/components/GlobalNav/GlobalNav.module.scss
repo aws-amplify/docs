@@ -55,7 +55,7 @@
 
 .dev-center-logo {
   color: var(--logo-color);
-  font-size: var(--amplify-font-sizes-large);
+  font-size: var(--amplify-font-sizes-medium);
   white-space: nowrap;
 }
 
@@ -176,6 +176,12 @@
 
 .desktop-only {
   display: none;
+}
+
+@media (min-width: 500px) {
+  .dev-center-logo {
+    font-size: var(--amplify-font-sizes-large);
+  }
 }
 
 @media (min-width: 975px) {
