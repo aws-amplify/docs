@@ -8,6 +8,9 @@ import { useRef, useState, useEffect } from 'react';
 import { MQDesktop } from '../media';
 import Feedback from '../Feedback';
 import LastUpdatedDatesProvider from '../LastUpdatedProvider';
+import BreadcrumbsComponent from '../Breadcrumbs';
+import React from 'react';
+import getBreadcrumbsItems from '../../utils/generateBreadCrumbItems';
 
 export default function MetaContent({
   title,
@@ -19,8 +22,7 @@ export default function MetaContent({
   filterKind,
   url,
   directoryPath,
-  parentPageLastUpdatedDate,
-  footerRef
+  parentPageLastUpdatedDate
 }: {
   title: string;
   chapterTitle: string;
@@ -52,6 +54,27 @@ export default function MetaContent({
     );
   }, []);
 
+  const initialBreadCrumbsUrls = [
+    {
+      href: 'https://docs.amplify.aws/',
+      label: 'Home'
+    }
+  ];
+
+  initialBreadCrumbsUrls.push(
+    ...url
+      .split('/')
+      .map((path: string): { href: string; label: string } => {
+        return {
+          href: '/',
+          label: path
+        };
+      })
+      .slice(1)
+  );
+
+  const generatedBreadCrumbItems = getBreadcrumbsItems(initialBreadCrumbsUrls);
+
   return (
     <>
       <LastUpdatedDatesProvider
@@ -69,6 +92,7 @@ export default function MetaContent({
         ></Menu>
         <ContentStyle menuIsOpen={menuIsOpen}>
           <div>
+            <BreadcrumbsComponent items={generatedBreadCrumbItems} />
             <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
             <div>
               <h1>{title}</h1>
@@ -80,6 +104,7 @@ export default function MetaContent({
             </CodeBlockProvider>
           </div>
         </ContentStyle>
+
         <TableOfContents
           title={title}
           ref={contentsRef}
@@ -87,6 +112,7 @@ export default function MetaContent({
         >
           {headers}
         </TableOfContents>
+
         {!onDesktop && url != '/start' && (
           <MobileMenuIcons
             ref={buttonsRef}
