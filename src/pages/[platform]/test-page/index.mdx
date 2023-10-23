@@ -24,6 +24,73 @@ export function getStaticProps(context) {
 
 { meta.description }
 
+<BlockSwitcher>
+  <Block name="This is a really long title">Block content 1</Block>
+  <Block name="This is a really long title This is an even longer title">
+    Block content 2
+  </Block>
+  <Block>Block with no name</Block>
+</BlockSwitcher>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.Amplify;
+```
+
+```java
+// Add this line, to include the Auth plugin.
+Amplify.addPlugin(new AWSCognitoAuthPlugin());
+Amplify.configure(getApplicationContext());
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+```
+
+```kotlin
+// Add this line, to include the Auth plugin.
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.configure(applicationContext)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.kotlin.core.Amplify
+```
+
+```kotlin
+// Add this line, to include the Auth plugin.
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.configure(applicationContext)
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.rx.RxAmplify;
+```
+
+```java
+// Add this line, to include the Auth plugin.
+RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+RxAmplify.configure(getApplicationContext());
+```
+
+</Block>
+</BlockSwitcher>
+
 <InlineFilter filters={['android']}>
   This is Android specific content using InlineFilter.
 </InlineFilter>
@@ -31,14 +98,6 @@ export function getStaticProps(context) {
 <InlineFilter filters={['js']}>
   JS! This is JS specific content. It's using InlineFilter.
 </InlineFilter>
-
-<Accordion
-  title="Understanding Auth high-level concepts"
-  headingLevel="4"
-  eyebrow="Learn more"
->
-  Here is some accordion content.
-</Accordion>
 
 <Callout>
   This is a Callout component. [This is a link](/javascript/get-started)
