@@ -26,7 +26,6 @@
     flex: 0 0 auto;
     position: relative;
     border: none;
-    z-index: 1;
     &[data-state='active'] {
       &:after {
         height: 4px;
