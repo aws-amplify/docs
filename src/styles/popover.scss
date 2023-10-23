@@ -39,6 +39,9 @@
     &:hover {
       background-color: var(--amplify-colors-brand-primary-10);
     }
+    &:focus-visible {
+      outline: 2px solid var(--amplify-colors-border-focus);
+    }
   }
 }
 
