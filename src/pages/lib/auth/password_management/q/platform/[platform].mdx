@@ -26,7 +26,7 @@ You can enable self-service by using the `forgotPassword` method. This will send
 ```ts
 import { Auth } from 'aws-amplify';
 
-// Send confirmation code to user's email
+// Send confirmation code to user's email or phone number
 async function forgotPassword(username: string) {
   try {
     const data = await Auth.forgotPassword(username);
