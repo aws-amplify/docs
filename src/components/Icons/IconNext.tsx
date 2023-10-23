@@ -16,6 +16,11 @@ export const IconNext = ({ ...rest }) => {
         fill="black"
       />
       <path
+        className="icon-monochrome"
+        d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z"
+        fill="var(--amplify-colors-neutral-100)"
+      />
+      <path
         d="M19.9345 21.0027L9.21902 7.20007H7.20009V16.7961H8.81524V9.25122L18.6666 21.9794C19.1112 21.6819 19.5346 21.3554 19.9345 21.0027Z"
         fill="url(#paint0_linear_16_31)"
       />
