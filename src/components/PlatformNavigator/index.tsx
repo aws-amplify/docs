@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Link, Flex, Image } from '@aws-amplify/ui-react';
+import { Button, Link, Flex, Image, View } from '@aws-amplify/ui-react';
 import * as img from '../../constants/img';
 import { IconChevron } from '@/components/Icons';
 
@@ -27,6 +27,7 @@ export function PlatformNavigator({ currentPlatform }) {
     <>
     <nav aria-labelledby="platformBtn" className={`platform-navigator`}>
       Choose your framework:
+      <Flex alignItems="center">
       <Button
         className={`platform-navigator__button`}
         aria-expanded="false"
@@ -35,6 +36,7 @@ export function PlatformNavigator({ currentPlatform }) {
         onClick={() => {
           setIsOpen(!isOpen);
         }}
+        isFullWidth={true}
       >
         <Flex as="span" alignItems="center">
           <Image
@@ -48,6 +50,8 @@ export function PlatformNavigator({ currentPlatform }) {
         </Flex>
         <IconChevron className={isOpen ? '' : 'icon-rotate-90-reverse'} />
       </Button>
+      <Link>Info</Link>
+      </Flex>
       <ul
         id="platformNav"
         className={`platform-navigator__dropdown ${
