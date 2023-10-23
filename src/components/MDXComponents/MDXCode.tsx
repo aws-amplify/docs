@@ -49,7 +49,9 @@ export const MDXCode = (props) => {
           </div>
           <View className="pre-wrapper">
             <View className="pre-wrapper__inner">
-              {fileName ? <div className="pre-filename">{fileName}</div> : null}
+              {fileName ? (
+                <View className="pre-filename">{fileName}</View>
+              ) : null}
               <pre style={style} className="pre">
                 {tokens.map((line, i) => (
                   <div key={i} {...getLineProps({ line })}>
