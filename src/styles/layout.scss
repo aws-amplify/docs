@@ -89,6 +89,8 @@
 
 .main {
   flex-direction: column;
+  container-type: inline-size;
+  gap: var(--amplify-space-large);
 }
 
 @keyframes menu {

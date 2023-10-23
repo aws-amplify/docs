@@ -10,6 +10,15 @@ export const baseTheme = createTheme({
       neutral: {
         100: { value: 'hsl(213, 28%, 19%)' } // Amazon Squid Ink
       },
+      purple: {
+        10: { value: 'hsl(258, 41%, 94%);)' },
+        20: { value: 'hsl(258, 41%, 84%);' },
+        40: { value: 'hsl(258, 41%, 64%);' },
+        60: { value: 'hsl(258, 41%, 44%);' },
+        80: { value: 'hsl(258, 41%, 34%);' },
+        90: { value: 'hsl(258, 41%, 24%);' },
+        100: { value: 'hsl(258, 41%, 15%);' }
+      },
       teal: {
         10: { value: 'hsl(175, 44%, 96%)' },
         20: { value: 'hsl(175, 57%, 80%)' },
@@ -37,25 +46,6 @@ export const baseTheme = createTheme({
             value: '0 0 0 2px var(--amplify-colors-border-focus)'
           }
         },
-        primary: {
-          color: { value: '{colors.font.primary}' },
-          backgroundColor: { value: '{colors.brand.primary.40}' },
-          _active: {
-            backgroundColor: { value: '{colors.brand.primary.10}' },
-            color: { value: '{colors.font.primary}' }
-          },
-          _focus: {
-            backgroundColor: { value: '{colors.brand.primary.20}' },
-            color: { value: '{colors.font.primary}' },
-            boxShadow: {
-              value: '0 0 0 2px var(--amplify-colors-border-focus)'
-            }
-          },
-          _hover: {
-            backgroundColor: { value: '{colors.brand.primary.20}' },
-            color: { value: '{colors.font.primary}' }
-          }
-        },
         link: {
           _focus: {
             boxShadow: {
@@ -66,6 +56,21 @@ export const baseTheme = createTheme({
         large: {
           paddingInlineStart: { value: '{space.xl.value}' },
           paddingInlineEnd: { value: '{space.xl.value}' }
+        }
+      },
+      card: {
+        padding: { value: '{space.large}' },
+        outlined: {
+          borderColor: { value: '{colors.neutral.20}' },
+          borderRadius: { value: '{radii.large}' }
+        }
+      },
+      heading: {
+        2: {
+          fontWeight: '700'
+        },
+        3: {
+          fontWeight: '700'
         }
       },
       message: {
