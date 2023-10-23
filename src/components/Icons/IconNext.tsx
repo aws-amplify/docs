@@ -1,6 +1,10 @@
 import { Icon } from '@aws-amplify/ui-react';
+import { v4 as uuidv4 } from 'uuid';
 
 export const IconNext = ({ ...rest }) => {
+  const gradient1Id = uuidv4();
+  const gradient2Id = uuidv4();
+
   return (
     <Icon
       aria-hidden="true"
@@ -23,15 +27,15 @@ export const IconNext = ({ ...rest }) => {
       />
       <path
         d="M19.9345 21.0027L9.21902 7.20007H7.20009V16.7961H8.81524V9.25122L18.6666 21.9794C19.1112 21.6819 19.5346 21.3554 19.9345 21.0027Z"
-        fill="url(#paint0_linear_16_31)"
+        fill={`url(#${gradient1Id})`}
       />
       <path
         d="M16.9333 7.20007H15.3333V16.8001H16.9333V7.20007Z"
-        fill="url(#paint1_linear_16_31)"
+        fill={`url(#${gradient2Id})`}
       />
       <defs>
         <linearGradient
-          id="paint0_linear_16_31"
+          id={gradient1Id}
           x1="14.5334"
           y1="15.5334"
           x2="19.2668"
@@ -42,7 +46,7 @@ export const IconNext = ({ ...rest }) => {
           <stop offset="1" stopColor="white" stopOpacity="0" />
         </linearGradient>
         <linearGradient
-          id="paint1_linear_16_31"
+          id={gradient2Id}
           x1="16.1333"
           y1="7.20007"
           x2="16.1065"
