@@ -104,12 +104,15 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 Update your `src/app.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `client.graphql()`:
 
 ```javascript
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 
 import awsconfig from './aws-exports';
 import { createTodo } from './graphql/mutations';
 
 Amplify.configure(awsconfig);
+
+const client = generateClient();
 
 async function createNewTodo() {
   const todo = {
@@ -117,7 +120,10 @@ async function createNewTodo() {
     description: `Realtime and Offline (${new Date().toLocaleString()})`
   };
 
-  return await client.graphql(graphqlOperation(createTodo, { input: todo }));
+  return await client.graphql({
+    query: createTodo,
+    variables: { input: todo }
+  });
 }
 
 const MutationButton = document.getElementById('MutationEventButton');
@@ -133,7 +139,8 @@ MutationButton.addEventListener('click', (evt) => {
 After restarting your app using `npm start` go back to your browser and click **ADD DATA**. You'll see that your application is now submitting events to AppSync and storing records in DynamoDB. Next, update `src/app.js` to list all the items in the database by importing `listTodos` and update the page when a query runs on app start by immediately calling the function:
 
 ```diff
- import { Amplify, API, graphqlOperation } from "aws-amplify";
+ import { Amplify } from "aws-amplify";
+ import { generateClient } from 'aws-amplify/api'
 
  import awsconfig from "./aws-exports";
  import { createTodo } from "./graphql/mutations";
@@ -141,17 +148,19 @@ After restarting your app using `npm start` go back to your browser and click **
 
  Amplify.configure(awsconfig)
 
+ const client = generateClient()
+
  async function createNewTodo() {
    const todo = {
      name: "Use AppSync",
      description: `Realtime and Offline (${new Date().toLocaleString()})`,
    };
 
-   return await client.graphql(graphqlOperation(createTodo, { input: todo }));
+   return await client.graphql({ query: createTodo, { input: todo } });
  }
 
 +async function getData() {
-+  client.graphql(graphqlOperation(listTodos)).then((evt) => {
++  client.graphql({ query: listTodos }).then((evt) => {
 +    evt.data.listTodos.items.map((todo, i) => {
 +      QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
 +    });
@@ -189,11 +198,11 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
      description: `Realtime and Offline (${new Date().toLocaleString()})`,
    };
 
-   return await client.graphql(graphqlOperation(createTodo, { input: todo }));
+   return await client.graphql({ query: createTodo, { input: todo }});
  }
 
  async function getData() {
-   client.graphql(graphqlOperation(listTodos)).then((evt) => {
+   client.graphql({ query: listTodos }).then((evt) => {
      evt.data.listTodos.items.map((todo, i) => {
        QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
      });
@@ -211,7 +220,7 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
    });
  });
 
-+client.graphql(graphqlOperation(onCreateTodo)).subscribe({
++client.graphql({ query: onCreateTodo }).subscribe({
 +  next: (evt) => {
 +    const todo = evt.value.data.onCreateTodo;
 +    SubscriptionResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;

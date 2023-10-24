@@ -61,12 +61,15 @@ A code example of this using the JS Library:
 
 ```js
 import React, { useState } from 'react';
-import { Amplify, Storage, API, graphqlOperation } from 'aws-amplify';
+import { Amplify, Storage } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import awsconfig from './aws-exports';
 import { speakTranslatedImageText } from './graphql/queries';
 
 /* Configure Exports */
 Amplify.configure(awsconfig);
+
+const client = generateClient();
 
 function SpeakTranslatedImage() {
   const [src, setSrc] = useState('');
@@ -117,9 +120,10 @@ async function speakTranslatedImageTextOP(key) {
     identifyText: { key },
     convertTextToSpeech: { voiceID: 'Conchita' }
   };
-  const response = await client.graphql(
-    graphqlOperation(speakTranslatedImageText, { input: inputObj })
-  );
+  const response = await client.graphql({
+    query: speakTranslatedImageText,
+    variables: { input: inputObj }
+  });
   return response.data.speakTranslatedImageText;
 }
 function App() {

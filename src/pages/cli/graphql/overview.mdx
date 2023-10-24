@@ -269,7 +269,7 @@ const result = await client.graphql({
 Use the GraphQL query statement to list all todos in your app:
 
 ```js
-const result = await client.graphql({ query: listTodos })
+const result = await API.graphql({ query: listTodos })
 console.log(result)
 ```
 
@@ -280,7 +280,7 @@ You should see the record created above: `My first todo!`.
 To update the record use the GraphQL update mutation:
 
 ```js
-const result = await client.graphql({
+const result = await API.graphql({
   query: updateTodo, 
   variables: {
     input: {
@@ -299,7 +299,7 @@ The result should contain the updated value: `My first updated todo!`.
 Let's clean up your database! Delete the todo by using the delete mutation:
 
 ```js
-const result = await client.graphql({
+const result = await API.graphql({
   query: deleteTodo,
   variables: {
     input: {

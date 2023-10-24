@@ -8,15 +8,13 @@ Subscriptions is a GraphQL feature allowing the server to send data to its clien
 <Block name="TypeScript">
 
 ```ts
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
-import { GraphQLSubscription } from '@aws-amplify/api';
+import { generateClient } from 'aws-amplify/api';
 import * as subscriptions from './graphql/subscriptions';
-import { OnCreateTodoSubscription } from './API';
 
 // Subscribe to creation of Todo
-const sub = client.graphql(
-  graphqlOperation(subscriptions.onCreateTodo)
-).subscribe({
+const sub = client.graphql({
+  query: subscriptions.onCreateTodo
+}).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: (error) => console.warn(error)
 });
@@ -30,13 +28,13 @@ sub.unsubscribe();
 <Block name="JavaScript">
 
 ```js
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import * as subscriptions from './graphql/subscriptions';
 
 // Subscribe to creation of Todo
-const sub = client.graphql(
-  graphqlOperation(subscriptions.onCreateTodo)
-).subscribe({
+const sub = client.graphql({
+  query: subscriptions.onCreateTodo
+}).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: (error) => console.warn(error)
 });
@@ -75,19 +73,16 @@ Subscriptions take an optional `filter` argument to define service-side subscrip
 
 ```ts
 // ...
-import { GraphQLSubscription } from '@aws-amplify/api';
-import { OnCreateTodoSubscriptionVariables, OnCreateTodoSubscription } from './API';
-
-const variables: OnCreateTodoSubscriptionVariables = {
+const variables = {
   filter: {
     // Only receive Todo messages where the "type" field is "Personal"
     type: { eq: "Personal" }
   }
 }
 
-const sub = client.graphql(
-  graphqlOperation(subscriptions.onCreateTodo, variables)
-).subscribe({
+const sub = client.graphql({
+  query: subscriptions.onCreateTodo
+}).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: error => console.warn(error)
 });
@@ -107,9 +102,9 @@ const variables = {
   }
 }
 
-const sub = client.graphql(
-  graphqlOperation(subscriptions.onCreateTodo, variables)
-).subscribe({
+const sub = client.graphql({
+  query: subscriptions.onCreateTodo
+}).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: error => console.warn(error)
 });
@@ -157,14 +152,11 @@ import jsReconnectDescription from '/src/fragments/lib/pubsub/js/reconnect-descr
 <Block name="TypeScript">
 
 ```ts
-// ...
-import { GraphQLQuery, GraphQLSubscription } from '@aws-amplify/api';
-import {
-  ListTodosQuery
-  OnCreateTodoSubscription,
-  OnUpdateTodoSubscription,
-  OnDeleteTodoSubscription
-} from './API';
+import { generateClient } from 'aws-amplify/api';
+import * as queries from './graphql/queries'
+import * as subscriptions from './graphql/subscriptions'
+
+const client = generateClient()
 
 const fetchRecentData = () => {
   // Retrieve some/all data from AppSync
@@ -188,21 +180,21 @@ Hub.listen("api", (data: any) => {
   }
 });
 
-const createSub = client.graphql(
-  graphqlOperation(subscriptions.onCreateTodo)
-).subscribe({
+const createSub = client.graphql({
+  query: subscriptions.onCreateTodo
+}).subscribe({
   next: data => // Process incoming messages
 });
 
-const updateSub = client.graphql(
-  graphqlOperation(subscriptions.onUpdateTodo)
-).subscribe({
+const updateSub = client.graphql({
+  query: subscriptions.onUpdateTodo
+}).subscribe({
   next: data => // Process incoming messages
 });
 
-const deleteSub = client.graphql(
-  graphqlOperation(subscriptions.onDeleteTodo)
-).subscribe({
+const deleteSub = client.graphql({
+  query: subscriptions.onDeleteTodo
+}).subscribe({
   next: data => // Process incoming messages
 });
 
@@ -218,7 +210,11 @@ const cleanupSubscriptions = () => {
 <Block name="JavaScript">
 
 ```js
-// ...
+import { generateClient } from 'aws-amplify/api';
+import * as queries from './graphql/queries'
+import * as subscriptions from './graphql/subscriptions'
+
+const client = generateClient()
 
 const fetchRecentData = () => {
   // Retrieve some/all data from AppSync

@@ -464,8 +464,11 @@ type Post @model @auth(rules: [
 }
 ```
 ```js
+import { generateClient } from 'aws-amplify/api'
 import { createPost } from './graphql/mutations';
 import { listPosts } from './graphql/queries';
+
+const client = generateClient()
 
 // Creating a post is restricted to Cognito User Pools
 const newPostResult = await client.graphql({

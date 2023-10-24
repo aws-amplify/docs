@@ -158,7 +158,7 @@ import {
   Pressable,
   SafeAreaView,
 } from 'react-native';
-import {API, graphqlOperation} from 'aws-amplify';
+import { generateClient } from 'aws-amplify';
 import {createTodo} from './src/graphql/mutations';
 import {listTodos} from './src/graphql/queries';
 
@@ -182,7 +182,7 @@ const App = () => {
 
   async function fetchTodos() {
     try {
-      const todoData = await client.graphql(graphqlOperation(listTodos));
+      const todoData = await client.graphql({ query: listTodos });
       const todos = todoData.data.listTodos.items;
       setTodos(todos);
     } catch (err) {
@@ -196,7 +196,7 @@ const App = () => {
       const todo = {...formState};
       setTodos([...todos, todo]);
       setFormState(initialState);
-      await client.graphql(graphqlOperation(createTodo, {input: todo}));
+      await client.graphql({ query: createTodo, variables: { input: todo }});
     } catch (err) {
       console.log('error creating todo:', err);
     }
@@ -262,7 +262,7 @@ import {
   Pressable,
   SafeAreaView,
 } from 'react-native';
-import {API, graphqlOperation} from 'aws-amplify';
+import {generateClient} from 'aws-amplify/api';
 import {createTodo} from './src/graphql/mutations';
 import {listTodos} from './src/graphql/queries';
 
@@ -282,7 +282,7 @@ const App = () => {
 
   async function fetchTodos() {
     try {
-      const todoData = await client.graphql(graphqlOperation(listTodos));
+      const todoData = await client.graphql({ query: listTodos });
       const todos = todoData.data.listTodos.items;
       setTodos(todos);
     } catch (err) {
@@ -296,7 +296,7 @@ const App = () => {
       const todo = {...formState};
       setTodos([...todos, todo]);
       setFormState(initialState);
-      await client.graphql(graphqlOperation(createTodo, {input: todo}));
+      await client.graphql({ query: createTodo, variables: { input: todo }});
     } catch (err) {
       console.log('error creating todo:', err);
     }

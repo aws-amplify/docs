@@ -1,4 +1,4 @@
-## CANCEL API requests
+## Cancel API requests
 
 You may cancel any query or mutation request made through API category by keeping a reference to the promise returned.
 
@@ -28,6 +28,10 @@ client.cancel(promise, "my message for cancellation");
 You need to ensure that the promise returned from `client.graphql()` has not been modified. Typically async functions wrap the promise being returned into another promise. For example, the following will not work
 
 ```javascript
+import { generateClient } from 'aws-amplify/api';
+
+const client = generateClient();
+
 async function makeAPICall() {
   return client.graphql({ query: '...' });
 }

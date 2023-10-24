@@ -133,12 +133,15 @@ A code example of this using the JS Library is shown below:
 
 ```js
 import React, { useState } from 'react';
-import { Amplify, Storage, API } from 'aws-amplify';
+import { Amplify, Storage } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import awsconfig from './aws-exports';
 import { speakTranslatedImageText } from './graphql/queries';
 
 /* Configure Exports */
 Amplify.configure(awsconfig);
+
+const client = generateClient();
 
 function SpeakTranslatedImage() {
   const [src, setSrc] = useState('');

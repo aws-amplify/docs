@@ -37,11 +37,14 @@ query QueryAllTodos {
 }
 ```
 ```js
-import { Amplify, API } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api'
 import awsconfig from './aws-exports';
 import { listTodos } from './graphql/queries';
 
 Amplify.configure(awsconfig);
+
+const client = generateClient()
 
 try {
 	const result = await client.graphql({ query: listTodos });
@@ -89,14 +92,17 @@ query QueryInventoryByProductAndWarehouse($productID: ID!, $warehouseID: ID!) {
 }
 ```
 ```js
+import { generateClient } from 'aws-amplify/api'
 import { getInventory } from './graphql/queries';
+
+const client = generateClient()
 
 const params = {
 	productID: 'product-id',
 	warehouseID: 'warehouse-id',
 };
 
-const result = await client.graphql(graphqlOperation(getInventory, params));
+const result = await client.graphql({ query: getInventory, variables: params});
 const inventory = result.data.getInventory;
 ```
 
@@ -133,15 +139,19 @@ query QueryCustomersForAccountRepresentative($accountRepresentativeID: ID!) {
 }
 ```
 ```js
+import { generateClient } from 'aws-amplify/api'
 import { customersByAccountRepresentativeID } from './graphql/queries';
+
+const client = generateClient()
 
 const params = {
 	accountRepresentativeID: 'account-rep-id',
 };
 
-const result = await client.graphql(
-	graphqlOperation(customersByAccountRepresentativeID, params)
-);
+const result = await client.graphql({
+  query: customersByAccountRepresentativeID,
+  variables: params
+});
 const customers = result.data.customersByAccountRepresentativeID;
 ```
 
@@ -170,15 +180,19 @@ query QueryCustomersForAccountRepresentative($representativeId: ID!) {
 }
 ```
 ```js
+import { generateClient } from 'aws-amplify/api'
 import { customerByRepresentative } from './graphql/queries';
+
+const client = generateClient()
 
 const params = {
 	accountRepresentativeID: 'account-rep-id',
 };
 
-const result = await client.graphql(
-	graphqlOperation(customerByRepresentative, params)
-);
+const result = await client.graphql({
+  query: customerByRepresentative,
+  variables: params
+});
 const customer = result.data.customerByRepresentative;
 ```
 
@@ -206,16 +220,20 @@ query MyQuery {
 }
 ```
 ```js
+import { generateClient } from 'aws-amplify/api'
 import { customerByNameAndPhone } from './graphql/queries';
+
+const client = generateClient()
 
 const params = {
 	phoneNumber: { beginsWith: '+1' },
 	name: 'Rene',
 };
 
-const result = await client.graphql(
-	graphqlOperation(customerByNameAndPhone, params)
-);
+const result = await client.graphql({
+  query: customerByNameAndPhone,
+  variables: params
+});
 const customer = result.data.customerByNameAndPhone;
 ```
 
@@ -267,13 +285,19 @@ mutation CreateProject {
 }
 ```
 ```js
+import { generateClient } from 'aws-amplify/api'
 import { createProject } from './graphql/mutations';
+
+const client = generateClient()
 
 const params = {
 	input: { projectTeamId: 'team-id', name: 'Some Name' },
 };
 
-const result = await client.graphql(graphqlOperation(createProject, params));
+const result = await client.graphql({
+  query: createProject,
+  variables: params
+});
 const project = result.data.createProject;
 ```
 
@@ -308,13 +332,19 @@ mutation CreateProject {
 }
 ```
 ```js
+import { generateClient } from 'aws-amplify/api'
 import { createProject } from './graphql/mutations';
+
+const client = generateClient()
 
 const params = {
 	input: { teamID: 'team-id', name: 'New Project' },
 };
 
-const result = await client.graphql(graphqlOperation(createProject, params));
+const result = await client.graphql({
+  query: createProject, 
+  variables: params
+});
 const project = result.data.createProject;
 ```
 
@@ -356,13 +386,20 @@ mutation CreatePost {
 }
 ```
 ```js
+import { generateClient } from 'aws-amplify/api'
 import { createPost } from './graphql/mutations';
+
+const client = generateClient()
 
 const params = {
 	input: { title: 'Hello World!!' },
 };
 
-const result = await client.graphql(graphqlOperation(createPost, params));
+const result = await client.graphql({
+  query: createPost,
+  variables: params
+});
+
 const post = result.data.createPost;
 const comments = post.comments.items;
 ```
@@ -408,15 +445,21 @@ mutation CreatePost {
 }
 ```
 ```js
+import { generateClient } from 'aws-amplify/api'
 import { createPost, createComment } from './graphql/mutations';
 import { getPost } from './graphql/mutations';
+
+const client = generateClient()
 
 // create post
 const postParams = {
 	input: { title: 'Hello World!!' },
 };
 
-const result = await client.graphql(graphqlOperation(createPost, postParams));
+const result = await client.graphql({
+  query: createPost,
+  variables: postParams
+});
 const post = result.data.createPost;
 
 // create comment
@@ -424,10 +467,16 @@ const commentParams = {
 	input: { content: 'Hi!', postID: post.id },
 };
 
-await client.graphql(graphqlOperation(createComment, commentParams));
+await client.graphql({
+  query: createComment, 
+  variables: commentParams
+});
 
 // get post
-const result = await client.graphql(graphqlOperation(getPost, { id: post.id }));
+const result = await client.graphql({
+  query: getPost,
+  variables: { id: post.id }
+});
 const postWithComments = result.data.createPost;
 const postComments = postWithComments.comments.items; // access comments from post
 ```
@@ -475,14 +524,20 @@ mutation CreateProject {
 }
 ```
 ```js
+import { generateClient } from 'aws-amplify/api'
 import { createProject, createTeam, updateTeam } from './graphql/mutations';
+
+const client = generateClient()
 
 // create team
 const teamParams = {
 	input: { name: 'New Team' },
 };
 
-const result = await client.graphql(graphqlOperation(createTeam, teamParams));
+const result = await client.graphql({
+  query: createTeam,
+  variables: teamParams
+});
 const team = result.data.createTeam;
 
 // create project
@@ -490,9 +545,10 @@ const projectParams = {
 	input: { name: 'New Project', projectTeamId: team.id },
 };
 
-const result = await client.graphql(
-	graphqlOperation(createProject, projectParams)
-);
+const result = await client.graphql({
+	query: createProject,
+  variables: projectParams
+});
 const project = result.data.createProject;
 const projectTeam = project.team; // access team from project
 
@@ -501,9 +557,10 @@ const updateParams = {
 	input: { id: team.id, teamProjectId: project.id },
 };
 
-const updateTeamResult = await client.graphql(
-	graphqlOperation(updateTeam, updateParams)
-);
+const updateTeamResult = await client.graphql({
+	query: updateTeam,
+  variables: updateParams
+});
 
 const updatedTeam = updateTeamResult.data.updateTeam;
 const teamProject = updatedTeam.project; // access project from team
@@ -548,15 +605,21 @@ mutation CreatePost {
 }
 ```
 ```js
+import { generateClient } from 'aws-amplify/api'
 import { createPost, createComment } from './graphql/mutations';
 import { getPost } from './graphql/mutations';
+
+const client = generateClient()
 
 // create post
 const postParams = {
 	input: { title: 'Hello World!!' },
 };
 
-const result = await client.graphql(graphqlOperation(createPost, postParams));
+const result = await client.graphql({
+  query: createPost,
+  variables: postParams
+});
 const post = result.data.createPost;
 
 // create comment
@@ -564,10 +627,16 @@ const commentParams = {
 	input: { content: 'Hi!', postID: post.id },
 };
 
-await client.graphql(graphqlOperation(createComment, commentParams));
+await client.graphql({
+  query: createComment,
+  variables: commentParams
+});
 
 // get post
-const result = await client.graphql(graphqlOperation(getPost, { id: post.id }));
+const result = await client.graphql({
+  query: getPost,
+  variables: { id: post.id }
+});
 const postWithComments = result.data.createPost;
 const postComments = postWithComments.comments.items; // access comments from post
 
@@ -645,15 +714,21 @@ mutation CreatePost {
 }
 ```
 ```js
+import { generateClient } from 'aws-amplify/api'
 import { createPost, createTag, createPostTags } from './graphql/mutations';
 import { listPosts } from './graphql/queries';
+
+const client = generateClient()
 
 // create post
 const postParams = {
 	input: { title: 'Hello World' },
 };
 
-const result = await client.graphql(graphqlOperation(createPost, postParams));
+const result = await client.graphql({
+  query: createPost,
+  variables: postParams
+});
 const post = result.data.createPost;
 
 // create tag
@@ -663,7 +738,10 @@ const tagParams = {
 	},
 };
 
-const tagResult = await client.graphql(graphqlOperation(createTag, tagParams));
+const tagResult = await client.graphql({
+  query: createTag,
+  variables: tagParams
+});
 const tag = tagResult.data.createTag;
 
 // connect post and tag
@@ -674,10 +752,16 @@ const postTagParams = {
 	},
 };
 
-await client.graphql(graphqlOperation(createPostTags, postTagParams));
+await client.graphql({
+  query: createPostTags,
+  variables: postTagParams
+});
 
 // get posts
-const listPostsResult = await client.graphql(graphqlOperation(listPosts));
+const listPostsResult = await client.graphql({
+  query: listPosts
+});
+
 const posts = listPostsResult.data.listPosts;
 
 const postTags = posts[0].tags; // access tags from post
@@ -729,7 +813,10 @@ subscription OnCreateTask {
 }
 ```
 ```js
+import { generateClient } from 'aws-amplify/api'
 import { onCreateTask } from './graphql/subscriptions';
+
+const client = generateClient()
 
 const filter = {
 	and: [
@@ -738,7 +825,10 @@ const filter = {
   ]
 };
 
-const subscription = client.graphql(graphqlOperation(onCreateTask, filter)).subscribe({
+const subscription = client.graphql({
+  query: onCreateTask,
+  variables: filter
+}).subscribe({
 	next: ({ provider, value }) => console.log({ provider, value }),
 	error: (error) => console.warn(error)
 });

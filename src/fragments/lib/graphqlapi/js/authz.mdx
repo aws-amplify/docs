@@ -74,7 +74,10 @@ The following example assumes `AWS_LAMBDA` is configured as the default authenti
 <Block name="TypeScript">
 
 ```ts
-// ...
+import { generateClient } from '@aws-amplify/api';
+import * as mutations from './graphql/mutations';
+
+const client = generateClient()
 
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
@@ -90,7 +93,10 @@ const createdTodo = await client.graphql({
 <Block name="JavaScript">
 
 ```js
-// ...
+import { generateClient } from '@aws-amplify/api';
+import * as mutations from './graphql/mutations';
+
+const client = generateClient()
 
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
@@ -111,9 +117,8 @@ If you have a different default authentication type and would like to use `AWS_L
 <Block name="TypeScript">
 
 ```ts
-// ...
 import { generateClient, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
-import { CreateTodoMutation } from './API';
+import * as mutations from './graphql/mutations';
 
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
@@ -132,8 +137,8 @@ const createdTodo = await client.graphql({
 <Block name="JavaScript">
 
 ```js
-// ...
 import { generateClient, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import * as mutations from './graphql/mutations';
 
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();

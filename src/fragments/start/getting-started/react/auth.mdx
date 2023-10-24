@@ -94,7 +94,8 @@ Now you should see the app load with an authentication flow allowing users to si
 ```javascript
 /* src/App.js */
 import React, { useEffect, useState } from 'react';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { createTodo } from './graphql/mutations';
 import { listTodos } from './graphql/queries';
 import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react';
@@ -102,6 +103,8 @@ import '@aws-amplify/ui-react/styles.css';
 
 import awsExports from './aws-exports';
 Amplify.configure(awsExports);
+
+const client = generateClient();
 
 const initialState = { name: '', description: '' };
 
@@ -119,7 +122,7 @@ const App = ({ signOut, user }) => {
 
   async function fetchTodos() {
     try {
-      const todoData = await client.graphql(graphqlOperation(listTodos));
+      const todoData = await client.graphql({ query: listTodos });
       const todos = todoData.data.listTodos.items;
       setTodos(todos);
     } catch (err) {
@@ -133,7 +136,7 @@ const App = ({ signOut, user }) => {
       const todo = { ...formState };
       setTodos([...todos, todo]);
       setFormState(initialState);
-      await client.graphql(graphqlOperation(createTodo, { input: todo }));
+      await client.graphql({ query: createTodo, variables: { input: todo } });
     } catch (err) {
       console.log('error creating todo:', err);
     }
