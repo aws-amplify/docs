@@ -1186,7 +1186,8 @@ It is important to understand when these mismatches can occur and to add meaning
 
 ```ts
 import { useState } from "react";
-import { API, Storage } from "aws-amplify";
+import { Storage } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { GraphQLQuery } from "@aws-amplify/api";
@@ -1201,6 +1202,8 @@ import {
   UpdateSongInput,
   UpdateSongMutation,
 } from "./API";
+
+const client = generateClient()
 
 function App() {
   const [currentSong, setCurrentSong] = useState<any>();
@@ -1497,11 +1500,14 @@ export default App;
 
 ```js
 import { useState } from "react";
-import { API, Storage } from "aws-amplify";
+import { Storage } from "aws-amplify";
+import { generateClient } from 'aws-amplify/api'
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import * as queries from "./graphql/queries";
 import * as mutations from "./graphql/mutations";
+
+const client = generateClient()
 
 function App() {
   const [currentSong, setCurrentSong] = useState();
@@ -1797,7 +1803,8 @@ export default App;
 
 ```ts
 import { useState } from "react";
-import { API, Storage } from "aws-amplify";
+import { Storage } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { GraphQLQuery } from "@aws-amplify/api";
@@ -1813,6 +1820,8 @@ import {
   UpdatePhotoAlbumInput,
   UpdatePhotoAlbumMutation,
 } from "./API";
+
+const client = generateClient();
 
 function App() {
   const [currentPhotoAlbum, setCurrentPhotoAlbum] = useState<any>();
@@ -2327,11 +2336,14 @@ export default App;
 
 ```js
 import { useState } from "react";
-import { API, Storage } from "aws-amplify";
+import { Storage } from "aws-amplify";
+import { generateClient } from "aws-amplify/api"
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import * as queries from "./graphql/queries";
 import * as mutations from "./graphql/mutations";
+
+const client = generateClient();
 
 function App() {
   const [currentPhotoAlbum, setCurrentPhotoAlbum] = useState();

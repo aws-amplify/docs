@@ -723,7 +723,7 @@ root.render(
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useIsFetching } from "@tanstack/react-query";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import * as mutations from "./graphql/mutations";
 import * as queries from "./graphql/queries";
 import { GraphQLQuery } from "@aws-amplify/api";
@@ -758,6 +758,8 @@ function App() {
 
   // Access the client
   const queryClient = useQueryClient();
+
+  const client = generateClient()
 
   // TanStack Query for listing all real estate properties:
   const {
@@ -1232,7 +1234,7 @@ root.render(
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useIsFetching } from "@tanstack/react-query";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import * as mutations from "./graphql/mutations";
 import * as queries from "./graphql/queries";
 
@@ -1255,6 +1257,8 @@ function App() {
 
   // Access the client
   const queryClient = useQueryClient();
+
+  const client = generateClient();
 
   // TanStack Query for listing all real estate properties:
   const {

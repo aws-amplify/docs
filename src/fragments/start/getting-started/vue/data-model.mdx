@@ -145,8 +145,10 @@ To create a new todo in the database, use the `client.graphql()` operation with 
 </template>
 
 <script>
-  import { API } from 'aws-amplify';
+  import { generateClient } from 'aws-amplify';
   import { createTodo } from './graphql/mutations';
+
+  const client = generateClient();
 
   export default {
     name: 'app',
@@ -192,9 +194,11 @@ To display the data, update `App.vue` to list all the items in the database by i
 </template>
 
 <script>
-  import { API } from 'aws-amplify';
+  import { generateClient } from 'aws-amplify/api';
   import { createTodo } from './graphql/mutations';
   import { listTodos } from './graphql/queries';
+
+  const client = generateClient();
 
   export default {
     name: 'App',

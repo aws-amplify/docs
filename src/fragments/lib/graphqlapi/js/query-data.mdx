@@ -62,38 +62,6 @@ const oneTodo = await client.graphql({
 </Block>
 </BlockSwitcher>
 
-You can optionally import the `graphqlOperation` helper function to help you construct this argument object:
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { API, graphqlOperation } from 'aws-amplify';
-import { GraphQLQuery } from '@aws-amplify/api';
-import { GetTodoQuery } from './API';
-// ...
-
-const oneTodo = await client.graphql(
-  graphqlOperation(queries.getTodo, { id: 'some id' })
-);
-```
-
-</Block>
-
-<Block name="JavaScript">
-
-```js
-import { API, graphqlOperation } from 'aws-amplify';
-// ...
-
-const oneTodo = await client.graphql(
-  graphqlOperation(queries.getTodo, { id: 'some id' })
-);
-```
-
-</Block>
-</BlockSwitcher>
-
 ### Custom authorization mode
 
 By default, each AppSync API will be set with a default authorization mode when you configure your app. If you would like to override the default authorization mode, you can do so by passing in an `authMode` property. For example, this is useful when you have public reads via API Key auth and authenticated reads via IAM auth.
@@ -104,10 +72,12 @@ By default, each AppSync API will be set with a default authorization mode when 
 <Block name="TypeScript">
 
 ```ts
-import { API } from 'aws-amplify';
-import { GraphQLQuery, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import { generateClient } from 'aws-amplify/api';
+import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
 import * as queries from './graphql/queries';
 import { GetTodoQuery } from './API';
+
+const client = generateClient()
 
 const todos = await client.graphql({
   query: queries.listTodos,
@@ -120,10 +90,11 @@ const todos = await client.graphql({
 <Block name="JavaScript">
 
 ```js
-import { API } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
 import * as queries from './graphql/queries';
 
+const client = generateClient()
 
 const todos = await client.graphql({
   query: queries.listTodos,
@@ -180,9 +151,11 @@ These vary based on the type of the field, but are linked to corresponding [Dyna
 <Block name="TypeScript">
 
 ```ts
-import { ListTodosQueryVariables, ListTodosQuery } from './API';
+import { generateClient } from 'aws-amplify/api'
 
-const variables: ListTodosQueryVariables = {
+const client = generateClient()
+
+const variables = {
   filter: {
     priority: {
       eq: 1
@@ -200,6 +173,10 @@ await client.graphql({
 <Block name="JavaScript">
 
 ```js
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
+
 const variables = {
   filter: {
     priority: {
@@ -209,7 +186,8 @@ const variables = {
 };
 
 await client.graphql({ 
-  query: listTodos, variables: variables 
+  query: listTodos,
+  variables: variables 
 });;
 ```
 
@@ -224,9 +202,11 @@ You can combine filters with `and`, `or`, and `not` boolean logic. Observe, in t
 <Block name="TypeScript">
 
 ```ts
-import { ListTodosQueryVariables, ListTodosQuery } from './API';
+import { generateClient } from 'aws-amplify/api'
 
-const variables: ListTodosQueryVariables = {
+const client = generateClient()
+
+const variables = {
   filter: {
     or: [
       { priority: { eq:1 } },
@@ -245,6 +225,10 @@ await client.graphql({
 <Block name="JavaScript">
 
 ```js
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
+
 const variables = {
   filter: {
     or: [
@@ -272,7 +256,9 @@ Pagination in AppSync is done by making a request with a `limit`, and getting ba
 <Block name="TypeScript">
 
 ```ts
-import { ListTodosQueryVariables, ListTodosQuery } from './API';
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
 
 // Fetch first 20 records
 const variables: ListTodosQueryVariables = {
@@ -301,6 +287,10 @@ const { items: itemsPage2 } = res.data?.listTodos;
 <Block name="JavaScript">
 
 ```js
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
+
 // Fetch first 20 records
 const variables = {
   limit: 20, 
