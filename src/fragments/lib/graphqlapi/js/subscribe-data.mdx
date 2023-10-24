@@ -14,7 +14,7 @@ import * as subscriptions from './graphql/subscriptions';
 import { OnCreateTodoSubscription } from './API';
 
 // Subscribe to creation of Todo
-const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
+const sub = client.graphql(
   graphqlOperation(subscriptions.onCreateTodo)
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
@@ -34,7 +34,7 @@ import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import * as subscriptions from './graphql/subscriptions';
 
 // Subscribe to creation of Todo
-const sub = API.graphql(
+const sub = client.graphql(
   graphqlOperation(subscriptions.onCreateTodo)
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
@@ -85,7 +85,7 @@ const variables: OnCreateTodoSubscriptionVariables = {
   }
 }
 
-const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
+const sub = client.graphql(
   graphqlOperation(subscriptions.onCreateTodo, variables)
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
@@ -107,7 +107,7 @@ const variables = {
   }
 }
 
-const sub = API.graphql(
+const sub = client.graphql(
   graphqlOperation(subscriptions.onCreateTodo, variables)
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
@@ -168,7 +168,7 @@ import {
 
 const fetchRecentData = () => {
   // Retrieve some/all data from AppSync
-  const allTodos = await API.graphql<GraphQLQuery<ListTodosQuery>>({ 
+  const allTodos = await client.graphql({ 
     query: queries.listTodos 
   });
 }
@@ -188,19 +188,19 @@ Hub.listen("api", (data: any) => {
   }
 });
 
-const createSub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
+const createSub = client.graphql(
   graphqlOperation(subscriptions.onCreateTodo)
 ).subscribe({
   next: data => // Process incoming messages
 });
 
-const updateSub = API.graphql<GraphQLSubscription<OnUpdateTodoSubscription>>(
+const updateSub = client.graphql(
   graphqlOperation(subscriptions.onUpdateTodo)
 ).subscribe({
   next: data => // Process incoming messages
 });
 
-const deleteSub = API.graphql<GraphQLSubscription<OnDeleteTodoSubscription>>(
+const deleteSub = client.graphql(
   graphqlOperation(subscriptions.onDeleteTodo)
 ).subscribe({
   next: data => // Process incoming messages
@@ -222,7 +222,7 @@ const cleanupSubscriptions = () => {
 
 const fetchRecentData = () => {
   // Retrieve some/all data from AppSync
-  const allTodos = await API.graphql({ query: queries.listTodos });
+  const allTodos = await client.graphql({ query: queries.listTodos });
 }
 
 let priorConnectionState: ConnectionState;
@@ -240,19 +240,19 @@ Hub.listen("api", (data: any) => {
   }
 });
 
-const createSub = API.graphql(
+const createSub = client.graphql(
   graphqlOperation(subscriptions.onCreateTodo)
 ).subscribe({
   next: data => // Process incoming messages
 });
 
-const updateSub = API.graphql(
+const updateSub = client.graphql(
   graphqlOperation(subscriptions.onUpdateTodo)
 ).subscribe({
   next: data => // Process incoming messages
 });
 
-const deleteSub = API.graphql(
+const deleteSub = client.graphql(
   graphqlOperation(subscriptions.onDeleteTodo)
 ).subscribe({
   next: data => // Process incoming messages

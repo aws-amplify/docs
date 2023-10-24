@@ -154,25 +154,31 @@ Now that the backend is created, how can you interact with it to save and read p
 Here is the code that you could use to save a product and image to the API:
 
 ```js
-import { Storage, API } from 'aws-amplify';
+import { Storage } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api'
 import { createProduct } from './graphql/mutations';
+
+const client = generateClient()
 
 async function saveProduct() {
   const fileName = "product-image-1";
   await Storage.put(fileName, file);
   const product = { name: "Product 1", description: "Black dress", price: 200, image: fileName };
-  await API.graphql({ query: createProduct, variables: { input: product }});
+  await client.graphql({ query: createProduct, variables: { input: product }});
 }
 ```
 
 Here is the code that you could use to query a product and corresponding image from the API:
 
 ```javascript
-import { Storage, API } from 'aws-amplify';
+import { Storage } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api'
 import { getProduct } from './graphql/mutations';
 
+const client = generateClient()
+
 async function getProductById () {
-  const product = await API.graphql({ query: getProduct, variables: { id: "12345" }});
+  const product = await client.graphql({ query: getProduct, variables: { id: "12345" }});
   const s3Image = await Storage.get(product.data.getProduct.image);
   product.data.getProduct.s3Image = s3Image;
   console.log('product:', product);
@@ -182,11 +188,14 @@ async function getProductById () {
 Here is the code that you could use to query an array of products and images from the API:
 
 ```javascript
-import { Storage, API } from 'aws-amplify';
+import { Storage } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api'
 import { listProducts } from './graphql/mutations';
 
+const client = generateClient()
+
 async function listProductsWithImages () {
-  const productData = await API.graphql({ query: listProducts });
+  const productData = await client.graphql({ query: listProducts });
   const products = await Promise.all(productData.data.listProducts.items.map(async product => {
     const image = await Storage.get(product.image)
     product.s3Image = image

@@ -132,7 +132,7 @@ Next, open **App.vue**.
 
 ### Writing data with GraphQL mutations
 
-To create a new todo in the database, use the `API.graphql()` operation with the `createTodo` mutation and pass in the data you'd like to write.
+To create a new todo in the database, use the `client.graphql()` operation with the `createTodo` mutation and pass in the data you'd like to write.
 
 ```html
 <template>
@@ -161,7 +161,7 @@ To create a new todo in the database, use the `API.graphql()` operation with the
         const { name, description } = this;
         if (!name || !description) return;
         const todo = { name, description };
-        await API.graphql({
+        await client.graphql({
           query: createTodo,
           variables: { input: todo }
         });
@@ -214,7 +214,7 @@ To display the data, update `App.vue` to list all the items in the database by i
         if (!name || !description) return;
         const todo = { name, description };
         this.todos = [...this.todos, todo];
-        await API.graphql({
+        await client.graphql({
           query: createTodo,
           variables: { input: todo }
         });
@@ -222,7 +222,7 @@ To display the data, update `App.vue` to list all the items in the database by i
         this.description = '';
       },
       async getTodos() {
-        const todos = await API.graphql({
+        const todos = await client.graphql({
           query: listTodos
         });
         this.todos = todos.data.listTodos.items;
@@ -234,7 +234,7 @@ To display the data, update `App.vue` to list all the items in the database by i
 
 ### Real-time data with GraphQL subscriptions
 
-Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
+Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `client.graphql()` like so:
 
 ```html
 <script>
@@ -250,7 +250,7 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
     methods: {
       // other methods
       subscribe() {
-        API.graphql({ query: onCreateTodo }).subscribe({
+        client.graphql({ query: onCreateTodo }).subscribe({
           next: (eventData) => {
             let todo = eventData.value.data.onCreateTodo;
             if (this.todos.some((item) => item.name === todo.name)) return; // remove duplications

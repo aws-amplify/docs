@@ -101,7 +101,7 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 
 ## Connect frontend to API
 
-Update your `src/app.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
+Update your `src/app.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `client.graphql()`:
 
 ```javascript
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
@@ -117,7 +117,7 @@ async function createNewTodo() {
     description: `Realtime and Offline (${new Date().toLocaleString()})`
   };
 
-  return await API.graphql(graphqlOperation(createTodo, { input: todo }));
+  return await client.graphql(graphqlOperation(createTodo, { input: todo }));
 }
 
 const MutationButton = document.getElementById('MutationEventButton');
@@ -147,11 +147,11 @@ After restarting your app using `npm start` go back to your browser and click **
      description: `Realtime and Offline (${new Date().toLocaleString()})`,
    };
 
-   return await API.graphql(graphqlOperation(createTodo, { input: todo }));
+   return await client.graphql(graphqlOperation(createTodo, { input: todo }));
  }
 
 +async function getData() {
-+  API.graphql(graphqlOperation(listTodos)).then((evt) => {
++  client.graphql(graphqlOperation(listTodos)).then((evt) => {
 +    evt.data.listTodos.items.map((todo, i) => {
 +      QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
 +    });
@@ -171,7 +171,7 @@ After restarting your app using `npm start` go back to your browser and click **
 +getData();
 ```
 
-Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
+Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `client.graphql()` like so:
 
 ```diff
  import { Amplify, API, graphqlOperation } from "aws-amplify";
@@ -189,11 +189,11 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
      description: `Realtime and Offline (${new Date().toLocaleString()})`,
    };
 
-   return await API.graphql(graphqlOperation(createTodo, { input: todo }));
+   return await client.graphql(graphqlOperation(createTodo, { input: todo }));
  }
 
  async function getData() {
-   API.graphql(graphqlOperation(listTodos)).then((evt) => {
+   client.graphql(graphqlOperation(listTodos)).then((evt) => {
      evt.data.listTodos.items.map((todo, i) => {
        QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
      });
@@ -211,7 +211,7 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
    });
  });
 
-+API.graphql(graphqlOperation(onCreateTodo)).subscribe({
++client.graphql(graphqlOperation(onCreateTodo)).subscribe({
 +  next: (evt) => {
 +    const todo = evt.value.data.onCreateTodo;
 +    SubscriptionResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;

@@ -44,7 +44,7 @@ import { listTodos } from './graphql/queries';
 Amplify.configure(awsconfig);
 
 try {
-	const result = await API.graphql({ query: listTodos });
+	const result = await client.graphql({ query: listTodos });
 	const todos = result.data.listTodos;
 } catch (res) {
 	const { errors } = res;
@@ -96,7 +96,7 @@ const params = {
 	warehouseID: 'warehouse-id',
 };
 
-const result = await API.graphql(graphqlOperation(getInventory, params));
+const result = await client.graphql(graphqlOperation(getInventory, params));
 const inventory = result.data.getInventory;
 ```
 
@@ -139,7 +139,7 @@ const params = {
 	accountRepresentativeID: 'account-rep-id',
 };
 
-const result = await API.graphql(
+const result = await client.graphql(
 	graphqlOperation(customersByAccountRepresentativeID, params)
 );
 const customers = result.data.customersByAccountRepresentativeID;
@@ -176,7 +176,7 @@ const params = {
 	accountRepresentativeID: 'account-rep-id',
 };
 
-const result = await API.graphql(
+const result = await client.graphql(
 	graphqlOperation(customerByRepresentative, params)
 );
 const customer = result.data.customerByRepresentative;
@@ -213,7 +213,7 @@ const params = {
 	name: 'Rene',
 };
 
-const result = await API.graphql(
+const result = await client.graphql(
 	graphqlOperation(customerByNameAndPhone, params)
 );
 const customer = result.data.customerByNameAndPhone;
@@ -273,7 +273,7 @@ const params = {
 	input: { projectTeamId: 'team-id', name: 'Some Name' },
 };
 
-const result = await API.graphql(graphqlOperation(createProject, params));
+const result = await client.graphql(graphqlOperation(createProject, params));
 const project = result.data.createProject;
 ```
 
@@ -314,7 +314,7 @@ const params = {
 	input: { teamID: 'team-id', name: 'New Project' },
 };
 
-const result = await API.graphql(graphqlOperation(createProject, params));
+const result = await client.graphql(graphqlOperation(createProject, params));
 const project = result.data.createProject;
 ```
 
@@ -362,7 +362,7 @@ const params = {
 	input: { title: 'Hello World!!' },
 };
 
-const result = await API.graphql(graphqlOperation(createPost, params));
+const result = await client.graphql(graphqlOperation(createPost, params));
 const post = result.data.createPost;
 const comments = post.comments.items;
 ```
@@ -416,7 +416,7 @@ const postParams = {
 	input: { title: 'Hello World!!' },
 };
 
-const result = await API.graphql(graphqlOperation(createPost, postParams));
+const result = await client.graphql(graphqlOperation(createPost, postParams));
 const post = result.data.createPost;
 
 // create comment
@@ -424,10 +424,10 @@ const commentParams = {
 	input: { content: 'Hi!', postID: post.id },
 };
 
-await API.graphql(graphqlOperation(createComment, commentParams));
+await client.graphql(graphqlOperation(createComment, commentParams));
 
 // get post
-const result = await API.graphql(graphqlOperation(getPost, { id: post.id }));
+const result = await client.graphql(graphqlOperation(getPost, { id: post.id }));
 const postWithComments = result.data.createPost;
 const postComments = postWithComments.comments.items; // access comments from post
 ```
@@ -482,7 +482,7 @@ const teamParams = {
 	input: { name: 'New Team' },
 };
 
-const result = await API.graphql(graphqlOperation(createTeam, teamParams));
+const result = await client.graphql(graphqlOperation(createTeam, teamParams));
 const team = result.data.createTeam;
 
 // create project
@@ -490,7 +490,7 @@ const projectParams = {
 	input: { name: 'New Project', projectTeamId: team.id },
 };
 
-const result = await API.graphql(
+const result = await client.graphql(
 	graphqlOperation(createProject, projectParams)
 );
 const project = result.data.createProject;
@@ -501,7 +501,7 @@ const updateParams = {
 	input: { id: team.id, teamProjectId: project.id },
 };
 
-const updateTeamResult = await API.graphql(
+const updateTeamResult = await client.graphql(
 	graphqlOperation(updateTeam, updateParams)
 );
 
@@ -556,7 +556,7 @@ const postParams = {
 	input: { title: 'Hello World!!' },
 };
 
-const result = await API.graphql(graphqlOperation(createPost, postParams));
+const result = await client.graphql(graphqlOperation(createPost, postParams));
 const post = result.data.createPost;
 
 // create comment
@@ -564,10 +564,10 @@ const commentParams = {
 	input: { content: 'Hi!', postID: post.id },
 };
 
-await API.graphql(graphqlOperation(createComment, commentParams));
+await client.graphql(graphqlOperation(createComment, commentParams));
 
 // get post
-const result = await API.graphql(graphqlOperation(getPost, { id: post.id }));
+const result = await client.graphql(graphqlOperation(getPost, { id: post.id }));
 const postWithComments = result.data.createPost;
 const postComments = postWithComments.comments.items; // access comments from post
 
@@ -653,7 +653,7 @@ const postParams = {
 	input: { title: 'Hello World' },
 };
 
-const result = await API.graphql(graphqlOperation(createPost, postParams));
+const result = await client.graphql(graphqlOperation(createPost, postParams));
 const post = result.data.createPost;
 
 // create tag
@@ -663,7 +663,7 @@ const tagParams = {
 	},
 };
 
-const tagResult = await API.graphql(graphqlOperation(createTag, tagParams));
+const tagResult = await client.graphql(graphqlOperation(createTag, tagParams));
 const tag = tagResult.data.createTag;
 
 // connect post and tag
@@ -674,10 +674,10 @@ const postTagParams = {
 	},
 };
 
-await API.graphql(graphqlOperation(createPostTags, postTagParams));
+await client.graphql(graphqlOperation(createPostTags, postTagParams));
 
 // get posts
-const listPostsResult = await API.graphql(graphqlOperation(listPosts));
+const listPostsResult = await client.graphql(graphqlOperation(listPosts));
 const posts = listPostsResult.data.listPosts;
 
 const postTags = posts[0].tags; // access tags from post
@@ -738,7 +738,7 @@ const filter = {
   ]
 };
 
-const subscription = API.graphql(graphqlOperation(onCreateTask, filter)).subscribe({
+const subscription = client.graphql(graphqlOperation(onCreateTask, filter)).subscribe({
 	next: ({ provider, value }) => console.log({ provider, value }),
 	error: (error) => console.warn(error)
 });

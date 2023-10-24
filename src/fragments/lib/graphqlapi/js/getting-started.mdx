@@ -77,40 +77,82 @@ Now that the GraphQL API has deployed, it’s time to learn how to interact with
 <Block name="TypeScript">
 
 ```ts
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
-import { GraphQLQuery } from '@aws-amplify/api';
-import { CreateTodoInput, CreateTodoMutation, UpdateTodoMutation, DeleteTodoMutation } from './API';
 
-const todo: CreateTodoInput = { name: "My first todo", description: "Hello world!" };
+const client = generateClient()
+
+const todo = { name: "My first todo", description: "Hello world!" };
 
 /* create a todo */
-await API.graphql<GraphQLQuery<CreateTodoMutation>>(graphqlOperation(createTodo, {input: todo}));
+await client.graphql({
+  query: createTodo,
+  variables: {
+    input: todo
+  }
+});
 
 /* update a todo */
-await API.graphql<GraphQLQuery<UpdateTodoMutation>>(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
+await client.graphql({
+  query: updateTodo,
+  variables: {
+    input: {
+      id: todoId,
+      name: "Updated todo info"
+    }
+  }
+});
 
 /* delete a todo */
-await API.graphql<GraphQLQuery<DeleteTodoMutation>>(graphqlOperation(deleteTodo, { input: { id: todoId }}));
+await client.graphql({
+  query: deleteTodo,
+  variables: {
+    input: {
+      id: todoId
+    }
+  }
+});
 ```
 
 </Block>
 <Block name="JavaScript">
 
 ```js
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
+
+const client = generateClient()
 
 const todo = { name: "My first todo", description: "Hello world!" };
 
 /* create a todo */
-await API.graphql(graphqlOperation(createTodo, {input: todo}));
+await client.graphql({
+  query: createTodo,
+  variables: {
+    input: todo
+  }
+});
 
 /* update a todo */
-await API.graphql(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
+await client.graphql({
+  query: updateTodo,
+  variables: {
+    input: {
+      id: todoId,
+      name: "Updated todo info"
+    }
+  }
+});
 
 /* delete a todo */
-await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
+await client.graphql({
+  query: deleteTodo,
+  variables: {
+    input: {
+      id: todoId
+    }
+  }
+});
 ```
 
 </Block>
@@ -122,12 +164,12 @@ await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
 <Block name="TypeScript">
 
 ```ts
-import { API, graphqlOperation } from 'aws-amplify';
-import { GraphQLQuery } from '@aws-amplify/api';
+import { generateClient } from 'aws-amplify/api';
 import { listTodos } from './graphql/queries';
-import { ListTodosQuery } from './API';
 
-const todos = await API.graphql<GraphQLQuery<ListTodosQuery>>(graphqlOperation(listTodos));
+const client = generateClient()
+
+const todos = await client.graphql({ query: listTodos });
 ```
 
 </Block>
@@ -136,10 +178,12 @@ const todos = await API.graphql<GraphQLQuery<ListTodosQuery>>(graphqlOperation(l
 <Block name="JavaScript">
 
 ```js
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { listTodos } from './graphql/queries';
 
-const todos = await API.graphql(graphqlOperation(listTodos));
+const client = generateClient()
+
+const todos = await client.graphql({ query: listTodos });
 ```
 
 </Block>
@@ -151,15 +195,15 @@ const todos = await API.graphql(graphqlOperation(listTodos));
 <Block name="TypeScript">
 
 ```ts
-import { API, graphqlOperation } from 'aws-amplify';
-import { GraphQLSubscription } from '@aws-amplify/api';
+import { generateClient } from 'aws-amplify';
 import { onCreateTodo } from './graphql/subscriptions';
-import { OnCreateTodoSubscription } from './API';
+
+const client = generateClient()
 
 // Subscribe to creation of Todo
-const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
-    graphqlOperation(onCreateTodo)
-).subscribe({
+const sub = client.graphql({
+  query: onCreateTodo
+}).subscribe({
     next: (payload) => {
       const createdTodo = payload.value.data?.onCreateTodo;
       console.log(createdTodo);
@@ -175,11 +219,13 @@ sub.unsubscribe();
 <Block name="JavaScript">
 
 ```js
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify';
 import { onCreateTodo } from './graphql/subscriptions';
 
+const client = generateClient()
+
 // Subscribe to creation of Todo
-const sub = API.graphql(
+const sub = client.graphql(
     graphqlOperation(onCreateTodo)
 ).subscribe({
     next: (payload) => {

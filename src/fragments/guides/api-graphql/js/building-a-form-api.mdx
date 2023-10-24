@@ -6,15 +6,17 @@ Now that the API has been deployed, you can interact with it from a client-side 
 
 ```javascript
 /* First import the API category from Amplify */
-import { API } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 
 /* Next, import the createContact mutation */
 import { createContact } from './graphql/mutations';
 
 /* Create a function that will create a new contact */
 async function submitNewContact() {
+  const client = generateClient();
+
   try {
-    await API.graphql({
+    await client.graphql({
       query: createContact,
       variables: {
         input: {
@@ -22,7 +24,7 @@ async function submitNewContact() {
           phone: '+1-555-555-5555'
         }
       }
-    })
+    });
     console.log('New contact created!');
   } catch (err) {
     console.log({ err });
@@ -34,7 +36,7 @@ async function submitNewContact() {
 
 ```javascript
 /* First import the API category from Amplify */
-import { API } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 
 /* Next, import the createContact mutation */
 import { createContact } from './graphql/mutations';
@@ -49,8 +51,10 @@ function updateFormState(key, value) {
 
 /* Create a function that will create a new contact */
 async function submitNewContact() {
+  const client = generateClient()
+
   try {
-    await API.graphql({
+    await client.graphql({
       query: createContact,
       variables: {
         input: {
@@ -75,17 +79,18 @@ async function submitNewContact() {
 
 ```javascript
 /* First import the API category from Amplify */
-import { API } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 
 /* Next, import the listContacts query */
 import { listContacts } from './graphql/queries';
 
 /* Create a function that will fetch the contacts */
 async function getContacts() {
+  const client = generateClient();
   try {
-    const contactData = await API.graphql({
+    const contactData = await client.graphql({
       query: listContacts
-    })
+    });
     console.log('contacts: ', contactData);
   } catch (err) {
     console.log({ err });

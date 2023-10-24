@@ -188,7 +188,7 @@ async function speakTranslatedImageTextOP(key) {
     identifyText: { key },
     convertTextToSpeech: { voiceID: 'Conchita' }
   };
-  const response = await API.graphql({
+  const response = await client.graphql({
     query: speakTranslatedImageText,
     variables: { input: inputObj }
   });

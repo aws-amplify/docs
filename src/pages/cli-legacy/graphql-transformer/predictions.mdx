@@ -1,9 +1,12 @@
 export const meta = {
   title: `Connect machine learning services`,
-  description: `The @predictions directive allows you to query an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly.`,
+  description: `The @predictions directive allows you to query an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly.`
 };
 
-<MigrationAlert isLegacy url={"/cli/graphql/connect-to-machine-learning-services"}/>
+<MigrationAlert
+  isLegacy
+  url={'/cli/graphql/connect-to-machine-learning-services'}
+/>
 
 ## @predictions
 
@@ -35,11 +38,8 @@ Given the following schema a query operation is defined which will do the follow
 
 ```graphql
 type Query {
-  speakTranslatedImageText: String @predictions(actions: [
-    identifyText
-    translateText
-    convertTextToSpeech
-  ])
+  speakTranslatedImageText: String
+    @predictions(actions: [identifyText, translateText, convertTextToSpeech])
 }
 ```
 
@@ -47,18 +47,13 @@ An example of that query will look like:
 
 ```graphql
 query SpeakTranslatedImageText($input: SpeakTranslatedImageTextInput!) {
-  speakTranslatedImageText(input: {
-    identifyText: {
-      key: "myimage.jpg"
+  speakTranslatedImageText(
+    input: {
+      identifyText: { key: "myimage.jpg" }
+      translateText: { sourceLanguage: "en", targetLanguage: "es" }
+      convertTextToSpeech: { voiceID: "Conchita" }
     }
-    translateText: {
-      sourceLanguage: "en"
-      targetLanguage: "es"
-    }
-    convertTextToSpeech: {
-      voiceID: "Conchita"
-    }
-  })
+  )
 }
 ```
 
@@ -74,17 +69,17 @@ import { speakTranslatedImageText } from './graphql/queries';
 Amplify.configure(awsconfig);
 
 function SpeakTranslatedImage() {
-  const [ src, setSrc ] = useState("");
-  const [ img, setImg ] = useState("");
+  const [src, setSrc] = useState('');
+  const [img, setImg] = useState('');
 
   function putS3Image(event) {
     const file = event.target.files[0];
     Storage.put(file.name, file)
-    .then (async (result) => {
-      setSrc(await speakTranslatedImageTextOP(result.key))
-      setImg(await Storage.get(result.key));
-    })
-    .catch(err => console.log(err));
+      .then(async (result) => {
+        setSrc(await speakTranslatedImageTextOP(result.key));
+        setImg(await Storage.get(result.key));
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -92,18 +87,22 @@ function SpeakTranslatedImage() {
       <div>
         <h3>Upload Image</h3>
         <input
-              type = "file" accept='image/jpeg'
-              onChange = {(event) => {
-                putS3Image(event)
-              }}
-          />
+          type="file"
+          accept="image/jpeg"
+          onChange={(event) => {
+            putS3Image(event);
+          }}
+        />
         <br />
-        { img && <img src = {img}></img>}
-        { src &&
-          <div> <audio id="audioPlayback" controls>
-              <source id="audioSource" type="audio/mp3" src = {src}/>
-          </audio> </div>
-        }
+        {img && <img src={img}></img>}
+        {src && (
+          <div>
+            {' '}
+            <audio id="audioPlayback" controls>
+              <source id="audioSource" type="audio/mp3" src={src} />
+            </audio>{' '}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -112,19 +111,22 @@ function SpeakTranslatedImage() {
 async function speakTranslatedImageTextOP(key) {
   const inputObj = {
     translateText: {
-      sourceLanguage: "en", targetLanguage: "es" },
+      sourceLanguage: 'en',
+      targetLanguage: 'es'
+    },
     identifyText: { key },
-    convertTextToSpeech: { voiceID: "Conchita" }
+    convertTextToSpeech: { voiceID: 'Conchita' }
   };
-  const response = await API.graphql(
-    graphqlOperation(speakTranslatedImageText, { input: inputObj }));
+  const response = await client.graphql(
+    graphqlOperation(speakTranslatedImageText, { input: inputObj })
+  );
   return response.data.speakTranslatedImageText;
 }
 function App() {
   return (
     <div className="App">
-        <h1>Speak Translated Image</h1>
-        < SpeakTranslatedImage />
+      <h1>Speak Translated Image</h1>
+      <SpeakTranslatedImage />
     </div>
   );
 }
@@ -133,8 +135,7 @@ export default App;
 
 ### How it works
 
-From example schema above, `@predictions` will create resources to communicate with Amazon Rekognition, Translate and Polly.
-For each action the following is created:
+From example schema above, `@predictions` will create resources to communicate with Amazon Rekognition, Translate and Polly. For each action the following is created:
 
 - IAM Policy for each service (e.g. Amazon Rekognition `detectText` Policy)
 - An AppSync VTL function

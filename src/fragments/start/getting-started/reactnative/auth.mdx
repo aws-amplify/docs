@@ -181,7 +181,7 @@ const App = () => {
 
   async function fetchTodos() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos));
+      const todoData = await client.graphql(graphqlOperation(listTodos));
       const todos = todoData.data.listTodos.items;
       setTodos(todos);
     } catch (err) {
@@ -195,7 +195,7 @@ const App = () => {
       const todo = {...formState};
       setTodos([...todos, todo]);
       setFormState(initialFormState);
-      await API.graphql(graphqlOperation(createTodo, {input: todo}));
+      await client.graphql(graphqlOperation(createTodo, {input: todo}));
     } catch (err) {
       console.log('error creating todo:', err);
     }
@@ -298,7 +298,7 @@ const App = () => {
 
   async function fetchTodos() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos));
+      const todoData = await client.graphql(graphqlOperation(listTodos));
       const todos = todoData.data.listTodos.items;
       setTodos(todos);
     } catch (err) {
@@ -312,7 +312,7 @@ const App = () => {
       const todo = {...formState};
       setTodos([...todos, todo]);
       setFormState(initialFormState);
-      await API.graphql(graphqlOperation(createTodo, {input: todo}));
+      await client.graphql(graphqlOperation(createTodo, {input: todo}));
     } catch (err) {
       console.log('error creating todo:', err);
     }

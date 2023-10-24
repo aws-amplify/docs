@@ -44,7 +44,7 @@ export default function HomePage({ posts = [] }) {
 
   useEffect(() => {
     // Notice how the client correctly uses the top-level `API` import
-    API.graphql({ query: listPosts }).then(({ data }) => setPosts(data.listPosts.items));
+    client.graphql({ query: listPosts }).then(({ data }) => setPosts(data.listPosts.items));
   }, [])
 
   return ( ... );
@@ -59,7 +59,7 @@ import { Amplify, API, withSSRContext } from "aws-amplify";
 export async function getServerSideProps({ req }) {
   // Notice how the server uses `API` from `withSSRContext`, instead of the top-level `API`.
   const SSR = withSSRContext({ req })
-  const { data } = await SSR.API.graphql({ query: listPosts });
+  const { data } = await SSR.client.graphql({ query: listPosts });
 
   return {
     props: {
@@ -132,7 +132,7 @@ export default async function Page() {
   };
   const SSR = withSSRContext({ req })
 
-  const { data } = await SSR.API.graphql({ query: listPosts });
+  const { data } = await SSR.client.graphql({ query: listPosts });
 
   // ...
 }

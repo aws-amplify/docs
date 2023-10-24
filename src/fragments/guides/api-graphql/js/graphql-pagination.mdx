@@ -14,22 +14,24 @@ const listTodos = `
       nextToken
     }
   }
-`
+`;
 ```
 
 To pass in a `limit` in a query from a JavaScript application, you can use the following code by setting the limit as a variable:
 
 ```js
-import { API } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+
+const client = generateClient();
 
 async function fetchTodos() {
-  const todoData = await API.graphql({
+  const todoData = await client.graphql({
     query: listTodos,
     variables: {
       limit: 2
     }
-  })
-  console.log({ todoData })
+  });
+  console.log({ todoData });
 }
 ```
 
@@ -49,16 +51,18 @@ The data returned from the API request should look like this (with the items arr
 To set the `nextToken` in a query from a JavaScript application, you can use the following code:
 
 ```js
-import { API } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+
+const client = generateClient();
 
 async function fetchTodos() {
-  const todoData = await API.graphql({
+  const todoData = await client.graphql({
     query: listTodos,
     variables: {
       limit: 2,
-      nextToken: "<token-id>"
+      nextToken: '<token-id>'
     }
-  })
-  console.log({ todoData })
+  });
+  console.log({ todoData });
 }
 ```

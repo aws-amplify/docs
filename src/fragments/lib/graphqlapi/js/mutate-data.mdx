@@ -10,17 +10,17 @@ In GraphQL, mutations are used to create, update, or delete data. Here are some 
 <Block name="TypeScript">
 
 ```ts
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import * as mutations from './graphql/mutations';
-import { GraphQLQuery } from '@aws-amplify/api';
-import { CreateTodoInput, CreateTodoMutation } from './API';
 
-const todoDetails: CreateTodoInput = {
+const client = generateClient()
+
+const todoDetails = {
   name: 'Todo 1',
   description: 'Learn AWS AppSync'
 };
 
-const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({ 
+const newTodo = await client.graphql({ 
   query: mutations.createTodo, 
   variables: { input: todoDetails }
 });
@@ -31,15 +31,17 @@ const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
 <Block name="JavaScript">
 
 ```js
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import * as mutations from './graphql/mutations';
+
+const client = generateClient()
 
 const todoDetails = {
   name: 'Todo 1',
   description: 'Learn AWS AppSync'
 };
 
-const newTodo = await API.graphql({ 
+const newTodo = await client.graphql({ 
   query: mutations.createTodo, 
   variables: { input: todoDetails }
 });
@@ -57,12 +59,15 @@ You can optionally import the `graphqlOperation` helper function to help you con
 
 ```ts
 // ...
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+
+const client = generateClient()
 
 // equivalent to above example
-const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>(
-  graphqlOperation(mutations.createTodo, { input: todoDetails })
-);
+const newTodo = await client.graphql({
+  query: mutations.createTodo,
+  variables: { input: todoDetails }
+});
 ```
 
 </Block>
@@ -71,12 +76,15 @@ const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>(
 
 ```js
 // ...
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+
+const client = generateClient()
 
 // equivalent to above example
-const newTodo = await API.graphql(
-  graphqlOperation(mutations.createTodo, { input: todoDetails })
-);
+const newTodo = await client.graphql({
+  query: mutations.createTodo,
+  variables: { input: todoDetails }
+});
 ```
 
 </Block>
@@ -88,17 +96,17 @@ const newTodo = await API.graphql(
 <Block name="TypeScript">
 
 ```ts
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import * as mutations from './graphql/mutations';
-import { GraphQLQuery } from '@aws-amplify/api';
-import { UpdateTodoInput, UpdateTodoMutation } from './API';
 
-const todoDetails: UpdateTodoInput = {
+const client = generateClient()
+
+const todoDetails = {
   id: 'some_id',
   description: 'Updated description'
 };
 
-const updatedTodo = await API.graphql<GraphQLQuery<UpdateTodoMutation>>({ 
+const updatedTodo = await client.graphql({ 
   query: mutations.updateTodo, 
   variables: { input: todoDetails }
 });
@@ -109,16 +117,17 @@ const updatedTodo = await API.graphql<GraphQLQuery<UpdateTodoMutation>>({
 <Block name="JavaScript">
 
 ```js
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import * as mutations from './graphql/mutations';
+
+const client = generateClient()
 
 const todoDetails = {
   id: 'some_id',
-//  _version: 'current_version', // add the "_version" field if your AppSync API has conflict detection (required for DataStore) enabled
   description: 'Updated description'
 };
 
-const updatedTodo = await API.graphql({ 
+const updatedTodo = await client.graphql({ 
   query: mutations.updateTodo, 
   variables: { input: todoDetails }
 });
@@ -138,16 +147,16 @@ Notes:
 <Block name="TypeScript">
 
 ```ts
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import * as mutations from './graphql/mutations';
-import { GraphQLQuery } from '@aws-amplify/api';
-import { DeleteTodoInput, DeleteTodoMutation } from './API';
 
-const todoDetails: DeleteTodoInput = {
+const client = generateClient()
+
+const todoDetails = {
   id: 'some_id',
 };
 
-const deletedTodo = await API.graphql<GraphQLQuery<DeleteTodoMutation>>({ 
+const deletedTodo = await client.graphql({ 
   query: mutations.deleteTodo, 
   variables: { input: todoDetails }
 });
@@ -158,14 +167,16 @@ const deletedTodo = await API.graphql<GraphQLQuery<DeleteTodoMutation>>({
 <Block name="JavaScript">
 
 ```js
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import * as mutations from './graphql/mutations';
+
+const client = generateClient()
 
 const todoDetails = {
   id: 'some_id',
 };
 
-const deletedTodo = await API.graphql({ 
+const deletedTodo = await client.graphql({ 
   query: mutations.deleteTodo, 
   variables: { input: todoDetails }
 });
@@ -190,18 +201,18 @@ By default, each AppSync API will be set with a default authorization mode when 
 <Block name="TypeScript">
 
 ```ts
-import { API } from "aws-amplify";
-import { GraphQLQuery, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import { generateClient, GRAPHQL_AUTH_MODE } from "aws-amplify/api";
 import * as mutations from './graphql/mutations';
-import { CreateTodoInput, CreateTodoMutation } from './API';
 
-const todoDetails: CreateTodoInput = {
+const client = generateClient()
+
+const todoDetails = {
   id: 'some_id',
   name: 'My todo!',
   description: 'Hello world!'
 };
 
-const todo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
+const todo = await client.graphql({
   query: mutations.createTodo,
   variables: { input: todoDetails },
   authMode: GRAPHQL_AUTH_MODE.AWS_IAM
@@ -213,9 +224,10 @@ const todo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
 <Block name="JavaScript">
 
 ```js
-import { API } from "aws-amplify";
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import { generateClient, GRAPHQL_AUTH_MODE } from "aws-amplify/api";
 import * as mutations from './graphql/mutations';
+
+const client = generateClient()
 
 const todoDetails = {
   id: 'some_id',
@@ -223,7 +235,7 @@ const todoDetails = {
   description: 'Hello world!'
 };
 
-const todo = await API.graphql({
+const todo = await client.graphql({
   query: mutations.createTodo,
   variables: { input: todoDetails },
   authMode: GRAPHQL_AUTH_MODE.AWS_IAM
