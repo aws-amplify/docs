@@ -38,7 +38,7 @@ npx pod-install
 Then configure the SQLite storage adapter with DataStore in your app:
 
 ```js
-import { DataStore } from 'aws-amplify';
+import { DataStore } from 'aws-amplify/datastore';
 import { SQLiteAdapter } from '@aws-amplify/datastore-storage-adapter/SQLiteAdapter';
 
 DataStore.configure({
@@ -80,7 +80,7 @@ expo install aws-amplify amazon-cognito-identity-js @aws-amplify/datastore-stora
 Then configure the SQLite storage adapter with DataStore in your app:
 
 ```js
-import { DataStore } from 'aws-amplify';
+import { DataStore } from 'aws-amplify/datastore';
 import { ExpoSQLiteAdapter } from '@aws-amplify/datastore-storage-adapter/ExpoSQLiteAdapter';
 
 DataStore.configure({
