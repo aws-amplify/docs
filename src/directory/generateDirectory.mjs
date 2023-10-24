@@ -26,7 +26,9 @@ async function getMetaStringObj(filePath) {
 
       return result;
     } catch (err) {
-      throw new error(`Unable to parse meta object. Error:, ${err}`);
+      throw new Error(
+        `Unable to parse meta object for file: "${filePath}". ${err}`
+      );
     }
   }
 }
@@ -90,8 +92,9 @@ async function generateDirectory() {
 
     console.log('Directory object has been written to', filePath);
   } catch (err) {
-    console.error('Error writing to file', err);
+    throw new Error('Error saving to directory.json:', err);
   }
 }
 
+console.log('Generating directory.json...');
 generateDirectory();
