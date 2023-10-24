@@ -108,7 +108,7 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
-          title: 'Set up password change and recovery',
+          title: 'Set up user password change and recovery',
           route: '/lib/auth/password_management',
           filters: ['js', 'react-native']
           },
