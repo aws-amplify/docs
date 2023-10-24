@@ -1,0 +1,14 @@
+.accordion {
+  &__summary {
+    &__inner {
+      gap: var(--amplify-space-xxs);
+      flex-direction: column;
+    }
+  }
+  &__eyebrow {
+    align-items: center;
+  }
+  &__chevron {
+    margin-inline-start: auto;
+  }
+}

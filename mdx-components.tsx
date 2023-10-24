@@ -4,7 +4,7 @@ import ExportedImage from 'next-image-export-optimizer';
 
 import InlineFilter from './src/components/InlineFilter';
 import { YoutubeEmbed } from './src/components/YoutubeEmbed';
-import Accordion from './src/components/Accordion';
+import { Accordion } from './src/components/Accordion';
 import { Block, BlockSwitcher } from './src/components/BlockSwitcher';
 import { Callout } from './src/components/Callout';
 import Fragments from './src/components/Fragments';
