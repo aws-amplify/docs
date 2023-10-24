@@ -9,6 +9,7 @@ import {
   Text,
   VisuallyHidden
 } from '@aws-amplify/ui-react';
+import classNames from 'classnames';
 import { useRouter } from 'next/router';
 
 type AccordionProps = {
@@ -24,13 +25,14 @@ export const Accordion: React.FC<AccordionProps> = ({
   eyebrow,
   children
 }) => {
-  const [initialHeight, setInitialHeight] = useState<number>(0);
-  const [expandedHeight, setExpandedHeight] = useState<number>(0);
+  const [initialHeight, setInitialHeight] = useState<string | number>('none');
+  const [expandedHeight, setExpandedHeight] = useState<string | number>('none');
+  const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
   const detailsRef = useRef<HTMLDetailsElement>(null);
   const summaryRef = useRef<HTMLElement>(null);
   const path = useRouter().asPath;
   const headingId = title?.replace(/\s+/g, '-').toLowerCase();
-  const headingHref = path + headingId;
+  const headingHref = path + '#' + headingId;
   const headingEl: React.ElementType = headingLevel
     ? `h${headingLevel}`
     : 'div';
@@ -42,11 +44,10 @@ export const Accordion: React.FC<AccordionProps> = ({
     if (summary && details) {
       const initHeight = summary.offsetHeight;
       const expHeight = getHiddenHeight(details);
-
       setInitialHeight(initHeight);
       setExpandedHeight(expHeight);
     }
-  }, [detailsRef, summaryRef, initialHeight, expandedHeight]);
+  }, [detailsRef, summaryRef]);
 
   function getHiddenHeight(el) {
     if (!el?.cloneNode) {
@@ -76,55 +77,51 @@ export const Accordion: React.FC<AccordionProps> = ({
   ];
 
   const animationTiming = {
-    duration: 700,
+    duration: 400,
+    timing: 'easeOut',
     iterations: 1
   };
 
   const closeAccordion = () => {
-    const expander = detailsRef.current;
-    if (expander) {
-      const scrollToLoc = expander.offsetTop - 48 - 70 - 10; // account for nav heights and 10px buffer
-
-      expander.animate(collapse, animationTiming);
+    const details = detailsRef.current;
+    if (details) {
+      const scrollToLoc = details.offsetTop - 48 - 70 - 10; // account for nav heights and 10px buffer
+      setDetailsOpen(false);
+      details.animate(collapse, animationTiming);
       window.scrollTo({
         left: 0,
         top: scrollToLoc,
         behavior: 'smooth'
       });
       setTimeout(function () {
-        expander.removeAttribute('open');
-      }, 700);
+        details.removeAttribute('open');
+      }, animationTiming.duration);
     }
   };
 
   const toggleAccordion = (e) => {
     e.preventDefault();
 
-    const expander = detailsRef.current;
+    const details = detailsRef.current;
     // Close accordion
-    if (expander?.hasAttribute('open')) {
-      expander?.animate(collapse, animationTiming);
+    if (details?.hasAttribute('open')) {
+      setDetailsOpen(false);
+      details?.animate(collapse, animationTiming);
       setTimeout(function () {
-        expander.removeAttribute('open');
-      }, 700);
+        details.removeAttribute('open');
+      }, animationTiming.duration);
     } else {
-      // Open accordion
-      trackExpanderOpen(expander?.id.replace('-acc', ''));
-      expander?.setAttribute('open', '');
-      expander?.animate(expand, animationTiming);
+      trackExpanderOpen(headingId);
+      details?.setAttribute('open', '');
+      details?.animate(expand, animationTiming);
+      setDetailsOpen(true);
     }
   };
 
   return (
-    <View
-      as="details"
-      id={headingId + '-acc'}
-      className="accordion"
-      ref={detailsRef}
-    >
+    <View as="details" className="accordion" ref={detailsRef}>
       <Flex
         as="summary"
-        id="accordion__summary"
         className="accordion__summary"
         ref={summaryRef}
         onClick={toggleAccordion}
@@ -132,28 +129,32 @@ export const Accordion: React.FC<AccordionProps> = ({
         <Flex className="accordion__summary__inner">
           <Flex className="accordion__eyebrow">
             <IconExpand />
-            <Text as="span">{eyebrow}</Text>
+            {eyebrow}
           </Flex>
-          <View as={headingEl}>
+          <View as={headingEl} className="accordion__heading">
             {isLinkableHeading ? (
-              <Link href={headingHref}>{title}</Link>
+              <Link href={headingHref} className="accordion__heading__link">
+                {title}
+              </Link>
             ) : (
               title
             )}
           </View>
         </Flex>
-        <IconChevron className="accordion__chevron" />
+        <IconChevron
+          className={classNames('accordion__chevron', {
+            'icon-rotate-180-reverse': detailsOpen
+          })}
+        />
       </Flex>
-      <View id="accordion__body" className="accordion__body">
-        {children}
-      </View>
+      <View className="accordion__body">{children}</View>
 
-      <Button
-        id="accordion__body__button"
-        className="accordion__body__button"
-        onClick={closeAccordion}
-      >
-        <IconChevron />
+      <Button className="accordion__button" onClick={closeAccordion}>
+        <IconChevron
+          className={classNames('accordion__chevron', {
+            'icon-rotate-180-reverse': detailsOpen
+          })}
+        />
       </Button>
     </View>
   );
