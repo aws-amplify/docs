@@ -1,34 +1,85 @@
 .platform-navigator {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  &__button {
     display: flex;
-    flex-direction: column;
-    position: relative;
-    &__button {
-        display: flex;
-        justify-content: space-between;
+    justify-content: space-between;
+  }
+  &__dropdown {
+    border: 1px solid black;
+    border-radius: 10px;
+    list-style-type: none;
+    padding: 0;
+    visibility: hidden;
+    z-index: 999;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    &--show {
+      visibility: visible;
     }
-    &__dropdown {
-        border: 1px solid black;
-        border-radius: 10px;
-        list-style-type: none;
-        padding: 0;
-        visibility: hidden;
-        z-index: 999;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        &--show {
-            visibility: visible;
-        }
-        &__item {
-            border-bottom: 1px solid;
-            background-color: lightgrey;
-            &:hover {
-                background-color:grey;
-            }
-            & span {
-                padding: 0.5em;
-            }
-        }
+    &__item {
+      &:first-of-type{
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+      &:last-of-type{
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+      background-color: var(--amplify-colors-white);
+      &:hover {
+        background-color: var(--amplify-colors-teal-40);
+      }
+      & span {
+        padding: 0.5em;
+      }
+      &--current {
+        background-color: var(--amplify-colors-teal-20);
+      }
     }
+  }
+}
+
+.info-popover {
+  .popover {
+    width: 22rem;
+    left: auto;
+    right: auto;
+    top: calc(100% + 1rem);
+    margin-left: -11rem;
+    background-color: var(--amplify-colors-teal-10);
+    &:before {
+      content: '';
+      width: 0;
+      height: 0;
+      top: -16px;
+      left: calc(50% - 9px);
+      display: block;
+      position: absolute;
+      border-right: 16px solid transparent;
+      border-left: 16px solid transparent;
+      border-bottom: 16px solid var(--amplify-colors-teal-80);
+    }
+    &:after {
+      content: '';
+      width: 0;
+      height: 0;
+      top: -14px;
+      left: calc(50% - 7px);
+      display: block;
+      position: absolute;
+      border-right: 14px solid transparent;
+      border-left: 14px solid transparent;
+      border-bottom: 14px solid var(--amplify-colors-teal-10);
+    }
+  }
+  &__footer {
+    margin: 1rem;
+    border-top: 1px solid var(--amplify-colors-neutral-40);
+    padding-top: 1rem;
+    text-align: right;
+  }
 }
