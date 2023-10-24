@@ -30,6 +30,7 @@
     "emotion": "^10.0.23",
     "eslint-config-next": "^13.2.4",
     "extract-mdx-metadata": "^2.0.0",
+    "glob": "^10.3.10",
     "gray-matter": "4.0.3",
     "html-entities": "^1.2.1",
     "instantsearch.js": "^4.39.1",
@@ -148,6 +149,7 @@
     "next-start": "next start",
     "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test",
     "prepare": "husky install",
-    "analyze": "ANALYZE=true yarn next-build"
+    "analyze": "ANALYZE=true yarn next-build",
+    "migrate": " node tasks/migrate_v2.ts"
   }
 }
