@@ -17,7 +17,7 @@ type MenuItemProps = {
   pageNode: PageNode;
   parentSetOpen: React.Dispatch<React.SetStateAction<boolean>> | null;
   level: number;
-  currentPlatform: Platform;
+  currentPlatform?: Platform;
 };
 
 export function MenuItem({
@@ -60,7 +60,14 @@ export function MenuItem({
     }
   }, []);
 
-  const pathname = pageNode.route.replace('[platform]', currentPlatform) + '/';
+  let pathname = pageNode.route;
+
+  if (currentPlatform) {
+    pathname = pageNode.route.replace('[platform]', currentPlatform) + '/';
+  } else {
+    pathname += '/';
+  }
+
   const current = router.asPath === pathname;
 
   const currentStyle = current ? 'menu__list-item__link--current' : '';
@@ -100,7 +107,9 @@ export function MenuItem({
         </AmplifyUILink>
       </li>
     );
-  } else if (pageNode.platforms.includes(currentPlatform)) {
+  } else if (currentPlatform && pageNode.platforms.includes(currentPlatform)) {
+    // Check if the page supports the current platform
+    // If it doesn't, then it shouldn't be rendered in the menu
     return (
       <li
         onFocus={handleFocus}
@@ -136,6 +145,50 @@ export function MenuItem({
                 parentSetOpen={setOpen}
                 level={level + 1}
                 currentPlatform={currentPlatform}
+              />
+            ))}
+          </ul>
+        )}
+      </li>
+    );
+  } else if (!pageNode.platforms) {
+    // This check is for the gen2 pages
+    // check if a pagenode has no platforms at all because that would mean it's a gen2 page
+    // does it make sense to have the menu component try to cover these cases or should
+    // there be a separate component for gen2 and classic?
+    return (
+      <li
+        onFocus={handleFocus}
+        key={pageNode.route}
+        className={`menu__list-item ${listItemStyle}`}
+      >
+        <Link
+          className={`menu__list-item__link ${listItemLinkStyle} ${currentStyle}`}
+          href={{
+            pathname: `${pageNode.route}`
+          }}
+          onClick={onLinkClick}
+          passHref
+        >
+          <Flex className="menu__list-item__link__inner">
+            {pageNode.title}
+            {pageNode.children && level !== Levels.Category && (
+              <IconChevron className={open ? '' : 'icon-rotate-90-reverse'} />
+            )}
+          </Flex>
+        </Link>
+        {pageNode.children && (
+          <ul
+            className={`menu__list ${
+              !open && level > Levels.Category ? 'menu__list--hide' : ''
+            }`}
+          >
+            {pageNode.children.map((child, index) => (
+              <MenuItem
+                key={index}
+                pageNode={child}
+                parentSetOpen={setOpen}
+                level={level + 1}
               />
             ))}
           </ul>

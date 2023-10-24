@@ -57,25 +57,41 @@ export const Layout = forwardRef(function Layout(
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
 
-  const rootPage = directory as PageNode;
-  const platformOverviewPage =
-    rootPage.children && rootPage.children.length === 1
-      ? rootPage.children[0]
-      : undefined;
+  let currentPlatform = DEFAULT_PLATFORM;
+  const homepageNode = directory as PageNode;
+  let rootMenuNode;
 
-  // [platform] will always be the very first subpath right?
-  // when using `router.asPath` it returns a string that starts with a '/'
-  // To get the "platform" the client was trying to visit, we have to get the string at index 1
-  // Doing this because when visiting a 404 page, there is no `router.query.platform`, so we have
-  // to check where the user was trying to visit from
-  const asPathPlatform = router.asPath.split('/')[1] as Platform;
   const isGen2 = router.asPath.split('/')[1] === 'gen2';
+  if (isGen2) {
+    if (homepageNode?.children && homepageNode.children.length > 0) {
+      rootMenuNode = homepageNode.children.find((node) => {
+        if (node.path) {
+          return node.path.indexOf('gen2') > -1;
+        }
+      });
+    }
+  } else {
+    // [platform] will always be the very first subpath right?
+    // when using `router.asPath` it returns a string that starts with a '/'
+    // To get the "platform" the client was trying to visit, we have to get the string at index 1
+    // Doing this because when visiting a 404 page, there is no `router.query.platform`, so we have
+    // to check where the user was trying to visit from
+    const asPathPlatform = router.asPath.split('/')[1] as Platform;
 
-  const currentPlatform = platform
-    ? platform
-    : PLATFORMS.includes(asPathPlatform)
-    ? asPathPlatform
-    : DEFAULT_PLATFORM;
+    currentPlatform = platform
+      ? platform
+      : PLATFORMS.includes(asPathPlatform)
+      ? asPathPlatform
+      : DEFAULT_PLATFORM;
+
+    if (homepageNode?.children && homepageNode.children.length > 0) {
+      rootMenuNode = homepageNode.children.find((node) => {
+        if (node.path) {
+          return node.path.indexOf('[platform]') > -1;
+        }
+      });
+    }
+  }
 
   const title = [
     pageTitle,
@@ -170,13 +186,28 @@ export const Layout = forwardRef(function Layout(
                       <IconDoubleChevron aria-hidden="true" />
                       Menu
                     </Button>
-                    [ Platform switcher goes here]
+                    {isGen2 ? <></> : `[ Platform switcher goes here ]`}
                   </div>
                   <div className="layout-sidebar-menu">
-                    <Menu
-                      currentPlatform={currentPlatform}
-                      platformOverviewPage={platformOverviewPage}
-                    />
+                    {isGen2 ? (
+                      <Menu
+                        rootMenuNode={rootMenuNode}
+                        menuTitle="How Gen2 Amplify works"
+                        menuHref={{
+                          pathname: `/gen2`
+                        }}
+                      />
+                    ) : (
+                      <Menu
+                        currentPlatform={currentPlatform}
+                        rootMenuNode={rootMenuNode}
+                        menuTitle="How Amplify works"
+                        menuHref={{
+                          pathname: `/[platform]`,
+                          query: { platform: currentPlatform }
+                        }}
+                      />
+                    )}
                   </div>
                 </View>
               </View>

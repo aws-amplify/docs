@@ -5,15 +5,20 @@ import { Platform } from '@/data/platforms';
 import Link from 'next/link';
 import { LayoutContext } from '@/components/Layout';
 import { PageNode } from 'src/directory/directory';
+import { Url } from 'next/dist/shared/lib/router/router';
 
 type MenuProps = {
-  currentPlatform: Platform;
-  platformOverviewPage: PageNode | undefined;
+  currentPlatform?: Platform;
+  rootMenuNode: PageNode | undefined;
+  menuTitle: string;
+  menuHref: Url;
 };
 
 export function Menu({
   currentPlatform,
-  platformOverviewPage
+  rootMenuNode,
+  menuTitle,
+  menuHref
 }: MenuProps): ReactElement {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
 
@@ -30,30 +35,29 @@ export function Menu({
           <Link
             onClick={onLinkClick}
             className="menu__list-item__link"
-            href={{
-              pathname: `/[platform]`,
-              query: { platform: currentPlatform }
-            }}
+            href={menuHref}
           >
             <View
               className="menu__list-item__link__inner"
               marginBottom="16px"
               fontWeight={700}
             >
-              How Amplify works
+              {menuTitle}
             </View>
           </Link>
         </li>
         <ul className="menu__list">
-          {platformOverviewPage?.children &&
-            platformOverviewPage.children.map((child, index) => {
+          {rootMenuNode?.children &&
+            rootMenuNode.children.map((child, index) => {
               return (
                 <MenuItem
                   key={index}
                   pageNode={child as PageNode}
                   parentSetOpen={null}
                   level={1}
-                  currentPlatform={currentPlatform}
+                  {...(currentPlatform
+                    ? { currentPlatform: currentPlatform }
+                    : {})}
                 />
               );
             })}
