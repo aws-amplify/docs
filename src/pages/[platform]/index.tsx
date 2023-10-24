@@ -2,8 +2,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 
 export const meta = {
-  title: `Overview`,
-  description: `This is a description for the overview page.`,
+  title: 'Overview',
+  description: 'This is a description for the overview page.',
   platforms: ['javascript', 'android']
 };
 
