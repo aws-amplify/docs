@@ -92,7 +92,7 @@ async function generateDirectory() {
 
     console.log('Directory object has been written to', filePath);
   } catch (err) {
-    throw new Error('Error saving to directory.json:', err);
+    throw new Error(`Error saving to directory.json: ${err}`);
   }
 }
 
