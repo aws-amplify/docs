@@ -20,8 +20,8 @@ const todoDetails: CreateTodoInput = {
   description: 'Learn AWS AppSync'
 };
 
-const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({ 
-  query: mutations.createTodo, 
+const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
+  query: mutations.createTodo,
   variables: { input: todoDetails }
 });
 ```
@@ -39,8 +39,8 @@ const todoDetails = {
   description: 'Learn AWS AppSync'
 };
 
-const newTodo = await API.graphql({ 
-  query: mutations.createTodo, 
+const newTodo = await API.graphql({
+  query: mutations.createTodo,
   variables: { input: todoDetails }
 });
 ```
@@ -98,8 +98,8 @@ const todoDetails: UpdateTodoInput = {
   description: 'Updated description'
 };
 
-const updatedTodo = await API.graphql<GraphQLQuery<UpdateTodoMutation>>({ 
-  query: mutations.updateTodo, 
+const updatedTodo = await API.graphql<GraphQLQuery<UpdateTodoMutation>>({
+  query: mutations.updateTodo,
   variables: { input: todoDetails }
 });
 ```
@@ -118,8 +118,8 @@ const todoDetails = {
   description: 'Updated description'
 };
 
-const updatedTodo = await API.graphql({ 
-  query: mutations.updateTodo, 
+const updatedTodo = await API.graphql({
+  query: mutations.updateTodo,
   variables: { input: todoDetails }
 });
 ```
@@ -130,6 +130,7 @@ const updatedTodo = await API.graphql({
 Notes:
 
 - You do not have to pass in `createdAt` and `updatedAt` fields, AppSync manages this for you.
+- You do have to pass in `_version` from the existing record if your AppSync API has conflict detection (required for DataStore) enabled. You can get the `_version` from the existing record by querying for it first.
 - If you pass in *extra* input fields not expected by the AppSync schema, this query will fail. You can see this in the `error` field returned by the query (the query itself does not throw, per GraphQL design).
 
 #### Deleting an item
@@ -147,8 +148,8 @@ const todoDetails: DeleteTodoInput = {
   id: 'some_id',
 };
 
-const deletedTodo = await API.graphql<GraphQLQuery<DeleteTodoMutation>>({ 
-  query: mutations.deleteTodo, 
+const deletedTodo = await API.graphql<GraphQLQuery<DeleteTodoMutation>>({
+  query: mutations.deleteTodo,
   variables: { input: todoDetails }
 });
 ```
@@ -165,8 +166,8 @@ const todoDetails = {
   id: 'some_id',
 };
 
-const deletedTodo = await API.graphql({ 
-  query: mutations.deleteTodo, 
+const deletedTodo = await API.graphql({
+  query: mutations.deleteTodo,
   variables: { input: todoDetails }
 });
 ```
