@@ -54,8 +54,6 @@ const createdTodo = await client.graphql({
 </Block>
 </BlockSwitcher>
 
-Previous examples uses `graphqlOperation` function. That function only creates an object with two attributes `query` and `variables`. In order to use `authMode` you need to pass this object as is mentioned on the previous example.
-
 <Callout>
 
 When using __AWS_IAM__ for public API access, unauthenticated logins must be enabled. To enable unauthenticated logins, run `amplify update auth` from the command line and choose __Walkthrough all the auth configurations__.

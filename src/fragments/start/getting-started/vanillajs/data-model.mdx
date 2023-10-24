@@ -183,7 +183,8 @@ After restarting your app using `npm start` go back to your browser and click **
 Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `client.graphql()` like so:
 
 ```diff
- import { Amplify, API, graphqlOperation } from "aws-amplify";
+ import { Amplify } from "aws-amplify";
+ import { generateClient } from "aws-amplify/api";
 
  import awsconfig from "./aws-exports";
  import { createTodo } from "./graphql/mutations";
@@ -191,6 +192,8 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
 +import { onCreateTodo } from "./graphql/subscriptions";
 
  Amplify.configure(awsconfig);
+
+ const client = generateClient()
 
  async function createNewTodo() {
    const todo = {

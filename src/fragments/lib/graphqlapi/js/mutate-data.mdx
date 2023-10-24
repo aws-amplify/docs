@@ -52,44 +52,6 @@ const newTodo = await client.graphql({
 
 You do not have to pass in `createdAt` and `updatedAt` fields, AppSync manages this for you.
 
-You can optionally import the `graphqlOperation` helper function to help you construct the argument object:
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-// ...
-import { generateClient } from 'aws-amplify/api';
-
-const client = generateClient()
-
-// equivalent to above example
-const newTodo = await client.graphql({
-  query: mutations.createTodo,
-  variables: { input: todoDetails }
-});
-```
-
-</Block>
-
-<Block name="JavaScript">
-
-```js
-// ...
-import { generateClient } from 'aws-amplify/api';
-
-const client = generateClient()
-
-// equivalent to above example
-const newTodo = await client.graphql({
-  query: mutations.createTodo,
-  variables: { input: todoDetails }
-});
-```
-
-</Block>
-</BlockSwitcher>
-
 #### Updating an item
 
 <BlockSwitcher>

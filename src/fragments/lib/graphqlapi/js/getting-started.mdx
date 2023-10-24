@@ -225,9 +225,9 @@ import { onCreateTodo } from './graphql/subscriptions';
 const client = generateClient()
 
 // Subscribe to creation of Todo
-const sub = client.graphql(
-    graphqlOperation(onCreateTodo)
-).subscribe({
+const sub = client.graphql({
+  query: onCreateTodo
+}).subscribe({
     next: (payload) => {
       const createdTodo = payload.value.data?.onCreateTodo;
       console.log(createdTodo);

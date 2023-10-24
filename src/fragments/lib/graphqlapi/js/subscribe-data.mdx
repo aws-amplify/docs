@@ -236,21 +236,21 @@ Hub.listen("api", (data: any) => {
   }
 });
 
-const createSub = client.graphql(
-  graphqlOperation(subscriptions.onCreateTodo)
-).subscribe({
+const createSub = client.graphql({
+  query: subscriptions.onCreateTodo
+}).subscribe({
   next: data => // Process incoming messages
 });
 
-const updateSub = client.graphql(
-  graphqlOperation(subscriptions.onUpdateTodo)
-).subscribe({
+const updateSub = client.graphql({ 
+  query: subscriptions.onUpdateTodo
+}).subscribe({
   next: data => // Process incoming messages
 });
 
-const deleteSub = client.graphql(
-  graphqlOperation(subscriptions.onDeleteTodo)
-).subscribe({
+const deleteSub = client.graphql({
+  query: subscriptions.onDeleteTodo
+}).subscribe({
   next: data => // Process incoming messages
 });
 

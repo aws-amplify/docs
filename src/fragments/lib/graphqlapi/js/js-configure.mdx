@@ -9,7 +9,11 @@ npm install aws-amplify
 In your app's entry point i.e. App.ts or App.js, import and load the configuration file:
 
 ```javascript
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import awsconfig from './aws-exports';
+
 Amplify.configure(awsconfig);
+
+const client = generateClient();
 ```
