@@ -29,3 +29,7 @@
     transform: rotate(-360deg);
   }
 }
+.icon-monochrome {
+  transition: opacity 0.2s ease-out;
+  opacity: 0;
+}
