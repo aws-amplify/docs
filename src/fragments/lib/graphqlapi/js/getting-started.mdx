@@ -195,7 +195,7 @@ const todos = await client.graphql({ query: listTodos });
 <Block name="TypeScript">
 
 ```ts
-import { generateClient } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { onCreateTodo } from './graphql/subscriptions';
 
 const client = generateClient()
@@ -219,7 +219,7 @@ sub.unsubscribe();
 <Block name="JavaScript">
 
 ```js
-import { generateClient } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { onCreateTodo } from './graphql/subscriptions';
 
 const client = generateClient()

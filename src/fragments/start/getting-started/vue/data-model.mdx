@@ -145,7 +145,7 @@ To create a new todo in the database, use the `client.graphql()` operation with 
 </template>
 
 <script>
-  import { generateClient } from 'aws-amplify';
+  import { generateClient } from 'aws-amplify/api';
   import { createTodo } from './graphql/mutations';
 
   const client = generateClient();

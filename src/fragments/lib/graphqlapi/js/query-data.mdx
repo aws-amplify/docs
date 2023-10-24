@@ -72,8 +72,7 @@ By default, each AppSync API will be set with a default authorization mode when 
 <Block name="TypeScript">
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import { generateClient, GRAPHQL_AUTH_MODE } from 'aws-amplify/api';
 import * as queries from './graphql/queries';
 import { GetTodoQuery } from './API';
 
@@ -90,8 +89,7 @@ const todos = await client.graphql({
 <Block name="JavaScript">
 
 ```js
-import { generateClient } from 'aws-amplify/api';
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import { generateClient, GRAPHQL_AUTH_MODE } from 'aws-amplify/api';
 import * as queries from './graphql/queries';
 
 const client = generateClient()

@@ -1187,10 +1187,9 @@ It is important to understand when these mismatches can occur and to add meaning
 ```ts
 import { useState } from "react";
 import { Storage } from "aws-amplify";
-import { generateClient } from "aws-amplify/api";
+import { generateClient, GraphQLQuery } from "aws-amplify/api";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import { GraphQLQuery } from "@aws-amplify/api";
 import * as queries from "./graphql/queries";
 import * as mutations from "./graphql/mutations";
 import {
@@ -1804,10 +1803,9 @@ export default App;
 ```ts
 import { useState } from "react";
 import { Storage } from "aws-amplify";
-import { generateClient } from "aws-amplify/api";
+import { generateClient, GraphQLQuery } from "aws-amplify/api";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import { GraphQLQuery } from "@aws-amplify/api";
 import * as queries from "./graphql/queries";
 import * as mutations from "./graphql/mutations";
 import {
