@@ -1,0 +1,36 @@
+.overview {
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: var(--amplify-space-xxl);
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+
+  &__link {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover &__card__title {
+      color: var(--amplify-colors-teal-80);
+    }
+
+    &__card {
+      border-radius: var(--amplify-radii-small);
+      padding: var(--amplify-space-xl);
+      height: 100%;
+
+      &__title {
+        font-size: var(--amplify-font-sizes-large);
+      }
+
+      &__description {
+        /* Line clamp to hide text and show ellipses */
+        display: -webkit-inline-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 3;
+      }
+    }
+  }
+}
