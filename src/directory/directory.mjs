@@ -103,9 +103,14 @@ export const directory = {
             filters: ['js', 'react-native', 'android', 'flutter', 'ios']
           },
           {
-            title: 'Password & user management',
+            title: 'Manage user profiles',
             route: '/lib/auth/manageusers',
             filters: ['js', 'react-native']
+          },
+          {
+          title: 'Set up user password change and recovery',
+          route: '/lib/auth/password_management',
+          filters: ['js', 'react-native', 'android', 'flutter', 'ios']
           },
           {
             title: 'Switching authentication flows',
@@ -171,11 +176,6 @@ export const directory = {
             title: 'Remember a device',
             route: '/lib/auth/device_features',
             filters: ['android', 'ios', 'js', 'flutter', 'react-native']
-          },
-          {
-            title: 'Password management',
-            route: '/lib/auth/password_management',
-            filters: ['android', 'flutter', 'ios']
           },
           {
             title: 'Sign out',
