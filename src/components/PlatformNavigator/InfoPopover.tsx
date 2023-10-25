@@ -1,9 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { Button, Link, View } from '@aws-amplify/ui-react';
+import { parseLocalStorage } from '@/utils/parseLocalStorage';
 
 export const InfoPopover = ({ platform }) => {
   const [expanded, setExpanded] = useState(false);
+
+  useEffect(()=>{
+    let returnVisitor = parseLocalStorage('returnVisitor', false);
+    if(!returnVisitor){
+      setExpanded(true);
+      if(typeof localStorage !== 'undefined'){
+        localStorage.setItem('returnVisitor', 'true');
+      }
+    }
+  },[]);
 
   return (
     <View className={classNames('info-popover')}>
