@@ -1,7 +1,7 @@
 // Adapted from https://gist.github.com/joranquinten/78f3e288274a3c9405a499b8a8c46e35
 import * as fs from 'fs';
 import { execSync } from 'child_process';
-import directory from '../src/directory/directory.json';
+import directory from '../src/directory/directory.json' assert { type: 'json' };
 
 const formatDate = (date) => `${date.toISOString().split('.')[0]}+0:00`;
 const getPriority = (_) => 0.5;
