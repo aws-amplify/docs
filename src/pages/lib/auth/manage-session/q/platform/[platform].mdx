@@ -59,7 +59,7 @@ async function currentAuthenticatedUser() {
 
 This method can be used to check if a user is signed in as it will throw an error if there is no current user signed in. 
 
-## Retrieve your user’s session
+## Retrieve a user session
 
 Your user's session is their signed-in state which grants them access to your app. When your users sign in their credentials are exchanged for temporary access tokens. You can get session details to access these tokens and use this information to validate user access or perform actions unique to that user.
 
@@ -189,7 +189,7 @@ When you get the current user session, the tokens will be saved in your custom l
 
 Token revocation is enabled by default in new Cognito User Pool Clients, however, if you are using an existing client, you may need to enable it. This allows for all access tokens that were previously issued by that refresh token to become invalid.
 
-To revoke tokens you can set up global sign-out with Auth.signOut({ global: true }) to globally sign out your user from all of their devices.
+To revoke tokens you can set up global sign-out with `Auth.signOut({ global: true })` to globally sign out your user from all of their devices.
 
 You can now change the user experience for your app by updating how and where your tokens are saved and managed.
 
