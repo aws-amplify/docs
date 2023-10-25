@@ -84,9 +84,9 @@ export class BackendStack extends cdk.Stack {
     super(scope, id, props);
 
     const amplifyApi = new AmplifyGraphqlApi(this, 'AmplifyCdkGraphQlApi', {
-      schema: AmplifyGraphqlSchema.fromFiles(path.join(__dirname, "schema.graphql")),
-      authorizationConfig: {
-        defaultAuthMode: 'API_KEY',
+      definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, "schema.graphql")),
+      authorizationModes: {
+        defaultAuthorizationMode: 'API_KEY',
         apiKeyConfig: {
           expires: cdk.Duration.days(30) 
         }

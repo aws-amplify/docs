@@ -1,0 +1,12 @@
+import ChooseFilterPage from '@/components/ChooseFilterPage';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+<ChooseFilterPage
+  directoryPath="/ChooseFilterPage"
+  address="/start/sample-apps/todo-app"
+  filterKind="integration"
+  filters={['android']}
+  currentFilter="all"
+  message={'Choose an integration:'}
+/>

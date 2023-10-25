@@ -1,6 +1,25 @@
 export const meta = {
   title: `Listen to auth events`,
   description: `Listen to various auth events`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 <InlineFilter filters={["js", "react-native"]}>
@@ -296,14 +315,14 @@ AWS Cognito Auth Plugin sends important events through Amplify Hub.
 
 import ios1 from "/src/fragments/lib/auth/ios/hub_events/10_listen_events.mdx";
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ ios: ios1 }} />
 
-import android2 from "/src/fragments/lib/auth/android/hub_events/10_listen_events.mdx";
+import android2 from '/src/fragments/lib/auth/android/hub_events/10_listen_events.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ android: android2 }} />
 
-import flutter3 from "/src/fragments/lib/auth/flutter/hub_events/10_listen_events.mdx";
+import flutter3 from '/src/fragments/lib/auth/flutter/hub_events/10_listen_events.mdx';
 
-<Fragments fragments={{flutter: flutter3}} />
+<Fragments fragments={{ flutter: flutter3 }} />
 
 </InlineFilter>
