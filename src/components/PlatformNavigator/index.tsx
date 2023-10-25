@@ -1,21 +1,32 @@
-import { useState } from 'react';
-import { Button, Link, Flex, Image, View } from '@aws-amplify/ui-react';
+import { useState, useEffect } from 'react';
+import { Button, Link, Flex, Text } from '@aws-amplify/ui-react';
 import { IconChevron } from '@/components/Icons';
 import { frameworks } from '@/constants/frameworks';
 import { InfoPopover } from './InfoPopover';
+import { parseLocalStorage } from '@/utils/parseLocalStorage';
 
 export function PlatformNavigator({ currentPlatform }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [showInfo, setShowInfo] = useState<boolean>(true);
+  const [showInfo, setShowInfo] = useState<boolean>(false);
 
   const platformItem = frameworks.filter((platform) => {
     return platform.title === currentPlatform;
   })[0];
 
+  useEffect(()=>{
+    let returnVisitor = parseLocalStorage('returnVisitor');
+    if(!returnVisitor){
+      setShowInfo(true);
+      if(typeof localStorage !== 'undefined'){
+        localStorage.setItem('returnVisitor', 'true');
+      }
+    }
+  },[]);
+
   return (
     <>
       <nav aria-labelledby="platformBtn" className={`platform-navigator`}>
-        Choose your framework:
+        <Text fontWeight={"bold"}>Choose your framework/language</Text>
         <Flex alignItems="center">
           <Button
             className={`platform-navigator__button`}
@@ -26,6 +37,7 @@ export function PlatformNavigator({ currentPlatform }) {
               setIsOpen(!isOpen);
             }}
             isFullWidth={true}
+            fontWeight={"normal"}
           >
             <Flex as="span" alignItems="center">
               {platformItem.icon}
@@ -50,6 +62,7 @@ export function PlatformNavigator({ currentPlatform }) {
                 className={`platform-navigator__dropdown__item ${
                   current ? 'platform-navigator__dropdown__item--current' : ''
                 }`}
+                key={platform.title}
               >
                 <Link
                   href={platform.href}

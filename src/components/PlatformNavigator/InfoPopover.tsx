@@ -7,7 +7,7 @@ export const InfoPopover = ({ platform }) => {
 
   return (
     <View className={classNames('info-popover')}>
-      <Link onClick={() => setExpanded(!expanded)}>Info</Link>
+      <Link onClick={() => setExpanded(!expanded)} fontWeight={"bold"}>Info</Link>
       <View
         className={classNames('popover', {
           'popover--expanded': expanded
