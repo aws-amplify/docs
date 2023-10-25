@@ -90,7 +90,7 @@ export const directory = {
           {
             title: 'Manage user session and credentials',
             route: '/lib/auth/manage-session',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Enable sign-up, sign-in, and sign-out',

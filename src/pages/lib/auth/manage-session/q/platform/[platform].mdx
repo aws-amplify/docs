@@ -3,15 +3,16 @@ export const meta = {
   description: `Learn how to manage user sessions and credentials.`,
 };
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["js", "react-native"]}>
 
 Amplify Auth provides access to current user sessions and tokens to help you retrieve your user's information to determine if they are signed in with a valid session and control their access to your app. You can manage tokens and expiration times and revoke sessions. In this guide we will review how to retrieve your user’s session and understand what token management options are available.
 
 Before you begin you will need:
-- Sign-up set up
+- An Amplify project with the Auth category configured
+- The Amplify libraries installed and configured
 - A test user signed in
 
-## Retrieve my current authenticated user
+## Retrieve your current authenticated user
 
 You can use the `Auth.currentAuthenticatedUser()` API which returns the full `CognitoUser` object. This object contains information about the currently authenticated user including the session and user attributes.
 
@@ -56,11 +57,13 @@ async function currentAuthenticatedUser() {
 </Block>
 </BlockSwitcher>
 
-This method can be used to check if a user is signed in as it will throw an error if there is no current user signed in. Be sure to call this method after the `Auth` module is configured. 
+This method can be used to check if a user is signed in as it will throw an error if there is no current user signed in. 
 
-## Retrieve my user’s session
+## Retrieve your user’s session
 
-If you only need the session details, you can use `Auth.currentSession()` which returns a `CognitoUserSession` object which contains the JWT (JSON Web Token). Credentials are exchanged for temporary access tokens when your users sign in. You can access these tokens to get user information to validate user access or perform actions unique to that user. 
+Your user's session is their signed-in state which grants them access to your app. When your users sign in their credentials are exchanged for temporary access tokens. You can get session details to access these tokens and use this information to validate user access or perform actions unique to that user.
+
+If you only need the session details, you can use `Auth.currentSession()` which returns a `CognitoUserSession` object which contains the JWT (JSON Web Token).  
 
 <Accordion title='Review what the session object contains and how tokens work' headingLevel='4' eyebrow='Learn more'>
 
@@ -78,7 +81,7 @@ Amazon Cognito tokens work by generating temporary access and ID tokens with an 
 
 <Callout>
 
-**Note:** This method will automatically refresh the `accessToken` and `idToken` if tokens are expired and a valid `refreshToken` presented. So you can use this method to refresh the session if needed.
+**Note:** The `Auth.currentSession()` method will automatically refresh the `accessToken` and `idToken` if tokens are expired and a valid `refreshToken` presented. So you can use this method to refresh the session if needed.
 
 </Callout>
 
@@ -184,9 +187,9 @@ When you get the current user session, the tokens will be saved in your custom l
 
 ### Revoke tokens
 
-Token revocation is enabled by default in new Cognito User Pool Clients, however, if you are using an existing client, you may need to enable it. This allows for all access tokens that were previously issued by that refresh token to become invalid. However, other refresh tokens issued to the user are not affected.
+Token revocation is enabled by default in new Cognito User Pool Clients, however, if you are using an existing client, you may need to enable it. This allows for all access tokens that were previously issued by that refresh token to become invalid.
 
-To revoke tokens you can set up global sign-out with `Auth.signOut({ global: true })` to globally sign out your user, which will invalidate them immediately. Additionally, you can also invoke the [`RevokeToken`](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_RevokeToken.html) API or [Revoke endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/revocation-endpoint.html) directly.
+To revoke tokens you can set up global sign-out with Auth.signOut({ global: true }) to globally sign out your user from all of their devices.
 
 You can now change the user experience for your app by updating how and where your tokens are saved and managed.
 
@@ -198,7 +201,18 @@ Congratulations! You finished the **Manage user session and credentials** guide.
 
 Now that you updated how your credentials are managed you may also want to further refine the sing-in and sign-out workflows as well as update how you listen for these Auth events. We recommend you learn more about:
 
+<InlineFilter filters={["js"]}>
+
 - [Enable sign-up, sign-in, and sign-out](/lib/auth/emailpassword/q/platform/js/)
 - [Auth events](/lib/auth/auth-events/q/platform/js/)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+- [Enable sign-up, sign-in, and sign-out](/lib/auth/emailpassword/q/platform/react-native/)
+- [Auth events](/lib/auth/auth-events/q/platform/react-native/)
+
+</InlineFilter>
 
 </InlineFilter>
