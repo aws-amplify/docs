@@ -318,6 +318,11 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Relational models',
+            route: '/lib/graphqlapi/relational',
+            filters: ['android']
+          },
+          {
             title: 'Working with files and attachments',
             route: '/lib/graphqlapi/working-with-files',
             filters: ['js', 'ios']
@@ -1443,11 +1448,6 @@ export const directory = {
             filters: ['android', 'ios', 'flutter', 'js']
           },
           {
-            title: 'Upload files',
-            route: '/lib-v1/storage/upload',
-            filters: ['android', 'ios', 'flutter', 'js']
-          },
-          {
             title: 'Download files',
             route: '/lib-v1/storage/download',
             filters: ['android', 'ios', 'flutter', 'js']
@@ -1466,6 +1466,11 @@ export const directory = {
             title: 'Copy files',
             route: '/lib-v1/storage/copy',
             filters: ['js']
+          },
+          {
+            title: 'Upload files',
+            route: '/lib-v1/storage/upload',
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Remove files',

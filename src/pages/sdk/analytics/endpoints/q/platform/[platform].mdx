@@ -1,16 +1,35 @@
 export const meta = {
   title: `Endpoints`,
   description: `When a user starts a session (for example, by launching your mobile app), your mobile or web application can automatically register (or update) an endpoint with Amazon Pinpoint. The endpoint represents the device that the user starts the session with.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import all0 from "/src/fragments/sdk/library-callout.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{all: all0}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
-import ios1 from "/src/fragments/sdk/analytics/ios/endpoints.mdx";
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
 
-<Fragments fragments={{ios: ios1}} />
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
 
-import android2 from "/src/fragments/sdk/analytics/android/endpoints.mdx";
+import all0 from '/src/fragments/sdk/library-callout.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ all: all0 }} />
+
+import ios1 from '/src/fragments/sdk/analytics/ios/endpoints.mdx';
+
+<Fragments fragments={{ ios: ios1 }} />
+
+import android2 from '/src/fragments/sdk/analytics/android/endpoints.mdx';
+
+<Fragments fragments={{ android: android2 }} />

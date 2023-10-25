@@ -1,6 +1,25 @@
 export const meta = {
   title: `Add authentication`,
-  description: `Getting Started with Amplify - how to add auth to your app`
+  description: `Getting Started with Amplify - how to add auth to your app`,
+  filterKey: "integration",
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { INTEGRATION_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            integration: context.params.integration,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 import react0 from '/src/fragments/start/getting-started/react/auth.mdx';
