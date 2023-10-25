@@ -1,16 +1,35 @@
 export const meta = {
   title: `SMS flows`,
   description: `Using phone numbers for sign-in and verification`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import flutter0 from "/src/fragments/lib/auth/common/sms/flows.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{flutter: flutter0}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
-import ios0 from "/src/fragments/lib/auth/common/sms/flows.mdx";
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
 
-<Fragments fragments={{ios: ios0}} />
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
 
-import android0 from "/src/fragments/lib/auth/common/sms/flows.mdx";
+import flutter0 from '/src/fragments/lib/auth/common/sms/flows.mdx';
 
-<Fragments fragments={{android: android0}} />
+<Fragments fragments={{ flutter: flutter0 }} />
+
+import ios0 from '/src/fragments/lib/auth/common/sms/flows.mdx';
+
+<Fragments fragments={{ ios: ios0 }} />
+
+import android0 from '/src/fragments/lib/auth/common/sms/flows.mdx';
+
+<Fragments fragments={{ android: android0 }} />

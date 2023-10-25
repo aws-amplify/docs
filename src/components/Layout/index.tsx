@@ -3,7 +3,6 @@ import SecondaryNav from '../SecondaryNav/index';
 import Footer from '../Footer/index';
 import { LayoutStyle } from './styles';
 import { Container } from '../Container';
-import { useRouter } from 'next/router';
 import { GlobalNav, NavMenuItem } from '../GlobalNav/GlobalNav';
 import {
   LEFT_NAV_LINKS,
@@ -30,9 +29,6 @@ const Layout = forwardRef(function Layout(
   useEffect(() => {
     trackPageVisit();
   }, []);
-
-  const router = useRouter();
-  if (!router.isReady) return <></>;
 
   const filterMetadata = filterKey
     ? filterMetadataByOption[filterKey].label

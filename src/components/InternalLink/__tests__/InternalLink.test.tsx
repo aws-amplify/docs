@@ -1,20 +1,31 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import InternalLink from '../index';
+import { PageContext } from '../../Page';
 
-const localStorageMock = jest.spyOn(
-  require('../../../utils/parseLocalStorage'),
-  'parseLocalStorage'
-);
-localStorageMock.mockReturnValue({
+const pageContext = {
   platform: 'js',
   integration: 'js',
   framework: 'js'
-});
+};
 
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: ''
+    };
+  }
+}));
 describe('InternalLink', () => {
   it('should render the InternalLink component', async () => {
-    render(<InternalLink href="/lib/auth">Internal Link</InternalLink>);
+    render(
+      <PageContext.Provider value={pageContext}>
+        <InternalLink href="/lib/auth">Internal Link</InternalLink>
+      </PageContext.Provider>
+    );
 
     const linkNode = await screen.findByText('Internal Link');
     expect(linkNode).toBeInTheDocument();
@@ -22,7 +33,11 @@ describe('InternalLink', () => {
 
   it('should add the platform to the link', async () => {
     const href = '/lib/libFile';
-    render(<InternalLink href={href}>Internal Link</InternalLink>);
+    render(
+      <PageContext.Provider value={pageContext}>
+        <InternalLink href={href}>Internal Link</InternalLink>
+      </PageContext.Provider>
+    );
 
     const linkNode = await screen.findByText('Internal Link');
     const linkHref = linkNode.href;
@@ -31,7 +46,11 @@ describe('InternalLink', () => {
 
   it('should add the integration to the link', async () => {
     const href = '/start/startFile';
-    render(<InternalLink href={href}>Internal Link</InternalLink>);
+    render(
+      <PageContext.Provider value={pageContext}>
+        <InternalLink href={href}>Internal Link</InternalLink>
+      </PageContext.Provider>
+    );
 
     const linkNode = await screen.findByText('Internal Link');
     const linkHref = linkNode.href;
@@ -40,7 +59,11 @@ describe('InternalLink', () => {
 
   it('should add the framework to the link', async () => {
     const href = '/ui/uiFile';
-    render(<InternalLink href={href}>Internal Link</InternalLink>);
+    render(
+      <PageContext.Provider value={pageContext}>
+        <InternalLink href={href}>Internal Link</InternalLink>
+      </PageContext.Provider>
+    );
 
     const linkNode = await screen.findByText('Internal Link');
     const linkHref = linkNode.href;
@@ -49,7 +72,11 @@ describe('InternalLink', () => {
 
   it('should not change the href if the platform already exists', async () => {
     const href = '/lib/libFile/q/platform/js';
-    render(<InternalLink href={href}>Internal Link</InternalLink>);
+    render(
+      <PageContext.Provider value={pageContext}>
+        <InternalLink href={href}>Internal Link</InternalLink>
+      </PageContext.Provider>
+    );
 
     const expectedHref = `http://localhost${href}`;
     const linkNode = await screen.findByText('Internal Link');
