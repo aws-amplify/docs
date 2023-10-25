@@ -3,11 +3,9 @@ export const meta = {
   description: `Listen to various auth events`,
 };
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["js", "react-native"]}>
 
-[comment]: # (source content from /src/fragments/lib/auth/js/hub_events/10_listen_events.mdx ; /src/fragments/guides/authentication/js/listening-for-auth-events.mdx ; /src/fragments/lib/utilities/js/hub.mdx)
-
-Tapping into auth events allows you to react to user flows in real time and trigger custom business logic. For example, you may want to capture data, synchronize your app's state, and personalize the user's experience. You can listen and respond to events across the Auth lifecycle such as sign-in and sign-out. In this guide we will describe how you can listen and respond to auth events.
+Tapping into auth events allows you to react to user flows in real time and trigger custom business logic. For example, you may want to capture data, synchronize your app's state, and personalize the user's experience. You can listen to and respond to events across the Auth lifecycle such as sign-in and sign-out. In this guide we will describe how you can listen to these auth events.
 
 Before you begin, you will need:
 
@@ -16,7 +14,11 @@ Before you begin, you will need:
 
 ## Expose hub events triggered in response to auth actions
 
-You can use [Amplify Hub](/lib/utilities/hub/q/platform/js/) with built in Amplify Auth events to subscribe a listener using a publish-subscribe pattern and capture events between different parts of your application. The Amplify Auth category publishes in the `auth` channel when auth events such as `signIn`, `signUp`, and `signOut` happen independent from your app code.
+You can use Amplify Hub with its built in Amplify Auth events to subscribe a listener using a publish-subscribe pattern and capture events between different parts of your application. The Amplify Auth category publishes in the `auth` channel when auth events such as `signIn`, `signUp`, and `signOut` happen independent from your app code.
+
+<InlineFilter filters={["js"]}>
+
+You can review the Amplify Hub guide to [learn more](/lib/utilities/hub/q/platform/js/).
 
 <Callout warning>
 
@@ -24,7 +26,21 @@ Channels are logical group names that help you organize dispatching and listenin
 
 </Callout>
 
-Here is a basic example of setting up listener that simply logs an event emitted through the `auth` channel:
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+You can review the Amplify Hub guide to [learn more](/lib/utilities/hub/q/platform/react-native/).
+
+<Callout warning>
+
+Channels are logical group names that help you organize dispatching and listening. However, some channels are protected and cannot be used to publish custom events, and `auth` is one of these channels. Sending unexpected payloads to protected channels can have undesirable side effects such as impacting authentication flows. See the [Amplify Hub](/lib/utilities/hub/q/platform/react-native/) guide for more protected channels.
+
+</Callout>
+
+</InlineFilter>
+
+Here is a basic example of setting up a listener that logs an event emitted through the `auth` channel:
 
 ```javascript
 import { Hub } from 'aws-amplify';
@@ -37,9 +53,9 @@ Hub.listen('auth', listener)
 
 ```
 
-Once your app has be setup to subscribe and listen to specific event types from the `auth` channel the listeners will be notified asynchronously when an event occurs. This pattern allows for a one-to-many relationship where one auth event can be shared with many different listeners that have been subscribed. This lets your app react based on the event rather than proactively poll for information.
+Once your app is set up to subscribe and listen to specific event types from the `auth` channel, the listeners will be notified asynchronously when an event occurs. This pattern allows for a one-to-many relationship where one auth event can be shared with many different listeners that have been subscribed. This lets your app react based on the event rather than proactively poll for information.
 
-Additionally, you can set up your listener to extract data from the event payload and execute a callback that you define. For example, you might update UI elements of your app to reflect your user's authenticated state after the `signIn` or `signOut` events, listen for `signUp` events to capture user registrations, or capture metrics after a success or failure.
+Additionally, you can set up your listener to extract data from the event payload and execute a callback that you define. For example, you might update UI elements in your app to reflect your user's authenticated state after the `signIn` or `signOut` events, listen for `signUp` events to capture user registrations, or capture metrics after a success or failure.
 
 ### Listen to and log auth events
 
@@ -234,7 +250,7 @@ Hub.listen('auth', listener);
 
 You can also stop listening for messages by calling the result of the `Hub.listen()` function. This may be useful if you no longer need to receive messages in your application flow. This can also help you avoid any memory leaks on low powered devices when you are sending large amounts of data through Amplify Hub on multiple channels.
 
-To stop listening to a certain event, you need to wrap the listener function to a variable and call it once you no longer need it:
+To stop listening to a certain event, you need to wrap the listener function with a variable and call it once you no longer need it:
 
 ```javascript
 
@@ -257,19 +273,26 @@ Congratulations! You finished the **Listen to auth events** guide. In this guide
 
 Now that you can listen to auth events you may also want to add some additional features. We recommend you learn more about:
 
+<InlineFilter filters={["js"]}>
+
 - [Manage user profile](/lib/auth/manageusers/q/platform/js/)
 - [Set up password change and recovery](/lib/auth/password_management/q/platform/js/)
-- [Use with Server-Side Rendering (SSR)](/lib/auth/ssr/q/platform/js/)
+- [Use with Server-Side Rendering (SSR)](/lib/ssr/q/platform/js/)
 
 </InlineFilter>
 
-<InlineFilter filters={["react-native","ios","android","flutter"]}>
+<InlineFilter filters={["react-native"]}>
+
+- [Manage user profile](/lib/auth/manageusers/q/platform/react-native/)
+- [Set up password change and recovery](/lib/auth/password_management/q/platform/react-native/)
+
+</InlineFilter>
+
+</InlineFilter>
+
+<InlineFilter filters={["ios","android","flutter"]}>
 
 AWS Cognito Auth Plugin sends important events through Amplify Hub.
-
-import reactnative0 from "/src/fragments/lib/auth/js/hub_events/10_listen_events.mdx";
-
-<Fragments fragments={{'react-native': reactnative0}} />
 
 import ios1 from "/src/fragments/lib/auth/ios/hub_events/10_listen_events.mdx";
 
