@@ -110,7 +110,7 @@ export const directory = {
           {
           title: 'Set up user password change and recovery',
           route: '/lib/auth/password_management',
-          filters: ['js', 'react-native']
+          filters: ['js', 'react-native', 'android', 'flutter', 'ios']
           },
           {
             title: 'Switching authentication flows',
@@ -176,11 +176,6 @@ export const directory = {
             title: 'Remember a device',
             route: '/lib/auth/device_features',
             filters: ['android', 'ios', 'js', 'flutter', 'react-native']
-          },
-          {
-            title: 'Password management',
-            route: '/lib/auth/password_management',
-            filters: ['android', 'flutter', 'ios']
           },
           {
             title: 'Sign out',
