@@ -1,6 +1,25 @@
 export const meta = {
   title: `Delete user`,
-  description: `Delete a user`
+  description: `Delete a user`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 import ios0 from '/src/fragments/lib/auth/native_common/delete_user/common.mdx';
@@ -13,11 +32,11 @@ import flutter1 from '/src/fragments/lib/auth/native_common/delete_user/common.m
 
 import javascript2 from '/src/fragments/lib/auth/js/delete_user.mdx';
 
-<Fragments fragments = {{ js: javascript2 }}/>
+<Fragments fragments={{ js: javascript2 }} />
 
 import reactnative0 from '/src/fragments/lib/auth/js/delete_user.mdx';
 
-<Fragments fragments = {{ 'react-native': reactnative0 }}/>
+<Fragments fragments={{ 'react-native': reactnative0 }} />
 
 import android3 from '/src/fragments/lib/auth/native_common/delete_user/common.mdx';
 

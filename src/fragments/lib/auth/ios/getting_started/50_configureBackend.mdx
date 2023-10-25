@@ -132,6 +132,22 @@ If you are not using the Amplify CLI, existing Authentication resources from AWS
         "Auth": {
           "Default": {
             "authenticationFlowType": "USER_SRP_AUTH",
+            "socialProviders": [],
+            "usernameAttributes": [],
+            "signupAttributes": [
+                "[SIGNUP MECHANISM]"
+            ],
+            "passwordProtectionSettings": {
+                "passwordPolicyMinLength": [PASSWORD LENGTH],
+                "passwordPolicyCharacters": []
+            },
+            "mfaConfiguration": "OFF",
+            "mfaTypes": [
+                "[MFA TYPE]"
+            ],
+            "verificationMechanisms": [
+                "[VERIFICATION MECHANISM]"
+            ],
             "OAuth": {
               "WebDomain": "[YOUR COGNITO DOMAIN ]",
               "AppClientId": "[COGNITO USER POOL APP CLIENT ID]",

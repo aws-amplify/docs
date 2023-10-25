@@ -1,11 +1,13 @@
 import { Link, View } from '@aws-amplify/ui-react';
 import { FiArrowRightCircle } from 'react-icons/fi';
 import { BannerContainer } from './styles';
+import { trackWhatsNewBanner } from '../../utils/track';
 
 export default function WhatsNewBanner({ href, content }) {
   return (
     <BannerContainer>
       <Link
+        onClick={trackWhatsNewBanner}
         href={href}
         padding={'4px 16px'}
         borderRadius={16}

@@ -1,16 +1,35 @@
 export const meta = {
   title: `Record notification events`,
   description: `Record Notification events with the Amazon Pinpoint service.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import android0 from "/src/fragments/lib/push-notifications/android//record_notifications/10_handle_notification_received.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{android: android0}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
-import android3 from "/src/fragments/lib/push-notifications/common/record-notifications.mdx";
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
 
-<Fragments fragments={{android: android3}} />
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
 
-import ios1 from "/src/fragments/lib/push-notifications/common/record-notifications.mdx";
+import android0 from '/src/fragments/lib/push-notifications/android//record_notifications/10_handle_notification_received.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ android: android0 }} />
+
+import android3 from '/src/fragments/lib/push-notifications/common/record-notifications.mdx';
+
+<Fragments fragments={{ android: android3 }} />
+
+import ios1 from '/src/fragments/lib/push-notifications/common/record-notifications.mdx';
+
+<Fragments fragments={{ ios: ios1 }} />

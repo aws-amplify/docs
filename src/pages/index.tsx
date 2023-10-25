@@ -1,6 +1,6 @@
 import { Grid } from 'theme-ui';
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import Hero from '../components/Hero';
 import LandingHeroCTA from '../components/LandingHeroCTA';
@@ -10,6 +10,8 @@ import FeaturesGrid from '../components/FeaturesGrid';
 import LinkBanner from '../components/LinkBanner';
 import Footer from '../components/Footer';
 import SecondaryNav from '../components/SecondaryNav';
+import { PageContext } from '@/components/Page';
+import { parseLocalStorage } from '@/utils/parseLocalStorage';
 
 import { trackPageVisit } from '../utils/track';
 import { NavMenuItem, GlobalNav } from '../components/GlobalNav';
@@ -29,12 +31,21 @@ const meta = {
 };
 
 const Page = () => {
+  const [isMounted, setIsMounted] = useState(false);
+  const [filterKeys, setFilterKeys] = useState({});
+
+  useEffect(() => {
+    setFilterKeys(parseLocalStorage('filterKeys', {}));
+  }, []);
+
   useEffect(() => {
     trackPageVisit();
+
+    setIsMounted(true);
   }, []);
 
   return (
-    <>
+    <PageContext.Provider value={filterKeys}>
       <Head>
         <title>{meta.title}</title>
         <meta name="description" content={meta.description} />
@@ -79,7 +90,7 @@ const Page = () => {
         socialLinks={SOCIAL_LINKS as NavMenuItem[]}
         currentSite={'Docs'}
       />
-      <SecondaryNav />
+      {isMounted ? <SecondaryNav /> : <></>}
       <WhatsNewBanner
         href="https://aws.amazon.com/blogs/mobile/announcing-aws-amplifys-graphql-api-cdk-construct-deploy-real-time-graphql-api-and-data-stack-on-aws/"
         content="Amplify GraphQL API now available as CDK construct"
@@ -151,7 +162,7 @@ const Page = () => {
       <FeaturesGrid />
       <LinkBanner />
       <Footer />
-    </>
+    </PageContext.Provider>
   );
 };
 
