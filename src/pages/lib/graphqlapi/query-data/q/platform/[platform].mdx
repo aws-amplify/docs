@@ -5,7 +5,7 @@ export const meta = {
 
 <InlineFilter filters={["js", "react-native"]}>
 
-You can read application data using the Amplify GraphQL client. In this guide we will review the difference between reading data and getting data, how to filter query results to get just the data you need, and how to paginate results to make your data more manageable. We will also show you how to cancel these requests when needed.
+You can read application data using the Amplify GraphQL client. In this guide, we will review the difference between reading data and getting data, how to filter query results to get just the data you need, and how to paginate results to make your data more manageable. We will also show you how to cancel these requests when needed.
 
 Before you begin, you will need:
 
@@ -25,17 +25,17 @@ Before you begin, you will need:
 
 ## List and get your data
   
-Queries are used to read data via the API and include the `list` and `get` operations.
+Queries are used to read data through the API and include the `list` and `get` operations.
   
-Amplify CLI auto-generates both `list` and `get` queries in your GraphQL API for any `@model` type. A `list` will get you several items, such as Todo items, and does not require you to pass an identifier for a specific record. This is best suited for getting an overview or summary of items or you can enhance the `list` operation with filters by specific criteria across a list of items. When you want to query a single entry by an identifier, you would use `get` to retrieve a specific Todo item.
+The Amplify CLI automatically creates `list` and `get` queries for any @model type in your GraphQL API. The `list` query retrieves multiple items, such as Todo items, without needing to specific an identifier for a particular record. This is best suited for getting an overview or summary of items, or for enhancing the `list` operation to filter the items by specific criteria. When you want to query a single entry by an identifier, you would use `get` to retrieve a specific Todo item.
 
 <Callout>
 
-**Note:** The cost structure of your underlying data source can impact the cost to run some queries. For example, the `list` operation uses DynamoDB "scan operations" which can use more read request units than the `get` operation. You will want to review the associated costs for these operations for your data source. In our example case here we are using Amazon DynamoDB and you can [learn more about how DynamoDB pricing is calculated](https://aws.amazon.com/dynamodb/pricing/) on their site.
+**Note:** The cost structure of your underlying data source can impact the cost to run some queries. For example, the `list` operation uses Amazon DynamoDB "scan operations," which can use more read request units than the `get` operation. You will want to review the associated costs for these operations for your data source. In our example, we are using DynamoDB. You can learn more about how DynamoDB costs are calculated by visiting [Amazon DynamoDB pricing](https://aws.amazon.com/dynamodb/pricing/).
 
 </Callout>
 
-The Amplify CLI automatically generates GraphQL client code for all possible GraphQL operations — mutations, queries, and subscriptions. For JavaScript applications, this generated code is saved in the `src/graphql` folder by default. 
+The Amplify CLI automatically generates GraphQL client code for all possible GraphQL operations—mutations, queries, and subscriptions. For JavaScript applications, this generated code is saved in the `src/graphql` folder by default. 
 
 To run a GraphQL query, import the generated query and run it with `API.graphql`:
 
@@ -84,11 +84,11 @@ const oneTodo = await API.graphql({
 
 </BlockSwitcher>
 
-<Accordion title='Troubleshoot unauthorized error' headingLevel='4' eyebrow='Troubleshooting'>
+<Accordion title='Troubleshoot unauthorized errors' headingLevel='4' eyebrow='Troubleshooting'>
 
-You can run into unauthorized errors if you do not have at least one auth rule defined. 
+You can run into unauthorized errors if you don't have at least one auth rule defined. 
 
-Use the `@auth` directive to configure authorization rules for public, sign-in user, per user, and per user group data access. **Authorization rules operate on the deny-by-default principle**. Meaning that if an authorization rule is not specifically configured, it is denied.
+Use the `@auth` directive to configure authorization rules for public, signed-in user, per-user, and per-user-group data access. **Authorization rules operate on the deny-by-default principle**, meaning that if an authorization rule is not specifically configured, it is denied.
 
 ```graphql
 type Todo @model @auth(rules: [{ allow: owner }]) {
@@ -96,7 +96,7 @@ type Todo @model @auth(rules: [{ allow: owner }]) {
 }
 ```
 
-In the example above, each signed-in user, or also known as "owner", of a Todo can create, read, update, and delete their own Todos.
+In the previous example, each signed-in user, or "owner", of a Todo can create, read, update, and delete their own Todos.
 
 Amplify also allows you to restrict the allowed operations, combine multiple authorization rules, and apply fine-grained field-level authorization.
 
@@ -109,9 +109,9 @@ type Todo @model @auth(rules: [
 }
 ```
 
-In the example above, everyone (`public`) can read every Todo but owner (authenticated users) can create, read, update, and delete their own Todos.
+In the previous example, everyone (`public`) can read every Todo, but the `owner` (authenticated users) can create, read, update, and delete their own Todos.
 
-To learn more, see the [Authorization Rules for the API](https://docs.amplify.aws/cli/graphql/authorization-rules/).
+To learn more, see [Authorization rules](https://docs.amplify.aws/cli/graphql/authorization-rules/) for the GraphQL API.
 
 </Accordion>
 
@@ -119,7 +119,7 @@ To learn more, see the [Authorization Rules for the API](https://docs.amplify.aw
 
 <Accordion title='Custom authorization mode to query data' headingLevel='4' eyebrow='Learn more'>
 
-Each AWS AppSync API uses a default authorization mode when you configure your app. To override this default, pass an `authMode` property. For example, this is useful when you have public reads through API Key auth and authenticated reads through IAM auth. The following examples show how you can query data with custom authorization mode:
+Each AWS AppSync API uses a default authorization mode when you configure your app. To override this default, pass an `authMode` property. For example, this is useful when you have public reads through API Key auth and authenticated reads through IAM auth. The following examples show how you can query data with the custom authorization mode:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -208,7 +208,7 @@ await API.graphql({
 
 <Accordion title='How do filters work?' headingLevel='4' eyebrow='Learn more'>
 
-You can find the input schemas in the Docs pane of the GraphQL explorer or inside your autogenerated `/graphql` folder. They look like this:
+You can find the input schemas in the **Docs** pane of the GraphQL explorer or inside your auto-generated `/graphql` folder. They look like this:
 
 ```graphql
 listTodos(
@@ -248,7 +248,7 @@ These filters vary based on the type of the field, but are linked to correspondi
 
 ### Compound filters
 
-You can combine filters with `and`, `or`, and `not` Boolean logic. Observe, in the autogenerated schema above, that `ModelTodoFilterInput` is recursive in respect to those fields. So if, for example, you wanted to filter for `priority` values of 1 OR 2, you would do this:
+You can combine filters with `and`, `or`, and `not` Boolean logic. Observe, in the previous auto-generated schema, that `ModelTodoFilterInput` is recursive in respect to those fields. So if, for example, you wanted to filter for `priority` values of 1 *or* 2, you would do this:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -400,9 +400,9 @@ type ModelTodoConnection {
 
 When querying the API using the `listTodos` query, the return type will be of `ModelTodoConnection`, meaning you can return both an array of `Todos` and a `nextToken`.
 
-The `nextToken` is what is used to handle pagination. If the `nextToken` is `null`, that means that there is no more data to return from the API. If the `nextToken` is present, you can use the value as an argument to the next `listTodos` query to return the next selection set from the API.
+The `nextToken` handles pagination. If the `nextToken` is `null`, that means there is no more data to return from the API. If the `nextToken` is present, you can use the value as an argument to the next `listTodos` query to return the next selection set from the API.
 
-To test this out, try creating 5 Todos using a mutation like this:
+To test this, try creating five Todos using a mutation like this:
 
 ```sh
 mutation createTodo {
@@ -417,7 +417,7 @@ mutation createTodo {
 }
 ```
 
-Next, you can set the limit of the number of Todos in a query by passing in a `limit` argument. In this query, you'll set the limit to 2 items and request a `nextToken` as a return value:
+Next, you can set the limit of the number of Todos in a query by specifying a `limit` argument. In this query, you will set the limit to two items and request a `nextToken` as a return value:
 
 ```graphql
 query listTodos {
@@ -432,7 +432,7 @@ query listTodos {
 }
 ```
 
- Now, to query the next 2 items from the API, you can pass this `nextToken` as the argument:
+ Now, to query the next two items from the API, specify this `nextToken` as the argument:
 
 ```graphql
 query listTodos {
@@ -451,7 +451,7 @@ When there are no other items left to be returned, the `nextToken` in the respon
 
 #### Querying from a JavaScript application
 
-The `listTodos` query should have been created for you automatically by the CLI, but for reference purposes it should look something like this:
+The `listTodos` query is auto-generated by the CLI; for reference, it should look something like this:
 
 ```js
 const listTodos = `
@@ -468,7 +468,7 @@ const listTodos = `
 `
 ```
 
-To pass in a `limit` in a query from a JavaScript application, you can use the following code by setting the limit as a variable:
+To specify a `limit` in a query from a JavaScript application, you can use the following code by setting the limit as a variable:
 
 ```js
 import { API } from 'aws-amplify';
@@ -524,7 +524,7 @@ __Limitations:__
 - There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
 - Sorting is [available in DataStore](https://docs.amplify.aws/lib/datastore/data-access/q/platform/js#predicates) but not in AWS AppSync.
 - AWS AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/guides/graphql-server-specification) but are spiritually similar.
-- You [cannot query by `page` number](https://github.com/aws-amplify/amplify-cli/issues/5086), you have to query by `nextToken`.
+- You [cannot query by `page` number](https://github.com/aws-amplify/amplify-cli/issues/5086); you have to query by `nextToken`.
 
 </Callout>
 
@@ -566,7 +566,7 @@ API.cancel(promise, "my error message");
 
 ## Conclusion
 
-Congratulations! You have finished the **Read application data** guide. In this guide, you learned how to read your data through `Get` and `List` queries.
+Congratulations! You have finished the **Read application data** guide. In this guide, you learned how to read your data through `get` and `list` queries.
 
 ## Next steps
 
@@ -575,18 +575,18 @@ Our recommended next steps include subscribing to real-time events to look for m
 <InlineFilter filters={["js"]}>
 
 - [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/js/)
-- [Authorization Rules](/cli/graphql/authorization-rules/)
-- [Data Modeling](/cli/graphql/data-modeling/)
-- [Custom Business Logic](/cli/graphql/custom-business-logic/)
+- [Authorization rules](/cli/graphql/authorization-rules/)
+- [Data modeling](/cli/graphql/data-modeling/)
+- [Custom business logic](/cli/graphql/custom-business-logic/)
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
 - [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/react-native/)
-- [Authorization Rules](/cli/graphql/authorization-rules/)
-- [Data Modeling](/cli/graphql/data-modeling/)
-- [Custom Business Logic](/cli/graphql/custom-business-logic/)
+- [Authorization rules](/cli/graphql/authorization-rules/)
+- [Data modeling](/cli/graphql/data-modeling/)
+- [Custom business logic](/cli/graphql/custom-business-logic/)
 
 </InlineFilter>
 

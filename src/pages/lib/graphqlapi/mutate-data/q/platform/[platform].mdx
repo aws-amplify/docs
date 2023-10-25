@@ -3,7 +3,7 @@ export const meta = {
   description: `Learn more about how to create and update data using GraphQL APIs in Amplify`
 };
 
-In this guide, you will learn how to create, update, and delete your data using Amplify Libraries' GraphQL client.
+In this guide, you will learn how to create, update, and delete your data using Amplify Libraries' GraphQL client. 
 
 Before you begin, you will need:
 
@@ -39,7 +39,7 @@ Before you begin, you will need:
 
 ## Run mutations to create, update, and delete application data
   
-In GraphQL, mutations are APIs that are used to create, update, or delete data. This is different than queries that are used to read the data but not change it. What follows are some examples of how you can create, update, and delete items using the Amplify GraphQL client.
+In GraphQL, mutations are APIs that are used to create, update, or delete data. This is different than queries, which are used to read the data but not change it. The following examples demonstrate how you can create, update, and delete items using the Amplify GraphQL client.
 
 ### Create an item
 
@@ -96,7 +96,7 @@ You should see the item created: `Learn AWS AppSync`.
 
 <Callout>
 
-__Note:__ You do not have to pass in the `createdAt` field. Amplify manages this field for you.
+__Note:__ You do not need to specify the `createdAt` field. Amplify will automatically populate this field for you.
 
 </Callout>
 
@@ -325,8 +325,8 @@ const updatedTodo = await API.graphql({
 
 __Notes:__
 
-- You do not have to pass in the `updatedAt` field. AWS Amplify manages this field for you.
-- If you pass in *extra* input fields not expected by the API, this query will fail. You can see this in the `error` field returned by the query. In GraphQL, errors are not thrown like exceptions in other languages. Instead, any errors are captured and returned as part of the query result in the `error` field.
+- You do not need to specify the `updatedAt` field. Amplify will automatically populate this field for you.
+- If you specify *extra* input fields not expected by the API, this query will fail. You can see this in the `error` field returned by the query. In GraphQL, errors are not thrown like exceptions in other languages. Instead, any errors are captured and returned as part of the query result in the `error` field.
 
 </Callout>
 
@@ -368,7 +368,7 @@ Future<void> updateTodo(Todo originalTodo) async {
 
 <InlineFilter filters={["js", "react-native"]}>
 
-You can then delete the Todo by using the delete mutation. Only an `id` is needed to identify which item to delete:
+You can then delete the Todo by using the delete mutation. To specify which item to delete, you only need to provide the `id` of that item:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -413,13 +413,13 @@ const deletedTodo = await API.graphql({
 
 <Callout>
 
-__Note:__ Join table records must be deleted prior to deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record prior to deleting a Post or Tag.
+__Note:__ Join table records must be deleted before deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record before deleting a Post or Tag.
 
 </Callout>
 
 <Accordion title='Custom authorization mode to mutate data' headingLevel='4' eyebrow='Learn more'>
 
-Each AWS AppSync API uses a default authorization mode when you configure your app. If you get unauthorized errors you may need to update your authorization mode. To override this default, pass an `authMode` property. The following examples show how you can mutate data with custom authorization mode:
+Each AWS AppSync API uses a default authorization mode when you configure your app. If you get unauthorized errors, you may need to update your authorization mode. To override this default, pass an `authMode` property. The following examples show how you can mutate data with a custom authorization mode:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -500,7 +500,7 @@ Future<void> deleteTodo(Todo todoToDelete) async {
 }
 ```
 
-Or you can delete by ID which is ideal if you do not have the instance in memory yet:
+Or you can delete by ID, which is ideal if you do not have the instance in memory yet:
 
 ```dart
 Future<void> deleteTodoById(Todo todoToDelete) async {
@@ -519,7 +519,7 @@ Future<void> deleteTodoById(Todo todoToDelete) async {
 
 ## Cancel mutation requests
 
-You can cancel any GraphQL API request calling `.cancel` on the GraphQL request promise that's returned by `API.graphql(...)`.
+You can cancel any GraphQL API request by calling `.cancel` on the GraphQL request promise that's returned by `API.graphql(...)`.
 
 ```javascript
 const promise = API.graphql({ query: "..." });
@@ -557,7 +557,7 @@ API.cancel(promise, "my error message");
 
 ## Conclusion
 
-Congratulations! You have finished the **Create, update, and delete application data** guide. In this guide, you created, updated, and deleted your app data via the GraphQL API.
+Congratulations! You have finished the **Create, update, and delete application data** guide. In this guide, you created, updated, and deleted your app data through the GraphQL API.
 
 ## Next steps
 

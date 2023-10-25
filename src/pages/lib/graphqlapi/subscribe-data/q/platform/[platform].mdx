@@ -1,11 +1,11 @@
 export const meta = {
   title: `Subscribe to real-time events`,
-  description: `Learn more about how to observe to data changes using subscriptions in Amplify.`
+  description: `Learn more about how to observe data changes using subscriptions in Amplify.`
 };
 
 <InlineFilter filters={["js", "react-native"]}>
 
-In this guide, we outline the benefits of enabling real-time data integrations and how to set up and filter these subscriptions. We will also cover how to unsubscribe from subscriptions when needed.
+In this guide, we will outline the benefits of enabling real-time data integrations and how to set up and filter these subscriptions. We will also cover how to unsubscribe from subscriptions.
 
 Before you begin, you will need:
 
@@ -25,7 +25,7 @@ Before you begin, you will need:
 
 ## Set up a real-time subscription
 
-Subscriptions is a GraphQL feature that allows the server to send data to its clients when a specific event happens. For example, you can subscribe to an event when a new record is created, updated, or deleted via the API. You can enable real-time data integration in your app with a subscription.
+Subscriptions is a GraphQL feature that allows the server to send data to its clients when a specific event happens. For example, you can subscribe to an event when a new record is created, updated, or deleted through the API. You can enable real-time data integration in your app with a subscription.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -106,7 +106,7 @@ deleteSub.unsubscribe();
 </Block>
 </BlockSwitcher>
 
-## Filter real-time subscriptions server-side
+## Set up server-side subscription filters
 
 Subscriptions take an optional `filter` argument to define service-side subscription filters:
 
@@ -158,14 +158,14 @@ const sub = API.graphql(
 </Block>
 </BlockSwitcher>
 
-If you want to get all subscription events, don't pass any `filter` parameters.
+If you want to get all subscription events, don't specify any `filter` parameters.
 
 <Callout>
 
 __Limitations:__
-- Passing an empty object `{}` as a filter is **not** recommended. Using `{}` as a filter might cause inconsistent behavior based on your data model's authorization rules.
-- If you are using dynamic group authorization and you authorize based on a single group per record, then subscriptions are only supported if the user is part of 5 or fewer user groups.
-- Additionally, if you authorize via an array of groups (`groups: [String]`),
+- Specifying an empty object `{}` as a filter is **not** recommended. Using `{}` as a filter might cause inconsistent behavior based on your data model's authorization rules.
+- If you are using dynamic group authorization and you authorize based on a single group per record, subscriptions are only supported if the user is part of five or fewer user groups.
+- Additionally, if you authorize by using an array of groups (`groups: [String]`),
   - subscriptions are only supported if the user is part of 20 or fewer groups
   - you can only authorize 20 or fewer user groups per record
 
@@ -203,7 +203,7 @@ Hub.listen('api', (data: any) => {
 
 Connections between your application and backend subscriptions can be interrupted for various reasons, including network outages or the device entering sleep mode. Your subscriptions will automatically reconnect when it becomes possible to do so.
 
-While offline, your application will miss messages and will not automatically catch up when reconnection happens. Depending on your use case, you may want to take action for your app to catch up when it comes back online.
+While offline, your application will miss messages and will not automatically catch up when reconnected. Depending on your use case, you may want to take action for your app to catch up when it comes back online.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -326,7 +326,7 @@ const cleanupSubscriptions = () => {
 
 <Accordion title='Create a custom GraphQL subscription by ID' headingLevel='4' eyebrow='Walkthrough'>
 
-This brief walkthrough provides additional step-by-step guidance for creating a custom GraphQL subscription that will only be connected and triggered by a mutation containing a specific ID as an argument. Take for example the following GraphQL schema:
+This brief walkthrough provides additional step-by-step guidance for creating a custom GraphQL subscription that will only be connected and triggered by a mutation containing a specific ID as an argument. Take, for example, the following GraphQL schema:
 
 ```graphql
 type Post @model @auth(rules: [{ allow: public }]){
@@ -356,11 +356,11 @@ onUpdateComment
 onDeleteComment
 ```
 
-One operation that is not covered is if you wanted to only subscribe to comments for a specific post.
+One operation that is not covered is how to subscribe to comments for only a single, specific post.
 
-Because the schema has a one-to-many relationship enabled between posts and comments, you can use the auto-generated field `postCommentsId` that defines the relationship between the post and the comment to set this up in a new Subscription definition.
+Because the schema has a one-to-many relationship enabled between posts and comments, you can use the auto-generated field `postCommentsId`, which defines the relationship, to set this up in a new Subscription.
 
-To implement this, you could update the schema with the following:
+To implement this, update the schema with the following:
 
 ```graphql
 type Post @model @auth(rules: [{ allow: public }]){
@@ -383,7 +383,7 @@ type Subscription {
 
 ```
 
-Now you can create a custom subscription for comment creation with a specific post id:
+Now you can create a custom subscription for comment creation with a specific post ID:
 
 ```js
 import { API } from 'aws-amplify';
@@ -415,15 +415,15 @@ sub.unsubscribe();
 
 ## Conclusion
 
-Congratulations! You have finished the **Subscribe to real-time events** guide. In this guide, you set up subscriptions for real-time events and understand how to filter and cancel these subscriptions when needed.
+Congratulations! You have finished the **Subscribe to real-time events** guide. In this guide, you set up subscriptions for real-time events and learned how to filter and cancel these subscriptions when needed.
 
 ## Next steps
 
 Our recommended next steps include continuing to build out and customize your information architecture for your data. Some resources that will help with this work include:
 
-- [Authorization Rules](/cli/graphql/authorization-rules/)
-- [Data Modeling](/cli/graphql/data-modeling/)
-- [Custom Business Logic](/cli/graphql/custom-business-logic/)
+- [Authorization rules](/cli/graphql/authorization-rules/)
+- [Data modeling](/cli/graphql/data-modeling/)
+- [Custom business logic](/cli/graphql/custom-business-logic/)
 
 </InlineFilter>
 
