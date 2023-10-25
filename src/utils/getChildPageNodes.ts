@@ -1,7 +1,12 @@
 import directory from '../directory/directory.json';
 import { PageNode } from 'src/directory/directory';
 
-export const getChildPageNodes = (route) => {
+/**
+ * Helper function to be used in `getStaticProps` to get child nodes
+ * @param route The route to display childen pages for
+ * @returns
+ */
+export const getChildPageNodes = (route: string) => {
   return traverseDirectory(route, directory as PageNode);
 };
 
