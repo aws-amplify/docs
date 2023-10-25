@@ -1,7 +1,14 @@
 import { useState, forwardRef, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Flex, View, Button, ThemeProvider } from '@aws-amplify/ui-react';
+import {
+  Flex,
+  View,
+  Button,
+  ThemeProvider,
+  IconsProvider
+} from '@aws-amplify/ui-react';
+import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
 import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
@@ -18,8 +25,9 @@ import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { trackPageVisit } from '../../utils/track';
 import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
-import { directory } from 'src/directory/directory.mjs';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
+import directory from 'src/directory/directory.json';
+import { PageNode } from 'src/directory/directory';
 
 export const Layout = forwardRef(function Layout(
   {
@@ -49,7 +57,7 @@ export const Layout = forwardRef(function Layout(
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
 
-  const rootPage = directory;
+  const rootPage = directory as PageNode;
   const platformOverviewPage =
     rootPage.children && rootPage.children.length === 1
       ? rootPage.children[0]
@@ -111,74 +119,76 @@ export const Layout = forwardRef(function Layout(
       </Head>
       <LayoutProvider value={{ menuOpen, toggleMenuOpen }}>
         <ThemeProvider theme={defaultTheme}>
-          <View className={`layout-wrapper layout-wrapper--${pageType}`}>
-            {pageType === 'home' ? <SpaceShip /> : null}
-            <GlobalNav
-              leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
-              rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-              currentSite="Docs"
-            />
-            <View className={`layout-search layout-search--${pageType}`}>
-              <Flex className="search-menu-bar">
-                <Button
-                  onClick={() => toggleMenuOpen(true)}
-                  size="small"
-                  className="search-menu-toggle mobile-toggle"
-                >
-                  <IconMenu aria-hidden="true" />
-                  Menu
-                </Button>
-                <View className="search-menu-bar__search">
-                  <SearchBar />
-                </View>
-              </Flex>
-            </View>
-            <View
-              className={`layout-sidebar${
-                menuOpen ? ' layout-sidebar--expanded' : ''
-              }`}
-            >
-              <View
-                className={`layout-sidebar__backdrop${
-                  menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
-                }`}
-                onClick={() => toggleMenuOpen(false)}
-              ></View>
-              <View
-                className={`layout-sidebar__inner${
-                  menuOpen ? ' layout-sidebar__inner--expanded' : ''
-                }`}
-              >
-                <div className="layout-sidebar-platform">
+          <IconsProvider icons={defaultIcons}>
+            <View className={`layout-wrapper layout-wrapper--${pageType}`}>
+              {pageType === 'home' ? <SpaceShip /> : null}
+              <GlobalNav
+                leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
+                rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+                currentSite="Docs"
+              />
+              <View className={`layout-search layout-search--${pageType}`}>
+                <Flex className="search-menu-bar">
                   <Button
+                    onClick={() => toggleMenuOpen(true)}
                     size="small"
-                    colorTheme="overlay"
-                    className="mobile-toggle"
-                    onClick={() => toggleMenuOpen(false)}
+                    className="search-menu-toggle mobile-toggle"
                   >
-                    <IconDoubleChevron aria-hidden="true" />
+                    <IconMenu aria-hidden="true" />
                     Menu
                   </Button>
-                  <PlatformNavigator
-                    currentPlatform={PLATFORM_DISPLAY_NAMES[currentPlatform]}
-                  />
-                </div>
-                <div className="layout-sidebar-menu">
-                  <Menu
-                    currentPlatform={currentPlatform}
-                    platformOverviewPage={platformOverviewPage}
-                  />
-                </div>
+                  <View className="search-menu-bar__search">
+                    <SearchBar />
+                  </View>
+                </Flex>
+              </View>
+              <View
+                className={`layout-sidebar${
+                  menuOpen ? ' layout-sidebar--expanded' : ''
+                }`}
+              >
+                <View
+                  className={`layout-sidebar__backdrop${
+                    menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
+                  }`}
+                  onClick={() => toggleMenuOpen(false)}
+                ></View>
+                <View
+                  className={`layout-sidebar__inner${
+                    menuOpen ? ' layout-sidebar__inner--expanded' : ''
+                  }`}
+                >
+                  <div className="layout-sidebar-platform">
+                    <Button
+                      size="small"
+                      colorTheme="overlay"
+                      className="mobile-toggle"
+                      onClick={() => toggleMenuOpen(false)}
+                    >
+                      <IconDoubleChevron aria-hidden="true" />
+                      Menu
+                    </Button>
+                    <PlatformNavigator
+                      currentPlatform={PLATFORM_DISPLAY_NAMES[currentPlatform]}
+                    />
+                  </div>
+                  <div className="layout-sidebar-menu">
+                    <Menu
+                      currentPlatform={currentPlatform}
+                      platformOverviewPage={platformOverviewPage}
+                    />
+                  </div>
+                </View>
+              </View>
+
+              <View className="layout-main">
+                <Flex as="main" className="main">
+                  {children}
+                </Flex>
+                <Footer />
               </View>
             </View>
-
-            <View className="layout-main">
-              <Flex as="main" className="main">
-                {children}
-              </Flex>
-              <Footer />
-            </View>
-          </View>
+          </IconsProvider>
         </ThemeProvider>
       </LayoutProvider>
     </>

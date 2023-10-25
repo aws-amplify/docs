@@ -58,6 +58,28 @@ h4 {
   text-wrap: balance;
 }
 
+/* Style heading links */
+h2,
+h3 {
+  a:not([class]) {
+    color: var(--amplify-colors-font-primary);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.main {
+  & > h2 {
+    margin-top: var(--amplify-space-large);
+  }
+  & > h2,
+  & > h3 {
+    scroll-margin-block: 9rem;
+  }
+}
+
 /* A elements that don't have a class get default styles */
 a:not([class]) {
   text-decoration-skip-ink: auto;
