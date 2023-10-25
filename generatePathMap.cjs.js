@@ -126,19 +126,6 @@ function generatePathMap(
       } else if (route.startsWith('/start')) {
         filterKind = 'integration';
       }
-
-      if (filterKind !== '') {
-        const aOrAn = 'aeiou'.includes(filterKind[0]) ? 'an' : 'a';
-        pathMap[route] = {
-          page: '/ChooseFilterPage',
-          query: {
-            address: route,
-            directoryPath: '/ChooseFilterPage',
-            filterKind: filterKind,
-            message: `Choose ${aOrAn} ${filterKind}:`
-          }
-        };
-      }
     }
 
     if (items) {
@@ -208,17 +195,6 @@ function generatePathMap(
         page: `${route}/q/${routeType}/[${routeType}]`
       };
     });
-    const aOrAn = 'aeiou'.includes(routeType[0]) ? 'an' : 'a';
-    pathMap[route] = {
-      page: '/ChooseFilterPage',
-      query: {
-        address: route,
-        directoryPath: '/ChooseFilterPage',
-        filterKind: routeType,
-        filters: filters,
-        message: `Choose ${aOrAn} ${routeType}:`
-      }
-    };
   }
   return pathMap;
 }

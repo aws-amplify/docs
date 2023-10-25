@@ -1,6 +1,25 @@
 export const meta = {
   title: `Auth events`,
-  description: `Listen to various auth events`
+  description: `Listen to various auth events`,
+  filterKey: "platform",
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { INTEGRATION_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 AWS Cognito Auth Plugin sends important events through Amplify Hub.
@@ -36,6 +55,12 @@ import { Hub } from 'aws-amplify/utils';
 
 Hub.listen('auth', ({ payload }) => {
   switch (payload.event) {
+    case 'signedIn':
+      console.log('user have been signedIn successfully.');
+      break;
+    case 'signedOut':
+      console.log('user have been signedOut successfully.');
+      break;
     case 'tokenRefresh':
       console.log('auth tokens have been refreshed.');
       break;

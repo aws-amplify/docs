@@ -1,16 +1,35 @@
 export const meta = {
   title: `Use existing Amazon Cognito resources`,
   description: `Configure the Amplify Libraries to use existing Amazon Cognito resources by referencing them in your configuration.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-import android0 from "/src/fragments/lib/auth/existing-resources.mdx";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-<Fragments fragments={{android: android0}} />
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
-import ios1 from "/src/fragments/lib/auth/existing-resources.mdx";
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
 
-<Fragments fragments={{ios: ios1}} />
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
 
-import flutter2 from "/src/fragments/lib/auth/existing-resources.mdx";
+import android0 from '/src/fragments/lib/auth/existing-resources.mdx';
 
-<Fragments fragments={{flutter: flutter2}} />
+<Fragments fragments={{ android: android0 }} />
+
+import ios1 from '/src/fragments/lib/auth/existing-resources.mdx';
+
+<Fragments fragments={{ ios: ios1 }} />
+
+import flutter2 from '/src/fragments/lib/auth/existing-resources.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />
