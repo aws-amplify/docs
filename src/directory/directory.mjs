@@ -1459,6 +1459,21 @@ export const directory = {
           }
         ]
       },
+      interactions: {
+        title: 'Interactions',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/interactions/getting-started',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Interact with bots',
+            route: '/lib-v1/interactions/chatbot',
+            filters: ['js', 'react-native']
+          }
+        ]
+      },
       predictions: {
         title: 'Predictions',
         items: [
