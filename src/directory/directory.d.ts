@@ -14,7 +14,7 @@ export type PageNode = {
   /**
    * Denotes that node is an external link (used for the navigation menu)
    */
-  isExternal: boolean;
+  isExternal?: boolean;
 
   /**
    * The platforms that the pages apply to
@@ -22,12 +22,22 @@ export type PageNode = {
   platforms: Platform[];
 
   /**
-   * The page's file path or external URL
+   * The relative file path of the page
+   */
+  path?: string;
+
+  /**
+   * The page's route (used for page navigation in Next.js) or external URL
    */
   route: string;
 
   /**
    * The children pages
    */
-  children: PageNode[] | undefined;
+  children?: PageNode[];
+
+  /**
+   * Root url for the home page
+   */
+  url?: string;
 };

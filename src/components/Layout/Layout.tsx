@@ -25,7 +25,8 @@ import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { trackPageVisit } from '../../utils/track';
 import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
-import { directory } from 'src/directory/directory.mjs';
+import directory from 'src/directory/directory.json';
+import { PageNode } from 'src/directory/directory';
 
 export const Layout = forwardRef(function Layout(
   {
@@ -55,7 +56,7 @@ export const Layout = forwardRef(function Layout(
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
 
-  const rootPage = directory;
+  const rootPage = directory as PageNode;
   const platformOverviewPage =
     rootPage.children && rootPage.children.length === 1
       ? rootPage.children[0]

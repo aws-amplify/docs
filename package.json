@@ -58,8 +58,8 @@
     "unist-util-visit": "^4.1.0"
   },
   "devDependencies": {
-    "@next/mdx": "^13.5.4",
     "@next/bundle-analyzer": "^13.5.3",
+    "@next/mdx": "^13.5.4",
     "@stencil/core": "^1.17.0",
     "@stencil/eslint-plugin": "^0.2.1",
     "@stencil/router": "^1.0.1",
@@ -86,8 +86,9 @@
     "husky": "^8.0.1",
     "jest": "^26.6.3",
     "jest-cli": "^26.6.3",
-    "prettier": "^3.0.3",
+    "json5": "^2.2.3",
     "next-bundle-analyzer": "^0.6.7",
+    "prettier": "^3.0.3",
     "puppeteer": "^20.8.2",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "sass": "^1.54.8",
@@ -104,7 +105,7 @@
     "@babel/traverse": "^7.23.2",
     "loader-utils": "2.0.4",
     "minimatch": "3.1.2",
-    "json5": "2.2.2",
+    "json5": "^2.2.3",
     "decode-uri-component": "0.2.1",
     "fast-xml-parser": "4.2.5",
     "semver": "7.5.2",
@@ -143,15 +144,15 @@
     "clean": "rm -rf node_modules yarn.lock",
     "refresh": "yarn clean && yarn",
     "test": "jest",
-    "dev": "next dev",
+    "dev": "yarn prebuild && next dev",
     "spellcheck": "cspell \"src/**/*.mdx\" --no-progress",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
     "build": "node tasks/generate-sitemap.mjs && next build && next export -o client/www/next-build",
     "build:release": "yarn build && next-image-export-optimizer --exportFolderPath client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
-    "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test",
     "prepare": "husky install",
-    "analyze": "ANALYZE=true yarn next-build"
+    "analyze": "ANALYZE=true yarn next-build",
+    "prebuild": "node src/directory/generateDirectory.mjs"
   }
 }

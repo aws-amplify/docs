@@ -7,8 +7,8 @@ import { Flex, Heading, Button, Text } from '@aws-amplify/ui-react';
 import { Layout } from '@/components/Layout';
 
 export const meta = {
-  title: `Overview`,
-  description: `This is a description for the overview page.`,
+  title: 'Overview',
+  description: 'This is a description for the overview page.',
   platforms: [
     'android',
     'angular',
