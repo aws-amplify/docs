@@ -62,15 +62,17 @@ export const Layout = forwardRef(function Layout(
   let rootMenuNode;
 
   const isGen2 = router.asPath.split('/')[1] === 'gen2';
-  if (isGen2) {
-    if (homepageNode?.children && homepageNode.children.length > 0) {
-      rootMenuNode = homepageNode.children.find((node) => {
-        if (node.path) {
-          return node.path.indexOf('gen2') > -1;
-        }
-      });
-    }
-  } else {
+  const searhParam = isGen2 ? 'gen2' : '[platform]';
+
+  if (homepageNode?.children && homepageNode.children.length > 0) {
+    rootMenuNode = homepageNode.children.find((node) => {
+      if (node.path) {
+        return node.path.indexOf(searhParam) > -1;
+      }
+    });
+  }
+
+  if (!isGen2) {
     // [platform] will always be the very first subpath right?
     // when using `router.asPath` it returns a string that starts with a '/'
     // To get the "platform" the client was trying to visit, we have to get the string at index 1
@@ -83,14 +85,6 @@ export const Layout = forwardRef(function Layout(
       : PLATFORMS.includes(asPathPlatform)
       ? asPathPlatform
       : DEFAULT_PLATFORM;
-
-    if (homepageNode?.children && homepageNode.children.length > 0) {
-      rootMenuNode = homepageNode.children.find((node) => {
-        if (node.path) {
-          return node.path.indexOf('[platform]') > -1;
-        }
-      });
-    }
   }
 
   const title = [
