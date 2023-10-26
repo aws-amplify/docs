@@ -27,6 +27,7 @@ import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
 import directory from 'src/directory/directory.json';
 import { PageNode } from 'src/directory/directory';
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 
 export const Layout = forwardRef(function Layout(
   {
@@ -84,6 +85,30 @@ export const Layout = forwardRef(function Layout(
     .join(' - ');
 
   const description = pageDescription + 'AWS Amplify Docs';
+
+  let fullRoute = router.pathname;
+  const pieces = fullRoute.split('/');
+  let urls:string[] = [];
+  for(let i = 1; i <= pieces.length; i++){
+    urls.push(pieces.slice(0,i).join('/'));
+  }
+  urls.splice(0,1,"/");
+  console.log(urls);
+
+  const dummyBreadcrumbData = [
+    {
+      label: 'Home',
+      href: '/'
+    },
+    {
+      label: 'Javascript',
+      href: '/javascript'
+    },
+    {
+      label: 'Tutorial',
+      disabled: true
+    }
+  ]
 
   return (
     <>
@@ -180,6 +205,7 @@ export const Layout = forwardRef(function Layout(
 
               <View className="layout-main">
                 <Flex as="main" className="main">
+                  <Breadcrumbs items={dummyBreadcrumbData} />
                   {children}
                 </Flex>
                 <Footer />
