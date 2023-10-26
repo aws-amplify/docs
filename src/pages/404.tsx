@@ -1,9 +1,7 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import ExternalLink from '@/components/ExternalLink';
 import { IconExternalLink } from '@/components/Icons';
-import { Button, Flex, Text, View, Heading } from '@aws-amplify/ui-react';
+import { Button, Flex, Text, Heading } from '@aws-amplify/ui-react';
 
 export default function Custom404() {
   const basePath = 'https://docs.amplify.aws';
