@@ -138,6 +138,8 @@ migrationData.forEach((item) => {
 
 // Update meta and imports for all pages accounted for in Excel file
 migrationData.forEach((page) => {
+  let newContent = '';
+  // if (fs.existsSync(oldPages[page['Original backend source']])) {
   fs.readFile(page['Original backend source'], 'utf8', (err, data) => {
     if (err) {
       console.log(err);
@@ -166,19 +168,19 @@ migrationData.forEach((page) => {
       });
 
       const importToAdd = `import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-      `;
+        `;
       const exportToAdd = `export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
-};
-      
-export function getStaticProps(context) {
-  return {
-    props: {
-      platform: context.params.platform,
-      meta
-    }
+    return getCustomStaticPath(meta.platforms);
   };
-}`;
+        
+  export function getStaticProps(context) {
+    return {
+      props: {
+        platform: context.params.platform,
+        meta
+      }
+    };
+  }`;
       data.splice(exportIndex + 4, 0, exportToAdd);
       data.unshift(importToAdd);
 
@@ -186,68 +188,17 @@ export function getStaticProps(context) {
         return lines != '<remove empty line>';
       });
 
-      const newFile = data.join('\n');
-
-      fs.writeFile(data, newFile, () => {
+      newContent = data.join('\n');
+      fs.writeFile(page['Original backend source'], newContent, (err) => {
         if (err) console.log(err);
       });
-
-      //       const filterKeyLine = '\n  filterKey: "integration",';
-      //       const supportedPlatforms = '  supportedPlatforms:';
-      //       const generateStaticPaths = `import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";\n\n`;
-      //       const getStaticPaths = `
-      // export const getStaticPaths = () => {
-      //   return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
-      // };
-      //       `;
-      //       const getStaticProps = `export const getStaticProps = (context) => {
-      //       return {
-      //           props: {
-      //               integration: context.params.integration,
-      //               filterKind: meta.filterKey
-      //           }
-      //       };
-      //   };
-      //   `;
-      //       console.log(getStaticPaths);
-      //       data = data
-      //         .replace(filterKeyLine, '')
-      //         .replace(supportedPlatforms, '  platforms:')
-      //         .replace(generateStaticPaths, '')
-      //         .replace(getStaticPaths, '')
-      //         .replace(getStaticProps, '');
-
-      //       console.log(data);
-
-      // data = data.split('\n');
-      // console.log(data);
-
-      // const contentArray = data.split('\n');
-      // contentArray.forEach((line) => {
-      //   if (line.includes('filterKey: "')) {
-      //     contentArray.splice(contentArray.indexOf(line), 1);
-      //   }
-      //   if (line.includes('supportedPlatforms:')) {
-      //     const revLine = line.replace('supportedPlatforms: ', 'platforms: ');
-      //     line = revLine; // unsure if this is setting correctly
-      //   }
-      // });
-      // if (data[0].includes('export const meta')) {
-      //   console.log(data[0]);
-      // }
-      // const meta = data.indexOf('export const meta = {');
-      // if (meta != -1) {
-      //   console.log(data);
-      // }
-      // console.log(data[0], '\n', '--------');
-      // console.log(
-      //   revised,
-      //   '\n',
-      //   '----------------------------------------------------------------'
-      // );
     }
   });
 });
+
+// fs.writeFile(data['Original backend source'], newFile, () => {
+//   if (err) console.log(err);
+// });
 
 // create necessary directories exist in 'pages' for each file path
 // migrationData.forEach((item) => {
