@@ -3,6 +3,19 @@ import { useEffect, useState } from 'react';
 import { IconExternalLink } from '@/components/Icons';
 import { Button, Flex, Text, Heading } from '@aws-amplify/ui-react';
 
+export const meta = {
+  title: '404',
+  description: ''
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
 export default function Custom404() {
   const basePath = 'https://docs.amplify.aws';
   let [href, setHref] = useState(basePath);
