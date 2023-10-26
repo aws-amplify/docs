@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Button, Link, Flex, Text } from '@aws-amplify/ui-react';
+import { Button, Flex, Text } from '@aws-amplify/ui-react';
 import { IconChevron } from '@/components/Icons';
 import { frameworks } from '@/constants/frameworks';
 import { InfoPopover } from './InfoPopover';
+import Link from 'next/link';
 
 export function PlatformNavigator({ currentPlatform }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -56,7 +57,7 @@ export function PlatformNavigator({ currentPlatform }) {
                   href={platform.href}
                   key={platform.title}
                   aria-current={current}
-                  className={`platform-navigator__dropdown__link`}
+                  className={`platform-navigator__dropdown__link amplify-link`}
                 >
                   <Flex as="span" alignItems="center">
                     {platform.icon}
