@@ -126,6 +126,7 @@ export const Layout = forwardRef(function Layout(
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
                 currentSite="Docs"
+                isGen2={isGen2}
               />
               <View className={`layout-search layout-search--${pageType}`}>
                 <Flex className="search-menu-bar">

@@ -59,6 +59,17 @@
   white-space: nowrap;
 }
 
+.gen2-home {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: var(--amplify-space-xxs);
+  padding: var(--amplify-space-small);
+  &:focus {
+    outline: 2px solid var(--amplify-colors-font-inverse);
+  }
+}
+
 .nav-links-container {
   z-index: 200;
   width: 100%;
@@ -269,5 +280,20 @@
 
   .navbar {
     padding-inline: var(--navbar-padding-inline);
+  }
+}
+
+.navbar--gen2 {
+  --navbar-background-color: var(--amplify-colors-purple-80);
+  --logo-color: var(--amplify-colors-font-inverse);
+  --nav-menu-item-color: var(--amplify-colors-font-inverse);
+  .nav-menu-item {
+    &:hover {
+      color: var(--amplify-colors-purple-20);
+    }
+    &:focus {
+      color: var(--nav-menu-item-color);
+      outline: 2px solid var(--amplify-colors-font-inverse);
+    }
   }
 }
