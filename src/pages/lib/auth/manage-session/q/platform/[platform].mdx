@@ -1,6 +1,25 @@
 export const meta = {
   title: `Manage user session and credentials`,
   description: `Learn how to manage user sessions and credentials.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 <InlineFilter filters={["js", "react-native"]}>
@@ -57,7 +76,7 @@ async function currentAuthenticatedUser() {
 </Block>
 </BlockSwitcher>
 
-This method can be used to check if a user is signed in as it will throw an error if there is no current user signed in. 
+This method can be used to check if a user is signed. It returns an error if user is not signed in. 
 
 ## Retrieve a user session
 
