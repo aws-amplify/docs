@@ -286,7 +286,8 @@
 .navbar--gen2 {
   --navbar-background-color: var(--amplify-colors-purple-80);
   --logo-color: var(--amplify-colors-font-inverse);
-  --nav-menu-item-color: var(--amplify-colors-font-inverse);
+  --nav-menu-item-color: var(--amplify-colors-purple-10);
+  --navbar-border-color: var(--amplify-colors-purple-60);
   .nav-menu-item {
     &:hover {
       color: var(--amplify-colors-purple-20);
@@ -295,5 +296,17 @@
       color: var(--nav-menu-item-color);
       outline: 2px solid var(--amplify-colors-font-inverse);
     }
+  }
+  .nav-expander {
+    &:hover {
+      background-color: var(--amplify-colors-purple-60);
+    }
+    &:focus {
+      background-color: var(--amplify-colors-purple-60);
+      box-shadow: 0 0 0 2px var(--amplify-colors-font-inverse);
+    }
+  }
+  .chevron-icon {
+    fill: var(--amplify-colors-font-inverse);
   }
 }
