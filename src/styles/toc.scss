@@ -30,7 +30,7 @@
   }
 }
 
-@media (min-width: 1360px) {
+@media (min-width: $toc-min) {
   .toc {
     width: var(--layout-toc-width);
     position: fixed;

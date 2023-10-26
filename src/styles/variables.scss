@@ -1,4 +1,13 @@
+/* Media query Sass variables */
+
+/* $mq-mobile is the min-width we flip to 'desktop' layout */
 $mq-mobile: 800px;
+
+/** 
+ * $toc-min is the min-width we show the table of 
+ * contents on the right 
+*/
+$toc-min: 1360px;
 
 :root {
   --docs-dev-center-nav: 4rem;

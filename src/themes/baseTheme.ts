@@ -30,8 +30,11 @@ export const baseTheme = createTheme({
       }
     },
     fontSizes: {
-      xxl: { value: '1.8rem' },
-      xxxl: { value: '2.0rem' }
+      medium: { value: '1rem' },
+      large: { value: '1.2rem' },
+      xl: { value: '1.4rem' },
+      xxl: { value: '1.6rem' },
+      xxxl: { value: '1.8rem' }
     },
     components: {
       button: {
@@ -67,9 +70,11 @@ export const baseTheme = createTheme({
       },
       heading: {
         2: {
+          // fontSize: '2rem',
           fontWeight: '700'
         },
         3: {
+          // fontSize: '1.8rem',
           fontWeight: '700'
         }
       },
