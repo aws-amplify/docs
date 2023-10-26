@@ -1,7 +1,7 @@
 name: CheckPRLinks
 on:
   pull_request:
-    branches: [main]
+    branches: [main, next-release/main]
     types: [opened, synchronize]
 jobs:
   CheckPRLinks:
