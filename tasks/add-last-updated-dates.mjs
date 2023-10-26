@@ -1,10 +1,10 @@
-const fs = require('fs').promises;
-const matter = require('gray-matter');
-const { getLastModifiedDate } = require('git-jiggy');
-const glob = require('tiny-glob');
+import { promises as fs } from 'fs';
+import matter from 'gray-matter';
+import { getLastModifiedDate } from 'git-jiggy';
+import glob from 'tiny-glob';
 
 // Node script to go through each mdx file and add frontmatter with a "lastUpdated" property from git commit history
-const addLastUpdatedToMdxFiles = async () => {
+const addLastUpdatedDates = async () => {
   const filepaths = await glob('./src/**/*.mdx');
 
   filepaths.forEach(async (filepath) => {
@@ -27,4 +27,4 @@ const addLastUpdatedToMdxFiles = async () => {
   });
 };
 
-// addLastUpdatedToMdxFiles();
+addLastUpdatedDates();
