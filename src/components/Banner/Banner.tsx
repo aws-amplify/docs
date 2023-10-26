@@ -18,10 +18,10 @@ export const Banner: React.FC<BannerProps> = ({ url }) => {
       <Message className="message-banner" colorTheme="info" alignItems="start">
         <Flex className="message-banner__inner">
           <Flex direction="column" gap="xxs">
-            <Text fontWeight="bold" as="span" color="purple.100">
+            <Text as="span" className="message-banner__heading">
               The next generation of backend building with Amplify!
             </Text>
-            <Text color="purple.100">
+            <Text className="message-banner__content">
               Interested in exploring Amplify Infrastructure from Code (Amplify
               IfC)? Visit the documentation for our reimagined experience for
               web developers.
