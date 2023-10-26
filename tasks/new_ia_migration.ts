@@ -114,7 +114,7 @@ migrationData.forEach((item) => {
         .replace('.js', '')
         .replace('react native', 'react-native');
 
-      platforms.push(toCombine[i]['Platform specific']);
+      platforms.push("'" + toCombine[i]['Platform specific'] + "'");
 
       if (i != 0) {
         migrationData.splice(migrationData.indexOf(toCombine[i]), 1);
@@ -126,15 +126,13 @@ migrationData.forEach((item) => {
       .replace(' (web)', '')
       .replace('.js', '')
       .replace('react native', 'react-native');
-    platforms.push(item['Platform specific']);
+    platforms.push("'" + item['Platform specific'] + "'");
   }
   platforms = platforms.filter((value, index) => {
     return platforms.indexOf(value) === index;
   });
   item['Platform specific'] = platforms;
 });
-
-// console.log(migrationData);
 
 // Update meta and imports for all pages accounted for in Excel file
 migrationData.forEach((page) => {
@@ -170,17 +168,17 @@ migrationData.forEach((page) => {
       const importToAdd = `import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
         `;
       const exportToAdd = `export const getStaticPaths = async () => {
-    return getCustomStaticPath(meta.platforms);
+  return getCustomStaticPath(meta.platforms);
+};
+      
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
   };
-        
-  export function getStaticProps(context) {
-    return {
-      props: {
-        platform: context.params.platform,
-        meta
-      }
-    };
-  }`;
+}`;
       data.splice(exportIndex + 4, 0, exportToAdd);
       data.unshift(importToAdd);
 
@@ -189,6 +187,7 @@ migrationData.forEach((page) => {
       });
 
       newContent = data.join('\n');
+      // console.log(newContent);
       fs.writeFile(page['Original backend source'], newContent, (err) => {
         if (err) console.log(err);
       });
@@ -196,66 +195,41 @@ migrationData.forEach((page) => {
   });
 });
 
-// fs.writeFile(data['Original backend source'], newFile, () => {
-//   if (err) console.log(err);
-// });
-
 // create necessary directories exist in 'pages' for each file path
-// migrationData.forEach((item) => {
-//   const newPath = item['New backend source'];
-//   const dirPath = newPath.slice(0, newPath.lastIndexOf('/'));
+migrationData.forEach((item) => {
+  const newPath = item['New backend source'];
+  const dirPath = newPath.slice(0, newPath.lastIndexOf('/'));
 
-//   if (!fs.existsSync(dirPath)) {
-//     fs.mkdir(dirPath, { recursive: true }, (err) => {
-//       if (err) throw err;
-//     });
-//     console.log('folder structure created for: ', dirPath);
-//   }
-// });
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdir(dirPath, { recursive: true }, (err) => {
+      if (err) throw err;
+    });
+    console.log('folder structure created for: ', dirPath);
+  }
+});
 
 // move existing pages from pages-old into new IA locations
-// migrationData.forEach((item) => {
-//   // console.log(origSource, '-->', oldPath);
-//   if (fs.existsSync(oldPath)) {
-//     // console.log(oldPath);
-//     // fs.rename(oldPath, item['New backend source'], (err) => {
-//     //   if (err) {
-//     //     console.log(item['New backend source'], err);
-//     //   } else {
-//     //     console.log(
-//     //       'rename successful: ',
-//     //       oldPath,
-//     //       '-->',
-//     //       item['New backend source']
-//     //     );
-//     //   }
-//     // });
-//   } else {
-//     // console.log('file already moved:', oldPath);
-//   }
-
-// change content of migrated pages - new meta structure and imports
-// fs.readFile(item['New backend source'], 'utf8', (err, data) => {
-//   if (err) console.log(err)
-//   // console.log(data)
-// });
-// });
-
-// remove all ChooseFilterPages from pages-old
-// glob('src/pages-old/**/*.mdx').then((files) => {
-//   files.forEach((firstFile) => {
-//     fs.readFile(firstFile, 'utf8', (err, data) => {
-//       if (err) console.log(err);
-//       if (data.startsWith('import ChooseFilterPage')) {
-//         fs.rm(firstFile, (err) => {
-//           console.log(err);
-//         });
-//       }
-//     });
-//   });
-//   // list remaining pages in pages-old structure
-//   // console.log('files remaining in pages-old: ', files);
-// });
+migrationData.forEach((item) => {
+  // console.log(origSource, '-->', oldPath);
+  if (fs.existsSync(item['Original backend source'])) {
+    fs.rename(
+      item['Original backend source'],
+      item['New backend source'],
+      (err) => {
+        if (err) {
+          console.log(item['New backend source'], err);
+        } else {
+          console.log(
+            'rename successful: ',
+            item['Original backend source'],
+            '-->',
+            item['New backend source']
+          );
+        }
+      }
+    );
+  }
+});
 
 // remove empty directories from pages-old
 // glob('src/pages-old/**/').then((directories) => {
@@ -278,39 +252,3 @@ migrationData.forEach((page) => {
 //   });
 //   // console.log('remaining directories:', directories);
 // });
-
-// change content of migrated pages - new meta structure and imports
-// glob('src/pages/**/*.mdx').then((files) => {
-//   // const platPages = files.filter((file) => {
-//   //   file.startsWith('src/pages/gen2');
-//   // });
-//   // console.log(platPages)
-//   files.forEach((firstFile) => {
-//     if (!firstFile.startsWith('src/pages/gen2/')) {
-//       // console.log(firstFile)
-//       fs.readFile(firstFile, 'utf8', (err, data) => {
-//         if (err) console.log(err);
-//         if (data) {
-//           data = data.split('\n');
-//           const meta = data['export const meta'];
-//           // console.log(data);
-
-//           if (
-//             !data.includes(
-//               "import { getCustomStaticPath } from '@/utils/getCustomStaticPath';"
-//             )
-//           ) {
-//             // console.log(data);
-//           }
-//         }
-//         // console.log(
-//         //   '-----------------------------------------------',
-//         //   firstFile,
-//         //   '---------------------------------------'
-//         // );
-
-//         // console.log(data);
-//         // console.log(
-//         //   '----------------------------------------------- end page ---------------------------------------'
-//         // );
-//       });
