@@ -1,16 +1,8 @@
-import { useRef, useState, createElement, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { trackExpanderOpen } from '../../utils/track';
 import { IconExpand, IconChevron } from '@/components/Icons';
-import {
-  View,
-  Flex,
-  Button,
-  Link,
-  Text,
-  VisuallyHidden
-} from '@aws-amplify/ui-react';
+import { View, Flex, Button, VisuallyHidden } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
-import { useRouter } from 'next/router';
 
 type AccordionProps = {
   title?: string;
@@ -21,7 +13,6 @@ type AccordionProps = {
 
 export const Accordion: React.FC<AccordionProps> = ({
   title,
-  headingLevel,
   eyebrow,
   children
 }) => {
@@ -30,13 +21,7 @@ export const Accordion: React.FC<AccordionProps> = ({
   const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
   const detailsRef = useRef<HTMLDetailsElement>(null);
   const summaryRef = useRef<HTMLElement>(null);
-  const path = useRouter().asPath;
-  const headingId = title?.replace(/\s+/g, '-').toLowerCase();
-  const headingHref = path + '#' + headingId;
-  const headingEl: React.ElementType = headingLevel
-    ? `h${headingLevel}`
-    : 'div';
-  const isLinkableHeading = ['h2', 'h3'].includes(headingEl);
+  const accordionId = title?.replace(/\s+/g, '-').toLowerCase();
 
   useEffect(() => {
     const details = detailsRef.current;
@@ -111,7 +96,7 @@ export const Accordion: React.FC<AccordionProps> = ({
         details.removeAttribute('open');
       }, animationTiming.duration);
     } else {
-      trackExpanderOpen(headingId);
+      trackExpanderOpen(accordionId);
       details?.setAttribute('open', '');
       details?.animate(expand, animationTiming);
       setDetailsOpen(true);
@@ -119,7 +104,7 @@ export const Accordion: React.FC<AccordionProps> = ({
   };
 
   return (
-    <View as="details" className="accordion" ref={detailsRef}>
+    <View as="details" id={accordionId} className="accordion" ref={detailsRef}>
       <Flex
         as="summary"
         className="accordion__summary"
@@ -131,15 +116,7 @@ export const Accordion: React.FC<AccordionProps> = ({
             <IconExpand />
             {eyebrow}
           </Flex>
-          <View as={headingEl} className="accordion__heading">
-            {isLinkableHeading ? (
-              <Link href={headingHref} className="accordion__heading__link">
-                {title}
-              </Link>
-            ) : (
-              title
-            )}
-          </View>
+          <View className="accordion__heading">{title}</View>
         </Flex>
         <IconChevron
           className={classNames('accordion__chevron', {
@@ -149,12 +126,17 @@ export const Accordion: React.FC<AccordionProps> = ({
       </Flex>
       <View className="accordion__body">{children}</View>
 
-      <Button className="accordion__button" onClick={closeAccordion}>
+      <Button
+        variation="link"
+        className="accordion__button"
+        onClick={closeAccordion}
+      >
         <IconChevron
           className={classNames('accordion__chevron', {
             'icon-rotate-180-reverse': detailsOpen
           })}
         />
+        <VisuallyHidden>Close accordion</VisuallyHidden>
       </Button>
     </View>
   );

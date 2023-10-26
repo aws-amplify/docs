@@ -12,7 +12,8 @@
       border-color: var(--amplify-colors-border-focus);
     }
     &__inner {
-      gap: var(--amplify-space-xxs);
+      gap: var(--amplify-space-xxxs);
+      line-height: var(--amplify-line-heights-small);
       flex-direction: column;
     }
   }
@@ -23,18 +24,7 @@
   }
   &__heading {
     font-size: var(--amplify-font-sizes-medium);
-  }
-  &__heading__link {
-    color: var(--amplify-colors-font-primary);
-    &:visited {
-      color: var(--amplify-colors-font-primary);
-    }
-    &:hover {
-      text-decoration: underline;
-    }
-    &:focus {
-      outline: 2px solid var(--amplify-colors-border-focus);
-    }
+    font-weight: 700;
   }
   &__chevron {
     margin: auto 0 auto auto;
@@ -48,8 +38,15 @@
   &__button {
     background-color: var(--amplify-colors-teal-10);
     border-color: transparent;
+    border-width: 2px;
     width: 100%;
     padding: var(--amplify-space-medium);
-    border-radius: 0;
+    border-radius: 0 0 var(--amplify-radii-medium) var(--amplify-radii-medium);
+    &:focus {
+      box-shadow: none;
+    }
+    &:focus-visible {
+      border-color: var(--amplify-colors-border-focus);
+    }
   }
 }
