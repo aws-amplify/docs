@@ -10,6 +10,7 @@ import {
 } from '@aws-amplify/ui-react';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
+import { gen2Theme } from '@/themes/gen2Theme';
 import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
 import {
@@ -68,6 +69,7 @@ export const Layout = forwardRef(function Layout(
   // Doing this because when visiting a 404 page, there is no `router.query.platform`, so we have
   // to check where the user was trying to visit from
   const asPathPlatform = router.asPath.split('/')[1] as Platform;
+  const isGen2 = router.asPath.split('/')[1] === 'gen2';
 
   const currentPlatform = platform
     ? platform
@@ -117,7 +119,7 @@ export const Layout = forwardRef(function Layout(
         />
       </Head>
       <LayoutProvider value={{ menuOpen, toggleMenuOpen }}>
-        <ThemeProvider theme={defaultTheme}>
+        <ThemeProvider theme={isGen2 ? gen2Theme : defaultTheme}>
           <IconsProvider icons={defaultIcons}>
             <View className={`layout-wrapper layout-wrapper--${pageType}`}>
               {pageType === 'home' ? <SpaceShip /> : null}
@@ -125,6 +127,7 @@ export const Layout = forwardRef(function Layout(
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
                 currentSite="Docs"
+                isGen2={isGen2}
               />
               <View className={`layout-search layout-search--${pageType}`}>
                 <Flex className="search-menu-bar">

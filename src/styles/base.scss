@@ -125,3 +125,14 @@ textarea:not([rows]) {
 .plain-list ul {
   margin: 0;
 }
+
+.columns-two {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  gap: var(--amplify-space-large);
+}
+@container (min-width: 800px) {
+  .columns-two {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
