@@ -1,9 +1,44 @@
-```js
-const userInfo = {
-  attributes: {
-    hobbies: ['cooking', 'knitting']
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  identifyUser,
+  IdentifyUserInput
+} from 'aws-amplify/push-notifications';
+
+const userInfo: IdentifyUserInput = {
+  userId,
+  userProfile: {
+    name: 'user',
+    customProperties: {
+      hobbies: ['cooking', 'knitting']
+    }
   }
 };
 
-await Notifications.Push.identifyUser(userId, userInfo);
+await identifyUser(userInfo);
 ```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { identifyUser } from 'aws-amplify/push-notifications';
+
+const userInfo = {
+  userId,
+  userProfile: {
+    name: 'user',
+    customProperties: {
+      hobbies: ['cooking', 'knitting']
+    }
+  }
+};
+
+await identifyUser(userInfo);
+```
+
+</Block>
+</BlockSwitcher>
+
