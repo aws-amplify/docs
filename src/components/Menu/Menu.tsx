@@ -2,16 +2,15 @@ import { ReactElement, useContext } from 'react';
 import { View } from '@aws-amplify/ui-react';
 import { MenuItem } from './MenuItem';
 import { Platform } from '@/data/platforms';
-import Link from 'next/link';
+import Link, { LinkProps } from 'next/link';
 import { LayoutContext } from '@/components/Layout';
 import { PageNode } from 'src/directory/directory';
-import { Url } from 'next/dist/shared/lib/router/router';
 
 type MenuProps = {
   currentPlatform?: Platform;
   rootMenuNode: PageNode | undefined;
   menuTitle: string;
-  menuHref: Url;
+  menuHref: LinkProps['href'];
 };
 
 export function Menu({
