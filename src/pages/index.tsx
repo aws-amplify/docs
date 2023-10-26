@@ -5,6 +5,7 @@ import { Layout } from '@/components/Layout';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
+import { Banner } from '@/components/Banner';
 
 import { trackPageVisit } from '@/utils/track';
 
@@ -39,6 +40,7 @@ export default function Page() {
   return (
     <Flex className="home-content">
       <Flex className="home-intro">
+        <Banner url={'#'} />
         <Heading level={1} className="home-intro__heading">
           Amplify Docs
         </Heading>
