@@ -23,7 +23,7 @@ export function AmplifyNavLink({
           <Text as="span" className={styles['dev-center-logo']}>
             Amplify Gen 2
           </Text>
-          <Badge className={styles['badge']}>Preview</Badge>
+          <Badge className={styles['navbar-badge']}>Preview</Badge>
         </Link>
       ) : (
         <>

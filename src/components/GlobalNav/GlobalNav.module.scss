@@ -283,6 +283,11 @@
   }
 }
 
+.navbar-badge {
+  background-color: var(--amplify-colors-purple-60);
+  color: var(--amplify-colors-font-inverse);
+}
+
 .navbar--gen2 {
   --navbar-background-color: var(--amplify-colors-purple-80);
   --logo-color: var(--amplify-colors-font-inverse);
