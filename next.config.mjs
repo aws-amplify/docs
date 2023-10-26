@@ -1,6 +1,7 @@
 import { createRequire } from 'module';
 import dotenv from 'dotenv';
 import createMDX from '@next/mdx';
+import rehypeMermaid from 'rehype-mermaidjs';
 
 const require = createRequire(import.meta.url);
 import rehypeImgSize from 'rehype-img-size';
@@ -12,7 +13,26 @@ export default async () => {
     options: {
       // TODO: Fix this frontmatter plugin
       // remarkPlugins: [frontmatterPlugin],
-      rehypePlugins: [[rehypeImgSize, { dir: 'public' }]]
+      rehypePlugins: [
+        [
+          rehypeMermaid,
+          {
+            strategy: 'inline-svg',
+            mermaidConfig: {
+              theme: 'base',
+              themeVariables: {
+                primaryColor: '#ffc46d',
+                primaryTextColor: '#152939',
+                secondaryColor: '#e5e5df',
+                tertiaryColor: '#f1f1eb'
+              },
+              themeCSS:
+                '.label foreignObject { font-size: 90%; overflow: visible; }'
+            }
+          }
+        ],
+        [rehypeImgSize, { dir: 'public' }]
+      ]
     }
   });
 
