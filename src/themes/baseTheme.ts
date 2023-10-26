@@ -11,7 +11,7 @@ export const baseTheme = createTheme({
         100: { value: 'hsl(213, 28%, 19%)' } // Amazon Squid Ink
       },
       purple: {
-        10: { value: 'hsl(258, 41%, 94%);)' },
+        10: { value: 'hsl(252, 100%, 98%);)' },
         20: { value: 'hsl(258, 41%, 84%);' },
         40: { value: 'hsl(258, 41%, 64%);' },
         60: { value: 'hsl(258, 41%, 44%);' },
