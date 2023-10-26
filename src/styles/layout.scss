@@ -16,7 +16,7 @@
 .layout-search {
   padding: var(--amplify-space-medium);
   position: sticky;
-  z-index: 1;
+  z-index: 2;
   top: var(--docs-dev-center-nav);
   background-color: var(--amplify-colors-background-primary);
   &--home {
@@ -40,7 +40,7 @@
   top: var(--docs-dev-center-nav);
   bottom: 0;
   inset-inline-start: 0;
-  z-index: 1;
+  z-index: 2;
   overflow: hidden;
   display: none;
   &--expanded {
@@ -83,6 +83,12 @@
   padding: var(--amplify-space-large) 0;
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+
+.main {
+  flex-direction: column;
+  container-type: inline-size;
+  gap: var(--amplify-space-large);
 }
 
 @keyframes menu {

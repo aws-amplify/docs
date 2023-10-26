@@ -2,8 +2,10 @@ import { useEffect } from 'react';
 import { Heading, Text, Flex, Button } from '@aws-amplify/ui-react';
 import { debounce } from '@/utils/debounce';
 import { Layout } from '@/components/Layout';
+import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
+import { Banner } from '@/components/Banner';
 
 import { trackPageVisit } from '@/utils/track';
 
@@ -38,6 +40,7 @@ export default function Page() {
   return (
     <Flex className="home-content">
       <Flex className="home-intro">
+        <Banner url={'#'} />
         <Heading level={1} className="home-intro__heading">
           Amplify Docs
         </Heading>
@@ -68,6 +71,7 @@ export default function Page() {
           other resources will help you build, connect, and host fullstack apps
           on AWS. Get started by selecting your preferred framework.
         </Text>
+        <FrameworkGrid currentKey="javascript" />
       </Flex>
 
       <Flex direction="column" alignItems="flex-start">

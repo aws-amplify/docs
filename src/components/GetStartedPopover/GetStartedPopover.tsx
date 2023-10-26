@@ -1,14 +1,67 @@
 import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
+import { Button, Flex, VisuallyHidden, View } from '@aws-amplify/ui-react';
+import Link from 'next/link';
 import {
-  Button,
-  Flex,
-  VisuallyHidden,
-  Link,
-  View
-} from '@aws-amplify/ui-react';
-import { IconChevron } from '@/components/Icons';
+  IconChevron,
+  IconAndroid,
+  IconAngular,
+  IconFlutter,
+  IconJS,
+  IconNext,
+  IconReact,
+  IconSwift,
+  IconVue
+} from '@/components/Icons';
 import { useClickOutside } from '@/utils/useClickOutside';
+
+const getStartedLinks = [
+  {
+    title: 'JavaScript',
+    href: '/javascript/get-started',
+    icon: <IconJS />
+  },
+  {
+    title: 'React',
+    href: '/react/get-started',
+    icon: <IconReact />
+  },
+  {
+    title: 'Flutter',
+    href: '/flutter/get-started',
+    icon: <IconFlutter />
+  },
+  {
+    title: 'Swift',
+    href: '/swift/get-started',
+    icon: <IconSwift />
+  },
+  {
+    title: 'Android',
+    href: '/android/get-started',
+    icon: <IconAndroid />
+  },
+  {
+    title: 'React Native',
+    href: '/react-native/get-started',
+    icon: <IconReact />
+  },
+  {
+    title: 'Angular',
+    href: '/angular/get-started',
+    icon: <IconAngular />
+  },
+  {
+    title: 'Next.js',
+    href: '/nextjs/get-started',
+    icon: <IconNext />
+  },
+  {
+    title: 'Vue',
+    href: '/vue/get-started',
+    icon: <IconVue />
+  }
+];
 
 export const GetStartedPopover = ({}) => {
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -33,7 +86,7 @@ export const GetStartedPopover = ({}) => {
     <Flex className="split-button">
       <Button
         as="a"
-        href="/get-started/javascript"
+        href="/javascript/get-started"
         size="large"
         className="split-button__start"
       >
@@ -67,34 +120,20 @@ export const GetStartedPopover = ({}) => {
           ref={contentRef}
           aria-label="Getting started guides for other platforms"
         >
-          <ul className="plain-list">
-            <li>
-              <Link href="/javascript/get-started">JavaScript</Link>
-            </li>
-            <li>
-              <Link href="/react/get-started">React</Link>
-            </li>
-            <li>
-              <Link href="/flutter/get-started">Flutter</Link>
-            </li>
-            <li>
-              <Link href="/swift/get-started">Swift</Link>
-            </li>
-            <li>
-              <Link href="/android/get-started">Android</Link>
-            </li>
-            <li>
-              <Link href="/react-native/get-started">React Native</Link>
-            </li>
-            <li>
-              <Link href="/angular/get-started">Angular</Link>
-            </li>
-            <li>
-              <Link href="/angular/get-started">Next.js</Link>
-            </li>
-            <li>
-              <Link href="/vue/get-started">Vue</Link>
-            </li>
+          <ul className="popover-list">
+            {getStartedLinks.map((link, index) => {
+              return (
+                <li
+                  className="popover-list__item"
+                  key={`getStartedLink-${index}`}
+                >
+                  <Link className="popover-list__link" href={link.href}>
+                    {link.icon}
+                    {link.title}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </View>
       </View>

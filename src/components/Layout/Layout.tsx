@@ -10,6 +10,7 @@ import {
 } from '@aws-amplify/ui-react';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
+import { gen2Theme } from '@/themes/gen2Theme';
 import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
 import {
@@ -25,8 +26,9 @@ import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { trackPageVisit } from '../../utils/track';
 import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
-import { directory } from 'src/directory/directory.mjs';
 import { TableOfContents } from '@/components/TableOfContents';
+import directory from 'src/directory/directory.json';
+import { PageNode } from 'src/directory/directory';
 
 export const Layout = forwardRef(function Layout(
   {
@@ -58,24 +60,35 @@ export const Layout = forwardRef(function Layout(
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
 
-  const rootPage = directory;
-  const platformOverviewPage =
-    rootPage.children && rootPage.children.length === 1
-      ? rootPage.children[0]
-      : undefined;
+  let currentPlatform = DEFAULT_PLATFORM;
+  const homepageNode = directory as PageNode;
+  let rootMenuNode;
 
-  // [platform] will always be the very first subpath right?
-  // when using `router.asPath` it returns a string that starts with a '/'
-  // To get the "platform" the client was trying to visit, we have to get the string at index 1
-  // Doing this because when visiting a 404 page, there is no `router.query.platform`, so we have
-  // to check where the user was trying to visit from
-  const asPathPlatform = router.asPath.split('/')[1] as Platform;
+  const isGen2 = router.asPath.split('/')[1] === 'gen2';
+  const searhParam = isGen2 ? 'gen2' : '[platform]';
 
-  const currentPlatform = platform
-    ? platform
-    : PLATFORMS.includes(asPathPlatform)
-    ? asPathPlatform
-    : DEFAULT_PLATFORM;
+  if (homepageNode?.children && homepageNode.children.length > 0) {
+    rootMenuNode = homepageNode.children.find((node) => {
+      if (node.path) {
+        return node.path.indexOf(searhParam) > -1;
+      }
+    });
+  }
+
+  if (!isGen2) {
+    // [platform] will always be the very first subpath right?
+    // when using `router.asPath` it returns a string that starts with a '/'
+    // To get the "platform" the client was trying to visit, we have to get the string at index 1
+    // Doing this because when visiting a 404 page, there is no `router.query.platform`, so we have
+    // to check where the user was trying to visit from
+    const asPathPlatform = router.asPath.split('/')[1] as Platform;
+
+    currentPlatform = platform
+      ? platform
+      : PLATFORMS.includes(asPathPlatform)
+      ? asPathPlatform
+      : DEFAULT_PLATFORM;
+  }
 
   const title = [
     pageTitle,
@@ -119,7 +132,7 @@ export const Layout = forwardRef(function Layout(
         />
       </Head>
       <LayoutProvider value={{ menuOpen, toggleMenuOpen }}>
-        <ThemeProvider theme={defaultTheme}>
+        <ThemeProvider theme={isGen2 ? gen2Theme : defaultTheme}>
           <IconsProvider icons={defaultIcons}>
             <View className={`layout-wrapper layout-wrapper--${pageType}`}>
               {pageType === 'home' ? <SpaceShip /> : null}
@@ -127,6 +140,7 @@ export const Layout = forwardRef(function Layout(
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
                 currentSite="Docs"
+                isGen2={isGen2}
               />
               <Flex className={`layout-search layout-search--${pageType}`}>
                 <Button
@@ -169,13 +183,28 @@ export const Layout = forwardRef(function Layout(
                       <IconDoubleChevron aria-hidden="true" />
                       Menu
                     </Button>
-                    [ Platform switcher goes here]
+                    {isGen2 ? <></> : `[ Platform switcher goes here ]`}
                   </div>
                   <div className="layout-sidebar-menu">
-                    <Menu
-                      currentPlatform={currentPlatform}
-                      platformOverviewPage={platformOverviewPage}
-                    />
+                    {isGen2 ? (
+                      <Menu
+                        rootMenuNode={rootMenuNode}
+                        menuTitle="How Gen2 Amplify works"
+                        menuHref={{
+                          pathname: `/gen2`
+                        }}
+                      />
+                    ) : (
+                      <Menu
+                        currentPlatform={currentPlatform}
+                        rootMenuNode={rootMenuNode}
+                        menuTitle="How Amplify works"
+                        menuHref={{
+                          pathname: `/[platform]`,
+                          query: { platform: currentPlatform }
+                        }}
+                      />
+                    )}
                   </div>
                 </View>
               </View>
