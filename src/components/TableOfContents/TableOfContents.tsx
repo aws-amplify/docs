@@ -10,10 +10,11 @@ type Headings = Heading[];
 
 export const TableOfContents = ({}) => {
   const [headers, setHeaders] = useState<Headings>([]);
-
+  console.log('headers: ', headers);
   useEffect(() => {
     const headings: Headings = [];
     const pageHeadings = document.querySelectorAll('.main > h2, .main > h3');
+
     pageHeadings.forEach((node) => {
       const { innerText, id, localName } = node as HTMLElement;
       if (innerText && id && (localName == 'h2' || localName == 'h3')) {
