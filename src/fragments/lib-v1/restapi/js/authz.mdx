@@ -40,9 +40,7 @@ You can use the access token from configured Cognito User Pool to authenticate a
 
 ```javascript
 import { fetchAuthSession } from 'aws-amplify/auth'
-
 ...
-
 const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
 ```
 
