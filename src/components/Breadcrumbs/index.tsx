@@ -25,23 +25,13 @@ function generateBreadcrumbs(route:string, platform:string):BreadcrumbItem[]{
 
   urls.forEach((url) => {
     const directoryEntry = findNode(url);
-    if(directoryEntry){
-      breadcrumbs.push({
-        href:{
-          pathname: url,
-          query: { platform: platform }
-        },
-        label: directoryEntry.title
-      })
-    }else{
-      breadcrumbs.push({
-        href: {
-          pathname: url,
-          query: { platform: platform }
-        },
-        label: 'Nothing found'
-      })
-    }
+    breadcrumbs.push({
+      href:{
+        pathname: url,
+        query: { platform: platform }
+      },
+      label: directoryEntry ? directoryEntry.title : url
+    });
   });
 
   return breadcrumbs;
