@@ -35,7 +35,7 @@ export function PlatformNavigator({ currentPlatform }) {
   return (
     <>
       <View className={`platform-navigator`}>
-        <Text fontWeight={"bold"} padding={tokens.space.small}>Choose your framework/language</Text>
+        <Text fontWeight={tokens.fontWeights.bold} padding={tokens.space.small}>Choose your framework/language</Text>
         <Flex alignItems="center">
           <Button
             className={`platform-navigator__button`}
@@ -44,7 +44,7 @@ export function PlatformNavigator({ currentPlatform }) {
               setIsOpen(!isOpen);
             }}
             isFullWidth={true}
-            fontWeight={"normal"}
+            fontWeight={tokens.fontWeights.normal}
             ref={triggerRef}
           >
             <Flex as="span" alignItems="center">
