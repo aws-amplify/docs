@@ -99,21 +99,6 @@ export const Layout = forwardRef(function Layout(
 
   const description = pageDescription + 'AWS Amplify Docs';
 
-  const dummyBreadcrumbData = [
-    {
-      label: 'Home',
-      href: '/'
-    },
-    {
-      label: 'Javascript',
-      href: '/javascript'
-    },
-    {
-      label: 'Tutorial',
-      disabled: true
-    }
-  ]
-
   return (
     <>
       <Head>
