@@ -20,6 +20,21 @@ amplify push
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
 
+NOTE: if using Identify Labels or Identify Text, you will need to manually add configuration items to your amplify .backend folder.
+
+amplify/.backend/identifyText#####/parameters.json
+```json
+"identifyDoc": true | false,
+"access": "auth" | authAndGuest,
+"format": "PLAIN" | "FORM" | "TABLE" | "ALL"
+```
+
+amplify/.backend/identifyLabels#####/parameters.json
+```json
+"access": "auth" | "authAndGuest",
+"type": "LABELS" | "UNSAFE" | "ALL"
+```
+
 ## Configure the frontend
 
 import js0 from '/src/fragments/lib/common/js/import_configuration.mdx'
@@ -32,14 +47,9 @@ import rn1 from '/src/fragments/lib/common/react-native/import_configuration.mdx
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-import {
-  Predictions,
-  AmazonAIPredictionsProvider
-} from '@aws-amplify/predictions';
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
-Predictions.addPluggable(new AmazonAIPredictionsProvider());
 ```
 
 ## Import existing backend
