@@ -9,7 +9,5 @@ export const findDirectoryNode = (route, dir = directory) => {
             let res = findDirectoryNode(route, child);
             if(res) return res;
         }
-    }else{
-        return;
     }
 }
