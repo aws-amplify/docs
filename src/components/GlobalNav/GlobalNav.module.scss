@@ -55,8 +55,19 @@
 
 .dev-center-logo {
   color: var(--logo-color);
-  font-size: var(--amplify-font-sizes-large);
+  font-size: var(--amplify-font-sizes-medium);
   white-space: nowrap;
+}
+
+.gen2-home {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: var(--amplify-space-xxs);
+  padding: var(--amplify-space-small);
+  &:focus {
+    outline: 2px solid var(--amplify-colors-font-inverse);
+  }
 }
 
 .nav-links-container {
@@ -178,6 +189,12 @@
   display: none;
 }
 
+@media (min-width: 500px) {
+  .dev-center-logo {
+    font-size: var(--amplify-font-sizes-large);
+  }
+}
+
 @media (min-width: 975px) {
   .nav-menu-item {
     padding-inline: var(--nav-menu-item-padding-inline);
@@ -263,5 +280,38 @@
 
   .navbar {
     padding-inline: var(--navbar-padding-inline);
+  }
+}
+
+.navbar-badge {
+  background-color: var(--amplify-colors-purple-60);
+  color: var(--amplify-colors-font-inverse);
+}
+
+.navbar--gen2 {
+  --navbar-background-color: var(--amplify-colors-purple-80);
+  --logo-color: var(--amplify-colors-font-inverse);
+  --nav-menu-item-color: var(--amplify-colors-purple-10);
+  --navbar-border-color: var(--amplify-colors-purple-60);
+  .nav-menu-item {
+    &:hover {
+      color: var(--amplify-colors-purple-20);
+    }
+    &:focus {
+      color: var(--nav-menu-item-color);
+      outline: 2px solid var(--amplify-colors-font-inverse);
+    }
+  }
+  .nav-expander {
+    &:hover {
+      background-color: var(--amplify-colors-purple-60);
+    }
+    &:focus {
+      background-color: var(--amplify-colors-purple-60);
+      box-shadow: 0 0 0 2px var(--amplify-colors-font-inverse);
+    }
+  }
+  .chevron-icon {
+    fill: var(--amplify-colors-font-inverse);
   }
 }

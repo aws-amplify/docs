@@ -1,17 +1,23 @@
 export { IconAndroid } from './IconAndroid';
 export { IconAngular } from './IconAngular';
+export { IconAmplify } from './IconAmplify';
 export { IconAWS } from './IconAWS';
+export { IconChevron } from './IconChevron';
 export { IconDiscord } from './IconDiscord';
 export { IconDoubleChevron } from './IconDoubleChevron';
 export { IconFlutter } from './IconFlutter';
 export { IconGithub } from './IconGithub';
+export { IconInfo } from './IconInfo';
 export { IconJS } from './IconJS';
+export { IconLearn } from './IconLearn';
 export { IconMenu } from './IconMenu';
 export { IconNext } from './IconNext';
 export { IconReact } from './IconReact';
 export { IconSwift } from './IconSwift';
+export { IconStar } from './IconStar';
 export { IconTwitter } from './IconTwitter';
 export { IconVue } from './IconVue';
+export { IconExternalLink } from './IconExternalLink';
 
 export * from './ThumbsUp';
 export * from './ThumbsDown';

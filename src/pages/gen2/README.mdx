@@ -2,9 +2,9 @@ READ ME
 
 **Ways of working:** We are using `next-release/main` to commit changes for the larger site update.
 - One branch per page: Create your branch from `next-release/main` to get the latest updates for the new site. Please limit branches to a page or small chapter to reduce the size of PRs for tech and editorial reviews.
-- PR Reviews: When you have final copy ready for reviews submit PRs to `next-release/main` to go through reviews and approvals.
+- PR Reviews: When you have final copy ready for reviews, submit PRs to `next-release/main` to go through reviews and approvals.
 
-**New IA:** The menu in this folder follows the organization for the new docs IA. Please do not change first-level folders under `gen2` (build-a-backend, build-ui, etc.).
+**New IA:** The menu in this folder follows the organization for the new docs IA. Please do not change first-level folders under `gen2` (build-a-backend, build-ui, etc.). Also, every entry in the new menu can be selected and for this reason every folder will require an index.mdx file. Those without content will include a card index to the submenu when required.
 
 **Folder structure:** Pages folders that host the root file (index.mdx) continue to drive the final URL. Use descriptive naming conventions for these folders to produce descriptive and SEO-friendly URLs. For example, src/pages/gen2/build-a-backend/auth/set-up-auth/index.mdx for https://docs.amplify.aws/gen2/build-a-backend/auth/set-up-auth/. Please use the index.mdx naming convention for your root folder files.
 
@@ -16,6 +16,7 @@ READ ME
 
 **Initial setup:** An initial IA was set up to provide a visual structure for migrating pages. Not all entries are on this page and it is expected that some of the root folder names may change. Please remember to check the notes above when making changes or adding new folders and files.
 
+Updated 10/19
 gen2
 ├── build-a-backend
 │   ├── add-aws-services
@@ -35,13 +36,11 @@ gen2
 │   │       └── index.mdx
 │   ├── functions
 │   │   └── index.mdx
-│   ├── overview
-│   │   └── index.mdx
+│   ├── index.mdx
 │   └── storage
 │       └── index.mdx
 ├── build-ui
-│   └── overview
-│       └── index.mdx
+│   └── index.mdx
 ├── deploy-and-host
 │   ├── fullstack-branching
 │   │   ├── branch-deployments
@@ -50,6 +49,7 @@ gen2
 │   │       └── index.mdx
 │   ├── hosting-features
 │   │   └── index.mdx
+│   ├── index.mdx
 │   └── local-development
 │       └── index.mdx
 ├── how-amplify-works
@@ -57,8 +57,7 @@ gen2
 │   │   └── index.mdx
 │   ├── existing-projects
 │   │   └── index.mdx
-│   ├── overview
-│   │   └── index.mdx
+│   ├── index.mdx
 │   └── project-structure
 │       └── index.mdx
 ├── README.mdx
@@ -67,8 +66,6 @@ gen2
 │   │   └── index.mdx
 │   ├── CLI-commands
 │   │   └── index.mdx
-│   └── overview
-│       └── index.mdx
+│   └── index.mdx
 └── start
-    └── getting-started
-        └── index.mdx
+    └── index.mdx

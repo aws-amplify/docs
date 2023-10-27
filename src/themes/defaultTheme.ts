@@ -1,24 +1,34 @@
-import { Theme } from '@aws-amplify/ui-react';
+import { createTheme } from '@aws-amplify/ui-react';
+import { baseTheme } from './baseTheme';
 
-export const defaultTheme: Theme = {
-  name: 'default-theme',
-  tokens: {
-    colors: {
-      neutral: {
-        100: { value: 'hsl(213, 28%, 19%)' } // Amazon Squid Ink
-      },
-      teal: {
-        40: { value: 'hsl(175, 57%, 70%)' }
-      }
-    },
-    components: {
-      button: {
-        borderRadius: { value: '{radii.large}' },
-        primary: {
-          color: { value: '{colors.font.primary}' },
-          backgroundColor: { value: '{colors.brand.primary.40}' }
+export const defaultTheme = createTheme(
+  {
+    name: 'default-theme',
+    tokens: {
+      components: {
+        button: {
+          primary: {
+            color: { value: '{colors.font.primary}' },
+            backgroundColor: { value: '{colors.brand.primary.40}' },
+            _active: {
+              backgroundColor: { value: '{colors.brand.primary.10}' },
+              color: { value: '{colors.font.primary}' }
+            },
+            _focus: {
+              backgroundColor: { value: '{colors.brand.primary.20}' },
+              color: { value: '{colors.font.primary}' },
+              boxShadow: {
+                value: '0 0 0 2px var(--amplify-colors-border-focus)'
+              }
+            },
+            _hover: {
+              backgroundColor: { value: '{colors.brand.primary.20}' },
+              color: { value: '{colors.font.primary}' }
+            }
+          }
         }
       }
     }
-  }
-};
+  },
+  baseTheme
+);

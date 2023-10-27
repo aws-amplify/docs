@@ -1,6 +1,25 @@
 export const meta = {
   title: `View logs`,
-  description: `View logs in Amazon CloudWatch`
+  description: `View logs in Amazon CloudWatch`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 import commonRoute from '/src/fragments/lib/logging/common/access_logs/access_logs.mdx';

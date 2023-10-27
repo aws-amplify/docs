@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Prism, Highlight } from 'prism-react-renderer';
-import classNames from 'classnames';
-import { View, Text, Button } from '@aws-amplify/ui-react';
+import { theme } from './code-theme';
+import { View, Button } from '@aws-amplify/ui-react';
 import { versions } from '@/constants/versions';
 
 require('./cli-error-language.js');
-
-// TODO: Port over styles
 
 const addVersions = (code: string) => {
   code = code.replace(/ANDROID_VERSION/g, versions.ANDROID_VERSION);
@@ -27,7 +25,7 @@ const addVersions = (code: string) => {
 };
 
 export const MDXCode = (props) => {
-  const { codeString, language } = props;
+  const { codeString, language, fileName } = props;
   const [copied, setCopied] = React.useState(false);
   const [code, setCode] = React.useState(codeString);
   const copy = () => {
@@ -42,56 +40,42 @@ export const MDXCode = (props) => {
   }, []);
 
   return (
-    <Highlight code={code} language={language}>
-      {({
-        className: prismClassName,
-        style,
-        tokens,
-        getLineProps,
-        getTokenProps
-      }) => (
+    <Highlight theme={theme} code={code} language={language}>
+      {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <>
           <div style={{ display: 'none' }}>
             {/* searchable code */}
             {codeString}
           </div>
-          <View
-            position="relative"
-            padding="medium"
-            border="1px solid var(--amplify-colors-neutral-20)"
-          >
-            <View
-              as="pre"
-              marginBottom="0"
-              className={classNames(prismClassName, 'with-lines')}
-            >
-              <View as="code" className={classNames(prismClassName)}>
+          <View className="pre-wrapper">
+            <View className="pre-wrapper__inner">
+              {fileName ? (
+                <View className="pre-filename">{fileName}</View>
+              ) : null}
+              <pre style={style} className="pre">
                 {tokens.map((line, i) => (
-                  <View key={i} {...getLineProps({ line, key: i })}>
-                    <span>{i + 1}</span>
+                  <div key={i} {...getLineProps({ line })}>
+                    <span className="line-number">{i + 1}</span>
                     {line.map((token, key) => (
-                      <Text
-                        as="span"
-                        key={key}
-                        {...getTokenProps({ token, key })}
-                      />
+                      <span key={key} {...getTokenProps({ token })} />
                     ))}
-                  </View>
+                  </div>
                 ))}
-              </View>
+              </pre>
+              <CopyToClipboard text={codeString} onCopy={copy}>
+                <Button
+                  size="small"
+                  variation="link"
+                  disabled={copied}
+                  className="code-copy"
+                  position="absolute"
+                  right="xxxs"
+                  top="xxxs"
+                >
+                  {copied ? 'Copied!' : 'Copy'}
+                </Button>
+              </CopyToClipboard>
             </View>
-            <CopyToClipboard text={codeString} onCopy={copy}>
-              <Button
-                size="small"
-                variation="link"
-                disabled={copied}
-                position="absolute"
-                right="xxxs"
-                top="xxxs"
-              >
-                {copied ? 'Copied!' : 'Copy'}
-              </Button>
-            </CopyToClipboard>
           </View>
         </>
       )}

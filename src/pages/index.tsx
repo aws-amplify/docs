@@ -1,16 +1,11 @@
-import React, { useEffect } from 'react';
-import { Heading, Text, Flex, View, Button } from '@aws-amplify/ui-react';
+import { useEffect } from 'react';
+import { Heading, Text, Flex, Button } from '@aws-amplify/ui-react';
+import { debounce } from '@/utils/debounce';
 import { Layout } from '@/components/Layout';
-import {
-  IconAndroid,
-  IconAngular,
-  IconFlutter,
-  IconJS,
-  IconNext,
-  IconReact,
-  IconSwift,
-  IconVue
-} from '@/components/Icons';
+import { FrameworkGrid } from '@/components/FrameworkGrid';
+import { GetStartedPopover } from '@/components/GetStartedPopover';
+import { IconChevron } from '@/components/Icons';
+import { Banner } from '@/components/Banner';
 
 import { trackPageVisit } from '@/utils/track';
 
@@ -26,9 +21,26 @@ export default function Page() {
     trackPageVisit();
   }, []);
 
+  const handleScroll = debounce((e) => {
+    const bodyScroll = e.target.documentElement.scrollTop;
+    if (bodyScroll > 50) {
+      document.body.classList.add('scrolled');
+    } else if (document.body.classList.contains('scrolled')) {
+      document.body.classList.remove('scrolled');
+    }
+  });
+
+  useEffect(() => {
+    document.addEventListener('scroll', handleScroll);
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <Flex className="home-content">
       <Flex className="home-intro">
+        <Banner url={'#'} />
         <Heading level={1} className="home-intro__heading">
           Amplify Docs
         </Heading>
@@ -37,21 +49,16 @@ export default function Page() {
           libraries, CLI, and services, you can easily connect your frontend to
           the cloud for authentication, storage, APIs, and more.
         </Text>
-        <Flex fontSize="3rem">
-          <IconAndroid />
-          <IconAngular />
-          <IconFlutter />
-          <IconJS />
-          <IconNext />
-          <IconReact />
-          <IconSwift />
-          <IconVue />
-        </Flex>
-        <Flex>
-          <Button variation="primary" size="large">
-            How Amplify Works
+        <Flex className="home-intro__cta">
+          <Button variation="primary" size="large" gap="small">
+            How Amplify Works{' '}
+            <IconChevron
+              aria-hidden="true"
+              className="icon-rotate-270"
+              fontSize=".875em"
+            />
           </Button>
-          <Button>Get Started</Button>
+          <GetStartedPopover />
         </Flex>
       </Flex>
       <Flex direction="column">
@@ -64,7 +71,9 @@ export default function Page() {
           other resources will help you build, connect, and host fullstack apps
           on AWS. Get started by selecting your preferred framework.
         </Text>
+        <FrameworkGrid currentKey="javascript" />
       </Flex>
+
       <Flex direction="column" alignItems="flex-start">
         <Heading level={2}>Features for JavaScript</Heading>
         <Button as="a" href="/">

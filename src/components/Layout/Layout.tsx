@@ -1,17 +1,33 @@
 import { useState, forwardRef, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Flex, View, Button, ThemeProvider } from '@aws-amplify/ui-react';
-
+import {
+  Flex,
+  View,
+  Button,
+  ThemeProvider,
+  IconsProvider
+} from '@aws-amplify/ui-react';
+import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
+import { gen2Theme } from '@/themes/gen2Theme';
 import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
-import { TestNav } from '@/components/TestNav';
-import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import {
+  DEFAULT_PLATFORM,
+  PLATFORMS,
+  PLATFORM_DISPLAY_NAMES,
+  Platform
+} from '@/data/platforms';
+import { SpaceShip } from '@/components/SpaceShip';
 import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { trackPageVisit } from '../../utils/track';
+import { Menu } from '@/components/Menu';
+import { LayoutProvider } from '@/components/Layout';
+import directory from 'src/directory/directory.json';
+import { PageNode } from 'src/directory/directory';
 
 export const Layout = forwardRef(function Layout(
   {
@@ -25,7 +41,7 @@ export const Layout = forwardRef(function Layout(
     children: any;
     pageTitle?: string;
     pageDescription?: string;
-    platform?: string;
+    platform?: Platform;
     url?: string;
     pageType?: 'home' | 'inner';
   },
@@ -40,7 +56,36 @@ export const Layout = forwardRef(function Layout(
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
-  if (!router.isReady) return <></>;
+
+  let currentPlatform = DEFAULT_PLATFORM;
+  const homepageNode = directory as PageNode;
+  let rootMenuNode;
+
+  const isGen2 = router.asPath.split('/')[1] === 'gen2';
+  const searhParam = isGen2 ? 'gen2' : '[platform]';
+
+  if (homepageNode?.children && homepageNode.children.length > 0) {
+    rootMenuNode = homepageNode.children.find((node) => {
+      if (node.path) {
+        return node.path.indexOf(searhParam) > -1;
+      }
+    });
+  }
+
+  if (!isGen2) {
+    // [platform] will always be the very first subpath right?
+    // when using `router.asPath` it returns a string that starts with a '/'
+    // To get the "platform" the client was trying to visit, we have to get the string at index 1
+    // Doing this because when visiting a 404 page, there is no `router.query.platform`, so we have
+    // to check where the user was trying to visit from
+    const asPathPlatform = router.asPath.split('/')[1] as Platform;
+
+    currentPlatform = platform
+      ? platform
+      : PLATFORMS.includes(asPathPlatform)
+      ? asPathPlatform
+      : DEFAULT_PLATFORM;
+  }
 
   const title = [
     pageTitle,
@@ -83,70 +128,94 @@ export const Layout = forwardRef(function Layout(
           key="twitter:image"
         />
       </Head>
-      <ThemeProvider theme={defaultTheme}>
-        <View className={`layout-wrapper layout-wrapper--${pageType}`}>
-          <GlobalNav
-            leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
-            rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-            currentSite="Docs"
-          />
-          <View className={`layout-search layout-search--${pageType}`}>
-            <Flex className="search-menu-bar">
-              <Button
-                onClick={() => toggleMenuOpen(true)}
-                size="small"
-                className="search-menu-toggle mobile-toggle"
-              >
-                <IconMenu aria-hidden="true" />
-                Menu
-              </Button>
-              <View className="search-menu-bar__search">
-                <SearchBar />
+      <LayoutProvider value={{ menuOpen, toggleMenuOpen }}>
+        <ThemeProvider theme={isGen2 ? gen2Theme : defaultTheme}>
+          <IconsProvider icons={defaultIcons}>
+            <View className={`layout-wrapper layout-wrapper--${pageType}`}>
+              {pageType === 'home' ? <SpaceShip /> : null}
+              <GlobalNav
+                leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
+                rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+                currentSite="Docs"
+                isGen2={isGen2}
+              />
+              <View className={`layout-search layout-search--${pageType}`}>
+                <Flex className="search-menu-bar">
+                  <Button
+                    onClick={() => toggleMenuOpen(true)}
+                    size="small"
+                    className="search-menu-toggle mobile-toggle"
+                  >
+                    <IconMenu aria-hidden="true" />
+                    Menu
+                  </Button>
+                  <View className="search-menu-bar__search">
+                    <SearchBar />
+                  </View>
+                </Flex>
               </View>
-            </Flex>
-          </View>
-          <View
-            className={`layout-sidebar${
-              menuOpen ? ' layout-sidebar--expanded' : ''
-            }`}
-          >
-            <View
-              className={`layout-sidebar__backdrop${
-                menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
-              }`}
-              onClick={() => toggleMenuOpen(false)}
-            ></View>
-            <View
-              className={`layout-sidebar__inner${
-                menuOpen ? ' layout-sidebar__inner--expanded' : ''
-              }`}
-            >
-              <div className="layout-sidebar-platform">
-                <Button
-                  size="small"
-                  colorTheme="overlay"
-                  className="mobile-toggle"
+              <View
+                className={`layout-sidebar${
+                  menuOpen ? ' layout-sidebar--expanded' : ''
+                }`}
+              >
+                <View
+                  className={`layout-sidebar__backdrop${
+                    menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
+                  }`}
                   onClick={() => toggleMenuOpen(false)}
+                ></View>
+                <View
+                  className={`layout-sidebar__inner${
+                    menuOpen ? ' layout-sidebar__inner--expanded' : ''
+                  }`}
                 >
-                  <IconDoubleChevron aria-hidden="true" />
-                  Menu
-                </Button>
-                [ Platform switcher goes here]
-              </div>
-              <div className="layout-sidebar-menu">
-                <TestNav />
-              </div>
-            </View>
-          </View>
+                  <div className="layout-sidebar-platform">
+                    <Button
+                      size="small"
+                      colorTheme="overlay"
+                      className="mobile-toggle"
+                      onClick={() => toggleMenuOpen(false)}
+                    >
+                      <IconDoubleChevron aria-hidden="true" />
+                      Menu
+                    </Button>
+                    {isGen2 ? <></> : `[ Platform switcher goes here ]`}
+                  </div>
+                  <div className="layout-sidebar-menu">
+                    {isGen2 ? (
+                      <Menu
+                        rootMenuNode={rootMenuNode}
+                        menuTitle="How Gen2 Amplify works"
+                        menuHref={{
+                          pathname: `/gen2`
+                        }}
+                      />
+                    ) : (
+                      <Menu
+                        currentPlatform={currentPlatform}
+                        rootMenuNode={rootMenuNode}
+                        menuTitle="How Amplify works"
+                        menuHref={{
+                          pathname: `/[platform]`,
+                          query: { platform: currentPlatform }
+                        }}
+                      />
+                    )}
+                  </div>
+                </View>
+              </View>
 
-          <View className="layout-main">
-            <Flex as="main" className="main">
-              {children}
-            </Flex>
-            <Footer />
-          </View>
-        </View>
-      </ThemeProvider>
+              <View className="layout-main">
+                <Flex as="main" className="main">
+                  {children}
+                </Flex>
+                <Footer />
+              </View>
+            </View>
+          </IconsProvider>
+        </ThemeProvider>
+      </LayoutProvider>
     </>
   );
 });

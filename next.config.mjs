@@ -16,7 +16,9 @@ export default async () => {
     }
   });
 
-  const nextConfig = withMDX({
+  const shouldAnalyzeBundles = process.env.ANALYZE === 'true';
+
+  let nextConfig = withMDX({
     env: {
       BUILD_ENV: process.env.BUILD_ENV,
       nextImageExportOptimizer_imageFolderPath: 'public',
@@ -75,5 +77,20 @@ export default async () => {
       ];
     }
   });
+
+  if (shouldAnalyzeBundles) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const withNextBundleAnalyzer = require('next-bundle-analyzer')({
+      format: ['json'],
+      reportDir: '../.github/analyze',
+      json: {
+        filter: {
+          pages: true
+        }
+      }
+    });
+    nextConfig = withNextBundleAnalyzer(nextConfig);
+  }
+
   return nextConfig;
 };

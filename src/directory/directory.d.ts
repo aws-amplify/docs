@@ -1,29 +1,43 @@
-export type DirectoryItem = {
+import { Platform } from '@/data/platforms';
+
+export type PageNode = {
   /**
-   * Title used for sidenav link, page title, and page heading
+   * Title of the page
    */
   title: string;
-  filters?: string[];
-  /**
-   * Control whether the title should be displayed as inline code
-   * @default false
-   */
-  isCodeTitle?: boolean;
-  route: string;
-};
 
-export type Directory = {
-  productRoot: {
-    title: string;
-    route: string;
-  };
-  items: Record<
-    string,
-    {
-      title: string;
-      items: DirectoryItem[];
-      route?: string;
-      filters?: string[];
-    }
-  >;
+  /**
+   * Description of the page
+   */
+  description: string;
+
+  /**
+   * Denotes that node is an external link (used for the navigation menu)
+   */
+  isExternal?: boolean;
+
+  /**
+   * The platforms that the pages apply to
+   */
+  platforms: Platform[];
+
+  /**
+   * The relative file path of the page
+   */
+  path?: string;
+
+  /**
+   * The page's route (used for page navigation in Next.js) or external URL
+   */
+  route: string;
+
+  /**
+   * The children pages
+   */
+  children?: PageNode[];
+
+  /**
+   * Root url for the home page
+   */
+  url?: string;
 };
