@@ -24,22 +24,48 @@ export const getStaticProps = (context) => {
 
 AWS Cognito Auth Plugin sends important events through Amplify Hub.
 
-import reactnative0 from '/src/fragments/lib/auth/js/hub_events/10_listen_events.mdx';
+import ios_listen_events from '/src/fragments/lib/auth/ios/hub_events/10_listen_events.mdx';
+import android_listen_events from '/src/fragments/lib/auth/android/hub_events/10_listen_events.mdx';
+import flutter_listen_events from '/src/fragments/lib/auth/flutter/hub_events/10_listen_events.mdx';
 
-<Fragments fragments={{ 'react-native': reactnative0 }} />
+<Fragments
+  fragments={{
+    ios: ios_listen_events,
+    android: android_listen_events,
+    flutter: flutter_listen_events
+  }}
+/>
 
-import js0 from '/src/fragments/lib/auth/js/hub_events/10_listen_events.mdx';
+<InlineFilter filters={['js', 'react-native']}>
 
-<Fragments fragments={{ js: js0 }} />
+```js
+import { Hub } from 'aws-amplify/utils';
 
-import ios1 from '/src/fragments/lib/auth/ios/hub_events/10_listen_events.mdx';
+Hub.listen('auth', ({ payload }) => {
+  switch (payload.event) {
+    case 'signedIn':
+      console.log('user have been signedIn successfully.');
+      break;
+    case 'signedOut':
+      console.log('user have been signedOut successfully.');
+      break;
+    case 'tokenRefresh':
+      console.log('auth tokens have been refreshed.');
+      break;
+    case 'tokenRefresh_failure':
+      console.log('failure while refreshing auth tokens.');
+      break;
+    case 'signInWithRedirect':
+      console.log('signInWithRedirect API has successfully been resolved.');
+      break;
+    case 'signInWithRedirect_failure':
+      console.log('failure while trying to resolve signInWithRedirect API.');
+      break;
+    case 'customOAuthState':
+      logger.info('custom state returned from CognitoHosted UI');
+      break;
+  }
+});
+```
 
-<Fragments fragments={{ ios: ios1 }} />
-
-import android2 from '/src/fragments/lib/auth/android/hub_events/10_listen_events.mdx';
-
-<Fragments fragments={{ android: android2 }} />
-
-import flutter3 from '/src/fragments/lib/auth/flutter/hub_events/10_listen_events.mdx';
-
-<Fragments fragments={{ flutter: flutter3 }} />
+</InlineFilter>

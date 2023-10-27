@@ -22,6 +22,6 @@ export const getStaticProps = (context) => {
   };
 };
 
-import flows from '/src/fragments/lib-v1/auth/common/mfa/flows.mdx';
+import js_mfa from '/src/fragments/lib-v1/auth/js/mfa.mdx';
 
-<Fragments fragments={{ js: flows }} />
+<Fragments fragments={{ js: js_mfa, 'react-native': js_mfa }} />

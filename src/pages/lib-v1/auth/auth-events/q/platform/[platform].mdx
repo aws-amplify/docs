@@ -1,25 +1,25 @@
 export const meta = {
   title: `Auth events`,
   description: `Listen to various auth events`,
-  filterKey: "platform",
+  filterKey: 'platform',
   supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
 
-import { INTEGRATION_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
 };
 
 export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 AWS Cognito Auth Plugin sends important events through Amplify Hub.
@@ -48,36 +48,10 @@ import flutter3 from '/src/fragments/lib-v1/auth/flutter/hub_events/10_listen_ev
 
 <Fragments fragments={{ flutter: flutter3 }} />
 
-<InlineFilter filters={['js']}>
+import reactnative0 from '/src/fragments/lib-v1/auth/js/hub_events/10_listen_events.mdx';
 
-```js
-import { Hub } from 'aws-amplify/utils';
+<Fragments fragments={{ 'react-native': reactnative0 }} />
 
-Hub.listen('auth', ({ payload }) => {
-  switch (payload.event) {
-    case 'signedIn':
-      console.log('user have been signedIn successfully.');
-      break;
-    case 'signedOut':
-      console.log('user have been signedOut successfully.');
-      break;
-    case 'tokenRefresh':
-      console.log('auth tokens have been refreshed.');
-      break;
-    case 'tokenRefresh_failure':
-      console.log('failure while refreshing auth tokens.');
-      break;
-    case 'signInWithRedirect':
-      console.log('signInWithRedirect API has successfully been resolved.');
-      break;
-    case 'signInWithRedirect_failure':
-      console.log('failure while trying to resolve signInWithRedirect API.');
-      break;
-    case 'customOAuthState':
-      logger.info('custom state returned from CognitoHosted UI');
-      break;
-  }
-});
-```
+import js0 from '/src/fragments/lib-v1/auth/js/hub_events/10_listen_events.mdx';
 
-</InlineFilter>
+<Fragments fragments={{ js: js0 }} />
