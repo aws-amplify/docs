@@ -6,20 +6,10 @@ import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
 import { Banner } from '@/components/Banner';
-import * as links from '../constants/links';
-
-import { useRouter } from 'next/router';
-
+import { DEFAULT_PLATFORM } from '@/data/platforms';
 import { trackPageVisit } from '@/utils/track';
-import LinkCard from '@/components/LinkCard';
-import LinkCardCollection from '@/components/LinkCardCollection';
-import {
-  IconGithub,
-  IconDiscord,
-  IconAmplify,
-  IconLearn
-} from '@/components/Icons';
-import linkCardData from '@/data/link-cards-data';
+
+import LinkCards from '@/components/LinkCards';
 
 const meta = {
   title: 'Amplify Docs',
@@ -29,16 +19,8 @@ const meta = {
 };
 
 export default function Page() {
-  const router = useRouter();
-  const path = router.asPath;
-  console.log('path', path);
-  console.log(linkCardData);
-  const platform = 'javascript';
-  const linkData = linkCardData[platform];
-  const fromURL = router.asPath.split('/')[1];
-  console.log('fromURL', fromURL);
-  // const searhParam = isGen2 ? 'gen2' : '[platform]';
-  // console.log('linkData', linkData);
+  //Default platform is javascript
+  let defaultPlatform = DEFAULT_PLATFORM;
 
   useEffect(() => {
     trackPageVisit();
@@ -96,42 +78,7 @@ export default function Page() {
         </Text>
         <FrameworkGrid currentKey="javascript" />
       </Flex>
-      {/* @Todo: Add href links for remaining cards, tracking this with separate
-      task */}
-      <LinkCardCollection>
-        {linkCardData[platform] ? (
-          <LinkCard
-            isExternal={true}
-            href={''}
-            icon={() => <IconGithub fontSize="2rem" />}
-          >
-            {linkCardData[platform]?.githubContent}
-          </LinkCard>
-        ) : null}
-        <LinkCard
-          isExternal={true}
-          href={links.DISCORD}
-          icon={() => <IconDiscord fontSize="2rem" />}
-        >
-          Amplify Discord
-        </LinkCard>
-        {linkCardData[platform] ? (
-          <LinkCard
-            isExternal={true}
-            href={linkCardData[platform].roadmap}
-            icon={() => <IconAmplify fontSize="2rem" />}
-          >
-            What's next for Amplify
-          </LinkCard>
-        ) : null}
-        <LinkCard
-          isExternal={true}
-          href={links.LEARN}
-          icon={() => <IconLearn fontSize="2rem" />}
-        >
-          Amplify Learn
-        </LinkCard>
-      </LinkCardCollection>
+      <LinkCards platform={defaultPlatform} />
       <Flex direction="column" alignItems="flex-start">
         <Heading level={2}>Features for JavaScript</Heading>
         <Button as="a" href="/">

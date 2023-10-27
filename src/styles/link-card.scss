@@ -4,14 +4,15 @@
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
   padding: 1rem;
 }
-
+.link-card:visited {
+  color: var(--amplify-colors-font-primary);
+}
 .link-card:hover {
   color: var(--amplify-colors-brand-primary-80);
 }
 .link-card:focus {
   outline: 2px solid var(--amplify-colors-font-primary);
 }
-
 .link-card-children {
   margin-top: auto;
 }
