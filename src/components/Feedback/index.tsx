@@ -53,11 +53,14 @@ const Feedback = forwardRef(function Feedback({}, ref) {
   const onYesVote = useCallback((e) => {
     // trackFeedbackSubmission(true);
     const yesButton = e.currentTarget;
-    const yesText = e.currentTarget.children[1];
+    const yesButtonText = e.currentTarget.children[1];
     const noButton = yesButton.nextSibling;
+    const yesFeedbackText = noButton.nextSibling;
     const feedbackComponent = yesButton.parentElement.parentElement;
     const feedbackText = feedbackComponent.getElementsByTagName('p')[0];
     const feedbackTextWidth = feedbackText.offsetWidth;
+
+    console.log(yesFeedbackText);
 
     const transitionUpButton = [
       {
@@ -68,9 +71,7 @@ const Feedback = forwardRef(function Feedback({}, ref) {
         maxWidth: '50px', // 16px padding + 18px icon + 16px padding
         overflow: 'hidden',
         color: 'green',
-        border: '1px solid green'
-        // transform: `translateX(-${feedbackTextWidth}px)`,
-        // marginLeft: '0px'
+        borderColor: 'green'
       }
     ];
 
@@ -85,32 +86,47 @@ const Feedback = forwardRef(function Feedback({}, ref) {
       }
     ];
 
+    const transitionYesResponse = [
+      {
+        opacity: 0,
+        transform: 'translateX(1000px)'
+      },
+      {
+        opacity: 1,
+        transform: 'translate(0)',
+        overflow: 'visible'
+      }
+    ];
+
     const transitionDownButton = [
       {
-        maxWidth: noButton.offsetWidth + 'px',
         overflow: 'visible'
       },
       {
-        maxWidth: 0,
+        left: 0,
+        width: 0,
         overflow: 'hidden',
         margin: 0,
         padding: 0,
-        border: 'none'
+        border: 'none',
+        opacity: 0,
+        display: 'none'
       }
     ];
 
     const transitionFeedbackText = [
-      { transform: 'translateX(-40px)', opacity: 0 }
+      { transform: 'translateX(-50px)', opacity: 0 }
     ];
 
     const animationTiming = {
-      duration: 3000,
+      duration: 300,
       iterations: 1,
       fill: 'forwards'
     };
 
     yesButton.animate(transitionUpButton, animationTiming);
-    yesText.animate(transitionUpText, animationTiming);
+    yesButtonText.animate(transitionUpText, animationTiming);
+    yesFeedbackText.animate(transitionYesResponse, animationTiming);
     noButton.animate(transitionDownButton, animationTiming);
     feedbackText.animate(transitionFeedbackText, animationTiming);
 
@@ -171,6 +187,9 @@ const Feedback = forwardRef(function Feedback({}, ref) {
                     <IconThumbsDown />
                     <Text>No</Text>
                   </Button>
+                  <Text className="feedback-text up-response">
+                    {c.yesVoteResponse}
+                  </Text>
                 </Flex>
               </div>
             );

@@ -5,6 +5,13 @@
 
   .feedback-text {
     padding: var(--amplify-space-xs) var(--amplify-space-large);
+
+    &.up-response {
+      opacity: 0;
+      overflow: visible;
+      text-wrap: nowrap;
+      padding-left: 0;
+    }
   }
 
   .vote-buttons-container {
