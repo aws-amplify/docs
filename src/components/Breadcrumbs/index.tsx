@@ -1,17 +1,54 @@
 import Link from 'next/link';
 import { Breadcrumbs } from '@aws-amplify/ui-react';
+import { findDirectoryNode as findNode } from '@/utils/findDirectoryNode';
 
 type BreadcrumbItem = {
-  href?: string;
+  href?: {pathname:string, query?: { platform: string }};
   label: string;
   isDisabled?: boolean;
 };
 
 type Props = {
-  items: BreadcrumbItem[];
+  route: string;
+  platform: string;
 };
 
-function BreadcrumbsComponent({ items }: Props) {
+function generateBreadcrumbs(route:string, platform:string):BreadcrumbItem[]{
+  const breadcrumbs:BreadcrumbItem[] = [];
+
+  const pieces = route.split('/').filter((str) => str);
+  let urls:string[] = [];
+  for(let i = 1; i <= pieces.length; i++){
+    urls.push(`/${pieces.slice(0,i).join('/')}`);
+  }
+  urls.splice(0,1,"/");
+
+  urls.forEach((url) => {
+    const directoryEntry = findNode(url);
+    if(directoryEntry){
+      breadcrumbs.push({
+        href:{
+          pathname: url,
+          query: { platform: platform }
+        },
+        label: directoryEntry.title
+      })
+    }else{
+      breadcrumbs.push({
+        href: {
+          pathname: url,
+          query: { platform: platform }
+        },
+        label: 'Nothing found'
+      })
+    }
+  });
+
+  return breadcrumbs;
+}
+
+function BreadcrumbsComponent({ route, platform }: Props) {
+  const items = generateBreadcrumbs(route, platform);
   return (
     <div className={'breadcrumb__container'}>
       <Breadcrumbs.Container>

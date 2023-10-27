@@ -57,6 +57,7 @@ export const Layout = forwardRef(function Layout(
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
+  const pathname = router.pathname;
 
   let currentPlatform = DEFAULT_PLATFORM;
   const homepageNode = directory as PageNode;
@@ -97,15 +98,6 @@ export const Layout = forwardRef(function Layout(
     .join(' - ');
 
   const description = pageDescription + 'AWS Amplify Docs';
-
-  let fullRoute = router.pathname;
-  const pieces = fullRoute.split('/');
-  let urls:string[] = [];
-  for(let i = 1; i <= pieces.length; i++){
-    urls.push(pieces.slice(0,i).join('/'));
-  }
-  urls.splice(0,1,"/");
-  console.log(urls);
 
   const dummyBreadcrumbData = [
     {
@@ -233,7 +225,7 @@ export const Layout = forwardRef(function Layout(
 
               <View className="layout-main">
                 <Flex as="main" className="main">
-                  <Breadcrumbs items={dummyBreadcrumbData} />
+                  <Breadcrumbs route={pathname} platform={currentPlatform}/>
                   {children}
                 </Flex>
                 <Footer />
