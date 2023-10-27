@@ -1,0 +1,25 @@
+.feature-link {
+  list-style: none;
+  margin-bottom: var(--amplify-space-relative-large);
+}
+.feature-link-text {
+  text-decoration: underline;
+}
+
+.category-heading-margin {
+  margin-bottom: -0.75rem;
+}
+
+.platform-list-feature-button {
+  margin-bottom: var(--amplify-space-relative-xxxl);
+}
+.category-list {
+  padding-right: var(--amplify-space-relative-xxxl);
+  justify-content: 'flex-start';
+  align-items: 'stretch';
+  align-content: 'flex-start';
+  gap: '1rem';
+}
+.category-list-children {
+  padding: 0;
+}

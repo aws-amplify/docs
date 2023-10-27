@@ -7,6 +7,8 @@ import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
 import { Banner } from '@/components/Banner';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
+import PlatformFeatureList from '../components/FeatureLists/PlatformFeatureList';
+
 import { trackPageVisit } from '@/utils/track';
 
 import LinkCards from '@/components/LinkCards';
@@ -78,13 +80,8 @@ export default function Page() {
         </Text>
         <FrameworkGrid currentKey="javascript" />
       </Flex>
+      <PlatformFeatureList platform={defaultPlatform} />
       <LinkCards platform={defaultPlatform} />
-      <Flex direction="column" alignItems="flex-start">
-        <Heading level={2}>Features for JavaScript</Heading>
-        <Button as="a" href="/">
-          View all features
-        </Button>
-      </Flex>
     </Flex>
   );
 }
