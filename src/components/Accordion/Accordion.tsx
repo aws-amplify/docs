@@ -124,7 +124,7 @@ export const Accordion: React.FC<AccordionProps> = ({
           })}
         />
       </Flex>
-      <View className="accordion__body">{children}</View>
+      <Flex className="accordion__body">{children}</Flex>
 
       <Button
         variation="link"

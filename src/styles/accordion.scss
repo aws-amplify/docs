@@ -31,6 +31,7 @@
     color: var(--amplify-colors-teal-60);
   }
   &__body {
+    flex-direction: column;
     padding: var(--amplify-space-medium);
     border-top: 1px solid var(--amplify-colors-teal-60);
     border-bottom: 1px solid var(--amplify-colors-teal-60);
