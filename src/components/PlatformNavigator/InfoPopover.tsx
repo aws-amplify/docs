@@ -29,7 +29,7 @@ export const InfoPopover = ({ platform }) => {
           You're viewing Amplify documentation for {platform}. To select a
           different framework or language, use the dropdown.
           <View className={classNames('info-popover__footer')}>
-            <Button onClick={() => setExpanded(false)}>Got it</Button>
+            <Button size="small" onClick={() => setExpanded(false)}>Got it</Button>
           </View>
         </View>
       </View>
