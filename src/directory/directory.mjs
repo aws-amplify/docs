@@ -103,9 +103,14 @@ export const directory = {
             filters: ['js', 'react-native', 'android', 'flutter', 'ios']
           },
           {
-            title: 'Password & user management',
+            title: 'Manage user profiles',
             route: '/lib/auth/manageusers',
             filters: ['js', 'react-native']
+          },
+          {
+          title: 'Set up user password change and recovery',
+          route: '/lib/auth/password_management',
+          filters: ['js', 'react-native', 'android', 'flutter', 'ios']
           },
           {
             title: 'Switching authentication flows',
@@ -171,11 +176,6 @@ export const directory = {
             title: 'Remember a device',
             route: '/lib/auth/device_features',
             filters: ['android', 'ios', 'js', 'flutter', 'react-native']
-          },
-          {
-            title: 'Password management',
-            route: '/lib/auth/password_management',
-            filters: ['android', 'flutter', 'ios']
           },
           {
             title: 'Sign out',
@@ -1448,11 +1448,6 @@ export const directory = {
             filters: ['android', 'ios', 'flutter', 'js']
           },
           {
-            title: 'Upload files',
-            route: '/lib-v1/storage/upload',
-            filters: ['android', 'ios', 'flutter', 'js']
-          },
-          {
             title: 'Download files',
             route: '/lib-v1/storage/download',
             filters: ['android', 'ios', 'flutter', 'js']
@@ -1471,6 +1466,11 @@ export const directory = {
             title: 'Copy files',
             route: '/lib-v1/storage/copy',
             filters: ['js']
+          },
+          {
+            title: 'Upload files',
+            route: '/lib-v1/storage/upload',
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Remove files',
