@@ -23,6 +23,7 @@ export const InfoPopover = ({ platform }) => {
         className={classNames('popover', {
           'popover--expanded': expanded
         })}
+        left={{ base: '10.5rem', small: 'auto' }}
       >
         <View>
           You're viewing Amplify documentation for {platform}. To select a
