@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Button, Flex, Text } from '@aws-amplify/ui-react';
+import { Button, Flex, Text, View } from '@aws-amplify/ui-react';
 import { IconChevron } from '@/components/Icons';
 import { frameworks } from '@/constants/frameworks';
 import { InfoPopover } from './InfoPopover';
 import Link from 'next/link';
+import classNames from 'classnames';
 
 export function PlatformNavigator({ currentPlatform }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -36,7 +37,34 @@ export function PlatformNavigator({ currentPlatform }) {
           </Button>
           <InfoPopover platform={currentPlatform} />
         </Flex>
-        <nav
+        <View
+          className={classNames('popover', {
+            'popover--expanded': isOpen
+          })}
+          as="nav"
+          tabIndex={0}
+          // ref={contentRef}
+          aria-label="Getting started guides for other platforms"
+        >
+          <ul className="popover-list">
+            {frameworks.map((platform, index) => {
+            const title = platform.title;
+            const current = title === currentPlatform;
+            return (
+              <li
+                  className={classNames("popover-list__item",{"platform-navigator__dropdown__item--current":current})}
+                  key={`platform-${index}`}
+                >
+                  <Link className="popover-list__link" href={platform.href}>
+                    {platform.icon}
+                    {platform.title}
+                  </Link>
+                </li>
+            );
+          })}
+          </ul>
+        </View>
+        {/* <nav
           id="platformNav"
           className={`platform-navigator__dropdown ${
             isOpen ? 'platform-navigator__dropdown--show' : ''
@@ -69,7 +97,7 @@ export function PlatformNavigator({ currentPlatform }) {
             );
           })}
           </ul>
-        </nav>
+        </nav> */}
       </nav>
     </>
   );
