@@ -727,11 +727,6 @@ export const directory = {
             title: 'Set up push notification services',
             route: '/lib/push-notifications/setup-push-service',
             filters: ['android', 'flutter', 'ios', 'react-native']
-          },
-          {
-            title: 'Migrate from previous version',
-            route: '/lib/push-notifications/migrate-from-previous-version',
-            filters: ['react-native']
           }
         ]
       },
@@ -1431,6 +1426,76 @@ export const directory = {
             title: 'Escape hatch',
             route: '/lib-v1/predictions/escapehatch',
             filters: ['android', 'ios']
+          }
+        ]
+      },
+      'push-notifications': {
+        title: 'Push Notifications',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/push-notifications/getting-started',
+            filters: ['android', 'flutter', 'ios', 'react-native']
+          },
+          {
+            title: 'Register device',
+            route: '/lib-v1/push-notifications/register-device',
+            filters: ['ios']
+          },
+          {
+            title: 'Record notification events',
+            route: '/lib-v1/push-notifications/record-notifications',
+            filters: ['ios']
+          },
+          {
+            title: 'Request permissions',
+            route: '/lib-v1/push-notifications/request-permissions',
+            filters: ['flutter', 'react-native']
+          },
+          {
+            title: 'Receive device token',
+            route: '/lib-v1/push-notifications/receive-device-token',
+            filters: ['flutter', 'react-native']
+          },
+          {
+            title: 'Interact with notifications',
+            route: '/lib-v1/push-notifications/interact-with-notifications',
+            filters: ['flutter', 'react-native']
+          },
+          {
+            title: 'Identify user',
+            route: '/lib-v1/push-notifications/identify-user',
+            filters: ['android', 'flutter', 'ios', 'react-native']
+          },
+          {
+            title: 'App badge count',
+            route: '/lib-v1/push-notifications/app-badge-count',
+            filters: ['flutter', 'react-native']
+          },
+          {
+            title: 'Enable rich notifications',
+            route: '/lib-v1/push-notifications/enable-rich-notifications',
+            filters: ['flutter', 'react-native']
+          },
+          {
+            title: 'Remote media',
+            route: '/lib-v1/push-notifications/remote-media',
+            filters: ['ios']
+          },
+          {
+            title: 'Testing',
+            route: '/lib-v1/push-notifications/testing',
+            filters: ['android', 'flutter', 'ios', 'react-native']
+          },
+          {
+            title: 'Set up push notification services',
+            route: '/lib-v1/push-notifications/setup-push-service',
+            filters: ['android', 'flutter', 'ios', 'react-native']
+          },
+          {
+            title: 'Migrate from previous version',
+            route: '/lib-v1/push-notifications/migrate-from-previous-version',
+            filters: ['react-native']
           }
         ]
       },
