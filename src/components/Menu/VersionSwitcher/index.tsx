@@ -83,25 +83,23 @@ export function LibVersionSwitcher({
 
   const alternativeHref = alternativeLib + urlEnd;
   const alternativeOption = {
-    title: !isJsFilter(filter)
-      ? alternativeVersion
-      : `${alternativeVersion} legacy`,
+    title: alternativeVersion,
     href: isHrefIncluded(alternativeHref, libAlternativePaths)
       ? alternativeHref
-      : '/lib-v1/' + filter
+      : `${alternativeLib}/${filter}`
   };
 
   const primaryHref = primaryLib + urlEnd;
-
-  const primaryOptionDescription = isJsFilter(filter) ? 'preview' : 'latest';
   const primaryOption = {
-    title: isJsFilter(filter) ? primaryVersion : `${primaryVersion} (latest)`,
-    href: isHrefIncluded(primaryHref, libPaths) ? primaryHref : '/lib/' + filter
+    title: `${primaryVersion} (latest)`,
+    href: isHrefIncluded(primaryHref, libPaths)
+      ? primaryHref
+      : `${primaryLib}/${filter}`
   };
 
-  const leftOption = isJsFilter(filter) ? primaryOption : alternativeOption;
-  const rightOption = isJsFilter(filter) ? alternativeOption : primaryOption;
-  const rightActive = isJsFilter(filter) ? !primaryActive : primaryActive;
+  const leftOption = alternativeOption;
+  const rightOption = primaryOption;
+  const rightActive = primaryActive;
 
   return (
     <SwitchStyle>
@@ -117,8 +115,4 @@ export function LibVersionSwitcher({
       />
     </SwitchStyle>
   );
-}
-
-function isJsFilter(filter: string) {
-  return filter === 'q/platform/react-native' || filter === 'q/platform/js';
 }
