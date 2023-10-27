@@ -3,7 +3,7 @@ import { Breadcrumbs } from '@aws-amplify/ui-react';
 import { findDirectoryNode as findNode } from '@/utils/findDirectoryNode';
 
 type BreadcrumbItem = {
-  href?: {pathname:string, query?: { platform: string }};
+  href: {pathname:string, query?: { platform: string }};
   label: string;
   isDisabled?: boolean;
 };
@@ -46,23 +46,11 @@ function BreadcrumbsComponent({ route, platform }: Props) {
           const isCurrent = i === items.length - 1;
           return (
             <Breadcrumbs.Item key={href}>
-              {href ? (
                 <Link href={href} passHref>
                   <Breadcrumbs.Link isCurrent={isCurrent}>
                     {label}
                   </Breadcrumbs.Link>
                 </Link>
-              ) : (
-                <>
-                  <Breadcrumbs.Link
-                    className={'breadcrumb__link'}
-                    isCurrent={isCurrent}
-                  >
-                    {label}
-                  </Breadcrumbs.Link>
-                </>
-              )}
-
               {isCurrent ? null : <Breadcrumbs.Separator />}
             </Breadcrumbs.Item>
           );
