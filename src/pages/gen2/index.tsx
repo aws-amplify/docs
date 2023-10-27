@@ -11,7 +11,7 @@ import { MDXCode } from '@/components/MDXComponents/';
 
 export const meta = {
   title: 'Gen 2',
-  description: `This is a description for the overview page.`
+  description: 'This is a description for the overview page.'
 };
 
 export function getStaticProps() {
