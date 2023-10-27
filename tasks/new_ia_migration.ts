@@ -138,11 +138,11 @@ migrationData.forEach((item) => {
 migrationData.forEach((page) => {
   let newContent = '';
   // if (fs.existsSync(oldPages[page['Original backend source']])) {
-  fs.readFile(page['Original backend source'], 'utf8', (err, data) => {
+  fs.readFile(page['Original backend source'], 'utf8', (err, dataString) => {
     if (err) {
       console.log(err);
     } else {
-      data = data.split('\n');
+      let data = dataString.split('\n');
       let exportIndex = '';
       data.forEach((line) => {
         if (line.includes('title: ')) {
@@ -179,8 +179,11 @@ export function getStaticProps(context) {
     }
   };
 }`;
-      data.splice(exportIndex + 4, 0, exportToAdd);
-      data.unshift(importToAdd);
+
+      if (!dataString.includes(importToAdd)) {
+        data.splice(exportIndex + 4, 0, exportToAdd);
+        data.unshift(importToAdd);
+      }
 
       data = data.filter((lines) => {
         return lines != '<remove empty line>';
