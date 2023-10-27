@@ -19,7 +19,7 @@ export function PlatformNavigator({ currentPlatform }) {
         <Flex alignItems="center">
           <Button
             className={`platform-navigator__button`}
-            aria-expanded="false"
+            aria-expanded={isOpen}
             id="platformBtn"
             aria-controls="platformNav"
             onClick={() => {
