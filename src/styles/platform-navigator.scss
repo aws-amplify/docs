@@ -10,26 +10,23 @@
     border: 1px solid var(--amplify-colors-teal-80);
     border-radius: 10px;
     list-style-type: none;
-    padding: 0;
+    padding: var(--amplify-space-small);
     visibility: hidden;
     z-index: 999;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
+    background-color: var(--amplify-colors-white);
     &--show {
       visibility: visible;
     }
+    ul {
+      margin:0;
+      list-style-type: none;
+      padding:0;
+    }
     &__item {
-      &:first-of-type{
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-      }
-      &:last-of-type{
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
-      }
-      background-color: var(--amplify-colors-white);
       &:hover {
         background-color: var(--amplify-colors-teal-40);
       }
@@ -38,6 +35,11 @@
       }
       &--current {
         background-color: var(--amplify-colors-teal-20);
+      }
+    }
+    &__link {
+      &:focus span{
+        background-color: var(--amplify-colors-teal-40);
       }
     }
   }

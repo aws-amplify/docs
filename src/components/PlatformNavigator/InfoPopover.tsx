@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import classNames from 'classnames';
-import { Button, Link, View } from '@aws-amplify/ui-react';
+import { Button, View } from '@aws-amplify/ui-react';
 import { parseLocalStorage } from '@/utils/parseLocalStorage';
 
 export const InfoPopover = ({ platform }) => {
@@ -18,7 +18,7 @@ export const InfoPopover = ({ platform }) => {
 
   return (
     <View className={classNames('info-popover')}>
-      <Link onClick={() => setExpanded(!expanded)} fontWeight={"bold"}>Info</Link>
+      <Button onClick={() => setExpanded(!expanded)} fontWeight={"bold"} variation='link'>Info</Button>
       <View
         className={classNames('popover', {
           'popover--expanded': expanded

@@ -36,13 +36,14 @@ export function PlatformNavigator({ currentPlatform }) {
           </Button>
           <InfoPopover platform={currentPlatform} />
         </Flex>
-        <ul
+        <nav
           id="platformNav"
           className={`platform-navigator__dropdown ${
             isOpen ? 'platform-navigator__dropdown--show' : ''
           }`}
           aria-expanded={isOpen}
         >
+          <ul>
           {frameworks.map((platform) => {
             const title = platform.title;
             const current = title === currentPlatform;
@@ -67,7 +68,8 @@ export function PlatformNavigator({ currentPlatform }) {
               </li>
             );
           })}
-        </ul>
+          </ul>
+        </nav>
       </nav>
     </>
   );
