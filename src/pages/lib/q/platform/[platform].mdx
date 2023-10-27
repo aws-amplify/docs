@@ -24,7 +24,11 @@ export const getStaticProps = (context) => {
   };
 };
 
-The Amplify open-source client libraries provide use-case centric, and easy-to-use interfaces across different categories of AWS cloud powered operations enabling mobile and web developers to easily interact with their backends. The Amplify libraries can be used with both new backends created using the Amplify CLI or existing backend resources.
+<InlineFilter filters={["ios", "android", "flutter", "js", "react-native"]}>
+
+The Amplify open-source client libraries provide use-case centric, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. These libraries are powered by the AWS cloud. The libraries can be used with both new backends created using the Amplify CLI and existing backend resources.
+
+</InlineFilter>
 
 import ios0 from '/src/fragments/lib/ios.mdx';
 
@@ -38,10 +42,16 @@ import flutter2 from '/src/fragments/lib/flutter.mdx';
 
 <Fragments fragments={{ flutter: flutter2 }} />
 
-import js3 from '/src/fragments/lib/js.mdx';
+<InlineFilter filters={["js", "react-native"]}>
 
-<Fragments fragments={{ js: js3 }} />
+## Amplify JavaScript
 
-import reactnative4 from '/src/fragments/lib/reactnative.mdx';
+The Amplify JavaScript libraries are supported for different web and mobile frameworks including React, React Native, Angular, and Vue.
 
-<Fragments fragments={{ 'react-native': reactnative4 }} />
+What's next? Here are some things you can add to your app:
+
+- [Authentication](/lib/auth/getting-started)
+- [File Storage](/lib/storage/getting-started)
+- [Analytics](/lib/analytics/getting-started)
+
+</InlineFilter>

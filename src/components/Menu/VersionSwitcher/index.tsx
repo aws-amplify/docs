@@ -83,7 +83,9 @@ export function LibVersionSwitcher({
 
   const alternativeHref = alternativeLib + urlEnd;
   const alternativeOption = {
-    title: !isJsFilter(filter) ? alternativeVersion : `${alternativeVersion}`,
+    title: !isJsFilter(filter)
+      ? alternativeVersion
+      : `${alternativeVersion} legacy`,
     href: isHrefIncluded(alternativeHref, libAlternativePaths)
       ? alternativeHref
       : '/lib-v1/' + filter
