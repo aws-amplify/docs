@@ -5,8 +5,18 @@ import { Layout } from '@/components/Layout';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
+import { Banner } from '@/components/Banner';
+import * as links from '../constants/links';
 
 import { trackPageVisit } from '@/utils/track';
+import LinkCard from '@/components/LinkCard';
+import LinkCardCollection from '@/components/LinkCardCollection';
+import {
+  IconGithub,
+  IconDiscord,
+  IconAmplify,
+  IconLearn
+} from '@/components/Icons';
 
 const meta = {
   title: 'Amplify Docs',
@@ -39,6 +49,7 @@ export default function Page() {
   return (
     <Flex className="home-content">
       <Flex className="home-intro">
+        <Banner url={'#'} />
         <Heading level={1} className="home-intro__heading">
           Amplify Docs
         </Heading>
@@ -71,7 +82,38 @@ export default function Page() {
         </Text>
         <FrameworkGrid currentKey="javascript" />
       </Flex>
-
+      {/* @Todo: Add href links for remaining cards, tracking this with separate
+      task */}
+      <LinkCardCollection>
+        <LinkCard
+          isExternal={true}
+          href={''}
+          icon={() => <IconGithub fontSize="2rem" />}
+        >
+          JavaScript Libraries on Github
+        </LinkCard>
+        <LinkCard
+          isExternal={true}
+          href={links.DISCORD}
+          icon={() => <IconDiscord fontSize="2rem" />}
+        >
+          Amplify Discord
+        </LinkCard>
+        <LinkCard
+          isExternal={true}
+          href={''}
+          icon={() => <IconAmplify fontSize="2rem" />}
+        >
+          What's next for Amplify
+        </LinkCard>
+        <LinkCard
+          isExternal={true}
+          href={links.LEARN}
+          icon={() => <IconLearn fontSize="2rem" />}
+        >
+          Amplify Learn
+        </LinkCard>
+      </LinkCardCollection>
       <Flex direction="column" alignItems="flex-start">
         <Heading level={2}>Features for JavaScript</Heading>
         <Button as="a" href="/">
