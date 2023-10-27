@@ -10,12 +10,13 @@ import {
 } from './styles';
 import { trackFeedbackSubmission } from '../../utils/track';
 import {
-  ThumbsUpIcon,
-  ThumbsDownIcon,
+  IconThumbsUp,
+  IconThumbsDown,
   ThumbsUpFilledIcon,
   ThumbsDownFilledIcon
 } from '../Icons';
 import ExternalLink from '../ExternalLink';
+import { Flex, View, Text, Button } from '@aws-amplify/ui-react';
 
 enum FeedbackState {
   START = 'START',
@@ -50,8 +51,9 @@ const Feedback = forwardRef(function Feedback({}, ref) {
   let currentState = state;
 
   const onYesVote = useCallback((e) => {
-    trackFeedbackSubmission(true);
+    // trackFeedbackSubmission(true);
     const yesButton = e.currentTarget;
+    const yesText = e.currentTarget.children[1];
     const noButton = yesButton.nextSibling;
     const feedbackComponent = yesButton.parentElement.parentElement;
     const feedbackText = feedbackComponent.getElementsByTagName('p')[0];
@@ -63,12 +65,23 @@ const Feedback = forwardRef(function Feedback({}, ref) {
         overflow: 'visible'
       },
       {
-        maxWidth: '40px',
+        maxWidth: '50px', // 16px padding + 18px icon + 16px padding
         overflow: 'hidden',
         color: 'green',
-        border: '1px solid green',
-        transform: `translateX(-${feedbackTextWidth}px)`,
-        marginLeft: '0px'
+        border: '1px solid green'
+        // transform: `translateX(-${feedbackTextWidth}px)`,
+        // marginLeft: '0px'
+      }
+    ];
+
+    const transitionUpText = [
+      {
+        opacity: 1
+      },
+      {
+        opacity: 0,
+        width: 0,
+        padding: 0
       }
     ];
 
@@ -91,37 +104,38 @@ const Feedback = forwardRef(function Feedback({}, ref) {
     ];
 
     const animationTiming = {
-      duration: 300,
+      duration: 3000,
       iterations: 1,
       fill: 'forwards'
     };
 
     yesButton.animate(transitionUpButton, animationTiming);
+    yesText.animate(transitionUpText, animationTiming);
     noButton.animate(transitionDownButton, animationTiming);
     feedbackText.animate(transitionFeedbackText, animationTiming);
 
-    setTimeout(function() {
-      currentState = FeedbackState.UP;
-      setState(currentState);
-    }, 300);
+    // setTimeout(function () {
+    //   currentState = FeedbackState.UP;
+    //   setState(currentState);
+    // }, 3000);
   }, []);
 
   const onNoVote = useCallback((e) => {
-    trackFeedbackSubmission(false);
+    // trackFeedbackSubmission(false);
     const feedbackContent = e.currentTarget.parentNode.parentNode;
 
     feedbackContent.classList.add('fadeOut');
 
-    setTimeout(function() {
+    setTimeout(function () {
       currentState = FeedbackState.DOWN;
       feedbackContent.classList.remove('fadeOut');
       feedbackContent.classList.add('fadeIn');
       setState(currentState);
-    }, 300);
+    }, 3000);
   }, []);
 
   return (
-    <FeedbackContainer
+    <Flex
       id="feedback-container"
       ref={ref}
       aria-hidden={state == FeedbackState.UP ? true : false}
@@ -135,68 +149,68 @@ const Feedback = forwardRef(function Feedback({}, ref) {
                 aria-label={c.feedbackQuestion}
                 tabIndex={0}
               >
-                <FeedbackText>{c.feedbackQuestion}</FeedbackText>
-                <VoteButtonsContainer>
-                  <VoteButton
+                <Text className="feedback-text">{c.feedbackQuestion}</Text>
+                <Flex className="vote-buttons-container">
+                  <Button
+                    className="vote-button"
                     onClick={onYesVote}
                     aria-label="Yes"
                     role="button"
                     tabIndex={0}
                   >
-                    <ThumbsUpIcon />
-                    <FeedbackText>Yes</FeedbackText>
-                  </VoteButton>
-                  <VoteButton
+                    <IconThumbsUp />
+                    <Text>Yes</Text>
+                  </Button>
+                  <Button
+                    className="vote-button"
                     onClick={onNoVote}
                     aria-label="No"
                     role="button"
                     tabIndex={0}
                   >
-                    <ThumbsDownIcon />
-                    <FeedbackText>No</FeedbackText>
-                  </VoteButton>
-                </VoteButtonsContainer>
+                    <IconThumbsDown />
+                    <Text>No</Text>
+                  </Button>
+                </Flex>
               </div>
             );
           case 'UP':
             return (
               <div className="up">
-                <VoteButtonsContainer className="up-response">
-                  <VoteButtonAfter className="up-response">
+                <Flex className="vote-buttons-container up-response">
+                  <Button className="vote-button up-response">
                     <ThumbsUpFilledIcon />
-                  </VoteButtonAfter>
-                  <FeedbackTextAfter className="up-response">
+                  </Button>
+                  <Text className="feedback-text up-response">
                     {c.yesVoteResponse}
-                  </FeedbackTextAfter>
-                </VoteButtonsContainer>
+                  </Text>
+                </Flex>
               </div>
             );
           case 'DOWN':
             return (
               <div className="down">
-                <VoteButtonsContainer className="down-response">
-                  <VoteButtonAfter className="down-response">
+                <View className="vote-buttons-container down-response">
+                  <Button className="vote-button down-response">
                     <ThumbsDownFilledIcon />
-                  </VoteButtonAfter>
-                  <FeedbackTextAfter className="down-response">
+                  </Button>
+                  <Text className="feedback-text down-response">
                     {c.noVoteResponse}
-                  </FeedbackTextAfter>
-                </VoteButtonsContainer>
-                <FeedbackTextAfter className="cta">
-                  {c.noVoteCTA}
-                </FeedbackTextAfter>
-                <ButtonStyles>
+                  </Text>
+                </View>
+                <Text className="cta">{c.noVoteCTA}</Text>
+                <View className="button-styles">
                   <ExternalLink href={c.buttonLink} icon={true}>
                     {c.noVoteCTAButton}
                   </ExternalLink>
-                </ButtonStyles>
+                </View>
               </div>
             );
           default:
             return <div></div>;
         }
       })()}
-    </FeedbackContainer>
+    </Flex>
   );
 });
 

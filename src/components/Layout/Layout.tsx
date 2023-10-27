@@ -28,6 +28,7 @@ import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
 import directory from 'src/directory/directory.json';
 import { PageNode } from 'src/directory/directory';
+import Feedback from '../Feedback';
 
 export const Layout = forwardRef(function Layout(
   {

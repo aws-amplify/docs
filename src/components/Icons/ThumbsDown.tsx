@@ -1,5 +1,5 @@
 import { Icon } from '@aws-amplify/ui-react';
-import { IconWrapper } from './ThumbsUp';
+import { IconWrapper } from './IconThumbsUp';
 
 export const ThumbsDownIcon = () => (
   <IconWrapper>

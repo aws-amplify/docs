@@ -18,9 +18,9 @@ export { IconStar } from './IconStar';
 export { IconTwitter } from './IconTwitter';
 export { IconVue } from './IconVue';
 export { IconExternalLink } from './IconExternalLink';
+export { IconThumbsUp } from './IconThumbsUp';
+export { IconThumbsDown } from './IconThumbsDown';
 
-export * from './ThumbsUp';
-export * from './ThumbsDown';
 export * from './ThumbsUpFilled';
 export * from './ThumbsDownFilled';
 export * from './CloseIcon';
