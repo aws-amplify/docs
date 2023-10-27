@@ -995,12 +995,12 @@ export const directory = {
           {
             title: 'Prerequisites',
             route: '/lib-v1/project-setup/prereq',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Create your application',
             route: '/lib-v1/project-setup/create-application',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Using Combine with Amplify',
