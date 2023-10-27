@@ -1,33 +1,14 @@
-import { useState, useEffect } from 'react';
 import { Flex, View, Link, Heading } from '@aws-amplify/ui-react';
-interface Heading {
+export interface Heading {
   linkText: string;
   hash: string;
   level: string;
 }
+interface TableOfContents {
+  headers?: Heading[];
+}
 
-type Headings = Heading[];
-
-export const TableOfContents = ({}) => {
-  const [headers, setHeaders] = useState<Headings>([]);
-  console.log('headers: ', headers);
-  useEffect(() => {
-    const headings: Headings = [];
-    const pageHeadings = document.querySelectorAll('.main > h2, .main > h3');
-
-    pageHeadings.forEach((node) => {
-      const { innerText, id, localName } = node as HTMLElement;
-      if (innerText && id && (localName == 'h2' || localName == 'h3')) {
-        headings.push({
-          linkText: innerText,
-          hash: id,
-          level: localName
-        });
-      }
-    });
-    setHeaders(headings);
-  }, []);
-
+export const TableOfContents = ({ headers }) => {
   return (
     <Flex as="nav" className="toc" aria-labelledby="tocHeader">
       {headers ? (

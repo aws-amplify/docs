@@ -27,34 +27,48 @@ import { trackPageVisit } from '../../utils/track';
 import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
 import { TableOfContents } from '@/components/TableOfContents';
+import type { Heading } from '@/components/TableOfContents/TableOfContents';
 import directory from 'src/directory/directory.json';
 import { PageNode } from 'src/directory/directory';
 
-export const Layout = forwardRef(function Layout(
-  {
-    children,
-    hasTOC = true,
-    pageDescription,
-    pageTitle,
-    pageType = 'inner',
-    platform,
-    url
-  }: {
-    children: any;
-    hasTOC?: boolean;
-    pageDescription?: string;
-    pageTitle?: string;
-    pageType?: 'home' | 'inner';
-    platform?: Platform;
-    url?: string;
-  },
-  footerRef
-) {
+export const Layout = ({
+  children,
+  hasTOC = true,
+  pageDescription,
+  pageTitle,
+  pageType = 'inner',
+  platform,
+  url
+}: {
+  children: any;
+  hasTOC?: boolean;
+  pageDescription?: string;
+  pageTitle?: string;
+  pageType?: 'home' | 'inner';
+  platform?: Platform;
+  url?: string;
+}) => {
+  const [menuOpen, toggleMenuOpen] = useState(false);
+  const [tocHeadings, setTocHeadings] = useState<Heading[]>([]);
+
   useEffect(() => {
+    const headings: Heading[] = [];
+    const pageHeadings = document.querySelectorAll('.main > h2, .main > h3');
+
+    pageHeadings.forEach((node) => {
+      const { innerText, id, localName } = node as HTMLElement;
+      if (innerText && id && (localName == 'h2' || localName == 'h3')) {
+        headings.push({
+          linkText: innerText,
+          hash: id,
+          level: localName
+        });
+      }
+    });
+    setTocHeadings(headings);
+
     trackPageVisit();
   }, []);
-
-  const [menuOpen, toggleMenuOpen] = useState(false);
 
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
@@ -210,7 +224,11 @@ export const Layout = forwardRef(function Layout(
               </View>
 
               <View className="layout-main">
-                {hasTOC ? <TableOfContents /> : ''}
+                {hasTOC && tocHeadings.length > 0 ? (
+                  <TableOfContents headers={tocHeadings} />
+                ) : (
+                  ''
+                )}
                 <Flex as="main" className={`main${hasTOC ? ' main--toc' : ''}`}>
                   {children}
                 </Flex>
@@ -223,4 +241,4 @@ export const Layout = forwardRef(function Layout(
       </LayoutProvider>
     </>
   );
-});
+};
