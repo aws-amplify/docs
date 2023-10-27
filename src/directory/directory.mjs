@@ -108,9 +108,9 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
-          title: 'Set up user password change and recovery',
-          route: '/lib/auth/password_management',
-          filters: ['js', 'react-native', 'android', 'flutter', 'ios']
+            title: 'Set up user password change and recovery',
+            route: '/lib/auth/password_management',
+            filters: ['js', 'react-native', 'android', 'flutter', 'ios']
           },
           {
             title: 'Switching authentication flows',
