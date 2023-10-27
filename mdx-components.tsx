@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { MDXComponents } from 'mdx/types';
 import ExportedImage from 'next-image-export-optimizer';
-
+import { Banner } from './src/components/Banner';
 import InlineFilter from './src/components/InlineFilter';
 import { YoutubeEmbed } from './src/components/YoutubeEmbed';
 import Accordion from './src/components/Accordion';
@@ -51,6 +51,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     InlineFilter,
     MigrationAlert,
     YoutubeEmbed,
+    Banner,
     ...components
   };
 }

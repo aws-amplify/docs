@@ -17,7 +17,7 @@ type MenuItemProps = {
   pageNode: PageNode;
   parentSetOpen: React.Dispatch<React.SetStateAction<boolean>> | null;
   level: number;
-  currentPlatform: Platform;
+  currentPlatform?: Platform;
 };
 
 export function MenuItem({
@@ -60,7 +60,14 @@ export function MenuItem({
     }
   }, []);
 
-  const pathname = pageNode.route.replace('[platform]', currentPlatform) + '/';
+  let pathname = pageNode.route;
+
+  if (currentPlatform) {
+    pathname = pageNode.route.replace('[platform]', currentPlatform) + '/';
+  } else {
+    pathname += '/';
+  }
+
   const current = router.asPath === pathname;
 
   const currentStyle = current ? 'menu__list-item__link--current' : '';
@@ -100,7 +107,20 @@ export function MenuItem({
         </AmplifyUILink>
       </li>
     );
-  } else if (pageNode.platforms.includes(currentPlatform)) {
+  } else if (
+    (currentPlatform && pageNode.platforms.includes(currentPlatform)) ||
+    !pageNode.platforms
+  ) {
+    const href = {
+      pathname: `${pageNode.route}`
+    };
+
+    if (currentPlatform) {
+      href['query'] = { platform: currentPlatform };
+    }
+
+    // Check if the page supports the current platform
+    // If it doesn't, then it shouldn't be rendered in the menu
     return (
       <li
         onFocus={handleFocus}
@@ -109,10 +129,7 @@ export function MenuItem({
       >
         <Link
           className={`menu__list-item__link ${listItemLinkStyle} ${currentStyle}`}
-          href={{
-            pathname: `${pageNode.route}`,
-            query: { platform: currentPlatform }
-          }}
+          href={href}
           onClick={onLinkClick}
           passHref
         >
