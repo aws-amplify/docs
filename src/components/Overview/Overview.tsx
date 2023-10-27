@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { PageNode } from 'src/directory/directory';
-import { Card, Flex, Grid, View, Heading } from '@aws-amplify/ui-react';
+import { Card, Flex, Grid, View, Text } from '@aws-amplify/ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -29,9 +29,7 @@ export function Overview({ childPageNodes }: OverviewProps) {
         >
           <Card className="overview__link__card" variation="outlined">
             <Flex direction="column">
-              <Heading level={3} className="overview__link__card__title">
-                {node.title}
-              </Heading>
+              <Text className="overview__link__card__title">{node.title}</Text>
               <View className="overview__link__card__description">
                 {node.description}
               </View>
