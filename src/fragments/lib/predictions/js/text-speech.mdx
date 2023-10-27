@@ -27,10 +27,10 @@ Predictions.convert({
     source: {
       text: textToGenerateSpeech
     },
-    voiceId: "Amy" // default configured on aws-exports.js 
-    // list of different options are here https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
+    voiceId: "Amy" // default configured on aws-exports.js
   }
 })
 .then(result => console.log({ result }))
 .catch(err => console.log({ err }));
 ```
+To view the complete list of voiceId options refer to [Voices in Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html).
