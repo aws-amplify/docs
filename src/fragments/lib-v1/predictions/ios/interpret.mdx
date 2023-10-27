@@ -43,37 +43,40 @@ Here is an example of sending text for interpretation such as sentiment analysis
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func interpret(text: String) {
-    Amplify.Predictions.interpret(text: text) { event in
-        switch event {
-        case let .success(result):
-            print(result)
-        case let .failure(error):
-            print(error)
-        }
+func interpret(text: String) async throws -> Predictions.Interpret.Result {
+    do {
+        let result = try await Amplify.Predictions.interpret(text: text)
+        print("Interpreted text: \(result)")
+        return result
+    } catch let error as PredictionsError {
+        print("Error interpreting text: \(error)")
+        throw error
+    } catch {
+        print("Unexpected error: \(error)")
+        throw error
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func interpret(text: String) -> AnyCancellable {
-    Amplify.Predictions.interpret(text: text)
-        .resultPublisher
-        .sink {
-            if case let .failure(error) = $0 {
-                print(error)
-            }
+    Amplify.Publisher.create {
+        try await Amplify.Predictions.interpret(text: text)
+    }
+    .sink(receiveCompletion: { completion in
+        if case let .failure(error) = completion {
+            print("Error interpreting text: \(error)")
         }
-        receiveValue: { result in
-            print(result)
-        }
+    }, receiveValue: { value in
+        print("Interpreted text: \(value)")
+    })
 }
 ```
 
