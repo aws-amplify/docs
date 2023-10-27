@@ -6,42 +6,13 @@
     display: flex;
     justify-content: space-between;
   }
-  &__dropdown {
-    border: 1px solid var(--amplify-colors-teal-80);
-    border-radius: 10px;
-    list-style-type: none;
-    padding: var(--amplify-space-small);
-    visibility: hidden;
-    z-index: 999;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: var(--amplify-colors-white);
-    &--show {
-      visibility: visible;
-    }
-    ul {
-      margin:0;
-      list-style-type: none;
-      padding:0;
-    }
-    &__item {
-      &:hover {
-        background-color: var(--amplify-colors-teal-40);
-      }
-      & span {
-        padding: 0.5em;
-      }
-      &--current {
-        background-color: var(--amplify-colors-teal-20);
-      }
-    }
-    &__link {
-      &:focus span{
-        background-color: var(--amplify-colors-teal-40);
-      }
-    }
+  .popover {
+    left:0;
+    z-index:1;
+  }
+
+  &__dropdown__item--current {
+    background-color: var(--amplify-colors-teal-20);
   }
 }
 
