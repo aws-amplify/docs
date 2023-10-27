@@ -2,19 +2,13 @@
 
 ```jsx
 import React, { useEffect } from 'react';
-import {
-  initializeInAppMessaging,
-  syncMessages,
-  dispatchEvent
-} from 'aws-amplify/in-app-messaging';
+import { Analytics, Notifications } from 'aws-amplify';
 import { Button, View } from '@aws-amplify/ui-react';
 import { withInAppMessaging } from '@aws-amplify/ui-react-notifications';
-import { record } from 'aws-amplify/analytics';
-import '@aws-amplify/ui-react/styles.css';
-import awsconfig from './aws-exports';
 
-Amplify.configure(awsconfig);
-initializeInAppMessaging();
+import '@aws-amplify/ui-react/styles.css';
+
+const { InAppMessaging } = Notifications;
 
 // To display your in-app message, make sure this event name matches one you created
 // in an In-App Messaging campaign!
@@ -25,7 +19,7 @@ const App = () => {
     // Messages from your campaigns need to be synced from the backend before they
     // can be displayed. You can trigger this anywhere in your app. Here you are
     // syncing just once when this component (your app) renders for the first time.
-    syncMessages();
+    InAppMessaging.syncMessages();
   }, []);
 
   return (
@@ -33,7 +27,7 @@ const App = () => {
       {/* This button has an example of an analytics event triggering the in-app message. */}
       <Button
         onClick={() => {
-          record(myFirstEvent);
+          Analytics.record(myFirstEvent);
         }}
       >
         Record Analytics Event
@@ -42,7 +36,7 @@ const App = () => {
       {/* This button has an example of an In-app Messaging event triggering the in-app message.*/}
       <Button
         onClick={() => {
-          dispatchEvent(myFirstEvent);
+          InAppMessaging.dispatchEvent(myFirstEvent);
         }}
       >
         Send In-App Messaging Event
