@@ -51,7 +51,7 @@ Predictions.identify({
   text: {
     source: {
       key: pathToPhoto,
-      level?: 'public | private | protected', //optional, default is the configured on Storage category
+      level?: 'guest' | 'private' | 'protected', //optional, default is configured on Storage category
     }
   }
 })
