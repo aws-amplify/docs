@@ -207,7 +207,7 @@ export const Layout = forwardRef(function Layout(
               </View>
 
               <View className="layout-main">
-                <Flex as="main" className="main">
+                <Flex as="main" className={`main main--${pageType}`}>
                   {children}
                 </Flex>
                 <Footer />
