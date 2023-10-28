@@ -22,22 +22,74 @@ export const getStaticProps = (context) => {
   };
 };
 
-import js0 from '/src/fragments/lib/analytics/js/record.mdx';
+import android_record from '/src/fragments/lib/analytics/android/record.mdx';
+import flutter_record from '/src/fragments/lib/analytics/flutter/record.mdx';
+import ios_record from '/src/fragments/lib/analytics/ios/record.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments
+  fragments={{
+    android: android_record,
+    flutter: flutter_record,
+    ios: ios_record
+  }}
+/>
 
-import reactnative0 from '/src/fragments/lib/analytics/js/record.mdx';
+<InlineFilter filters={['js', 'react-native']}>
 
-<Fragments fragments={{ 'react-native': reactnative0 }} />
+## Recording Custom Events
 
-import ios1 from '/src/fragments/lib/analytics/ios/record.mdx';
+To record custom events call the `record` API:
 
-<Fragments fragments={{ ios: ios1 }} />
+```javascript
+import { record } from 'aws-amplify/analytics';
 
-import android2 from '/src/fragments/lib/analytics/android/record.mdx';
+record({ 
+  event: {
+    name: 'albumVisit'
+  }
+});
+```
 
-<Fragments fragments={{ android: android2 }} />
+## Record a Custom Event with Attributes
 
-import flutter3 from '/src/fragments/lib/analytics/flutter/record.mdx';
+The `record` API lets you add additional attributes to an event. For example, to record _artist_ information with an _albumVisit_ event:
 
-<Fragments fragments={{ flutter: flutter3 }} />
+```javascript
+import { record } from 'aws-amplify/analytics';
+
+record({
+  event: {
+    name: 'albumVisit',
+    attributes: { genre: '', artist: '' }
+  }
+});
+```
+
+Recorded events will be buffered and periodically sent to Pinpoint.
+
+## Record Engagement Metrics
+
+Metrics can also be added to an event:
+
+```javascript
+import { record } from 'aws-amplify/analytics';
+
+record({
+  event: {
+    name: 'albumVisit',
+    metrics: { minutesListened: 30 }
+  }
+});
+```
+
+Metric values must be a `Number` type such as a float or integer.
+
+<Callout>
+
+The AWS Pinpoint event count updates in minutes after recording your event.
+
+However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Pinpoint. 
+
+</Callout>
+
+</InlineFilter>
