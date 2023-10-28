@@ -13,6 +13,10 @@ type Props = {
   platform: string;
 };
 
+const overrides = {
+  '/' : 'Home'
+}
+
 function generateBreadcrumbs(route:string, platform:string):BreadcrumbItem[]{
   const breadcrumbs:BreadcrumbItem[] = [];
 
@@ -25,12 +29,21 @@ function generateBreadcrumbs(route:string, platform:string):BreadcrumbItem[]{
 
   urls.forEach((url) => {
     const directoryEntry = findNode(url);
+    let href = {
+      pathname: url
+    };
+    if(url.includes('[platform]')){
+      href['query'] = { platform };
+    }
+    let label = directoryEntry ? directoryEntry.title : url
+    const override = overrides[url.replace('[platform]', platform)];
+    if(override){
+      label = override;
+    }
+
     breadcrumbs.push({
-      href:{
-        pathname: url,
-        query: { platform: platform }
-      },
-      label: directoryEntry ? directoryEntry.title : url
+      href,
+      label
     });
   });
 
@@ -39,7 +52,7 @@ function generateBreadcrumbs(route:string, platform:string):BreadcrumbItem[]{
 
 function BreadcrumbsComponent({ route, platform }: Props) {
   const items = generateBreadcrumbs(route, platform);
-  return (
+  return items.length > 1 ?
     <div className={'breadcrumb__container'}>
       <Breadcrumbs.Container>
         {items?.map(({ href, label }, i) => {
@@ -56,8 +69,7 @@ function BreadcrumbsComponent({ route, platform }: Props) {
           );
         })}
       </Breadcrumbs.Container>
-    </div>
-  );
+    </div> : <></>
 }
 
 export { BreadcrumbsComponent as Breadcrumbs }
