@@ -84,7 +84,6 @@ Here is an example of its usage:
 <Accordion title='Review recommended accordion usage' headingLevel='4' eyebrow='Learn more'>
 
 - Title – Make your title descriptive to help readers know what the accordion contains before they click.
-- Heading Level – Keep the heading level consistent with your page hierarchy.
 - Eyebrow – Update this text to reflect the purpose of the accordion. We recommend:
     - Learn more – used to add additional context that is not needed upfront but is useful for users to review when they choose.
     - Troubleshooting – used when adding details to troubleshoot specific errors within context.

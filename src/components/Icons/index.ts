@@ -5,6 +5,7 @@ export { IconAWS } from './IconAWS';
 export { IconChevron } from './IconChevron';
 export { IconDiscord } from './IconDiscord';
 export { IconDoubleChevron } from './IconDoubleChevron';
+export { IconExpand } from './IconExpand';
 export { IconFlutter } from './IconFlutter';
 export { IconGithub } from './IconGithub';
 export { IconInfo } from './IconInfo';
