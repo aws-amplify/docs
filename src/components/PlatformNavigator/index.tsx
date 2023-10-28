@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Button, Flex, Text, View, useTheme, VisuallyHidden } from '@aws-amplify/ui-react';
+import { Button, Flex, Text, View } from '@aws-amplify/ui-react';
 import { IconChevron } from '@/components/Icons';
 import { frameworks } from '@/constants/frameworks';
 import { InfoPopover } from './InfoPopover';
@@ -9,8 +9,6 @@ import { useClickOutside } from '@/utils/useClickOutside';
 
 export function PlatformNavigator({ currentPlatform }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const { tokens } = useTheme();
 
   const triggerRef = useRef<HTMLButtonElement>(null);
 
@@ -35,7 +33,7 @@ export function PlatformNavigator({ currentPlatform }) {
   return (
     <>
       <View className={`platform-navigator`}>
-        <Text fontWeight={tokens.fontWeights.bold} padding={tokens.space.small}>Choose your framework/language</Text>
+        <Text fontWeight="bold" paddingBottom="small">Choose your framework/language</Text>
         <Flex alignItems="center">
           <Button
             className={`platform-navigator__button`}
@@ -44,7 +42,7 @@ export function PlatformNavigator({ currentPlatform }) {
               setIsOpen(!isOpen);
             }}
             isFullWidth={true}
-            fontWeight={tokens.fontWeights.normal}
+            fontWeight="normal"
             ref={triggerRef}
           >
             <Flex as="span" alignItems="center">
