@@ -71,7 +71,7 @@ export function PlatformNavigator({ currentPlatform }) {
                   className={classNames("popover-list__item",{"platform-navigator__dropdown__item--current":current})}
                   key={`platform-${index}`}
                 >
-                  <Link className="popover-list__link" href={platform.href}>
+                  <Link className="popover-list__link" href={platform.href} onClick={ () => setIsOpen(false) }>
                     {platform.icon}
                     {platform.title}
                   </Link>
