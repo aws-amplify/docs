@@ -38,7 +38,7 @@ export function getStaticProps(context) {
 
 const PlatformOverview = ({ platform }) => {
   return (
-    <>
+    <Flex className="home-content">
       <Flex className="home-intro">
         <Heading level={1} className="home-intro__heading">
           Amplify Docs for {PLATFORM_DISPLAY_NAMES[platform]}
@@ -73,7 +73,7 @@ const PlatformOverview = ({ platform }) => {
         <FrameworkGrid currentKey={platform} />
         <LinkCards platform={platform} />
       </Flex>
-    </>
+    </Flex>
   );
 };
 
