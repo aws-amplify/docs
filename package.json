@@ -23,7 +23,6 @@
     "@mdx-js/mdx": "^2.3.0",
     "@mdx-js/react": "^2.3.0",
     "@octokit/rest": "^19.0.7",
-    "@vcarl/remark-headings": "^0.1.0",
     "algoliasearch": "^4.12.1",
     "array-flatten": "^3.0.0",
     "aws-amplify": "^5.0.5",

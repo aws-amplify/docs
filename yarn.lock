@@ -4482,14 +4482,6 @@
     "@typescript-eslint/types" "6.3.0"
     eslint-visitor-keys "^3.4.1"
 
-"@vcarl/remark-headings@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@vcarl/remark-headings/-/remark-headings-0.1.0.tgz#b5831c3f16d8b2570872f554ba509437ec507a1e"
-  integrity sha512-ffQxJUcapJ9Bk+fiGN49YJ9RaYMibrSTSezB1Fcrtu+0YSZxA3bsaLlIv1u/4sjPIeW/BKrs4xtMT3l3P9Ba5Q==
-  dependencies:
-    mdast-util-to-string "^3.1.0"
-    unist-util-visit "^4.0.0"
-
 "@xstate/react@3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@xstate/react/-/react-3.0.0.tgz#888d9a6f128c70b632c18ad55f1f851f6ab092ba"
