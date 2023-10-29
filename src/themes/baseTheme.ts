@@ -79,11 +79,9 @@ export const baseTheme = createTheme({
           fontWeight: '400'
         },
         2: {
-          // fontSize: '2rem',
           fontWeight: '700'
         },
         3: {
-          // fontSize: '1.8rem',
           fontWeight: '700'
         }
       },
