@@ -1,5 +1,8 @@
 .toc {
   flex-direction: column;
+  margin-top: var(--amplify-space-large);
+  padding-top: var(--amplify-space-large);
+  border-top: 1px solid var(--amplify-colors-neutral-20);
 }
 .toc-header {
   font-size: var(--amplify-font-sizes-medium);
@@ -38,6 +41,9 @@
     top: var(--docs-dev-center-nav);
     bottom: 0;
     border-left: 1px solid var(--amplify-colors-neutral-20);
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
     padding: var(--amplify-space-medium);
     z-index: 2;
   }

@@ -1,22 +1,17 @@
 import { createRequire } from 'module';
 import dotenv from 'dotenv';
 import createMDX from '@next/mdx';
-import remarkHeadings from '@vcarl/remark-headings';
 
 const require = createRequire(import.meta.url);
 import rehypeImgSize from 'rehype-img-size';
 dotenv.config({ path: './.env.custom' });
 
 export default async () => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  // const remarkHeadingsPlugin = await import('./src/plugins/remarkHeadings.js');
-
   const withMDX = createMDX({
     extension: /\.mdx$/,
     options: {
       // TODO: Fix this frontmatter plugin
       // remarkPlugins: [frontmatterPlugin],
-      remarkPlugins: [remarkHeadings],
       rehypePlugins: [[rehypeImgSize, { dir: 'public' }]]
     }
   });

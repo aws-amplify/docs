@@ -68,7 +68,7 @@ export const Layout = ({
     setTocHeadings(headings);
 
     trackPageVisit();
-  }, []);
+  }, [children]);
 
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
@@ -224,14 +224,12 @@ export const Layout = ({
               </View>
 
               <View className="layout-main">
-                {hasTOC && tocHeadings.length > 0 ? (
-                  <TableOfContents headers={tocHeadings} />
-                ) : (
-                  ''
-                )}
                 <Flex as="main" className={`main${hasTOC ? ' main--toc' : ''}`}>
                   {children}
                 </Flex>
+                {hasTOC && tocHeadings.length > 0 ? (
+                  <TableOfContents headers={tocHeadings} />
+                ) : null}
 
                 <Footer />
               </View>
