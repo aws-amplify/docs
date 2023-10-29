@@ -36,6 +36,12 @@ export const baseTheme = createTheme({
       xxl: { value: '1.6rem' },
       xxxl: { value: '1.8rem' }
     },
+    fonts: {
+      default: {
+        variable: { value: 'Amazon Ember, sans-serif' },
+        static: { value: 'Amazon Ember, sans-serif' }
+      }
+    },
     components: {
       button: {
         borderRadius: { value: '{radii.large}' },
@@ -64,11 +70,14 @@ export const baseTheme = createTheme({
       card: {
         padding: { value: '{space.large}' },
         outlined: {
-          borderColor: { value: '{colors.neutral.20}' },
+          borderColor: { value: '{colors.neutral.40}' },
           borderRadius: { value: '{radii.large}' }
         }
       },
       heading: {
+        1: {
+          fontWeight: '400'
+        },
         2: {
           // fontSize: '2rem',
           fontWeight: '700'
