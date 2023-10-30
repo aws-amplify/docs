@@ -1085,47 +1085,47 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/graphqlapi/getting-started',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Concepts',
             route: '/lib-v1/graphqlapi/concepts',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Configure authorization modes',
             route: '/lib-v1/graphqlapi/authz',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Create, update, delete data',
             route: '/lib-v1/graphqlapi/mutate-data',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Fetch data',
             route: '/lib-v1/graphqlapi/query-data',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Subscribe to data',
             route: '/lib-v1/graphqlapi/subscribe-data',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Offline scenarios',
             route: '/lib-v1/graphqlapi/offline',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Advanced Workflows',
             route: '/lib-v1/graphqlapi/advanced-workflows',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Use existing AWS resources',
             route: '/lib-v1/graphqlapi/existing-resources',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           }
         ]
       },
