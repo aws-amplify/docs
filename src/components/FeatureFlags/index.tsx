@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { Heading, Text } from '@aws-amplify/ui-react';
 import Link from 'next/link';
 
@@ -35,9 +36,9 @@ export default function FeatureFlags() {
 
   return (
     <>
-      {Object.entries(data).map(([name, section]) => {
+      {Object.entries(data).map(([name, section], index) => {
         return (
-          <>
+          <Fragment key={`feature-flag-${index}`}>
             <Heading level={2} id={name}>
               <Link href={'#' + name}>{name}</Link>
             </Heading>
@@ -45,10 +46,16 @@ export default function FeatureFlags() {
               <Text>{section.description}</Text>
             ) : undefined}
 
-            {Object.entries(section.features).map(([flagName, flag]) => {
-              return <FeatureFlagSummary name={flagName} feature={flag} />;
+            {Object.entries(section.features).map(([flagName, flag], index) => {
+              return (
+                <FeatureFlagSummary
+                  key={`feature-flag-summary-${index}`}
+                  name={flagName}
+                  feature={flag}
+                />
+              );
             })}
-          </>
+          </Fragment>
         );
       })}
     </>

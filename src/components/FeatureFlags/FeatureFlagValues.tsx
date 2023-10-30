@@ -49,9 +49,9 @@ export default function FeatureFlagValues({ values }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {values.map((value) => {
+          {values.map((value, index) => {
             return (
-              <TableRow>
+              <TableRow key={`tr-${index}`}>
                 <TableCell className="ff-table__value">
                   <code>{value.value}</code>
                 </TableCell>
