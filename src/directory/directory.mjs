@@ -293,6 +293,11 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Connect your app code to the API',
+            route: '/lib/graphqlapi/connect',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Concepts',
             route: '/lib/graphqlapi/concepts',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
@@ -1088,6 +1093,11 @@ export const directory = {
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
+            title: 'Connect your app code to the API',
+            route: '/lib/graphqlapi/connect',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Concepts',
             route: '/lib-v1/graphqlapi/concepts',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
@@ -1098,17 +1108,17 @@ export const directory = {
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
-            title: 'Create, update, delete data',
+            title: 'Create, update, and delete application data',
             route: '/lib-v1/graphqlapi/mutate-data',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
-            title: 'Fetch data',
+            title: 'Read application data',
             route: '/lib-v1/graphqlapi/query-data',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
-            title: 'Subscribe to data',
+            title: 'Subscribe to real-time events',
             route: '/lib-v1/graphqlapi/subscribe-data',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
