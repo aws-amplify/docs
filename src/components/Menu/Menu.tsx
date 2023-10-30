@@ -62,7 +62,7 @@ export function Menu({
                 />
               );
             })}
-          <RepoActions menuHref={menuHref}></RepoActions>
+          <RepoActions path={rootMenuNode}></RepoActions>
           <Feedback></Feedback>
         </ul>
       </ul>
