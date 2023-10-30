@@ -1,4 +1,4 @@
-import { useState, forwardRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
@@ -8,6 +8,7 @@ import {
   ThemeProvider,
   IconsProvider
 } from '@aws-amplify/ui-react';
+import classNames from 'classnames';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
 import { gen2Theme } from '@/themes/gen2Theme';
@@ -168,7 +169,11 @@ export const Layout = ({
                   Menu
                 </Button>
                 <View
-                  className={`layout-search__search layout-search__search--${pageType}`}
+                  className={classNames(
+                    'layout-search__search',
+                    `layout-search__search--${pageType}`,
+                    { 'layout-search__search--toc': hasTOC }
+                  )}
                 >
                   <SearchBar />
                 </View>

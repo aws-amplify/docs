@@ -9,7 +9,7 @@
 
 @media (min-width: $toc-min) {
   .layout-search__search {
-    &--inner {
+    &--toc {
       margin-inline-end: calc(
         var(--layout-toc-width) + var(--amplify-space-xl)
       );
