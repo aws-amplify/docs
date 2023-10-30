@@ -16,6 +16,16 @@ const meta = {
   url: 'https://docs.amplify.aws/'
 };
 
+export function getStaticProps() {
+  return {
+    props: {
+      hasTOC: false,
+      pageType: 'home',
+      meta
+    }
+  };
+}
+
 export default function Page() {
   //Default platform is javascript
   let defaultPlatform = DEFAULT_PLATFORM;

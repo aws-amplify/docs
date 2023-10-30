@@ -56,6 +56,10 @@ export const Layout = ({
   const [tocHeadings, setTocHeadings] = useState<Heading[]>([]);
 
   useEffect(() => {
+    trackPageVisit();
+  }, []);
+
+  useEffect(() => {
     const headings: Heading[] = [];
     const pageHeadings = document.querySelectorAll('.main > h2, .main > h3');
 
@@ -71,7 +75,6 @@ export const Layout = ({
     });
     setTocHeadings(headings);
 
-    trackPageVisit();
     if (pageType === 'home') {
       document.addEventListener('scroll', handleScroll);
       return () => {
