@@ -5,44 +5,38 @@ import {
   FeatureItem
 } from '@/components/FeatureLists';
 
-import { Flex, Button } from '@aws-amplify/ui-react';
-import featureListData from '../../constants/feature-lists-data';
+import { Flex } from '@aws-amplify/ui-react';
+import featureListData from '@/constants/feature-lists-data';
+import type { Platform } from '@/data/platforms';
+import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 interface PlatformFeatureListProps {
-  platform: string;
+  platform: Platform;
 }
 const PlatformFeatureList: React.FC<PlatformFeatureListProps> = ({
   platform
 }) => {
   const categories = featureListData[platform].categories;
 
-  return (
+  return categories.length > 0 ? (
     <Flex direction="column" alignItems="flex-start">
-      <Flex direction="column" alignItems="flex-start">
-        <FeatureLists platform={platform}>
-          {categories.map((category, index) => (
-            <React.Fragment key={index}>
-              <FeatureList heading={category.heading} level={3}>
-                {category.items.map((categoryItem, index) => (
-                  <React.Fragment key={index}>
-                    <FeatureItem
-                      linkText={categoryItem.linkText}
-                      href={categoryItem.link}
-                      isExternal={true}
-                    >
-                      {categoryItem.content}
-                    </FeatureItem>
-                  </React.Fragment>
-                ))}
-              </FeatureList>
-            </React.Fragment>
-          ))}
-        </FeatureLists>
-      </Flex>
-      <Button as="a" className="platform-list-feature-button">
-        View all features
-      </Button>
+      <FeatureLists title={`Features for ${PLATFORM_DISPLAY_NAMES[platform]}`}>
+        {categories.map((category, index) => (
+          <FeatureList heading={category.heading} key={index}>
+            {category.items.map((categoryItem, index) => (
+              <FeatureItem
+                linkText={categoryItem.linkText}
+                href={categoryItem.link}
+                isExternal={true}
+                key={index}
+              >
+                {categoryItem.content}
+              </FeatureItem>
+            ))}
+          </FeatureList>
+        ))}
+      </FeatureLists>
     </Flex>
-  );
+  ) : null;
 };
 
 export default PlatformFeatureList;
