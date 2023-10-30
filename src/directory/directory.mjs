@@ -1445,7 +1445,7 @@ export const directory = {
           {
             title: 'Get file properties',
             route: '/lib-v1/storage/get-properties',
-            filters: ['js', 'react-native']
+            filters: ['js']
           },
           {
             title: 'List files',
@@ -1475,7 +1475,7 @@ export const directory = {
           {
             title: 'Automatically track Storage events',
             route: '/lib-v1/storage/autotrack',
-            filters: ['js', 'react-native']
+            filters: ['js']
           },
           {
             title: 'Use Transfer Acceleration',
