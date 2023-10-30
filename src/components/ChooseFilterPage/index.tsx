@@ -53,11 +53,16 @@ function ChooseFilterPage({
     if (typeof chapterDirectory !== 'undefined') {
       const { title: cTitle, items } = chapterDirectory as {
         title: string;
-        items: { route: string; title: string }[];
+        items: { route: string; title: string, filters?: string[] }[];
       };
       chapterTitle = cTitle;
       for (const item of items) {
-        if (item.route === url) title = item.title;
+        if (item.route === url){ 
+          title = item.title; 
+          if(item.filters){
+            filters = item.filters;
+          }
+        }
       }
     }
   }

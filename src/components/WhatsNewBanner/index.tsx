@@ -8,6 +8,7 @@ export default function WhatsNewBanner({ href, content }) {
     <BannerContainer>
       <Link
         onClick={trackWhatsNewBanner}
+        isExternal={true}
         href={href}
         padding={'4px 16px'}
         borderRadius={16}
