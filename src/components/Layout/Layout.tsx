@@ -9,6 +9,7 @@ import {
   IconsProvider,
   VisuallyHidden
 } from '@aws-amplify/ui-react';
+import classNames from 'classnames';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
 import { gen2Theme } from '@/themes/gen2Theme';
@@ -182,22 +183,24 @@ export const Layout = forwardRef(function Layout(
                   }`}
                   onClick={() => toggleMenuOpen(false)}
                 ></View>
+                <Button
+                  size="small"
+                  colorTheme="overlay"
+                  className={classNames('layout-sidebar__mobile-toggle', {
+                    'layout-sidebar__mobile-toggle--open': menuOpen
+                  })}
+                  ref={sidebarMenuButtonRef}
+                  onClick={() => toggleMenuOpen(false)}
+                >
+                  <IconDoubleChevron aria-hidden="true" />
+                  <VisuallyHidden>Close menu</VisuallyHidden>
+                </Button>
                 <View
                   className={`layout-sidebar__inner${
                     menuOpen ? ' layout-sidebar__inner--expanded' : ''
                   }`}
                 >
                   <Flex className="layout-sidebar-platform">
-                    <Button
-                      size="small"
-                      colorTheme="overlay"
-                      className="layout-sidebar__mobile-toggle"
-                      ref={sidebarMenuButtonRef}
-                      onClick={() => toggleMenuOpen(false)}
-                    >
-                      <IconDoubleChevron aria-hidden="true" />
-                      <VisuallyHidden>Close menu</VisuallyHidden>
-                    </Button>
                     {isGen2 ? (
                       <></>
                     ) : (

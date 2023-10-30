@@ -52,18 +52,23 @@
 
 .layout-sidebar__mobile-toggle {
   position: absolute;
-  right: 0;
-  transform: translate(100%, 0);
+  inset-inline-start: var(--layout-sidebar-width);
+  top: var(--amplify-space-medium);
   background-color: #fff;
   border-color: transparent;
   border-radius: 0 var(--amplify-radii-medium) var(--amplify-radii-medium) 0;
   gap: var(--amplify-space-small);
-  padding-block: var(--amplify-space-medium);
+  padding: var(--amplify-space-medium);
+  opacity: 0;
   &:focus {
     box-shadow: none;
   }
   &:focus-visible {
     border-color: var(--amplify-colors-border-focus);
+  }
+  &--open {
+    animation: menuFade 0.3s ease-out forwards;
+    animation-delay: 0.3s;
   }
 }
 
