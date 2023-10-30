@@ -1,4 +1,4 @@
-import { useState, forwardRef, useEffect } from 'react';
+import { useCallback, useState, forwardRef, useRef, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
@@ -28,7 +28,7 @@ import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
 import directory from 'src/directory/directory.json';
 import { PageNode } from 'src/directory/directory';
-import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 
 export const Layout = forwardRef(function Layout(
   {
@@ -48,12 +48,14 @@ export const Layout = forwardRef(function Layout(
   },
   footerRef
 ) {
+  const [menuOpen, toggleMenuOpen] = useState(false);
+
   useEffect(() => {
     trackPageVisit();
   }, []);
 
-  const [menuOpen, toggleMenuOpen] = useState(false);
-
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
@@ -98,6 +100,16 @@ export const Layout = forwardRef(function Layout(
     .join(' - ');
 
   const description = pageDescription + 'AWS Amplify Docs';
+
+  const handleMenuToggle = useCallback(() => {
+    if (!menuOpen) {
+      toggleMenuOpen(true);
+      sidebarMenuButtonRef?.current?.focus();
+    } else {
+      toggleMenuOpen(false);
+      menuButtonRef?.current?.focus();
+    }
+  }, [menuOpen, sidebarMenuButtonRef, menuButtonRef]);
 
   return (
     <>
@@ -144,8 +156,9 @@ export const Layout = forwardRef(function Layout(
               <View className={`layout-search layout-search--${pageType}`}>
                 <Flex className="search-menu-bar">
                   <Button
-                    onClick={() => toggleMenuOpen(true)}
+                    onClick={handleMenuToggle}
                     size="small"
+                    ref={menuButtonRef}
                     className="search-menu-toggle mobile-toggle"
                   >
                     <IconMenu aria-hidden="true" />
@@ -173,15 +186,18 @@ export const Layout = forwardRef(function Layout(
                   }`}
                 >
                   <div className="layout-sidebar-platform">
-                    <Button
-                      size="small"
-                      colorTheme="overlay"
-                      className="mobile-toggle"
-                      onClick={() => toggleMenuOpen(false)}
-                    >
-                      <IconDoubleChevron aria-hidden="true" />
-                      Menu
-                    </Button>
+                    <Flex>
+                      <Button
+                        size="small"
+                        colorTheme="overlay"
+                        ref={sidebarMenuButtonRef}
+                        className="layout-sidebar__mobile-toggle"
+                        onClick={() => toggleMenuOpen(false)}
+                      >
+                        <IconDoubleChevron aria-hidden="true" />
+                        Close menu
+                      </Button>
+                    </Flex>
                     {isGen2 ? <></> : `[ Platform switcher goes here ]`}
                   </div>
                   <div className="layout-sidebar-menu">
@@ -210,7 +226,7 @@ export const Layout = forwardRef(function Layout(
 
               <View className="layout-main">
                 <Flex as="main" className="main">
-                  <Breadcrumbs route={pathname} platform={currentPlatform}/>
+                  <Breadcrumbs route={pathname} platform={currentPlatform} />
                   {children}
                 </Flex>
                 <Footer />

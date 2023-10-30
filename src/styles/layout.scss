@@ -50,6 +50,10 @@
   }
 }
 
+.layout-sidebar__mobile-toggle {
+  margin-inline-start: auto;
+}
+
 .layout-sidebar__inner {
   width: var(--layout-sidebar-width);
   height: 100%;
@@ -119,7 +123,7 @@
   .layout-search {
     height: var(--layout-search-height);
   }
-  .mobile-toggle {
+  .layout-sidebar__mobile-toggle {
     display: none;
   }
   .layout-sidebar {
