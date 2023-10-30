@@ -532,7 +532,7 @@ setupMFAType('NOMFA');
 ```js
 import { Auth } from 'aws-amplify';
 
-async function setupMFAType(preferredMFAß) {
+async function setupMFAType(preferredMFA) {
   try {
     const user = await Auth.currentAuthenticatedUser();
     const data = await Auth.setPreferredMFA(user, preferredMFA);
