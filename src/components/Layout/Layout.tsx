@@ -30,6 +30,7 @@ import { TableOfContents } from '@/components/TableOfContents';
 import type { Heading } from '@/components/TableOfContents/TableOfContents';
 import directory from 'src/directory/directory.json';
 import { PageNode } from 'src/directory/directory';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 
 export const Layout = ({
   children,
@@ -73,6 +74,7 @@ export const Layout = ({
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
+  const pathname = router.pathname;
 
   let currentPlatform = DEFAULT_PLATFORM;
   const homepageNode = directory as PageNode;
@@ -225,6 +227,7 @@ export const Layout = ({
 
               <View className="layout-main">
                 <Flex as="main" className={`main${hasTOC ? ' main--toc' : ''}`}>
+                  <Breadcrumbs route={pathname} platform={currentPlatform} />
                   {children}
                 </Flex>
                 {hasTOC && tocHeadings.length > 0 ? (
