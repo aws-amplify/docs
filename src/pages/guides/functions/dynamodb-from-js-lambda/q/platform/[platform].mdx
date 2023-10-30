@@ -30,6 +30,10 @@ You will learn how to perform [put](https://docs.aws.amazon.com/AWSJavaScriptSDK
 
 To create an item in DynamoDB you can use the `put` method:
 
+<BlockSwitcher>
+
+<Block name="AWS SDK V2">
+
 ```js
 const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient();
@@ -52,10 +56,49 @@ exports.handler = async (event) => {
   }
 };
 ```
+</Block>
+
+<Block name="AWS SDK V3">
+
+
+```js
+const { DynamoDBClient, PutItemCommand } = require("@aws-sdk/client-dynamodb"); 
+const client = new DynamoDBClient();
+
+const params = {
+  'Item': {
+    'id': {
+      'S': '12345'
+    },
+    'price': {
+      'N': '100.00'
+    }
+  },
+  'TableName': 'your-table-name'
+};
+
+exports.handler = async (event) => {
+  try {
+    const command = new PutItemCommand(params);
+    const response = await client.send(command);
+    return { body: 'Successfully created item!' }
+  } catch (err) {
+    return { error: err }
+  }
+};
+```
+
+</Block>
+
+</BlockSwitcher>
 
 ### Getting an item by primary key in DynamoDB from Lambda
 
 To get an item by primary key in DynamoDB you can use the `get` method. A `get` request returns a single item given the primary key of that item:
+
+<BlockSwitcher>
+
+<Block name="AWS SDK V2">
 
 ```js
 const AWS = require('aws-sdk');
@@ -78,10 +121,42 @@ exports.handler = async (event, context) => {
   }
 };
 ```
+</Block>
+
+<Block name="AWS SDK V3">
+
+```js 
+const { DynamoDBClient, GetItemCommand } = require("@aws-sdk/client-dynamodb"); 
+const client = new DynamoDBClient();
+const params = {
+  'Key': {
+    'id': {
+      'S': '12345'
+    }
+  },
+  'TableName': 'your-table-name',
+};
+exports.handler = async (event) => {
+  try {
+    const command = new GetItemCommand(params);
+    const response = await client.send(command);
+    return { body: JSON.stringify(response.Item) }
+  } catch (err) {
+    return { error: err }
+  }
+};
+```
+</Block>
+
+</BlockSwitcher>
 
 ### Scanning a table
 
 A `scan` returns one or more items and item attributes by accessing every item in a table or a secondary index (limit of 1 MB of data).
+
+<BlockSwitcher>
+
+<Block name="AWS SDK V2">
 
 ```js
 const AWS = require('aws-sdk');
@@ -100,10 +175,42 @@ exports.handler = async (event, context) => {
   }
 };
 ```
+</Block>
+
+<Block name="AWS SDK V3">
+
+```js
+
+
+const { DynamoDBClient, ScanCommand } = require("@aws-sdk/client-dynamodb"); // CommonJS import
+
+const client = new DynamoDBClient();
+const params = {
+  'TableName': 'your-table-name'
+};
+
+exports.handler = async (event) => {
+  try {
+    const command = new ScanCommand(params);
+    const response = await client.send(command);
+    return { body: JSON.stringify(response.Items) }
+  } catch (err) {
+    return { error: err }
+  }
+};
+```
+
+</Block>
+
+</BlockSwitcher>
 
 ### Querying a table
 
 A `query` returns one or more items and item attributes by querying items from a table by primary key or secondary index.
+
+<BlockSwitcher>
+
+<Block name="AWS SDK V2">
 
 ```js
 const AWS = require('aws-sdk');
@@ -126,10 +233,48 @@ exports.handler = async (event, context) => {
   }
 };
 ```
+</Block>
+
+<Block name="AWS SDK V3">
+
+```js
+const { DynamoDBClient, QueryCommand } = require("@aws-sdk/client-dynamodb"); 
+const client = new DynamoDBClient();
+
+var params = {
+  TableName:  'your-table-name',
+  IndexName: 'some-index',
+  KeyConditionExpression: '#name = :value',
+  ExpressionAttributeValues: { 
+    ':value': {
+      'S' : 'shoes'
+    }
+  },
+  ExpressionAttributeNames: { '#name': 'name' }
+};
+
+exports.handler = async (event, context) => {
+  try {
+    const command = new QueryCommand(params);
+    const response = await client.send(command);
+    return { body: JSON.stringify(response.Items) };
+  } catch (err) {
+    return { error: err };
+  }
+};
+```
+
+</Block>
+
+</BlockSwitcher>
 
 ### Delete an item from a table
 
 To delete an item by primary key in DynamoDB you can use the `delete` method. The `delete` method can also return the item's attributes by using the `ReturnValues` parameter.
+
+<BlockSwitcher>
+
+<Block name = "AWS SDK V2">
 
 ```js
 const AWS = require('aws-sdk');
@@ -153,3 +298,39 @@ exports.handler = async (event, context) => {
   }
 };
 ```
+</Block>
+
+<Block name = "AWS SDK V3">
+
+```js
+
+
+
+const { DynamoDBClient, DeleteItemCommand } = require("@aws-sdk/client-dynamodb");
+const client = new DynamoDBClient();
+
+var params = {
+  TableName: 'your-table-name',
+  /* Item properties will depend on your application concerns */
+  'Key': {
+    'id': {
+      'S' : '12345'
+    }
+  },
+  ReturnValues: NONE | ALL_OLD | UPDATED_OLD | ALL_NEW | UPDATED_NEW
+};
+
+exports.handler = async (event, context) => {
+  try {
+    const command = new DeleteItemCommand(params);
+    const response = await client.send(command);
+  } catch (err) {
+    return { error: err };
+  }
+};
+
+```
+
+</Block>
+
+</BlockSwitcher>
