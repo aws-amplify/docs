@@ -345,7 +345,7 @@ export const directory = {
           {
             title: 'GraphQL from NodeJS',
             route: '/lib/graphqlapi/graphql-from-nodejs',
-            filters: ['js', 'react-native', 'react-native']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Advanced Workflows',
@@ -995,12 +995,12 @@ export const directory = {
           {
             title: 'Prerequisites',
             route: '/lib-v1/project-setup/prereq',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Create your application',
             route: '/lib-v1/project-setup/create-application',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Using Combine with Amplify',
@@ -1140,47 +1140,72 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/graphqlapi/getting-started',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Concepts',
             route: '/lib-v1/graphqlapi/concepts',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Configure authorization modes',
             route: '/lib-v1/graphqlapi/authz',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Create, update, delete data',
             route: '/lib-v1/graphqlapi/mutate-data',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Fetch data',
             route: '/lib-v1/graphqlapi/query-data',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Subscribe to data',
             route: '/lib-v1/graphqlapi/subscribe-data',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Working with files and attachments',
+            route: '/lib-v1/graphqlapi/working-with-files',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Optimistic UI',
+            route: '/lib-v1/graphqlapi/optimistic-ui',
+            filters: ['js']
+          },
+          {
+            title: 'Cancel API requests',
+            route: '/lib-v1/graphqlapi/cancel-request',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Offline scenarios',
             route: '/lib-v1/graphqlapi/offline',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'GraphQL from NodeJS',
+            route: '/lib-v1/graphqlapi/graphql-from-nodejs',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Advanced Workflows',
             route: '/lib-v1/graphqlapi/advanced-workflows',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Use existing AWS resources',
             route: '/lib-v1/graphqlapi/existing-resources',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Upgrade guide from AppSync SDK',
+            route: '/lib-v1/graphqlapi/upgrade-guide',
+            filters: ['js', 'react-native', 'react-native']
           }
         ]
       },
