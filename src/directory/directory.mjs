@@ -345,7 +345,7 @@ export const directory = {
           {
             title: 'GraphQL from NodeJS',
             route: '/lib/graphqlapi/graphql-from-nodejs',
-            filters: ['js', 'react-native', 'react-native']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Advanced Workflows',
@@ -1113,9 +1113,29 @@ export const directory = {
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
+            title: 'Working with files and attachments',
+            route: '/lib-v1/graphqlapi/working-with-files',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Optimistic UI',
+            route: '/lib-v1/graphqlapi/optimistic-ui',
+            filters: ['js']
+          },
+          {
+            title: 'Cancel API requests',
+            route: '/lib-v1/graphqlapi/cancel-request',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Offline scenarios',
             route: '/lib-v1/graphqlapi/offline',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'GraphQL from NodeJS',
+            route: '/lib-v1/graphqlapi/graphql-from-nodejs',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Advanced Workflows',
@@ -1126,6 +1146,11 @@ export const directory = {
             title: 'Use existing AWS resources',
             route: '/lib-v1/graphqlapi/existing-resources',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Upgrade guide from AppSync SDK',
+            route: '/lib-v1/graphqlapi/upgrade-guide',
+            filters: ['js', 'react-native']
           }
         ]
       },
