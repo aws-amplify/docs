@@ -83,6 +83,7 @@ export const Layout = ({
     }
   }, [children, pageType]);
 
+  const showTOC = hasTOC && tocHeadings.length > 0;
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
@@ -192,7 +193,7 @@ export const Layout = ({
                   className={classNames(
                     'layout-search__search',
                     `layout-search__search--${pageType}`,
-                    { 'layout-search__search--toc': hasTOC }
+                    { 'layout-search__search--toc': showTOC }
                   )}
                 >
                   <SearchBar />
@@ -259,16 +260,16 @@ export const Layout = ({
               </View>
 
               <View className="layout-main">
-                <Flex as="main" className={`main${hasTOC ? ' main--toc' : ''}`}>
+                <Flex
+                  as="main"
+                  className={`main${showTOC ? ' main--toc' : ''}`}
+                >
                   <Breadcrumbs route={pathname} platform={currentPlatform} />
                   {children}
                 </Flex>
-                {hasTOC && tocHeadings.length > 0 ? (
-                  <TableOfContents headers={tocHeadings} />
-                ) : null}
-
-                <Footer />
+                {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
               </View>
+              <Footer hasTOC={showTOC} />
             </View>
           </IconsProvider>
         </ThemeProvider>

@@ -40,3 +40,13 @@
     margin-inline-start: auto;
   }
 }
+
+@media (min-width: $mq-mobile) {
+  .footer {
+    padding: var(--amplify-space-xl);
+    margin-inline-start: var(--layout-sidebar-width);
+    &--toc {
+      margin-inline-end: var(--layout-toc-width);
+    }
+  }
+}
