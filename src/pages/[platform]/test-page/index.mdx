@@ -1,5 +1,6 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import FeatureFlags from '@/components/FeatureFlags';
 
 export const meta = {
   title: 'Test page',
@@ -23,6 +24,28 @@ export function getStaticProps(context) {
 # Get Started { PLATFORM_DISPLAY_NAMES[props.platform] }
 
 { meta.description }
+
+<FeatureFlags />
+
+<Accordion title="Understanding Auth high-level concepts" eyebrow="Learn more">
+
+Amplify helps you secure your application while providing an easy sign-in experience for your users. This experience is influenced by your security strategy. This security strategy includes the authentication method, security credentials, and enabling additional verification when needed.
+
+- _Authentication_ is a process to validate **who you are** (abbreviated as _AuthN_). The system which does this validation is referred to as an Identity Provider or IdP. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon.
+- _Authorization_ is the process of validating **what you can access** (abbreviated as _AuthZ_). This is sometimes done by looking at tokens with custom logic, predefined rules, or signed requests with policies.
+
+Common authentication methods and associated risks include:
+
+- Username/password which is simple to set up but prone to compromise.
+- Social provider federation which enables easier access for your users but shares data with third parties.
+
+You can improve security credentials and verification for these authentication methods by:
+
+- Adding password policies that ensure stronger passwords are created by your users.
+- Require additional contact information from users before they can reset passwords.
+- Add multi-factor authentication which adds a layer of security at sign-in but may also add friction for your users.
+
+</Accordion>
 
 <BlockSwitcher>
   <Block name="This is a really long title">Block content 1</Block>

@@ -1,0 +1,25 @@
+.amplify-table {
+  &__th {
+    background-color: var(--amplify-colors-neutral-90);
+    color: var(--amplify-colors-font-inverse);
+    border-color: var(--amplify-colors-neutral-80);
+  }
+}
+
+.ff-table {
+  &__value {
+    min-width: 4rem;
+  }
+  &__default {
+    min-width: 10rem;
+    text-align: center;
+  }
+  &__desc {
+    min-width: 20rem;
+  }
+}
+
+/* Wrapping class for scrollable tables */
+.table-wrapper {
+  overflow-x: auto;
+}

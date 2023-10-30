@@ -5,7 +5,9 @@
 @import './prism-language-error.scss';
 
 @import './404.scss';
+@import './accordion.scss';
 @import './block-switcher.scss';
+@import './breadcrumbs.scss';
 @import './banner.scss';
 @import './callout.scss';
 @import './code.scss';
@@ -15,13 +17,17 @@
 @import './home.scss';
 @import './icons.scss';
 @import './layout.scss';
+@import './platform-navigator.scss';
+@import './link-card.scss';
 @import './menu.scss';
 @import './popover.scss';
 @import './repo-actions.scss';
 @import './search.scss';
 @import './spaceship.scss';
 @import './split-button.scss';
+@import './table.scss';
 @import './youtube-embed';
+@import './overview';
 
 /* Temp */
 [id*='lastupdated-'] {

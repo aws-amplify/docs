@@ -6,8 +6,10 @@ import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
 import { Banner } from '@/components/Banner';
-
+import { DEFAULT_PLATFORM } from '@/data/platforms';
 import { trackPageVisit } from '@/utils/track';
+
+import LinkCards from '@/components/LinkCards';
 
 const meta = {
   title: 'Amplify Docs',
@@ -17,6 +19,9 @@ const meta = {
 };
 
 export default function Page() {
+  //Default platform is javascript
+  let defaultPlatform = DEFAULT_PLATFORM;
+
   useEffect(() => {
     trackPageVisit();
   }, []);
@@ -49,7 +54,7 @@ export default function Page() {
           libraries, CLI, and services, you can easily connect your frontend to
           the cloud for authentication, storage, APIs, and more.
         </Text>
-        <Flex className="home-intro__cta">
+        <Flex className="home-cta">
           <Button variation="primary" size="large" gap="small">
             How Amplify Works{' '}
             <IconChevron
@@ -73,7 +78,7 @@ export default function Page() {
         </Text>
         <FrameworkGrid currentKey="javascript" />
       </Flex>
-
+      <LinkCards platform={defaultPlatform} />
       <Flex direction="column" alignItems="flex-start">
         <Heading level={2}>Features for JavaScript</Heading>
         <Button as="a" href="/">

@@ -33,6 +33,12 @@ export const baseTheme = createTheme({
       xxl: { value: '1.8rem' },
       xxxl: { value: '2.0rem' }
     },
+    fonts: {
+      default: {
+        variable: { value: 'Amazon Ember, sans-serif' },
+        static: { value: 'Amazon Ember, sans-serif' }
+      }
+    },
     components: {
       button: {
         borderRadius: { value: '{radii.large}' },
@@ -61,11 +67,14 @@ export const baseTheme = createTheme({
       card: {
         padding: { value: '{space.large}' },
         outlined: {
-          borderColor: { value: '{colors.neutral.20}' },
+          borderColor: { value: '{colors.neutral.40}' },
           borderRadius: { value: '{radii.large}' }
         }
       },
       heading: {
+        1: {
+          fontWeight: '400'
+        },
         2: {
           fontWeight: '700'
         },
@@ -81,6 +90,14 @@ export const baseTheme = createTheme({
           info: {
             color: { value: '{colors.font.primary}' }
           }
+        }
+      },
+      table: {
+        header: {
+          padding: { value: '{space.small}' }
+        },
+        data: {
+          padding: { value: '{space.small}' }
         }
       }
     }
