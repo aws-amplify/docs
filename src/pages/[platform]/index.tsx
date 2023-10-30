@@ -5,6 +5,7 @@ import { IconChevron } from '@/components/Icons';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { Flex, Heading, Button, Text } from '@aws-amplify/ui-react';
 import LinkCards from '@/components/LinkCards';
+import PlatformFeatureList from '@/components/FeatureLists/PlatformFeatureList';
 
 export const meta = {
   title: 'Overview',
@@ -72,6 +73,7 @@ const PlatformOverview = ({ platform }) => {
           on AWS. Get started by selecting your preferred framework.
         </Text>
         <FrameworkGrid currentKey={platform} />
+        <PlatformFeatureList platform={platform} />
         <LinkCards platform={platform} />
       </Flex>
     </Flex>
