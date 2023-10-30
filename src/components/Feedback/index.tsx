@@ -211,6 +211,11 @@ const Feedback = forwardRef(function Feedback({}, ref) {
 
   return (
     <Flex id="feedback-container" ref={ref}>
+      <ExternalLink href={editLink}>
+        <img src="/assets/github.svg" alt="" width="24" height="24" />
+        <span aria-label="Edit this page on GitHub">Edit</span>
+      </ExternalLink>
+
       <div id="start-state" aria-label={c.feedbackQuestion} tabIndex={0}>
         <Text className="feedback-text">{c.feedbackQuestion}</Text>
         <Flex className="vote-buttons-container">
