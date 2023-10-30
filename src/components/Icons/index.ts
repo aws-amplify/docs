@@ -25,8 +25,6 @@ export { IconThumbsUp } from './IconThumbsUp';
 export { IconThumbsDown } from './IconThumbsDown';
 export { IconPencil } from './IconPencil';
 
-export * from './ThumbsUpFilled';
-export * from './ThumbsDownFilled';
 export * from './CloseIcon';
 export * from './ExternalLinkIcon';
 export * from './MenuIcon';
