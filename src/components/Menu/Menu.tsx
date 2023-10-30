@@ -22,6 +22,7 @@ export function Menu({
   menuHref
 }: MenuProps): ReactElement {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
+  console.log(rootMenuNode, menuTitle, menuHref);
 
   const onLinkClick = () => {
     if (menuOpen) {
@@ -62,7 +63,9 @@ export function Menu({
                 />
               );
             })}
-          <RepoActions></RepoActions>
+          {/* <RepoActions 
+            url={props.url}
+            directoryPath={props.directoryPath}></RepoActions> */}
           <Feedback></Feedback>
         </ul>
       </ul>
