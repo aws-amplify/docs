@@ -6,21 +6,25 @@ type PageLastUpdatedProps = {
 };
 
 export function PageLastUpdated({ directoryData }: PageLastUpdatedProps) {
-  const lastUpdated = directoryData['lastUpdated'];
+  if (directoryData) {
+    const lastUpdated = directoryData['lastUpdated'];
 
-  if (!lastUpdated) {
-    return <></>;
+    if (!lastUpdated) {
+      return <></>;
+    }
+
+    const date = toReadableDate(lastUpdated);
+
+    return (
+      <View className="page-last-updated">
+        <View className="page-last-updated__inner">
+          <Text fontSize="14px">Page updated {date}</Text>{' '}
+        </View>
+      </View>
+    );
   }
 
-  const date = toReadableDate(lastUpdated);
-
-  return (
-    <View className="page-last-updated">
-      <View className="page-last-updated__inner">
-        <Text fontSize="14px">Page updated {date}</Text>{' '}
-      </View>
-    </View>
-  );
+  return <></>;
 }
 
 function toReadableDate(date) {
