@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import { Heading, Text, Flex, Button } from '@aws-amplify/ui-react';
-import { debounce } from '@/utils/debounce';
-import { Layout } from '@/components/Layout';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
@@ -18,29 +16,19 @@ const meta = {
   url: 'https://docs.amplify.aws/'
 };
 
+export function getStaticProps() {
+  return {
+    props: {
+      hasTOC: false,
+      pageType: 'home',
+      meta
+    }
+  };
+}
+
 export default function Page() {
   //Default platform is javascript
   let defaultPlatform = DEFAULT_PLATFORM;
-
-  useEffect(() => {
-    trackPageVisit();
-  }, []);
-
-  const handleScroll = debounce((e) => {
-    const bodyScroll = e.target.documentElement.scrollTop;
-    if (bodyScroll > 50) {
-      document.body.classList.add('scrolled');
-    } else if (document.body.classList.contains('scrolled')) {
-      document.body.classList.remove('scrolled');
-    }
-  });
-
-  useEffect(() => {
-    document.addEventListener('scroll', handleScroll);
-    return () => {
-      document.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
   return (
     <Flex className="home-content">
@@ -88,16 +76,3 @@ export default function Page() {
     </Flex>
   );
 }
-
-Page.getLayout = function getLayout(page) {
-  return (
-    <Layout
-      pageTitle={meta.title}
-      pageDescription={meta.description}
-      url={meta.url}
-      pageType="home"
-    >
-      {page}
-    </Layout>
-  );
-};
