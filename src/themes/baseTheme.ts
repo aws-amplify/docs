@@ -91,6 +91,14 @@ export const baseTheme = createTheme({
             color: { value: '{colors.font.primary}' }
           }
         }
+      },
+      table: {
+        header: {
+          padding: { value: '{space.small}' }
+        },
+        data: {
+          padding: { value: '{space.small}' }
+        }
       }
     }
   }

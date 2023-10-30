@@ -1,33 +1,15 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-import getElementTop from "../../utils/get-element-top";
-import FeatureFlagValues from "./FeatureFlagValues";
-import InternalLink from "../InternalLink";
-
-import styled from "@emotion/styled";
-
-export const TableContainer = styled.div`
-  overflow-x: auto;
-  margin-bottom: 1rem;
-`;
-
-export const Table = styled.table`
-  text-align: center;
-  width: 100%;
-
-  thead tr {
-    background-color: var(--bg-color-tertiary);
-  }
-  tbody tr th {
-    width: 5rem;
-  }
-`;
-
-export const SummaryRow = styled.tr`
-  th {
-    min-width: 16%;
-    width: 16%;
-  }
-`;
+import FeatureFlagValues from './FeatureFlagValues';
+import {
+  Heading,
+  Table,
+  TableCell,
+  TableBody,
+  TableHead,
+  TableRow,
+  Text,
+  View
+} from '@aws-amplify/ui-react';
+import Link from 'next/link';
 
 export type FeatureFlags = Record<string, Section>;
 
@@ -38,8 +20,8 @@ export type Section = {
 
 export type FeatureFlag = {
   description: string;
-  type: "Feature" | "Release" | "Experimental";
-  valueType: "Boolean" | "Number" | "String";
+  type: 'Feature' | 'Release' | 'Experimental';
+  valueType: 'Boolean' | 'Number' | 'String';
   versionAdded: string;
   versionDeprecated?: string;
   deprecationDate?: string;
@@ -55,56 +37,41 @@ export type Value = {
   defaultExistingProject: boolean;
 };
 
-export default function FeatureFlagSummary({name, feature}) {
+export default function FeatureFlagSummary({ name, feature }) {
   return (
-    <div>
-      <InternalLink href={"#" + name}>
-        <a
-          onClick={() => {
-            setTimeout(scroll.bind(undefined, name), 50);
-            return false;
-          }}
-        >
-          <h3 id={name}>{name}</h3>
-        </a>
-      </InternalLink>
+    <>
+      <Heading level={3} id={name}>
+        <Link href={'#' + name}>{name}</Link>
+      </Heading>
 
-      {feature.description ? <p>{feature.description}</p> : undefined}
-      <TableContainer>
-        <Table>
-          <thead>
-            <SummaryRow>
-              <th>Type</th>
-              <th>Added</th>
-              <th>Deprecation date</th>
-              <th>Deprecated</th>
-              <th>Removal date</th>
-              <th>Removed</th>
-            </SummaryRow>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{feature.type}</td>
-              <td>{feature.versionAdded}</td>
-              <td>{feature.deprecationDate}</td>
-              <td>{feature.versionDeprecated}</td>
-              <td>{feature.removalDate}</td>
-              <td>{feature.versionRemoved}</td>
-            </tr>
-          </tbody>
+      {feature.description ? <Text>{feature.description}</Text> : undefined}
+
+      <View className="table-wrapper">
+        <Table variation="bordered">
+          <TableHead>
+            <TableRow>
+              <TableCell as="th">Type</TableCell>
+              <TableCell as="th">Added</TableCell>
+              <TableCell as="th">Deprecation date</TableCell>
+              <TableCell as="th">Deprecated</TableCell>
+              <TableCell as="th">Removal date</TableCell>
+              <TableCell as="th">Removed</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>{feature.type}</TableCell>
+              <TableCell>{feature.versionAdded}</TableCell>
+              <TableCell>{feature.deprecationDate}</TableCell>
+              <TableCell>{feature.versionDeprecated}</TableCell>
+              <TableCell>{feature.removalDate}</TableCell>
+              <TableCell>{feature.versionRemoved}</TableCell>
+            </TableRow>
+          </TableBody>
         </Table>
-      </TableContainer>
+      </View>
 
       <FeatureFlagValues values={feature.values} />
-    </div>
+    </>
   );
-}
-
-const stickyHeaderHeight = 54;
-function scroll(hash) {
-  const header = document.querySelector(`[id="${hash}"]`);
-  const top = getElementTop(header, stickyHeaderHeight);
-  if (top !== window.scrollY) {
-    window.scrollTo({top});
-  }
 }
