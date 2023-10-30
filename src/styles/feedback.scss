@@ -5,12 +5,39 @@
 
   .feedback-text {
     padding: var(--amplify-space-xs) var(--amplify-space-large);
+  }
 
-    &.up-response {
-      opacity: 0;
-      overflow: visible;
-      text-wrap: nowrap;
-      padding-left: 0;
+  .vote-response {
+    flex-direction: column;
+    opacity: 0;
+    display: none;
+    overflow: visible;
+    text-wrap: nowrap;
+    padding-left: 0;
+  }
+
+  .no-vote-response {
+    // display: none;
+    opacity: 0;
+    flex-direction: column;
+    height: 0;
+    overflow: hidden;
+    font-size: 0.9rem;
+    padding: 8px;
+
+    .cta {
+      text-align: center;
+    }
+
+    .cta-button {
+      flex-direction: row;
+      font-size: 0.9rem;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        display: inline-block;
+      }
     }
   }
 
@@ -22,6 +49,7 @@
       font-size: 0.9rem;
       color: inherit;
       border-color: var(--amplify-colors-brand-secondary-);
+      height: fit-content;
 
       .amplify-text {
         padding-left: 7px;

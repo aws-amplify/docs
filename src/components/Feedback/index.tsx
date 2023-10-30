@@ -1,19 +1,12 @@
 import { forwardRef, useCallback, useState } from 'react';
-import {
-  FeedbackContainer,
-  VoteButton,
-  VoteButtonAfter,
-  VoteButtonsContainer,
-  FeedbackText,
-  FeedbackTextAfter,
-  ButtonStyles
-} from './styles';
+('');
 import { trackFeedbackSubmission } from '../../utils/track';
 import {
   IconThumbsUp,
   IconThumbsDown,
   ThumbsUpFilledIcon,
-  ThumbsDownFilledIcon
+  ThumbsDownFilledIcon,
+  ExternalLinkIcon
 } from '../Icons';
 import ExternalLink from '../ExternalLink';
 import { Flex, View, Text, Button } from '@aws-amplify/ui-react';
@@ -39,8 +32,7 @@ const Feedback = forwardRef(function Feedback({}, ref) {
   // Feedback Component Customizations
   const c = {
     feedbackQuestion: 'Was this page helpful?',
-    yesVoteResponse: 'Thanks for your feedback!',
-    noVoteResponse: 'Thanks for your feedback!',
+    voteResponse: 'Thanks for your feedback!',
     noVoteCTA: 'Can you provide more details?',
     noVoteCTAButton: 'File an issue on GitHub',
     ctaIcon: 'external',
@@ -59,8 +51,6 @@ const Feedback = forwardRef(function Feedback({}, ref) {
     const feedbackComponent = yesButton.parentElement.parentElement;
     const feedbackText = feedbackComponent.getElementsByTagName('p')[0];
     const feedbackTextWidth = feedbackText.offsetWidth;
-
-    console.log(yesFeedbackText);
 
     const transitionUpButton = [
       {
@@ -89,12 +79,13 @@ const Feedback = forwardRef(function Feedback({}, ref) {
     const transitionYesResponse = [
       {
         opacity: 0,
-        transform: 'translateX(1000px)'
+        transform: 'translateX(150px)'
       },
       {
         opacity: 1,
         transform: 'translate(0)',
-        overflow: 'visible'
+        overflow: 'visible',
+        display: 'block'
       }
     ];
 
@@ -115,7 +106,7 @@ const Feedback = forwardRef(function Feedback({}, ref) {
     ];
 
     const transitionFeedbackText = [
-      { transform: 'translateX(-50px)', opacity: 0 }
+      { transform: 'translateX(-150px)', opacity: 0 }
     ];
 
     const animationTiming = {
@@ -133,21 +124,115 @@ const Feedback = forwardRef(function Feedback({}, ref) {
     // setTimeout(function () {
     //   currentState = FeedbackState.UP;
     //   setState(currentState);
-    // }, 3000);
+    // }, 300);
   }, []);
 
   const onNoVote = useCallback((e) => {
     // trackFeedbackSubmission(false);
+    const noButton = e.currentTarget;
+    const noButtonText = e.currentTarget.children[1];
+    const yesButton = noButton.previousSibling;
+    const noFeedbackText = noButton.nextSibling;
+    const feedbackComponent = noButton.parentElement.parentElement;
+    const feedbackText = feedbackComponent.getElementsByTagName('p')[0];
+    const cta = feedbackComponent.getElementsByClassName('no-vote-response')[0];
+    const feedbackTextWidth = feedbackText.offsetWidth;
     const feedbackContent = e.currentTarget.parentNode.parentNode;
 
-    feedbackContent.classList.add('fadeOut');
+    const transitionUpButton = [
+      {
+        maxWidth: yesButton.offsetWidth + 'px'
+      },
+      {
+        maxWidth: 0,
+        padding: 0,
+        display: 'none',
 
-    setTimeout(function () {
-      currentState = FeedbackState.DOWN;
-      feedbackContent.classList.remove('fadeOut');
-      feedbackContent.classList.add('fadeIn');
-      setState(currentState);
-    }, 3000);
+        opacity: 0
+      }
+    ];
+
+    const transitionDownButton = [
+      {
+        maxWidth: noButton.offsetWidth + 'px',
+        overflow: 'visible'
+      },
+      {
+        maxWidth: '50px', // 16px padding + 18px icon + 16px padding
+        overflow: 'hidden',
+        color: 'red',
+        borderColor: 'red'
+      }
+    ];
+
+    const transitionDownText = [
+      {
+        opacity: 1
+      },
+      {
+        opacity: 0,
+        width: 0,
+        padding: 0
+      }
+    ];
+
+    const transitionNoResponse = [
+      {
+        opacity: 0,
+        transform: 'translateX(150px)'
+      },
+      {
+        opacity: 1,
+        transform: 'translate(0)',
+        overflow: 'visible',
+        display: 'block'
+      }
+    ];
+
+    const transitionFeedbackText = [
+      { transform: 'translateX(-150px)', opacity: 0 }
+    ];
+
+    const transitionResponseCTA = [
+      {
+        opacity: 1,
+        height: 0
+      },
+      {
+        overflow: 'visible',
+        // display: 'block',
+        opacity: 1,
+        height: '100px'
+      }
+    ];
+
+    const animationTiming = {
+      duration: 300,
+      iterations: 1,
+      fill: 'forwards'
+    };
+
+    const animationTimingDelayed = {
+      delay: 400,
+      duration: 1000,
+      iterations: 1,
+      fill: 'forwards'
+    };
+
+    yesButton.animate(transitionUpButton, animationTiming);
+    noButtonText.animate(transitionDownText, animationTiming);
+    noFeedbackText.animate(transitionNoResponse, animationTiming);
+    noButton.animate(transitionDownButton, animationTiming);
+    feedbackText.animate(transitionFeedbackText, animationTiming);
+    cta.animate(transitionResponseCTA, animationTimingDelayed);
+    // cta.animate(transitionResponseCTA, animationTiming);
+
+    // setTimeout(function () {
+    //   currentState = FeedbackState.DOWN;
+    //   feedbackContent.classList.remove('fadeOut');
+    //   feedbackContent.classList.add('fadeIn');
+    //   setState(currentState);
+    // }, 300);
   }, []);
 
   return (
@@ -187,22 +272,18 @@ const Feedback = forwardRef(function Feedback({}, ref) {
                     <IconThumbsDown />
                     <Text>No</Text>
                   </Button>
-                  <Text className="feedback-text up-response">
-                    {c.yesVoteResponse}
-                  </Text>
-                </Flex>
-              </div>
-            );
-          case 'UP':
-            return (
-              <div className="up">
-                <Flex className="vote-buttons-container up-response">
-                  <Button className="vote-button up-response">
-                    <ThumbsUpFilledIcon />
-                  </Button>
-                  <Text className="feedback-text up-response">
-                    {c.yesVoteResponse}
-                  </Text>
+                  <Flex className="vote-response">
+                    <Text className="feedback-text">{c.voteResponse}</Text>
+                    <Flex className="no-vote-response">
+                      <Text className="cta">{c.noVoteCTA}</Text>
+                      <Button className="cta-button">
+                        <ExternalLink href={c.buttonLink} icon={false}>
+                          {c.noVoteCTAButton}
+                          <ExternalLinkIcon />
+                        </ExternalLink>
+                      </Button>
+                    </Flex>
+                  </Flex>
                 </Flex>
               </div>
             );

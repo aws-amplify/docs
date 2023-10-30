@@ -23,8 +23,8 @@ export const ThumbsUpFilledIcon = () => (
       viewBox={{
         minX: 0,
         minY: 0,
-        width: 16,
-        height: 16
+        width: 14,
+        height: 14
       }}
       color="#037f0c"
     >
