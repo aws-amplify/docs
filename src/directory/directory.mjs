@@ -1060,12 +1060,12 @@ export const directory = {
           {
             title: 'Storing analytics data',
             route: '/lib-v1/analytics/storing',
-            filters: ['js', 'react-native']
+            filters: ['js']
           },
           {
             title: 'Personalized recommendations',
             route: '/lib-v1/analytics/personalize',
-            filters: ['js', 'react-native']
+            filters: ['js']
           },
           {
             title: 'Escape hatch',
