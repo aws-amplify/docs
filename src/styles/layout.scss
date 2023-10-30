@@ -43,7 +43,7 @@
   bottom: 0;
   inset-inline-start: 0;
   z-index: 2;
-  overflow: hidden;
+  overflow: visible;
   display: none;
   &--expanded {
     display: block;
@@ -51,7 +51,20 @@
 }
 
 .layout-sidebar__mobile-toggle {
-  margin-inline-start: auto;
+  position: absolute;
+  right: 0;
+  transform: translate(100%, 0);
+  background-color: #fff;
+  border-color: transparent;
+  border-radius: 0 var(--amplify-radii-medium) var(--amplify-radii-medium) 0;
+  gap: var(--amplify-space-small);
+  padding-block: var(--amplify-space-medium);
+  &:focus {
+    box-shadow: none;
+  }
+  &:focus-visible {
+    border-color: var(--amplify-colors-border-focus);
+  }
 }
 
 .layout-sidebar__inner {
@@ -63,7 +76,7 @@
   overflow-y: auto;
   display: grid;
   grid-template-rows: auto 1fr;
-  overflow: hidden;
+  overflow: visible;
   &--expanded {
     animation: menu 0.2s ease-out forwards;
     animation-delay: 0.1s;

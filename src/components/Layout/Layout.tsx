@@ -6,7 +6,8 @@ import {
   View,
   Button,
   ThemeProvider,
-  IconsProvider
+  IconsProvider,
+  VisuallyHidden
 } from '@aws-amplify/ui-react';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
@@ -26,6 +27,7 @@ import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { trackPageVisit } from '../../utils/track';
 import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
+import { PlatformNavigator } from '@/components/PlatformNavigator';
 import directory from 'src/directory/directory.json';
 import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -185,21 +187,27 @@ export const Layout = forwardRef(function Layout(
                     menuOpen ? ' layout-sidebar__inner--expanded' : ''
                   }`}
                 >
-                  <div className="layout-sidebar-platform">
-                    <Flex>
-                      <Button
-                        size="small"
-                        colorTheme="overlay"
-                        ref={sidebarMenuButtonRef}
-                        className="layout-sidebar__mobile-toggle"
-                        onClick={() => toggleMenuOpen(false)}
-                      >
-                        <IconDoubleChevron aria-hidden="true" />
-                        Close menu
-                      </Button>
-                    </Flex>
-                    {isGen2 ? <></> : `[ Platform switcher goes here ]`}
-                  </div>
+                  <Flex className="layout-sidebar-platform">
+                    <Button
+                      size="small"
+                      colorTheme="overlay"
+                      className="layout-sidebar__mobile-toggle"
+                      ref={sidebarMenuButtonRef}
+                      onClick={() => toggleMenuOpen(false)}
+                    >
+                      <IconDoubleChevron aria-hidden="true" />
+                      <VisuallyHidden>Close menu</VisuallyHidden>
+                    </Button>
+                    {isGen2 ? (
+                      <></>
+                    ) : (
+                      <PlatformNavigator
+                        currentPlatform={
+                          PLATFORM_DISPLAY_NAMES[currentPlatform]
+                        }
+                      />
+                    )}
+                  </Flex>
                   <div className="layout-sidebar-menu">
                     {isGen2 ? (
                       <Menu
