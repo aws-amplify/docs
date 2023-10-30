@@ -14,6 +14,9 @@
 .feature-link-text {
   text-decoration: underline;
 }
+.category-list {
+  flex-direction: column;
+}
 .category-list-children {
   padding: 0;
 }

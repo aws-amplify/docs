@@ -19,12 +19,9 @@ const PlatformFeatureList: React.FC<PlatformFeatureListProps> = ({
 
   return categories.length > 0 ? (
     <Flex direction="column" alignItems="flex-start">
-      <FeatureLists
-        level={2}
-        title={`Features for ${PLATFORM_DISPLAY_NAMES[platform]}`}
-      >
+      <FeatureLists title={`Features for ${PLATFORM_DISPLAY_NAMES[platform]}`}>
         {categories.map((category, index) => (
-          <FeatureList heading={category.heading} level={3} key={index}>
+          <FeatureList heading={category.heading} key={index}>
             {category.items.map((categoryItem, index) => (
               <FeatureItem
                 linkText={categoryItem.linkText}
