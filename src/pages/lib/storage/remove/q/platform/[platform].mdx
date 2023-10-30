@@ -22,22 +22,58 @@ export const getStaticProps = (context) => {
   };
 };
 
-import js0 from '/src/fragments/lib/storage/js/remove.mdx';
+import android_remove from '/src/fragments/lib/storage/android/remove.mdx';
+import flutter_remove from '/src/fragments/lib/storage/flutter/remove.mdx';
+import ios_remove from '/src/fragments/lib/storage/ios/remove.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments
+  fragments={{
+    android: android_remove,
+    flutter: flutter_remove,
+    ios: ios_remove
+  }}
+/>
 
-import reactnative0 from '/src/fragments/lib/storage/js/remove.mdx';
+<InlineFilter filters={['js', 'react-native']}>
 
-<Fragments fragments={{ 'react-native': reactnative0 }} />
+Delete stored data from the storage bucket. To remove a file, you need to provide the key. `accessLevel` can be 'guest', 'private', or 'protected', defaulting to 'guest'.
+Files can only be deleted for the current user. Deletion capabilities do not extend to files associated with other users.
 
-import ios1 from '/src/fragments/lib/storage/ios/remove.mdx';
+## Guest level remove
 
-<Fragments fragments={{ ios: ios1 }} />
+```javascript
+import { remove } from 'aws-amplify/storage';
 
-import android2 from '/src/fragments/lib/storage/android/remove.mdx';
+try {
+  await remove({ key: filename });
+} catch (error) {
+  console.log('Error ', error);
+}
 
-<Fragments fragments={{ android: android2 }} />
+```
 
-import flutter3 from '/src/fragments/lib/storage/flutter/remove.mdx';
+## Protected level remove
 
-<Fragments fragments={{ flutter: flutter3 }} />
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  await remove({ key: filename, options: { accessLevel: 'protected' } });
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+
+## Private level remove
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  await remove({ key: filename, options: { accessLevel: 'private' } });
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+
+</InlineFilter>
