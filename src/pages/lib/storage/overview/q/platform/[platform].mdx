@@ -1,11 +1,30 @@
 export const meta = {
   title: `Concepts`,
   description: `Learn more about the foundational storage concepts for cloud-based application and how they work with Amplify.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
 
-AWS Amplify storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets. The storage category comes with built-in support for [Amazon S3 (Simple Storage Service)](https://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html). 
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
-## S3 Core Concepts 
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+AWS Amplify storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets. The storage category comes with built-in support for [Amazon S3 (Simple Storage Service)](https://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html).
+
+## S3 Core Concepts
 
 Amazon S3 stores data as objects within container buckets. An object consists of a file and optionally any metadata that describes that file. To store an object in Amazon S3, you upload the file you want to store to a bucket. When you upload a file, you can set permissions on the object and any metadata.
 

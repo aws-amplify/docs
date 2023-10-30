@@ -4,7 +4,7 @@ import TableOfContents from '../TableOfContents/index';
 import NextPrevious from '../NextPrevious/index';
 import { ContentStyle, ChapterTitleStyle } from './styles';
 import MobileMenuIcons from '../MobileMenuIcons';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { MQDesktop } from '../media';
 import Feedback from '../Feedback';
 import LastUpdatedDatesProvider from '../LastUpdatedProvider';
@@ -39,14 +39,18 @@ export default function MetaContent({
   const buttonsRef = useRef(null);
   const contentsRef = useRef(null);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [onDesktop, setOnDesktop] = useState(true);
 
   // Slice off the "@media " string at the start for use in JS instead of CSS
   const MQDesktopJS = MQDesktop.substring(6);
   // If the media query matches, then the user is on desktop and should not see the mobile toggle
-  const onDesktop =
-    typeof window === 'undefined'
-      ? false
-      : window.matchMedia(MQDesktopJS).matches;
+  useEffect(() => {
+    setOnDesktop(
+      typeof window === 'undefined'
+        ? false
+        : window.matchMedia(MQDesktopJS).matches
+    );
+  }, []);
 
   return (
     <>

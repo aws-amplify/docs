@@ -103,9 +103,14 @@ export const directory = {
             filters: ['js', 'react-native', 'android', 'flutter', 'ios']
           },
           {
-            title: 'Password & user management',
+            title: 'Manage user profiles',
             route: '/lib/auth/manageusers',
             filters: ['js', 'react-native']
+          },
+          {
+          title: 'Set up user password change and recovery',
+          route: '/lib/auth/password_management',
+          filters: ['js', 'react-native', 'android', 'flutter', 'ios']
           },
           {
             title: 'Switching authentication flows',
@@ -171,11 +176,6 @@ export const directory = {
             title: 'Remember a device',
             route: '/lib/auth/device_features',
             filters: ['android', 'ios', 'js', 'flutter', 'react-native']
-          },
-          {
-            title: 'Password management',
-            route: '/lib/auth/password_management',
-            filters: ['android', 'flutter', 'ios']
           },
           {
             title: 'Sign out',
@@ -293,6 +293,11 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+          title: 'Connect your app code to the API',
+          route: '/lib/graphqlapi/connect',
+          filters: ['js']
+          },
+          {
             title: 'Concepts',
             route: '/lib/graphqlapi/concepts',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
@@ -303,19 +308,24 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Create, update, delete data',
+            title: 'Create, update, and delete application data',
             route: '/lib/graphqlapi/mutate-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Fetch data',
+            title: 'Read application data',
             route: '/lib/graphqlapi/query-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Subscribe to data',
+            title: 'Subscribe to real-time events',
             route: '/lib/graphqlapi/subscribe-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Relational models',
+            route: '/lib/graphqlapi/relational',
+            filters: ['android']
           },
           {
             title: 'Working with files and attachments',
@@ -1443,11 +1453,6 @@ export const directory = {
             filters: ['android', 'ios', 'flutter', 'js']
           },
           {
-            title: 'Upload files',
-            route: '/lib-v1/storage/upload',
-            filters: ['android', 'ios', 'flutter', 'js']
-          },
-          {
             title: 'Download files',
             route: '/lib-v1/storage/download',
             filters: ['android', 'ios', 'flutter', 'js']
@@ -1466,6 +1471,11 @@ export const directory = {
             title: 'Copy files',
             route: '/lib-v1/storage/copy',
             filters: ['js']
+          },
+          {
+            title: 'Upload files',
+            route: '/lib-v1/storage/upload',
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Remove files',

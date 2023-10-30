@@ -118,7 +118,7 @@ export default class FilterSelect extends React.Component<
     }
 
     return (
-      <div className="filter-row">
+      <div className="filter-row" key={name}>
         <img
           alt=""
           src={filterMetadataByOption[name]?.graphicURI}

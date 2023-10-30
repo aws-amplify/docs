@@ -33,7 +33,7 @@
     "gray-matter": "4.0.3",
     "html-entities": "^1.2.1",
     "instantsearch.js": "^4.39.1",
-    "next": "^13.2.4",
+    "next": "^13.5.6",
     "next-image-export-optimizer": "^1.8.3",
     "next-transpile-modules": "^9.0.0",
     "parse-imports": "^1.1.0",
@@ -129,7 +129,11 @@
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.js"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss)$": "<rootDir>/src/__mocks__/styleMock.js"
+    },
+    "transformIgnorePatterns": []
   },
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
@@ -138,7 +142,7 @@
     "dev": "next dev",
     "spellcheck": "cspell \"src/**/*.mdx\" --no-progress",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
-    "build": "node tasks/generate-sitemap.mjs && next build && next export -o client/www/next-build",
+    "build": "node tasks/generate-sitemap.mjs && next build",
     "build:release": "yarn build && next-image-export-optimizer --exportFolderPath client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
