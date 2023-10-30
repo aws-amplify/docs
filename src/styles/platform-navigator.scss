@@ -19,11 +19,20 @@
 .info-popover {
   .popover {
     width: 22rem;
-    left: auto;
     right: auto;
     top: calc(100% + 1rem);
-    margin-left: -10.5rem;
     background-color: var(--amplify-colors-teal-10);
+  }
+  &__footer {
+    margin-top: var(--amplify-space-small);
+    border-top: 1px solid var(--amplify-colors-neutral-40);
+    padding-top: var(--amplify-space-small);
+    text-align: right;
+  }
+}
+
+@media(min-width: 480px) {
+  .popover {
     &:before {
       content: '';
       width: 0;
@@ -48,11 +57,5 @@
       border-left: 14px solid transparent;
       border-bottom: 14px solid var(--amplify-colors-teal-10);
     }
-  }
-  &__footer {
-    margin-top: var(--amplify-space-small);
-    border-top: 1px solid var(--amplify-colors-neutral-40);
-    padding-top: var(--amplify-space-small);
-    text-align: right;
   }
 }
