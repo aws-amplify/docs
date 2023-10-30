@@ -1,5 +1,4 @@
 import { View } from '@aws-amplify/ui-react';
-import Feedback from '../Feedback';
 
 export const TestNav = () => {
   return (
@@ -134,7 +133,6 @@ export const TestNav = () => {
           </ul>
         </li>
       </ul>
-      <Feedback></Feedback>
     </View>
   );
 };
