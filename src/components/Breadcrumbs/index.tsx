@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Breadcrumbs } from '@aws-amplify/ui-react';
 import { findDirectoryNode as findNode } from '@/utils/findDirectoryNode';
+import classNames from 'classnames';
 
 type BreadcrumbItem = {
   href: {pathname:string, query?: { platform: string }};
@@ -59,10 +60,8 @@ function BreadcrumbsComponent({ route, platform }: Props) {
           const isCurrent = i === items.length - 1;
           return (
             <Breadcrumbs.Item key={href} paddingTop="small" className="breadcrumb__item">
-                <Link href={href} passHref>
-                  <Breadcrumbs.Link isCurrent={isCurrent}>
+                <Link href={href} passHref className={classNames('amplify-link', 'amplify-breadcrumbs__link', { 'amplify-breadcrumbs__link--current' : isCurrent })} aria-current={isCurrent || undefined}>
                     {label}
-                  </Breadcrumbs.Link>
                 </Link>
               {isCurrent ? null : <Breadcrumbs.Separator />}
             </Breadcrumbs.Item>
