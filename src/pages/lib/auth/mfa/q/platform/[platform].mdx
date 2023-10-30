@@ -1,6 +1,25 @@
 export const meta = {
   title: `Manage MFA settings`,
   description: `Learn how to enable multi-factor authentication with Amplify.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 <InlineFilter filters={["js", "react-native"]}>
@@ -774,6 +793,6 @@ Now that you completed setting up multi-factor authentication you may also want 
 
 </InlineFilter>
 
-import flows from "/src/fragments/lib/auth/common/mfa/flows.mdx";
+import flows from '/src/fragments/lib/auth/common/mfa/flows.mdx';
 
-<Fragments fragments={{ios: flows, flutter: flows, android: flows}} />
+<Fragments fragments={{ ios: flows, flutter: flows, android: flows }} />

@@ -1,8 +1,12 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { parseLocalStorage } from '../../utils/parseLocalStorage';
+import { useContext } from 'react';
+import { PageContext } from '../Page';
 
 export default function InternalLink({ href, children }) {
+  const router = useRouter();
+  const filterKeys = useContext(PageContext);
+
   let filterKind = '';
   if (href.startsWith('/cli') || href.startsWith('/console')) {
     filterKind = '';
@@ -20,7 +24,6 @@ export default function InternalLink({ href, children }) {
 
   if (filterKind != '') {
     if (!href.includes(`/q/${filterKind}/`)) {
-      const filterKeys = parseLocalStorage('filterKeys', {});
       if (filterKind in filterKeys) {
         const filterKey = filterKeys[filterKind];
         if (href.includes('#')) {
@@ -34,7 +37,6 @@ export default function InternalLink({ href, children }) {
   }
 
   if (href[0] === '#') {
-    const router = useRouter();
     const prevPath = router.asPath.split('#')[0];
     href = prevPath + href;
   }
