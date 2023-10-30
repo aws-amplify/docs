@@ -6,6 +6,7 @@ import Link, { LinkProps } from 'next/link';
 import { LayoutContext } from '@/components/Layout';
 import { PageNode } from 'src/directory/directory';
 import Feedback from '../Feedback';
+import RepoActions from './RepoActions';
 
 type MenuProps = {
   currentPlatform?: Platform;
@@ -61,6 +62,7 @@ export function Menu({
                 />
               );
             })}
+          <RepoActions></RepoActions>
           <Feedback></Feedback>
         </ul>
       </ul>
