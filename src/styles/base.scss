@@ -71,9 +71,6 @@ h3 {
 }
 
 .main {
-  & > h2 {
-    margin-top: var(--amplify-space-large);
-  }
   & > h2,
   & > h3 {
     scroll-margin-block: 9rem;
@@ -114,14 +111,28 @@ textarea:not([rows]) {
   min-height: 10em;
 }
 
+.max-headline-content {
+  max-width: 60ch;
+}
 .max-inline-content {
   max-width: 80ch;
 }
 
-.plain-list {
+ul {
   margin: 0;
-  list-style: none;
 }
-.plain-list ul {
-  margin: 0;
+
+.columns-two,
+.columns-three {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  gap: var(--amplify-space-large);
+}
+@container (min-width: 800px) {
+  .columns-two {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .columns-three {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

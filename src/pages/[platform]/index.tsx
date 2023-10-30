@@ -5,6 +5,7 @@ import { IconChevron } from '@/components/Icons';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { Flex, Heading, Button, Text } from '@aws-amplify/ui-react';
 import { Layout } from '@/components/Layout';
+import LinkCards from '@/components/LinkCards';
 
 export const meta = {
   title: 'Overview',
@@ -30,6 +31,7 @@ export function getStaticProps(context) {
   return {
     props: {
       platform: context.params.platform,
+      pageType: 'home',
       meta
     }
   };
@@ -37,7 +39,7 @@ export function getStaticProps(context) {
 
 const PlatformOverview = ({ platform }) => {
   return (
-    <>
+    <Flex className="home-content">
       <Flex className="home-intro">
         <Heading level={1} className="home-intro__heading">
           Amplify Docs for {PLATFORM_DISPLAY_NAMES[platform]}
@@ -70,8 +72,9 @@ const PlatformOverview = ({ platform }) => {
           on AWS. Get started by selecting your preferred framework.
         </Text>
         <FrameworkGrid currentKey={platform} />
+        <LinkCards platform={platform} />
       </Flex>
-    </>
+    </Flex>
   );
 };
 
