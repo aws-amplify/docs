@@ -1,32 +1,27 @@
 In your application directory, you should first install the necessary dependencies for using In-App Messaging.
 
-import reactnative1 from '/src/fragments/lib/in-app-messaging/integrate-your-application/install-amplify-dependency.mdx';
-
-<Fragments fragments={{ 'react-native': reactnative1 }} />
-
-import js1 from '/src/fragments/lib/in-app-messaging/integrate-your-application/install-amplify-dependency.mdx';
-
-<Fragments fragments={{ js: js1 }} />
+```bash
+npm install aws-amplify
+```
 
 ### Initialize In-App Messaging
 
-Now your application is set up with Amplify. To interact with Amplify In-App Messaging APIs, you need to first initialize In-App Messaging by calling the `initializeInAppMessaging` API by directly importing it from the `in-app-messaging` sub-path. This is required to be called as early as possible in the app lifecycle.
+To finish setting up your application with Amplify, you need to configure it using the `configure` API. Next, to interact with In-App Messaging APIs, you need to first initialize In-App Messaging by calling the `initializeInAppMessaging` API directly imported from the `in-app-messaging` sub-path. This is required to be called as early as possible in the app lifecycle.
 
-import reactnative4 from '/src/fragments/lib/in-app-messaging/integrate-your-application/configure-amplify-with-in-app.mdx';
+```js
+import { Amplify } from 'aws-amplify';
+import awsconfig from './aws-exports';
+import { initializeInAppMessaging } from 'aws-amplify/in-app-messaging';
 
-<Fragments fragments={{ 'react-native': reactnative4 }} />
-
-import js4 from '/src/fragments/lib/in-app-messaging/integrate-your-application/configure-amplify-with-in-app.mdx';
-
-<Fragments fragments={{ js: js4 }} />
+Amplify.configure(awsconfig);
+initializeInAppMessaging();
+```
 
 import reactnative0 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/install-dependencies.mdx';
 
-<Fragments fragments={{ 'react-native': reactnative0 }} />
-
 import js0 from '/src/fragments/lib/in-app-messaging/integrate-your-application/js/install-ui-dependencies.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ 'react-native': reactnative0, js: js0 }} />
 
 ### Integrate Amplify UI
 
@@ -34,21 +29,17 @@ Amplify UI provides a Higher-Order Component for ease of integrating the In-App 
 
 import reactnative2 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/hoc-setup.mdx';
 
-<Fragments fragments={{ 'react-native': reactnative2 }} />
-
 import js2 from '/src/fragments/lib/in-app-messaging/integrate-your-application/js/hoc-setup.mdx';
 
-<Fragments fragments={{ js: js2 }} />
+<Fragments fragments={{ 'react-native': reactnative2, js: js2 }} />
 
 Below is an example of what your entry file should look like:
 
 import reactnative3 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/full-example.mdx';
 
-<Fragments fragments={{ 'react-native': reactnative3 }} />
-
 import js3 from '/src/fragments/lib/in-app-messaging/integrate-your-application/js/full-example.mdx';
 
-<Fragments fragments={{ js: js3 }} />
+<Fragments fragments={{ 'react-native': reactnative3, js: js3 }} />
 
 <!-- TODO What would happen for frameworks other than React? Would they NOT see this popup? what should we do for them? -->
 
