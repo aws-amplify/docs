@@ -26,6 +26,7 @@ import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { trackPageVisit } from '../../utils/track';
 import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
+import { PlatformNavigator } from '@/components/PlatformNavigator';
 import directory from 'src/directory/directory.json';
 import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs'
@@ -182,7 +183,9 @@ export const Layout = forwardRef(function Layout(
                       <IconDoubleChevron aria-hidden="true" />
                       Menu
                     </Button>
-                    {isGen2 ? <></> : `[ Platform switcher goes here ]`}
+                    {isGen2 ? <></> : <PlatformNavigator
+                      currentPlatform={PLATFORM_DISPLAY_NAMES[currentPlatform]}
+                    />}
                   </div>
                   <div className="layout-sidebar-menu">
                     {isGen2 ? (
