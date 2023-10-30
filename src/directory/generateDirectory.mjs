@@ -5,6 +5,7 @@ import path from 'path';
 import JSON5 from 'json5';
 import { directory } from './directory.mjs';
 import { writeFile } from 'fs/promises';
+import { getLastModifiedDate } from 'git-jiggy';
 
 /**
  * Helper function to use RegEx to grab the "meta" object
@@ -50,6 +51,11 @@ async function traverseDirectoryObject(directoryNode) {
         for (const key of Object.keys(metaObj)) {
           directoryNode[key] = metaObj[key];
         }
+
+        // Get the last updated date
+        directoryNode['lastUpdated'] = await getLastModifiedDate(
+          directoryNode.path
+        );
 
         const relativePath = path.relative(rootPath, directoryNode.path);
         const parsedPath = path.parse(relativePath);

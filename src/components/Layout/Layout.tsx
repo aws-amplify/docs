@@ -31,9 +31,11 @@ import { TableOfContents } from '@/components/TableOfContents';
 import type { Heading } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
 import directory from 'src/directory/directory.json';
+import flatDirectory from 'src/directory/flatDirectory.json';
 import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
+import { PageLastUpdated } from '../PageLastUpdated';
 
 export const Layout = ({
   children,
@@ -261,15 +263,18 @@ export const Layout = ({
                         }}
                       />
                     )}
+                    <div className="layout-sidebar-feedback">
+                      [ Feedback widget goes here ]
+                    </div>
+                    <PageLastUpdated
+                      directoryData={flatDirectory[router.pathname]}
+                    />
                   </div>
                 </View>
               </View>
 
               <View className="layout-main">
-                <Flex
-                  as="main"
-                  className={`main${showTOC ? ' main--toc' : ''}`}
-                >
+                <Flex as="main" className="main">
                   <Breadcrumbs route={pathname} platform={currentPlatform} />
                   {children}
                 </Flex>
