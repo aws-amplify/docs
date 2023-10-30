@@ -107,6 +107,7 @@ export const Layout = forwardRef(function Layout(
   const handleMenuToggle = useCallback(() => {
     if (!menuOpen) {
       toggleMenuOpen(true);
+      console.log(sidebarMenuButtonRef?.current);
       sidebarMenuButtonRef?.current?.focus();
     } else {
       toggleMenuOpen(false);
