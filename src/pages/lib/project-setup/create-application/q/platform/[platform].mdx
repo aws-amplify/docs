@@ -22,17 +22,17 @@ export const getStaticProps = (context) => {
   };
 };
 
-import ios0 from '/src/fragments/lib/project-setup/native_common/create-application/common.mdx';
+import common_create_application from '/src/fragments/lib/project-setup/native_common/create-application/common.mdx';
+import reactnative_getting_started from '/src/fragments/start/getting-started/reactnative/setup.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
-
-import android1 from '/src/fragments/lib/project-setup/native_common/create-application/common.mdx';
-
-<Fragments fragments={{ android: android1 }} />
-
-import flutter2 from '/src/fragments/lib/project-setup/native_common/create-application/common.mdx';
-
-<Fragments fragments={{ flutter: flutter2 }} />
+<Fragments
+  fragments={{
+    ios: common_create_application,
+    android: common_create_application,
+    flutter: common_create_application,
+    'react-native': reactnative_getting_started
+  }}
+/>
 
 <InlineFilter filters={['js']}>
 
@@ -280,4 +280,3 @@ You are now ready to start adding features to your application. Below are some e
 - [Analytics](/lib-v1/analytics/getting-started)
 
 </InlineFilter>
-

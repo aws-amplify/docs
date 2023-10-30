@@ -32,6 +32,14 @@ type MenuProps = {
   buttonsRef: any;
 };
 
+const SUPPORTED_FILTER_KEYS = [
+  'ios',
+  'android',
+  'flutter',
+  'js',
+  'react-native'
+];
+
 function Menu(props: MenuProps, ref) {
   const [isOpen, setIsOpen] = useState(true);
   const { state } = useLastUpdatedDatesContext();
@@ -86,10 +94,7 @@ function Menu(props: MenuProps, ref) {
 
   if (
     (props.url.startsWith('/lib') || props.url.startsWith('/lib-v1')) &&
-    (props.filterKey == 'ios' ||
-      props.filterKey == 'android' ||
-      props.filterKey === 'flutter' ||
-      props.filterKey === 'js')
+    SUPPORTED_FILTER_KEYS.includes(props.filterKey)
   ) {
     showLibVersionSwitcher = true;
   }
@@ -113,12 +118,11 @@ function Menu(props: MenuProps, ref) {
   function getVersions(filterKey) {
     switch (filterKey) {
       case 'js':
-        return {
-          alternativeVersion: 'v5 old',
-          primaryVersion: 'v5 to v6 (latest)'
-        };
       case 'react-native':
-        return { alternativeVersion: 'v6', primaryVersion: 'v5' };
+        return {
+          alternativeVersion: 'v5 legacy',
+          primaryVersion: 'v5 to v6'
+        };
       case 'flutter':
         return { alternativeVersion: 'v0', primaryVersion: 'v1' };
       default:
