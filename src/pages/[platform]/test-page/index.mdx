@@ -1,5 +1,6 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import FeatureFlags from '@/components/FeatureFlags';
 
 export const meta = {
   title: 'Test page',
@@ -24,6 +25,8 @@ export function getStaticProps(context) {
 
 { meta.description }
 
+<FeatureFlags />
+
 <Accordion title="Understanding Auth high-level concepts" eyebrow="Learn more">
 
 Amplify helps you secure your application while providing an easy sign-in experience for your users. This experience is influenced by your security strategy. This security strategy includes the authentication method, security credentials, and enabling additional verification when needed.
@@ -45,7 +48,14 @@ You can improve security credentials and verification for these authentication m
 </Accordion>
 
 <BlockSwitcher>
-  <Block name="This is a really long title">Block content 1</Block>
+  <Block name="This is a really long title">
+    Block content 1
+
+    ## Test Heading level 2 inside of a Block
+
+    ### Test Heading level 3 inside of a Block
+
+  </Block>
   <Block name="This is a really long title This is an even longer title">
     Block content 2
   </Block>

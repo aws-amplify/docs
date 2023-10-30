@@ -27,4 +27,4 @@ const addLastUpdatedToMdxFiles = async () => {
   });
 };
 
-addLastUpdatedToMdxFiles();
+// addLastUpdatedToMdxFiles();

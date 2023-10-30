@@ -31,6 +31,7 @@ export function getStaticProps(context) {
   return {
     props: {
       platform: context.params.platform,
+      hasTOC: false,
       pageType: 'home',
       meta
     }
