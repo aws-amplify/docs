@@ -1150,7 +1150,7 @@ export const directory = {
           {
             title: 'Upgrade guide from AppSync SDK',
             route: '/lib-v1/graphqlapi/upgrade-guide',
-            filters: ['js', 'react-native']
+            filters: ['js', 'react-native', 'react-native']
           }
         ]
       },
