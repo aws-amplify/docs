@@ -28,6 +28,7 @@ import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
 import directory from 'src/directory/directory.json';
 import { PageNode } from 'src/directory/directory';
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 
 export const Layout = forwardRef(function Layout(
   {
@@ -56,6 +57,7 @@ export const Layout = forwardRef(function Layout(
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
+  const pathname = router.pathname;
 
   let currentPlatform = DEFAULT_PLATFORM;
   const homepageNode = directory as PageNode;
@@ -208,6 +210,7 @@ export const Layout = forwardRef(function Layout(
 
               <View className="layout-main">
                 <Flex as="main" className="main">
+                  <Breadcrumbs route={pathname} platform={currentPlatform}/>
                   {children}
                 </Flex>
                 <Footer />
