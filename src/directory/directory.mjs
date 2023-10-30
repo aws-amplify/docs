@@ -385,7 +385,7 @@ export const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib/restapi/existing-resources',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           }
         ]
       },
