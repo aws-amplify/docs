@@ -196,6 +196,7 @@ const createdTodo = await client.graphql({
 
 </BlockSwitcher>
 
+
 ## Generate GraphQL client code and typings
 
 You can generate common GraphQL queries, mutations, and subscriptions directly from your backend GraphQL schema. This allows you to avoid hand-authoring GraphQL documents from scratch when developing your API quickly and also provides you end-to-end typing.
@@ -230,24 +231,21 @@ amplify update codegen
 </Block>
 
 <Block name="Existing AppSync GraphQL API">
+Go to your frontend app's root directory and run the following command in the Terminal:
+
+```bash
+npx @aws-amplify/cli codegen add --apiId <...> --region <...>
+```
+
+This will download your API's schema and by default generate client helper code into the src/graphql folder. After every API deployment, you can rerun the following command to generate updated GraphQL statement and types:
+
+```bash
+npx @aws-amplify/cli codegen
+```
+
 </Block>
 
 </BlockSwitcher>
-
-## Use Amplify codegen to generate queries, mutations, and subscriptions 
-
-Using the `amplify add codegen` command, you can add an AWS AppSync API that is created using the AWS console. If your API is in a different Region than your current Region, the command asks you to choose the Region. If you are adding codegen outside of an initialized Amplify project, provide your introspection schema named `schema.json` in the same directory that you make the add codegen call from. 
-
-<Callout>
-
-__Note:__ If you use the --apiId flag to add an externally created AWS AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as `amplify api update` when performing schema updates. You cannot add an external AWS AppSync API when outside of an initialized project.
-
-</Callout>
-
-```bash
-amplify add codegen --apiId <apiId>
-```
-Executing this command will generate the queries, mutations, and subscriptions within the src/graphql folder.
 
 ## Use generated GraphQL queries, mutations, and subscriptions
 
