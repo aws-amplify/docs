@@ -95,7 +95,10 @@ Amplify.addPluggable(
 You can integrate any MQTT Over WebSocket provider with your app. Click [here](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt-ws) to learn more about MQTT Over WebSocket.
 
 <Callout>
-Only JSON serializable message payloads are currently supported for MQTT providers within PubSub.  If you are attempting to use message payloads that are non-JSON serializable, consider transforming the payload into a format that aligns with the input type expected by <a href="https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html">MQTT</a>.
+
+Only JSON serializable message payloads are currently supported for MQTT providers within PubSub.  If you are attempting to use message payloads that are non-JSON serializable, consider transforming the payload into a format that aligns with the input type expected by
+[MQTT](https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html).
+
 </Callout>
 
 ## How to reconfigure PubSub providers during runtime
