@@ -33,6 +33,7 @@ import { PlatformNavigator } from '@/components/PlatformNavigator';
 import directory from 'src/directory/directory.json';
 import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { debounce } from '@/utils/debounce';
 
 export const Layout = ({
   children,
@@ -71,7 +72,13 @@ export const Layout = ({
     setTocHeadings(headings);
 
     trackPageVisit();
-  }, [children]);
+    if (pageType === 'home') {
+      document.addEventListener('scroll', handleScroll);
+      return () => {
+        document.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, [children, pageType]);
 
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
@@ -117,6 +124,15 @@ export const Layout = ({
     .join(' - ');
 
   const description = pageDescription + 'AWS Amplify Docs';
+
+  const handleScroll = debounce((e) => {
+    const bodyScroll = e.target.documentElement.scrollTop;
+    if (bodyScroll > 50) {
+      document.body.classList.add('scrolled');
+    } else if (document.body.classList.contains('scrolled')) {
+      document.body.classList.remove('scrolled');
+    }
+  });
 
   return (
     <>

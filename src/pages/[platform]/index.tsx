@@ -4,7 +4,6 @@ import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { Flex, Heading, Button, Text } from '@aws-amplify/ui-react';
-import { Layout } from '@/components/Layout';
 import LinkCards from '@/components/LinkCards';
 
 export const meta = {
@@ -80,15 +79,3 @@ const PlatformOverview = ({ platform }) => {
 };
 
 export default PlatformOverview;
-
-PlatformOverview.getLayout = function getLayout(page) {
-  return (
-    <Layout
-      pageTitle={meta.title}
-      pageDescription={meta.description}
-      pageType="home"
-    >
-      {page}
-    </Layout>
-  );
-};
