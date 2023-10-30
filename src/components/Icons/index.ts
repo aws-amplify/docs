@@ -20,6 +20,7 @@ export { IconVue } from './IconVue';
 export { IconExternalLink } from './IconExternalLink';
 export { IconThumbsUp } from './IconThumbsUp';
 export { IconThumbsDown } from './IconThumbsDown';
+export { IconPencil } from './IconPencil';
 
 export * from './ThumbsUpFilled';
 export * from './ThumbsDownFilled';

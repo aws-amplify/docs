@@ -1,8 +1,4 @@
 #feedback-container {
-  padding-top: 25px;
-  margin-top: 25px;
-  border-top: 1px solid var(--amplify-colors-neutral-20);
-
   .feedback-text {
     padding: var(--amplify-space-xs) var(--amplify-space-large);
   }
@@ -17,7 +13,6 @@
   }
 
   .no-vote-response {
-    // display: none;
     opacity: 0;
     flex-direction: column;
     height: 0;

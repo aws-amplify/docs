@@ -1,6 +1,7 @@
-import { View } from '@aws-amplify/ui-react';
+import { Flex, View } from '@aws-amplify/ui-react';
 import ExternalLink from '../../ExternalLink';
 import React from 'react';
+import { IconPencil } from '@/components/Icons';
 
 function createEditLink(directoryPath) {
   const safePath = directoryPath
@@ -15,13 +16,13 @@ export default function RepoActions({ menuHref }) {
   const shouldShowEditLink = directoryPath !== '/ChooseFilterPage';
   const editLink = createEditLink(directoryPath);
   return (
-    <View>
+    <Flex className="repo-actions">
       {shouldShowEditLink && (
         <ExternalLink href={editLink}>
-          <img src="/assets/github.svg" alt="" width="24" height="24" />
-          <span aria-label="Edit this page on GitHub">Edit on GitHub</span>
+          <Flex aria-label="Edit this page on GitHub">Edit on GitHub</Flex>
+          <IconPencil></IconPencil>
         </ExternalLink>
       )}
-    </View>
+    </Flex>
   );
 }
