@@ -71,7 +71,7 @@ amplify push
 
 
     Current Environment: dev
-    
+
 ┌──────────┬───────────────┬───────────┬───────────────────┐
 │ Category │ Resource name │ Operation │ Provider plugin   │
 ├──────────┼───────────────┼───────────┼───────────────────┤
@@ -81,11 +81,11 @@ amplify push
 
 Cognito UserPool configuration
 Using service: Cognito, provided by: awscloudformation
- 
- The current configured provider is Amazon Cognito. 
- 
+
+ The current configured provider is Amazon Cognito.
+
  Do you want to use the default authentication and security configuration? Default configuration
- Warning: you will not be able to edit these selections. 
+ Warning: you will not be able to edit these selections.
  How do you want users to be able to sign in? Username
  Do you want to configure advanced settings? No, I am done.
 ✅ Successfully added auth resource nextamplifiedXXXXXXXX locally
@@ -199,7 +199,7 @@ query ListPosts {
 
 ## API with Server-Side Rendering (SSR)
 
-import nextCallout from "/src/fragments/lib/ssr/js/next-js-callout.mdx";
+import nextCallout from '/src/fragments/lib-v1/ssr/js/next-js-callout.mdx';
 
 <Fragments fragments={{ next: nextCallout }} />
 
@@ -233,18 +233,21 @@ Amplify.configure({ ...awsExports, ssr: true });
 
 export async function getServerSideProps({ req }) {
   const SSR = withSSRContext({ req });
-  
+
   try {
-    const response = await SSR.API.graphql({ query: listPosts, authMode: 'API_KEY' });
+    const response = await SSR.API.graphql({
+      query: listPosts,
+      authMode: 'API_KEY'
+    });
     return {
       props: {
-        posts: response.data.listPosts.items,
-      },
+        posts: response.data.listPosts.items
+      }
     };
   } catch (err) {
     console.log(err);
     return {
-      props: {},
+      props: {}
     };
   }
 }
@@ -379,7 +382,7 @@ export async function getServerSideProps({ req, params }) {
       id: params.id
     }
   });
-  return { 
+  return {
     props: {
       post: data.getPost
     }
@@ -439,7 +442,7 @@ Let's walk through some of this file:
 
 - **Amplify.configure** – For authenticated requests to work on the server, your client has to be configured with `ssr: true` to make credentials available on subsequent requests.
 
-- **getServerSideProps** - This will only run on the server-side and allows for fetching of data as we make the request.  Here, you use params.id to query for that specific post with API.graphql and await the response.
+- **getServerSideProps** - This will only run on the server-side and allows for fetching of data as we make the request. Here, you use params.id to query for that specific post with API.graphql and await the response.
 
 - **Post** – `Post` is a functional component that renders the provided prop `post`. Because `fallback: true` was specified above, you have to account for a "loading" state while a new post may be fetched.
 

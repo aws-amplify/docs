@@ -26,11 +26,11 @@ export const getStaticProps = (context) => {
 
 ## Prerequisites
 
-import versionRangeCallout from '/src/fragments/lib-v1/ssr/nextjs/version-range-callout.mdx';
+import versionRangeCallout from '/src/fragments/lib/ssr/nextjs/version-range-callout.mdx';
 
 <Fragments fragments={{ js: versionRangeCallout }} />
 
-If you have not done so already, please follow the [create application](/lib-v1/project-setup/create-application/q/platform/js/)
+If you have not done so already, please follow the [create application](/lib/project-setup/create-application/q/platform/js/)
 guide to create your Next.js project, and Amplify backend.
 
 If you already have an existing Amplify backend, you can run the following command
@@ -227,7 +227,7 @@ need to:
 
 **NOTE:** A subset of Amplify APIs can now be called on the server side of a Next.js
 app. These APIs are exported from the `/server` sub paths. See
-[the full list](/lib-v1/ssr/nextjs/q/platform/js/#amplify-api-nextjs-server-support)
+[the full list](/lib/ssr/nextjs/q/platform/js/#amplify-api-nextjs-server-support)
 of supported APIs.
 
 </Callout>
@@ -406,6 +406,6 @@ server side of a Next.js project. More categories and APIs support to follow.
 The Amplify JS v5 `withSSRContext` utility is no longer available with Amplify
 JS v6. You will need to use the `runWithAmplifyServerContext` function exported
 from `@aws-amplify/adapter-nextjs` to make Amplify API calls on the server side
-of your Next.js app. Usage examples see [here](/lib-v1/ssr/nextjs/q/platform/js/#using-amplify-category-apis-as-a-data-source-on-the-server-side).
+of your Next.js app. Usage examples see [here](/lib/ssr/nextjs/q/platform/js/#using-amplify-category-apis-as-a-data-source-on-the-server-side).
 
 </InlineFilter>
