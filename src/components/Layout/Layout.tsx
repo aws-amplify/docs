@@ -141,16 +141,17 @@ export const Layout = ({
     }
   });
 
-  const handleMenuToggle = useCallback(() => {
+  const handleMenuToggle = () => {
     if (!menuOpen) {
       toggleMenuOpen(true);
-      console.log(sidebarMenuButtonRef?.current);
-      sidebarMenuButtonRef?.current?.focus();
+      // For keyboard navigators, move focus to the close menu button in the nav
+      setTimeout(() => sidebarMenuButtonRef?.current?.focus(), 0);
     } else {
       toggleMenuOpen(false);
+      // For keyboard navigators, move focus back to menu button in header
       menuButtonRef?.current?.focus();
     }
-  }, [menuOpen, sidebarMenuButtonRef, menuButtonRef]);
+  };
 
   return (
     <>
@@ -198,6 +199,7 @@ export const Layout = ({
                 <Button
                   onClick={() => handleMenuToggle()}
                   size="small"
+                  ref={menuButtonRef}
                   className="search-menu-toggle mobile-toggle"
                 >
                   <IconMenu aria-hidden="true" />
@@ -238,7 +240,7 @@ export const Layout = ({
                         'layout-sidebar__mobile-toggle--open': menuOpen
                       })}
                       ref={sidebarMenuButtonRef}
-                      onClick={() => toggleMenuOpen(false)}
+                      onClick={() => handleMenuToggle()}
                     >
                       <IconDoubleChevron />
                       <VisuallyHidden>Close menu</VisuallyHidden>
