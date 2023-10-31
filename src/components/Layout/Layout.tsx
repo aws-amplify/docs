@@ -144,12 +144,12 @@ export const Layout = ({
 
   const handleScroll = debounce((e) => {
     const bodyScroll = e.target.documentElement.scrollTop;
-    if (bodyScroll > 20) {
+    if (bodyScroll > 40) {
       document.body.classList.add('scrolled');
     } else if (document.body.classList.contains('scrolled')) {
       document.body.classList.remove('scrolled');
     }
-  });
+  }, 20);
 
   const handleMenuToggle = () => {
     if (!menuOpen) {
