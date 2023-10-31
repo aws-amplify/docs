@@ -1,0 +1,56 @@
+### Deleting records with custom primary keys
+
+In addition to deleting by the model type (or `Predicates.ALL`), a record with a custom primary key can be deleted the following ways:
+
+With the value of the primary key:
+```js
+const book = await DataStore.delete(Book, '12345');
+```
+
+With a predicate:
+
+<BlockSwitcher>
+<Block name="Custom Primary Key">
+
+```js
+const book = await DataStore.delete(Book, b =>
+    b.isbn.eq('12345')
+);
+```
+
+</Block>
+<Block name="Composite Key">
+
+```js
+const book = await DataStore.delete(Book, b => b.and([
+    b.isbn.eq('12345'),
+    b.title.eq('My Book')
+]));
+```
+
+</Block>
+</BlockSwitcher>
+
+With an object literal:
+
+<BlockSwitcher>
+<Block name="Custom Primary Key">
+
+```js
+const book = await DataStore.delete(Book, { 
+    isbn: '12345' 
+});
+```
+
+</Block>
+<Block name="Composite Key">
+
+```js
+const book = await DataStore.delete(Book, {
+    isbn: '12345',
+    title: 'My Book',
+});
+```
+
+</Block>
+</BlockSwitcher>
