@@ -15,7 +15,7 @@ export function Command({
     <Flex className="commands-list__command">
       <CommandHeading>{name}</CommandHeading>
       <Text>{description}</Text>
-      <MDXCode language="terminal" codeString={usage} />
+      <MDXCode language="terminal" codeString={usage} showLineNumbers={false} />
       {flags && flags.length > 0 && (
         <Flex className="commands-list__command__flags">
           {flags.map((flag: CliCommandFlag) => (
@@ -40,6 +40,7 @@ export function Command({
               <MDXCode
                 language="terminal"
                 codeString={`amplify ${name} ${subCommand.name}`}
+                showLineNumbers={false}
               />
             </Fragment>
           ))}
