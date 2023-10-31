@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+  console.log(router.route);
   const { meta, platform, url, hasTOC, pageType } = pageProps;
   const getLayout =
     Component.getLayout ||
@@ -83,26 +84,66 @@ function MyApp({ Component, pageProps }) {
           sizes="192x192"
           href="/assets/icon/android-icon-192x192.png"
         />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/assets/icon/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="96x96"
-          href="/assets/icon/favicon-96x96.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/assets/icon/favicon-16x16.png"
-        />
+        {router.route.startsWith('/gen2') ? (
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/assets/icon/favicon-purple-32x32.png"
+          />
+        ) : (
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/assets/icon/favicon-teal-32x32.png"
+          />
+        )}
+
+        {router.route.startsWith('/gen2') ? (
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="96x96"
+            href="/assets/icon/favicon-purple-96x96.png"
+          />
+        ) : (
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="96x96"
+            href="/assets/icon/favicon-teal-96x96.png"
+          />
+        )}
+        {router.route.startsWith('/gen2') ? (
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/assets/icon/favicon-purple-16x16.png"
+          />
+        ) : (
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/assets/icon/favicon-teal-16x16.png"
+          />
+        )}
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
-        <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
+        {router.route.startsWith('/gen2') ? (
+          <link
+            rel="icon"
+            type="image/x-icon"
+            href="/assets/icon/favicon-purple.ico"
+          />
+        ) : (
+          <link
+            rel="icon"
+            type="image/x-icon"
+            href="/assets/icon/favicon-teal.ico"
+          />
+        )}
       </Head>
 
       <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>
