@@ -22,17 +22,17 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 
 NOTE: if using Identify Labels or Identify Text, you will need to manually add configuration items to your amplify .backend folder due to [this known issue in identifyText](https://github.com/aws-amplify/amplify-cli/issues/12159) and [this known issue in identifyLabels](https://github.com/aws-amplify/amplify-cli/issues/12208).
 
+amplify/.backend/identifyText#####/parameters.json
 ```json
-// amplify/.backend/identifyText#####/parameters.json
-"identifyDoc": true // true | false,
-"access": "auth" // "auth" | "authAndGuest",
-"format": "ALL" // PLAIN" | "FORM" | "TABLE" | "ALL"
+"identifyDoc": true,
+"access": "auth | authAndGuest",
+"format": "PLAIN | FORM | TABLE | ALL"
 ```
 
+amplify/.backend/identifyLabels#####/parameters.json
 ```json
-// amplify/.backend/identifyLabels#####/parameters.json
-"access": "auth" // "auth" | "authAndGuest",
-"type": "ALL" // "LABELS" | "UNSAFE" | "ALL"
+"access": "auth | authAndGuest",
+"type": "LABELS | UNSAFE | ALL"
 ```
 
 ## Configure the frontend
