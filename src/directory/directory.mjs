@@ -596,47 +596,47 @@ export const directory = {
           {
             title: 'Overview',
             route: '/lib/predictions/intro',
-            filters: ['js', 'react-native']
+            filters: ['js']
           },
           {
             title: 'Getting started',
             route: '/lib/predictions/getting-started',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Text to speech',
             route: '/lib/predictions/text-speech',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Transcribe audio to text',
             route: '/lib/predictions/transcribe',
-            filters: ['js', 'ios', 'react-native']
+            filters: ['js', 'ios']
           },
           {
             title: 'Translate language',
             route: '/lib/predictions/translate',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Identify text',
             route: '/lib/predictions/identify-text',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Identify entities from images',
             route: '/lib/predictions/identify-entity',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Label objects in image',
             route: '/lib/predictions/label-image',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Interpret sentiment',
             route: '/lib/predictions/interpret',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Escape hatch',
@@ -646,7 +646,7 @@ export const directory = {
           {
             title: 'Example',
             route: '/lib/predictions/sample',
-            filters: ['js', 'react-native']
+            filters: ['js']
           }
         ]
       },
