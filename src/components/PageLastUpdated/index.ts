@@ -1,0 +1,1 @@
+export { PageLastUpdated } from './PageLastUpdated';

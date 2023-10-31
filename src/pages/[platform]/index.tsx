@@ -32,6 +32,7 @@ export function getStaticProps(context) {
     props: {
       platform: context.params.platform,
       hasTOC: false,
+      showLastUpdatedDate: false,
       pageType: 'home',
       meta
     }
@@ -50,14 +51,10 @@ const PlatformOverview = ({ platform }) => {
           libraries, CLI, and services, you can easily connect your frontend to
           the cloud for authentication, storage, APIs, and more.
         </Text>
-        <Flex className="home-intro__cta">
+        <Flex className="home-cta">
           <Button variation="primary" size="large" gap="small">
             How Amplify Works{' '}
-            <IconChevron
-              aria-hidden="true"
-              className="icon-rotate-270"
-              fontSize=".875em"
-            />
+            <IconChevron className="icon-rotate-270" fontSize=".875em" />
           </Button>
           <GetStartedPopover />
         </Flex>
