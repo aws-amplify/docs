@@ -68,7 +68,12 @@ export default function Page() {
         </Text>
         <FrameworkGrid currentKey="javascript" />
       </Flex>
-      <PlatformFeatureList platform={defaultPlatform} />
+      <Flex direction="column" alignItems="flex-start">
+        <PlatformFeatureList platform={defaultPlatform} />
+        <Button as="a" href="/">
+          View all features
+        </Button>
+      </Flex>
       <LinkCards platform={defaultPlatform} />
     </Flex>
   );

@@ -73,7 +73,12 @@ const PlatformOverview = ({ platform }) => {
           on AWS. Get started by selecting your preferred framework.
         </Text>
         <FrameworkGrid currentKey={platform} />
-        <PlatformFeatureList platform={platform} />
+        <Flex direction="column" alignItems="flex-start">
+          <PlatformFeatureList platform={platform} />
+          <Button as="a" href="/">
+            View all features
+          </Button>
+        </Flex>
         <LinkCards platform={platform} />
       </Flex>
     </Flex>
