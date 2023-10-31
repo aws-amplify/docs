@@ -8,24 +8,28 @@ function createEditLink(directoryPath) {
     .split('/')
     .map(encodeURIComponent)
     .join('/');
-  return `https://github.com/aws-amplify/docs/edit/main/src/pages${safePath}/`;
+  return `https://github.com/aws-amplify/docs/edit/next-release/main/src/pages${safePath}/index.mdx`;
 }
 
 export default function RepoActions({ path }) {
-  const directoryPath = path.path.replace('src/pages', '');
-  console.log(directoryPath);
-  const editLink = createEditLink(directoryPath);
+  const shouldShowEditLink = path.pathname !== '/';
+  const editLink = createEditLink(path.pathname);
   return (
-    <Flex className="repo-actions">
-      <ExternalLink href={editLink}>
-        <Flex
-          className="repo-actions-link"
-          aria-label="Edit this page on GitHub"
-        >
-          <IconPencil />
-          Edit on GitHub
+    <>
+      {shouldShowEditLink && (
+        <Flex className="repo-actions">
+          <ExternalLink href={editLink}>
+            <Flex
+              className="repo-actions-link"
+              aria-label="Edit this page on GitHub"
+            >
+              <IconPencil />
+              Edit on GitHub
+            </Flex>
+          </ExternalLink>
         </Flex>
-      </ExternalLink>
-    </Flex>
+      )}
+      ;
+    </>
   );
 }

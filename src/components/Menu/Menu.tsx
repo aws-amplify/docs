@@ -7,6 +7,7 @@ import { LayoutContext } from '@/components/Layout';
 import { PageNode } from 'src/directory/directory';
 import Feedback from '../Feedback';
 import RepoActions from './RepoActions';
+import { useRouter } from 'next/router';
 
 type MenuProps = {
   currentPlatform?: Platform;
@@ -22,6 +23,7 @@ export function Menu({
   menuHref
 }: MenuProps): ReactElement {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
+  const router = useRouter();
 
   const onLinkClick = () => {
     if (menuOpen) {
@@ -62,7 +64,7 @@ export function Menu({
                 />
               );
             })}
-          <RepoActions path={rootMenuNode}></RepoActions>
+          <RepoActions path={router}></RepoActions>
           <Feedback></Feedback>
         </ul>
       </ul>
