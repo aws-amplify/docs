@@ -24,12 +24,11 @@ export function SubCommandHeading({
   parentCommand,
   children
 }: SubCommandHeadingProps) {
+  const value = encodeURI(`${parentCommand}-${children}`);
+
   return (
-    <Heading id={encodeURI(`${parentCommand}-${children}`)} level={3}>
-      <Link
-        className="commands-list__link"
-        href={encodeURI(`#${parentCommand}-${children}`)}
-      >
+    <Heading id={value} level={3}>
+      <Link className="commands-list__link" href={`#${value}`}>
         {children}
       </Link>
     </Heading>
