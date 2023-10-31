@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { Heading, Text, Flex, Button } from '@aws-amplify/ui-react';
-import { debounce } from '@/utils/debounce';
-import { Layout } from '@/components/Layout';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
 import { Banner } from '@/components/Banner';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
+import PlatformFeatureList from '../components/FeatureLists/PlatformFeatureList';
+
 import { trackPageVisit } from '@/utils/track';
 
 import LinkCards from '@/components/LinkCards';
@@ -18,29 +18,19 @@ const meta = {
   url: 'https://docs.amplify.aws/'
 };
 
+export function getStaticProps() {
+  return {
+    props: {
+      hasTOC: false,
+      pageType: 'home',
+      meta
+    }
+  };
+}
+
 export default function Page() {
   //Default platform is javascript
   let defaultPlatform = DEFAULT_PLATFORM;
-
-  useEffect(() => {
-    trackPageVisit();
-  }, []);
-
-  const handleScroll = debounce((e) => {
-    const bodyScroll = e.target.documentElement.scrollTop;
-    if (bodyScroll > 50) {
-      document.body.classList.add('scrolled');
-    } else if (document.body.classList.contains('scrolled')) {
-      document.body.classList.remove('scrolled');
-    }
-  });
-
-  useEffect(() => {
-    document.addEventListener('scroll', handleScroll);
-    return () => {
-      document.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
   return (
     <Flex className="home-content">
@@ -78,26 +68,8 @@ export default function Page() {
         </Text>
         <FrameworkGrid currentKey="javascript" />
       </Flex>
+      <PlatformFeatureList platform={defaultPlatform} />
       <LinkCards platform={defaultPlatform} />
-      <Flex direction="column" alignItems="flex-start">
-        <Heading level={2}>Features for JavaScript</Heading>
-        <Button as="a" href="/">
-          View all features
-        </Button>
-      </Flex>
     </Flex>
   );
 }
-
-Page.getLayout = function getLayout(page) {
-  return (
-    <Layout
-      pageTitle={meta.title}
-      pageDescription={meta.description}
-      url={meta.url}
-      pageType="home"
-    >
-      {page}
-    </Layout>
-  );
-};
