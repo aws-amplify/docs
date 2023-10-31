@@ -39,6 +39,10 @@
       margin-top: var(--amplify-space-medium);
       margin-left: var(--amplify-space-large);
       gap: var(--amplify-space-medium);
+
+      &__heading {
+        font-size: var(--amplify-font-sizes-xl);
+      }
     }
   }
 }
