@@ -34,6 +34,8 @@ const Feedback = function Feedback() {
 
   const onYesVote = useCallback(() => {
     trackFeedbackSubmission(true);
+    yesButtonRef.current?.setAttribute('disabled', true);
+    yesButtonRef.current.style.pointerEvents = 'none';
 
     const transitionUpButton = [
       {
@@ -102,7 +104,8 @@ const Feedback = function Feedback() {
 
   const onNoVote = useCallback(() => {
     trackFeedbackSubmission(false);
-
+    noButtonRef.current?.setAttribute('disabled', true);
+    noButtonRef.current.style.pointerEvents = 'none';
     const transitionUpButton = [
       {
         maxWidth: yesButtonRef.current?.offsetWidth + 'px'

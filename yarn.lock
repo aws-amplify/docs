@@ -10166,9 +10166,9 @@ netmask@^2.0.2:
   integrity sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==
 
 next-bundle-analyzer@^0.6.7:
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/next-bundle-analyzer/-/next-bundle-analyzer-0.6.7.tgz#1b574859db2df220e2e0b6bfe1639aecb8547d96"
-  integrity sha512-1fCPDnrw5nqRKe7guOlI6ko+ChKBrpmfIsFKTCEKsSX4nTJz0TTUQr/Gtj8Y3suz3Yv5quo5A2vUuG8J5bml+A==
+  version "0.6.8"
+  resolved "https://registry.yarnpkg.com/next-bundle-analyzer/-/next-bundle-analyzer-0.6.8.tgz#aa369a6c7692fb81b0369a8f7c1cce11d6e7e21a"
+  integrity sha512-mt5vZf7JTSYv5FkPP2hZh3fQ4YKYPFw3TZJ/1mASVBavKtlYolOVnAm/UVt/kepTNXz0cR3EdVTtIEOmqaEINg==
   dependencies:
     open "^8.4.0"
     webpack-bundle-analyzer "^4.6.1"
