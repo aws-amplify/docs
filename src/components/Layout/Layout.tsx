@@ -274,7 +274,10 @@ export const Layout = ({
               </View>
 
               <View className="layout-main">
-                <Flex as="main" className="main">
+                <Flex
+                  as="main"
+                  className={`main${showTOC ? ' main--toc' : ''}`}
+                >
                   <Breadcrumbs route={pathname} platform={currentPlatform} />
                   {children}
                 </Flex>
