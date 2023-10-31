@@ -10,31 +10,21 @@
   overflow: visible;
   text-wrap: nowrap;
   padding-left: 0;
-  padding-top: var(--amplify-space-xs);
 
   &-no {
-    opacity: 0;
-    flex-direction: column;
-    height: 0;
-    overflow: hidden;
-    font-size: 0.9rem;
-    padding-top: 8px;
+    &:hover {
+      opacity: 0.8;
+    }
 
     span {
       display: inline-block;
     }
   }
-
-  &-no-cta-button {
-    flex-direction: row;
-    font-size: 0.9rem;
-    align-items: center;
-    justify-content: center;
-  }
 }
 
 .vote-buttons-container {
   padding: var(--amplify-space-xs) var(--amplify-space-large);
+  align-items: center;
 }
 
 .vote-button {

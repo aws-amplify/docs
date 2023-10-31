@@ -1,6 +1,6 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useState } from 'react';
 import { trackFeedbackSubmission } from '../../utils/track';
-import { IconThumbsUp, IconThumbsDown, ExternalLinkIcon } from '../Icons';
+import { IconThumbsUp, IconThumbsDown } from '../Icons';
 import ExternalLink from '../ExternalLink';
 import { Flex, Text, Button } from '@aws-amplify/ui-react';
 import React from 'react';
@@ -14,6 +14,7 @@ type Feedback = {
 
 // eslint-disable-next-line no-empty-pattern
 const Feedback = function Feedback() {
+  const [state, setState] = useState<string>();
   const yesButtonRef = useRef(null);
   const noButtonRef = useRef(null);
   const yesTextRef = useRef(null);
@@ -24,20 +25,24 @@ const Feedback = function Feedback() {
   // Feedback Component Customizations
   const c = {
     feedbackQuestion: 'Was this page helpful?',
-    voteResponse: 'Thanks for your feedback!',
-    noVoteCTA: 'Can you provide more details?',
-    noVoteCTAButton: 'File an issue on GitHub',
+    voteResponse:
+      state == 'yes'
+        ? 'Thanks for your feedback!'
+        : 'Can you provide more details?',
+    noVoteCTALink: 'File an issue on GitHub',
     ctaIcon: 'external',
     iconPosition: 'right',
     buttonLink: 'https://github.com/aws-amplify/docs/issues/new/choose'
   };
 
   const onYesVote = useCallback(() => {
+    setState('yes');
     trackFeedbackSubmission(true);
     yesButtonRef.current?.setAttribute('disabled', true);
     yesButtonRef.current.style.pointerEvents = 'none';
     noButtonRef.current?.setAttribute('disabled', true);
     noButtonRef.current.style.pointerEvents = 'none';
+    ctaRef.current.style.display = 'none';
 
     const transitionUpButton = [
       {
@@ -101,6 +106,7 @@ const Feedback = function Feedback() {
   }, []);
 
   const onNoVote = useCallback(() => {
+    setState('no');
     trackFeedbackSubmission(false);
     yesButtonRef.current?.setAttribute('disabled', true);
     yesButtonRef.current.style.pointerEvents = 'none';
@@ -157,27 +163,8 @@ const Feedback = function Feedback() {
       }
     ];
 
-    const transitionResponseCTA = [
-      {
-        opacity: 1,
-        height: 0
-      },
-      {
-        overflow: 'visible',
-        opacity: 1,
-        height: '100px'
-      }
-    ];
-
     const animationTiming = {
       duration: 300,
-      iterations: 1,
-      fill: 'forwards'
-    };
-
-    const animationTimingDelayed = {
-      delay: 500,
-      duration: 1000,
       iterations: 1,
       fill: 'forwards'
     };
@@ -193,9 +180,6 @@ const Feedback = function Feedback() {
     }
     if (typeof noButtonRef.current?.animate == 'function') {
       noButtonRef.current?.animate(transitionDownButton, animationTiming);
-    }
-    if (typeof ctaRef.current?.animate == 'function') {
-      ctaRef.current?.animate(transitionResponseCTA, animationTimingDelayed);
     }
   }, []);
 
@@ -225,13 +209,9 @@ const Feedback = function Feedback() {
           <Flex className="vote-response" ref={voteResponseRef}>
             <Text className="vote-response-text">{c.voteResponse}</Text>
             <Flex className="vote-response-no" ref={ctaRef}>
-              <Text className="vote-response-no-cta">{c.noVoteCTA}</Text>
-              <Button className="vote-response-no-cta-button">
-                <ExternalLink href={c.buttonLink} icon={false}>
-                  {c.noVoteCTAButton}
-                  <ExternalLinkIcon />
-                </ExternalLink>
-              </Button>
+              <ExternalLink href={c.buttonLink} icon={true}>
+                {c.noVoteCTALink}
+              </ExternalLink>
             </Flex>
           </Flex>
         </Flex>

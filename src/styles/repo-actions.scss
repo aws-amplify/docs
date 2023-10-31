@@ -2,19 +2,10 @@
   padding-top: 25px;
   margin-top: 25px;
   border-top: 1px solid var(--amplify-colors-neutral-20);
+  padding: var(--amplify-space-xs) var(--amplify-space-large);
 
-  &:first-child > a {
-    margin-right: 2rem;
-  }
-
-  > a {
-    width: 100%;
-    display: flex;
-    padding: var(--amplify-space-xs) var(--amplify-space-large);
+  &-link {
     align-items: center;
-    justify-content: space-between;
-    color: var(--font-color);
-    text-decoration: none;
   }
 
   &:hover {
