@@ -112,7 +112,7 @@ You should see:
 ┌──────────┬──────────────────────┬───────────┬───────────────────┐
 │ Category │ Resource name        │ Operation │ Provider plugin   │
 ├──────────┼──────────────────────┼───────────┼───────────────────┤
-│ Auth     │ amplifygenai8fabbdeb │ Create    │ awscloudformation │
+│ Auth     │ amplifyGenAi         │ Create    │ awscloudformation │
 └──────────┴──────────────────────┴───────────┴───────────────────┘
 ```
 
@@ -329,7 +329,7 @@ fetch('/api/hello', {
 But if you click that button, you will see this in your terminal:
 
 ```
- ⨯ AccessDeniedException: User: arn:aws:sts::553879240338:assumed-role/amplify-amplifygenai-dev-205330-authRole/CognitoIdentityCredentials is not authorized to perform: bedrock:InvokeModel on resource:
+ ⨯ AccessDeniedException: User: arn:aws:sts::553879240338:assumed-role/amplify-amplifyGenAi-dev-205330-authRole/CognitoIdentityCredentials is not authorized to perform: bedrock:InvokeModel on resource:
 ```
 
 When you create an Authentication backend with Amplify, it sets up Amazon Cognito and creates two IAM roles, one for unauthenticated users and another for authenticated users. These IAM roles let AWS know what resources your authenticated and guest users can access. We didn’t give our authenticated users access to Amazon Bedrock yet. Let’s do that now.
@@ -394,13 +394,13 @@ gh repo create
 ? What would you like to do? Push an existing local repository to GitHub
 ? Path to local repository .
 ? Repository name amplify-gen-ai
-? Repository owner dbanksdesign
+? Repository owner danny
 ? Description
 ? Visibility Private
-✓ Created repository dbanksdesign/amplify-gen-ai on GitHub
+✓ Created repository danny/amplify-gen-ai on GitHub
 ? Add a remote? Yes
 ? What should the new remote be called? origin
-✓ Added remote git@github.com:dbanksdesign/amplify-gen-ai.git
+✓ Added remote git@github.com:danny/amplify-gen-ai.git
 ? Would you like to push commits from the current branch to "origin"? Yes
 ```
 
