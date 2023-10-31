@@ -15,7 +15,7 @@ The components in the app code below are rendered according to the scenarios abo
 
 ```javascript
 return (
-  <div className="App">
+  <div>
     <TextTranslation />
     <TextToSpeech />
     <SpeechToText />
@@ -67,8 +67,8 @@ function TextIdentification() {
   }
 
   return (
-    <div className="Text">
-      <div className="category-content">
+    <div>
+      <div>
         <h3>Text identification</h3>
         <input type="file" onChange={identifyFromFile}></input>
         <p>{response}</p>
@@ -111,7 +111,7 @@ function EntityIdentification() {
   }
 
   return (
-    <div className="Text">
+    <div>
       <div>
         <h3>Entity identification</h3>
         <input type="file" onChange={identifyFromFile}></input>
@@ -148,7 +148,7 @@ function LabelsIdentification() {
   }
 
   return (
-    <div className="Text">
+    <div>
       <div>
         <h3>Labels identification</h3>
         <input type="file" onChange={identifyFromFile}></input>
@@ -223,7 +223,7 @@ function SpeechToText() {
     }
 
     return (
-      <div className="audioRecorder">
+      <div>
         <div>
           {recording && <button onClick={stopRecording}>Stop recording</button>}
           {!recording && <button onClick={startRecording}>Start recording</button>}
@@ -251,8 +251,8 @@ function SpeechToText() {
   }
 
   return (
-    <div className="Text">
-      <div className="category-content">
+    <div>
+      <div>
         <h3>Speech to text</h3>
         <AudioRecorder finishRecording={convertFromBuffer} />
         <p>{response}</p>
@@ -299,8 +299,8 @@ function TextToSpeech() {
   }
 
   return (
-    <div className="Text">
-      <div className="category-content">
+    <div>
+      <div>
         <h3>Text To Speech</h3>
         <input type="text" value={textToGenerateSpeech} onChange={setText}></input>
         <button onClick={generateTextToSpeech}>Text to Speech</button>
@@ -337,8 +337,8 @@ function TextTranslation() {
   }
 
   return (
-    <div className="Text">
-      <div className="category-content">
+    <div>
+      <div>
         <h3>Text Translation</h3>
         <input type="text" value={textToTranslate} onChange={setText}></input>
         <button onClick={translate}>Translate</button>
@@ -373,7 +373,7 @@ function TextInterpretation() {
   }
 
   return (
-    <div className="Text">
+    <div>
       <div>
         <h3>Text interpretation</h3>
         <input value={textToInterpret} onChange={setText}></input>
@@ -386,7 +386,7 @@ function TextInterpretation() {
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <TextTranslation />
       <br/>
       <TextToSpeech />
