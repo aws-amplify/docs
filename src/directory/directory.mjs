@@ -113,9 +113,9 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
-          title: 'Set up user password change and recovery',
-          route: '/lib/auth/password_management',
-          filters: ['js', 'react-native', 'android', 'flutter', 'ios']
+            title: 'Set up user password change and recovery',
+            route: '/lib/auth/password_management',
+            filters: ['js', 'react-native', 'android', 'flutter', 'ios']
           },
           {
             title: 'Switching authentication flows',
@@ -2839,6 +2839,13 @@ export const directory = {
         ]
       }
     }
+  },
+  'how-amplify-works': {
+    productRoot: {
+      title: 'How Amplify works',
+      route: '/how-amplify-works'
+    },
+    items: {}
   }
 };
 
