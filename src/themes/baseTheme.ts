@@ -44,8 +44,7 @@ export const baseTheme = createTheme({
     },
     components: {
       button: {
-        borderRadius: { value: '{radii.large}' },
-        borderWidth: { value: '{borderWidths.medium}' },
+        borderRadius: { value: '{radii.medium}' },
         borderColor: { value: '{colors.brand.primary.80}' },
         backgroundColor: { value: '{colors.background.primary}' },
         color: { value: '{colors.brand.primary.80}' },
