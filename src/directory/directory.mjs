@@ -88,6 +88,11 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Manage user session and credentials',
+            route: '/lib/auth/manage-session',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Enable sign-up, sign-in, and sign-out',
             route: '/lib/auth/emailpassword',
             filters: ['js', 'react-native']
@@ -198,7 +203,7 @@ export const directory = {
             filters: ['flutter']
           },
           {
-            title: 'Delete user',
+            title: 'Delete user account',
             route: '/lib/auth/delete_user',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
