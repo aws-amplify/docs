@@ -71,8 +71,6 @@ const Feedback = function Feedback() {
       {
         opacity: 1,
         transform: 'translate(0)'
-        // overflow: 'visible',
-        // display: 'block'
       }
     ];
 
