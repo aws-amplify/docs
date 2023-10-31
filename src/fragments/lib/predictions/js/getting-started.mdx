@@ -24,15 +24,15 @@ NOTE: if using Identify Labels or Identify Text, you will need to manually add c
 
 ```json
 // amplify/.backend/identifyText#####/parameters.json
-"identifyDoc": true | false,
-"access": "auth" | authAndGuest,
-"format": "PLAIN" | "FORM" | "TABLE" | "ALL"
+"identifyDoc": true // true | false,
+"access": "auth" // "auth" | "authAndGuest",
+"format": "ALL" // PLAIN" | "FORM" | "TABLE" | "ALL"
 ```
 
 ```json
 // amplify/.backend/identifyLabels#####/parameters.json
-"access": "auth" | "authAndGuest",
-"type": "LABELS" | "UNSAFE" | "ALL"
+"access": "auth" // "auth" | "authAndGuest",
+"type": "ALL" // "LABELS" | "UNSAFE" | "ALL"
 ```
 
 ## Configure the frontend

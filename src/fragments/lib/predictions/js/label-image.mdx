@@ -24,8 +24,8 @@ Due to a [known issue](https://github.com/aws-amplify/amplify-cli/issues/12208),
 
 ```json
 // amplify/.backend/identifyLabels#####/parameters.json
-"access": "auth" | "authAndGuest",
-"type": "LABELS" | "UNSAFE" | "ALL"
+"access": "auth" // "auth" | "authAndGuest",
+"type": "ALL" // "LABELS" | "UNSAFE" | "ALL"
 ```
 
 Now run `amplify push` which will generate your `aws-exports.js` and create resources in the cloud. You can now either add this to your backend or skip and add more features to your app.

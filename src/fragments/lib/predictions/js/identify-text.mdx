@@ -19,9 +19,9 @@ Due to a [known issue](https://github.com/aws-amplify/amplify-cli/issues/12159),
 
 ```json
 // amplify/.backend/identifyText#####/parameters.json
-"identifyDoc": true | false,
-"access": "auth" | authAndGuest,
-"format": "PLAIN" | "FORM" | "TABLE" | "ALL"
+"identifyDoc": true // true | false,
+"access": "auth" // "auth" | "authAndGuest",
+"format": "ALL" // PLAIN" | "FORM" | "TABLE" | "ALL"
 ```
 
 Now run `amplify push` which will generate your `aws-exports.js` and create resources in the cloud. You can now either add this to your backend or skip and add more features to your app.
