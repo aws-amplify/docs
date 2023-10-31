@@ -78,8 +78,7 @@ h3 {
 }
 
 /* A elements that don't have a class get default styles */
-a:not([class]),
-.amplify-link {
+a, .amplify-link {
   text-decoration-skip-ink: auto;
 
   color: var(--amplify-components-link-color);
@@ -141,6 +140,7 @@ ul {
   grid-template-rows: auto;
   gap: var(--amplify-space-large);
 }
+
 @container (min-width: 800px) {
   .columns-two {
     grid-template-columns: repeat(2, 1fr);
