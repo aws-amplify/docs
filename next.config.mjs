@@ -1,18 +1,38 @@
 import { createRequire } from 'module';
-import dotenv from 'dotenv';
 import createMDX from '@next/mdx';
+import dotenv from 'dotenv';
+import rehypeImgSize from 'rehype-img-size';
+import remarkFrontmatter from 'remark-frontmatter';
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
+import remarkGfm from 'remark-gfm';
+import recmaMdxFrontmatter from './plugins/recma-mdx-frontmatter.mjs';
 
 const require = createRequire(import.meta.url);
-import rehypeImgSize from 'rehype-img-size';
-import remarkGfm from 'remark-gfm';
 dotenv.config({ path: './.env.custom' });
 
 export default async () => {
   const withMDX = createMDX({
     extension: /\.mdx$/,
+    jsx: true,
     options: {
-      remarkPlugins: [remarkGfm],
-      rehypePlugins: [[rehypeImgSize, { dir: 'public' }]]
+      providerImportSource: '@mdx-js/react',
+      recmaPlugins: [
+        [
+          recmaMdxFrontmatter,
+          {
+            name: 'frontmatter',
+            dynamicRoutes: {
+              platform: ['javascript', 'android']
+            }
+          }
+        ]
+      ],
+      rehypePlugins: [[rehypeImgSize, { dir: 'public' }]],
+      remarkPlugins: [
+        remarkFrontmatter,
+        [remarkMdxFrontmatter, { name: 'frontmatter' }],
+        remarkGfm
+      ]
     }
   });
 

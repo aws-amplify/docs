@@ -1,20 +1,9 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+---
+title: 'Get started'
+description: 'A getting started page'
+platforms: ['android', 'javascript']
+---
 
-export const meta = {
-  title: 'Using the Combine framework with Amplify',
-  description: "Amplify's support for Apple's Combine framework",
-  platforms: ['swift']
-};
+# Get Started
 
-export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
-};
-
-export function getStaticProps(context) {
-  return {
-    props: {
-      platform: context.params.platform,
-      meta
-    }
-  };
-}
+This page is just here for testing purposes.

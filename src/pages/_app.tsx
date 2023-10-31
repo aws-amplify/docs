@@ -2,7 +2,7 @@ import '@aws-amplify/ui-react/styles.css';
 import '@algolia/autocomplete-theme-classic';
 import '../styles/styles.scss';
 import Head from 'next/head';
-import { MDXProvider } from '@mdx-js/react';
+import { MDXProvider } from '@/components/MDXProvider';
 import { Layout } from '@/components/Layout';
 import { CANONICAL_URLS } from '@/data/canonical-urls';
 import { useRouter } from 'next/router';
