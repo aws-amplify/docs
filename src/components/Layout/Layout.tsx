@@ -196,7 +196,7 @@ export const Layout = ({
               />
               <Flex className={`layout-search layout-search--${pageType}`}>
                 <Button
-                  onClick={() => toggleMenuOpen(true)}
+                  onClick={() => handleMenuToggle()}
                   size="small"
                   className="search-menu-toggle mobile-toggle"
                 >

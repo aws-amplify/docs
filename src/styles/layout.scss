@@ -48,6 +48,11 @@
   }
 }
 
+.search-menu-toggle {
+  gap: var(--amplify-space-xxxs);
+  align-self: center;
+}
+
 .layout-sidebar__mobile-toggle {
   position: absolute;
   inset-inline-start: var(--layout-sidebar-width);
@@ -133,6 +138,9 @@
 }
 
 @media (min-width: $mq-mobile) {
+  .search-menu-toggle {
+    display: none;
+  }
   .main {
     margin-bottom: auto;
   }

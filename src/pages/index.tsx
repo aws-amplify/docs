@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Heading, Text, Flex, Button } from '@aws-amplify/ui-react';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
@@ -6,9 +5,6 @@ import { IconChevron } from '@/components/Icons';
 import { Banner } from '@/components/Banner';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
 import PlatformFeatureList from '../components/FeatureLists/PlatformFeatureList';
-
-import { trackPageVisit } from '@/utils/track';
-
 import LinkCards from '@/components/LinkCards';
 
 const meta = {
