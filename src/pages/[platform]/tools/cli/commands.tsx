@@ -25,7 +25,6 @@ export const getStaticPaths = async () => {
 
 export function getStaticProps(context) {
   const sortedCommands = commands.sort((a, b) => (a.name > b.name ? 1 : -1));
-  console.log(JSON.stringify(sortedCommands, null, 2));
 
   return {
     props: {
