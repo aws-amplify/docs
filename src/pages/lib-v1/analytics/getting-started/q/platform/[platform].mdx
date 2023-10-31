@@ -51,9 +51,11 @@ import flutter2 from '/src/fragments/lib-v1/analytics/flutter/getting-started/10
 
 <Fragments fragments={{ flutter: flutter2 }} />
 
-import js1 from '/src/fragments/lib/analytics/js/getting-started/10_preReq.mdx';
+<InlineFilter filters={['js', 'react-native']}>
 
-<Fragments fragments={{ js: js1 }} />
+- [Install and configure Amplify CLI](https://docs.amplify.aws/cli/start/install)
+
+</InlineFilter>
 
 ## Set up Analytics backend
 
@@ -92,9 +94,11 @@ import flutter5 from '/src/fragments/lib-v1/analytics/flutter/getting-started/12
 
 <Fragments fragments={{ flutter: flutter5 }} />
 
-import js2 from '/src/fragments/lib/analytics/js/getting-started/12_amplifyConfig.mdx';
+<InlineFilter filters={['js', 'react-native']}>
 
-<Fragments fragments={{ js: js2 }} />
+A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. The CLI will also print the URL for Amazon Pinpoint console to track your app events.
+
+</InlineFilter>
 
 ## Install Amplify Libraries
 
@@ -110,9 +114,14 @@ import flutter8 from '/src/fragments/lib-v1/analytics/flutter/getting-started/20
 
 <Fragments fragments={{ flutter: flutter8 }} />
 
-import js3 from '/src/fragments/lib-v1/analytics/js/getting-started/20_installLib.mdx';
+import js_install_lib from '/src/fragments/lib-v1/analytics/js/getting-started/20_installLib.mdx';
 
-<Fragments fragments={{ js: js3 }} />
+<Fragments
+  fragments={{
+    js: js_install_lib,
+    'react-native': js_install_lib
+  }}
+/>
 
 ## Initialize Amplify Analytics
 
@@ -128,9 +137,14 @@ import flutter11 from '/src/fragments/lib-v1/analytics/flutter/getting-started/3
 
 <Fragments fragments={{ flutter: flutter11 }} />
 
-import js4 from '/src/fragments/lib-v1/analytics/js/getting-started/30_initAnalytics.mdx';
+import js_init_analytics from '/src/fragments/lib-v1/analytics/js/getting-started/30_initAnalytics.mdx';
 
-<Fragments fragments={{ js: js4 }} />
+<Fragments
+  fragments={{
+    js: js_init_analytics,
+    'react-native': js_init_analytics
+  }}
+/>
 
 import ios12 from "/src/fragments/lib-v1/analytics/ios/getting-started/40_record.mdx";
 

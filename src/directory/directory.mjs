@@ -225,52 +225,27 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/analytics/getting-started',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Record events',
             route: '/lib/analytics/record',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Update Endpoint',
-            route: '/lib/analytics/update-endpoint',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Automatically track sessions',
-            route: '/lib/analytics/autotrack',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Enable/Disable Analytics',
-            route: '/lib/analytics/enable-disable',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Identify user',
             route: '/lib/analytics/identifyuser',
-            filters: ['android', 'flutter', 'ios', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
-            title: 'Streaming analytics data',
-            route: '/lib/analytics/streaming',
-            filters: ['js', 'react-native']
+            title: 'Automatically track sessions',
+            route: '/lib/analytics/autotrack',
+            filters: ['android', 'ios', 'flutter']
           },
           {
-            title: 'Create a custom analytics plugin',
-            route: '/lib/analytics/create-custom-plugin',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Storing analytics data',
-            route: '/lib/analytics/storing',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Personalized recommendations',
-            route: '/lib/analytics/personalize',
-            filters: ['js', 'react-native']
+            title: 'Enable/Disable Analytics',
+            route: '/lib/analytics/enable-disable',
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Escape hatch',
@@ -280,7 +255,7 @@ export const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib/analytics/existing-resources',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           }
         ]
       },
@@ -1050,27 +1025,52 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/analytics/getting-started',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Record events',
             route: '/lib-v1/analytics/record',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Identify user',
-            route: '/lib-v1/analytics/identifyuser',
-            filters: ['android', 'ios', 'flutter', 'js']
+            title: 'Update Endpoint',
+            route: '/lib-v1/analytics/update-endpoint',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Automatically track sessions',
             route: '/lib-v1/analytics/autotrack',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Enable/Disable Analytics',
             route: '/lib-v1/analytics/enable-disable',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Identify user',
+            route: '/lib-v1/analytics/identifyuser',
+            filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'Streaming analytics data',
+            route: '/lib-v1/analytics/streaming',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Create a custom analytics plugin',
+            route: '/lib-v1/analytics/create-custom-plugin',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Storing analytics data',
+            route: '/lib-v1/analytics/storing',
+            filters: ['js']
+          },
+          {
+            title: 'Personalized recommendations',
+            route: '/lib-v1/analytics/personalize',
+            filters: ['js']
           },
           {
             title: 'Escape hatch',
@@ -1080,7 +1080,7 @@ export const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib-v1/analytics/existing-resources',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           }
         ]
       },
