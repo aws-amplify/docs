@@ -43,10 +43,8 @@
   z-index: 2;
   overflow: visible;
   display: none;
-  // transform: translate(-100%, 0);
   &--expanded {
     display: block;
-    // transform: translate(0, 0);
   }
 }
 
@@ -163,7 +161,6 @@
   }
   .layout-sidebar,
   .layout-sidebar--expanded {
-    // transform: translate(0, 0);
     display: block;
   }
 
