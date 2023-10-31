@@ -197,7 +197,6 @@ function SpeechToText() {
       const startMic = new mic();
       startMic.setStream(await window.navigator.mediaDevices.getUserMedia({ video: false, audio: true }));
       
-      // @ts-ignore
       startMic.on('data', (chunk) => {
           var raw = mic.toRaw(chunk);
           if (raw == null) {
