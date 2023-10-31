@@ -113,6 +113,10 @@
   overscroll-behavior: contain;
 }
 
+.layout-sidebar-feedback {
+  padding: var(--amplify-space-large);
+}
+
 .main {
   flex-direction: column;
   container-type: inline-size;

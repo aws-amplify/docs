@@ -18,6 +18,7 @@ export function getStaticProps() {
   return {
     props: {
       hasTOC: false,
+      showLastUpdatedDate: false,
       pageType: 'home',
       meta
     }
