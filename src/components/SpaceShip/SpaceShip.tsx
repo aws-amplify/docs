@@ -3,7 +3,7 @@ export const SpaceShip = () => {
     <div className="spaceship-wrapper">
       <div className="spaceship-inner">
         <svg
-          className="spaceship"
+          className="spaceship spaceship--with-banner"
           viewBox="0 0 869 460"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

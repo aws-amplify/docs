@@ -8,6 +8,9 @@
   top: 200px;
   right: -186px;
   display: block;
+  &--with-banner {
+    top: 340px;
+  }
   &__cloud,
   &__spaceship,
   &__star,
@@ -33,6 +36,9 @@
     width: 623px;
     right: -278px;
     top: 160px;
+    &--with-banner {
+      top: 260px;
+    }
   }
 }
 
@@ -41,6 +47,9 @@
     width: 719px;
     top: 140px;
     right: -316px;
+    &--with-banner {
+      top: 240px;
+    }
   }
 }
 
