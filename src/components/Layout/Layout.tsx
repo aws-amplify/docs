@@ -61,7 +61,13 @@ export const Layout = ({
 
   useEffect(() => {
     const headings: Heading[] = [];
-    const pageHeadings = document.querySelectorAll('.main > h2, .main > h3');
+
+    const defaultHeadings = '.main > h2, .main > h3';
+    const cliCommandHeadings =
+      '.commands-list__command > h2, .commands-list__command > .commands-list__command__subcommands > h3';
+    const headingSelectors = [defaultHeadings, cliCommandHeadings];
+
+    const pageHeadings = document.querySelectorAll(headingSelectors.join(', '));
 
     pageHeadings.forEach((node) => {
       const { innerText, id, localName } = node as HTMLElement;
