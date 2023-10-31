@@ -4,8 +4,8 @@ import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { Flex, Heading, Button, Text } from '@aws-amplify/ui-react';
-import { Layout } from '@/components/Layout';
 import LinkCards from '@/components/LinkCards';
+import PlatformFeatureList from '@/components/FeatureLists/PlatformFeatureList';
 
 export const meta = {
   title: 'Overview',
@@ -31,6 +31,7 @@ export function getStaticProps(context) {
   return {
     props: {
       platform: context.params.platform,
+      hasTOC: false,
       pageType: 'home',
       meta
     }
@@ -72,6 +73,7 @@ const PlatformOverview = ({ platform }) => {
           on AWS. Get started by selecting your preferred framework.
         </Text>
         <FrameworkGrid currentKey={platform} />
+        <PlatformFeatureList platform={platform} />
         <LinkCards platform={platform} />
       </Flex>
     </Flex>
@@ -79,15 +81,3 @@ const PlatformOverview = ({ platform }) => {
 };
 
 export default PlatformOverview;
-
-PlatformOverview.getLayout = function getLayout(page) {
-  return (
-    <Layout
-      pageTitle={meta.title}
-      pageDescription={meta.description}
-      pageType="home"
-    >
-      {page}
-    </Layout>
-  );
-};

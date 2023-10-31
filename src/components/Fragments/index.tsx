@@ -1,6 +1,6 @@
+import { Fragment } from 'react';
 import FilterChildren from '../FilterChildren';
 import { useLastUpdatedDatesContext } from '../LastUpdatedProvider';
-import { Flex } from '@aws-amplify/ui-react';
 
 type MdxFrontmatterType = {
   lastUpdated: string;
@@ -32,11 +32,7 @@ export default function Fragments({ fragments }) {
       }
     }
 
-    children.push(
-      <Flex key={key} direction="column">
-        {fragment}
-      </Flex>
-    );
+    children.push(<Fragment key={key}>{fragment}</Fragment>);
   }
 
   return <FilterChildren filterKey={filterKey}>{children}</FilterChildren>;

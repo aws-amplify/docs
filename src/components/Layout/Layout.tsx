@@ -1,4 +1,4 @@
-import { useState, forwardRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
@@ -8,6 +8,7 @@ import {
   ThemeProvider,
   IconsProvider
 } from '@aws-amplify/ui-react';
+import classNames from 'classnames';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
 import { gen2Theme } from '@/themes/gen2Theme';
@@ -26,35 +27,63 @@ import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { trackPageVisit } from '../../utils/track';
 import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
+import { TableOfContents } from '@/components/TableOfContents';
+import type { Heading } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
 import directory from 'src/directory/directory.json';
 import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { debounce } from '@/utils/debounce';
 
-export const Layout = forwardRef(function Layout(
-  {
-    children,
-    pageTitle,
-    pageDescription,
-    platform,
-    url,
-    pageType = 'inner'
-  }: {
-    children: any;
-    pageTitle?: string;
-    pageDescription?: string;
-    platform?: Platform;
-    url?: string;
-    pageType?: 'home' | 'inner';
-  },
-  footerRef
-) {
+export const Layout = ({
+  children,
+  hasTOC = true,
+  pageDescription,
+  pageTitle,
+  pageType = 'inner',
+  platform,
+  url
+}: {
+  children: any;
+  hasTOC?: boolean;
+  pageDescription?: string;
+  pageTitle?: string;
+  pageType?: 'home' | 'inner';
+  platform?: Platform;
+  url?: string;
+}) => {
+  const [menuOpen, toggleMenuOpen] = useState(false);
+  const [tocHeadings, setTocHeadings] = useState<Heading[]>([]);
+
   useEffect(() => {
     trackPageVisit();
   }, []);
 
-  const [menuOpen, toggleMenuOpen] = useState(false);
+  useEffect(() => {
+    const headings: Heading[] = [];
+    const pageHeadings = document.querySelectorAll('.main > h2, .main > h3');
 
+    pageHeadings.forEach((node) => {
+      const { innerText, id, localName } = node as HTMLElement;
+      if (innerText && id && (localName == 'h2' || localName == 'h3')) {
+        headings.push({
+          linkText: innerText,
+          hash: id,
+          level: localName
+        });
+      }
+    });
+    setTocHeadings(headings);
+
+    if (pageType === 'home') {
+      document.addEventListener('scroll', handleScroll);
+      return () => {
+        document.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, [children, pageType]);
+
+  const showTOC = hasTOC && tocHeadings.length > 0;
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
@@ -100,6 +129,15 @@ export const Layout = forwardRef(function Layout(
 
   const description = pageDescription + 'AWS Amplify Docs';
 
+  const handleScroll = debounce((e) => {
+    const bodyScroll = e.target.documentElement.scrollTop;
+    if (bodyScroll > 50) {
+      document.body.classList.add('scrolled');
+    } else if (document.body.classList.contains('scrolled')) {
+      document.body.classList.remove('scrolled');
+    }
+  });
+
   return (
     <>
       <Head>
@@ -142,21 +180,25 @@ export const Layout = forwardRef(function Layout(
                 currentSite="Docs"
                 isGen2={isGen2}
               />
-              <View className={`layout-search layout-search--${pageType}`}>
-                <Flex className="search-menu-bar">
-                  <Button
-                    onClick={() => toggleMenuOpen(true)}
-                    size="small"
-                    className="search-menu-toggle mobile-toggle"
-                  >
-                    <IconMenu aria-hidden="true" />
-                    Menu
-                  </Button>
-                  <View className="search-menu-bar__search">
-                    <SearchBar />
-                  </View>
-                </Flex>
-              </View>
+              <Flex className={`layout-search layout-search--${pageType}`}>
+                <Button
+                  onClick={() => toggleMenuOpen(true)}
+                  size="small"
+                  className="search-menu-toggle mobile-toggle"
+                >
+                  <IconMenu aria-hidden="true" />
+                  Menu
+                </Button>
+                <View
+                  className={classNames(
+                    'layout-search__search',
+                    `layout-search__search--${pageType}`,
+                    { 'layout-search__search--toc': showTOC }
+                  )}
+                >
+                  <SearchBar />
+                </View>
+              </Flex>
               <View
                 className={`layout-sidebar${
                   menuOpen ? ' layout-sidebar--expanded' : ''
@@ -218,16 +260,20 @@ export const Layout = forwardRef(function Layout(
               </View>
 
               <View className="layout-main">
-                <Flex as="main" className="main">
+                <Flex
+                  as="main"
+                  className={`main${showTOC ? ' main--toc' : ''}`}
+                >
                   <Breadcrumbs route={pathname} platform={currentPlatform} />
                   {children}
                 </Flex>
-                <Footer />
+                {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
               </View>
+              <Footer hasTOC={showTOC} />
             </View>
           </IconsProvider>
         </ThemeProvider>
       </LayoutProvider>
     </>
   );
-});
+};

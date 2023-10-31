@@ -12,7 +12,6 @@ function createEditLink(directoryPath) {
 }
 
 export default function RepoActions({ path }) {
-  console.log(path.path);
   const directoryPath = path.path.replace('src/pages', '');
   const shouldShowEditLink = path.path !== '/ChooseFilterPage';
   console.log(directoryPath);

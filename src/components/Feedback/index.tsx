@@ -1,4 +1,4 @@
-import { forwardRef, useCallback } from 'react';
+import { useRef, useCallback } from 'react';
 import { trackFeedbackSubmission } from '../../utils/track';
 import { IconThumbsUp, IconThumbsDown, ExternalLinkIcon } from '../Icons';
 import ExternalLink from '../ExternalLink';
@@ -13,7 +13,14 @@ type Feedback = {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const Feedback = forwardRef(function Feedback({}, ref) {
+const Feedback = function Feedback() {
+  const yesButtonRef = useRef(null);
+  const noButtonRef = useRef(null);
+  const yesTextRef = useRef(null);
+  const noTextRef = useRef(null);
+  const voteResponseRef = useRef(null);
+  const ctaRef = useRef(null);
+
   // Feedback Component Customizations
   const c = {
     feedbackQuestion: 'Was this page helpful?',
@@ -27,17 +34,10 @@ const Feedback = forwardRef(function Feedback({}, ref) {
 
   const onYesVote = useCallback((e) => {
     trackFeedbackSubmission(true);
-    const yesButton = e.currentTarget;
-    const yesButtonText = e.currentTarget.children[1];
-    const noButton = yesButton.nextSibling;
-    const yesFeedbackText = noButton.nextSibling;
-    const feedbackComponent = yesButton.parentElement.parentElement;
-    const feedbackText = feedbackComponent.getElementsByTagName('p')[0];
-    const feedbackTextWidth = feedbackText.offsetWidth;
 
     const transitionUpButton = [
       {
-        maxWidth: yesButton.offsetWidth + 'px',
+        maxWidth: yesButtonRef.current?.offsetWidth + 'px',
         overflow: 'visible'
       },
       {
@@ -88,36 +88,24 @@ const Feedback = forwardRef(function Feedback({}, ref) {
       }
     ];
 
-    const transitionFeedbackText = [
-      { transform: 'translateX(-150px)', opacity: 0 }
-    ];
-
     const animationTiming = {
       duration: 300,
       iterations: 1,
       fill: 'forwards'
     };
 
-    yesButton.animate(transitionUpButton, animationTiming);
-    yesButtonText.animate(transitionUpText, animationTiming);
-    yesFeedbackText.animate(transitionYesResponse, animationTiming);
-    noButton.animate(transitionDownButton, animationTiming);
-    feedbackText.animate(transitionFeedbackText, animationTiming);
+    yesButtonRef.current?.animate(transitionUpButton, animationTiming);
+    yesTextRef.current?.animate(transitionUpText, animationTiming);
+    voteResponseRef.current?.animate(transitionYesResponse, animationTiming);
+    noButtonRef.current?.animate(transitionDownButton, animationTiming);
   }, []);
 
   const onNoVote = useCallback((e) => {
     trackFeedbackSubmission(false);
-    const noButton = e.currentTarget;
-    const noButtonText = e.currentTarget.children[1];
-    const yesButton = noButton.previousSibling;
-    const noFeedbackText = noButton.nextSibling;
-    const feedbackComponent = noButton.parentElement.parentElement;
-    const feedbackText = feedbackComponent.getElementsByTagName('p')[0];
-    const cta = feedbackComponent.getElementsByClassName('no-vote-response')[0];
 
     const transitionUpButton = [
       {
-        maxWidth: yesButton.offsetWidth + 'px'
+        maxWidth: yesButtonRef.current?.offsetWidth + 'px'
       },
       {
         maxWidth: 0,
@@ -130,7 +118,7 @@ const Feedback = forwardRef(function Feedback({}, ref) {
 
     const transitionDownButton = [
       {
-        maxWidth: noButton.offsetWidth + 'px',
+        maxWidth: noButtonRef.current.offsetWidth + 'px',
         overflow: 'visible'
       },
       {
@@ -165,10 +153,6 @@ const Feedback = forwardRef(function Feedback({}, ref) {
       }
     ];
 
-    const transitionFeedbackText = [
-      { transform: 'translateX(-150px)', opacity: 0 }
-    ];
-
     const transitionResponseCTA = [
       {
         opacity: 1,
@@ -194,44 +178,41 @@ const Feedback = forwardRef(function Feedback({}, ref) {
       fill: 'forwards'
     };
 
-    yesButton.animate(transitionUpButton, animationTiming);
-    noButtonText.animate(transitionDownText, animationTiming);
-    noFeedbackText.animate(transitionNoResponse, animationTiming);
-    noButton.animate(transitionDownButton, animationTiming);
-    feedbackText.animate(transitionFeedbackText, animationTiming);
-    cta.animate(transitionResponseCTA, animationTimingDelayed);
+    yesButtonRef.current?.animate(transitionUpButton, animationTiming);
+    noTextRef.current?.animate(transitionDownText, animationTiming);
+    voteResponseRef.current?.animate(transitionNoResponse, animationTiming);
+    noButtonRef.current?.animate(transitionDownButton, animationTiming);
+    ctaRef.current?.animate(transitionResponseCTA, animationTimingDelayed);
   }, []);
 
   return (
-    <Flex id="feedback-container" ref={ref}>
-      <div id="start-state" aria-label={c.feedbackQuestion} tabIndex={0}>
+    <Flex className="feedback">
+      <div id="start-state" aria-label={c.feedbackQuestion} role="group">
         <Text className="feedback-text">{c.feedbackQuestion}</Text>
         <Flex className="vote-buttons-container">
           <Button
             className="vote-button"
             onClick={onYesVote}
             aria-label="Yes"
-            role="button"
-            tabIndex={0}
+            ref={yesButtonRef}
           >
             <IconThumbsUp />
-            <Text>Yes</Text>
+            <Text ref={yesTextRef}>Yes</Text>
           </Button>
           <Button
             className="vote-button"
             onClick={onNoVote}
             aria-label="No"
-            role="button"
-            tabIndex={0}
+            ref={noButtonRef}
           >
             <IconThumbsDown />
-            <Text>No</Text>
+            <Text ref={noTextRef}>No</Text>
           </Button>
-          <Flex className="vote-response">
-            <Text className="feedback-text">{c.voteResponse}</Text>
-            <Flex className="no-vote-response">
-              <Text className="cta">{c.noVoteCTA}</Text>
-              <Button className="cta-button">
+          <Flex className="vote-response" ref={voteResponseRef}>
+            <Text className="vote-response-text">{c.voteResponse}</Text>
+            <Flex className="vote-response-no" ref={ctaRef}>
+              <Text className="vote-response-no-cta">{c.noVoteCTA}</Text>
+              <Button className="vote-response-no-cta-button">
                 <ExternalLink href={c.buttonLink} icon={false}>
                   {c.noVoteCTAButton}
                   <ExternalLinkIcon />
@@ -243,6 +224,6 @@ const Feedback = forwardRef(function Feedback({}, ref) {
       </div>
     </Flex>
   );
-});
+};
 
 export default Feedback;
