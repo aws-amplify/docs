@@ -1,0 +1,33 @@
+.commands-list {
+  flex-direction: column;
+
+  &__command {
+    flex-direction: column;
+    gap: var(--amplify-space-medium);
+    margin-top: var(--amplify-space-large);
+    border-top: var(--amplify-border-widths-large) solid
+      var(--amplify-colors-border-secondary);
+
+    &:first-child {
+      border-top: none;
+      margin-top: 0;
+    }
+
+    &__flags {
+      flex-direction: column;
+      gap: var(--amplify-space-small);
+      margin-top: var(--amplify-space-medium);
+
+      &__code {
+        width: fit-content;
+      }
+    }
+
+    &__subcommands {
+      flex-direction: column;
+      margin-top: var(--amplify-space-medium);
+      margin-left: var(--amplify-space-small);
+      gap: var(--amplify-space-medium);
+    }
+  }
+}
