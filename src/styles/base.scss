@@ -77,7 +77,8 @@ h3 {
   }
 }
 
-a, .amplify-link {
+a,
+.amplify-link {
   text-decoration-skip-ink: auto;
 
   color: var(--amplify-components-link-color);
@@ -124,9 +125,6 @@ ul {
 .main {
   flex-direction: column;
   gap: var(--amplify-space-large);
-  .amplify-heading--2 {
-    margin-top: var(--amplify-space-large);
-  }
   .amplify-heading--2,
   .amplify-heading--3 {
     scroll-margin-top: 9rem;
@@ -137,7 +135,10 @@ ul {
 .columns-three {
   grid-template-columns: 1fr;
   grid-template-rows: auto;
-  gap: var(--amplify-space-large);
+  gap: var(--amplify-space-xl) var(--amplify-space-xxl);
+  & > * {
+    min-width: 0;
+  }
 }
 
 @container (min-width: 800px) {

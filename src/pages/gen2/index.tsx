@@ -16,6 +16,7 @@ import {
   IconVue,
   IconChevron
 } from '@/components/Icons';
+import { FeatureList, FeatureItem } from '@/components/FeatureLists';
 
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
@@ -25,7 +26,8 @@ export const meta = {
 export function getStaticProps() {
   return {
     props: {
-      meta
+      meta,
+      showBreadcrumbs: false
     }
   };
 }
@@ -93,13 +95,11 @@ const Gen2Overview = () => {
       </Flex>
       <Flex className="home-section">
         <Heading level={2}>Works with popular frameworks</Heading>
-        <Grid as="ul" className="framework-grid framework-grid--inline">
+        <Grid as="ul" className="framework-grid">
           {supportedFrameworks.map((framework, index) => {
             return (
               <li key={`framework-${index}`} className="framework-grid__item">
-                <View className="framework-grid__icon framework-grid__icon--inline">
-                  {framework.icon}
-                </View>
+                <View className="framework-grid__icon">{framework.icon}</View>
                 {framework.title}
               </li>
             );
@@ -145,7 +145,32 @@ const Gen2Overview = () => {
         </Grid>
       </Flex>
       <Grid className="columns-two">
-        <View>Develop</View>
+        <FeatureList heading="Develop" level={2}>
+          <FeatureItem
+            linkText="A TypeScript-first fullstack experience"
+            href="/gen2"
+          >
+            Write TypeScript across the frontend and the backend to give you
+            features like schema validation, dot completion, and end-to-end
+            typings while you code.
+          </FeatureItem>
+          <FeatureItem linkText="Real-time data for modern apps" href="/gen2">
+            Sync frontend state to realtime backend updates. No websocket
+            configuration required. Just write TypeScript.
+          </FeatureItem>
+          <FeatureItem linkText="Authn and authz for secure apps" href="/gen2">
+            Choose the auth strategy (e.g. passwords, social, email links) and
+            control data access based on users/groups.
+          </FeatureItem>
+          <FeatureItem
+            linkText="Auto-generate CRUD forms wired to data"
+            href="/gen2"
+          >
+            CRUD forms that map to your data model with form-level validations
+            and error states built-in.
+          </FeatureItem>
+        </FeatureList>
+
         <MDXCode
           fileName="amplify/data/resource.ts"
           language="typescript"
@@ -165,9 +190,47 @@ export default defineData ({
   schema, 
 });`}
         ></MDXCode>
-        <View>??</View>
-        <View>Deploy and host your apps</View>
-        <View>Scale</View>
+        <View>
+          <img
+            src="/images/gen2/deploy-cycle.png"
+            alt="Flowchart describing..."
+          />
+        </View>
+
+        <FeatureList heading="Deploy" level={2}>
+          <FeatureItem linkText="SSR/SSG/ISR hosting support" href="/gen2">
+            Deploy Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and more) apps
+            by simply connecting your Git repository.
+          </FeatureItem>
+          <FeatureItem
+            linkText="Faster iterations with per-developer sandboxes"
+            href="/gen2"
+          >
+            Per-developer cloud sandboxes provide high fidelity and faster
+            deployment times to make local iteration quick.
+          </FeatureItem>
+          <FeatureItem linkText="Zero-config fullstack branches" href="/gen2">
+            Full-stack deployments from your Git branch. Autodeploy git branches
+            to set up staging, development and production environments
+          </FeatureItem>
+          <FeatureItem linkText="GUI to manage your data" href="/gen2">
+            Console to manage your app data, users/groups, and files.
+          </FeatureItem>
+        </FeatureList>
+
+        <FeatureList heading="Customize" level={2}>
+          <FeatureItem linkText="Add any AWS service with CDK" href="/gen2">
+            Extend or customize with AWS CDK to access 200+ AWS services.
+          </FeatureItem>
+          <FeatureItem linkText="Bring your your own pipelines" href="/gen2">
+            Use your own pipelines to set up cross-account or multi-region
+            stage-based deployments.
+          </FeatureItem>
+          <FeatureItem linkText="Monorepo and multi-repo support" href="/gen2">
+            Support for all types of fullstack team workflows - monorepos,
+            microfrontends, multi-repos and more.
+          </FeatureItem>
+        </FeatureList>
         <MDXCode
           fileName="amplify/custom/Backup.ts"
           language="typescript"

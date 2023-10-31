@@ -42,6 +42,7 @@ export const Layout = ({
   pageTitle,
   pageType = 'inner',
   platform,
+  showBreadcrumbs = true,
   url
 }: {
   children: any;
@@ -50,6 +51,7 @@ export const Layout = ({
   pageTitle?: string;
   pageType?: 'home' | 'inner';
   platform?: Platform;
+  showBreadcrumbs?: boolean;
   url?: string;
 }) => {
   const [menuOpen, toggleMenuOpen] = useState(false);
@@ -264,7 +266,9 @@ export const Layout = ({
                   as="main"
                   className={`main${showTOC ? ' main--toc' : ''}`}
                 >
-                  <Breadcrumbs route={pathname} platform={currentPlatform} />
+                  {showBreadcrumbs ? (
+                    <Breadcrumbs route={pathname} platform={currentPlatform} />
+                  ) : null}
                   {children}
                 </Flex>
                 {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
