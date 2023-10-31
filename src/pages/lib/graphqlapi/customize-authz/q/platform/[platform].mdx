@@ -171,7 +171,7 @@ type Todo @model @auth(rules: [
 }
 ```
 
-### Field authorization rules
+#### Field authorization rules
 
 When an authorization rule is added to a field, it will strictly define the authorization rules applied on the field. Field-level authorization rules **do not** inherit model-level authorization rules. Meaning, only the specified field-level authorization rule is applied.
 
@@ -197,7 +197,7 @@ To prevent sensitive data from being sent over subscriptions, the GraphQL Transf
 
 </Callout>
 
-#### Protect data at the field level
+##### Protect data at the field level
 
 The user or role that attempts to `delete` a record should have delete permissions on every field of the `@model` annotated GraphQL type to prevent unintended loss of data. For example, in the schema below the `description` field is not accessible by "Admin" Cognito group users and they cannot delete any `Todo` records: 
 
@@ -217,7 +217,7 @@ type Todo @model @auth(rules: [
 
 ### Authorization strategies and providers
 
-You can further update your authorization rules by your strategy and the related provider for these options. Use the guide below to select the correct authorization strategy for your use case:
+You can further update your authorization rules by your strategy and the related provider (for example, API Key or IAM) for these options. Use the guide below to select the correct authorization strategy for your use case and then review the sections that follow for more details on each strategy.
 
 | **Recommended use case** | **Strategy** | **Provider** |
 |---|---|---|
@@ -443,6 +443,52 @@ In the above relationship, the owner of a `Todo` record can query all the tasks 
 
 </Callout>
 
+<Accordion title='Use IAM authorization within the AppSync console' headingLevel='4' eyebrow='Learn more'>
+
+IAM-based `@auth` rules are scoped down to only work with Amplify-generated IAM roles. To access the GraphQL API with IAM authorization within your AppSync console, you need to explicitly allow list the IAM user's name.
+
+<BlockSwitcher>
+<Block name="Amplify CLI">
+
+Add the allow-listed IAM users by adding them to `amplify/backend/api/<your-api-name>/custom-roles.json`. (Create the `custom-roles.json` file if it doesn't exist). Append the `adminRoleNames` array with the IAM role or user names:
+
+```json
+{
+  "adminRoleNames": ["<YOUR_IAM_USER_OR_ROLE_NAME>"]
+}
+```
+
+</Block>
+<Block name="AWS CDK">
+
+To grant an external AWS Resource or an IAM role access to this GraphQL API in CDK, you need to explicitly list the IAM role by adding them to `adminRoles` property. 
+
+```typescript
+const userRole = Role.fromRoleName(this, "MyUserRole", "<INSERT YOUR USER ROLE NAME HERE>")
+
+const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
+  definition: AmplifyGraphqlDefinition.fromFiles(
+    path.join(__dirname, "schema.graphql")
+  ),
+  authorizationModes: {
+    defaultAuthorizationMode: "API_KEY",
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30),
+    },
+    adminRoles: [userRole] // <-- pass in the role of the console user into here to grant it access via IAM
+  },
+});
+```
+
+These "Admin Roles" have special access privileges that are scoped based on their [IAM policy](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html#aws-iam-authorization) instead of any particular `@auth` rule.
+
+</Block>
+</BlockSwitcher>
+
+These "Admin Roles" have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
+
+</Accordion>
+
 #### User group-based data access
 
 To restrict access based on user groups, use the `group` authorization strategy.
@@ -613,9 +659,147 @@ Your Lambda authorization function needs to return the following JSON:
 
 You can use the Amplify Libraries to set the custom authorization token for [GraphQL API](/lib/graphqlapi/authz#aws-lambda) and [DataStore](/lib/datastore/setup-auth-rules#configure-custom-authorization-logic-with-aws-lambda).
 
+#### Using OIDC authorization provider
+
+As seen above, `private`, `owner`, and `group` authorization can be configured with an OpenID Connect (OIDC) authorization mode. Add `provider: oidc` to the authorization rule.
+
+<BlockSwitcher>
+<Block name="Amplify CLI">
+
+Upon the next `amplify push`, Amplify CLI prompts you for the *OpenID Connect provider domain*, *Client ID*, *Issued at TTL*, and *Auth Time TTL*.
+
+</Block>
+<Block name="AWS CDK">
+
+Use the `oidcConfig` property to configure the *OpenID Connect provider domain*, *Client ID*, *Issued at TTL*, and *Auth Time TTL*.
+
+```ts
+const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
+  definition: AmplifyGraphqlDefinition.fromFiles(
+    path.join(__dirname, "schema.graphql")
+  ),
+  authorizationModes: {
+    defaultAuthorizationMode: "OPENID_CONNECT",
+    oidcConfig: {
+      oidcIssuerUrl: "...",
+      oidcProviderName: "...",
+      tokenExpiryFromAuth: "...",
+      tokenExpiryFromIssue: "...",
+      clientId: "..."
+    }
+  },
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+For example, the sample code below highlights the supported authorization strategies with an `oidc` authorization provider.
+
+```graphql
+type Todo
+  @model
+  @auth(rules: [
+    { allow: owner, provider: oidc, identityClaim: "user_id" },
+    { allow: private, provider: oidc },
+    { allow: group, provider: oidc, groupClaim: "user_groups" },
+  ]) {
+  content: String
+}
+```
+
+For `owner` and `group` authorization, you also need to specify a custom identity and group claim.
+
+<Accordion title='Configure custom identity and group claims' headingLevel='4' eyebrow='Learn more'>
+
+`@auth` supports using custom claims if you do not wish to use the default Amazon Cognito-provided "cognito:groups" or the double-colon-delimited claims, "sub::username", from your JWT token. This can be helpful if you are using tokens from a 3rd party OIDC system or if you wish to populate a claim with a list of groups from an external system, such as when using a [Pre Token Generation Lambda Trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) which reads from a database. To use custom claims specify `identityClaim` or `groupClaim` as appropriate like in the example below:
+
+```graphql
+type Post @model
+  @auth(rules: [
+    { allow: owner, identityClaim: "user_id" },
+    { allow: groups, groups: ["Moderator"], groupClaim: "user_groups" }
+  ]) {
+  id: ID!
+  owner: String
+  postname: String
+  content: String
+}
+```
+
+In this example the record owner will check against a `user_id` claim. Similarly, if the `user_groups` claim contains a "Moderator" string then access will be granted.
+
+</Accordion>
+
 ## Combine multiple auth rules
 
+There are several ways you can combine authorization rules to define your auth strategy, provider, and operations at the global, model, and field levels. Because auth rules are set up with deny by default, you can be strategic in how you open up and layer this access. When combining multiple authorization rules, they are "logically OR"-ed. In the example below, any any user (signed in or not, verified by IAM) is allowed to read all posts and owners are allowed to create, read, update, and delete their own posts.
+
+```graphql
+type Post @model @auth(rules: [
+  { allow: public, operations: [read], provider: iam },
+  { allow: owner }]) {
+  title: String
+  content: String
+}
+```
+```js
+import { createPost } from './graphql/mutations';
+import { listPosts } from './graphql/queries';
+
+// Creating a post is restricted to Cognito User Pools
+const newPostResult = await API.graphql({
+	query: queries.createPost,
+	variables: { input: { title: 'Hello World' } },
+	authMode: 'AMAZON_COGNITO_USER_POOLS',
+});
+
+// Listing posts is available to all users (verified by IAM)
+const listPostsResult = await API.graphql({
+	query: queries.listPosts,
+	authMode: 'AWS_IAM',
+});
+```
+
+<InlineFilter filters={["js"]}>
+
+If you are using DataStore and have multiple authorization rules, you can let DataStore automatically determine the best authorization mode client-side. Review how to [Configure Multiple Authorization Types](/lib/datastore/setup-auth-rules/q/platform/js/#configure-multiple-authorization-types) on DataStore for more details.
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+If you are using DataStore and have multiple authorization rules, you can let DataStore automatically determine the best authorization mode client-side. Review how to [Configure Multiple Authorization Types](/lib/datastore/setup-auth-rules/q/platform/react-native/#configure-multiple-authorization-types) on DataStore for more details.
+
+</InlineFilter>
+
 ## Validate your auth rules access control matrix
+
+As you customize your auth rules it can be helpful to visualize and validate relationships between your authentication mechanisms via the access control matrix. You can map who can perform specific operations and see this based on your provider and authorization strategy.
+
+You can verify your API's access control matrix, by running the following command:
+
+```bash
+amplify status api -acm Blog
+```
+
+And will receive output similar to:
+
+```console
+iam:public
+  ┌─────────┬────────┬──────┬────────┬────────┐
+  │ (index) │ create │ read │ update │ delete │
+  ├─────────┼────────┼──────┼────────┼────────┤
+  │  title  │ false  │ true │ false  │ false  │
+  │ content │ false  │ true │ false  │ false  │
+  └─────────┴────────┴──────┴────────┴────────┘
+userPools:owner:owner
+  ┌─────────┬────────┬──────┬────────┬────────┐
+  │ (index) │ create │ read │ update │ delete │
+  ├─────────┼────────┼──────┼────────┼────────┤
+  │  title  │  true  │ true │  true  │  true  │
+  │ content │  true  │ true │  true  │  true  │
+  └─────────┴────────┴──────┴────────┴────────┘
 
 ## Conclusion
 
@@ -623,7 +807,7 @@ Congratulations! You have finished the **Customize your auth rules** guide. In t
 
 ## Next steps
 
-Our recommended next steps TODO
+Our recommended next steps explore more customizations you can create for your data:
 
 <InlineFilter filters={["js"]}>
 
@@ -636,8 +820,5 @@ Our recommended next steps TODO
 - [Custom business logic](/cli/graphql/custom-business-logic/)
 
 </InlineFilter>
-
-</InlineFilter>
-
 
 </InlineFilter>
