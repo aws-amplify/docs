@@ -4,6 +4,7 @@ import createMDX from '@next/mdx';
 
 const require = createRequire(import.meta.url);
 import rehypeImgSize from 'rehype-img-size';
+import remarkGfm from 'remark-gfm';
 dotenv.config({ path: './.env.custom' });
 
 export default async () => {
@@ -12,6 +13,7 @@ export default async () => {
     options: {
       // TODO: Fix this frontmatter plugin
       // remarkPlugins: [frontmatterPlugin],
+      // remarkPlugins: [remarkGfm],
       rehypePlugins: [[rehypeImgSize, { dir: 'public' }]]
     }
   });
