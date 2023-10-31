@@ -22,14 +22,8 @@ export const getStaticProps = (context) => {
   };
 };
 
-import gettingStartedJs from '/src/fragments/lib/predictions/js/getting-started.mdx';
 import gettingStartedCommon from '/src/fragments/lib/predictions/native_common/getting-started/common.mdx';
 
 <Fragments
-  fragments={{
-    js: gettingStartedJs,
-    'react-native': gettingStartedJs,
-    ios: gettingStartedCommon,
-    android: gettingStartedCommon
-  }}
+  fragments={{ ios: gettingStartedCommon, android: gettingStartedCommon }}
 />

@@ -22,22 +22,12 @@ export const getStaticProps = (context) => {
   };
 };
 
-import js0 from '/src/fragments/lib/restapi/js/getting-started.mdx';
+import common_getting_started from '/src/fragments/lib/restapi/native_common/getting-started/common.mdx';
 
-<Fragments fragments={{ js: js0 }} />
-
-import reactnative0 from '/src/fragments/lib/restapi/js/getting-started.mdx';
-
-<Fragments fragments={{ 'react-native': reactnative0 }} />
-
-import ios1 from '/src/fragments/lib/restapi/native_common/getting-started/common.mdx';
-
-<Fragments fragments={{ ios: ios1 }} />
-
-import android2 from '/src/fragments/lib/restapi/native_common/getting-started/common.mdx';
-
-<Fragments fragments={{ android: android2 }} />
-
-import flutter3 from '/src/fragments/lib/restapi/native_common/getting-started/common.mdx';
-
-<Fragments fragments={{ flutter: flutter3 }} />
+<Fragments
+  fragments={{
+    android: common_getting_started,
+    flutter: common_getting_started,
+    ios: common_getting_started
+  }}
+/>

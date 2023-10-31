@@ -1,6 +1,6 @@
 export const meta = {
-  title: `Geofences`,
-  description: `The Amplify Geo category`,
+  title: `Cancel API requests`,
+  description: `Using the Cancel API in Amplify`,
   filterKey: 'platform',
   supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
@@ -22,6 +22,10 @@ export const getStaticProps = (context) => {
   };
 };
 
-import js0 from '/src/fragments/lib/geo/js/geofences.mdx';
+import js0 from '/src/fragments/lib-v1/restapi/js/cancel.mdx';
 
 <Fragments fragments={{ js: js0 }} />
+
+import reactnative0 from '/src/fragments/lib-v1/restapi/js/cancel.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

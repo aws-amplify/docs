@@ -1,6 +1,6 @@
 export const meta = {
-  title: `Migrating from Google Maps`,
-  description: `Migrate applications from Google Maps to Amplify Geo`,
+  title: `Overview`,
+  description: `The Predictions category enables you to integrate machine learning in your application without any prior machine learning experience. The Predictions category comes with built-in support for both online and offline use cases.`,
   filterKey: 'platform',
   supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
@@ -22,6 +22,10 @@ export const getStaticProps = (context) => {
   };
 };
 
-import js0 from '/src/fragments/lib/geo/js/google-migration.mdx';
+import js0 from '/src/fragments/lib-v1/predictions/js/intro.mdx';
 
 <Fragments fragments={{ js: js0 }} />
+
+import reactnative0 from '/src/fragments/lib-v1/predictions/js/intro.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

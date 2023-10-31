@@ -1,6 +1,6 @@
 export const meta = {
-  title: `Example`,
-  description: `Sample code for Amplify's predictions category`,
+  title: `Migrating from Google Maps`,
+  description: `Migrate applications from Google Maps to Amplify Geo`,
   filterKey: 'platform',
   supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
@@ -22,11 +22,6 @@ export const getStaticProps = (context) => {
   };
 };
 
-import sampleJs from '/src/fragments/lib/predictions/js/sample.mdx';
+import js0 from '/src/fragments/lib-v1/geo/js/google-migration.mdx';
 
-<Fragments
-  fragments={{
-    js: sampleJs,
-    'react-native': sampleJs
-  }}
-/>
+<Fragments fragments={{ js: js0 }} />

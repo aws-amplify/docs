@@ -350,32 +350,27 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/restapi/getting-started',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Fetching data',
             route: '/lib/restapi/fetch',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Updating data',
             route: '/lib/restapi/update',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Deleting data',
             route: '/lib/restapi/delete',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
-          },
-          {
-            title: 'Cancel API requests',
-            route: '/lib/restapi/cancel',
-            filters: ['js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Define authorization rules',
             route: '/lib/restapi/authz',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Use existing AWS resources',
@@ -460,37 +455,27 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/geo/getting-started',
-            filters: ['js', 'ios', 'android']
+            filters: ['ios', 'android']
           },
           {
             title: 'Maps',
             route: '/lib/geo/maps',
-            filters: ['js', 'ios', 'android']
+            filters: ['ios', 'android']
           },
           {
             title: 'Location Search',
             route: '/lib/geo/search',
-            filters: ['js', 'ios', 'android']
-          },
-          {
-            title: 'Geofences',
-            route: '/lib/geo/geofences',
-            filters: ['js']
+            filters: ['ios', 'android']
           },
           {
             title: 'Use existing Amazon Location resources',
             route: '/lib/geo/existing-resources',
-            filters: ['js', 'ios', 'android']
-          },
-          {
-            title: 'Migrating from Google Maps',
-            route: '/lib/geo/google-migration',
-            filters: ['js']
+            filters: ['ios', 'android']
           },
           {
             title: 'Escape Hatch',
             route: '/lib/geo/escapehatch',
-            filters: ['js', 'ios', 'android']
+            filters: ['ios', 'android']
           }
         ]
       },
@@ -567,61 +552,50 @@ export const directory = {
       predictions: {
         title: 'Predictions',
         items: [
-          // TODO Rewrite why do we have an intro for RN and JS and not iOS/Android?
-          {
-            title: 'Overview',
-            route: '/lib/predictions/intro',
-            filters: ['js', 'react-native']
-          },
           {
             title: 'Getting started',
             route: '/lib/predictions/getting-started',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios']
           },
           {
             title: 'Text to speech',
             route: '/lib/predictions/text-speech',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios']
           },
           {
             title: 'Transcribe audio to text',
             route: '/lib/predictions/transcribe',
-            filters: ['js', 'ios', 'react-native']
+            filters: ['ios']
           },
           {
             title: 'Translate language',
             route: '/lib/predictions/translate',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios']
           },
           {
             title: 'Identify text',
             route: '/lib/predictions/identify-text',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios']
           },
           {
             title: 'Identify entities from images',
             route: '/lib/predictions/identify-entity',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios']
           },
           {
             title: 'Label objects in image',
             route: '/lib/predictions/label-image',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios']
           },
           {
             title: 'Interpret sentiment',
             route: '/lib/predictions/interpret',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios']
           },
           {
             title: 'Escape hatch',
             route: '/lib/predictions/escapehatch',
             filters: ['android', 'ios']
-          },
-          {
-            title: 'Example',
-            route: '/lib/predictions/sample',
-            filters: ['js', 'react-native']
           }
         ]
       },
@@ -877,16 +851,6 @@ export const directory = {
           {
             title: 'Logger',
             route: '/lib/utilities/logger',
-            filters: ['js', 'react-native']
-          }
-        ]
-      },
-      'client-configuration': {
-        title: 'Client configuration',
-        items: [
-          {
-            title: 'Configuring Amplify Categories',
-            route: '/lib/client-configuration/configuring-amplify-categories',
             filters: ['js', 'react-native']
           }
         ]
@@ -1205,27 +1169,32 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/restapi/getting-started',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Fetching data',
             route: '/lib-v1/restapi/fetch',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Updating data',
             route: '/lib-v1/restapi/update',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Deleting data',
             route: '/lib-v1/restapi/delete',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Cancel API requests',
+            route: '/lib-v1/restapi/cancel',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Define authorization rules',
             route: '/lib-v1/restapi/authz',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Use existing AWS resources',
@@ -1435,77 +1404,98 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/geo/getting-started',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Maps',
             route: '/lib-v1/geo/maps',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Location Search',
             route: '/lib-v1/geo/search',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
+          },
+          {
+            title: 'Geofences',
+            route: '/lib-v1/geo/geofences',
+            filters: ['js']
           },
           {
             title: 'Use existing Amazon Location resources',
             route: '/lib-v1/geo/existing-resources',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
+          },
+          {
+            title: 'Migrating from Google Maps',
+            route: '/lib-v1/geo/google-migration',
+            filters: ['js']
           },
           {
             title: 'Escape Hatch',
             route: '/lib-v1/geo/escapehatch',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           }
         ]
       },
       predictions: {
         title: 'Predictions',
         items: [
+          // TODO Rewrite why do we have an intro for RN and JS and not iOS/Android?
+          {
+            title: 'Overview',
+            route: '/lib-v1/predictions/intro',
+            filters: ['js', 'react-native']
+          },
           {
             title: 'Getting started',
             route: '/lib-v1/predictions/getting-started',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Text to speech',
             route: '/lib-v1/predictions/text-speech',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Transcribe audio to text',
             route: '/lib-v1/predictions/transcribe',
-            filters: ['android', 'ios']
+            filters: ['ios', 'js', 'react-native']
           },
           {
             title: 'Translate language',
             route: '/lib-v1/predictions/translate',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Identify text',
             route: '/lib-v1/predictions/identify-text',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Identify entities from images',
             route: '/lib-v1/predictions/identify-entity',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Label objects in image',
             route: '/lib-v1/predictions/label-image',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Interpret sentiment',
             route: '/lib-v1/predictions/interpret',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Escape hatch',
             route: '/lib-v1/predictions/escapehatch',
             filters: ['android', 'ios']
+          },
+          {
+            title: 'Example',
+            route: '/lib-v1/predictions/sample',
+            filters: ['js', 'react-native']
           }
         ]
       },
@@ -1616,6 +1606,17 @@ export const directory = {
             title: 'Hub',
             route: '/lib-v1/utilities/hub',
             filters: ['android', 'ios', 'js']
+          }
+        ]
+      },
+      'client-configuration': {
+        title: 'Client configuration',
+        items: [
+          {
+            title: 'Configuring Amplify Categories',
+            route:
+              '/lib-v1/client-configuration/configuring-amplify-categories',
+            filters: ['js', 'react-native']
           }
         ]
       },
