@@ -149,7 +149,7 @@ export const Layout = ({
     } else if (document.body.classList.contains('scrolled')) {
       document.body.classList.remove('scrolled');
     }
-  });
+  }, 20);
 
   const handleMenuToggle = () => {
     if (!menuOpen) {
