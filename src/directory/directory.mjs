@@ -93,14 +93,14 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
-            title: 'Social sign-in (OAuth)',
+            title: 'Add social provider sign-in',
             route: '/lib/auth/social',
             filters: ['js', 'react-native']
           },
           {
-            title: 'Multi-factor authentication',
+            title: 'Manage MFA and device settings',
             route: '/lib/auth/mfa',
-            filters: ['js', 'react-native', 'android', 'flutter', 'ios']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Manage user profiles',
@@ -143,9 +143,14 @@ export const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
-            title: 'Social sign-in (OAuth)',
+            title: 'Add social provider sign-in',
             route: '/lib/auth/social',
             filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'Multi-factor authentication',
+            route: '/lib/auth/mfa',
+            filters: ['ios', 'flutter', 'android']
           },
           {
             title: 'SMS flows',
@@ -163,7 +168,7 @@ export const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
-            title: 'Auth events',
+            title: 'Listen to auth events',
             route: '/lib/auth/auth-events',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
