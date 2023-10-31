@@ -99,7 +99,6 @@ function MyApp({ Component, pageProps }) {
             href="/assets/icon/favicon-teal-32x32.png"
           />
         )}
-
         {router.route.startsWith('/gen2') ? (
           <link
             rel="icon"
