@@ -57,6 +57,7 @@
   position: absolute;
   inset-inline-start: var(--layout-sidebar-width);
   top: var(--amplify-space-medium);
+  border-width: 2px;
   background-color: #fff;
   border-color: transparent;
   border-radius: 0 var(--amplify-radii-medium) var(--amplify-radii-medium) 0;

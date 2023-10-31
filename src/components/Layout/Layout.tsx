@@ -232,30 +232,28 @@ export const Layout = ({
                     menuOpen ? ' layout-sidebar__inner--expanded' : ''
                   }`}
                 >
-                  <div className="layout-sidebar-platform">
-                    <Button
-                      size="small"
-                      colorTheme="overlay"
-                      className={classNames('layout-sidebar__mobile-toggle', {
-                        'layout-sidebar__mobile-toggle--open': menuOpen
-                      })}
-                      ref={sidebarMenuButtonRef}
-                      onClick={() => handleMenuToggle()}
-                    >
-                      <IconDoubleChevron />
-                      <VisuallyHidden>Close menu</VisuallyHidden>
-                    </Button>
-
-                    {isGen2 ? (
-                      <></>
-                    ) : (
+                  <Button
+                    size="small"
+                    colorTheme="overlay"
+                    className={classNames('layout-sidebar__mobile-toggle', {
+                      'layout-sidebar__mobile-toggle--open': menuOpen
+                    })}
+                    ref={sidebarMenuButtonRef}
+                    onClick={() => handleMenuToggle()}
+                  >
+                    <IconDoubleChevron />
+                    <VisuallyHidden>Close menu</VisuallyHidden>
+                  </Button>
+                  {isGen2 ? null : (
+                    <div className="layout-sidebar-platform">
                       <PlatformNavigator
                         currentPlatform={
                           PLATFORM_DISPLAY_NAMES[currentPlatform]
                         }
                       />
-                    )}
-                  </div>
+                    </div>
+                  )}
+
                   <div className="layout-sidebar-menu">
                     {isGen2 ? (
                       <Menu
