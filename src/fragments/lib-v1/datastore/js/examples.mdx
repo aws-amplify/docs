@@ -1,0 +1,190 @@
+## Example application
+
+<BlockSwitcher>
+<Block name="React">
+
+```jsx
+import React, { useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+
+import { Amplify, DataStore, Predicates } from "aws-amplify";
+import { Post, PostStatus } from "./models";
+
+// Use next two lines only if syncing with the cloud
+import awsconfig from "./aws-exports";
+Amplify.configure(awsconfig);
+
+async function onCreate() {
+  await DataStore.save(
+    new Post({
+      title: `New title ${Date.now()}`,
+      rating: Math.floor(Math.random() * (8 - 1) + 1),
+      status: PostStatus.ACTIVE,
+    })
+  );
+}
+
+async function onDeleteAll() {
+  await DataStore.delete(Post, Predicates.ALL);
+}
+
+async function onQuery() {
+  const posts = await DataStore.query(Post, (c) => c.rating.gt(4));
+
+  console.log(posts);
+}
+
+function App() {
+  useEffect(() => {
+    const subscription = DataStore.observe(Post).subscribe((msg) => {
+      console.log(msg.model, msg.opType, msg.element);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <div>
+          <input type="button" value="NEW" onClick={onCreate} />
+          <input type="button" value="DELETE ALL" onClick={onDeleteAll} />
+          <input type="button" value="QUERY rating > 4" onClick={onQuery} />
+        </div>
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
+}
+
+export default App;
+```
+</Block>
+
+<Block name="Angular">
+
+```ts
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { DataStore, Predicates } from "aws-amplify";
+import { Post, PostStatus } from "./models";
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <div class="app-header">
+      <button type="button" (click)="onCreate()">NEW</button>
+      <button type="button" (click)="onDeleteAll()">DELETE ALL</button>
+      <button type="button" (click)="onQuery()">QUERY rating > 4</button>
+    </div>
+`})
+export class AppComponent implements OnInit, OnDestroy {
+  subscription;
+
+  ngOnInit() {
+    //Subscribe to changes
+    this.subscription = DataStore.observe<Post>(Post).subscribe((msg) => {
+      console.log(msg.model, msg.opType, msg.element);
+    });
+  }
+
+  ngOnDestroy() {
+    if (!this.subscription) return;
+    this.subscription.unsubscribe();
+  }
+
+  public async loadPosts() {
+    let posts = await DataStore.query(Post, (c) => c.rating.gt(4));
+    console.log(posts);
+  }
+  
+  public onCreate() {
+    DataStore.save(
+      new Post({
+        title: `New title ${Date.now()}`,
+        rating: Math.floor(Math.random() * (8 - 1) + 1),
+        status: PostStatus.ACTIVE,
+      })
+    );
+  }
+
+  public onDeleteAll() {
+    DataStore.delete(Post, Predicates.ALL);
+  }
+}
+```
+</Block>
+
+<Block name="Vue">
+
+```javascript 
+<template>
+  <div id="app">
+    <div class="app-body">
+      <button type="button" @click="onCreate" >NEW</button>
+      <button type="button" @click="onDeleteAll" >DELETE ALL</button>
+      <button type="button" @click="onQuery" >QUERY rating > 4</button>
+    </div>
+  </div>
+</template>
+
+<script>
+import { DataStore, Predicates } from "aws-amplify";
+import { Post, PostStatus } from "./models";
+
+export default {
+  name: "app",
+  data() {
+    return {
+      subscription: undefined,
+    };
+  },
+  created() {
+    //Subscribe to changes
+    this.subscription = DataStore.observe(Post).subscribe(msg => {
+      console.log(msg.model, msg.opType, msg.element);
+    });
+  },
+  destroyed() {
+    if (!this.subscription) return;
+    this.subscription.unsubscribe();
+  },
+  methods: {
+    async onQuery() {
+      let posts = await DataStore.query(Post, (c) => c.rating.gt(4));
+      console.log(posts);
+    },
+    onCreate() {
+      DataStore.save(
+        new Post({
+          title: `New title ${Date.now()}`,
+          rating: Math.floor(Math.random() * (8 - 1) + 1),
+          status: PostStatus.ACTIVE,
+        })
+      );
+    },
+    deleteAll() {
+      DataStore.delete(Post, Predicates.ALL);
+    }
+  }
+};
+</script>
+```
+</Block>
+
+</BlockSwitcher>
+
+## API Reference   
+
+For the complete API documentation for DataStore, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/datastore.html)

@@ -1,0 +1,8 @@
+```js
+await DataStore.save(
+  Post.copyOf(original, (updated) => {
+    updated.title = 'My First Post';
+  }),
+  (p) => p.title.beginsWith('[Amplify]')
+);
+```

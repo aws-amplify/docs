@@ -19,6 +19,8 @@ The next step is to make sure the locally saved data is synchronized with a clou
 
 </Callout>
 
+
+
 import ios0 from "/src/fragments/lib-v1/datastore/ios/sync/10-installPlugin.mdx";
 
 <Fragments fragments={{ios: ios0}} />
@@ -89,6 +91,14 @@ One common use for `clear()` is to manage different users sharing the same devic
 
 </Callout>
 
+import js6 from "/src/fragments/lib/datastore/js/sync/40-clear.mdx";
+
+<Fragments fragments={{js: js6}} />
+
+import reactnative0 from "/src/fragments/lib/datastore/js/sync/40-clear.mdx";
+
+<Fragments fragments={{'react-native': reactnative0}} />
+
 import ios7 from "/src/fragments/lib-v1/datastore/ios/sync/40-clear.mdx";
 
 <Fragments fragments={{ios: ios7}} />
@@ -102,6 +112,14 @@ import flutter9 from "/src/fragments/lib-v1/datastore/flutter/sync/40-clear.mdx"
 <Fragments fragments={{flutter: flutter9}} />
 
 This is a simple yet effective example. However, in a real scenario you might want to only call `clear()` when a different user is `signedIn` in order to avoid clearing the database for a repeated sign-in of the same user.
+
+import js10 from "/src/fragments/lib/datastore/js/sync/50-selectiveSync.mdx";
+
+<Fragments fragments={{js: js10}} />
+
+import reactnative1 from "/src/fragments/lib/datastore/js/sync/50-selectiveSync.mdx";
+
+<Fragments fragments={{'react-native': reactnative1}} />
 
 import android11 from "/src/fragments/lib-v1/datastore/android/sync/50-selectiveSync.mdx";
 
