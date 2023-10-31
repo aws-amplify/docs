@@ -1330,62 +1330,67 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/datastore/getting-started',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Manipulating data',
             route: '/lib-v1/datastore/data-access',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Relational models',
             route: '/lib-v1/datastore/relational',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Syncing data to cloud',
             route: '/lib-v1/datastore/sync',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Setup authorization rules',
             route: '/lib-v1/datastore/setup-auth-rules',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Conflict resolution',
             route: '/lib-v1/datastore/conflict',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Real time',
             route: '/lib-v1/datastore/real-time',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'DataStore Events',
             route: '/lib-v1/datastore/datastore-events',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Other methods',
             route: '/lib-v1/datastore/other-methods',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Schema updates',
             route: '/lib-v1/datastore/schema-updates',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'How it works',
             route: '/lib-v1/datastore/how-it-works',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Advanced workflows',
             route: '/lib-v1/datastore/advanced-workflows',
-            filters: ['flutter']
+            filters: ['flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Examples',
+            route: '/lib/datastore/examples',
+            filters: ['js', 'react-native']
           }
         ]
       },
