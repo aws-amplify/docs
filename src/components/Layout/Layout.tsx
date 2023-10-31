@@ -44,7 +44,8 @@ export const Layout = ({
   pageTitle,
   pageType = 'inner',
   platform,
-  url
+  url,
+  showLastUpdatedDate = true
 }: {
   children: any;
   hasTOC?: boolean;
@@ -53,6 +54,7 @@ export const Layout = ({
   pageType?: 'home' | 'inner';
   platform?: Platform;
   url?: string;
+  showLastUpdatedDate: boolean;
 }) => {
   const [menuOpen, toggleMenuOpen] = useState(false);
   const [tocHeadings, setTocHeadings] = useState<Heading[]>([]);
@@ -266,9 +268,11 @@ export const Layout = ({
                     <div className="layout-sidebar-feedback">
                       [ Feedback widget goes here ]
                     </div>
-                    <PageLastUpdated
-                      directoryData={flatDirectory[router.pathname]}
-                    />
+                    {showLastUpdatedDate && (
+                      <PageLastUpdated
+                        directoryData={flatDirectory[router.pathname]}
+                      />
+                    )}
                   </div>
                 </View>
               </View>
