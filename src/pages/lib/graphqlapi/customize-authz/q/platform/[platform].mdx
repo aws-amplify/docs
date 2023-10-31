@@ -228,6 +228,27 @@ You can further update your authorization rules by your strategy and the related
 | Per user group data access. A specific or dynamically configured group of users have access | [`groups`](#user-group-based-data-access) | `userPools` / `oidc` |
 | Define your own custom authorization rule within a Lambda function | [`custom`](#custom-authorization-rule) | `function` |
 
+
+<InlineFilter filters={["js"]}>
+
+<Callout>
+
+**Note:** In the *Connect your app code to the API* guide we covered how to, "Configure the default authorization mode." If you are looking to implement the default authorization mode via an API Key, an Amazon Cognito User Pool, AWS IAM, OpenID Connect (OIDC), or Lambda Authorizer, [please review the guide](/lib/graphqlapi/connect/q/platform/js/#configure-the-amplify-library).
+
+</Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+<Callout>
+
+**Note:** In the *Connect your app code to the API* guide we covered how to, "Configure the default authorization mode." If you are looking to implement the default authorization mode via an API Key, an Amazon Cognito User Pool, AWS IAM, OpenID Connect (OIDC), or Lambda Authorizer, [please review the guide](/lib/graphqlapi/connect/q/platform/react-native/#configure-the-amplify-library).
+
+</Callout>
+
+</InlineFilter>
+
 #### Public data access
 
 To grant everyone access, use the `public` authorization strategy. Behind the scenes, the API will be protected with an API Key.
