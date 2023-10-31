@@ -70,9 +70,9 @@ const Feedback = function Feedback() {
       },
       {
         opacity: 1,
-        transform: 'translate(0)',
-        overflow: 'visible',
-        display: 'block'
+        transform: 'translate(0)'
+        // overflow: 'visible',
+        // display: 'block'
       }
     ];
 
@@ -83,10 +83,8 @@ const Feedback = function Feedback() {
       {
         left: 0,
         width: 0,
-        overflow: 'hidden',
         margin: 0,
         padding: 0,
-        border: 'none',
         opacity: 0,
         display: 'none'
       }
@@ -180,7 +178,7 @@ const Feedback = function Feedback() {
     };
 
     const animationTimingDelayed = {
-      delay: 400,
+      delay: 500,
       duration: 1000,
       iterations: 1,
       fill: 'forwards'
