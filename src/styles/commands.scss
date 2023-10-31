@@ -1,6 +1,17 @@
 .commands-list {
   flex-direction: column;
 
+  &__link,
+  &__link:visited {
+    color: var(--amplify-colors-font-primary);
+    text-decoration: none;
+  }
+
+  &__link:hover {
+    color: var(--amplify-colors-font-primary);
+    text-decoration: underline;
+  }
+
   &__command {
     flex-direction: column;
     gap: var(--amplify-space-medium);

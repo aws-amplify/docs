@@ -1,8 +1,8 @@
-import { Link } from '@aws-amplify/ui-react';
+import { Heading, Link } from '@aws-amplify/ui-react';
 import { ReactNode } from 'react';
 
 type CommandHeadingProps = {
-  children: ReactNode;
+  children: string;
 };
 
 type SubCommandHeadingProps = {
@@ -11,7 +11,13 @@ type SubCommandHeadingProps = {
 };
 
 export function CommandHeading({ children }: CommandHeadingProps) {
-  return <Link href={`#${children}`}>{children}</Link>;
+  return (
+    <Heading id={children} level={2}>
+      <Link className="commands-list__link" href={`#${children}`}>
+        {children}
+      </Link>
+    </Heading>
+  );
 }
 
 export function SubCommandHeading({
@@ -19,6 +25,13 @@ export function SubCommandHeading({
   children
 }: SubCommandHeadingProps) {
   return (
-    <Link href={encodeURI(`#${parentCommand}-${children}`)}>{children}</Link>
+    <Heading id={encodeURI(`${parentCommand}-${children}`)} level={3}>
+      <Link
+        className="commands-list__link"
+        href={encodeURI(`#${parentCommand}-${children}`)}
+      >
+        {children}
+      </Link>
+    </Heading>
   );
 }

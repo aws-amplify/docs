@@ -12,9 +12,7 @@ export function Command({
 }: CliCommand) {
   return (
     <Flex className="commands-list__command">
-      <Heading id={name} level={2}>
-        <CommandHeading>{name}</CommandHeading>
-      </Heading>
+      <CommandHeading>{name}</CommandHeading>
       <Text>{description}</Text>
       <MDXCode language="terminal" codeString={usage} />
       {flags && flags.length > 0 && (
@@ -34,11 +32,9 @@ export function Command({
         <Flex className="commands-list__command__subcommands">
           {subCommands.map((subCommand) => (
             <>
-              <Heading id={encodeURI(`${name}-${subCommand.name}`)} level={3}>
-                <SubCommandHeading parentCommand={name}>
-                  {subCommand.name}
-                </SubCommandHeading>
-              </Heading>
+              <SubCommandHeading parentCommand={name}>
+                {subCommand.name}
+              </SubCommandHeading>
               <Text>{subCommand.description}</Text>
               <MDXCode
                 language="terminal"
