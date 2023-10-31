@@ -1,0 +1,12 @@
+import ChooseFilterPage from '@/components/ChooseFilterPage';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+<ChooseFilterPage
+  directoryPath="/ChooseFilterPage"
+  address="/lib-v1/in-app-messaging/clear-messages"
+  filterKind="platform"
+  filters={['react-native', 'js']}
+  currentFilter="all"
+  message={'Choose a platform:'}
+/>

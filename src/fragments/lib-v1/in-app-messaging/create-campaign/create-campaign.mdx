@@ -1,0 +1,60 @@
+A campaign is a messaging initiative that engages a specific audience [segment](https://docs.aws.amazon.com/pinpoint/latest/userguide/segments.html). A campaign sends tailored messages according to a schedule that you define. You can use the AWS console to create a campaign that sends messages through any single channel that is supported by Amazon Pinpoint: Mobile Push, In-App, Email, SMS or Custom channels. [Learn how to create a campaign using Amazon Pinpoint](https://docs.aws.amazon.com/pinpoint/latest/userguide/campaigns.html) to continue integrating in-app messages in your app with Amplify.
+
+1. Login to the [AWS Console](https://console.aws.amazon.com/console/home), and Search for **Pinpoint**.
+2. Click on your project from the list of available project. Your project name would have been setup with the CLI as your Pinpoint resource name when the `amplify add notifications` command was used.
+3. Click on **Campaigns** from the left navigation menu, and then click on **Create a campaign**
+
+   ![In-App-Messaging](/images/lib/in-app-messaging/create-pinpoint-campaign.png)
+
+4. Add a name to your campaign, and keep the following options as follows and then click Next:
+
+   1. Campaign type: **Standard campaign**
+   2. Channel: **In-App messaging**
+   3. set prioritization: **Fairly important**
+
+5. Click on the **Create a segment** radio button, and add a name for your segment, and then click **Next**.
+
+   1. You can add as many segments as needed to the campaign. For this quickstart, you can use **Include any audiences** under the _Segment group 1_ section.
+   2. You can add a criteria to your segments to ensure that audiences that satisfy that criteria can receive the in-app message.
+   3. If you see an error message titled _Segment might include multiple channels_, click **I understand** to proceed.
+
+   ![In-App-Messaging](/images/lib/in-app-messaging/choose-campaign-segment.png)
+
+6. Click on the **Create a new in-app message** radio button.
+7. You have the ability to customize the following attributes of the in-app message:
+   - **Layout**: Which includes all of the different messaging layout options.
+   - **Header**: Title of the in-app message, including the text color/alignment.
+   - **Message**: The body of the Message, including the text color/alignment.
+   - **Background**: Control the background color of the in-app message.
+   - **Image URL**: Add an image to be displayed as part of the in-app message body.
+   - **Primary button**: Allows the addition of a button to add functionality to the in-app message.
+   - **Secondary button**: Allows the addition of an extra button for additional functionality.
+   - **Custom Data**: Allows the in-app message to pass additional data to the frontend app once it is triggered by an event.
+
+import reactnative0 from '/src/fragments/lib-v1/in-app-messaging/create-campaign/react-native/callout.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
+
+   For this tutorial you can create a simple message as shown below. Customers in your application will see the same message once the event is triggered.
+
+   ![In-App-Messaging](/images/lib/in-app-messaging/in-app-message-details.png)
+
+8. Once you have finished customizing your in-app message, click on **Next**.
+9. Under _Trigger events_, add the name of the analytics trigger that will be sent from your frontend app. 
+   - You have the ability to customize the trigger to allow only certain attributes or metrics that are passed with the analytics event to trigger the in-app message. (Optional)
+
+![In-App-Messaging](/images/lib/in-app-messaging/campaign-setup.png)
+
+10. By default, the number of messages shown per session is 1. You can update this threshold during campaign setup. 
+
+![In-App-Messaging](/images/lib/in-app-messaging/campaign-settings.png)
+
+11. Review your campaign, and then click on **Launch campaign**.
+
+Your campaign is now setup, and you are ready to start integrating the In-App Messaging functionality into your app.
+
+<Callout informational>
+
+Note: Campaign start time must be at least 15 minutes in future. In-app messages can only be synced to local device once the campaign becomes active (Status should be "In Progress" in the campaigns screen of the Pinpoint console).
+
+</Callout>

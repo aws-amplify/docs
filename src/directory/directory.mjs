@@ -1084,6 +1084,61 @@ export const directory = {
           }
         ]
       },
+      'in-app-messaging': {
+        title: 'In-App Messaging',
+        items: [
+          {
+            title: 'Overview',
+            route: '/lib-v1/in-app-messaging/overview',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Getting started',
+            route: '/lib-v1/in-app-messaging/getting-started',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Create an In-App Messaging campaign',
+            route: '/lib-v1/in-app-messaging/create-campaign',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Integrate your application',
+            route: '/lib-v1/in-app-messaging/integrate-your-application',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Sync messages',
+            route: '/lib-v1/in-app-messaging/sync-messages',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Display message',
+            route: '/lib-v1/in-app-messaging/display-message',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Clear messages',
+            route: '/lib-v1/in-app-messaging/clear-messages',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Identify a user',
+            route: '/lib-v1/in-app-messaging/identify-user',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Respond to interaction events',
+            route: '/lib-v1/in-app-messaging/respond-interaction-events',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Resolving conflicts',
+            route: '/lib-v1/in-app-messaging/resolve-conflicts',
+            filters: ['react-native', 'js']
+          }
+        ]
+      },
       graphqlapi: {
         title: 'API (GraphQL)',
         items: [
