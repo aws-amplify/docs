@@ -44,7 +44,7 @@ export const baseTheme = createTheme({
     },
     components: {
       button: {
-        borderRadius: { value: '{radii.medium}' },
+        borderRadius: { value: '{radii.large}' },
         borderWidth: { value: '{borderWidths.medium}' },
         borderColor: { value: '{colors.brand.primary.80}' },
         backgroundColor: { value: '{colors.background.primary}' },
@@ -62,7 +62,6 @@ export const baseTheme = createTheme({
             }
           }
         },
-
         large: {
           paddingInlineStart: { value: '{space.xl.value}' },
           paddingInlineEnd: { value: '{space.xl.value}' }
