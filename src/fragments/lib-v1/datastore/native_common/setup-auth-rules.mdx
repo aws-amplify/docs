@@ -10,7 +10,7 @@ Here's a high-level overview of the authorization scenarios we support in the Am
 - [**Owner based Authorization with OIDC provider**](#owner-based-authorization-with-oidc-provider): Use a 3rd party OIDC Provider to achieve _Owner based authorization_.
 - [**Static Group Authorization with OIDC provider**](#static-group-authorization-with-oidc-provider): Use a 3rd party OIDC Provider to achieve _Static group authorization_ using a custom `groupClaim`.
 
-import datastoreAuthRulesCallout from '/src/fragments/lib/datastore/native_common/callout/datastore-auth-rules-cli.mdx';
+import datastoreAuthRulesCallout from '/src/fragments/lib-v1/datastore/native_common/callout/datastore-auth-rules-cli.mdx';
 
 <Fragments fragments={{ all: datastoreAuthRulesCallout }} />
 
@@ -194,11 +194,11 @@ import android3 from '/src/fragments/lib-v1/datastore/android/setup-auth-rules/1
 
 <Fragments fragments={{ android: android3 }} />
 
-import js4 from '/src/fragments/lib/datastore/js/setup-auth-rules/10_multiauth-snippet.mdx';
+import js4 from '/src/fragments/lib-v1/datastore/js/setup-auth-rules/10_multiauth-snippet.mdx';
 
 <Fragments fragments={{ js: js4 }} />
 
-import reactnative0 from '/src/fragments/lib/datastore/js/setup-auth-rules/10_multiauth-snippet.mdx';
+import reactnative0 from '/src/fragments/lib-v1/datastore/js/setup-auth-rules/10_multiauth-snippet.mdx';
 
 <Fragments fragments={{ 'react-native': reactnative0 }} />
 
@@ -244,10 +244,10 @@ type YourModel
 
 DataStore will attempt to use owner-based authorization first when synchronizing data if there is an authenticated user. If that request fails for some reason, DataStore will attempt the request again with public authorization. If there is **no** authenticated user, public authorization will be used.
 
-import js5 from '/src/fragments/lib/datastore/js/setup-auth-rules/20_function-auth-snippet.mdx';
+import js5 from '/src/fragments/lib-v1/datastore/js/setup-auth-rules/20_function-auth-snippet.mdx';
 
 <Fragments fragments={{ js: js5 }} />
 
-import reactnative1 from '/src/fragments/lib/datastore/js/setup-auth-rules/20_function-auth-snippet.mdx';
+import reactnative1 from '/src/fragments/lib-v1/datastore/js/setup-auth-rules/20_function-auth-snippet.mdx';
 
 <Fragments fragments={{ 'react-native': reactnative1 }} />

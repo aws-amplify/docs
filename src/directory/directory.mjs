@@ -1383,14 +1383,14 @@ export const directory = {
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
+            title: 'Examples',
+            route: '/lib-v1/datastore/examples',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Advanced workflows',
             route: '/lib-v1/datastore/advanced-workflows',
             filters: ['flutter', 'js', 'react-native']
-          },
-          {
-            title: 'Examples',
-            route: '/lib/datastore/examples',
-            filters: ['js', 'react-native']
           }
         ]
       },
