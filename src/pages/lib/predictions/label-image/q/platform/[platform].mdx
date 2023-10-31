@@ -21,7 +21,16 @@ export const getStaticProps = (context) => {
     }
   };
 };
+
+import labelImageJs from '/src/fragments/lib/predictions/js/label-image.mdx';
 import labelImageIOS from '/src/fragments/lib/predictions/ios/label-image.mdx';
 import labelImageAndroid from '/src/fragments/lib/predictions/android/label-image.mdx';
 
-<Fragments fragments={{ ios: labelImageIOS, android: labelImageAndroid }} />
+<Fragments
+  fragments={{
+    js: labelImageJs,
+    'react-native': labelImageJs,
+    ios: labelImageIOS,
+    android: labelImageAndroid
+  }}
+/>

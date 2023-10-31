@@ -22,7 +22,15 @@ export const getStaticProps = (context) => {
   };
 };
 
+import interpretJs from '/src/fragments/lib/predictions/js/interpret.mdx';
 import interpretIOS from '/src/fragments/lib/predictions/ios/interpret.mdx';
 import interpretAndroid from '/src/fragments/lib/predictions/android/interpret.mdx';
 
-<Fragments fragments={{ ios: interpretIOS, android: interpretAndroid }} />
+<Fragments
+  fragments={{
+    js: interpretJs,
+    'react-native': interpretJs,
+    ios: interpretIOS,
+    android: interpretAndroid
+  }}
+/>
