@@ -203,7 +203,7 @@ export const directory = {
             filters: ['flutter']
           },
           {
-            title: 'Delete user',
+            title: 'Delete user account',
             route: '/lib/auth/delete_user',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
