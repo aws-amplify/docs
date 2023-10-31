@@ -59,6 +59,19 @@ export const directory = {
               isExternal: true
             }
           ]
+        },
+        {
+          path: 'src/pages/[platform]/tools/index.mdx',
+          children: [
+            {
+              path: 'src/pages/[platform]/tools/cli/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/tools/cli/commands.tsx'
+                }
+              ]
+            }
+          ]
         }
       ]
     },
