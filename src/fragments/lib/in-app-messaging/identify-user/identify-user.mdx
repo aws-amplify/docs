@@ -1,6 +1,8 @@
 To fully harness the potential of In-App Messaging, you must segment and target your In-App Messaging campaigns to specific user subsets. By identifying users with additional information, including their device demographics, location and any attributes of your choosing, you will be able to display intelligent, targeted in-app messages to the right users.
 
 ```js
+import { identifyUser } from 'aws-amplify/in-app-messaging';
+
 const identifyUserInput = {
   userId: '', // E.g. user-id
   userProfile: {
@@ -42,6 +44,8 @@ await identifyUser(identifyUserInput);
 When using `identifyUser` with Amazon Pinpoint, in addition to the other user info properties you can configure the `address`, `optOut` and `userAttributes` properties under `options`.
 
 ```js
+import { identifyUser } from 'aws-amplify/in-app-messaging';
+
 const identifyUserInput = {
   userId: '', // E.g. user-id
   options: {
