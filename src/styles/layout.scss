@@ -21,9 +21,11 @@
   background-color: var(--amplify-colors-background-primary);
   &--home {
     background-color: transparent;
-    transition: background-color 0.3s ease-out;
+    transition: all 0.2s ease-out;
+    box-shadow: none;
     .scrolled & {
       background-color: var(--amplify-colors-background-primary);
+      box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.1);
     }
   }
 }
