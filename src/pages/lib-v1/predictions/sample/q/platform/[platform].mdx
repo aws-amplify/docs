@@ -1,6 +1,6 @@
 export const meta = {
-  title: `Transcribe audio to text`,
-  description: `Learn more about how to transcribe audio to text (also known as speech-to-text) for your application using Amplify`,
+  title: `Example`,
+  description: `Sample code for Amplify's predictions category`,
   filterKey: 'platform',
   supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
@@ -22,19 +22,11 @@ export const getStaticProps = (context) => {
   };
 };
 
-import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
-
-<Fragments fragments={{ ios: ios_maintenance }} />
-
-import ios1 from '/src/fragments/lib-v1/predictions/ios/transcribe.mdx';
-
-<Fragments fragments={{ ios: ios1 }} />
-
-import transcribeJs from '/src/fragments/lib-v1/predictions/js/transcribe.mdx';
+import sampleJs from '/src/fragments/lib-v1/predictions/js/sample.mdx';
 
 <Fragments
   fragments={{
-    js: transcribeJs,
-    'react-native': transcribeJs
+    js: sampleJs,
+    'react-native': sampleJs
   }}
 />
