@@ -31,9 +31,11 @@ import { TableOfContents } from '@/components/TableOfContents';
 import type { Heading } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
 import directory from 'src/directory/directory.json';
+import flatDirectory from 'src/directory/flatDirectory.json';
 import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
+import { PageLastUpdated } from '../PageLastUpdated';
 
 export const Layout = ({
   children,
@@ -42,7 +44,8 @@ export const Layout = ({
   pageTitle,
   pageType = 'inner',
   platform,
-  url
+  url,
+  showLastUpdatedDate = true
 }: {
   children: any;
   hasTOC?: boolean;
@@ -51,6 +54,7 @@ export const Layout = ({
   pageType?: 'home' | 'inner';
   platform?: Platform;
   url?: string;
+  showLastUpdatedDate: boolean;
 }) => {
   const [menuOpen, toggleMenuOpen] = useState(false);
   const [tocHeadings, setTocHeadings] = useState<Heading[]>([]);
@@ -259,6 +263,14 @@ export const Layout = ({
                           pathname: `/[platform]`,
                           query: { platform: currentPlatform }
                         }}
+                      />
+                    )}
+                    <div className="layout-sidebar-feedback">
+                      [ Feedback widget goes here ]
+                    </div>
+                    {showLastUpdatedDate && (
+                      <PageLastUpdated
+                        directoryData={flatDirectory[router.pathname]}
                       />
                     )}
                   </div>
