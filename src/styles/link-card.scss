@@ -8,7 +8,10 @@
     0px 1px 14px 0px rgba(0, 7, 22, 0.14);
   color: var(--amplify-colors-font-primary);
   font-weight: var(--amplify-font-weights-bold);
+  text-decoration: none;
+  margin-bottom: var(--amplify-space-large);
 }
+
 .link-card:visited {
   color: var(--amplify-colors-font-primary);
 }
