@@ -8,7 +8,7 @@ function createEditLink(directoryPath) {
     .split('/')
     .map(encodeURIComponent)
     .join('/');
-  return `https://github.com/aws-amplify/docs/edit/next-release/main/src/pages${safePath}/index.mdx`;
+  return `https://github.com/aws-amplify/docs/edit/main/src/pages${safePath}/index.mdx`;
 }
 
 export default function RepoActions({ path }) {
