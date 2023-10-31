@@ -1428,49 +1428,59 @@ export const directory = {
         title: 'Predictions',
         items: [
           {
+            title: 'Overview',
+            route: '/lib-v1/predictions/intro',
+            filters: ['js']
+          },
+          {
             title: 'Getting started',
             route: '/lib-v1/predictions/getting-started',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Text to speech',
             route: '/lib-v1/predictions/text-speech',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Transcribe audio to text',
             route: '/lib-v1/predictions/transcribe',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Translate language',
             route: '/lib-v1/predictions/translate',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Identify text',
             route: '/lib-v1/predictions/identify-text',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Identify entities from images',
             route: '/lib-v1/predictions/identify-entity',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Label objects in image',
             route: '/lib-v1/predictions/label-image',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Interpret sentiment',
             route: '/lib-v1/predictions/interpret',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Escape hatch',
             route: '/lib-v1/predictions/escapehatch',
             filters: ['android', 'ios']
+          },
+          {
+            title: 'Example',
+            route: '/lib-v1/predictions/sample',
+            filters: ['js']
           }
         ]
       },
