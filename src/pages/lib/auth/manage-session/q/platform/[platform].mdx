@@ -1,0 +1,237 @@
+export const meta = {
+  title: `Manage user session and credentials`,
+  description: `Learn how to manage user sessions and credentials.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+<InlineFilter filters={["js", "react-native"]}>
+
+Amplify Auth provides access to current user sessions and tokens to help you retrieve your user's information to determine if they are signed in with a valid session and control their access to your app. You can manage tokens and expiration times and revoke sessions. In this guide we will review how to retrieve your user’s session and understand what token management options are available.
+
+Before you begin you will need:
+- An Amplify project with the Auth category configured
+- The Amplify libraries installed and configured
+- A test user signed in
+
+## Retrieve your current authenticated user
+
+You can use the `Auth.currentAuthenticatedUser()` API which returns the full `CognitoUser` object. This object contains information about the currently authenticated user including the session and user attributes.
+
+You can call `Auth.currentAuthenticatedUser()` and get the current authenticated user object:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+async function currentAuthenticatedUser() {
+  try {
+    const user = await Auth.currentAuthenticatedUser({
+      bypassCache: false // Optional and is false by default. If set to true, this call 
+      // will send a request to Cognito to get the latest user data.
+    });
+    console.log(user);
+  } catch(err) {
+    console.log(err);
+  }
+};
+```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { Auth } from 'aws-amplify';
+
+async function currentAuthenticatedUser() {
+  try {
+    const user = await Auth.currentAuthenticatedUser({
+      bypassCache: false // Optional and is false by default. If set to true, this call
+      // will send a request to Cognito to get the latest user data.
+    });
+    console.log(user);
+  } catch(err) {
+    console.log(err);
+  }
+};
+```
+</Block>
+</BlockSwitcher>
+
+This method can be used to check if a user is signed. It returns an error if user is not signed in. 
+
+## Retrieve a user session
+
+Your user's session is their signed-in state which grants them access to your app. When your users sign in their credentials are exchanged for temporary access tokens. You can get session details to access these tokens and use this information to validate user access or perform actions unique to that user.
+
+If you only need the session details, you can use `Auth.currentSession()` which returns a `CognitoUserSession` object which contains the JWT (JSON Web Token).  
+
+<Accordion title='Review what the session object contains and how tokens work' headingLevel='4' eyebrow='Learn more'>
+
+This secure information in the `CognitoUserSession` object includes:
+- `idToken` - A JWT that contains user identity information like username and email. It is used to authenticate the user.
+- `accessToken` - A JWT used to access protected AWS resources and APIs. It contains the authorized scope.
+- `refreshToken` - This a longer-lived token used to refresh expired access tokens by generating new ID and access tokens.
+- `clockDrift` - Identifies the Clock Drift.
+
+Amazon Cognito tokens work by generating temporary access and ID tokens with an expiration time at user sign-in. The tokens are validated against the user pool to authorize access until they expire.
+
+</Accordion>
+
+<br/>
+
+<Callout>
+
+**Note:** The `Auth.currentSession()` method will automatically refresh the `accessToken` and `idToken` if tokens are expired and a valid `refreshToken` presented. So you can use this method to refresh the session if needed.
+
+</Callout>
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+async function currentSession() {
+  try {
+    const { accessToken, idToken, refreshToken } = await Auth.currentSession();
+  } catch(err) {
+    console.log(err);
+  }
+};
+
+```
+
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { Auth } from 'aws-amplify';
+
+async function currentSession() {
+  try {
+    const { accessToken, idToken, refreshToken } = await Auth.currentSession();
+  } catch(err) {
+    console.log(err);
+  }
+};
+```
+
+</Block>
+</BlockSwitcher>
+
+## Understand token management options
+
+Token keys are automatically rotated for you for added security but you can update how they are stored, customize the refresh rate and expiration times, and revoke tokens on sign-out.
+
+### Update your token-saving mechanism
+
+You can update the storage mechanism to choose where and how tokens are persisted in your application. The default `localStorage` is suitable for most use cases, but you may want to use a different option for security or user experience reasons.
+
+#### Browser Local Storage
+
+In Amplify the `localStorage` is the default storage mechanism. It saves the tokens in the browser's `localStorage`. This local storage will persist across browser sessions and tabs. You can implicitly set to this storage by calling:
+
+```javascript
+Auth.configure({
+  storage: localStorage
+});
+```
+
+#### Browser Session Storage
+
+`sessionStorage` saves the tokens in the browser's `sessionStorage` and these tokens will clear when a tab is closed. The benefit to this storage mechanism is that the session only lasts as long as the browser is open and you can sign out users when they close the tab. You can update to this storage by calling:
+
+```javascript
+Auth.configure({
+  storage: sessionStorage
+}); 
+```
+
+#### Custom Storage
+
+You can implement your own custom storage mechanism by creating a class that implements the storage interface. Here is an example of using custom storage that uses memory storage:
+
+```javascript
+export class MyCustomStorage {
+
+    storageObject = {};
+  
+    setItem(key, value) {
+        this.storageObject[key] = value
+    }
+    getItem(key) {
+        return this.storageObject[key]
+    }
+    removeItem(key) {
+        delete this.storageObject[key]
+    }
+  
+    clear() {
+        this.storageObject = {};
+        return this.storageObject;
+    }
+}
+
+Auth.configure({
+  storage: new MyCustomStorage()
+});
+```
+
+When you get the current user session, the tokens will be saved in your custom location.
+
+<Callout>
+
+**Note:** You can also update token expiration times depending on how you configured your Amazon Cognito User Pool. If you used the Amplify CLI, you can run `amplify update auth` to do so. If not, you can also go through the Amazon Cognito User Pool console under *App integration* > *App client* settings or update the appropriate parameters via the AWS CLI or CDK.
+
+</Callout>
+
+### Revoke tokens
+
+Token revocation is enabled by default in new Cognito User Pool Clients, however, if you are using an existing client, you may need to enable it. This allows for all access tokens that were previously issued by that refresh token to become invalid.
+
+To revoke tokens you can set up global sign-out with `Auth.signOut({ global: true })` to globally sign out your user from all of their devices.
+
+You can now change the user experience for your app by updating how and where your tokens are saved and managed.
+
+## Conclusion
+
+Congratulations! You finished the **Manage user session and credentials** guide. In this guide, you learned how to retrieve you current authenticated user, the user's session details, and reviewed several ways you can manage these user credentials.
+
+## Next steps
+
+Now that you updated how your credentials are managed you may also want to further refine the sing-in and sign-out workflows as well as update how you listen for these Auth events. We recommend you learn more about:
+
+<InlineFilter filters={["js"]}>
+
+- [Enable sign-up, sign-in, and sign-out](/lib/auth/emailpassword/q/platform/js/)
+- [Auth events](/lib/auth/auth-events/q/platform/js/)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+- [Enable sign-up, sign-in, and sign-out](/lib/auth/emailpassword/q/platform/react-native/)
+- [Auth events](/lib/auth/auth-events/q/platform/react-native/)
+
+</InlineFilter>
+
+</InlineFilter>
