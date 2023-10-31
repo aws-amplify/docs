@@ -1,6 +1,6 @@
 export const meta = {
-  title: `Automatically track events`,
-  description: `You can enable automatic tracking of Storage Events such as uploads and downloads. Enabling this will automatically send Storage Events to Amazon Pinpoint and you will be able to see them within the AWS Pinpoint Console under Custom Events. `,
+  title: `Custom Plugin`,
+  description: `Learn more about how to create your own custom plugin.`,
   filterKey: 'platform',
   supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
@@ -22,6 +22,10 @@ export const getStaticProps = (context) => {
   };
 };
 
-import js0 from '/src/fragments/lib/storage/js/autotrack.mdx';
+import js0 from '/src/fragments/lib-v1/storage/js/create-custom-plugin.mdx';
 
 <Fragments fragments={{ js: js0 }} />
+
+import reactnative0 from '/src/fragments/lib-v1/storage/js/create-custom-plugin.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
