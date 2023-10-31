@@ -70,7 +70,7 @@ function TextIdentification() {
     <div className="Text">
       <div className="category-content">
         <h3>Text identification</h3>
-        <input className="primary-button" type="file" onChange={identifyFromFile}></input>
+        <input type="file" onChange={identifyFromFile}></input>
         <p>{response}</p>
       </div>
     </div>
@@ -225,8 +225,8 @@ function SpeechToText() {
     return (
       <div className="audioRecorder">
         <div>
-          {recording && <button className="primary-button" onClick={stopRecording}>Stop recording</button>}
-          {!recording && <button className="primary-button" onClick={startRecording}>Start recording</button>}
+          {recording && <button onClick={stopRecording}>Stop recording</button>}
+          {!recording && <button onClick={startRecording}>Start recording</button>}
         </div>
       </div>
     );
@@ -303,7 +303,7 @@ function TextToSpeech() {
       <div className="category-content">
         <h3>Text To Speech</h3>
         <input type="text" value={textToGenerateSpeech} onChange={setText}></input>
-        <button className="primary-button" onClick={generateTextToSpeech}>Text to Speech</button>
+        <button onClick={generateTextToSpeech}>Text to Speech</button>
         <h3>{response}</h3>
       </div>
     </div>
@@ -341,7 +341,7 @@ function TextTranslation() {
       <div className="category-content">
         <h3>Text Translation</h3>
         <input type="text" value={textToTranslate} onChange={setText}></input>
-        <button className="primary-button" onClick={translate}>Translate</button>
+        <button onClick={translate}>Translate</button>
         <p>{response}</p>
       </div>
     </div>
