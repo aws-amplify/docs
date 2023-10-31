@@ -1,5 +1,5 @@
 export const meta = {
-  title: `Maps`,
+  title: `Geofences`,
   description: `The Amplify Geo category`,
   filterKey: 'platform',
   supportedPlatforms: INTEGRATION_FILTER_OPTIONS
@@ -22,22 +22,6 @@ export const getStaticProps = (context) => {
   };
 };
 
-import js0 from '/src/fragments/lib-v1/geo/js/maps.mdx';
+import js0 from '/src/fragments/lib-v1/geo/js/geofences.mdx';
 
 <Fragments fragments={{ js: js0 }} />
-
-import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
-
-<Fragments fragments={{ android: android_maintenance }} />
-
-import android1 from '/src/fragments/lib-v1/geo/native_common/maps/common.mdx';
-
-<Fragments fragments={{ android: android1 }} />
-
-import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
-
-<Fragments fragments={{ ios: ios_maintenance }} />
-
-import ios2 from '/src/fragments/lib-v1/geo/native_common/maps/common.mdx';
-
-<Fragments fragments={{ ios: ios2 }} />
