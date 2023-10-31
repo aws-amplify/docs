@@ -34,6 +34,15 @@ import directory from 'src/directory/directory.json';
 import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
+import { DocSearch } from '@docsearch/react';
+import '@docsearch/css';
+
+const appId = 'W6Q5N5WUDV';
+const apiKey = '953b9e801f385c3c689fc8e94690ab43';
+const searchIndex = process.env.NEXT_PUBLIC_ALGOLIA_INDEX
+  ? process.env.NEXT_PUBLIC_ALGOLIA_INDEX
+  : 'custom_search_staging';
+
 
 export const Layout = ({
   children,
@@ -115,8 +124,8 @@ export const Layout = ({
     currentPlatform = platform
       ? platform
       : PLATFORMS.includes(asPathPlatform)
-      ? asPathPlatform
-      : DEFAULT_PLATFORM;
+        ? asPathPlatform
+        : DEFAULT_PLATFORM;
   }
 
   const title = [
@@ -196,24 +205,25 @@ export const Layout = ({
                     { 'layout-search__search--toc': showTOC }
                   )}
                 >
-                  <SearchBar />
+                  <DocSearch
+                    appId={appId}
+                    indexName={searchIndex}
+                    apiKey={apiKey}
+                  />
                 </View>
               </Flex>
               <View
-                className={`layout-sidebar${
-                  menuOpen ? ' layout-sidebar--expanded' : ''
-                }`}
+                className={`layout-sidebar${menuOpen ? ' layout-sidebar--expanded' : ''
+                  }`}
               >
                 <View
-                  className={`layout-sidebar__backdrop${
-                    menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
-                  }`}
+                  className={`layout-sidebar__backdrop${menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
+                    }`}
                   onClick={() => toggleMenuOpen(false)}
                 ></View>
                 <View
-                  className={`layout-sidebar__inner${
-                    menuOpen ? ' layout-sidebar__inner--expanded' : ''
-                  }`}
+                  className={`layout-sidebar__inner${menuOpen ? ' layout-sidebar__inner--expanded' : ''
+                    }`}
                 >
                   <div className="layout-sidebar-platform">
                     <Button
