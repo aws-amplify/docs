@@ -32,7 +32,7 @@ const Feedback = function Feedback() {
     buttonLink: 'https://github.com/aws-amplify/docs/issues/new/choose'
   };
 
-  const onYesVote = useCallback((e) => {
+  const onYesVote = useCallback(() => {
     trackFeedbackSubmission(true);
 
     const transitionUpButton = [
@@ -100,7 +100,7 @@ const Feedback = function Feedback() {
     noButtonRef.current?.animate(transitionDownButton, animationTiming);
   }, []);
 
-  const onNoVote = useCallback((e) => {
+  const onNoVote = useCallback(() => {
     trackFeedbackSubmission(false);
 
     const transitionUpButton = [
@@ -178,11 +178,21 @@ const Feedback = function Feedback() {
       fill: 'forwards'
     };
 
-    yesButtonRef.current?.animate(transitionUpButton, animationTiming);
-    noTextRef.current?.animate(transitionDownText, animationTiming);
-    voteResponseRef.current?.animate(transitionNoResponse, animationTiming);
-    noButtonRef.current?.animate(transitionDownButton, animationTiming);
-    ctaRef.current?.animate(transitionResponseCTA, animationTimingDelayed);
+    if (typeof yesButtonRef.current?.animate == 'function') {
+      yesButtonRef.current?.animate(transitionUpButton, animationTiming);
+    }
+    if (typeof noTextRef.current?.animate == 'function') {
+      noTextRef.current?.animate(transitionDownText, animationTiming);
+    }
+    if (typeof voteResponseRef.current?.animate == 'function') {
+      voteResponseRef.current?.animate(transitionNoResponse, animationTiming);
+    }
+    if (typeof noButtonRef.current?.animate == 'function') {
+      noButtonRef.current?.animate(transitionDownButton, animationTiming);
+    }
+    if (typeof ctaRef.current?.animate == 'function') {
+      ctaRef.current?.animate(transitionResponseCTA, animationTimingDelayed);
+    }
   }, []);
 
   return (
