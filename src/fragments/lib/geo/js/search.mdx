@@ -6,7 +6,7 @@
 
 ## Add location search functionality on a map
 
-First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Amplify CLI - Geo - Location Search](/cli/geo/search) or [Use existing Amazon Location Service resources](/lib-v1/geo/existing-resources) and you have already setup [displaying a map](/lib-v1/geo/maps) in your application.
+First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Amplify CLI - Geo - Location Search](/cli/geo/search) or [Use existing Amazon Location Service resources](/lib/geo/existing-resources) and you have already setup [displaying a map](/lib/geo/maps) in your application.
 
 <Callout>
 
@@ -24,7 +24,7 @@ npm install @maplibre/maplibre-gl-geocoder maplibre-gl@1 maplibre-gl-js-amplify
 
 > **Note:** Make sure that `maplibre-gl-js-amplify` version `1.1.0` or above is installed.
 
-First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](https://docs.amplify.aws/lib-v1/geo/maps/q/platform/js/).
+First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](https://docs.amplify.aws/lib/geo/maps/q/platform/js/).
 
 Then, use `createAmplifyGeocoder()` to get a new instance of `MaplibreGeocoder` and add the location search UI component to the map.
 

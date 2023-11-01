@@ -5,7 +5,7 @@
 </Callout>
 
 ## Provisioning geofence resources
-First, make sure you've provisioned a geofence collection resource and configured your app using the instructions in either [Amplify CLI - Geo - Geofence Collection](/cli/geo/geofencing) or [Use existing Amazon Location Service resources](/lib-v1/geo/existing-resources) and you have already setup [displaying a map](/lib-v1/geo/maps) in your application.
+First, make sure you've provisioned a geofence collection resource and configured your app using the instructions in either [Amplify CLI - Geo - Geofence Collection](/cli/geo/geofencing) or [Use existing Amazon Location Service resources](/lib/geo/existing-resources) and you have already setup [displaying a map](/lib/geo/maps) in your application.
 
 ## Manage Geofences in Your Application
 
@@ -19,7 +19,7 @@ npm install aws-amplify @aws-amplify/ui-react @aws-amplify/ui-react-geo maplibre
 
 > **Note:** Make sure that `maplibre-gl-js-amplify` version `2.0.0` or above and `@aws-amplify/geo` version `1.3.0` or above are installed.
 
-First, create a map onto which you want to add the geofence management component. See the guide on [creating and displaying maps](https://docs.amplify.aws/lib-v1/geo/maps/q/platform/js/).
+First, create a map onto which you want to add the geofence management component. See the guide on [creating and displaying maps](https://docs.amplify.aws/lib/geo/maps/q/platform/js/).
 
 Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/geo/API.md#amplifygeofencecontrol) from "maplibre-gl-js-amplify", create a new instance of this control and add it to your MapLibre map instance.
 
@@ -27,7 +27,7 @@ Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl
 
   <Block name="Javascript">
 
-  **Note:** When using the existing [maps implementation](/lib-v1/geo/maps) you can add the Geofence control to an existing map
+  **Note:** When using the existing [maps implementation](/lib/geo/maps) you can add the Geofence control to an existing map
 
   ```diff
   import { useEffect, useRef } from "react";
@@ -125,7 +125,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 > **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
 
-> **Notes:** To use Geofence Controls the user will need to be authenticated with the administrative Cognito user associated with the Geofence Collection you created above. Below is an example using React and the [Amplify Authenticator](https://ui.docs.amplify.aws/react/components/authenticator) but for other use cases check the [Authentication documentation](/lib-v1/auth/overview).
+> **Notes:** To use Geofence Controls the user will need to be authenticated with the administrative Cognito user associated with the Geofence Collection you created above. Below is an example using React and the [Amplify Authenticator](https://ui.docs.amplify.aws/react/components/authenticator) but for other use cases check the [Authentication documentation](/lib/auth/overview).
 
 ![Geofence Create](/images/geofence-create.png)
 
