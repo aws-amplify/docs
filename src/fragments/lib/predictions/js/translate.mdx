@@ -13,7 +13,7 @@ Run `amplify add predictions` and select **Convert**. Then use the following ans
 ? Who should have access? Auth and Guest users
 ```
 
-Now run `amplify push` which will generate your `aws-exports.js` and create resources in the cloud. You can now either add this to your backend or skip and add more features to your app.
+Now run `amplify push` which will generate your `amplifyconfiguration.json` and create resources in the cloud. You can now either add this to your backend or skip and add more features to your app.
 
 ## Working with the API
 
@@ -26,7 +26,7 @@ Predictions.convert({
   translateText: {
     source: {
       text: textToTranslate,
-      // language : "es" // defaults configured on aws-exports.js
+      // language : "es" // defaults configured on amplifyconfiguration.json
     },
     // targetLanguage: "en"
   }

@@ -36,9 +36,9 @@ import { Amplify } from 'aws-amplify';
 import mic from 'microphone-stream';
 import { useState } from 'react';
 import './App.css';
-import awsconfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration';
 
-Amplify.configure(awsconfig);
+Amplify.configure(amplifyconfig);
 
 function TextIdentification() {
   const [response, setResponse] = useState('You can add a photo by uploading directly from the app');
@@ -137,7 +137,7 @@ function LabelsIdentification() {
           source: {
             file,
           },
-          type: 'ALL' // 'LABELS' will detect objects , 'UNSAFE' will detect if content is not safe, 'ALL' will do both default on aws-exports.js
+          type: 'ALL' // 'LABELS' will detect objects , 'UNSAFE' will detect if content is not safe, 'ALL' will do both default on amplifyconfiguration.json
         }
       });
       console.log(result);
@@ -273,7 +273,7 @@ function TextToSpeech() {
           source: {
             text: textToGenerateSpeech,
           },
-          voiceId: 'Amy' // default configured on aws-exports.js 
+          voiceId: 'Amy' // default configured on amplifyconfiguration.json
           // list of different options are here https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
         }
       });
@@ -319,7 +319,7 @@ function TextTranslation() {
         translateText: {
           source: {
             text: textToTranslate,
-            // language : "es" // defaults configured on aws-exports.js
+            // language : "es" // defaults configured on amplifyconfiguration.json
             // supported languages https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html
           },
           // targetLanguage: "en"

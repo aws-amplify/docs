@@ -18,7 +18,7 @@ The `add` command automatically creates the backend configuration. Once all your
 amplify push
 ```
 
-A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
+A configuration file called `amplifyconfiguration.json` will be copied to your configured source directory, for example `./src`.
 
 NOTE: if using Identify Labels or Identify Text, you will need to manually add configuration items to your amplify .backend folder due to [this known issue in identifyText](https://github.com/aws-amplify/amplify-cli/issues/12159) and [this known issue in identifyLabels](https://github.com/aws-amplify/amplify-cli/issues/12208).
 
@@ -47,9 +47,9 @@ import rn1 from '/src/fragments/lib/common/react-native/import_configuration.mdx
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration';
 
-Amplify.configure(awsconfig);
+Amplify.configure(amplifyconfig);
 ```
 
 ## Import existing backend
