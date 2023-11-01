@@ -30,8 +30,8 @@ Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
 
 ```java
 Amplify.Predictions.translateText("I like to eat spaghetti",
-  result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
-  error -> Log.e("MyAmplifyApp", "Translation failed", error)
+    result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+    error -> Log.e("MyAmplifyApp", "Translation failed", error)
 );
 ```
 
@@ -42,8 +42,8 @@ Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
 
 ```kotlin
 Amplify.Predictions.translateText("I like to eat spaghetti",
-  { Log.i("MyAmplifyApp", it.translatedText) },
-  { Log.e("MyAmplifyApp", "Translation failed", it) }
+    { Log.i("MyAmplifyApp", it.translatedText) },
+    { Log.e("MyAmplifyApp", "Translation failed", it) }
 )
 ```
 
@@ -55,10 +55,10 @@ Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
 ```kotlin
 val text = "I like to eat spaghetti"
 try {
-  val result = Amplify.Predictions.translateText(text)
-  Log.i("MyAmplifyApp", result.translatedText)
+    val result = Amplify.Predictions.translateText(text)
+    Log.i("MyAmplifyApp", result.translatedText)
 } catch (error: PredictionsException) {
-  Log.e("MyAmplifyApp", "Translation failed", error)
+    Log.e("MyAmplifyApp", "Translation failed", error)
 }
 ```
 
@@ -69,10 +69,10 @@ Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
 
 ```java
 RxAmplify.Predictions.translateText("I like to eat spaghetti")
-  .subscribe(
-    result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
-    error -> Log.e("MyAmplifyApp", "Translation failed", error)
-  );
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+            error -> Log.e("MyAmplifyApp", "Translation failed", error)
+        );
 ```
 
 </Block>
@@ -95,9 +95,9 @@ Add the `LanguageType` options as below:
 
 ```java
 Amplify.Predictions.translateText(
-  "I like to eat spaghetti", LanguageType.ENGLISH, LanguageType.RUSSIAN,
-  result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
-  error -> Log.e("MyAmplifyApp", "Translation failed", error)
+    "I like to eat spaghetti", LanguageType.ENGLISH, LanguageType.RUSSIAN,
+    result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+    error -> Log.e("MyAmplifyApp", "Translation failed", error)
 );
 ```
 
@@ -106,9 +106,9 @@ Amplify.Predictions.translateText(
 
 ```kotlin
 Amplify.Predictions.translateText(
-  "I like to eat spaghetti", LanguageType.ENGLISH, LanguageType.RUSSIAN,
-  { Log.i("MyAmplifyApp", it.translatedText) },
-  { Log.e("MyAmplifyApp", "Translation failed", it) }
+    "I like to eat spaghetti", LanguageType.ENGLISH, LanguageType.RUSSIAN,
+    { Log.i("MyAmplifyApp", it.translatedText) },
+    { Log.e("MyAmplifyApp", "Translation failed", it) }
 )
 ```
 
@@ -120,10 +120,10 @@ Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
 ```kotlin
 val text = "I like to eat spaghetti"
 try {
-  val result = Amplify.Predictions.translateText(text, ENGLISH, RUSSIAN)
-  Log.i("MyAmplifyApp", result.translatedText)
+    val result = Amplify.Predictions.translateText(text, ENGLISH, RUSSIAN)
+    Log.i("MyAmplifyApp", result.translatedText)
 } catch (error: PredictionsException) {
-  Log.e("MyAmplifyApp", "Translation failed", error)
+    Log.e("MyAmplifyApp", "Translation failed", error)
 }
 ```
 
@@ -132,12 +132,12 @@ try {
 
 ```java
 RxAmplify.Predictions.translateText("I like to eat spaghetti",
-  LanguageType.ENGLISH,
-  LanguageType.RUSSIAN)
-  .subscribe(
-    result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
-    error -> Log.e("MyAmplifyApp", "Translation failed", error)
-  );
+        LanguageType.ENGLISH,
+        LanguageType.RUSSIAN)
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+            error -> Log.e("MyAmplifyApp", "Translation failed", error)
+        );
 ```
 
 </Block>

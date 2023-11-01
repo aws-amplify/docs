@@ -32,15 +32,15 @@ Passing in `TextFormatType.PLAIN` as the identify action will yield `IdentifyRes
 
 ```java
 public void detectText(Bitmap image) {
-  Amplify.Predictions.identify(
-    TextFormatType.PLAIN,
-    image,
-    result -> {
-      IdentifyTextResult identifyResult = (IdentifyTextResult) result;
-      Log.i("MyAmplifyApp", identifyResult.getFullText());
-    },
-    error -> Log.e("MyAmplifyApp", "Identify text failed", error)
-  );
+    Amplify.Predictions.identify(
+            TextFormatType.PLAIN,
+            image,
+            result -> {
+                IdentifyTextResult identifyResult = (IdentifyTextResult) result;
+                Log.i("MyAmplifyApp", identifyResult.getFullText());
+            },
+            error -> Log.e("MyAmplifyApp", "Identify text failed", error)
+    );
 }
 ```
 
@@ -49,13 +49,13 @@ public void detectText(Bitmap image) {
 
 ```kotlin
 fun detectText(image: Bitmap) {
-  Amplify.Predictions.identify(TextFormatType.PLAIN, image,
-    { result ->
-      val identifyResult = result as IdentifyTextResult
-      Log.i("MyAmplifyApp", identifyResult.fullText)
-    },
-    { Log.e("MyAmplifyApp", "Identify text failed", it) }
-  )
+    Amplify.Predictions.identify(TextFormatType.PLAIN, image,
+        { result ->
+            val identifyResult = result as IdentifyTextResult
+            Log.i("MyAmplifyApp", identifyResult.fullText)
+        },
+        { Log.e("MyAmplifyApp", "Identify text failed", it) }
+    )
 }
 ```
 
@@ -64,13 +64,13 @@ fun detectText(image: Bitmap) {
 
 ```kotlin
 suspend fun detectText(image: Bitmap) {
-  try {
-    val result = Amplify.Predictions.identify(PLAIN, image)
-    val identifyResult = result as IdentifyTextResult
-    Log.i("MyAmplifyApp", identifyResult.fullText)
-  } catch (error: PredictionsResult) {
-    Log.e("MyAmplifyApp", "Identify text failed", error)
-  }
+    try {
+        val result = Amplify.Predictions.identify(PLAIN, image)
+        val identifyResult = result as IdentifyTextResult
+        Log.i("MyAmplifyApp", identifyResult.fullText)
+    } catch (error: PredictionsResult) {
+        Log.e("MyAmplifyApp", "Identify text failed", error)
+    }
 }
 ```
 
@@ -79,14 +79,14 @@ suspend fun detectText(image: Bitmap) {
 
 ```java
 public void detectText(Bitmap image) {
-  RxAmplify.Predictions.identify(TextFormatType.PLAIN, image)
-    .subscribe(
-      result -> {
-        IdentifyTextResult identifyResult = (IdentifyTextResult) result;
-        Log.i("MyAmplifyApp", identifyResult.getFullText());
-      },
-      error -> Log.e("MyAmplifyApp", "Identify text failed", error)
-    );
+    RxAmplify.Predictions.identify(TextFormatType.PLAIN, image)
+            .subscribe(
+                result -> {
+                    IdentifyTextResult identifyResult = (IdentifyTextResult) result;
+                    Log.i("MyAmplifyApp", identifyResult.getFullText());
+                },
+                error -> Log.e("MyAmplifyApp", "Identify text failed", error)
+            );
 }
 ```
 
@@ -102,15 +102,15 @@ Passing in any other format of `TextFormatType` (i.e. `FORM`, `TABLE` or `ALL`) 
 
 ```java
 public void detectText(Bitmap image) {
-  Amplify.Predictions.identify(
-    TextFormatType.FORM,
-    image,
-    result -> {
-      IdentifyDocumentTextResult identifyResult = (IdentifyDocumentTextResult) result;
-      Log.i("MyAmplifyApp", identifyResult.getFullText());
-    },
-    error -> Log.e("MyAmplifyApp", "Identify failed", error)
-  );
+    Amplify.Predictions.identify(
+            TextFormatType.FORM,
+            image,
+            result -> {
+                IdentifyDocumentTextResult identifyResult = (IdentifyDocumentTextResult) result;
+                Log.i("MyAmplifyApp", identifyResult.getFullText());
+            },
+            error -> Log.e("MyAmplifyApp", "Identify failed", error)
+    );
 }
 ```
 
@@ -119,13 +119,13 @@ public void detectText(Bitmap image) {
 
 ```kotlin
 fun detectText(image: Bitmap) {
-  Amplify.Predictions.identify(TextFormatType.FORM, image,
-    { result ->
-      val identifyResult = result as IdentifyDocumentTextResult
-      Log.i("MyAmplifyApp", identifyResult.fullText)
-    },
-    { Log.e("MyAmplifyApp", "Identify failed", it) }
-  )
+    Amplify.Predictions.identify(TextFormatType.FORM, image,
+        { result ->
+            val identifyResult = result as IdentifyDocumentTextResult
+            Log.i("MyAmplifyApp", identifyResult.fullText)
+        },
+        { Log.e("MyAmplifyApp", "Identify failed", it) }
+    )
 }
 ```
 
@@ -134,13 +134,13 @@ fun detectText(image: Bitmap) {
 
 ```kotlin
 suspend fun detectText(image: Bitmap) {
-  try {
-    val result = Amplify.Predictions.identify(FORM, image)
-    val identifyResult = result as IdentifyDocumentTextResult
-    Log.i("MyAmplifyApp", identifyResult.fullText)
-  } catch (error: PredictionsException) {
-    Log.e("MyAmplifyApp", "Identify failed", error)
-  }
+    try {
+        val result = Amplify.Predictions.identify(FORM, image)
+        val identifyResult = result as IdentifyDocumentTextResult
+        Log.i("MyAmplifyApp", identifyResult.fullText)
+    } catch (error: PredictionsException) {
+        Log.e("MyAmplifyApp", "Identify failed", error)
+    }
 }
 ```
 
@@ -149,14 +149,14 @@ suspend fun detectText(image: Bitmap) {
 
 ```java
 public void detectText(Bitmap image) {
-  RxAmplify.Predictions.identify(TextFormatType.FORM, image)
-    .subscribe(
-      result -> {
-        IdentifyDocumentTextResult identifyResult = (IdentifyDocumentTextResult) result;
-        Log.i("MyAmplifyApp", identifyResult.getFullText());
-      },
-      error -> Log.e("MyAmplifyApp", "Identify failed", error)
-    );
+    RxAmplify.Predictions.identify(TextFormatType.FORM, image)
+            .subscribe(
+                result -> {
+                    IdentifyDocumentTextResult identifyResult = (IdentifyDocumentTextResult) result;
+                    Log.i("MyAmplifyApp", identifyResult.getFullText());
+                },
+                error -> Log.e("MyAmplifyApp", "Identify failed", error)
+            );
 }
 ```
 

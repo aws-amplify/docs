@@ -1,47 +1,44 @@
 <BlockSwitcher>
 
-<Block name="Async/Await">
+<Block name="Listener (iOS 11+)">
 
 ```swift
-func translateText() async {
-    do { 
-        let translatedText = try await Amplify.Predictions.convert(
-            .translateText(
-                "I like to eat spaghetti",
-                from: .english,
-                to: .spanish
-            )
-        )
-        print("Translated text: \(translatedText)")
-    } catch let error as PredictionsError { 
-        print("Error translating text: \(error)")
-    } catch { 
-        print("Unexpected error: \(error)")
-    }
+func translateText() {
+    Amplify.Predictions.convert(textToTranslate: "I like to eat spaghetti",
+        language: .english,
+        targetLanguage: .spanish,
+        listener: { (event) in
+            switch event {
+            case .success(let result):
+                print(result.text)
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+    })
 }
 ```
 
 </Block>
 
-<Block name="Combine">
+<Block name="Combine (iOS 13+)">
 
 ```swift
-Amplify.Publisher.create {
-    try await Amplify.Predictions.convert(
-        .translateText(
-            "I like to eat spaghetti!",
-            from: .english,
-            to: .spanish
-        )
+func translateText() -> AnyCancellable {
+    Amplify.Predictions.convert(
+        textToTranslate: "I like to eat spaghetti",
+        language: .english,
+        targetLanguage: .spanish
     )
-}
-.sink(receiveCompletion: { completion in
-    if case let .failure(error) = completion {
-        print("Error translating text: \(error)")
+    .resultPublisher
+    .sink {
+        if case let .failure(error) = $0 {
+            print("Error: \(error)")
+        }
     }
-}, receiveValue: { value in
-    print("Translated text: \(value.text)")
-})
+    receiveValue: { result in
+        print(result.text)
+    }
+}
 ```
 
 </Block>
