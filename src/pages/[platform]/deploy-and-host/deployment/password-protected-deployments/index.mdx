@@ -1,0 +1,24 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Configure password protection for deployments',
+  description: `How to enable password-protection for your Amplify web deployments`,
+  platforms: ['javascript']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import js0 from '/src/fragments/guides/hosting/password-protected-deployments.mdx';
+
+<Fragments fragments={{ js: js0 }} />

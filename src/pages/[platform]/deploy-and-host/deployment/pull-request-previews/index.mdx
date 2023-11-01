@@ -1,0 +1,24 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Enable pull-request previews',
+  description: `How to enable pull-request previews with Amplify hosting`,
+  platforms: ['javascript']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import js0 from '/src/fragments/guides/hosting/pull-request-previews.mdx';
+
+<Fragments fragments={{ js: js0 }} />

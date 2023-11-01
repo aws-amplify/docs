@@ -4,19 +4,16 @@ However, if you need to access them in relation to working with an API outside A
 Future<void> fetchAuthSession() async {
   try {
     final result = await Amplify.Auth.fetchAuthSession();
-    safePrint('User is signed in: ${result.isSignedIn}');
+    safePrint('User is signed in: $\{result.isSignedIn}');
   } on AuthException catch (e) {
-    safePrint('Error retrieving auth session: ${e.message}');
+    safePrint('Error retrieving auth session: $\{e.message}');
   }
 }
 ```
 
 ### Retrieving AWS credentials
 
-Sometimes it can be helpful to retrieve the instance of the underlying plugin
-which has more specific typing. In the case of Cognito, calling `fetchAuthSession`
-on the Cognito plugin returns AWS-specific values such as the identity ID,
-AWS credentials, and Cognito User Pool tokens.
+Sometimes it can be helpful to retrieve the instance of the underlying plugin which has more specific typing. In the case of Cognito, calling `fetchAuthSession` on the Cognito plugin returns AWS-specific values such as the identity ID, AWS credentials, and Cognito User Pool tokens.
 
 ```dart
 Future<void> fetchCognitoAuthSession() async {
@@ -26,7 +23,7 @@ Future<void> fetchCognitoAuthSession() async {
     final identityId = result.identityIdResult.value;
     safePrint("Current user's identity ID: $identityId");
   } on AuthException catch (e) {
-    safePrint('Error retrieving auth session: ${e.message}');
+    safePrint('Error retrieving auth session: $\{e.message}');
   }
 }
 ```

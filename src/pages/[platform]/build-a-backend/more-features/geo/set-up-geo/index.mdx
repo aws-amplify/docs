@@ -1,0 +1,32 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up Amplify Geo',
+  description: `AWS Amplify Geo module provides a simple way to get map data, search for places, and reverse geocoding.`,
+  platforms: ['javascript', 'swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import js0 from '/src/fragments/lib/geo/js/getting-started.mdx';
+
+<Fragments fragments={{ js: js0 }} />
+
+import android1 from '/src/fragments/lib/geo/native_common/getting_started/common.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import ios2 from '/src/fragments/lib/geo/native_common/getting_started/common.mdx';
+
+<Fragments fragments={{ ios: ios2 }} />

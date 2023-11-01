@@ -12,7 +12,7 @@ Future<void> confirmUser({
     // the sign up is complete.
     await _handleSignUpResult(result);
   } on AuthException catch (e) {
-    safePrint('Error confirming user: ${e.message}');
+    safePrint('Error confirming user: $\{e.message}');
   }
 }
 ```

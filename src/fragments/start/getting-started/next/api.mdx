@@ -71,7 +71,7 @@ amplify push
 
 
     Current Environment: dev
-    
+
 ┌──────────┬───────────────┬───────────┬───────────────────┐
 │ Category │ Resource name │ Operation │ Provider plugin   │
 ├──────────┼───────────────┼───────────┼───────────────────┤
@@ -81,11 +81,11 @@ amplify push
 
 Cognito UserPool configuration
 Using service: Cognito, provided by: awscloudformation
- 
- The current configured provider is Amazon Cognito. 
- 
+
+ The current configured provider is Amazon Cognito.
+
  Do you want to use the default authentication and security configuration? Default configuration
- Warning: you will not be able to edit these selections. 
+ Warning: you will not be able to edit these selections.
  How do you want users to be able to sign in? Username
  Do you want to configure advanced settings? No, I am done.
 ✅ Successfully added auth resource nextamplifiedXXXXXXXX locally
@@ -199,7 +199,7 @@ query ListPosts {
 
 ## API with Server-Side Rendering (SSR)
 
-import nextCallout from "/src/fragments/lib/ssr/js/next-js-callout.mdx";
+import nextCallout from '/src/fragments/lib/ssr/js/next-js-callout.mdx';
 
 <Fragments fragments={{ next: nextCallout }} />
 
@@ -233,18 +233,21 @@ Amplify.configure({ ...awsExports, ssr: true });
 
 export async function getServerSideProps({ req }) {
   const SSR = withSSRContext({ req });
-  
+
   try {
-    const response = await SSR.API.graphql({ query: listPosts, authMode: 'API_KEY' });
+    const response = await SSR.API.graphql({
+      query: listPosts,
+      authMode: 'API_KEY'
+    });
     return {
       props: {
-        posts: response.data.listPosts.items,
-      },
+        posts: response.data.listPosts.items
+      }
     };
   } catch (err) {
     console.log(err);
     return {
-      props: {},
+      props: {}
     };
   }
 }
@@ -266,7 +269,7 @@ async function handleCreatePost(event) {
       }
     });
 
-    window.location.href = `/posts/${data.createPost.id}`;
+    window.location.href = `/posts/$\{data.createPost.id}`;
   } catch ({ errors }) {
     console.error(...errors);
     throw new Error(errors[0].message);
@@ -291,7 +294,11 @@ export default function Home({ posts = [] }) {
 
         <div className={styles.grid}>
           {posts.map((post) => (
-            <a className={styles.card} href={`/posts/${post.id}`} key={post.id}>
+            <a
+              className={styles.card}
+              href={`/posts/$\{post.id}`}
+              key={post.id}
+            >
               <h3>{post.title}</h3>
               <p>{post.content}</p>
             </a>
@@ -305,7 +312,7 @@ export default function Home({ posts = [] }) {
                 <fieldset>
                   <legend>Title</legend>
                   <input
-                    defaultValue={`Today, ${new Date().toLocaleTimeString()}`}
+                    defaultValue={`Today, $\{new Date().toLocaleTimeString()}`}
                     name="title"
                   />
                 </fieldset>
@@ -338,7 +345,7 @@ Let's walk through some of this file:
 
 - **getServerSideProps** – For each request (`req`) on the server, you create a copy of Amplify (called `SSR` here from `withSSRContext({ req })`) that scopes credentials, data, and storage to _just one_ request. `API.graphql` queries for a list of posts, and returns them as the `posts` prop for the `Home` component.
 
-- **handleCreatePost** – This function is called when a logged-in user submits your "New Post" form. `API.graphql` is called to create the new post's `title` and `content`. Once created, you redirect to `/posts/${post.id}`. Notice that you explicitly set `authMode` to `AMAZON_COGNITO_USER_POOLS`. This is because your `schema.graphql` explicitly requires an authorized user to create/delete/update your **Post** model. Based on your configuration when you ran `amplify add api`, this value is defaulting to `API_KEY`.
+- **handleCreatePost** – This function is called when a logged-in user submits your "New Post" form. `API.graphql` is called to create the new post's `title` and `content`. Once created, you redirect to `/posts/$\{post.id}`. Notice that you explicitly set `authMode` to `AMAZON_COGNITO_USER_POOLS`. This is because your `schema.graphql` explicitly requires an authorized user to create/delete/update your **Post** model. Based on your configuration when you ran `amplify add api`, this value is defaulting to `API_KEY`.
 
 - **Home** – This is a _functional component_ that renders the `posts` provided by `getServerSideProps`.
 
@@ -379,7 +386,7 @@ export async function getServerSideProps({ req, params }) {
       id: params.id
     }
   });
-  return { 
+  return {
     props: {
       post: data.getPost
     }
@@ -439,7 +446,7 @@ Let's walk through some of this file:
 
 - **Amplify.configure** – For authenticated requests to work on the server, your client has to be configured with `ssr: true` to make credentials available on subsequent requests.
 
-- **getServerSideProps** - This will only run on the server-side and allows for fetching of data as we make the request.  Here, you use params.id to query for that specific post with API.graphql and await the response.
+- **getServerSideProps** - This will only run on the server-side and allows for fetching of data as we make the request. Here, you use params.id to query for that specific post with API.graphql and await the response.
 
 - **Post** – `Post` is a functional component that renders the provided prop `post`. Because `fallback: true` was specified above, you have to account for a "loading" state while a new post may be fetched.
 
@@ -447,10 +454,10 @@ Let's walk through some of this file:
 
 For each request (`req`) on the server, you create a copy of Amplify (called `SSR` here from `withSSRContext({ req })`) that scopes credentials, data, and storage to _just one_ request. `API.graphql` queries for a list of posts, and returns them as the `posts` prop for the `Home` component.
 
-- **handleCreatePost** – This function is called when a logged-in user submits your "New Post" form. `API.graphql` is called to create the new post's `title` and `content`. Once created, you redirect to `/posts/${post.id}`.
+- **handleCreatePost** – This function is called when a logged-in user submits your "New Post" form. `API.graphql` is called to create the new post's `title` and `content`. Once created, you redirect to `/posts/$\{post.id}`.
 
 - **Home** – This is a _functional component_ that renders the `posts` provided by `getServerSideProps`.
 
 ## Testing SSG
 
-With your server running (`npm run dev`), refresh the page (or go back home to <http://localhost:3000/> and click into a post) and you'll see a page for this post!
+With your server running (`npm run dev`), refresh the page (or go back home to \<http://localhost:3000/\> and click into a post) and you'll see a page for this post!

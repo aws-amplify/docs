@@ -1,0 +1,67 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up Amplify',
+  description: `Getting Started with Amplify - Prerequisites`,
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'swift',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import js0 from '/src/fragments/start/getting-started/common/prereq.mdx';
+
+<Fragments fragments={{ js: js0 }} />
+
+import react1 from '/src/fragments/start/getting-started/common/prereq.mdx';
+
+<Fragments fragments={{ react: react1 }} />
+
+import angular2 from '/src/fragments/start/getting-started/common/prereq.mdx';
+
+<Fragments fragments={{ angular: angular2 }} />
+
+import vue3 from '/src/fragments/start/getting-started/common/prereq.mdx';
+
+<Fragments fragments={{ vue: vue3 }} />
+
+import next4 from '/src/fragments/start/getting-started/common/prereq.mdx';
+
+<Fragments fragments={{ next: next4 }} />
+
+import android5 from '/src/fragments/start/getting-started/common/prereq.mdx';
+
+<Fragments fragments={{ android: android5 }} />
+
+import ios6 from '/src/fragments/start/getting-started/common/prereq.mdx';
+
+<Fragments fragments={{ ios: ios6 }} />
+
+import react_native7 from '/src/fragments/start/getting-started/common/prereq.mdx';
+
+{' '}
+<Fragments fragments={{ 'react-native': react_native7 }} />
+
+import flutter9 from '/src/fragments/start/getting-started/common/prereq.mdx';
+
+<Fragments fragments={{ flutter: flutter9 }} />

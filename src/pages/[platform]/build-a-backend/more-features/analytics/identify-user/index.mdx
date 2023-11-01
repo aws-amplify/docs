@@ -1,0 +1,34 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Identify user',
+  description: `Use the Amplify analytics plugin to inform Pinpoint about your users.`,
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+{/* TODO Find out how to identify a user with JS and RN \ */}
+
+import ios0 from '/src/fragments/lib/analytics/ios/identifyuser.mdx';
+
+<Fragments fragments={{ ios: ios0 }} />
+
+import android1 from '/src/fragments/lib/analytics/android/identifyuser.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import flutter2 from '/src/fragments/lib/analytics/flutter/identifyuser.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />

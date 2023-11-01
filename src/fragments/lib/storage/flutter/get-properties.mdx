@@ -9,9 +9,9 @@ Future<void> getFileProperties() async {
       key: 'example.txt',
     ).result;
 
-    safePrint('File size: ${result.storageItem.size}');
+    safePrint('File size: $\{result.storageItem.size}');
   } on StorageException catch (e) {
-    safePrint('Could not retrieve properties: ${e.message}');
+    safePrint('Could not retrieve properties: $\{e.message}');
     rethrow;
   }
 }

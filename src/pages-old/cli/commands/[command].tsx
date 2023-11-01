@@ -1,7 +1,21 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+        
 import {
   Table,
   TableCell,
   TableBody,
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+      
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
   TableHead,
   TableRow
 } from '@aws-amplify/ui-react';
@@ -37,7 +51,7 @@ function CommandPageFlagsTable({ flags }: { flags: CliCommandFlag[] }) {
         {flags.map((flag) => (
           <TableRow key={flag.long}>
             <TableCell>
-              {/* <code>{display}</code> */}
+              {/* <code>{display}</code> \ */}
               <code>
                 {flag.short && <span>-{flag.short}|</span>}
                 <span>--{flag.long}</span>
@@ -146,11 +160,11 @@ function CommandPage({ meta, command }) {
                 {subCommand.name}
               </CommandPageSubcommandHeading>
               <p>{subCommand.description}</p>
-              {/* @todo fix subcommand usage from cli */}
+              {/* @todo fix subcommand usage from cli \ */}
               {/* <CommandPageHeading level={4}>Usage</CommandPageHeading>
               <p>
                 <code>{command.usage}</code>
-              </p> */}
+              </p> \ */}
               {command.subCommands.flags?.length > 0 && (
                 <>
                   <CommandPageHeading level={4}>Flags</CommandPageHeading>

@@ -1,4 +1,4 @@
-<!-- TODO Rewrite needs a better intro and description to subscriptions in general - and why a dev would use them -->
+{/* TODO Rewrite needs a better intro and description to subscriptions in general - and why a dev would use them \ */}
 
 ## Using Amplify GraphQL client
 
@@ -34,12 +34,12 @@ import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import * as subscriptions from './graphql/subscriptions';
 
 // Subscribe to creation of Todo
-const sub = API.graphql(
-  graphqlOperation(subscriptions.onCreateTodo)
-).subscribe({
-  next: ({ provider, value }) => console.log({ provider, value }),
-  error: (error) => console.warn(error)
-});
+const sub = API.graphql(graphqlOperation(subscriptions.onCreateTodo)).subscribe(
+  {
+    next: ({ provider, value }) => console.log({ provider, value }),
+    error: (error) => console.warn(error)
+  }
+);
 
 // Stop receiving data updates from the subscription
 sub.unsubscribe();
@@ -76,20 +76,23 @@ Subscriptions take an optional `filter` argument to define service-side subscrip
 ```ts
 // ...
 import { GraphQLSubscription } from '@aws-amplify/api';
-import { OnCreateTodoSubscriptionVariables, OnCreateTodoSubscription } from './API';
+import {
+  OnCreateTodoSubscriptionVariables,
+  OnCreateTodoSubscription
+} from './API';
 
 const variables: OnCreateTodoSubscriptionVariables = {
   filter: {
     // Only receive Todo messages where the "type" field is "Personal"
-    type: { eq: "Personal" }
+    type: { eq: 'Personal' }
   }
-}
+};
 
 const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
   graphqlOperation(subscriptions.onCreateTodo, variables)
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
-  error: error => console.warn(error)
+  error: (error) => console.warn(error)
 });
 ```
 
@@ -103,15 +106,15 @@ const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
 const variables = {
   filter: {
     // Only receive Todo messages where the "type" field is "Personal"
-    type: { eq: "Personal" }
+    type: { eq: 'Personal' }
   }
-}
+};
 
 const sub = API.graphql(
   graphqlOperation(subscriptions.onCreateTodo, variables)
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
-  error: error => console.warn(error)
+  error: (error) => console.warn(error)
 });
 ```
 
@@ -168,8 +171,8 @@ import {
 
 const fetchRecentData = () => {
   // Retrieve some/all data from AppSync
-  const allTodos = await API.graphql<GraphQLQuery<ListTodosQuery>>({ 
-    query: queries.listTodos 
+  const allTodos = await API.graphql<GraphQLQuery<ListTodosQuery>>({
+    query: queries.listTodos
   });
 }
 

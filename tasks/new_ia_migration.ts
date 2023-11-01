@@ -93,127 +93,129 @@ migrationData.forEach((page) => {
   const oldPath = origSource.replace('pages', 'pages-old');
   page['Original backend source'] = oldPath;
 
-  // combine multiple Excel entries for pages that have same 'New backend source' and set platform array
-  const multiples =
-    excelDataNewSource.filter((path) => {
-      return path == page['New backend source'];
-    }).length > 1;
+  //   // combine multiple Excel entries for pages that have same 'New backend source' and set platform array
+  //   const multiples =
+  //     excelDataNewSource.filter((path) => {
+  //       return path == page['New backend source'];
+  //     }).length > 1;
 
-  let platforms = [];
-  if (multiples) {
-    const toCombine = migrationData.filter((item) => {
-      return page['New backend source'] == item['New backend source'];
-    });
+  //   let platforms = [];
+  //   if (multiples) {
+  //     const toCombine = migrationData.filter((item) => {
+  //       return page['New backend source'] == item['New backend source'];
+  //     });
 
-    for (let i = 0; i < toCombine.length; i++) {
-      toCombine[i]['Platform specific'] = toCombine[i]['Platform specific']
-        .toLowerCase()
-        .replace(' (web)', '')
-        .replace('.js', '')
-        .replace('react native', 'react-native');
+  //     for (let i = 0; i < toCombine.length; i++) {
+  //       toCombine[i]['Platform specific'] = toCombine[i]['Platform specific']
+  //         .toLowerCase()
+  //         .replace(' (web)', '')
+  //         .replace('.js', '')
+  //         .replace('react native', 'react-native');
 
-      platforms.push("'" + toCombine[i]['Platform specific'] + "'");
+  //       platforms.push("'" + toCombine[i]['Platform specific'] + "'");
 
-      if (i != 0) {
-        migrationData.splice(migrationData.indexOf(toCombine[i]), 1);
-      }
-    }
-  } else {
-    page['Platform specific'] = page['Platform specific']
-      .toLowerCase()
-      .replace(' (web)', '')
-      .replace('.js', '')
-      .replace('react native', 'react-native');
-    platforms.push("'" + page['Platform specific'] + "'");
-  }
-  platforms = platforms.filter((value, index) => {
-    return platforms.indexOf(value) === index;
-  });
-  page['Platform specific'] = platforms;
+  //       if (i != 0) {
+  //         migrationData.splice(migrationData.indexOf(toCombine[i]), 1);
+  //       }
+  //     }
+  //   } else {
+  //     page['Platform specific'] = page['Platform specific']
+  //       .toLowerCase()
+  //       .replace(' (web)', '')
+  //       .replace('.js', '')
+  //       .replace('react native', 'react-native');
+  //     platforms.push("'" + page['Platform specific'] + "'");
+  //   }
+  //   platforms = platforms.filter((value, index) => {
+  //     return platforms.indexOf(value) === index;
+  //   });
+  //   page['Platform specific'] = platforms;
 
-  // Update meta and imports for all pages accounted for in Excel file
-  // Then move to new location
-  let newContent = '';
-  // if (fs.existsSync(oldPages[page['Original backend source']])) {
-  fs.readFile(page['Original backend source'], 'utf8', (err, dataString) => {
-    if (err) {
-      console.log(
-        '[ ERROR: READ FILE ORIGINAL BACKEND SOURCE ]',
-        page['Original backend source'],
-        err
-      );
-    } else {
-      let data = dataString.split('\n');
-      let exportIndex = '';
-      data.forEach((line) => {
-        if (line.includes('title: ')) {
-          data.splice(data.indexOf(line), 1, `  title: '${page['Page']}',`);
-        } else if (line.includes('description:')) {
-          line.replace('`', "'");
-        } else if (line.includes('supportedPlatforms:')) {
-          exportIndex = data.indexOf(line);
-          data.splice(
-            data.indexOf(line),
-            1,
-            `  platforms: [ ${page['Platform specific']} ]`
-          );
-        } else if (line.includes('filterKey:')) {
-          data.splice(data.indexOf(line), 1, '<remove empty line>');
-        } else if (line.includes('import { generateStaticPaths }')) {
-          data.splice(data.indexOf(line), 1, '<remove empty line>');
-        } else if (line.includes('export const getStaticPaths')) {
-          data.splice(data.indexOf(line), 4, '<remove empty line>');
-        } else if (line.includes('export const getStaticProps')) {
-          data.splice(data.indexOf(line), 9, '<remove empty line>');
-        } else if (line.includes('import { INTEGRATION_FILTER_OPTIONS }')) {
-          data.splice(data.indexOf(line), 2, '<remove empty line>');
-        }
-      });
+  //   // Update meta and imports for all pages accounted for in Excel file
+  //   // Then move to new location
+  //   let newContent = '';
+  //   // if (fs.existsSync(oldPages[page['Original backend source']])) {
+  //   fs.readFile(page['Original backend source'], 'utf8', (err, dataString) => {
+  //     if (err) {
+  //       console.log(
+  //         '[ ERROR: READ FILE ORIGINAL BACKEND SOURCE ]',
+  //         page['Original backend source'],
+  //         err
+  //       );
+  //     } else {
+  //       let data = dataString.split('\n');
+  //       let exportIndex = '';
+  //       data.forEach((line) => {
+  //         if (line.includes('title: ')) {
+  //           data.splice(data.indexOf(line), 1, `  title: '${page['Page']}',`);
+  //         } else if (line.includes('description:')) {
+  //           line.replace('`', "'");
+  //         } else if (line.includes('supportedPlatforms:')) {
+  //           exportIndex = data.indexOf(line);
+  //           data.splice(
+  //             data.indexOf(line),
+  //             1,
+  //             `  platforms: [ ${page['Platform specific']} ]`
+  //           );
+  //         } else if (line.includes('filterKey:')) {
+  //           data.splice(data.indexOf(line), 1, '<remove empty line>');
+  //         } else if (line.includes('import { generateStaticPaths }')) {
+  //           data.splice(data.indexOf(line), 1, '<remove empty line>');
+  //         } else if (line.includes('export const getStaticPaths')) {
+  //           data.splice(data.indexOf(line), 4, '<remove empty line>');
+  //         } else if (line.includes('export const getStaticProps')) {
+  //           data.splice(data.indexOf(line), 9, '<remove empty line>');
+  //         } else if (line.includes('import { INTEGRATION_FILTER_OPTIONS }')) {
+  //           data.splice(data.indexOf(line), 2, '<remove empty line>');
+  //         }
+  //       });
 
-      const importToAdd = `import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-        `;
-      const exportToAdd = `export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
-};
-      
-export function getStaticProps(context) {
-  return {
-    props: {
-      platform: context.params.platform,
-      meta
-    }
-  };
-}`;
+  //       const importToAdd = `import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+  //         `;
+  //       const exportToAdd = `export const getStaticPaths = async () => {
+  //   return getCustomStaticPath(meta.platforms);
+  // };
 
-      if (!dataString.includes(importToAdd)) {
-        data.splice(exportIndex + 4, 0, exportToAdd);
-        data.unshift(importToAdd);
-      }
+  // export function getStaticProps(context) {
+  //   return {
+  //     props: {
+  //       platform: context.params.platform,
+  //       meta
+  //     }
+  //   };
+  // }`;
 
-      data = data.filter((lines) => {
-        return lines != '<remove empty line>';
-      });
+  //       if (!dataString.includes(importToAdd)) {
+  //         data.splice(exportIndex + 4, 0, exportToAdd);
+  //         data.unshift(importToAdd);
+  //       }
 
-      newContent = data.join('\n');
-      // console.log(newContent);
-      fs.writeFile(page['Original backend source'], newContent, (err) => {
-        if (err) {
-          console.log(
-            '[ ERROR: WRITE CONTENT ]',
-            page['Original backend source'],
-            err
-          );
-        } else {
-          console.log(
-            '[ SUCCESS: EDITS WRITTEN ]',
-            page['Original backend source']
-          );
-        }
-      });
-    }
-  });
+  //       data = data.filter((lines) => {
+  //         return lines != '<remove empty line>';
+  //       });
+
+  //       newContent = data.join('\n');
+  //       // console.log(newContent);
+  //       fs.writeFile(page['Original backend source'], newContent, (err) => {
+  //         if (err) {
+  //           console.log(
+  //             '[ ERROR: WRITE CONTENT ]',
+  //             page['Original backend source'],
+  //             err
+  //           );
+  //         } else {
+  //           console.log(
+  //             '[ SUCCESS: EDITS WRITTEN ]',
+  //             page['Original backend source']
+  //           );
+  //         }
+  //       });
+  //     }
+  //   });
+  // console.log(pagesThatWillMigrate, page['Original backend source']);
 
   if (pagesThatWillMigrate.includes(page['Original backend source'])) {
+    // console.log('pages will migrate');
     // create necessary directories exist in 'pages' for each file path
     // const newPath = page['New backend source'];
     // const dirPath = newPath.slice(0, newPath.lastIndexOf('/'));

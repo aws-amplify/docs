@@ -1,14 +1,28 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
-  title: `Overview`,
-  description: `Add authorization rules to your GraphQL schema to control access to your data.`,
+  title: 'Examples and solutions',
+  description: `Add authorization rules to your GraphQL schema to control access to your data.`
+};
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
 };
 
-<MigrationAlert url={"/cli-legacy/graphql-transformer/examples"}/>
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<MigrationAlert url={'/cli-legacy/graphql-transformer/examples'} />
 
 ## Todo
 
 ```graphql
-type Todo @model @auth(rules: [{allow: owner}]) {
+type Todo @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   name: String!
   description: String
@@ -16,6 +30,7 @@ type Todo @model @auth(rules: [{allow: owner}]) {
 ```
 
 ## Blog
+
 ```graphql
 type Blog @model @auth(rules: [
   { allow: groups, groups: ["Admins"] },
@@ -30,7 +45,7 @@ type Post @model @auth(rules: [
   { allow: public, operations: [read] }
   ]) {
   id: ID!
-  title: String!
+  title: 'Examples and solutions',
   blog: Blog @belongsTo
   comments: [Comment] @hasMany
 }
@@ -46,6 +61,7 @@ type Comment @model @auth(rules: [
 ```
 
 ## Warehouse Management System
+
 In this "Warehouse management system" example, you will learn how to configure common access patterns for your app. This example has the following types:
 
 - Warehouse
@@ -80,12 +96,16 @@ The following schema introduces the required indexes and relationships so that y
 ```graphql
 # This "input" configures a global authorization rule to enable public access to
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/auth
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
-
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
 type Order @model {
   id: ID!
-  customerID: ID! @index(name: "byCustomerByStatusByDate", sortKeyFields: ["status", "date"]) @index(name: "byCustomerByDate", sortKeyFields: ["date"])
-  accountRepresentativeID: ID! @index(name: "byRepresentativebyDate", sortKeyFields: ["date"])
+  customerID: ID!
+    @index(name: "byCustomerByStatusByDate", sortKeyFields: ["status", "date"])
+    @index(name: "byCustomerByDate", sortKeyFields: ["date"])
+  accountRepresentativeID: ID!
+    @index(name: "byRepresentativebyDate", sortKeyFields: ["date"])
   productID: ID! @index(name: "byProduct", sortKeyFields: ["id"])
   status: String!
   amount: Int!
@@ -96,19 +116,37 @@ type Customer @model {
   id: ID!
   name: String!
   phoneNumber: String
-  accountRepresentativeID: ID! @index(name: "byRepresentative", sortKeyFields: ["id"])
+  accountRepresentativeID: ID!
+    @index(name: "byRepresentative", sortKeyFields: ["id"])
   ordersByDate: [Order] @hasMany(indexName: "byCustomerByDate", fields: ["id"])
-  ordersByStatusDate: [Order] @hasMany(indexName: "byCustomerByStatusByDate", fields: ["id"])
+  ordersByStatusDate: [Order]
+    @hasMany(indexName: "byCustomerByStatusByDate", fields: ["id"])
 }
 
 type Employee @model {
   id: ID!
-  name: String! @index(name: "byName", queryField: "employeeByName", sortKeyFields: ["id"])
+  name: String!
+    @index(name: "byName", queryField: "employeeByName", sortKeyFields: ["id"])
   startDate: String!
   phoneNumber: String!
   warehouseID: ID! @index(name: "byWarehouse", sortKeyFields: ["id"])
-  jobTitle: String! @index(name: "byTitle", queryField: "employeesByJobTitle", sortKeyFields: ["id"])
-  newHire: String! @index(name: "newHire", queryField: "employeesNewHire", sortKeyFields: ["id"]) @index(name: "newHireByStartDate", queryField: "employeesNewHireByStartDate", sortKeyFields: ["startDate"])
+  jobTitle: String!
+    @index(
+      name: "byTitle"
+      queryField: "employeesByJobTitle"
+      sortKeyFields: ["id"]
+    )
+  newHire: String!
+    @index(
+      name: "newHire"
+      queryField: "employeesNewHire"
+      sortKeyFields: ["id"]
+    )
+    @index(
+      name: "newHireByStartDate"
+      queryField: "employeesNewHireByStartDate"
+      sortKeyFields: ["startDate"]
+    )
 }
 
 type Warehouse @model {
@@ -121,12 +159,18 @@ type AccountRepresentative @model {
   customers: [Customer] @hasMany(indexName: "byRepresentative", fields: ["id"])
   orders: [Order] @hasMany(indexName: "byRepresentativebyDate", fields: ["id"])
   orderTotal: Int
-  salesPeriod: String @index(name: "bySalesPeriodByOrderTotal", queryField: "repsByPeriodAndTotal", sortKeyFields: ["orderTotal"])
+  salesPeriod: String
+    @index(
+      name: "bySalesPeriodByOrderTotal"
+      queryField: "repsByPeriodAndTotal"
+      sortKeyFields: ["orderTotal"]
+    )
 }
 
 type Inventory @model {
   productID: ID! @primaryKey(sortKeyFields: ["warehouseID"])
-  warehouseID: ID! @index(name: "byWarehouseID", queryField: "itemsByWarehouseID")
+  warehouseID: ID!
+    @index(name: "byWarehouseID", queryField: "itemsByWarehouseID")
   inventoryAmount: Int!
 }
 
@@ -143,21 +187,23 @@ Now that you have the schema created, let's create the items in the database tha
 ```graphql
 # first
 mutation createWarehouse {
-  createWarehouse(input: {id: "1"}) {
+  createWarehouse(input: { id: "1" }) {
     id
   }
 }
 
 # second
 mutation createEmployee {
-  createEmployee(input: {
-    id: "amanda"
-    name: "Amanda",
-    startDate: "2018-05-22",
-    phoneNumber: "6015555555",
-    warehouseID: "1",
-    jobTitle: "Manager",
-    newHire: "true"}
+  createEmployee(
+    input: {
+      id: "amanda"
+      name: "Amanda"
+      startDate: "2018-05-22"
+      phoneNumber: "6015555555"
+      warehouseID: "1"
+      jobTitle: "Manager"
+      newHire: "true"
+    }
   ) {
     id
     jobTitle
@@ -171,11 +217,9 @@ mutation createEmployee {
 
 # third
 mutation createAccountRepresentative {
-  createAccountRepresentative(input: {
-    id: "dabit"
-    orderTotal: 400000
-    salesPeriod: "January 2019"
-  }) {
+  createAccountRepresentative(
+    input: { id: "dabit", orderTotal: 400000, salesPeriod: "January 2019" }
+  ) {
     id
     orderTotal
     salesPeriod
@@ -184,12 +228,14 @@ mutation createAccountRepresentative {
 
 # fourth
 mutation createCustomer {
-  createCustomer(input: {
-    id: "jennifer_thomas"
-    accountRepresentativeID: "dabit"
-    name: "Jennifer Thomas"
-    phoneNumber: "+16015555555"
-  }) {
+  createCustomer(
+    input: {
+      id: "jennifer_thomas"
+      accountRepresentativeID: "dabit"
+      name: "Jennifer Thomas"
+      phoneNumber: "+16015555555"
+    }
+  ) {
     id
     name
     accountRepresentativeID
@@ -199,10 +245,7 @@ mutation createCustomer {
 
 # fifth
 mutation createProduct {
-  createProduct(input: {
-    id: "yeezyboost"
-    name: "Yeezy Boost"
-  }) {
+  createProduct(input: { id: "yeezyboost", name: "Yeezy Boost" }) {
     id
     name
   }
@@ -210,11 +253,9 @@ mutation createProduct {
 
 # sixth
 mutation createInventory {
-  createInventory(input: {
-    productID: "yeezyboost"
-    warehouseID: "1"
-    inventoryAmount: 300
-  }) {
+  createInventory(
+    input: { productID: "yeezyboost", warehouseID: "1", inventoryAmount: 300 }
+  ) {
     productID
     inventoryAmount
     warehouseID
@@ -223,14 +264,16 @@ mutation createInventory {
 
 # seventh
 mutation createOrder {
-  createOrder(input: {
-    amount: 300
-    date: "2018-07-12"
-    status: "pending"
-    accountRepresentativeID: "dabit"
-    customerID: "jennifer_thomas"
-    productID: "yeezyboost"
-  }) {
+  createOrder(
+    input: {
+      amount: 300
+      date: "2018-07-12"
+      status: "pending"
+      accountRepresentativeID: "dabit"
+      customerID: "jennifer_thomas"
+      productID: "yeezyboost"
+    }
+  ) {
     id
     customerID
     accountRepresentativeID
@@ -305,9 +348,7 @@ The query one would need to get the orders to a customer within a date range wou
 ```graphql
 query getCustomerWithOrdersByDate($customerID: ID!) {
   getCustomer(id: $customerID) {
-    ordersByDate(date: {
-      between: [ "2018-01-22", "2020-10-11" ]
-    }) {
+    ordersByDate(date: { between: ["2018-01-22", "2020-10-11"] }) {
       items {
         id
         amount
@@ -328,11 +369,14 @@ In this example, a composite sort key (combination of two or more keys) with the
 query listCustomersWithOrdersByStatusDate {
   listCustomers {
     items {
-      ordersByStatusDate(statusDate: {
-        between: [
-          { status: "pending", date: "2018-01-22" },
-          { status: "pending", date: "2020-10-11" }
-        ]}) {
+      ordersByStatusDate(
+        statusDate: {
+          between: [
+            { status: "pending", date: "2018-01-22" }
+            { status: "pending", date: "2020-10-11" }
+          ]
+        }
+      ) {
         items {
           id
           amount
@@ -386,7 +430,7 @@ This needs a one to many relationship from warehouses to employees. As can be se
 query getWarehouse($warehouseID: ID!) {
   getWarehouse(id: $warehouseID) {
     id
-    employees{
+    employees {
       items {
         id
         name
@@ -465,17 +509,13 @@ As can be seen in the AccountRepresentative model this relationship uses the `by
 query getOrdersForAccountRepresentative($representativeId: ID!) {
   getAccountRepresentative(id: $representativeId) {
     id
-    orders(date: {
-      between: [
-         "2010-01-22", "2020-10-11"
-      ]
-    }) {
-        items {
-          id
-          status
-          amount
-          date
-        }
+    orders(date: { between: ["2010-01-22", "2020-10-11"] }) {
+      items {
+        id
+        status
+        amount
+        date
+      }
     }
   }
 }
@@ -516,7 +556,6 @@ query inventoryByProductAndWarehouse($productID: ID!, $warehouseID: ID!) {
     inventoryAmount
   }
 }
-
 ```
 
 You can also get all inventory from an individual warehouse by using the `itemsByWarehouseID` query created by the `byWarehouseID` key:
@@ -555,11 +594,10 @@ The sales period is either a date range or maybe even a month or week. Therefore
 ```graphql
 query repsByPeriodAndTotal {
   repsByPeriodAndTotal(
-    sortDirection: DESC,
-    salesPeriod: "January 2019",
-    orderTotal: {
-      ge: 1000
-    }) {
+    sortDirection: DESC
+    salesPeriod: "January 2019"
+    orderTotal: { ge: 1000 }
+  ) {
     items {
       id
       orderTotal
@@ -575,6 +613,7 @@ query repsByPeriodAndTotal {
 Sometimes you need to create objects in bulk, rather than creating individual objects sequentially and waiting for all the requests to complete.
 
 1. Define your schema with a custom mutation. The custom mutation should not be deployed to AppSync beforehand if following these steps, the CLI will attach its own resolver preventing you from attaching a custom resource this way.
+
 ```graphql
 type Todo @model {
   id: ID!
@@ -595,10 +634,12 @@ input BatchCreateTodo {
 
 2. [Create a custom resource for your resolver](/cli/graphql/custom-business-logic/#vtl-resolver) and use the following code snippets as a guide to get started
 
-2. Follow the steps for creating a custom resolver:
+3. Follow the steps for creating a custom resolver:
+
 ```bash
 amplify add custom
 ```
+
 ```console
 ? How do you want to define this custom resource?
 ❯ AWS CDK
@@ -607,6 +648,7 @@ amplify add custom
 ```
 
 Next, install the AppSync dependencies for your custom resource:
+
 ```bash
 cd amplify/backend/custom/MyCustomResolvers
 npm i @aws-cdk/aws-appsync@~1.124.0
@@ -621,23 +663,32 @@ import * as appsync from '@aws-cdk/aws-appsync';
 import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
 
 export class cdkStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
+  constructor(
+    scope: cdk.Construct,
+    id: string,
+    props?: cdk.StackProps,
+    amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps
+  ) {
     super(scope, id, props);
     /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
     new cdk.CfnParameter(this, 'env', {
       type: 'String',
-      description: 'Current Amplify CLI env name',
+      description: 'Current Amplify CLI env name'
     });
-    
-    // Access other Amplify Resources 
-    const retVal:AmplifyDependentResourcesAttributes = AmplifyHelpers.addResourceDependency(this, 
-      amplifyResourceProps.category, 
-      amplifyResourceProps.resourceName, 
-      [{
-        category: "api",
-        resourceName: "<YOUR-API-NAME>"
-      }]
-    );
+
+    // Access other Amplify Resources
+    const retVal: AmplifyDependentResourcesAttributes =
+      AmplifyHelpers.addResourceDependency(
+        this,
+        amplifyResourceProps.category,
+        amplifyResourceProps.resourceName,
+        [
+          {
+            category: 'api',
+            resourceName: '<YOUR-API-NAME>'
+          }
+        ]
+      );
 
     const requestVTL = `
       ## [Start] Initialization default values. **
@@ -656,33 +707,32 @@ export class cdkStack extends cdk.Stack {
         "version": "2018-05-29",
         "operation": "BatchPutItem",
         "tables": {
-          "<TYPE-NAME-HERE>-${apiIdRef}-${envRef}": $todosArray
+          "<TYPE-NAME-HERE>-${apiIdRef}-\${envRef}": $todosArray
         }
       } )
-    `
+    `;
     const responseVTL = `
       ## [Start] ResponseTemplate. **
       #if( $ctx.error )
         $util.error($ctx.error.message, $ctx.error.type)
       #else
-        $util.toJson($ctx.result.data.<TYPE-NAME-HERE>-${apiIdRef}-${envRef})
+        $util.toJson($ctx.result.data.<TYPE-NAME-HERE>-${apiIdRef}-\${envRef})
       #end
       ## [End] ResponseTemplate. **
     `;
 
-
-    const resolver = new appsync.CfnResolver(this, "custom-resolver", {
+    const resolver = new appsync.CfnResolver(this, 'custom-resolver', {
       // apiId: retVal.api.new.GraphQLAPIIdOutput,
       // https://github.com/aws-amplify/amplify-cli/issues/9391#event-5843293887
       // If you use Amplify you can access the parameter via Ref since it's a CDK parameter passed from the root stack.
       // Previously the ApiId is the variable Name which is wrong , it should be variable value as below
       apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
-      fieldName: "querySomething", 
-      typeName: "Query", // Query | Mutation | Subscription
+      fieldName: 'querySomething',
+      typeName: 'Query', // Query | Mutation | Subscription
       requestMappingTemplate: requestVTL,
       responseMappingTemplate: responseVTL,
-      dataSourceName: "TodoTable" // DataSource name
-    })
+      dataSourceName: 'TodoTable' // DataSource name
+    });
   }
 }
 ```
@@ -691,4 +741,4 @@ By using CloudFormation parameters, you contextualize your custom resolvers to t
 
 3. Run `amplify push` and deploy your API
 
-The full documentation for custom resolvers [is available here](https://docs.amplify.aws/cli/graphql/custom-business-logic/#vtl-resolver)
+The full documentation for custom resolvers [is available here](https://docs.amplify.aws/cli/graphql/custom-business-logic/#vtl-resolver) resolver)

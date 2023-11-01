@@ -83,7 +83,7 @@ exports.handler = (event, context) => {
 };
 
 // using serverless express
-app.put('/myendpoint', function(req, res) {
+app.put('/myendpoint', function (req, res) {
   console.log('body: ', req.body);
 });
 ```
@@ -103,7 +103,7 @@ const apiResponse = await API.put('MyTableCRUD', '/manage-items', params);
 
 ## Access body in Lambda proxy function
 
-<!-- TODO Rewrite need to add more information here, this is not clear -->
+{/* TODO Rewrite need to add more information here, this is not clear \ */}
 
 ```javascript
 // using a basic lambda handler
@@ -112,7 +112,7 @@ exports.handler = (event, context) => {
 };
 
 // using serverless express
-app.post('/myendpoint', function(req, res) {
+app.post('/myendpoint', function (req, res) {
   console.log('body: ', req.body);
 });
 ```

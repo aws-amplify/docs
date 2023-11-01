@@ -83,7 +83,7 @@ Amplify.DataStore.observeQuery(
     ).onStart { Log.i("MyAmplifyApp", "Observation began") }
         .catch { Log.e("MyAmplifyApp", "Observation failed", it) }
         .onCompletion { Log.i("MyAmplifyApp", "Observation complete") }
-        .collect { value -> Log.i("MyAmplifyApp", "Blog: ${value.items.size}") }
+        .collect { value -> Log.i("MyAmplifyApp", "Blog: $\{value.items.size}") }
 ```
 
 </Block>

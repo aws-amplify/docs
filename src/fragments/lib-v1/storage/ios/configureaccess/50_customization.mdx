@@ -73,7 +73,7 @@ let storagePlugin = AWSS3StoragePlugin(configuration: .prefixResolver(MyDevelope
 Amplify.add(storagePlugin)
 ```
 
-Add the IAM policy that corresponds with the prefixes defined above to enable read, write and delete operation for all the objects under path *myPublicPrefix/*:
+Add the IAM policy that corresponds with the prefixes defined above to enable read, write and delete operation for all the objects under path _myPublicPrefix/_:
 
 ```xml
 "Statement": [
@@ -91,7 +91,8 @@ Add the IAM policy that corresponds with the prefixes defined above to enable re
 ]
 ```
 
-If you want to have custom *private* path prefix like *myPrivatePrefix/*, you need to add it into your IAM policy:
+If you want to have custom _private_ path prefix like _myPrivatePrefix/_, you need to add it into your IAM policy:
+
 ```xml
 "Statement": [
     {
@@ -102,11 +103,12 @@ If you want to have custom *private* path prefix like *myPrivatePrefix/*, you ne
             "s3:DeleteObject"
         ],
         "Resource": [
-            "arn:aws:s3:::your-s3-bucket/myPrivatePrefix/${cognito-identity.amazonaws.com:sub}/*"
+            "arn:aws:s3:::your-s3-bucket/myPrivatePrefix/$\{cognito-identity.amazonaws.com:sub}/*"
         ]
     }
 ]
 ```
+
 This ensures only the authenticated users has the access to the objects under the path.
 
 #### Passthrough PrefixResolver

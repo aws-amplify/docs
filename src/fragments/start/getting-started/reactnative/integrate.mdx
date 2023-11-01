@@ -5,14 +5,16 @@ import polyfillCallout from '/src/fragments/lib/datastore/react-native/getting-s
 <Fragments fragments={{ 'react-native': polyfillCallout }} />
 
 ## Boilerplate UI
-First, you will create some files and place the boilerplate UI code in it. 
+
+First, you will create some files and place the boilerplate UI code in it.
 
 #### App.js
-First, replace the contents of your **App.js** file with the following UI boilerplate code. Here, you are importing your Home component. 
+
+First, replace the contents of your **App.js** file with the following UI boilerplate code. Here, you are importing your Home component.
 
 <Callout>
 
-NOTE: You have already configured Amplify using `Amplify.configure` in __index.js__ for React Native CLI. So, you don't need to configure Amplify in **App.js**.
+NOTE: You have already configured Amplify using `Amplify.configure` in **index.js** for React Native CLI. So, you don't need to configure Amplify in **App.js**.
 
 </Callout>
 
@@ -40,8 +42,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    flex: 1,
-  },
+    flex: 1
+  }
 });
 ```
 
@@ -65,8 +67,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    flex: 1,
-  },
+    flex: 1
+  }
 });
 ```
 
@@ -74,6 +76,7 @@ const styles = StyleSheet.create({
 </BlockSwitcher>
 
 #### Home.js
+
 Next, you will create a Home component for your app which will implement most of the CRUD functionality for your app. Create a new file **Home.js** at location `src/Home.js`. Here, you have total four components defined :
 
 1. **Header**: Simple Header component with Title.
@@ -93,7 +96,7 @@ import {
   Text,
   TextInput,
   View,
-  Platform,
+  Platform
 } from 'react-native';
 import { DataStore } from 'aws-amplify';
 import { Todo } from './models';
@@ -174,7 +177,7 @@ const TodoList = () => {
     >
       <Text>
         <Text style={styles.todoHeading}>{item.name}</Text>
-        {`\n${item.description}`}
+        {`\n$\{item.description}`}
       </Text>
       <Text
         style={[styles.checkbox, item.isComplete && styles.completedCheckbox]}
@@ -219,14 +222,14 @@ const Home = () => {
 const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: '#4696ec',
-    paddingTop: Platform.OS === 'ios' ? 44 : 0,
+    paddingTop: Platform.OS === 'ios' ? 44 : 0
   },
   headerTitle: {
     color: '#fff',
     fontSize: 20,
     fontWeight: '600',
     paddingVertical: 16,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   todoContainer: {
     alignItems: 'center',
@@ -239,14 +242,14 @@ const styles = StyleSheet.create({
     padding: 8,
     shadowOffset: {
       height: 1,
-      width: 1,
+      width: 1
     },
     shadowOpacity: 0.3,
-    shadowRadius: 2,
+    shadowRadius: 2
   },
   todoHeading: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: '600'
   },
   checkbox: {
     borderRadius: 2,
@@ -255,22 +258,22 @@ const styles = StyleSheet.create({
     height: 20,
     marginLeft: 'auto',
     textAlign: 'center',
-    width: 20,
+    width: 20
   },
   completedCheckbox: {
     backgroundColor: '#000',
-    color: '#fff',
+    color: '#fff'
   },
   buttonText: {
     color: '#fff',
     fontWeight: '600',
-    padding: 16,
+    padding: 16
   },
   buttonContainer: {
     alignSelf: 'center',
     backgroundColor: '#4696ec',
     borderRadius: 99,
-    paddingHorizontal: 8,
+    paddingHorizontal: 8
   },
   floatingButton: {
     position: 'absolute',
@@ -278,35 +281,35 @@ const styles = StyleSheet.create({
     elevation: 6,
     shadowOffset: {
       height: 4,
-      width: 1,
+      width: 1
     },
     shadowOpacity: 0.3,
-    shadowRadius: 4,
+    shadowRadius: 4
   },
   modalContainer: {
     backgroundColor: 'rgba(0,0,0,0.5)',
     flex: 1,
     justifyContent: 'center',
-    padding: 16,
+    padding: 16
   },
   modalInnerContainer: {
     backgroundColor: '#fff',
     borderRadius: 16,
     justifyContent: 'center',
-    padding: 16,
+    padding: 16
   },
   modalInput: {
     borderBottomWidth: 1,
     marginBottom: 16,
-    padding: 8,
+    padding: 8
   },
   modalDismissButton: {
-    marginLeft: 'auto',
+    marginLeft: 'auto'
   },
   modalDismissText: {
     fontSize: 20,
-    fontWeight: '700',
-  },
+    fontWeight: '700'
+  }
 });
 
 export default Home;
@@ -316,27 +319,28 @@ Go ahead and run your code now and you should see an app with empty todolist and
 
 import reactnative1 from '/src/fragments/lib/project-setup/react-native/run-react-native.mdx';
 
-<Fragments fragments={{ "react-native": reactnative1 }} />
+<Fragments fragments={{ 'react-native': reactnative1 }} />
 
 Let’s next manipulate the data and add more functionality to your app.
 
 ## Manipulating data
 
 ### Creating a Todo
-The *Add Todo* floating action button opens up a Modal to add todos. But, right now, the form does nothing when the *Save* button is pressed. Let’s fix that by having it save a **Todo** to DataStore.
+
+The _Add Todo_ floating action button opens up a Modal to add todos. But, right now, the form does nothing when the _Save_ button is pressed. Let’s fix that by having it save a **Todo** to DataStore.
 
 Open the **Home.js** file and update the `addTodo()` function in the **AddTodoModal** component.
 
 ```jsx
-  async function addTodo() {
-    await DataStore.save(new Todo({ name, description, isComplete: false }));
-    setModalVisible(false);
-    setName('');
-    setDescription('');
-  }
+async function addTodo() {
+  await DataStore.save(new Todo({ name, description, isComplete: false }));
+  setModalVisible(false);
+  setName('');
+  setDescription('');
+}
 ```
 
-If you try to add todos using the form now, it should successfully close the form when pressing the *Save* button. But your Todo list is still empty even if you restart the app! After initializing your todos as an empty list, you aren't currently updating it again. You will remedy that in the next step.
+If you try to add todos using the form now, it should successfully close the form when pressing the _Save_ button. But your Todo list is still empty even if you restart the app! After initializing your todos as an empty list, you aren't currently updating it again. You will remedy that in the next step.
 
 <Callout>
 
@@ -353,40 +357,38 @@ This can be achieved with `DataStore.observeQuery()`. `observeQuery()` will retu
 You will use the `useEffect()` hook of **TodoList** component to list the todo items. `useEffect()` can be used to perform side effects in function components. Add the below `useEffect()` in the **TodoList** component right after state initialization. You can find more about the useEffect hook [here](https://reactjs.org/docs/hooks-effect.html).
 
 ```jsx
-  useEffect(() => {
+useEffect(() => {
+  //query the initial todolist and subscribe to data updates
+  const subscription = DataStore.observeQuery(Todo).subscribe((snapshot) => {
+    //isSynced can be used to show a loading spinner when the list is being loaded.
+    const { items, isSynced } = snapshot;
+    setTodos(items);
+  });
 
-    //query the initial todolist and subscribe to data updates
-    const subscription = DataStore.observeQuery(Todo).subscribe((snapshot) => {
-      //isSynced can be used to show a loading spinner when the list is being loaded. 
-      const { items, isSynced } = snapshot;
-      setTodos(items);
-    });
-
-    //unsubscribe to data updates when component is destroyed so that you don’t introduce a memory leak.
-    return function cleanup() {
-      subscription.unsubscribe();
-    }
-
-  }, []);
+  //unsubscribe to data updates when component is destroyed so that you don’t introduce a memory leak.
+  return function cleanup() {
+    subscription.unsubscribe();
+  };
+}, []);
 ```
 
 If you restart your app now, you should see that newly added todos will start showing up on the list. The items look like they can be check off and marked as completed, but when pressed, they don’t seem to do anything right now. Let’s learn how to update existing data.
 
 ### Updating a Todo
 
-Updating an existing data entry looks a lot like creating a new one. It’s important to note, however, that models in DataStore are *immutable*. So, to update a record you must use a model’s `copyOf` function rather than manipulating its properties directly.
+Updating an existing data entry looks a lot like creating a new one. It’s important to note, however, that models in DataStore are _immutable_. So, to update a record you must use a model’s `copyOf` function rather than manipulating its properties directly.
 
 Update the `setComplete` function in the `TodoList` component.
 
 ```jsx
-  async function setComplete(updateValue, todo) {
-    //update the todo item with updateValue
-    await DataStore.save(
-      Todo.copyOf(todo, updated => {
-        updated.isComplete = updateValue
-      })
-    );
-  }
+async function setComplete(updateValue, todo) {
+  //update the todo item with updateValue
+  await DataStore.save(
+    Todo.copyOf(todo, (updated) => {
+      updated.isComplete = updateValue;
+    })
+  );
+}
 ```
 
 That’s it! Restart your app and you should now be able to toggle a todo between completed and not completed states. You’re almost done here but what if you want to delete an item from your todo list? We’ll go over how to do that next.
@@ -398,16 +400,15 @@ Deleting an existing data entry is even easier than updating one since you don�
 Update the `deleteTodo()` function in the `TodoList` component.
 
 ```jsx
-  async function deleteTodo(todo) {
-    try {
-      await DataStore.delete(todo);
-    } catch (e) {
-      console.log('Delete failed: $e');
-    }
+async function deleteTodo(todo) {
+  try {
+    await DataStore.delete(todo);
+  } catch (e) {
+    console.log('Delete failed: $e');
   }
+}
 ```
 
-Reload your app once more and you should now be able to long press an item to delete it. 
+Reload your app once more and you should now be able to long press an item to delete it.
 
 You can find the complete `Home.js` file [here](https://github.com/chintannp/amplified_todo_rn/blob/main/src/Home.js). Now you have a fully featured CRUD application that saves and retrieves data on the local device, which means this app **works without an AWS account or even an internet connection.** Next, you'll connect it to AWS and make sure the data is available in the cloud.
-
