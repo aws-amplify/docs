@@ -250,12 +250,27 @@ export const directory = {
           {
             title: 'Automatically track sessions',
             route: '/lib/analytics/autotrack',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Enable/Disable Analytics',
             route: '/lib/analytics/enable-disable',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Streaming analytics data',
+            route: '/lib/analytics/streaming',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Storing analytics data',
+            route: '/lib/analytics/storing',
+            filters: ['js']
+          },
+          {
+            title: 'Personalized recommendations',
+            route: '/lib/analytics/personalize',
+            filters: ['js']
           },
           {
             title: 'Escape hatch',
