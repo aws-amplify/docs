@@ -11,7 +11,8 @@ export const meta = {
 export function getStaticProps() {
   return {
     props: {
-      meta
+      meta,
+      showBreadcrumbs: false
     }
   };
 }
