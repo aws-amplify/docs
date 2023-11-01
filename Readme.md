@@ -27,7 +27,6 @@ We welcome contributions to the documentation site! Here's how to do it:
    2. If any files have been deleted with your PR, please add the redirects required to [`redirects.json`](https://github.com/aws-amplify/docs/blob/main/redirects.json) and ensure that the `redirects-needed` label has been added.
       - Please see the [Amplify Hosting user guide](https://docs.aws.amazon.com/amplify/latest/userguide/redirects.html) for guidance on values and ordering.
       - Please note that there is a manual step for the Docs Engineering team to complete before the redirects are live.
-4. Please add the words to [cpsell.json] https://github.com/aws-amplify/docs/blob/main/cspell.json if needed or correct spelling if `Spellcheck` workflow fails.
 
 **What's next?** After your PR is reviewed and all tests pass, it will be merged and the branch will be deleted.
 
