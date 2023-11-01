@@ -1,5 +1,7 @@
 The AWS Amplify I18n module is a lightweight internationalization solution.
 
+<!-- TODO Rewrite should we promote this in our library guides? or directs developers to the UI docs site? -->
+
 ## Installation
 
 ```javascript
@@ -24,14 +26,14 @@ You can create your custom dictionary and set it as your `vocabularies` in your 
 
 ```javascript
 const dict = {
-    'fr': {
-        'Sign In': "Se connecter",
-        'Sign Up': "S'inscrire"
-    },
-    'es': {
-        'Sign In': "Registrarse",
-        'Sign Up': "Regístrate"
-    }
+  fr: {
+    'Sign In': 'Se connecter',
+    'Sign Up': "S'inscrire"
+  },
+  es: {
+    'Sign In': 'Registrarse',
+    'Sign Up': 'Regístrate'
+  }
 };
 
 I18n.putVocabularies(dict);

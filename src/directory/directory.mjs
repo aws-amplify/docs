@@ -863,31 +863,10 @@ export const directory = {
       utilities: {
         title: 'Utilities',
         items: [
-          // TODO Rewrite do we have service workers for React native?
-          {
-            title: 'Service Worker',
-            route: '/lib/utilities/serviceworker',
-            filters: ['js']
-          },
-          {
-            title: 'Cache',
-            route: '/lib/utilities/cache',
-            filters: ['js', 'react-native']
-          },
           {
             title: 'Hub',
             route: '/lib/utilities/hub',
             filters: ['android', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Internationalization',
-            route: '/lib/utilities/i18n',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Logger',
-            route: '/lib/utilities/logger',
-            filters: ['js', 'react-native']
           }
         ]
       },
@@ -943,11 +922,6 @@ export const directory = {
             title: 'Upgrading Amplify packages',
             route: '/lib/troubleshooting/upgrading',
             filters: ['flutter', 'js', 'react-native']
-          },
-          {
-            title: 'TypeScript strict mode',
-            route: '/lib/troubleshooting/strict-mode',
-            filters: ['js', 'react-native']
           }
         ]
       }
@@ -1638,9 +1612,29 @@ export const directory = {
         title: 'Utilities',
         items: [
           {
+            title: 'Service Worker',
+            route: '/lib-v1/utilities/serviceworker',
+            filters: ['js']
+          },
+          {
+            title: 'Cache',
+            route: '/lib-v1/utilities/cache',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Hub',
             route: '/lib-v1/utilities/hub',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Internationalization',
+            route: '/lib-v1/utilities/i18n',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Logger',
+            route: '/lib-v1/utilities/logger',
+            filters: ['js', 'react-native']
           }
         ]
       },
@@ -1650,7 +1644,12 @@ export const directory = {
           {
             title: 'Upgrading Amplify packages',
             route: '/lib-v1/troubleshooting/upgrading',
-            filters: ['flutter', 'js']
+            filters: ['flutter', 'js', 'react-native']
+          },
+          {
+            title: 'TypeScript strict mode',
+            route: '/lib-v1/troubleshooting/strict-mode',
+            filters: ['js', 'react-native']
           }
         ]
       },
