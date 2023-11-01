@@ -142,7 +142,7 @@ export const Layout = ({
     .filter((s) => s !== '' && s !== null)
     .join(' - ');
 
-  const description = pageDescription + 'AWS Amplify Docs';
+  const description = `${pageDescription} AWS Amplify Docs`;
 
   const handleScroll = debounce((e) => {
     const bodyScroll = e.target.documentElement.scrollTop;
