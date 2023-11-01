@@ -38,7 +38,7 @@ describe('Feedback', () => {
 
     const thumbsDownButton = screen.getByText('No');
     const feedbackComponent = screen.getByText('Was this page helpful?');
-    const feedbackText = screen.getByText('Thanks for your feedback!');
+    const feedbackText = screen.getByText('Can you provide more details?');
 
     expect(thumbsDownButton).toBeInTheDocument();
 
