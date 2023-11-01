@@ -88,24 +88,34 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Manage user session and credentials',
+            route: '/lib/auth/manage-session',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Enable sign-up, sign-in, and sign-out',
             route: '/lib/auth/emailpassword',
             filters: ['js', 'react-native']
           },
           {
-            title: 'Social sign-in (OAuth)',
+            title: 'Add social provider sign-in',
             route: '/lib/auth/social',
             filters: ['js', 'react-native']
           },
           {
-            title: 'Multi-factor authentication',
+            title: 'Manage MFA and device settings',
             route: '/lib/auth/mfa',
-            filters: ['js', 'react-native', 'android', 'flutter', 'ios']
+            filters: ['js', 'react-native']
           },
           {
-            title: 'Password & user management',
+            title: 'Manage user profiles',
             route: '/lib/auth/manageusers',
             filters: ['js', 'react-native']
+          },
+          {
+          title: 'Set up user password change and recovery',
+          route: '/lib/auth/password_management',
+          filters: ['js', 'react-native', 'android', 'flutter', 'ios']
           },
           {
             title: 'Switching authentication flows',
@@ -138,9 +148,14 @@ export const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
-            title: 'Social sign-in (OAuth)',
+            title: 'Add social provider sign-in',
             route: '/lib/auth/social',
             filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'Multi-factor authentication',
+            route: '/lib/auth/mfa',
+            filters: ['ios', 'flutter', 'android']
           },
           {
             title: 'SMS flows',
@@ -158,7 +173,7 @@ export const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
-            title: 'Auth events',
+            title: 'Listen to auth events',
             route: '/lib/auth/auth-events',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
@@ -171,11 +186,6 @@ export const directory = {
             title: 'Remember a device',
             route: '/lib/auth/device_features',
             filters: ['android', 'ios', 'js', 'flutter', 'react-native']
-          },
-          {
-            title: 'Password management',
-            route: '/lib/auth/password_management',
-            filters: ['android', 'flutter', 'ios']
           },
           {
             title: 'Sign out',
@@ -193,7 +203,7 @@ export const directory = {
             filters: ['flutter']
           },
           {
-            title: 'Delete user',
+            title: 'Delete user account',
             route: '/lib/auth/delete_user',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
@@ -225,52 +235,27 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/analytics/getting-started',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Record events',
             route: '/lib/analytics/record',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Update Endpoint',
-            route: '/lib/analytics/update-endpoint',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Automatically track sessions',
-            route: '/lib/analytics/autotrack',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Enable/Disable Analytics',
-            route: '/lib/analytics/enable-disable',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Identify user',
             route: '/lib/analytics/identifyuser',
-            filters: ['android', 'flutter', 'ios', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
-            title: 'Streaming analytics data',
-            route: '/lib/analytics/streaming',
-            filters: ['js', 'react-native']
+            title: 'Automatically track sessions',
+            route: '/lib/analytics/autotrack',
+            filters: ['android', 'ios', 'flutter']
           },
           {
-            title: 'Create a custom analytics plugin',
-            route: '/lib/analytics/create-custom-plugin',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Storing analytics data',
-            route: '/lib/analytics/storing',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Personalized recommendations',
-            route: '/lib/analytics/personalize',
-            filters: ['js', 'react-native']
+            title: 'Enable/Disable Analytics',
+            route: '/lib/analytics/enable-disable',
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Escape hatch',
@@ -280,7 +265,7 @@ export const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib/analytics/existing-resources',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           }
         ]
       },
@@ -308,17 +293,17 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Create, update, delete data',
+            title: 'Create, update, and delete application data',
             route: '/lib/graphqlapi/mutate-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Fetch data',
+            title: 'Read application data',
             route: '/lib/graphqlapi/query-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Subscribe to data',
+            title: 'Subscribe to real-time events',
             route: '/lib/graphqlapi/subscribe-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
@@ -375,32 +360,27 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/restapi/getting-started',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Fetching data',
             route: '/lib/restapi/fetch',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Updating data',
             route: '/lib/restapi/update',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Deleting data',
             route: '/lib/restapi/delete',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
-          },
-          {
-            title: 'Cancel API requests',
-            route: '/lib/restapi/cancel',
-            filters: ['js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Define authorization rules',
             route: '/lib/restapi/authz',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Use existing AWS resources',
@@ -485,37 +465,27 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/geo/getting-started',
-            filters: ['js', 'ios', 'android']
+            filters: ['ios', 'android']
           },
           {
             title: 'Maps',
             route: '/lib/geo/maps',
-            filters: ['js', 'ios', 'android']
+            filters: ['ios', 'android']
           },
           {
             title: 'Location Search',
             route: '/lib/geo/search',
-            filters: ['js', 'ios', 'android']
-          },
-          {
-            title: 'Geofences',
-            route: '/lib/geo/geofences',
-            filters: ['js']
+            filters: ['ios', 'android']
           },
           {
             title: 'Use existing Amazon Location resources',
             route: '/lib/geo/existing-resources',
-            filters: ['js', 'ios', 'android']
-          },
-          {
-            title: 'Migrating from Google Maps',
-            route: '/lib/geo/google-migration',
-            filters: ['js']
+            filters: ['ios', 'android']
           },
           {
             title: 'Escape Hatch',
             route: '/lib/geo/escapehatch',
-            filters: ['js', 'ios', 'android']
+            filters: ['ios', 'android']
           }
         ]
       },
@@ -744,7 +714,7 @@ export const directory = {
         title: 'Storage',
         items: [
           {
-            title: 'Set up Amplify Storage',
+            title: 'Getting started',
             route: '/lib/storage/getting-started',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
@@ -754,19 +724,9 @@ export const directory = {
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
-            title: 'Upload files',
-            route: '/lib/storage/upload',
-            filters: ['android', 'ios', 'js', 'react-native', 'flutter']
-          },
-          {
             title: 'Download files',
             route: '/lib/storage/download',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
-          },
-          {
-            title: 'Query Transfers',
-            route: '/lib/storage/querytransfers',
-            filters: ['android']
           },
           {
             title: 'Get file properties',
@@ -781,7 +741,7 @@ export const directory = {
           {
             title: 'Copy files',
             route: '/lib/storage/copy',
-            filters: ['js', 'react-native', 'flutter']
+            filters: ['flutter', 'js', 'react-native']
           },
           {
             title: 'Move files',
@@ -789,24 +749,19 @@ export const directory = {
             filters: ['flutter']
           },
           {
+            title: 'Upload files',
+            route: '/lib/storage/upload',
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
             title: 'Remove files',
             route: '/lib/storage/remove',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
-            title: 'Cancel requests',
-            route: '/lib/storage/cancel-requests',
-            filters: ['js', 'react-native']
-          },
-          {
             title: 'File access levels',
             route: '/lib/storage/configureaccess',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
-          },
-          {
-            title: 'Automatically track Storage events',
-            route: '/lib/storage/autotrack',
-            filters: ['js', 'react-native']
           },
           {
             title: 'Use Transfer Acceleration',
@@ -817,11 +772,6 @@ export const directory = {
             title: 'Lambda triggers',
             route: '/lib/storage/triggers',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
-          },
-          {
-            title: 'Custom Plugin',
-            route: '/lib/storage/custom-plugin',
-            filters: ['js', 'react-native']
           },
           {
             title: 'Escape hatch',
@@ -898,41 +848,10 @@ export const directory = {
       utilities: {
         title: 'Utilities',
         items: [
-          // TODO Rewrite do we have service workers for React native?
-          {
-            title: 'Service Worker',
-            route: '/lib/utilities/serviceworker',
-            filters: ['js']
-          },
-          {
-            title: 'Cache',
-            route: '/lib/utilities/cache',
-            filters: ['js', 'react-native']
-          },
           {
             title: 'Hub',
             route: '/lib/utilities/hub',
             filters: ['android', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Internationalization',
-            route: '/lib/utilities/i18n',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Logger',
-            route: '/lib/utilities/logger',
-            filters: ['js', 'react-native']
-          }
-        ]
-      },
-      'client-configuration': {
-        title: 'Client configuration',
-        items: [
-          {
-            title: 'Configuring Amplify Categories',
-            route: '/lib/client-configuration/configuring-amplify-categories',
-            filters: ['js', 'react-native']
           }
         ]
       },
@@ -965,8 +884,8 @@ export const directory = {
         title: 'Server-Side Rendering',
         items: [
           {
-            title: 'Getting Started with Server-Side Rendering (SSR)',
-            route: '/lib/ssr',
+            title: 'Use Amplify with Next.js',
+            route: '/lib/ssr/nextjs',
             filters: ['js']
           }
         ]
@@ -978,11 +897,6 @@ export const directory = {
             title: 'Upgrading Amplify packages',
             route: '/lib/troubleshooting/upgrading',
             filters: ['flutter', 'js', 'react-native']
-          },
-          {
-            title: 'TypeScript strict mode',
-            route: '/lib/troubleshooting/strict-mode',
-            filters: ['js', 'react-native']
           }
         ]
       }
@@ -1050,27 +964,52 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/analytics/getting-started',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Record events',
             route: '/lib-v1/analytics/record',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Identify user',
-            route: '/lib-v1/analytics/identifyuser',
-            filters: ['android', 'ios', 'flutter', 'js']
+            title: 'Update Endpoint',
+            route: '/lib-v1/analytics/update-endpoint',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Automatically track sessions',
             route: '/lib-v1/analytics/autotrack',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Enable/Disable Analytics',
             route: '/lib-v1/analytics/enable-disable',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Identify user',
+            route: '/lib-v1/analytics/identifyuser',
+            filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'Streaming analytics data',
+            route: '/lib-v1/analytics/streaming',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Create a custom analytics plugin',
+            route: '/lib-v1/analytics/create-custom-plugin',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Storing analytics data',
+            route: '/lib-v1/analytics/storing',
+            filters: ['js']
+          },
+          {
+            title: 'Personalized recommendations',
+            route: '/lib-v1/analytics/personalize',
+            filters: ['js']
           },
           {
             title: 'Escape hatch',
@@ -1080,7 +1019,62 @@ export const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib-v1/analytics/existing-resources',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          }
+        ]
+      },
+      'in-app-messaging': {
+        title: 'In-App Messaging',
+        items: [
+          {
+            title: 'Overview',
+            route: '/lib-v1/in-app-messaging/overview',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Getting started',
+            route: '/lib-v1/in-app-messaging/getting-started',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Create an In-App Messaging campaign',
+            route: '/lib-v1/in-app-messaging/create-campaign',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Integrate your application',
+            route: '/lib-v1/in-app-messaging/integrate-your-application',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Sync messages',
+            route: '/lib-v1/in-app-messaging/sync-messages',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Display message',
+            route: '/lib-v1/in-app-messaging/display-message',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Clear messages',
+            route: '/lib-v1/in-app-messaging/clear-messages',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Identify a user',
+            route: '/lib-v1/in-app-messaging/identify-user',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Respond to interaction events',
+            route: '/lib-v1/in-app-messaging/respond-interaction-events',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Resolving conflicts',
+            route: '/lib-v1/in-app-messaging/resolve-conflicts',
+            filters: ['react-native', 'js']
           }
         ]
       },
@@ -1170,27 +1164,32 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/restapi/getting-started',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Fetching data',
             route: '/lib-v1/restapi/fetch',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Updating data',
             route: '/lib-v1/restapi/update',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Deleting data',
             route: '/lib-v1/restapi/delete',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Cancel API requests',
+            route: '/lib-v1/restapi/cancel',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Define authorization rules',
             route: '/lib-v1/restapi/authz',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Use existing AWS resources',
@@ -1400,27 +1399,52 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/geo/getting-started',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Maps',
             route: '/lib-v1/geo/maps',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Location Search',
             route: '/lib-v1/geo/search',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
+          },
+          {
+            title: 'Geofences',
+            route: '/lib-v1/geo/geofences',
+            filters: ['js']
           },
           {
             title: 'Use existing Amazon Location resources',
             route: '/lib-v1/geo/existing-resources',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
+          },
+          {
+            title: 'Migrating from Google Maps',
+            route: '/lib-v1/geo/google-migration',
+            filters: ['js']
           },
           {
             title: 'Escape Hatch',
             route: '/lib-v1/geo/escapehatch',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
+          }
+        ]
+      },
+      interactions: {
+        title: 'Interactions',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/interactions/getting-started',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Interact with bots',
+            route: '/lib-v1/interactions/chatbot',
+            filters: ['js', 'react-native']
           }
         ]
       },
@@ -1489,19 +1513,29 @@ export const directory = {
         title: 'Storage',
         items: [
           {
-            title: 'Getting started',
+            title: 'Set up Amplify Storage',
             route: '/lib-v1/storage/getting-started',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Concepts',
             route: '/lib-v1/storage/overview',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Upload files',
+            route: '/lib-v1/storage/upload',
+            filters: ['android', 'ios', 'js', 'react-native', 'flutter']
           },
           {
             title: 'Download files',
             route: '/lib-v1/storage/download',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Query Transfers',
+            route: '/lib-v1/storage/querytransfers',
+            filters: ['android']
           },
           {
             title: 'Get file properties',
@@ -1511,37 +1545,47 @@ export const directory = {
           {
             title: 'List files',
             route: '/lib-v1/storage/list',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Copy files',
             route: '/lib-v1/storage/copy',
-            filters: ['js']
-          },
-          {
-            title: 'Upload files',
-            route: '/lib-v1/storage/upload',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Remove files',
             route: '/lib-v1/storage/remove',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Cancel requests',
+            route: '/lib-v1/storage/cancel-requests',
+            filters: ['js', 'react-native']
           },
           {
             title: 'File access levels',
             route: '/lib-v1/storage/configureaccess',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Automatically track Storage events',
+            route: '/lib-v1/storage/autotrack',
+            filters: ['js']
           },
           {
             title: 'Use Transfer Acceleration',
             route: '/lib-v1/storage/transfer-acceleration',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Lambda triggers',
             route: '/lib-v1/storage/triggers',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Custom Plugin',
+            route: '/lib-v1/storage/custom-plugin',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Escape hatch',
@@ -1551,7 +1595,7 @@ export const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib-v1/storage/existing-resources',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           }
         ]
       },
@@ -1559,8 +1603,8 @@ export const directory = {
         title: 'Server-Side Rendering',
         items: [
           {
-            title: 'Use Amplify with Next.js',
-            route: '/lib-v1/ssr/nextjs',
+            title: 'Getting Started with Server-Side Rendering (SSR)',
+            route: '/lib-v1/ssr',
             filters: ['js']
           }
         ]
@@ -1569,9 +1613,40 @@ export const directory = {
         title: 'Utilities',
         items: [
           {
+            title: 'Service Worker',
+            route: '/lib-v1/utilities/serviceworker',
+            filters: ['js']
+          },
+          {
+            title: 'Cache',
+            route: '/lib-v1/utilities/cache',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Hub',
             route: '/lib-v1/utilities/hub',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Internationalization',
+            route: '/lib-v1/utilities/i18n',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Logger',
+            route: '/lib-v1/utilities/logger',
+            filters: ['js', 'react-native']
+          }
+        ]
+      },
+      'client-configuration': {
+        title: 'Client configuration',
+        items: [
+          {
+            title: 'Configuring Amplify Categories',
+            route:
+              '/lib-v1/client-configuration/configuring-amplify-categories',
+            filters: ['js', 'react-native']
           }
         ]
       },
@@ -1581,7 +1656,12 @@ export const directory = {
           {
             title: 'Upgrading Amplify packages',
             route: '/lib-v1/troubleshooting/upgrading',
-            filters: ['flutter', 'js']
+            filters: ['flutter', 'js', 'react-native']
+          },
+          {
+            title: 'TypeScript strict mode',
+            route: '/lib-v1/troubleshooting/strict-mode',
+            filters: ['js', 'react-native']
           }
         ]
       },

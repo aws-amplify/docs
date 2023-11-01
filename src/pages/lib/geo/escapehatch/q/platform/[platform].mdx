@@ -22,14 +22,9 @@ export const getStaticProps = (context) => {
   };
 };
 
-import js0 from '/src/fragments/lib/geo/js/escapehatch.mdx';
+import android_escape_hatch from '/src/fragments/lib/geo/android/escapehatch.mdx';
+import ios_escape_hatch from '/src/fragments/lib/geo/ios/escapehatch.mdx';
 
-<Fragments fragments={{ js: js0 }} />
-
-import android1 from '/src/fragments/lib/geo/android/escapehatch.mdx';
-
-<Fragments fragments={{ android: android1 }} />
-
-import ios2 from '/src/fragments/lib/geo/ios/escapehatch.mdx';
-
-<Fragments fragments={{ ios: ios2 }} />
+<Fragments
+  fragments={{ android: android_escape_hatch, ios: ios_escape_hatch }}
+/>

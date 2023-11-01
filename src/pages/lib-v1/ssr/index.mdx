@@ -1,0 +1,12 @@
+import ChooseFilterPage from '@/components/ChooseFilterPage';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+<ChooseFilterPage
+  directoryPath="/ChooseFilterPage"
+  address="/lib-v1/ssr"
+  filterKind="platform"
+  filters={['js']}
+  currentFilter="all"
+  message={'Choose a platform:'}
+/>
