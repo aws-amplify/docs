@@ -10,10 +10,10 @@ const oldPages = globSync('src/pages-old/**/*.mdx');
 // remove all ChooseFilterPages
 oldPages.forEach((file) => {
   fs.readFile(file, 'utf8', (err, data) => {
-    if (err) console.log(err);
+    if (err) console.log('[ ERROR: READ CHOOSEFILTERPAGES ]', file, err);
     if (data.startsWith('import ChooseFilterPage')) {
       fs.rm(file, (err) => {
-        if (err) console.log(err);
+        if (err) console.log('[ ERROR: REMOVE CHOOSEFILTERPAGES ]', file, err);
       });
     }
   });
@@ -88,23 +88,21 @@ oldPages.forEach((path) => {
 // console.log('pages that are found in pages-old structure and are notated in the excel for migration:', pagesThatWillMigrate);
 
 // change all 'Original backend source' to 'pages-old'
-migrationData.forEach((item) => {
-  const origSource = item['Original backend source'];
+migrationData.forEach((page) => {
+  const origSource = page['Original backend source'];
   const oldPath = origSource.replace('pages', 'pages-old');
-  item['Original backend source'] = oldPath;
-});
+  page['Original backend source'] = oldPath;
 
-// combine multiple Excel entries for pages that have same 'New backend source' and set platform array
-migrationData.forEach((item) => {
+  // combine multiple Excel entries for pages that have same 'New backend source' and set platform array
   const multiples =
     excelDataNewSource.filter((path) => {
-      return path == item['New backend source'];
+      return path == page['New backend source'];
     }).length > 1;
 
   let platforms = [];
   if (multiples) {
-    const toCombine = migrationData.filter((item2) => {
-      return item['New backend source'] == item2['New backend source'];
+    const toCombine = migrationData.filter((item) => {
+      return page['New backend source'] == item['New backend source'];
     });
 
     for (let i = 0; i < toCombine.length; i++) {
@@ -121,27 +119,29 @@ migrationData.forEach((item) => {
       }
     }
   } else {
-    item['Platform specific'] = item['Platform specific']
+    page['Platform specific'] = page['Platform specific']
       .toLowerCase()
       .replace(' (web)', '')
       .replace('.js', '')
       .replace('react native', 'react-native');
-    platforms.push("'" + item['Platform specific'] + "'");
+    platforms.push("'" + page['Platform specific'] + "'");
   }
   platforms = platforms.filter((value, index) => {
     return platforms.indexOf(value) === index;
   });
-  item['Platform specific'] = platforms;
-});
+  page['Platform specific'] = platforms;
 
-// Update meta and imports for all pages accounted for in Excel file
-// Then move to new location
-migrationData.forEach((page) => {
+  // Update meta and imports for all pages accounted for in Excel file
+  // Then move to new location
   let newContent = '';
   // if (fs.existsSync(oldPages[page['Original backend source']])) {
   fs.readFile(page['Original backend source'], 'utf8', (err, dataString) => {
     if (err) {
-      console.log(err);
+      console.log(
+        '[ ERROR: READ FILE ORIGINAL BACKEND SOURCE ]',
+        page['Original backend source'],
+        err
+      );
     } else {
       let data = dataString.split('\n');
       let exportIndex = '';
@@ -198,10 +198,14 @@ export function getStaticProps(context) {
       // console.log(newContent);
       fs.writeFile(page['Original backend source'], newContent, (err) => {
         if (err) {
-          console.log(err);
+          console.log(
+            '[ ERROR: WRITE CONTENT ]',
+            page['Original backend source'],
+            err
+          );
         } else {
           console.log(
-            '[ EDITS SUCCESSFULLY WRITTEN ]',
+            '[ SUCCESS: EDITS WRITTEN ]',
             page['Original backend source']
           );
         }
@@ -217,9 +221,9 @@ export function getStaticProps(context) {
     if (!fs.existsSync(dirPath)) {
       fs.mkdir(dirPath, { recursive: true }, (err) => {
         if (err) {
-          console.log(err);
+          console.log('[ ERROR: CREATE NEW DIRECTORIES ]', dirPath, err);
         } else {
-          console.log('[ FOLDER STRUCTURE CREATED ]', dirPath);
+          console.log('[ SUCCESS: FOLDER STRUCTURE CREATED ]', dirPath);
         }
       });
     }
@@ -234,10 +238,14 @@ export function getStaticProps(context) {
         page['New backend source'],
         (err) => {
           if (err) {
-            console.log(page['New backend source'], err);
+            console.log(
+              '[ ERROR: PAGE MOVE ]',
+              page['New backend source'],
+              err
+            );
           } else {
             console.log(
-              'rename successful: ',
+              '[ SUCCESS: RENAME FILE ]',
               page['Original backend source'],
               '-->',
               page['New backend source']
