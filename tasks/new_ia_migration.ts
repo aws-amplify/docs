@@ -215,18 +215,18 @@ export function getStaticProps(context) {
 
   if (pagesThatWillMigrate.includes(page['Original backend source'])) {
     // create necessary directories exist in 'pages' for each file path
-    const newPath = page['New backend source'];
-    const dirPath = newPath.slice(0, newPath.lastIndexOf('/'));
+    // const newPath = page['New backend source'];
+    // const dirPath = newPath.slice(0, newPath.lastIndexOf('/'));
 
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdir(dirPath, { recursive: true }, (err) => {
-        if (err) {
-          console.log('[ ERROR: CREATE NEW DIRECTORIES ]', dirPath, err);
-        } else {
-          console.log('[ SUCCESS: FOLDER STRUCTURE CREATED ]', dirPath);
-        }
-      });
-    }
+    // if (!fs.existsSync(dirPath)) {
+    //   fs.mkdir(dirPath, { recursive: true }, (err) => {
+    //     if (err) {
+    //       console.log('[ ERROR: CREATE NEW DIRECTORIES ]', dirPath, err);
+    //     } else {
+    //       console.log('[ SUCCESS: FOLDER STRUCTURE CREATED ]', dirPath);
+    //     }
+    //   });
+    // }
 
     // move existing pages from pages-old into new IA locations
     if (
@@ -253,6 +253,18 @@ export function getStaticProps(context) {
           }
         }
       );
+    } else {
+      if (!fs.existsSync(page['Original backend source'])) {
+        console.log(
+          ' [ERROR: PAGE TO MOVE DOESNT EXIST ]',
+          page['Original backend source']
+        );
+      } else if (page['Flag for manual move'] != 'Yes') {
+        console.log(
+          ' [ERROR: PAGE FLAGGED FOR MANUAL MOVE ]',
+          page['Original backend source']
+        );
+      }
     }
   }
 });
