@@ -80,7 +80,7 @@ export const FrameworkGrid = ({ currentKey }: FrameworkGridProps) => {
       className="framework-grid-wrapper"
       aria-label="Choose a language or framework"
     >
-      <Grid as="ul" className="framework-grid framework-grid--inline">
+      <Grid as="ul" className="framework-grid">
         {frameworks.map((framework) => {
           const { title, key, href, icon } = framework;
           const isCurrent = key === currentKey;
