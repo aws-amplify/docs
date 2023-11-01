@@ -1,9 +1,22 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import directory from 'src/directory/directory.json';
 
 export const meta = {
   title: 'Build a backend',
   description: 'Build a backend',
-  platforms: ['android', 'javascript']
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  route: '/[platform]/build-a-backend'
 };
 
 export const getStaticPaths = async () => {
@@ -11,14 +24,16 @@ export const getStaticPaths = async () => {
 };
 
 export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
       platform: context.params.platform,
-      meta
+      meta,
+      childPageNodes
     }
   };
 }
 
 # Build a backend
 
-This page is just here for testing purposes.
+<Overview childPageNodes={props.childPageNodes} />

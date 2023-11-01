@@ -4,6 +4,7 @@ import { Prism, Highlight } from 'prism-react-renderer';
 import { theme } from './code-theme';
 import { View, Button } from '@aws-amplify/ui-react';
 import { versions } from '@/constants/versions';
+import { trackCopyClicks } from '@/utils/track';
 
 require('./cli-error-language.js');
 
@@ -25,10 +26,11 @@ const addVersions = (code: string) => {
 };
 
 export const MDXCode = (props) => {
-  const { codeString, language } = props;
+  const { codeString, language, fileName, showLineNumbers = true } = props;
   const [copied, setCopied] = React.useState(false);
   const [code, setCode] = React.useState(codeString);
   const copy = () => {
+    trackCopyClicks(codeString);
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
@@ -48,29 +50,36 @@ export const MDXCode = (props) => {
             {codeString}
           </div>
           <View className="pre-wrapper">
-            <pre style={style} className="pre">
-              {tokens.map((line, i) => (
-                <div key={i} {...getLineProps({ line })}>
-                  <span className="line-number">{i + 1}</span>
-                  {line.map((token, key) => (
-                    <span key={key} {...getTokenProps({ token })} />
-                  ))}
-                </div>
-              ))}
-            </pre>
-            <CopyToClipboard text={codeString} onCopy={copy}>
-              <Button
-                size="small"
-                variation="link"
-                disabled={copied}
-                className="code-copy"
-                position="absolute"
-                right="xxxs"
-                top="xxxs"
-              >
-                {copied ? 'Copied!' : 'Copy'}
-              </Button>
-            </CopyToClipboard>
+            <View className="pre-wrapper__inner">
+              {fileName ? (
+                <View className="pre-filename">{fileName}</View>
+              ) : null}
+              <pre style={style} className="pre">
+                {tokens.map((line, i) => (
+                  <div key={i} {...getLineProps({ line })}>
+                    {showLineNumbers && (
+                      <span className="line-number">{i + 1}</span>
+                    )}
+                    {line.map((token, key) => (
+                      <span key={key} {...getTokenProps({ token })} />
+                    ))}
+                  </div>
+                ))}
+              </pre>
+              <CopyToClipboard text={codeString} onCopy={copy}>
+                <Button
+                  size="small"
+                  variation="link"
+                  disabled={copied}
+                  className="code-copy"
+                  position="absolute"
+                  right="xxxs"
+                  top="xxxs"
+                >
+                  {copied ? 'Copied!' : 'Copy'}
+                </Button>
+              </CopyToClipboard>
+            </View>
           </View>
         </>
       )}

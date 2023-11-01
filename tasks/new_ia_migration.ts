@@ -250,7 +250,6 @@ export function getStaticProps(context) {
 });
 
 // TO COMPLETE
-// commands will be done manually
 // return list of pages not migrated
 
 // remove empty directories from pages-old

@@ -1,16 +1,17 @@
 import * as React from 'react';
 import type { MDXComponents } from 'mdx/types';
 import ExportedImage from 'next-image-export-optimizer';
-
+import { Banner } from './src/components/Banner';
 import InlineFilter from './src/components/InlineFilter';
 import { YoutubeEmbed } from './src/components/YoutubeEmbed';
-import Accordion from './src/components/Accordion';
+import { Accordion } from './src/components/Accordion';
 import { Block, BlockSwitcher } from './src/components/BlockSwitcher';
 import { Callout } from './src/components/Callout';
 import Fragments from './src/components/Fragments';
 import { MDXCode, MDXHeading, MDXLink } from './src/components/MDXComponents';
 import MigrationAlert from './src/components/MigrationAlert';
 import preToCodeBlock from './src/utils/pre-to-code-block';
+import { Overview } from './src/components/Overview';
 
 const ResponsiveImage = (props) => (
   <ExportedImage style={{ height: 'auto' }} {...props} />
@@ -51,6 +52,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     InlineFilter,
     MigrationAlert,
     YoutubeEmbed,
+    Banner,
+    Overview,
     ...components
   };
 }

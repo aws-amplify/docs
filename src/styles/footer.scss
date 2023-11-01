@@ -5,6 +5,8 @@
   border-top: 1px solid var(--amplify-colors-neutral-20);
   color: var(--amplify-colors-font-secondary);
   font-size: var(--amplify-font-sizes-small);
+  background: var(--amplify-colors-background-primary);
+  z-index: 2;
 }
 .footer__content {
   flex-direction: column;
@@ -20,10 +22,6 @@
   color: var(--amplify-colors-font-primary);
   &:hover {
     color: var(--amplify-colors-font-interactive);
-    text-decoration: none;
-  }
-  &:focus {
-    outline: 2px solid var(--amplify-colors-border-focus);
   }
   &--social {
     font-size: 2rem;
@@ -36,5 +34,15 @@
   }
   .footer__links {
     margin-inline-start: auto;
+  }
+}
+
+@media (min-width: $mq-mobile) {
+  .footer {
+    padding: var(--amplify-space-xl);
+    margin-inline-start: var(--layout-sidebar-width);
+    &--toc {
+      margin-inline-end: var(--layout-toc-width);
+    }
   }
 }

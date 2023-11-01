@@ -1,18 +1,46 @@
-import ExternalLink from '../components/ExternalLink';
-import InternalLinkButton from '../components/InternalLinkButton';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { IconExternalLink } from '@/components/Icons';
+import { Button, Flex, Text, Heading } from '@aws-amplify/ui-react';
+
+export const meta = {
+  title: '404',
+  description: ''
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta,
+      showBreadcrumbs: false
+    }
+  };
+}
 
 export default function Custom404() {
-  let [href, setHref] = useState('https://docs.amplify.aws');
+  const basePath = 'https://docs.amplify.aws';
+  let [href, setHref] = useState(basePath);
+  const path = useRouter().asPath;
   useEffect(() => {
-    setHref(window.location.href);
-  }, []);
+    setHref(basePath + path);
+  }, [path]);
   return (
-    <>
-      <h1>404</h1>
-      <p>
-        {`Apologies––we can't seem to find the page for which you're looking. If this is a mistake, please `}
-        <ExternalLink
+    <Flex className="four-oh-four">
+      <Heading level={1}>404</Heading>
+      <Text>
+        Apologies––we can't seem to find the page for which you're looking. If
+        this is a mistake, please file an issue and we'll fix it ASAP.
+      </Text>
+      <Flex className="four-oh-four__cta">
+        <Button as="a" href="/" variation="primary">
+          Return to home page
+        </Button>
+        <Button
+          variation="link"
+          as="a"
+          rel="noopener noreferrer"
+          target="_blank"
+          gap="small"
           href={`https://github.com/aws-amplify/docs/issues/new?title=[missing-page]&labels=v2&body=${encodeURI(
             `**Page**: [\`${href}\`](${href})
 
@@ -20,13 +48,9 @@ export default function Custom404() {
 `
           )}`}
         >
-          file an issue
-        </ExternalLink>
-        {` and we'll fix it ASAP.`}
-      </p>
-      <InternalLinkButton href="/">
-        Return to the landing page
-      </InternalLinkButton>
-    </>
+          File an issue <IconExternalLink />
+        </Button>
+      </Flex>
+    </Flex>
   );
 }

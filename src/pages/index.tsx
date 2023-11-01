@@ -1,12 +1,11 @@
-import { useEffect } from 'react';
 import { Heading, Text, Flex, Button } from '@aws-amplify/ui-react';
-import { debounce } from '@/utils/debounce';
-import { Layout } from '@/components/Layout';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
-
-import { trackPageVisit } from '@/utils/track';
+import { Banner } from '@/components/Banner';
+import { DEFAULT_PLATFORM } from '@/data/platforms';
+import PlatformFeatureList from '../components/FeatureLists/PlatformFeatureList';
+import LinkCards from '@/components/LinkCards';
 
 const meta = {
   title: 'Amplify Docs',
@@ -15,30 +14,25 @@ const meta = {
   url: 'https://docs.amplify.aws/'
 };
 
-export default function Page() {
-  useEffect(() => {
-    trackPageVisit();
-  }, []);
-
-  const handleScroll = debounce((e) => {
-    const bodyScroll = e.target.documentElement.scrollTop;
-    if (bodyScroll > 50) {
-      document.body.classList.add('scrolled');
-    } else if (document.body.classList.contains('scrolled')) {
-      document.body.classList.remove('scrolled');
+export function getStaticProps() {
+  return {
+    props: {
+      hasTOC: false,
+      showLastUpdatedDate: false,
+      pageType: 'home',
+      meta
     }
-  });
+  };
+}
 
-  useEffect(() => {
-    document.addEventListener('scroll', handleScroll);
-    return () => {
-      document.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+export default function Page() {
+  //Default platform is javascript
+  let defaultPlatform = DEFAULT_PLATFORM;
 
   return (
     <Flex className="home-content">
       <Flex className="home-intro">
+        <Banner url={'#'} />
         <Heading level={1} className="home-intro__heading">
           Amplify Docs
         </Heading>
@@ -47,7 +41,7 @@ export default function Page() {
           libraries, CLI, and services, you can easily connect your frontend to
           the cloud for authentication, storage, APIs, and more.
         </Text>
-        <Flex className="home-intro__cta">
+        <Flex className="home-cta">
           <Button variation="primary" size="large" gap="small">
             How Amplify Works{' '}
             <IconChevron
@@ -71,26 +65,8 @@ export default function Page() {
         </Text>
         <FrameworkGrid currentKey="javascript" />
       </Flex>
-
-      <Flex direction="column" alignItems="flex-start">
-        <Heading level={2}>Features for JavaScript</Heading>
-        <Button as="a" href="/">
-          View all features
-        </Button>
-      </Flex>
+      <PlatformFeatureList platform={defaultPlatform} />
+      <LinkCards platform={defaultPlatform} />
     </Flex>
   );
 }
-
-Page.getLayout = function getLayout(page) {
-  return (
-    <Layout
-      pageTitle={meta.title}
-      pageDescription={meta.description}
-      url={meta.url}
-      pageType="home"
-    >
-      {page}
-    </Layout>
-  );
-};
