@@ -36,6 +36,7 @@ ol[role='list'] {
 body {
   min-height: 100vh;
   line-height: var(--amplify-line-heights-medium);
+  font-size: var(--amplify-font-sizes-medium);
   color: var(--amplify-colors-font-primary);
 }
 
@@ -118,8 +119,15 @@ textarea:not([rows]) {
   max-width: 80ch;
 }
 
-ul {
+ul,
+ol {
   margin: 0;
+}
+
+ol:not([class]) {
+  li {
+    margin-bottom: var(--amplify-space-small);
+  }
 }
 
 .main {
