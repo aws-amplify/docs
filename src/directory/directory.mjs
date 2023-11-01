@@ -611,7 +611,7 @@ export const directory = {
           {
             title: 'Transcribe audio to text',
             route: '/lib/predictions/transcribe',
-            filters: ['js', 'ios']
+            filters: ['ios', 'js']
           },
           {
             title: 'Translate language',
@@ -1446,7 +1446,7 @@ export const directory = {
           {
             title: 'Transcribe audio to text',
             route: '/lib-v1/predictions/transcribe',
-            filters: ['ios', 'js', 'react-native']
+            filters: ['ios', 'js']
           },
           {
             title: 'Translate language',
