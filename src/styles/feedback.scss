@@ -10,7 +10,9 @@
   overflow: visible;
   text-wrap: nowrap;
   padding-left: 0;
-
+  font-size: 0.9rem;
+  justify-content: center;
+  line-height: 12px;
   &-no {
     &:hover {
       opacity: 0.8;
