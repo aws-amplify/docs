@@ -12,6 +12,7 @@ import { MDXCode, MDXHeading, MDXLink } from './src/components/MDXComponents';
 import MigrationAlert from './src/components/MigrationAlert';
 import preToCodeBlock from './src/utils/pre-to-code-block';
 import { Overview } from './src/components/Overview';
+import ExternalLinkButton from './src/components/ExternalLinkButton';
 
 const ResponsiveImage = (props) => (
   <ExportedImage style={{ height: 'auto' }} {...props} />
@@ -54,6 +55,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     YoutubeEmbed,
     Banner,
     Overview,
+    ExternalLinkButton,
     ...components
   };
 }
