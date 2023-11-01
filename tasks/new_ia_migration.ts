@@ -21,7 +21,7 @@ oldPages.forEach((file) => {
 
 // get file data from Excel doc
 const excelFile = reader.readFile(
-  '/Users/katiegoi/katiegoines/docs/IA Migration combined (2).xlsm'
+  '/Users/katiegoi/katiegoines/docs/IA Migration combined (3).xlsm'
 );
 
 // exclude worksheets without migration data
@@ -135,6 +135,7 @@ migrationData.forEach((item) => {
 });
 
 // Update meta and imports for all pages accounted for in Excel file
+// Then move to new location
 migrationData.forEach((page) => {
   let newContent = '';
   // if (fs.existsSync(oldPages[page['Original backend source']])) {
@@ -146,7 +147,9 @@ migrationData.forEach((page) => {
       let exportIndex = '';
       data.forEach((line) => {
         if (line.includes('title: ')) {
-          data.splice(data.indexOf(line), 1, `  title: \`${page['Page']}\`,`);
+          data.splice(data.indexOf(line), 1, `  title: '${page['Page']}',`);
+        } else if (line.includes('description:')) {
+          line.replace('`', "'");
         } else if (line.includes('supportedPlatforms:')) {
           exportIndex = data.indexOf(line);
           data.splice(
@@ -162,6 +165,8 @@ migrationData.forEach((page) => {
           data.splice(data.indexOf(line), 4, '<remove empty line>');
         } else if (line.includes('export const getStaticProps')) {
           data.splice(data.indexOf(line), 9, '<remove empty line>');
+        } else if (line.includes('import { INTEGRATION_FILTER_OPTIONS }')) {
+          data.splice(data.indexOf(line), 2, '<remove empty line>');
         }
       });
 
@@ -192,47 +197,61 @@ export function getStaticProps(context) {
       newContent = data.join('\n');
       // console.log(newContent);
       fs.writeFile(page['Original backend source'], newContent, (err) => {
-        if (err) console.log(err);
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(
+            '[ EDITS SUCCESSFULLY WRITTEN ]',
+            page['Original backend source']
+          );
+        }
       });
     }
   });
-});
 
-// create necessary directories exist in 'pages' for each file path
-migrationData.forEach((item) => {
-  const newPath = item['New backend source'];
-  const dirPath = newPath.slice(0, newPath.lastIndexOf('/'));
+  if (pagesThatWillMigrate.includes(page['Original backend source'])) {
+    // create necessary directories exist in 'pages' for each file path
+    const newPath = page['New backend source'];
+    const dirPath = newPath.slice(0, newPath.lastIndexOf('/'));
 
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdir(dirPath, { recursive: true }, (err) => {
-      if (err) throw err;
-    });
-    console.log('folder structure created for: ', dirPath);
-  }
-});
-
-// move existing pages from pages-old into new IA locations
-migrationData.forEach((item) => {
-  // console.log(origSource, '-->', oldPath);
-  if (fs.existsSync(item['Original backend source'])) {
-    fs.rename(
-      item['Original backend source'],
-      item['New backend source'],
-      (err) => {
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdir(dirPath, { recursive: true }, (err) => {
         if (err) {
-          console.log(item['New backend source'], err);
+          console.log(err);
         } else {
-          console.log(
-            'rename successful: ',
-            item['Original backend source'],
-            '-->',
-            item['New backend source']
-          );
+          console.log('[ FOLDER STRUCTURE CREATED ]', dirPath);
         }
-      }
-    );
+      });
+    }
+
+    // move existing pages from pages-old into new IA locations
+    if (
+      fs.existsSync(page['Original backend source']) &&
+      page['Flag for manual move'] != 'Yes'
+    ) {
+      fs.rename(
+        page['Original backend source'],
+        page['New backend source'],
+        (err) => {
+          if (err) {
+            console.log(page['New backend source'], err);
+          } else {
+            console.log(
+              'rename successful: ',
+              page['Original backend source'],
+              '-->',
+              page['New backend source']
+            );
+          }
+        }
+      );
+    }
   }
 });
+
+// TO COMPLETE
+// commands will be done manually
+// return list of pages not migrated
 
 // remove empty directories from pages-old
 // glob('src/pages-old/**/').then((directories) => {
