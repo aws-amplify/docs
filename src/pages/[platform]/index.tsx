@@ -32,6 +32,7 @@ export function getStaticProps(context) {
     props: {
       platform: context.params.platform,
       hasTOC: false,
+      showBreadcrumbs: false,
       showLastUpdatedDate: false,
       pageType: 'home',
       showBreadcrumbs: false,
