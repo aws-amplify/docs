@@ -88,24 +88,34 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Manage user session and credentials',
+            route: '/lib/auth/manage-session',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Enable sign-up, sign-in, and sign-out',
             route: '/lib/auth/emailpassword',
             filters: ['js', 'react-native']
           },
           {
-            title: 'Social sign-in (OAuth)',
+            title: 'Add social provider sign-in',
             route: '/lib/auth/social',
             filters: ['js', 'react-native']
           },
           {
-            title: 'Multi-factor authentication',
+            title: 'Manage MFA and device settings',
             route: '/lib/auth/mfa',
-            filters: ['js', 'react-native', 'android', 'flutter', 'ios']
+            filters: ['js', 'react-native']
           },
           {
-            title: 'Password & user management',
+            title: 'Manage user profiles',
             route: '/lib/auth/manageusers',
             filters: ['js', 'react-native']
+          },
+          {
+          title: 'Set up user password change and recovery',
+          route: '/lib/auth/password_management',
+          filters: ['js', 'react-native', 'android', 'flutter', 'ios']
           },
           {
             title: 'Switching authentication flows',
@@ -138,9 +148,14 @@ export const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
-            title: 'Social sign-in (OAuth)',
+            title: 'Add social provider sign-in',
             route: '/lib/auth/social',
             filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'Multi-factor authentication',
+            route: '/lib/auth/mfa',
+            filters: ['ios', 'flutter', 'android']
           },
           {
             title: 'SMS flows',
@@ -158,7 +173,7 @@ export const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
-            title: 'Auth events',
+            title: 'Listen to auth events',
             route: '/lib/auth/auth-events',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
@@ -171,11 +186,6 @@ export const directory = {
             title: 'Remember a device',
             route: '/lib/auth/device_features',
             filters: ['android', 'ios', 'js', 'flutter', 'react-native']
-          },
-          {
-            title: 'Password management',
-            route: '/lib/auth/password_management',
-            filters: ['android', 'flutter', 'ios']
           },
           {
             title: 'Sign out',
@@ -193,7 +203,7 @@ export const directory = {
             filters: ['flutter']
           },
           {
-            title: 'Delete user',
+            title: 'Delete user account',
             route: '/lib/auth/delete_user',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
@@ -289,16 +299,17 @@ export const directory = {
           },
           {
             title: 'Create, update, delete data',
+            title: 'Create, update, and delete application data',
             route: '/lib/graphqlapi/mutate-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Fetch data',
+            title: 'Read application data',
             route: '/lib/graphqlapi/query-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Subscribe to data',
+            title: 'Subscribe to real-time events',
             route: '/lib/graphqlapi/subscribe-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
@@ -1461,6 +1472,21 @@ export const directory = {
             title: 'Escape Hatch',
             route: '/lib-v1/geo/escapehatch',
             filters: ['android', 'ios']
+          }
+        ]
+      },
+      interactions: {
+        title: 'Interactions',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/interactions/getting-started',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Interact with bots',
+            route: '/lib-v1/interactions/chatbot',
+            filters: ['js', 'react-native']
           }
         ]
       },
