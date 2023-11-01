@@ -4,10 +4,9 @@ import { findDirectoryNode as findNode } from '@/utils/findDirectoryNode';
 import classNames from 'classnames';
 
 type BreadcrumbItem = {
-  href: { pathname: string; query?: { platform: string } };
+  href: { pathname: string, query?: { platform: string } };
   label: string;
   isDisabled?: boolean;
-  isGen2?: boolean;
 };
 
 type Props = {
@@ -17,12 +16,9 @@ type Props = {
 
 const overrides = {
   '/': 'Home'
-};
+}
 
-function generateBreadcrumbs(
-  route: string,
-  platform: string
-): BreadcrumbItem[] {
+function generateBreadcrumbs(route: string, platform: string): BreadcrumbItem[] {
   const breadcrumbs: BreadcrumbItem[] = [];
 
   const pieces = route.split('/').filter((str) => str);
@@ -30,7 +26,7 @@ function generateBreadcrumbs(
   for (let i = 1; i <= pieces.length; i++) {
     urls.push(`/${pieces.slice(0, i).join('/')}`);
   }
-  urls.splice(0, 0, '/');
+  urls.splice(0, 0, "/");
 
   urls.forEach((url) => {
     const directoryEntry = findNode(url);
@@ -40,7 +36,7 @@ function generateBreadcrumbs(
     if (url.includes('[platform]')) {
       href['query'] = { platform };
     }
-    let label = directoryEntry ? directoryEntry.title : url;
+    let label = directoryEntry ? directoryEntry.title : url
     const override = overrides[url.replace('[platform]', platform)];
     if (override) {
       label = override;
@@ -57,27 +53,14 @@ function generateBreadcrumbs(
 
 function BreadcrumbsComponent({ route, platform }: Props) {
   const items = generateBreadcrumbs(route, platform);
-  return items.length > 1 ? (
+  return items.length > 1 ?
     <div className={'breadcrumb__container'}>
       <Breadcrumbs.Container>
         {items?.map(({ href, label }, i) => {
           const isCurrent = i === items.length - 1;
           return (
-            <Breadcrumbs.Item
-              key={href.pathname}
-              paddingTop="small"
-              className="breadcrumb__item"
-            >
-              <Link
-                href={href}
-                passHref
-                className={classNames(
-                  'amplify-link',
-                  'amplify-breadcrumbs__link',
-                  { 'amplify-breadcrumbs__link--current': isCurrent }
-                )}
-                aria-current={isCurrent || undefined}
-              >
+            <Breadcrumbs.Item key={href.pathname} paddingTop="small" className="breadcrumb__item">
+              <Link href={href} passHref className={classNames('amplify-link', 'amplify-breadcrumbs__link', { 'amplify-breadcrumbs__link--current': isCurrent })} aria-current={isCurrent || undefined}>
                 {label}
               </Link>
               {isCurrent ? null : <Breadcrumbs.Separator />}
@@ -85,10 +68,7 @@ function BreadcrumbsComponent({ route, platform }: Props) {
           );
         })}
       </Breadcrumbs.Container>
-    </div>
-  ) : (
-    <></>
-  );
+    </div> : <></>
 }
 
-export { BreadcrumbsComponent as Breadcrumbs };
+export { BreadcrumbsComponent as Breadcrumbs }
