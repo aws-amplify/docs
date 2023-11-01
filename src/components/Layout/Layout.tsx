@@ -45,9 +45,9 @@ export const Layout = ({
   pageTitle,
   pageType = 'inner',
   platform,
-  url,
   showBreadcrumbs = true,
-  showLastUpdatedDate = true
+  showLastUpdatedDate = true,
+  url
 }: {
   children: any;
   hasTOC?: boolean;
@@ -55,9 +55,9 @@ export const Layout = ({
   pageTitle?: string;
   pageType?: 'home' | 'inner';
   platform?: Platform;
-  url?: string;
   showBreadcrumbs?: boolean;
   showLastUpdatedDate: boolean;
+  url?: string;
 }) => {
   const [menuOpen, toggleMenuOpen] = useState(false);
   const [tocHeadings, setTocHeadings] = useState<Heading[]>([]);
