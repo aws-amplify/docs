@@ -29,6 +29,8 @@ Services used: Amazon Comprehend
 Analyze text to find key phrases, sentiment (positive, negative, neutral), or the syntax (pronouns, verbs, etc.). You can also find entities in the text such as names or places, or perform language detection.
 
 ```js
+import { Predictions } from '@aws-amplify/predictions';
+
 const result = await Predictions.interpret({
   text: {
     source: {

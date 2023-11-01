@@ -22,6 +22,8 @@ Services used: Amazon Polly
 Generate an audio buffer for playback from a text input.
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 Predictions.convert({
   textToSpeech: {
     source: {

@@ -20,6 +20,8 @@ Now run `amplify push` which will generate your `aws-exports.js` and create reso
 Translate text from one source language to a destination language.
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 Predictions.convert({
   translateText: {
     source: {

@@ -22,6 +22,8 @@ Services used: Amazon Transcribe
 You can transcribe a PCM Audio byte buffer to Text, such as a recording from microphone.
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 Predictions.convert({
   transcription: {
     source: {

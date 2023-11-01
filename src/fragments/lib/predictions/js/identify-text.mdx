@@ -33,6 +33,8 @@ Services used: Amazon Rekognition (default for plain text) and Amazon Textract (
 Detect text in an input image. Input can be sent directly from the browser or an Amazon S3 key from project bucket.
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 const response = await Predictions.identify({
   text: {
     source: {
@@ -46,6 +48,8 @@ console.log({ response });
 ## Identify image stored in Amazon S3
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 const response = await Predictions.identify({
   text: {
     source: {
@@ -64,6 +68,8 @@ console.log({ response });
 For detecting plain text, you can see the whole detected text, the lines detected, the position of each line of text, and each word.
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 const response = await Predictions.identify({
   text: {
     source: {
@@ -97,6 +103,8 @@ const {
 For detecting structured forms (documents, tables, etc.) from an image, `keyValues` will return a string of the entity found in the image as well as metadata such as selected checkboxes or the relative location in the image using a `boundingBox`.
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 const response = await Predictions.identify({
   text: {
     source: {
@@ -122,6 +130,8 @@ For example the below image would return `keyValues` with "Test" or "Checked" as
 
 For detecting structured tables from an image
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 const response = await Predictions.identify({
   text: {
     source: {
@@ -147,6 +157,8 @@ const {
 
 For detecting tables and forms on the image just select format "ALL"
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 const response = await Predictions.identify({
   text: {
     source: {

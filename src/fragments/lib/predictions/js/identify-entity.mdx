@@ -55,6 +55,8 @@ Input can be sent directly from the browser (using File object or ArrayBuffer ob
 Detect entities directly from image uploaded from the browser. (File object)
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 const response = await Predictions.identify({
   entities: {
     source: {
@@ -69,6 +71,8 @@ Detect entities directly from image binary from the browser. (ArrayBuffer object
 This technique is useful when you have base64 encoded binary image data, for example, from a webcam source.
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 const response = await Predictions.identify({
   entities: {
     source: {
@@ -81,6 +85,8 @@ console.log({ response });
 
 From Amazon S3 key
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 const response = await Predictions.identify({
   entities: {
     source: {
@@ -97,6 +103,8 @@ The following options are independent of which `source` is specified. For demons
 Detecting bounding box of faces from an image with its landmarks (eyes, mouth, nose).
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 const { entities } = await Predictions.identify({
   entities: {
     source: {
@@ -125,6 +133,8 @@ for (const { boundingBox, landmarks } of entities) {
 Detecting celebrities on an image. It will return only celebrities the name and urls with related information.
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 const { entities } = await Predictions.identify({
   entities: {
     source: {
@@ -148,6 +158,8 @@ for(const { boundingBox, landmarks, metadata } of entities) {
 Detecting entities from previously uploaded images (e.g. Advanced Configuration for Identify Entities)
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 const { entities } = await Predictions.identify({
   entities: {
     source: {

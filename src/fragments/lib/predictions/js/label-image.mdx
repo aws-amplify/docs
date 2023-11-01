@@ -37,6 +37,8 @@ Services used: Amazon Rekognition
 Detect labels, such if an image has a desk or a chair in it
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 Predictions.identify({
   labels: {
     source: {
@@ -57,6 +59,8 @@ Predictions.identify({
 Detect unsafe content in an image
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 Predictions.identify({
   labels: {
     source: {
@@ -73,6 +77,8 @@ Predictions.identify({
 
 for both labels and unsafe content
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 Predictions.identify({
   labels: {
     source: {
