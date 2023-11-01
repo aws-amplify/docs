@@ -22,14 +22,8 @@ export const getStaticProps = (context) => {
   };
 };
 
-import js0 from '/src/fragments/lib/geo/js/getting-started.mdx';
+import common_getting_started from '/src/fragments/lib/geo/native_common/getting_started/common.mdx';
 
-<Fragments fragments={{ js: js0 }} />
-
-import android1 from '/src/fragments/lib/geo/native_common/getting_started/common.mdx';
-
-<Fragments fragments={{ android: android1 }} />
-
-import ios2 from '/src/fragments/lib/geo/native_common/getting_started/common.mdx';
-
-<Fragments fragments={{ ios: ios2 }} />
+<Fragments
+  fragments={{ android: common_getting_started, ios: common_getting_started }}
+/>
