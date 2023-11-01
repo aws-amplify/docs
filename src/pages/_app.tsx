@@ -4,22 +4,29 @@ import '../styles/styles.scss';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
-import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter();
-  const { meta, platform, url, hasTOC, pageType } = pageProps;
+  const {
+    meta,
+    platform,
+    url,
+    hasTOC,
+    pageType,
+    showBreadcrumbs,
+    showLastUpdatedDate
+  } = pageProps;
   const getLayout =
     Component.getLayout ||
     ((page) => (
       <Layout
-        key={router.asPath}
         pageTitle={meta?.title ? meta.title : ''}
         pageDescription={meta?.description ? meta.description : ''}
         pageType={pageType}
         url={url}
         platform={platform ? platform : ''}
         hasTOC={hasTOC}
+        showBreadcrumbs={showBreadcrumbs}
+        showLastUpdatedDate={showLastUpdatedDate}
       >
         {page}
       </Layout>

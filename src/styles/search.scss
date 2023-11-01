@@ -2,11 +2,6 @@
   margin-inline-start: auto;
 }
 
-.search-menu-toggle {
-  gap: var(--amplify-space-xxxs);
-  align-self: center;
-}
-
 @media (min-width: $toc-min) {
   .layout-search__search {
     &--toc {
