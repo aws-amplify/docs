@@ -4,6 +4,7 @@ import { Prism, Highlight } from 'prism-react-renderer';
 import { theme } from './code-theme';
 import { View, Button } from '@aws-amplify/ui-react';
 import { versions } from '@/constants/versions';
+import { trackCopyClicks } from '@/utils/track';
 
 require('./cli-error-language.js');
 
@@ -29,6 +30,7 @@ export const MDXCode = (props) => {
   const [copied, setCopied] = React.useState(false);
   const [code, setCode] = React.useState(codeString);
   const copy = () => {
+    trackCopyClicks(codeString);
     setCopied(true);
     setTimeout(() => {
       setCopied(false);

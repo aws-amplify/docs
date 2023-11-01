@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
-  Flex,
-  View,
   Button,
+  Flex,
+  IconsProvider,
   ThemeProvider,
-  IconsProvider
+  View,
+  VisuallyHidden
 } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
 import { defaultIcons } from '@/themes/defaultIcons';
@@ -31,9 +32,11 @@ import { TableOfContents } from '@/components/TableOfContents';
 import type { Heading } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
 import directory from 'src/directory/directory.json';
+import flatDirectory from 'src/directory/flatDirectory.json';
 import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
+import { PageLastUpdated } from '../PageLastUpdated';
 
 export const Layout = ({
   children,
@@ -43,6 +46,7 @@ export const Layout = ({
   pageType = 'inner',
   platform,
   showBreadcrumbs = true,
+  showLastUpdatedDate = true,
   url
 }: {
   children: any;
@@ -52,10 +56,13 @@ export const Layout = ({
   pageType?: 'home' | 'inner';
   platform?: Platform;
   showBreadcrumbs?: boolean;
+  showLastUpdatedDate: boolean;
   url?: string;
 }) => {
   const [menuOpen, toggleMenuOpen] = useState(false);
   const [tocHeadings, setTocHeadings] = useState<Heading[]>([]);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     trackPageVisit();
@@ -139,12 +146,24 @@ export const Layout = ({
 
   const handleScroll = debounce((e) => {
     const bodyScroll = e.target.documentElement.scrollTop;
-    if (bodyScroll > 50) {
+    if (bodyScroll > 20) {
       document.body.classList.add('scrolled');
     } else if (document.body.classList.contains('scrolled')) {
       document.body.classList.remove('scrolled');
     }
-  });
+  }, 20);
+
+  const handleMenuToggle = () => {
+    if (!menuOpen) {
+      toggleMenuOpen(true);
+      // For keyboard navigators, move focus to the close menu button in the nav
+      setTimeout(() => sidebarMenuButtonRef?.current?.focus(), 0);
+    } else {
+      toggleMenuOpen(false);
+      // For keyboard navigators, move focus back to menu button in header
+      menuButtonRef?.current?.focus();
+    }
+  };
 
   return (
     <>
@@ -190,13 +209,15 @@ export const Layout = ({
               />
               <Flex className={`layout-search layout-search--${pageType}`}>
                 <Button
-                  onClick={() => toggleMenuOpen(true)}
+                  onClick={() => handleMenuToggle()}
                   size="small"
+                  ref={menuButtonRef}
                   className="search-menu-toggle mobile-toggle"
                 >
                   <IconMenu aria-hidden="true" />
                   Menu
                 </Button>
+
                 <View
                   className={classNames(
                     'layout-search__search',
@@ -223,26 +244,28 @@ export const Layout = ({
                     menuOpen ? ' layout-sidebar__inner--expanded' : ''
                   }`}
                 >
-                  <div className="layout-sidebar-platform">
-                    <Button
-                      size="small"
-                      colorTheme="overlay"
-                      className="mobile-toggle"
-                      onClick={() => toggleMenuOpen(false)}
-                    >
-                      <IconDoubleChevron aria-hidden="true" />
-                      Menu
-                    </Button>
-                    {isGen2 ? (
-                      <></>
-                    ) : (
+                  <Button
+                    size="small"
+                    colorTheme="overlay"
+                    className={classNames('layout-sidebar__mobile-toggle', {
+                      'layout-sidebar__mobile-toggle--open': menuOpen
+                    })}
+                    ref={sidebarMenuButtonRef}
+                    onClick={() => handleMenuToggle()}
+                  >
+                    <IconDoubleChevron />
+                    <VisuallyHidden>Close menu</VisuallyHidden>
+                  </Button>
+                  {isGen2 ? null : (
+                    <div className="layout-sidebar-platform">
                       <PlatformNavigator
                         currentPlatform={
                           PLATFORM_DISPLAY_NAMES[currentPlatform]
                         }
                       />
-                    )}
-                  </div>
+                    </div>
+                  )}
+
                   <div className="layout-sidebar-menu">
                     {isGen2 ? (
                       <Menu
@@ -261,6 +284,14 @@ export const Layout = ({
                           pathname: `/[platform]`,
                           query: { platform: currentPlatform }
                         }}
+                      />
+                    )}
+                    <div className="layout-sidebar-feedback">
+                      [ Feedback widget goes here ]
+                    </div>
+                    {showLastUpdatedDate && (
+                      <PageLastUpdated
+                        directoryData={flatDirectory[router.pathname]}
                       />
                     )}
                   </div>

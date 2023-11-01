@@ -32,6 +32,7 @@ export function getStaticProps(context) {
     props: {
       platform: context.params.platform,
       hasTOC: false,
+      showLastUpdatedDate: false,
       pageType: 'home',
       showBreadcrumbs: false,
       meta
@@ -54,11 +55,7 @@ const PlatformOverview = ({ platform }) => {
         <Flex className="home-cta">
           <Button variation="primary" size="large" gap="small">
             How Amplify Works{' '}
-            <IconChevron
-              aria-hidden="true"
-              className="icon-rotate-270"
-              fontSize=".875em"
-            />
+            <IconChevron className="icon-rotate-270" fontSize=".875em" />
           </Button>
           <GetStartedPopover />
         </Flex>

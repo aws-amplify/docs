@@ -153,6 +153,6 @@
     "next-start": "next start",
     "prepare": "husky install",
     "analyze": "ANALYZE=true yarn next-build",
-    "prebuild": "node src/directory/generateDirectory.mjs"
+    "prebuild": "node src/directory/generateDirectory.mjs && node src/directory/generateFlatDirectory.mjs"
   }
 }

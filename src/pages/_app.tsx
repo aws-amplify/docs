@@ -8,7 +8,15 @@ import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  const { meta, platform, url, hasTOC, pageType, showBreadcrumbs } = pageProps;
+  const {
+    meta,
+    platform,
+    url,
+    hasTOC,
+    pageType,
+    showBreadcrumbs,
+    showLastUpdatedDate
+  } = pageProps;
   const getLayout =
     Component.getLayout ||
     ((page) => (
@@ -21,6 +29,7 @@ function MyApp({ Component, pageProps }) {
         platform={platform ? platform : ''}
         hasTOC={hasTOC}
         showBreadcrumbs={showBreadcrumbs}
+        showLastUpdatedDate={showLastUpdatedDate}
       >
         {page}
       </Layout>
