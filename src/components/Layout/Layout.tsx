@@ -287,7 +287,7 @@ export const Layout = ({
                       />
                     )}
                     <div className="layout-sidebar-feedback">
-                      [ Feedback widget goes here ]
+                      {/* [ Feedback widget goes here ] */}
                     </div>
                     {showLastUpdatedDate && (
                       <PageLastUpdated
