@@ -68,7 +68,7 @@ export default function MetaContent({
           buttonsRef={buttonsRef}
         ></Menu>
         <ContentStyle menuIsOpen={menuIsOpen}>
-          <div>
+          <div className={'searchable-content'}>
             <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
             <div>
               <h1>{title}</h1>
