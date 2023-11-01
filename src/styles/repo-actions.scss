@@ -1,8 +1,7 @@
 .repo-actions {
-  padding-top: 25px;
   margin-top: 25px;
   border-top: 1px solid var(--amplify-colors-neutral-20);
-  padding: var(--amplify-space-xs) var(--amplify-space-large);
+  padding: 25px var(--amplify-space-large) var(--amplify-space-xs);
 
   &-link {
     align-items: center;
