@@ -360,32 +360,27 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/restapi/getting-started',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Fetching data',
             route: '/lib/restapi/fetch',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Updating data',
             route: '/lib/restapi/update',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Deleting data',
             route: '/lib/restapi/delete',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
-          },
-          {
-            title: 'Cancel API requests',
-            route: '/lib/restapi/cancel',
-            filters: ['js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Define authorization rules',
             route: '/lib/restapi/authz',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Use existing AWS resources',
@@ -470,37 +465,27 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/geo/getting-started',
-            filters: ['js', 'ios', 'android']
+            filters: ['ios', 'android']
           },
           {
             title: 'Maps',
             route: '/lib/geo/maps',
-            filters: ['js', 'ios', 'android']
+            filters: ['ios', 'android']
           },
           {
             title: 'Location Search',
             route: '/lib/geo/search',
-            filters: ['js', 'ios', 'android']
-          },
-          {
-            title: 'Geofences',
-            route: '/lib/geo/geofences',
-            filters: ['js']
+            filters: ['ios', 'android']
           },
           {
             title: 'Use existing Amazon Location resources',
             route: '/lib/geo/existing-resources',
-            filters: ['js', 'ios', 'android']
-          },
-          {
-            title: 'Migrating from Google Maps',
-            route: '/lib/geo/google-migration',
-            filters: ['js']
+            filters: ['ios', 'android']
           },
           {
             title: 'Escape Hatch',
             route: '/lib/geo/escapehatch',
-            filters: ['js', 'ios', 'android']
+            filters: ['ios', 'android']
           }
         ]
       },
@@ -863,41 +848,10 @@ export const directory = {
       utilities: {
         title: 'Utilities',
         items: [
-          // TODO Rewrite do we have service workers for React native?
-          {
-            title: 'Service Worker',
-            route: '/lib/utilities/serviceworker',
-            filters: ['js']
-          },
-          {
-            title: 'Cache',
-            route: '/lib/utilities/cache',
-            filters: ['js', 'react-native']
-          },
           {
             title: 'Hub',
             route: '/lib/utilities/hub',
             filters: ['android', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Internationalization',
-            route: '/lib/utilities/i18n',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Logger',
-            route: '/lib/utilities/logger',
-            filters: ['js', 'react-native']
-          }
-        ]
-      },
-      'client-configuration': {
-        title: 'Client configuration',
-        items: [
-          {
-            title: 'Configuring Amplify Categories',
-            route: '/lib/client-configuration/configuring-amplify-categories',
-            filters: ['js', 'react-native']
           }
         ]
       },
@@ -930,8 +884,8 @@ export const directory = {
         title: 'Server-Side Rendering',
         items: [
           {
-            title: 'Getting Started with Server-Side Rendering (SSR)',
-            route: '/lib/ssr',
+            title: 'Use Amplify with Next.js',
+            route: '/lib/ssr/nextjs',
             filters: ['js']
           }
         ]
@@ -943,11 +897,6 @@ export const directory = {
             title: 'Upgrading Amplify packages',
             route: '/lib/troubleshooting/upgrading',
             filters: ['flutter', 'js', 'react-native']
-          },
-          {
-            title: 'TypeScript strict mode',
-            route: '/lib/troubleshooting/strict-mode',
-            filters: ['js', 'react-native']
           }
         ]
       }
@@ -1215,27 +1164,32 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/restapi/getting-started',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Fetching data',
             route: '/lib-v1/restapi/fetch',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Updating data',
             route: '/lib-v1/restapi/update',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Deleting data',
             route: '/lib-v1/restapi/delete',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Cancel API requests',
+            route: '/lib-v1/restapi/cancel',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Define authorization rules',
             route: '/lib-v1/restapi/authz',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Use existing AWS resources',
@@ -1470,27 +1424,37 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/geo/getting-started',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Maps',
             route: '/lib-v1/geo/maps',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Location Search',
             route: '/lib-v1/geo/search',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
+          },
+          {
+            title: 'Geofences',
+            route: '/lib-v1/geo/geofences',
+            filters: ['js']
           },
           {
             title: 'Use existing Amazon Location resources',
             route: '/lib-v1/geo/existing-resources',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
+          },
+          {
+            title: 'Migrating from Google Maps',
+            route: '/lib-v1/geo/google-migration',
+            filters: ['js']
           },
           {
             title: 'Escape Hatch',
             route: '/lib-v1/geo/escapehatch',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           }
         ]
       },
@@ -1525,7 +1489,7 @@ export const directory = {
           {
             title: 'Transcribe audio to text',
             route: '/lib-v1/predictions/transcribe',
-            filters: ['android', 'ios']
+            filters: ['ios']
           },
           {
             title: 'Translate language',
@@ -1653,8 +1617,8 @@ export const directory = {
         title: 'Server-Side Rendering',
         items: [
           {
-            title: 'Use Amplify with Next.js',
-            route: '/lib-v1/ssr/nextjs',
+            title: 'Getting Started with Server-Side Rendering (SSR)',
+            route: '/lib-v1/ssr',
             filters: ['js']
           }
         ]
@@ -1663,9 +1627,40 @@ export const directory = {
         title: 'Utilities',
         items: [
           {
+            title: 'Service Worker',
+            route: '/lib-v1/utilities/serviceworker',
+            filters: ['js']
+          },
+          {
+            title: 'Cache',
+            route: '/lib-v1/utilities/cache',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Hub',
             route: '/lib-v1/utilities/hub',
             filters: ['android', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Internationalization',
+            route: '/lib-v1/utilities/i18n',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Logger',
+            route: '/lib-v1/utilities/logger',
+            filters: ['js', 'react-native']
+          }
+        ]
+      },
+      'client-configuration': {
+        title: 'Client configuration',
+        items: [
+          {
+            title: 'Configuring Amplify Categories',
+            route:
+              '/lib-v1/client-configuration/configuring-amplify-categories',
+            filters: ['js', 'react-native']
           }
         ]
       },
@@ -1675,7 +1670,12 @@ export const directory = {
           {
             title: 'Upgrading Amplify packages',
             route: '/lib-v1/troubleshooting/upgrading',
-            filters: ['flutter', 'js']
+            filters: ['flutter', 'js', 'react-native']
+          },
+          {
+            title: 'TypeScript strict mode',
+            route: '/lib-v1/troubleshooting/strict-mode',
+            filters: ['js', 'react-native']
           }
         ]
       },
