@@ -21,7 +21,6 @@ function MyApp({ Component, pageProps }) {
     Component.getLayout ||
     ((page) => (
       <Layout
-        key={router.asPath}
         pageTitle={meta?.title ? meta.title : ''}
         pageDescription={meta?.description ? meta.description : ''}
         pageType={pageType}
