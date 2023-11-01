@@ -6,35 +6,18 @@
   width: 400px;
   position: absolute;
   top: 200px;
-  right: -186px;
+  right: 0;
   display: block;
+  opacity: 0;
   &--with-banner {
     top: 340px;
   }
-  &__cloud,
-  &__spaceship,
-  &__star,
-  &__planet {
-    opacity: 0;
-    transition: opacity 0.2s ease-out;
-  }
 }
 
-@container (min-width: 700px) {
+@container (min-width: 860px) {
   .spaceship {
-    &__cloud,
-    &__spaceship,
-    &__star,
-    &__planet {
-      opacity: 1;
-    }
-  }
-}
-
-@container (min-width: 800px) {
-  .spaceship {
-    width: 623px;
-    right: -278px;
+    opacity: 1;
+    width: 400px;
     top: 160px;
     &--with-banner {
       top: 260px;
@@ -42,11 +25,11 @@
   }
 }
 
-@container (min-width: 935px) {
+@container (min-width: 950px) {
   .spaceship {
-    width: 719px;
-    top: 140px;
-    right: -316px;
+    width: 500px;
+    top: 90px;
+
     &--with-banner {
       top: 240px;
     }
@@ -57,5 +40,8 @@
   .spaceship-wrapper {
     padding-inline: calc(var(--layout-sidebar-width) + var(--amplify-space-xxl))
       var(--amplify-space-xxl);
+  }
+  .spaceship {
+    right: calc(var(--amplify-space-xxl) * -1);
   }
 }
