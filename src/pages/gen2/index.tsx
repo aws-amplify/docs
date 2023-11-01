@@ -16,6 +16,7 @@ import {
   IconVue,
   IconChevron
 } from '@/components/Icons';
+import { Columns } from '@/components/Columns';
 import { FeatureList, FeatureItem } from '@/components/FeatureLists';
 
 export const meta = {
@@ -108,7 +109,7 @@ const Gen2Overview = () => {
       </Flex>
       <Flex className="home-section">
         <Heading level={2}>Features</Heading>
-        <Grid className="columns-three">
+        <Columns columns={3}>
           <Card variation="outlined">
             <Flex direction="column">
               <Heading level={3} fontSize="medium">
@@ -142,9 +143,9 @@ const Gen2Overview = () => {
               </Text>
             </Flex>
           </Card>
-        </Grid>
+        </Columns>
       </Flex>
-      <Grid className="columns-two">
+      <Columns columns={2}>
         <FeatureList heading="Develop" level={2}>
           <FeatureItem
             linkText="A TypeScript-first fullstack experience"
@@ -250,7 +251,7 @@ export type BackupStackProps = {
   database: rds.DatabaseInstance; 
 }`}
         ></MDXCode>
-      </Grid>
+      </Columns>
     </Flex>
   );
 };

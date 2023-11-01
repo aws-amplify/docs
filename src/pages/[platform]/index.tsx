@@ -35,7 +35,6 @@ export function getStaticProps(context) {
       showBreadcrumbs: false,
       showLastUpdatedDate: false,
       pageType: 'home',
-      showBreadcrumbs: false,
       meta
     }
   };
