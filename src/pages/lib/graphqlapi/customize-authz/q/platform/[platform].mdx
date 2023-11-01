@@ -117,7 +117,6 @@ Auth rules can be set at the global, model, or field levels. Amplify will always
 To help you get started, there's a global authorization rule defined when you create a new GraphQL schema. For production environments, remove the global authorization rule and apply rules on each model instead.
 
 <BlockSwitcher>
-
 <Block name="Amplify CLI">
 
 ```graphql
@@ -139,7 +138,6 @@ new AmplifyGraphqlApi(this, "MyNewApi", {
 ```
 
 </Block>
-
 </BlockSwitcher>
 
 The global authorization rule (in this case `{ allow: public }` - allows anyone to create, read, update, and delete) is applied to every data model in the GraphQL schema.
@@ -227,7 +225,6 @@ You can further update your authorization rules by your strategy and the related
 | Any signed-in data access. Unlike owner-based access, **any** signed-in user has access. | [`private`](#signed-in-user-data-access) | `userPools` / `oidc` / `iam` |
 | Per user group data access. A specific or dynamically configured group of users have access | [`groups`](#user-group-based-data-access) | `userPools` / `oidc` |
 | Define your own custom authorization rule within a Lambda function | [`custom`](#custom-authorization-rule) | `function` |
-
 
 <InlineFilter filters={["js"]}>
 
@@ -830,16 +827,6 @@ Congratulations! You have finished the **Customize your auth rules** guide. In t
 
 Our recommended next steps explore more customizations you can create for your data:
 
-<InlineFilter filters={["js"]}>
-
 - [Custom business logic](/cli/graphql/custom-business-logic/)
-
-</InlineFilter>
-
-<InlineFilter filters={["react-native"]}>
-
-- [Custom business logic](/cli/graphql/custom-business-logic/)
-
-</InlineFilter>
 
 </InlineFilter>

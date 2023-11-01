@@ -283,6 +283,11 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Customize your auth rules',
+            route: '/lib/graphqlapi/customize-authz',
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
             title: 'Create, update, delete data',
             route: '/lib/graphqlapi/mutate-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
