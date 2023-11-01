@@ -7,6 +7,7 @@ import {
   Card,
   View
 } from '@aws-amplify/ui-react';
+import ExportedImage from 'next-image-export-optimizer';
 import { MDXCode } from '@/components/MDXComponents/';
 import {
   IconKotlin,
@@ -191,12 +192,14 @@ export default defineData ({
   schema, 
 });`}
         ></MDXCode>
-        <View>
-          <img
-            src="/images/gen2/deploy-cycle.png"
-            alt="Flowchart describing..."
-          />
-        </View>
+
+        <ExportedImage
+          src="/images/gen2/deploy-cycle.png"
+          alt="Flowchart describing..."
+          width="450"
+          height="412"
+          style={{ margin: 'auto', height: 'auto' }}
+        />
 
         <FeatureList heading="Deploy" level={2}>
           <FeatureItem linkText="SSR/SSG/ISR hosting support" href="/gen2">

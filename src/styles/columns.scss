@@ -8,7 +8,8 @@
 }
 
 @container (min-width: 500px) {
-  .columns--medium--4 {
+  .columns--medium--4,
+  .columns--small--4 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -20,7 +21,7 @@
   .columns--small--3 {
     grid-template-columns: repeat(3, 1fr);
   }
-  .columns--medium--4 {
+  .columns--small--4 {
     grid-template-columns: repeat(4, 1fr);
   }
 }
