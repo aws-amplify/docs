@@ -6,7 +6,7 @@
 /src/**/cli/ @josefaidt @aws-amplify/documentation-team 
 
 #Studio
-/src/pages/console/ @wrpeck @aws-amplify/documentation-team 
+/src/pages/console/ @dbanksdesign @aws-amplify/documentation-team 
  
 #Analytics
 /src/**/**/analytics @abdallahshaban557 @aws-amplify/documentation-team 
@@ -97,3 +97,5 @@
 /src/public @aws-amplify/documentation-team 
 /src/styles @aws-amplify/documentation-team 
 /src/utils @aws-amplify/documentation-team
+
+cspell.json
