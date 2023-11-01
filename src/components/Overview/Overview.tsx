@@ -1,9 +1,9 @@
-import { ReactElement } from 'react';
 import { PageNode } from 'src/directory/directory';
 import { Card, Flex, Grid, View, Text } from '@aws-amplify/ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Platform } from '@/data/platforms';
+import { Columns } from '@/components/Columns';
 
 type OverviewProps = {
   childPageNodes: PageNode[];
@@ -18,7 +18,7 @@ export function Overview({ childPageNodes }: OverviewProps) {
   }
 
   return (
-    <Grid className="overview">
+    <Columns columns={2} className="overview">
       {childPageNodes
         .filter((node) => node.platforms.includes(currentPlatform))
         .map((node) => (
@@ -42,6 +42,6 @@ export function Overview({ childPageNodes }: OverviewProps) {
             </Card>
           </Link>
         ))}
-    </Grid>
+    </Columns>
   );
 }

@@ -1,12 +1,5 @@
 .overview {
-  grid-template-columns: 1fr;
-  grid-auto-rows: 1fr;
   gap: var(--amplify-space-xxl);
-
-  @container (min-width: 600px) {
-    grid-template-columns: 1fr 1fr;
-  }
-
   &__link {
     color: inherit;
     text-decoration: none;
