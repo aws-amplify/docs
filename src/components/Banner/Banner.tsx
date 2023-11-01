@@ -1,12 +1,12 @@
 import { Flex, Message, IconsProvider, Text } from '@aws-amplify/ui-react';
 import { IconStar, IconChevron } from '../Icons';
-import { Button, View } from '@aws-amplify/ui-react';
+import { Button } from '@aws-amplify/ui-react';
 
 interface BannerProps {
-  url: string;
+  url?: string;
 }
 
-export const Banner: React.FC<BannerProps> = ({ url }) => {
+export const Banner: React.FC<BannerProps> = ({ url = '/gen2' }) => {
   return (
     <IconsProvider
       icons={{
