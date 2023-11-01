@@ -20,9 +20,9 @@ Run `amplify add predictions` and select **Identify**. Then use the following an
 
 The Advanced Configuration will allow you to select moderation for unsafe content or all of the identified labels. Default uses both.
 
-Due to a [known issue](https://github.com/aws-amplify/amplify-cli/issues/12208), you will need to update your amplify backend configuration with the properties below before pushing to the cloud:
+**NOTE:** Due to a [known issue](https://github.com/aws-amplify/amplify-cli/issues/12208), you will need to update your amplify backend configuration with the properties below before pushing to the cloud:
 
-amplify/.backend/identifyLabels#####/parameters.json
+`amplify/.backend/identifyLabels#####/parameters.json`
 ```json
 "access": "auth | authAndGuest",
 "type": "LABELS | UNSAFE | ALL"

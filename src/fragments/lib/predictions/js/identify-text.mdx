@@ -15,9 +15,9 @@ Run `amplify add predictions` and select **Identify**. Then use the following an
 ? Who should have access? Auth and Guest users
 ```
 
-Due to a [known issue](https://github.com/aws-amplify/amplify-cli/issues/12159), you will need to update your amplify backend configuration with the properties below before pushing to the cloud:
+**NOTE:** Due to a [known issue](https://github.com/aws-amplify/amplify-cli/issues/12159), you will need to update your amplify backend configuration with the properties below before pushing to the cloud:
 
-amplify/.backend/identifyText#####/parameters.json
+`amplify/.backend/identifyText#####/parameters.json`
 ```json
 "identifyDoc": true,
 "access": "auth | authAndGuest",
