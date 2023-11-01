@@ -24,43 +24,19 @@ export const getStaticProps = (context) => {
 
 <InlineFilter filters={["js", "react-native"]}>
 
-You can customize auth rules in your Amplify GraphQL API to control access levels and implement custom business logic. In this guide we will review ways you can further customize auth rules including applying rules to the model, global, and field levels, combining multiple auth rules, using with other auth providers, and granting Lambda functions access to the API. We will also show how you can use the auth rules access control matrix for visualizing your policy design.
+Authorization rules operate on the deny-by-default principle which means that if an authorization rule is not specifically configured, it is denied. You can open specific access to your models through auth rules for queries, mutations, and subscriptions. Updating these rules enables you to allow broader access for non-sensitive data while implementing the principle of least privilege for access to sensitive data.
 
-<InlineFilter filters={["js"]}>
-
-<Callout>
-
-**Note:** In the *Connect your app code to the API* guide we covered how to, "Configure the default authorization mode." If you are looking to implement the default authorization mode via an API Key, an Amazon Cognito User Pool, AWS IAM, OpenID Connect (OIDC), or Lambda Authorizer, [please review the guide](/lib/graphqlapi/connect/q/platform/js/#configure-the-amplify-library).
-
-</Callout>
-
-Before you begin, you will need:
-
-* An [application connected to the API](/lib/graphqlapi/connect/q/platform/js/)
-
-</InlineFilter>
-
-<InlineFilter filters={["react-native"]}>
-
-<Callout>
-
-**Note:** In the *Connect your app code to the API* guide we covered how to, "Configure the default authorization mode." If you are looking to implement the default authorization mode via an API Key, an Amazon Cognito User Pool, AWS IAM, OpenID Connect (OIDC), or Lambda Authorizer, [please review the guide](/lib/graphqlapi/connect/q/platform/react-native/#configure-the-amplify-library).
-
-</Callout>
-
-Before you begin, you will need:
-
-* An [application connected to the API](/lib/graphqlapi/connect/q/platform/react-native/)
-
-</InlineFilter>
-
-## Understand auth rule levels and auth strategies
-
-Authorization rules operate on the deny-by-default principle which means that if an authorization rule is not specifically configured, it is denied. You can open specific access to your models through auth rules for queries, mutations, and subscriptions. Updating these rules enables you to allow broader access for non-sensitive data while implementing the principle of least privilege for access to sensitive data. Both the level for an auth rule and the different auth strategy will impact this access. 
+In this guide we will review ways you can further customize auth rules including applying rules to the model, global, and field levels, using with other auth providers, and combining multiple auth rules. We will also show how you can use the auth rules access control matrix for visualizing your policy design.
 
 <Accordion title='How the auth directive works' headingLevel='4' eyebrow='Learn more'>
 
-Definition of the `@auth` directive:
+Authorization rules consists of:
+- **authorization strategy** (`allow`): who the authorization rule applies to
+- **authorization provider** (`provider`): which mechanism is used to apply the authorization rule (API Key, IAM, Amazon Cognito user pool, OIDC)
+- **authorized operations** (`operations`): which operations are allowed for the given strategy and provider. If not specified, `create`, `read`, `update`, and `delete` operations are allowed.
+  - **`read` operation**: `read` operation can be replaced with `get`, `list`, `sync`, `listen`, and `search` for a more granular query access
+
+Review the example below for a definition of the `@auth` directive:
 ```graphql
 # When applied to a type, the directive augments the application with
 # owner and group-based authorization rules.
@@ -92,12 +68,6 @@ enum ModelOperation {
 }
 ```
 
-Authorization rules consists of:
-- **authorization strategy** (`allow`): who the authorization rule applies to
-- **authorization provider** (`provider`): which mechanism is used to apply the authorization rule (API Key, IAM, Amazon Cognito user pool, OIDC)
-- **authorized operations** (`operations`): which operations are allowed for the given strategy and provider. If not specified, `create`, `read`, `update`, and `delete` operations are allowed.
-  - **`read` operation**: `read` operation can be replaced with `get`, `list`, `sync`, `listen`, and `search` for a more granular query access
-
 <Callout warning>
 
 If you use DataStore instead of the API category to connect to your AppSync API, then you must allow `listen` and `sync` operations for your data model.
@@ -108,11 +78,41 @@ If you use DataStore instead of the API category to connect to your AppSync API,
 
 </Accordion>
 
-### Auth rule levels
+<br/>
+
+<InlineFilter filters={["js"]}>
+
+<Callout>
+
+**Note:** In the *Connect your app code to the API* guide we covered how to, "Configure the default authorization mode." If you are looking to implement the default authorization mode via an API Key, an Amazon Cognito User Pool, AWS IAM, OpenID Connect (OIDC), or Lambda Authorizer, [please review the guide](/lib/graphqlapi/connect/q/platform/js/#configure-the-amplify-library).
+
+</Callout>
+
+Before you begin, you will need:
+
+* An [application connected to the API](/lib/graphqlapi/connect/q/platform/js/)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+<Callout>
+
+**Note:** In the *Connect your app code to the API* guide we covered how to, "Configure the default authorization mode." If you are looking to implement the default authorization mode via an API Key, an Amazon Cognito User Pool, AWS IAM, OpenID Connect (OIDC), or Lambda Authorizer, [please review the guide](/lib/graphqlapi/connect/q/platform/react-native/#configure-the-amplify-library).
+
+</Callout>
+
+Before you begin, you will need:
+
+* An [application connected to the API](/lib/graphqlapi/connect/q/platform/react-native/)
+
+</InlineFilter>
+
+## Review auth rule levels
 
 Auth rules can be set at the global, model, or field levels. Amplify will always use the most specific authorization rule that's present. For example, a field-level authorization rule will be used in favor of a model-level authorization rule; similarly, a model-level authorization rule will be used in favor of a global authorization rule.
 
-#### Global authorization rule (only for getting started)
+### Global authorization rule (only for getting started)
 
 To help you get started, there's a global authorization rule defined when you create a new GraphQL schema. For production environments, remove the global authorization rule and apply rules on each model instead.
 
@@ -148,7 +148,7 @@ Currently, only `{ allow: public }` is supported as a global authorization rule.
 
 </Callout>
 
-#### Model authorization rules
+### Model authorization rules
 
 A model authorization rule sets access for an entire model type in your GraphQL schema. In the example below, each signed-in user, or also known as "owner", of a Todo can create, read, update, and delete their own Todos:
 
@@ -169,7 +169,7 @@ type Todo @model @auth(rules: [
 }
 ```
 
-#### Field authorization rules
+### Field authorization rules
 
 When an authorization rule is added to a field, it will strictly define the authorization rules applied on the field. Field-level authorization rules **do not** inherit model-level authorization rules. Meaning, only the specified field-level authorization rule is applied.
 
@@ -195,7 +195,7 @@ To prevent sensitive data from being sent over subscriptions, the GraphQL Transf
 
 </Callout>
 
-##### Protect data at the field level
+#### Protect data at the field level
 
 The user or role that attempts to `delete` a record should have delete permissions on every field of the `@model` annotated GraphQL type to prevent unintended loss of data. For example, in the schema below the `description` field is not accessible by "Admin" Cognito group users and they cannot delete any `Todo` records: 
 
@@ -213,7 +213,9 @@ type Todo @model @auth(rules: [
 }
 ```
 
-### Authorization strategies and providers
+You should now be able to apply rules at the appropriate level for your use case.
+
+## Understand authorization strategies and providers
 
 You can further update your authorization rules by your strategy and the related provider (for example, API Key or IAM) for these options. Use the guide below to select the correct authorization strategy for your use case and then review the sections that follow for more details on each strategy.
 
@@ -225,6 +227,8 @@ You can further update your authorization rules by your strategy and the related
 | Any signed-in data access. Unlike owner-based access, **any** signed-in user has access. | [`private`](#signed-in-user-data-access) | `userPools` / `oidc` / `iam` |
 | Per user group data access. A specific or dynamically configured group of users have access | [`groups`](#user-group-based-data-access) | `userPools` / `oidc` |
 | Define your own custom authorization rule within a Lambda function | [`custom`](#custom-authorization-rule) | `function` |
+
+<br/>
 
 <InlineFilter filters={["js"]}>
 
@@ -246,7 +250,7 @@ You can further update your authorization rules by your strategy and the related
 
 </InlineFilter>
 
-#### Public data access
+### Public data access
 
 To grant everyone access, use the `public` authorization strategy. Behind the scenes, the API will be protected with an API Key.
 
@@ -311,7 +315,8 @@ type Post @model @auth(rules: [{ allow: public, provider: iam }]) {
 }
 ```
 
-#### Per-user or owner-based data access
+### Per-user or owner-based data access
+
 To restrict a record's access to a specific user, use the `owner` authorization strategy. When `owner` authorization is configured, only the record's `owner` is allowed the specified operations.
 
 ```graphql
@@ -335,7 +340,7 @@ You can override the `owner` field to your own preferred field, by specifying a 
 
 <Callout>
 
-Do not set `ownerField` to your `@primaryKey` field or `id` field if no primary key is specified. If you want to query by the `ownerField`, use an `@index` on that `ownerField` to create a secondary index.
+**Note:** Do not set `ownerField` to your `@primaryKey` field or `id` field if no primary key is specified. If you want to query by the `ownerField`, use an `@index` on that `ownerField` to create a secondary index.
 
 </Callout>
 
@@ -362,7 +367,7 @@ type Todo @model @auth(rules: [{ allow: owner }]) {
 
 </Callout>
 
-#### Multi-user data access
+### Multi-user data access
 
 If you want to grant a set of users access to a record, you can override the `ownerField` to a list of owners. Use this if you want a dynamic set of users to have access to a record.
 
@@ -375,11 +380,17 @@ type Todo @model @auth(rules: [{ allow: owner, ownerField: "authors" }]) {
 
 In the example above, upon record creation, the `authors` list is populated with the creator of the record. The creator can then update the `authors` field with additional users. Any user listed in the `authors` field can access the record.
 
-#### Signed-in user data access
+### Signed-in user data access
 
 To restrict a record's access to every signed-in user, use the `private` authorization strategy.
 
-> If you want to restrict a record's access to a specific user, see [Per-user / owner-based data access](#per-user-or-owner-based-data-access). `private` authorization applies the authorization rule to **every** signed-in user access.
+<Callout>
+
+**Note:** If you want to restrict a record's access to a specific user, see [Per-user / owner-based data access](#per-user-or-owner-based-data-access). `private` authorization applies the authorization rule to **every** signed-in user access.
+
+</Callout>
+
+In the example below, anyone with a valid JWT token from Cognito user pool are allowed to access all Todos.
 
 ```graphql
 type Todo @model @auth(rules: [{ allow: private }]) {
@@ -387,7 +398,20 @@ type Todo @model @auth(rules: [{ allow: private }]) {
 }
 ```
 
-In the example above, anyone with a valid JWT token from Cognito user pool are allowed to access all Todos.
+If you have a connected child model that allows `private` level access, any user authorized to fetch it from the parent model will be able to read the connected child model. For example, in the relationship below, the owner of a `Todo` record can query all the tasks connected to it, since the `Task` model allows `private` read access.
+
+```graphql
+type Todo @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  name: String!
+  task: [Task] @hasMany
+}
+
+type Task @model @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }]) {
+  id: ID!
+  description: String!
+}
+```
 
 You can also override the authorization provider. In the example below, `iam` is specified as the provider which allows you to use an "Authenticated Role" from the Cognito identity pool for public access instead of an API Key.
 
@@ -438,29 +462,6 @@ type Todo @model @auth(rules: [{ allow: private, provider: iam }]) {
 }
 ```
 
-You can also use OpenID Connect with `private` authorization. See [OpenID Connect as an authorization provider](/cli/graphql/authorization-rules/#using-oidc-authorization-provider).
-
-<Callout>
-
-**Note:** If you have a connected child model that allows `private` level access, any user authorized to fetch it from the parent model will be able to read the connected child model.
-
-For example,
-```graphql
-type Todo @model @auth(rules: [{ allow: owner }]) {
-  id: ID!
-  name: String!
-  task: [Task] @hasMany
-}
-
-type Task @model @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }]) {
-  id: ID!
-  description: String!
-}
-```
-In the above relationship, the owner of a `Todo` record can query all the tasks connected to it, since the `Task` model allows `private` read access.
-
-</Callout>
-
 <Accordion title='Use IAM authorization within the AppSync console' headingLevel='4' eyebrow='Learn more'>
 
 IAM-based `@auth` rules are scoped down to only work with Amplify-generated IAM roles. To access the GraphQL API with IAM authorization within your AppSync console, you need to explicitly allow list the IAM user's name.
@@ -507,7 +508,11 @@ These "Admin Roles" have special access privileges that are scoped based on thei
 
 </Accordion>
 
-#### User group-based data access
+<br/>
+
+You can also use OpenID Connect with `private` authorization. See [OpenID Connect as an authorization provider](/cli/graphql/authorization-rules/#using-oidc-authorization-provider).
+
+### User group-based data access
 
 To restrict access based on user groups, use the `group` authorization strategy.
 
@@ -553,7 +558,7 @@ By default, `group` authorization leverages Amazon Cognito user pool groups but 
 
 </Callout>
 
-#### Custom authorization rule
+### Custom authorization rule
 
 You can define your own custom authorization rule with a Lambda function:
 
@@ -677,7 +682,13 @@ Your Lambda authorization function needs to return the following JSON:
 
 You can use the Amplify Libraries to set the custom authorization token for [GraphQL API](/lib/graphqlapi/authz#aws-lambda) and [DataStore](/lib/datastore/setup-auth-rules#configure-custom-authorization-logic-with-aws-lambda).
 
-#### Using OIDC authorization provider
+You can now apply an authorization strategy with the related providers.
+
+## Customize auth rules with other auth providers
+
+Customizing your auth rules for OIDC and Lambda providers does require additional set up.
+
+### Using OIDC authorization provider
 
 As seen above, `private`, `owner`, and `group` authorization can be configured with an OpenID Connect (OIDC) authorization mode. Add `provider: oidc` to the authorization rule.
 
@@ -728,7 +739,62 @@ type Todo
 
 For `owner` and `group` authorization, you also need to specify a custom identity and group claim.
 
-<Accordion title='Configure custom identity and group claims' headingLevel='4' eyebrow='Learn more'>
+### Grant Lambda function access to GraphQL API
+
+Lambda functions' IAM execution role do not immediately grant access to Amplify's GraphQL API because the API operates on a "deny-by-default"-basis. Access need to be explicitly granted. Depending on how your function is deployed, the workflow slightly differ
+
+<BlockSwitcher>
+
+<Block name="Amplify CLI">
+
+If you grant a Lambda function in your Amplify project access to the GraphQL API via `amplify update function`, then the Lambda function's IAM execution role is allow-listed to honor the permissions granted on the `Query`, `Mutation`, and `Subscription` types.
+
+Therefore, these functions have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
+</Block>
+
+<Block name="AWS CDK">
+To grant an external AWS Resource or an IAM role access to this GraphQL API in CDK, you need to explicitly list the IAM role by adding them to `adminRoles` property. 
+
+```typescript
+const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
+  definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, "schema.graphql")),
+  authorizationModes: {
+    defaultAuthorizationMode: 'API_KEY',
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30)
+    },
+    adminRoles: [
+      myFunction.role // <- Add your function's role here to grant it access to issue queries, mutations, and subscriptions
+    ]
+  },
+})
+```
+
+These "Admin Roles" have special access privileges that are scoped based on their [IAM policy](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html#aws-iam-authorization) instead of any particular `@auth` rule.
+
+</Block>
+
+<Block name="Function deployed with other tools">
+
+To grant an external AWS Resource or an IAM role access to this GraphQL API, you need to explicitly list the IAM role's name or the AWS Resource's name by adding it to `amplify/backend/api/<your-api-name>/custom-roles.json`. (Create the `custom-roles.json` file if it doesn't exist). Append the `adminRoleNames` array with the IAM role name or AWS Resource name:
+
+```json
+{
+  "adminRoleNames": ["<YOUR_IAM_ROLE_NAME>", "<YOUR_AWS_RESOURCE_NAME>"]
+}
+```
+
+You can use the symbol `${env}` to reference the current Amplify CLI environment.
+
+These "Admin Roles" have special access privileges that are scoped based on their [IAM policy](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html#aws-iam-authorization) instead of any particular `@auth` rule.
+
+</Block>
+
+</BlockSwitcher>
+
+Refer to the [sample code](/lib/graphqlapi/graphql-from-nodejs/q/platform/js/#iam-authorization) to learn how to sign the request to call the GraphQL API using IAM authorization.
+
+### Configure custom identity and group claims
 
 `@auth` supports using custom claims if you do not wish to use the default Amazon Cognito-provided "cognito:groups" or the double-colon-delimited claims, "sub::username", from your JWT token. This can be helpful if you are using tokens from a 3rd party OIDC system or if you wish to populate a claim with a list of groups from an external system, such as when using a [Pre Token Generation Lambda Trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) which reads from a database. To use custom claims specify `identityClaim` or `groupClaim` as appropriate like in the example below:
 
@@ -746,8 +812,6 @@ type Post @model
 ```
 
 In this example the record owner will check against a `user_id` claim. Similarly, if the `user_groups` claim contains a "Moderator" string then access will be granted.
-
-</Accordion>
 
 ## Combine multiple auth rules
 
@@ -818,6 +882,7 @@ userPools:owner:owner
   │  title  │  true  │ true │  true  │  true  │
   │ content │  true  │ true │  true  │  true  │
   └─────────┴────────┴──────┴────────┴────────┘
+```
 
 ## Conclusion
 
