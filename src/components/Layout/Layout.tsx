@@ -298,7 +298,7 @@ export const Layout = ({
                 </View>
               </View>
 
-              <View className="layout-main">
+              <View key={router.asPath} className="layout-main">
                 <Flex
                   as="main"
                   className={`main${showTOC ? ' main--toc' : ''}`}
