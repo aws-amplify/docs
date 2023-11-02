@@ -82,7 +82,7 @@ export const directory = {
       path: 'src/pages/gen2/index.tsx',
       children: [
         {
-          path: 'src/pages/gen2/index.tsx'
+          path: 'src/pages/gen2/how-amplify-works/index.mdx'
         },
         {
           path: 'src/pages/gen2/build-a-backend/index.mdx',
