@@ -34,14 +34,14 @@ The CLI will display prompts to configure your schema and choose either GraphQL 
 Then access your API from your frontend code, for example, in a to-do list app that uses GraphQL:
 
 ```javascript
-`import`` ``{`` API ``}`` ``from`` ``'aws-amplify'`;
+`import` { API } from 'aws-amplify';
 import { listTodos } from './graphql/queries';
 
 const result = await API.graphql(graphqlOperation(listTodos));
 console.log(result);
 ```
 
-Learn more about [Amplify data.](https://docs.amplify.aws/cli/graphql/overview/)
+Learn more about [Amplify data](https://docs.amplify.aws/cli/graphql/overview/)
 
 ### Authentication
 
@@ -49,7 +49,7 @@ Amplify Auth makes it easy to add full user authentication flows to your applica
 
 To add backend authentication, you can run the following command:
 
-```javascript
+```sh
 amplify add auth
 ```
 
@@ -80,7 +80,7 @@ Amplify Storage provides a simple mechanism for managing file and data storage l
 
 To add a storage bucket to your app on the backend, run the command:
 
-```javascript
+```sh
 amplify add storage
 ```
 
@@ -174,7 +174,7 @@ Amplify provides three override capabilities for customizing your infrastructure
 
 Similar to other Amplify actions, you can enable extensibility features by running CLI commands, for example:
 
-```javascript
+```sh
 amplify override
 ```
 
@@ -210,6 +210,7 @@ Amplify grows with your needs, and you can use it in whatever way works best—f
 
 Now that you understand the core concepts and capabilities of AWS Amplify, it's time to start building! Our step-by-step getting started tutorials walk you through how to configure and integrate Amplify into a new application. These tutorials are available for many popular development platforms and frameworks like React, JavaScript, and Flutter.
 
-<br /> <InternalLinkButton href="/start/getting-started/installation">
+<br />
+<InternalLinkButton href="/start/getting-started/installation">
   <span slot="text">Getting started tutorial</span>
 </InternalLinkButton>
