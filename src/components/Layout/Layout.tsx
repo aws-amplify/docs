@@ -304,7 +304,11 @@ export const Layout = ({
                   className={`main${showTOC ? ' main--toc' : ''}`}
                 >
                   {showBreadcrumbs ? (
-                    <Breadcrumbs route={pathname} platform={currentPlatform} />
+                    <Breadcrumbs
+                      route={pathname}
+                      platform={currentPlatform}
+                      isGen2={isGen2}
+                    />
                   ) : null}
                   {children}
                 </Flex>
