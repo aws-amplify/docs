@@ -87,8 +87,8 @@ Open `src/main.ts` and add the following code to configure the Angular project w
 
 ```typescript
 import { Amplify } from 'aws-amplify';
-import aws_exports from './aws-exports';
-Amplify.configure(aws_exports);
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
 ```
 
 <Callout warning={true}>

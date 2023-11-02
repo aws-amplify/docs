@@ -132,7 +132,7 @@ Next, open **App.vue**.
 
 ### Writing data with GraphQL mutations
 
-To create a new todo in the database, use the `API.graphql()` operation with the `createTodo` mutation and pass in the data you'd like to write.
+To create a new todo in the database, create a `client` by using the `generateClient()` operation, then pass the `createTodo` mutation into `client.graphql()` along with the data you'd like to write.
 
 ```html
 <template>
@@ -145,8 +145,10 @@ To create a new todo in the database, use the `API.graphql()` operation with the
 </template>
 
 <script>
-  import { API } from 'aws-amplify';
+  import { generateClient } from 'aws-amplify/api';
   import { createTodo } from './graphql/mutations';
+
+  const client = generateClient();
 
   export default {
     name: 'app',
@@ -161,7 +163,7 @@ To create a new todo in the database, use the `API.graphql()` operation with the
         const { name, description } = this;
         if (!name || !description) return;
         const todo = { name, description };
-        await API.graphql({
+        await client.graphql({
           query: createTodo,
           variables: { input: todo }
         });
@@ -192,9 +194,11 @@ To display the data, update `App.vue` to list all the items in the database by i
 </template>
 
 <script>
-  import { API } from 'aws-amplify';
+  import { generateClient } from 'aws-amplify/api';
   import { createTodo } from './graphql/mutations';
   import { listTodos } from './graphql/queries';
+
+  const client = generateClient();
 
   export default {
     name: 'App',
@@ -214,7 +218,7 @@ To display the data, update `App.vue` to list all the items in the database by i
         if (!name || !description) return;
         const todo = { name, description };
         this.todos = [...this.todos, todo];
-        await API.graphql({
+        await client.graphql({
           query: createTodo,
           variables: { input: todo }
         });
@@ -222,7 +226,7 @@ To display the data, update `App.vue` to list all the items in the database by i
         this.description = '';
       },
       async getTodos() {
-        const todos = await API.graphql({
+        const todos = await client.graphql({
           query: listTodos
         });
         this.todos = todos.data.listTodos.items;
@@ -250,7 +254,7 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
     methods: {
       // other methods
       subscribe() {
-        API.graphql({ query: onCreateTodo }).subscribe({
+        client.graphql({ query: onCreateTodo }).subscribe({
           next: (eventData) => {
             let todo = eventData.value.data.onCreateTodo;
             if (this.todos.some((item) => item.name === todo.name)) return; // remove duplications
