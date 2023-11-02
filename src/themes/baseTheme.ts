@@ -33,7 +33,7 @@ export const baseTheme = createTheme({
       medium: { value: '1rem' },
       large: { value: '1.2rem' },
       xl: { value: '1.4rem' },
-      xxl: { value: '1.6rem' },
+      xxl: { value: '1.5rem' },
       xxxl: { value: '1.8rem' },
       xxxxl: { value: '2.4rem' }
     },
@@ -79,7 +79,7 @@ export const baseTheme = createTheme({
           fontWeight: '400'
         },
         2: {
-          fontWeight: '400'
+          fontWeight: '700'
         },
         3: {
           fontWeight: '700'
