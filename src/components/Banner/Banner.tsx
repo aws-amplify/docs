@@ -15,7 +15,7 @@ export const Banner: React.FC<BannerProps> = ({ url = '/gen2' }) => {
         }
       }}
     >
-      <Message className="message-banner" colorTheme="info" alignItems="start">
+      <Message className="message-banner" colorTheme="info">
         <Flex className="message-banner__inner">
           <Flex direction="column" gap="xxs">
             <Text as="span" className="message-banner__heading">
