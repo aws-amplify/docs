@@ -1599,6 +1599,26 @@ export const directory = {
           }
         ]
       },
+      pubsub: {
+        title: 'PubSub',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/pubsub/getting-started',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Subscribe & Unsubscribe',
+            route: '/lib-v1/pubsub/subunsub',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Publish',
+            route: '/lib-v1/pubsub/publish',
+            filters: ['js', 'react-native']
+          }
+        ]
+      },
       ssr: {
         title: 'Server-Side Rendering',
         items: [
