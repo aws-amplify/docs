@@ -93,86 +93,136 @@ migrationData.forEach((page) => {
   const oldPath = origSource.replace('pages', 'pages-old');
   page['Original backend source'] = oldPath;
 
-  //   // combine multiple Excel entries for pages that have same 'New backend source' and set platform array
-  //   const multiples =
-  //     excelDataNewSource.filter((path) => {
-  //       return path == page['New backend source'];
-  //     }).length > 1;
+  // combine multiple Excel entries for pages that have same 'New backend source' and set platform array
+  // const multiples =
+  //   excelDataNewSource.filter((path) => {
+  //     return path == page['New backend source'];
+  //   }).length > 1;
 
-  //   let platforms = [];
-  //   if (multiples) {
-  //     const toCombine = migrationData.filter((item) => {
-  //       return page['New backend source'] == item['New backend source'];
-  //     });
+  // let platforms = [];
+  // if (multiples) {
+  //   const toCombine = migrationData.filter((item) => {
+  //     return page['New backend source'] == item['New backend source'];
+  //   });
 
-  //     for (let i = 0; i < toCombine.length; i++) {
-  //       toCombine[i]['Platform specific'] = toCombine[i]['Platform specific']
-  //         .toLowerCase()
-  //         .replace(' (web)', '')
-  //         .replace('.js', '')
-  //         .replace('react native', 'react-native');
-
-  //       platforms.push("'" + toCombine[i]['Platform specific'] + "'");
-
-  //       if (i != 0) {
-  //         migrationData.splice(migrationData.indexOf(toCombine[i]), 1);
-  //       }
-  //     }
-  //   } else {
-  //     page['Platform specific'] = page['Platform specific']
+  //   for (let i = 0; i < toCombine.length; i++) {
+  //     toCombine[i]['Platform specific'] = toCombine[i]['Platform specific']
   //       .toLowerCase()
   //       .replace(' (web)', '')
-  //       .replace('.js', '')
+  //       .replace('next.js', 'nextjs')
   //       .replace('react native', 'react-native');
-  //     platforms.push("'" + page['Platform specific'] + "'");
+
+  //     platforms.push("'" + toCombine[i]['Platform specific'] + "'");
+
+  //     if (i != 0) {
+  //       migrationData.splice(migrationData.indexOf(toCombine[i]), 1);
+  //     }
   //   }
-  //   platforms = platforms.filter((value, index) => {
-  //     return platforms.indexOf(value) === index;
-  //   });
-  //   page['Platform specific'] = platforms;
+  // } else {
+  //   page['Platform specific'] = page['Platform specific']
+  //     .toLowerCase()
+  //     .replace(' (web)', '')
+  //     .replace('react native', 'react-native')
+  //     .replace('next.js', 'nextjs');
+  //   platforms.push("'" + page['Platform specific'] + "'");
+  // }
+  // platforms = platforms.filter((value, index) => {
+  //   return platforms.indexOf(value) === index;
+  // });
+  // page['Platform specific'] = platforms;
 
-  //   // Update meta and imports for all pages accounted for in Excel file
-  //   // Then move to new location
-  //   let newContent = '';
-  //   // if (fs.existsSync(oldPages[page['Original backend source']])) {
-  //   fs.readFile(page['Original backend source'], 'utf8', (err, dataString) => {
-  //     if (err) {
-  //       console.log(
-  //         '[ ERROR: READ FILE ORIGINAL BACKEND SOURCE ]',
-  //         page['Original backend source'],
-  //         err
-  //       );
-  //     } else {
-  //       let data = dataString.split('\n');
-  //       let exportIndex = '';
-  //       data.forEach((line) => {
-  //         if (line.includes('title: ')) {
-  //           data.splice(data.indexOf(line), 1, `  title: '${page['Page']}',`);
-  //         } else if (line.includes('description:')) {
-  //           line.replace('`', "'");
-  //         } else if (line.includes('supportedPlatforms:')) {
-  //           exportIndex = data.indexOf(line);
-  //           data.splice(
-  //             data.indexOf(line),
-  //             1,
-  //             `  platforms: [ ${page['Platform specific']} ]`
-  //           );
-  //         } else if (line.includes('filterKey:')) {
-  //           data.splice(data.indexOf(line), 1, '<remove empty line>');
-  //         } else if (line.includes('import { generateStaticPaths }')) {
-  //           data.splice(data.indexOf(line), 1, '<remove empty line>');
-  //         } else if (line.includes('export const getStaticPaths')) {
-  //           data.splice(data.indexOf(line), 4, '<remove empty line>');
-  //         } else if (line.includes('export const getStaticProps')) {
-  //           data.splice(data.indexOf(line), 9, '<remove empty line>');
-  //         } else if (line.includes('import { INTEGRATION_FILTER_OPTIONS }')) {
-  //           data.splice(data.indexOf(line), 2, '<remove empty line>');
+  // // Update meta and imports for all pages accounted for in Excel file
+  // // Then move to new location
+  // let newContent = '';
+  // fs.readFile(page['Original backend source'], 'utf8', (err, dataString) => {
+  //   if (err) {
+  //     console.log(
+  //       '[ ERROR: READ FILE ORIGINAL BACKEND SOURCE ]',
+  //       page['Original backend source'],
+  //       err
+  //     );
+  //   } else {
+  //     let data = dataString.split('\n');
+  //     let exportIndex;
+  //     let platformsListed = false;
+  //     const platformsAll = `  platforms: [
+  //         'android',
+  //         'angular',
+  //         'flutter',
+  //         'javascript',
+  //         'nextjs',
+  //         'react',
+  //         'react-native',
+  //         'swift',
+  //         'vue'
+  //       ]`;
+
+  //     if (dataString.includes('supportedPlatforms')) {
+  //       platformsListed = true;
+  //     }
+
+  //     for (let i = 0; i < data.length; i++) {
+  //       if (data[i].includes('title: ')) {
+  //         let freshTitle;
+  //         if (page['Page'].includes("'")) {
+  //           freshTitle = '  title: "' + page['Page'] + '",';
+  //         } else {
+  //           freshTitle = "  title: '" + page['Page'] + "',";
   //         }
-  //       });
+  //         data.splice(i, 1, freshTitle);
+  //       } else if (data[i].includes('description:')) {
+  //         if (
+  //           data[i].split('`').length - 1 > 1 &&
+  //           data[i].split("'").length - 1 > 0
+  //         ) {
+  //           data[i] = data[i].replaceAll('`', '"');
+  //         } else if (data[i].split("'").length - 1 > 2) {
+  //           data[i] = '"' + data.slice(1, -1) + '"';
+  //         } else {
+  //           data[i] = data[i].replaceAll('`', "'");
+  //         }
+  //         if (!data[i].includes("',") && !data[i].includes('",')) {
+  //           data[i] = data[i] + ',';
+  //         }
+  //       } else if (data[i].includes('supportedPlatforms:')) {
+  //         const platforms =
+  //           page['Platform specific'] == 'Platform agnostic'
+  //             ? platformsAll
+  //             : page['Platform specific'];
+  //         data.splice(i, 1, `  platforms: [${platforms}]`);
+  //       } else if (data[i].includes('filterKey:')) {
+  //         data.splice(i, 1, '<remove empty line>');
+  //       } else if (data[i].includes('import { generateStaticPaths }')) {
+  //         data.splice(i, 1, '<remove empty line>');
+  //       } else if (data[i].includes('export const getStaticPaths')) {
+  //         data.splice(i, 4, '<remove empty line>');
+  //       } else if (data[i].includes('export const getStaticProps')) {
+  //         data.splice(i, 9, '<remove empty line>');
+  //       } else if (data[i].includes('import { INTEGRATION_FILTER_OPTIONS }')) {
+  //         data.splice(i, 2, '<remove empty line>');
+  //       } else if (data[i].includes('export const meta = {')) {
+  //         if (data[i + 1] == '};' || data[i + 1] == '}') {
+  //           exportIndex = i + 1;
+  //         } else if (data[i + 2] == '};' || data[i + 2] == '}') {
+  //           exportIndex = i + 2;
+  //         } else if (data[i + 3] == '};' || data[i + 3] == '}') {
+  //           exportIndex = i + 3;
+  //         } else if (data[i + 4] == '};' || data[i + 4] == '}') {
+  //           exportIndex = i + 4;
+  //         } else if (data[i + 5] == '};' || data[i + 5] == '}') {
+  //           exportIndex = i + 5;
+  //         } else if (data[i + 6] == '};' || data[i + 6] == '}') {
+  //           exportIndex = i + 6;
+  //         } else if (data[i + 7] == '};' || data[i + 7] == '}') {
+  //           exportIndex = i + 7;
+  //         }
+  //       }
+  //     }
 
-  //       const importToAdd = `import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-  //         `;
-  //       const exportToAdd = `export const getStaticPaths = async () => {
+  //     const importToAdd = `import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+  //           `;
+  //     const exportToAdd = `
+  // export const getStaticPaths = async () => {
   //   return getCustomStaticPath(meta.platforms);
   // };
 
@@ -183,115 +233,126 @@ migrationData.forEach((page) => {
   //       meta
   //     }
   //   };
-  // }`;
+  // }
+  //   `;
 
-  //       if (!dataString.includes(importToAdd)) {
-  //         data.splice(exportIndex + 4, 0, exportToAdd);
-  //         data.unshift(importToAdd);
+  //     if (!dataString.includes(importToAdd) && platformsListed) {
+  //       data.splice(exportIndex + 1, 0, exportToAdd);
+  //       data.unshift(importToAdd);
+  //     } else if (!dataString.includes(importToAdd) && !platformsListed) {
+  //       data.splice(exportIndex + 1, 0, exportToAdd);
+  //       data.unshift(importToAdd);
+  //       data.splice(exportIndex + 1, 0, platformsAll);
+  //     }
+
+  //     data = data.filter((lines) => {
+  //       return lines != '<remove empty line>';
+  //     });
+
+  //     newContent = data.join('\n');
+  //     fs.writeFile(page['Original backend source'], newContent, (err) => {
+  //       if (err) {
+  //         console.log(
+  //           '[ ERROR: WRITE CONTENT ]',
+  //           page['Original backend source'],
+  //           err
+  //         );
+  //       } else {
+  //         console.log(
+  //           '[ SUCCESS: EDITS WRITTEN ]',
+  //           page['Original backend source']
+  //         );
   //       }
+  //     });
+  //   }
+  // });
+  // console.log(pagesThatWillMigrate, page['Original backend source']);
 
-  //       data = data.filter((lines) => {
-  //         return lines != '<remove empty line>';
-  //       });
-
-  //       newContent = data.join('\n');
-  //       // console.log(newContent);
-  //       fs.writeFile(page['Original backend source'], newContent, (err) => {
+  // if (pagesThatWillMigrate.includes(page['Original backend source'])) {
+  //   console.log('pages will migrate');
+  //   // create necessary directories exist in 'pages' for each file path
+  //   const newPath = page['New backend source'];
+  //   const dirPath = newPath.slice(0, newPath.lastIndexOf('/'));
+  //   if (!fs.existsSync(dirPath)) {
+  //     fs.mkdir(dirPath, { recursive: true }, (err) => {
+  //       if (err) {
+  //         console.log('[ ERROR: CREATE NEW DIRECTORIES ]', dirPath, err);
+  //       } else {
+  //         console.log('[ SUCCESS: FOLDER STRUCTURE CREATED ]', dirPath);
+  //       }
+  //     });
+  //   }
+  //   // move existing pages from pages-old into new IA locations
+  //   if (
+  //     fs.existsSync(page['Original backend source']) &&
+  //     page['Flag for manual move'] != 'Yes'
+  //   ) {
+  //     fs.rename(
+  //       page['Original backend source'],
+  //       page['New backend source'],
+  //       (err) => {
   //         if (err) {
   //           console.log(
-  //             '[ ERROR: WRITE CONTENT ]',
-  //             page['Original backend source'],
+  //             '[ ERROR: PAGE MOVE ]',
+  //             page['New backend source'],
   //             err
   //           );
   //         } else {
   //           console.log(
-  //             '[ SUCCESS: EDITS WRITTEN ]',
-  //             page['Original backend source']
+  //             '[ SUCCESS: RENAME FILE ]',
+  //             page['Original backend source'],
+  //             '-->',
+  //             page['New backend source']
   //           );
   //         }
-  //       });
+  //       }
+  //     );
+  //   } else {
+  //     if (!fs.existsSync(page['Original backend source'])) {
+  //       console.log(
+  //         ' [ERROR: PAGE TO MOVE DOESNT EXIST ]',
+  //         page['Original backend source']
+  //       );
+  //     } else if (page['Flag for manual move'] != 'Yes') {
+  //       console.log(
+  //         ' [ERROR: PAGE FLAGGED FOR MANUAL MOVE ]',
+  //         page['Original backend source']
+  //       );
   //     }
-  //   });
-  // console.log(pagesThatWillMigrate, page['Original backend source']);
-
-  if (pagesThatWillMigrate.includes(page['Original backend source'])) {
-    // console.log('pages will migrate');
-    // create necessary directories exist in 'pages' for each file path
-    // const newPath = page['New backend source'];
-    // const dirPath = newPath.slice(0, newPath.lastIndexOf('/'));
-
-    // if (!fs.existsSync(dirPath)) {
-    //   fs.mkdir(dirPath, { recursive: true }, (err) => {
-    //     if (err) {
-    //       console.log('[ ERROR: CREATE NEW DIRECTORIES ]', dirPath, err);
-    //     } else {
-    //       console.log('[ SUCCESS: FOLDER STRUCTURE CREATED ]', dirPath);
-    //     }
-    //   });
-    // }
-
-    // move existing pages from pages-old into new IA locations
-    if (
-      fs.existsSync(page['Original backend source']) &&
-      page['Flag for manual move'] != 'Yes'
-    ) {
-      fs.rename(
-        page['Original backend source'],
-        page['New backend source'],
-        (err) => {
-          if (err) {
-            console.log(
-              '[ ERROR: PAGE MOVE ]',
-              page['New backend source'],
-              err
-            );
-          } else {
-            console.log(
-              '[ SUCCESS: RENAME FILE ]',
-              page['Original backend source'],
-              '-->',
-              page['New backend source']
-            );
-          }
-        }
-      );
-    } else {
-      if (!fs.existsSync(page['Original backend source'])) {
-        console.log(
-          ' [ERROR: PAGE TO MOVE DOESNT EXIST ]',
-          page['Original backend source']
-        );
-      } else if (page['Flag for manual move'] != 'Yes') {
-        console.log(
-          ' [ERROR: PAGE FLAGGED FOR MANUAL MOVE ]',
-          page['Original backend source']
-        );
-      }
-    }
-  }
+  //   }
+  // }
 });
 
-// TO COMPLETE
-// return list of pages not migrated
+const migratedPages = globSync('src/pages/**/*.mdx');
 
-// remove empty directories from pages-old
-// glob('src/pages-old/**/').then((directories) => {
-//   directories.forEach((directory) => {
-//     fs.readdir(
-//       directory,
-//       { encoding: 'utf8', recursive: true },
-//       (err, files) => {
-//         if (err) {
-//           console.log(err);
-//         } else {
-//           if (!files.length) {
-//             fs.rmdir(directory, { recursive: true }, (err) => {
-//               if (err) console.log(err);
-//             });
-//           }
-//         }
-//       }
-//     );
-//   });
-//   // console.log('remaining directories:', directories);
-// });
+migratedPages.forEach((page) => {
+  fs.readFile(page, 'utf8', (err, dataString) => {
+    if (err) {
+      console.log('[ ERROR: READING PAGE', page);
+    } else {
+      let data = dataString.split('\n');
+      data.forEach((line) => {
+        if (line.includes('title: `') && line.split("'").length - 1 < 1) {
+          line = line.replaceAll('`', "'");
+        } else if (
+          line.includes('title: `') &&
+          line.split("'").length - 1 > 1
+        ) {
+          line = line.replaceAll('`', '"');
+        } else if (
+          line.includes('description: `') &&
+          line.split("'").length - 1 > 1
+        ) {
+          line = line.replaceAll('`', '"');
+        } else if (
+          line.includes('desription: `') &&
+          line.split("'").length - 1 < 1
+        ) {
+          line = line.replaceAll('`', "'");
+        }
+      });
+    }
+  });
+});
+
+// console.log(migratedPages);
