@@ -690,24 +690,6 @@ export const directory = {
           ]
         },
         {
-          path: 'src/pages/[platform]/cli/index.mdx',
-          children: [
-            {
-              path: 'src/pages/[platform]/cli/tools/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/cli/tools/auth/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/cli/tools/auth/admin-actions/index.mdx'
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
           path: 'src/pages/[platform]/deploy-and-host/index.mdx',
           children: [
             {
