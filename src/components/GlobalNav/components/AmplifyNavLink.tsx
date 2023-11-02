@@ -21,7 +21,7 @@ export function AmplifyNavLink({
         <Link href="/gen2" className={styles['gen2-home']}>
           <AmplifyLogo isGen2={isGen2} />
           <Text as="span" className={styles['dev-center-logo']}>
-            Amplify Gen 2
+            Amplify code-first DX
           </Text>
           <Badge className={styles['navbar-badge']}>Preview</Badge>
         </Link>
