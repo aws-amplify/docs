@@ -22,14 +22,11 @@ export const getStaticProps = (context) => {
   };
 };
 
-import js0 from '/src/fragments/lib/geo/existing-resources.mdx';
+import common_existing_resources from '/src/fragments/lib/geo/existing-resources.mdx';
 
-<Fragments fragments={{ js: js0 }} />
-
-import android1 from '/src/fragments/lib/geo/existing-resources.mdx';
-
-<Fragments fragments={{ android: android1 }} />
-
-import ios2 from '/src/fragments/lib/geo/existing-resources.mdx';
-
-<Fragments fragments={{ ios: ios2 }} />
+<Fragments
+  fragments={{
+    android: common_existing_resources,
+    ios: common_existing_resources
+  }}
+/>

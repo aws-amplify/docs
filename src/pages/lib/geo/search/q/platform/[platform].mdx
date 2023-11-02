@@ -22,14 +22,6 @@ export const getStaticProps = (context) => {
   };
 };
 
-import js0 from '/src/fragments/lib/geo/js/search.mdx';
+import common_search from '/src/fragments/lib/geo/native_common/search/common.mdx';
 
-<Fragments fragments={{ js: js0 }} />
-
-import android1 from '/src/fragments/lib/geo/native_common/search/common.mdx';
-
-<Fragments fragments={{ android: android1 }} />
-
-import ios2 from '/src/fragments/lib/geo/native_common/search/common.mdx';
-
-<Fragments fragments={{ ios: ios2 }} />
+<Fragments fragments={{ android: common_search, ios: common_search }} />

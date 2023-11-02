@@ -1,0 +1,27 @@
+export const meta = {
+  title: `Enable rich notifications`,
+  description: `Enable rich notifications for you app.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import enableRichNotifications from '/src/fragments/lib-v1/push-notifications/react-native/enable_rich_notifications/enable-rich-notifications.mdx';
+
+<Fragments fragments={{ 'react-native': enableRichNotifications }} />

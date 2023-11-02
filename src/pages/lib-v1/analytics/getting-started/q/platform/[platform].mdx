@@ -30,22 +30,154 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 <Fragments fragments={{ flutter: flutter_maintenance }} />
 
-import ios1 from '/src/fragments/lib-v1/analytics/native_common/getting-started/common.mdx';
 
-<Fragments fragments={{ ios: ios1 }} />
+The Analytics category enables you to collect analytics data for your App. The Analytics category comes with built-in support for [Amazon Pinpoint](https://aws.amazon.com/pinpoint) and [Amazon Kinesis](https://aws.amazon.com/kinesis) (Kinesis support is currently only available in the Amplify JavaScript library). The Analytics category uses [Amazon Cognito Identity pools](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html) to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App.
 
-import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+## Goal
 
-<Fragments fragments={{ android: android_maintenance }} />
+To setup and configure your application with Amplify Analytics and record an analytics event.
 
-import android2 from '/src/fragments/lib-v1/analytics/native_common/getting-started/common.mdx';
+## Prerequisites
 
-<Fragments fragments={{ android: android2 }} />
+import ios0 from "/src/fragments/lib-v1/analytics/ios/getting-started/10_preReq.mdx";
 
-import flutter3 from '/src/fragments/lib-v1/analytics/native_common/getting-started/common.mdx';
+<Fragments fragments={{ios: ios0}} />
 
-<Fragments fragments={{ flutter: flutter3 }} />
+import android1 from "/src/fragments/lib-v1/analytics/android/getting-started/10_preReq.mdx";
 
-import js0 from '/src/fragments/lib-v1/analytics/native_common/getting-started/common.mdx';
+<Fragments fragments={{android: android1}} />
 
-<Fragments fragments={{ js: js0 }} />
+import flutter2 from '/src/fragments/lib-v1/analytics/flutter/getting-started/10_preReq.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />
+
+<InlineFilter filters={['js', 'react-native']}>
+
+- [Install and configure Amplify CLI](https://docs.amplify.aws/cli/start/install)
+
+</InlineFilter>
+
+## Set up Analytics backend
+
+Run the following command in your project's root folder. The CLI will prompt configuration options for the Analytics category such as Amazon Pinpoint resource name and analytics event settings.
+
+> The Analytics category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.
+
+```bash
+amplify add analytics
+```
+
+```console
+? Select an Analytics provider (Use arrow keys)
+    `Amazon Pinpoint`
+? Provide your pinpoint resource name:
+    `yourPinpointResourceName`
+? Apps need authorization to send analytics events. Do you want to allow guests and unauthenticated users to send analytics events? (we recommend you allow this when getting started)
+    `Yes`
+```
+
+To deploy your backend, run:
+
+```bash
+amplify push
+```
+
+import ios3 from "/src/fragments/lib-v1/analytics/ios/getting-started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{ios: ios3}} />
+
+import android4 from "/src/fragments/lib-v1/analytics/android/getting-started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{android: android4}} />
+
+import flutter5 from '/src/fragments/lib-v1/analytics/flutter/getting-started/12_amplifyConfig.mdx';
+
+<Fragments fragments={{ flutter: flutter5 }} />
+
+<InlineFilter filters={['js', 'react-native']}>
+
+A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. The CLI will also print the URL for Amazon Pinpoint console to track your app events.
+
+</InlineFilter>
+
+## Install Amplify Libraries
+
+import ios6 from "/src/fragments/lib-v1/analytics/ios/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{ios: ios6}} />
+
+import android7 from "/src/fragments/lib-v1/analytics/android/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{android: android7}} />
+
+import flutter8 from '/src/fragments/lib-v1/analytics/flutter/getting-started/20_installLib.mdx';
+
+<Fragments fragments={{ flutter: flutter8 }} />
+
+import js_install_lib from '/src/fragments/lib-v1/analytics/js/getting-started/20_installLib.mdx';
+
+<Fragments
+  fragments={{
+    js: js_install_lib,
+    'react-native': js_install_lib
+  }}
+/>
+
+## Initialize Amplify Analytics
+
+import ios9 from "/src/fragments/lib-v1/analytics/ios/getting-started/30_initAnalytics.mdx";
+
+<Fragments fragments={{ios: ios9}} />
+
+import android10 from "/src/fragments/lib-v1/analytics/android/getting-started/30_initAnalytics.mdx";
+
+<Fragments fragments={{android: android10}} />
+
+import flutter11 from '/src/fragments/lib-v1/analytics/flutter/getting-started/30_initAnalytics.mdx';
+
+<Fragments fragments={{ flutter: flutter11 }} />
+
+import js_init_analytics from '/src/fragments/lib-v1/analytics/js/getting-started/30_initAnalytics.mdx';
+
+<Fragments
+  fragments={{
+    js: js_init_analytics,
+    'react-native': js_init_analytics
+  }}
+/>
+
+import ios12 from "/src/fragments/lib-v1/analytics/ios/getting-started/40_record.mdx";
+
+<Fragments fragments={{ios: ios12}} />
+
+import android13 from "/src/fragments/lib-v1/analytics/android/getting-started/40_record.mdx";
+
+<Fragments fragments={{android: android13}} />
+
+## View Analytics console
+
+If you have not saved the link from before, you can still reach it from the terminal. Run the following command for opening the console.
+
+```console
+amplify console analytics
+```
+
+Next Steps:
+
+Congratulations! Now that you have Analytics' backend provisioned and Analytics library installed.  Check out the following links to see Amplify Analytics use cases:
+
+<InlineFilter filters={["android", "ios", "flutter"]}>
+
+* [Record Events](/lib-v1/analytics/record)
+* [Identify User](/lib-v1/analytics/identifyuser)
+* [Track Sessions](/lib-v1/analytics/autotrack)
+
+</InlineFilter>
+<InlineFilter filters={["js"]}>
+
+* [Record Events](/lib-v1/analytics/record)
+* [Identify User](/lib-v1/analytics/identifyuser)
+* [Track Sessions](/lib-v1/analytics/autotrack)
+
+</InlineFilter>
+
