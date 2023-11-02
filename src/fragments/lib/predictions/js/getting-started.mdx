@@ -44,8 +44,7 @@ A configuration file called `amplifyconfiguration.json` will be copied to your c
 To install the Amplify library to use predictions features, run the following commands in your project’s root folder:
 
 ```bash
-npm install aws-amplify
-npm install @aws-amplify/predictions
+npm install aws-amplify @aws-amplify/predictions
 ```
 
 ## Configure the frontend
@@ -60,7 +59,7 @@ import rn1 from '/src/fragments/lib/common/react-native/import_configuration.mdx
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from './amplifyconfiguration';
+import amplifyconfig from './amplifyconfiguration.json';
 
 Amplify.configure(amplifyconfig);
 ```

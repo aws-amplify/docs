@@ -360,32 +360,32 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/restapi/getting-started',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Fetching data',
             route: '/lib/restapi/fetch',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Updating data',
             route: '/lib/restapi/update',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Deleting data',
             route: '/lib/restapi/delete',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Define authorization rules',
             route: '/lib/restapi/authz',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Use existing AWS resources',
             route: '/lib/restapi/existing-resources',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           }
         ]
       },
@@ -702,11 +702,6 @@ export const directory = {
             title: 'Set up push notification services',
             route: '/lib/push-notifications/setup-push-service',
             filters: ['android', 'flutter', 'ios', 'react-native']
-          },
-          {
-            title: 'Migrate from previous version',
-            route: '/lib/push-notifications/migrate-from-previous-version',
-            filters: ['react-native']
           }
         ]
       },
@@ -1534,6 +1529,61 @@ export const directory = {
           }
         ]
       },
+      'push-notifications': {
+        title: 'Push Notifications',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/push-notifications/getting-started',
+            filters: ['react-native']
+          },
+          {
+            title: 'Request permissions',
+            route: '/lib-v1/push-notifications/request-permissions',
+            filters: ['react-native']
+          },
+          {
+            title: 'Receive device token',
+            route: '/lib-v1/push-notifications/receive-device-token',
+            filters: ['react-native']
+          },
+          {
+            title: 'Interact with notifications',
+            route: '/lib-v1/push-notifications/interact-with-notifications',
+            filters: ['react-native']
+          },
+          {
+            title: 'Identify user',
+            route: '/lib-v1/push-notifications/identify-user',
+            filters: ['react-native']
+          },
+          {
+            title: 'App badge count',
+            route: '/lib-v1/push-notifications/app-badge-count',
+            filters: ['react-native']
+          },
+          {
+            title: 'Enable rich notifications',
+            route: '/lib-v1/push-notifications/enable-rich-notifications',
+            filters: ['react-native']
+          },
+          {
+            title: 'Testing',
+            route: '/lib-v1/push-notifications/testing',
+            filters: ['react-native']
+          },
+          {
+            title: 'Set up push notification services',
+            route: '/lib-v1/push-notifications/setup-push-service',
+            filters: ['react-native']
+          },
+          {
+            title: 'Migrate from previous version',
+            route: '/lib-v1/push-notifications/migrate-from-previous-version',
+            filters: ['react-native']
+          }
+        ]
+      },
       storage: {
         title: 'Storage',
         items: [
@@ -1621,6 +1671,26 @@ export const directory = {
             title: 'Use existing AWS resources',
             route: '/lib-v1/storage/existing-resources',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          }
+        ]
+      },
+      pubsub: {
+        title: 'PubSub',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/pubsub/getting-started',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Subscribe & Unsubscribe',
+            route: '/lib-v1/pubsub/subunsub',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Publish',
+            route: '/lib-v1/pubsub/publish',
+            filters: ['js', 'react-native']
           }
         ]
       },
@@ -2980,6 +3050,13 @@ export const directory = {
         ]
       }
     }
+  },
+  'how-amplify-works': {
+    productRoot: {
+      title: 'How Amplify works',
+      route: '/how-amplify-works'
+    },
+    items: {}
   }
 };
 

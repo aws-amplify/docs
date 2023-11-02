@@ -1,0 +1,27 @@
+export const meta = {
+  title: `App badge count`,
+  description: `Get and set the application badge count.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import appBadgeCount from '/src/fragments/lib-v1/push-notifications/react-native/app_badge_count/app-badge-count.mdx';
+
+<Fragments fragments={{ 'react-native': appBadgeCount }} />

@@ -1,6 +1,6 @@
 export const meta = {
-  title: `Migrate from previous version`,
-  description: `Migrate from the deprecated to the new version of Amplify Push Notifications.`,
+  title: `Publish`,
+  description: `Learn more about how to publish a message using the PubSub category in Amplify`,
   filterKey: 'platform',
   supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
@@ -22,6 +22,10 @@ export const getStaticProps = (context) => {
   };
 };
 
-import reactNativeRoute from '/src/fragments/lib/push-notifications/react-native/migrate-from-previous-version.mdx';
+import js0 from '/src/fragments/lib-v1/pubsub/js/publish.mdx';
 
-<Fragments fragments={{ 'react-native': reactNativeRoute }} />
+<Fragments fragments={{ js: js0 }} />
+
+import reactnative0 from '/src/fragments/lib-v1/pubsub/js/publish.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
