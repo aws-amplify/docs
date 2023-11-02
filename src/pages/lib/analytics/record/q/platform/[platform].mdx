@@ -92,4 +92,13 @@ However, it can take upwards of 30 minutes for the event to display in the Filte
 
 </Callout>
 
+## Flush events
+The recorded events are saved in a buffer and sent to the remote server periodically. If needed, you have the option to manually clear all the events from the buffer by using the 'flushEvents' API.
+
+```javascript
+import { flushEvents } from 'aws-amplify/analytics';
+
+flushEvents();
+```
+
 </InlineFilter>
