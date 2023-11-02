@@ -1,9 +1,12 @@
+
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import directory from 'src/directory/directory.json';
 
 export const meta = {
-  title: 'Graphqlapi',
-  description: 'Graphqlapi',
-  platforms: [
+    title: 'Graphqlapi',
+    description: 'Graphqlapi',
+    platforms: [
     'android',
     'angular',
     'flutter',
@@ -13,20 +16,26 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ]
+    ],
+    route: '/[platform]/build-a-backend/graphqlapi'
 };
 
 export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
+    return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {
-  return {
+    const childPageNodes = getChildPageNodes(meta.route);
+    return {
     props: {
-      platform: context.params.platform,
-      meta
+        platform: context.params.platform,
+        meta,
+        childPageNodes
     }
-  };
-
-
+    };
 }
+
+# Graphqlapi
+
+<Overview childPageNodes={props.childPageNodes} />
+    

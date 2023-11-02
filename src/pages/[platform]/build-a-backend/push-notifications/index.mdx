@@ -1,32 +1,36 @@
+
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import directory from 'src/directory/directory.json';
 
 export const meta = {
-  title: 'Push notifications',
-  description: 'Push notifications',
-  platforms: [
+    title: 'Push Notifications',
+    description: 'Push Notifications',
+    platforms: [
     'android',
-    'angular',
     'flutter',
-    'javascript',
-    'nextjs',
-    'react',
     'react-native',
-    'swift',
-    'vue'
-  ]
+    'swift'
+    ],
+    route: '/[platform]/build-a-backend/push-notifications'
 };
 
 export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
+    return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {
-  return {
+    const childPageNodes = getChildPageNodes(meta.route);
+    return {
     props: {
-      platform: context.params.platform,
-      meta
+        platform: context.params.platform,
+        meta,
+        childPageNodes
     }
-  };
-
-
+    };
 }
+
+# Push Notifications
+
+<Overview childPageNodes={props.childPageNodes} />
+    
