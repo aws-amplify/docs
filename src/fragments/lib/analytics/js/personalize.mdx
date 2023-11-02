@@ -56,8 +56,8 @@ You can use the `Identify` event type to track a user identity. This lets you co
 
 * After a user registers.
 * After a user logs in.
-* When a user updates their information (For example, changing or adding or adding a new address).
-* Upon loading any pages that are accessible by a logged in user (optional).
+* When a user updates their information (For example, changing or adding a new address).
+* Upon loading any pages that are accessible by a logged-in user (optional).
 
 ```javascript
 import { record } from 'aws-amplify/analytics/personalize';
@@ -69,7 +69,7 @@ record({
   }
 });
 ```
-You can send events to Amazon personalize by calling the `record` operation. If you already use `Identify` tracking end-user data, you can skip the userId, the SDK will fetch the userId based on current browser session.
+You can send events to Amazon personalize by calling the `record` operation. If you already use `Identify` to track end-user data, you can skip the userId, the SDK will fetch the userId based on current browser session.
 For information about the properties field, see [Put Events](https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html).
 
 ```javascript
@@ -84,7 +84,7 @@ record({
   }
 });
 ```
-You can track iframe and HTML5 media types by using the MediaAutoTrack event type. MediaAutoTrack tracks all media events of the media DOM element that you bind to. `MediaAutoTracker` will automatically track *Play*, *Pause*, *Ended*, *TimeWatched*, and *Resume* in eventType. The duration of the event compared to the total length of the media is stored as a percentage value in eventValue.
+You can track iframe and HTML5 media types by using the MediaAutoTrack event type. MediaAutoTrack tracks all media events of the media DOM element that you bind to. `MediaAutoTracker` will automatically track *Play*, *Pause*, *Ended*, *TimeWatched*, and *Resume* in `eventType`. The duration of the event compared to the total length of the media is stored as a percentage value in `eventValue`.
 
 ```javascript
 import { record } from 'aws-amplify/analytics/personalize';
@@ -100,7 +100,7 @@ record({
 ```
 
 ## Flush events
-The recorded events are saved in a buffer and sent to the remote server periodically *(You can tune it with `flushInterval` option)*. If needed, you have the option to manually clear all the events from the buffer by using the 'flushEvents' API.
+The recorded events are saved in a buffer and sent to the remote server periodically *(You can tune it with the `flushInterval` option)*. If needed, you have the option to manually clear all the events from the buffer by using the 'flushEvents' API.
 
 ```javascript
 import { flushEvents } from 'aws-amplify/analytics/personalize';

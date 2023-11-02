@@ -1,4 +1,4 @@
-Amazon Personalize can create recommendations by using event data, historical data, or a combination of both. The event data can then be used to create recommendations. 
+Amazon Personalize can create recommendations by using event data, historical data, or a combination of both. The event data can then be used to create recommendations.
 
 To record event data, you need the following:
 
@@ -23,10 +23,10 @@ Configure Amazon Personalize:
 // Configure the plugin after adding it to the Analytics module
 Analytics.configure({
     AmazonPersonalize: {
-    
-        // REQUIRED - The trackingId to track the events 
+
+        // REQUIRED - The trackingId to track the events
         trackingId: '<TRACKING_ID>',
-        
+
         // OPTIONAL -  Amazon Personalize service region
         region: 'XX-XXXX-X',
 
@@ -40,13 +40,13 @@ Analytics.configure({
 ```
 ### Working with the API
 
-You can use the `Identify` event type to track a user identity. This lets you connect a user to their actions and record traits about them. To identify a user, specify a unique identifier for the userId property. 
+You can use the `Identify` event type to track a user identity. This lets you connect a user to their actions and record traits about them. To identify a user, specify a unique identifier for the userId property.
  Consider the following user interactions when choosing when and how often to call record with the  Identify eventType:
 
 * After a user registers.
 * After a user logs in.
-* When a user updates their information (For example, changing or adding or adding a new address).
-* Upon loading any pages that are accessible by a logged in user (optional).
+* When a user updates their information (For example, changing or adding a new address).
+* Upon loading any pages that are accessible by a logged-in user (optional).
 
 ```javascript
 Analytics.record({
@@ -56,7 +56,7 @@ Analytics.record({
         }
     }, 'AmazonPersonalize');
 ```
-You can send events to Amazon personalize by calling the `record` operation. If you already use `Identify` tracking end-user data, you can skip the userId, the SDK will fetch the userId based on current browser session.
+You can send events to Amazon personalize by calling the `record` operation. If you already use `Identify` to track end-user data, you can skip the userId, the SDK will fetch the userId based on current browser session.
 For information about the properties field, see [Put Events](https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html).
 
 ```javascript
@@ -69,7 +69,7 @@ Analytics.record({
     },
     "AmazonPersonalize");
 ```
-You can track iframe and HTML5 media types by using the MediaAutoTrack event type. MediaAutoTrack tracks all media events of the media DOM element that you bind to. `MediaAutoTracker` will automatically track *Play*, *Pause*, *Ended*, *TimeWatched*, and *Resume* in eventType. The duration of the event compared to the total length of the media is stored as a percentage value in eventValue.
+You can track iframe and HTML5 media types by using the MediaAutoTrack event type. MediaAutoTrack tracks all media events of the media DOM element that you bind to. `MediaAutoTracker` will automatically track *Play*, *Pause*, *Ended*, *TimeWatched*, and *Resume* in `eventType`. The duration of the event compared to the total length of the media is stored as a percentage value in `eventValue`.
 
 ```javascript
 Analytics.record({

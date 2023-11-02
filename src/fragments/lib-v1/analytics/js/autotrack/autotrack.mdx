@@ -2,15 +2,15 @@ Analytics Auto Tracking helps you to automatically track user behaviors like ses
 
 ## Session Tracking
 
-You can track the session both in a web app or a React Native app by using Analytics. A web session can be defined in different ways. To keep it simple we define a web session as being active when the page is not hidden and inactive when the page is hidden. 
+You can track the session both in a web app or a React Native app by using Analytics. A web session can be defined in different ways. To keep it simple we define a web session as being active when the page is not hidden and inactive when the page is hidden.
 A session in a React Native app is active when the app is in the foreground and inactive when the app is in the background.
 
-For example: 
+For example:
 ```javascript
 Analytics.autoTrack('session', {
     // REQUIRED, turn on/off the auto tracking
     enable: true,
-    // OPTIONAL, the attributes of the event, you can either pass an object or a function 
+    // OPTIONAL, the attributes of the event, you can either pass an object or a function
     // which allows you to define dynamic attributes
     attributes: {
         attr: 'attr'
@@ -29,10 +29,10 @@ Analytics.autoTrack('session', {
 
 When the page is loaded, the Analytics module will send an event to the Amazon Pinpoint Service.
 ```javascript
-{ 
-    eventType: '_session_start', 
-    attributes: { 
-        attr: 'attr' 
+{
+    eventType: '_session_start',
+    attributes: {
+        attr: 'attr'
     }
 }
 ```
@@ -44,7 +44,7 @@ Analytics.configure({
     autoSessionRecord: false,
 });
 ```
-or 
+or
 ```javascript
 Analytics.autoTrack('session', {
     enable: false
@@ -57,8 +57,8 @@ import js0 from '/src/fragments/lib-v1/analytics/js/autotrack/page-tracking.mdx'
 
 <Fragments fragments={{ js: js0 }} />
 
-<Callout> 
+<Callout>
 
-Note: Amplify doesn't capture the location automatically. Instead, you can add the location information in the default config when you [configure Analytics](https://docs.amplify.aws/lib/analytics/getting-started/q/platform/js#set-up-existing-analytics-backend) or while [updating the end point](https://docs.amplify.aws/lib/analytics/getting-started/q/platform/js#update-endpoint).
+Note: Amplify doesn't capture the location automatically. Instead, you can add the location information in the default config when you [configure Analytics](https://docs.amplify.aws/lib-v1/analytics/getting-started/q/platform/js#set-up-existing-analytics-backend) or while [updating the end point](https://docs.amplify.aws/lib-v1/analytics/getting-started/q/platform/js#update-endpoint).
 
 </Callout>
