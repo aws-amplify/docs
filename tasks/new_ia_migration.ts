@@ -326,33 +326,45 @@ migrationData.forEach((page) => {
 const migratedPages = globSync('src/pages/**/*.mdx');
 
 migratedPages.forEach((page) => {
+  // console.log(page);
+  let newContent = '';
   fs.readFile(page, 'utf8', (err, dataString) => {
+    let data = dataString.split('\n');
+    // console.log(data);
+
     if (err) {
       console.log('[ ERROR: READING PAGE', page);
     } else {
-      let data = dataString.split('\n');
-      data.forEach((line) => {
-        if (line.includes('title: `') && line.split("'").length - 1 < 1) {
-          line = line.replaceAll('`', "'");
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].includes('title: `') && data[i].split("'").length - 1 < 1) {
+          data[i] = data[i].replaceAll('`', "'");
         } else if (
-          line.includes('title: `') &&
-          line.split("'").length - 1 > 1
+          data[i].includes('title: `') &&
+          data[i].split("'").length > 0
         ) {
-          line = line.replaceAll('`', '"');
+          data[i] = data[i].replaceAll('`', '"');
         } else if (
-          line.includes('description: `') &&
-          line.split("'").length - 1 > 1
+          data[i].includes('description: `') &&
+          data[i].split("'").length - 1 > 0
         ) {
-          line = line.replaceAll('`', '"');
+          data[i] = data[i].replaceAll('`', '"');
         } else if (
-          line.includes('desription: `') &&
-          line.split("'").length - 1 < 1
+          data[i].includes('description: `') &&
+          data[i].split("'").length - 1 < 1
         ) {
-          line = line.replaceAll('`', "'");
+          data[i] = data[i].replaceAll('`', "'");
         }
-      });
+      }
     }
+
+    newContent = data.join('\n');
+    console.log(newContent);
+    fs.writeFile(page, newContent, (err) => {
+      if (err) {
+        console.log('[ ERROR: WRITE CONTENT ]', page, err);
+      } else {
+        console.log('[ SUCCESS: EDITS WRITTEN ]', page);
+      }
+    });
   });
 });
-
-// console.log(migratedPages);
