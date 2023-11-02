@@ -323,48 +323,232 @@ migrationData.forEach((page) => {
   // }
 });
 
+// Fix quotation characters in migrated pages
 const migratedPages = globSync('src/pages/**/*.mdx');
+
+// migratedPages.forEach((page) => {
+//   // console.log(page);
+//   let newContent = '';
+//   fs.readFile(page, 'utf8', (err, dataString) => {
+//     let data = dataString.split('\n');
+//     // console.log(data);
+
+//     if (err) {
+//       console.log('[ ERROR: READING PAGE', page);
+//     } else {
+//       for (let i = 0; i < data.length; i++) {
+//         if (data[i].includes('title: `') && data[i].split("'").length - 1 < 1) {
+//           data[i] = data[i].replaceAll('`', "'");
+//         } else if (
+//           data[i].includes('title: `') &&
+//           data[i].split("'").length > 0
+//         ) {
+//           data[i] = data[i].replaceAll('`', '"');
+//         } else if (
+//           data[i].includes('description: `') &&
+//           data[i].split("'").length - 1 > 0
+//         ) {
+//           data[i] = data[i].replaceAll('`', '"');
+//         } else if (
+//           data[i].includes('description: `') &&
+//           data[i].split("'").length - 1 < 1
+//         ) {
+//           data[i] = data[i].replaceAll('`', "'");
+//         }
+//       }
+//     }
+
+//     newContent = data.join('\n');
+//     console.log(newContent);
+//     fs.writeFile(page, newContent, (err) => {
+//       if (err) {
+//         console.log('[ ERROR: WRITE CONTENT ]', page, err);
+//       } else {
+//         console.log('[ SUCCESS: EDITS WRITTEN ]', page);
+//       }
+//     });
+//   });
+// });
+
+// check pages for fragments/inlinefilters not accounted for in meta.platforms
 
 migratedPages.forEach((page) => {
   // console.log(page);
   let newContent = '';
   fs.readFile(page, 'utf8', (err, dataString) => {
-    let data = dataString.split('\n');
-    // console.log(data);
-
     if (err) {
       console.log('[ ERROR: READING PAGE', page);
     } else {
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].includes('title: `') && data[i].split("'").length - 1 < 1) {
-          data[i] = data[i].replaceAll('`', "'");
-        } else if (
-          data[i].includes('title: `') &&
-          data[i].split("'").length > 0
-        ) {
-          data[i] = data[i].replaceAll('`', '"');
-        } else if (
-          data[i].includes('description: `') &&
-          data[i].split("'").length - 1 > 0
-        ) {
-          data[i] = data[i].replaceAll('`', '"');
-        } else if (
-          data[i].includes('description: `') &&
-          data[i].split("'").length - 1 < 1
-        ) {
-          data[i] = data[i].replaceAll('`', "'");
-        }
-      }
-    }
+      let data = dataString.split('\n');
+      // console.log(data);
 
-    newContent = data.join('\n');
-    console.log(newContent);
-    fs.writeFile(page, newContent, (err) => {
-      if (err) {
-        console.log('[ ERROR: WRITE CONTENT ]', page, err);
-      } else {
-        console.log('[ SUCCESS: EDITS WRITTEN ]', page);
+      let platformsFromBody = [];
+      const platformsFromMetaOneLine = [];
+      const platformsFromMetaMultiLine = [];
+      let platformListIndex;
+      let count = 0;
+
+      data.forEach((line) => {
+        // if (!dataString.includes('platforms: ')) {
+        //   console.log(page);
+        //   if (line.includes('export const getStaticPaths = async () => {')) {
+        //     console.log(line);
+        //   }
+        // }
+        if (line.startsWith('<Fragments fragments={{')) {
+          let p = line.slice(line.indexOf('{') + 2, line.indexOf('}'));
+          p = p.split(',');
+          p.forEach((item) => {
+            let platform = item.split(':');
+            platform = platform[0]
+              .replaceAll("'", '')
+              .replaceAll(' ', '')
+              .replaceAll('"', '')
+              .replaceAll('js', 'javascript');
+            platformsFromBody.push(platform);
+          });
+          // console.log(p);
+        } else if (line.startsWith('<InlineFilter filters={[')) {
+          if (line.includes('js')) {
+            line = line.replace('js', 'javascript');
+          }
+          if (line.includes('ios')) {
+            line = line.replace('ios', 'swift');
+          }
+
+          let p = line.slice(line.indexOf('[') + 1, line.indexOf(']'));
+          p = p.split(',');
+          p.forEach((item) => {
+            const platform = item
+              .replaceAll("'", '')
+              .replaceAll('"', '')
+              .replaceAll('`', '')
+              .replaceAll(' ', '')
+              .replaceAll('js', 'javascript');
+            platformsFromBody.push(platform);
+          });
+        } else if (line.includes('platforms: ')) {
+          platformListIndex = data.indexOf(line);
+
+          if (line.includes('ios') && line.includes('swift')) {
+            line = line.replace('ios', '');
+            line = line.replace(", ''", '');
+          } else if (line.includes('ios') && !line.includes('swift')) {
+            line = line.replace('ios', 'swift');
+          }
+
+          let p = line.slice(line.indexOf('[') + 1, line.indexOf(']'));
+          p = p.split(',');
+
+          p.forEach((item) => {
+            item = item
+              .replaceAll('"', '')
+              .replaceAll("'", '')
+              .replaceAll(' ', '');
+            if (item.length) {
+              platformsFromMetaOneLine.push(item);
+            }
+          });
+        } else if (
+          line.startsWith("    'android'") ||
+          line.startsWith("    'angular'") ||
+          line.startsWith("    'flutter'") ||
+          line.startsWith("    'javascript'") ||
+          line.startsWith("    'nextjs'") ||
+          line.startsWith("    'react'") ||
+          line.startsWith("    'react-native'") ||
+          line.startsWith("    'swift'") ||
+          line.startsWith("    'vue'")
+        ) {
+          const p = line
+            .replaceAll(' ', '')
+            .replaceAll('"', '')
+            .replaceAll("'", '')
+            .replaceAll(',', '');
+          platformsFromMetaMultiLine.push(p);
+        }
+        // console.log(line);
+      });
+      const platformsAll = [
+        'android',
+        'angular',
+        'flutter',
+        'javascript',
+        'nextjs',
+        'react',
+        'react-native',
+        'swift',
+        'vue'
+      ];
+      if (platformsFromBody.includes('all')) {
+        platformsAll.forEach((p) => {
+          platformsFromBody.push(p);
+        });
+        platformsFromBody = platformsFromBody.filter((ob) => {
+          return ob != 'all';
+        });
       }
-    });
+
+      let filteredPlatforms = platformsFromBody.filter((value, index) => {
+        return platformsFromBody.indexOf(value) === index;
+      });
+      // console.log(filteredPlatforms);
+      // console.log(platformsFromMetaMultiLine);
+      // console.log(platformsFromMetaOneLine);
+      filteredPlatforms.forEach((platform) => {
+        if (
+          filteredPlatforms.includes('swift') &&
+          filteredPlatforms.includes('ios')
+        ) {
+          filteredPlatforms.splice(filteredPlatforms.indexOf('ios'), 1);
+          // console.log(filteredPlatforms);
+        } else if (
+          !filteredPlatforms.includes('swift') &&
+          filteredPlatforms.includes('ios')
+        ) {
+          filteredPlatforms.splice(
+            filteredPlatforms.indexOf('ios'),
+            1,
+            'swift'
+          );
+          // console.log(filteredPlatforms);
+        }
+        // console.log(!platformsFromMetaMultiLine.includes(platform));
+        if (
+          platformsFromMetaOneLine.length > 0 &&
+          !platformsFromMetaOneLine.includes(platform)
+        ) {
+          data[platformListIndex] = data[platformListIndex].replace(
+            ']',
+            ", '" + platform + "']"
+          );
+          console.log(
+            page,
+            platformsFromMetaOneLine,
+            platform,
+            data[platformListIndex]
+          );
+        } else if (
+          platformsFromMetaMultiLine.length > 0 &&
+          !platformsFromMetaMultiLine.includes(platform) &&
+          platform != 'next'
+        ) {
+          console.log(page, platformsFromMetaMultiLine, platform);
+        }
+      });
+      newContent = data.join('\n');
+      // console.log(newContent);
+
+      if (data != newContent) {
+        console.log(page);
+      }
+      // fs.writeFile(page, newContent, (err) => {
+      //   if (err) {
+      //     console.log('[ ERROR: WRITE CONTENT ]', page, err);
+      //   } else if (data != newContent) {
+      //     console.log('[ SUCCESS: EDITS WRITTEN ]', page);
+      //   }
+      // });
+    }
   });
 });
