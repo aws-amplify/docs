@@ -1,4 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'More features',
@@ -13,7 +14,8 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ]
+  ],
+  route: '/[platform]/build-a-backend/more-features'
 };
 
 export const getStaticPaths = async () => {
@@ -21,12 +23,14 @@ export const getStaticPaths = async () => {
 };
 
 export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
       platform: context.params.platform,
-      meta
+      meta,
+      childPageNodes
     }
   };
-
-
 }
+
+<Overview childPageNodes={props.childPageNodes} />

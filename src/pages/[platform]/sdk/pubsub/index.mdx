@@ -1,12 +1,11 @@
-
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { getChildPageNodes } from '@/utils/getChildPageNodes';
 import directory from 'src/directory/directory.json';
 
 export const meta = {
-    title: 'Pubsub',
-    description: 'Pubsub',
-    platforms: [
+  title: 'Pubsub',
+  description: 'Pubsub',
+  platforms: [
     'android',
     'angular',
     'flutter',
@@ -16,26 +15,23 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-    ],
-    route: '/[platform]/sdk/pubsub'
+  ],
+  route: '/[platform]/sdk/pubsub'
 };
 
 export const getStaticPaths = async () => {
-    return getCustomStaticPath(meta.platforms);
+  return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {
-    const childPageNodes = getChildPageNodes(meta.route);
-    return {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
     props: {
-        platform: context.params.platform,
-        meta,
-        childPageNodes
+      platform: context.params.platform,
+      meta,
+      childPageNodes
     }
-    };
+  };
 }
 
-# Pubsub
-
 <Overview childPageNodes={props.childPageNodes} />
-    
