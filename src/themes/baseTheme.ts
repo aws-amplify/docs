@@ -34,7 +34,8 @@ export const baseTheme = createTheme({
       large: { value: '1.2rem' },
       xl: { value: '1.4rem' },
       xxl: { value: '1.6rem' },
-      xxxl: { value: '1.8rem' }
+      xxxl: { value: '1.8rem' },
+      xxxxl: { value: '2.4rem' }
     },
     fonts: {
       default: {
@@ -78,7 +79,7 @@ export const baseTheme = createTheme({
           fontWeight: '400'
         },
         2: {
-          fontWeight: '700'
+          fontWeight: '400'
         },
         3: {
           fontWeight: '700'
