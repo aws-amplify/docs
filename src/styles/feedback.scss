@@ -1,8 +1,5 @@
 .feedback {
   padding-top: var(--amplify-space-xl);
-  &-text {
-    // padding: var(--amplify-space-xs) var(--amplify-space-large);
-  }
 }
 
 .vote-response {
@@ -13,7 +10,7 @@
   padding-left: 0;
   font-size: 0.9rem;
   justify-content: center;
-  line-height: 12px;
+  gap: 0;
   &-no {
     &:hover {
       opacity: 0.8;
@@ -27,6 +24,7 @@
 
 .vote-buttons-container {
   padding-top: var(--amplify-space-medium);
+  align-items: center;
 }
 
 .vote-button {
