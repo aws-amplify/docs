@@ -15,7 +15,8 @@ function MyApp({ Component, pageProps }) {
     hasTOC,
     pageType,
     showBreadcrumbs,
-    showLastUpdatedDate
+    showLastUpdatedDate,
+    useCustomTitle
   } = pageProps;
   const getLayout =
     Component.getLayout ||
@@ -29,6 +30,7 @@ function MyApp({ Component, pageProps }) {
         hasTOC={hasTOC}
         showBreadcrumbs={showBreadcrumbs}
         showLastUpdatedDate={showLastUpdatedDate}
+        useCustomTitle={useCustomTitle}
       >
         {page}
       </Layout>
