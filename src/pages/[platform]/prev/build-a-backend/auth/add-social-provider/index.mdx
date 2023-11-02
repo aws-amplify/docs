@@ -44,7 +44,7 @@ import flutter3 from '/src/fragments/lib-v1/auth/native_common/social_signin_web
 
 <Fragments fragments={{ flutter: flutter3 }} />
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ## OAuth and Federation Overview
 
@@ -52,7 +52,7 @@ import flutter3 from '/src/fragments/lib-v1/auth/native_common/social_signin_web
 
 OAuth support in Amplify uses Cognito user pools and supports federation with social providers, which will automatically create a corresponding user in the user pool after a login. [OIDC](https://en.wikipedia.org/wiki/OpenID_Connect) tokens are available in the app after the application has completed this process.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <Callout warning>
 
@@ -115,7 +115,7 @@ After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate you
 
 </InlineFilter>
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking the `signInWithRedirect` API. Passing `Amazon`, `Facebook`, `Google`, or `Apple` on the `provider` argument (e.g `signInWithRedirect({ provider: 'Amazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `signInWithRedirect({ customState: 'xyz' })`) value and listening for the custom state via Hub.
 
