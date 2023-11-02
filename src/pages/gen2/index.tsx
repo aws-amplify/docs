@@ -29,7 +29,8 @@ export function getStaticProps() {
   return {
     props: {
       meta,
-      showBreadcrumbs: false
+      showBreadcrumbs: false,
+      useCustomTitle: true
     }
   };
 }

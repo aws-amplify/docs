@@ -20,7 +20,8 @@ export function getStaticProps() {
       hasTOC: false,
       showLastUpdatedDate: false,
       pageType: 'home',
-      meta
+      meta,
+      useCustomTitle: true
     }
   };
 }
