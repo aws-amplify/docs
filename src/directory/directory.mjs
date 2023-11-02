@@ -702,11 +702,6 @@ export const directory = {
             title: 'Set up push notification services',
             route: '/lib/push-notifications/setup-push-service',
             filters: ['android', 'flutter', 'ios', 'react-native']
-          },
-          {
-            title: 'Migrate from previous version',
-            route: '/lib/push-notifications/migrate-from-previous-version',
-            filters: ['react-native']
           }
         ]
       },
@@ -1531,6 +1526,61 @@ export const directory = {
             title: 'Example',
             route: '/lib-v1/predictions/sample',
             filters: ['js', 'react-native']
+          }
+        ]
+      },
+      'push-notifications': {
+        title: 'Push Notifications',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/push-notifications/getting-started',
+            filters: ['react-native']
+          },
+          {
+            title: 'Request permissions',
+            route: '/lib-v1/push-notifications/request-permissions',
+            filters: ['react-native']
+          },
+          {
+            title: 'Receive device token',
+            route: '/lib-v1/push-notifications/receive-device-token',
+            filters: ['react-native']
+          },
+          {
+            title: 'Interact with notifications',
+            route: '/lib-v1/push-notifications/interact-with-notifications',
+            filters: ['react-native']
+          },
+          {
+            title: 'Identify user',
+            route: '/lib-v1/push-notifications/identify-user',
+            filters: ['react-native']
+          },
+          {
+            title: 'App badge count',
+            route: '/lib-v1/push-notifications/app-badge-count',
+            filters: ['react-native']
+          },
+          {
+            title: 'Enable rich notifications',
+            route: '/lib-v1/push-notifications/enable-rich-notifications',
+            filters: ['react-native']
+          },
+          {
+            title: 'Testing',
+            route: '/lib-v1/push-notifications/testing',
+            filters: ['react-native']
+          },
+          {
+            title: 'Set up push notification services',
+            route: '/lib-v1/push-notifications/setup-push-service',
+            filters: ['react-native']
+          },
+          {
+            title: 'Migrate from previous version',
+            route: '/lib-v1/push-notifications/migrate-from-previous-version',
+            filters: ['react-native']
           }
         ]
       },

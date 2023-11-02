@@ -1,6 +1,6 @@
 export const meta = {
-  title: `Migrate from previous version`,
-  description: `Migrate from the deprecated to the new version of Amplify Push Notifications.`,
+  title: `Receive device token`,
+  description: `Receive a device token for use with push notifications.`,
   filterKey: 'platform',
   supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
@@ -22,6 +22,6 @@ export const getStaticProps = (context) => {
   };
 };
 
-import reactNativeRoute from '/src/fragments/lib/push-notifications/react-native/migrate-from-previous-version.mdx';
+import receiveDeviceToken from '/src/fragments/lib-v1/push-notifications/react-native/receive-device-token.mdx';
 
-<Fragments fragments={{ 'react-native': reactNativeRoute }} />
+<Fragments fragments={{ 'react-native': receiveDeviceToken }} />
