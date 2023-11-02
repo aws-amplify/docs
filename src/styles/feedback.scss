@@ -1,6 +1,7 @@
 .feedback {
+  padding-top: var(--amplify-space-xl);
   &-text {
-    padding: var(--amplify-space-xs) var(--amplify-space-large);
+    // padding: var(--amplify-space-xs) var(--amplify-space-large);
   }
 }
 
@@ -25,8 +26,7 @@
 }
 
 .vote-buttons-container {
-  padding: var(--amplify-space-xs) var(--amplify-space-large);
-  align-items: center;
+  padding-top: var(--amplify-space-medium);
 }
 
 .vote-button {

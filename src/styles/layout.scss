@@ -115,6 +115,12 @@
   overscroll-behavior: contain;
 }
 
+.layout-sidebar-feedback {
+  padding: var(--amplify-space-large) var(--amplify-space-large)
+    var(--amplify-space-large);
+  border-top: 1px solid var(--amplify-colors-neutral-20);
+}
+
 .main {
   flex-direction: column;
   container-type: inline-size;
