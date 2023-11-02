@@ -115,13 +115,13 @@ const Feedback = function Feedback(router) {
 
     const transitionUpButton = [
       {
-        maxWidth: yesButtonRef.current?.offsetWidth + 'px'
+        maxWidth: yesButtonRef.current?.offsetWidth + 'px',
+        display: ''
       },
       {
         maxWidth: 0,
         padding: 0,
         display: 'none',
-
         opacity: 0
       }
     ];
@@ -170,6 +170,9 @@ const Feedback = function Feedback(router) {
 
     if (typeof yesButtonRef.current?.animate == 'function') {
       yesButtonRef.current?.animate(transitionUpButton, animationTiming);
+      setTimeout(() => {
+        yesButtonRef.current?.setAttribute('style', 'display: none');
+      }, 300);
     }
     if (typeof noTextRef.current?.animate == 'function') {
       noTextRef.current?.animate(transitionDownText, animationTiming);
