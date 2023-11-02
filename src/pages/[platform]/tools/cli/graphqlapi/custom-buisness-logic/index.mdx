@@ -2,7 +2,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Custom business logic',
-  description: 'Add authorization rules to your GraphQL schema to control access to your data.',
+  description:
+    'Add authorization rules to your GraphQL schema to control access to your data.',
   platforms: [
     'android',
     'angular',
@@ -628,7 +629,7 @@ export class cdkStack extends cdk.Stack {
     /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
     new cdk.CfnParameter(this, 'env', {
       type: 'String',
-      description: 'Current Amplify CLI env name'
+      description: "Current Amplify CLI env name'
     });
 
     // Access other Amplify Resources
@@ -699,7 +700,7 @@ export class cdkStack extends cdk.Stack {
     /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
     new cdk.CfnParameter(this, 'env', {
       type: 'String',
-      description: 'Current Amplify CLI env name'
+      description: "Current Amplify CLI env name'
     });
 
     // Access other Amplify Resources

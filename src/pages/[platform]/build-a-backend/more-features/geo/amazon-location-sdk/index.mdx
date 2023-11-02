@@ -2,7 +2,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Use Amazon Location Service SDK',
-  description: 'For specialized use cases where Amplify does not provide the functionality, you can use the escape hatch to access a low-level client instance for Amazon Location Service.',
+  description:
+    'For specialized use cases where Amplify does not provide the functionality, you can use the escape hatch to access a low-level client instance for Amazon Location Service.',
   platforms: ['javascript', 'swift', 'android']
 };
 
@@ -21,7 +22,7 @@ export function getStaticProps(context) {
 
 import js0 from '/src/fragments/lib/geo/js/escapehatch.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />
 
 import android1 from '/src/fragments/lib/geo/android/escapehatch.mdx';
 
@@ -29,4 +30,4 @@ import android1 from '/src/fragments/lib/geo/android/escapehatch.mdx';
 
 import ios2 from '/src/fragments/lib/geo/ios/escapehatch.mdx';
 
-<Fragments fragments={{ ios: ios2 }} />
+<Fragments fragments={{ swift: ios2 }} />

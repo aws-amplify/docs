@@ -71,7 +71,7 @@ export class cdkStack extends cdk.Stack {
     /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
     new cdk.CfnParameter(this, 'env', {
       type: 'String',
-      description: 'Current Amplify CLI env name'
+      description: "Current Amplify CLI env name'
     });
 
     const amplifyProjectInfo = AmplifyHelpers.getProjectInfo();
@@ -85,7 +85,7 @@ export class cdkStack extends cdk.Stack {
     topic.addSubscription(new subs.EmailSubscription('<your-email-address>'));
     new cdk.CfnOutput(this, 'snsTopicArn', {
       value: topic.topicArn,
-      description: 'The arn of the SNS topic'
+      description: "The arn of the SNS topic'
     });
   }
 }

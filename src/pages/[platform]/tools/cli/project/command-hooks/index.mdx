@@ -2,7 +2,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Command hooks',
-  description: 'Execute custom scripts before, during, and after Amplify CLI commands (“amplify push”, “amplify api gql-compile”, and more).',
+  description:
+    'Execute custom scripts before, during, and after Amplify CLI commands (“amplify push”, “amplify api gql-compile”, and more).',
   platforms: [
     'android',
     'angular',
@@ -325,7 +326,6 @@ In this example, you'll add a `python` hook script running in the Amplify Hostin
 2. Navigate to your app in the Amplify Hosting and select **App settings** > **Build settings** to update the `preBuild` phase to install python.
 
    ```yaml
-
    ---
    backend:
    phases:

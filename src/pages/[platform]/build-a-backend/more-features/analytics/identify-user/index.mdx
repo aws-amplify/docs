@@ -2,7 +2,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Identify user',
-  description: 'Use the Amplify analytics plugin to inform Pinpoint about your users.',
+  description:
+    'Use the Amplify analytics plugin to inform Pinpoint about your users.',
   platforms: ['swift', 'android']
 };
 
@@ -23,7 +24,7 @@ export function getStaticProps(context) {
 
 import ios0 from '/src/fragments/lib/analytics/ios/identifyuser.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />
 
 import android1 from '/src/fragments/lib/analytics/android/identifyuser.mdx';
 

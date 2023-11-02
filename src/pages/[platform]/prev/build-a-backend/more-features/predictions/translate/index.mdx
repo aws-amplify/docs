@@ -2,7 +2,12 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Translate language',
+<<<<<<< HEAD
   description: 'Learn more about how to integrate translation capabilities for your application using Amplify',
+=======
+  description:
+    'Learn more about how to integrate translation capabilities for your application using Amplify',
+>>>>>>> PageMigrationUpdates
   platforms: ['swift', 'android']
 };
 
@@ -21,11 +26,11 @@ export function getStaticProps(context) {
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 import ios1 from '/src/fragments/lib-v1/predictions/ios/translate.mdx';
 
-<Fragments fragments={{ ios: ios1 }} />
+<Fragments fragments={{ swift: ios1 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 

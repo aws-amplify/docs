@@ -1,9 +1,8 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
-  title: 'Tutorials',
-  description: 'Tutorials',
+  title: 'More features',
+  description: 'More features',
   platforms: [
     'android',
     'angular',
@@ -14,8 +13,7 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ],
-  route: '/[platform]/get-started/tutorials'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -23,16 +21,12 @@ export const getStaticPaths = async () => {
 };
 
 export function getStaticProps(context) {
-  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
       platform: context.params.platform,
-      meta,
-      childPageNodes
+      meta
     }
   };
+
+
 }
-
-# Tutorials
-
-<Overview childPageNodes={props.childPageNodes} />

@@ -2,7 +2,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Override Amplify-generated API Gateway resources',
-  description: 'The "amplify override api" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated API Gateway resources as CDK constructs. For example, developers can configure a custom description or the minimum compression size of their REST API.',
+  description:
+    'The "amplify override api" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated API Gateway resources as CDK constructs. For example, developers can configure a custom description or the minimum compression size of their REST API.',
   platforms: [
     'android',
     'angular',
@@ -184,7 +185,7 @@ const functionArnParameter = 'FunctionArn';
 resources.addCfnParameter(
   {
     type: 'String',
-    description: 'The ARN of an existing Lambda Function to authorize requests',
+    description: "The ARN of an existing Lambda Function to authorize requests',
     default: 'NONE'
   },
   functionArnParameter,

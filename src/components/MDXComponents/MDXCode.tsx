@@ -49,8 +49,8 @@ export const MDXCode = (props) => {
 
   return (
     <Highlight theme={theme} code={code} language={language}>
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <>
+      {({ style, tokens, getLineProps, getTokenProps }) => (
+        <View>
           <div style={{ display: 'none' }}>
             {/* searchable code \ */}
             {codeString}
@@ -87,7 +87,7 @@ export const MDXCode = (props) => {
               </CopyToClipboard>
             </View>
           </View>
-        </>
+        </View>
       )}
     </Highlight>
   );
