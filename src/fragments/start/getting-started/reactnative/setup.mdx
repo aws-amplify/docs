@@ -16,29 +16,22 @@ cd amplified_todo
 Install the necessary dependencies by running the following command:
 
 ```sh
-npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage
+npm install aws-amplify @aws-amplify/react-native @aws-amplify/rtn-web-browser @react-native-community/netinfo @react-native-async-storage/async-storage
 ```
 
 Start the app with the following command:
 
+For Android:
 ```bash
-npm start
+npx expo run:android
 ```
 
-```console
-› Scan the QR code above with Expo Go (Android) or the Camera app (iOS)
-
-› Press a │ open Android
-› Press w │ open web
-
-› Press j │ open debugger
-› Press r │ reload app
-› Press m │ toggle menu
-
-› Press ? │ show all commands
-
-Logs for your project will appear below. Press Ctrl+C to exit.
+For iOS:
+```bash
+npx expo run:ios
 ```
+
+Follow the additional prompts to configure your build and allow it some time to process. WHen ready, you app should launch in the respective simulator.
 
 </Block>
 <Block name="React Native CLI">
