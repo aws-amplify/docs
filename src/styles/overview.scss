@@ -16,9 +16,10 @@
 
       &__title {
         font-size: var(--amplify-font-sizes-large);
-        font-weight: var(--amplify-font-weights-medium);
+        font-weight: var(--amplify-font-weights-bold);
         color: var(--amplify-colors-brand-primary-80);
         text-decoration: underline;
+        text-underline-offset: 2px;
       }
 
       &__description {
