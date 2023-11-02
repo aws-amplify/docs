@@ -4,13 +4,16 @@ import React from 'react';
 import { IconPencil } from '@/components/Icons';
 
 function createEditLink(directoryPath) {
-  const safePath = directoryPath.split('/').map(encodeURIComponent).join('/');
+  const safePath = directoryPath
+    .split('/')
+    .map(encodeURIComponent)
+    .join('/');
   return `https://github.com/aws-amplify/docs/edit/main/src/pages${safePath}/index.mdx`;
 }
 
-export default function RepoActions({ path }) {
-  const shouldShowEditLink = path.pathname !== '/';
-  const editLink = createEditLink(path.pathname);
+export default function RepoActions({ router }) {
+  const shouldShowEditLink = router.pathname !== '/';
+  const editLink = createEditLink(router.pathname);
   return (
     <>
       {shouldShowEditLink && (

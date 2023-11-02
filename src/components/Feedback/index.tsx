@@ -13,7 +13,7 @@ type Feedback = {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const Feedback = function Feedback(path) {
+const Feedback = function Feedback(router) {
   const [state, setState] = useState<string>();
   const yesButtonRef = useRef(null);
   const noButtonRef = useRef(null);
@@ -183,7 +183,7 @@ const Feedback = function Feedback(path) {
   }, []);
 
   return (
-    <Flex className="feedback" key={path.path.asPath}>
+    <Flex className="feedback" key={router?.router?.asPath}>
       <div id="start-state" aria-label={c.feedbackQuestion} role="group">
         <Text className="feedback-text">{c.feedbackQuestion}</Text>
         <Flex className="vote-buttons-container">
