@@ -15,7 +15,8 @@ function MyApp({ Component, pageProps }) {
     hasTOC,
     pageType,
     showBreadcrumbs,
-    showLastUpdatedDate
+    showLastUpdatedDate,
+    useCustomTitle
   } = pageProps;
   const getLayout =
     Component.getLayout ||
@@ -27,6 +28,7 @@ function MyApp({ Component, pageProps }) {
         url={url}
         platform={platform ? platform : ''}
         hasTOC={hasTOC}
+        useCustomTitle={useCustomTitle}
         showBreadcrumbs={showBreadcrumbs}
         showLastUpdatedDate={showLastUpdatedDate}
       >

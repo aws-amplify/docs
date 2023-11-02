@@ -7,7 +7,8 @@ import {
   IconsProvider,
   ThemeProvider,
   View,
-  VisuallyHidden
+  VisuallyHidden,
+  Heading as HeadingTitle
 } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
 import { defaultIcons } from '@/themes/defaultIcons';
@@ -47,7 +48,8 @@ export const Layout = ({
   platform,
   showBreadcrumbs = true,
   showLastUpdatedDate = true,
-  url
+  url,
+  useCustomTitle = false
 }: {
   children: any;
   hasTOC?: boolean;
@@ -58,6 +60,7 @@ export const Layout = ({
   showBreadcrumbs?: boolean;
   showLastUpdatedDate: boolean;
   url?: string;
+  useCustomTitle?: boolean;
 }) => {
   const [menuOpen, toggleMenuOpen] = useState(false);
   const [tocHeadings, setTocHeadings] = useState<Heading[]>([]);
@@ -306,6 +309,9 @@ export const Layout = ({
                   {showBreadcrumbs ? (
                     <Breadcrumbs route={pathname} platform={currentPlatform} />
                   ) : null}
+                  {useCustomTitle ? null : (
+                    <HeadingTitle level={1}>{pageTitle}</HeadingTitle>
+                  )}
                   {children}
                 </Flex>
                 {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
