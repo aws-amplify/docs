@@ -45,22 +45,20 @@ export function Menu({
             </View>
           </Link>
         </li>
-        <ul className="menu__list">
-          {rootMenuNode?.children &&
-            rootMenuNode.children.map((child, index) => {
-              return (
-                <MenuItem
-                  key={index}
-                  pageNode={child as PageNode}
-                  parentSetOpen={null}
-                  level={1}
-                  {...(currentPlatform
-                    ? { currentPlatform: currentPlatform }
-                    : {})}
-                />
-              );
-            })}
-        </ul>
+        {rootMenuNode?.children &&
+          rootMenuNode.children.map((child, index) => {
+            return (
+              <MenuItem
+                key={index}
+                pageNode={child as PageNode}
+                parentSetOpen={null}
+                level={1}
+                {...(currentPlatform
+                  ? { currentPlatform: currentPlatform }
+                  : {})}
+              />
+            );
+          })}
       </ul>
     </nav>
   );
