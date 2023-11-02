@@ -400,7 +400,7 @@ function App() {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has ocurred during the oauth flow.");
+          setError("An error has ocurred during the Oauth flow.");
           break;
         case "customOAuthState":
           setCustomState(payload.data);
@@ -468,7 +468,7 @@ function App() {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has ocurred during the oauth flow.");
+          setError("An error has ocurred during the Oauth flow.");
           break;
         case "customOAuthState":
           setCustomState(payload.data);
@@ -617,7 +617,7 @@ function App() {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has ocurred during the oauth flow.");
+          setError("An error has ocurred during the Oauth flow.");
           break;
         case "customOAuthState":
           setCustomState(payload.data);
@@ -689,7 +689,7 @@ Amplify.configure({
             "http://localhost:3000/",
             "https://www.example.com/",
           ],
-          ...outhConfig
+          ...oauthConfig
         },
       },
      ...userPoolConfig
@@ -724,7 +724,7 @@ Amplify.configure({
             "http://localhost:3000/",
             "https://www.example.com/",
           ],
-          ...outhConfig
+          ...oauthConfig
         },
       },
      ...userPoolConfig
@@ -744,7 +744,7 @@ function App() {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has ocurred during the oauth flow.");
+          setError("An error has ocurred during the Oauth flow.");
           break;
         case "customOAuthState":
           setCustomState(payload.data);
@@ -799,7 +799,7 @@ Amplify.configure({
             "http://localhost:3000/",
             "https://www.example.com/",
           ],
-          ...outhConfig
+          ...oauthConfig
         },
       },
      ...userPoolConfig
@@ -819,7 +819,7 @@ function App() {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has ocurred during the oauth flow.");
+          setError("An error has ocurred during the Oauth flow.");
           break;
         case "customOAuthState":
           setCustomState(payload.data);
@@ -900,7 +900,7 @@ Amplify.configure({
         oauth: {
           redirectSignIn: [isLocalhost ? localRedirectSignIn : productionRedirectSignIn],
           redirectSignOut: [isLocalhost ? localRedirectSignIn : productionRedirectSignIn],
-          ...outhConfig
+          ...oauthConfig
         },
       },
      ...userPoolConfig
