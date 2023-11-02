@@ -5,7 +5,6 @@ import { Platform } from '@/data/platforms';
 import Link, { LinkProps } from 'next/link';
 import { LayoutContext } from '@/components/Layout';
 import { PageNode } from 'src/directory/directory';
-import { useRouter } from 'next/router';
 
 type MenuProps = {
   currentPlatform?: Platform;
@@ -21,7 +20,6 @@ export function Menu({
   menuHref
 }: MenuProps): ReactElement {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
-  const router = useRouter();
 
   const onLinkClick = () => {
     if (menuOpen) {
