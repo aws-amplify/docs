@@ -56,7 +56,7 @@ import all5 from '/src/fragments/lib/auth/common/mfa/update_mfa.mdx';
 
 You will need to pass `phone_number` as a user attribute to enable SMS MFA for your users during sign up. However, if the primary login mechanism for your Cognito resource is `phone_number` (without enabling `username`), then you do not need to pass it as an attribute.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -119,7 +119,7 @@ async function handleSignUp(username, password, phone_number, email) {
 
 By default, you have to verify a user account after they sign up using the `confirmSignUp` API, which will send a one-time password to the user's phone number or email, depending on your Amazon Cognito configuration.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -163,7 +163,7 @@ async function handleSignUpConfirmation(username, confirmationCode) {
 
 After a user signs in, if they have MFA enabled for their account, a challenge will be returned that you would need to call the `confirmSignIn` API where the user provides their confirmation code sent to their phone number.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -202,7 +202,7 @@ async function handleSignIn(username, password) {
 
 If MFA is **ON** or enabled for the user, you must call `confirmSignIn` with the OTP sent to their phone.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -242,7 +242,7 @@ async function handleSignInConfirmation(otpCode) {
 
 After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
@@ -274,7 +274,7 @@ The `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` step signifies that the user must set up 
 
 Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -352,7 +352,7 @@ function handleSignInNextSteps(output) {
 
 The TOTP code can be obtained from the user via a text field or any other means. Once the user provides the TOTP code, call `confirmSignIn` with the TOTP code as the `challengeResponse` parameter.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -392,7 +392,7 @@ async function handleSignInConfirmation(totpCode) {
 
 After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
@@ -421,7 +421,7 @@ Invoke the `setUpTOTP` API to generate a `TOTPSetupDetails` object which should 
 
 that contains the `sharedSecret` which will be used to either to generate a QR code or can be manually entered into an Authenticator app.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ```typescript
 import { setUpTOTP } from 'aws-amplify/auth';
@@ -442,7 +442,7 @@ async function handleTOTPSetup() {
 
 Once the Authenticator app is set up, the user must generate a TOTP code and provide it to the library. Pass the code to `verifyTOTPSetup` to complete the TOTP setup process.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -482,7 +482,7 @@ async function handleTOTPVerification(totpCode) {
 
 After TOTP setup is complete, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
@@ -514,7 +514,7 @@ In a scenario where MFA is marked as **Required** in your user pool and another 
 
 Invoke the following API to get the current MFA preference and enabled MFA types, if any, for the current user.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ```ts
 import { fetchMFAPreference } from 'aws-amplify/auth';
@@ -542,7 +542,7 @@ Only one MFA method can be marked as preferred at a time. If the user has multip
 
 </Callout>
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
@@ -560,7 +560,7 @@ async function handleUpdateMFAPreference() {
 
 If multiple MFA methods are enabled for the user, the `signIn` API will return `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">

@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Upgrading Amplify packages',
-  description: `Upgrading Amplify packages `,
+  description: 'Upgrading Amplify packages ',
   platforms: ['flutter']
 };
 
@@ -23,7 +23,7 @@ import flutter1 from '/src/fragments/lib-v1/troubleshooting/flutter/upgrading.md
 
 <Fragments fragments={{ flutter: flutter1 }} />
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 When upgrading Amplify packages, it is important to make sure that there are no duplicate versions of Amplify packages in the `node_modules` folder tree as a result of the upgrade. Having multiple versions of packages can yield unexpected behavior as modules imported in your code might point to versions not configured by Amplify when calling `Amplify.configure`.
 

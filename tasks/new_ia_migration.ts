@@ -326,11 +326,13 @@ migrationData.forEach((page) => {
 const migratedPages = globSync('src/pages/**/*.mdx');
 
 migratedPages.forEach((page) => {
+  let newContent = '';
   fs.readFile(page, 'utf8', (err, dataString) => {
+    let data = dataString.split('\n');
+
     if (err) {
       console.log('[ ERROR: READING PAGE', page);
     } else {
-      let data = dataString.split('\n');
       data.forEach((line) => {
         if (line.includes('title: `') && line.split("'").length - 1 < 1) {
           line = line.replaceAll('`', "'");
@@ -352,6 +354,14 @@ migratedPages.forEach((page) => {
         }
       });
     }
+    newContent = data.join('\n');
+    fs.writeFile(page, newContent, (err) => {
+      if (err) {
+        console.log('[ ERROR: WRITE CONTENT ]', page, err);
+      } else {
+        console.log('[ SUCCESS: EDITS WRITTEN ]', page);
+      }
+    });
   });
 });
 

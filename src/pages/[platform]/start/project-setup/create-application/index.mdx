@@ -2,7 +2,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Create your application',
-  description: `Project setup for Amplify prior to adding category specific example.`,
+  description:
+    'Project setup for Amplify prior to adding category specific example.',
   platforms: [
     'angular',
     'javascript',
@@ -31,7 +32,7 @@ export function getStaticProps(context) {
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
@@ -39,7 +40,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import ios0 from '/src/fragments/lib-v1/project-setup/native_common/create-application/common.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -53,7 +54,7 @@ import flutter2 from '/src/fragments/lib-v1/project-setup/native_common/create-a
 
 <Fragments fragments={{ flutter: flutter2 }} />
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 
@@ -61,7 +62,7 @@ import flutter2 from '/src/fragments/lib-v1/project-setup/native_common/create-a
 
 import versionRangeCallout from '/src/fragments/lib-v1/ssr/nextjs/version-range-callout.mdx';
 
-<Fragments fragments={{ js: versionRangeCallout }} />
+<Fragments fragments={{ javascript: versionRangeCallout }} />
 
 To set up the project, you will need to create a new Next.js app with the [`create-next-app`](https://nextjs.org/docs/api-reference/create-next-app) tool. You'll then add Amplify and initialize a new project.
 

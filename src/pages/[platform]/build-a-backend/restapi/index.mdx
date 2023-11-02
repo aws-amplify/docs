@@ -1,9 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Use Amplify with Next.js',
-  description: `Getting Started with Server-Side Rendering (SSR)`,
-  platforms: ['javascript']
+  title: 'Rest API',
+  description: 'Rest API',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -17,8 +27,6 @@ export function getStaticProps(context) {
       meta
     }
   };
+
+
 }
-
-import js0 from '/src/fragments/lib/ssr/js/getting-started.mdx';
-
-<Fragments fragments={{ js: js0 }} />

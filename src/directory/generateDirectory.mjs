@@ -53,9 +53,14 @@ async function traverseDirectoryObject(directoryNode) {
         }
 
         // Get the last updated date
-        directoryNode['lastUpdated'] = await getLastModifiedDate(
-          directoryNode.path
-        );
+        try {
+          const lastUpdated = await getLastModifiedDate(directoryNode.path);
+          directoryNode['lastUpdated'] = lastUpdated;
+        } catch (error) {
+          console.log(
+            `error getting last modified date for ${directoryNode.path}`
+          );
+        }
 
         const relativePath = path.relative(rootPath, directoryNode.path);
         const parsedPath = path.parse(relativePath);

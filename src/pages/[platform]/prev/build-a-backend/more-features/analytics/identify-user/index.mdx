@@ -2,7 +2,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Identify user',
-  description: `Use the Amplify analytics plugin to inform Pinpoint about your users.`,
+  description:
+    'Use the Amplify analytics plugin to inform Pinpoint about your users.',
   platforms: ['javascript', 'swift', 'android']
 };
 
@@ -23,7 +24,7 @@ export function getStaticProps(context) {
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
@@ -31,7 +32,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import ios0 from '/src/fragments/lib-v1/analytics/ios/identifyuser.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -45,7 +46,7 @@ import flutter2 from '/src/fragments/lib-v1/analytics/flutter/identifyuser.mdx';
 
 <Fragments fragments={{ flutter: flutter2 }} />
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 This API sends information about the current user to Amazon Pinpoint.
 
@@ -91,6 +92,6 @@ async function sendUserData() {
 
 import js0 from '/src/fragments/lib/analytics/native_common/identify-use-cases.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />
 
 </InlineFilter>

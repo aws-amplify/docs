@@ -2,7 +2,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Download files',
-  description: `Learn more about how to download / retrieve files using the Storage category of Amplify`,
+  description:
+    'Learn more about how to download / retrieve files using the Storage category of Amplify',
   platforms: ['javascript', 'flutter', 'swift', 'android']
 };
 
@@ -21,7 +22,7 @@ export function getStaticProps(context) {
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
@@ -29,7 +30,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import ios1 from '/src/fragments/lib-v1/storage/ios/download.mdx';
 
-<Fragments fragments={{ ios: ios1 }} />
+<Fragments fragments={{ swift: ios1 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -43,7 +44,7 @@ import flutter3 from '/src/fragments/lib-v1/storage/flutter/download.mdx';
 
 <Fragments fragments={{ flutter: flutter3 }} />
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 The following options are available for retrieving previously uploaded data:
 

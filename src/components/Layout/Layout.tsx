@@ -7,7 +7,8 @@ import {
   IconsProvider,
   ThemeProvider,
   View,
-  VisuallyHidden
+  VisuallyHidden,
+  Heading as HeadingTitle
 } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
 import { defaultIcons } from '@/themes/defaultIcons';
@@ -45,9 +46,10 @@ export const Layout = ({
   pageTitle,
   pageType = 'inner',
   platform,
-  url,
   showBreadcrumbs = true,
-  showLastUpdatedDate = true
+  showLastUpdatedDate = true,
+  url,
+  useCustomTitle = false
 }: {
   children: any;
   hasTOC?: boolean;
@@ -55,9 +57,10 @@ export const Layout = ({
   pageTitle?: string;
   pageType?: 'home' | 'inner';
   platform?: Platform;
-  url?: string;
   showBreadcrumbs?: boolean;
   showLastUpdatedDate: boolean;
+  url?: string;
+  useCustomTitle?: boolean;
 }) => {
   const [menuOpen, toggleMenuOpen] = useState(false);
   const [tocHeadings, setTocHeadings] = useState<Heading[]>([]);
@@ -142,7 +145,7 @@ export const Layout = ({
     .filter((s) => s !== '' && s !== null)
     .join(' - ');
 
-  const description = pageDescription + 'AWS Amplify Docs';
+  const description = `${pageDescription} AWS Amplify Docs`;
 
   const handleScroll = debounce((e) => {
     const bodyScroll = e.target.documentElement.scrollTop;
@@ -306,6 +309,9 @@ export const Layout = ({
                   {showBreadcrumbs ? (
                     <Breadcrumbs route={pathname} platform={currentPlatform} />
                   ) : null}
+                  {useCustomTitle ? null : (
+                    <HeadingTitle level={1}>{pageTitle}</HeadingTitle>
+                  )}
                   {children}
                 </Flex>
                 {showTOC ? <TableOfContents headers={tocHeadings} /> : null}

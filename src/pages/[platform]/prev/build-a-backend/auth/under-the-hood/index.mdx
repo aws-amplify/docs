@@ -2,7 +2,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Under the hood',
-  description: `Learn more about the foundational auth concepts for cloud-based application and how they work with Amplify.`,
+  description:
+    'Learn more about the foundational auth concepts for cloud-based application and how they work with Amplify.',
   platforms: ['javascript', 'android']
 };
 
@@ -21,11 +22,11 @@ export function getStaticProps(context) {
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 import ios1 from '/src/fragments/lib-v1/auth/common/overview.mdx';
 
-<Fragments fragments={{ ios: ios1 }} />
+<Fragments fragments={{ swift: ios1 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -39,7 +40,7 @@ import flutter3 from '/src/fragments/lib-v1/auth/common/overview.mdx';
 
 <Fragments fragments={{ flutter: flutter3 }} />
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 _Authentication_ is a process to validate **who you are** (abbreviated as _AuthN_). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon.
 
@@ -47,7 +48,7 @@ _Authorization_ is the process of validating **what you can access** (abbreviate
 
 import federation from '/src/fragments/lib-v1/v6/callout/auth-federation.mdx';
 
-<Fragments fragments={{ js: federation }} />
+<Fragments fragments={{ javascript: federation }} />
 
 ## Authentication with AWS
 

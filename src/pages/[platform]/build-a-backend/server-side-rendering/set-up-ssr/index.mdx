@@ -1,19 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Project setup',
-  description: 'Project setup',
-  platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+  title: 'Use Amplify with Next.js',
+  description: 'Getting Started with Server-Side Rendering (SSR)',
+  platforms: ['javascript']
 };
 
 export const getStaticPaths = async () => {
@@ -29,8 +19,6 @@ export function getStaticProps(context) {
   };
 }
 
-# Project setup
+import js0 from '/src/fragments/lib/ssr/js/getting-started.mdx';
 
-## Here is a heading
-
-This page is just here for testing purposes.
+<Fragments fragments={{ javascript: js0 }} />

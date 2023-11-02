@@ -1,7 +1,7 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Overview',
+  title: 'Libraries',
   description:
     'The Amplify open-source client libraries provide use-case centric, opinionated, declarative, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. ',
   disableTOC: 'true',
@@ -25,7 +25,7 @@ import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -46,7 +46,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import ios0 from '/src/fragments/lib-v1/ios.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />
 
 import android1 from '/src/fragments/lib-v1/android.mdx';
 
@@ -56,7 +56,7 @@ import flutter2 from '/src/fragments/lib-v1/flutter.mdx';
 
 <Fragments fragments={{ flutter: flutter2 }} />
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ## Amplify JavaScript
 

@@ -8,31 +8,83 @@ export const directory = {
       path: 'src/pages/[platform]/index.tsx',
       children: [
         {
-          path: 'src/pages/[platform]/get-started/index.mdx',
+          path: 'src/pages/[platform]/start/index.mdx',
           children: [
             {
-              path: 'src/pages/[platform]/get-started/project-setup/index.mdx'
-            },
-            {
-              path: 'src/pages/[platform]/get-started/sample-apps/index.mdx'
-            },
-            {
-              path: 'src/pages/[platform]/get-started/tutorials/index.mdx',
+              path: 'src/pages/[platform]/start/getting-started/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/get-started/tutorials/connect-api-and-database.mdx'
+                  path: 'src/pages/[platform]/start/getting-started/add-api/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/get-started/tutorials/deploy-and-host-app.mdx'
+                  path: 'src/pages/[platform]/start/getting-started/auth/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/get-started/tutorials/setup-amplify.mdx'
+                  path: 'src/pages/[platform]/start/getting-started/data-model/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/get-started/tutorials/setup-fullstack-project.mdx'
+                  path: 'src/pages/[platform]/start/getting-started/generate-model/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/get-started/tutorials/next-steps.mdx'
+                  path: 'src/pages/[platform]/start/getting-started/hosting/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/installation/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/integrate/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/introduction/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/nextsteps/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/setup/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/start/project-setup/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/start/project-setup/async-programming-model/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/combine-framework/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/create-application/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/escape-hatch/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/kotlin-coroutines/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/platform-setup/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/prerequisites/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/rxjava/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/upgrade-guide/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/use-existing-resources/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/start/sample-apps/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/start/sample-apps/to-do-app/index.mdx'
                 }
               ]
             }
@@ -42,16 +94,66 @@ export const directory = {
           path: 'src/pages/[platform]/build-a-backend/index.mdx',
           children: [
             {
-              path: 'src/pages/[platform]/build-a-backend/api-graphql/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/app-badge-count/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/api-rest/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/auth/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/datastore/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/debugging/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/enable-rich-notifications/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/functions/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/graphqlapi/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/identify-user/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/interact-with-notifications/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/migrate-from-previous-version/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/more-features/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/push-notifications/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/restapi/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/storage/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/test-notifications/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/troubleshooting/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/utilities/index.mdx'
             }
           ]
         },
         {
-          path: 'src/pages/[platform]/build-a-ui/index.mdx',
+          path: 'src/pages/[platform]/build-ui/index.mdx',
           children: [
+            { path: 'src/pages/[platform]/build-ui/formbuilder/index.mdx' },
+            { path: 'src/pages/[platform]/build-ui/uibuilder/index.mdx' },
             {
               title: 'UI Library Docs',
               platforms: ['android', 'javascript'],
@@ -70,6 +172,15 @@ export const directory = {
                   path: 'src/pages/[platform]/tools/cli/commands.tsx'
                 }
               ]
+            },
+            {
+              path: 'src/pages/[platform]/tools/cli-legacy/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/tools/console/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/tools/libraries/index.mdx'
             }
           ]
         }
