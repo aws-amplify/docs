@@ -1,9 +1,12 @@
+
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import directory from 'src/directory/directory.json';
 
 export const meta = {
-  title: 'Troubleshooting',
-  description: 'Troubleshooting',
-  platforms: [
+    title: 'Troubleshooting',
+    description: 'Troubleshooting',
+    platforms: [
     'android',
     'angular',
     'flutter',
@@ -13,20 +16,24 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ]
+    ],
+    route: '/[platform]/build-a-backend/troubleshooting'
 };
 
 export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
+    return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {
-  return {
+    const childPageNodes = getChildPageNodes(meta.route);
+    return {
     props: {
-      platform: context.params.platform,
-      meta
+        platform: context.params.platform,
+        meta,
+        childPageNodes
     }
-  };
+    };
 }
 
-# Troubleshooting
+<Overview childPageNodes={props.childPageNodes} />
+    

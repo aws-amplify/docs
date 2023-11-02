@@ -1,32 +1,31 @@
+
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import directory from 'src/directory/directory.json';
 
 export const meta = {
-  title: 'Sample apps',
-  description: 'Sample apps',
-  platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+    title: 'Sample Apps',
+    description: 'Sample Apps',
+    platforms: [
+    'android'
+    ],
+    route: '/[platform]/start/sample-apps'
 };
 
 export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
+    return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {
-  return {
+    const childPageNodes = getChildPageNodes(meta.route);
+    return {
     props: {
-      platform: context.params.platform,
-      meta
+        platform: context.params.platform,
+        meta,
+        childPageNodes
     }
-  };
-
-
+    };
 }
+
+<Overview childPageNodes={props.childPageNodes} />
+    
