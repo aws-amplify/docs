@@ -12,8 +12,8 @@
   font-size: 0.9rem;
   justify-content: center;
   gap: 0;
+  pointer-events: none;
   &-no {
-    pointer-events: none;
     &:hover {
       opacity: 0.8;
     }

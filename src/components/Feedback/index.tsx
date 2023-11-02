@@ -43,6 +43,7 @@ const Feedback = function Feedback(router) {
     noButtonRef.current?.setAttribute('disabled', true);
     noButtonRef.current.style.pointerEvents = 'none';
     ctaRef.current.style.display = 'none';
+    voteResponseRef.current.style.pointerEvents = 'auto';
 
     const transitionUpButton = [
       {
@@ -114,6 +115,7 @@ const Feedback = function Feedback(router) {
     noButtonRef.current.style.pointerEvents = 'none';
     ctaRef.current?.setAttribute('disabled', false);
     ctaRef.current.style.pointerEvents = 'auto';
+    voteResponseRef.current.style.pointerEvents = 'auto';
 
     const transitionUpButton = [
       {
