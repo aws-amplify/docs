@@ -13,7 +13,7 @@ export default async () => {
     options: {
       // TODO: Fix this frontmatter plugin
       // remarkPlugins: [frontmatterPlugin],
-      // remarkPlugins: [remarkGfm],
+      remarkPlugins: [remarkGfm],
       rehypePlugins: [[rehypeImgSize, { dir: 'public' }]]
     }
   });

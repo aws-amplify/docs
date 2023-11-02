@@ -51,7 +51,13 @@ const PlatformOverview = ({ platform }) => {
           the cloud for authentication, storage, APIs, and more.
         </Text>
         <Flex className="home-intro__cta">
-          <Button variation="primary" size="large" gap="small">
+          <Button
+            as="a"
+            href={'/' + platform + '/how-amplify-works'}
+            variation="primary"
+            size="large"
+            gap="small"
+          >
             How Amplify Works{' '}
             <IconChevron
               aria-hidden="true"

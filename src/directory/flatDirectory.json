@@ -1,0 +1,352 @@
+{
+  "/[platform]/get-started/project-setup": {
+    "path": "src/pages/[platform]/get-started/project-setup/index.mdx",
+    "title": "Project setup",
+    "description": "Project setup",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "lastUpdated": "2023-10-31T20:50:32.000Z",
+    "route": "/[platform]/get-started/project-setup"
+  },
+  "/[platform]/get-started/sample-apps": {
+    "path": "src/pages/[platform]/get-started/sample-apps/index.mdx",
+    "title": "Sample apps",
+    "description": "Sample apps",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "lastUpdated": "2023-10-31T20:50:32.000Z",
+    "route": "/[platform]/get-started/sample-apps"
+  },
+  "/[platform]/get-started/tutorials/connect-api-and-database": {
+    "path": "src/pages/[platform]/get-started/tutorials/connect-api-and-database.mdx",
+    "title": "Connect API and Database",
+    "description": "Connect API and Database The Amplify open-source client libraries provide use-case centric, and easy-to-use interfaces across different categories of AWS cloud powered operations enabling mobile and web developers to easily interact with their backends. The Amplify libraries can be used with both new backends created using the Amplify CLI or existing backend resources.",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "lastUpdated": "2023-10-31T20:50:32.000Z",
+    "route": "/[platform]/get-started/tutorials/connect-api-and-database"
+  },
+  "/[platform]/get-started/tutorials/deploy-and-host-app": {
+    "path": "src/pages/[platform]/get-started/tutorials/deploy-and-host-app.mdx",
+    "title": "Deploy and Host App",
+    "description": "Deploy and Host App",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "lastUpdated": "2023-10-31T20:50:32.000Z",
+    "route": "/[platform]/get-started/tutorials/deploy-and-host-app"
+  },
+  "/[platform]/get-started/tutorials/setup-amplify": {
+    "path": "src/pages/[platform]/get-started/tutorials/setup-amplify.mdx",
+    "title": "Setup Amplify",
+    "description": "Setup Amplify",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "lastUpdated": "2023-10-31T20:50:32.000Z",
+    "route": "/[platform]/get-started/tutorials/setup-amplify"
+  },
+  "/[platform]/get-started/tutorials/setup-fullstack-project": {
+    "path": "src/pages/[platform]/get-started/tutorials/setup-fullstack-project.mdx",
+    "title": "Setup fullstack project",
+    "description": "Setup fullstack project",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "lastUpdated": "2023-10-31T20:50:32.000Z",
+    "route": "/[platform]/get-started/tutorials/setup-fullstack-project"
+  },
+  "/[platform]/get-started/tutorials/next-steps": {
+    "path": "src/pages/[platform]/get-started/tutorials/next-steps.mdx",
+    "title": "Next Steps",
+    "description": "Next Steps",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "lastUpdated": "2023-10-31T20:50:32.000Z",
+    "route": "/[platform]/get-started/tutorials/next-steps"
+  },
+  "/[platform]/get-started/tutorials": {
+    "path": "src/pages/[platform]/get-started/tutorials/index.mdx",
+    "title": "Tutorials",
+    "description": "Tutorials",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "route": "/[platform]/get-started/tutorials",
+    "lastUpdated": "2023-10-31T20:50:32.000Z"
+  },
+  "/[platform]/get-started": {
+    "path": "src/pages/[platform]/get-started/index.mdx",
+    "title": "Get started",
+    "description": "A getting started page",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "lastUpdated": "2023-10-31T20:50:32.000Z",
+    "route": "/[platform]/get-started"
+  },
+  "/[platform]/build-a-backend/api-graphql": {
+    "path": "src/pages/[platform]/build-a-backend/api-graphql/index.mdx",
+    "title": "API GraphQL",
+    "description": "API GraphQL",
+    "platforms": [
+      "android"
+    ],
+    "lastUpdated": "2023-10-26T20:29:05.000Z",
+    "route": "/[platform]/build-a-backend/api-graphql"
+  },
+  "/[platform]/build-a-backend/api-rest": {
+    "path": "src/pages/[platform]/build-a-backend/api-rest/index.mdx",
+    "title": "API (Rest)",
+    "description": "API (Rest)",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "lastUpdated": "2023-10-31T20:50:32.000Z",
+    "route": "/[platform]/build-a-backend/api-rest"
+  },
+  "/[platform]/build-a-backend": {
+    "path": "src/pages/[platform]/build-a-backend/index.mdx",
+    "title": "Build a backend",
+    "description": "Build a backend",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "route": "/[platform]/build-a-backend",
+    "lastUpdated": "2023-10-31T20:50:32.000Z"
+  },
+  "https://ui.docs.amplify.aws/": {
+    "title": "UI Library Docs",
+    "platforms": [
+      "android",
+      "javascript"
+    ],
+    "route": "https://ui.docs.amplify.aws/",
+    "isExternal": true
+  },
+  "/[platform]/build-a-ui": {
+    "path": "src/pages/[platform]/build-a-ui/index.mdx",
+    "title": "Build a UI",
+    "description": "Build a UI",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "lastUpdated": "2023-10-31T20:50:32.000Z",
+    "route": "/[platform]/build-a-ui"
+  },
+  "/[platform]/tools/cli/commands": {
+    "path": "src/pages/[platform]/tools/cli/commands.tsx",
+    "title": "Commands",
+    "description": "Commands",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "lastUpdated": "2023-10-31T20:44:50.000Z",
+    "route": "/[platform]/tools/cli/commands"
+  },
+  "/[platform]/tools/cli": {
+    "path": "src/pages/[platform]/tools/cli/index.mdx",
+    "title": "CLI",
+    "description": "CLI",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "lastUpdated": "2023-10-31T20:44:50.000Z",
+    "route": "/[platform]/tools/cli"
+  },
+  "/[platform]/tools": {
+    "path": "src/pages/[platform]/tools/index.mdx",
+    "title": "Tools",
+    "description": "Tools",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "route": "/[platform]/tools",
+    "lastUpdated": "2023-10-31T20:44:50.000Z"
+  },
+  "/[platform]": {
+    "path": "src/pages/[platform]/index.tsx",
+    "title": "Overview",
+    "description": "This is a description for the overview page.",
+    "platforms": [
+      "android",
+      "angular",
+      "flutter",
+      "javascript",
+      "nextjs",
+      "react",
+      "react-native",
+      "swift",
+      "vue"
+    ],
+    "lastUpdated": "2023-11-01T15:22:53.000Z",
+    "route": "/[platform]"
+  },
+  "/gen2/build-a-backend/add-aws-services/custom-resources": {
+    "path": "src/pages/gen2/build-a-backend/add-aws-services/custom-resources/index.mdx",
+    "title": "Custom Resources",
+    "description": "Custom Resources description",
+    "lastUpdated": "2023-10-26T20:29:05.000Z",
+    "route": "/gen2/build-a-backend/add-aws-services/custom-resources"
+  },
+  "/gen2/build-a-backend/add-aws-services/overriding-resources": {
+    "path": "src/pages/gen2/build-a-backend/add-aws-services/overriding-resources/index.mdx",
+    "title": "Overriding resources",
+    "description": "Overriding resources description",
+    "lastUpdated": "2023-10-26T20:29:05.000Z",
+    "route": "/gen2/build-a-backend/add-aws-services/overriding-resources"
+  },
+  "/gen2/build-a-backend/add-aws-services": {
+    "path": "src/pages/gen2/build-a-backend/add-aws-services/index.mdx",
+    "title": "Add AWS Services",
+    "description": "Add AWS Services description",
+    "lastUpdated": "2023-10-26T20:29:05.000Z",
+    "route": "/gen2/build-a-backend/add-aws-services"
+  },
+  "/gen2/build-a-backend": {
+    "path": "src/pages/gen2/build-a-backend/index.mdx",
+    "title": "Build a backend",
+    "description": "Build a backend description",
+    "lastUpdated": "2023-10-26T19:48:51.000Z",
+    "route": "/gen2/build-a-backend"
+  },
+  "/gen2": {
+    "path": "src/pages/gen2/index.tsx",
+    "title": "Amplify Docs (Gen 2)",
+    "description": "This is a description for the overview page.",
+    "lastUpdated": "2023-11-01T19:21:25.000Z",
+    "route": "/gen2"
+  },
+  "/": {
+    "path": "src/pages/index.tsx",
+    "title": "Amplify Docs",
+    "description": "Amplify documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.",
+    "url": "https://docs.amplify.aws/",
+    "lastUpdated": "2023-11-01T19:21:25.000Z",
+    "route": "/"
+  }
+}

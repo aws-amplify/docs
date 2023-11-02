@@ -8,9 +8,6 @@ export const directory = {
       path: 'src/pages/[platform]/index.tsx',
       children: [
         {
-          path: 'src/pages/[platform]/how-amplify-works/index.mdx'
-        },
-        {
           path: 'src/pages/[platform]/get-started/index.mdx',
           children: [
             {

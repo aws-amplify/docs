@@ -250,7 +250,7 @@ export const Layout = ({
                         rootMenuNode={rootMenuNode}
                         menuTitle="How Amplify works"
                         menuHref={{
-                          pathname: `/[platform]`,
+                          pathname: `/[platform]/how-amplify-works`,
                           query: { platform: currentPlatform }
                         }}
                       />
