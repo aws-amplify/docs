@@ -290,7 +290,7 @@ export const Layout = ({
                     )}
                     <div className="layout-sidebar-feedback">
                       <RepoActions path={router}></RepoActions>
-                      <Feedback></Feedback>
+                      <Feedback path={router}></Feedback>
                     </div>
                     {showLastUpdatedDate && (
                       <PageLastUpdated
