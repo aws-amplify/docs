@@ -2,6 +2,9 @@
 .amplify-message {
   /* Style markdown links so they have enough contrast against different
   colored message backgrounds */
+  &__icon {
+    align-self: flex-start;
+  }
   &--info {
     a:not([class]) {
       color: var(--amplify-colors-blue-100);

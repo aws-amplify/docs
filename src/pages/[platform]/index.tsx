@@ -35,7 +35,8 @@ export function getStaticProps(context) {
       showBreadcrumbs: false,
       showLastUpdatedDate: false,
       pageType: 'home',
-      meta
+      meta,
+      useCustomTitle: true
     }
   };
 }

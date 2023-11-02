@@ -1,11 +1,11 @@
 import { Flex, View, Link, Heading } from '@aws-amplify/ui-react';
-export interface Heading {
+export interface HeadingInterface {
   linkText: string;
   hash: string;
   level: string;
 }
 interface TableOfContents {
-  headers?: Heading[];
+  headers?: HeadingInterface[];
 }
 
 export const TableOfContents = ({ headers }) => {
