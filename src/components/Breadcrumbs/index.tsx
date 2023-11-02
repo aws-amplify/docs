@@ -16,9 +16,7 @@ type Props = {
 };
 
 const overrides = {
-  '/': 'Home',
-  '/[platform]/how-amplify-works': 'How Amplify works'
-
+  '/': 'Home'
 };
 
 function generateBreadcrumbs(
@@ -64,7 +62,6 @@ function generateBreadcrumbs(
 
   return breadcrumbs;
 }
-
 
 function BreadcrumbsComponent({ route, platform, isGen2 }: Props) {
   const items = generateBreadcrumbs(route, platform, isGen2);
