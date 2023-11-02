@@ -20,7 +20,15 @@ Run `amplify add predictions` and select **Identify**. Then use the following an
 
 The Advanced Configuration will allow you to select moderation for unsafe content or all of the identified labels. Default uses both.
 
-Now run `amplify push` which will generate your `aws-exports.js` and create resources in the cloud. You can now either add this to your backend or skip and add more features to your app.
+**NOTE:** Due to a [known issue](https://github.com/aws-amplify/amplify-cli/issues/12208), you will need to update your amplify backend configuration with the properties below before pushing to the cloud:
+
+`amplify/.backend/<identify-labels-resource>/parameters.json`
+```json
+"access": "auth | authAndGuest",
+"type": "LABELS | UNSAFE | ALL"
+```
+
+Now run `amplify push` which will generate your `amplifyconfiguration.json` and create resources in the cloud. You can now either add this to your backend or skip and add more features to your app.
 
 Services used: Amazon Rekognition
 
@@ -29,6 +37,8 @@ Services used: Amazon Rekognition
 Detect labels, such if an image has a desk or a chair in it
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 Predictions.identify({
   labels: {
     source: {
@@ -49,6 +59,8 @@ Predictions.identify({
 Detect unsafe content in an image
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 Predictions.identify({
   labels: {
     source: {
@@ -65,6 +77,8 @@ Predictions.identify({
 
 for both labels and unsafe content
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 Predictions.identify({
   labels: {
     source: {
@@ -80,5 +94,5 @@ Predictions.identify({
     const { name, boundingBoxes } = object
   });
 })
-.catch(err => console.log({ err });
+.catch(err => console.log({ err }));
 ```

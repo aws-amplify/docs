@@ -566,47 +566,47 @@ export const directory = {
           {
             title: 'Overview',
             route: '/lib/predictions/intro',
-            filters: ['js', 'react-native']
+            filters: ['js']
           },
           {
             title: 'Getting started',
             route: '/lib/predictions/getting-started',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Text to speech',
             route: '/lib/predictions/text-speech',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Transcribe audio to text',
             route: '/lib/predictions/transcribe',
-            filters: ['js', 'ios', 'react-native']
+            filters: ['ios', 'js']
           },
           {
             title: 'Translate language',
             route: '/lib/predictions/translate',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Identify text',
             route: '/lib/predictions/identify-text',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Identify entities from images',
             route: '/lib/predictions/identify-entity',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Label objects in image',
             route: '/lib/predictions/label-image',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Interpret sentiment',
             route: '/lib/predictions/interpret',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           },
           {
             title: 'Escape hatch',
@@ -616,7 +616,7 @@ export const directory = {
           {
             title: 'Example',
             route: '/lib/predictions/sample',
-            filters: ['js', 'react-native']
+            filters: ['js']
           }
         ]
       },
@@ -1476,50 +1476,61 @@ export const directory = {
       predictions: {
         title: 'Predictions',
         items: [
+          // TODO Rewrite why do we have an intro for RN and JS and not iOS/Android?
+          {
+            title: 'Overview',
+            route: '/lib-v1/predictions/intro',
+            filters: ['js', 'react-native']
+          },
           {
             title: 'Getting started',
             route: '/lib-v1/predictions/getting-started',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Text to speech',
             route: '/lib-v1/predictions/text-speech',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Transcribe audio to text',
             route: '/lib-v1/predictions/transcribe',
-            filters: ['ios']
+            filters: ['ios', 'js']
           },
           {
             title: 'Translate language',
             route: '/lib-v1/predictions/translate',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Identify text',
             route: '/lib-v1/predictions/identify-text',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Identify entities from images',
-            route: '/lib-v1/predictions/identify-entity',
-            filters: ['android', 'ios']
+            route: '/lib/predictions/identify-entity',
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Label objects in image',
             route: '/lib-v1/predictions/label-image',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Interpret sentiment',
             route: '/lib-v1/predictions/interpret',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Escape hatch',
             route: '/lib-v1/predictions/escapehatch',
             filters: ['android', 'ios']
+          },
+          {
+            title: 'Example',
+            route: '/lib-v1/predictions/sample',
+            filters: ['js', 'react-native']
           }
         ]
       },
