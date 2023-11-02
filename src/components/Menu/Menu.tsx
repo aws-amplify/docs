@@ -5,8 +5,6 @@ import { Platform } from '@/data/platforms';
 import Link, { LinkProps } from 'next/link';
 import { LayoutContext } from '@/components/Layout';
 import { PageNode } from 'src/directory/directory';
-import Feedback from '../Feedback';
-import RepoActions from './RepoActions';
 import { useRouter } from 'next/router';
 
 type MenuProps = {
@@ -64,8 +62,6 @@ export function Menu({
                 />
               );
             })}
-          <RepoActions path={router}></RepoActions>
-          <Feedback></Feedback>
         </ul>
       </ul>
     </nav>
