@@ -844,9 +844,29 @@ export const directory = {
         title: 'Utilities',
         items: [
           {
+            title: 'Service Worker',
+            route: '/lib/utilities/service-worker',
+            filters: ['js']
+          },
+          {
+            title: 'Cache',
+            route: '/lib/utilities/cache',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Hub',
             route: '/lib/utilities/hub',
             filters: ['android', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Internationalization',
+            route: '/lib/utilities/i18n',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'ConsoleLogger',
+            route: '/lib/utilities/console-logger',
+            filters: ['js', 'react-native']
           }
         ]
       },
