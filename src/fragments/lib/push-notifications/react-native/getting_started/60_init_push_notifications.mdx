@@ -1,6 +1,6 @@
 To initialize Amplify Push Notifications, you will first need to configure Amplify.
 
-Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point if your app requires push notification handling even while in a terminated state. For example, `index.js`
+Import and load the configuration file in your app.
 
 ```js
 // Example index.js
@@ -12,7 +12,7 @@ Amplify.configure(amplifyconfig);
 // ...
 ```
 
-Next, initialize Amplify Push Notifications. You should also do this in your app's root entry point after configuring Amplify if your app requires push notification handling even while in a terminated state.
+Next, initialize Amplify Push Notifications. It is recommended to do this in your app's root entry point after configuring Amplify if your app requires push notification handling even while in a terminated state.
 
 ```js
 // Example index.js
