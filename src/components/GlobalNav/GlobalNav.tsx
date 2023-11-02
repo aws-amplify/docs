@@ -1,14 +1,11 @@
 import React from 'react';
-
-import { View, Flex, Badge, Text, Button } from '@aws-amplify/ui-react';
+import { View, Flex } from '@aws-amplify/ui-react';
 import { useState } from 'react';
 import styles from './GlobalNav.module.scss';
 import { NavMenuIconType } from './components/icons/IconLink';
-import { AmplifyLogo } from './components/icons';
 import { RightNavLinks } from './components/RightNavLinks';
 import { AmplifyNavLink } from './components/AmplifyNavLink';
 import { LeftNavLinks } from './components/LeftNavLinks';
-import Link from 'next/link';
 
 export enum NavMenuItemType {
   DEFAULT = 'DEFAULT',

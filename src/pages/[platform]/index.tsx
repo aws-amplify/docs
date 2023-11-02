@@ -32,9 +32,11 @@ export function getStaticProps(context) {
     props: {
       platform: context.params.platform,
       hasTOC: false,
+      showBreadcrumbs: false,
       showLastUpdatedDate: false,
       pageType: 'home',
-      meta
+      meta,
+      useCustomTitle: true
     }
   };
 }
