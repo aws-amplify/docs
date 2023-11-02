@@ -4,26 +4,45 @@ import '../styles/styles.scss';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
+import { CANONICAL_URLS } from '@/data/canonical-urls';
 import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter();
-  const { meta, platform, url, hasTOC, pageType } = pageProps;
+  const {
+    meta,
+    platform,
+    url,
+    hasTOC,
+    pageType,
+    showBreadcrumbs,
+    showLastUpdatedDate,
+    useCustomTitle
+  } = pageProps;
   const getLayout =
     Component.getLayout ||
     ((page) => (
       <Layout
-        key={router.asPath}
         pageTitle={meta?.title ? meta.title : ''}
         pageDescription={meta?.description ? meta.description : ''}
         pageType={pageType}
         url={url}
         platform={platform ? platform : ''}
         hasTOC={hasTOC}
+        showBreadcrumbs={showBreadcrumbs}
+        showLastUpdatedDate={showLastUpdatedDate}
+        useCustomTitle={useCustomTitle}
       >
         {page}
       </Layout>
     ));
+
+  const router = useRouter();
+  let canonicalUrl = 'https://docs.amplify.aws';
+  const canonicalPath = CANONICAL_URLS.includes(router.pathname)
+    ? router.pathname.replace('[platform]', 'javascript')
+    : router.asPath;
+  canonicalUrl += canonicalPath;
+
   return (
     <>
       <Head>
@@ -103,6 +122,7 @@ function MyApp({ Component, pageProps }) {
         />
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
         <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
+        <link rel="canonical" href={canonicalUrl} />
       </Head>
 
       <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>

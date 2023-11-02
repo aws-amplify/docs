@@ -1,6 +1,6 @@
 import React from 'react';
 import LinkCard from '@/components/LinkCard';
-import LinkCardCollection from '@/components/LinkCardCollection';
+import { Columns } from '@/components/Columns';
 import * as links from '../../constants/links';
 import linkCardData from '@/data/link-cards-data';
 import {
@@ -15,7 +15,7 @@ interface LinkCardsProps {
 const LinkCards: React.FC<LinkCardsProps> = ({ platform }) => {
   const linkCardPlatformData = linkCardData[platform];
   return (
-    <LinkCardCollection>
+    <Columns columns={4} gap="small">
       {linkCardPlatformData ? (
         <LinkCard
           isExternal={true}
@@ -48,7 +48,7 @@ const LinkCards: React.FC<LinkCardsProps> = ({ platform }) => {
       >
         Amplify Learn
       </LinkCard>
-    </LinkCardCollection>
+    </Columns>
   );
 };
 

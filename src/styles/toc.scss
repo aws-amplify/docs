@@ -36,6 +36,7 @@
 @media (min-width: $toc-min) {
   .toc {
     width: var(--layout-toc-width);
+    background: var(--amplify-colors-background-primary);
     position: fixed;
     right: 0;
     top: var(--docs-dev-center-nav);

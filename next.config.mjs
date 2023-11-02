@@ -11,8 +11,6 @@ export default async () => {
   const withMDX = createMDX({
     extension: /\.mdx$/,
     options: {
-      // TODO: Fix this frontmatter plugin
-      // remarkPlugins: [frontmatterPlugin],
       remarkPlugins: [remarkGfm],
       rehypePlugins: [[rehypeImgSize, { dir: 'public' }]]
     }

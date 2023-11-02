@@ -32,8 +32,11 @@ export function getStaticProps(context) {
     props: {
       platform: context.params.platform,
       hasTOC: false,
+      showBreadcrumbs: false,
+      showLastUpdatedDate: false,
       pageType: 'home',
-      meta
+      meta,
+      useCustomTitle: true
     }
   };
 }
@@ -59,11 +62,7 @@ const PlatformOverview = ({ platform }) => {
             gap="small"
           >
             How Amplify Works{' '}
-            <IconChevron
-              aria-hidden="true"
-              className="icon-rotate-270"
-              fontSize=".875em"
-            />
+            <IconChevron className="icon-rotate-270" fontSize=".875em" />
           </Button>
           <GetStartedPopover />
         </Flex>
