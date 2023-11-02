@@ -5,8 +5,7 @@ export const meta = {
   description:
     'The AWS Mobile SDK for Android enables you to build mobile apps by providing simplified APIs for AWS services such as Amazon Cognito, Amazon S3, AWS AppSync and more.',
 
-  platforms: ['swift', 'android']
-};
+platforms: ['swift', 'android'] };
 
 export const getStaticPaths = async () => {
   return getCustomStaticPath(meta.platforms);
@@ -25,7 +24,7 @@ import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 import ios0 from '/src/fragments/lib/ios-sdk.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />
 
 import android1 from '/src/fragments/lib/android-sdk.mdx';
 
