@@ -1722,10 +1722,19 @@ export const directory = {
               "path": "src/pages/gen2/build-a-backend/add-aws-services/index.mdx",
               "children": [
                 {
+<<<<<<< HEAD
                   "path": "src/pages/gen2/build-a-backend/add-aws-services/custom-resources/index.mdx"
                 },
                 {
                   "path": "src/pages/gen2/build-a-backend/add-aws-services/overriding-resources/index.mdx"
+=======
+                  path:
+                    'src/pages/gen2/build-a-backend/add-aws-services/custom-resources/index.mdx'
+                },
+                {
+                  path:
+                    'src/pages/gen2/build-a-backend/add-aws-services/overriding-resources/index.mdx'
+>>>>>>> next-release/page_migration_c
                 }
               ]
             },

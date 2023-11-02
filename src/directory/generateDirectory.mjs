@@ -94,6 +94,7 @@ async function generateDirectory() {
   await traverseDirectoryObject(directoryCopy);
 
   try {
+    console.log(import.meta.url);
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
 
