@@ -1,0 +1,18 @@
+## DELETE data
+
+```javascript
+import { del } from 'aws-amplify/api';
+
+async function deleteTodo() {
+  try {
+    const restOperation = del({
+      apiName: 'todo-api',
+      path: '/todo/1'
+    });
+    await restOperation.response;
+    console.log('DELETE call succeeded');
+  } catch (error) {
+    console.log('DELETE call failed: ', error);
+  }
+}
+```
