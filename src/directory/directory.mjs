@@ -735,6 +735,354 @@ export const directory = {
           ]
         },
         {
+          path: 'src/pages/[platform]/prev/index.mdx',
+          children: [
+            {
+              path: 'src/pages/[platform]/prev/build-a-backend/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/prev/build-a-backend/advanced-workflows/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/advanced-workflows/offline/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/prev/build-a-backend/auth/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/accessing-credentials/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/add-sms-flows/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/add-social-provider/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/advanced-workflows/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/android-sdk/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/auth-events/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/custom-auth-flow/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/custom-auth-flows/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/delete-user/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/enable-guest-access/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/enable-sign-in/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/enable-sign-in-with-web-ui/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/enable-sign-up/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/existing-resources/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/manage-mfa/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/manage-passwords/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/manage-user-profile/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/managing-attributes/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/managing-credentials/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/multi-step-sign-in/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/remember-device/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/set-up-auth/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/sign-out/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/under-the-hood/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/prev/build-a-backend/datastore/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/additional-methods/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/app-uninstall/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/authz-rules-setup/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/conflict-resolution/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/customize-primary-keys/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/data-usage-policy/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/datastore-events/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/how-it-works/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/manipulate-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/real-time/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/relational-models/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/schema-updates/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/set-up-datastore/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/datastore/sync-to-cloud/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/prev/build-a-backend/debugging/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/api-graphql-concepts/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/configure-authz-modes/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/existing-resources/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/mutate-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/offline/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/query-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/prev/build-a-backend/more-features/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/index.mdx',
+                      children: [
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/android-sdk/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/auto-track-sessions/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/enable-disable/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/existing-resources/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/identify-user/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/record-events/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/set-up-analytics/index.mdx'
+                        }
+                      ]
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/index.mdx',
+                      children: [
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/amazon-location-sdk/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/existing-resources/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/location-search/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/maps/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/set-up-geo/index.mdx'
+                        }
+                      ]
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/index.mdx',
+                      children: [
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/identify-entity/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/identify-text/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/interpret-sentiment/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/set-up-predictions/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/text-to-speech/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/transcribe/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/translate/index.mdx'
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/prev/build-a-backend/restapi/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/customize-authz/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/delete-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/existing-resources/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/fetch-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/set-up-rest-api/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/update-data/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/prev/build-a-backend/storage/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/storage/android-sdk/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/storage/get-properties/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/prev/build-a-backend/troubleshooting/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/troubleshooting/upgrade-amplify-packages/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/prev/build-a-backend/utilities/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/utilities/hub/index.mdx'
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/prev/start/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/prev/start/project-setup/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/async-programming-model/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/combine-framework/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/create-application/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/escape-hatch/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/kotlin-coroutines/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/platform-setup/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/prerequisites/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/rxjava/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/use-existing-resources/index.mdx'
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/prev/tools/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/prev/tools/libraries/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/tools/libraries/configure-categories/index.mdx'
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
           path: 'src/pages/[platform]/reference/index.mdx',
           children: [
             {
