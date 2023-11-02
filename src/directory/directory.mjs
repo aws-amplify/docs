@@ -3050,6 +3050,13 @@ export const directory = {
         ]
       }
     }
+  },
+  'how-amplify-works': {
+    productRoot: {
+      title: 'How Amplify works',
+      route: '/how-amplify-works'
+    },
+    items: {}
   }
 };
 
