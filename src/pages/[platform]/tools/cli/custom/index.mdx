@@ -25,7 +25,7 @@ export const getStaticPaths = async () => {
 };
 
 export function getStaticProps(context) {
-    const childPageNodes = getChildPageNodes(meta.route);
+    const childPageNodes = getChildPageNodes(meta.route); 
     return {
     props: {
         platform: context.params.platform,

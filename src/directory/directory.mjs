@@ -1344,7 +1344,15 @@ export const directory = {
                   ]
                 },
                 {
-                  "path": "src/pages/[platform]/tools/cli/custom/index.mdx"
+                  "path": "src/pages/[platform]/tools/cli/custom/index.mdx",
+                  "children": [
+                    {
+                      "path": "src/pages/[platform]/tools/cli/custom/cdk/index.mdx"
+                    },
+                    {
+                      "path": "src/pages/[platform]/tools/cli/custom/cloudformation/index.mdx"
+                    }
+                  ]
                 },
                 {
                   "path": "src/pages/[platform]/tools/cli/geo/index.mdx",
