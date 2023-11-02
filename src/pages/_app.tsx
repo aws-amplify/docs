@@ -103,64 +103,60 @@ function MyApp({ Component, pageProps }) {
           href="/assets/icon/android-icon-192x192.png"
         />
         {router.route.startsWith('/gen2') ? (
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/assets/icon/favicon-purple-32x32.png"
-          />
+          <>
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/assets/icon/favicon-purple-16x16.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/assets/icon/favicon-purple-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="96x96"
+              href="/assets/icon/favicon-purple-96x96.png"
+            />
+            <link
+              rel="icon"
+              type="image/x-icon"
+              href="/assets/icon/favicon-purple.ico"
+            />
+          </>
         ) : (
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/assets/icon/favicon-teal-32x32.png"
-          />
+          <>
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/assets/icon/favicon-teal-16x16.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/assets/icon/favicon-teal-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="96x96"
+              href="/assets/icon/favicon-teal-96x96.png"
+            />
+            <link
+              rel="icon"
+              type="image/x-icon"
+              href="/assets/icon/favicon-teal.ico"
+            />
+          </>
         )}
-        {router.route.startsWith('/gen2') ? (
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="96x96"
-            href="/assets/icon/favicon-purple-96x96.png"
-          />
-        ) : (
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="96x96"
-            href="/assets/icon/favicon-teal-96x96.png"
-          />
-        )}
-        {router.route.startsWith('/gen2') ? (
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/assets/icon/favicon-purple-16x16.png"
-          />
-        ) : (
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/assets/icon/favicon-teal-16x16.png"
-          />
-        )}
+
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
-        {router.route.startsWith('/gen2') ? (
-          <link
-            rel="icon"
-            type="image/x-icon"
-            href="/assets/icon/favicon-purple.ico"
-          />
-        ) : (
-          <link
-            rel="icon"
-            type="image/x-icon"
-            href="/assets/icon/favicon-teal.ico"
-          />
-        )}
         <link rel="canonical" href={canonicalUrl} />
       </Head>
 
