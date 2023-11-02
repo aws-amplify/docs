@@ -12,6 +12,7 @@ type BreadcrumbItem = {
 type Props = {
   route: string;
   platform: string;
+  isGen2: boolean;
 };
 
 const overrides = {
@@ -21,7 +22,8 @@ const overrides = {
 
 function generateBreadcrumbs(
   route: string,
-  platform: string
+  platform: string,
+  isGen2: boolean
 ): BreadcrumbItem[] {
   const breadcrumbs: BreadcrumbItem[] = [];
 
@@ -30,7 +32,10 @@ function generateBreadcrumbs(
   for (let i = 1; i <= pieces.length; i++) {
     urls.push(`/${pieces.slice(0, i).join('/')}`);
   }
-  urls.splice(0, 0, '/');
+
+  if (!isGen2) {
+    urls.splice(0, 0, '/');
+  }
 
   urls.forEach((url) => {
     const directoryEntry = findNode(url);
@@ -59,8 +64,8 @@ function generateBreadcrumbs(
   return breadcrumbs;
 }
 
-function BreadcrumbsComponent({ route, platform }: Props) {
-  const items = generateBreadcrumbs(route, platform);
+function BreadcrumbsComponent({ route, platform, isGen2 }: Props) {
+  const items = generateBreadcrumbs(route, platform, isGen2);
   return items.length > 1 ? (
     <div className={'breadcrumb__container'}>
       <Breadcrumbs.Container>
