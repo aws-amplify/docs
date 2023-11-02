@@ -13,6 +13,7 @@
   justify-content: center;
   gap: 0;
   &-no {
+    pointer-events: none;
     &:hover {
       opacity: 0.8;
     }

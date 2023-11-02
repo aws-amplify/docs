@@ -112,6 +112,8 @@ const Feedback = function Feedback(router) {
     yesButtonRef.current.style.pointerEvents = 'none';
     noButtonRef.current?.setAttribute('disabled', true);
     noButtonRef.current.style.pointerEvents = 'none';
+    ctaRef.current?.setAttribute('disabled', false);
+    ctaRef.current.style.pointerEvents = 'auto';
 
     const transitionUpButton = [
       {
@@ -210,7 +212,7 @@ const Feedback = function Feedback(router) {
           </Button>
           <Flex className="vote-response" ref={voteResponseRef}>
             <Text className="vote-response-text">{c.voteResponse}</Text>
-            <Flex className="vote-response-no" ref={ctaRef}>
+            <Flex className="vote-response-no" ref={ctaRef} isDisabled>
               <ExternalLink href={c.buttonLink} icon={true}>
                 {c.noVoteCTALink}
               </ExternalLink>
