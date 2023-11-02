@@ -24,11 +24,14 @@ export const getStaticProps = (context) => {
 
 import common_authz from '/src/fragments/lib/restapi/native_common/authz/common.mdx';
 import flutter_authz from '/src/fragments/lib/restapi/flutter/authz.mdx';
+import js_authz from '/src/fragments/lib/restapi/js/authz.mdx';
 
 <Fragments
   fragments={{
     android: common_authz,
     flutter: flutter_authz,
-    ios: common_authz
+    ios: common_authz,
+    js: js_authz,
+    'react-native': common_authz
   }}
 />

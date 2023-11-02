@@ -25,7 +25,14 @@ export const getStaticProps = (context) => {
 import android_fetch from '/src/fragments/lib/restapi/android/fetch.mdx';
 import flutter_fetch from '/src/fragments/lib/restapi/flutter/fetch.mdx';
 import ios_fetch from '/src/fragments/lib/restapi/ios/fetch.mdx';
+import js_fetch from '/src/fragments/lib/restapi/js/fetch.mdx';
 
 <Fragments
-  fragments={{ android: android_fetch, flutter: flutter_fetch, ios: ios_fetch }}
+  fragments={{
+    android: android_fetch,
+    flutter: flutter_fetch,
+    ios: ios_fetch,
+    js: js_fetch,
+    'react-native': js_fetch
+  }}
 />
