@@ -270,28 +270,13 @@ export const Layout = ({
                   )}
 
                   <div className="layout-sidebar-menu">
-                    {isGen2 ? (
-                      <Menu
-                        rootMenuNode={rootMenuNode}
-                        menuTitle="How Gen2 Amplify works"
-                        menuHref={{
-                          pathname: `/gen2`
-                        }}
-                      />
-                    ) : (
-                      <Menu
-                        currentPlatform={currentPlatform}
-                        rootMenuNode={rootMenuNode}
-                        menuTitle="How Amplify works"
-                        menuHref={{
-                          pathname: `/[platform]`,
-                          query: { platform: currentPlatform }
-                        }}
-                      />
-                    )}
-                    {/* <div className="layout-sidebar-feedback">
+                    <Menu
+                      rootMenuNode={rootMenuNode}
+                      currentPlatform={isGen2 ? undefined : currentPlatform}
+                    />
+                    <div className="layout-sidebar-feedback">
                       [ Feedback widget goes here ]
-                    </div> */}
+                    </div>
                     {showLastUpdatedDate && (
                       <PageLastUpdated
                         directoryData={flatDirectory[router.pathname]}
