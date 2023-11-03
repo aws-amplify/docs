@@ -1,8 +1,14 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-import { getChildPageNodes } from '@/utils/getChildPageNodes';
-import directory from 'src/directory/directory.json';
-
 export const meta = {
-  title: 'Fullstack Branching',
-  description: 'Fullstack Branching'
+  title: 'Fullstack branching overview',
+  description:
+    'Overview of fullstack branching capabilities.'
 };
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
