@@ -25,11 +25,15 @@ export const getStaticProps = (context) => {
 import android_existing_resources from '/src/fragments/lib/analytics/android/existing-resources.mdx';
 import flutter_existing_resources from '/src/fragments/lib/analytics/flutter/existing-resources.mdx';
 import ios_existing_resources from '/src/fragments/lib/analytics/ios/existing-resources.mdx';
+import js from '/src/fragments/lib/analytics/js/existing-resources.mdx';
+import react_native from '/src/fragments/lib/analytics/js/existing-resources.mdx';
 
 <Fragments
   fragments={{
     android: android_existing_resources,
     flutter: flutter_existing_resources,
-    ios: ios_existing_resources
+    ios: ios_existing_resources,
+    js: js,
+    'react-native': react_native
   }}
 />
