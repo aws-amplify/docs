@@ -70,18 +70,24 @@ To connect your app code to your GraphQL API, you need to provide two configurat
 
 The Amplify Library connects you to a GraphQL API endpoint based on the information provided to `Amplify.configure()`.
 
-When working with existing GraphQL APIs, you must manually provide your API endpoint and auth configurations. First, to configure the GraphQL API endpoint URL, set the `aws_appsync_graphqlEndpoint` and `aws_appsync_region` values. 
+When working with existing GraphQL APIs, you must manually provide your API endpoint and auth configurations. First, to configure the GraphQL API endpoint URL, set the `endpoint` and `region` values.
 
 ```ts
 import { Amplify } from 'aws-amplify'
 
 Amplify.configure({
-  // highlight-start
-  aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
-  // highlight-end
+  API: {
+    GraphQL: {
+      // Provide endpoint and region information here
+      endpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
+      region: 'us-east-1',
+      // Read next section on how to set the correct authorization mode for the API
+    }
+  }
 })
 ```
+
+Next, configure the appropriate authorization mode to authenticate with the API.
 
 #### Configure the default authorization mode
 
@@ -95,14 +101,15 @@ The **Default Authorization Mode** is the authorization mode that the GraphQL AP
 import { Amplify } from 'aws-amplify'
 
 Amplify.configure({
-  aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
-
-  // Set the auth type as "API_KEY" and pass in the API key value
-  // highlight-start
-  aws_appsync_authenticationType: 'API_KEY',
-  aws_appsync_apiKey: 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx'
-  // highlight-end
+  API: {
+    GraphQL: {
+      endpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
+      region: 'us-east-1',
+      // Set the default auth mode to "apiKey" and provide the API key value
+      defaultAuthMode: 'apiKey',
+      apiKey: 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx'
+    }
+  }
 })
 ```
 
@@ -113,13 +120,14 @@ Amplify.configure({
 import { Amplify } from 'aws-amplify'
 
 Amplify.configure({
-  aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
-
-  // Set the auth type as "AMAZON_COGNITO_USER_POOLS"
-  // highlight-start
-  aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
-  // highlight-end
+  API: {
+    GraphQL: {
+      endpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
+      region: 'us-east-1',
+      // Set the default auth mode to "userPool"
+      defaultAuthMode: 'userPool',
+    }
+  }
 })
 ```
 </Block>
@@ -128,14 +136,16 @@ Amplify.configure({
 ```ts
 import { Amplify } from 'aws-amplify'
 
-Amplify.configure({
-  aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
 
-  // Set the auth type as "AWS_IAM"
-  // highlight-start
-  aws_appsync_authenticationType: 'AWS_IAM',
-  // highlight-end
+Amplify.configure({
+  API: {
+    GraphQL: {
+      endpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
+      region: 'us-east-1',
+      // Set the default auth mode to "iam"
+      defaultAuthMode: 'iam',
+    }
+  }
 })
 ```
 </Block>
@@ -145,13 +155,14 @@ Amplify.configure({
 import { Amplify } from 'aws-amplify'
 
 Amplify.configure({
-  aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
-
-  // Set the auth type as "OPENID_CONNECT"
-  // highlight-start
-  aws_appsync_authenticationType: 'OPENID_CONNECT',
-  // highlight-end
+  API: {
+    GraphQL: {
+      endpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
+      region: 'us-east-1',
+      // Set the default auth mode to "OIDC"
+      defaultAuthMode: 'oidc',
+    }
+  }
 })
 ```
 
@@ -165,14 +176,16 @@ If you are using a Lambda function as an authorization mode with your AppSync AP
 ```ts
 import { Amplify } from 'aws-amplify'
 
-Amplify.configure({
-  aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
 
-  // Set the auth type as "AWS_LAMBDA"
-  // highlight-start
-  aws_appsync_authenticationType: 'AWS_LAMBDA',
-  // highlight-end
+Amplify.configure({
+  API: {
+    GraphQL: {
+      endpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
+      region: 'us-east-1',
+      // Set the default auth mode to "lambda"
+      defaultAuthMode: 'lambda',
+    }
+  }
 })
 ```
 
@@ -184,7 +197,6 @@ const lambdaAuthToken = getAuthToken();
 
 const createdTodo = await client.graphql({
   query: queries.listTodos,
-  // highlight-next-line
   authToken: lambdaAuthToken
 });
 ```
