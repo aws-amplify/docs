@@ -158,17 +158,20 @@ import {
   Pressable,
   SafeAreaView,
 } from 'react-native';
-import {API, graphqlOperation} from 'aws-amplify';
+import {generateClient} from 'aws-amplify/api';
 import {createTodo} from './src/graphql/mutations';
 import {listTodos} from './src/graphql/queries';
 
 import { Amplify } from 'aws-amplify';
-import awsExports from './src/aws-exports';
-Amplify.configure(awsExports);
+import amplifyconfig from './src/amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
 
 const initialState = {name: '', description: ''};
 
 const App = () => {
+
+  const client = generateClient();
+
   const [formState, setFormState] = useState(initialState);
   const [todos, setTodos] = useState([]);
 
@@ -182,7 +185,9 @@ const App = () => {
 
   async function fetchTodos() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos));
+      const todoData = await client.graphql({
+        query:listTodos
+      });
       const todos = todoData.data.listTodos.items;
       setTodos(todos);
     } catch (err) {
@@ -196,7 +201,12 @@ const App = () => {
       const todo = {...formState};
       setTodos([...todos, todo]);
       setFormState(initialState);
-      await API.graphql(graphqlOperation(createTodo, {input: todo}));
+      await client.graphql({
+        query: createTodo,
+        variables: {
+          input: todo
+        }
+      });
     } catch (err) {
       console.log('error creating todo:', err);
     }
@@ -262,13 +272,16 @@ import {
   Pressable,
   SafeAreaView,
 } from 'react-native';
-import {API, graphqlOperation} from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import {createTodo} from './src/graphql/mutations';
 import {listTodos} from './src/graphql/queries';
 
 const initialState = {name: '', description: ''};
 
 const App = () => {
+
+  const client = generateClient();
+
   const [formState, setFormState] = useState(initialState);
   const [todos, setTodos] = useState([]);
 
@@ -282,7 +295,9 @@ const App = () => {
 
   async function fetchTodos() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos));
+      const todoData = await client.graphql({
+        query: listTodos
+      });
       const todos = todoData.data.listTodos.items;
       setTodos(todos);
     } catch (err) {
@@ -296,7 +311,12 @@ const App = () => {
       const todo = {...formState};
       setTodos([...todos, todo]);
       setFormState(initialState);
-      await API.graphql(graphqlOperation(createTodo, {input: todo}));
+      await client.graphql({
+        query: createTodo,
+        variables: {
+          input: todo
+        }
+      });
     } catch (err) {
       console.log('error creating todo:', err);
     }
@@ -354,9 +374,9 @@ Let's walk through some of the functions:
 
 __useEffect__ - After the component renders, the `useEffect` hook is called and it invokes the `fetchTodos` function.
 
-__fetchTodos__ - Uses the Amplify `API` category to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
+__fetchTodos__ - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
 
-__addTodo__ - Uses the Amplify `API` category to call the AppSync GraphQL API with the `createTodo` mutation. A difference between the `listTodos` query and the `createTodo` mutation is that `createTodo` accepts an argument containing the variables needed for the mutation.
+__addTodo__ - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `createTodo` mutation. A difference between the `listTodos` query and the `createTodo` mutation is that `createTodo` accepts an argument containing the variables needed for the mutation.
 
 ## Run locally
 
