@@ -11,7 +11,7 @@ npm create vite@latest
 ✔ Select a variant: › TypeScript
 ```
 
-This creates a new React TypeScript app in a directory called **react-amplified**. You can then run the following commands to switch into the new **react-amplified** directory, install the project dependencies, and run the app by using the following commands:
+This creates a new React TypeScript app in a directory called **react-amplified**. You can then run the following commands to switch into the new **react-amplified** directory, install the project dependencies, and run the app:
 
 ```bash
 cd react-amplified
@@ -57,7 +57,7 @@ Using default provider  awscloudformation
 ? Please choose the profile you want to use default
 ```
 
-> Amplify CLI will infer the proper configuration based on the type of project Amplify is being initialized in where possible. Here it detected Create React App and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
+> Amplify CLI will infer the proper configuration based on the type of project Amplify is being initialized in where possible. Here it detected the Vite React App and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
 
 When you initialize a new Amplify project, a few things happen:
 
@@ -86,6 +86,6 @@ import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 ```
 
-And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in **aws-exports.js** will update automatically.
+And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in **amplifyconfiguration.json** will update automatically.
 
 Now that your React app is set up and Amplify is initialized, you can add an API in the next step.

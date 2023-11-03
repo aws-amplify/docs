@@ -1,20 +1,16 @@
 You've successfully built your first app with Amplify! Now that you've built something, it's time to deploy it to the web with Amplify Hosting!
 
 ## Add hosting to your app
+
 You can manually deploy your web app or setup automatic continuous deployment. In this guide we'll cover how to manually deploy and host your static web app to quickly share with others. If you want to learn about continuous deployment instead, please follow [this guide](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html#standard).
 
-From the root of your project, run the following command: 
+From the root of your project, run the following command:
 
 ```bash
 amplify add hosting
 ```
 
 Select the defaults for the following prompts:
-
-Hosting with Amplify Console (Managed hosting with custom domains, Continuous deployment)
-
-? Choose a type Manual deployment
-
 
 ```console
 ? Select the plugin module to execute: Hosting with Amplify Console (Managed hosting with custom domains, Continuous deployment)
@@ -39,4 +35,4 @@ After publishing, your terminal will display your app URL hosted on a `amplifyap
 
 To view your app and hosting configuration in the Amplify Console, run the `amplify console` command.
 
-Note: To delete all the environments of the project from the cloud and wipe out all the local files created by Amplify CLI, run `amplify delete` command.
+> Note: To delete all the environments of the project from the cloud and wipe out all the local files created by Amplify CLI, run `amplify delete` command.
