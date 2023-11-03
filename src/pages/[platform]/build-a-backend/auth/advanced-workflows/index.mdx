@@ -39,20 +39,3 @@ import reactnative0 from '/src/fragments/lib/auth/js/advanced.mdx';
 import flutter from '/src/fragments/lib/auth/flutter/advanced/advanced.mdx';
 
 <Fragments fragments={{ flutter: flutter }} />
-
-```mermaid
-classDiagram
-  direction LR;
-
-class Project {
-  id: ID!
-  name: String
-}
-
-class Team {
-  id: ID!
-  name: String!
-}
-
-Project --> Team : team @hasOne
-```
