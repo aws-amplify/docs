@@ -133,12 +133,16 @@ A code example of this using the JS Library is shown below:
 
 ```js
 import React, { useState } from 'react';
-import { Amplify, Storage, API } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import { uploadData, getUrl } from 'aws-amplify/storage';
+import { generateClient } from 'aws-amplify/api';
 import config from './amplifyconfiguration.json';
 import { speakTranslatedImageText } from './graphql/queries';
 
 /* Configure Exports */
 Amplify.configure(config);
+
+const client = generateClient();
 
 function SpeakTranslatedImage() {
   const [src, setSrc] = useState('');
@@ -146,10 +150,13 @@ function SpeakTranslatedImage() {
 
   function putS3Image(event) {
     const file = event.target.files[0];
-    Storage.put(file.name, file)
-      .then(async (result) => {
+    uploadData({
+      key: file.name,
+      data: file
+    })
+      .result.then(async (result) => {
         setSrc(await speakTranslatedImageTextOP(result.key));
-        setImg(await Storage.get(result.key));
+        setImg(await getUrl({ key: result.key }));
       })
       .catch((err) => console.log(err));
   }
@@ -194,6 +201,7 @@ async function speakTranslatedImageTextOP(key) {
   });
   return response.data.speakTranslatedImageText;
 }
+
 function App() {
   return (
     <div className="App">
