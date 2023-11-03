@@ -38,7 +38,7 @@ import { API } from 'aws-amplify';
 import { listTodos } from './graphql/queries';
 
 const result = await API.graphql({
-  queries: listTodos
+  query: listTodos
 );
 console.log(result);
 ```
