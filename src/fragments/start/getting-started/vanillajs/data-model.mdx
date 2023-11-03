@@ -104,12 +104,13 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 Update your `src/app.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
 
 ```javascript
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 
-import awsconfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 import { createTodo } from './graphql/mutations';
 
-Amplify.configure(awsconfig);
+Amplify.configure(amplifyconfig);
 
 async function createNewTodo() {
   const todo = {
@@ -117,7 +118,12 @@ async function createNewTodo() {
     description: `Realtime and Offline (${new Date().toLocaleString()})`
   };
 
-  return await API.graphql(graphqlOperation(createTodo, { input: todo }));
+  return await client.graphql({
+    query: createTodo,
+    variables: {
+      input: todo
+    }
+  });
 }
 
 const MutationButton = document.getElementById('MutationEventButton');
@@ -132,93 +138,113 @@ MutationButton.addEventListener('click', (evt) => {
 
 After restarting your app using `npm start` go back to your browser and click **ADD DATA**. You'll see that your application is now submitting events to AppSync and storing records in DynamoDB. Next, update `src/app.js` to list all the items in the database by importing `listTodos` and update the page when a query runs on app start by immediately calling the function:
 
-```diff
- import { Amplify, API, graphqlOperation } from "aws-amplify";
+```javascript
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 
- import awsconfig from "./aws-exports";
- import { createTodo } from "./graphql/mutations";
-+import { listTodos } from "./graphql/queries";
+import amplifyconfig from './amplifyconfiguration.json';
+import { createTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
 
- Amplify.configure(awsconfig)
+Amplify.configure(amplifyconfig);
 
- async function createNewTodo() {
-   const todo = {
-     name: "Use AppSync",
-     description: `Realtime and Offline (${new Date().toLocaleString()})`,
-   };
+async function createNewTodo() {
+  const todo = {
+    name: 'Use AppSync',
+    description: `Realtime and Offline (${new Date().toLocaleString()})`
+  };
 
-   return await API.graphql(graphqlOperation(createTodo, { input: todo }));
- }
+  return await client.graphql({
+    query: createTodo,
+    variables: {
+      input: todo
+    }
+  });
+}
 
-+async function getData() {
-+  API.graphql(graphqlOperation(listTodos)).then((evt) => {
-+    evt.data.listTodos.items.map((todo, i) => {
-+      QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
-+    });
-+  });
-+}
-+
- const MutationButton = document.getElementById("MutationEventButton");
- const MutationResult = document.getElementById("MutationResult");
-+const QueryResult = document.getElementById("QueryResult");
+async function getData() {
+  client
+    .graphql({
+      query: listTodos
+    })
+    .then((evt) => {
+      evt.data.listTodos.items.map((todo, i) => {
+        QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
+      });
+    });
+}
 
- MutationButton.addEventListener("click", (evt) => {
-   createNewTodo().then((evt) => {
-     MutationResult.innerHTML += `<p>${evt.data.createTodo.name} - ${evt.data.createTodo.description}</p>`;
-   });
- });
+const MutationButton = document.getElementById('MutationEventButton');
+const MutationResult = document.getElementById('MutationResult');
+const QueryResult = document.getElementById('QueryResult');
 
-+getData();
+MutationButton.addEventListener('click', (evt) => {
+  createNewTodo().then((evt) => {
+    MutationResult.innerHTML += `<p>${evt.data.createTodo.name} - ${evt.data.createTodo.description}</p>`;
+  });
+});
+
+getData();
 ```
 
 Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
 
-```diff
- import { Amplify, API, graphqlOperation } from "aws-amplify";
+```javascript
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 
- import awsconfig from "./aws-exports";
- import { createTodo } from "./graphql/mutations";
- import { listTodos } from "./graphql/queries";
-+import { onCreateTodo } from "./graphql/subscriptions";
+import amplifyconfig from './amplifyconfiguration.json';
+import { createTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
+import { onCreateTodo } from './graphql/subscriptions';
 
- Amplify.configure(awsconfig);
+Amplify.configure(amplifyconfig);
 
- async function createNewTodo() {
-   const todo = {
-     name: "Use AppSync",
-     description: `Realtime and Offline (${new Date().toLocaleString()})`,
-   };
+async function createNewTodo() {
+  const todo = {
+    name: 'Use AppSync',
+    description: `Realtime and Offline (${new Date().toLocaleString()})`
+  };
 
-   return await API.graphql(graphqlOperation(createTodo, { input: todo }));
- }
+  return await client.graphql({
+    query: createTodo,
+    variables: {
+      input: todo
+    }
+  });
+}
 
- async function getData() {
-   API.graphql(graphqlOperation(listTodos)).then((evt) => {
-     evt.data.listTodos.items.map((todo, i) => {
-       QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
-     });
-   });
- }
+async function getData() {
+  client
+    .graphql({
+      query: listTodos
+    })
+    .then((evt) => {
+      evt.data.listTodos.items.map((todo, i) => {
+        QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
+      });
+    });
+}
 
- const MutationButton = document.getElementById("MutationEventButton");
- const MutationResult = document.getElementById("MutationResult");
- const QueryResult = document.getElementById("QueryResult");
-+const SubscriptionResult = document.getElementById("SubscriptionResult");
+const MutationButton = document.getElementById('MutationEventButton');
+const MutationResult = document.getElementById('MutationResult');
+const QueryResult = document.getElementById('QueryResult');
+const SubscriptionResult = document.getElementById('SubscriptionResult');
 
- MutationButton.addEventListener("click", (evt) => {
-   createNewTodo().then((evt) => {
-     MutationResult.innerHTML += `<p>${evt.data.createTodo.name} - ${evt.data.createTodo.description}</p>`;
-   });
- });
+MutationButton.addEventListener('click', (evt) => {
+  createNewTodo().then((evt) => {
+    MutationResult.innerHTML += `<p>${evt.data.createTodo.name} - ${evt.data.createTodo.description}</p>`;
+  });
+});
 
-+API.graphql(graphqlOperation(onCreateTodo)).subscribe({
-+  next: (evt) => {
-+    const todo = evt.value.data.onCreateTodo;
-+    SubscriptionResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
-+  },
-+});
-+
- getData();
+client.graphql({ query: onCreateTodo }).subscribe({
+  next: (evt) => {
+    const todo = evt.value.data.onCreateTodo;
+    SubscriptionResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
+  }
+});
+
+getData();
 ```
 
 After restarting your app using `npm start` go back to your browser and you will see subscription events displayed under **Subscription Results**.

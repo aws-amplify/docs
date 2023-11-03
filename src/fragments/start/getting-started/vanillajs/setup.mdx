@@ -204,6 +204,6 @@ https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
 When you initialize a new Amplify project, a few things happen:
 
 - It creates a top level directory called `amplify` that stores your backend definition. During the tutorial you'll add cloud capabilities, such as GraphQL API and web hosting. As you add these features, the `amplify` folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
-- It creates a file called `aws-exports.js` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify JavaScript client library is able to get the necessary information to connect to your backend services.
+- It creates a file called `amplifyconfiguration.json` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify JavaScript client library is able to get the necessary information to connect to your backend services.
 - It modifies the `.gitignore` file, adding some generated files to the ignore list
 - An Amplify project is created for you that can be accessed within the AWS Console by running `amplify console`. The AWS Amplify console provides a list of backend environments, deep links to provisioned resources per Amplify category, deployment statuses, and instructions on how to promote, clone, pull, and delete backend resources.
