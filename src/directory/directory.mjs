@@ -864,7 +864,7 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
-            title: 'ConsoleLogger',
+            title: 'Console Logger',
             route: '/lib/utilities/console-logger',
             filters: ['js', 'react-native']
           }
