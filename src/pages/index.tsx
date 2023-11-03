@@ -6,6 +6,7 @@ import { Banner } from '@/components/Banner';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
 import PlatformFeatureList from '../components/FeatureLists/PlatformFeatureList';
 import LinkCards from '@/components/LinkCards';
+import Link from 'next/link';
 
 const meta = {
   title: 'Amplify Docs',
@@ -43,14 +44,21 @@ export default function Page() {
           the cloud for authentication, storage, APIs, and more.
         </Text>
         <Flex className="home-cta">
-          <Button variation="primary" size="large" gap="small">
-            How Amplify Works{' '}
-            <IconChevron
-              aria-hidden="true"
-              className="icon-rotate-270"
-              fontSize=".875em"
-            />
-          </Button>
+          <Link
+            href={{
+              pathname: '/[platform]/how-amplify-works',
+              query: { platform: DEFAULT_PLATFORM }
+            }}
+          >
+            <Button variation="primary" size="large" gap="small">
+              How Amplify Works
+              <IconChevron
+                aria-hidden="true"
+                className="icon-rotate-270"
+                fontSize=".875em"
+              />
+            </Button>
+          </Link>
           <GetStartedPopover />
         </Flex>
       </Flex>
