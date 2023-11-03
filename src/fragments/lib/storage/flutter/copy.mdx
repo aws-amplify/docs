@@ -19,9 +19,9 @@ Future<void> copyGuestFileToPrivate({
       ),
     ).result;
 
-    safePrint('Copied file: ${result.copiedItem.key}');
+    safePrint('Copied file: $\{result.copiedItem.key}');
   } on StorageException catch (e) {
-    safePrint('Error copying file: ${e.message}');
+    safePrint('Error copying file: $\{e.message}');
     rethrow;
   }
 }

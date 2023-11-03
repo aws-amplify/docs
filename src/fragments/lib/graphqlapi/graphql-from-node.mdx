@@ -1,5 +1,5 @@
 You can call an AppSync GraphQL API from a Node.js app or a Lambda function. Take a basic `Todo` app as an example:
- 
+
 ```graphql
 type Todo @model @auth(rules: [{ allow: public }]) {
   name: String
@@ -11,9 +11,7 @@ This API will have operations available for `Query`, `Mutation`, and `Subscripti
 
 ### Utilizing Lambda function template (IAM authorization)
 
-First, create a Lambda function with `amplify add function` and choose the `AppSync - GraphQL API request (with IAM)` to get started.
-Be sure to grant access to your GraphQL API when prompted by the CLI to grant access to other resources in the project.
-Alternatively, you can create the [function from scratch](#create-from-scratch).
+First, create a Lambda function with `amplify add function` and choose the `AppSync - GraphQL API request (with IAM)` to get started. Be sure to grant access to your GraphQL API when prompted by the CLI to grant access to other resources in the project. Alternatively, you can create the [function from scratch](#create-from-scratch).
 
 ```console
 amplify add function
@@ -41,6 +39,7 @@ You can access the following resource attributes as environment variables from y
 	ENV
 	REGION
 ```
+
 <Callout warning>
 
 The function can only be added when the GraphQL API with IAM authorization exists.
@@ -119,15 +118,16 @@ For functions written using CommonJS, you will need to install version 2 of `nod
 
 ## Query
 
-Using an API Key for authenticating your requests, you can query the GraphQL API to get a list of all `Todo`s. To paginate over the list queries, you need to pass in a `limit` and `nextToken` on the `listTodos` query. See more at [GraphQL pagination
-](/guides/api-graphql/graphql-pagination).
+Using an API Key for authenticating your requests, you can query the GraphQL API to get a list of all `Todo`s. To paginate over the list queries, you need to pass in a `limit` and `nextToken` on the `listTodos` query. See more at [GraphQL pagination ](/guides/api-graphql/graphql-pagination).
 
-<!-- prettier-ignore -->
+{/* prettier-ignore \ */}
+
 ```js
 import { default as fetch, Request } from 'node-fetch';
 
-const GRAPHQL_ENDPOINT = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT;
-const GRAPHQL_API_KEY = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIKEYOUTPUT;
+const GRAPHQL_ENDPOINT =
+  process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIENDPOINTOUTPUT;
+const GRAPHQL_API_KEY = process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIKEYOUTPUT;
 
 const query = /* GraphQL */ `
   query LIST_TODOS {
@@ -145,7 +145,7 @@ const query = /* GraphQL */ `
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 export const handler = async (event) => {
-  console.log(`EVENT: ${JSON.stringify(event)}`);
+  console.log(`EVENT: $\{JSON.stringify(event)}`);
 
   /** @type {import('node-fetch').RequestInit} */
   const options = {
@@ -191,12 +191,14 @@ export const handler = async (event) => {
 
 In this example you will create a mutation showing how to pass in variables as arguments to create a `Todo` record.
 
-<!-- prettier-ignore -->
+{/* prettier-ignore \ */}
+
 ```js
 import { default as fetch, Request } from 'node-fetch';
 
-const GRAPHQL_ENDPOINT = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT;
-const GRAPHQL_API_KEY = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIKEYOUTPUT;
+const GRAPHQL_ENDPOINT =
+  process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIENDPOINTOUTPUT;
+const GRAPHQL_API_KEY = process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIKEYOUTPUT;
 
 const query = /* GraphQL */ `
   mutation CREATE_TODO($input: CreateTodoInput!) {
@@ -212,7 +214,7 @@ const query = /* GraphQL */ `
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 export const handler = async (event) => {
-  console.log(`EVENT: ${JSON.stringify(event)}`);
+  console.log(`EVENT: $\{JSON.stringify(event)}`);
 
   const variables = {
     input: {
@@ -296,8 +298,8 @@ The CLI will automatically configure the Lambda execution IAM role to call the G
 
 Then, the following example will sign the request to call the GraphQL API using IAM authorization.
 
-<!-- due to placeholder text -->
-<!-- prettier-ignore -->
+{/_ due to placeholder text \\ \*/} {/_ prettier-ignore \\ \*/}
+
 ```js
 import crypto from '@aws-crypto/sha256-js';
 import { defaultProvider } from '@aws-sdk/credential-provider-node';
@@ -306,7 +308,8 @@ import { HttpRequest } from '@aws-sdk/protocol-http';
 import { default as fetch, Request } from 'node-fetch';
 
 const { Sha256 } = crypto;
-const GRAPHQL_ENDPOINT = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT;
+const GRAPHQL_ENDPOINT =
+  process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIENDPOINTOUTPUT;
 const AWS_REGION = process.env.AWS_REGION || 'us-east-1';
 
 const query = /* GraphQL */ `
@@ -325,7 +328,7 @@ const query = /* GraphQL */ `
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 export const handler = async (event) => {
-  console.log(`EVENT: ${JSON.stringify(event)}`);
+  console.log(`EVENT: $\{JSON.stringify(event)}`);
 
   const endpoint = new URL(GRAPHQL_ENDPOINT);
 
@@ -403,14 +406,15 @@ When writing functions with CommonJS, you will need to install version 2 of `nod
 Similar to the example above you can now write your handler. The difference here is the use of `require()` rather than `import ... from`
 
 ```js
-const { Sha256 } = require("@aws-crypto/sha256-js");
-const { defaultProvider } = require("@aws-sdk/credential-provider-node");
-const { SignatureV4 } = require("@aws-sdk/signature-v4");
-const { HttpRequest } = require("@aws-sdk/protocol-http");
-const { default: fetch, Request } = require("node-fetch");
+const { Sha256 } = require('@aws-crypto/sha256-js');
+const { defaultProvider } = require('@aws-sdk/credential-provider-node');
+const { SignatureV4 } = require('@aws-sdk/signature-v4');
+const { HttpRequest } = require('@aws-sdk/protocol-http');
+const { default: fetch, Request } = require('node-fetch');
 
-const GRAPHQL_ENDPOINT = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT;
-const AWS_REGION = process.env.AWS_REGION || "us-east-1";
+const GRAPHQL_ENDPOINT =
+  process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIENDPOINTOUTPUT;
+const AWS_REGION = process.env.AWS_REGION || 'us-east-1';
 
 const query = /* GraphQL */ `
   query LIST_TODOS {
@@ -428,26 +432,26 @@ const query = /* GraphQL */ `
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event) => {
-  console.log(`EVENT: ${JSON.stringify(event)}`);
+  console.log(`EVENT: $\{JSON.stringify(event)}`);
 
   const endpoint = new URL(GRAPHQL_ENDPOINT);
 
   const signer = new SignatureV4({
     credentials: defaultProvider(),
     region: AWS_REGION,
-    service: "appsync",
-    sha256: Sha256,
+    service: 'appsync',
+    sha256: Sha256
   });
 
   const requestToBeSigned = new HttpRequest({
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      host: endpoint.host,
+      'Content-Type': 'application/json',
+      host: endpoint.host
     },
     hostname: endpoint.host,
     body: JSON.stringify({ query }),
-    path: endpoint.pathname,
+    path: endpoint.pathname
   });
 
   const signed = await signer.sign(requestToBeSigned);
@@ -466,15 +470,15 @@ exports.handler = async (event) => {
     body = {
       errors: [
         {
-          message: error.message,
-        },
-      ],
+          message: error.message
+        }
+      ]
     };
   }
 
   return {
     statusCode,
-    body: JSON.stringify(body),
+    body: JSON.stringify(body)
   };
 };
 ```

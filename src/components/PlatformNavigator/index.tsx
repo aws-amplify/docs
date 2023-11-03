@@ -33,7 +33,9 @@ export function PlatformNavigator({ currentPlatform }) {
   return (
     <>
       <View className={`platform-navigator`}>
-        <Text fontWeight="bold" paddingBottom="small">Choose your framework/language</Text>
+        <Text fontWeight="bold" paddingBottom="small">
+          Choose your framework/language
+        </Text>
         <Flex alignItems="center">
           <Button
             className={`platform-navigator__button`}
@@ -64,20 +66,26 @@ export function PlatformNavigator({ currentPlatform }) {
         >
           <ul className="popover-list">
             {frameworks.map((platform, index) => {
-            const title = platform.title;
-            const current = title === currentPlatform;
-            return (
-              <li
-                  className={classNames("popover-list__item",{"platform-navigator__dropdown__item--current":current})}
+              const title = platform.title;
+              const current = title === currentPlatform;
+              return (
+                <li
+                  className={classNames('popover-list__item', {
+                    'platform-navigator__dropdown__item--current': current
+                  })}
                   key={`platform-${index}`}
                 >
-                  <Link className="popover-list__link" href={platform.href} onClick={ () => setIsOpen(false) }>
+                  <Link
+                    className="popover-list__link"
+                    href={platform.href}
+                    onClick={() => setIsOpen(false)}
+                  >
                     {platform.icon}
                     {platform.title}
                   </Link>
                 </li>
-            );
-          })}
+              );
+            })}
           </ul>
         </View>
       </View>

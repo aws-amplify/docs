@@ -1,0 +1,40 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Delete user account',
+  description: 'Delete a user',
+  platforms: ['flutter', 'swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import ios0 from '/src/fragments/lib/auth/native_common/delete_user/common.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import flutter1 from '/src/fragments/lib/auth/native_common/delete_user/common.mdx';
+
+<Fragments fragments={{ flutter: flutter1 }} />
+
+import javascript2 from '/src/fragments/lib/auth/js/delete_user.mdx';
+
+<Fragments fragments={{ javascript: javascript2 }} />
+
+import reactnative0 from '/src/fragments/lib/auth/js/delete_user.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
+
+import android3 from '/src/fragments/lib/auth/native_common/delete_user/common.mdx';
+
+<Fragments fragments={{ android: android3 }} />

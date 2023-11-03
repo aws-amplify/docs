@@ -34,9 +34,6 @@ Please note that it's recommended to delete your `yarn.lock` file, `package-lock
 npm install @aws-amplify/rtn-push-notification
 ```
 
-
-
-
 ## Update build configurations
 
 <BlockSwitcher>
@@ -130,7 +127,7 @@ dependencies {
 ```diff
 <application ... >
   ...
-- <!--[START Push notification config -->
+- {/*[START Push notification config \ */}
 - <service
 -   android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationMessagingService"
 -   android:exported="false">
@@ -138,7 +135,7 @@ dependencies {
 -     <action android:name="com.google.firebase.MESSAGING_EVENT"/>
 -   </intent-filter>
 - </service>
-- <!-- [END Push notification config -->
+- {/* [END Push notification config \ */}
   ...
 </application>
 ```
@@ -169,11 +166,11 @@ Please refer to the [Getting started](/lib/push-notifications/getting-started) p
 
 A brief mapping of your APIs to their replacements is as follows:
 
-|      Previous API       |                                  Replaced by                                   |
-| :---------------------: | :----------------------------------------------------------------------------: |
-|      `onRegister`       |                               `onTokenReceived`                                |
-| `onNotificationOpened`  |                             `onNotificationOpened`                             |
-|    `onNotification`     | `onNotificationReceivedInForeground`<br />`onNotificationReceivedInBackground` |
-| `requestIOSPermissions` |                              `requestPermissions`                              |
+| Previous API | Replaced by |
+| :-: | :-: |
+| `onRegister` | `onTokenReceived` |
+| `onNotificationOpened` | `onNotificationOpened` |
+| `onNotification` | `onNotificationReceivedInForeground`<br />`onNotificationReceivedInBackground` |
+| `requestIOSPermissions` | `requestPermissions` |
 
 We _strongly_ recommend you take the time to explore all the ways the new version of Amplify Push Notifications are different and all the new features that have been added. This will help you to make the best decision about how to adopt these changes for your unique use cases.

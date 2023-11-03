@@ -107,7 +107,7 @@ To track the progress of your download, you can use `progressCallback`:
 Storage.get('filename.txt', {
   download: true,
   progressCallback(progress) {
-    console.log(`Downloaded: ${progress.loaded}/${progress.total}`);
+    console.log(`Downloaded: $\{progress.loaded}/$\{progress.total}`);
   }
 });
 ```
@@ -128,7 +128,7 @@ const result = await Storage.get('welcome.png', { level: 'private' }); // same e
 Here is a quick guide to the access levels - [see the docs](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js) for more detail:
 
 - `public`: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
-- `protected`: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
+- `protected`: Readable by all users, but writable only by the creating user. Files are stored under `protected/\{user_identity_id\}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 
 ```javascript
 // To get current user's objects
@@ -141,7 +141,7 @@ const result = await Storage.get('filename.txt', {
 });
 ```
 
-- `private`: **Only accessible for the signed in user**. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
+- `private`: **Only accessible for the signed in user**. Files are stored under `private/\{user_identity_id\}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 
 ### Download expiry
 
