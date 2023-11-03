@@ -2,7 +2,10 @@
   "name": "docs",
   "version": "2.0.0",
   "main": "index.js",
-  "repository": "https://github.com/aws-amplify/docs.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aws-amplify/docs.git"
+  },
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
@@ -58,7 +61,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^13.5.3",
     "@next/mdx": "^13.5.4",
-    "@playwright/test": "^1.39.0",
+    "@playwright/test": "1.39.0",
     "@stencil/core": "^1.17.0",
     "@stencil/eslint-plugin": "^0.2.1",
     "@stencil/router": "^1.0.1",
@@ -147,7 +150,7 @@
     "dev": "yarn prebuild && next dev",
     "spellcheck": "cspell \"src/**/*.mdx\" --no-progress",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
-    "build": "node tasks/generate-sitemap.mjs && next build && next export -o client/www/next-build",
+    "build": "node tasks/generate-sitemap.mjs && yarn playwright install && next build && next export -o client/www/next-build",
     "build:release": "yarn build && next-image-export-optimizer --exportFolderPath client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
