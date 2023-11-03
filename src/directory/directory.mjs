@@ -345,7 +345,7 @@ export const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib/graphqlapi/existing-resources',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+            filters: ['android', 'flutter', 'ios']
           },
           {
             title: 'Upgrade guide from AppSync SDK',
