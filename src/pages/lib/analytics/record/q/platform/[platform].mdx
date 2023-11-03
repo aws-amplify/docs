@@ -43,7 +43,7 @@ To record custom events call the `record` API:
 ```javascript
 import { record } from 'aws-amplify/analytics';
 
-record({ 
+record({
   event: {
     name: 'albumVisit'
   }
@@ -88,8 +88,17 @@ Metric values must be a `Number` type such as a float or integer.
 
 The AWS Pinpoint event count updates in minutes after recording your event.
 
-However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Pinpoint. 
+However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Pinpoint.
 
 </Callout>
+
+## Flush events
+The recorded events are saved in a buffer and sent to the remote server periodically. If needed, you have the option to manually clear all the events from the buffer by using the 'flushEvents' API.
+
+```javascript
+import { flushEvents } from 'aws-amplify/analytics';
+
+flushEvents();
+```
 
 </InlineFilter>
