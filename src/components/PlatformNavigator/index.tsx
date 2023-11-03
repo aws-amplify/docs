@@ -2,15 +2,17 @@ import { useState, useRef, useEffect } from 'react';
 import { Button, Flex, Text, View } from '@aws-amplify/ui-react';
 import { IconChevron } from '@/components/Icons';
 import { frameworks } from '@/constants/frameworks';
-import { InfoPopover } from './InfoPopover';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { useClickOutside } from '@/utils/useClickOutside';
+import { VersionSwitcher } from '../VersionSwitcher';
+import { PLATFORM_VERSIONS, PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 
-export function PlatformNavigator({ currentPlatform }) {
+export function PlatformNavigator({ currentPlatform, isPrev }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const platformTitle = PLATFORM_DISPLAY_NAMES[currentPlatform];
 
   const contentRef = useClickOutside((e) => {
     if (triggerRef.current && !triggerRef.current.contains(e.target)) {
@@ -27,7 +29,7 @@ export function PlatformNavigator({ currentPlatform }) {
   }, [isOpen]);
 
   const platformItem = frameworks.filter((platform) => {
-    return platform.title === currentPlatform;
+    return platform.title === platformTitle;
   })[0];
 
   return (
@@ -46,14 +48,16 @@ export function PlatformNavigator({ currentPlatform }) {
             isFullWidth={true}
             fontWeight="normal"
             ref={triggerRef}
+            flex="1 1 0"
+            paddingRight="xs"
           >
-            <Flex as="span" alignItems="center">
+            <Flex as="span" alignItems="center" gap="small">
               {platformItem.icon}
-              {currentPlatform}
+              {platformTitle}
             </Flex>
             <IconChevron className={isOpen ? '' : 'icon-rotate-90-reverse'} />
           </Button>
-          <InfoPopover platform={currentPlatform} />
+          {PLATFORM_VERSIONS[currentPlatform] && <VersionSwitcher platform={currentPlatform} isPrev={isPrev} flex="1 1 0" />}
         </Flex>
         <View
           className={classNames('popover', {
@@ -67,7 +71,7 @@ export function PlatformNavigator({ currentPlatform }) {
           <ul className="popover-list">
             {frameworks.map((platform, index) => {
               const title = platform.title;
-              const current = title === currentPlatform;
+              const current = title === platformTitle;
               return (
                 <li
                   className={classNames('popover-list__item', {

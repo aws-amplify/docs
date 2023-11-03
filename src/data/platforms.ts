@@ -34,11 +34,23 @@ export const PLATFORM_DISPLAY_NAMES: Record<Platform, string> = {
   vue: 'Vue'
 };
 
-export const VERSIONED_PLATFORMS = [
-  'android',
-  'swift',
-  'flutter',
-  'javascript'
-];
+export const PLATFORM_VERSIONS = {
+  'android': {
+    prev: 'v1',
+    current: 'v2'
+  },
+  'swift': {
+    prev: 'v1',
+    current: 'v2'
+  },
+  'flutter': {
+    prev: 'v0',
+    current: 'v1'
+  },
+  'javascript': {
+    prev: 'v5',
+    current: 'v6'
+  }
+}
 
 export const DEFAULT_PLATFORM: Platform = 'javascript';

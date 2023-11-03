@@ -1,0 +1,27 @@
+.version-switcher {
+    gap: 0;
+
+    &__link {
+        background-color: var(--amplify-colors-overlay-5);
+        padding: var(--amplify-space-small);
+        white-space: nowrap;
+        padding: var(--amplify-space-xs);
+        flex: 1 1 0;
+        text-decoration: none;
+        text-align: center;
+
+        &.active {
+            background-color: var(--amplify-components-button-primary-hover-background-color);
+        }
+
+        &:first-of-type {
+            border-top-left-radius: var(--amplify-radii-medium);
+            border-bottom-left-radius: var(--amplify-radii-medium);
+        }
+
+        &:last-of-type {
+            border-top-right-radius: var(--amplify-radii-medium);
+            border-bottom-right-radius: var(--amplify-radii-medium);
+        }
+    }
+}

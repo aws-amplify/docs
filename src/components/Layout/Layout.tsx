@@ -20,8 +20,7 @@ import {
   DEFAULT_PLATFORM,
   PLATFORMS,
   PLATFORM_DISPLAY_NAMES,
-  Platform,
-  VERSIONED_PLATFORMS
+  Platform
 } from '@/data/platforms';
 import { SpaceShip } from '@/components/SpaceShip';
 import SearchBar from '@/components/SearchBar';
@@ -40,7 +39,6 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import { PageLastUpdated } from '../PageLastUpdated';
 import { findDirectoryNode } from '@/utils/findDirectoryNode';
-import { VersionSwitcher } from '@/components/VersionSwitcher';
 
 export const Layout = ({
   children,
@@ -294,10 +292,10 @@ export const Layout = ({
                     <div className="layout-sidebar-platform">
                       <PlatformNavigator
                         currentPlatform={
-                          PLATFORM_DISPLAY_NAMES[currentPlatform]
+                          currentPlatform
                         }
+                        isPrev={isPrev}
                       />
-                      {VERSIONED_PLATFORMS.includes(currentPlatform) && <VersionSwitcher platform={currentPlatform} isPrev={isPrev} />}
                     </div>
                   )}
 
