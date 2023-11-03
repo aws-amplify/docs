@@ -21,7 +21,7 @@ Amplify.Storage.list("",
 Amplify.Storage.list("",
     { result ->
         result.items.forEach { item ->
-            Log.i("MyAmplifyApp", "Item: ${item.key}")
+            Log.i("MyAmplifyApp", "Item: $\{item.key}")
         }
     },
     { Log.e("MyAmplifyApp", "List failure", it) }
@@ -34,7 +34,7 @@ Amplify.Storage.list("",
 ```kotlin
 try {
     Amplify.Storage.list("").items.forEach {
-        Log.i("MyAmplifyApp", "Item: ${it.key}")
+        Log.i("MyAmplifyApp", "Item: $\{it.key}")
     }
 } catch (error: StorageException) {
     Log.e("MyAmplifyApp", "List failure", error)
@@ -94,7 +94,7 @@ val options = StorageListOptions.builder()
 Amplify.Storage.list("", options,
     { result ->
         result.items.forEach { item ->
-            Log.i("MyAmplifyApp", "Item: ${item.key}")
+            Log.i("MyAmplifyApp", "Item: $\{item.key}")
         }
     },
     { Log.e("MyAmplifyApp", "List failure", it) }

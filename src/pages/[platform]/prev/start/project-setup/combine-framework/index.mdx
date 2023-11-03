@@ -1,0 +1,38 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Using the Combine framework with Amplify',
+  description: "Amplify's support for Apple's Combine framework",
+  platforms: ['swift']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+# API GraphQL
+
+This page is just here for testing purposes.
+
+```mermaid
+classDiagram
+  direction LR;
+class Project {
+  id: ID!
+  name: String
+}
+class Team {
+  id: ID!
+  name: String!
+}
+Project --> Team : team @hasOne
+```

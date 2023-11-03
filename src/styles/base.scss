@@ -71,17 +71,14 @@ h3 {
 }
 
 .main {
-  & > h2 {
-    margin-top: var(--amplify-space-large);
-  }
   & > h2,
   & > h3 {
     scroll-margin-block: 9rem;
   }
 }
 
-/* A elements that don't have a class get default styles */
-a:not([class]) {
+a,
+.amplify-link {
   text-decoration-skip-ink: auto;
 
   color: var(--amplify-components-link-color);
@@ -114,14 +111,20 @@ textarea:not([rows]) {
   min-height: 10em;
 }
 
+.max-headline-content {
+  max-width: 60ch;
+}
 .max-inline-content {
   max-width: 80ch;
 }
 
-.plain-list {
+ul {
   margin: 0;
-  list-style: none;
 }
-.plain-list ul {
-  margin: 0;
+
+.main {
+  .amplify-heading--2,
+  .amplify-heading--3 {
+    scroll-margin-top: 9rem;
+  }
 }

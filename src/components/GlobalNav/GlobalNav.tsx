@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { View, Flex } from '@aws-amplify/ui-react';
 import { useState } from 'react';
 import styles from './GlobalNav.module.scss';
@@ -27,13 +26,15 @@ export interface NavProps {
   rightLinks: NavMenuItem[];
   socialLinks?: NavMenuItem[];
   currentSite: string;
+  isGen2?: boolean;
 }
 
 export function GlobalNav({
   currentSite,
   leftLinks,
   rightLinks,
-  socialLinks
+  socialLinks,
+  isGen2
 }: NavProps) {
   const themeableSites: any = {
     'UI Library': true
@@ -48,7 +49,9 @@ export function GlobalNav({
   return (
     <View
       as="nav"
-      className={`${styles['navbar']} ${themeClass ? styles[themeClass] : ''}`}
+      className={`${styles['navbar']} ${isGen2 ? styles['navbar--gen2'] : ''} ${
+        themeClass ? styles[themeClass] : ''
+      }`}
       aria-label="Amplify Dev Center - External links to additional Amplify resources"
     >
       <Flex className={styles['nav-links-container']}>
@@ -57,13 +60,16 @@ export function GlobalNav({
             currentSite={currentSite}
             isCollapsed={isCollapsed}
             setIsCollapsed={setIsCollapsed}
+            isGen2={isGen2}
           />
 
-          <LeftNavLinks
-            isCollapsed={isCollapsed}
-            leftLinks={leftLinks}
-            currentSite={currentSite}
-          />
+          {isGen2 ? null : (
+            <LeftNavLinks
+              isCollapsed={isCollapsed}
+              leftLinks={leftLinks}
+              currentSite={currentSite}
+            />
+          )}
         </Flex>
         <RightNavLinks
           rightLinks={rightLinks}

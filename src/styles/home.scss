@@ -11,18 +11,24 @@
     max-width: 460px;
     font-size: var(--amplify-font-sizes-large);
   }
-  &__cta {
-    flex-direction: column;
-  }
+}
+
+.home-cta {
+  flex-direction: column;
 }
 
 .home-content {
   flex-direction: column;
-  gap: var(--amplify-space-xxxl);
+  gap: var(--amplify-space-xxl);
+}
+
+.home-section {
+  flex-direction: column;
+  gap: var(--amplify-space-large);
 }
 
 @container (min-width: 530px) {
-  .home-intro__cta {
+  .home-cta {
     flex-direction: row;
   }
 }

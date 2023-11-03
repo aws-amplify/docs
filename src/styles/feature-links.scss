@@ -1,0 +1,19 @@
+.feature-lists {
+  gap: var(--amplify-space-large) var(--amplify-space-xxl);
+}
+@container (min-width: 600px) {
+  .feature-lists {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.feature-link {
+  list-style: none;
+  margin-bottom: var(--amplify-space-large);
+}
+.category-list {
+  flex-direction: column;
+}
+.category-list-children {
+  padding: 0;
+}

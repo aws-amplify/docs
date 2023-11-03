@@ -35,7 +35,7 @@ function getData() {
   return API.get(apiName, path, myInit);
 }
 
-(async function() {
+(async function () {
   const response = await getData();
 })();
 ```
@@ -54,7 +54,7 @@ const items = await API.get('myCloudApi', '/items', {
 
 ## HEAD
 
-<!-- TODO Rewrite What is this for? -->
+{/* TODO Rewrite What is this for? \ */}
 
 ```javascript
 const apiName = 'MyApiName'; // replace this with your api name.
@@ -81,7 +81,7 @@ function head() {
   return API.head(apiName, path, myInit);
 }
 
-(async function() {
+(async function () {
   const response = await head();
 })();
 ```
@@ -93,7 +93,7 @@ function head() {
 If you are using a REST API which is generated with Amplify CLI, your backend is created with Lambda Proxy Integration, and you can access your query parameters & body within your Lambda function via the _event_ object:
 
 ```javascript
-exports.handler = function(event, context, callback) {
+exports.handler = function (event, context, callback) {
   console.log(event.queryStringParameters);
   console.log('body: ', event.body);
 };
@@ -111,7 +111,7 @@ Accessing Query Parameters with Serverless Express
 In your request handler use `req.apiGateway.event` or `req.query`:
 
 ```javascript
-app.get('/items', function(req, res) {
+app.get('/items', function (req, res) {
   const query = req.query;
   // or
   // const query = req.apiGateway.event.queryStringParameters

@@ -6,7 +6,7 @@
 if (post.getTitle().startsWith("[Amplify]")) {
     Amplify.DataStore.save(post,
         update -> { /* handle result */ },
-        failure -> { /* handle failure */}
+        failure -> { /* handle failure \ */}
     );
 }
 
@@ -25,7 +25,7 @@ Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"),
 if (post.title.startsWith("[Amplify]")) {
     Amplify.DataStore.save(post,
         { /* handle result */ },
-        { /* handle failure */}
+        { /* handle failure \ */}
     )
 }
 
@@ -65,7 +65,7 @@ if (post.getTitle().startsWith("[Amplify]")) {
     RxAmplify.DataStore.save(post)
         .subscribe(
             update -> { /* handle result */ },
-            failure -> { /* handle failure */}
+            failure -> { /* handle failure \ */}
         );
 }
 
@@ -76,5 +76,6 @@ RxAmplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"))
         failure -> { /* handle failure */ }
     );
 ```
+
 </Block>
 </BlockSwitcher>

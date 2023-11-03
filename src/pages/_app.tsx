@@ -1,24 +1,49 @@
-import '@algolia/autocomplete-theme-classic';
 import '@aws-amplify/ui-react/styles.css';
+import '@algolia/autocomplete-theme-classic';
 import '../styles/styles.scss';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
+import { CANONICAL_URLS } from '@/data/canonical-urls';
+import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
-  const { meta, platform, url } = pageProps;
+  const {
+    meta,
+    platform,
+    url,
+    hasTOC,
+    pageType,
+    showBreadcrumbs,
+    showLastUpdatedDate,
+    useCustomTitle
+  } = pageProps;
   const getLayout =
     Component.getLayout ||
     ((page) => (
       <Layout
         pageTitle={meta?.title ? meta.title : ''}
         pageDescription={meta?.description ? meta.description : ''}
+        pageType={pageType}
         url={url}
         platform={platform ? platform : ''}
+        hasTOC={hasTOC}
+        useCustomTitle={useCustomTitle}
+        showBreadcrumbs={showBreadcrumbs}
+        showLastUpdatedDate={showLastUpdatedDate}
+        useCustomTitle={useCustomTitle}
       >
         {page}
       </Layout>
     ));
+
+  const router = useRouter();
+  let canonicalUrl = 'https://docs.amplify.aws';
+  const canonicalPath = CANONICAL_URLS.includes(router.pathname)
+    ? router.pathname.replace('[platform]', 'javascript')
+    : router.asPath;
+  canonicalUrl += canonicalPath;
+
   return (
     <>
       <Head>
@@ -78,26 +103,62 @@ function MyApp({ Component, pageProps }) {
           sizes="192x192"
           href="/assets/icon/android-icon-192x192.png"
         />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/assets/icon/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="96x96"
-          href="/assets/icon/favicon-96x96.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/assets/icon/favicon-16x16.png"
-        />
+        {router.route.startsWith('/gen2') ? (
+          <>
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/assets/icon/favicon-purple-16x16.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/assets/icon/favicon-purple-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="96x96"
+              href="/assets/icon/favicon-purple-96x96.png"
+            />
+            <link
+              rel="icon"
+              type="image/x-icon"
+              href="/assets/icon/favicon-purple.ico"
+            />
+          </>
+        ) : (
+          <>
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/assets/icon/favicon-teal-16x16.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/assets/icon/favicon-teal-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="96x96"
+              href="/assets/icon/favicon-teal-96x96.png"
+            />
+            <link
+              rel="icon"
+              type="image/x-icon"
+              href="/assets/icon/favicon-teal.ico"
+            />
+          </>
+        )}
+
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
-        <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
+        <link rel="canonical" href={canonicalUrl} />
       </Head>
 
       <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>

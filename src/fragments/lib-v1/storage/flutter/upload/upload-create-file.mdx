@@ -1,8 +1,6 @@
+import flutter0 from '/src/fragments/lib-v1/storage/flutter/path-provider.mdx';
 
-
-import flutter0 from "/src/fragments/lib-v1/storage/flutter/path-provider.mdx";
-
-<Fragments fragments={{flutter: flutter0}} />
+<Fragments fragments={{ flutter: flutter0 }} />
 
 ```dart
 import 'dart:io';
@@ -14,7 +12,7 @@ Future<void> createAndUploadFile() async {
   const exampleString = 'Example file contents';
   final tempDir = await getTemporaryDirectory();
 
-  final exampleFile = File('${tempDir.path}/example.txt');
+  final exampleFile = File('$\{tempDir.path}/example.txt');
   await exampleFile.create();
   await exampleFile.writeAsString(exampleString);
 
@@ -24,10 +22,10 @@ Future<void> createAndUploadFile() async {
       local: exampleFile,
       key: 'ExampleKey',
       onProgress: (progress) {
-        safePrint('Fraction completed: ${progress.getFractionCompleted()}');
+        safePrint('Fraction completed: $\{progress.getFractionCompleted()}');
       },
     );
-    safePrint('Successfully uploaded file: ${result.key}');
+    safePrint('Successfully uploaded file: $\{result.key}');
   } on StorageException catch (e) {
     safePrint('Error uploading file: $e');
   } finally {

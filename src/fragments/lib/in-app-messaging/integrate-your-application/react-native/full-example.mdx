@@ -20,7 +20,7 @@ const App = () => {
 
   return (
     <View>
-      {/* This button has an example of an analytics event triggering the in-app message. */}
+      {/* This button has an example of an analytics event triggering the in-app message. \ */}
       <Button
         onPress={() => {
           Analytics.record(myFirstEvent);
@@ -28,7 +28,7 @@ const App = () => {
         title="Record Analytics Event"
       />
 
-      {/* This button has an example of an In-app Messaging event triggering the in-app message.*/}
+      {/* This button has an example of an In-app Messaging event triggering the in-app message.\ */}
       <Button
         onPress={() => {
           InAppMessaging.dispatchEvent(myFirstEvent);

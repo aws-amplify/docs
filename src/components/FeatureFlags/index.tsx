@@ -1,14 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-import getElementTop from "../../utils/get-element-top";
-import featureFlagsJson from "./feature-flags.json";
-import FeatureFlagSummary from "./FeatureFlagSummary";
-import InternalLink from "../InternalLink";
+import { Fragment } from 'react';
+import { Heading, Text } from '@aws-amplify/ui-react';
+import Link from 'next/link';
 
-import styled from "@emotion/styled";
-
-const Container = styled.div`
-  margin-top: 0;
-`;
+import featureFlagsJson from './feature-flags.json';
+import FeatureFlagSummary from './FeatureFlagSummary';
 
 export type FeatureFlags = Record<string, Section>;
 
@@ -19,8 +14,8 @@ export type Section = {
 
 export type FeatureFlag = {
   description: string;
-  type: "Feature" | "Release" | "Experimental";
-  valueType: "Boolean" | "Number" | "String";
+  type: 'Feature' | 'Release' | 'Experimental';
+  valueType: 'Boolean' | 'Number' | 'String';
   versionAdded: string;
   versionDeprecated?: string;
   deprecationDate?: string;
@@ -40,38 +35,29 @@ export default function FeatureFlags() {
   const data = featureFlagsJson as FeatureFlags;
 
   return (
-    <Container>
-      {Object.entries(data).map(([name, section]) => {
+    <>
+      {Object.entries(data).map(([name, section], index) => {
         return (
-          <div>
-            <InternalLink href={"#" + name}>
-              <a
-                onClick={() => {
-                  setTimeout(scroll.bind(undefined, name), 50);
-                  return false;
-                }}
-              >
-                <h2 id={name}>{name}</h2>
-              </a>
-            </InternalLink>
+          <Fragment key={`feature-flag-${index}`}>
+            <Heading level={2} id={name}>
+              <Link href={'#' + name}>{name}</Link>
+            </Heading>
+            {section.description ? (
+              <Text>{section.description}</Text>
+            ) : undefined}
 
-            {section.description ? <p>{section.description}</p> : undefined}
-
-            {Object.entries(section.features).map(([flagName, flag]) => {
-              return <FeatureFlagSummary name={flagName} feature={flag} />;
+            {Object.entries(section.features).map(([flagName, flag], index) => {
+              return (
+                <FeatureFlagSummary
+                  key={`feature-flag-summary-${index}`}
+                  name={flagName}
+                  feature={flag}
+                />
+              );
             })}
-          </div>
+          </Fragment>
         );
       })}
-    </Container>
+    </>
   );
-}
-
-const stickyHeaderHeight = 54;
-function scroll(hash) {
-  const header = document.querySelector(`[id="${hash}"]`);
-  const top = getElementTop(header, stickyHeaderHeight);
-  if (top !== window.scrollY) {
-    window.scrollTo({top});
-  }
 }

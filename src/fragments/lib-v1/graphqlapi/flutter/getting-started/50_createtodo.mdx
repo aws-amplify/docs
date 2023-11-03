@@ -7,10 +7,10 @@ Future<void> createTodo() async {
 
     final createdTodo = response.data;
     if (createdTodo == null) {
-      safePrint('errors: ${response.errors}');
+      safePrint('errors: $\{response.errors}');
       return;
     }
-    safePrint('Mutation result: ${createdTodo.name}');
+    safePrint('Mutation result: $\{createdTodo.name}');
   } on ApiException catch (e) {
     safePrint('Mutation failed: $e');
   }

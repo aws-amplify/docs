@@ -8,9 +8,13 @@ import {
   IconAWS
 } from '@/components/Icons';
 
-export const Footer = () => {
+interface FooterProps {
+  hasTOC?: boolean;
+}
+
+export const Footer = ({ hasTOC = false }: FooterProps) => {
   return (
-    <Flex as="footer" className="footer">
+    <Flex as="footer" className={`footer${hasTOC ? ' footer--toc' : ''}`}>
       <Flex className="footer__content">
         <p>
           <IconAWS aria-hidden="true" marginInlineEnd="xs" />

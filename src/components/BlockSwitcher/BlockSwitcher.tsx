@@ -11,8 +11,8 @@ export const BlockSwitcher = ({ children }) => {
     <View className="block-switcher">
       <Tabs>
         {Children.map(children, (child, index) => {
-          return child.props.name ? (
-            <TabItem title={child.props.name} key={index}>
+          return child?.props?.name ? (
+            <TabItem title={child?.props?.name} key={index}>
               {child}
             </TabItem>
           ) : null;

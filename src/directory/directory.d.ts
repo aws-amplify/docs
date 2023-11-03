@@ -40,4 +40,9 @@ export type PageNode = {
    * Root url for the home page
    */
   url?: string;
+
+  /**
+   * String representing when file was last edited
+   */
+  lastUpdated?: string;
 };

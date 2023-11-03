@@ -4,9 +4,9 @@ To upload to S3 from a file, specify the key and the local file to be uploaded. 
 
 ### Upload a local file
 
-import flutter0 from "/src/fragments/lib-v1/storage/flutter/upload/upload-create-file.mdx";
+import flutter0 from '/src/fragments/lib-v1/storage/flutter/upload/upload-create-file.mdx';
 
-<Fragments fragments={{flutter: flutter0}} />
+<Fragments fragments={{ flutter: flutter0 }} />
 
 ### Upload file with Flutter file picker packages
 
@@ -40,10 +40,10 @@ Future<void> uploadImage() async {
       local: file,
       key: key,
       onProgress: (progress) {
-        safePrint('Fraction completed: ${progress.getFractionCompleted()}');
+        safePrint('Fraction completed: $\{progress.getFractionCompleted()}');
       },
     );
-    safePrint('Successfully uploaded image: ${result.key}');
+    safePrint('Successfully uploaded image: $\{result.key}');
   } on StorageException catch (e) {
     safePrint('Error uploading image: $e');
   }
@@ -81,10 +81,10 @@ Future<void> uploadFile() async {
       local: file,
       key: key,
       onProgress: (progress) {
-        safePrint('Fraction completed: ${progress.getFractionCompleted()}');
+        safePrint('Fraction completed: $\{progress.getFractionCompleted()}');
       },
     );
-    safePrint('Successfully uploaded file: ${result.key}');
+    safePrint('Successfully uploaded file: $\{result.key}');
   } on StorageException catch (e) {
     safePrint('Error uploading file: $e');
   }
