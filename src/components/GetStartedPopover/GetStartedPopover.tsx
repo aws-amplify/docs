@@ -14,6 +14,7 @@ import {
   IconVue
 } from '@/components/Icons';
 import { useClickOutside } from '@/utils/useClickOutside';
+import { DEFAULT_PLATFORM } from '@/data/platforms';
 
 const getStartedLinks = [
   {
@@ -84,14 +85,16 @@ export const GetStartedPopover = ({}) => {
 
   return (
     <Flex className="split-button">
-      <Button
-        as="a"
-        href="/javascript/get-started"
-        size="large"
-        className="split-button__start"
+      <Link
+        href={{
+          pathname: '/[platform]/get-started',
+          query: { platform: DEFAULT_PLATFORM }
+        }}
       >
-        Get started
-      </Button>
+        <Button size="large" className="split-button__start">
+          Get started
+        </Button>
+      </Link>
 
       <View className="popover-wrapper">
         <Button

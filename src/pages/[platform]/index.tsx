@@ -6,6 +6,7 @@ import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { Flex, Heading, Button, Text } from '@aws-amplify/ui-react';
 import LinkCards from '@/components/LinkCards';
 import PlatformFeatureList from '@/components/FeatureLists/PlatformFeatureList';
+import Link from 'next/link';
 
 export const meta = {
   title: 'Overview',
@@ -53,11 +54,19 @@ const PlatformOverview = ({ platform }) => {
           libraries, CLI, and services, you can easily connect your frontend to
           the cloud for authentication, storage, APIs, and more.
         </Text>
-        <Flex className="home-cta">
-          <Button variation="primary" size="large" gap="small">
-            How Amplify Works{' '}
-            <IconChevron className="icon-rotate-270" fontSize=".875em" />
-          </Button>
+        <Flex className="home-intro__cta">
+          <Link
+            href={{
+              pathname: '/[platform]/how-amplify-works',
+              query: { platform: platform }
+            }}
+          >
+            <Button variation="primary" size="large" gap="small">
+              How Amplify Works
+              <IconChevron className="icon-rotate-270" fontSize=".875em" />
+            </Button>
+          </Link>
+
           <GetStartedPopover />
         </Flex>
       </Flex>
