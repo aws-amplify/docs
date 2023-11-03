@@ -8,26 +8,26 @@ You can alternatively create your own custom credentials provider to get AWS cre
 
 
 ```js
-import { Amplify } from "aws-amplify";
+import { Amplify } from 'aws-amplify';
 import {
   fetchAuthSession,
-  AWSCredentialsAndIdentityIdProvider,
-  AWSCredentialsAndIdentityId,
+  CredentialsAndIdentityIdProvider,
+  CredentialsAndIdentityId,
   GetCredentialsOptions,
   AuthTokens,
-} from "aws-amplify/auth";
+} from 'aws-amplify/auth';
 
 // Note: This example requires installing `@aws-sdk/client-cognito-identity` to obtain Cognito credentials
 // npm i @aws-sdk/client-cognito-identity
-import { CognitoIdentity } from "@aws-sdk/client-cognito-identity";
+import { CognitoIdentity } from '@aws-sdk/client-cognito-identity';
 
 // You can make use of the sdk to get identityId and credentials
 const cognitoidentity = new CognitoIdentity({
-  region: "<region-from-config>",
+  region: '<region-from-config>',
 });
 
-// Note: The custom provider class must implement AWSCredentialsAndIdentityIdProvider
-class CustomCredentialsProvider implements AWSCredentialsAndIdentityIdProvider {
+// Note: The custom provider class must implement CredentialsAndIdentityIdProvider
+class CustomCredentialsProvider implements CredentialsAndIdentityIdProvider {
 
   // Example class member that holds the login information 
   federatedLogin?: {
@@ -43,7 +43,7 @@ class CustomCredentialsProvider implements AWSCredentialsAndIdentityIdProvider {
 
   async getCredentialsAndIdentityId(
     getCredentialsOptions: GetCredentialsOptions
-  ): Promise<AWSCredentialsAndIdentityId | undefined> {
+  ): Promise<CredentialsAndIdentityId | undefined> {
     try {
 
       // You can add in some validation to check if the token is available before proceeding
@@ -51,7 +51,7 @@ class CustomCredentialsProvider implements AWSCredentialsAndIdentityIdProvider {
 
       const getIdResult = await cognitoidentity.getId({
         // Get the identityPoolId from config
-        IdentityPoolId: "<identity-pool-id-from-config>",
+        IdentityPoolId: '<identity-pool-id-from-config>',
         Logins: { [this.federatedLogin.domain]: this.federatedLogin.token },
       });
 
@@ -60,7 +60,7 @@ class CustomCredentialsProvider implements AWSCredentialsAndIdentityIdProvider {
         Logins: { [this.federatedLogin.domain]: this.federatedLogin.token },
       });
 
-      const credentials: AWSCredentialsAndIdentityId = {
+      const credentials: CredentialsAndIdentityId = {
         credentials: {
           accessKeyId: cognitoCredentialsResult.Credentials?.AccessKeyId,
           secretAccessKey: cognitoCredentialsResult.Credentials?.SecretKey,
@@ -71,7 +71,7 @@ class CustomCredentialsProvider implements AWSCredentialsAndIdentityIdProvider {
       };
       return credentials;
     } catch (e) {
-      console.log("Error getting credentials: ", e);
+      console.log('Error getting credentials: ', e);
     }
   }
   // Implement this to clear any cached credentials and identityId. This can be called when signing out of the federation service.
@@ -101,7 +101,7 @@ import Expo from 'expo';
 import React from 'react';
 import {
   fetchAuthSession,
-} from "aws-amplify/auth";
+} from 'aws-amplify/auth';
 
 const App = () => {
   const signIn = async () => {
@@ -112,11 +112,11 @@ const App = () => {
       // sign in with federated identity
       try {
         customCredentialsProvider.loadFederatedLogin({
-          domain: "graph.facebook.com",
+          domain: 'graph.facebook.com',
           token: token,
         });
-        const fetchSessionResult = await fetchAuthSession(); // will return the AWS credentials
-        console.log("fetchSessionResult: ", fetchSessionResult); 
+        const fetchSessionResult = await fetchAuthSession(); // will return the credentials
+        console.log('fetchSessionResult: ', fetchSessionResult); 
       } catch(err) {
         console.log(err);
       }
@@ -127,7 +127,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <Button title="FBSignIn" onPress={signIn} />
+      <Button title='FBSignIn' onPress={signIn} />
     </View>
   );
 
@@ -143,7 +143,7 @@ const App = () => {
 import React, { useEffect } from 'react';
 import {
   fetchAuthSession,
-} from "aws-amplify/auth";
+} from 'aws-amplify/auth';
 
 // To federated sign in from Facebook
 const SignInWithFacebook = () => {
@@ -164,11 +164,11 @@ const SignInWithFacebook = () => {
               return;
             }
             customCredentialsProvider.loadFederatedLogin({
-              domain: "graph.facebook.com",
+              domain: 'graph.facebook.com',
               token: response.authResponse.accessToken,
             });
-            const fetchSessionResult = await fetchAuthSession(); // will return the AWS credentials
-            console.log("fetchSessionResult: ", fetchSessionResult); 
+            const fetchSessionResult = await fetchAuthSession(); // will return the credentials
+            console.log('fetchSessionResult: ', fetchSessionResult); 
           },
           {
             // the authorized scopes
@@ -220,7 +220,7 @@ import React, { useEffect } from 'react';
 import jwt from 'jwt-decode';
 import {
   fetchAuthSession,
-} from "aws-amplify/auth";
+} from 'aws-amplify/auth';
 
 const SignInWithGoogle = () => {
   useEffect(() => {
@@ -245,23 +245,23 @@ const SignInWithGoogle = () => {
         client_id: process.env.GOOGLE_CLIENT_ID,
         callback: (response: any) => {
           customCredentialsProvider.loadFederatedLogin({
-            domain: "accounts.google.com",
+            domain: 'accounts.google.com',
             token: response.credential,
           });
-          const fetchSessionResult = await fetchAuthSession(); // will return the AWS credentials
-          console.log("fetchSessionResult: ", fetchSessionResult); 
+          const fetchSessionResult = await fetchAuthSession(); // will return the credentials
+          console.log('fetchSessionResult: ', fetchSessionResult); 
         },
       });
       window.google.accounts.id.renderButton(
-        document.getElementById("googleSignInButton"),
-        { theme: "outline", size: "large" }
+        document.getElementById('googleSignInButton'),
+        { theme: 'outline', size: 'large' }
       );
     }
   }
 
   return (
     <div>
-      <button id="googleSignInButton"/>
+      <button id='googleSignInButton'/>
     </div>
   );
 }
@@ -278,7 +278,7 @@ Step 2. Login with `Auth0`, then use the id token returned to get AWS credential
 ```js
 import {
   fetchAuthSession,
-} from "aws-amplify/auth";
+} from 'aws-amplify/auth';
 
 const { idToken, domain, name, email, phoneNumber } = getFromAuth0(); // get the user credentials and info from auth0
 
@@ -288,8 +288,8 @@ async function getCognitoCredentials () {
         domain,
         token: idToken,
       });
-      const fetchSessionResult = await fetchAuthSession(); // will return the AWS credentials
-      console.log("fetchSessionResult: ", fetchSessionResult); 
+      const fetchSessionResult = await fetchAuthSession(); // will return the credentials
+      console.log('fetchSessionResult: ', fetchSessionResult); 
   } catch(err) {
     console.log(err);
   }
@@ -308,15 +308,13 @@ If you have a Pre Authentication Lambda trigger enabled, you can pass `clientMet
 ```ts
 import { signIn } from 'aws-amplify/auth';
 
-async function handleSignIn(username, password) {
+async function handleSignIn(username: string, password: string) {
   try {
     await signIn({
       username,
       password,
       options: {
-        serviceOptions: {
-          clientMetadata: {} // Optional, an object of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
-        }
+        clientMetadata: {} // Optional, an object of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
       }
     });
   } catch(err) {
