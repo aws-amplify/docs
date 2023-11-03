@@ -1,6 +1,32 @@
-The Amplify Cache module provides a generic [LRU](https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_Recently_Used_.28LRU.29) cache for JavaScript developers to store data with priority and expiration settings. 
+export const meta = {
+  title: `Cache`,
+  description: `The Amplify Cache module provides a generic LRU cache for JavaScript developers to store data with priority and expiration settings.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
 
-It is a key/value structure where expiration values can be configured **globally** or on a **per-key basis**. For instance, you may wish to cache all JSON responses from the API module for the next 10 minutes, but like to store user input values or preferences for a month.  
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+<InlineFilter filters={['js', 'react-native']}>
+
+The Amplify Cache module provides a generic [LRU](https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_Recently_Used_.28LRU.29) cache for JavaScript developers to store data with priority and expiration settings.
+
+It is a key/value structure where expiration values can be configured **globally** or on a **per-key basis**. For instance, you may wish to cache all JSON responses from the API module for the next 10 minutes, but like to store user input values or preferences for a month.
 
 ## Installation
 
@@ -13,8 +39,9 @@ npm install aws-amplify
 ## Working with the API
 
 First, import the library:
+
 ```javascript
-import { Cache } from 'aws-amplify';
+import { Cache } from 'aws-amplify/utils';
 ```
 
 After the import, you can invoke the appropriate methods within your application.
@@ -25,7 +52,7 @@ After the import, you can invoke the appropriate methods within your application
 Cache.setItem(key, value, [options]);
 ```
 
-You can set *number*, *string*, *boolean*, *array* or *object* values to the cache. You can also specify options along with the call such as the priority or expiration time.
+You can set _number_, _string_, _boolean_, _array_ or _object_ values to the cache. You can also specify options along with the call such as the priority or expiration time.
 
 ```javascript
 // Standard case
@@ -51,7 +78,8 @@ Cache.setItem('breakfastFoodOrder', 'Pancakes', { priority: 3 });
 ```javascript
 Cache.getItem(key[, options]);
 ```
-  Retrieves an item from the cache. It will return null if the item doesn’t exist or it has expired.
+
+Retrieves an item from the cache. It will return null if the item doesn’t exist or it has expired.
 
 ```javascript
 // Standard case
@@ -65,7 +93,7 @@ Cache.getItem('key', { callback: callback });
 
 ### removeItem()
 
-  Removes item from cache.
+Removes item from cache.
 
 ```javascript
 Cache.removeItem(key);
@@ -136,21 +164,23 @@ For the complete API documentation for Cache module, visit our [API Reference](h
 Here is the list of configuration parameters for the Cache module:
 
 | **Parameter** | **Type** | **Description** |
-|---|---|---
-| keyPrefix | *string* | The ID of Cache which can only be configured when creating new instance. |
-| capacityInBytes | *number* | Max size of Cache in bytes. By default is 1MB and has a maximum of 5MB. |
-| itemMaxSize |  *number* | Max size of individual item which can be set into Cache in bytes. The default value is 200KB.  |
-| defaultTTL | *number* | TTL for the cache items in milliseconds. The default value is 72 hours.  |
-| defaultPriority | *number* | Default priority of the cache items. The default value is 5, the highest priority is 1. |
-| warningThreshold | *number* | This is for keeping Cache's current capacity in a reasonable level. The default is 0.8, which sets warnings for 80% of space usage. |
-| storage | *StorageType* | The storage medium that will be used for the Cache. Supported values are *LocalStorage*(default) and *SessionStorage* for Web development and *AsyncStorage* for React Native. |
+| --- | --- | --- |
+| keyPrefix | _string_ | The ID of Cache which can only be configured when creating new instance. |
+| capacityInBytes | _number_ | Max size of Cache in bytes. By default is 1MB and has a maximum of 5MB. |
+| itemMaxSize | _number_ | Max size of individual item which can be set into Cache in bytes. The default value is 200KB. |
+| defaultTTL | _number_ | TTL for the cache items in milliseconds. The default value is 72 hours. |
+| defaultPriority | _number_ | Default priority of the cache items. The default value is 5, the highest priority is 1. |
+| warningThreshold | _number_ | This is for keeping Cache's current capacity in a reasonable level. The default is 0.8, which sets warnings for 80% of space usage. |
+| storage | _StorageType_ | The storage medium that will be used for the Cache. Supported values are _LocalStorage_(default) and _SessionStorage_ for Web development and _AsyncStorage_ for React Native. |
 
 ### Configuration Parameters for Items
 
 Here is the list of configuration parameters for the items in the cache :
 
 | **Parameter** | **Type** | **Description** |
-|---|---|---
-| priority|*number*| Priority of the item to be kept in cache. Higher priority means longer expiration time.|
-| expires |*number*|The expiration time of the cache item in milliseconds.|
-| callback | *function* | You can provide a callback function with getItem() to implement cache miss scenarios. The provided function will only be called if there is not a match for the cache key, and the return value from the function will be assigned as the new value for the key in cache. |
+| --- | --- | --- |
+| priority | _number_ | Priority of the item to be kept in cache. Higher priority means longer expiration time. |
+| expires | _number_ | The expiration time of the cache item in milliseconds. |
+| callback | _function_ | You can provide a callback function with getItem() to implement cache miss scenarios. The provided function will only be called if there is not a match for the cache key, and the return value from the function will be assigned as the new value for the key in cache. |
+
+</InlineFilter>
