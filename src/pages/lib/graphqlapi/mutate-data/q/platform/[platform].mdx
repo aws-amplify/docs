@@ -66,52 +66,24 @@ In GraphQL, mutations are APIs that are used to create, update, or delete data. 
 
 You can create an item by first importing the API and mutations. Then you can add an item:
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { API } from "aws-amplify";
-import * as mutations from './graphql/mutations';
-import { GraphQLQuery } from '@aws-amplify/api';
-import { CreateTodoInput, CreateTodoMutation } from './API';
-
-const todoDetails: CreateTodoInput = {
-  name: 'Todo 1',
-  description: 'Learn AWS AppSync'
-};
-
-const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({ 
-  query: mutations.createTodo, 
-  variables: { input: todoDetails }
-});
-```
-
-You should see the item created: `Learn AWS AppSync`.
-
-</Block>
-
-<Block name="JavaScript">
-
 ```js
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import * as mutations from './graphql/mutations';
+
+const client = generateClient()
 
 const todoDetails = {
   name: 'Todo 1',
   description: 'Learn AWS AppSync'
 };
 
-const newTodo = await API.graphql({ 
+const newTodo = await client.graphql({ 
   query: mutations.createTodo, 
   variables: { input: todoDetails }
 });
 ```
 
 You should see the item created: `Learn AWS AppSync`.
-
-</Block>
-
-</BlockSwitcher>
 
 <Callout>
 
@@ -296,33 +268,11 @@ Future<void> createTodo() async {
 
 To update the item, use the GraphQL update mutation:
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { API } from "aws-amplify";
-import * as mutations from './graphql/mutations';
-import { GraphQLQuery } from '@aws-amplify/api';
-import { UpdateTodoInput, UpdateTodoMutation } from './API';
-
-const todoDetails: UpdateTodoInput = {
-  id: 'some_id',
-  description: 'Updated description'
-};
-
-const updatedTodo = await API.graphql<GraphQLQuery<UpdateTodoMutation>>({ 
-  query: mutations.updateTodo, 
-  variables: { input: todoDetails }
-});
-```
-
-</Block>
-
-<Block name="JavaScript">
-
 ```js
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import * as mutations from './graphql/mutations';
+
+const client = generateClient()
 
 const todoDetails = {
   id: 'some_id',
@@ -330,15 +280,11 @@ const todoDetails = {
   description: 'Updated description'
 };
 
-const updatedTodo = await API.graphql({ 
+const updatedTodo = await client.graphql({ 
   query: mutations.updateTodo, 
   variables: { input: todoDetails }
 });
 ```
-
-</Block>
-
-</BlockSwitcher>
 
 <Callout>
 
@@ -389,46 +335,21 @@ Future<void> updateTodo(Todo originalTodo) async {
 
 You can then delete the Todo by using the delete mutation. To specify which item to delete, you only need to provide the `id` of that item:
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { API } from "aws-amplify";
-import * as mutations from './graphql/mutations';
-import { GraphQLQuery } from '@aws-amplify/api';
-import { DeleteTodoInput, DeleteTodoMutation } from './API';
-
-const todoDetails: DeleteTodoInput = {
-  id: 'some_id',
-};
-
-const deletedTodo = await API.graphql<GraphQLQuery<DeleteTodoMutation>>({ 
-  query: mutations.deleteTodo, 
-  variables: { input: todoDetails }
-});
-```
-
-</Block>
-
-<Block name="JavaScript">
-
 ```js
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import * as mutations from './graphql/mutations';
+
+const client = generateClient()
 
 const todoDetails = {
   id: 'some_id',
 };
 
-const deletedTodo = await API.graphql({ 
+const deletedTodo = await client.graphql({ 
   query: mutations.deleteTodo, 
   variables: { input: todoDetails }
 });
 ```
-
-</Block>
-
-</BlockSwitcher>
 
 <Callout>
 
@@ -444,48 +365,23 @@ Each AWS AppSync API uses a default authorization mode when you configure your a
 <Block name="TypeScript">
 
 ```ts
-import { API } from "aws-amplify";
-import { GraphQLQuery, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
-import * as mutations from './graphql/mutations';
-import { CreateTodoInput, CreateTodoMutation } from './API';
-
-const todoDetails: CreateTodoInput = {
-  id: 'some_id',
-  name: 'My todo!',
-  description: 'Hello world!'
-};
-
-const todo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
-  query: mutations.createTodo,
-  variables: { input: todoDetails },
-  authMode: GRAPHQL_AUTH_MODE.AWS_IAM
-});
-```
-
-</Block>
-
-<Block name="JavaScript">
-
-```js
-import { API } from "aws-amplify";
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import { generateClient } from "aws-amplify/api";
 import * as mutations from './graphql/mutations';
 
-const todoDetails = {
-  id: 'some_id',
-  name: 'My todo!',
-  description: 'Hello world!'
-};
+const client = generateClient()
 
-const todo = await API.graphql({
+const todo = await client.graphql<GraphQLQuery<CreateTodoMutation>>({
   query: mutations.createTodo,
-  variables: { input: todoDetails },
-  authMode: GRAPHQL_AUTH_MODE.AWS_IAM
+  variables: {
+    input: {
+      id: 'some_id',
+      name: 'My todo!',
+      description: 'Hello world!'
+    }
+  },
+  authMode: 'iam'
 });
 ```
-
-</Block>
-</BlockSwitcher>
 
 </Accordion>
 
@@ -538,10 +434,10 @@ Future<void> deleteTodoById(Todo todoToDelete) async {
 
 ## Cancel mutation requests
 
-You can cancel any GraphQL API request by calling `.cancel` on the GraphQL request promise that's returned by `API.graphql(...)`.
+You can cancel any GraphQL API request by calling `.cancel` on the GraphQL request promise that's returned by `client.graphql(...)`.
 
 ```javascript
-const promise = API.graphql({ query: "..." });
+const promise = client.graphql({ query: "..." });
 
 try {
   await promise;
@@ -557,19 +453,19 @@ try {
 ...
 
 // To cancel the above request
-API.cancel(promise, "my message for cancellation");
+client.cancel(promise, "my message for cancellation");
 ```
 
-You need to ensure that the promise returned from `API.graphql()` has not been modified. Typically, async functions wrap the promise being returned into another promise. For example, the following will **not** work:
+You need to ensure that the promise returned from `client.graphql()` has not been modified. Typically, async functions wrap the promise being returned into another promise. For example, the following will **not** work:
 
 ```javascript
 async function makeAPICall() {
-  return API.graphql({ query: "..." });
+  return client.graphql({ query: "..." });
 }
 const promise = makeAPICall();
 
 // The following will NOT cancel the request.
-API.cancel(promise, "my error message");
+client.cancel(promise, "my error message");
 ```
 
 </InlineFilter>

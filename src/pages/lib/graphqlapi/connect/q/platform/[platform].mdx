@@ -47,15 +47,15 @@ You will then configure the library to connect with the Amplify CLI-provisioned 
 
 <Block name="Amplify CLI-provisioned API">
 
-When you deploy your backend (`amplify push`), an `aws-exports.js` file is generated for you. This file contains your API's endpoint information and auth configurations.
+When you deploy your backend (`amplify push`), an `amplifyconfiguration.json` file is generated for you. This file contains your API's endpoint information and auth configurations.
 
 ```ts
 import { Amplify } from 'aws-amplify'
 // highlight-next-line
-import awsconfig from './aws-exports'
+import config from './amplifyconfiguration.json'
 
 // highlight-next-line
-Amplify.configure(awsconfig)
+Amplify.configure(config)
 ```
 
 </Block>
@@ -249,62 +249,20 @@ npx @aws-amplify/cli codegen
 
 ## Use generated GraphQL queries, mutations, and subscriptions
 
-You can use the generated GraphQL code after you import them into your codebase and pass them into the `API.graphql()` operation. With GraphQL, you typically have the following types of operations to interact with the API from a JavaScript client:
+You can use the generated GraphQL code after you import them into your codebase and pass them into the `client.graphql()` operation. With GraphQL, you typically have the following types of operations to interact with the API from a JavaScript client:
 
 - __Mutations__ - write data to the API (create, update, and delete operations)
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
 ```ts
-import { API } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api'
 import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
-import { GraphQLQuery } from '@aws-amplify/api';
-import { CreateTodoInput, CreateTodoMutation, UpdateTodoMutation, DeleteTodoMutation } from './API';
 
-const todo: CreateTodoInput = { name: "My first todo", description: "Hello world!" };
-
-/* create a todo */
-await API.graphql<GraphQLQuery<CreateTodoMutation>>({
-  query: createTodo,
-  variables: {
-    input: todo
-  }
-});
-
-/* update a todo */
-await API.graphql<GraphQLQuery<UpdateTodoMutation>>({
-  query: updateTodo,
-  variables: {
-    input: {
-      id: "ENTER_TODO_ID_HERE",
-      name: "Updated todo info"
-    }
-  }
-});
-
-/* delete a todo */
-await API.graphql<GraphQLQuery<DeleteTodoMutation>>({
-  query: deleteTodo,
-  variables: {
-    input: {
-      id: "ENTER_TODO_ID_HERE"
-    }
-  }
-});
-```
-
-</Block>
-<Block name="JavaScript">
-
-```js
-import { API } from 'aws-amplify';
-import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
+const client = generateClient()
 
 const todo = { name: "My first todo", description: "Hello world!" };
 
 /* create a todo */
-await API.graphql({
+await client.graphql({
   query: createTodo,
   variables: {
     input: todo
@@ -312,7 +270,7 @@ await API.graphql({
 });
 
 /* update a todo */
-await API.graphql({
+await client.graphql({
   query: updateTodo,
   variables: {
     input: {
@@ -323,7 +281,7 @@ await API.graphql({
 });
 
 /* delete a todo */
-await API.graphql({
+await client.graphql({
   query: deleteTodo,
   variables: {
     input: {
@@ -333,37 +291,16 @@ await API.graphql({
 });
 ```
 
-</Block>
-</BlockSwitcher>
-
 - __Queries__ - read data from the API (list and get operations)
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { API } from 'aws-amplify';
-import { GraphQLQuery } from '@aws-amplify/api';
-import { listTodos } from './graphql/queries';
-import { ListTodosQuery } from './API';
-
-const todos = await API.graphql<GraphQLQuery<ListTodosQuery>>({ query: listTodos });
-```
-
-</Block>
-
-
-<Block name="JavaScript">
-
 ```js
-import { API } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api'
 import { listTodos } from './graphql/queries';
 
-const todos = await API.graphql({ query: listTodos });
-```
+const client = generateClient()
 
-</Block>
-</BlockSwitcher>
+const todos = await client.graphql({ query: listTodos });
+```
 
 To learn more about queries, mutations, and subscriptions in more detail, see the guides to [*Create, update, and delete application data*](/lib/graphqlapi/mutate-data/q/platform/js/) and [*Read application data*](/lib/graphqlapi/query-data/q/platform/js/).
 

@@ -56,7 +56,7 @@ const myAppConfig = {
   aws_appsync_graphqlEndpoint:
     'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
   aws_appsync_region: 'us-east-1',
-  aws_appsync_authenticationType: 'OPENID_CONNECT' // Before calling API.graphql(...) is required to do Auth.federatedSignIn(...) check authentication guide for details.
+  aws_appsync_authenticationType: 'OPENID_CONNECT' // Before calling client.graphql(...) is required to do Auth.federatedSignIn(...) check authentication guide for details.
   // ...
 };
 
@@ -84,11 +84,11 @@ Amplify.configure(myAppConfig);
 To access a non-AppSync GraphQL API with your app, you need to configure the endpoint URL in your app’s configuration. Add the following line to your setup:
 
 ```js
-import { Amplify, API } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import { Amplify } from 'aws-amplify';
+import config from './amplifyconfiguration.json';
 
-// Considering you have an existing aws-exports.js configuration file
-Amplify.configure(awsconfig);
+// Considering you have an existing amplifyconfiguration.json configuration file
+Amplify.configure(config);
 
 // Configure a custom GraphQL endpoint
 Amplify.configure({

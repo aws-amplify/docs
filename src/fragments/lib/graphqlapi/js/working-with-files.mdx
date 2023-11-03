@@ -72,7 +72,7 @@ const createSongDetails: CreateSongInput = {
 };
 
 // Create the API record:
-const response = await API.graphql<GraphQLQuery<CreateSongMutation>>({
+const response = await client.graphql<GraphQLQuery<CreateSongMutation>>({
   query: mutations.createSong,
   variables: { input: createSongDetails },
 });
@@ -92,7 +92,7 @@ const updateSongDetails: UpdateSongInput = {
 };
 
 // Add the file association to the record:
-const updateResponse = await API.graphql<
+const updateResponse = await client.graphql<
   GraphQLQuery<UpdateSongMutation>
 >({
   query: mutations.updateSong,
@@ -117,7 +117,7 @@ const createSongDetails: CreateSongInput = {
 };
 
 // Create the API record:
-const response = await API.graphql({
+const response = await client.graphql({
   query: mutations.createSong,
   variables: { input: createSongDetails },
 });
@@ -137,7 +137,7 @@ const updateSongDetails = {
 };
 
 // Add the file association to the record:
-const updateResponse = await API.graphql<
+const updateResponse = await client.graphql<
   GraphQLQuery<UpdateSongMutation>
 >({
   query: mutations.updateSong,
@@ -175,7 +175,7 @@ const updateSongDetails: UpdateSongInput = {
 };
 
 // Add the file association to the record:
-const response = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+const response = await client.graphql<GraphQLQuery<UpdateSongMutation>>({
   query: mutations.updateSong,
   variables: { input: updateSongDetails },
 });
@@ -204,7 +204,7 @@ const updateSongDetails = {
 };
 
 // Add the file association to the record:
-const response = await API.graphql({
+const response = await client.graphql({
   query: mutations.updateSong,
   variables: { input: updateSongDetails },
 });
@@ -230,7 +230,7 @@ To retrieve the file associated with a record, first query the record, then use 
 
 ```ts
 // Query the record to get the file key:
-const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+const response = await client.graphql<GraphQLQuery<GetSongQuery>>({
     query: queries.getSong,
     variables: { id: currentSong.id },
   });
@@ -248,7 +248,7 @@ const signedURL = await Storage.get(song.coverArtKey);
 
 ```js
 // Query the record to get the file key:
-const response = await API.graphql({
+const response = await client.graphql({
     query: queries.getSong,
     variables: { id: currentSong.id },
   });
@@ -279,7 +279,7 @@ The following example removes the file association from the record, but does not
 <Block name="TypeScript">
 
 ```ts
-const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+const response = await client.graphql<GraphQLQuery<GetSongQuery>>({
     query: queries.getSong,
     variables: { id: currentSong.id },
   });
@@ -294,7 +294,7 @@ const songDetails: UpdateSongInput = {
   coverArtKey: null,
 };
 
-const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+const updatedSong = await client.graphql<GraphQLQuery<UpdateSongMutation>>({
   query: mutations.updateSong,
   variables: { input: songDetails },
 });
@@ -304,7 +304,7 @@ const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
 <Block name="JavaScript">
 
 ```js
-const response = await API.graphql({
+const response = await client.graphql({
     query: queries.getSong,
     variables: { id: currentSong.id },
   });
@@ -319,7 +319,7 @@ const songDetails = {
   coverArtKey: null,
 };
 
-const updatedSong = await API.graphql({
+const updatedSong = await client.graphql({
   query: mutations.updateSong,
   variables: { input: songDetails },
 });
@@ -336,7 +336,7 @@ The following example removes the file from the record, then deletes the file fr
 <Block name="TypeScript">
 
 ```ts
-const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+const response = await client.graphql<GraphQLQuery<GetSongQuery>>({
   query: queries.getSong,
   variables: { id: currentSong.id },
 });
@@ -352,7 +352,7 @@ const songDetails: UpdateSongInput = {
 };
 
 // Remove associated file from record
-const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+const updatedSong = await client.graphql<GraphQLQuery<UpdateSongMutation>>({
   query: mutations.updateSong,
   variables: { input: songDetails },
 });
@@ -365,7 +365,7 @@ await Storage.remove(song.coverArtKey);
 <Block name="JavaScript">
 
 ```js
-const response = await API.graphql({
+const response = await client.graphql({
   query: queries.getSong,
   variables: { id: currentSong.id },
 });
@@ -381,7 +381,7 @@ const songDetails: UpdateSongInput = {
 };
 
 // Remove associated file from record
-const updatedSong = await API.graphql({
+const updatedSong = await client.graphql({
   query: mutations.updateSong,
   variables: { input: songDetails },
 });
@@ -399,7 +399,7 @@ await Storage.remove(song.coverArtKey);
 <Block name="TypeScript">
 
 ```ts
-const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+const response = await client.graphql<GraphQLQuery<GetSongQuery>>({
     query: queries.getSong,
     variables: { id: currentSong.id },
   });
@@ -415,7 +415,7 @@ const songDetails: DeleteSongInput = {
   id: song.id,
 };
 
-const deletedSong = await API.graphql<GraphQLQuery<DeleteSongMutation>>({
+const deletedSong = await client.graphql<GraphQLQuery<DeleteSongMutation>>({
   query: mutations.deleteSong,
   variables: { input: songDetails },
 });
@@ -425,7 +425,7 @@ const deletedSong = await API.graphql<GraphQLQuery<DeleteSongMutation>>({
 <Block name="JavaScript">
 
 ```js
-const response = await API.graphql({
+const response = await client.graphql({
     query: queries.getSong,
     variables: { id: currentSong.id },
   });
@@ -441,7 +441,7 @@ const songDetails = {
   id: song.id,
 };
 
-const deletedSong = await API.graphql({
+const deletedSong = await client.graphql({
   query: mutations.deleteSong,
   variables: { input: songDetails },
 });
@@ -482,7 +482,7 @@ const photoAlbumDetails: CreatePhotoAlbumInput = {
 };
 
 // Create the API record:
-const response = await API.graphql<
+const response = await client.graphql<
   GraphQLQuery<CreatePhotoAlbumMutation>
 >({
   query: mutations.createPhotoAlbum,
@@ -514,7 +514,7 @@ const updatePhotoAlbumDetails: UpdatePhotoAlbumInput = {
 };
 
 // Add the file association to the record:
-const updateResponse = await API.graphql<
+const updateResponse = await client.graphql<
   GraphQLQuery<UpdatePhotoAlbumMutation>
 >({
   query: mutations.updatePhotoAlbum,
@@ -541,7 +541,7 @@ const photoAlbumDetails = {
 };
 
 // Create the API record:
-const response = await API.graphql({
+const response = await client.graphql({
   query: mutations.createPhotoAlbum,
   variables: { input: photoAlbumDetails },
 });
@@ -571,7 +571,7 @@ const updatePhotoAlbumDetails = {
 };
 
 // Add the file association to the record:
-const updateResponse = await API.graphql({
+const updateResponse = await client.graphql({
   query: mutations.updatePhotoAlbum,
   variables: { input: updatePhotoAlbumDetails },
 });
@@ -603,7 +603,7 @@ const photoAlbumDetails: CreatePhotoAlbumInput = {
 };
 
 // Create the API record:
-const response = await API.graphql<
+const response = await client.graphql<
   GraphQLQuery<CreatePhotoAlbumMutation>
 >({
   query: mutations.createPhotoAlbum,
@@ -625,7 +625,7 @@ const updatePhotoAlbumDetails: UpdatePhotoAlbumInput = {
 };
 
 // Add the file association to the record:
-const updateResponse = await API.graphql<
+const updateResponse = await client.graphql<
   GraphQLQuery<UpdatePhotoAlbumMutation>
 >({
   query: mutations.updatePhotoAlbum,
@@ -650,7 +650,7 @@ const photoAlbumDetails = {
 };
 
 // Create the API record:
-const response = await API.graphql({
+const response = await client.graphql({
   query: mutations.createPhotoAlbum,
   variables: { input: photoAlbumDetails },
 });
@@ -670,7 +670,7 @@ const updatePhotoAlbumDetails = {
 };
 
 // Add the file association to the record:
-const updateResponse = await API.graphql({
+const updateResponse = await client.graphql({
   query: mutations.updatePhotoAlbum,
   variables: { input: updatePhotoAlbumDetails },
 });
@@ -711,7 +711,7 @@ const newImageKeys = await Promise.all(
 );
 
 // Query existing record to retrieve currently associated files:
-const queriedResponse = await API.graphql<
+const queriedResponse = await client.graphql<
   GraphQLQuery<GetPhotoAlbumQuery>
 >({
   query: queries.getPhotoAlbum,
@@ -731,7 +731,7 @@ const photoAlbumDetails: UpdatePhotoAlbumInput = {
 };
 
 // Update record with merged file associations:
-const response = await API.graphql<
+const response = await client.graphql<
   GraphQLQuery<UpdatePhotoAlbumMutation>
 >({
   query: mutations.updatePhotoAlbum,
@@ -769,7 +769,7 @@ const newImageKeys = await Promise.all(
 );
 
 // Query existing record to retrieve currently associated files:
-const queriedResponse = await API.graphql({
+const queriedResponse = await client.graphql({
   query: queries.getPhotoAlbum,
   variables: { id: currentPhotoAlbum.id },
 });
@@ -787,7 +787,7 @@ const photoAlbumDetails = {
 };
 
 // Update record with merged file associations:
-const response = await API.graphql({
+const response = await client.graphql({
   query: mutations.updatePhotoAlbum,
   variables: { input: photoAlbumDetails },
 });
@@ -826,7 +826,7 @@ const result = await Storage.put(
 const newFileKey = result?.key;
 
 // Query existing record to retrieve currently associated files:
-const queriedResponse = await API.graphql<
+const queriedResponse = await client.graphql<
   GraphQLQuery<GetPhotoAlbumQuery>
 >({
   query: queries.getPhotoAlbum,
@@ -853,7 +853,7 @@ const photoAlbumDetails: UpdatePhotoAlbumInput = {
 };
 
 // Update record with updated file associations:
-const response = await API.graphql<
+const response = await client.graphql<
   GraphQLQuery<UpdatePhotoAlbumMutation>
 >({
   query: mutations.updatePhotoAlbum,
@@ -887,7 +887,7 @@ const result = await Storage.put(
 const newFileKey = result?.key;
 
 // Query existing record to retrieve currently associated files:
-const queriedResponse = await API.graphql({
+const queriedResponse = await client.graphql({
   query: queries.getPhotoAlbum,
   variables: { id: currentPhotoAlbum.id },
 });
@@ -912,7 +912,7 @@ const photoAlbumDetails = {
 };
 
 // Update record with updated file associations:
-const response = await API.graphql({
+const response = await client.graphql({
   query: mutations.updatePhotoAlbum,
   variables: { input: photoAlbumDetails },
 });
@@ -940,7 +940,7 @@ To retrieve the files associated with a record, first query the record, then use
 
 ```ts
 // Query the record to get the file keys:
-const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+const response = await client.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
   query: queries.getPhotoAlbum,
   variables: { id: currentPhotoAlbum.id },
 });
@@ -963,7 +963,7 @@ const signedUrls = await Promise.all(
 
 ```js
 // Query the record to get the file keys:
-const response = await API.graphql({
+const response = await client.graphql({
   query: queries.getPhotoAlbum,
   variables: { id: currentPhotoAlbum.id },
 });
@@ -994,7 +994,7 @@ The workflow for deleting and removing files associated with API records is the 
 <Block name="TypeScript">
 
 ```ts
-const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+const response = await client.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
   query: queries.getPhotoAlbum,
   variables: { id: currentPhotoAlbum.id },
 });
@@ -1009,7 +1009,7 @@ const photoAlbumDetails: UpdatePhotoAlbumInput = {
   imageKeys: null,
 };
 
-const updatedPhotoAlbum = await API.graphql<
+const updatedPhotoAlbum = await client.graphql<
   GraphQLQuery<UpdatePhotoAlbumMutation>
 >({
   query: mutations.updatePhotoAlbum,
@@ -1021,7 +1021,7 @@ const updatedPhotoAlbum = await API.graphql<
 <Block name="JavaScript">
 
 ```js
-const response = await API.graphql({
+const response = await client.graphql({
   query: queries.getPhotoAlbum,
   variables: { id: currentPhotoAlbum.id },
 });
@@ -1036,7 +1036,7 @@ const photoAlbumDetails = {
   imageKeys: null,
 };
 
-const updatedPhotoAlbum = await API.graphql({
+const updatedPhotoAlbum = await client.graphql({
   query: mutations.updatePhotoAlbum,
   variables: { input: photoAlbumDetails },
 });
@@ -1051,7 +1051,7 @@ const updatedPhotoAlbum = await API.graphql({
 <Block name="TypeScript">
 
 ```ts
-const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+const response = await client.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
   query: queries.getPhotoAlbum,
   variables: { id: currentPhotoAlbum.id },
 });
@@ -1067,7 +1067,7 @@ const photoAlbumDetails: UpdatePhotoAlbumInput = {
 };
 
 // Remove associated files from record
-const updateResponse = await API.graphql<
+const updateResponse = await client.graphql<
   GraphQLQuery<UpdatePhotoAlbumMutation>
 >({
   query: mutations.updatePhotoAlbum,
@@ -1089,7 +1089,7 @@ await Promise.all(
 <Block name="JavaScript">
 
 ```js
-const response = await API.graphql({
+const response = await client.graphql({
   query: queries.getPhotoAlbum,
   variables: { id: currentPhotoAlbum.id },
 });
@@ -1105,7 +1105,7 @@ const photoAlbumDetails = {
 };
 
 // Remove associated files from record
-const updateResponse = await API.graphql({
+const updateResponse = await client.graphql({
   query: mutations.updatePhotoAlbum,
   variables: { input: photoAlbumDetails },
 });
@@ -1130,7 +1130,7 @@ await Promise.all(
 <Block name="TypeScript">
 
 ```ts
-const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+const response = await client.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
   query: queries.getPhotoAlbum,
   variables: { id: currentPhotoAlbum.id },
 });
@@ -1143,7 +1143,7 @@ const photoAlbumDetails: DeletePhotoAlbumInput = {
   id: photoAlbum.id,
 };
 
-await API.graphql<GraphQLQuery<DeletePhotoAlbumMutation>>({
+await client.graphql<GraphQLQuery<DeletePhotoAlbumMutation>>({
   query: mutations.deletePhotoAlbum,
   variables: { input: photoAlbumDetails },
 });
@@ -1163,7 +1163,7 @@ await Promise.all(
 <Block name="JavaScript">
 
 ```js
-const response = await API.graphql({
+const response = await client.graphql({
   query: queries.getPhotoAlbum,
   variables: { id: currentPhotoAlbum.id },
 });
@@ -1176,7 +1176,7 @@ const photoAlbumDetails = {
   id: photoAlbum.id,
 };
 
-await API.graphql({
+await client.graphql({
   query: mutations.deletePhotoAlbum,
   variables: { input: photoAlbumDetails },
 });
@@ -1248,7 +1248,7 @@ function App() {
       };
 
       // Create the API record:
-      const response = await API.graphql<GraphQLQuery<CreateSongMutation>>({
+      const response = await client.graphql<GraphQLQuery<CreateSongMutation>>({
         query: mutations.createSong,
         variables: { input: createSongDetails },
       });
@@ -1268,7 +1268,7 @@ function App() {
       };
 
       // Add the file association to the record:
-      const updateResponse = await API.graphql<
+      const updateResponse = await client.graphql<
         GraphQLQuery<UpdateSongMutation>
       >({
         query: mutations.updateSong,
@@ -1311,7 +1311,7 @@ function App() {
       };
 
       // Add the file association to the record:
-      const response = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+      const response = await client.graphql<GraphQLQuery<UpdateSongMutation>>({
         query: mutations.updateSong,
         variables: { input: updateSongDetails },
       });
@@ -1334,7 +1334,7 @@ function App() {
   async function getImageForCurrentSong() {
     try {
       // Query the record to get the file key:
-      const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+      const response = await client.graphql<GraphQLQuery<GetSongQuery>>({
         query: queries.getSong,
         variables: { id: currentSong.id },
       });
@@ -1357,7 +1357,7 @@ function App() {
     if (!currentSong) return;
 
     try {
-      const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+      const response = await client.graphql<GraphQLQuery<GetSongQuery>>({
         query: queries.getSong,
         variables: { id: currentSong.id },
       });
@@ -1372,7 +1372,7 @@ function App() {
         coverArtKey: null,
       };
 
-      const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+      const updatedSong = await client.graphql<GraphQLQuery<UpdateSongMutation>>({
         query: mutations.updateSong,
         variables: { input: songDetails },
       });
@@ -1390,7 +1390,7 @@ function App() {
     if (!currentSong) return;
 
     try {
-      const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+      const response = await client.graphql<GraphQLQuery<GetSongQuery>>({
         query: queries.getSong,
         variables: { id: currentSong.id },
       });
@@ -1406,7 +1406,7 @@ function App() {
       };
 
       // Remove associated file from record
-      const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+      const updatedSong = await client.graphql<GraphQLQuery<UpdateSongMutation>>({
         query: mutations.updateSong,
         variables: { input: songDetails },
       });
@@ -1427,7 +1427,7 @@ function App() {
     if (!currentSong) return;
 
     try {
-      const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+      const response = await client.graphql<GraphQLQuery<GetSongQuery>>({
         query: queries.getSong,
         variables: { id: currentSong.id },
       });
@@ -1443,7 +1443,7 @@ function App() {
         id: song.id,
       };
 
-      await API.graphql<GraphQLQuery<DeleteSongMutation>>({
+      await client.graphql<GraphQLQuery<DeleteSongMutation>>({
         query: mutations.deleteSong,
         variables: { input: songDetails },
       });
@@ -1549,7 +1549,7 @@ function App() {
       };
 
       // Create the API record:
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: mutations.createSong,
         variables: { input: createSongDetails },
       });
@@ -1569,7 +1569,7 @@ function App() {
       };
 
       // Add the file association to the record:
-      const updateResponse = await API.graphql({
+      const updateResponse = await client.graphql({
         query: mutations.updateSong,
         variables: { input: updateSongDetails },
       });
@@ -1610,7 +1610,7 @@ function App() {
       };
 
       // Add the file association to the record:
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: mutations.updateSong,
         variables: { input: updateSongDetails },
       });
@@ -1633,7 +1633,7 @@ function App() {
   async function getImageForCurrentSong() {
     try {
       // Query the record to get the file key:
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: queries.getSong,
         variables: { id: currentSong.id },
       });
@@ -1656,7 +1656,7 @@ function App() {
     if (!currentSong) return;
 
     try {
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: queries.getSong,
         variables: { id: currentSong.id },
       });
@@ -1671,7 +1671,7 @@ function App() {
         coverArtKey: null,
       };
 
-      const updatedSong = await API.graphql({
+      const updatedSong = await client.graphql({
         query: mutations.updateSong,
         variables: { input: songDetails },
       });
@@ -1689,7 +1689,7 @@ function App() {
     if (!currentSong) return;
 
     try {
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: queries.getSong,
         variables: { id: currentSong.id },
       });
@@ -1705,7 +1705,7 @@ function App() {
       };
 
       // Remove associated file from record
-      const updatedSong = await API.graphql({
+      const updatedSong = await client.graphql({
         query: mutations.updateSong,
         variables: { input: songDetails },
       });
@@ -1726,7 +1726,7 @@ function App() {
     if (!currentSong) return;
 
     try {
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: queries.getSong,
         variables: { id: currentSong.id },
       });
@@ -1742,7 +1742,7 @@ function App() {
         id: song.id,
       };
 
-      await API.graphql({
+      await client.graphql({
         query: mutations.deleteSong,
         variables: { input: songDetails },
       });
@@ -1864,7 +1864,7 @@ function App() {
       };
 
       // Create the API record:
-      const response = await API.graphql<
+      const response = await client.graphql<
         GraphQLQuery<CreatePhotoAlbumMutation>
       >({
         query: mutations.createPhotoAlbum,
@@ -1886,7 +1886,7 @@ function App() {
       };
 
       // Add the file association to the record:
-      const updateResponse = await API.graphql<
+      const updateResponse = await client.graphql<
         GraphQLQuery<UpdatePhotoAlbumMutation>
       >({
         query: mutations.updatePhotoAlbum,
@@ -1919,7 +1919,7 @@ function App() {
       };
 
       // Create the API record:
-      const response = await API.graphql<
+      const response = await client.graphql<
         GraphQLQuery<CreatePhotoAlbumMutation>
       >({
         query: mutations.createPhotoAlbum,
@@ -1951,7 +1951,7 @@ function App() {
       };
 
       // Add the file association to the record:
-      const updateResponse = await API.graphql<
+      const updateResponse = await client.graphql<
         GraphQLQuery<UpdatePhotoAlbumMutation>
       >({
         query: mutations.updatePhotoAlbum,
@@ -2001,7 +2001,7 @@ function App() {
       );
 
       // Query existing record to retrieve currently associated files:
-      const queriedResponse = await API.graphql<
+      const queriedResponse = await client.graphql<
         GraphQLQuery<GetPhotoAlbumQuery>
       >({
         query: queries.getPhotoAlbum,
@@ -2021,7 +2021,7 @@ function App() {
       };
 
       // Update record with merged file associations:
-      const response = await API.graphql<
+      const response = await client.graphql<
         GraphQLQuery<UpdatePhotoAlbumMutation>
       >({
         query: mutations.updatePhotoAlbum,
@@ -2071,7 +2071,7 @@ function App() {
       const newFileKey = result?.key;
 
       // Query existing record to retrieve currently associated files:
-      const queriedResponse = await API.graphql<
+      const queriedResponse = await client.graphql<
         GraphQLQuery<GetPhotoAlbumQuery>
       >({
         query: queries.getPhotoAlbum,
@@ -2098,7 +2098,7 @@ function App() {
       };
 
       // Update record with updated file associations:
-      const response = await API.graphql<
+      const response = await client.graphql<
         GraphQLQuery<UpdatePhotoAlbumMutation>
       >({
         query: mutations.updatePhotoAlbum,
@@ -2130,7 +2130,7 @@ function App() {
   async function getImagesForPhotoAlbum() {
     try {
       // Query the record to get the file keys:
-      const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+      const response = await client.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
         query: queries.getPhotoAlbum,
         variables: { id: currentPhotoAlbum.id },
       });
@@ -2158,7 +2158,7 @@ function App() {
     if (!currentPhotoAlbum) return;
 
     try {
-      const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+      const response = await client.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
         query: queries.getPhotoAlbum,
         variables: { id: currentPhotoAlbum.id },
       });
@@ -2173,7 +2173,7 @@ function App() {
         imageKeys: null,
       };
 
-      const updatedPhotoAlbum = await API.graphql<
+      const updatedPhotoAlbum = await client.graphql<
         GraphQLQuery<UpdatePhotoAlbumMutation>
       >({
         query: mutations.updatePhotoAlbum,
@@ -2193,7 +2193,7 @@ function App() {
     if (!currentPhotoAlbum) return;
 
     try {
-      const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+      const response = await client.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
         query: queries.getPhotoAlbum,
         variables: { id: currentPhotoAlbum.id },
       });
@@ -2209,7 +2209,7 @@ function App() {
       };
 
       // Remove associated files from record
-      const updateResponse = await API.graphql<
+      const updateResponse = await client.graphql<
         GraphQLQuery<UpdatePhotoAlbumMutation>
       >({
         query: mutations.updatePhotoAlbum,
@@ -2239,7 +2239,7 @@ function App() {
     if (!currentPhotoAlbum) return;
 
     try {
-      const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+      const response = await client.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
         query: queries.getPhotoAlbum,
         variables: { id: currentPhotoAlbum.id },
       });
@@ -2252,7 +2252,7 @@ function App() {
         id: photoAlbum.id,
       };
 
-      await API.graphql<GraphQLQuery<DeletePhotoAlbumMutation>>({
+      await client.graphql<GraphQLQuery<DeletePhotoAlbumMutation>>({
         query: mutations.deletePhotoAlbum,
         variables: { input: photoAlbumDetails },
       });
@@ -2399,7 +2399,7 @@ function App() {
       };
 
       // Create the API record:
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: mutations.createPhotoAlbum,
         variables: { input: photoAlbumDetails },
       });
@@ -2419,7 +2419,7 @@ function App() {
       };
 
       // Add the file association to the record:
-      const updateResponse = await API.graphql({
+      const updateResponse = await client.graphql({
         query: mutations.updatePhotoAlbum,
         variables: { input: updatePhotoAlbumDetails },
       });
@@ -2448,7 +2448,7 @@ function App() {
       };
 
       // Create the API record:
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: mutations.createPhotoAlbum,
         variables: { input: photoAlbumDetails },
       });
@@ -2478,7 +2478,7 @@ function App() {
       };
 
       // Add the file association to the record:
-      const updateResponse = await API.graphql({
+      const updateResponse = await client.graphql({
         query: mutations.updatePhotoAlbum,
         variables: { input: updatePhotoAlbumDetails },
       });
@@ -2524,7 +2524,7 @@ function App() {
       );
 
       // Query existing record to retrieve currently associated files:
-      const queriedResponse = await API.graphql({
+      const queriedResponse = await client.graphql({
         query: queries.getPhotoAlbum,
         variables: { id: currentPhotoAlbum.id },
       });
@@ -2542,7 +2542,7 @@ function App() {
       };
 
       // Update record with merged file associations:
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: mutations.updatePhotoAlbum,
         variables: { input: photoAlbumDetails },
       });
@@ -2590,7 +2590,7 @@ function App() {
       const newFileKey = result?.key;
 
       // Query existing record to retrieve currently associated files:
-      const queriedResponse = await API.graphql({
+      const queriedResponse = await client.graphql({
         query: queries.getPhotoAlbum,
         variables: { id: currentPhotoAlbum.id },
       });
@@ -2615,7 +2615,7 @@ function App() {
       };
 
       // Update record with updated file associations:
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: mutations.updatePhotoAlbum,
         variables: { input: photoAlbumDetails },
       });
@@ -2645,7 +2645,7 @@ function App() {
   async function getImagesForPhotoAlbum() {
     try {
       // Query the record to get the file keys:
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: queries.getPhotoAlbum,
         variables: { id: currentPhotoAlbum.id },
       });
@@ -2673,7 +2673,7 @@ function App() {
     if (!currentPhotoAlbum) return;
 
     try {
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: queries.getPhotoAlbum,
         variables: { id: currentPhotoAlbum.id },
       });
@@ -2688,7 +2688,7 @@ function App() {
         imageKeys: null,
       };
 
-      const updatedPhotoAlbum = await API.graphql({
+      const updatedPhotoAlbum = await client.graphql({
         query: mutations.updatePhotoAlbum,
         variables: { input: photoAlbumDetails },
       });
@@ -2706,7 +2706,7 @@ function App() {
     if (!currentPhotoAlbum) return;
 
     try {
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: queries.getPhotoAlbum,
         variables: { id: currentPhotoAlbum.id },
       });
@@ -2722,7 +2722,7 @@ function App() {
       };
 
       // Remove associated files from record
-      const updateResponse = await API.graphql({
+      const updateResponse = await client.graphql({
         query: mutations.updatePhotoAlbum,
         variables: { input: photoAlbumDetails },
       });
@@ -2750,7 +2750,7 @@ function App() {
     if (!currentPhotoAlbum) return;
 
     try {
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: queries.getPhotoAlbum,
         variables: { id: currentPhotoAlbum.id },
       });
@@ -2763,7 +2763,7 @@ function App() {
         id: photoAlbum.id,
       };
 
-      await API.graphql({
+      await client.graphql({
         query: mutations.deletePhotoAlbum,
         variables: { input: photoAlbumDetails },
       });

@@ -134,11 +134,11 @@ A code example of this using the JS Library is shown below:
 ```js
 import React, { useState } from 'react';
 import { Amplify, Storage, API } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import config from './amplifyconfiguration.json';
 import { speakTranslatedImageText } from './graphql/queries';
 
 /* Configure Exports */
-Amplify.configure(awsconfig);
+Amplify.configure(config);
 
 function SpeakTranslatedImage() {
   const [src, setSrc] = useState('');
@@ -188,7 +188,7 @@ async function speakTranslatedImageTextOP(key) {
     identifyText: { key },
     convertTextToSpeech: { voiceID: 'Conchita' }
   };
-  const response = await API.graphql({
+  const response = await client.graphql({
     query: speakTranslatedImageText,
     variables: { input: inputObj }
   });
