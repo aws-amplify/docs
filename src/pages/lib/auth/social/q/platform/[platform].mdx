@@ -38,12 +38,13 @@ The preferred way to incorporate social provider sign-in is via an OAuth redirec
 
 [OAuth 2.0](https://en.wikipedia.org/wiki/OAuth) is the common Authorization framework used by web and mobile applications for accessing user information ("scopes") in a limited manner. Common analogies you will hear in OAuth is that of boarding a plane or staying in a hotel - showing your identification is the authentication piece (signing into an app) and using the boarding pass/hotel key is what you are authorized to access.
 
-OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after they sign in. With this design you do not need to include an SDK for the social provider in your app. After you set up your developer account with these social providers you can configure the `Auth` category by running `amplify add auth` and selecting the social provider option. You can then use `Auth.federatedSignIn()` in your app to either show a pre-built "Hosted UI" or pass in a provider name (e.g. `Auth.federatedSignIn({provider: 'Facebook'})`) to interface directly and build your own UI.
+OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool 
+after they sign in. With this design you do not need to include an SDK for the social provider in your app. After you set up your developer account with these social providers
+you can configure the `Auth` category by running `amplify add auth` and selecting the social provider option. You can then use `signInWithRedirect()` in your app to either
+show a pre-built "Hosted UI" or pass in a provider name (e.g. `signInWithRedirect({provider:'Facebook'})`) to interface directly and build your own UI.
 	
 ![Image](/images/SocialAuthZ.png)
 	
-Alternatively, you can also get credentials directly from Identity Pools by passing tokens from a social provider directly with `Auth.federatedSignIn()`. However you will have to use that provider's SDK in your app as well as manage the tokens from the provider and their refresh cycles manually.
-
 </Accordion>
 
 ## Set up your social auth provider
@@ -359,7 +360,10 @@ You have configured your Auth category and updated your URL with the social prov
 
 ## Set up your frontend
 
-After configuring the OAuth endpoints (with Cognito Hosted UI), you can integrate your app by invoking the `Auth.federatedSignIn()` function which will redirect the user to the Cognito Hosted UI and provide options to sign in via user name password as well as any of the Social providers you have configured. Also, note that passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below example.
+After configuring the OAuth endpoints (with Cognito Hosted UI), you can integrate your app by invoking the `signInWithRedirect` function which
+will redirect the user to the Cognito Hosted UI and provide options to sign in via username and password as well as any of the Social providers you 
+have configured. Also, note that passing `Amazon`, `Apple`, `Facebook` or `Google` on the `provider` argument 
+(e.g `signInWithRedirect({ provider: 'Amazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below example.
 
 <InlineFilter filters={["js"]}>
 
@@ -369,34 +373,38 @@ After configuring the OAuth endpoints (with Cognito Hosted UI), you can integrat
 
 </Callout>
 
-If you are looking to add a custom state, you are able to do so by passing a string value (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) and listening for the custom state via [Hub](/lib/utilities/hub/q/platform/js/). You can also use the Hub eventing system to catch errors using `Auth.federatedSignIn()` to listen for the `signIn_failure` event.
+If you are looking to add a custom state, you are able to do so by passing a string value (e.g. `signInWithRedirect({ customState: 'xyz' })`) and listening for the custom state via [Hub](/lib/utilities/hub/q/platform/js/). You can also use the Hub eventing system to catch errors using `signInWithRedirect()` to listen for the `signIn_failure` event.
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
-import React, { useEffect, useState } from 'react';
-import { Amplify, Auth, Hub } from 'aws-amplify';
-import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import React, { useEffect, useState } from "react";
+import { Amplify } from "aws-amplify";
+import { Hub } from "aws-amplify/utils";
+import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
+import { CognitoAuthUser } from "aws-amplify/auth/cognito";
 import awsConfig from './aws-exports';
 
 Amplify.configure(awsConfig);
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<CognitoAuthUser | null>(null);
+  const [error, setError] = useState<unknown>(null);
   const [customState, setCustomState] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribe = Hub.listen("auth", ({ payload: { event, data }}) => {
-      switch (event) {
-        case "signIn":
-          setUser(data);
+    const unsubscribe = Hub.listen("auth", ({ payload }) => {
+      switch (payload.event) {
+        case "signInWithRedirect":
+          getUser();
           break;
-        case "signOut":
-          setUser(null);
+        case "signInWithRedirect_failure":
+          setError("An error has ocurred during the Oauth flow.");
           break;
         case "customOAuthState":
-          setCustomState(data);
+          setCustomState(payload.data);
+          break;
       }
     });
 
@@ -407,89 +415,103 @@ function App() {
 
   const getUser = async (): Promise<void> => {
     try {
-      const currentUser = await Auth.currentAuthenticatedUser();
+      const currentUser = await getCurrentUser();
       setUser(currentUser);
-    } catch(error) {
+    } catch (error) {
       console.error(error);
       console.log("Not signed in");
     }
   };
-  
+
   return (
     <div className="App">
-      <button onClick={() => Auth.federatedSignIn()}>Open Hosted UI</button>
-      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Facebook })}>Open Facebook</button>
-      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Google })}>Open Google</button>
-      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Amazon })}>Open Amazon</button>
-      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Apple })}>Open Apple</button>
-      <button onClick={() => Auth.signOut()}>Sign Out</button>
-      <div>{user?.getUsername()}</div>
+      <button onClick={() => signInWithRedirect()}>Open Hosted UI</button>
+      <button onClick={() => signInWithRedirect({ provider: "Facebook" })}>
+        Open Facebook
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Google" })}>
+        Open Google
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Amazon" })}>
+        Open Amazon
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Apple" })}>
+        Open Apple
+      </button>
+      <button onClick={() => signOut()}>Sign Out</button>
+      <div>{user?.username}</div>
     </div>
   );
 }
-
-  //You can catch errors by listening to the signIn-failure event
-  Hub.listen('auth', (data) => { 
-    if (data.payload.event === 'signIn_failure') {
-        // Do something here
-    }
-})
 ```
 </Block>
 <Block name="JavaScript">
 
 ```javascript
-import React, { useEffect, useState } from 'react';
-import { Amplify, Auth, Hub } from 'aws-amplify';
-import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import React, { useEffect, useState } from "react";
+import { Amplify } from "aws-amplify";
+import { Hub } from "aws-amplify/utils";
+import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
 import awsConfig from './aws-exports';
 
 Amplify.configure(awsConfig);
 
 function App() {
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
   const [customState, setCustomState] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
-      switch (event) {
-        case "signIn":
-          setUser(data);
+    const unsubscribe = Hub.listen("auth", ({ payload }) => {
+      switch (payload.event) {
+        case "signInWithRedirect":
+          getUser();
           break;
-        case "signOut":
-          setUser(null);
+        case "signInWithRedirect_failure":
+          setError("An error has ocurred during the Oauth flow.");
           break;
         case "customOAuthState":
-          setCustomState(data);
+          setCustomState(payload.data);
+          break;
       }
     });
 
-    Auth.currentAuthenticatedUser()
-      .then(currentUser => setUser(currentUser))
-      .catch(() => console.log("Not signed in"));
+    getUser();
 
     return unsubscribe;
   }, []);
 
-	return (
+  const getUser = async () => {
+    try {
+      const currentUser = await getCurrentUser();
+      setUser(currentUser);
+    } catch (error) {
+      console.error(error);
+      console.log("Not signed in");
+    }
+  };
+
+  return (
     <div className="App">
-      <button onClick={() => Auth.federatedSignIn()}>Open Hosted UI</button>
-      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Facebook })}>Open Facebook</button>
-      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Google })}>Open Google</button>
-      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Amazon })}>Open Amazon</button>
-      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Apple })}>Open Apple</button>
-      <button onClick={() => Auth.signOut()}>Sign Out</button>
-      <div>{user && user.getUsername()}</div>
+      <button onClick={() => signInWithRedirect()}>Open Hosted UI</button>
+      <button onClick={() => signInWithRedirect({ provider: "Facebook" })}>
+        Open Facebook
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Google" })}>
+        Open Google
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Amazon" })}>
+        Open Amazon
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Apple" })}>
+        Open Apple
+      </button>
+      <button onClick={() => signOut()}>Sign Out</button>
+      <div>{user?.username}</div>
     </div>
   );
 }
 
-  //You can catch errors by listening to the signIn-failure event
-  Hub.listen('auth', (data) => { 
-    if (data.payload.event === 'signIn_failure') {
-        // Do something here
-    }
-})
 ```
 </Block>
 </BlockSwitcher>
@@ -498,7 +520,7 @@ function App() {
 
 <InlineFilter filters={["react-native"]}>
 
-If you are looking to add a custom state, you are able to do so by passing a string value (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) and listening for the custom state via [Hub](/lib/utilities/hub/q/platform/react-native/).
+If you are looking to add a custom state, you are able to do so by passing a string value (e.g. `signInWithRedirect({ customState: 'xyz' })`) and listening for the custom state via [Hub](/lib/utilities/hub/q/platform/react-native/).
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -506,27 +528,31 @@ If you are looking to add a custom state, you are able to do so by passing a str
 ```ts
 import { useEffect, useState } from "react";
 import { Text, View, Linking, Button } from "react-native";
-import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
-import { Amplify, Auth, Hub } from "aws-amplify";
-import awsconfig from "./aws-exports";
+import { Amplify } from "aws-amplify";
+import { Hub } from "aws-amplify/utils";
+import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
+import { CognitoAuthUser } from "aws-amplify/auth/cognito";
+import awsConfig from './aws-exports';
 
-Amplify.configure(awsconfig);
+Amplify.configure(awsConfig);
 
-export default function App() {
-  const [user, setUser] = useState(null);
+function App() {
+  const [user, setUser] = useState<CognitoAuthUser | null>(null);
+  const [error, setError] = useState<unknown>(null);
   const [customState, setCustomState] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribe = Hub.listen("auth", ({ payload: { event, data }}) => {
-      switch (event) {
-        case "signIn":
-          setUser(data);
+    const unsubscribe = Hub.listen("auth", ({ payload }) => {
+      switch (payload.event) {
+        case "signInWithRedirect":
+          getUser();
           break;
-        case "signOut":
-          setUser(null);
+        case "signInWithRedirect_failure":
+          setError("An error has ocurred during the oauth flow.");
           break;
         case "customOAuthState":
-          setCustomState(data);
+          setCustomState(payload.data);
+          break;
       }
     });
 
@@ -537,28 +563,32 @@ export default function App() {
 
   const getUser = async (): Promise<void> => {
     try {
-      const currentUser = await Auth.currentAuthenticatedUser();
+      const currentUser = await getCurrentUser();
       setUser(currentUser);
-    } catch(error) {
+    } catch (error) {
       console.error(error);
       console.log("Not signed in");
     }
   };
-  
+
   return (
-    <View>
-      <Button
-        title="Open Amazon"
-        onPress={() =>
-          Auth.federatedSignIn({
-            provider: CognitoHostedUIIdentityProvider.Amazon,
-          })
-        }
-      />
-      <Button title="Open Hosted UI" onPress={() => Auth.federatedSignIn()} />
-      <Button title="Sign Out" onPress={() => Auth.signOut()} />
-      <Text>{user?.getUsername()}</Text>
-    </View>
+    <div className="App">
+      <button onClick={() => signInWithRedirect()}>Open Hosted UI</button>
+      <button onClick={() => signInWithRedirect({ provider: "Facebook" })}>
+        Open Facebook
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Google" })}>
+        Open Google
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Amazon" })}>
+        Open Amazon
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Apple" })}>
+        Open Apple
+      </button>
+      <button onClick={() => signOut()}>Sign Out</button>
+      <div>{user?.username}</div>
+    </div>
   );
 }
 ```
@@ -568,53 +598,69 @@ export default function App() {
 ```javascript
 import { useEffect, useState } from "react";
 import { Text, View, Linking, Button } from "react-native";
+import { Amplify } from "aws-amplify";
+import { Hub } from "aws-amplify/utils";
+import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
+import awsConfig from './aws-exports';
 
-import { Amplify, Auth, Hub } from "aws-amplify";
-import awsconfig from "./aws-exports";
+Amplify.configure(awsConfig);
 
-Amplify.configure(awsconfig);
-
-export default function App() {
+function App() {
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
   const [customState, setCustomState] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
-      switch (event) {
-        case "signIn":
-          setUser(data);
+    const unsubscribe = Hub.listen("auth", ({ payload }) => {
+      switch (payload.event) {
+        case "signInWithRedirect":
+          getUser();
           break;
-        case "signOut":
-          setUser(null);
+        case "signInWithRedirect_failure":
+          setError("An error has ocurred during the Oauth flow.");
           break;
         case "customOAuthState":
-          setCustomState(data);
+          setCustomState(payload.data);
+          break;
       }
     });
 
-    Auth.currentAuthenticatedUser()
-      .then(currentUser => setUser(currentUser))
-      .catch(() => console.log("Not signed in"));
+    getUser();
 
     return unsubscribe;
   }, []);
 
+  const getUser = async () => {
+    try {
+      const currentUser = await getCurrentUser();
+      setUser(currentUser);
+    } catch (error) {
+      console.error(error);
+      console.log("Not signed in");
+    }
+  };
+
   return (
-    <View>
-      <Button
-        title="Open Amazon"
-        onPress={() =>
-          Auth.federatedSignIn({
-            provider: "LoginWithAmazon",
-          })
-        }
-      />
-      <Button title="Open Hosted UI" onPress={() => Auth.federatedSignIn()} />
-      <Button title="Sign Out" onPress={() => Auth.signOut()} />
-      <Text>{user && user.getUsername()}</Text>
-    </View>
+    <div className="App">
+      <button onClick={() => signInWithRedirect()}>Open Hosted UI</button>
+      <button onClick={() => signInWithRedirect({ provider: "Facebook" })}>
+        Open Facebook
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Google" })}>
+        Open Google
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Amazon" })}>
+        Open Amazon
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Apple" })}>
+        Open Apple
+      </button>
+      <button onClick={() => signOut()}>Sign Out</button>
+      <div>{user?.username}</div>
+    </div>
   );
 }
+
 ```
 </Block>
 </BlockSwitcher>
@@ -627,42 +673,30 @@ export default function App() {
 
 For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for *Sign out redirect URI(s)*.
 
-If you have multiple redirect URI inputs, you'll need to handle both of them where you configure your Amplify project. For example:
+If you have multiple redirect URI inputs, you'll need to pass them in your Amplify configuration. For example:
 
 ```javascript
-import awsConfig from './aws-exports';
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      loginWith: {
+        oauth: {
+          redirectSignIn: [
+            "http://localhost:3000/",
+            "https://www.example.com/",
+          ],
+          redirectSignOut: [
+            "http://localhost:3000/",
+            "https://www.example.com/",
+          ],
+          ...oauthConfig
+        },
+      },
+     ...userPoolConfig
+    },
+  },
+});
 
-const isLocalhost = Boolean(
-  window.location.hostname === "localhost" ||
-    // [::1] is the IPv6 localhost address.
-    window.location.hostname === "[::1]" ||
-    // 127.0.0.1/8 is considered localhost for IPv4.
-    window.location.hostname.match(
-      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-    )
-);
-
-// Assuming you have two redirect URIs, and the first is for localhost and second is for production
-const [
-  localRedirectSignIn,
-  productionRedirectSignIn,
-] = awsConfig.oauth.redirectSignIn.split(",");
-
-const [
-  localRedirectSignOut,
-  productionRedirectSignOut,
-] = awsConfig.oauth.redirectSignOut.split(",");
-
-const updatedAwsConfig = {
-  ...awsConfig,
-  oauth: {
-    ...awsConfig.oauth,
-    redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
-    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
-  }
-}
-
-Amplify.configure(updatedAwsConfig);
 ```
 
 <Accordion title='Full Example using multiple redirect URIs' headingLevel='4' eyebrow='Example'>
@@ -671,171 +705,164 @@ Amplify.configure(updatedAwsConfig);
 <Block name="TypeScript">
 
 ```ts
-import { useEffect, useState } from 'react';
-import { Amplify, Auth, Hub } from 'aws-amplify';
-import awsConfig from './aws-exports';
+import React, { useEffect, useState } from "react";
+import { Amplify } from "aws-amplify";
+import { Hub } from "aws-amplify/utils";
+import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
+import { CognitoAuthUser } from "aws-amplify/auth/cognito";
 
-const isLocalhost = Boolean(
-  window.location.hostname === 'localhost' ||
-    // [::1] is the IPv6 localhost address.
-    window.location.hostname === '[::1]' ||
-    // 127.0.0.1/8 is considered localhost for IPv4.
-    window.location.hostname.match(
-      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-    )
-);
-
-// Assuming you have two redirect URIs, and the first is for localhost and second is for production
-const [
-  localRedirectSignIn,
-  productionRedirectSignIn,
-] = awsConfig.oauth.redirectSignIn.split(',');
-
-const [
-  localRedirectSignOut,
-  productionRedirectSignOut,
-] = awsConfig.oauth.redirectSignOut.split(',');
-
-const updatedAwsConfig = {
-  ...awsConfig,
-  oauth: {
-    ...awsConfig.oauth,
-    redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
-    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
-  }
-}
-
-Amplify.configure(updatedAwsConfig);
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      loginWith: {
+        oauth: {
+          redirectSignIn: [
+            "http://localhost:3000/",
+            "https://www.example.com/",
+          ],
+          redirectSignOut: [
+            "http://localhost:3000/",
+            "https://www.example.com/",
+          ],
+          ...oauthConfig
+        },
+      },
+     ...userPoolConfig
+    },
+  },
+});
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<CognitoAuthUser | null>(null);
+  const [error, setError] = useState<unknown>(null);
+  const [customState, setCustomState] = useState<string | null>(null);
 
   useEffect(() => {
-    Hub.listen('auth', ({ payload: { event, data }}) => {
-      switch (event) {
-        case 'signIn':
-        case 'cognitoHostedUI':
+    const unsubscribe = Hub.listen("auth", ({ payload }) => {
+      switch (payload.event) {
+        case "signInWithRedirect":
           getUser();
           break;
-        case 'signOut':
-          setUser(null);
+        case "signInWithRedirect_failure":
+          setError("An error has ocurred during the Oauth flow.");
           break;
-        case 'signIn_failure':
-        case 'cognitoHostedUI_failure':
-          console.log('Sign in failure', data);
+        case "customOAuthState":
+          setCustomState(payload.data);
           break;
       }
     });
 
     getUser();
+
+    return unsubscribe;
   }, []);
 
   const getUser = async (): Promise<void> => {
     try {
-      const userData = await Auth.currentAuthenticatedUser();
-      setUser(userData)
-    } catch(error) {
+      const currentUser = await getCurrentUser();
+      setUser(currentUser);
+    } catch (error) {
       console.error(error);
       console.log("Not signed in");
     }
   };
 
   return (
-    <div>
-      <p>User: {user ? JSON.stringify(user.attributes) : 'None'}</p>
-      {user ? (
-        <button onClick={() => Auth.signOut()}>Sign Out</button>
-      ) : (
-        <button onClick={() => Auth.federatedSignIn()}>Federated Sign In</button>
-      )}
+    <div className="App">
+      <button onClick={() => signInWithRedirect()}>Open Hosted UI</button>
+      <button onClick={() => signOut()}>Sign Out</button>
+      <div>{user?.username}</div>
     </div>
   );
 }
 
-export default App;
 ```
 </Block>
 <Block name="JavaScript">
 
 ```js
-import { useEffect, useState } from 'react';
-import { Amplify, Auth, Hub } from 'aws-amplify';
-import awsConfig from './aws-exports';
+import React, { useEffect, useState } from "react";
+import { Amplify } from "aws-amplify";
+import { Hub } from "aws-amplify/utils";
+import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
 
-const isLocalhost = Boolean(
-  window.location.hostname === 'localhost' ||
-    // [::1] is the IPv6 localhost address.
-    window.location.hostname === '[::1]' ||
-    // 127.0.0.1/8 is considered localhost for IPv4.
-    window.location.hostname.match(
-      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-    )
-);
-
-// Assuming you have two redirect URIs, and the first is for localhost and second is for production
-const [
-  localRedirectSignIn,
-  productionRedirectSignIn,
-] = awsConfig.oauth.redirectSignIn.split(',');
-
-const [
-  localRedirectSignOut,
-  productionRedirectSignOut,
-] = awsConfig.oauth.redirectSignOut.split(',');
-
-const updatedAwsConfig = {
-  ...awsConfig,
-  oauth: {
-    ...awsConfig.oauth,
-    redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
-    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
-  }
-}
-
-Amplify.configure(updatedAwsConfig);
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      loginWith: {
+        oauth: {
+          redirectSignIn: [
+            "http://localhost:3000/",
+            "https://www.example.com/",
+          ],
+          redirectSignOut: [
+            "http://localhost:3000/",
+            "https://www.example.com/",
+          ],
+          ...oauthConfig
+        },
+      },
+     ...userPoolConfig
+    },
+  },
+});
 
 function App() {
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
+  const [customState, setCustomState] = useState(null);
 
   useEffect(() => {
-    Hub.listen('auth', ({ payload: { event, data } }) => {
-      switch (event) {
-        case 'signIn':
-        case 'cognitoHostedUI':
-          getUser().then(userData => setUser(userData));
+    const unsubscribe = Hub.listen("auth", ({ payload }) => {
+      switch (payload.event) {
+        case "signInWithRedirect":
+          getUser();
           break;
-        case 'signOut':
-          setUser(null);
+        case "signInWithRedirect_failure":
+          setError("An error has ocurred during the Oauth flow.");
           break;
-        case 'signIn_failure':
-        case 'cognitoHostedUI_failure':
-          console.log('Sign in failure', data);
+        case "customOAuthState":
+          setCustomState(payload.data);
           break;
       }
     });
 
-    getUser().then(userData => setUser(userData));
+    getUser();
+
+    return unsubscribe;
   }, []);
 
-  function getUser() {
-    return Auth.currentAuthenticatedUser()
-      .then(userData => userData)
-      .catch(() => console.log('Not signed in'));
-  }
+  const getUser = async () => {
+    try {
+      const currentUser = await getCurrentUser();
+      setUser(currentUser);
+    } catch (error) {
+      console.error(error);
+      console.log("Not signed in");
+    }
+  };
 
   return (
-    <div>
-      <p>User: {user ? JSON.stringify(user.attributes) : 'None'}</p>
-      {user ? (
-        <button onClick={() => Auth.signOut()}>Sign Out</button>
-      ) : (
-        <button onClick={() => Auth.federatedSignIn()}>Federated Sign In</button>
-      )}
+    <div className="App">
+      <button onClick={() => signInWithRedirect()}>Open Hosted UI</button>
+      <button onClick={() => signInWithRedirect({ provider: "Facebook" })}>
+        Open Facebook
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Google" })}>
+        Open Google
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Amazon" })}>
+        Open Amazon
+      </button>
+      <button onClick={() => signInWithRedirect({ provider: "Apple" })}>
+        Open Apple
+      </button>
+      <button onClick={() => signOut()}>Sign Out</button>
+      <div>{user?.username}</div>
     </div>
   );
 }
 
-export default App;
 ```
 </Block>
 </BlockSwitcher>
@@ -866,19 +893,27 @@ const [
   productionRedirectSignOut,
 ] = awsConfig.oauth.redirectSignOut.split(",");
 
-const updatedAwsConfig = {
-  ...awsConfig,
-  oauth: {
-    ...awsConfig.oauth,
-    redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
-    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
-  }
-}
-
-Amplify.configure(updatedAwsConfig);
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      loginWith: {
+        oauth: {
+          redirectSignIn: [isLocalhost ? localRedirectSignIn : productionRedirectSignIn],
+          redirectSignOut: [isLocalhost ? localRedirectSignIn : productionRedirectSignIn],
+          ...oauthConfig
+        },
+      },
+     ...userPoolConfig
+    },
+  },
+});
 ```
 
-For React Native applications, you need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. For Expo, follow the steps in [Expo Linking Guide](https://docs.expo.io/guides/linking/). For vanilla React Native, follow the steps in [React Native Linking Guide](https://reactnative.dev/docs/linking). After completing those steps, assuming you are using `myapp` as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect URI(s)* and/or *Sign out redirect URI(s)* inputs. Your URIs could look like any of these:
+For React Native applications, you need to define a custom URL scheme for your application before testing locally or publishing to the app store. 
+This is different for Expo or vanilla React Native. For Expo, follow the steps in [Expo Linking Guide](https://docs.expo.io/guides/linking/). 
+For vanilla React Native, follow the steps in [React Native Linking Guide](https://reactnative.dev/docs/linking). After completing those steps, 
+assuming you are using `myapp` as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect 
+URI(s)* and/or *Sign out redirect URI(s)* inputs. Your URIs could look like any of these:
 
 - `myapp://`
 - `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app)).
