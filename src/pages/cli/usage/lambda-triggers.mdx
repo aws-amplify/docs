@@ -156,182 +156,86 @@ export default App;
 
 #### Angular Sample
 
-The following code sample demonstrates how to create a custom ConfirmSignIn component in Angular using the ng-recaptcha npm package.
-
-app.module.ts:
+The following code sample demonstrates how to create a custom ConfirmSignIn component in Angular using the `ng-recaptcha` npm package.
 
 ```js
+// app.module.ts
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { AmplifyAngularModule } from '@aws-amplify/ui-angular';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { FormsModule } from '@angular/forms';
 
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from '../amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
+
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AmplifyAngularModule, FormsModule, RecaptchaModule],
-  providers: [AmplifyService],
+  imports: [BrowserModule, FormsModule, RecaptchaModule],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
 ```
 
-app.component.ts:
+
 
 ```js
+// app.component.ts
+
 import { Component } from '@angular/core';
-import { AmplifyService } from 'aws-amplify-angular';
-import { Auth } from 'aws-amplify';
+import { signIn, confirmSignIn } from 'aws-amplify/auth';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
   title = 'cli-lambda-sample';
-  confirmSignIn: boolean;
-  myRecaptcha: boolean;
-  user: any;
-  constructor( private amplifyService: AmplifyService ) {
-    this.amplifyService.authStateChange$
-      .subscribe(authState => {
-        this.confirmSignIn = authState.state === 'customConfirmSignIn';
-        if (!authState.user) {
-          this.user = null;
-        } else {
-          this.user = authState.user;
+  displayCaptcha = false;
+
+  async handleSignIn() {
+    try {
+      const { nextStep } = await signIn({
+        username,
+        password,
+        options: {
+          authFlowType: 'CUSTOM_WITH_SRP'
         }
-    });
+      })
+      displayCaptcha = nextStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE'
+    } catch (e) {
+      console.log("Sign In Failed",e)
+    }
   }
-  submitSignIn(e) {
-    Auth.sendCustomChallengeAnswer(this.user, e)
-    .then( (user) => {
-      this.amplifyService.setAuthState({ state: 'signedIn', user });
-    });
+  
+  async handleConfirmSignIn(e) {
+    try {
+      await confirmSignIn({ challengeResponse: e})
+    } catch(e){
+      console.log("Failed to confirm sign in",e)
+    }
   }
 }
 ```
 
-app.component.html
-
 ```html
-<amplify-authenticator [hide]="['ConfirmSignIn']"></amplify-authenticator>
-<div *ngIf="confirmSignIn">
+<!-- app.component.html -->
+
+<button (click)="handleSignIn()">Sign In</button>
+<div *ngIf="displayCaptcha">
   <re-captcha
-    (resolved)="submitSignIn($event)"
+    (resolved)="handleConfirmSignIn($event)"
     siteKey="your-client-side-google-recaptcha-key"
   ></re-captcha>
 </div>
 ```
 </Block>
-<Block name="Vue">
 
-#### Vue Sample
-
-The following code sample demonstrates how to create a custom ConfirmSignIn component in Vue using the vue-recaptcha npm package.
-
-App.vue
-
-```html
-<template>
-  <div id="app">
-    <amplify-authenticator></amplify-authenticator>
-    <vue-recaptcha
-      v-if="customConfirmSignIn"
-      sitekey="your-client-side-google-recaptcha-key" @verify="onVerify"
-    ></vue-recaptcha>
-    <amplify-sign-out
-      v-if="signedIn"
-    ></amplify-sign-out>
-  </div>
-</template>
-
-<script>
-import { components } from 'aws-amplify-vue'
-import { AmplifyEventBus } from 'aws-amplify-vue';
-import VueRecaptcha from 'vue-recaptcha';
-
-export default {
-  name: 'app',
-  components: {
-    VueRecaptcha,
-    ...components
-  },
-  data() {
-    return {
-      challengeResponse: '',
-      customConfirmSignIn: false,
-      signedIn: false,
-      user: {},
-    }
-  },
-  mounted: async function () {
-    await this.$Amplify.Auth.currentAuthenticatedUser()
-      .then((user) => {
-        this.user = user;
-        this.signedIn = true;
-      })
-      .catch((e) => {
-        console.log('currentUser error', e)
-      })
-    AmplifyEventBus.$on('authState', info => {
-      this.customConfirmSignIn = info === 'customConfirmSignIn';
-      this.signedIn = info === 'signedIn';
-    });
-    AmplifyEventBus.$on('localUser', user => {
-      this.user = user;
-    });
-  },
-  methods: {
-    onVerify: function (data) {
-      this.$Amplify.Auth.sendCustomChallengeAnswer(this.user, data)
-        .then( (user) => {
-          AmplifyEventBus.$emit('authState', 'signedIn')
-          return AmplifyEventBus.$emit('localUser', user)
-        })
-        .catch(function (err) { console.log('challenge error: ', err) });
-    },
-  }
-}
-</script>
-```
-
-`main.js`
-
-```js
-import Vue from 'vue';
-import App from './App.vue';
-import * as AmplifyModules from 'aws-amplify';
-import { AmplifyPlugin } from 'aws-amplify-vue';
-import awsconfig from './aws-exports';
-
-AmplifyModules.Amplify.configure({
-  Auth: {
-    identityPoolId: awsconfig.aws_cognito_identity_pool_id,
-    region: awsconfig.aws_cognito_region,
-    userPoolId: awsconfig.aws_user_pools_id,
-    userPoolWebClientId: awsconfig.aws_user_pools_web_client_id,
-    authenticationFlowType: 'CUSTOM_AUTH'
-  }
-});
-Vue.use(AmplifyPlugin, AmplifyModules);
-
-new Vue({
-  render: (h) => h(App)
-}).$mount('#app');
-```
-
-Finally, in `public/index.html` add the following script:
-
-```html
-<script
-  src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit"
-  async
-  defer
-></script>
-```
-</Block>
 </BlockSwitcher>
 
 ### Basic Scaffolding for a Custom Auth Challenge
