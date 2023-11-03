@@ -193,10 +193,14 @@ We'll use this information to configure the Amplify libraries in your applicatio
 import { Amplify } from 'aws-amplify';
 
 Amplify.configure({
-  aws_appsync_graphqlEndpoint: 'https://wy5mtp7jzfctxc5w5pzkcoktbi.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
-  aws_appsync_authenticationType: 'API_KEY',
-  aws_appsync_apiKey: 'da2-XXXX'
+  API: {
+    GraphQL: {
+      endpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
+      region: 'us-east-1',
+      defaultAuthMode: 'apiKey',
+      apiKey: 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx',
+    },
+  }
 });
 ```
 
