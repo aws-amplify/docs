@@ -126,7 +126,7 @@ Now that your application is set up and using subscriptions, you may want to kno
 
 ```ts
 import { CONNECTION_STATE_CHANGE, ConnectionState } from '@aws-amplify/pubsub';
-import { Hub } from 'aws-amplify';
+import { Hub } from 'aws-amplify/utils';
 
 Hub.listen('api', (data: any) => {
   const { payload } = data;
@@ -156,6 +156,7 @@ While offline, your application will miss messages and will not automatically ca
 
 ```js
 import { generateClient } from 'aws-amplify/api'
+import { Hub } from 'aws-amplify/utils'
 
 const client = generateClient()
 
