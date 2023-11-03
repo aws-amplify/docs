@@ -164,7 +164,7 @@ import { Amplify, ResourcesConfig } from 'aws-amplify';
 import {
   defaultStorage
 } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
@@ -193,7 +193,7 @@ import { Amplify } from 'aws-amplify';
 import {
   defaultStorage
 } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig = {
   Cognito: {
@@ -229,7 +229,7 @@ import { Amplify, ResourcesConfig } from 'aws-amplify';
 import {
   sessionStorage
 } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
@@ -258,7 +258,7 @@ import { Amplify } from 'aws-amplify';
 import {
   sessionStorage
 } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig = {
   Cognito: {
@@ -292,7 +292,7 @@ You can implement your own custom storage mechanism by creating a class that imp
 ```ts
 import { Amplify, ResourcesConfig } from 'aws-amplify';
 import { KeyValueStorageInterface } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {

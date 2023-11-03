@@ -66,383 +66,360 @@ You can find a [list of all the standard attributes here](https://docs.aws.amazo
 
 ### Pass user attributes during sign-up
 
-You can create user attributes during or after sign-up. To do this as part of sign-up you can pass them in the `attributes` object of `Auth.signUp` function parameters:
-
-<BlockSwitcher>
-<Block name="TypeScript">
+You can create user attributes during sign-up or when the user is authenticated. To do this as part of sign-up you can pass them in the `userAttributes` object of the `signUp` API:
 
 ```ts
-import { Auth } from 'aws-amplify'
+import { signUp } from 'aws-amplify/auth';
 
 async function handleSignUp() {
   try {
-    await Auth.signUp({
+    await signUp({
       username: 'jdoe',
       password: 'mysecurerandompassword#123',
-      attributes: {
-        email: 'me@domain.com',
-        phone_number: '+12128601234', // E.164 number convention
-        given_name: 'Jane',
-        family_name: 'Doe',
-        nickname: 'Jane',
-      }
+      options: {
+        userAttributes: {
+          email: 'me@domain.com',
+          phone_number: '+12128601234', // E.164 number convention
+          given_name: 'Jane',
+          family_name: 'Doe',
+          nickname: 'Jane',
+        },
+      },
     });
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 }
 ```
 
-</Block>
-<Block name="JavaScript">
+### Configure custom user attributes
 
-```js
-import { Auth } from 'aws-amplify'
+Custom attributes can be passed in with the `userAttributes` option of the `signUp` API:
 
-async function handleSignUp() {
-  try {
-    await Auth.signUp({
-      username: 'jdoe',
-      password: 'mysecurerandompassword#123',
-      attributes: {
-        email: 'me@domain.com',
-        phone_number: '+12128601234', // E.164 number convention
-        given_name: 'Jane',
-        family_name: 'Doe',
-        nickname: 'Jane',
-      }
-    });
-  } catch (e) {
-    console.log(e)
+```javascript
+signUp({
+  username: 'jdoe',
+  password: 'mysecurerandompassword#123',
+  options: {
+    userAttributes: {
+      'custom:attribute_name_1': 'attribute_value_1',
+      'custom:attribute_name_2': 'attribute_value_2',
+      'custom:attribute_name_3': 'attribute_value_3',
+    }
   }
-}
+});
 ```
-
-</Block>
-
-</BlockSwitcher>
 
 ### Retrieve user attributes
 
-You can then retrieve user attributes for your users to read in their profile. This helps you personalize their frontend experience as well as control what they will see. Visible attributes will be limited to those you enabled during the `Specify read attributes` configured with the Auth category. Then you can use the `currentAuthenticatedUser` method to retrieve user attributes.
+You can then retrieve user attributes for your users to read in their profile. This helps you personalize their frontend experience 
+as well as control what they will see. 
 
-```ts
-const user = await Auth.currentAuthenticatedUser();
+You can retrieve a user's latest attributes using the `fetchUserAttributes` API.
 
-const { attributes } = user;
+```javascript
+import { fetchUserAttributes } from 'aws-amplify/auth';
+
+async function handleFetchUserAttributes() {
+  try {
+    const userAttributes = await fetchUserAttributes();
+    console.log(userAttributes);
+  } catch (error) {
+    console.log(error);
+  }
+}
 ```
-
-Note that if you need to retrieve the latest user attributes after they are changed, you will need to bypass the local cache like so:
-
-```ts
-const user = await Auth.currentAuthenticatedUser({
-  bypassCache: true
-});
-```
-The `bypassCache` parameter defaults to false. Alternatively, your users can sign out and sign back in to retrieve and view their latest attributes.
 
 ## Enable users to update, verify, and delete specific attributes
 
 You can enable your users to update, verify, and delete specific user attributes as their information changes over time. These attributes are enabled as writable when you update the `Specify write attributes` in your `Auth` configuration.
 
+### Update user attribute
+
+Invoke the `updateUserAttribute` API to create or update existing user attributes.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```typescript
+import {
+  updateUserAttribute,
+  type UpdateUserAttributeOutput,
+} from 'aws-amplify/auth';
+
+async function handleUpdateUserAttribute(attributeKey: string, value: string) {
+  try {
+    const output = await updateUserAttribute({
+      userAttribute: {
+        attributeKey,
+        value,
+      },
+    });
+    handleUpdateUserAttributeNextSteps(output);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function handleUpdateUserAttributeNextSteps(output: UpdateUserAttributeOutput) {
+  const { nextStep } = output;
+
+  switch (nextStep.updateAttributeStep) {
+    case 'CONFIRM_ATTRIBUTE_WITH_CODE':
+      const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+      console.log(
+        `Confirmation code was sent to ${codeDeliveryDetails?.deliveryMedium}.`
+      );
+      // Collect the confirmation code from the user and pass to confirmUserAttribute.
+      break;
+    case 'DONE':
+      console.log(`attribute was successfully updated.`);
+      break;
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import {
+  updateUserAttribute,
+} from 'aws-amplify/auth';
+
+async function handleUpdateUserAttribute(attributeKey, value) {
+  try {
+    const output = await updateUserAttribute({
+      userAttribute: {
+        attributeKey,
+        value,
+      },
+    });
+    handleUpdateUserAttributeNextSteps(output);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function handleUpdateUserAttributeNextSteps(output) {
+  const { nextStep } = output;
+
+  switch (nextStep.updateAttributeStep) {
+    case 'CONFIRM_ATTRIBUTE_WITH_CODE':
+      const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+      console.log(
+        `Confirmation code was sent to ${codeDeliveryDetails?.deliveryMedium}.`
+      );
+      // Collect the confirmation code from the user and pass to confirmUserAttribute.
+      break;
+    case 'DONE':
+      console.log(`attribute was successfully updated.`);
+      break;
+  }
+}
+```
+</Block>
+</BlockSwitcher>
+
+<Callout>
+  Note: If you change an attribute that requires confirmation (i.e. email or
+  phone_number), the user will receive a confirmation code either to their email
+  or cellphone. This code can be used with the confirmUserAttribute API to
+  confirm the change.
+</Callout>
+
 ### Update user attributes
 
-You can enable users to make updates after sign-up by using the `updateUserAttributes` method:
+Invoke the `updateUserAttributes` API to create or update multiple existing user attributes.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```typescript
+import { updateUserAttributes, type UpdateUserAttributesOutput } from 'aws-amplify/auth';
+
+async function handleUpdateEmailAndNameAttributes(
+  updatedEmail: string,
+  updatedName: string
+) {
+  try {
+    const attributes = await updateUserAttributes({
+      userAttributes: {
+        email: updatedEmail,
+        name: updatedName,
+      },
+    });
+   // handle next steps
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { updateUserAttributes, type UpdateUserAttributesOutput } from 'aws-amplify/auth';
+
+async function handleUpdateEmailAndNameAttributes(
+  updatedEmail,
+  updatedName
+) {
+  try {
+    const attributes = await updateUserAttributes({
+      userAttributes: {
+        email: updatedEmail,
+        name: updatedName,
+      },
+    });
+   // handle next steps
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+</Block>
+</BlockSwitcher>
+
+
+### Verify user attribute
+
+Some attributes require confirmation for the attribute update to complete. If the attribute needs to be confirmed, part of the result of the `updateUserAttribute` or `updateUserAttributes`
+APIs will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When 
+the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the `confirmUserAttribute` API with their input:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```typescript
+import { confirmUserAttribute , type ConfirmUserAttributeInput} from 'aws-amplify/auth';
+
+async function handleConfirmUserAttribute(
+  {
+   userAttributeKey,
+   confirmationCode
+  }:ConfirmUserAttributeInput
+) {
+  try {
+    await confirmUserAttribute({ userAttributeKey, confirmationCode });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { confirmUserAttribute } from 'aws-amplify/auth';
+
+async function handleConfirmUserAttribute(
+  {
+   userAttributeKey,
+   confirmationCode
+  }
+) {
+  try {
+    await confirmUserAttribute({ userAttributeKey, confirmationCode });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+</Block>
+</BlockSwitcher>
+
+### Send user attribute verification code
+
+If an attribute needs to be verified while the user is authenticated, invoke the `sendUserAttributeVerificationCode` API as shown below:
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
-import { Auth } from 'aws-amplify';
+import { sendUserAttributeVerificationCode, type VerifiableUserAttributeKey } from 'aws-amplify/auth';
 
-async function updateUserAttributes () {
+async function handleSendUserAttributeVerificationCode(
+  key: VerifiableUserAttributeKey
+) {
   try {
-    const user = await Auth.currentAuthenticatedUser();
-    const result = await Auth.updateUserAttributes(user, {
-      email: 'me@anotherdomain.com',
-      family_name: 'Lastname'
+    await sendUserAttributeVerificationCode({
+      userAttributeKey: key,
     });
-    console.log(result); // SUCCESS
-  } catch(err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
-};
+}
 ```
 
 </Block>
 <Block name="JavaScript">
 
 ```js
-import { Auth } from 'aws-amplify';
+import { sendUserAttributeVerificationCode } from 'aws-amplify/auth';
 
-async function updateUserAttributes () {
+async function handleSendUserAttributeVerificationCode(key) {
   try {
-    const user = await Auth.currentAuthenticatedUser();
-    const result = await Auth.updateUserAttributes(user, {
-      email: 'me@anotherdomain.com',
-      family_name: 'Lastname'
+    await sendUserAttributeVerificationCode({
+      userAttributeKey: key,
     });
-    console.log(result); // SUCCESS
-  } catch(err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
-};
+}
 ```
 
 </Block>
 </BlockSwitcher>
 
-### Verify user attributes
 
-If your user changes an attribute that requires confirmation (for example, email or phone number), you will receive a confirmation code for that attribute. 
 
-The `Auth.updateUserAttributes()` function dispatches a hub event to help identify attributes that require verification. You can listen to `updateUserAttributes` event on `auth` channel:
+### Delete user attributes
 
-```javascript
-import { Hub } from 'aws-amplify';
-
-Hub.listen('auth', ({payload}) => {
-  if (payload.event === 'updateUserAttributes') {
-    const resultObject = payload.data;
-  }
-});
-```
-<InlineFilter filters={["js"]}>
-
-You can learn more about how to listen to Hub events [here](/lib/utilities/hub/q/platform/js/).
-
-</InlineFilter>
-
-<InlineFilter filters={["react-native"]}>
-
-You can learn more about how to listen to Hub events [here](/lib/utilities/hub/q/platform/react-native/).
-
-</InlineFilter>
-
-For example, below you can see the dispatched `resultObject` that shows that the `email` attribute was not updated because it requires verification but the `family_name` attribute was updated:
-
-```javascript
-{
-  'email': {
-    isUpdated: false // indicates that attribute requires verification
-    codeDeliveryDetails: {
-      AttributeName: 'email',
-      DeliveryMedium: 'EMAIL',
-      Destination: 'm***@a...'
-    }
-  },
-  'family_name': {
-    isUpdated: true
-  }
-}
-```
-
-<Callout>
-
-**Note:** If a user sends several attributes for update and one or more of them is `read_only` or doesn't exist, the API will throw
-an error and dispatch an `updateUserAttributes_failure` Hub event. None of the attributes in the request will be updated.
-
-</Callout>
-
-Updating an email address using `Auth.updateUserAttributes` will require a verification of the new email address. The user will be emailed a verification code to the updated email address and your application will need to receive the verification code and send it to `Auth.verifyCurrentUserAttributeSubmit` before the email address will be updated in Cognito.
-
-You can confirm the new email address in your app using the following:
-
-```javascript
-const result = await Auth.verifyCurrentUserAttributeSubmit(
-  'email', // The attribute name
-  '<verification_code>'
-);
-```
-
-<Accordion title='Full example for email update and confirmation' headingLevel='4' eyebrow='Example'>
-
-The React application below implements the flow of updating the email address for the current user when the "Update Email" button is clicked, then provides a form to capture the verification code sent to the user's email.
+The `deleteUserAttributes` API allows to delete one or more user attributes.
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
-// App.js
-import { Authenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-import { Auth } from 'aws-amplify';
-import { useState } from 'react';
+import {
+  deleteUserAttributes,
+  type DeleteUserAttributesInput,
+} from 'aws-amplify/auth';
 
-async function updateUserEmail() {
+async function handleDeleteUserAttributes(
+  keys: DeleteUserAttributesInput['userAttributeKeys']
+) {
   try {
-    const user = await Auth.currentAuthenticatedUser();
-    await Auth.updateUserAttributes(user, {
-      email: 'updatedEmail@mydomain.com'
+    await deleteUserAttributes({
+      userAttributeKeys: ['custom:my_custom_attribute', ...keys],
     });
-
-    console.log('a verification code is sent');
-  } catch(err) {
-    console.log('failed with error', err);
+  } catch (error) {
+    console.log(error);
   }
-}
-
-async function verifyEmailValidationCode(code: string) {
-  try {
-    await Auth.verifyCurrentUserAttributeSubmit('email', code);
-    console.log('email verified');
-  } catch(err) {
-    console.log('failed with error', err);
-  }
-}
-
-function ValidationCodeForm() {
-  const [validationCode, setValidationCode] = useState<string | null>(null);
-  return (
-    <div>
-      <label>
-        Verification Code (sent to the new email):
-        <input
-          onChange={(e) => {
-            setValidationCode(e.target.value);
-          }}
-          type="text"
-          name="vc"
-        />
-      </label>
-      <button onClick={() => validationCode && verifyEmailValidationCode(validationCode)}>
-        Send Code
-      </button>
-    </div>
-  );
-}
-
-export default function App() {
-  const [showValidationCodeUI, setShowValidationCodeUI] = useState(false);
-
-  return (
-    <Authenticator>
-      {({ signOut, user }) => (
-        <div className="App">
-          <div>
-            <pre>{JSON.stringify(user?.attributes, null, 2)}</pre>
-          </div>
-          {showValidationCodeUI === false && (
-            <button
-              onClick={async () => { 
-                await updateUserEmail();
-                setShowValidationCodeUI(true);
-              }}
-            >
-              Update Email
-            </button>
-          )}
-          {showValidationCodeUI === true && <ValidationCodeForm />}
-          <button onClick={signOut}>Sign out</button>
-        </div>
-      )}
-    </Authenticator>
-  );
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
-```javascript
-// App.js
-import { Authenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-import { Auth } from 'aws-amplify';
-import { useState } from 'react';
+```js
+import {
+  deleteUserAttributes,
+} from 'aws-amplify/auth';
 
-async function updateUserEmail() {
+async function handleDeleteUserAttributes(keys) {
   try {
-    const user = await Auth.currentAuthenticatedUser();
-    await Auth.updateUserAttributes(user, {
-      email: 'updatedEmail@mydomain.com'
+    await deleteUserAttributes({
+      userAttributeKeys: ['custom:my_custom_attribute', ...keys],
     });
-
-    console.log('a verification code is sent');
-  } catch(err) {
-    console.log('failed with error', err);
+  } catch (error) {
+    console.log(error);
   }
-}
-
-async function verifyEmailValidationCode(code) {
-  try {
-    await Auth.verifyCurrentUserAttributeSubmit('email', code);
-    console.log('email verified');
-  } catch(err) {
-    console.log('failed with error', err);
-  }
-}
-
-function ValidationCodeForm() {
-  const [validationCode, setValidationCode] = useState(null);
-  return (
-    <div>
-      <label>
-        Verification Code (sent to the new email):
-        <input
-          onChange={(e) => {
-            setValidationCode(e.target.value);
-          }}
-          type="text"
-          name="vc"
-        />
-      </label>
-      <button onClick={() => verifyEmailValidationCode(validationCode)}>
-        Send Code
-      </button>
-    </div>
-  );
-}
-
-export default function App() {
-  const [showValidationCodeUI, setShowValidationCodeUI] = useState(false);
-
-  return (
-    <Authenticator>
-      {({ signOut, user }) => (
-        <div className="App">
-          <div>
-            <pre>{JSON.stringify(user.attributes, null, 2)}</pre>
-          </div>
-          {showValidationCodeUI === false && (
-            <button
-              onClick={async () => {
-                await updateUserEmail();
-                setShowValidationCodeUI(true);
-              }}
-            >
-              Update Email
-            </button>
-          )}
-          {showValidationCodeUI === true && <ValidationCodeForm />}
-          <button onClick={signOut}>Sign out</button>
-        </div>
-      )}
-    </Authenticator>
-  );
 }
 ```
+
 </Block>
 </BlockSwitcher>
-
-</Accordion>
-
-### Delete user attributes
-
-Finally, if your users need to delete one or more user attributes, you can call the `Auth.deleteUserAttributes` method:
-
-```ts
-import { Auth } from 'aws-amplify';
-
-async function deleteUserAttributes() {
-  try {
-    const user = await Auth.currentAuthenticatedUser();
-    const result = await Auth.deleteUserAttributes(user, ['family_name']);
-    console.log(result); // SUCCESS
-  } catch(err) {
-    console.log(err);
-  }
-};
-```
 
 By following the above steps your users can now update, verify, and delete specific user attributes as their information changes over time.
 
