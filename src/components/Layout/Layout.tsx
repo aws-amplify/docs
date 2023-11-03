@@ -23,7 +23,6 @@ import {
   Platform
 } from '@/data/platforms';
 import { SpaceShip } from '@/components/SpaceShip';
-import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { trackPageVisit } from '../../utils/track';
@@ -39,13 +38,6 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import { DocSearch } from '@docsearch/react';
 import '@docsearch/css';
-
-const appId = 'W6Q5N5WUDV';
-const apiKey = '953b9e801f385c3c689fc8e94690ab43';
-const searchIndex = process.env.NEXT_PUBLIC_ALGOLIA_INDEX
-  ? process.env.NEXT_PUBLIC_ALGOLIA_INDEX
-  : 'custom_search_staging';
-
 import { PageLastUpdated } from '../PageLastUpdated';
 
 export const Layout = ({
@@ -238,9 +230,9 @@ export const Layout = ({
                   )}
                 >
                   <DocSearch
-                    appId={appId}
-                    indexName={searchIndex}
-                    apiKey={apiKey}
+                    appId={process.env.ALGOLIA_APP_ID}
+                    indexName={process.env.ALGOLIA_API_KEY}
+                    apiKey={process.env.ALGOLIA_INDEX}
                   />
                 </View>
               </Flex>
