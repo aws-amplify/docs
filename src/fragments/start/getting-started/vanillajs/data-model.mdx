@@ -101,7 +101,7 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 
 ## Connect frontend to API
 
-Update your `src/app.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
+Update your `src/app.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `client.graphql()`:
 
 ```javascript
 import { Amplify } from 'aws-amplify';
@@ -111,6 +111,8 @@ import amplifyconfig from './amplifyconfiguration.json';
 import { createTodo } from './graphql/mutations';
 
 Amplify.configure(amplifyconfig);
+
+const client = generateClient();
 
 async function createNewTodo() {
   const todo = {
@@ -147,6 +149,8 @@ import { createTodo } from './graphql/mutations';
 import { listTodos } from './graphql/queries';
 
 Amplify.configure(amplifyconfig);
+
+const client = generateClient();
 
 async function createNewTodo() {
   const todo = {
@@ -187,7 +191,7 @@ MutationButton.addEventListener('click', (evt) => {
 getData();
 ```
 
-Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
+Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `client.graphql()` like so:
 
 ```javascript
 import { Amplify } from 'aws-amplify';
@@ -199,6 +203,8 @@ import { listTodos } from './graphql/queries';
 import { onCreateTodo } from './graphql/subscriptions';
 
 Amplify.configure(amplifyconfig);
+
+const client = generateClient();
 
 async function createNewTodo() {
   const todo = {
