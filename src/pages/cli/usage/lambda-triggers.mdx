@@ -84,10 +84,11 @@ Captchas allow front end applications to guard against bots or other unwanted pa
 
 This template will configure three triggers: [CreateAuthChallenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-create-auth-challenge.html), [DefineAuthChallenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-define-auth-challenge.html), and [VerifyAuthChallengeResponse](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-verify-auth-challenge-response.html).
 
-The first two will essentially allow the standard username/password flow to execute unimpeded, while VerifyAuthChallengeResponse will run when the `Auth.sendCustomChallenge` function is called with the data that is returned when the user interacts with the Google reCaptcha component. The VerifyAuthChallengeResponse Lambda function will subsequently execute a POST request to Google, and will pass the success or failure of the reCaptcha interaction back to Cognito.
+The first two will essentially allow the standard username/password flow to execute unimpeded, while VerifyAuthChallengeResponse will run when the `confirmSignIn()` function is called with the data that is returned when the user interacts with the Google reCaptcha component. The VerifyAuthChallengeResponse Lambda function will subsequently execute a POST request to Google, and will pass the success or failure of the reCaptcha interaction back to Cognito. In order to trigger the custom authentication flow, you will pass an options to the `signIn()` method via `options.authFlowType`.
 
 <BlockSwitcher>
 <Block name="React">
+
 #### React Sample
 
 The following code sample demonstrates how to create a custom ConfirmSignIn component in React using the react-google-recaptcha npm package.
@@ -95,79 +96,62 @@ The following code sample demonstrates how to create a custom ConfirmSignIn comp
 ```js
 import React from 'react';
 import './App.css';
-import { Amplify, Auth, Hub } from 'aws-amplify';
-import awsconfig from './aws-exports';
-import {
-  Authenticator,
-  SignUp,
-  SignIn,
-  Greetings,
-  ConfirmSignUp,
-  AuthPiece
-} from 'aws-amplify-react';
+import { Amplify } from 'aws-amplify';
+import { signIn, confirmSignIn } from 'aws-amplify/auth';
+import { Hub } from 'aws-amplify/utils';
+import amplifyconfig from './amplifyconfiguration.json';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-Amplify.configure({
-  Auth: {
-    identityPoolId: awsconfig.aws_cognito_identity_pool_id,
-    region: awsconfig.aws_cognito_region,
-    userPoolId: awsconfig.aws_user_pools_id,
-    userPoolWebClientId: awsconfig.aws_user_pools_web_client_id,
-    authenticationFlowType: 'CUSTOM_AUTH'
-  }
-});
+Amplify.configure(amplifyconfig);
 
-class MyCustomConfirmation extends AuthPiece {
-  constructor(props) {
-    super(props);
-    this.onChange = this.onChange.bind(this);
-  }
+const CaptchaConfirmation = (props) => {
 
-  onChange(data) {
-    Auth.sendCustomChallengeAnswer(this.props.authData, data).then((user) => {
-      console.log('user signed in!: ', user);
-      this.changeState('signedIn', user);
-    });
-  }
-
-  render() {
-    if (this.props.authState === 'customConfirmSignIn') {
-      return (
-        <div>
-          <ReCAPTCHA
-            sitekey="your-client-side-google-recaptcha-key"
-            onChange={this.onChange}
-          />
-        </div>
-      );
-    } else {
-      return null;
+  const handleCaptchaConfirmation = async () => {
+    try {
+      const res = await confirmSignIn({challengeResponse:props.authData})
+      console.log('User has signed in.', res)
+    } catch (e) {
+      console.log('Sign in failed',e)
     }
   }
+  return (
+    <div>
+      { props.authState === 'customConfirmSignIn' && (
+        <ReCAPTCHA
+          sitekey="your-client-side-google-recaptcha-key"
+          onChange={handleCaptchaConfirmation}
+        />
+      )}
+    </div>
+  );
 }
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <Authenticator hideDefault={true}>
-          <SignIn />
-          <SignUp />
-          <ConfirmSignUp />
-          <Greetings />
-          <MyCustomConfirmation override={'ConfirmSignIn'} />
-        </Authenticator>
-      </div>
-    );
+function App() {
+
+  const handleSignIn = async () => {
+    try {
+      const response = await signIn({
+        username,
+        password,
+        options: {
+          authFlowType: 'CUSTOM_WITH_SRP'
+        }
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
+  return (
+      <div className="App">
+        ...
+        <CaptchaConfirmation authState={authState} />
+      </div>
+  );
 }
 
-function MyApp() {
-  return <App />;
-}
-
-export default MyApp;
+export default App;
 ```
+
 </Block>
 <Block name="Angular">
 
@@ -175,15 +159,13 @@ export default MyApp;
 
 The following code sample demonstrates how to create a custom ConfirmSignIn component in Angular using the ng-recaptcha npm package.
 
-> Be sure to follow all instructions for [setting up an Angular application](/start) with aws-amplify-angular, and [configure your Amplify instance](/lib/auth/switch-auth) to use the CUSTOM_AUTH flow.
-
 app.module.ts:
 
 ```js
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
+import { AmplifyAngularModule } from '@aws-amplify/ui-angular';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { FormsModule } from '@angular/forms';
 
@@ -252,7 +234,7 @@ The following code sample demonstrates how to create a custom ConfirmSignIn comp
 
 App.vue
 
-```js
+```html
 <template>
   <div id="app">
     <amplify-authenticator></amplify-authenticator>
@@ -316,7 +298,7 @@ export default {
 </script>
 ```
 
-main.js
+`main.js`
 
 ```js
 import Vue from 'vue';
@@ -341,7 +323,7 @@ new Vue({
 }).$mount('#app');
 ```
 
-Finally, in public/index.html add the following script:
+Finally, in `public/index.html` add the following script:
 
 ```html
 <script
@@ -371,6 +353,9 @@ Please note that this trigger template will create an S3 resource. The files tha
 - spinner.js (controls the spinner that appears on the page while users are awaiting confirmation)
 - style.css
 - verify.js (the script which performs the verification request)
+
+<BlockSwitcher>
+<Block name="React">
 
 #### React Sample
 
@@ -423,6 +408,9 @@ function MyApp() {
 export default MyApp;
 ```
 
+</Block>
+<Block name="Angular">
+
 #### Angular Sample
 
 The following is an example of how to configure the aws-amplify-angular authenticator so that it displays a message telling the user to check their email, instead of showing the default 'ConfirmSignUp' component.
@@ -467,11 +455,14 @@ app.component.html:
 </div>
 ```
 
+</Block>
+<Block name="Vue">
+
 #### Vue Sample
 
 The following is an example of how to configure the aws-amplify-vue authenticator components so that your app displays a message telling the user to check their email, instead of showing the default 'ConfirmSignUp' component.
 
-```js
+```html
 <template>
   <div id="app">
     <amplify-sign-up v-if="signUp"></amplify-sign-up>
@@ -525,6 +516,9 @@ export default {
 }
 </script>
 ```
+
+</Block>
+</BlockSwitcher>
 
 ### Add User to Group
 
