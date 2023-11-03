@@ -45,7 +45,7 @@ private fun uploadFile() {
     exampleFile.writeText("Example file contents")
 
     Amplify.Storage.uploadFile("ExampleKey", exampleFile,
-        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}") },
+        { Log.i("MyAmplifyApp", "Successfully uploaded: $\{it.key}") },
         { Log.e("MyAmplifyApp", "Upload failed", it) }
     )
 }
@@ -69,7 +69,7 @@ private suspend fun uploadFile() {
     val upload = Amplify.Storage.uploadFile("ExampleKey", exampleFile)
     try {
         val result = upload.result()
-        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.key}")
+        Log.i("MyAmplifyApp", "Successfully uploaded: $\{result.key}")
     } catch (error: StorageException) {
         Log.e("MyAmplifyApp", "Upload failed", error)
     }

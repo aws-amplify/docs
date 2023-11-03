@@ -14,7 +14,7 @@ Future<void> deletePostWithID123AndItsComments(String id) async {
     // DataStore also deletes all associated comments with this operation
     await Amplify.DataStore.delete(post);
   } on DataStoreException catch (e) {
-    safePrint('Something went wrong deleting models: ${e.message}');
+    safePrint('Something went wrong deleting models: $\{e.message}');
   }
 }
 ```

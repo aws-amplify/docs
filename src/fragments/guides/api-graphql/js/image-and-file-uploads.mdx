@@ -38,18 +38,6 @@ How could you use this `image` field and make it work with your app to store and
 
 Let's take a look at how to implement this using AWS Amplify, AWS AppSync, and Amazon S3.
 
-<!-- ## Creating the client
-
-In this guide the client code will be written in React, but you can use Vue, Angular, or any other JavaScript framework because the API calls the you will be writing are not React specific.
-
-To get started, create a new JavaScript project, change into the directory and install the amplify and uuid dependencies:
-
-```
-npx create-react-app gqlimages
-cd gqlimages
-npm install aws-amplify @aws-amplify/ui-react uuid
-``` -->
-
 ## Creating the services
 
 To build this API, you need the following:
@@ -116,15 +104,18 @@ amplify add api
   > Yes
 ```
 
-When prompted, update the schema located at __/amplify/backend/api/gqls3/schema.graphql__ with the following:
+When prompted, update the schema located at **/amplify/backend/api/gqls3/schema.graphql** with the following:
 
 ```graphql
-type Product @model
-  @auth(rules: [
-      { allow: owner },
-      { allow: private, operations: [read] },
+type Product
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: private, operations: [read] }
       { allow: public, operations: [read] }
-  ]) {
+    ]
+  ) {
   id: ID!
   name: String!
   description: String
@@ -139,7 +130,7 @@ The above schema assumes a combination of Amazon Cognito User Pools and API key 
 
 </Callout>
 
-Go back to the CLI and press __Enter__.
+Go back to the CLI and press **Enter**.
 
 Next, deploy the services using the Amplify `push` command:
 
@@ -158,10 +149,15 @@ import { Storage, API } from 'aws-amplify';
 import { createProduct } from './graphql/mutations';
 
 async function saveProduct() {
-  const fileName = "product-image-1";
+  const fileName = 'product-image-1';
   await Storage.put(fileName, file);
-  const product = { name: "Product 1", description: "Black dress", price: 200, image: fileName };
-  await API.graphql({ query: createProduct, variables: { input: product }});
+  const product = {
+    name: 'Product 1',
+    description: 'Black dress',
+    price: 200,
+    image: fileName
+  };
+  await API.graphql({ query: createProduct, variables: { input: product } });
 }
 ```
 
@@ -171,8 +167,11 @@ Here is the code that you could use to query a product and corresponding image f
 import { Storage, API } from 'aws-amplify';
 import { getProduct } from './graphql/mutations';
 
-async function getProductById () {
-  const product = await API.graphql({ query: getProduct, variables: { id: "12345" }});
+async function getProductById() {
+  const product = await API.graphql({
+    query: getProduct,
+    variables: { id: '12345' }
+  });
   const s3Image = await Storage.get(product.data.getProduct.image);
   product.data.getProduct.s3Image = s3Image;
   console.log('product:', product);
@@ -185,13 +184,15 @@ Here is the code that you could use to query an array of products and images fro
 import { Storage, API } from 'aws-amplify';
 import { listProducts } from './graphql/mutations';
 
-async function listProductsWithImages () {
+async function listProductsWithImages() {
   const productData = await API.graphql({ query: listProducts });
-  const products = await Promise.all(productData.data.listProducts.items.map(async product => {
-    const image = await Storage.get(product.image)
-    product.s3Image = image
-    return product
-  }))
-  console.log('products: ', products)
+  const products = await Promise.all(
+    productData.data.listProducts.items.map(async (product) => {
+      const image = await Storage.get(product.image);
+      product.s3Image = image;
+      return product;
+    })
+  );
+  console.log('products: ', products);
 }
 ```

@@ -61,12 +61,14 @@ The examples on this page use [`node-fetch`](https://www.npmjs.com/package/node-
 
 Using an API Key for authenticating your requests, you can query the GraphQL API to get a list of all `Todo`s.
 
-<!-- prettier-ignore -->
+{/* prettier-ignore \ */}
+
 ```js
 import { default as fetch, Request } from 'node-fetch';
 
-const GRAPHQL_ENDPOINT = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT;
-const GRAPHQL_API_KEY = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIKEYOUTPUT;
+const GRAPHQL_ENDPOINT =
+  process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIENDPOINTOUTPUT;
+const GRAPHQL_API_KEY = process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIKEYOUTPUT;
 
 const query = /* GraphQL */ `
   query LIST_TODOS {
@@ -84,7 +86,7 @@ const query = /* GraphQL */ `
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 export const handler = async (event) => {
-  console.log(`EVENT: ${JSON.stringify(event)}`);
+  console.log(`EVENT: $\{JSON.stringify(event)}`);
 
   /** @type {import('node-fetch').RequestInit} */
   const options = {
@@ -129,12 +131,14 @@ export const handler = async (event) => {
 
 In this example you create a mutation showing how to pass in variables as arguments to create a `Todo` record.
 
-<!-- prettier-ignore -->
+{/* prettier-ignore \ */}
+
 ```js
 import { default as fetch, Request } from 'node-fetch';
 
-const GRAPHQL_ENDPOINT = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT;
-const GRAPHQL_API_KEY = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIKEYOUTPUT;
+const GRAPHQL_ENDPOINT =
+  process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIENDPOINTOUTPUT;
+const GRAPHQL_API_KEY = process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIKEYOUTPUT;
 
 const query = /* GraphQL */ `
   mutation CREATE_TODO($input: CreateTodoInput!) {
@@ -150,7 +154,7 @@ const query = /* GraphQL */ `
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 export const handler = async (event) => {
-  console.log(`EVENT: ${JSON.stringify(event)}`);
+  console.log(`EVENT: $\{JSON.stringify(event)}`);
 
   const variables = {
     input: {
@@ -233,8 +237,8 @@ The CLI will automatically configure the Lambda execution IAM role to call the G
 
 Then, the following example will sign the request to call the GraphQL API using IAM authorization.
 
-<!-- due to placeholder text -->
-<!-- prettier-ignore -->
+{/_ due to placeholder text \\ \*/} {/_ prettier-ignore \\ \*/}
+
 ```js
 import crypto from '@aws-crypto/sha256-js';
 import { defaultProvider } from '@aws-sdk/credential-provider-node';
@@ -243,7 +247,8 @@ import { HttpRequest } from '@aws-sdk/protocol-http';
 import { default as fetch, Request } from 'node-fetch';
 
 const { Sha256 } = crypto;
-const GRAPHQL_ENDPOINT = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT;
+const GRAPHQL_ENDPOINT =
+  process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIENDPOINTOUTPUT;
 const AWS_REGION = process.env.AWS_REGION || 'us-east-1';
 
 const query = /* GraphQL */ `
@@ -262,7 +267,7 @@ const query = /* GraphQL */ `
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 export const handler = async (event) => {
-  console.log(`EVENT: ${JSON.stringify(event)}`);
+  console.log(`EVENT: $\{JSON.stringify(event)}`);
 
   const endpoint = new URL(GRAPHQL_ENDPOINT);
 

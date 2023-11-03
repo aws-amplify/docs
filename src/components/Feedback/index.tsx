@@ -44,6 +44,7 @@ const Feedback = function Feedback(router) {
     noButtonRef.current.style.pointerEvents = 'none';
     ctaRef.current.style.display = 'none';
     voteResponseRef.current.style.pointerEvents = 'auto';
+    noButtonRef.current?.setAttribute('style', 'display: none');
 
     const transitionUpButton = [
       {
@@ -76,7 +77,8 @@ const Feedback = function Feedback(router) {
       },
       {
         opacity: 1,
-        transform: 'translate(0)'
+        transform: 'translate(0)',
+        visibility: 'visible'
       }
     ];
 
@@ -162,7 +164,8 @@ const Feedback = function Feedback(router) {
       {
         opacity: 1,
         transform: 'translate(0)',
-        overflow: 'visible'
+        overflow: 'visible',
+        visibility: 'visible'
       }
     ];
 

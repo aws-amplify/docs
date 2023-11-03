@@ -1,0 +1,50 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Create your application',
+  description:
+    'Project setup for Amplify prior to adding category specific example.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue',
+    'swift',
+    'android',
+    'flutter'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import ios0 from '/src/fragments/lib/project-setup/native_common/create-application/common.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android1 from '/src/fragments/lib/project-setup/native_common/create-application/common.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import flutter2 from '/src/fragments/lib/project-setup/native_common/create-application/common.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />
+
+import react_native2 from '/src/fragments/start/getting-started/reactnative/setup.mdx';
+
+<Fragments fragments={{ 'react-native': react_native2 }} />
+
+import js0 from '/src/fragments/lib/project-setup/js/getting-started.mdx';
+
+<Fragments fragments={{ javascript: js0 }} />

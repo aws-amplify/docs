@@ -1,0 +1,32 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Working with maps',
+  description: 'The Amplify Geo category',
+  platforms: ['javascript', 'swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import js0 from '/src/fragments/lib/geo/js/maps.mdx';
+
+<Fragments fragments={{ javascript: js0 }} />
+
+import android1 from '/src/fragments/lib/geo/native_common/maps/common.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import ios2 from '/src/fragments/lib/geo/native_common/maps/common.mdx';
+
+<Fragments fragments={{ swift: ios2 }} />

@@ -10,8 +10,7 @@ Amplify requires a minimum target platform for iOS (13.0), Android (API level 24
 
 ## Platform Setup
 
-The requirements for individual platforms have been modified in some cases. If you haven't done so already, go through the [project setup](/lib/project-setup/platform-setup/q/platform/flutter/) guide 
-to make sure each platform has been configured correctly.
+The requirements for individual platforms have been modified in some cases. If you haven't done so already, go through the [project setup](/lib/project-setup/platform-setup/q/platform/flutter/) guide to make sure each platform has been configured correctly.
 
 ## Auth
 
@@ -36,7 +35,7 @@ try {
   safePrint('identityId: $identityId');
 } on AuthException catch (e) {
   // fetchAuthSession will fail if any of the underlying operations fail.
-  safePrint('The operation failed: ${e.message}');
+  safePrint('The operation failed: $\{e.message}');
 }
 ```
 
@@ -232,14 +231,13 @@ Start by removing this code, then update the `AndroidManifest.xml` as follows, r
 
 <Block name="iOS">
 
-
 For iOS, v0 required the following changes be made to your `Info.plist`.
 
 ```xml
  <plist version="1.0">
 
      <dict>
-     <!-- YOUR OTHER PLIST ENTRIES HERE -->
+     {/* YOUR OTHER PLIST ENTRIES HERE \ */}
 
      <key>CFBundleURLTypes</key>
      <array>
@@ -251,7 +249,7 @@ For iOS, v0 required the following changes be made to your `Info.plist`.
          </dict>
      </array>
 
-     <!-- ... -->
+     {/* ... \ */}
      </dict>
 ```
 
@@ -315,14 +313,14 @@ final result = await Amplify.Storage.uploadFile(
     local: exampleFile,
     key: 'ExampleKey',
 );
-print('Uploaded file key: ${result.key}')
+print('Uploaded file key: $\{result.key}')
 
 // v1
 final result = await Amplify.Storage.uploadFile(
     localFile: exampleFile,
     key: 'ExampleKey',
 ).result;
-print('Uploaded file key: ${result.uploadedItem.key}');
+print('Uploaded file key: $\{result.uploadedItem.key}');
 ```
 
 See [storage docs](/lib/storage/getting-started/q/platform/flutter/) for more detailed examples of other storage methods.

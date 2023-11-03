@@ -10,11 +10,11 @@ Future<void> uploadExampleData() async {
       data: S3DataPayload.string(dataString),
       key: 'ExampleKey',
       onProgress: (progress) {
-        safePrint('Transferred bytes: ${progress.transferredBytes}');
+        safePrint('Transferred bytes: $\{progress.transferredBytes}');
       },
     ).result;
 
-    safePrint('Uploaded data to location: ${result.uploadedItem.key}');
+    safePrint('Uploaded data to location: $\{result.uploadedItem.key}');
   } on StorageException catch (e) {
     safePrint(e.message);
   }

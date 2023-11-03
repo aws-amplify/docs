@@ -21,11 +21,11 @@ Future<void> downloadToLocalFile(String key) async {
       key: key,
       localFile: AWSFile.fromPath(filepath),
       onProgress: (progress) {
-        safePrint('Fraction completed: ${progress.fractionCompleted}');
+        safePrint('Fraction completed: $\{progress.fractionCompleted}');
       },
     ).result;
 
-    safePrint('Downloaded file is located at: ${result.localFile.path}');
+    safePrint('Downloaded file is located at: $\{result.localFile.path}');
   } on StorageException catch (e) {
     safePrint(e.message);
   }
@@ -46,7 +46,7 @@ Future<void> downloadToLocalFileOnWeb(String key) async {
       localFile: AWSFile.fromPath('download.txt'),
     ).result;
 
-    safePrint('Downloaded file: ${result.downloadedItem.key}');
+    safePrint('Downloaded file: $\{result.downloadedItem.key}');
   } on StorageException catch (e) {
     safePrint(e.message);
   }
@@ -67,11 +67,11 @@ Future<void> downloadToMemory(String key) async {
     final result = await Amplify.Storage.downloadData(
       key: key,
       onProgress: (progress) {
-        safePrint('Fraction completed: ${progress.fractionCompleted}');
+        safePrint('Fraction completed: $\{progress.fractionCompleted}');
       },
     ).result;
 
-    safePrint('Downloaded data: ${result.bytes}');
+    safePrint('Downloaded data: $\{result.bytes}');
   } on StorageException catch (e) {
     safePrint(e.message);
   }
@@ -82,10 +82,7 @@ Future<void> downloadToMemory(String key) async {
 
 You can get a downloadable URL for the file in storage by its key and access level.
 
-When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to
-`true` in `S3GetUrlPluginOptions`. If the file is inaccessible or does not exist, a `StorageException` is thrown.
-This allows you to check if an object exists during generating the presigned URL, which you can then use to download
-that object.
+When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to `true` in `S3GetUrlPluginOptions`. If the file is inaccessible or does not exist, a `StorageException` is thrown. This allows you to check if an object exists during generating the presigned URL, which you can then use to download that object.
 
 ```dart
 Future<String> getDownloadUrl({
@@ -105,7 +102,7 @@ Future<String> getDownloadUrl({
     ).result;
     return result.url.toString();
   } on StorageException catch (e) {
-    safePrint('Could not get a downloadable URL: ${e.message}');
+    safePrint('Could not get a downloadable URL: $\{e.message}');
     rethrow;
   }
 }

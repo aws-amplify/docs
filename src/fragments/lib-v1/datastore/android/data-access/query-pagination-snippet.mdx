@@ -23,7 +23,7 @@ Amplify.DataStore.query(Post::class.java,
     { posts ->
         while (posts.hasNext()) {
             val post = posts.next()
-            Log.i("MyAmplifyApp", "Title: ${post.title}")
+            Log.i("MyAmplifyApp", "Title: $\{post.title}")
         }
     },
     { Log.e("MyAmplifyApp", "Query failed", it) }
@@ -40,7 +40,7 @@ Amplify.DataStore
             .paginated(Page.startingAt(0).withLimit(100))
     )
     .catch { Log.e("MyAmplifyApp", "Query failed", it) }
-    .collect { Log.i("MyAmplifyApp", "Title: ${it.title}") }
+    .collect { Log.i("MyAmplifyApp", "Title: $\{it.title}") }
 ```
 
 </Block>
