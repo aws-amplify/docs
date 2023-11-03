@@ -13,7 +13,6 @@ export default async () => {
     extension: /\.mdx$/,
     options: {
       remarkPlugins: [remarkGfm],
-<<<<<<< HEAD
       rehypePlugins: [
         [
           rehypeMermaid,
@@ -34,9 +33,6 @@ export default async () => {
         ],
         [rehypeImgSize, { dir: 'public' }]
       ]
-=======
-      rehypePlugins: [[rehypeImgSize, { dir: 'public' }]]
->>>>>>> next-release/main
     }
   });
 
