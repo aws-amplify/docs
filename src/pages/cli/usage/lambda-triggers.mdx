@@ -105,27 +105,28 @@ Amplify.configure(amplifyconfig);
 
 const CaptchaConfirmSignIn = (props) => {
 
-  const handleCaptchaConfirmation = async () => {
+  const handleConfirmSignIn = async (value) => {
     try {
-      const res = await confirmSignIn({challengeResponse:props.authData})
+      const res = await confirmSignIn({challengeResponse: value})
       console.log('User has signed in.', res)
     } catch (e) {
       console.log('Sign in failed',e)
     }
   }
+
   return (
     <div>
-      { props.authState === 'customConfirmSignIn' && (
         <ReCAPTCHA
           sitekey="your-client-side-google-recaptcha-key"
-          onChange={handleCaptchaConfirmation}
+          onChange={handleConfirmSignIn}
         />
-      )}
     </div>
   );
 }
 
 function App() {
+
+  const [showCaptcha,setShowCaptcha] = useState(false);
 
   const handleSignIn = async () => {
     try {
@@ -142,8 +143,8 @@ function App() {
   }
   return (
       <div className="App">
-        ...
-        <CaptchaConfirmation authState={authState} />
+        <button onClick={handleSignIn}>Sign In</button>
+        { showCaptcha && <CaptchaConfirmation /> }
       </div>
   );
 }
