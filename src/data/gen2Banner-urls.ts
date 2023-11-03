@@ -3,6 +3,11 @@
  */
 export const GEN2BANNER_URLS = [
   '/',
+  '/angular/',
+  '/javascript/',
+  '/nextjs/',
+  '/react/',
+  '/vue/',
   '/javascript/how-amplify-works/',
   '/javascript/how-amplify-works/capabilities/',
   '/javascript/how-amplify-works/building-an-app/',

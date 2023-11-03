@@ -206,7 +206,9 @@ export const Layout = ({
         <ThemeProvider theme={isGen2 ? gen2Theme : defaultTheme}>
           <IconsProvider icons={defaultIcons}>
             <View className={`layout-wrapper layout-wrapper--${pageType}`}>
-              {pageType === 'home' ? <SpaceShip /> : null}
+              {pageType === 'home' ? (
+                <SpaceShip hasBanner={shouldShowGen2Banner} />
+              ) : null}
               <GlobalNav
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
