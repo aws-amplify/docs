@@ -17,7 +17,7 @@ Run `amplify add predictions` and select **Identify**. Then use the following an
 
 **NOTE:** Due to a [known issue](https://github.com/aws-amplify/amplify-cli/issues/12159), you will need to update your amplify backend configuration with the properties below before pushing to the cloud:
 
-`amplify/.backend/<identify-text-resource>/parameters.json`
+**amplify/backend/<identify-text-resource>/parameters.json**
 ```json
 "identifyDoc": true,
 "access": "auth | authAndGuest",
