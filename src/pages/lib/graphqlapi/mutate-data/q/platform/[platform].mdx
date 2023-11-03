@@ -361,9 +361,6 @@ __Note:__ Join table records must be deleted before deleting the associated reco
 
 Each AWS AppSync API uses a default authorization mode when you configure your app. If you get unauthorized errors, you may need to update your authorization mode. To override this default, pass an `authMode` property. The following examples show how you can mutate data with a custom authorization mode:
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
 ```ts
 import { generateClient } from "aws-amplify/api";
 import * as mutations from './graphql/mutations';
