@@ -280,7 +280,7 @@ Let's walk through some of the functions:
 
 **fetchTodos** - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
 
-**addTodo** - Uses the Amplify API `client` created by `generateClient()` to all the AppSync GraphQL API with the `createTodo` mutation. A difference between the `listTodos` query and the `createTodo` mutation is that `createTodo` accepts an argument containing the variables needed for the mutation.
+**addTodo** - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `createTodo` mutation. A difference between the `listTodos` query and the `createTodo` mutation is that `createTodo` accepts an argument containing the variables needed for the mutation.
 
 ## Run locally
 
