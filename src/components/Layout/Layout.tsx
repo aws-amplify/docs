@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import {
   Button,
   Flex,
+  Heading,
   IconsProvider,
   ThemeProvider,
   View,
@@ -29,7 +30,7 @@ import { trackPageVisit } from '../../utils/track';
 import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
 import { TableOfContents } from '@/components/TableOfContents';
-import type { Heading } from '@/components/TableOfContents/TableOfContents';
+import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
 import directory from 'src/directory/directory.json';
 import flatDirectory from 'src/directory/flatDirectory.json';
@@ -47,7 +48,8 @@ export const Layout = ({
   platform,
   showBreadcrumbs = true,
   showLastUpdatedDate = true,
-  url
+  url,
+  useCustomTitle = false
 }: {
   children: any;
   hasTOC?: boolean;
@@ -58,9 +60,10 @@ export const Layout = ({
   showBreadcrumbs?: boolean;
   showLastUpdatedDate: boolean;
   url?: string;
+  useCustomTitle?: boolean;
 }) => {
   const [menuOpen, toggleMenuOpen] = useState(false);
-  const [tocHeadings, setTocHeadings] = useState<Heading[]>([]);
+  const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -69,7 +72,7 @@ export const Layout = ({
   }, []);
 
   useEffect(() => {
-    const headings: Heading[] = [];
+    const headings: HeadingInterface[] = [];
 
     const defaultHeadings = '.main > h2, .main > h3';
     const cliCommandHeadings =
@@ -142,7 +145,7 @@ export const Layout = ({
     .filter((s) => s !== '' && s !== null)
     .join(' - ');
 
-  const description = pageDescription + 'AWS Amplify Docs';
+  const description = `${pageDescription} AWS Amplify Docs`;
 
   const handleScroll = debounce((e) => {
     const bodyScroll = e.target.documentElement.scrollTop;
@@ -304,8 +307,15 @@ export const Layout = ({
                   className={`main${showTOC ? ' main--toc' : ''}`}
                 >
                   {showBreadcrumbs ? (
-                    <Breadcrumbs route={pathname} platform={currentPlatform} />
+                    <Breadcrumbs
+                      route={pathname}
+                      platform={currentPlatform}
+                      isGen2={isGen2}
+                    />
                   ) : null}
+                  {useCustomTitle ? null : (
+                    <Heading level={1}>{pageTitle}</Heading>
+                  )}
                   {children}
                 </Flex>
                 {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
