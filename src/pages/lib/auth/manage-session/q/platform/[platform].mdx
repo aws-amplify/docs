@@ -39,14 +39,14 @@ You can use the `getCurrentUser` API to get information about the currently auth
 <Block name="TypeScript">
 
 ```ts
-import { getCurrentUser } from "aws-amplify/auth";
+import { getCurrentUser } from 'aws-amplify/auth';
 
 async function currentAuthenticatedUser() {
   try {
-    const user = await getCurrentUser();
-    console.log(`The username: ${user.username}`);
-    console.log(`The userId: ${user.userId}`);
-    console.log(`The signInDetails: ${user.signInDetails}`);
+    const { username, userId, signInDetails } = await getCurrentUser();
+    console.log(`The username: ${username}`);
+    console.log(`The userId: ${userId}`);
+    console.log(`The signInDetails: ${signInDetails}`);
   } catch (err) {
     console.log(err);
   }
@@ -57,14 +57,14 @@ async function currentAuthenticatedUser() {
 <Block name="JavaScript">
 
 ```javascript
-import { getCurrentUser } from "aws-amplify/auth";
+import { getCurrentUser } from 'aws-amplify/auth';
 
 async function currentAuthenticatedUser() {
   try {
-    const user = await getCurrentUser();
-    console.log(`The username: ${user.username}`);
-    console.log(`The userId: ${user.userId}`);
-    console.log(`The signInDetails: ${user.signInDetails}`);
+    const { username, userId, signInDetails } = await getCurrentUser();
+    console.log(`The username: ${username}`);
+    console.log(`The userId: ${userId}`);
+    console.log(`The signInDetails: ${signInDetails}`);
   } catch (err) {
     console.log(err);
   }
@@ -74,7 +74,7 @@ async function currentAuthenticatedUser() {
 </Block>
 </BlockSwitcher>
 
-This method can be used to check if a user is signed. It throws an error if the user is not authenticated. 
+This method can be used to check if a user is signed in. It throws an error if the user is not authenticated. 
 
 <Callout>
 
@@ -84,7 +84,7 @@ The user's `signInDetails` are not supported when using the `Hosted UI` or the `
 
 ## Retrieve a user session
 
-Your user's session is their signed-in state which grants them access to your app. When your users sign in their credentials are exchanged for temporary access tokens. You can get session details to access these tokens and use this information to validate user access or perform actions unique to that user.
+Your user's session is their signed-in state, which grants them access to your app. When your users sign in, their credentials are exchanged for temporary access tokens. You can get session details to access these tokens and use this information to validate user access or perform actions unique to that user.
 
 If you only need the session details, you can use the `fetchAuthSession` API which returns a `tokens` object containing the JWTs (JSON Web Tokens).  
 
@@ -110,7 +110,7 @@ Amazon Cognito tokens work by generating temporary access and ID tokens with an 
 <Block name="TypeScript">
 
 ```ts
-import { fetchAuthSession } from "aws-amplify/auth";
+import { fetchAuthSession } from 'aws-amplify/auth';
 
 async function currentSession() {
   try {
@@ -126,7 +126,7 @@ async function currentSession() {
 <Block name="JavaScript">
 
 ```javascript
-import { fetchAuthSession } from "aws-amplify/auth";
+import { fetchAuthSession } from 'aws-amplify/auth';
 
 async function currentSession() {
   try {
@@ -160,16 +160,16 @@ In Amplify the `localStorage` is the default storage mechanism. It saves the tok
 <Block name="TypeScript">
 
 ```ts
-import { Amplify, ResourcesConfig } from "aws-amplify";
+import { Amplify, ResourcesConfig } from 'aws-amplify';
 import {
   defaultStorage
-} from "aws-amplify/utils";
-import { CognitoUserPoolsTokenProvider } from "aws-amplify/auth/cognito";
+} from 'aws-amplify/utils';
+import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
-const authConfig: ResourcesConfig["Auth"] = {
+const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
-    userPoolId: "your_user_pool_id",
-    userPoolClientId: "your_user_pool_client_id",
+    userPoolId: 'your_user_pool_id',
+    userPoolClientId: 'your_user_pool_client_id',
   },
 };
 
@@ -189,16 +189,16 @@ Amplify.configure(
 <Block name="JavaScript">
 
 ```javascript
-import { Amplify } from "aws-amplify";
+import { Amplify } from 'aws-amplify';
 import {
   defaultStorage
-} from "aws-amplify/utils";
-import { CognitoUserPoolsTokenProvider } from "aws-amplify/auth/cognito";
+} from 'aws-amplify/utils';
+import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig = {
   Cognito: {
-    userPoolId: "your_user_pool_id",
-    userPoolClientId: "your_user_pool_client_id",
+    userPoolId: 'your_user_pool_id',
+    userPoolClientId: 'your_user_pool_client_id',
   },
 };
 
@@ -225,16 +225,16 @@ Amplify.configure(
 <Block name="TypeScript">
 
 ```ts
-import { Amplify, ResourcesConfig } from "aws-amplify";
+import { Amplify, ResourcesConfig } from 'aws-amplify';
 import {
   sessionStorage
-} from "aws-amplify/utils";
-import { CognitoUserPoolsTokenProvider } from "aws-amplify/auth/cognito";
+} from 'aws-amplify/utils';
+import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
-const authConfig: ResourcesConfig["Auth"] = {
+const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
-    userPoolId: "your_user_pool_id",
-    userPoolClientId: "your_user_pool_client_id",
+    userPoolId: 'your_user_pool_id',
+    userPoolClientId: 'your_user_pool_client_id',
   },
 };
 
@@ -254,16 +254,16 @@ Amplify.configure(
 <Block name="JavaScript">
 
 ```javascript
-import { Amplify } from "aws-amplify";
+import { Amplify } from 'aws-amplify';
 import {
   sessionStorage
-} from "aws-amplify/utils";
-import { CognitoUserPoolsTokenProvider } from "aws-amplify/auth/cognito";
+} from 'aws-amplify/utils';
+import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig = {
   Cognito: {
-    userPoolId: "your_user_pool_id",
-    userPoolClientId: "your_user_pool_client_id",
+    userPoolId: 'your_user_pool_id',
+    userPoolClientId: 'your_user_pool_client_id',
   },
 };
 
@@ -290,14 +290,14 @@ You can implement your own custom storage mechanism by creating a class that imp
 <Block name="TypeScript">
 
 ```ts
-import { Amplify, ResourcesConfig } from "aws-amplify";
-import { KeyValueStorageInterface } from "aws-amplify/utils";
-import { CognitoUserPoolsTokenProvider } from "aws-amplify/auth/cognito";
+import { Amplify, ResourcesConfig } from 'aws-amplify';
+import { KeyValueStorageInterface } from 'aws-amplify/utils';
+import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
-const authConfig: ResourcesConfig["Auth"] = {
+const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
-    userPoolId: "your_user_pool_id",
-    userPoolClientId: "your_user_pool_client_id",
+    userPoolId: 'your_user_pool_id',
+    userPoolClientId: 'your_user_pool_client_id',
   },
 };
 
@@ -333,13 +333,13 @@ Amplify.configure(
 <Block name="JavaScript">
 
 ```javascript
-import { Amplify} from "aws-amplify";
-import { CognitoUserPoolsTokenProvider } from "aws-amplify/auth/cognito";
+import { Amplify} from 'aws-amplify';
+import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig = {
   Cognito: {
-    userPoolId: "your_user_pool_id",
-    userPoolClientId: "your_user_pool_client_id",
+    userPoolId: 'your_user_pool_id',
+    userPoolClientId: 'your_user_pool_client_id',
   },
 };
 
