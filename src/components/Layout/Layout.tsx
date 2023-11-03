@@ -20,7 +20,8 @@ import {
   DEFAULT_PLATFORM,
   PLATFORMS,
   PLATFORM_DISPLAY_NAMES,
-  Platform
+  Platform,
+  VERSIONED_PLATFORMS
 } from '@/data/platforms';
 import { SpaceShip } from '@/components/SpaceShip';
 import SearchBar from '@/components/SearchBar';
@@ -38,6 +39,8 @@ import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import { PageLastUpdated } from '../PageLastUpdated';
+import { findDirectoryNode } from '@/utils/findDirectoryNode';
+import { VersionSwitcher } from '@/components/VersionSwitcher';
 
 export const Layout = ({
   children,
@@ -112,12 +115,13 @@ export const Layout = ({
   let rootMenuNode;
 
   const isGen2 = router.asPath.split('/')[1] === 'gen2';
-  const searhParam = isGen2 ? 'gen2' : '[platform]';
+  const isPrev = router.asPath.split('/')[2] === 'prev';
+  const searchParam = isGen2 ? 'gen2' : '[platform]';
 
   if (homepageNode?.children && homepageNode.children.length > 0) {
     rootMenuNode = homepageNode.children.find((node) => {
       if (node.path) {
-        return node.path.indexOf(searhParam) > -1;
+        return node.path.indexOf(searchParam) > -1;
       }
     });
   }
@@ -133,8 +137,8 @@ export const Layout = ({
     currentPlatform = platform
       ? platform
       : PLATFORMS.includes(asPathPlatform)
-      ? asPathPlatform
-      : DEFAULT_PLATFORM;
+        ? asPathPlatform
+        : DEFAULT_PLATFORM;
   }
 
   const title = [
@@ -167,6 +171,36 @@ export const Layout = ({
       menuButtonRef?.current?.focus();
     }
   };
+  let menu = <Menu
+    currentPlatform={currentPlatform}
+    rootMenuNode={rootMenuNode}
+    menuTitle="How Amplify works"
+    menuHref={{
+      pathname: `/[platform]`,
+      query: { platform: currentPlatform }
+    }}
+  />
+  if (isGen2) {
+    menu = <Menu
+      rootMenuNode={rootMenuNode}
+      menuTitle="How Gen2 Amplify works"
+      menuHref={{
+        pathname: `/gen2`
+      }}
+    />
+  } else if (isPrev) {
+    let prevNode = findDirectoryNode('/[platform]/prev');
+    menu = <Menu
+      currentPlatform={currentPlatform}
+      rootMenuNode={prevNode}
+      menuTitle="How Amplify works"
+      menuHref={{
+        pathname: `/[platform]/prev`,
+        query: { platform: currentPlatform }
+      }}
+    />
+  }
+
 
   return (
     <>
@@ -232,20 +266,17 @@ export const Layout = ({
                 </View>
               </Flex>
               <View
-                className={`layout-sidebar${
-                  menuOpen ? ' layout-sidebar--expanded' : ''
-                }`}
+                className={`layout-sidebar${menuOpen ? ' layout-sidebar--expanded' : ''
+                  }`}
               >
                 <View
-                  className={`layout-sidebar__backdrop${
-                    menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
-                  }`}
+                  className={`layout-sidebar__backdrop${menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
+                    }`}
                   onClick={() => toggleMenuOpen(false)}
                 ></View>
                 <View
-                  className={`layout-sidebar__inner${
-                    menuOpen ? ' layout-sidebar__inner--expanded' : ''
-                  }`}
+                  className={`layout-sidebar__inner${menuOpen ? ' layout-sidebar__inner--expanded' : ''
+                    }`}
                 >
                   <Button
                     size="small"
@@ -266,29 +297,12 @@ export const Layout = ({
                           PLATFORM_DISPLAY_NAMES[currentPlatform]
                         }
                       />
+                      {VERSIONED_PLATFORMS.includes(currentPlatform) && <VersionSwitcher platform={currentPlatform} isPrev={isPrev} />}
                     </div>
                   )}
 
                   <div className="layout-sidebar-menu">
-                    {isGen2 ? (
-                      <Menu
-                        rootMenuNode={rootMenuNode}
-                        menuTitle="How Gen2 Amplify works"
-                        menuHref={{
-                          pathname: `/gen2`
-                        }}
-                      />
-                    ) : (
-                      <Menu
-                        currentPlatform={currentPlatform}
-                        rootMenuNode={rootMenuNode}
-                        menuTitle="How Amplify works"
-                        menuHref={{
-                          pathname: `/[platform]`,
-                          query: { platform: currentPlatform }
-                        }}
-                      />
-                    )}
+                    {menu}
                     {/* <div className="layout-sidebar-feedback">
                       [ Feedback widget goes here ]
                     </div> */}
