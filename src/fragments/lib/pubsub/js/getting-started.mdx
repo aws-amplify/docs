@@ -10,6 +10,12 @@ PubSub is available with **AWS IoT** and **Generic MQTT Over WebSocket Providers
 
 The default export for PubSub will sign requests according to [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
 
+<Callout>
+
+Make sure that the `@aws-amplify/pubsub` package has the same version number as the `aws-amplify` package in your `package.json` file. 
+
+</Callout>
+
 To use in your app, import `PubSub` from the root export path:
 
 ```javascript
