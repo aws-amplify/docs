@@ -278,14 +278,17 @@ Create a one-directional one-to-one relationship between two models using the `@
 ```mermaid
 classDiagram
   direction LR;
+
 class Project {
   id: ID!
   name: String
 }
+
 class Team {
   id: ID!
   name: String!
 }
+
 Project --> Team : team @hasOne
 ```
 
@@ -383,21 +386,24 @@ Create a one-directional one-to-many relationship between two models using the `
 ```mermaid
 classDiagram
   direction LR;
+
 class Post {
   id: ID!
   title: String
 }
+
 class Comment {
   id: ID!
   content: String!
 }
+
 Post --> Comment : comments @hasMany
 ```
 
 ```graphql
 type Post @model {
   id: ID!
-  title: 'Customize your data model',
+  title: String!
   comments: [Comment] @hasMany
 }
 
@@ -411,11 +417,7 @@ This generates queries and mutations that allow you to retrieve the related Comm
 
 ```graphql
 mutation CreatePost {
-<<<<<<< HEAD:src/pages-old/cli/graphql/data-modeling.mdx
   createPost(input: { title: "Hello World!!" }) {
-=======
-  title: 'Customize your data model',
->>>>>>> next-release/main:src/pages/[platform]/tools/cli/graphqlapi/data-modeling/index.mdx
     title
     id
     comments {
@@ -432,11 +434,7 @@ mutation CreatePost {
 import { createPost } from './graphql/mutations';
 
 const params = {
-<<<<<<< HEAD:src/pages-old/cli/graphql/data-modeling.mdx
   input: { title: 'Hello World!!' }
-=======
-  title: 'Customize your data model'
->>>>>>> next-release/main:src/pages/[platform]/tools/cli/graphqlapi/data-modeling/index.mdx
 };
 
 const result = await API.graphql(graphqlOperation(createPost, params));
@@ -455,7 +453,7 @@ On the `@hasMany` configuration, pass in the name value from your secondary inde
 ```graphql
 type Post @model {
   id: ID!
-  title: 'Customize your data model',
+  title: String!
   comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
 }
 
@@ -470,11 +468,7 @@ In this case, the Comment type has a `postID` field added to store the reference
 
 ```graphql
 mutation CreatePost {
-<<<<<<< HEAD:src/pages-old/cli/graphql/data-modeling.mdx
   createPost(input: { title: "Hello world!" }) {
-=======
-  title: 'Customize your data model',
->>>>>>> next-release/main:src/pages/[platform]/tools/cli/graphqlapi/data-modeling/index.mdx
     comments {
       items {
         postID
@@ -494,11 +488,7 @@ import { getPost } from './graphql/mutations';
 
 // create post
 const postParams = {
-<<<<<<< HEAD:src/pages-old/cli/graphql/data-modeling.mdx
   input: { title: 'Hello World!!' }
-=======
-  title: 'Customize your data model'
->>>>>>> next-release/main:src/pages/[platform]/tools/cli/graphqlapi/data-modeling/index.mdx
 };
 
 const result = await API.graphql(graphqlOperation(createPost, postParams));
@@ -530,14 +520,17 @@ For 1:1 relationships, the @belongsTo directive solely facilitates the ability f
 ```mermaid
 classDiagram
   direction LR;
+
 class Project {
   id: ID!
   name: String
 }
+
 class Team {
   id: ID!
   name: String!
 }
+
 Project --> Team : team @hasOne
 Team --> Project : project @belongsTo
 ```
@@ -616,10 +609,28 @@ const teamProject = updatedTeam.project; // access project from team
 
 <Block name='Bi-directional "has many" relationship'>
 
+```mermaid
+classDiagram
+  direction LR;
+
+class Post {
+  id: ID!
+  title: String
+}
+
+class Comment {
+  id: ID!
+  content: String!
+}
+
+Post --> Comment : comments @hasMany
+Comment --> Post : post @belongsTo
+```
+
 ```graphql
 type Post @model {
   id: ID!
-  title: 'Customize your data model',
+  title: String!
   comments: [Comment] @hasMany
 }
 
@@ -634,11 +645,7 @@ This generates queries and mutations that allow you to retrieve the related Comm
 
 ```graphql
 mutation CreatePost {
-<<<<<<< HEAD:src/pages-old/cli/graphql/data-modeling.mdx
   createPost(input: { title: "Hello World!!" }) {
-=======
-  title: 'Customize your data model',
->>>>>>> next-release/main:src/pages/[platform]/tools/cli/graphqlapi/data-modeling/index.mdx
     title
     id
     comments {
@@ -663,11 +670,7 @@ import { getPost } from './graphql/mutations';
 
 // create post
 const postParams = {
-<<<<<<< HEAD:src/pages-old/cli/graphql/data-modeling.mdx
   input: { title: 'Hello World!!' }
-=======
-  title: 'Customize your data model'
->>>>>>> next-release/main:src/pages/[platform]/tools/cli/graphqlapi/data-modeling/index.mdx
 };
 
 const result = await API.graphql(graphqlOperation(createPost, postParams));
@@ -699,7 +702,7 @@ Alternatively, you set up a custom field to store the reference of the parent ob
 ```graphql
 type Post @model {
   id: ID!
-  title: 'Customize your data model',
+  title: String!
   comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
 }
 
@@ -720,7 +723,7 @@ Create a many-to-many relationship between two models with the `@manyToMany` dir
 ```graphql
 type Post @model {
   id: ID!
-  title: 'Customize your data model',
+  title: String!
   content: String
   tags: [Tag] @manyToMany(relationName: "PostTags")
 }
@@ -736,11 +739,7 @@ Under the hood, the `@manyToMany` directive will create a "join table" named aft
 
 ```graphql
 mutation CreatePost {
-<<<<<<< HEAD:src/pages-old/cli/graphql/data-modeling.mdx
   createPost(input: { title: "Hello World!!" }) {
-=======
-  title: 'Customize your data model',
->>>>>>> next-release/main:src/pages/[platform]/tools/cli/graphqlapi/data-modeling/index.mdx
     id
     title
     content
@@ -775,11 +774,7 @@ import { listPosts } from './graphql/queries';
 
 // create post
 const postParams = {
-<<<<<<< HEAD:src/pages-old/cli/graphql/data-modeling.mdx
   input: { title: 'Hello World' }
-=======
-  title: 'Customize your data model'
->>>>>>> next-release/main:src/pages/[platform]/tools/cli/graphqlapi/data-modeling/index.mdx
 };
 
 const result = await API.graphql(graphqlOperation(createPost, postParams));
@@ -830,7 +825,7 @@ A server-side subscription filter expression is automatically generated for any 
 
 ```graphql
 type Task @model {
-  title: 'Customize your data model',
+  title: String!
   description: String
   type: String
   priority: Int
@@ -910,11 +905,7 @@ You can disable the `get` query and create a custom query that enables us to ret
 
 ```graphql
 type Query {
-<<<<<<< HEAD:src/pages-old/cli/graphql/data-modeling.mdx
   getMyTodo(id: ID!): Todo @function(name: "getmytodofunction-${env}")
-=======
-  getMyTodo(id: ID!): Todo @function(name: "getmytodofunction-$\{env\}")
->>>>>>> next-release/main:src/pages/[platform]/tools/cli/graphqlapi/data-modeling/index.mdx
 }
 ```
 
@@ -1034,15 +1025,9 @@ type Team @model {
 
 ```graphql
 type Post @model {
-<<<<<<< HEAD:src/pages-old/cli/graphql/data-modeling.mdx
   postId: ID! @primaryKey(sortKeyFields: ["title"])
   title: String!
   comments: [Comment] @hasMany(indexName: "byPost", fields: ["postId", "title"])
-=======
-  postId: ID! @primaryKey(sortKeyFields:["title"])
-  title: 'Customize your data model',
-  comments: [Comment] @hasMany(indexName:"byPost", fields:["postId", "title"])
->>>>>>> next-release/main:src/pages/[platform]/tools/cli/graphqlapi/data-modeling/index.mdx
 }
 
 type Comment @model {
@@ -1059,15 +1044,9 @@ type Comment @model {
 
 ```graphql
 type Post @model {
-<<<<<<< HEAD:src/pages-old/cli/graphql/data-modeling.mdx
   postId: ID! @primaryKey(sortKeyFields: ["title"])
   title: String!
   comments: [Comment] @hasMany(indexName: "byPost", fields: ["postId", "title"])
-=======
-  postId: ID! @primaryKey(sortKeyFields:["title"])
-  title: 'Customize your data model',
-  comments: [Comment] @hasMany(indexName:"byPost", fields:["postId", "title"])
->>>>>>> next-release/main:src/pages/[platform]/tools/cli/graphqlapi/data-modeling/index.mdx
 }
 
 type Comment @model {
