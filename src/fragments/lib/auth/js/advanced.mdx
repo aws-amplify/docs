@@ -4,7 +4,7 @@ You can take specific actions when users sign-in or sign-out by subscribing auth
 
 ## Identity Pool Federation
 
-You can federate into Cognito identity pool by creating your own custom credentials provider. The custom credentials provider you write may accept the login details such as the domain name, token and user information from the third party federation sign in process (Google, Facebook, Apple, Amazon) and exchange them for credentials with Cognito. You must provide the custom credentials provider to Amplify via the `Amplify.configure` method call. Below, you can see a rough psuedo code of how such a custom provider can be built to achieve the use case. 
+You can federate into Cognito identity pool by creating your own custom credentials provider. The custom credentials provider you write may accept the login details such as the domain name, token and user information from the third party federation sign in process (Google, Facebook, Apple, Amazon) and exchange them for credentials with Cognito. You must provide the custom credentials provider to Amplify via the `Amplify.configure` method call. Below, you can see a rough example code of how such a custom provider can be built to achieve the use case. 
 
 ```js
 import { Amplify } from "aws-amplify";
@@ -38,7 +38,7 @@ class CustomCredentialsProvider implements AWSCredentialsAndIdentityIdProvider {
   ): Promise<AWSCredentialsAndIdentityId | undefined> {
     try {
 
-      // You can add in some validation to check if the token is avaialable before proceeding
+      // You can add in some validation to check if the token is available before proceeding
       // You can also refresh the token if it's expired before proceeding
 
       
