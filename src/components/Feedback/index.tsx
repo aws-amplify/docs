@@ -40,10 +40,7 @@ const Feedback = function Feedback(router) {
     trackFeedbackSubmission(true);
     yesButtonRef.current?.setAttribute('disabled', true);
     yesButtonRef.current.style.pointerEvents = 'none';
-    noButtonRef.current?.setAttribute('disabled', true);
-    noButtonRef.current.style.pointerEvents = 'none';
     ctaRef.current.style.display = 'none';
-    voteResponseRef.current.style.pointerEvents = 'auto';
     noButtonRef.current?.setAttribute('style', 'display: none');
 
     const transitionUpButton = [
@@ -92,7 +89,7 @@ const Feedback = function Feedback(router) {
         margin: 0,
         padding: 0,
         opacity: 0,
-        display: 'none'
+        visibility: 'hidden'
       }
     ];
 
@@ -111,11 +108,8 @@ const Feedback = function Feedback(router) {
   const onNoVote = useCallback(() => {
     setState('no');
     trackFeedbackSubmission(false);
-    yesButtonRef.current?.setAttribute('disabled', true);
-    yesButtonRef.current.style.pointerEvents = 'none';
     noButtonRef.current?.setAttribute('disabled', true);
     noButtonRef.current.style.pointerEvents = 'none';
-    ctaRef.current?.setAttribute('disabled', false);
     ctaRef.current.style.pointerEvents = 'auto';
     voteResponseRef.current.style.pointerEvents = 'auto';
 
@@ -128,7 +122,8 @@ const Feedback = function Feedback(router) {
         maxWidth: 0,
         padding: 0,
         display: 'none',
-        opacity: 0
+        opacity: 0,
+        visibility: 'hidden'
       }
     ];
 
