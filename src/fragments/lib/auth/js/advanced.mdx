@@ -4,7 +4,8 @@ You can take specific actions when users sign-in or sign-out by subscribing auth
 
 ## Identity Pool Federation
 
-You can federate into Cognito identity pool by creating your own custom credentials provider. The custom credentials provider you write may accept the login details such as the domain name, token and user information from the third party federation sign in process (Google, Facebook, Apple, Amazon) and exchange them for credentials with Cognito. You must provide the custom credentials provider to Amplify via the `Amplify.configure` method call. Below, you can see a rough example code of how such a custom provider can be built to achieve the use case. 
+You can alternatively create your own custom credentials provider to get AWS credentials directly from Cognito Federated Identities and not use User Pool federation. You must supply the custom credentials provider to Amplify via the `Amplify.configure` method call. Below, you can see sample code of how such a custom provider can be built to achieve the use case. 
+
 
 ```js
 import { Amplify } from "aws-amplify";
@@ -26,12 +27,13 @@ const cognitoidentity = new CognitoIdentity({
 // Note: The custom provider class must implement AWSCredentialsAndIdentityIdProvider
 class CustomCredentialsProvider implements AWSCredentialsAndIdentityIdProvider {
 
+  // Example class member that holds the login information 
   federatedLogin?: {
     domain: string,
     token: string
   };
 
-  // custom method to load the federated login information
+  // Custom method to load the federated login information
   loadFederatedLogin(login?: typeof this.federatedLogin) { 
     // You may also persist this by caching if needed
     this.federatedLogin = login;
@@ -46,7 +48,7 @@ class CustomCredentialsProvider implements AWSCredentialsAndIdentityIdProvider {
       // You can also refresh the token if it's expired before proceeding
 
       const getIdResult = await cognitoidentity.getId({
-        // get the identityPoolId from config
+        // Get the identityPoolId from config
         IdentityPoolId: "<identity-pool-id-from-config>",
         Logins: { [this.federatedLogin.domain]: this.federatedLogin.token },
       });
@@ -55,7 +57,7 @@ class CustomCredentialsProvider implements AWSCredentialsAndIdentityIdProvider {
         IdentityId: getIdResult.IdentityId,
         Logins: { [this.federatedLogin.domain]: this.federatedLogin.token },
       });
-      
+
       const credentials: AWSCredentialsAndIdentityId = {
         credentials: {
           accessKeyId: cognitoCredentialsResult.Credentials?.AccessKeyId,
@@ -74,16 +76,18 @@ class CustomCredentialsProvider implements AWSCredentialsAndIdentityIdProvider {
   clearCredentialsAndIdentityId(): void {} 
 }
 
-// create an instance of your custom provider
+// Create an instance of your custom provider
 const customCredentialsProvider = new CustomCredentialsProvider(); 
 Amplify.configure(awsconfig, {
   Auth: {
+    // Supply the custom credentials provider to Amplify
     credentialsProvider: customCredentialsProvider
   },
 });
 
 ```
-Now that the custom credentials provider is built and given to `Amplify.configure`, let's look at how you can use the custom credentials provider to finish federation into Cognito identity pool.
+
+Now that the custom credentials provider is built and supplied to `Amplify.configure`, let's look at how you can use the custom credentials provider to finish federation into Cognito identity pool.
 
 
 <InlineFilter filters = {['react-native']}>
