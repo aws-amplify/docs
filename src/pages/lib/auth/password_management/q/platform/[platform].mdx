@@ -39,7 +39,7 @@ To reset a user's password, use the `resetPassword` API which will send a reset 
 <Block name="TypeScript">
 
 ```typescript
-import { resetPassword, ResetPasswordOutput } from 'aws-amplify/auth';
+import { resetPassword, type ResetPasswordOutput } from 'aws-amplify/auth';
 
 async function handleResetPassword(username: string) {
   try {
@@ -106,12 +106,14 @@ To complete the password reset process, invoke the `confirmResetPassword` API wi
 <Block name="TypeScript">
 
 ```typescript
-import { confirmResetPassword } from 'aws-amplify/auth';
+import { confirmResetPassword, type ConfirmResetPasswordInput } from 'aws-amplify/auth';
 
 async function handleConfirmResetPassword(
-  username: string,
-  confirmationCode: string,
-  newPassword: string
+  {
+  username,
+  confirmationCode,
+  newPassword
+  }:ConfirmResetPasswordInput
 ) {
   try {
     await confirmResetPassword({ username, confirmationCode, newPassword });
@@ -127,9 +129,11 @@ async function handleConfirmResetPassword(
 import { confirmResetPassword } from 'aws-amplify/auth';
 
 async function handleConfirmResetPassword(
-  username,
-  confirmationCode,
-  newPassword
+  {
+   username,
+   confirmationCode,
+   newPassword
+  }
 ) {
   try {
     await confirmResetPassword({ username, confirmationCode, newPassword });
@@ -149,9 +153,9 @@ You can update a signed in user's password using the `updatePassword` API.
 <Block name="TypeScript">
 
 ```typescript
-import { updatePassword } from 'aws-amplify/auth';
+import { updatePassword, type UpdatePasswordInput } from 'aws-amplify/auth';
 
-async function handleUpdatePassword(oldPassword: string, newPassword: string) {
+async function handleUpdatePassword({ oldPassword, newPassword }:UpdatePasswordInput) {
   try {
     await updatePassword({ oldPassword, newPassword });
   } catch (err) {

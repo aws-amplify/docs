@@ -2,11 +2,12 @@
 <Block name="TypeScript">
 
 ```ts
-import { forgetDevice } from 'aws-amplify/auth';
+import { fetchDevices } from 'aws-amplify/auth';
 
-export async function handleForgetDevice() {
+export async function handleFetchDevices() {
   try {
-    await forgetDevice();
+    const output = await fetchDevices();
+    console.log(output);
   } catch (error) {
     console.log(error);
   }
@@ -16,11 +17,12 @@ export async function handleForgetDevice() {
 <Block name="JavaScript">
 
 ```js
-import { forgetDevice } from 'aws-amplify/auth';
+import { fetchDevices } from 'aws-amplify/auth';
 
-export async function handleForgetDevice() {
+async function handleFetchDevices() {
   try {
-    await forgetDevice();
+    const output = await Auth.fetchDevices();
+    console.log(output);
   } catch (error) {
     console.log(error);
   }

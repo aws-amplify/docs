@@ -92,7 +92,7 @@ async function handleSignUp() {
 }
 ```
 
-### Custom attributes
+### Configure custom user attributes
 
 Custom attributes can be passed in with the `userAttributes` option of the `signUp` API:
 
@@ -144,7 +144,7 @@ Invoke the `updateUserAttribute` API to create or update existing user attribute
 ```typescript
 import {
   updateUserAttribute,
-  UpdateUserAttributeOutput,
+  type UpdateUserAttributeOutput,
 } from 'aws-amplify/auth';
 
 async function handleUpdateUserAttribute(attributeKey: string, value: string) {
@@ -235,7 +235,7 @@ Invoke the `updateUserAttributes` API to create or update multiple existing user
 <Block name="TypeScript">
 
 ```typescript
-import { updateUserAttributes, UpdateUserAttributesOutput } from 'aws-amplify/auth';
+import { updateUserAttributes, type UpdateUserAttributesOutput } from 'aws-amplify/auth';
 
 async function handleUpdateEmailAndNameAttributes(
   updatedEmail: string,
@@ -258,7 +258,7 @@ async function handleUpdateEmailAndNameAttributes(
 <Block name="JavaScript">
 
 ```javascript
-import { updateUserAttributes, UpdateUserAttributesOutput } from 'aws-amplify/auth';
+import { updateUserAttributes, type UpdateUserAttributesOutput } from 'aws-amplify/auth';
 
 async function handleUpdateEmailAndNameAttributes(
   updatedEmail,
@@ -291,11 +291,13 @@ the user gets the confirmation code, you can present a UI to the user to enter t
 <Block name="TypeScript">
 
 ```typescript
-import { confirmUserAttribute } from 'aws-amplify/auth';
+import { confirmUserAttribute , type ConfirmUserAttributeInput} from 'aws-amplify/auth';
 
 async function handleConfirmUserAttribute(
-  userAttributeKey: 'email' | 'phone_number',
-  confirmationCode: string
+  {
+   userAttributeKey,
+   confirmationCode
+  }:ConfirmUserAttributeInput
 ) {
   try {
     await confirmUserAttribute({ userAttributeKey, confirmationCode });
@@ -311,8 +313,10 @@ async function handleConfirmUserAttribute(
 import { confirmUserAttribute } from 'aws-amplify/auth';
 
 async function handleConfirmUserAttribute(
-  userAttributeKey,
-  confirmationCode
+  {
+   userAttributeKey,
+   confirmationCode
+  }
 ) {
   try {
     await confirmUserAttribute({ userAttributeKey, confirmationCode });
@@ -326,16 +330,16 @@ async function handleConfirmUserAttribute(
 
 ### Send user attribute verification code
 
-If an attribute needs to be verified while the user is authenticated invoke the `sendUserAttributeVerificationCode` API as shown below:
+If an attribute needs to be verified while the user is authenticated, invoke the `sendUserAttributeVerificationCode` API as shown below:
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
-import { sendUserAttributeVerificationCode } from 'aws-amplify/auth';
+import { sendUserAttributeVerificationCode, type VerifiableUserAttributeKey } from 'aws-amplify/auth';
 
 async function handleSendUserAttributeVerificationCode(
-  key: 'email' | 'phone_number'
+  key: VerifiableUserAttributeKey
 ) {
   try {
     await sendUserAttributeVerificationCode({
@@ -379,7 +383,7 @@ The `deleteUserAttributes` API allows to delete one or more user attributes.
 ```ts
 import {
   deleteUserAttributes,
-  DeleteUserAttributesInput,
+  type DeleteUserAttributesInput,
 } from 'aws-amplify/auth';
 
 async function handleDeleteUserAttributes(

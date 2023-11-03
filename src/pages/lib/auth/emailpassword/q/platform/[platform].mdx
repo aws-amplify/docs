@@ -195,14 +195,9 @@ By default, each user that signs up remains in the unconfirmed status until they
 <Block name="TypeScript">
 
 ```ts
-import { confirmSignUp } from 'aws-amplify/auth';
+import { confirmSignUp, type ConfirmSignUpInput } from 'aws-amplify/auth';
 
-type ConfirmSignUpParameters = {
-  username: string;
-  confirmationCode: string;
-};
-
-async function handleSignUpConfirmation({ username, confirmationCode }: ConfirmSignUpParameters) {
+async function handleSignUpConfirmation({ username, confirmationCode }: ConfirmSignUpInput) {
   try {
     const { isSignUpComplete, nextStep } = await confirmSignUp({
       username,
@@ -264,14 +259,9 @@ You pass a username and password to the `signIn` API to sign-in your end-users.
 <Block name="TypeScript">
 
 ```ts
-import { signIn } from 'aws-amplify/auth';
+import { signIn, type SignInInput } from 'aws-amplify/auth';
 
-type SignInParameters = {
-  username: string;
-  password: string;
-};
-
-async function handleSignIn({ username, password }: SignInParameters) {
+async function handleSignIn({ username, password }: SignInInput) {
   try {
     const { isSignedIn, nextStep } = await signIn({ username, password });
   } catch (error) {

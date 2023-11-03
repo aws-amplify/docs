@@ -384,9 +384,9 @@ import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
 import { CognitoAuthUser } from "aws-amplify/auth/cognito";
-import awsConfig from './aws-exports';
+import config from './amplifyconfiguration.json';
 
-Amplify.configure(awsConfig);
+Amplify.configure(config);
 
 function App() {
   const [user, setUser] = useState<CognitoAuthUser | null>(null);
@@ -452,9 +452,9 @@ import React, { useEffect, useState } from "react";
 import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
-import awsConfig from './aws-exports';
+import config from './amplifyconfiguration.json'
 
-Amplify.configure(awsConfig);
+Amplify.configure(config);
 
 function App() {
   const [user, setUser] = useState(null);
@@ -532,9 +532,9 @@ import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
 import { CognitoAuthUser } from "aws-amplify/auth/cognito";
-import awsConfig from './aws-exports';
+import config from './amplifyconfiguration.json';
 
-Amplify.configure(awsConfig);
+Amplify.configure(config);
 
 function App() {
   const [user, setUser] = useState<CognitoAuthUser | null>(null);
@@ -601,9 +601,9 @@ import { Text, View, Linking, Button } from "react-native";
 import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
-import awsConfig from './aws-exports';
+import config from './amplifyconfiguration.json';
 
-Amplify.configure(awsConfig);
+Amplify.configure(config);
 
 function App() {
   const [user, setUser] = useState(null);
@@ -1002,8 +1002,7 @@ import { Button, Linking, Text, View } from 'react-native';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 
 import { Amplify, Auth, Hub } from 'aws-amplify';
-import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import awsconfig from './aws-exports';
+import config from './amplifyconfiguration.json';
 
 async function urlOpener(url: string, redirectUrl: string): Promise<void> {
   await InAppBrowser.isAvailable();
@@ -1092,7 +1091,7 @@ import InAppBrowser from 'react-native-inappbrowser-reborn';
 
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import awsconfig from './aws-exports';
+import config from './amplifyconfiguration.json';
 
 async function urlOpener(url, redirectUrl) {
   await InAppBrowser.isAvailable();
