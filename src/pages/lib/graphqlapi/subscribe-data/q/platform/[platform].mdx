@@ -125,7 +125,7 @@ __Limitations:__
 Now that your application is set up and using subscriptions, you may want to know when the subscription is finally established, or reflect to your users when the subscription isn't healthy. You can monitor the connection state for changes through the `Hub` local eventing system.
 
 ```ts
-import { CONNECTION_STATE_CHANGE, ConnectionState } from '@aws-amplify/pubsub';
+import { CONNECTION_STATE_CHANGE, ConnectionState } from 'aws-amplify/api';
 import { Hub } from 'aws-amplify/utils';
 
 Hub.listen('api', (data: any) => {
@@ -155,7 +155,7 @@ Connections between your application and backend subscriptions can be interrupte
 While offline, your application will miss messages and will not automatically catch up when reconnected. Depending on your use case, you may want to take action for your app to catch up when it comes back online.
 
 ```js
-import { generateClient } from 'aws-amplify/api'
+import { generateClient, CONNECTION_STATE_CHANGE, ConnectionState } from 'aws-amplify/api'
 import { Hub } from 'aws-amplify/utils'
 
 const client = generateClient()
