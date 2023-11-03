@@ -86,6 +86,8 @@ This template will configure three triggers: [CreateAuthChallenge](https://docs.
 
 The first two will essentially allow the standard username/password flow to execute unimpeded, while VerifyAuthChallengeResponse will run when the `Auth.sendCustomChallenge` function is called with the data that is returned when the user interacts with the Google reCaptcha component. The VerifyAuthChallengeResponse Lambda function will subsequently execute a POST request to Google, and will pass the success or failure of the reCaptcha interaction back to Cognito.
 
+<BlockSwitcher>
+<Block name="React">
 #### React Sample
 
 The following code sample demonstrates how to create a custom ConfirmSignIn component in React using the react-google-recaptcha npm package.
@@ -166,6 +168,8 @@ function MyApp() {
 
 export default MyApp;
 ```
+</Block>
+<Block name="Angular">
 
 #### Angular Sample
 
@@ -239,6 +243,8 @@ app.component.html
   ></re-captcha>
 </div>
 ```
+</Block>
+<Block name="Vue">
 
 #### Vue Sample
 
@@ -344,6 +350,8 @@ Finally, in public/index.html add the following script:
   defer
 ></script>
 ```
+</Block>
+</BlockSwitcher>
 
 ### Basic Scaffolding for a Custom Auth Challenge
 
