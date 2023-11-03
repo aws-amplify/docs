@@ -12,7 +12,7 @@ Future<Todo?> queryItem(Todo queriedTodo) async {
     final response = await Amplify.API.query(request: request).response;
     final todo = response.data;
     if (todo == null) {
-      safePrint('errors: ${response.errors}');
+      safePrint('errors: $\{response.errors}');
     }
     return todo;
   } on ApiException catch (e) {
@@ -34,7 +34,7 @@ Future<List<Todo?>> queryListItems() async {
 
     final todos = response.data?.items;
     if (todos == null) {
-      safePrint('errors: ${response.errors}');
+      safePrint('errors: $\{response.errors}');
       return const [];
     }
     return todos;
@@ -71,14 +71,15 @@ Future<List<Todo?>> queryPaginatedListItems() async {
 
 ## Query Predicates
 
-Models also support the use of query predicates for comparison. These are accessible from the Model's attributes, for example `Blog["attribute"]["operator"]`. 
+Models also support the use of query predicates for comparison. These are accessible from the Model's attributes, for example `Blog["attribute"]["operator"]`.
 
-Supported operators: 
+Supported operators:
+
 - `eq` - equal
-- `ne` - not equal 
-- `gt` - greater than 
-- `ge` - greater than or equal 
-- `lt` - less than 
+- `ne` - not equal
+- `gt` - greater than
+- `ge` - greater than or equal
+- `lt` - less than
 - `le` - less than or equal
 - `beginsWith` - Matches models where the given field begins with the provided value.
 - `between` - Matches models where the given field is between the provided start and end values.

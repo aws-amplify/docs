@@ -1,12 +1,12 @@
- ```dart
+```dart
 Future<void> resendVerificationCode() async {
-  try {
-    final result = await Amplify.Auth.resendUserAttributeConfirmationCode(
-      userAttributeKey: AuthUserAttributeKey.email,
-    );
-    _handleCodeDelivery(result.codeDeliveryDetails);
-  } on AuthException catch (e) {
-    safePrint('Error resending code: ${e.message}');
-  }
+ try {
+   final result = await Amplify.Auth.resendUserAttributeConfirmationCode(
+     userAttributeKey: AuthUserAttributeKey.email,
+   );
+   _handleCodeDelivery(result.codeDeliveryDetails);
+ } on AuthException catch (e) {
+   safePrint('Error resending code: $\{e.message}');
+ }
 }
 ```

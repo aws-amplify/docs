@@ -1,15 +1,15 @@
 ```js
 const subscription = DataStore.observeQuery(
   Post,
-  p => p.and(p => [
-    p.title.beginsWith("post"),
-    p.rating.gt(10)
-  ]), {
-    sort: s => s.rating(SortDirection.ASCENDING)
+  (p) => p.and((p) => [p.title.beginsWith('post'), p.rating.gt(10)]),
+  {
+    sort: (s) => s.rating(SortDirection.ASCENDING)
   }
-).subscribe(snapshot => {
+).subscribe((snapshot) => {
   const { items, isSynced } = snapshot;
-  console.log(`[Snapshot] item count: ${items.length}, isSynced: ${isSynced}`);
+  console.log(
+    `[Snapshot] item count: $\{items.length}, isSynced: $\{isSynced}`
+  );
 });
 ```
 

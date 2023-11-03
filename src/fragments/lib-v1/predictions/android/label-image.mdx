@@ -1,4 +1,4 @@
-The following APIs will enable you identify real world objects (chairs, desks, etc) in images.  These objects are referred to as "labels" from images.
+The following APIs will enable you identify real world objects (chairs, desks, etc) in images. These objects are referred to as "labels" from images.
 
 ## Set up your backend
 
@@ -54,7 +54,7 @@ fun detectLabels(image: Bitmap) {
         { result ->
             val identifyResult = result as IdentifyLabelsResult
             val label = identifyResult.labels.firstOrNull()
-            Log.i("MyAmplifyApp", "${label?.name}")
+            Log.i("MyAmplifyApp", "$\{label?.name}")
         },
         { Log.e("MyAmplifyApp", "Label detection failed", it) }
     )
@@ -69,7 +69,7 @@ suspend fun detectLabels(image: Bitmap) {
     try {
         val result = Amplify.Predictions.identify(LABELS, image)
         val identifyResult = result as IdentifyLabelsResult
-        Log.i("MyAmplifyApp", "${identifyResult.labels[0].name}")
+        Log.i("MyAmplifyApp", "$\{identifyResult.labels[0].name}")
     } catch (error: PredictionsException) {
         Log.e("MyAmplifyApp", "Label detection failed", error)
     }
@@ -125,7 +125,7 @@ fun detectLabels(image: Bitmap) {
     Amplify.Predictions.identify(LabelType.MODERATION_LABELS, image,
         { result ->
             val identifyResult = result as IdentifyLabelsResult
-            Log.i("MyAmplifyApp", "${identifyResult.isUnsafeContent}")
+            Log.i("MyAmplifyApp", "$\{identifyResult.isUnsafeContent}")
         },
         { Log.e("MyAmplifyApp", "Identify failed", it) }
     )

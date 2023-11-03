@@ -1,0 +1,34 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Translate language',
+  description:
+    'Learn more about how to integrate translation capabilities for your application using Amplify',
+  platforms: ['javascript', 'react-native', 'swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import translateJs from '/src/fragments/lib/predictions/js/translate.mdx';
+import translateIOS from '/src/fragments/lib/predictions/ios/translate.mdx';
+import translateAndroid from '/src/fragments/lib/predictions/android/translate.mdx';
+
+<Fragments
+  fragments={{
+    javascript: translateJs,
+    'react-native': translateJs,
+    ios: translateIOS,
+    android: translateAndroid
+  }}
+/>

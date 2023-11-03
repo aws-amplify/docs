@@ -1,0 +1,32 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Identify user',
+  description: 'Provide information about a user to Amazon Pinpoint.',
+  platforms: ['flutter', 'swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import commonRoute from '/src/fragments/lib/push-notifications/common/identify-user.mdx';
+
+<Fragments
+  fragments={{
+    android: commonRoute,
+    flutter: commonRoute,
+    ios: commonRoute,
+    'react-native': commonRoute
+  }}
+/>
+}} />

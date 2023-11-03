@@ -4,23 +4,23 @@
 <Block name="React">
 
 ```jsx
-import React, { useEffect } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React, { useEffect } from 'react';
+import logo from './logo.svg';
+import './App.css';
 
-import { Amplify, DataStore, Predicates } from "aws-amplify";
-import { Post, PostStatus } from "./models";
+import { Amplify, DataStore, Predicates } from 'aws-amplify';
+import { Post, PostStatus } from './models';
 
 // Use next two lines only if syncing with the cloud
-import awsconfig from "./aws-exports";
+import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
 async function onCreate() {
   await DataStore.save(
     new Post({
-      title: `New title ${Date.now()}`,
+      title: `New title $\{Date.now()}`,
       rating: Math.floor(Math.random() * (8 - 1) + 1),
-      status: PostStatus.ACTIVE,
+      status: PostStatus.ACTIVE
     })
   );
 }
@@ -71,14 +71,15 @@ function App() {
 
 export default App;
 ```
+
 </Block>
 
 <Block name="Angular">
 
 ```ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DataStore, Predicates } from "aws-amplify";
-import { Post, PostStatus } from "./models";
+import { DataStore, Predicates } from 'aws-amplify';
+import { Post, PostStatus } from './models';
 
 @Component({
   selector: 'app-root',
@@ -88,7 +89,8 @@ import { Post, PostStatus } from "./models";
       <button type="button" (click)="onDeleteAll()">DELETE ALL</button>
       <button type="button" (click)="onQuery()">QUERY rating > 4</button>
     </div>
-`})
+  `
+})
 export class AppComponent implements OnInit, OnDestroy {
   subscription;
 
@@ -108,13 +110,13 @@ export class AppComponent implements OnInit, OnDestroy {
     let posts = await DataStore.query(Post, (c) => c.rating.gt(4));
     console.log(posts);
   }
-  
+
   public onCreate() {
     DataStore.save(
       new Post({
-        title: `New title ${Date.now()}`,
+        title: `New title $\{Date.now()}`,
         rating: Math.floor(Math.random() * (8 - 1) + 1),
-        status: PostStatus.ACTIVE,
+        status: PostStatus.ACTIVE
       })
     );
   }
@@ -124,11 +126,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 }
 ```
+
 </Block>
 
 <Block name="Vue">
 
-```javascript 
+```javascript
 <template>
   <div id="app">
     <div class="app-body">
@@ -168,7 +171,7 @@ export default {
     onCreate() {
       DataStore.save(
         new Post({
-          title: `New title ${Date.now()}`,
+          title: `New title $\{Date.now()}`,
           rating: Math.floor(Math.random() * (8 - 1) + 1),
           status: PostStatus.ACTIVE,
         })
@@ -181,10 +184,11 @@ export default {
 };
 </script>
 ```
+
 </Block>
 
 </BlockSwitcher>
 
-## API Reference   
+## API Reference
 
 For the complete API documentation for DataStore, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/datastore.html)

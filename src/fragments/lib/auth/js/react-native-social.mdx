@@ -5,14 +5,20 @@
 OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after a login. [OIDC](https://en.wikipedia.org/wiki/OpenID_Connect) tokens are available in the app after the application has completed this process.
 
 <Callout warning>
- When configuring social sign-in through the Amplify CLI, it's important to exercise caution when designating attributes as "required." Different social identity providers have varied scopes in terms of the information they respond back to Cognito with.  User pool attributes that are initially set up as "required" cannot be changed later, and may require you to migrate the users or create a new user pool.  
+  When configuring social sign-in through the Amplify CLI, it's important to
+  exercise caution when designating attributes as "required." Different social
+  identity providers have varied scopes in terms of the information they respond
+  back to Cognito with. User pool attributes that are initially set up as
+  "required" cannot be changed later, and may require you to migrate the users
+  or create a new user pool.
 </Callout>
 
-import all0 from "/src/fragments/lib/auth/common/social_signin_web_ui/setup_auth_provider.mdx";
+import all0 from '/src/fragments/lib/auth/common/social_signin_web_ui/setup_auth_provider.mdx';
 
-<Fragments fragments={{all: all0}} />
+<Fragments fragments={{ all: all0 }} />
 
 ## Configure Auth Category
+
 Once you have the social provider configured, run the following in your project’s root folder:
 
 ```bash
@@ -22,23 +28,23 @@ amplify add auth     ## "amplify update auth" if already configured
 Choose the following options:
 
 ```console
-? Do you want to use the default authentication and security configuration? 
+? Do you want to use the default authentication and security configuration?
     `Default configuration with Social Provider (Federation)`
-? How do you want users to be able to sign in? 
+? How do you want users to be able to sign in?
     `Username`
-? Do you want to configure advanced settings? 
+? Do you want to configure advanced settings?
     `No, I am done.`
-? What domain name prefix you want us to create for you? 
+? What domain name prefix you want us to create for you?
     `(default)`
-? Enter your redirect signin URI: 
+? Enter your redirect signin URI:
     `myapp://`
-? Do you want to add another redirect signin URI 
+? Do you want to add another redirect signin URI
     `No`
-? Enter your redirect signout URI: 
+? Enter your redirect signout URI:
     `myapp://`
-? Do you want to add another redirect signout URI 
+? Do you want to add another redirect signout URI
     `No`
-? Select the social providers you want to configure for your user pool: 
+? Select the social providers you want to configure for your user pool:
     `<choose your provider and follow the prompts to input the proper tokens>`
 ```
 
@@ -48,10 +54,9 @@ You can configure you application to use more than one redirect URL. For more in
 
 </Callout>
 
+import all1 from '/src/fragments/lib/auth/common/social_signin_web_ui/configure_auth_category.mdx';
 
-import all1 from "/src/fragments/lib/auth/common/social_signin_web_ui/configure_auth_category.mdx";
-
-<Fragments fragments={{all: all1}} />
+<Fragments fragments={{ all: all1 }} />
 
 ## Setup frontend
 
@@ -101,7 +106,7 @@ export default function App() {
       console.log("Not signed in");
     }
   };
-  
+
   return (
     <View>
       <Button
@@ -119,15 +124,16 @@ export default function App() {
   );
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
 ```javascript
-import { useEffect, useState } from "react";
-import { Text, View, Linking, Button } from "react-native";
+import { useEffect, useState } from 'react';
+import { Text, View, Linking, Button } from 'react-native';
 
-import { Amplify, Auth, Hub } from "aws-amplify";
-import awsconfig from "./aws-exports";
+import { Amplify, Auth, Hub } from 'aws-amplify';
+import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
 
@@ -136,22 +142,22 @@ export default function App() {
   const [customState, setCustomState] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
+    const unsubscribe = Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
-        case "signIn":
+        case 'signIn':
           setUser(data);
           break;
-        case "signOut":
+        case 'signOut':
           setUser(null);
           break;
-        case "customOAuthState":
+        case 'customOAuthState':
           setCustomState(data);
       }
     });
 
     Auth.currentAuthenticatedUser()
-      .then(currentUser => setUser(currentUser))
-      .catch(() => console.log("Not signed in"));
+      .then((currentUser) => setUser(currentUser))
+      .catch(() => console.log('Not signed in'));
 
     return unsubscribe;
   }, []);
@@ -162,7 +168,7 @@ export default function App() {
         title="Open Amazon"
         onPress={() =>
           Auth.federatedSignIn({
-            provider: "LoginWithAmazon",
+            provider: 'LoginWithAmazon'
           })
         }
       />
@@ -173,6 +179,7 @@ export default function App() {
   );
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -182,54 +189,54 @@ To deploy your app to Amplify Console with continuous deployment of the frontend
 
 ### Redirect URLs
 
-For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. For example, in Expo: `exp://127.0.0.1:19000/--/` in dev and `myapp://` in production. The same is true for *Sign out redirect URI(s)*.
+For _Sign in Redirect URI(s)_ inputs, you can put one URI for local development and one for production. For example, in Expo: `exp://127.0.0.1:19000/--/` in dev and `myapp://` in production. The same is true for _Sign out redirect URI(s)_.
 
 **Note:** if you have multiple redirect URI inputs, you'll need to handle both of them where you configure your Amplify project. For example:
 
 ```javascript
-import awsConfig from "./aws-exports";
+import awsConfig from './aws-exports';
 
 const isLocalhost = Boolean(__DEV__);
 
 // Assuming you have two redirect URIs, and the first is for localhost and second is for production
-const [
-  localRedirectSignIn,
-  productionRedirectSignIn,
-] = awsConfig.oauth.redirectSignIn.split(",");
+const [localRedirectSignIn, productionRedirectSignIn] =
+  awsConfig.oauth.redirectSignIn.split(',');
 
-const [
-  localRedirectSignOut,
-  productionRedirectSignOut,
-] = awsConfig.oauth.redirectSignOut.split(",");
+const [localRedirectSignOut, productionRedirectSignOut] =
+  awsConfig.oauth.redirectSignOut.split(',');
 
 const updatedAwsConfig = {
   ...awsConfig,
   oauth: {
     ...awsConfig.oauth,
-    redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
-    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
+    redirectSignIn: isLocalhost
+      ? localRedirectSignIn
+      : productionRedirectSignIn,
+    redirectSignOut: isLocalhost
+      ? localRedirectSignOut
+      : productionRedirectSignOut
   }
-}
+};
 
 Amplify.configure(updatedAwsConfig);
 ```
 
-For React Native applications, you need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. For Expo, follow the steps in [Expo Linking Guide](https://docs.expo.io/guides/linking/). For vanilla React Native, follow the steps in [React Native Linking Guide](https://reactnative.dev/docs/linking). After completing those steps, assuming you are using `myapp` as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect URI(s)* and/or *Sign out redirect URI(s)* inputs. Your URIs could look like any of these:
+For React Native applications, you need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. For Expo, follow the steps in [Expo Linking Guide](https://docs.expo.io/guides/linking/). For vanilla React Native, follow the steps in [React Native Linking Guide](https://reactnative.dev/docs/linking). After completing those steps, assuming you are using `myapp` as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as _Sign in Redirect URI(s)_ and/or _Sign out redirect URI(s)_ inputs. Your URIs could look like any of these:
 
 - `myapp://`
 - `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.dev/guides/linking/#linking-to-your-app)).
 
-*React Native - iOS - Info.plist*
+_React Native - iOS - Info.plist_
 
 ```xml
 
  <plist version="1.0">
 
   <dict>
-  <!-- YOUR OTHER PLIST ENTRIES HERE -->
+  {/* YOUR OTHER PLIST ENTRIES HERE \ */}
 
-  <!-- ADD AN ENTRY TO CFBundleURLTypes for Cognito Auth -->
-  <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
+  {/* ADD AN ENTRY TO CFBundleURLTypes for Cognito Auth \ */}
+  {/* IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW \ */}
   <key>CFBundleURLTypes</key>
   <array>
     <dict>
@@ -240,11 +247,11 @@ For React Native applications, you need to define a custom URL scheme for your a
     </dict>
   </array>
 
-  <!-- ... -->
+  {/* ... \ */}
   </dict>
 ```
 
-*React Native - Android - AndroidManifest.xml*
+_React Native - Android - AndroidManifest.xml_
 
 - Set the `launchMode` of MainActivity to `singleTask`
 - Add new intent filter (below) with `scheme="myapp"`
@@ -288,6 +295,7 @@ In order for Amplify to listen for data from Cognito when linking back to your a
   return [RCTLinkingManager application:application openURL:url options:options];
 }
 ```
+
 </Callout>
 
 **In-App Browser Setup (optional, but recommended)**
@@ -370,10 +378,10 @@ function App() {
         <Button title="Sign Out" onPress={() => Auth.signOut()} />
       ) : (
         <>
-          {/* Go to the Cognito Hosted UI */}
+          {/* Go to the Cognito Hosted UI \ */}
           <Button title="Cognito" onPress={() => Auth.federatedSignIn()} />
 
-          {/* Go directly to a configured identity provider */}
+          {/* Go directly to a configured identity provider \ */}
           <Button title="Facebook" onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook })} />
           <Button title="Google" onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })}  />
           <Button title="Amazon" onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Amazon })} />
@@ -385,6 +393,7 @@ function App() {
 
 export default App;
 ```
+
 </Block>
 
 <Block name="JavaScript">
@@ -404,7 +413,7 @@ async function urlOpener(url, redirectUrl) {
     showTitle: false,
     enableUrlBarHiding: true,
     enableDefaultShare: false,
-    ephemeralWebSession: false,
+    ephemeralWebSession: false
   });
 
   if (type === 'success') {
@@ -416,8 +425,8 @@ Amplify.configure({
   ...awsconfig,
   oauth: {
     ...awsconfig.oauth,
-    urlOpener,
-  },
+    urlOpener
+  }
 });
 
 function App() {
@@ -428,7 +437,7 @@ function App() {
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
-          getUser().then(userData => setUser(userData));
+          getUser().then((userData) => setUser(userData));
           break;
         case 'signOut':
           setUser(null);
@@ -440,12 +449,12 @@ function App() {
       }
     });
 
-    getUser().then(userData => setUser(userData));
+    getUser().then((userData) => setUser(userData));
   }, []);
 
   function getUser() {
     return Auth.currentAuthenticatedUser()
-      .then(userData => userData)
+      .then((userData) => userData)
       .catch(() => console.log('Not signed in'));
   }
 
@@ -456,13 +465,34 @@ function App() {
         <Button title="Sign Out" onPress={() => Auth.signOut()} />
       ) : (
         <>
-          {/* Go to the Cognito Hosted UI */}
+          {/* Go to the Cognito Hosted UI \ */}
           <Button title="Cognito" onPress={() => Auth.federatedSignIn()} />
 
-          {/* Go directly to a configured identity provider */}
-          <Button title="Facebook" onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook })} />
-          <Button title="Google" onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })}  />
-          <Button title="Amazon" onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Amazon })} />
+          {/* Go directly to a configured identity provider \ */}
+          <Button
+            title="Facebook"
+            onPress={() =>
+              Auth.federatedSignIn({
+                provider: CognitoHostedUIIdentityProvider.Facebook
+              })
+            }
+          />
+          <Button
+            title="Google"
+            onPress={() =>
+              Auth.federatedSignIn({
+                provider: CognitoHostedUIIdentityProvider.Google
+              })
+            }
+          />
+          <Button
+            title="Amazon"
+            onPress={() =>
+              Auth.federatedSignIn({
+                provider: CognitoHostedUIIdentityProvider.Amazon
+              })
+            }
+          />
         </>
       )}
     </View>
@@ -471,12 +501,13 @@ function App() {
 
 export default App;
 ```
+
 </Block>
 </BlockSwitcher>
 
-import all2 from "/src/fragments/lib/auth/js/react-native-withoauth.mdx";
+import all2 from '/src/fragments/lib/auth/js/react-native-withoauth.mdx';
 
-<Fragments fragments={{all: all2}} />
+<Fragments fragments={{ all: all2 }} />
 
 </Block>
 
@@ -623,27 +654,28 @@ const styles = StyleSheet.create({
   },
 });
 ```
+
 </Block>
 
 <Block name="JavaScript">
 
 ```js
-import { useEffect, useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Linking, Button } from "react-native";
-import * as WebBrowser from "expo-web-browser";
+import { useEffect, useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, Linking, Button } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 
-import { Amplify, Hub, Auth } from "aws-amplify";
-import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
-import awsconfig from "./src/aws-exports";
+import { Amplify, Hub, Auth } from 'aws-amplify';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import awsconfig from './src/aws-exports';
 
 const isLocalHost = Boolean(__DEV__);
 
 const [localRedirectSignIn, productionRedirectSignIn] =
-  awsconfig.oauth.redirectSignIn.split(",");
+  awsconfig.oauth.redirectSignIn.split(',');
 
 const [localRedirectSignOut, productionRedirectSignOut] =
-  awsconfig.oauth.redirectSignOut.split(",");
+  awsconfig.oauth.redirectSignOut.split(',');
 
 async function urlOpener(url, redirectUrl) {
   const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(
@@ -651,7 +683,7 @@ async function urlOpener(url, redirectUrl) {
     redirectUrl
   );
 
-  if (type === "success" && Platform.OS === "ios") {
+  if (type === 'success' && Platform.OS === 'ios') {
     WebBrowser.dismissBrowser();
     return Linking.openURL(newUrl);
   }
@@ -667,8 +699,8 @@ const updatedConfig = {
     redirectSignOut: isLocalHost
       ? localRedirectSignOut
       : productionRedirectSignOut,
-    urlOpener,
-  },
+    urlOpener
+  }
 };
 Amplify.configure(updatedConfig);
 
@@ -677,17 +709,17 @@ export default function App() {
   const [customState, setCustomState] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
-      console.log("event", event);
-      console.log("data", data);
+    const unsubscribe = Hub.listen('auth', ({ payload: { event, data } }) => {
+      console.log('event', event);
+      console.log('data', data);
       switch (event) {
-        case "signIn":
+        case 'signIn':
           setUser(data);
           break;
-        case "signOut":
+        case 'signOut':
           setUser(null);
           break;
-        case "customOAuthState":
+        case 'customOAuthState':
           setCustomState(data);
           break;
       }
@@ -695,7 +727,7 @@ export default function App() {
 
     Auth.currentAuthenticatedUser()
       .then((currentUser) => setUser(currentUser))
-      .catch(() => console.log("Not signed in"));
+      .catch(() => console.log('Not signed in'));
 
     return unsubscribe;
   }, []);
@@ -707,7 +739,7 @@ export default function App() {
         title="Open Facebook"
         onPress={() =>
           Auth.federatedSignIn({
-            provider: CognitoHostedUIIdentityProvider.Facebook,
+            provider: CognitoHostedUIIdentityProvider.Facebook
           })
         }
       />
@@ -715,7 +747,7 @@ export default function App() {
         title="Open Google"
         onPress={() =>
           Auth.federatedSignIn({
-            provider: CognitoHostedUIIdentityProvider.Google,
+            provider: CognitoHostedUIIdentityProvider.Google
           })
         }
       />
@@ -723,7 +755,7 @@ export default function App() {
         title="Open Amazon"
         onPress={() =>
           Auth.federatedSignIn({
-            provider: CognitoHostedUIIdentityProvider.Amazon,
+            provider: CognitoHostedUIIdentityProvider.Amazon
           })
         }
       />
@@ -731,7 +763,7 @@ export default function App() {
         title="Open Apple"
         onPress={() =>
           Auth.federatedSignIn({
-            provider: CognitoHostedUIIdentityProvider.Apple,
+            provider: CognitoHostedUIIdentityProvider.Apple
           })
         }
       />
@@ -745,19 +777,19 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });
-
 ```
+
 </Block>
 </BlockSwitcher>
 
-import all3 from "/src/fragments/lib/auth/js/react-native-withoauth.mdx";
+import all3 from '/src/fragments/lib/auth/js/react-native-withoauth.mdx';
 
-<Fragments fragments={{all: all3}} />
+<Fragments fragments={{ all: all3 }} />
 
 </Block>
 

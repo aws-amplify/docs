@@ -1,4 +1,4 @@
-import { Heading, Text, Flex, Button } from '@aws-amplify/ui-react';
+import { Heading, Text, Flex, Button, Grid } from '@aws-amplify/ui-react';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';

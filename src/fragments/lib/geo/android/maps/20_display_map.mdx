@@ -236,7 +236,6 @@ The `MapLibreView` has several configuration parameters that are not present in 
 
 Also, check the [official MapView API reference](https://docs.maptiler.com/maplibre-gl-native-android/com.mapbox.mapboxsdk.maps/#mapview) for the available public API documentation.
 
-
 ## AmplifyMapView
 
 The `AmplifyMapView` provides a default search field, place markers, visualization modes (map or list) and map controls. It can be used to easily embed a place picker into any app. To use the search functionality of `AmplifyMapView`, provision a search index resource using the instructions in either [Amplify CLI - Geo - Location Search](/cli/geo/search) or [Use existing Amazon Location Service resources](/lib/geo/existing-resources).
@@ -385,8 +384,8 @@ import android.util.Log
 amplifyMapView.onPlaceSelect { place, symbol ->
     // place is an instance of AmazonLocationPlace
     // symbol is an instance of Symbol from MapLibre
-    Log.i("MyAmplifyApp", "The selected place is ${place.label}")
-    Log.i("MyAmplifyApp", "It is located at ${place.coordinates}")
+    Log.i("MyAmplifyApp", "The selected place is $\{place.label}")
+    Log.i("MyAmplifyApp", "It is located at $\{place.coordinates}")
 }
 ```
 
@@ -398,16 +397,15 @@ amplifyMapView.onPlaceSelect { place, symbol ->
 
 The view can be initialized with the following configuration parameters:
 
-| Property                       | Type    | Description                                          | Default |
-|--------------------------------|---------|------------------------------------------------------|---------|
-| `map:map_centerLatitude`       | Float   | The initial center latitude                          | `0.0`   |
-| `map:map_centerLongitude`      | Float   | The initial center longitude                         | `0.0`   |
-| `map:map_minZoomLevel`         | Integer | The minimum zoom level (min is 0)                    | `3`     |
-| `map:map_maxZoomLevel`         | Integer | The maximum zoom level (max is 22)                   | `18`    |
-| `map:map_showCompassIndicator` | Boolean | Whether the compass should be displayed or not       | `true`  |
-| `map:map_showZoomControls`     | Boolean | Whether the zoom controls should be displayed or not | `false` |
-| `map:map_zoomLevel`            | Integer | The initial zoom level (between 0 and 22)            | `14`    |
-
+| Property | Type | Description | Default |
+| --- | --- | --- | --- |
+| `map:map_centerLatitude` | Float | The initial center latitude | `0.0` |
+| `map:map_centerLongitude` | Float | The initial center longitude | `0.0` |
+| `map:map_minZoomLevel` | Integer | The minimum zoom level (min is 0) | `3` |
+| `map:map_maxZoomLevel` | Integer | The maximum zoom level (max is 22) | `18` |
+| `map:map_showCompassIndicator` | Boolean | Whether the compass should be displayed or not | `true` |
+| `map:map_showZoomControls` | Boolean | Whether the zoom controls should be displayed or not | `false` |
+| `map:map_zoomLevel` | Integer | The initial zoom level (between 0 and 22) | `14` |
 
 Example:
 

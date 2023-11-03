@@ -1,0 +1,24 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Remote media',
+  description: 'Support remote media.',
+  platforms: ['swift']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import ios0 from '/src/fragments/lib/push-notifications/common/remote-media.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
