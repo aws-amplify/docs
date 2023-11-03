@@ -25,14 +25,18 @@ const cognitoidentity = new CognitoIdentity({
 
 // Note: The custom provider class must implement AWSCredentialsAndIdentityIdProvider
 class CustomCredentialsProvider implements AWSCredentialsAndIdentityIdProvider {
+
   federatedLogin?: {
     domain: string,
-    token: string | undefined
+    token: string
   };
-  setToken(login?: typeof this.federatedLogin) { // custom method to set the login information
+
+  // custom method to load the federated login information
+  loadFederatedLogin(login?: typeof this.federatedLogin) { 
     // You may also persist this by caching if needed
     this.federatedLogin = login;
   }
+
   async getCredentialsAndIdentityId(
     getCredentialsOptions: GetCredentialsOptions
   ): Promise<AWSCredentialsAndIdentityId | undefined> {
@@ -41,7 +45,6 @@ class CustomCredentialsProvider implements AWSCredentialsAndIdentityIdProvider {
       // You can add in some validation to check if the token is available before proceeding
       // You can also refresh the token if it's expired before proceeding
 
-      
       const getIdResult = await cognitoidentity.getId({
         // get the identityPoolId from config
         IdentityPoolId: "<identity-pool-id-from-config>",
@@ -52,6 +55,7 @@ class CustomCredentialsProvider implements AWSCredentialsAndIdentityIdProvider {
         IdentityId: getIdResult.IdentityId,
         Logins: { [this.federatedLogin.domain]: this.federatedLogin.token },
       });
+      
       const credentials: AWSCredentialsAndIdentityId = {
         credentials: {
           accessKeyId: cognitoCredentialsResult.Credentials?.AccessKeyId,
@@ -81,6 +85,52 @@ Amplify.configure(awsconfig, {
 ```
 Now that the custom credentials provider is built and given to `Amplify.configure`, let's look at how you can use the custom credentials provider to finish federation into Cognito identity pool.
 
+
+<InlineFilter filters = {['react-native']}>
+
+### Facebook Sign-in (React Native - Expo)
+
+```javascript
+import Expo from 'expo';
+import React from 'react';
+import {
+  fetchAuthSession,
+} from "aws-amplify/auth";
+
+const App = () => {
+  const signIn = async () => {
+    const { type, token, expires } = await Expo.Facebook.logInWithReadPermissionsAsync('YOUR_FACEBOOK_APP_ID', {
+        permissions: ['public_profile'],
+      });
+    if (type === 'success') {
+      // sign in with federated identity
+      try {
+        customCredentialsProvider.loadFederatedLogin({
+          domain: "graph.facebook.com",
+          token: token,
+        });
+        const fetchSessionResult = await fetchAuthSession(); // will return the AWS credentials
+        console.log("fetchSessionResult: ", fetchSessionResult); 
+      } catch(err) {
+        console.log(err);
+      }
+    }
+  }
+
+  // ...
+
+  return (
+    <View style={styles.container}>
+      <Button title="FBSignIn" onPress={signIn} />
+    </View>
+  );
+
+}
+```
+</InlineFilter>
+
+<InlineFilter filters = {['js']}>
+
 ### Facebook sign-in (React)
 
 ```js
@@ -107,7 +157,7 @@ const SignInWithFacebook = () => {
             if (!response || !response.authResponse) {
               return;
             }
-            customCredentialsProvider.setToken({
+            customCredentialsProvider.loadFederatedLogin({
               domain: "graph.facebook.com",
               token: response.authResponse.accessToken,
             });
@@ -157,104 +207,7 @@ const SignInWithFacebook = () => {
 }
 ```
 
-### Facebook Sign-in (React Native - Expo)
-
-```javascript
-import Expo from 'expo';
-import React from 'react';
-import {
-  fetchAuthSession,
-} from "aws-amplify/auth";
-
-const App = () => {
-  const signIn = async () => {
-    const { type, token, expires } = await Expo.Facebook.logInWithReadPermissionsAsync('YOUR_FACEBOOK_APP_ID', {
-        permissions: ['public_profile'],
-      });
-    if (type === 'success') {
-      // sign in with federated identity
-      try {
-        customCredentialsProvider.setToken({
-          domain: "graph.facebook.com",
-          token: token,
-        });
-        const fetchSessionResult = await fetchAuthSession(); // will return the AWS credentials
-        console.log("fetchSessionResult: ", fetchSessionResult); 
-      } catch(err) {
-        console.log(err);
-      }
-    }
-  }
-
-  // ...
-
-  return (
-    <View style={styles.container}>
-      <Button title="FBSignIn" onPress={signIn} />
-    </View>
-  );
-
-}
-```
-
 ### Google sign-in (React)
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import React, { useEffect } from 'react';
-import jwt from 'jwt-decode';
-import {
-  fetchAuthSession,
-} from "aws-amplify/auth";
-
-const SignInWithGoogle = () => {
-  useEffect(() => {
-  // Check for an existing Google client initialization
-    if (!window.google?.accounts) createScript();
-  }, []);
-
-  // Load the Google client
-  const createScript = () => {
-    const script = document.createElement('script');
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.async = true;
-    script.defer = true;
-    script.onload = initGsi;
-    document.body.appendChild(script);
-  }
-
-  // Initialize Google client and render Google button
-  const initGsi = () => {
-    if (window.google?.accounts) {
-      window.google.accounts.id.initialize({
-        client_id: process.env.GOOGLE_CLIENT_ID,
-        callback: (response: any) => {
-          customCredentialsProvider.setToken({
-            domain: "accounts.google.com",
-            token: response.credential,
-          });
-          const fetchSessionResult = await fetchAuthSession(); // will return the AWS credentials
-          console.log("fetchSessionResult: ", fetchSessionResult); 
-        },
-      });
-      window.google.accounts.id.renderButton(
-        document.getElementById("googleSignInButton"),
-        { theme: "outline", size: "large" }
-      );
-    }
-  }
-
-  return (
-    <div>
-      <button id="googleSignInButton"/>
-    </div>
-  );
-}
-```
-</Block>
-<Block name="JavaScript">
 
 ```jsx
 import React, { useEffect } from 'react';
@@ -285,7 +238,7 @@ const SignInWithGoogle = () => {
       window.google.accounts.id.initialize({
         client_id: process.env.GOOGLE_CLIENT_ID,
         callback: (response: any) => {
-          customCredentialsProvider.setToken({
+          customCredentialsProvider.loadFederatedLogin({
             domain: "accounts.google.com",
             token: response.credential,
           });
@@ -307,8 +260,6 @@ const SignInWithGoogle = () => {
   );
 }
 ```
-</Block>
-</BlockSwitcher>
 
 ### Federate with Auth0
 
@@ -327,7 +278,7 @@ const { idToken, domain, name, email, phoneNumber } = getFromAuth0(); // get the
 
 async function getCognitoCredentials () {
   try {
-     customCredentialsProvider.setToken({
+     customCredentialsProvider.loadFederatedLogin({
         domain,
         token: idToken,
       });
@@ -338,6 +289,7 @@ async function getCognitoCredentials () {
   }
 }
 ```
+</InlineFilter>
 
 ## Lambda Triggers
 
