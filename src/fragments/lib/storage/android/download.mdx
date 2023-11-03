@@ -1,6 +1,6 @@
 ### Download to file
 
-<!-- TODO Rewrite monitor progress of download for iOS/Flutter/Android? -->
+{/* TODO Rewrite monitor progress of download for iOS/Flutter/Android? \ */}
 
 If you uploaded the data using the key `ExampleKey`, you can retrieve the data using `Amplify.Storage.downloadFile`.
 
@@ -20,9 +20,9 @@ Amplify.Storage.downloadFile(
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-val file = File("${applicationContext.filesDir}/download.txt")
+val file = File("$\{applicationContext.filesDir}/download.txt")
 Amplify.Storage.downloadFile("ExampleKey", file,
-    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") },
+    { Log.i("MyAmplifyApp", "Successfully downloaded: $\{it.file.name}") },
     { Log.e("MyAmplifyApp",  "Download Failure", it) }
 )
 ```
@@ -32,7 +32,7 @@ Amplify.Storage.downloadFile("ExampleKey", file,
 
 ```kotlin
 try {
-    val file = File("${applicationContext.filesDir}/download.txt")
+    val file = File("$\{applicationContext.filesDir}/download.txt")
     val download = Amplify.Storage.downloadFile("ExampleKey", file)
     try {
         val fileName = download.result().file.name
@@ -86,11 +86,11 @@ Amplify.Storage.downloadFile(
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-val file = File("${applicationContext.filesDir}/download.txt")
+val file = File("$\{applicationContext.filesDir}/download.txt")
 val options = StorageDownloadFileOptions.defaultInstance()
 Amplify.Storage.downloadFile("ExampleKey", file, options,
-    { Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}") },
-    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") },
+    { Log.i("MyAmplifyApp", "Fraction completed: $\{it.fractionCompleted}") },
+    { Log.i("MyAmplifyApp", "Successfully downloaded: $\{it.file.name}") },
     { Log.e("MyAmplifyApp", "Download Failure", it) }
 )
 ```
@@ -99,12 +99,12 @@ Amplify.Storage.downloadFile("ExampleKey", file, options,
 <Block name="Kotlin - Coroutines">
 
 ```kotlin
-val file = File("${applicationContext.filesDir}/download.txt")
+val file = File("$\{applicationContext.filesDir}/download.txt")
 val options = StorageDownloadFileOptions.defaultInstance()
 val download = Amplify.Storage.downloadFile("ExampleKey", file, options)
 val progressJob = activityScope.async {
     download.progress().collect { progress ->
-        Log.i("MyAmplifyApp", "Fraction completed: ${progress.fractionCompleted}")
+        Log.i("MyAmplifyApp", "Fraction completed: $\{progress.fractionCompleted}")
     }
 }
 try {
@@ -154,7 +154,7 @@ Amplify.Storage.getUrl(
 ```kotlin
 Amplify.Storage.getUrl(
     "ExampleKey",
-    { Log.i("MyAmplifyApp", "Successfully generated: ${it.url}") },
+    { Log.i("MyAmplifyApp", "Successfully generated: $\{it.url}") },
     { Log.e("MyAmplifyApp", "URL generation failure", it) }
 )
 ```

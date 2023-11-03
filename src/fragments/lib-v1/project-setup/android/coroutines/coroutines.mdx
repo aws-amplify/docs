@@ -53,7 +53,7 @@ Amplify's coroutine support is included in an optional module, `core-kotlin`.
     }
     ```
 
-2. Wherever you use the **`Amplify`** facade, import `com.amplifyframework.kotlin.core.Amplify` instead of `com.amplifyframework.core.Amplify`:
+2.  Wherever you use the **`Amplify`** facade, import `com.amplifyframework.kotlin.core.Amplify` instead of `com.amplifyframework.core.Amplify`:
 
     ```java
     import com.amplifyframework.kotlin.core.Amplify
@@ -100,7 +100,7 @@ lifecycleScope.async {
 lifecycleScope.async {
     try {
         val result = download.result()
-        Log.i("AmplifyKotlinDemo", "Download finished! ${result.file.path}")
+        Log.i("AmplifyKotlinDemo", "Download finished! $\{result.file.path}")
     } catch (failure: StorageException) {
         Log.e("AmplifyKotlinDemo", "Download failed", failure)
     }
@@ -117,7 +117,7 @@ lifecycleScope.async {
 lifecycleScope.async {
     try {
         val result = upload.result()
-        Log.i("AmplifyKotlinDemo", "Upload finished! ${result.key}")
+        Log.i("AmplifyKotlinDemo", "Upload finished! $\{result.key}")
     } catch (failure: StorageException) {
         Log.e("AmplifyKotlinDemo", "Upload failed", failure)
     }

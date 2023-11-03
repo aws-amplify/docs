@@ -6,7 +6,7 @@ Future<void> socialSignIn() async {
     );
     safePrint('Sign in result: $result');
   } on AuthException catch (e) {
-    safePrint('Error signing in: ${e.message}');
+    safePrint('Error signing in: $\{e.message}');
   }
 }
 ```

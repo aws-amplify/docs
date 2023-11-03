@@ -1,6 +1,6 @@
-import all0 from "/src/fragments/guides/api-graphql/common/subscriptions-by-id.mdx";
+import all0 from '/src/fragments/guides/api-graphql/common/subscriptions-by-id.mdx';
 
-<Fragments fragments={{all: all0}} />
+<Fragments fragments={{ all: all0 }} />
 
 <BlockSwitcher>
 <Block name="Java">
@@ -29,8 +29,8 @@ private GraphQLRequest<Comment> onCreateCommentByPostId(String id) {
 ```kotlin
 private fun onCreateCommentByPostId(id: String): GraphQLRequest<Comment> {
     val document = """
-        subscription onCreateCommentByPostId(${'$'}id: ID!) {
-            onCommentByPostId(postCommentsId: ${'$'}id) {
+        subscription onCreateCommentByPostId($\{'$'}id: ID!) {
+            onCommentByPostId(postCommentsId: $\{'$'}id) {
                 content
                 id
                 postCommentsId
@@ -83,11 +83,11 @@ private suspend fun createSubscription() {
             .catch { Log.e("MyAmplifyApp", "Subscription failure:", it) }
             .collect { response ->
                 if (response.hasErrors()) {
-                    Log.e("MyAmplifyApp", "Error receiving Comment: ${response.errors}")
+                    Log.e("MyAmplifyApp", "Error receiving Comment: $\{response.errors}")
                 } else if (!response.hasData()) {
                     Log.e("MyAmplifyApp", "Error receiving Comment; no data in response.")
                 } else {
-                    Log.i("MyAmplifyApp", "Got comment on subscription: ${response.data}")
+                    Log.i("MyAmplifyApp", "Got comment on subscription: $\{response.data}")
                 }
             }
     } catch (error: ApiException) {
@@ -105,7 +105,7 @@ private void createSubscription() {
         RxAmplify.API.subscribe(onCreateCommentByPostId("12345"));
     subscription
         .observeConnectionState()
-        .subscribe(connectionStateEvent -> 
+        .subscribe(connectionStateEvent ->
             Log.i("MyAmplifyApp", String.valueOf(connectionStateEvent))
         );
     subscription

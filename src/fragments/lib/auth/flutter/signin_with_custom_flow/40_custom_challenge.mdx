@@ -7,7 +7,7 @@ Future<void> confirmSignIn(String generatedNumber) async {
     );
     safePrint('Sign in result: $result');
   } on AuthException catch (e) {
-    safePrint('Error signing in: ${e.message}');
+    safePrint('Error signing in: $\{e.message}');
   }
 }
 ```
@@ -21,4 +21,5 @@ Once the user provides the correct response, they should be authenticated in you
 During a `confirmSignIn` call, if `failAuthentication: true` is returned by the Lambda, the session of the request gets invalidated by Cognito, and a `NotAuthorizedException` is thrown. To recover, the user must initiate a new sign in by calling `Amplify.Auth.signIn`.
 
 Exception: `NotAuthorizedException` with a message `Invalid session for the user.`
+
 </Callout>

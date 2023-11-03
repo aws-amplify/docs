@@ -16,6 +16,7 @@ If you receive `CONFIRM_SIGN_UP` as a next step, sign up could not proceed witho
    Log.e("AuthQuickstart", "unexpected error: " + error);
 }
 ```
+
 </Block>
 
 <Block name="Kotlin - Callbacks">
@@ -26,7 +27,7 @@ If you receive `CONFIRM_SIGN_UP` as a next step, sign up could not proceed witho
           "username",
           "confirmation code",
           { result ->
-              Log.i("AuthQuickstart", "Confirm signUp result completed: ${result.isSignUpComplete}")
+              Log.i("AuthQuickstart", "Confirm signUp result completed: $\{result.isSignUpComplete}")
           }
       ) { error ->
           Log.e("AuthQuickstart", "An error occurred while confirming sign up: $error")
@@ -35,6 +36,7 @@ If you receive `CONFIRM_SIGN_UP` as a next step, sign up could not proceed witho
     Log.e("AuthQuickstart", "unexpected error: $error")
 }
 ```
+
 </Block>
 
 <Block name="Kotlin - Coroutines">
@@ -45,11 +47,12 @@ try {
          "username",
          "confirmation code"
      )
-     Log.i("AuthQuickstart", "Confirm signUp result completed: ${result.isSignUpComplete}")
+     Log.i("AuthQuickstart", "Confirm signUp result completed: $\{result.isSignUpComplete}")
 } catch (error: Exception) {
    Log.e("AuthQuickstart", "unexpected error: $error")
 }
 ```
+
 </Block>
 
 <Block name="RxJava">
@@ -62,6 +65,7 @@ RxAmplify.Auth.confirmSignUp(
         error -> Log.e("AuthQuickstart", "An error occurred while confirming sign up: " + error)
 );
 ```
+
 </Block>
 
 </BlockSwitcher>

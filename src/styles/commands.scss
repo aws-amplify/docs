@@ -16,11 +16,13 @@
     flex-direction: column;
     gap: var(--amplify-space-medium);
     margin-top: var(--amplify-space-large);
+    padding-top: var(--amplify-space-large);
     border-top: var(--amplify-border-widths-large) solid
       var(--amplify-colors-border-secondary);
 
     &:first-child {
       border-top: none;
+      padding-top: 0;
       margin-top: 0;
     }
 

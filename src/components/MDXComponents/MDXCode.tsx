@@ -26,7 +26,13 @@ const addVersions = (code: string) => {
 };
 
 export const MDXCode = (props) => {
-  const { codeString, language, fileName, showLineNumbers = true } = props;
+  const {
+    codeString,
+    language = 'js',
+    fileName,
+    showLineNumbers = true
+  } = props;
+
   const [copied, setCopied] = React.useState(false);
   const [code, setCode] = React.useState(codeString);
   const copy = () => {
@@ -46,7 +52,7 @@ export const MDXCode = (props) => {
       {({ style, tokens, getLineProps, getTokenProps }) => (
         <View>
           <div style={{ display: 'none' }}>
-            {/* searchable code */}
+            {/* searchable code \ */}
             {codeString}
           </div>
           <View className="pre-wrapper">

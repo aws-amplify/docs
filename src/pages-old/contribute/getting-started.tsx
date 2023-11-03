@@ -1,7 +1,21 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+        
 import {
   Badge,
   Heading,
   Text,
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+      
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
   Link,
   Image,
   View,
@@ -65,7 +79,7 @@ const Code = ({ children, color }) => {
 
 export default function ContributeGettingStartedPage() {
   const meta = {
-    title: 'AWS Amplify Contributor Program - Getting Started',
+  title: 'Getting Started',
     description:
       'The steps below will help you get set up to open a pull request in the Amplify JS project. The Amplify Contributor Program is an open invitation for you to participate in the Amplify open source development journey.'
   };

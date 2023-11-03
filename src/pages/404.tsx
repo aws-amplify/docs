@@ -44,7 +44,7 @@ export default function Custom404() {
           href={`https://github.com/aws-amplify/docs/issues/new?title=[missing-page]&labels=v2&body=${encodeURI(
             `**Page**: [\`${href}\`](${href})
 
-**Feedback**: <!-- your feedback here -->
+**Feedback**: <!-- your feedback here \ */}
 `
           )}`}
         >

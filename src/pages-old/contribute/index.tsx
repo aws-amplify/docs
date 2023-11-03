@@ -1,7 +1,21 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+        
 import NextLink from 'next/link';
 import {
   Button,
   Flex,
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+      
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
   View,
   Heading,
   Text,
@@ -59,15 +73,15 @@ export function getStaticProps() {
 
 export default function ContributorPage() {
   const meta = {
-    title: 'AWS Amplify Contributor Program',
+  title: 'AWS Amplify Contributor Program',
     description:
       'The Amplify Contributor Program is an open invitation for you to participate in the Amplify open source development journey. Get involved with AWS Amplify by making open source contributions to the Amplify project!'
   };
   return (
     <>
       <Layout meta={meta}>
-        {/* Nav - need to put in matching nav */}
-        {/* <Nav /> */}
+        {/* Nav - need to put in matching nav \ */}
+        {/* <Nav /> \ */}
         <View
           width="100%"
           backgroundColor="brand.paper"
@@ -119,7 +133,7 @@ export default function ContributorPage() {
            
             <AmplifyBadges />
             <QuickstartResources />
-            {/* <Contributors /> */}
+            {/* <Contributors /> \ */}
           </Flex>
         </View>
       </Layout>

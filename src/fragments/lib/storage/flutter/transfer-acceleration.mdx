@@ -2,11 +2,11 @@
 
 You can use transfer acceleration when calling the following APIs:
 
-* `getUrl`
-* `downloadData`
-* `downloadFile`
-* `uploadData`
-* `uploadFile`
+- `getUrl`
+- `downloadData`
+- `downloadFile`
+- `uploadData`
+- `uploadFile`
 
 Set `useAccelerateEndpoint` to `true` in the corresponding Storage S3 plugin options to apply an accelerated S3 endpoint to the operation. For example, upload a file using transfer acceleration:
 
@@ -27,9 +27,9 @@ Future<void> uploadFileUsingAcceleration(String filePath, String key) async {
     );
 
     final result = await uploadFileOperation.result;
-    safePrint('Uploaded file: ${result.uploadedItem.key}');
+    safePrint('Uploaded file: $\{result.uploadedItem.key}');
   } on StorageException catch (error) {
-    safePrint('Something went wrong uploading file: ${error.message}');
+    safePrint('Something went wrong uploading file: $\{error.message}');
   }
 }
 ```

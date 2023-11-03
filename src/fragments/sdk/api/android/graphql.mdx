@@ -12,9 +12,9 @@ The Amplify CLI provides support for AppSync that make this process easy. Using 
 
 The AWS SDKs support configuration through a centralized file called `awsconfiguration.json` that defines your AWS regions and service endpoints. You obtain this file in one of two ways, depending on whether you are creating your AppSync API in the AppSync console or using the Amplify CLI.
 
-* If you are creating your API in the console, navigate to the `Getting Started` page, and follow the steps in the `Integrate with your app` section. The `awsconfiguration.json` file you download is already populated for your specific API. Place the file in the `./app/src/main/res/raw` directory of your Android Studio project for code generation.
+- If you are creating your API in the console, navigate to the `Getting Started` page, and follow the steps in the `Integrate with your app` section. The `awsconfiguration.json` file you download is already populated for your specific API. Place the file in the `./app/src/main/res/raw` directory of your Android Studio project for code generation.
 
-* If you are creating your API with the Amplify CLI (using `amplify add api`), the `awsconfiguration.json` file is automatically downloaded and updated each time you run `amplify push` to update your cloud resources. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project.
+- If you are creating your API with the Amplify CLI (using `amplify add api`), the `awsconfiguration.json` file is automatically downloaded and updated each time you run `amplify push` to update your cloud resources. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project.
 
 ### Code Generation
 
@@ -42,7 +42,7 @@ amplify init     ## Select Android as your platform
 amplify add api  ## Select GraphQL, API key, "Single object with fields Todo application"
 ```
 
-Select *GraphQL* when prompted for service type:
+Select _GraphQL_ when prompted for service type:
 
 ```console
 ? Please select from one of the below mentioned services (Use arrow keys)
@@ -63,10 +63,13 @@ Name your GraphQL endpoint and select authorization type:
 ```
 
 <Callout>
-AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
+  AWS AppSync API keys expire seven days after creation, and using API KEY
+  authentication is only suggested for development. To change AWS AppSync
+  authorization type after the initial configuration, use the `$ amplify update
+  api` command and select `GraphQL`.
 </Callout>
 
-When you update your backend with *push* command, you can go to [AWS AppSync Console](http://console.aws.amazon.com/appsync/home) and see that a new API is added under *APIs* menu item:
+When you update your backend with _push_ command, you can go to [AWS AppSync Console](http://console.aws.amazon.com/appsync/home) and see that a new API is added under _APIs_ menu item:
 
 ```bash
 amplify push
@@ -82,7 +85,7 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 
 ### Import SDK and Config
 
-To use AppSync in your Android studio project, modify the project's `build.gradle` by adding the  Maven plugin repositories, and the AppSync Gradle plugin to `dependencies`.
+To use AppSync in your Android studio project, modify the project's `build.gradle` by adding the Maven plugin repositories, and the AppSync Gradle plugin to `dependencies`.
 
 ```groovy
 buildscript {
@@ -137,7 +140,7 @@ Finally, update your AndroidManifest.xml with updates to `<uses-permissions>` fo
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-            <!--other code-->
+            {/*other code\ */}
 
         <application
             android:allowBackup="true"
@@ -147,12 +150,13 @@ Finally, update your AndroidManifest.xml with updates to `<uses-permissions>` fo
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
-            <!--other code-->
+            {/*other code\ */}
         </application>
 ```
+
 ### Build your Project
 
-Do not skip this step!  Run `gradlew build`, or build your application via Android Studio.  This will trigger the AppSync Gradle plugin that you added above to generate Java classes in your build folder based off of your schema files.   These classes will be needed before proceeding to the steps below.
+Do not skip this step! Run `gradlew build`, or build your application via Android Studio. This will trigger the AppSync Gradle plugin that you added above to generate Java classes in your build folder based off of your schema files. These classes will be needed before proceeding to the steps below.
 
 ### Client Initialization
 
@@ -329,15 +333,15 @@ Your application code will interact with the AppSync client to perform GraphQL q
 
 Any data returned by a query is automatically written to the Apollo Cache (e.g. “Store”) that is persisted to disk via SQLite. The cache is structured as a key value store using a reference structure. There is a base “Root Query” where each subsequent query resides and then references their individual item results. You specify the reference key (normally “id”) in your application code. An example of the cache that has stored results from a “listPosts” query and “getPost(id:1)” query is below.
 
-| Key | Value |
-| --- | --- |
-| ROOT_QUERY | [ROOT_QUERY.listPosts, ROOT_QUERY.getPost(id:1)]
-| ROOT_QUERY.listPosts | {0, 1, …,N} |
-| Post:0 |{author:"Nadia", content:"ABC"} |
-| Post:1 | {author:"Shaggy", content:"DEF"} |
-| ... | ... |
-| Post:N | {author:"Pancho", content:"XYZ"} |
-| ROOT_QUERY.getPost(id:1) |ref: $Post:1 |
+| Key                      | Value                                            |
+| ------------------------ | ------------------------------------------------ |
+| ROOT_QUERY               | [ROOT_QUERY.listPosts, ROOT_QUERY.getPost(id:1)] |
+| ROOT_QUERY.listPosts     | \{0, 1, \…,N\}                                   |
+| Post:0                   | \{author:"Nadia", content:"ABC"\}                |
+| Post:1                   | \{author:"Shaggy", content:"DEF"\}               |
+| ...                      | ...                                              |
+| Post:N                   | \{author:"Pancho", content:"XYZ"\}               |
+| ROOT_QUERY.getPost(id:1) | ref: $Post:1                                     |
 
 Notice that the cache keys are normalized where the `getPost(id:1)` query references the same element that is part of the `listPosts` query. This happens automatically on Android by using `id` as a common cache key to uniquely identify the objects. You can choose to change the cache key with the `.resolver()` method when creating the `AWSAppSyncClient`:
 
@@ -465,13 +469,13 @@ API Key is the easiest way to setup and prototype your application with AppSync.
 ```json
 {
   "AppSync": {
-        "Default": {
-            "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
-            "Region": "us-east-1",
-            "ApiKey": "YOUR-API-KEY",
-            "AuthMode": "API_KEY"
-        }
-   }
+    "Default": {
+      "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+      "Region": "us-east-1",
+      "ApiKey": "YOUR-API-KEY",
+      "AuthMode": "API_KEY"
+    }
+  }
 }
 ```
 
@@ -493,19 +497,19 @@ Amazon Cognito User Pools is the most common service to use with AppSync when ad
 ```json
 {
   "CognitoUserPool": {
-        "Default": {
-            "PoolId": "POOL-ID",
-            "AppClientId": "APP-CLIENT-ID",
-            "Region": "us-east-1"
-        }
-    },
+    "Default": {
+      "PoolId": "POOL-ID",
+      "AppClientId": "APP-CLIENT-ID",
+      "Region": "us-east-1"
+    }
+  },
   "AppSync": {
-        "Default": {
-            "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
-            "Region": "us-east-1",
-            "AuthMode": "AMAZON_COGNITO_USER_POOLS"
-        }
-   }
+    "Default": {
+      "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+      "Region": "us-east-1",
+      "AuthMode": "AMAZON_COGNITO_USER_POOLS"
+    }
+  }
 }
 ```
 
@@ -537,20 +541,20 @@ When using AWS IAM in a mobile application you should leverage Amazon Cognito Id
 ```json
 {
   "CredentialsProvider": {
-      "CognitoIdentity": {
-          "Default": {
-              "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
-              "Region": "us-east-1"
-          }
+    "CognitoIdentity": {
+      "Default": {
+        "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
+        "Region": "us-east-1"
       }
+    }
   },
   "AppSync": {
     "Default": {
-          "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
-          "Region": "us-east-1",
-          "AuthMode": "AWS_IAM"
-     }
-   }
+      "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+      "Region": "us-east-1",
+      "AuthMode": "AWS_IAM"
+    }
+  }
 }
 ```
 
@@ -573,12 +577,12 @@ If you are using a 3rd party OIDC provider you will need to configure it and man
 ```json
 {
   "AppSync": {
-        "Default": {
-            "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
-            "Region": "us-east-1",
-            "AuthMode": "OPENID_CONNECT"
-        }
-   }
+    "Default": {
+      "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+      "Region": "us-east-1",
+      "AuthMode": "OPENID_CONNECT"
+    }
+  }
 }
 ```
 
@@ -609,7 +613,7 @@ private static String MyOIDCAuthProvider(){
 
 This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
 
-You can now configure a single GraphQL API to deliver private and public data. Private data requires authenticated access using authorization mechanisms such as IAM, Cognito User Pools, and OIDC. Public data does not require authenticated access and is delivered through authorization mechanisms such as API Keys. You can also configure a single GraphQL API to deliver private data using more than one authorization type. For example, you can configure your GraphQL API  to authorize some schema fields using OIDC, while other schema fields through Cognito User Pools and/or IAM.
+You can now configure a single GraphQL API to deliver private and public data. Private data requires authenticated access using authorization mechanisms such as IAM, Cognito User Pools, and OIDC. Public data does not require authenticated access and is delivered through authorization mechanisms such as API Keys. You can also configure a single GraphQL API to deliver private data using more than one authorization type. For example, you can configure your GraphQL API to authorize some schema fields using OIDC, while other schema fields through Cognito User Pools and/or IAM.
 
 As discussed in the above linked documentation, certain fields may be protected by different authorization types. This can lead the same query, mutation, or subscription to have different responses based on the authorization sent with the request; Therefore, it is recommended to use different `AWSAppSyncClient` objects for each authorization type. Instantiation of multiple `AWSAppSyncClient` objects is enabled by passing `true` to the `useClientDatabasePrefix` flag. The `awsconfiguration.json` generated by the AWS AppSync console and Amplify CLI will add an entry called `ClientDatabasePrefix` in the "AppSync" section. This will be used to differentiate the databases used for operations such as queries, mutations, and subscriptions.
 
@@ -652,7 +656,7 @@ The `friendly_name` illustrated here is created from Amplify CLI prompt. There a
 }
 ```
 
-The `useClientDatabasePrefix` is added on the client builder which signals to the builder that the `ClientDatabasePrefix` should be used from the AWSConfiguration object (*awsconfiguration.json*).
+The `useClientDatabasePrefix` is added on the client builder which signals to the builder that the `ClientDatabasePrefix` should be used from the AWSConfiguration object (_awsconfiguration.json_).
 
 ```java
 AWSAppSyncClient client = AWSAppSyncClient.builder()
@@ -871,14 +875,15 @@ handle.cancel();
 ```
 
 **The method parameters**
-* *baseQuery* the base query to get the baseline state. (REQUIRED)
-* *baseQueryCallback* callback to handle the baseQuery results. (REQUIRED)
-* *subscription* subscription to get changes on the fly.
-* *subscriptionCallback* callback to handle the subscription messages.
-* *deltaQuery* the catch-up query
-* *deltaQueryCallback* callback to handle the deltaQuery results.
-* *baseRefreshIntervalInSeconds* time duration (specified in seconds) when the base query will be re-run to get an updated baseline state.
-* *returnValue* returns a `Cancelable` object that can be used later to cancel the sync operation by calling the `cancel()` method.
+
+- _baseQuery_ the base query to get the baseline state. (REQUIRED)
+- _baseQueryCallback_ callback to handle the baseQuery results. (REQUIRED)
+- _subscription_ subscription to get changes on the fly.
+- _subscriptionCallback_ callback to handle the subscription messages.
+- _deltaQuery_ the catch-up query
+- _deltaQueryCallback_ callback to handle the deltaQuery results.
+- _baseRefreshIntervalInSeconds_ time duration (specified in seconds) when the base query will be re-run to get an updated baseline state.
+- _returnValue_ returns a `Cancelable` object that can be used later to cancel the sync operation by calling the `cancel()` method.
 
 Note that above only the `baseQuery` and `baseQueryCallback` are required parameters. You can call the API in different ways such as:
 
@@ -895,8 +900,8 @@ client.sync(baseQuery, baseQueryCallback, deltaQuery, deltaQueryCallback,
 
 The following section walks through the details of creating an app using Delta Sync. You will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. You will use a Map object called `allPosts` to collect and manage the posts and a RecyclerView to power the UI.
 
-**Base Query and BaseQuery Callback**
-In the Adapter object, create the BaseQuery and the BaseQuery Callback. You will use the `listPosts` query from the sample schema as your base query.
+**Base Query and BaseQuery Callback** In the Adapter object, create the BaseQuery and the BaseQuery Callback. You will use the `listPosts` query from the sample schema as your base query.
+
 ```java
 //Setup the BaseQuery - you will use the ListPostsQuery as your base query
 Query listPostsQuery = ListPostsQuery.builder().build();
@@ -942,8 +947,7 @@ GraphQLCall.Callback listPostsQueryCallback = new GraphQLCall.Callback<ListPosts
         };
 ```
 
-**Subscription and Subscription callback**
-Next, you will create a subscription to get notified whenever a change (Add, Update or Delete) happens to a post.
+**Subscription and Subscription callback** Next, you will create a subscription to get notified whenever a change (Add, Update or Delete) happens to a post.
 
 ```java
   //Setup Delta Post Subscription to get notified when a change
@@ -1019,8 +1023,7 @@ The `updateListPostsQueryCache` method will update the query cache of the `listP
     }
 ```
 
-**Delta Query and Delta Query Callback**
-Next you will setup the delta query. You will use the `listPostsDelta` query for the changes made to Posts. The SDK will keep track of when it was last run and will automatically pass in the appropriate value for `lastSync` to get the updates in an optimized manner.
+**Delta Query and Delta Query Callback** Next you will setup the delta query. You will use the `listPostsDelta` query for the changes made to Posts. The SDK will keep track of when it was last run and will automatically pass in the appropriate value for `lastSync` to get the updates in an optimized manner.
 
 ```java
     //Setup the Delta Query to get changes to posts incrementally
@@ -1075,8 +1078,7 @@ GraphQLCall.Callback listPostsDeltaQueryCallback = new GraphQLCall.Callback<List
         };
 ```
 
-**Tying it all together**
-Once you have all of these pieces in place, you will tie it all together by invoking the Delta Sync functionality as follows.
+**Tying it all together** Once you have all of these pieces in place, you will tie it all together by invoking the Delta Sync functionality as follows.
 
 ```java
  Cancelable handle =  client.sync(listPostsQuery, listPostsQueryCallback,
@@ -1086,8 +1088,8 @@ Once you have all of these pieces in place, you will tie it all together by invo
 
 ```
 
-**Delta Sync Lifecycle**
-The delta sync process runs at various times, in response to different conditions:
+**Delta Sync Lifecycle** The delta sync process runs at various times, in response to different conditions:
+
 - Runs immediately, when you make the call to `sync` as shown above. This will be the initial run and it will execute the baseQuery, setup the subscription and execute the delta Query.
 - Runs when the device that is running the app transitions from offline to online. Depending on the duration for which the device was offline ( i.e., > `baseRefreshIntervalInSeconds`), either the deltaQuery or the baseQuery will be run.
 - Runs when the app transitions from background to foreground. Once again, depending on how long the app was in the background, either the deltaQuery or the baseQuery will be run. To enable this, add the `AWSAppSyncAppLifecycleObserver` to the ProcessLifeCycle owner in the `onCreate` method of your main view as follows:
@@ -1102,4 +1104,5 @@ The delta sync process runs at various times, in response to different condition
 	ProcessLifecycleOwner.get().getLifecycle().
 		addObserver(new AWSAppSyncAppLifecycleObserver());
 ```
+
 - Runs once every `baseRefreshIntervalInSeconds` as part of a periodic catch-up.
