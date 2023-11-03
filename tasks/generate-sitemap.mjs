@@ -70,6 +70,9 @@ const createRoutePathList = (directory) => {
       `src/pages${route}/index.mdx`,
       `src/pages${route}/index.tsx`
     ]);
+    if(!route){
+      return;
+    }
     if (route.includes('[platform]') && directoryNode.platforms?.length) {
       return directoryNode.platforms.map((platform) => {
         return { route: route.replace('[platform]', platform), filePath };
@@ -88,6 +91,7 @@ const writeSitemap = async () => {
   const pathMap = createRoutePathList(directory);
   let xmlUrlNodes = '';
   pathMap.forEach((routePath) => {
+    if(!routePath) return;
     const { route, filePath } = routePath;
     xmlUrlNodes += xmlUrlNode(route, filePath);
   });

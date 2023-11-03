@@ -32,6 +32,8 @@ export const Banner: React.FC<BannerProps> = ({ url = '/gen2' }) => {
             href={url}
             size="small"
             gap="small"
+            target="_blank"
+            rel="noopener noreferrer"
             className="message-banner__button"
             target="_blank"
             rel="noopener noreferrer"

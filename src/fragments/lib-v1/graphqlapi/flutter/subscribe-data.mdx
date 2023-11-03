@@ -41,7 +41,7 @@ void subscribe() {
   );
   subscription = operation.listen(
     (event) {
-      print('Subscription event data received: ${event.data}');
+      print('Subscription event data received: $\{event.data}');
     },
     onError: (Object e) => print('Error in subscription stream: $e'),
   );

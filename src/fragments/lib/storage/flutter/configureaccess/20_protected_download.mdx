@@ -24,9 +24,9 @@ Future<void> downloadProtectedFile({
       options: options,
     ).result;
 
-    safePrint('Downloaded file is located at: ${result.localFile.path}');
+    safePrint('Downloaded file is located at: $\{result.localFile.path}');
   } on StorageException catch (e) {
-    safePrint('Something went wrong downloading the file: ${e.message}');
+    safePrint('Something went wrong downloading the file: $\{e.message}');
     rethrow;
   }
 }

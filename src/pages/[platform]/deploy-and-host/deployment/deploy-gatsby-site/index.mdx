@@ -1,0 +1,24 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Deploy a Gatsby site',
+  description: 'How to deploy a Gatsby site to Amplify Console Hosting',
+  platforms: ['javascript']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import js0 from '/src/fragments/guides/hosting/gatsby.mdx';
+
+<Fragments fragments={{ javascript: js0 }} />

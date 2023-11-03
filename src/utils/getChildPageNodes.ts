@@ -7,7 +7,7 @@ import { PageNode } from 'src/directory/directory';
  * @returns
  */
 export const getChildPageNodes = (route: string) => {
-  return traverseDirectory(route, directory as PageNode);
+  return traverseDirectory(route, directory as PageNode) || [];
 };
 
 function traverseDirectory(route: string, node: PageNode) {

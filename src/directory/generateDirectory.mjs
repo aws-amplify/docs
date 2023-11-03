@@ -23,7 +23,8 @@ async function getMetaStringObj(filePath) {
     try {
       // Using JSON5 because the meta object is a "relaxed" JSON
       // JSON5 can parse the meta object without needing quotes around the object keys
-      const result = JSON5.parse(match[1]);
+      let metaObj = match[1].replaceAll('`',"'");
+      const result = JSON5.parse(metaObj);
 
       return result;
     } catch (err) {
@@ -53,9 +54,15 @@ async function traverseDirectoryObject(directoryNode) {
         }
 
         // Get the last updated date
-        directoryNode['lastUpdated'] = await getLastModifiedDate(
-          directoryNode.path
-        );
+        try {
+          directoryNode['lastUpdated'] = await getLastModifiedDate(
+            directoryNode.path
+          );
+        } catch (error) {
+          console.log(
+            `error getting last modified date for ${directoryNode.path}`
+          );
+        }
 
         const relativePath = path.relative(rootPath, directoryNode.path);
         const parsedPath = path.parse(relativePath);

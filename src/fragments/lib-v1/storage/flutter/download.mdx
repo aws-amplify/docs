@@ -20,7 +20,7 @@ Future<void> downloadFile() async {
       key: 'ExampleKey',
       local: file,
       onProgress: (progress) {
-        safePrint('Fraction completed: ${progress.getFractionCompleted()}');
+        safePrint('Fraction completed: $\{progress.getFractionCompleted()}');
       },
     );
     final contents = result.file.readAsStringSync();
@@ -43,7 +43,7 @@ Future<void> getDownloadUrl() async {
     final result = await Amplify.Storage.getUrl(key: 'ExampleKey');
     // NOTE: This code is only for demonstration
     // Your debug console may truncate the printed url string
-    safePrint('Got URL: ${result.url}');
+    safePrint('Got URL: $\{result.url}');
   } on StorageException catch (e) {
     safePrint('Error getting download URL: $e');
   }
