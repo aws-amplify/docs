@@ -61,14 +61,16 @@ The CLI will display prompts to configure your schema and choose either GraphQL 
 Then access your API from your frontend code, for example, in a to-do list app that uses GraphQL:
 
 ```javascript
-`import`` ``{`` API ``}`` ``from`` ``'aws-amplify'`;
+import { API } from 'aws-amplify';
 import { listTodos } from './graphql/queries';
 
-const result = await API.graphql(graphqlOperation(listTodos));
+const result = await API.graphql({
+  query: listTodos
+});
 console.log(result);
 ```
 
-Learn more about [Amplify data.](https://docs.amplify.aws/cli/graphql/overview/)
+Learn more about [Amplify Data.](https://docs.amplify.aws/cli/graphql/overview/)
 
 ### Authentication
 
