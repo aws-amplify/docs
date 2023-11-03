@@ -81,9 +81,9 @@ Amplify.configure(
           if (accessLevel === 'guest') {
             return 'myPublicPrefix/';
           } else if (accessLevel === 'protected') {
-            return `myProtectedPrefix/${targetIdentityId}`;
+            return `myProtectedPrefix/${targetIdentityId}/`;
           } else {
-            return `myPrivatePrefix/${targetIdentityId}`;
+            return `myPrivatePrefix/${targetIdentityId}/`;
           }
         },
       },
