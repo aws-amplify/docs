@@ -34,10 +34,12 @@ The CLI will display prompts to configure your schema and choose either GraphQL 
 Then access your API from your frontend code, for example, in a to-do list app that uses GraphQL:
 
 ```javascript
-`import` { API } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { listTodos } from './graphql/queries';
 
-const result = await API.graphql(graphqlOperation(listTodos));
+const client = generateClient();
+const result = await client.graphql({ query: listTodos });
+
 console.log(result);
 ```
 
@@ -210,7 +212,6 @@ Amplify grows with your needs, and you can use it in whatever way works best—f
 
 Now that you understand the core concepts and capabilities of AWS Amplify, it's time to start building! Our step-by-step getting started tutorials walk you through how to configure and integrate Amplify into a new application. These tutorials are available for many popular development platforms and frameworks like React, JavaScript, and Flutter.
 
-<br />
-<InternalLinkButton href="/start/getting-started/installation">
+<br /> <InternalLinkButton href="/start/getting-started/installation">
   <span slot="text">Getting started tutorial</span>
 </InternalLinkButton>

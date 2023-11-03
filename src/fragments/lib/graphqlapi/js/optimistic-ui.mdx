@@ -88,7 +88,7 @@ const {
 } = useQuery({
   queryKey: ["realEstateProperties"],
   queryFn: async () => {
-    const response = await API.graphql<
+    const response = await client.graphql<
       GraphQLQuery<ListRealEstatePropertiesQuery>
     >({
       query: queries.listRealEstateProperties,
@@ -116,7 +116,7 @@ const {
 } = useQuery({
   queryKey: ["realEstateProperties"],
   queryFn: async () => {
-    const response = await API.graphql({
+    const response = await client.graphql({
       query: queries.listRealEstateProperties,
     });
 
@@ -147,7 +147,7 @@ const createMutation = useMutation({
   mutationFn: async (
     realEstatePropertyDetails: CreateRealEstatePropertyInput
   ) => {
-    const response = await API.graphql<
+    const response = await client.graphql<
       GraphQLQuery<CreateRealEstatePropertyMutation>
     >({
       query: mutations.createRealEstateProperty,
@@ -203,7 +203,7 @@ const createMutation = useMutation({
 ```js
 const createMutation = useMutation({
   mutationFn: async (realEstatePropertyDetails) => {
-    const response = await API.graphql({
+    const response = await client.graphql({
       query: mutations.createRealEstateProperty,
       variables: { input: realEstatePropertyDetails },
     });
@@ -271,7 +271,7 @@ const {
 } = useQuery({
   queryKey: ["realEstateProperties", currentRealEstatePropertyId],
   queryFn: async () => {
-    const response = await API.graphql<
+    const response = await client.graphql<
       GraphQLQuery<GetRealEstatePropertyQuery>
     >({
       query: queries.getRealEstateProperty,
@@ -295,7 +295,7 @@ const {
 } = useQuery({
   queryKey: ["realEstateProperties", currentRealEstatePropertyId],
   queryFn: async () => {
-    const response = await API.graphql({
+    const response = await client.graphql({
       query: queries.getRealEstateProperty,
       variables: { id: currentRealEstatePropertyId },
     });
@@ -328,7 +328,7 @@ const updateMutation = useMutation({
   mutationFn: async (
     realEstatePropertyDetails: UpdateRealEstatePropertyInput
   ) => {
-    const response = await API.graphql<
+    const response = await client.graphql<
       GraphQLQuery<UpdateRealEstatePropertyMutation>
     >({
       query: mutations.updateRealEstateProperty,
@@ -401,7 +401,7 @@ const updateMutation = useMutation({
 ```js
 const updateMutation = useMutation({
   mutationFn: async (realEstatePropertyDetails) => {
-    const response = await API.graphql({
+    const response = await client.graphql({
       query: mutations.updateRealEstateProperty,
       variables: { input: realEstatePropertyDetails },
     });
@@ -483,7 +483,7 @@ const deleteMutation = useMutation({
   mutationFn: async (
     realEstatePropertyDetails: DeleteRealEstatePropertyInput
   ) => {
-    const response = await API.graphql<
+    const response = await client.graphql<
       GraphQLQuery<DeleteRealEstatePropertyMutation>
     >({
       query: mutations.deleteRealEstateProperty,
@@ -551,7 +551,7 @@ const deleteMutation = useMutation({
 ```js
 const deleteMutation = useMutation({
   mutationFn: async (realEstatePropertyDetails) => {
-    const response = await API.graphql({
+    const response = await client.graphql({
       query: mutations.deleteRealEstateProperty,
       variables: { input: realEstatePropertyDetails },
     });
@@ -705,12 +705,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { Amplify } from "aws-amplify";
-import awsExports from "./aws-exports";
+import config from "./amplifyconfiguration.json";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "@aws-amplify/ui-react/styles.css";
 
-Amplify.configure(awsExports);
+Amplify.configure(config);
 
 // Create a client
 const queryClient = new QueryClient();
@@ -733,7 +733,7 @@ root.render(
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useIsFetching } from "@tanstack/react-query";
-import { API } from "aws-amplify";
+import { generateClient } from 'aws-amplify/api'
 import * as mutations from "./graphql/mutations";
 import * as queries from "./graphql/queries";
 import { GraphQLQuery } from "@aws-amplify/api";
@@ -762,6 +762,8 @@ function GlobalLoadingIndicator() {
   return isFetching ? <div style={styles.globalLoadingIndicator}></div> : null;
 }
 
+const client = generateClient()
+
 function App() {
   const [currentRealEstatePropertyId, setCurrentRealEstatePropertyId] =
     useState<string | null>(null);
@@ -778,7 +780,7 @@ function App() {
   } = useQuery({
     queryKey: ["realEstateProperties"],
     queryFn: async () => {
-      const response = await API.graphql<
+      const response = await client.graphql<
         GraphQLQuery<ListRealEstatePropertiesQuery>
       >({
         query: queries.listRealEstateProperties,
@@ -798,7 +800,7 @@ function App() {
     mutationFn: async (
       realEstatePropertyDetails: CreateRealEstatePropertyInput
     ) => {
-      const response = await API.graphql<
+      const response = await client.graphql<
         GraphQLQuery<CreateRealEstatePropertyMutation>
       >({
         query: mutations.createRealEstateProperty,
@@ -860,7 +862,7 @@ function App() {
     } = useQuery({
       queryKey: ["realEstateProperties", currentRealEstatePropertyId],
       queryFn: async () => {
-        const response = await API.graphql<
+        const response = await client.graphql<
           GraphQLQuery<GetRealEstatePropertyQuery>
         >({
           query: queries.getRealEstateProperty,
@@ -876,7 +878,7 @@ function App() {
       mutationFn: async (
         realEstatePropertyDetails: UpdateRealEstatePropertyInput
       ) => {
-        const response = await API.graphql<
+        const response = await client.graphql<
           GraphQLQuery<UpdateRealEstatePropertyMutation>
         >({
           query: mutations.updateRealEstateProperty,
@@ -947,7 +949,7 @@ function App() {
       mutationFn: async (
         realEstatePropertyDetails: DeleteRealEstatePropertyInput
       ) => {
-        const response = await API.graphql<
+        const response = await client.graphql<
           GraphQLQuery<DeleteRealEstatePropertyMutation>
         >({
           query: mutations.deleteRealEstateProperty,
@@ -1226,12 +1228,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { Amplify } from "aws-amplify";
-import awsExports from "./aws-exports";
+import config from "./amplifyconfiguration.json";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "@aws-amplify/ui-react/styles.css";
 
-Amplify.configure(awsExports);
+Amplify.configure(config);
 
 // Create a client
 const queryClient = new QueryClient();
@@ -1252,7 +1254,7 @@ root.render(
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useIsFetching } from "@tanstack/react-query";
-import { API } from "aws-amplify";
+import { generateClient } from 'aws-amplify/api'
 import * as mutations from "./graphql/mutations";
 import * as queries from "./graphql/queries";
 
@@ -1268,6 +1270,8 @@ function GlobalLoadingIndicator() {
 
   return isFetching ? <div style={styles.globalLoadingIndicator}></div> : null;
 }
+
+const client = generateClient()
 
 function App() {
   const [currentRealEstatePropertyId, setCurrentRealEstatePropertyId] =
@@ -1285,7 +1289,7 @@ function App() {
   } = useQuery({
     queryKey: ["realEstateProperties"],
     queryFn: async () => {
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: queries.listRealEstateProperties,
       });
 
@@ -1301,7 +1305,7 @@ function App() {
   // TanStack create mutation with optimistic updates
   const createMutation = useMutation({
     mutationFn: async (realEstatePropertyDetails) => {
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: mutations.createRealEstateProperty,
         variables: { input: realEstatePropertyDetails },
       });
@@ -1361,7 +1365,7 @@ function App() {
     } = useQuery({
       queryKey: ["realEstateProperties", currentRealEstatePropertyId],
       queryFn: async () => {
-        const response = await API.graphql({
+        const response = await client.graphql({
           query: queries.getRealEstateProperty,
           variables: { id: currentRealEstatePropertyId },
         });
@@ -1373,7 +1377,7 @@ function App() {
     // TanStack update mutation with optimistic updates
     const updateMutation = useMutation({
       mutationFn: async (realEstatePropertyDetails) => {
-        const response = await API.graphql({
+        const response = await client.graphql({
           query: mutations.updateRealEstateProperty,
           variables: { input: realEstatePropertyDetails },
         });
@@ -1440,7 +1444,7 @@ function App() {
     // TanStack delete mutation with optimistic updates
     const deleteMutation = useMutation({
       mutationFn: async (realEstatePropertyDetails) => {
-        const response = await API.graphql({
+        const response = await client.graphql({
           query: mutations.deleteRealEstateProperty,
           variables: { input: realEstatePropertyDetails },
         });

@@ -157,14 +157,17 @@ npm install aws-amplify
 <BlockSwitcher>
 <Block name="Amplify CLI">
 
-As part of the `amplify push` deployment workflow, a new `aws-exports.js` file is generated for you. `aws-exports.js` is the client configuration file for the Amplify libraries, it includes your API endpoint URL, authentication information, and region. 
+As part of the `amplify push` deployment workflow, a new `amplifyconfiguration.json` file is generated for you. `amplifyconfiguration.json` is the client configuration file for the Amplify libraries, it includes your API endpoint URL, authentication information, and region. 
 
 In your app's entry point i.e. App.js in React, import and load the configuration file:
 
 ```js
-import { Amplify, API } from 'aws-amplify';
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+import config from './amplifyconfiguration.json';
+Amplify.configure(config);
+
+const client = generateClient()
 ```
 
 </Block>
@@ -187,7 +190,8 @@ BackendStack.awsAppsyncRegion = us-east-1
 We'll use this information to configure the Amplify libraries in your application code. In your app's entry point i.e. App.js in React, import and configure the Amplify libraries using the printed outputs:
 
 ```js
-import { Amplify, API } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+
 Amplify.configure({
   aws_appsync_graphqlEndpoint: 'https://wy5mtp7jzfctxc5w5pzkcoktbi.appsync-api.us-east-1.amazonaws.com/graphql',
   aws_appsync_region: 'us-east-1',
@@ -195,6 +199,7 @@ Amplify.configure({
   aws_appsync_apiKey: 'da2-XXXX'
 });
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -242,7 +247,7 @@ For Flutter, Android, and Swift client code generation, refer to [JavaScript, An
 Next, let's try to query from the GraphQL API. Follow along the steps below to make a query from a React app:
 
 ```js
-import { API } from 'aws-amplify'
+import { generateClient } from 'aws-amplify/api'
 import { createTodo, updateTodo, deleteTodo } from './graphql/mutations'
 import { listTodos } from './graphql/queries'
 ```
@@ -250,7 +255,9 @@ import { listTodos } from './graphql/queries'
 Then, create your first todo item with the a GraphQL API call:
 
 ```js
-const result = await API.graphql({
+const client = generateClient()
+
+const result = await client.graphql({
   query: createTodo, 
   variables: {
     input: {
@@ -265,7 +272,7 @@ const result = await API.graphql({
 Use the GraphQL query statement to list all todos in your app:
 
 ```js
-const result = await API.graphql({ query: listTodos })
+const result = await client.graphql({ query: listTodos })
 console.log(result)
 ```
 
@@ -276,7 +283,7 @@ You should see the record created above: `My first todo!`.
 To update the record use the GraphQL update mutation:
 
 ```js
-const result = await API.graphql({
+const result = await client.graphql({
   query: updateTodo, 
   variables: {
     input: {
@@ -295,7 +302,7 @@ The result should contain the updated value: `My first updated todo!`.
 Let's clean up your database! Delete the todo by using the delete mutation:
 
 ```js
-const result = await API.graphql({
+const result = await client.graphql({
   query: deleteTodo,
   variables: {
     input: {

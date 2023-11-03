@@ -468,14 +468,14 @@ import { createPost } from './graphql/mutations';
 import { listPosts } from './graphql/queries';
 
 // Creating a post is restricted to Cognito User Pools
-const newPostResult = await API.graphql({
+const newPostResult = await client.graphql({
 	query: queries.createPost,
 	variables: { input: { title: 'Hello World' } },
 	authMode: 'AMAZON_COGNITO_USER_POOLS',
 });
 
 // Listing posts is available to all users (verified by IAM)
-const listPostsResult = await API.graphql({
+const listPostsResult = await client.graphql({
 	query: queries.listPosts,
 	authMode: 'AWS_IAM',
 });
