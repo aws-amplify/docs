@@ -1,11 +1,42 @@
-```js
-const myNotificationReceivedHandler = (notification) => {
-  // Respond to the received push notification message in realtime
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  onNotificationReceivedInForeground,
+  OnNotificationReceivedInForegroundInput,
+  OnNotificationReceivedInForegroundOutput
+} from 'aws-amplify/push-notifications';
+
+const myNotificationReceivedHandler: OnNotificationReceivedInForegroundInput = (
+  notification
+) => {
+  // Respond to the received push notification message in real time
 };
 
-const listener = Notifications.Push.onNotificationReceivedInForeground(
+const listener: OnNotificationReceivedInForegroundOutput = onNotificationReceivedInForeground(
   myNotificationReceivedHandler
 );
 
 listener.remove(); // Remember to remove the listener when it is no longer needed
 ```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { onNotificationReceivedInForeground } from 'aws-amplify/push-notifications';
+
+const myNotificationReceivedHandler = (notification) => {
+  // Respond to the received push notification message in real time
+};
+
+const listener = onNotificationReceivedInForeground(
+  myNotificationReceivedHandler
+);
+
+listener.remove(); // Remember to remove the listener when it is no longer needed
+```
+
+</Block>
+</BlockSwitcher>
