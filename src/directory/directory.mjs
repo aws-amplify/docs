@@ -480,27 +480,37 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/geo/getting-started',
-            filters: ['ios', 'android']
+            filters: ['ios', 'android', 'js']
           },
           {
             title: 'Maps',
             route: '/lib/geo/maps',
-            filters: ['ios', 'android']
+            filters: ['ios', 'android', 'js']
           },
           {
             title: 'Location Search',
             route: '/lib/geo/search',
-            filters: ['ios', 'android']
+            filters: ['ios', 'android', 'js']
+          },
+          {
+            title: 'Geofences',
+            route: '/lib/geo/geofences',
+            filters: ['js']
           },
           {
             title: 'Use existing Amazon Location resources',
             route: '/lib/geo/existing-resources',
-            filters: ['ios', 'android']
+            filters: ['ios', 'android', 'js']
+          },
+          {
+            title: 'Migrating from Google Maps',
+            route: '/lib/geo/google-migration',
+            filters: ['js']
           },
           {
             title: 'Escape Hatch',
             route: '/lib/geo/escapehatch',
-            filters: ['ios', 'android']
+            filters: ['ios', 'android', 'js']
           }
         ]
       },

@@ -22,6 +22,9 @@ export const getStaticProps = (context) => {
   };
 };
 
-import common_maps from '/src/fragments/lib/geo/native_common/maps/common.mdx';
+import nativeCommonMaps from '/src/fragments/lib/geo/native_common/maps/common.mdx';
+import jsMaps from '/src/fragments/lib/geo/js/maps.mdx';
 
-<Fragments fragments={{ android: common_maps, ios: common_maps }} />
+<Fragments
+  fragments={{ android: nativeCommonMaps, ios: nativeCommonMaps, js: jsMaps }}
+/>

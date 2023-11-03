@@ -1,6 +1,6 @@
 export const meta = {
-  title: `Use existing Amazon Location Service resources`,
-  description: `Configure Amplify Geo to use existing Amazon Location Service resources by referencing them in your configuration.`,
+  title: `Geofences`,
+  description: `The Amplify Geo category`,
   filterKey: 'platform',
   supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
@@ -22,12 +22,6 @@ export const getStaticProps = (context) => {
   };
 };
 
-import commonExistingResources from '/src/fragments/lib/geo/existing-resources.mdx';
+import jsGeofences from '/src/fragments/lib/geo/js/geofences.mdx';
 
-<Fragments
-  fragments={{
-    android: commonExistingResources,
-    ios: commonExistingResources,
-    js: commonExistingResources
-  }}
-/>
+<Fragments fragments={{ js: jsGeofences }} />

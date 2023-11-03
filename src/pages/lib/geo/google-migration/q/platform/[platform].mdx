@@ -1,6 +1,6 @@
 export const meta = {
-  title: `Use existing Amazon Location Service resources`,
-  description: `Configure Amplify Geo to use existing Amazon Location Service resources by referencing them in your configuration.`,
+  title: `Migrating from Google Maps`,
+  description: `Migrate applications from Google Maps to Amplify Geo`,
   filterKey: 'platform',
   supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
@@ -22,12 +22,6 @@ export const getStaticProps = (context) => {
   };
 };
 
-import commonExistingResources from '/src/fragments/lib/geo/existing-resources.mdx';
+import jsGoogleMigration from '/src/fragments/lib/geo/js/google-migration.mdx';
 
-<Fragments
-  fragments={{
-    android: commonExistingResources,
-    ios: commonExistingResources,
-    js: commonExistingResources
-  }}
-/>
+<Fragments fragments={{ js: jsGoogleMigration }} />
