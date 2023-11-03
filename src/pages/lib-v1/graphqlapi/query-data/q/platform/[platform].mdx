@@ -30,14 +30,14 @@ Before you begin, you will need:
 
 <InlineFilter filters={["js"]}>
 
-- An [application connected to the API](/lib/graphqlapi/connect/q/platform/js/)
+- An [application connected to the API](/lib-v1/graphqlapi/connect/q/platform/js/)
 - Data already created to view
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
-- An [application connected to the API](/lib/graphqlapi/getting-started/q/platform/react-native/)
+- An [application connected to the API](/lib-v1/graphqlapi/getting-started/q/platform/react-native/)
 - Data already created to view
 
 </InlineFilter>
@@ -543,7 +543,7 @@ async function fetchTodos() {
 
 __Limitations:__
 - There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
-- Sorting is [available in DataStore](/lib/datastore/data-access/q/platform/js/#predicates) but not in AWS AppSync.
+- Sorting is [available in DataStore](/lib-v1/datastore/data-access/q/platform/js/#predicates) but not in AWS AppSync.
 - AWS AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/guides/graphql-server-specification) but are spiritually similar.
 - You [cannot query by `page` number](https://github.com/aws-amplify/amplify-cli/issues/5086); you have to query by `nextToken`.
 
@@ -557,7 +557,7 @@ __Limitations:__
 
 __Limitations:__
 - There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
-- Sorting is [available in DataStore](/lib/datastore/data-access/q/platform/react-native/#predicates) but not in AWS AppSync.
+- Sorting is [available in DataStore](/lib-v1/datastore/data-access/q/platform/react-native/#predicates) but not in AWS AppSync.
 - AWS AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/guides/graphql-server-specification) but are spiritually similar.
 - You [cannot query by `page` number](https://github.com/aws-amplify/amplify-cli/issues/5086); you have to query by `nextToken`.
 
@@ -611,7 +611,7 @@ Our recommended next steps include subscribing to real-time events to look for m
 
 <InlineFilter filters={["js"]}>
 
-- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/js/)
+- [Subscribe to real-time events](/lib-v1/graphqlapi/subscribe-data/q/platform/js/)
 - [Authorization rules](/cli/graphql/authorization-rules/)
 - [Data modeling](/cli/graphql/data-modeling/)
 - [Custom business logic](/cli/graphql/custom-business-logic/)
@@ -620,7 +620,7 @@ Our recommended next steps include subscribing to real-time events to look for m
 
 <InlineFilter filters={["react-native"]}>
 
-- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/react-native/)
+- [Subscribe to real-time events](/lib-v1/graphqlapi/subscribe-data/q/platform/react-native/)
 - [Authorization rules](/cli/graphql/authorization-rules/)
 - [Data modeling](/cli/graphql/data-modeling/)
 - [Custom business logic](/cli/graphql/custom-business-logic/)
