@@ -7,7 +7,7 @@ To get started, initialize a new React Native project.
 
 Create a new app with the following command:    
 
-```bash
+```sh
 npx create-expo-app amplified_todo
 
 cd amplified_todo
@@ -22,16 +22,16 @@ npm install aws-amplify @aws-amplify/react-native @aws-amplify/rtn-web-browser @
 Start the app with the following command:
 
 For Android:
-```bash
+```sh
 npx expo run:android
 ```
 
 For iOS:
-```bash
+```sh
 npx expo run:ios
 ```
 
-Follow the additional prompts to configure your build and allow it some time to process. WHen ready, you app should launch in the respective simulator.
+Follow the additional prompts to configure your build and allow it some time to process. When ready, you app should launch in the respective simulator.
 
 </Block>
 <Block name="React Native CLI">
@@ -116,16 +116,30 @@ When you initialize a new Amplify project, a few things happen:
 
 ## Set up frontend
 
-Next, configure Amplify so it can interact with backend services.
-
-Open **index.js** (React Native CLI) or **App.js** (Expo CLI) and add the following code below the last import:
+Next, configure Amplify so it can interact with backend services by adding the following code below the last import:
+<BlockSwitcher>
+<Block name="Expo CLI">
 
 ```javascript
+// App.js
+
 import { Amplify } from 'aws-amplify';
 import amplifyconfig from './src/amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 ```
+</Block>
+<Block name="React Native CLI">
 
-And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in **aws-exports.js** will update automatically.
+```javascript
+// index.js
+
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from './src/amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
+```
+</Block>
+</BlockSwitcher>
+
+And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in **amplifyconfiguration.json** will update automatically.
 
 Now that your app is set up and Amplify is initialized, you can add an API in the next step.

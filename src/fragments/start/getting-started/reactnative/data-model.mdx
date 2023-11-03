@@ -374,9 +374,9 @@ Let's walk through some of the functions:
 
 __useEffect__ - After the component renders, the `useEffect` hook is called and it invokes the `fetchTodos` function.
 
-__fetchTodos__ - Uses the Amplify `API` category to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
+__fetchTodos__ - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
 
-__addTodo__ - Uses the Amplify `API` category to call the AppSync GraphQL API with the `createTodo` mutation. A difference between the `listTodos` query and the `createTodo` mutation is that `createTodo` accepts an argument containing the variables needed for the mutation.
+__addTodo__ - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `createTodo` mutation. A difference between the `listTodos` query and the `createTodo` mutation is that `createTodo` accepts an argument containing the variables needed for the mutation.
 
 ## Run locally
 
