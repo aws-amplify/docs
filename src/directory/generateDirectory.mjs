@@ -5,6 +5,7 @@ import path from 'path';
 import JSON5 from 'json5';
 import { directory } from './directory.mjs';
 import { writeFile } from 'fs/promises';
+import { getLastModifiedDate } from 'git-jiggy';
 
 /**
  * Helper function to use RegEx to grab the "meta" object
@@ -22,7 +23,8 @@ async function getMetaStringObj(filePath) {
     try {
       // Using JSON5 because the meta object is a "relaxed" JSON
       // JSON5 can parse the meta object without needing quotes around the object keys
-      const result = JSON5.parse(match[1]);
+      let metaObj = match[1].replaceAll('`',"'");
+      const result = JSON5.parse(metaObj);
 
       return result;
     } catch (err) {
@@ -49,6 +51,17 @@ async function traverseDirectoryObject(directoryNode) {
       if (metaObj) {
         for (const key of Object.keys(metaObj)) {
           directoryNode[key] = metaObj[key];
+        }
+
+        // Get the last updated date
+        try {
+          directoryNode['lastUpdated'] = await getLastModifiedDate(
+            directoryNode.path
+          );
+        } catch (error) {
+          console.log(
+            `error getting last modified date for ${directoryNode.path}`
+          );
         }
 
         const relativePath = path.relative(rootPath, directoryNode.path);

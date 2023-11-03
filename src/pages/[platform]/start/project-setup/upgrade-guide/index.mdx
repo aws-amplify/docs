@@ -1,0 +1,32 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Upgrade guide',
+  description: 'Guide to upgrade Amplify version from the last major version',
+  platforms: ['swift', 'android', 'flutter']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import ios0 from '/src/fragments/lib/project-setup/ios/upgrade-guide/upgrade-guide.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android0 from '/src/fragments/lib/project-setup/android/upgrade-guide/upgrade-guide.mdx';
+
+<Fragments fragments={{ android: android0 }} />
+
+import flutter0 from '/src/fragments/lib/project-setup/flutter/upgrade-guide/upgrade-guide.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />

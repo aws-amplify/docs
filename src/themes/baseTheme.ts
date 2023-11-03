@@ -33,8 +33,9 @@ export const baseTheme = createTheme({
       medium: { value: '1rem' },
       large: { value: '1.2rem' },
       xl: { value: '1.4rem' },
-      xxl: { value: '1.6rem' },
-      xxxl: { value: '1.8rem' }
+      xxl: { value: '1.5rem' },
+      xxxl: { value: '1.8rem' },
+      xxxxl: { value: '2.4rem' }
     },
     fonts: {
       default: {
@@ -44,8 +45,7 @@ export const baseTheme = createTheme({
     },
     components: {
       button: {
-        borderRadius: { value: '{radii.large}' },
-        borderWidth: { value: '{borderWidths.medium}' },
+        borderRadius: { value: '{radii.medium}' },
         borderColor: { value: '{colors.brand.primary.80}' },
         backgroundColor: { value: '{colors.background.primary}' },
         color: { value: '{colors.brand.primary.80}' },

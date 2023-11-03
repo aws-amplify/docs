@@ -1,14 +1,10 @@
-import { useEffect } from 'react';
-import { Heading, Text, Flex, Button } from '@aws-amplify/ui-react';
+import { Heading, Text, Flex, Button, Grid } from '@aws-amplify/ui-react';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
 import { Banner } from '@/components/Banner';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
 import PlatformFeatureList from '../components/FeatureLists/PlatformFeatureList';
-
-import { trackPageVisit } from '@/utils/track';
-
 import LinkCards from '@/components/LinkCards';
 
 const meta = {
@@ -22,8 +18,10 @@ export function getStaticProps() {
   return {
     props: {
       hasTOC: false,
+      showLastUpdatedDate: false,
       pageType: 'home',
-      meta
+      meta,
+      useCustomTitle: true
     }
   };
 }
@@ -35,7 +33,7 @@ export default function Page() {
   return (
     <Flex className="home-content">
       <Flex className="home-intro">
-        <Banner url={'#'} />
+        <Banner />
         <Heading level={1} className="home-intro__heading">
           Amplify Docs
         </Heading>

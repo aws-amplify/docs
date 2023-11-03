@@ -71,7 +71,7 @@ Analytics.autoTrack('event', {
 For example:
 
 ```html
-<!-- you want to track this button and send an event when it is clicked -->
+{/* you want to track this button and send an event when it is clicked \ */}
 <button
   data-amplify-analytics-on="click"
   data-amplify-analytics-name="click"
@@ -83,7 +83,7 @@ When the button above is clicked, an event will be sent automatically. This is e
 
 ```html
 <script>
-  var sendEvent = function() {
+  var sendEvent = function () {
     Analytics.record({
       name: 'click',
       attributes: {

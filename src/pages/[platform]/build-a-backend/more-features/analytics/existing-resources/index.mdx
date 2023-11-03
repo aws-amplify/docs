@@ -1,0 +1,41 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use existing AWS resources',
+  description:
+    'Configure the Amplify Libraries to use existing Amazon Pinpoint resources by referencing them in your configuration.',
+  platforms: ['javascript', 'react-native', 'swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import android0 from '/src/fragments/lib/analytics/android/existing-resources.mdx';
+
+<Fragments fragments={{ android: android0 }} />
+
+import ios1 from '/src/fragments/lib/analytics/ios/existing-resources.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />
+
+import flutter2 from '/src/fragments/lib/analytics/flutter/existing-resources.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />
+
+import js0 from '/src/fragments/lib/analytics/js/existing-resources.mdx';
+
+<Fragments fragments={{ javascript: js0 }} />
+
+import reactnative0 from '/src/fragments/lib/analytics/js/existing-resources.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

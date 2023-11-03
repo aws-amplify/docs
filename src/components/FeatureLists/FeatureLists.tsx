@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, Heading } from '@aws-amplify/ui-react';
+import { Columns } from '@/components/Columns';
 
 interface FeatureListsProps {
   children?: React.ReactNode;
@@ -14,7 +15,7 @@ const FeatureLists: React.FC<FeatureListsProps> = ({
   return (
     <>
       <Heading level={level}>{title}</Heading>
-      <Grid className="feature-lists">{children}</Grid>
+      <Columns columns={2}>{children}</Columns>
     </>
   );
 };

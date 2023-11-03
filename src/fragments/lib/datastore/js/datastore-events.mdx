@@ -1,11 +1,11 @@
 ```js
 // Create listener
-const listener = Hub.listen('datastore', async hubData => {
-  const  { event, data } = hubData.payload;
+const listener = Hub.listen('datastore', async (hubData) => {
+  const { event, data } = hubData.payload;
   if (event === 'networkStatus') {
-    console.log(`User has a network connection: ${data.active}`)
+    console.log(`User has a network connection: $\{data.active}`);
   }
-})
+});
 
 // Remove listener
 listener();
@@ -15,12 +15,12 @@ To wait for the entire sync process to finish, you can listen for the `ready` ev
 
 ```js
 // Create listener
-const listener = Hub.listen("datastore", async hubData => {
-  const  { event, data } = hubData.payload;
-  if (event === "ready") {
+const listener = Hub.listen('datastore', async (hubData) => {
+  const { event, data } = hubData.payload;
+  if (event === 'ready') {
     // do something here once the data is synced from the cloud
   }
-})
+});
 
 // Remove listener
 listener();

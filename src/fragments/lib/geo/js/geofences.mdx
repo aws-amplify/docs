@@ -5,6 +5,7 @@
 </Callout>
 
 ## Provisioning geofence resources
+
 First, make sure you've provisioned a geofence collection resource and configured your app using the instructions in either [Amplify CLI - Geo - Geofence Collection](/cli/geo/geofencing) or [Use existing Amazon Location Service resources](/lib/geo/existing-resources) and you have already setup [displaying a map](/lib/geo/maps) in your application.
 
 ## Manage Geofences in Your Application
@@ -27,10 +28,10 @@ Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl
 
   <Block name="Javascript">
 
-  **Note:** When using the existing [maps implementation](/lib/geo/maps) you can add the Geofence control to an existing map
+**Note:** When using the existing [maps implementation](/lib/geo/maps) you can add the Geofence control to an existing map
 
-  ```diff
-  import { useEffect, useRef } from "react";
+```diff
+import { useEffect, useRef } from "react";
 - import { createMap } from "maplibre-gl-js-amplify";
 + import { createMap, AmplifyGeofenceControl } from "maplibre-gl-js-amplify";
 + import { withAuthenticator } from "@aws-amplify/ui-react";
@@ -38,86 +39,86 @@ Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl
 + import "maplibre-gl-js-amplify/dist/public/amplify-ctrl-geofence.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-  function Map() {
-    const mapRef = useRef(null); // Reference to the map DOM element
+function Map() {
+  const mapRef = useRef(null); // Reference to the map DOM element
 
-    // Wrapping your code in a useEffect allows us to run initializeMap after the div has been rendered into the DOM
-    useEffect(() => {
-      let map;
-      async function initializeMap() {
-        // You only want to initialize the underlying maplibre map after the div has been rendered
-        if (mapRef.current != null) {
-          map = await createMap({
-            container: mapRef.current,
-            center: [-122.431297, 37.773972],
-            zoom: 11,
-          });
-        }
+  // Wrapping your code in a useEffect allows us to run initializeMap after the div has been rendered into the DOM
+  useEffect(() => {
+    let map;
+    async function initializeMap() {
+      // You only want to initialize the underlying maplibre map after the div has been rendered
+      if (mapRef.current != null) {
+        map = await createMap({
+          container: mapRef.current,
+          center: [-122.431297, 37.773972],
+          zoom: 11,
+        });
+      }
 
 +     const control = new AmplifyGeofenceControl()
 +     map.addControl(control);
-    }
-    initializeMap();
-
-      // Cleans up and maplibre DOM elements and other resources - https://maplibre.org/maplibre-gl-js-docs/api/map/#map#remove
-      return function cleanup() {
-        if (map != null) map.remove();
-      };
-    }, []);
-
-   return (
-     <div className="App">
-       <div ref={mapRef} id="map" />
-     </div>
-   );
   }
+  initializeMap();
 
-  export default withAuthenticator(Map);
-  ```
+    // Cleans up and maplibre DOM elements and other resources - https://maplibre.org/maplibre-gl-js-docs/api/map/#map#remove
+    return function cleanup() {
+      if (map != null) map.remove();
+    };
+  }, []);
+
+ return (
+   <div className="App">
+     <div ref={mapRef} id="map" />
+   </div>
+ );
+}
+
+export default withAuthenticator(Map);
+```
 
   </Block>
 
   <Block name="React">
 
-  **Note:** When using the [Amplify React MapView component](https://ui.docs.amplify.aws/react/components/geo) you can use the [`useControl` hook from react-map-gl](https://visgl.github.io/react-map-gl/docs/api-reference/use-control) to render the Geofence control component. The [react-map-gl](https://visgl.github.io/react-map-gl) dependency is already installed through `@aws-amplify/ui-react-geo`, you do not need to install it manually.
+**Note:** When using the [Amplify React MapView component](https://ui.docs.amplify.aws/react/components/geo) you can use the [`useControl` hook from react-map-gl](https://visgl.github.io/react-map-gl/docs/api-reference/use-control) to render the Geofence control component. The [react-map-gl](https://visgl.github.io/react-map-gl) dependency is already installed through `@aws-amplify/ui-react-geo`, you do not need to install it manually.
 
-  ```javascript
-  import React from "react";
-  import { Amplify } from "aws-amplify";
-  import { withAuthenticator } from "@aws-amplify/ui-react";
-  import { MapView } from "@aws-amplify/ui-react-geo";
-  import { useControl } from "react-map-gl";
-  import { AmplifyGeofenceControl } from "maplibre-gl-js-amplify";
-  import "@aws-amplify/ui-react/styles.css";
-  import "@aws-amplify/ui-react-geo/styles.css";
-  import "maplibre-gl-js-amplify/dist/public/amplify-ctrl-geofence.css";
-  import awsconfig from "../src/aws-exports";
-  Amplify.configure(awsconfig);
+```javascript
+import React from 'react';
+import { Amplify } from 'aws-amplify';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import { MapView } from '@aws-amplify/ui-react-geo';
+import { useControl } from 'react-map-gl';
+import { AmplifyGeofenceControl } from 'maplibre-gl-js-amplify';
+import '@aws-amplify/ui-react/styles.css';
+import '@aws-amplify/ui-react-geo/styles.css';
+import 'maplibre-gl-js-amplify/dist/public/amplify-ctrl-geofence.css';
+import awsconfig from '../src/aws-exports';
+Amplify.configure(awsconfig);
 
-  function Geofence() {
-    useControl(() => new AmplifyGeofenceControl());
+function Geofence() {
+  useControl(() => new AmplifyGeofenceControl());
 
-    return null;
-  }
+  return null;
+}
 
-  function App({ signOut }) {
-    return (
-      <div className="App">
-        <MapView
-          initialViewState={{
-            latitude: 37.8,
-            longitude: -122.4,
-            zoom: 14,
-          }}
-        >
-          <Geofence />
-        </MapView>
-      </div>
-    );
-  }
+function App({ signOut }) {
+  return (
+    <div className="App">
+      <MapView
+        initialViewState={{
+          latitude: 37.8,
+          longitude: -122.4,
+          zoom: 14
+        }}
+      >
+        <Geofence />
+      </MapView>
+    </div>
+  );
+}
 
-  export default withAuthenticator(App);
-  ```
+export default withAuthenticator(App);
+```
 
   </Block>
 
@@ -138,9 +139,9 @@ If you are using a different mapping library or need a programmatic approach to 
 First, you need to import Geo from either the `@aws-amplify/geo` or `aws-amplify` packages.
 
 ```javascript
-import { Geo } from "@aws-amplify/geo";
+import { Geo } from '@aws-amplify/geo';
 // Or
-import { Geo } from "aws-amplify";
+import { Geo } from 'aws-amplify';
 ```
 
 ### saveGeofences
@@ -199,16 +200,16 @@ Each error object has the following properties:
 let saveGeofenceResults;
 try {
   saveGeofenceResults = await Geo.saveGeofences({
-    geofenceId: "my-geofence",
+    geofenceId: 'my-geofence',
     geometry: {
       polygon: [
         [-123.14695358276366, 49.290090146520434],
         [-123.1358814239502, 49.294960279811974],
         [-123.15021514892577, 49.29300108863353],
         [-123.14909934997559, 49.29132171993048],
-        [-123.14695358276366, 49.290090146520434],
-      ],
-    },
+        [-123.14695358276366, 49.290090146520434]
+      ]
+    }
   });
 } catch (error) {
   // errors thrown by input validations of `saveGeofences`
@@ -217,8 +218,8 @@ try {
 
 if (saveGeofenceResults.errors.length > 0) {
   // error handling that are from the underlying API calls
-  console.log(`Success count: ${saveGeofenceResults.successes.length}`);
-  console.log(`Error count: ${saveGeofenceResults.errors.length}`);
+  console.log(`Success count: $\{saveGeofenceResults.successes.length}`);
+  console.log(`Error count: $\{saveGeofenceResults.errors.length}`);
 }
 ```
 
@@ -239,7 +240,6 @@ Geo.getGeofence(geofenceId, options) => Promise<Geofence>;
   - `collectionName` - the name of the collection to get geofence from.
     - Defaults to the default collection listed in your `aws-exports.js` file after provisioning a geofence collection resource.
 
-
 #### Return
 
 The return from `getGeofence` is a Promise that resolves to a geofence object.
@@ -249,7 +249,7 @@ The return from `getGeofence` is a Promise that resolves to a geofence object.
 ```javascript
 let responses;
 try {
-  response = await Geo.getGeofence("geofenceId");
+  response = await Geo.getGeofence('geofenceId');
 } catch (error) {
   throw error;
 }
@@ -286,7 +286,7 @@ Returns a Promise that resolves to an object with the following properties:
 let response;
 try {
   response = await Geo.listGeofences();
-  response.entries.forEach(geofence => console.log(geofence.geofenceId))
+  response.entries.forEach((geofence) => console.log(geofence.geofenceId));
 } catch (error) {
   throw error;
 }
@@ -339,7 +339,7 @@ catch (error) {
 
 if(response.errors.length > 0){
   // error handling that are from the underlying API calls
-  console.log(`Success count: ${response.successes.length}`);
-  console.log(`Error count: ${response.errors.length}`);
+  console.log(`Success count: $\{response.successes.length}`);
+  console.log(`Error count: $\{response.errors.length}`);
 }
 ```

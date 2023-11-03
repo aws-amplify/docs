@@ -6,8 +6,7 @@ To upload to S3 from a file, specify the `key` and the `localFile` to be uploade
 
 <Callout>
 
-**Note**: To use `AWSFilePlatform`, add [aws_common](https://pub.dev/packages/aws_common) package to your Flutter project
-by running: `flutter pub add aws_common`
+**Note**: To use `AWSFilePlatform`, add [aws_common](https://pub.dev/packages/aws_common) package to your Flutter project by running: `flutter pub add aws_common`
 
 </Callout>
 
@@ -28,9 +27,9 @@ Future<void> uploadIOFile(io.File file) async {
       localFile: awsFile,
       key: 'upload/file.png',
     ).result;
-    safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
+    safePrint('Uploaded file: $\{uploadResult.uploadedItem.key}');
   } on StorageException catch (e) {
-    safePrint('Error uploading file: ${e.message}');
+    safePrint('Error uploading file: $\{e.message}');
     rethrow;
   }
 }
@@ -53,9 +52,9 @@ Future<void> uploadHtmlFile(html.File file) async {
       localFile: awsFile,
       key: 'upload/file.png',
     ).result;
-    safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
+    safePrint('Uploaded file: $\{uploadResult.uploadedItem.key}');
   } on StorageException catch (e) {
-    safePrint('Error uploading file: ${e.message}');
+    safePrint('Error uploading file: $\{e.message}');
     rethrow;
   }
 }
@@ -98,10 +97,10 @@ Future<void> uploadImage() async {
       ),
       key: platformFile.name,
       onProgress: (progress) {
-        safePrint('Fraction completed: ${progress.fractionCompleted}');
+        safePrint('Fraction completed: $\{progress.fractionCompleted}');
       },
     ).result;
-    safePrint('Successfully uploaded file: ${result.uploadedItem.key}');
+    safePrint('Successfully uploaded file: $\{result.uploadedItem.key}');
   } on StorageException catch (e) {
     safePrint('Error uploading file: $e');
     rethrow;
@@ -134,9 +133,9 @@ Future<void> uploadStringData({
       key: key,
     ).result;
 
-    safePrint('Uploaded data: ${result.uploadedItem.key}');
+    safePrint('Uploaded data: $\{result.uploadedItem.key}');
   } on StorageException catch (e) {
-    safePrint('Error uploading data: ${e.message}');
+    safePrint('Error uploading data: $\{e.message}');
     rethrow;
   }
 }
@@ -160,9 +159,9 @@ Future<void> uploadJsonObject({
       key: key,
     ).result;
 
-    safePrint('Uploaded data: ${result.uploadedItem.key}');
+    safePrint('Uploaded data: $\{result.uploadedItem.key}');
   } on StorageException catch (e) {
-    safePrint('Error uploading data: ${e.message}');
+    safePrint('Error uploading data: $\{e.message}');
     rethrow;
   }
 }
@@ -188,9 +187,9 @@ Future<void> uploadDataUrl({
       key: key,
     ).result;
 
-    safePrint('Uploaded data: ${result.uploadedItem.key}');
+    safePrint('Uploaded data: $\{result.uploadedItem.key}');
   } on StorageException catch (e) {
-    safePrint('Error uploading data: ${e.message}');
+    safePrint('Error uploading data: $\{e.message}');
     rethrow;
   }
 }
@@ -218,9 +217,9 @@ Future<void> uploadBytes({
       key: key,
     ).result;
 
-    safePrint('Uploaded data: ${result.uploadedItem.key}');
+    safePrint('Uploaded data: $\{result.uploadedItem.key}');
   } on StorageException catch (e) {
-    safePrint('Error uploading data: ${e.message}');
+    safePrint('Error uploading data: $\{e.message}');
     rethrow;
   }
 }
@@ -254,7 +253,7 @@ Future<void> uploadWithOptions() async {
   );
   final uploadDataResult = await uploadDataOperation.result;
   safePrint(
-    'Uploaded data with metadata: ${uploadDataResult.uploadedItem.metadata}',
+    'Uploaded data with metadata: $\{uploadDataResult.uploadedItem.metadata}',
   );
 
   // When uploading a file, use `StorageUploadFileOptions`
@@ -272,18 +271,16 @@ Future<void> uploadWithOptions() async {
   );
   final uploadFileResult = await uploadFileOperation.result;
   safePrint(
-    'Uploaded file with metadata: ${uploadFileResult.uploadedItem.metadata}',
+    'Uploaded file with metadata: $\{uploadFileResult.uploadedItem.metadata}',
   );
 }
 ```
 
 The [`Amplify.Storage.getProperties` API](/lib/storage/get-properties) allows you to retrieve metadata without downloading the file.
 
-
 In S3 console, you should see the metadata attached to your file as the following.
 
 ![Screenshot of the metadata properties in S3 console, defined from above, showing two rows of data. The first row is a system defined key value pair where the key is Content-Type with the value is text/plain. The second row is user defined key value pair where the key is x-amz-meta-project and the value is ExampleProject](/images/s3_metadata.png)
-
 
 ## Control of Upload Operations
 
@@ -306,9 +303,9 @@ Future<void> uploadFile(String path) async {
     );
 
     final result = await uploadOperation!.result;
-    safePrint('Uploaded ${result.uploadedItem.key}');
+    safePrint('Uploaded $\{result.uploadedItem.key}');
   } on StorageException catch (e) {
-    safePrint('Error uploading file: ${e.message}');
+    safePrint('Error uploading file: $\{e.message}');
   }
 }
 

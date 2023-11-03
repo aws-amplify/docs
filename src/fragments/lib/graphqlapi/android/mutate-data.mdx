@@ -25,7 +25,7 @@ val todo = Todo.builder()
     .build()
 
 Amplify.API.mutate(ModelMutation.create(todo),
-    { Log.i("MyAmplifyApp", "Todo with id: ${it.data.id}") }
+    { Log.i("MyAmplifyApp", "Todo with id: $\{it.data.id}") }
     { Log.e("MyAmplifyApp", "Create failed", it) }
 )
 ```
@@ -39,7 +39,7 @@ val todo = Todo.builder()
     .build()
 try {
     val response = Amplify.API.mutate(ModelMutation.create(todo))
-    Log.i("MyAmplifyApp", "Todo with id: ${response.data.id}")
+    Log.i("MyAmplifyApp", "Todo with id: $\{response.data.id}")
 } catch (error: ApiException) {
     Log.e("MyAmplifyApp", "Create failed", error)
 }

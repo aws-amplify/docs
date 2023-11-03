@@ -96,8 +96,7 @@ h3 {
   }
 }
 
-/* A elements that don't have a class get default styles */
-a:not([class]),
+a,
 .amplify-link {
   text-decoration-skip-ink: auto;
 
@@ -146,32 +145,9 @@ ul {
 }
 
 .main {
-  flex-direction: column;
-  gap: var(--amplify-space-large);
-
-  .amplify-heading--2 {
-    margin-top: var(--amplify-space-large);
-  }
 
   .amplify-heading--2,
   .amplify-heading--3 {
     scroll-margin-top: 9rem;
-  }
-}
-
-.columns-two,
-.columns-three {
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
-  gap: var(--amplify-space-large);
-}
-
-@container (min-width: 800px) {
-  .columns-two {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .columns-three {
-    grid-template-columns: repeat(3, 1fr);
   }
 }

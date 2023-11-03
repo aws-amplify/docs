@@ -34,7 +34,7 @@ When using Google Maps Platform or other similar services like Mapbox you will f
     <meta charset="utf-8">
     <title>Display a map on a webpage</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <!-- Import MapLibre  -->
+    {/* Import MapLibre  \ */}
     <script src="https://cdn.amplify.aws/packages/maplibre-gl/1.15.2/maplibre-gl.js"
         integrity="sha384-rwYfkmAOpciZS2bDuwZ/Xa/Gog6jXem8D/whm3wnsZSVFemDDlprcUXHnDDUcrNU" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
@@ -42,8 +42,8 @@ When using Google Maps Platform or other similar services like Mapbox you will f
         integrity="sha384-DrPVD9GufrxGb7kWwRv0CywpXTmfvbKOZ5i5pN7urmIThew0zXKTME+gutUgtpeD" crossorigin="anonymous"
         referrerpolicy="no-referrer">
     </link>
-    <!-- Import Amplify  -->
-    <script src="https://cdn.amplify.aws/packages/core/5.0.5/aws-amplify-core.min.js" 
+    {/* Import Amplify  \ */}
+    <script src="https://cdn.amplify.aws/packages/core/5.0.5/aws-amplify-core.min.js"
         integrity="sha384-eM2urkpomL9SRm/kuPHZG3XPEItAiUAAyotT/AqlhSus8iAqs/EfHaYy1Jn5ih7K" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
     <script src="https://cdn.amplify.aws/packages/auth/5.0.5/aws-amplify-auth.min.js"
@@ -143,7 +143,9 @@ Here you will add a marker to your map
 With Amplify Geo and MapLibre you can do the following.
 
 ```js
-const marker = new maplibregl.Marker().setLngLat([-122.4783, 37.8199]).addTo(map);
+const marker = new maplibregl.Marker()
+  .setLngLat([-122.4783, 37.8199])
+  .addTo(map);
 ```
 
 Save your changes and refresh your page and you should see a default blue marker icon on your map.
@@ -162,8 +164,8 @@ Using the Google Maps JS API you would add a marker as show below.
 
 ```js
 const marker = new google.maps.Marker({
-center: { lat: 37.8199, lng: -122.4783 },
-map: map
+  center: { lat: 37.8199, lng: -122.4783 },
+  map: map
 });
 ```
 
@@ -307,13 +309,13 @@ With Amplify Geo and MapLibre you can do the following.
 
 ```js
 // Create a div to hold the search component
-const el = document.createElement("div");
-el.setAttribute("id", "search");
+const el = document.createElement('div');
+el.setAttribute('id', 'search');
 document.body.appendChild(el);
 
 // Create the geocoder component and append it to the div you created earlier
 const geocoder = createAmplifyGeocoder();
-document.getElementById("search").appendChild(geocoder.onAdd());
+document.getElementById('search').appendChild(geocoder.onAdd());
 ```
 
 Save your changes and refresh your page and now when you should see a maplibre-gl-geocoder control in the div you created.
@@ -338,12 +340,12 @@ Some lines omitted for brevity, see the Google Maps Platform Places Search Box e
 
 ```js
 // Create a input to hold the search component
-const el = document.createElement("input");
-el.setAttribute("id", "pac-input");
+const el = document.createElement('input');
+el.setAttribute('id', 'pac-input');
 document.body.appendChild(el);
 
 // Create the search box and link it to the UI element.
-const input = document.getElementById("pac-input");
+const input = document.getElementById('pac-input');
 const searchBox = new google.maps.places.SearchBox(input);
 ```
 

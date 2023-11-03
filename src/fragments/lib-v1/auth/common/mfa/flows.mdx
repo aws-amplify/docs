@@ -1,14 +1,11 @@
-The Auth category supports Multi-factor Authentication (MFA) for user sign-in flows. MFA is an extra layer of security
-used to make sure that users trying to gain access to an account are who they say they are. It requires users to provide
-additional information to verify their identity. The category supports the following MFA methods:
+The Auth category supports Multi-factor Authentication (MFA) for user sign-in flows. MFA is an extra layer of security used to make sure that users trying to gain access to an account are who they say they are. It requires users to provide additional information to verify their identity. The category supports the following MFA methods:
 
-* [SMS](#multi-factor-authentication-with-sms)
-* [TOTP](#multi-factor-authentication-with-totp) (Time-based One-time Password)
+- [SMS](#multi-factor-authentication-with-sms)
+- [TOTP](#multi-factor-authentication-with-totp) (Time-based One-time Password)
 
 ## Set Up Backend Resources
 
-Below are the steps you can use to set up MFA using SMS or TOTP with the Amplify CLI. The Amplify libraries are designed to work with
-MFA even if you have set up your Amazon Cognito resources separately.
+Below are the steps you can use to set up MFA using SMS or TOTP with the Amplify CLI. The Amplify libraries are designed to work with MFA even if you have set up your Amazon Cognito resources separately.
 
 <Callout warning>
 
@@ -24,6 +21,7 @@ Note: If you create or update an SMS MFA configuration for your Cognito user poo
 Refer to [SMS sandbox](/lib/auth/sms_flows#sandbox-mode).
 
 For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aws.amazon.com/sns/sms-pricing/).
+
 </Callout>
 
 <BlockSwitcher>
@@ -34,9 +32,9 @@ Run `amplify add auth` to create a new Cognito Auth resource, and follow the pro
 
 Turning MFA "ON" will make it required for all users, while "Optional" will make it available to enable on a per-user basis.
 
-import all2 from "/src/fragments/lib/auth/common/mfa/add_mfa.mdx";
+import all2 from '/src/fragments/lib/auth/common/mfa/add_mfa.mdx';
 
-<Fragments fragments={{all: all2}} />
+<Fragments fragments={{ all: all2 }} />
 
 </Block>
 
@@ -44,9 +42,9 @@ import all2 from "/src/fragments/lib/auth/common/mfa/add_mfa.mdx";
 
 Run `amplify update auth` and follow the prompts as guided below.
 
-import all5 from "/src/fragments/lib/auth/common/mfa/update_mfa.mdx";
+import all5 from '/src/fragments/lib/auth/common/mfa/update_mfa.mdx';
 
-<Fragments fragments={{all: all5}} />
+<Fragments fragments={{ all: all5 }} />
 
 </Block>
 
@@ -56,16 +54,14 @@ import all5 from "/src/fragments/lib/auth/common/mfa/update_mfa.mdx";
 
 ### Enabling SMS for MFA during Sign Up
 
-You will need to pass `phone_number` as a user attribute to enable SMS MFA for your users during sign up. However, if the primary login mechanism for your Cognito resource is
-`phone_number` (without enabling `username`), then you do not need to pass it as an attribute.
+You will need to pass `phone_number` as a user attribute to enable SMS MFA for your users during sign up. However, if the primary login mechanism for your Cognito resource is `phone_number` (without enabling `username`), then you do not need to pass it as an attribute.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
-
 import { signUp } from 'aws-amplify/auth';
 
 async function handleSignUp(
@@ -81,29 +77,24 @@ async function handleSignUp(
       options: {
         userAttributes: {
           phone_number,
-          email,
-        },
-      },
+          email
+        }
+      }
     });
   } catch (error) {
     console.log(error);
   }
 }
 ```
+
 </Block>
 
 <Block name="JavaScript">
 
 ```javascript
-
 import { signUp } from 'aws-amplify/auth';
 
-async function handleSignUp(
-  username,
-  password,
-  phone_number,
-  email
-) {
+async function handleSignUp(username, password, phone_number, email) {
   try {
     await signUp({
       username,
@@ -111,24 +102,24 @@ async function handleSignUp(
       options: {
         userAttributes: {
           phone_number,
-          email,
-        },
-      },
+          email
+        }
+      }
     });
   } catch (error) {
     console.log(error);
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
 </InlineFilter>
 
-By default, you have to verify a user account after they sign up using the `confirmSignUp` API, which will send a one-time password to the user's phone number or email,
-depending on your Amazon Cognito configuration.
+By default, you have to verify a user account after they sign up using the `confirmSignUp` API, which will send a one-time password to the user's phone number or email, depending on your Amazon Cognito configuration.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -136,7 +127,10 @@ depending on your Amazon Cognito configuration.
 ```ts
 import { confirmSignUp } from 'aws-amplify/auth';
 
-async function handleSignUpConfirmation(username: string, confirmationCode: string) {
+async function handleSignUpConfirmation(
+  username: string,
+  confirmationCode: string
+) {
   try {
     await confirmSignUp({ username, confirmationCode });
   } catch (error) {
@@ -159,6 +153,7 @@ async function handleSignUpConfirmation(username, confirmationCode) {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -166,10 +161,9 @@ async function handleSignUpConfirmation(username, confirmationCode) {
 
 ### Handling SMS MFA challenge during Sign In
 
-After a user signs in, if they have MFA enabled for their account, a challenge will be returned that you would need to call the `confirmSignIn` API where the user provides
-their confirmation code sent to their phone number.
+After a user signs in, if they have MFA enabled for their account, a challenge will be returned that you would need to call the `confirmSignIn` API where the user provides their confirmation code sent to their phone number.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -177,10 +171,7 @@ their confirmation code sent to their phone number.
 ```typescript
 import { signIn } from 'aws-amplify/auth';
 
-async function handleSignIn(
-  username: string,
-  password: string
-) {
+async function handleSignIn(username: string, password: string) {
   try {
     await signIn({ username, password });
   } catch (error) {
@@ -188,6 +179,7 @@ async function handleSignIn(
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -202,6 +194,7 @@ async function handleSignIn(username, password) {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -209,7 +202,7 @@ async function handleSignIn(username, password) {
 
 If MFA is **ON** or enabled for the user, you must call `confirmSignIn` with the OTP sent to their phone.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -241,15 +234,15 @@ async function handleSignInConfirmation(otpCode) {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
 </InlineFilter>
 
-After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user
-and optionally set it as preferred so that subsequent logins default to using this MFA type.
+After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
@@ -267,41 +260,33 @@ async function handleUpdateMFAPreference() {
 
 ## Multi-factor authentication with TOTP
 
-You can use Time-based One-Time Password (TOTP) for multi-factor authentication (MFA) in your web or mobile applications. The Amplify Auth category includes
-support for TOTP setup and verification using authenticator apps, offering an integrated solution and enhanced security for your users. These apps,
-such as Google Authenticator, Microsoft Authenticator, have the TOTP algorithm built-in and work by using a shared secret key and the current time to
-generate short-lived, six digit passwords.
+You can use Time-based One-Time Password (TOTP) for multi-factor authentication (MFA) in your web or mobile applications. The Amplify Auth category includes support for TOTP setup and verification using authenticator apps, offering an integrated solution and enhanced security for your users. These apps, such as Google Authenticator, Microsoft Authenticator, have the TOTP algorithm built-in and work by using a shared secret key and the current time to generate short-lived, six digit passwords.
 
 ### Setting up TOTP for a user
 
-After you initiate a user sign in with the `signIn` API where a user is required to set up TOTP as an MFA method, the API call will return `CONTINUE_SIGN_IN_WITH_TOTP_SETUP`
-as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
+After you initiate a user sign in with the `signIn` API where a user is required to set up TOTP as an MFA method, the API call will return `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
 
 - MFA is marked as **Required** in your user pool.
 - TOTP is enabled in your user pool.
 - User does not have TOTP MFA set up already.
 
-The `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails`
-which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI`
-which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains
-a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app.
+The `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app.
 
 Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
-
-import { signIn , SignInOutput } from 'aws-amplify/auth';
+import { signIn, SignInOutput } from 'aws-amplify/auth';
 
 async function handleSignIn(username: string, password: string) {
   try {
     const output = await signIn({
       username,
-      password,
+      password
     });
 
     handleSignInNextSteps(output);
@@ -336,7 +321,7 @@ async function handleSignIn(username, password) {
   try {
     const output = await signIn({
       username,
-      password,
+      password
     });
 
     handleSignInNextSteps(output);
@@ -367,7 +352,7 @@ function handleSignInNextSteps(output) {
 
 The TOTP code can be obtained from the user via a text field or any other means. Once the user provides the TOTP code, call `confirmSignIn` with the TOTP code as the `challengeResponse` parameter.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -399,15 +384,15 @@ async function handleSignInConfirmation(totpCode) {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
 </InlineFilter>
 
-After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user
-and optionally set it as preferred so that subsequent logins default to using this MFA type.
+After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
@@ -436,7 +421,7 @@ Invoke the `setUpTOTP` API to generate a `TOTPSetupDetails` object which should 
 
 that contains the `sharedSecret` which will be used to either to generate a QR code or can be manually entered into an Authenticator app.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ```typescript
 import { setUpTOTP } from 'aws-amplify/auth';
@@ -457,7 +442,7 @@ async function handleTOTPSetup() {
 
 Once the Authenticator app is set up, the user must generate a TOTP code and provide it to the library. Pass the code to `verifyTOTPSetup` to complete the TOTP setup process.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -495,10 +480,9 @@ async function handleTOTPVerification(totpCode) {
 
 </InlineFilter>
 
-After TOTP setup is complete, call `updateMFAPreference` to record the MFA type as enabled for the user
-and optionally set it as preferred so that subsequent logins default to using this MFA type.
+After TOTP setup is complete, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
@@ -530,7 +514,7 @@ In a scenario where MFA is marked as **Required** in your user pool and another 
 
 Invoke the following API to get the current MFA preference and enabled MFA types, if any, for the current user.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ```ts
 import { fetchMFAPreference } from 'aws-amplify/auth';
@@ -538,8 +522,8 @@ import { fetchMFAPreference } from 'aws-amplify/auth';
 async function handleFetchMFAPreference() {
   try {
     const output = await fetchMFAPreference();
-    console.log(`Enabled MFA types for the user: ${output.enabled}`);
-    console.log(`Preferred MFA type for the user: ${output.preferred}`);
+    console.log(`Enabled MFA types for the user: $\{output.enabled}`);
+    console.log(`Preferred MFA type for the user: $\{output.preferred}`);
   } catch (error) {
     console.log(error);
   }
@@ -558,7 +542,7 @@ Only one MFA method can be marked as preferred at a time. If the user has multip
 
 </Callout>
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
@@ -574,10 +558,9 @@ async function handleUpdateMFAPreference() {
 
 </InlineFilter>
 
-If multiple MFA methods are enabled for the user, the `signIn` API will return `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` as the next step in the auth flow. During this scenario,
-the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
+If multiple MFA methods are enabled for the user, the `signIn` API will return `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
 
-<InlineFilter filters={['js']}>
+<InlineFilter filters={['javascript']}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -611,7 +594,7 @@ function promptUserForMFAType(
 async function handleMFASelection(mfaType: 'SMS' | 'TOTP') {
   try {
     const output = await confirmSignIn({
-      challengeResponse: mfaType,
+      challengeResponse: mfaType
     });
     handleSignInNextSteps(output);
   } catch (error) {
@@ -619,6 +602,7 @@ async function handleMFASelection(mfaType: 'SMS' | 'TOTP') {
   }
 }
 ```
+
 </Block>
 
 <Block name="JavaScript">
@@ -641,15 +625,14 @@ function handleSignInNextSteps(output) {
   }
 }
 
-function promptUserForMFAType(allowedMFATypes)
-{
+function promptUserForMFAType(allowedMFATypes) {
   // Prompt user to select MFA type
 }
 
 async function handleMFASelection(mfaType) {
   try {
     const output = await confirmSignIn({
-      challengeResponse: mfaType,
+      challengeResponse: mfaType
     });
     handleSignInNextSteps(output);
   } catch (error) {

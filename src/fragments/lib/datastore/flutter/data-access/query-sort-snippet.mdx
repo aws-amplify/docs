@@ -11,7 +11,7 @@ Future<void> queryPostsInAscendingOrderByRating() async {
     );
     safePrint('Posts: $posts');
   } on DataStoreException catch (e) {
-    safePrint('Something went wrong querying posts: ${e.message}');
+    safePrint('Something went wrong querying posts: $\{e.message}');
   }
 }
 ```

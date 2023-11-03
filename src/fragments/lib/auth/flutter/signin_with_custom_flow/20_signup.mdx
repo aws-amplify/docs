@@ -15,7 +15,7 @@ Future<void> signUpCustomFlow() async {
     );
     safePrint('Sign up result: $result');
   } on AuthException catch (e) {
-    safePrint('Error signing up: ${e.message}');
+    safePrint('Error signing up: $\{e.message}');
   }
 }
 ```
