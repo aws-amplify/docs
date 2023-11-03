@@ -60,7 +60,7 @@ To initiate a custom authentication flow in your app, call `signIn` without a pa
 ```ts
 import { signIn, confirmSignIn } from 'aws-amplify/auth';
 
-export async function handeSignIn(username: string) {
+export async function handleSignIn(username: string) {
   const challengeResponse = 'the answer for the challenge';
   try {
     const { nextStep } = await signIn({
@@ -90,7 +90,7 @@ export async function handeSignIn(username: string) {
 ```js
 import { signIn, confirmSignIn } from 'aws-amplify/auth';
 
-export async function handeSignIn(username) {
+export async function handleSignIn(username) {
   const challengeResponse = 'the answer for the challenge';
   try {
     const { nextStep } = await signIn({
