@@ -156,7 +156,7 @@ function SpeakTranslatedImage() {
     })
       .result.then(async (result) => {
         setSrc(await speakTranslatedImageTextOP(result.key));
-        setImg(await getUrl({ key: result.key }));
+        setImg((await getUrl({ key: result.key })).url.toString());
       })
       .catch((err) => console.log(err));
   }
