@@ -195,31 +195,19 @@ const isLocalhost = Boolean(__DEV__);
 const [
   localRedirectSignIn,
   productionRedirectSignIn,
-] = amplifyconfig.Auth.Cognito?.loginWith?.oauth?.redirectSignIn?.split(",");
+] = amplifyconfig.oauth.redirectSignIn.split(",");
 
 const [
   localRedirectSignOut,
   productionRedirectSignOut,
-] = amplifyconfig.Auth.Cognito?.loginWith?.oauth?.redirectSignOut?.split(",");
+] = amplifyconfig.oauth.redirectSignOut.split(",");
 
 const updatedAwsConfig = {
-  ...amplifyconfig,
-  Auth: {
-    Cognito: {
-      ...amplifyconfig.Auth.Cognito,
-      loginWith: {
-        ...amplifyconfig.Auth.Cognito?.loginWith,
-        oauth: {
-          ...amplifyconfig.Auth.Cognito?.loginWith?.oauth,
-          redirectSignIn: isLocalhost
-            ? localRedirectSignIn
-            : productionRedirectSignIn,
-          redirectSignOut: isLocalhost
-            ? localRedirectSignOut
-            : productionRedirectSignOut,
-        },
-      }
-    }
+   ...amplifyconfig,
+  oauth: {
+    ...amplifyconfig.oauth,
+    redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
+    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
   }
 }
 
