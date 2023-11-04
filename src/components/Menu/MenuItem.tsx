@@ -20,11 +20,6 @@ type MenuItemProps = {
   currentPlatform?: Platform;
 };
 
-// type ParentMenuItem = {
-//   parentNode: PageNode | null;
-//   parentSetOpen: React.Dispatch<React.SetStateAction<boolean>> | null;
-// };
-
 export function MenuItem({
   pageNode,
   parentSetOpen,
