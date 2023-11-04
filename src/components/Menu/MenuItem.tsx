@@ -65,7 +65,8 @@ export function MenuItem({
   // Using this to help open nested menu items
   // When the parent's setOpen gets called in the initial render from the useEffect above,
   // it should cause the parent node to rerender. If this node has a parent too, then we should
-  // also open it.
+  // also open it. The goal is to keep opening the parent whenever we get a
+  // "current" menu item that is deeply nested
   useEffect(() => {
     if (open && parentSetOpen) {
       parentSetOpen(true);
