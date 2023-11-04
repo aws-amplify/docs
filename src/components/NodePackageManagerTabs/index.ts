@@ -1,0 +1,1 @@
+export { NodePackageManagerTabs } from './NodePackageManagerTabs';

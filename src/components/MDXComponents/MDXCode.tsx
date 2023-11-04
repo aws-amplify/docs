@@ -25,7 +25,28 @@ const addVersions = (code: string) => {
   return code;
 };
 
-export const MDXCode = (props) => {
+type MDXCodeProps = {
+  /**
+   * Code string to render
+   */
+  codeString: string;
+  /**
+   * Code language
+   * @default 'js'
+   */
+  language: string;
+  /**
+   * Filename to display
+   */
+  fileName: string;
+  /**
+   * Show line numbers
+   * @default true
+   */
+  showLineNumbers: boolean;
+};
+
+export const MDXCode = (props: MDXCodeProps) => {
   const {
     codeString,
     language = 'js',

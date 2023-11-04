@@ -2,10 +2,11 @@ import '@aws-amplify/ui-react/styles.css';
 import '@algolia/autocomplete-theme-classic';
 import '../styles/styles.scss';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
 import { CANONICAL_URLS } from '@/data/canonical-urls';
-import { useRouter } from 'next/router';
+import { NodePackageManagerProvider } from '@/components/NodePackageManager';
 
 function MyApp({ Component, pageProps }) {
   const {
@@ -161,7 +162,11 @@ function MyApp({ Component, pageProps }) {
         <link rel="canonical" href={canonicalUrl} />
       </Head>
 
-      <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>
+      <MDXProvider>
+        <NodePackageManagerProvider>
+          {getLayout(<Component {...pageProps} />)}
+        </NodePackageManagerProvider>
+      </MDXProvider>
 
       {process.env.BUILD_ENV !== 'production' ? (
         <>
