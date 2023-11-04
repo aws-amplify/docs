@@ -22,6 +22,7 @@ import {
   PLATFORM_DISPLAY_NAMES,
   Platform
 } from '@/data/platforms';
+import { ALGOLIA_API_KEY, ALGOLIA_INDEX_NAME, ALGOLIA_APP_ID } from '../../constants/algolia';
 import { SpaceShip } from '@/components/SpaceShip';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
@@ -229,13 +230,10 @@ export const Layout = ({
                     { 'layout-search__search--toc': showTOC }
                   )}
                 >
-                  {process.env.ALGOLIA_APP_ID || "No app id"}
-                  {process.env.ALGOLIA_API_KEY || "No api key"}
-                  {process.env.ALGOLIA_INDEX || "No index"}
                   <DocSearch
-                    appId={"HBI6AAVZLI"}
-                    indexName={"next-amplify"}
-                    apiKey={"39400f04880764b2ba504813b0902bd4"}
+                    appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
+                    indexName={process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME}
+                    apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
                   />
                 </View>
               </Flex>
