@@ -229,10 +229,13 @@ export const Layout = ({
                     { 'layout-search__search--toc': showTOC }
                   )}
                 >
+                  {process.env.ALGOLIA_APP_ID || "No app id"}
+                  {process.env.ALGOLIA_API_KEY || "No api key"}
+                  {process.env.ALGOLIA_INDEX || "No index"}
                   <DocSearch
-                    appId={process.env.ALGOLIA_APP_ID}
-                    indexName={process.env.ALGOLIA_API_KEY}
-                    apiKey={process.env.ALGOLIA_INDEX}
+                    appId={"HBI6AAVZLI"}
+                    indexName={"next-amplify"}
+                    apiKey={"39400f04880764b2ba504813b0902bd4"}
                   />
                 </View>
               </Flex>
