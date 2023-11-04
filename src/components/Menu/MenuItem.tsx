@@ -41,7 +41,7 @@ export function MenuItem({
   };
 
   const handleFocus = () => {
-    if (parentSetOpen && level === 3) {
+    if (parentSetOpen) {
       parentSetOpen(true);
     }
   };
@@ -82,8 +82,12 @@ export function MenuItem({
     case Levels.Subcategory:
       listItemLinkStyle = 'menu__list-item__link--subcategory';
       break;
+    case Levels.Page:
+      listItemLinkStyle = 'menu__list-item__link--page';
+      break;
     default:
       listItemLinkStyle = 'menu__list-item__link--page';
+      listItemStyle = 'menu__list-item--subpage';
       break;
   }
 
