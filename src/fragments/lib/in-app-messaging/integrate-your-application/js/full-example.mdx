@@ -11,9 +11,9 @@ import { Button, View } from '@aws-amplify/ui-react';
 import { withInAppMessaging } from '@aws-amplify/ui-react-notifications';
 import { record } from 'aws-amplify/analytics';
 import '@aws-amplify/ui-react/styles.css';
-import awsconfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(awsconfig);
+Amplify.configure(amplifyconfig);
 initializeInAppMessaging();
 
 // To display your in-app message, make sure this event name matches one you created

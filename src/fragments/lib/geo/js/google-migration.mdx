@@ -75,10 +75,10 @@ When using Google Maps Platform or other similar services like Mapbox you will f
 <body>
     <div id="map"></div>
     <script type="module">
-        import awsconfig from "./aws-exports.js";
+        import amplifyconfig from "./amplifyconfiguration.json" assert { type: "json" };
         const { Amplify } = aws_amplify_core;
         const { createMap } = AmplifyMapLibre;
-        Amplify.configure(awsconfig);
+        Amplify.configure(amplifyconfig);
 
         // Add code from below steps here
     </script>
