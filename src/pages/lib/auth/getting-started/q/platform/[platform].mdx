@@ -454,9 +454,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 import { AppComponent } from './app.component';
-import awsconfig from '../aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(awsconfig);
+Amplify.configure(amplifyconfig);
 
 @NgModule({
   declarations: [AppComponent],

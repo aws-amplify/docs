@@ -10,10 +10,10 @@ To finish setting up your application with Amplify, you need to configure it usi
 
 ```js
 import { Amplify } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 import { initializeInAppMessaging } from 'aws-amplify/in-app-messaging';
 
-Amplify.configure(awsconfig);
+Amplify.configure(amplifyconfig);
 initializeInAppMessaging();
 ```
 

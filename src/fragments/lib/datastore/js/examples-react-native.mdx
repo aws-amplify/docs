@@ -10,8 +10,8 @@ import { Amplify } from 'aws-amplify';
 import { DataStore, Predicates } from 'aws-amplify/datastore';
 import { Post, PostStatus, Comment } from './src/models';
 
-import awsConfig from './aws-exports';
-Amplify.configure(awsConfig);
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
 let subscription;
 
 class App extends Component {

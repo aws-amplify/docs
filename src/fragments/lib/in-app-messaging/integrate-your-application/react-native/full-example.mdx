@@ -8,9 +8,9 @@ import {
 } from 'aws-amplify/in-app-messaging';
 import { withInAppMessaging } from '@aws-amplify/ui-react-native';
 import { record } from 'aws-amplify/analytics';
-import awsconfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(awsconfig);
+Amplify.configure(amplifyconfig);
 initializeInAppMessaging();
 
 // To display your in-app message, make sure this event name matches one you created

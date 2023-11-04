@@ -13,8 +13,8 @@ import { DataStore, Predicates } from "aws-amplify/datastore";
 import { Post, PostStatus } from "./models";
 
 // Use next two lines only if syncing with the cloud
-import awsconfig from "./aws-exports";
-Amplify.configure(awsconfig);
+import amplifyconfig from "./amplifyconfiguration";
+Amplify.configure(amplifyconfig);
 
 async function onCreate() {
   await DataStore.save(
