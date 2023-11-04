@@ -20,6 +20,11 @@ type MenuItemProps = {
   currentPlatform?: Platform;
 };
 
+// type ParentMenuItem = {
+//   parentNode: PageNode | null;
+//   parentSetOpen: React.Dispatch<React.SetStateAction<boolean>> | null;
+// };
+
 export function MenuItem({
   pageNode,
   parentSetOpen,
@@ -31,6 +36,7 @@ export function MenuItem({
   const [open, setOpen] = useState(false);
 
   const onLinkClick = () => {
+    // Category shouldn't be collapsible
     if (level > Levels.Category) {
       setOpen((prevOpen) => !prevOpen);
     }
@@ -49,16 +55,27 @@ export function MenuItem({
   useEffect(() => {
     if (current) {
       if (pageNode.children && pageNode.children.length > 0) {
-        // if we're on a heading that has children, open it
+        // If we're on a heading that has children, open it
         setOpen(true);
       }
 
       if (parentSetOpen) {
-        // Don't think this scales well with deeply nested menus, what are some better ways to do this?
+        // Since the menu finds the "current" item based on the Page Node route
+        // it doesn't know it's parent unless we explicitly use the parent's setOpen
         parentSetOpen(true);
       }
     }
   }, []);
+
+  // Using this to help open nested menu items
+  // When the parent's setOpen gets called in the initial render from the useEffect above,
+  // it should cause the parent node to rerender. If this node has a parent too, then we should
+  // also open it.
+  useEffect(() => {
+    if (open && parentSetOpen) {
+      parentSetOpen(true);
+    }
+  }, [open]);
 
   let pathname = pageNode.route;
 
