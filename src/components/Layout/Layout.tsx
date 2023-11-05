@@ -301,9 +301,9 @@ export const Layout = ({
 
                   <div className="layout-sidebar-menu">
                     {menu}
-                    {/* <div className="layout-sidebar-feedback">
+                    <div className="layout-sidebar-feedback">
                       [ Feedback widget goes here ]
-                    </div> */}
+                    </div>
                     {showLastUpdatedDate && (
                       <PageLastUpdated
                         directoryData={flatDirectory[router.pathname]}
