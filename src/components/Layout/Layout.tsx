@@ -235,7 +235,7 @@ export const Layout = ({
                     indexName={process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME}
                     apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
                     searchParameters={{
-                      facetFilters: [`platform:${currentPlatform}`]
+                      facetFilters: [`platform:${currentPlatform}`],
                     }}
                   />
                 </View>
