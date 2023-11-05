@@ -1,12 +1,75 @@
-/// <reference path="./plugins.d.ts" />
+/// <reference path="./recma-mdx-frontmatter.d.ts" />
 import { fromJs } from 'esast-util-from-js';
 import { visit } from 'estree-util-visit';
+
+/**
+ * Create `getStaticPaths` ESAST program node
+ * @param {Record<string, unknown>} frontmatter
+ * @param {Record<DynamicRoutePart, DynamicRouteFrontmatterConfig>} dynamicRoutes
+ * @returns {import('estree').Program | null}
+ */
+function createGetStaticPaths(frontmatter, dynamicRoutes) {
+  /** @type {[string, unknown[]][]} */
+  const params = [];
+  for (const [routePart, config] of Object.entries(dynamicRoutes)) {
+    const key = config.key || routePart;
+    const fm = frontmatter[key];
+    if (fm && Array.isArray(fm)) {
+      // first check to see if frontmatter contains any invalid values
+      let invalidValue = undefined;
+      const isContainsInvalidValue = fm.some((value) => {
+        // this is a bit extra, but allows us to print a helpful error with the invalid value
+        const isContainsInvalid = !config.values.includes(value);
+        if (isContainsInvalid) invalidValue = value;
+        return isContainsInvalid;
+      });
+      if (isContainsInvalidValue) {
+        throw new Error(
+          `Invalid value "${invalidValue}" found for frontmatter "${key}"`
+        );
+      }
+      // then collect the getStaticPaths params
+      // `["platform", ["vue", "javascript"]]`
+      params.push([routePart, fm]);
+    }
+  }
+
+  // exit without getSaticPaths if no dynamic route parts found
+  if (!params.length) return null;
+
+  // @TODO support a dynamic "route" or "slug" frontmatter prop to help generate multi-part params
+  // this will need to be updated to support multi-part routes
+  const paths = params
+    .map(([routePart, values]) => {
+      const getStaticPathsParams = values.map((value) => ({
+        [routePart]: value
+      }));
+      return getStaticPathsParams.map((record) => ({ params: record }));
+    })
+    .flat();
+
+  const getStaticPaths = fromJs(
+    `
+    export const getStaticPaths = async () => {
+      return {
+        paths: ${JSON.stringify(paths)},
+        fallback: false,
+      }
+    }
+    `,
+    {
+      module: true
+    }
+  );
+  return getStaticPaths;
+}
 
 /**
  * Plugin to pass frontmatter to getStaticProps and into MDXProvider's `wrapper`.
  * This is meant to be used alongside `remark-frontmatter`
  * @param {RecmaMdxFrontmatterOptions} options
- * @returns {import('unified').Plugin<[RecmaMdxFrontmatterOptions], import('estree').Program>} Next.js page getStaticProps with frontmatter data
+ * @type {import('unified').Plugin<[RecmaMdxFrontmatterOptions], import('estree').Program>}
+ * @returns {(tree: import('estree').Program) => void} Next.js page getStaticProps with frontmatter data
  */
 export function recmaMdxFrontmatter(options) {
   const { name = 'frontmatter', dynamicRoutes } = options || {};
@@ -15,6 +78,7 @@ export function recmaMdxFrontmatter(options) {
    * @param {import('estree').Program} tree
    */
   const transformer = (tree) => {
+    /** @type {Record<string, unknown>} */
     const frontmatter = {};
     visit(tree, (node) => {
       // look for `frontmatter` variable created by remark-mdx-frontmatter
@@ -50,40 +114,9 @@ export function recmaMdxFrontmatter(options) {
     // push `getStaticProps` to end of tree
     tree.body.push(...getStaticProps.body);
 
-    // if frontmatter contains a key for dynamic routes, we need to generate `getStaticPaths` as well
-    for (const [routeParam, availableValues] of Object.entries(dynamicRoutes)) {
-      if (frontmatter[routeParam]) {
-        // this probably only works for the one dynamic route
-        // handle whether frontmatter's value contains items not specified in this plugin's options
-        if (
-          frontmatter[routeParam].some(
-            (value) => !availableValues.includes(value)
-          )
-        ) {
-          throw new Error(`Found invalid frontmatter value for ${routeParam}`);
-        }
-        // create the getStaticPaths params
-        const paths = frontmatter[routeParam].map((param) => ({
-          params: { [routeParam]: param }
-        }));
-        // argh, the frontmatter key !== the route param :////
-        console.log('paths are', paths);
-        const getStaticPaths = fromJs(
-          `
-          export const getStaticPaths = async () => {
-            return {
-              paths: ${JSON.stringify(paths)},
-              fallback: false,
-            }
-          }
-          `,
-          {
-            module: true
-          }
-        );
-        // push `getStaticProps` to end of tree
-        tree.body.push(...getStaticPaths.body);
-      }
+    if (dynamicRoutes) {
+      const getStaticPaths = createGetStaticPaths(frontmatter, dynamicRoutes);
+      if (getStaticPaths) tree.body.push(...getStaticPaths.body);
     }
   };
 

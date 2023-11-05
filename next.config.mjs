@@ -22,7 +22,20 @@ export default async () => {
           {
             name: 'frontmatter',
             dynamicRoutes: {
-              platform: ['javascript', 'android']
+              platform: {
+                key: 'platforms',
+                values: [
+                  'android',
+                  'angular',
+                  'flutter',
+                  'javascript',
+                  'nextjs',
+                  'react',
+                  'react-native',
+                  'swift',
+                  'vue'
+                ]
+              }
             }
           }
         ]
