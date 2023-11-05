@@ -45,6 +45,10 @@ amplify/backend/function/appsyncOperations
 
 In the `./amplify/backend/function/appsyncOperations/opt` folder add the following helper library. The library exports a `request` function that you can use to send queries or mutations to your AppSync API. You can specify an API KEY to include the `x-api-key` header in the request. Otherwise the request is signed using SigV4 and the invoked Lambda function's credentials.
 
+<BlockSwitcher>
+
+<Block name='AWS SDK V2'>
+
 ```javascript
 // amplify/backend/function/appsyncOperations/opt/appSyncRequest.js
 const https = require('https');
@@ -92,6 +96,64 @@ exports.request = (queryDetails, appsyncUrl, apiKey) => {
   });
 };
 ```
+
+</Block>
+
+<Block name='AWS SDK V3'>
+
+```javascript
+// amplify/backend/function/appsyncOperations/opt/appSyncRequest.js
+const https = require("https");
+const { defaultProvider } = require("@aws-sdk/credential-provider-node");
+const { HttpRequest } = require("@aws-sdk/protocol-http");
+const { SignatureV4 } = require("@aws-sdk/signature-v4");
+const urlParse = require("url").URL;
+const region = process.env.REGION;
+
+/**
+ *
+ * @param {Object} queryDetails the query, operationName, and variables
+ * @param {String} appsyncUrl url of your AppSync API
+ * @param {String} apiKey the api key to include in headers. if null, will sign with SigV4
+ */
+exports.request = (queryDetails, appsyncUrl, apiKey) => {
+  const req = new HttpRequest(appsyncUrl, region);
+  const endpoint = new urlParse(appsyncUrl).hostname.toString();
+
+  req.method = "POST";
+  req.path = "/graphql";
+  req.headers.host = endpoint;
+  req.headers["Content-Type"] = "application/json";
+  req.body = JSON.stringify(queryDetails);
+
+  if (apiKey) {
+    req.headers["x-api-key"] = apiKey;
+  } else {
+    const signer = new SignatureV4(req, "appsync", true);
+    let date = new Date();
+    signer.addAuthorization(defaultProvider(), date.toISOString());
+  }
+
+  return new Promise((resolve, reject) => {
+    const httpRequest = https.request({ ...req, host: endpoint }, (result) => {
+      let response = "";
+      result.on("data", (chunk) => {
+        response += chunk;
+      });
+      result.on("end", () => {
+        response = JSON.parse(response);
+        resolve(response);
+      });
+    });
+
+    httpRequest.write(req.body);
+    httpRequest.end();
+  });
+};
+```
+</Block>
+
+</BlockSwitcher>
 
 ## Generate compatible code for your layer
 
