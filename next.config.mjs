@@ -5,7 +5,7 @@ import rehypeImgSize from 'rehype-img-size';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 import remarkGfm from 'remark-gfm';
-import recmaMdxFrontmatter from './plugins/recma-mdx-frontmatter.mjs';
+import { recmaMdxFrontmatter } from 'recma-mdx-frontmatter';
 
 const require = createRequire(import.meta.url);
 dotenv.config({ path: './.env.custom' });

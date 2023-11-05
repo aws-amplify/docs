@@ -1,0 +1,32 @@
+{
+  "name": "recma-mdx-frontmatter",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "exports": {
+    ".": {
+      "import": "./build/index.js",
+      "types": "./build/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "npm run build -- --watch",
+    "test": "node --import tsx/esm --test src/*.test.ts"
+  },
+  "dependencies": {
+    "esast-util-from-js": "^2.0.1",
+    "estree-util-visit": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/estree": "^1.0.4",
+    "@types/node": "^20.8.10",
+    "acorn": "^8.11.2",
+    "estree-util-to-js": "^2.0.0",
+    "next": "^14.0.1",
+    "tsx": "^3.14.0"
+  },
+  "peerDependencies": {
+    "remark-mdx-frontmatter": "^4.0.0"
+  }
+}

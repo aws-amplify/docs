@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "lib": ["es2022"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "strict": true,
+    "rootDir": "./src",
+    "outDir": "./build",
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules"]
+}
