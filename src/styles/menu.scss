@@ -22,10 +22,6 @@
       }
     }
 
-    &--subpage {
-      margin-left: var(--amplify-space-small);
-    }
-
     &__link {
       color: inherit;
       text-decoration: none;
@@ -46,6 +42,12 @@
 
         &:hover {
           background-color: var(--amplify-colors-overlay-5);
+        }
+
+        &--subpage {
+          padding-left: calc(
+            var(--amplify-space-large) + var(--amplify-space-small)
+          );
         }
       }
 

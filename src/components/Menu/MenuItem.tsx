@@ -87,6 +87,7 @@ export function MenuItem({
 
   let listItemStyle = '';
   let listItemLinkStyle = '';
+  let listItemLinkInnerStyle = '';
   switch (level) {
     case Levels.Category:
       listItemStyle = 'menu__list-item--category';
@@ -100,7 +101,7 @@ export function MenuItem({
       break;
     default:
       listItemLinkStyle = 'menu__list-item__link--page';
-      listItemStyle = 'menu__list-item--subpage';
+      listItemLinkInnerStyle = 'menu__list-item__link__inner--subpage';
       break;
   }
 
@@ -117,7 +118,9 @@ export function MenuItem({
           isExternal={true}
           onClick={onLinkClick}
         >
-          <Flex className="menu__list-item__link__inner">
+          <Flex
+            className={`menu__list-item__link__inner ${listItemLinkInnerStyle}`}
+          >
             {pageNode.title}
             <IconExternalLink />
           </Flex>
@@ -150,7 +153,9 @@ export function MenuItem({
           onClick={onLinkClick}
           passHref
         >
-          <Flex className="menu__list-item__link__inner">
+          <Flex
+            className={`menu__list-item__link__inner ${listItemLinkInnerStyle}`}
+          >
             {pageNode.title}
             {pageNode.children && level !== Levels.Category && (
               <IconChevron className={open ? '' : 'icon-rotate-90-reverse'} />
