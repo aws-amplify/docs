@@ -1,4 +1,14 @@
 export const meta = {
   title: 'Overriding resources',
-  description: 'Overriding resources description'
+  description:
+    'Learn how to override resources.'
 };
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}

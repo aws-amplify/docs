@@ -1,4 +1,14 @@
 export const meta = {
-  title: 'Add AWS Services',
-  description: 'Add AWS Services description'
+  title: 'Add any AWS service',
+  description:
+    'Learn how you can add any AWS service.'
 };
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
