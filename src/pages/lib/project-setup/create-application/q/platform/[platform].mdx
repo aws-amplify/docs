@@ -51,7 +51,7 @@ You'll then add Amplify and initialize a new project.
 Run the following command and following the instructions to create a Next.js app.
 
 ```shellscript
-npx create-next-app@latest next-amplified
+npx create-next-app@">=13.5.0 <15.0.0" next-amplified
 ```
 
 Then run the following command to enter the root of your Next.js app.
@@ -267,11 +267,57 @@ automatically.
 
 ## Install Amplify libraries
 
+<BlockSwitcher>
+
+<Block name="Next.js">
+
 Install required dependencies to your Next.js app to start using Amplify.
 
 ```bash
-npm install aws-amplify@next
+npm install aws-amplify @aws-amplify/adapter-nextjs
 ```
+
+The `aws-amplify` package is the main library for working with Amplify in your
+apps. The `@aws-amplify/adapter-nextjs` provides adapter functions to enable use
+of Amplify APIs on the server side of your Next.js app for use cases such as
+Server Side Rendering (SSR).
+
+For details of using Amplify with in your Next.js app, see
+[use Amplify with Next.js](/lib/ssr/nextjs/q/platform/js).
+
+</Block>
+
+<Block name="Angular">
+
+Install required dependencies to your Angular app to start using Amplify.
+
+```bash
+npm install aws-amplify
+```
+
+</Block>
+
+<Block name="ReactJS">
+
+Install required dependencies to your React app to start using Amplify.
+
+```bash
+npm install aws-amplify
+```
+
+</Block>
+
+<Block name="VueJS">
+
+Install required dependencies to your Vue app to start using Amplify.
+
+```bash
+npm install aws-amplify
+```
+
+</Block>
+
+</BlockSwitcher>
 
 You are now ready to start adding features to your application. Below are some examples of features you can start adding to your app.
 
