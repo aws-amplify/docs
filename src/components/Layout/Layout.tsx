@@ -272,25 +272,10 @@ export const Layout = ({
                   )}
 
                   <div className="layout-sidebar-menu">
-                    {isGen2 ? (
-                      <Menu
-                        rootMenuNode={rootMenuNode}
-                        menuTitle="How Gen2 Amplify works"
-                        menuHref={{
-                          pathname: `/gen2`
-                        }}
-                      />
-                    ) : (
-                      <Menu
-                        currentPlatform={currentPlatform}
-                        rootMenuNode={rootMenuNode}
-                        menuTitle="How Amplify works"
-                        menuHref={{
-                          pathname: `/[platform]`,
-                          query: { platform: currentPlatform }
-                        }}
-                      />
-                    )}
+                    <Menu
+                      rootMenuNode={rootMenuNode}
+                      currentPlatform={isGen2 ? undefined : currentPlatform}
+                    />
                     <div className="layout-sidebar-feedback">
                       <RepoActions router={router}></RepoActions>
                       <Feedback router={router}></Feedback>

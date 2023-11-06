@@ -7,6 +7,7 @@ frontend:
     build:
       commands:
         - echo "BUILD_ENV=$BUILD_ENV" >> .env.custom
+        - node -e 'console.log(`node heap limit = ${require("v8").getHeapStatistics().heap_size_limit / (1024 * 1024)} Mb`)'
         - NODE_ENV=production yarn build:release
         - if [ "${AWS_BRANCH}" = "main" ]; then node tasks/build-algolia-search.mjs; fi
   artifacts:

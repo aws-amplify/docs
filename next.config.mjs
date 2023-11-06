@@ -4,12 +4,14 @@ import createMDX from '@next/mdx';
 
 const require = createRequire(import.meta.url);
 import rehypeImgSize from 'rehype-img-size';
+import remarkGfm from 'remark-gfm';
 dotenv.config({ path: './.env.custom' });
 
-export default async () => {
+export default () => {
   const withMDX = createMDX({
     extension: /\.mdx$/,
     options: {
+      remarkPlugins: [remarkGfm],
       rehypePlugins: [[rehypeImgSize, { dir: 'public' }]]
     }
   });
@@ -17,18 +19,26 @@ export default async () => {
   const shouldAnalyzeBundles = process.env.ANALYZE === 'true';
 
   let nextConfig = withMDX({
+    output: 'export',
+    distDir: 'client/www/next-build',
     env: {
       BUILD_ENV: process.env.BUILD_ENV,
+      // eslint-disable-next-line @typescript-eslint/camelcase
       nextImageExportOptimizer_imageFolderPath: 'public',
+      // eslint-disable-next-line @typescript-eslint/camelcase
       nextImageExportOptimizer_exportFolderPath: 'out',
-      nextImageExportOptimizer_quality: 75,
-      nextImageExportOptimizer_storePicturesInWEBP: true,
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      nextImageExportOptimizer_quality: '75',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      nextImageExportOptimizer_storePicturesInWEBP: 'true',
+      // eslint-disable-next-line @typescript-eslint/camelcase
       nextImageExportOptimizer_exportFolderName: 'nextImageExportOptimizer',
 
       // If you do not want to use blurry placeholder images, then you can set
       // nextImageExportOptimizer_generateAndUseBlurImages to false and pass
       // `placeholder="empty"` to all <ExportedImage> components.
-      nextImageExportOptimizer_generateAndUseBlurImages: true
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      nextImageExportOptimizer_generateAndUseBlurImages: 'true'
     },
     images: {
       loader: 'custom',
@@ -47,33 +57,7 @@ export default async () => {
     transpilePackages: [
       '@algolia/autocomplete-shared',
       'next-image-export-optimizer'
-    ],
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async headers() {
-      return [
-        {
-          // Apply these headers to all routes in your application.
-          source: '/(.*)',
-          headers: [
-            // IMPORTANT:
-            // These are ONLY used for the Dev server and MUST
-            // be kept in sync with customHttp.yml
-            {
-              key: 'Strict-Transport-Security',
-              value: 'max-age=63072000; includeSubDomains'
-            },
-            {
-              key: 'X-Frame-Options',
-              value: 'SAMEORIGIN'
-            },
-            {
-              key: 'X-Content-Type-Options',
-              value: 'nosniff'
-            }
-          ]
-        }
-      ];
-    }
+    ]
   });
 
   if (shouldAnalyzeBundles) {
