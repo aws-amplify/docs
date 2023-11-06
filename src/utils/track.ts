@@ -1,5 +1,4 @@
 let configured = false;
-let firstPageOfVisit = true;
 let AWSCShortbread;
 let s;
 let AWSMA;
@@ -68,16 +67,11 @@ type AnalyticsEvent =
   | AnalyticsEventPageDataFetchException;
 
 export const trackPageVisit = (): void => {
-  if (
-    typeof window !== 'undefined' &&
-    typeof s != 'undefined' &&
-    !firstPageOfVisit
-  ) {
+  if (typeof window !== 'undefined' && typeof s != 'undefined') {
     s.pageName = window.location.href;
     s.pageURL = window.location.href;
     s.t();
   }
-  firstPageOfVisit = false;
 };
 
 export const trackPageFetchException = (): void => {
