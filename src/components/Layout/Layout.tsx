@@ -22,6 +22,7 @@ import {
   PLATFORM_DISPLAY_NAMES,
   Platform
 } from '@/data/platforms';
+import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
 import { SpaceShip } from '@/components/SpaceShip';
 import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
@@ -40,6 +41,7 @@ import { debounce } from '@/utils/debounce';
 import { PageLastUpdated } from '../PageLastUpdated';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
+import { Banner } from '@/components/Banner';
 
 export const Layout = ({
   children,
@@ -108,6 +110,7 @@ export const Layout = ({
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
   const pathname = router.pathname;
+  const shouldShowGen2Banner = GEN2BANNER_URLS.includes(router.asPath);
 
   let currentPlatform = DEFAULT_PLATFORM;
   const homepageNode = directory as PageNode;
@@ -205,7 +208,9 @@ export const Layout = ({
         <ThemeProvider theme={isGen2 ? gen2Theme : defaultTheme}>
           <IconsProvider icons={defaultIcons}>
             <View className={`layout-wrapper layout-wrapper--${pageType}`}>
-              {pageType === 'home' ? <SpaceShip /> : null}
+              {pageType === 'home' ? (
+                <SpaceShip hasBanner={shouldShowGen2Banner} />
+              ) : null}
               <GlobalNav
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
@@ -294,6 +299,7 @@ export const Layout = ({
                   as="main"
                   className={`main${showTOC ? ' main--toc' : ''}`}
                 >
+                  {shouldShowGen2Banner ? <Banner /> : null}
                   {showBreadcrumbs ? (
                     <Breadcrumbs
                       route={pathname}

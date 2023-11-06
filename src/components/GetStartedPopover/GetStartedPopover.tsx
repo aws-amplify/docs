@@ -14,52 +14,81 @@ import {
   IconVue
 } from '@/components/Icons';
 import { useClickOutside } from '@/utils/useClickOutside';
-import { DEFAULT_PLATFORM } from '@/data/platforms';
+import { DEFAULT_PLATFORM, Platform } from '@/data/platforms';
+
+const getStartedHref = '/[platform]/start/getting-started/introduction/';
 
 const getStartedLinks = [
   {
     title: 'JavaScript',
-    href: '/javascript/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'javascript' }
+    },
     icon: <IconJS />
   },
   {
     title: 'React',
-    href: '/react/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'react' }
+    },
     icon: <IconReact />
   },
   {
     title: 'Flutter',
-    href: '/flutter/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'flutter' }
+    },
     icon: <IconFlutter />
   },
   {
     title: 'Swift',
-    href: '/swift/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'swift' }
+    },
     icon: <IconSwift />
   },
   {
     title: 'Android',
-    href: '/android/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'android' }
+    },
     icon: <IconAndroid />
   },
   {
     title: 'React Native',
-    href: '/react-native/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'react-native' }
+    },
     icon: <IconReact />
   },
   {
     title: 'Angular',
-    href: '/angular/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'angular' }
+    },
     icon: <IconAngular />
   },
   {
     title: 'Next.js',
-    href: '/nextjs/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'nextjs' }
+    },
     icon: <IconNext />
   },
   {
     title: 'Vue',
-    href: '/vue/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'vue' }
+    },
     icon: <IconVue />
   }
 ];
@@ -87,7 +116,7 @@ export const GetStartedPopover = ({}) => {
     <Flex className="split-button">
       <Link
         href={{
-          pathname: '/[platform]/get-started',
+          pathname: '/[platform]/start/getting-started/introduction/',
           query: { platform: DEFAULT_PLATFORM }
         }}
       >
