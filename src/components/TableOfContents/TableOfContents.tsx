@@ -10,14 +10,7 @@ interface TableOfContents {
 
 export const TableOfContents = ({ headers }) => {
   return (
-    <Flex as="nav" className="toc" aria-labelledby="tocHeader">
-      {headers ? (
-        <Heading level={2} id="tocHeader" className="toc-header">
-          On this page
-        </Heading>
-      ) : (
-        ''
-      )}
+    <Flex as="nav" className="toc" aria-label="Table of contents">
       <View as="ul" className="toc-list">
         {headers.map(({ linkText, hash, level }, index) => {
           return (
