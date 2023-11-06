@@ -56,12 +56,20 @@ import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 ```
 
-2. Pass `{signOut, user}` to the `App` component:
+2. Pass `{signOut, user}` to the `App` component. (For Vite's default React configuration, you'll also need to add "PropTypes" to validate the `signOut` and `user` props):
 
 ```javascript
-/* src/App.js */
-function App({ signOut, user }) {
+/* src/App.jsx */
+import PropTypes from 'prop-types'
+// ... other imports
+
+const App = ({ signOut, user }) => {
   // ...
+}
+
+App.propTypes = {
+  signOut: PropTypes.func,
+  user: PropTypes.object
 }
 ```
 
@@ -94,7 +102,8 @@ Now you should see the app load with an authentication flow allowing users to si
 
 ```javascript
 /* src/App.js */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types'
 import { Amplify } from 'aws-amplify';
 import { generateClient } from 'aws-amplify/api';
 import { createTodo } from './graphql/mutations';
@@ -208,6 +217,11 @@ const styles = {
     padding: '12px 0px'
   }
 };
+
+App.propTypes = {
+  signOut: PropTypes.func,
+  user: PropTypes.object
+}
 
 export default withAuthenticator(App);
 ```

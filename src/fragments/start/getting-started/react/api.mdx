@@ -147,7 +147,7 @@ In this section you will create a way to list and create todos from the React ap
 Open **src/App.jsx** and replace it with the following code:
 
 ```javascript
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Amplify } from 'aws-amplify';
 import { generateClient } from 'aws-amplify/api';
 
@@ -255,7 +255,7 @@ const styles = {
     fontSize: 18,
     padding: '12px 0px'
   }
-} as const;
+};
 
 export default App;
 ```
