@@ -1382,6 +1382,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/data/set-up-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/relationships/index.mdx'
                 }
               ]
             },
