@@ -245,7 +245,7 @@ MutationButton.addEventListener('click', (evt) => {
 
 client.graphql({ query: onCreateTodo }).subscribe({
   next: (evt) => {
-    const todo = evt.value.data.onCreateTodo;
+    const todo = evt.data.onCreateTodo;
     SubscriptionResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
   }
 });
