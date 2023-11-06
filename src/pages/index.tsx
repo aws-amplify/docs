@@ -2,7 +2,6 @@ import { Heading, Text, Flex, Button, Grid } from '@aws-amplify/ui-react';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
-import { Banner } from '@/components/Banner';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
 import PlatformFeatureList from '../components/FeatureLists/PlatformFeatureList';
 import LinkCards from '@/components/LinkCards';
@@ -34,7 +33,6 @@ export default function Page() {
   return (
     <Flex className="home-content">
       <Flex className="home-intro">
-        <Banner />
         <Heading level={1} className="home-intro__heading">
           Amplify Docs
         </Heading>

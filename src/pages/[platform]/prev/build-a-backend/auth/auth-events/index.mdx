@@ -52,6 +52,12 @@ import { Hub } from 'aws-amplify/utils';
 
 Hub.listen('auth', ({ payload }) => {
   switch (payload.event) {
+    case 'signedIn':
+      console.log('user have been signedIn successfully.');
+      break;
+    case 'signedOut':
+      console.log('user have been signedOut successfully.');
+      break;
     case 'tokenRefresh':
       console.log('auth tokens have been refreshed.');
       break;
