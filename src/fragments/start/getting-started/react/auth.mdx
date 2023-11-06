@@ -106,10 +106,9 @@ import awsExports from './amplifyconfiguration.json';
 Amplify.configure(awsExports);
 
 const initialState = { name: '', description: '' };
+const client = generateClient();
 
 const App = ({ signOut, user }) => {
-  const client = generateClient();
-
   const [formState, setFormState] = useState(initialState);
   const [todos, setTodos] = useState([]);
 

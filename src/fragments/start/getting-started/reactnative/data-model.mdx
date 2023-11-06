@@ -280,11 +280,9 @@ import {createTodo} from './src/graphql/mutations';
 import {listTodos} from './src/graphql/queries';
 
 const initialState = {name: '', description: ''};
+const client = generateClient();
 
 const App = () => {
-
-  const client = generateClient();
-
   const [formState, setFormState] = useState(initialState);
   const [todos, setTodos] = useState([]);
 

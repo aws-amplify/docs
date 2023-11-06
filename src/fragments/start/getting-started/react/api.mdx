@@ -159,10 +159,9 @@ import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
 const initialState = { name: '', description: '' };
+const client = generateClient();
 
 const App = () => {
-  const client = generateClient();
-
   const [formState, setFormState] = useState(initialState);
   const [todos, setTodos] = useState([]);
 
