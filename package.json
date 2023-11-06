@@ -60,7 +60,6 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^13.5.3",
     "@next/mdx": "^13.5.4",
-    "@mdx-js/loader": "^1.6.22",
     "@stencil/core": "^1.17.0",
     "@stencil/eslint-plugin": "^0.2.1",
     "@stencil/router": "^1.0.1",
