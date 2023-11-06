@@ -23,7 +23,7 @@ import * as mutations from './graphql/mutations';
 const client = generateClient()
 
 // Creating a post is restricted to IAM 
-const createdTodo = await client.graphql<GraphQLQuery<CreateTodoMutation>>({
+const createdTodo = await client.graphql({
   query: mutations.createTodo,
   variables: { input: todoDetails },
   authMode: 'iam'

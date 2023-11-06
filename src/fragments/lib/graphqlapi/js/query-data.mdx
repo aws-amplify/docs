@@ -106,7 +106,7 @@ const variables: ListTodosQueryVariables = {
   }
 };
 
-await client.graphql<GraphQLQuery<ListTodosQuery>>({ 
+await client.graphql({ 
   query: listTodos, variables: variables 
 });
 ```
@@ -151,7 +151,7 @@ const variables: ListTodosQueryVariables = {
   }
 };
 
-await client.graphql<GraphQLQuery<ListTodosQuery>>({ 
+await client.graphql({ 
   query: listTodos, variables: variables 
 });
 ```

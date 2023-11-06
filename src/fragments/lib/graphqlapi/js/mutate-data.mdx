@@ -12,7 +12,7 @@ import * as mutations from './graphql/mutations';
 
 const client = generateClient();
 
-const newTodo = await client.graphql<GraphQLQuery<CreateTodoMutation>>({
+const newTodo = await client.graphql({
   query: mutations.createTodo,
   variables: {
     input: {
