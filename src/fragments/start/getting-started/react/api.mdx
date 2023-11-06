@@ -25,6 +25,11 @@ The CLI should open this GraphQL schema in your text editor.
 **amplify/backend/api/myapi/schema.graphql**
 
 ```graphql
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
 type Todo @model {
   id: ID!
   name: String!
@@ -117,8 +122,8 @@ _Note:_ `amplify mock api` requires Java. If you have not already deployed your 
 
 ```console
 ? Do you want to generate code for your newly created GraphQL API Yes
-? Choose the code generation language target javascript
-? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.js
+? Choose the code generation language target typescript
+? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.ts
 ? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions Yes
 ? Enter maximum statement depth [increase from default if your schema is deeply nested] 2
 ```
@@ -156,10 +161,9 @@ query listTodos {
 
 In this section you will create a way to list and create todos from the React application. To do this, you will create a form with a button to create todos as well as a way to fetch and render the list of todos.
 
-Open **src/App.js** and replace it with the following code:
+Open **src/App.tsx** and replace it with the following code:
 
 ```javascript
-/* src/App.js */
 import React, { useEffect, useState } from 'react';
 import { Amplify } from 'aws-amplify';
 import { generateClient } from 'aws-amplify/api';
@@ -269,7 +273,7 @@ const styles = {
     fontSize: 18,
     padding: '12px 0px'
   }
-};
+} as const;
 
 export default App;
 ```
