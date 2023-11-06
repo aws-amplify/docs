@@ -2,10 +2,14 @@ Use the [Angular CLI](https://github.com/angular/angular-cli) to bootstrap a new
 
 ```bash
 npx -p @angular/cli ng new amplify-app
+```
 
+```console
 ? Would you like to add Angular routing? Y
 ? Which stylesheet format would you like to use? (your preferred stylesheet provider)
+```
 
+```bash
 cd amplify-app
 ```
 
@@ -70,21 +74,6 @@ The `@aws-amplify/ui-angular` package is a set of Angular components and an Angu
 Angular CLI output warnings: if you see CommonJS or AMD dependencies optimization bailouts warnings using Angular 9+, you can use this [gist](https://gist.github.com/wlee221/6d98d96740bea6f53327b4db4a432616) to remove them. More details about these [here](https://angular.io/guide/build#configuring-commonjs-dependencies).
 
 </Callout>
-
-### Importing `amplifyconfiguration.json`
-
-In order to import `amplifyconfiguration.json` files in Typescript, you may need to modify your tsconfig.json and enable `resolveJsonModule` and `allowSyntheticDefaultImports`.
-
-```json
-{
-  ...
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    ...
-  }
-}
-```
 
 ### Importing the Amplify Angular UI Module
 
