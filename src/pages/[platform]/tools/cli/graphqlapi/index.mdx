@@ -71,9 +71,8 @@ Accept the default values and your code editor should show a GraphQL schema for 
 ```graphql
 # This "input" configures a global authorization rule to enable public access to
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/auth
-input AMPLIFY {
-  globalAuthRule: AuthRule = { allow: public }
-} # FOR TESTING ONLY!
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
 type Todo @model {
   id: ID!
   name: String!
@@ -84,7 +83,6 @@ type Todo @model {
 <Callout warning>
 
 `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }` allows you to get started quickly without worrying about authorization rules. Review the [Authorization rules](/cli/graphql/authorization-rules) section to setup the appropriate access control for your GraphQL API.
-
 </Callout>
 
 </Block>
@@ -120,11 +118,9 @@ export class BackendStack extends cdk.Stack {
     super(scope, id, props);
 
     const amplifyApi = new AmplifyGraphqlApi(this, 'AmplifyCdkGraphQlApi', {
-      schema: AmplifyGraphqlSchema.fromFiles(
-        path.join(__dirname, 'schema.graphql')
-      ),
-      authorizationConfig: {
-        defaultAuthMode: 'API_KEY',
+      definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, "schema.graphql")),
+      authorizationModes: {
+        defaultAuthorizationMode: 'API_KEY',
         apiKeyConfig: {
           expires: cdk.Duration.days(30)
         }
