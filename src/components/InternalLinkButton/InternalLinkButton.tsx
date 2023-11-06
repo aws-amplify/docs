@@ -22,6 +22,7 @@ export const InternalLinkButton = ({
     'amplify-field-group__control',
     { [`amplify-button--${variation}`]: !!variation },
     { [`amplify-button--${size}`]: !!size },
+    'internal-link-button',
     className
   );
 
