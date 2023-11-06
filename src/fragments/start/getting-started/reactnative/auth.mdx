@@ -166,10 +166,9 @@ const SignOutButton = () => {
 };
 
 const initialFormState = {name: '', description: ''};
+const client = generateClient();
 
 const App = () => {
-
-  const client = generateClient();
   const [formState, setFormState] = useState(initialFormState);
   const [todos, setTodos] = useState([]);
 
