@@ -155,7 +155,6 @@
     "prepare": "husky install",
     "analyze": "ANALYZE=true yarn next-build",
     "prebuild": "node src/directory/generateDirectory.mjs && node src/directory/generateFlatDirectory.mjs",
-    "migrate": "node tasks/new_ia_migration.ts",
-    "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test"
+    "migrate": "node tasks/new_ia_migration.ts"
   }
 }
