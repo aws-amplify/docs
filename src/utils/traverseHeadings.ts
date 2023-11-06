@@ -6,6 +6,7 @@ export function traverseHeadings(tree, filterKey: string): string[] {
   for (const node of tree) {
     if (typeof node !== 'object') continue;
     if (!('props' in node)) continue;
+    if ('mdxType' in node.props && node.props.mdxType === 'BlockSwitcher') continue; // skip parsing the BlockSwitcher, we don't want BlockSwitcher headings in the TOC
 
     if ('fragments' in node.props) {
       // Recurse on the fragment corresponding to this page's filterKey

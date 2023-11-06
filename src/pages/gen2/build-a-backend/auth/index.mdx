@@ -1,8 +1,13 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-import { getChildPageNodes } from '@/utils/getChildPageNodes';
-
 export const meta = {
-  title: 'Auth',
-  description: 'Auth',
-  route: '/gen2/build-a-backend/auth'
+  title: 'Authentication overview',
+  description: 'Learn about the authentication capabilities of AWS Amplify.'
 };
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
