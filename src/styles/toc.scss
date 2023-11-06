@@ -6,8 +6,12 @@
 }
 .toc-header {
   font-size: var(--amplify-font-sizes-medium);
-  font-weight: 700;
+  font-weight: 400;
   padding: 0 var(--amplify-space-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--amplify-space-xxs);
+  color: var(--amplify-colors-font-tertiary);
 }
 .toc-list {
   margin: 0;
@@ -49,8 +53,7 @@
     border-left: 1px solid var(--amplify-colors-neutral-20);
     border-top: none;
     margin-top: 0;
-    padding-top: 0;
-    padding: var(--amplify-space-medium);
+    padding: var(--amplify-space-large) var(--amplify-space-medium);
     z-index: 2;
     overflow-y: auto;
   }
