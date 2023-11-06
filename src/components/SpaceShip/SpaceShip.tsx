@@ -1,9 +1,13 @@
-export const SpaceShip = () => {
+interface SpaceShipProps {
+  hasBanner?: boolean;
+}
+
+export const SpaceShip = ({ hasBanner }: SpaceShipProps) => {
   return (
     <div className="spaceship-wrapper">
       <div className="spaceship-inner">
         <svg
-          className="spaceship spaceship--with-banner"
+          className={`spaceship ${hasBanner ? ' spaceship--with-banner' : ''}`}
           viewBox="0 0 538 457"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
