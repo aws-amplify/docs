@@ -1,0 +1,14 @@
+export const meta = {
+  title: 'Use with Server-Side Rendering (SSR)',
+  description:
+    'Learn how to use Amplify with SSR.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
