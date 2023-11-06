@@ -43,6 +43,12 @@
         &:hover {
           background-color: var(--amplify-colors-overlay-5);
         }
+
+        &--subpage {
+          padding-left: calc(
+            var(--amplify-space-large) + var(--amplify-space-small)
+          );
+        }
       }
 
       &--category {
