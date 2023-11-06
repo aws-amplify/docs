@@ -22,11 +22,10 @@ export { IconTOC } from './IconTOC';
 export { IconTwitter } from './IconTwitter';
 export { IconVue } from './IconVue';
 export { IconExternalLink } from './IconExternalLink';
+export { IconThumbsUp } from './IconThumbsUp';
+export { IconThumbsDown } from './IconThumbsDown';
+export { IconPencil } from './IconPencil';
 
-export * from './ThumbsUp';
-export * from './ThumbsDown';
-export * from './ThumbsUpFilled';
-export * from './ThumbsDownFilled';
 export * from './CloseIcon';
 export * from './ExternalLinkIcon';
 export * from './MenuIcon';
