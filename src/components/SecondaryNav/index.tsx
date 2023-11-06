@@ -32,6 +32,10 @@ export default function SecondaryNav() {
           <div className="secondary-nav-links">
             {[
               {
+                label: 'How Amplify Works',
+                url: '/how-amplify-works'
+              },
+              {
                 label: 'Getting Started',
                 url: '/start'
               },
