@@ -5,6 +5,8 @@ import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
 import { CANONICAL_URLS } from '@/data/canonical-urls';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { trackPageVisit } from '../utils/track';
 
 function MyApp({ Component, pageProps }) {
   const {
@@ -17,6 +19,21 @@ function MyApp({ Component, pageProps }) {
     showLastUpdatedDate,
     useCustomTitle
   } = pageProps;
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      trackPageVisit();
+    };
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router]);
+
   const getLayout =
     Component.getLayout ||
     ((page) => (
@@ -30,13 +47,11 @@ function MyApp({ Component, pageProps }) {
         useCustomTitle={useCustomTitle}
         showBreadcrumbs={showBreadcrumbs}
         showLastUpdatedDate={showLastUpdatedDate}
-        useCustomTitle={useCustomTitle}
       >
         {page}
       </Layout>
     ));
 
-  const router = useRouter();
   let canonicalUrl = 'https://docs.amplify.aws';
   const canonicalPath = CANONICAL_URLS.includes(router.pathname)
     ? router.pathname.replace('[platform]', 'javascript')

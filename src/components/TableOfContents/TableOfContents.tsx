@@ -1,4 +1,5 @@
 import { Flex, View, Link, Heading } from '@aws-amplify/ui-react';
+import { IconTOC } from '@/components/Icons';
 export interface HeadingInterface {
   linkText: string;
   hash: string;
@@ -13,7 +14,7 @@ export const TableOfContents = ({ headers }) => {
     <Flex as="nav" className="toc" aria-labelledby="tocHeader">
       {headers ? (
         <Heading level={2} id="tocHeader" className="toc-header">
-          On this page
+          <IconTOC /> On this page
         </Heading>
       ) : (
         ''
@@ -21,7 +22,11 @@ export const TableOfContents = ({ headers }) => {
       <View as="ul" className="toc-list">
         {headers.map(({ linkText, hash, level }, index) => {
           return (
-            <View as="li" className="toc-item" key={`toc-${index}`}>
+            <View
+              as="li"
+              className={`toc-item toc-item--${level}`}
+              key={`toc-${index}`}
+            >
               <Link
                 href={`#${hash}`}
                 className={`toc-item__link toc-item__link--${level}`}
