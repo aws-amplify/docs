@@ -15,12 +15,11 @@
     font-size: var(--amplify-components-button-small-font-size);
     user-select: none;
     height: revert;
-    padding: revert;
     margin: revert;
-    padding-block-start: var(--amplify-components-button-small-padding-block-start);
-    padding-block-end: var(--amplify-components-button-small-padding-block-end);
-    padding-inline-start: var(--amplify-components-button-small-padding-inline-start);
-    padding-inline-end: var(--amplify-components-button-small-padding-inline-end);
+    padding-block-start: var(--amplify-components-button-padding-block-start);
+    padding-block-end: var(--amplify-components-button-padding-block-end);
+    padding-inline-start: var(--amplify-components-button-padding-inline-start);
+    padding-inline-end: var(--amplify-components-button-padding-inline-end);
 
     &:hover {
       background: var(--amplify-components-button-hover-background-color);
@@ -29,7 +28,7 @@
       box-shadow: none;
     }
 
-    :focus {
+    &:focus {
       background-color: var(--amplify-components-button-hover-background-color);
       border-color: var(--amplify-components-button-focus-border-color);
       color: var(--amplify-components-button-focus-color);
@@ -40,6 +39,7 @@
       color: inherit;
       height: var(--amplify-font-sizes-medium);
       width: var(--amplify-font-sizes-medium);
+      margin: var(--amplify-space-xxxs);
     }
   }
 
@@ -55,8 +55,8 @@
   }
 
   .DocSearch-Button-Placeholder {
-    font-size: var(--amplify-components-button-small-font-size);
-    line-height: 1;
+    font-size: var(--amplify-components-button-font-size);
+    line-height: var(--amplify-line-heights-medium);
   }
 }
 
@@ -92,5 +92,8 @@
 
   .DocSearch-Cancel {
     color: var(--amplify-components-button-link-color);
+  }
+  .DocSearch-Form {
+    box-shadow: inset 0 0 0 2px var(--amplify-colors-border-focus);
   }
 }

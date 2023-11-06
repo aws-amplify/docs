@@ -89,9 +89,8 @@ h3 {
 }
 
 .main {
-
-  &>h2,
-  &>h3 {
+  & > h2,
+  & > h3 {
     scroll-margin-block: 9rem;
   }
 }
@@ -145,7 +144,6 @@ ul {
 }
 
 .main {
-
   .amplify-heading--2,
   .amplify-heading--3 {
     scroll-margin-top: 9rem;
