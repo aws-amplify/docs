@@ -48,7 +48,6 @@ function MyApp({ Component, pageProps }) {
         useCustomTitle={useCustomTitle}
         showBreadcrumbs={showBreadcrumbs}
         showLastUpdatedDate={showLastUpdatedDate}
-        useCustomTitle={useCustomTitle}
       >
         {page}
       </Layout>
