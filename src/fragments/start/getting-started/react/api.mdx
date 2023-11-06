@@ -51,29 +51,13 @@ To deploy this backend, run the `push` command:
 
 ```bash
 amplify push
-```
 
-```console
-? Are you sure you want to continue? Y
-
-# You will be walked through the following questions for GraphQL code generation
-? Do you want to generate code for your newly created GraphQL API? Y
+? Are you sure you want to continue? Yes
+? Do you want to generate code for your newly created GraphQL API: Yes
 ? Choose the code generation language target: javascript
 ? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
-? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? Y
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
 ? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
-```
-
-```console
-? Are you sure you want to continue? Yes
-
-...
-
-? Do you want to generate code for your newly created GraphQL API Yes
-? Choose the code generation language target javascript
-? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.js
-? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions Yes
-? Enter maximum statement depth [increase from default if your schema is deeply nested] 2
 ```
 
 Now the API is live and you can start interacting with it!
@@ -121,11 +105,11 @@ amplify mock api
 _Note:_ `amplify mock api` requires Java. If you have not already deployed your API with `amplify push`, you will be walked through the following steps for GraphQL code generation.
 
 ```console
-? Do you want to generate code for your newly created GraphQL API Yes
-? Choose the code generation language target typescript
-? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.ts
-? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions Yes
-? Enter maximum statement depth [increase from default if your schema is deeply nested] 2
+? Do you want to generate code for your newly created GraphQL API: Yes
+? Choose the code generation language target: javascript
+? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
 ```
 
 This will open the GraphiQL explorer on a local port. From the test environment you can try out different operations locally, like queries and mutations.
@@ -161,7 +145,7 @@ query listTodos {
 
 In this section you will create a way to list and create todos from the React application. To do this, you will create a form with a button to create todos as well as a way to fetch and render the list of todos.
 
-Open **src/App.tsx** and replace it with the following code:
+Open **src/App.jsx** and replace it with the following code:
 
 ```javascript
 import React, { useEffect, useState } from 'react';
