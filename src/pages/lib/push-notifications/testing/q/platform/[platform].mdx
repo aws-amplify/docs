@@ -1,0 +1,34 @@
+export const meta = {
+  title: `Testing`,
+  description: `Overview of testing your push notifications`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import commonRoute from '/src/fragments/lib/push-notifications/common/testing.mdx';
+
+<Fragments
+  fragments={{
+    android: commonRoute,
+    flutter: commonRoute,
+    ios: commonRoute,
+    'react-native': commonRoute
+  }}
+/>

@@ -1,0 +1,12 @@
+import ChooseFilterPage from '@/components/ChooseFilterPage';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+<ChooseFilterPage
+  directoryPath="/ChooseFilterPage"
+  address="/guides/api-rest/python-api"
+  filterKind="platform"
+  filters={['js', 'android', 'ios']}
+  currentFilter="all"
+  message={'Choose a platform:'}
+/>

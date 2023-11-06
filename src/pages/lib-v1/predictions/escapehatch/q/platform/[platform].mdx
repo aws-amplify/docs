@@ -1,0 +1,39 @@
+export const meta = {
+  title: `Escape hatch`,
+  description: `For any of the AWS services behind predictions, you can use the SDK object to get access to any methods we are not calling on your behalf by using an escape hatch.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ ios: ios_maintenance }} />
+
+import ios0 from '/src/fragments/lib-v1/predictions/ios/escapehatch.mdx';
+
+<Fragments fragments={{ ios: ios0 }} />
+
+import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+
+<Fragments fragments={{ android: android_maintenance }} />
+
+import android1 from '/src/fragments/lib-v1/predictions/android/escapehatch.mdx';
+
+<Fragments fragments={{ android: android1 }} />

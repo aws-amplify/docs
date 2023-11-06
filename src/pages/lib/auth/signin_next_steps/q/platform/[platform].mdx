@@ -1,0 +1,35 @@
+export const meta = {
+  title: `Sign in next steps`,
+  description: `Use AWS Cognito Auth plugin to complete a multi step authentication flow`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import ios0 from '/src/fragments/lib/auth/native_common/signin_next_steps/common.mdx';
+
+<Fragments fragments={{ ios: ios0 }} />
+
+import android1 from '/src/fragments/lib/auth/native_common/signin_next_steps/common.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import flutter from '/src/fragments/lib/auth/native_common/signin_next_steps/common.mdx';
+
+<Fragments fragments={{ flutter: flutter }} />

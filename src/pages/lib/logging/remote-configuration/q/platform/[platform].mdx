@@ -1,0 +1,32 @@
+export const meta = {
+  title: `Remotely Change Log Levels`,
+  description: `Setup logging to fetch remote log levels`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import commonRoute from '/src/fragments/lib/logging/common/remote_configuration/remote_configuration.mdx';
+
+<Fragments
+  fragments={{
+    android: commonRoute,
+    ios: commonRoute
+  }}
+/>

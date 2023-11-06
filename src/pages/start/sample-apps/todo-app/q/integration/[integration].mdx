@@ -1,0 +1,27 @@
+export const meta = {
+  title: `ToDo App`,
+  description: `Getting Started with Amplify - Try Amplify on a ToDo sample app`,
+  filterKey: "integration",
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { INTEGRATION_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            integration: context.params.integration,
+            filterKind: meta.filterKey
+        }
+    };
+};
+
+import android1 from "/src/fragments/start/sample-apps/android/todo-app.mdx";
+
+<Fragments fragments={{android: android1}} />

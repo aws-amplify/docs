@@ -1,8 +1,30 @@
 export const meta = {
   title: `Use Amplify with Next.js`,
   description: `Use Amplify with Next.js`,
+<<<<<<< HEAD:src/pages-old/lib-v1/ssr/nextjs/q/platform/[platform].mdx
   filterKey: 'platform',
   supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+=======
+  filterKey: "platform",
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { INTEGRATION_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
+>>>>>>> main:src/pages/lib-v1/ssr/nextjs/q/platform/[platform].mdx
 };
 
 import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';

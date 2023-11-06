@@ -19,6 +19,8 @@ export default async () => {
   const shouldAnalyzeBundles = process.env.ANALYZE === 'true';
 
   let nextConfig = withMDX({
+    output: 'export',
+    distDir: 'client/www/next-build',
     env: {
       BUILD_ENV: process.env.BUILD_ENV,
       nextImageExportOptimizer_imageFolderPath: 'public',
@@ -49,33 +51,7 @@ export default async () => {
     transpilePackages: [
       '@algolia/autocomplete-shared',
       'next-image-export-optimizer'
-    ],
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async headers() {
-      return [
-        {
-          // Apply these headers to all routes in your application.
-          source: '/(.*)',
-          headers: [
-            // IMPORTANT:
-            // These are ONLY used for the Dev server and MUST
-            // be kept in sync with customHttp.yml
-            {
-              key: 'Strict-Transport-Security',
-              value: 'max-age=63072000; includeSubDomains'
-            },
-            {
-              key: 'X-Frame-Options',
-              value: 'SAMEORIGIN'
-            },
-            {
-              key: 'X-Content-Type-Options',
-              value: 'nosniff'
-            }
-          ]
-        }
-      ];
-    }
+    ]
   });
 
   if (shouldAnalyzeBundles) {

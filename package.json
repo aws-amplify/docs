@@ -37,7 +37,7 @@
     "html-entities": "^1.2.1",
     "instantsearch.js": "^4.39.1",
     "mdx-prism": "^0.3.4",
-    "next": "^13.2.4",
+    "next": "^13.5.6",
     "next-image-export-optimizer": "^1.8.3",
     "next-transpile-modules": "^9.0.0",
     "parse-imports": "^1.1.0",
@@ -60,6 +60,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^13.5.3",
     "@next/mdx": "^13.5.4",
+    "@mdx-js/loader": "^1.6.22",
     "@stencil/core": "^1.17.0",
     "@stencil/eslint-plugin": "^0.2.1",
     "@stencil/router": "^1.0.1",
@@ -86,9 +87,8 @@
     "husky": "^8.0.1",
     "jest": "^26.6.3",
     "jest-cli": "^26.6.3",
-    "json5": "^2.2.3",
     "next-bundle-analyzer": "^0.6.7",
-    "prettier": "^3.0.3",
+    "prettier": "^1.19.1",
     "puppeteer": "^20.8.2",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "sass": "^1.54.8",
@@ -148,13 +148,14 @@
     "dev": "yarn prebuild && next dev",
     "spellcheck": "cspell \"src/**/*.mdx\" --no-progress",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
-    "build": "node tasks/generate-sitemap.mjs && next build && next export -o client/www/next-build",
+    "build": "node tasks/generate-sitemap.mjs && next build",
     "build:release": "yarn build && next-image-export-optimizer --exportFolderPath client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
     "prepare": "husky install",
     "analyze": "ANALYZE=true yarn next-build",
     "prebuild": "node src/directory/generateDirectory.mjs && node src/directory/generateFlatDirectory.mjs",
-    "migrate": "node tasks/new_ia_migration.ts"
+    "migrate": "node tasks/new_ia_migration.ts",
+    "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test"
   }
 }
