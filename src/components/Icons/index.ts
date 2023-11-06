@@ -18,6 +18,7 @@ export { IconNuxt } from './IconNuxt';
 export { IconReact } from './IconReact';
 export { IconSwift } from './IconSwift';
 export { IconStar } from './IconStar';
+export { IconTOC } from './IconTOC';
 export { IconTwitter } from './IconTwitter';
 export { IconVue } from './IconVue';
 export { IconExternalLink } from './IconExternalLink';
