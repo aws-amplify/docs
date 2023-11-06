@@ -38,6 +38,8 @@ import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import { PageLastUpdated } from '../PageLastUpdated';
+import Feedback from '../Feedback';
+import RepoActions from '../Menu/RepoActions';
 import { Banner } from '@/components/Banner';
 
 export const Layout = ({
@@ -275,7 +277,8 @@ export const Layout = ({
                       currentPlatform={isGen2 ? undefined : currentPlatform}
                     />
                     <div className="layout-sidebar-feedback">
-                      [ Feedback widget goes here ]
+                      <RepoActions router={router}></RepoActions>
+                      <Feedback router={router}></Feedback>
                     </div>
                     {showLastUpdatedDate && (
                       <PageLastUpdated
