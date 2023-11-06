@@ -25,6 +25,7 @@
     padding: var(--amplify-space-xxxs) var(--amplify-space-xs);
     color: var(--amplify-colors-font-primary);
     text-decoration: none;
+    line-height: var(--amplify-line-heights-small);
     &:visited {
       color: var(--amplify-colors-font-primary);
     }
@@ -32,8 +33,7 @@
       text-decoration: underline;
     }
     &--h2 {
-      font-weight: var(--amplify-font-weights-bold);
-      margin-top: var(--amplify-space-small);
+      margin-top: var(--amplify-space-medium);
     }
     &--h3 {
       padding-inline-start: var(--amplify-space-large);

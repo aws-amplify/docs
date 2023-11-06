@@ -22,7 +22,11 @@ export const TableOfContents = ({ headers }) => {
       <View as="ul" className="toc-list">
         {headers.map(({ linkText, hash, level }, index) => {
           return (
-            <View as="li" className="toc-item" key={`toc-${index}`}>
+            <View
+              as="li"
+              className={`toc-item toc-item--${level}`}
+              key={`toc-${index}`}
+            >
               <Link
                 href={`#${hash}`}
                 className={`toc-item__link toc-item__link--${level}`}
