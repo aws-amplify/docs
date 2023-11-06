@@ -169,33 +169,28 @@ export const Layout = ({
       menuButtonRef?.current?.focus();
     }
   };
+  let platformNav = <div className="layout-sidebar-platform">
+    <PlatformNavigator
+      currentPlatform={
+        currentPlatform
+      }
+      isPrev={isPrev}
+    />
+  </div>
   let menu = <Menu
     currentPlatform={currentPlatform}
     rootMenuNode={rootMenuNode}
-    menuTitle="How Amplify works"
-    menuHref={{
-      pathname: `/[platform]`,
-      query: { platform: currentPlatform }
-    }}
   />
   if (isGen2) {
     menu = <Menu
       rootMenuNode={rootMenuNode}
-      menuTitle="How Gen2 Amplify works"
-      menuHref={{
-        pathname: `/gen2`
-      }}
     />
+    platformNav = null;
   } else if (isPrev) {
     let prevNode = findDirectoryNode('/[platform]/prev');
     menu = <Menu
       currentPlatform={currentPlatform}
       rootMenuNode={prevNode}
-      menuTitle="How Amplify works"
-      menuHref={{
-        pathname: `/[platform]/prev`,
-        query: { platform: currentPlatform }
-      }}
     />
   }
 
@@ -264,17 +259,14 @@ export const Layout = ({
                 </View>
               </Flex>
               <View
-                className={`layout-sidebar${menuOpen ? ' layout-sidebar--expanded' : ''
-                  }`}
+                className={classNames('layout-sidebar', { 'layout-sidebar--expanded': menuOpen })}
               >
                 <View
-                  className={`layout-sidebar__backdrop${menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
-                    }`}
+                  className={classNames('layout-sidebar__backdrop', { 'layout-sidebar__backdrop--expanded': menuOpen })}
                   onClick={() => toggleMenuOpen(false)}
                 ></View>
                 <View
-                  className={`layout-sidebar__inner${menuOpen ? ' layout-sidebar__inner--expanded' : ''
-                    }`}
+                  className={classNames('layout-sidebar__inner', { 'layout-sidebar__inner--expanded': menuOpen })}
                 >
                   <Button
                     size="small"
@@ -288,16 +280,7 @@ export const Layout = ({
                     <IconDoubleChevron />
                     <VisuallyHidden>Close menu</VisuallyHidden>
                   </Button>
-                  {isGen2 ? null : (
-                    <div className="layout-sidebar-platform">
-                      <PlatformNavigator
-                        currentPlatform={
-                          currentPlatform
-                        }
-                        isPrev={isPrev}
-                      />
-                    </div>
-                  )}
+                  {platformNav}
 
                   <div className="layout-sidebar-menu">
                     {menu}
