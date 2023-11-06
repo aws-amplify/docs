@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { Button, Flex, VisuallyHidden, View } from '@aws-amplify/ui-react';
 import Link from 'next/link';
+import { InternalLinkButton } from '@/components/InternalLinkButton';
 import {
   IconChevron,
   IconAndroid,
@@ -14,7 +15,7 @@ import {
   IconVue
 } from '@/components/Icons';
 import { useClickOutside } from '@/utils/useClickOutside';
-import { DEFAULT_PLATFORM, Platform } from '@/data/platforms';
+import { DEFAULT_PLATFORM } from '@/data/platforms';
 
 const getStartedHref = '/[platform]/start/getting-started/introduction/';
 
@@ -114,16 +115,16 @@ export const GetStartedPopover = ({}) => {
 
   return (
     <Flex className="split-button">
-      <Link
+      <InternalLinkButton
+        size="large"
+        className="split-button__start"
         href={{
           pathname: '/[platform]/start/getting-started/introduction/',
           query: { platform: DEFAULT_PLATFORM }
         }}
       >
-        <Button size="large" className="split-button__start">
-          Get started
-        </Button>
-      </Link>
+        Get started
+      </InternalLinkButton>
 
       <View className="popover-wrapper">
         <Button
