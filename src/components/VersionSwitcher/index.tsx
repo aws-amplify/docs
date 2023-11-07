@@ -46,17 +46,13 @@ export const VersionSwitcher = ({ platform, isPrev, ...rest }) => {
     }
 
     return <Flex className="version-switcher" {...rest}>
-        <Link href={isPrev ? activeHref : inactiveHref} onClick={() => fireTrackEvent(true)} className="version-switcher__link">
-            <View tabIndex={0} className={classNames("version-switcher__wrapper", { "active": isPrev })}>
-                {isPrev && <IconCheck fontSize="xl" />}
-                {versions.prev}
-            </View>
+        <Link href={isPrev ? activeHref : inactiveHref} onClick={() => fireTrackEvent(true)} className={classNames("version-switcher__link", { "active": isPrev })}>
+            {isPrev && <IconCheck fontSize="xl" />}
+            {versions.prev}
         </Link>
-        <Link href={!isPrev ? activeHref : inactiveHref} className={classNames("version-switcher__link")} onClick={() => fireTrackEvent(false)}>
-            <View tabIndex={0} className={classNames("version-switcher__wrapper", { "active": !isPrev })}>
-                {!isPrev && <IconCheck fontSize="xl" />}
-                {versions.current}
-            </View>
+        <Link href={!isPrev ? activeHref : inactiveHref} className={classNames("version-switcher__link", { "active": !isPrev })} onClick={() => fireTrackEvent(false)}>
+            {!isPrev && <IconCheck fontSize="xl" />}
+            {versions.current}
         </Link>
     </Flex>
 }
