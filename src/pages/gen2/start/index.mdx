@@ -150,7 +150,7 @@ Run your application with <Npm>run dev</Npm> and navigate to `http://localhost:3
 
 ## Data
 
-Amplify project templates also include a "data" resource file. To view or modify your backend's schema, refer to `amplify/data/resource.ts`
+Amplify project templates also include a "data" resource file. To view or modify your backend's schema, refer to `amplify/data/resource.ts`:
 
 ```ts title="amplify/data/resource.ts"
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
@@ -168,6 +168,8 @@ export const data = defineData({
   schema
 });
 ```
+
+Here you can change, extend, or define relationships for models that are reflected in your frontend's client immediately while deployments running in [Sandbox mode](#) deploy in seconds.
 
 ### Add data to your frontend
 
