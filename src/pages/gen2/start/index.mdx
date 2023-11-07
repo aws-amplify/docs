@@ -3,6 +3,14 @@ export const meta = {
   description: 'Learn how to get started with AWS Amplify (Gen 2)'
 };
 
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
 ## Installation
 
 Open your existing project or create a new one:

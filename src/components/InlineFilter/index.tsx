@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import FilterChildren from '../FilterChildren';
 
 type InlineFilterProps = {
@@ -13,7 +14,7 @@ export default function InlineFilter({ filters, children }: InlineFilterProps) {
   const filteredChildren: Array<React.JSX.Element> = [];
 
   filters.forEach((filter) => {
-    filteredChildren.push(<div key={filter}>{children}</div>);
+    filteredChildren.push(<Fragment key={filter}>{children}</Fragment>);
   });
 
   return <FilterChildren>{filteredChildren}</FilterChildren>;

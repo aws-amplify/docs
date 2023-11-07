@@ -22,11 +22,11 @@ import {
   PLATFORM_DISPLAY_NAMES,
   Platform
 } from '@/data/platforms';
+import { ALGOLIA_API_KEY, ALGOLIA_INDEX_NAME, ALGOLIA_APP_ID } from '../../constants/algolia';
+import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
 import { SpaceShip } from '@/components/SpaceShip';
-import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
-import { trackPageVisit } from '../../utils/track';
 import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
 import { TableOfContents } from '@/components/TableOfContents';
@@ -37,7 +37,12 @@ import flatDirectory from 'src/directory/flatDirectory.json';
 import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
+import { DocSearch } from '@docsearch/react';
+import '@docsearch/css';
 import { PageLastUpdated } from '../PageLastUpdated';
+import Feedback from '../Feedback';
+import RepoActions from '../Menu/RepoActions';
+import { Banner } from '@/components/Banner';
 
 export const Layout = ({
   children,
@@ -66,10 +71,6 @@ export const Layout = ({
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    trackPageVisit();
-  }, []);
 
   useEffect(() => {
     const headings: HeadingInterface[] = [];
@@ -106,6 +107,7 @@ export const Layout = ({
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
   const pathname = router.pathname;
+  const shouldShowGen2Banner = GEN2BANNER_URLS.includes(router.asPath);
 
   let currentPlatform = DEFAULT_PLATFORM;
   const homepageNode = directory as PageNode;
@@ -133,8 +135,8 @@ export const Layout = ({
     currentPlatform = platform
       ? platform
       : PLATFORMS.includes(asPathPlatform)
-      ? asPathPlatform
-      : DEFAULT_PLATFORM;
+        ? asPathPlatform
+        : DEFAULT_PLATFORM;
   }
 
   const title = [
@@ -203,7 +205,9 @@ export const Layout = ({
         <ThemeProvider theme={isGen2 ? gen2Theme : defaultTheme}>
           <IconsProvider icons={defaultIcons}>
             <View className={`layout-wrapper layout-wrapper--${pageType}`}>
-              {pageType === 'home' ? <SpaceShip /> : null}
+              {pageType === 'home' ? (
+                <SpaceShip hasBanner={shouldShowGen2Banner} />
+              ) : null}
               <GlobalNav
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
@@ -228,24 +232,28 @@ export const Layout = ({
                     { 'layout-search__search--toc': showTOC }
                   )}
                 >
-                  <SearchBar />
+                  <DocSearch
+                    appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
+                    indexName={process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME}
+                    apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
+                    searchParameters={{
+                      facetFilters: [`platform:${currentPlatform}`],
+                    }}
+                  />
                 </View>
               </Flex>
               <View
-                className={`layout-sidebar${
-                  menuOpen ? ' layout-sidebar--expanded' : ''
-                }`}
+                className={`layout-sidebar${menuOpen ? ' layout-sidebar--expanded' : ''
+                  }`}
               >
                 <View
-                  className={`layout-sidebar__backdrop${
-                    menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
-                  }`}
+                  className={`layout-sidebar__backdrop${menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
+                    }`}
                   onClick={() => toggleMenuOpen(false)}
                 ></View>
                 <View
-                  className={`layout-sidebar__inner${
-                    menuOpen ? ' layout-sidebar__inner--expanded' : ''
-                  }`}
+                  className={`layout-sidebar__inner${menuOpen ? ' layout-sidebar__inner--expanded' : ''
+                    }`}
                 >
                   <Button
                     size="small"
@@ -275,7 +283,8 @@ export const Layout = ({
                       currentPlatform={isGen2 ? undefined : currentPlatform}
                     />
                     <div className="layout-sidebar-feedback">
-                      [ Feedback widget goes here ]
+                      <RepoActions router={router}></RepoActions>
+                      <Feedback router={router}></Feedback>
                     </div>
                     {showLastUpdatedDate && (
                       <PageLastUpdated
@@ -291,6 +300,7 @@ export const Layout = ({
                   as="main"
                   className={`main${showTOC ? ' main--toc' : ''}`}
                 >
+                  {shouldShowGen2Banner ? <Banner /> : null}
                   {showBreadcrumbs ? (
                     <Breadcrumbs
                       route={pathname}

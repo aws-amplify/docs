@@ -264,7 +264,7 @@ async function tryParseImports(
     if (Object.keys(fragments).length !== 0) {
       // add platform specific fragments to source
       await Promise.all(
-        fragments[platform].map(async (fragment) => {
+        fragments[platform]?.map(async (fragment) => {
           const fragmentPath = path.join(__dirname, '..', fragment);
           const fragmentFile = sanitizeMDX(
             fs.readFileSync(fragmentPath, 'utf8')
@@ -274,7 +274,7 @@ async function tryParseImports(
             platform
           );
           source = source + '\n' + allFragments;
-        })
+        }) || []
       );
 
       // remove unused fragments and imports from markdown
@@ -288,6 +288,21 @@ async function tryParseImports(
 
       source = source.join('\n');
     }
+
+    // remove INTEGRATION_FILTER_OPTIONS variables
+    source = source.split('\n');
+    source = source.map((line) => {
+      if (line.includes('INTEGRATION_FILTER_OPTIONS')) {
+        if(line.includes('import')){
+          line = '';
+        }else {
+          line = line.replaceAll('INTEGRATION_FILTER_OPTIONS',"''");
+        }
+      }
+      return line;
+    });
+
+    source = source.join('\n');
 
     const meta = await extractMdxMeta(source);
 
