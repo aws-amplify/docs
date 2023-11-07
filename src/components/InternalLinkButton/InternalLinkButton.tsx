@@ -1,6 +1,5 @@
 import Link, { LinkProps } from 'next/link';
-import { ButtonProps } from '@aws-amplify/ui-react';
-import classNames from 'classnames';
+import { Button, ButtonProps } from '@aws-amplify/ui-react';
 
 interface InternalLinkButtonProps extends LinkProps {
   variation?: ButtonProps['variation'];
@@ -14,21 +13,13 @@ export const InternalLinkButton = ({
   size,
   href,
   children,
-  className,
-  ...rest
+  className
 }: InternalLinkButtonProps) => {
-  const classes = classNames(
-    'amplify-button',
-    'amplify-field-group__control',
-    { [`amplify-button--${variation}`]: !!variation },
-    { [`amplify-button--${size}`]: !!size },
-    'internal-link-button',
-    className
-  );
-
   return (
-    <Link href={href} className={classes} {...rest}>
-      {children}
+    <Link href={href} legacyBehavior={true} passHref={true}>
+      <Button variation={variation} size={size} as="a" className={className}>
+        {children}
+      </Button>
     </Link>
   );
 };
