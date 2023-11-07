@@ -12,3 +12,167 @@ export function getStaticProps(context) {
   };
 
 }
+
+---
+title: Custom Resources
+---
+
+@TODO better examples of constructs and stacks
+
+Custom resources can be written using the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/api/v2/). You have the option to create individual [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) or [Stacks](https://docs.aws.amazon.com/cdk/v2/guide/stacks.html).
+
+## Defining a CDK Construct
+
+:::info
+
+> Constructs are the basic building blocks of AWS CDK apps. A construct represents a "cloud component" and encapsulates everything AWS CloudFormation needs to create the component. [Read more](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html)
+
+:::
+
+```ts title="amplify/custom/Backup.ts"
+import { Construct } from 'constructs';
+import * as cdk from 'aws-cdk-lib';
+import * as backup from 'aws-cdk-lib/aws-backup';
+import * as events from 'aws-cdk-lib/aws-events';
+import * as rds from 'aws-cdk-lib/aws-rds';
+
+/**
+ * Define the stack's props
+ */
+export type BackupStackProps = {
+  /**
+   * Database instance to back up
+   */
+  database: rds.DatabaseInstance;
+};
+
+/**
+ * Configure a "Backup" construct to backup DynamoDB Tables created by `data`
+ */
+export class Backup extends Construct {
+  constructor(scope: Construct, id: string, props: BackupStackProps) {
+    super(scope, id, props);
+
+    const { database } = props;
+
+    // create the backup plan
+    const plan = new backup.BackupPlan(this, 'BackupPlan', {
+      backupPlanRules: [
+        new backup.BackupPlanRule({
+          completionWindow: cdk.Duration.hours(2),
+          startWindow: cdk.Duration.hours(1),
+          scheduleExpression: events.Schedule.cron({
+            day: '15',
+            hour: '3',
+            minute: '30',
+          }),
+          moveToColdStorageAfter: cdk.Duration.days(30),
+        }),
+      ],
+    });
+
+    // add the database to the backup plan
+    plan.addSelection('Selection', {
+      resources: [backup.BackupResource.fromRdsDatabaseInstance(database)],
+    });
+  }
+}
+```
+
+The custom CDK construct can then be added to the `backend`:
+
+```ts title="amplify/backend.ts"
+import { Backend } from '@aws-amplify/backend';
+import { Backup } from './custom/Backup';
+import { data } from './data/resource';
+
+const backend = new Backend({
+  data,
+});
+
+// construct Backup by adding a stack to your backend
+new Backup(backend.getOrCreateStack('Backup'), 'Backup', {
+  database: backend.data.resources.database,
+});
+```
+
+:::note
+
+Resources created by the `define*` helpers can only be accessed _after_ setting them on the `backend`
+
+:::
+
+## Defining a CDK Stack
+
+:::info
+
+> The unit of deployment in the AWS CDK is called a stack. All AWS resources defined within the scope of a stack, either directly or indirectly, are provisioned as a single unit. [Read more](https://docs.aws.amazon.com/cdk/v2/guide/stacks.html)
+
+:::
+
+```ts title="amplify/custom/BackupStack.ts"
+import { Construct } from 'constructs';
+import * as cdk from 'aws-cdk-lib';
+import * as backup from 'aws-cdk-lib/aws-backup';
+import * as events from 'aws-cdk-lib/aws-events';
+import * as rds from 'aws-cdk-lib/aws-rds';
+
+/**
+ * Define the stack's props
+ */
+export type BackupStackProps = cdk.StackProps & {
+  /**
+   * Database instance to back up
+   */
+  database: rds.DatabaseInstance;
+};
+
+/**
+ * Configure an "BackupStack" to backup DynamoDB Tables created by `data`
+ */
+export class BackupStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: BackupStackProps) {
+    super(scope, id, props);
+
+    const { database } = props;
+
+    // create the backup plan
+    const plan = new backup.BackupPlan(this, 'BackupPlan', {
+      backupPlanRules: [
+        new backup.BackupPlanRule({
+          completionWindow: cdk.Duration.hours(2),
+          startWindow: cdk.Duration.hours(1),
+          scheduleExpression: events.Schedule.cron({
+            day: '15',
+            hour: '3',
+            minute: '30',
+          }),
+          moveToColdStorageAfter: cdk.Duration.days(30),
+        }),
+      ],
+    });
+
+    // add the database to the backup plan
+    plan.addSelection('Selection', {
+      resources: [backup.BackupResource.fromRdsDatabaseInstance(database)],
+    });
+  }
+}
+```
+
+The custom CDK stack can then be added to the `backend`:
+
+```ts title="amplify/backend.ts"
+import { Backend } from '@aws-amplify/backend';
+import { BackupStack } from './custom/BackupStack';
+import { data } from './data/resource';
+
+const backend = new Backend({
+  data,
+});
+
+// construct BackupStack using the backend's root CloudFormation stack as the scope
+new BackupStack(backend.root, 'Backup', {
+  database: backend.data.resources.database,
+});
+```

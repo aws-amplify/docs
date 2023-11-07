@@ -2054,11 +2054,113 @@ export const directory = {
       path: 'src/pages/gen2/index.tsx',
       children: [
         {
-          path: 'src/pages/gen2/how-amplify-works/index.mdx'
+          path: 'src/pages/gen2/how-amplify-works/index.mdx',
+          children: [
+            {
+              path: 'src/pages/gen2/how-amplify-works/concepts/index.mdx'
+            },
+            {
+              path: 'src/pages/gen2/how-amplify-works/project-structure/index.mdx'
+            },
+            {
+              path: 'src/pages/gen2/how-amplify-works/existing-projects/index.mdx'
+            },
+          ]
+        },
+        {
+          path: 'src/pages/gen2/start/index.mdx'
         },
         {
           path: 'src/pages/gen2/build-a-backend/index.mdx',
           children: [
+            {
+              path: 'src/pages/gen2/build-a-backend/auth/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/gen2/build-a-backend/auth/set-up-auth/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/auth/enable-sign-up/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/auth/manage-user-session/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/auth/add-social-provider/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/auth/manage-user-profile/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/auth/password-management/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/auth/manage-mfa/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/auth/delete-user-account/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/auth/server-side-rendering/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/auth/auth-events/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/auth/admin-actions/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/auth/override-cognito/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/gen2/build-a-backend/data/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/set-up-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/connect-existing-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/connect-to-API/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/mutate-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/query-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/subscribe-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/customize-authz/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/migration/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/data-modeling/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/relationships/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/existing-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/offline/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/gen2/build-a-backend/storage/index.mdx'
+            },
+            {
+              path: 'src/pages/gen2/build-a-backend/functions/index.mdx'
+            },
             {
               path: 'src/pages/gen2/build-a-backend/add-aws-services/index.mdx',
               children: [
@@ -2069,34 +2171,6 @@ export const directory = {
                   path: 'src/pages/gen2/build-a-backend/add-aws-services/overriding-resources/index.mdx'
                 }
               ]
-            },
-            {
-              path: 'src/pages/gen2/build-a-backend/auth/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/gen2/build-a-backend/auth/add-social-provider/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/auth/set-up-auth/index.mdx'
-                }
-              ]
-            },
-            {
-              path: 'src/pages/gen2/build-a-backend/data/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/gen2/build-a-backend/data/connect-existing-data/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/data/set-up-data/index.mdx'
-                }
-              ]
-            },
-            {
-              path: 'src/pages/gen2/build-a-backend/functions/index.mdx'
-            },
-            {
-              path: 'src/pages/gen2/build-a-backend/storage/index.mdx'
             }
           ]
         },
@@ -2107,35 +2181,39 @@ export const directory = {
           path: 'src/pages/gen2/deploy-and-host/index.mdx',
           children: [
             {
-              path: 'src/pages/gen2/deploy-and-host/fullstack-branching/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/branch-deployments/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/sandbox-deployments/index.mdx'
-                }
-              ]
+              path: 'src/pages/gen2/deploy-and-host/local-development/index.mdx'
             },
             {
               path: 'src/pages/gen2/deploy-and-host/hosting-features/index.mdx'
             },
             {
-              path: 'src/pages/gen2/deploy-and-host/local-development/index.mdx'
-            }
-          ]
-        },
-        {
-          path: 'src/pages/gen2/how-amplify-works/index.mdx',
-          children: [
-            {
-              path: 'src/pages/gen2/how-amplify-works/concepts/index.mdx'
-            },
-            {
-              path: 'src/pages/gen2/how-amplify-works/existing-projects/index.mdx'
-            },
-            {
-              path: 'src/pages/gen2/how-amplify-works/project-structure/index.mdx'
+              path: 'src/pages/gen2/deploy-and-host/fullstack-branching/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/sandbox-deployments/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/branch-deployments/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/pr-previews/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/moving-to-prod/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/cross-account-deployments/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/secrets-and-vars/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/mono-and-multi-repos/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/share-resources/index.mdx'
+                }
+              ]
             }
           ]
         },
@@ -2143,15 +2221,18 @@ export const directory = {
           path: 'src/pages/gen2/reference/index.mdx',
           children: [
             {
+              path: 'src/pages/gen2/reference/amplifyconfiguration/index.mdx'
+            },
+            {
+              path: 'src/pages/gen2/reference/CDK-constructs/index.mdx'
+            },
+            {
               path: 'src/pages/gen2/reference/CLI-commands/index.mdx'
             },
             {
-              path: 'src/pages/gen2/reference/amplifyconfiguration/index.mdx'
+              path: 'src/pages/gen2/reference/npm/index.mdx'
             }
           ]
-        },
-        {
-          path: 'src/pages/gen2/start/index.mdx'
         }
       ]
     }
