@@ -1,12 +1,10 @@
-
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { getChildPageNodes } from '@/utils/getChildPageNodes';
-import directory from 'src/directory/directory.json';
 
 export const meta = {
-    title: 'Functions',
-    description: 'Functions',
-    platforms: [
+  title: 'Functions',
+  description: 'Functions',
+  platforms: [
     'android',
     'angular',
     'flutter',
@@ -16,24 +14,23 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-    ],
-    route: '/[platform]/build-a-backend/functions'
+  ],
+  route: '/[platform]/build-a-backend/functions'
 };
 
 export const getStaticPaths = async () => {
-    return getCustomStaticPath(meta.platforms);
+  return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {
-    const childPageNodes = getChildPageNodes(meta.route);
-    return {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
     props: {
-        platform: context.params.platform,
-        meta,
-        childPageNodes
+      platform: context.params.platform,
+      meta,
+      childPageNodes
     }
-    };
+  };
 }
 
 <Overview childPageNodes={props.childPageNodes} />
-    

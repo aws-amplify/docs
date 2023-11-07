@@ -109,7 +109,7 @@ import all1 from '/src/fragments/lib/auth/common/social_signin_web_ui/configure_
 
 ## Setup frontend
 
-<InlineFilter filters={['flutter', 'ios', 'android']}>
+<InlineFilter filters={['flutter', 'swift', 'android']}>
 
 After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
 
