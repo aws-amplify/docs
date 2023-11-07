@@ -1,6 +1,6 @@
 <Callout>
 
-This tutorial is built using the pages directory from NextJS. To learn more about using Amplify with the NextJS app directory please visit this [documentation page](/lib/ssr/q/platform/js/#use-amplify-with-nextjs-app-router-app-directory).
+This tutorial is built using the [Next.js App Router](https://nextjs.org/docs/app/building-your-application/routing).
 
 </Callout>
 
@@ -9,13 +9,17 @@ To set up the project, you'll first create a new Next.js app with [Create Next A
 From your projects directory, run the following commands:
 
 ```bash
-npx create-next-app@latest next-amplified --no-app
+npm create next-app@14 -- next-amplified --ts --no-eslint --no-src-dir --import-alias '@/*' --no-tailwind --app
 cd next-amplified
 ```
 
-You'll need to select if you'd like to build this project with TypeScript (Yes) or JavaScript (No), and then if you'd like ESLint to be configured as well.  Note that if you select Typescript, there may be additional changes you'll need to make throughout this guide to files and configurations.  
-
-Once these have been selected, a new Next.js app will be created in a directory called `next-amplified` and then switches us into that new directory.
+This command will bootstrap the project with the following options:
+- App Router
+- TypeScript
+- No ESLint
+- No `src` directory
+- No Tailwind CSS
+- imports aliased to `@/` (the default)
 
 Now that you're in the root of the project, you can run the app by using the following command:
 
@@ -60,13 +64,13 @@ Build command (npm run-script build)
 
 Start command (npm run-script start)
 
-? Initialize the project with the above configuration? (Y/n) 
+? Initialize the project with the above configuration? (Y/n)
 
 # If you completed the introduction to Amplify steps, the default below is the profile you created with the `amplify configure` command.
 Using default provider  awscloudformation
 ? Select the authentication method you want to use: (AWS profile)
 
-? Initialize the project with the above configuration? (Y/n) 
+? Initialize the project with the above configuration? (Y/n)
 ? Do you want to use an AWS profile? (default)
 
 ```
