@@ -17,7 +17,13 @@ export const InternalLinkButton = ({
 }: InternalLinkButtonProps) => {
   return (
     <Link href={href} legacyBehavior={true} passHref={true}>
-      <Button variation={variation} size={size} as="a" className={className}>
+      <Button
+        variation={variation}
+        gap="small"
+        size={size}
+        as="a"
+        className={className}
+      >
         {children}
       </Button>
     </Link>
