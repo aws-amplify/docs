@@ -27,8 +27,3 @@ export { IconExternalLink } from './IconExternalLink';
 export { IconThumbsUp } from './IconThumbsUp';
 export { IconThumbsDown } from './IconThumbsDown';
 export { IconPencil } from './IconPencil';
-
-export * from './CloseIcon';
-export * from './ExternalLinkIcon';
-export * from './MenuIcon';
-export * from './TOCIcon';
