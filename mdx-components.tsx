@@ -19,6 +19,7 @@ import InternalLinkButton from './src/components/InternalLinkButton';
 import Card from './src/components/Card';
 import FilterContent from './src/components/FilterContent';
 import { NodePackageManagerTabs } from './src/components/NodePackageManagerTabs';
+import { NodePackageManagerInlineCodeBlock } from './src/components/NodePackageManagerInlineCodeBlock';
 import { Grid } from '@aws-amplify/ui-react';
 
 const ResponsiveImage = (props) => (
@@ -70,6 +71,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     FilterContent,
     Grid,
     NodePackageManagerTabs,
+    Npm: NodePackageManagerInlineCodeBlock,
     ...components
   };
 }
