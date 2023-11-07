@@ -1,2 +1,0 @@
-- [Android Studio](https://developer.android.com/studio/index.html#downloads) version 4.0 or higher
-- [Android SDK](https://developer.android.com/studio/releases/platforms) API level 16 (Jelly Bean) or higher

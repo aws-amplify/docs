@@ -1,7 +1,0 @@
-Some Amplify categories such as Analytics, Auth, and DataStore persist data to the local device. This application data is removed when a user uninstalls the application from the device.
-
-If the [Android Auto Backup for Apps](https://developer.android.com/guide/topics/data/autobackup) service was enabled, this service will attempt to restore application data.
-
-Amplify Auth uses [EncryptedSharedPreferences](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences) when persisting auth data. When an application is uninstalled, the [Android Keystore](https://developer.android.com/training/articles/keystore) keys used to create our EncryptedSharedPreferences files are deleted. Upon an application re-install, these restored files are no longer readable due to the key removal from the Android Keystore.
-
-Due to this limitation with EncryptedSharedPreferences, Auth information can’t be restored on an application re-install. The user will have to re-authenticate.

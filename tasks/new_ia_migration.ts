@@ -1,11 +1,63 @@
 // /* eslint-disable no-console */
 // /* eslint-disable @typescript-eslint/no-var-requires */
-const { globSync } = require('glob');
+const { globSync, glob } = require('glob');
 const fs = require('fs');
 const reader = require('xlsx');
 
+const cleanupPages = function () {
+  const pages = globSync('src/pages/**/*.mdx');
+
+  // remove all index.mdx that aren't parents
+  //   pages.forEach((file) => {
+  //     fs.readFile(file, 'utf8', (err, data) => {
+  //       // console.log(data);
+  //       const searchTerm = `
+  // export function getStaticProps(context) {
+  //   return {
+  //     props: {
+  //       platform: context.params.platform,
+  //       meta
+  //     }
+  //   };
+  // }`;
+
+  //       if (err) {
+  //         console.log('[ ERROR: READ INDEX.MDX ]', file, err);
+  //       } else if (data.includes(searchTerm)) {
+  //         // console.log(file);
+  //         fs.rm(file, (err) => {
+  //           if (err) {
+  //             console.log('[ ERROR: REMOVE CHOOSEFILTERPAGES ]', file, err);
+  //           }
+  //         });
+  //       }
+  //     });
+  //   });
+
+  glob('src/pages/**/').then((directories) => {
+    directories.forEach((directory) => {
+      fs.readdir(
+        directory,
+        { encoding: 'utf8', recursive: true },
+        (err, files) => {
+          if (err) {
+            console.log(err);
+          } else {
+            if (!files.length) {
+              fs.rmdir(directory, { recursive: true }, (err) => {
+                if (err) console.log(err);
+              });
+            }
+          }
+        }
+      );
+    });
+    // console.log('remaining directories:', directories);
+  });
+};
+
 // Cleanup pages-old (remove all Choose Filter Pages)
-const cleanup = function () {
+const cleanupPagesOld = function () {
   // get list of all files currently in pages-old
   const oldPages = globSync('src/pages-old/**/*.mdx');
 
@@ -752,9 +804,10 @@ const fixErrorsInMigratedPages = function () {
   });
 };
 
-// cleanup();
+cleanupPages();
+// cleanupPagesOld();
 // updatePageContent();
 // movePages();
-fixErrorsInMigratedPages();
+// fixErrorsInMigratedPages();
 
 // checks();
