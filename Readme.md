@@ -70,7 +70,7 @@ This fragment would exist in: `pages/src/fragments/lib/datastore/js/conflict.mdx
 We are incorporating the use of `<InlineFilters>` to add platform-specific content within the context of one page rather than in fragments. These filters allow you to still specify content by platform and they reference platforms using the same naming convention as our fragments. You can enclose your platform-specific content by updating the opening tag:
 
 ```md
-<InlineFilter filters={["js", "react-native", "android", "ios", "flutter"]}>
+<InlineFilter filters={["javascript", "react-native", "android", "swift", "flutter"]}>
 
 </InlineFilter>
 ```
