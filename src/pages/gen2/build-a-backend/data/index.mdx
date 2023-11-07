@@ -12,28 +12,9 @@ export function getStaticProps(context) {
 
 }
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # Realtime API and Database for next-generation apps
 
 with GraphQL support, fine-grained authorization rules, end-to-end type-safety, connects to existing PostgreSQL and MySQL databases.
-
-<div style={{display: 'flex', gap: 8}}>
-
-<Link
-  className="button button--primary button--lg"
-  to="/docs/guides/introduction/getting-started">
-  Get started with Amplify CLI
-</Link>
-
-<Link
-  className="button button--secondary button--lg"
-  to="/docs/guides/introduction/getting-started">
-  Get started with AWS CDK
-</Link>
-
-</div>
 
 ## Works with new or <u>any</u> existing data sources
 
@@ -195,10 +176,6 @@ export type Schema = typeof schema
 export const data = defineData({ schema })
 ```
 
-<Tabs>
-
-<TabItem value="student-acm" label="`Student` Access Control Matrix">
-
 **No public access** because model-level authorization rule supersedes schema-level authorization rule
 
 **The "Admin" group** can CRUDL all records but can't read or write the `ssn` field because `ssn`'s field-level authorization rule supersedes the model-level authorization rule.
@@ -215,20 +192,12 @@ export const data = defineData({ schema })
 | name  | x      | ✔️   | ✔️     | x      |
 | ssn   | x      | ✔️   | ✔️     | x      |
 
-</TabItem>
-
-<TabItem value="course-acm" label="`Course` Access Control Matrix">
-
 **Public read-only access** because there's no model-level authorization rule, hence the `Course` table will default to the schema-level authorization rule.
 
 | Field   | Create | Read | Update | Delete |
 | ------- | ------ | ---- | ------ | ------ |
 | title   | x      | ✔️️  | x      | x      |
 | content | x      | ✔️   | x      | x      |
-
-</TabItem>
-
-</Tabs>
 
 ### Multi-user, multi-group authorization built-in
 

@@ -13,14 +13,11 @@ export function getStaticProps(context) {
 
 }
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # Connect app code to API
 
 You can use the Amplify library to connect GraphQL APIs created in various ways:
 - Amplify vNext-generated API (backend/data.ts)
-- Amplify Classic-generated API (backend/api/<api-name\>/schema.graphql)
+- Amplify Classic-generated API (`backend/api/<api-name\>/schema.graphql`)
 - any existing AWS AppSync GraphQL API
 - GraphQL APIs hosted using API Gateway
 
@@ -36,9 +33,7 @@ The **Default Authorization Mode** is the authorization mode that the GraphQL AP
 
 The Amplify library connects you to a GraphQL API endpoint based on the information provided to `Amplify.configure()`.
 
-<Tabs>
-
-  <TabItem value="vNext" label="Samsara" default>
+vNext
 
 When running the cloud sandbox (`amplify sandbox`), an `amplifyconfiguration.js` file is generated for you. This file contains your API's endpoint information, auth configurations, and typings details.
 
@@ -51,8 +46,7 @@ import amplifyconfiguration from './amplifyconfiguration'
 Amplify.configure(amplifyconfiguration)
 ```
 
-  </TabItem>
-  <TabItem value="classic" label="Amplify CLI">
+Amplify CLI
 
 When you deploy your backend (`amplify push`), an `aws-exports.js` file is generated for you. This file contains your API's endpoint information and auth configurations.
 
@@ -65,8 +59,7 @@ import awsconfig from './aws-exports'
 Amplify.configure(awsconfig)
 ```
 
-  </TabItem>
-  <TabItem value="appsync" label="Existing AppSync GraphQL API">
+Existing AppSync GraphQL API
 
 When working with existing GraphQL APIs, you must manually provide your API endpoint and auth configurations. First, to configure the GraphQL API endpoint URL, set the `aws_appsync_graphqlEndpoint` and `aws_appsync_region` values. 
 
@@ -80,9 +73,6 @@ Amplify.configure({
   // highlight-end
 })
 ```
-
-  </TabItem>
-</Tabs>
 
 ## Configure the default authorization mode settings
 

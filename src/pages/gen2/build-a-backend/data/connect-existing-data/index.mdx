@@ -13,9 +13,6 @@ export function getStaticProps(context) {
 
 }
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # Connect API to existing data sources
 
 Amplify Data offers you the ability to connect the API with existing data sources, apply authorization rules, and expose create, update, read, and delete operations to application clients with end-to-end type-safety.
@@ -39,22 +36,17 @@ You must have these information handy for your database:
 - Database username
 - Database user password
 
-<Tabs>
-<TabItem value="Postgres" label="Postgres" default>
+Postgres
 
 ```bash title="Terminal"
 npx amplify generate api-for-postgres
 ```
 
-</TabItem>
-<TabItem value="MySQL" label="MySQL">
+MySQL
 
 ```bash title="Terminal"
 npx amplify generate api-for-mysql
 ```
-
-</TabItem>
-</Tabs>
 
 You should see a read-only (TK) new schema.rds.tsx file in `amplify/data` now. This file contains a TypeScript representation of your relational database tables.
 

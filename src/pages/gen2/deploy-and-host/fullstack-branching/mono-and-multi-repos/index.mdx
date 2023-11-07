@@ -17,9 +17,6 @@ export function getStaticProps(context) {
 # Monorepos and multi-repos
 
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 ```text
 ├── apps/
 │   ├── admin-dashboard/
@@ -40,33 +37,26 @@ import TabItem from '@theme/TabItem';
 └── package.json
 ```
 
-<Tabs>
-  <TabItem value="npm" label="npm" default>
+npm
 
 ```bash title="Terminal"
 npx --workspace my-shared-backend amplify sandbox
 ```
 
-  </TabItem>
-  <TabItem value="yarn" label="yarn">
+yarn
 
 ```bash title="Terminal"
 yarn workspace my-shared-backend amplify sandbox
 ```
 
-  </TabItem>
-  <TabItem value="pnpm" label="pnpm">
+pnpm
 
 ```bash title="Terminal"
 pnpm --filter my-shared-backend amplify sandbox
 ```
 
-  </TabItem>
-  <TabItem value="bun" label="bun">
+bun
 
 ```bash title="Terminal"
 @TODO
 ```
-
-  </TabItem>
-</Tabs>
