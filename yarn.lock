@@ -7,68 +7,32 @@
   resolved "https://registry.yarnpkg.com/@adobe/css-tools/-/css-tools-4.3.1.tgz#abfccb8ca78075a2b6187345c26243c1a0842f28"
   integrity sha512-/62yikz7NLScCGAAST5SHdnjaDJQBDq0M2muyRTpf2VQhw6StBg2ALiu73zSJQ4fMVLA+0uBhBHAle7Wg+2kSg==
 
-"@algolia/autocomplete-core@1.12.1":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.12.1.tgz#c36ce91f10c978341d89a2dc738b3fae7044e3b2"
-  integrity sha512-Paf1MEdsU8EA5eApJlp6yNJGn6IfWec6UoJyv6fzI+T2v9nU4ynH4nkq07hzOilImVy33vFlzh1+D7jcU2lMFg==
+"@algolia/autocomplete-core@1.9.3":
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.9.3.tgz#1d56482a768c33aae0868c8533049e02e8961be7"
+  integrity sha512-009HdfugtGCdC4JdXUbVJClA0q0zh24yyePn+KUGk3rP7j8FEe/m5Yo/z65gn6nP/cM39PxpzqKrL7A6fP6PPw==
   dependencies:
-    "@algolia/autocomplete-plugin-algolia-insights" "1.12.1"
-    "@algolia/autocomplete-shared" "1.12.1"
+    "@algolia/autocomplete-plugin-algolia-insights" "1.9.3"
+    "@algolia/autocomplete-shared" "1.9.3"
 
-"@algolia/autocomplete-js@1.12.1", "@algolia/autocomplete-js@^1.5.3":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-js/-/autocomplete-js-1.12.1.tgz#30c8e0ae474125d411539c01de0c4a1f136bf121"
-  integrity sha512-o8OVeyTSCJ1n5xnULBqlJ3gcimlyevUeNUmGXuHgd6K2TeHmZ8EgaxHWuyzOdgWNjcJpCpjDh4Q/hEvQq3svDQ==
+"@algolia/autocomplete-plugin-algolia-insights@1.9.3":
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-algolia-insights/-/autocomplete-plugin-algolia-insights-1.9.3.tgz#9b7f8641052c8ead6d66c1623d444cbe19dde587"
+  integrity sha512-a/yTUkcO/Vyy+JffmAnTWbr4/90cLzw+CC3bRbhnULr/EM0fGNvM13oQQ14f2moLMcVDyAx/leczLlAOovhSZg==
   dependencies:
-    "@algolia/autocomplete-core" "1.12.1"
-    "@algolia/autocomplete-preset-algolia" "1.12.1"
-    "@algolia/autocomplete-shared" "1.12.1"
-    htm "^3.1.1"
-    preact "^10.13.2"
+    "@algolia/autocomplete-shared" "1.9.3"
 
-"@algolia/autocomplete-plugin-algolia-insights@1.12.1":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-algolia-insights/-/autocomplete-plugin-algolia-insights-1.12.1.tgz#9bafc4f0aa24ba9bcb8abc92a2057ba8132a69dc"
-  integrity sha512-wZnfgmJA+g+WWkyXRZqv9NvRtOrZCnsZMpSvGe4QdQatEWRTAn2hry1cHMj8+sxwpqQQE7Kt/GAZhElrmErPkw==
+"@algolia/autocomplete-preset-algolia@1.9.3":
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-preset-algolia/-/autocomplete-preset-algolia-1.9.3.tgz#64cca4a4304cfcad2cf730e83067e0c1b2f485da"
+  integrity sha512-d4qlt6YmrLMYy95n5TB52wtNDr6EgAIPH81dvvvW8UmuWRgxEtY0NJiPwl/h95JtG2vmRM804M0DSwMCNZlzRA==
   dependencies:
-    "@algolia/autocomplete-shared" "1.12.1"
+    "@algolia/autocomplete-shared" "1.9.3"
 
-"@algolia/autocomplete-plugin-query-suggestions@^1.5.6":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-query-suggestions/-/autocomplete-plugin-query-suggestions-1.12.1.tgz#7e64743a121670ac42de918b0879f8cd70b8cb7d"
-  integrity sha512-DbfqQ5tANl4z7ARb9+LoifJNVf68qLuXLmA2xiKOXGfJmQLXyDGkXdEKYLc9cFVrV3nZFSoxL3LLNu730tIdYg==
-  dependencies:
-    "@algolia/autocomplete-core" "1.12.1"
-    "@algolia/autocomplete-js" "1.12.1"
-    "@algolia/autocomplete-preset-algolia" "1.12.1"
-    "@algolia/autocomplete-shared" "1.12.1"
-
-"@algolia/autocomplete-plugin-recent-searches@^1.5.6":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-recent-searches/-/autocomplete-plugin-recent-searches-1.12.1.tgz#b6bf1a73564da0c764f30fa6ba8ee0824c142476"
-  integrity sha512-uYDtos3FBGYxmZesQPCnjhxtlP6zJGpPDfvCtRD0EAQ4bcKHIjH6O3cXMg9NAlk7INTwl4SnIRTg8RPf6IXcMA==
-  dependencies:
-    "@algolia/autocomplete-core" "1.12.1"
-    "@algolia/autocomplete-js" "1.12.1"
-    "@algolia/autocomplete-preset-algolia" "1.12.1"
-    "@algolia/autocomplete-shared" "1.12.1"
-
-"@algolia/autocomplete-preset-algolia@1.12.1":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-preset-algolia/-/autocomplete-preset-algolia-1.12.1.tgz#6438e195aea1eb537b436a2e4369af0444a0bd0e"
-  integrity sha512-fbciiuDZ6WsQOhf3Rdm4ctZpOGngg8hNtss4FCJz4FGnGSUxs+H0n38k+FbQ3vcfzQ0nsdAjXWwM4G0OLJE3Mw==
-  dependencies:
-    "@algolia/autocomplete-shared" "1.12.1"
-
-"@algolia/autocomplete-shared@1.12.1", "@algolia/autocomplete-shared@^1.5.6":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.12.1.tgz#9609d4beccd56c4e7fa68cf376aff74d995bba77"
-  integrity sha512-Q2NQ9pxSpwi0WsLlGtrnE+nMo4ERgB4YlYi7eW7EIUtD0LSixLQeOqlNNYIhFUYbNYpfG5s9L3W8PMfS2M4qOg==
-
-"@algolia/autocomplete-theme-classic@^1.6.1":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-theme-classic/-/autocomplete-theme-classic-1.12.1.tgz#eb679bc82221bc287eaa4e6180bd9717c8c015ff"
-  integrity sha512-oKmMEWAtASUizKc73RKS5vzu0iURM+joVdlAkOVuCpjajUJ98ejMnk43ht4FKPBXDBAVSlM4SmS05lHIpYVLIg==
+"@algolia/autocomplete-shared@1.9.3":
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.9.3.tgz#2e22e830d36f0a9cf2c0ccd3c7f6d59435b77dfa"
+  integrity sha512-Wnm9E4Ye6Rl6sTTqjoymD+l8DjSTHsHboVRYrKgEt8Q7UHm9nYbqhN/i0fhUYA3OAEH7WA8x3jfpnmJm3rKvaQ==
 
 "@algolia/cache-browser-local-storage@4.20.0":
   version "4.20.0"
@@ -125,7 +89,7 @@
     "@algolia/requester-common" "4.20.0"
     "@algolia/transporter" "4.20.0"
 
-"@algolia/client-search@4.20.0", "@algolia/client-search@^4.13.0":
+"@algolia/client-search@4.20.0":
   version "4.20.0"
   resolved "https://registry.yarnpkg.com/@algolia/client-search/-/client-search-4.20.0.tgz#3bcce817ca6caedc835e0eaf6f580e02ee7c3e15"
   integrity sha512-zgwqnMvhWLdpzKTpd3sGmMlr4c+iS7eyyLGiaO51zDZWGMkpgoNVmltkzdBwxOVXz0RsFMznIxB9zuarUv4TZg==
@@ -2843,6 +2807,21 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
+"@docsearch/css@3.5.2":
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-3.5.2.tgz#610f47b48814ca94041df969d9fcc47b91fc5aac"
+  integrity sha512-SPiDHaWKQZpwR2siD0KQUwlStvIAnEyK6tAE2h2Wuoq8ue9skzhlyVQ1ddzOxX6khULnAALDiR/isSF3bnuciA==
+
+"@docsearch/react@3":
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-3.5.2.tgz#2e6bbee00eb67333b64906352734da6aef1232b9"
+  integrity sha512-9Ahcrs5z2jq/DcAvYtvlqEBHImbm4YJI8M9y0x6Tqg598P40HTEkX7hsMcIuThI+hTFxRGZ9hll0Wygm2yEjng==
+  dependencies:
+    "@algolia/autocomplete-core" "1.9.3"
+    "@algolia/autocomplete-preset-algolia" "1.9.3"
+    "@docsearch/css" "3.5.2"
+    algoliasearch "^4.19.1"
+
 "@emotion/babel-plugin@^11.11.0":
   version "11.11.0"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.11.0.tgz#c2d872b6a7767a9d176d007f5b31f7d504bb5d6c"
@@ -4566,7 +4545,7 @@ algoliasearch-helper@3.15.0:
   dependencies:
     "@algolia/events" "^4.0.1"
 
-algoliasearch@^4.12.1:
+algoliasearch@^4.19.1:
   version "4.20.0"
   resolved "https://registry.yarnpkg.com/algoliasearch/-/algoliasearch-4.20.0.tgz#700c2cb66e14f8a288460036c7b2a554d0d93cf4"
   integrity sha512-y+UHEjnOItoNy0bYO+WWmLWBlPwDjKHW6mNHrPi0NkuhpQOOEbrkwQH/wgKFDLh7qlKjzoKeiRtlpewDPDG23g==
@@ -7976,7 +7955,7 @@ hosted-git-info@^2.1.4:
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.9.tgz#dffc0bf9a21c02209090f2aa69429e1414daf3f9"
   integrity sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==
 
-htm@^3.0.0, htm@^3.1.1:
+htm@^3.0.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/htm/-/htm-3.1.1.tgz#49266582be0dc66ed2235d5ea892307cc0c24b78"
   integrity sha512-983Vyg8NwUE7JkZ6NmOqpCZ+sh1bKv2iYTlUkzlWmA5JD2acKoxd4KVxbMmxX/85mtfdnDmTFoNKcg5DGAvxNQ==
@@ -10921,7 +10900,7 @@ postcss@8.4.31:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-preact@^10.10.0, preact@^10.13.2:
+preact@^10.10.0:
   version "10.18.1"
   resolved "https://registry.yarnpkg.com/preact/-/preact-10.18.1.tgz#3b84bb305f0b05f4ad5784b981d15fcec4e105da"
   integrity sha512-mKUD7RRkQQM6s7Rkmi7IFkoEHjuFqRQUaXamO61E6Nn7vqF/bo7EZCmSyrUnp2UWHw0O7XjZ2eeXis+m7tf4lg==

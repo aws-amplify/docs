@@ -1,4 +1,3 @@
-export const ALGOLIA_API_KEY = '24d37f059982b2f5ecf829afe93aed40';
-export const ALGOLIA_INDEX_NAME = 'aws_amplify_new';
-export const UNINITIALIZED_SEARCH_INPUT_SELECTOR =
-  '#amplify-docs-search-input:not(.ds-input)';
+export const ALGOLIA_API_KEY = '39400f04880764b2ba504813b0902bd4';
+export const ALGOLIA_INDEX_NAME = 'next-amplify';
+export const ALGOLIA_APP_ID = 'HBI6AAVZLI';
