@@ -2,13 +2,17 @@
 
 A sample React application with all of the Predictions features is provided below. It shows how to use all scenarios above by calling the appropriate `convert`, `identify`, and `interpret` API calls in the Amplify library.
 
-To use `Predictions.convert()` with Amazon Transcribe you will need to install the following dependency in your app first:
+<Callout>
+
+This example uses the package `microphone-stream`, which you will need to install along with the necessary polyfills if you would like to use the sample directly.
 
 ```bash
 npm install microphone-stream
 ```
 
-If you are running into an issue with `Uncaught ReferenceError: Buffer is not defined` due to `react-scripts@5.0.0`, try following the instructions provided in [this stack exchange answer](https://stackoverflow.com/a/71205013).
+If you are using Vite, [this package](https://www.npmjs.com/package/vite-plugin-node-polyfills) provides straightforward instructions on installing the necessary polyfills.
+
+</Callout>
 
 The components in the app code below are rendered according to the scenarios above like so:
 
