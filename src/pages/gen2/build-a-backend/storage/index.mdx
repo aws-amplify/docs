@@ -1,0 +1,89 @@
+export const meta = {
+  title: 'Storage overview',
+  description:
+    'Learn how to set up and connect with storage.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+---
+title: Storage
+---
+
+## Configure storage resource
+
+Storage resources are defined in `resource` files within `amplify/storage/`:
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage } from '@aws-amplify/backend';
+
+export default defineStorage({
+  name: 'MyBucket',
+  encrypted: true,
+  versioned: true,
+});
+```
+
+## File access levels
+
+## CDN Hosting
+
+## Image transformation
+
+## Serving files from multiple S3 buckets
+
+Alternatively, you can create nested folders to create multiple storage resources with or without an associated trigger function:
+
+```text
+├── amplify/
+│   ├── storage/
+│   │   ├── photos/
+│   │   │   ├── resource.ts
+│   │   │   └── trigger.ts
+│   │   └── reports/
+│   │       └── resource.ts
+│   └── backend.ts
+└── package.json
+```
+
+## Triggers
+
+For example, the `photos` resource contains an associated `trigger`:
+
+```ts title="amplify/storage/photos.ts"
+import { defineStorage, defineFunction } from '@aws-amplify/backend';
+
+export default defineStorage({
+  name: 'MyPhotos', // creates amplify-<app-name>-<branch>-MyPhotos
+  trigger: defineFunction({
+    handler: './trigger.ts',
+    runtime: 'nodejs18.x',
+  }),
+});
+```
+
+```ts title="amplify/storage/trigger.ts"
+import type { S3Handler } from 'aws-lambda';
+
+export const handler: S3Handler = async (event) => {
+  console.log(JSON.stringify(event));
+  // ...
+};
+```
+
+:::note
+
+To use types from `aws-lambda`, install `@types/aws-lambda`:
+
+```bash title="Terminal"
+npm add -D @types/aws-lambda
+```
+
+:::

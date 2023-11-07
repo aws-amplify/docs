@@ -1,0 +1,104 @@
+export const meta = {
+  title: 'Project structure',
+  description:
+    'Learn more about the Amplify project structure.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+@TODO improve this, dive into each of the files, copy from xp doc
+
+In the simplest example an Amplify project that contains Authentication and Data will look like:
+
+```text
+├── amplify/
+│   ├── auth/
+│   │   └── resource.ts
+│   ├── data/
+│   │   └── resource.ts
+│   └── backend.ts
+└── package.json
+```
+
+In a larger example an Amplify project will look like:
+
+```text
+├── amplify/
+│   ├── auth/
+│   │   ├── custom-message/
+│   │   │   ├── public/
+│   │   │   │   ├── index.html
+│   │   │   │   └── styles.css
+│   │   │   ├── resource.ts
+│   │   │   ├── handler.ts
+│   │   │   └── package.json
+│   │   ├── post-confirmation.ts
+│   │   ├── pre-signup.ts
+│   │   └── resource.ts
+│   ├── custom/
+│   │   ├── Backup.ts
+│   │   ├── Queue.ts
+│   │   └── queue-processor.ts
+│   ├── data/
+│   │   ├── resolvers/
+│   │   │   ├── list-featured-posts.ts
+│   │   │   └── list-top-10-posts.ts
+│   │   ├── resource.ts
+│   │   └── schema.ts
+│   ├── jobs/
+│   │   ├── monthly-report/
+│   │   │   ├── handler.ts
+│   │   │   └── resource.ts
+│   │   ├── process-featured-posts/
+│   │   │   ├── handler.py
+│   │   │   ├── requirements.txt
+│   │   │   └── resource.ts
+│   │   └── store-top-10-posts/
+│   │       ├── handler.ts
+│   │       └── resource.ts
+│   ├── storage/
+│   │   ├── photos/
+│   │   │   ├── resource.ts
+│   │   │   └── trigger.ts
+│   │   └── reports/
+│   │       └── resource.ts
+│   └── backend.ts
+└── package.json
+```
+
+Backend resources are now defined in `resource` files using the `define*` helpers:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+});
+```
+
+After defining backend resources they are set on the backend:
+
+```ts title="amplify/backend.ts"
+import { Backend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+
+new Backend({
+  auth,
+  data,
+});
+```
+
+- `defineAuth`
+- `defineData`
+- `defineStorage`
+- `defineFunction`

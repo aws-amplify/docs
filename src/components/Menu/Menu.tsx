@@ -8,15 +8,21 @@ type MenuProps = {
   rootMenuNode: PageNode | undefined;
 };
 
+const invalidChildren = ["/[platform]/prev"];
+
 export function Menu({
   currentPlatform,
   rootMenuNode
 }: MenuProps): ReactElement {
+  let childrenNodes = rootMenuNode?.children?.filter((childNode) => {
+    return invalidChildren.indexOf(childNode.route) === -1;
+  });
+
   return (
     <nav className="menu">
       <ul className="menu__list">
-        {rootMenuNode?.children &&
-          rootMenuNode.children.map((child, index) => {
+        {childrenNodes &&
+          childrenNodes.map((child, index) => {
             return (
               <MenuItem
                 key={index}

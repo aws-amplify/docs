@@ -1,0 +1,47 @@
+export const meta = {
+  title: 'Manage user session and credentials',
+  description:
+    'Learn how to manage your user sessions and credentials.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+# Verifying user accounts
+
+If you decide to use a `username` and password` login method for your users, you also have to provide a method to enable your users to verify their account after they sign up.
+
+You can set up your verification to work either by having your users provide a code, or receive a link that they are redirected to for confirming their accounts.
+
+By default, your users can verify their accounts by passing a code. The following are the default verification methods used when either `phone` or `email` are used as `loginWith` options.
+
+| Login option        | User account verification channel |
+| ------------------- | --------------------------------- |
+| `phone`             | Phone Number                      |
+| `email`             | Email                             |
+| `email` and `phone` | Email                             |
+
+## Overriding the default user account verification channel
+
+You can always change the channel used by your authentication resources by overriding the following setting.
+
+```ts title="amplify/backend.ts"
+import { Backend } from '@aws-amplify/backend';
+import { AccountRecovery } from 'aws-cdk-lib/aws-cognito';
+import { auth } from './auth';
+import { data } from './data';
+
+const backend = new Backend({
+  auth,
+  data,
+});
+
+backend.resources.auth.resources.userPool.accountRecovery =
+  AccountRecovery.EMAIL_ONLY;
+```

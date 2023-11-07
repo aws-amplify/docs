@@ -14,10 +14,14 @@ let routerMock = {
 jest.mock('next/router', () => routerMock);
 
 describe('InlineFilter', () => {
-  const inlineContent = "Inline Content"
+  const inlineContent = 'Inline Content';
 
   it('should render the InlineFilter component', async () => {
-    render(<InlineFilter filters={["all"]}>{<span>{inlineContent}</span>}</InlineFilter>);
+    render(
+      <InlineFilter filters={['all']}>
+        {<span>{inlineContent}</span>}
+      </InlineFilter>
+    );
 
     const inlineFilterNode = await screen.findByText(inlineContent);
     expect(inlineFilterNode).toBeInTheDocument();
@@ -27,12 +31,16 @@ describe('InlineFilter', () => {
     routerMock.useRouter = () => {
       return {
         query: {
-          platform: "react-native"
+          platform: 'react-native'
         }
       };
     };
 
-    render(<InlineFilter filters={["js", "react-native"]}><span>{inlineContent}</span></InlineFilter>)
+    render(
+      <InlineFilter filters={['javascript', 'react-native']}>
+        <span>{inlineContent}</span>
+      </InlineFilter>
+    );
 
     const inlineFilterNode = await screen.findByText(inlineContent);
     expect(inlineFilterNode).toBeInTheDocument();
@@ -42,12 +50,16 @@ describe('InlineFilter', () => {
     routerMock.useRouter = () => {
       return {
         query: {
-          platform: "android"
+          platform: 'android'
         }
       };
     };
 
-    render(<InlineFilter filters={["js", "react-native"]}><span>{inlineContent}</span></InlineFilter>)
+    render(
+      <InlineFilter filters={['javascript', 'react-native']}>
+        <span>{inlineContent}</span>
+      </InlineFilter>
+    );
 
     await expect(screen.findByText(inlineContent)).rejects.toThrow();
   });
@@ -56,12 +68,16 @@ describe('InlineFilter', () => {
     routerMock.useRouter = () => {
       return {
         query: {
-          platform: "js"
+          platform: 'js'
         }
       };
     };
 
-    const { container } = render(<InlineFilter filters={[]}><span>{inlineContent}</span></InlineFilter>)
-    expect(container).toBeEmptyDOMElement()
-  })
+    const { container } = render(
+      <InlineFilter filters={[]}>
+        <span>{inlineContent}</span>
+      </InlineFilter>
+    );
+    expect(container).toBeEmptyDOMElement();
+  });
 });

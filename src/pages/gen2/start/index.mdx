@@ -1,25 +1,26 @@
 export const meta = {
-  title: 'Getting Started',
-  description: 'Learn how to get started with AWS Amplify (Gen 2)'
+  title: 'Getting started',
+  description: 'Learn how to get started with AWS Amplify (Gen 2).'
 };
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
 
 ## Installation
 
 Open your existing project or create a new one:
 
-<NodePackageManagerTabs
-  npm={`npm create next-app -- my-app --typescript\ncd my-app`}
-  yarn={`yarn create next-app my-app --typescript\ncd my-app`}
-  pnpm={`pnpm create next-app my-app --typescript\ncd my-app`}
-/>
+npm={`npm create next-app -- my-app --typescript\ncd my-app`} yarn={`yarn create next-app my-app --typescript\ncd my-app`} pnpm={`pnpm create next-app my-app --typescript\ncd my-app`}
 
 The easiest way to get started with AWS Amplify is through [npm](https://npmjs.com) with [`create-amplify`](https://www.npmjs.com/package/create-amplify)
 
-<NodePackageManagerTabs
-  npm="npm create amplify"
-  yarn="yarn create amplify"
-  pnpm="pnpm create amplify"
-/>
+npm="npm create amplify" yarn="yarn create amplify" pnpm="pnpm create amplify"
 
 You can run this command from within your existing project with little to no disturbances. It will scaffold a lightweight Amplify project with the following files:
 
@@ -40,11 +41,7 @@ You can run this command from within your existing project with little to no dis
 
 Once scaffolded, you're ready to create your first cloud sandbox. Amplify gives every developer a personal cloud sandbox where they can test changes rapidly using live AWS services. Sandbox should not be used for production applications. To use Amplify's [Sandbox mode](http://localhost:3000#fix-me), run the following command:
 
-<NodePackageManagerTabs
-  npm="npx amplify sandbox"
-  yarn="yarn amplify sandbox"
-  pnpm="pnpm amplify sandbox"
-/>
+npm="npx amplify sandbox" yarn="yarn amplify sandbox" pnpm="pnpm amplify sandbox"
 
 Try making a change to your data model and hit save. Changes are deployed in seconds.
 
@@ -97,11 +94,7 @@ defineBackend({
 
 First, install the Amplify UI component library:
 
-<NodePackageManagerTabs
-  npm="npm add @aws-amplify/ui-react"
-  yarn="yarn add @aws-amplify/ui-react"
-  pnpm="pnpm add @aws-amplify/ui-react"
-/>
+npm="npm add @aws-amplify/ui-react" yarn="yarn add @aws-amplify/ui-react" pnpm="pnpm add @aws-amplify/ui-react"
 
 Next, in your app's entry point (e.g. `pages/_app.ts`, etc.), add the following imports and wrap your App in the `withAuthenticator` function:
 
@@ -220,7 +213,7 @@ If you already have your project remotely hosted in a git repository, you can sk
 
 Amplify supports the following git providers:
 
-- GitHub: `gh repo create`
+- Github: `gh repo create`
 - CodeCatalyst: `something`
 - CodeCommit: `something`
 - Gitlab: `something`
@@ -228,10 +221,10 @@ Amplify supports the following git providers:
 
 ### Connect repo to Amplify Console
 
-![d](/images/gen2/console1.jpg)
+[TODO fix]: # ( ![Amplify Console view for choosing a git provider] (/images/gen2/console1.jpg))
 
 ### Manage your app
 
-![d](/images/gen2/console2.png)
+[TODO fix]: # ( ![Amplify Console view for git-based deployments showcasing build status and backend resources] (/images/gen2/console2.png)])
 
-![d](/images/gen2/console3.png)
+[TODO fix]: # (![Amplify Console view for backend data resource's content management system] (/images/gen2/console3.png)])

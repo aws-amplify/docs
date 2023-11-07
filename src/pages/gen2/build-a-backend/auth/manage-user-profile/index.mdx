@@ -1,0 +1,70 @@
+export const meta = {
+  title: 'Manage user profiles',
+  description:
+    'Learn how to manage user profiles.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+# User attributes
+
+For building a user profile for your users you can add OIDC standard user attributes using the `amplify/auth/resource.ts` file.
+
+## Adding user attributes
+
+The following is an example on how to add a user attribute to your authentication resources.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  // highlight-start
+  userAttributes: {
+    birthdate: {
+      required: false,
+      immutable: true,
+    },
+  },
+  // highlight-end
+});
+```
+
+By default, any attributes that you add to your `amplify/auth/resource.ts` file are set to not required and mutable. You can change this behavior by overriding it as shown in the following example.
+
+```ts title="amplify/auth/resource.ts"
+import { Auth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  // highlight-start
+  userAttributes: {
+    // require the attribute be provided during sign-up
+    given_name: {
+      required: true,
+    },
+    // do not allow changing of an attribute's value
+    middle_name: {
+      immutable: true,
+    },
+  },
+  // highlight-end
+});
+```
+
+## Zero config with the Authenticator
+
+[Link](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#sign-up-attributes)
+
+## Custom code with the JS Library API

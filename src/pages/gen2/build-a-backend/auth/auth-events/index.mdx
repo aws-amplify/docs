@@ -1,0 +1,40 @@
+export const meta = {
+  title: 'Listen to auth events',
+  description:
+    'Learn how to listen to auth events.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+# Lambda triggers and handling auth events
+
+You can use Lambda triggers from different events from Cognito to adjust the behavior of your Auth flows.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth, defineFunction } from '@aws-amplify/backend';
+
+const preSignUp = defineFunction({
+  path: './pre-sign-up.ts',
+});
+
+const postConfirmation = defineFunction({
+  path: './post-confirmation.ts',
+});
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  triggers: {
+    preSignUp,
+    postConfirmation,
+  },
+});
+```

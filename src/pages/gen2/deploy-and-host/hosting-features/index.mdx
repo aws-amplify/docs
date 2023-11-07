@@ -1,0 +1,46 @@
+export const meta = {
+  title: 'Hosting features',
+  description:
+    'Learn about the features available to deploy and host your app.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+---
+title: Hosting
+---
+
+Amplify Hosting provides a git-based workflow for hosting fullstack serverless web apps with continuous deployment. This user guide provides the information you need to get started with Amplify Hosting.
+
+
+## Features
+
+Amplify Hosting supports the common SPA frameworks, for example, React, Angular, Vue.js, Ionic, and Ember, as well as static site generators like Gatsby, Eleventy, Hugo, VuePress, and Jekyll.
+
+Manage production and staging environments for your frontend and backend by connecting new branches. See, feature branch deployments.
+
+Connect your application to a custom domain. See, set up custom domains.
+
+Deploy and host SSR web apps created using the Next.js. framework.
+
+Preview changes during code reviews by setting up pull request previews.
+
+Improve your app quality with end to end tests. See, end-to-end testing.
+
+Password protect your web app so you can work on new features without making them publicly accessible. See, restricting access.
+
+Set up rewrites and redirects to maintain SEO rankings and route traffic based on your client app requirements. See, using redirects.
+
+Instant cache invalidations ensure your app is updated instantly on every code commit.
+
+Atomic deployments eliminate maintenance windows by ensuring that the web app is updated only after the entire deployment finishes. This eliminates scenarios where files fail to upload properly.
+
+Getting started with Amplify Hosting
+To get started with Amplify's hosting features, see the Getting started with existing code tutorial. After completing the tutorial, you will be able to connect your git repository (GitHub, BitBucket Cloud, GitLab, and AWS CodeCommit) to set up continuous deployment. Alternatively, you can get started with one of the fullstack continuous deployment samples.

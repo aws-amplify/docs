@@ -1,0 +1,50 @@
+export const meta = {
+  title: 'Subscribe to real time events',
+  description:
+    'Learn how to subscribe to real time events.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+# Customize real-time subscriptions
+
+### Change subscription access-level
+By default, real-time updates are on for all `a.model()`, which means customers receive real-time updates if their authorization rules allows it. You can also turn off subscriptions for that model or make the real-time updates public, receivable by all subscribers.
+
+```ts
+export const schema = a.schema({
+  Todo: a.model({
+    content: a.string()
+  }).subscriptionAccessLevel("off") // Allowed values are "on" (default), "public", "off"
+})
+```
+
+> Note: If the access level is set to "off", then the client code won't have `onCreate`, `onUpdate`, `onDelete`, or `observeQuery` operations on the model. For example, with the above schema, this is not valid.
+
+```ts
+client.models.Todo.onCreate() // <-- NOT VALID
+```
+
+
+### Rename generated queries, mutations, and subscriptions
+
+You can override the names of any `a.model(...)`'s underlying GraphQL queries, mutations, and subscriptions by supplying the desired name. TK: This does not affect your TypeScript's client code but is a helpful syntactic sugar for non-TypeScript clients that rely on GraphQL code generation.
+
+```ts
+export const schema = a.schema({
+  Todo: a.model({
+    content: a.string()
+  }).renameOperations({
+    "onCreate": "onAdd",
+    "onUpdate": "onModified"
+    "onDelete": "onRemove"
+  })
+})
+```

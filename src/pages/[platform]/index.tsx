@@ -54,7 +54,7 @@ const PlatformOverview = ({ platform }) => {
           libraries, CLI, and services, you can easily connect your frontend to
           the cloud for authentication, storage, APIs, and more.
         </Text>
-        <Flex className="home-intro__cta">
+        <Flex className="home-cta">
           <Link
             href={{
               pathname: '/[platform]/how-amplify-works',

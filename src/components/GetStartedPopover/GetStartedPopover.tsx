@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import classNames from 'classnames';
 import { Button, Flex, VisuallyHidden, View } from '@aws-amplify/ui-react';
 import Link from 'next/link';
@@ -14,57 +14,86 @@ import {
   IconVue
 } from '@/components/Icons';
 import { useClickOutside } from '@/utils/useClickOutside';
-import { DEFAULT_PLATFORM } from '@/data/platforms';
+import { DEFAULT_PLATFORM, Platform } from '@/data/platforms';
+
+const getStartedHref = '/[platform]/start/getting-started/introduction/';
 
 const getStartedLinks = [
   {
     title: 'JavaScript',
-    href: '/javascript/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'javascript' }
+    },
     icon: <IconJS />
   },
   {
     title: 'React',
-    href: '/react/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'react' }
+    },
     icon: <IconReact />
   },
   {
     title: 'Flutter',
-    href: '/flutter/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'flutter' }
+    },
     icon: <IconFlutter />
   },
   {
     title: 'Swift',
-    href: '/swift/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'swift' }
+    },
     icon: <IconSwift />
   },
   {
     title: 'Android',
-    href: '/android/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'android' }
+    },
     icon: <IconAndroid />
   },
   {
     title: 'React Native',
-    href: '/react-native/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'react-native' }
+    },
     icon: <IconReact />
   },
   {
     title: 'Angular',
-    href: '/angular/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'angular' }
+    },
     icon: <IconAngular />
   },
   {
     title: 'Next.js',
-    href: '/nextjs/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'nextjs' }
+    },
     icon: <IconNext />
   },
   {
     title: 'Vue',
-    href: '/vue/get-started',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'vue' }
+    },
     icon: <IconVue />
   }
 ];
 
-export const GetStartedPopover = ({}) => {
+export const GetStartedPopover = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -83,11 +112,21 @@ export const GetStartedPopover = ({}) => {
     }
   }, [expanded]);
 
+  const handleBlur = useCallback(
+    (e) => {
+      // Use relatedTarget to see if the target receiving focus is outside of the popover
+      if (contentRef.current && !contentRef.current.contains(e.relatedTarget)) {
+        setExpanded(false);
+      }
+    },
+    [contentRef]
+  );
+
   return (
     <Flex className="split-button">
       <Link
         href={{
-          pathname: '/[platform]/get-started',
+          pathname: '/[platform]/start/getting-started/introduction/',
           query: { platform: DEFAULT_PLATFORM }
         }}
       >
@@ -121,6 +160,7 @@ export const GetStartedPopover = ({}) => {
           as="nav"
           tabIndex={0}
           ref={contentRef}
+          onBlur={handleBlur}
           aria-label="Getting started guides for other platforms"
         >
           <ul className="popover-list">

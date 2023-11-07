@@ -37,13 +37,15 @@ We have re-imagined local fullstack development with per-developer cloud sandbox
 
 With Gen 2, all shared environments (e.g. `production`, `staging`, `gamma`) map 1:1 to Git branches in your repository. New features can be tested in ephemeral environments by deploying pull requests as PR previews (or feature branches) before they are merged into production. Unlike the Gen1 experience that requires customers to configure a number of steps in the CLI and Console to set up fullstack environment, the Gen2 experience is zero-config. Because of our code-first approach, the Git repository is always the source of truth for the state of the fullstack app - all backend resources are defined as code for reproducibility and portability across branches. This along with central management of environment variables and secrets simplifies the promotion workflow from lower to upper environments.
 
-TODO: INSERT DIAGRAM
+![How fullstack CICD work.](/images/gen2/how-amplify-works/fullstackcicd.png)
 
 ### Unified management console
 
 All branches can be managed in our new Amplify console. The Gen 2 Amplify console consolidates the console experiences across Studio and Hosting, providing a single place for customers to manage their builds, hosting settings (e.g. custom domains), deployed resources (e.g. data browser or user management), and environment variables/secrets. Even though customers can access deployed resources directly in other AWS service consoles, the Amplify console will offer a first party experience for the core categories (e.g. Data, Auth, Storage, Functions) that offer experiences developers building apps need. For example with Data, we offer an API playground and a data manager (coming soon) that offers relationship building, seed data generation, file upload capabilities.
 
-TODO: INSERT GIF
+<video autoPlay={true} muted={true} loop={true} width="100%">
+  <source src="/images/gen2/how-amplify-works/console.mp4" />
+</video>
 
 ## Build an app
 
@@ -198,7 +200,7 @@ const backend = new Backend({
 });
 
 new LocationMapStack(
-  backend.getOrCreateStack('LocationMapStack'),
+  backend.getStack('LocationMapStack'),
   'myLocationResource',
   {}
 );
@@ -209,7 +211,3 @@ new LocationMapStack(
 Just like in Gen 1, Amplify is designed to work with your existing AWS resources and configurations. For example, you can use Amplify's pre-built authentication UI components with an existing Amazon Cognito user pool you created and configured separately. Or you can display images and files from an existing S3 bucket in your app's user interface by integrating with Amplify Storage.
 
 Amplify's libraries provide an interface to leverage your existing AWS services so that you can adopt Amplify's capabilities incrementally into your current workflows, without disrupting your existing backend infrastructure.
-
-## Support matrix
-
-TODO

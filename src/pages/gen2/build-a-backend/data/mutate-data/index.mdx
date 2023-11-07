@@ -1,0 +1,419 @@
+export const meta = {
+  title: 'Create, update, and delete application data',
+  description:
+    'Learn how to mutate application data.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+# Read and write real-time data
+
+## Configure the API client code
+
+### Use with Amplify Data
+You can get a client using the defined schema and get type-safe CRUDL operations to talk to your backend database in your Node.js app.
+
+> Need to call your backend outside of Node.js like Android, iOS, or Flutter? Review [Client Configuration Generation].
+
+Try listing all the todos by executing the following query:
+```ts
+import type { Schema } from '../backend/schema'
+import { generateClient } from '@aws-amplify/data'
+
+const client = generateClient<Schema>()
+
+const { errors, data: todos } = await client.models.Todo.list()
+
+todos.map(todo => {
+  console.log(todo.id, todo.content)
+})
+```
+
+### Use with an existing AppSync API
+
+To use the API client with an existing AppSync API, make sure to pass in these required fields to your Amplify configuration:
+```ts
+import { Amplify } from 'aws-amplify'
+import { generateClient } from 'aws-amplify/data'
+
+Amplify.configure({
+  // Required AppSync endpoint information
+  aws_appsync_graphqlEndpoint: 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+
+  // REQUIRED to configure one of the AppSync authentication modes
+  // Authentication via API key
+  aws_appsync_authenticationType: 'API_KEY',
+  aws_appsync_apiKey: 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx',
+  // Authentication via IAM
+  aws_appsync_authenticationType: 'AWS_IAM',
+  // Authentication via Cognito user pool
+  aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
+  // Authentication via OpenID Connect
+  aws_appsync_authenticationType: 'OPENID_CONNECT' // Before calling API.graphql(...) is required to do Auth.federatedSignIn(...) check authentication guide for details.
+})
+
+const client = generateClient()
+
+const res = await client.graphql({
+  document: gql`...`
+})
+
+```
+
+## Create a new record
+
+Use the client to create a new record.
+
+```ts
+const { errors, data: newTodo } = await client.models.Todo.create({
+  content: "My new todo",
+  done: true,
+})
+```
+
+> Note: the client enforces the type immediately based on the backend definition.
+
+## Update a record
+
+To update a record you can either provide a partial record in which the identifier fields are required.
+
+```ts
+type Todo = Schema["Todo"]
+
+const todo: Partial<Todo> = { // TK do we need a special type here with the ID?
+  id: "123123213", // <-- a record already available in the database with this ID
+  content: "My updated todo", // <-- changed from "new" to "updated"
+  // done: true <-- given that "done" field doesn't need to be updated, you can omit it
+}
+
+const { data: updatedTodo, errors } = await client.models.Todo.update(todo)
+```
+
+## Delete a record
+
+To delete a record, you have to provide at least an object with the identifier.
+```ts
+const toBeDeletedTodo = {
+  id: "123123213"
+}
+
+const { data: deletedTodo, errors } = await client.models.Todo.delete(toBeDeletedTodo)
+```
+
+## Real-time observe your table
+The recommended way to fetch a list of data is to use observe query to get a real-time list of your app data at all times:
+
+```ts
+type Todo = Schema["Todo"]
+const [todos, setTodos] = useState<Todo[]>([])
+
+useEffect(() => {
+  const sub = client.models.Todo.observeQuery().subscribe({ items, errors } => setTodos(data.items))
+  return () => sub.unsubscribe()
+})
+```
+
+Customers can also pass in an initial list of values that they could fetch server-side or from local storage:
+
+```ts
+type Todo = Schema["Todo"]
+const [todos, setTodos] = useState<Todo[]>([])
+
+useEffect(() => {
+  const sub = client.models.Todo.observeQuery({
+    initialValues: [{ content: 'my todo', isDone: true}] // <-- this can be pre-loaded via an SSR call or from any other data source
+  }).subscribe({ items, errors } => setTodos(items))
+  return () => sub.unsubscribe()
+})
+```
+
+```ts
+TK <---
+```
+
+### How subscription filters are applied
+You can filter the subscriptions server-side by passing a filter expression. For example: If you want to subscribe to tasks of type `Security` and priority greater than `5`, you can set the `filter` argument accordingly. If you want to get all subscription events, don’t pass any `filter` parameters.
+
+## List records
+If you just want to fetch a list of your data without setting up a real-time subscription, then you can use the `list()` operation.
+
+```ts
+const [todos, errors] = await client.models.Todo.list()
+```
+
+> Note: the returned todos' types are auto-inferred.
+
+## Filter records
+To filter your data with list or observeQuery, you can pass in a "filter" property.
+
+```ts
+client.models.Todo.list({ // list() or observeQuery() is valid here
+  filter: {
+    content: {
+      startsWith: "hello"
+    }
+  }
+})
+```
+
+> Note: `filter` is a typed object, so customers can progressively use code completion to ensure they're passing a valid filter. It also takes into account the limitations on identifiers into account.
+
+## Paginate through records
+
+Every observeQuery and list API accepts a `limit` and `nextToken` to help paginate through the list. Store the returned `nextToken` and pass it in to subsequent queries as you fetch for more data. TK what are some limits on observeQuery here?
+
+```ts
+const { data: todos, nextToken, errors } = await client.models.Todo.list({
+  limit: 100, // default value is 100
+  nextToken: "eyJ2ZXJzaW9uejE1a2..." // previous nextToken
+})
+```
+
+If you're building a React application, you can use Amplify UI's `usePagination` hook to help with managing the pagination user experience.
+
+```js
+import * as React from 'react';
+import { Pagination } from '@aws-amplify/ui-react';
+
+export const PaginationHasMorePagesExample = () => {
+  const [pageTokens, setPageTokens] = React.useState([null]);
+  const [currentPageIndex, setCurrentPageIndex] = React.useState(1);
+  const [hasMorePages, setHasMorePages] = React.useState(true);
+
+  const handleNextPage = async () => {
+    if (hasMorePages && currentPageIndex === pageTokens.length) {
+      const { data: todos, nextToken } = await client.models.Todo.list({
+        nextToken: pageTokens[pageTokens.length - 1]
+      });
+
+      if (!nextToken) {
+        setHasMorePages(false);
+      }
+
+      setPageTokens([...pageTokens, nextToken]);
+    }
+
+    setCurrentPageIndex(currentPageIndex + 1);
+  };
+
+  return (
+    <Pagination
+      currentPage={currentPageIndex}
+      totalPages={pageTokens.length}
+      hasMorePages={hasMorePages}
+      onNext={handleNextPage}
+      onPrevious={() => setCurrentPageIndex(currentPageIndex - 1)}
+      onChange={(pageIndex) => setCurrentPageIndex(pageIndex)}
+    />
+  );
+};
+```
+
+## Get a record
+Use the `get` operation to get a specific record, you're required to pass in the identifier of the record. In the most basic case, you can just pass in an `{ id: "..." }` object. If you use multiple fields as your identifier, then you need to provide them in the parameters.
+
+```ts
+const { data: inventory, errors } = await client.models.Inventory.get({
+  productId: "...",
+  warehouseId: "..."
+})
+```
+
+## Subscribe to real-time updates
+If you just want to subscribe to specific events like create, update, or delete on your data models, then you can use the `onCreate`, `onUpdate`, or `onDelete` operation to receive specific events there. You can pass in the same filters as with list or observeQuery.
+
+```ts
+client.models.Todo.onCreate().subscribe(({ value }) => {
+  console.log(value)
+})
+```
+
+> Note: value is fully-typed but TK on the exact shape (ideally it should be what we have today)
+
+To apply a filter, pass it into the `on*()` operations as such:
+```ts
+client.models.Todo.onCreate({
+  filter: {
+    id: {
+      eq: "123123"
+    }
+  }
+}).subscribe(({ value }) => {
+  console.log(value)
+})
+```
+
+## Explicity get TypeScript type definitions for data models
+When working with `useState` for example, you need to provide a type in TypeScript to ensure type-safety for the rest of your component code that uses the state. Use the `Schema["MODEL_NAME"]` pattern to get consumable TypeScript types for the shapes of the data model return values coming from the backend API.
+
+```ts
+type Post = Schema["Post"];
+
+const [posts, setPosts] = useState<Post[]>([]);
+```
+
+## Fetch only what you need using custom selection set
+While a modeled business domain may contain a lot of models with a lot of fields, its usage in apps typically requires only subsets of data or fields to fulfill the data requirements of the different components or screens. It is necessary to offer a mechanism to retrieve subsets of models and its relationships. Having such a mechanism would help with the data requirements of screens/components in an optimal way (only used data will be transferred), improving the app's data usage, the latency and its end-user's perceived performance.
+
+Custom Selection Set allows consumers to specify on a per-call basis the fields the consumer wishes to retrieve, this is possible for all operations that return data (CRUDL + observeQuery). The desired fields are specified in a strongly-typed way (discoverable via intellisense) with a "dot notation".
+
+```ts
+// same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
+const { data: subSelection, errors } = await client.models.Blog.get(
+    'myBlogId',
+    { select: ['author.email', 'publication.company.location.city', 'content.*'] },
+);
+```
+
+## Conditionally write data to database
+In some cases to ensure data integrity, you'd want to only write data to the database when a set of conditions are met about the existing data in the database. For any `.create`, `.update`, and `.delete` operations, you can pass in a secondary `condition` parameter to achieve this.
+
+```ts
+const { data: newTodo, errors } = await client.models.Todo.update({
+  content: "My new todo",
+  done: true,
+}, {
+  condition: {
+    content: {
+      contains: "hello"
+    }
+  }
+})
+```
+
+## Set authentication mode
+By default, the API client will always be using the default authorization mode configured on your backend. Though for some use cases, where you have multiple authentication modes, you'd want to specifically choose which authentication mode should be used for a request.
+
+### Configure an authentication mode for an API request
+If you want to explicitly specify the authentication mode for an API request that's not your default authentication mode, then set the `authMode` parameter on your API request
+```ts
+
+import type { Schema } from '../backend/schema'
+import { generateClient } from '@aws-amplify/data'
+
+// Assuming the default authentication mode is API key
+const client = generateClient<Schema>()
+
+// Explicitly override the authentication mode used for this request
+const { data: todos, errors } = await client.models.Todo.list({
+  authMode: 'AWS_LAMBDA'
+  authToken: 'my-auth-token'
+})
+```
+
+### Generate API clients with different authentication modes
+For example, you can use one for all publicly accessible data that's authenticated via an API key and another one for authenticated requests.
+```ts
+import type { Schema } from '../backend/schema'
+import { generateClient } from '@aws-amplify/data'
+
+const unauthenticatedClient = generateClient<Schema>({
+  authMode: 'API_KEY'
+})
+
+// All news items are publicly readable
+const { data: newsFeed, nextToken, errors } = await unauthenticatedClient.models.News.list()
+
+const authenticatedClient = generateClient<Schema>({
+  authMode: 'AMAZON_COGNITO_USER_POOLS'
+})
+
+// Todo items uses owner-based authorization rule that assigns
+// newly created todos to the authenticated user.
+const createdTodo = await authenticatedClient.models.Todo.create({
+  content: "My new Todo"
+})
+```
+
+## Set custom headers on requests
+
+To set a custom header for your requests, pass in the headers attribute as part of your request configuration object:
+
+```ts
+// same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
+const res = await client.models.Blog.get(
+    'myBlogId',
+    {
+      headers: {
+        'My-Custom-Header': 'my value'
+      }
+    },
+);
+
+const graphQLres = await client.graphql({
+  document: gql`...`,
+  headers: {
+    'My-Custom-Header': 'my value'
+  }
+})
+```
+
+> Note: All headers are set here are additive to the existing headers that Amplify will apply under the hood to ensure authentication and authorization work out-of-the-box.
+
+You can also fetch your headers programmatically for every request made on a client level or across the entire app to reduce repetitive code:
+
+```ts
+import type { Schema } from '../backend/schema'
+import { generateClient } from '@aws-amplify/data'
+
+const client = generateClient<Schema>({
+  headers: async (requestOptions) => {
+    console.log(requestOptions)
+    /* The request options allow you to customize your headers based on the request options such
+       as http method, headers, request URI, and query string. These options are typically used
+       to create a request signature.
+       TK Ivan: is there something standardized from fetch we can forward here?
+    {
+      method: '...',
+      headers: { },
+      uri: '/',
+      queryString: ""
+    }
+    */
+    return {
+      'My-Custom-Header': 'my value'
+    }
+  }
+})
+```
+
+```ts
+import { Amplify } from 'aws-amplify'
+
+Amplify.configure({
+  API: {
+    graphql_headers: async (requestOptions) => ({
+      'My-Custom-Header': 'my value'
+    })
+  }
+})
+```
+
+## Cancel an API request
+Every operation from the `client` returns a promise that you can cancel via `client.cancel()`. TK verify this with Manuel. Is there a way to built this into the returned Promise?
+
+```ts
+const promise = client.models.Todo.list()
+
+try {
+  await promise;
+} catch (error) {
+  console.log(error);
+  // If the error is because the request was cancelled you can confirm here.
+  if (client.isCancel(error)) {
+    console.log(error.message); // "my message for cancellation"
+    // handle user cancellation logic
+  }
+}
+
+// To cancel the above request
+client.cancel(promise, "my message for cancellation");
+```

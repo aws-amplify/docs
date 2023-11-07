@@ -1,0 +1,84 @@
+export const meta = {
+  title: 'Manage MFA settings',
+  description:
+    'Learn how to enable and manage MFA settings.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+# Manage MFA settings
+
+Using Amplify, you can set up your MFA settings for your auth resources.
+
+For MFA, you have the following options that you can enable for your users:
+
+- `phone`. If you turn on phone as an MFA factor, you would need to have added it as a user attribute or a login method.
+- `totp`
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  userAttributes: {
+    // required for `email` login
+    email: {
+      required: true,
+    },
+    // optionally capture phone number for MFA
+    phoneNumber: {
+      required: false,
+    },
+  },
+  multifactor: {
+    mode: 'optional',
+    totp: true,
+    sms: {
+      message: (code) => `your MFA code is ${code}`,
+    },
+  },
+});
+```
+
+## Scenarios to consider for MFA depending on your user attributes
+
+When setting up your MFA settings, you should consider the below scenarios.
+
+### MFA accepts the use of `sms`
+
+Your auth resource will need to have the `phone` as an attribute, otherwise the type system will scream at you.
+
+# Remember device
+
+This feature enables developers to have more granular tracking on user devices, and also enables developer to have users “remember” their device to skip getting the MFA challenge from Cognito. By default, this feature is turned off.
+
+```ts title="amplify/backend.ts"
+import { Backend } from '@aws-amplify/backend';
+import { auth } from './auth';
+import { data } from './data';
+
+const backend = new Backend({
+  auth,
+  data,
+});
+
+const { deviceTracking } = backend.resources.auth.resources.userPool;
+
+deviceTracking.challengeRequiredOnNewDevice = true;
+deviceTracking.deviceOnlyRememberOnUserPrompt = true;
+```
+
+## JS library API
+
+1. [Remember device](https://docs.amplify.aws/lib/auth/device_features/q/platform/js/#remember-device)
+2. [Forget device](https://docs.amplify.aws/lib/auth/device_features/q/platform/js/#forget-device)
+3. [Fetch devices](https://docs.amplify.aws/lib/auth/device_features/q/platform/js/#fetch-devices)

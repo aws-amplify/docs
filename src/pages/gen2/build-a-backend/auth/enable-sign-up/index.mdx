@@ -1,0 +1,119 @@
+export const meta = {
+  title: 'Customize sign-in',
+  description:
+    'Learn how to enable and customize sign-up, sign-in, and sign-out.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+Using the `amplify/auth/resource.ts` file, you can enable your users to sign up to your application using a username and password.
+
+## Backend configuration
+
+Using the `amplify/auth/resource.ts` file, you can enable your users to sign up either by using a `phone` or `email`.
+
+:::note Deciding on your username and password options
+
+you cannot change these values of your login mechanisms after creating your backend resources.
+
+:::
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+});
+```
+
+:::note email and phone as user attributes
+
+If you add `phone` or `email` as options for your users to login, they will also be available as attributes for your user profiles in your backend.
+
+:::
+
+## Authenticator code
+
+[Link](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#sign-up-attributes)
+
+## Custom code
+
+As part of the example in this guide, we have defined our Auth resource to enable the use of `email` for login.
+
+Enabling a sign up of a user would be possible with using a `username` and `password` attributes on the `signIn` API.
+
+```ts title="amplify/auth/resource.ts"
+//need to provide v6 code snippets
+import { Auth } from 'aws-amplify';
+
+try {
+  const { user } = await Auth.signUp({
+    username,
+    password,
+  });
+} catch (error) {
+  console.log('error signing up:', error);
+}
+```
+
+# Guest access
+
+Guest access is enabled by default for your Amplify Auth resources. You can change this default behavior by using the following example.
+
+```ts title="amplify/backend.ts"
+import { Backend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+
+const backend = new Backend({
+  auth,
+  data,
+});
+
+backend.resources.auth.resources.cfnResources.identityPool.allowUnauthenticatedIdentities =
+  false;
+```
+
+# Password Format
+
+Using password policy in your `amplify/auth/resource.ts` file, you can customize the format acceptable by your auth backend. By default your password policy is set to the following:
+
+- `MinLength`: 8 characters
+- `requireLowercase`: true
+- `requireUppercase`: true
+- `requireDigits`: true
+- `tempPasswordValidity`: 3 days
+
+```ts title="amplify/auth/resource.ts"
+//TODO: Maybe we should just remove this from the CDK props and TS layer. Need to discuss this more.
+// TODO: this does not work
+import { defineAuth } from '@aws-amplify/backend';
+import { Duration } from 'aws-cdk-lib';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  // override: {
+  //   userPool: {
+  //     passwordPolicy: {
+  //       minLength: 8,
+  //       requireLowercase: true,
+  //       requireUppercase: true,
+  //       requireDigits: true,
+  //       requireSymbols: true,
+  //       adminCreatedPasswordValidity: Duration.days(3),
+  //     },
+  //   },
+  // },
+});
+```

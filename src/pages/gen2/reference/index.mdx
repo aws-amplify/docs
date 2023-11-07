@@ -1,0 +1,115 @@
+export const meta = {
+  title: 'Reference overview',
+  description:
+    'Overview of available references.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+
+---
+title: Naming Conventions
+---
+
+## Stack Names
+
+### Branch
+
+The stack name for all environments follows the pattern:
+
+```
+amplify-{appName}-{disambiguator}-{branchName}
+```
+
+In the case of Amplify branch environments, this maps to:
+
+```
+amplify-{appName}-{appId}-{branchName}
+```
+
+### Sandbox
+
+For sandbox environments this maps to:
+
+```
+amplify-{package.json#name}-{$(whoami) | "name" arg}-sandbox
+```
+
+When running `amplify sandbox` the `package.json#name` is loaded from disc and `$(whoami)` will execute on the local machine to construct the stack name.
+
+$(whoami) is likely to be unique for developers working on a given project, but if not, an optional argument is available for developers to avoid collisions:
+
+```bash
+amplify sandbox --name something
+```
+
+Running this command would deploy a stack named
+
+```
+amplify-{package.json#name}-something-sandbox
+```
+
+If you are using a named sandbox, create a local alias to prevent having to type the arg all the time:
+
+```
+alias amplify-sandbox='npx amplify sandbox --name something'
+```
+
+## Files
+
+# Naming convention
+
+## Stack Names
+
+### Branch
+
+The stack name for all environments follows the pattern:
+
+```
+amplify-{appName}-{disambiguator}-{branchName}
+```
+
+In the case of Amplify branch environments, this maps to:
+
+```
+amplify-{appName}-{appId}-{branchName}
+```
+
+### Sandbox
+
+For sandbox environments this maps to:
+
+```
+amplify-{package.json#name}-{$(whoami) | "name" arg}-sandbox
+```
+
+
+When running `amplify sandbox` the `package.json#name` is loaded from disc and `$(whoami)` will execute on the local machine to construct the stack name.
+
+$(whoami) is likely to be unique for developers working on a given project, but if not, an optional argument is available for developers to avoid collisions:
+
+```bash
+amplify sandbox --name something
+```
+
+Running this command would deploy a stack named
+
+```
+amplify-{package.json#name}-something-sandbox
+```
+
+If you are using a named sandbox, create a local alias to prevent having to type the arg all the time:
+
+```
+alias amplify-sandbox='npx amplify sandbox --name something'
+```
+
+
+## Files 
