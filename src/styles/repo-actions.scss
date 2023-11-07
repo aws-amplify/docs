@@ -1,0 +1,16 @@
+.repo-actions {
+  &-link {
+    align-items: center;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  img {
+    position: relative;
+    top: 0.0625rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+  }
+}
