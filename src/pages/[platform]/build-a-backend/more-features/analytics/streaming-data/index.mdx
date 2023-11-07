@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Streaming analytics data',
-  description: 'The Amazon Kinesis analytics provider allows you to send analytics data to an Amazon Kinesis stream for real-time processing.',
-  platforms: ['javascript','react-native']
+  description:
+    'The Amazon Kinesis analytics provider allows you to send analytics data to an Amazon Kinesis stream for real-time processing.',
+  platforms: ['javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,12 +19,10 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import js0 from '/src/fragments/lib/analytics/js/streaming.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />
 
 import reactnative0 from '/src/fragments/lib/analytics/js/streaming.mdx';
 

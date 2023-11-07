@@ -1,8 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Manage user profiles',
-  description: 'Learn more about how to enable customers to personalize their profile and verify their contact information with attributes.',
+  description:
+    'Learn more about how to enable customers to personalize their profile and verify their contact information with attributes.',
   platforms: ['javascript', 'react-native']
 };
 
@@ -18,14 +19,13 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
-
-<InlineFilter filters={["js", "react-native"]}>
+<InlineFilter filters={["javascript", "react-native"]}>
 
 User profile management helps you keep your applications secure while also personalizing your app experiences. In this guide we will review how you can enable your users to personalize their profile and verify their contact information. This includes outlining how you can set up user attributes, verify them, and allow your users to delete them when necessary.
 
 Before you begin, you will need:
+
 - An Amplify project with the Auth category configured
 - The Amplify libraries installed and configured
 
@@ -35,7 +35,7 @@ User attributes such as email address, phone number help you identify individual
 
 ### Enable standard attributes
 
-Amazon Cognito has a set of default standard attributes. To configure and enable standard user attributes using the Amplify CLI in your app, you can run the Amplify `amplify add auth` command and choose `Walkthrough all the auth configurations`. If you have previously created your auth resources, you can instead run the `amplify update auth` command in your terminal. When prompted for `Specify read attributes` and `Specify write attributes`, choose the attributes you'd like to enable in your app. 
+Amazon Cognito has a set of default standard attributes. To configure and enable standard user attributes using the Amplify CLI in your app, you can run the Amplify `amplify add auth` command and choose `Walkthrough all the auth configurations`. If you have previously created your auth resources, you can instead run the `amplify update auth` command in your terminal. When prompted for `Specify read attributes` and `Specify write attributes`, choose the attributes you'd like to enable in your app.
 
 <Accordion title='Review standard attributes options' headingLevel='4' eyebrow='Learn more'>
 
@@ -71,7 +71,7 @@ You can create user attributes during or after sign-up. To do this as part of si
 <Block name="TypeScript">
 
 ```ts
-import { Auth } from 'aws-amplify'
+import { Auth } from 'aws-amplify';
 
 async function handleSignUp() {
   try {
@@ -83,11 +83,11 @@ async function handleSignUp() {
         phone_number: '+12128601234', // E.164 number convention
         given_name: 'Jane',
         family_name: 'Doe',
-        nickname: 'Jane',
+        nickname: 'Jane'
       }
     });
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 }
 ```
@@ -96,7 +96,7 @@ async function handleSignUp() {
 <Block name="JavaScript">
 
 ```js
-import { Auth } from 'aws-amplify'
+import { Auth } from 'aws-amplify';
 
 async function handleSignUp() {
   try {
@@ -108,11 +108,11 @@ async function handleSignUp() {
         phone_number: '+12128601234', // E.164 number convention
         given_name: 'Jane',
         family_name: 'Doe',
-        nickname: 'Jane',
+        nickname: 'Jane'
       }
     });
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 }
 ```
@@ -138,6 +138,7 @@ const user = await Auth.currentAuthenticatedUser({
   bypassCache: true
 });
 ```
+
 The `bypassCache` parameter defaults to false. Alternatively, your users can sign out and sign back in to retrieve and view their latest attributes.
 
 ## Enable users to update, verify, and delete specific attributes
@@ -154,7 +155,7 @@ You can enable users to make updates after sign-up by using the `updateUserAttri
 ```ts
 import { Auth } from 'aws-amplify';
 
-async function updateUserAttributes () {
+async function updateUserAttributes() {
   try {
     const user = await Auth.currentAuthenticatedUser();
     const result = await Auth.updateUserAttributes(user, {
@@ -162,10 +163,10 @@ async function updateUserAttributes () {
       family_name: 'Lastname'
     });
     console.log(result); // SUCCESS
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
 
 </Block>
@@ -174,7 +175,7 @@ async function updateUserAttributes () {
 ```js
 import { Auth } from 'aws-amplify';
 
-async function updateUserAttributes () {
+async function updateUserAttributes() {
   try {
     const user = await Auth.currentAuthenticatedUser();
     const result = await Auth.updateUserAttributes(user, {
@@ -182,10 +183,10 @@ async function updateUserAttributes () {
       family_name: 'Lastname'
     });
     console.log(result); // SUCCESS
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
 
 </Block>
@@ -193,20 +194,21 @@ async function updateUserAttributes () {
 
 ### Verify user attributes
 
-If your user changes an attribute that requires confirmation (for example, email or phone number), you will receive a confirmation code for that attribute. 
+If your user changes an attribute that requires confirmation (for example, email or phone number), you will receive a confirmation code for that attribute.
 
 The `Auth.updateUserAttributes()` function dispatches a hub event to help identify attributes that require verification. You can listen to `updateUserAttributes` event on `auth` channel:
 
 ```javascript
 import { Hub } from 'aws-amplify';
 
-Hub.listen('auth', ({payload}) => {
+Hub.listen('auth', ({ payload }) => {
   if (payload.event === 'updateUserAttributes') {
     const resultObject = payload.data;
   }
 });
 ```
-<InlineFilter filters={["js"]}>
+
+<InlineFilter filters={["javascript"]}>
 
 You can learn more about how to listen to Hub events [here](/lib/utilities/hub/q/platform/js/).
 
@@ -238,8 +240,7 @@ For example, below you can see the dispatched `resultObject` that shows that the
 
 <Callout>
 
-**Note:** If a user sends several attributes for update and one or more of them is `read_only` or doesn't exist, the API will throw
-an error and dispatch an `updateUserAttributes_failure` Hub event. None of the attributes in the request will be updated.
+**Note:** If a user sends several attributes for update and one or more of them is `read_only` or doesn't exist, the API will throw an error and dispatch an `updateUserAttributes_failure` Hub event. None of the attributes in the request will be updated.
 
 </Callout>
 
@@ -323,7 +324,7 @@ export default function App() {
           </div>
           {showValidationCodeUI === false && (
             <button
-              onClick={async () => { 
+              onClick={async () => {
                 await updateUserEmail();
                 setShowValidationCodeUI(true);
               } }
@@ -339,6 +340,7 @@ export default function App() {
   );
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -357,7 +359,7 @@ async function updateUserEmail() {
     });
 
     console.log('a verification code is sent');
-  } catch(err) {
+  } catch (err) {
     console.log('failed with error', err);
   }
 }
@@ -366,7 +368,7 @@ async function verifyEmailValidationCode(code) {
   try {
     await Auth.verifyCurrentUserAttributeSubmit('email', code);
     console.log('email verified');
-  } catch(err) {
+  } catch (err) {
     console.log('failed with error', err);
   }
 }
@@ -380,7 +382,7 @@ function ValidationCodeForm() {
         <input
           onChange={(e) => {
             setValidationCode(e.target.value);
-          } }
+          }}
           type="text"
           name="vc"
         />
@@ -407,7 +409,7 @@ export default function App() {
               onClick={async () => {
                 await updateUserEmail();
                 setShowValidationCodeUI(true);
-              } }
+              }}
             >
               Update Email
             </button>
@@ -420,6 +422,7 @@ export default function App() {
   );
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -437,10 +440,10 @@ async function deleteUserAttributes() {
     const user = await Auth.currentAuthenticatedUser();
     const result = await Auth.deleteUserAttributes(user, ['family_name']);
     console.log(result); // SUCCESS
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
 
 By following the above steps your users can now update, verify, and delete specific user attributes as their information changes over time.
@@ -453,7 +456,7 @@ Congratulations! You finished the **Manage user profiles** guide and your users 
 
 Now that you completed setting up user profile management, you may also want to add some additional features. We recommend:
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["javascript"]}>
 
 - [Set up password change and recovery](/lib-v1/auth/password_management/q/platform/js/)
 - [Custom Attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes)
@@ -468,4 +471,3 @@ Now that you completed setting up user profile management, you may also want to 
 </InlineFilter>
 
 </InlineFilter>
-

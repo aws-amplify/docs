@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Set up authorization rules',
-  description: 'Learn how to apply authorization rules to your models with the @auth directive',
-  platforms: ['javascript','react-native','flutter','swift','android']
+  description:
+    'Learn how to apply authorization rules to your models with the @auth directive',
+  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,12 +19,10 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import ios0 from '/src/fragments/lib/datastore/native_common/setup-auth-rules.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />
 
 import android1 from '/src/fragments/lib/datastore/native_common/setup-auth-rules.mdx';
 
@@ -35,7 +34,7 @@ import flutter2 from '/src/fragments/lib/datastore/native_common/setup-auth-rule
 
 import js3 from '/src/fragments/lib/datastore/native_common/setup-auth-rules.mdx';
 
-<Fragments fragments={{ js: js3 }} />
+<Fragments fragments={{ javascript: js3 }} />
 
 import reactnative0 from '/src/fragments/lib/datastore/native_common/setup-auth-rules.mdx';
 

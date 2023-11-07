@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Copy files',
-  description: "Learn more about how to copy files using Amplify's storage category.",
-  platforms: ['javascript','react-native']
+  description:
+    "Learn more about how to copy files using Amplify's storage category.",
+  platforms: ['javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,12 +19,10 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import js0 from '/src/fragments/lib-v1/storage/js/copy.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />
 
 import reactnative0 from '/src/fragments/lib-v1/storage/js/copy.mdx';
 

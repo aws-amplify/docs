@@ -1,19 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Serverless containers',
-  description: 'Deploy containers to AWS. Serverless containers leverage AWS Fargate when building REST or GraphQL APIs in your account. containers can be deployed via a single Dockerfile definition or by using a Docker Compose file, with a build and deployment pipeline created inside your AWS account.',
+  description:
+    'Deploy containers to AWS. Serverless containers leverage AWS Fargate when building REST or GraphQL APIs in your account. containers can be deployed via a single Dockerfile definition or by using a Docker Compose file, with a build and deployment pipeline created inside your AWS account.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,7 +29,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
 Serverless containers provide the ability for you to deploy APIs and host websites using AWS Fargate. Customers with existing applications or those who require a lower level of control can bring Docker containers and deploy them into an Amplify project fully integrating with other resources.
 
@@ -102,7 +102,7 @@ Deploying a container-based API requires additional permissions that are not ava
 
 </Callout>
 
-Once this completes your container will be built via an automated pipeline and deployed to Fargate Tasks on an ECS Cluster fronted by an Amazon API Gateway HTTP API using a direct Cloud Map integration to your VPC. If you selected *Yes* to protect your API with Authentication, an Amazon Cognito User Pool will be created with an Authorizer integration for that API.
+Once this completes your container will be built via an automated pipeline and deployed to Fargate Tasks on an ECS Cluster fronted by an Amazon API Gateway HTTP API using a direct Cloud Map integration to your VPC. If you selected _Yes_ to protect your API with Authentication, an Amazon Cognito User Pool will be created with an Authorizer integration for that API.
 
 ## Deploy a single container
 
@@ -149,14 +149,14 @@ If you wish to deploy multiple containers into Fargate to define your API, Ampli
 A Compose file includes the logical container names, build & images settings, launch commands, ports, and more. An example Docker Compose file is below:
 
 ```yaml
-version: "3.8"
+version: '3.8'
 services:
   express:
     build:
       context: ./express
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - '8080:8080'
     networks:
       - public
       - private
@@ -168,7 +168,7 @@ services:
       - public
       - private
     ports:
-      - "5000:5000"
+      - '5000:5000'
 networks:
   public:
   private:
@@ -209,7 +209,7 @@ Multiple containers are deployed as a single unit in Fargate (e.g. same Task Def
 
 The loopback interface has an IP of 127.0.0.1 and a hostname of `localhost` which you can use in one container's application code to communicate with another.
 
-Using the `docker-compose.yml` example from earlier, you might have the following code in your NodeJS application. It references the *port* of the Redis container and a *host* using the loopback adapter with `localhost`:
+Using the `docker-compose.yml` example from earlier, you might have the following code in your NodeJS application. It references the _port_ of the Redis container and a _host_ using the loopback adapter with `localhost`:
 
 ```js
 const options = {
@@ -254,7 +254,7 @@ Amplify will configure your Fargate infrastructure (ECS Service and Task Definit
 - secrets
 - replicas
 
-By default Amplify will use a single Availability Zone however if you choose the *High Availability* option it will spread Fargate Tasks across 3 Availability Zones. The [`replicas`](https://docs.docker.com/compose/compose-file/#replicas) value should be used to increase [the number of Fargate tasks running in your Cluster](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service_definition_parameters.html#sd-desiredcount) depending on your traffic requirements, however note that more running tasks will accrue more costs.
+By default Amplify will use a single Availability Zone however if you choose the _High Availability_ option it will spread Fargate Tasks across 3 Availability Zones. The [`replicas`](https://docs.docker.com/compose/compose-file/#replicas) value should be used to increase [the number of Fargate tasks running in your Cluster](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service_definition_parameters.html#sd-desiredcount) depending on your traffic requirements, however note that more running tasks will accrue more costs.
 
 When you have multiple container entries specifying a `port` Amplify will prompt you upon running `amplify push` to select an **Entrypoint Container**. Since all containers are deployed as a "unit" and fronted by an API Gateway HTTP endpoint for client applications to access, Amplify needs to know which container in the Cluster's Service to route requests. The answer to the Entrypoint question will use the first specified `ports` entry to perform this routing.
 
@@ -262,14 +262,14 @@ It is recommended that you define container settings early in the development pr
 
 ### Environment variables and secrets
 
-You can use environment variables in your application code that are specified in your Docker Compose file, but do not specify the hostname when deploying in `amplify push`. For example the `DATABASE_HOST` variable below might be specified locally when using `docker-compose up` with the  `environment` setting:
+You can use environment variables in your application code that are specified in your Docker Compose file, but do not specify the hostname when deploying in `amplify push`. For example the `DATABASE_HOST` variable below might be specified locally when using `docker-compose up` with the `environment` setting:
 
 ```yaml
 environment:
   - DATABASE_DB=amplify
   - DATABASE_USER=root
   - DATABASE_PASSWORD=/run/secrets/db-password
-  - DATABASE_HOST=db  #comment out before pushing
+  - DATABASE_HOST=db #comment out before pushing
 ```
 
 Then your application code can switch between local and cloud deployment automatically and communicate with the `db` container:
@@ -277,7 +277,7 @@ Then your application code can switch between local and cloud deployment automat
 ```js
 module.exports = {
   database: {
-    host: process.env.DATABASE_HOST || "localhost",
+    host: process.env.DATABASE_HOST || 'localhost',
     port: process.env.DATABASE_PORT || 3306,
     database: process.env.DATABASE_DB,
     user: process.env.DATABASE_USER,
@@ -292,12 +292,12 @@ module.exports = {
 When you perform an `amplify push` you will be prompted to store the secrets in the cloud or bypass (which may be the case in team workflows when one person controls secrets). The name of the secret will be available in your application code similar to if you specified other variables via the `environment` configuration:
 
 ```yaml
-version: "3.8"
+version: '3.8'
 services:
   backend:
     build:
       args:
-      - NODE_ENV=development
+        - NODE_ENV=development
       context: backend
     environment:
       - DATABASE_NAME=mydb
@@ -359,54 +359,49 @@ Serverless containers are fronted by a secure endpoint by which you can interact
 
 Note that if you have enabled Authorization checks on your endpoints during `amplify add api` your clients will need to Authenticate against the Cognito User Pool configured and pass tokens. Please see the [appropriate platform guide](/lib/auth/getting-started) for adding Sign-Up and Sign-In calls to your application.
 
-
 ## Access existing AWS resource from container
 
-You can grant your Fargate Task access to additional AWS resources and services.  After running `amplify add api`, the CLI generates a `custom-policies.json` under the folder `amplify/backend/api/<api-name>/custom-policies.json`. The file is where you can specify the [resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_resource.html) and [actions](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_action.html) that grant the Fargate task additional AWS resources and services access.
-
+You can grant your Fargate Task access to additional AWS resources and services. After running `amplify add api`, the CLI generates a `custom-policies.json` under the folder `amplify/backend/api/<api-name>/custom-policies.json`. The file is where you can specify the [resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_resource.html) and [actions](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_action.html) that grant the Fargate task additional AWS resources and services access.
 
 ### Custom Policy File Structure
 
 ```json
 [
-    {
-        "Action": ["s3:CreateBucket"],
-        "Resource": ["arn:aws:s3:::*"]
-    }
+  {
+    "Action": ["s3:CreateBucket"],
+    "Resource": ["arn:aws:s3:::*"]
+  }
 ]
 ```
 
-**Action:** Specify the actions that are required to be granted to your AWS resource. Wild characters ‘*’ is accepted.
+**Action:** Specify the actions that are required to be granted to your AWS resource. Wild characters ‘\*’ is accepted.
 
-**Resource**: Specify resources that the AWS resource needs access. The resource accepts multiple ARNs for a service and wild card character ‘*’ is accepted.
+**Resource**: Specify resources that the AWS resource needs access. The resource accepts multiple ARNs for a service and wild card character ‘\*’ is accepted.
 
-
-> Note: Specifying resource or action as ‘*’ is not recommended as best practice. This gives the Amplify api resource Administrative privileges which should be avoided.
-
+> Note: Specifying resource or action as ‘\*’ is not recommended as best practice. This gives the Amplify api resource Administrative privileges which should be avoided.
 
 If your Amplify resource requires access to multiple AWS services and resources, create another block to grant access to these additional services and resources.
 
 ```json
 [
-    {
-        "Action": ["s3:CreateBucket"],
-        "Resource": ["arn:aws:s3:::*"]
-    },
-    {
-        "Action": ["iam:GetPolicy"],
-        "Resource": ["arn:aws:iam:::policy/*"]
-    }
+  {
+    "Action": ["s3:CreateBucket"],
+    "Resource": ["arn:aws:s3:::*"]
+  },
+  {
+    "Action": ["iam:GetPolicy"],
+    "Resource": ["arn:aws:iam:::policy/*"]
+  }
 ]
 ```
-
 
 Optionally, the `Effect` field can be specified to use ‘Allow’ or ‘Deny’. If not specified, the field defaults to ‘Allow’.
 
 ```json
 {
-    "Action": ["s3:CreateBucket"],
-    "Resource": ["arn:aws:s3:::*"],
-    "Effect": "Allow"
+  "Action": ["s3:CreateBucket"],
+  "Resource": ["arn:aws:s3:::*"],
+  "Effect": "Allow"
 }
 ```
 
@@ -414,10 +409,10 @@ On running `amplify push` command, the IAM policies specified in the `custom-pol
 
 ### Multi-Environment Workflow
 
-To specify AWS ARN resources across environments, an optional ‘\${env}’ parameter can be used within the resource string. The ‘\${env}’ parameter in the AWS ARN resource will get populated with the current Amplify environment name at deployment.
+To specify AWS ARN resources across environments, an optional ‘$\{env}’ parameter can be used within the resource string. The ‘$\{env}’ parameter in the AWS ARN resource will get populated with the current Amplify environment name at deployment.
 
-``` json
-"Resource": ["arn:aws:s3:::${env}my-bucket"]
+```json
+"Resource": ["arn:aws:s3:::$\{env}my-bucket"]
 ```
 
 ## Hosting
@@ -433,7 +428,7 @@ If you are using a non-Route53 registrar, you will need two additional steps:
 
 For Route53 registered domains these steps are not needed and Amplify will register everything automatically. You can learn more about [registering a domain name in the Route53 documentation](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar.html).
 
-You can additionally restrict access to your hosted site using Amazon Cognito User Pools. The ALB will authorize requests by using the OAuth endpoint of the Cognito Hosted UI with an SSL-enabled HTTP listener. To do this run `amplify add auth` first and select *Default configuration with Social Provider (Federation)* to enable the Hosted UI (you don't need to select any of the 3rd party social providers if it's not needed in your application). After this select *Yes* when prompted *Do you want to automatically protect your web app using Amazon Cognito Hosted UI* in the `amplify add hosting` flow. Alternatively, you can first add hosting and later add auth to your project by running `amplify configure hosting` after this is completed.
+You can additionally restrict access to your hosted site using Amazon Cognito User Pools. The ALB will authorize requests by using the OAuth endpoint of the Cognito Hosted UI with an SSL-enabled HTTP listener. To do this run `amplify add auth` first and select _Default configuration with Social Provider (Federation)_ to enable the Hosted UI (you don't need to select any of the 3rd party social providers if it's not needed in your application). After this select _Yes_ when prompted _Do you want to automatically protect your web app using Amazon Cognito Hosted UI_ in the `amplify add hosting` flow. Alternatively, you can first add hosting and later add auth to your project by running `amplify configure hosting` after this is completed.
 
 ## Build Pipeline
 

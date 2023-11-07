@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Set up Amplify prerequisites',
   description: 'Project Setup with Amplify - Prerequisites',
-  platforms: ['javascript','swift','android','flutter', 'react-native']
+  platforms: ['javascript', 'swift', 'android', 'flutter', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,16 +18,14 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 import ios0 from '/src/fragments/lib-v1/project-setup/native_common/prereq/common_header.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -47,11 +45,11 @@ import reactnative0 from '/src/fragments/lib/project-setup/native_common/prereq/
 
 import js0 from '/src/fragments/lib/project-setup/native_common/prereq/common_header.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />
 
 import ios3 from '/src/fragments/lib-v1/project-setup/ios/prereq/prereq.mdx';
 
-<Fragments fragments={{ ios: ios3 }} />
+<Fragments fragments={{ swift: ios3 }} />
 
 import android4 from '/src/fragments/lib-v1/project-setup/android/prereq/prereq.mdx';
 
@@ -59,7 +57,7 @@ import android4 from '/src/fragments/lib-v1/project-setup/android/prereq/prereq.
 
 import ios6 from '/src/fragments/lib-v1/project-setup/native_common/prereq/common_body.mdx';
 
-<Fragments fragments={{ ios: ios6 }} />
+<Fragments fragments={{ swift: ios6 }} />
 
 import android7 from '/src/fragments/lib-v1/project-setup/native_common/prereq/common_body.mdx';
 
@@ -79,7 +77,7 @@ import flutter8 from '/src/fragments/lib-v1/project-setup/native_common/prereq/c
 
 import js1 from '/src/fragments/lib/project-setup/native_common/prereq/common_body.mdx';
 
-<Fragments fragments={{ js: js1 }} />
+<Fragments fragments={{ javascript: js1 }} />
 
 import reactnative1 from '/src/fragments/lib/project-setup/native_common/prereq/common_body.mdx';
 

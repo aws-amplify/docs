@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Enable and disable analytics',
   description: 'Learn how to enable/disable analytics using Amplify.',
-  platforms: ['swift','android', 'flutter', 'javascript', 'react-native']
+  platforms: ['swift', 'android', 'flutter', 'javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +18,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -31,7 +29,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 ## Disable Analytics
 
@@ -43,7 +41,7 @@ import android0 from '/src/fragments/lib-v1/analytics/android/enable-disable/dis
 
 import ios0 from '/src/fragments/lib-v1/analytics/ios/enable-disable/disable.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />
 
 import flutter0 from '/src/fragments/lib-v1/analytics/flutter/enable-disable/disable.mdx';
 
@@ -51,7 +49,7 @@ import flutter0 from '/src/fragments/lib-v1/analytics/flutter/enable-disable/dis
 
 import js0 from '/src/fragments/lib-v1/analytics/js/enable-disable/disable.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />
 
 import reactnative0 from '/src/fragments/lib-v1/analytics/js/enable-disable/disable.mdx';
 
@@ -67,7 +65,7 @@ import android1 from '/src/fragments/lib-v1/analytics/android/enable-disable/ena
 
 import ios1 from '/src/fragments/lib-v1/analytics/ios/enable-disable/enable.mdx';
 
-<Fragments fragments={{ ios: ios1 }} />
+<Fragments fragments={{ swift: ios1 }} />
 
 import flutter1 from '/src/fragments/lib-v1/analytics/flutter/enable-disable/enable.mdx';
 
@@ -75,7 +73,7 @@ import flutter1 from '/src/fragments/lib-v1/analytics/flutter/enable-disable/ena
 
 import js1 from '/src/fragments/lib-v1/analytics/js/enable-disable/enable.mdx';
 
-<Fragments fragments={{ js: js1 }} />
+<Fragments fragments={{ javascript: js1 }} />
 
 import reactnative1 from '/src/fragments/lib-v1/analytics/js/enable-disable/enable.mdx';
 

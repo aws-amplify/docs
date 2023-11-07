@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Use DeltaSync',
   description: "Learn more about advanced workflows in Amplify's API category",
-  platforms: ['javascript','react-native', 'swift', 'android', 'flutter']
+  platforms: ['javascript', 'react-native', 'swift', 'android', 'flutter']
 };
 
 export const getStaticPaths = async () => {
@@ -18,12 +18,10 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import js1 from '/src/fragments/lib/graphqlapi/js/delta-sync.mdx';
 
-<Fragments fragments={{ js: js1 }} />
+<Fragments fragments={{ javascript: js1 }} />
 
 import reactnative1 from '/src/fragments/lib/graphqlapi/js/delta-sync.mdx';
 
@@ -31,7 +29,7 @@ import reactnative1 from '/src/fragments/lib/graphqlapi/js/delta-sync.mdx';
 
 import ios2 from '/src/fragments/lib/graphqlapi/native_common/advanced-workflows/common.mdx';
 
-<Fragments fragments={{ ios: ios2 }} />
+<Fragments fragments={{ swift: ios2 }} />
 
 import android3 from '/src/fragments/lib/graphqlapi/native_common/advanced-workflows/common.mdx';
 

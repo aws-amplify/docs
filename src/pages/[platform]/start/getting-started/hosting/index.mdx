@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Deploy and host app',
-  description: 'Getting Started with Amplify - how to host & deploy your web app',
-  platforms: ['angular','javascript','nextjs','react','vue', 'next']
+  description:
+    'Getting Started with Amplify - how to host & deploy your web app',
+  platforms: ['angular', 'javascript', 'nextjs', 'react', 'vue', 'next']
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +19,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-      
 
 import next0 from '/src/fragments/start/getting-started/next/hosting.mdx';
 
@@ -35,7 +34,7 @@ import angular2 from '/src/fragments/start/getting-started/angular/hosting.mdx';
 
 import js4 from '/src/fragments/start/getting-started/vanillajs/hosting.mdx';
 
-<Fragments fragments={{ js: js4 }} />
+<Fragments fragments={{ javascript: js4 }} />
 
 import vue5 from '/src/fragments/start/getting-started/vanillajs/hosting.mdx';
 

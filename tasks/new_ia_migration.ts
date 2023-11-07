@@ -458,55 +458,55 @@ const movePages = function () {
 const fixErrorsInMigratedPages = function () {
   const migratedPages = globSync('src/pages/**/*.mdx');
 
-  // migratedPages.forEach((page) => {
-  //   // console.log(page);
-  //   let newContent = '';
-  //   fs.readFile(page, 'utf8', (err, dataString) => {
-  //     if (!dataString) {
-  //       console.log(page);
-  //     }
-  //     // let data = dataString.split('\n');
-  //     // // console.log(data);
+  migratedPages.forEach((page) => {
+    // console.log(page);
+    let newContent = '';
+    fs.readFile(page, 'utf8', (err, dataString) => {
+      if (!dataString) {
+        console.log(page);
+      }
+      let data = dataString.split('\n');
+      // console.log(data);
 
-  //     // if (err) {
-  //     //   console.log('[ ERROR: READING PAGE', page);
-  //     // } else {
-  //     //   for (let i = 0; i < data.length; i++) {
-  //     //     if (
-  //     //       data[i].includes('title: `') &&
-  //     //       data[i].split("'").length - 1 < 1
-  //     //     ) {
-  //     //       data[i] = data[i].replaceAll('`', "'");
-  //     //     } else if (
-  //     //       data[i].includes('title: `') &&
-  //     //       data[i].split("'").length > 0
-  //     //     ) {
-  //     //       data[i] = data[i].replaceAll('`', '"');
-  //     //     } else if (
-  //     //       data[i].includes('description: `') &&
-  //     //       data[i].split("'").length - 1 > 0
-  //     //     ) {
-  //     //       data[i] = data[i].replaceAll('`', '"');
-  //     //     } else if (
-  //     //       data[i].includes('description: `') &&
-  //     //       data[i].split("'").length - 1 < 1
-  //     //     ) {
-  //     //       data[i] = data[i].replaceAll('`', "'");
-  //     //     }
-  //     //   }
-  //     // }
+      if (err) {
+        console.log('[ ERROR: READING PAGE', page);
+      } else {
+        for (let i = 0; i < data.length; i++) {
+          if (
+            data[i].includes('title: `') &&
+            data[i].split("'").length - 1 < 1
+          ) {
+            data[i] = data[i].replaceAll('`', "'");
+          } else if (
+            data[i].includes('title: `') &&
+            data[i].split("'").length > 0
+          ) {
+            data[i] = data[i].replaceAll('`', '"');
+          } else if (
+            data[i].includes('description: `') &&
+            data[i].split("'").length - 1 > 0
+          ) {
+            data[i] = data[i].replaceAll('`', '"');
+          } else if (
+            data[i].includes('description: `') &&
+            data[i].split("'").length - 1 < 1
+          ) {
+            data[i] = data[i].replaceAll('`', "'");
+          }
+        }
+      }
 
-  //     // newContent = data.join('\n');
-  //     // console.log(newContent);
-  //     // fs.writeFile(page, newContent, (err) => {
-  //     //   if (err) {
-  //     //     console.log('[ ERROR: WRITE CONTENT ]', page, err);
-  //     //   } else {
-  //     //     console.log('[ SUCCESS: CHARACTER EDITS WRITTEN ]', page);
-  //     //   }
-  //     // });
-  //   });
-  // });
+      newContent = data.join('\n');
+      console.log(newContent);
+      fs.writeFile(page, newContent, (err) => {
+        if (err) {
+          console.log('[ ERROR: WRITE CONTENT ]', page, err);
+        } else {
+          console.log('[ SUCCESS: CHARACTER EDITS WRITTEN ]', page);
+        }
+      });
+    });
+  });
 
   // check pages for fragments/inlinefilters not accounted for in meta.platforms
   migratedPages.forEach((page) => {
@@ -810,7 +810,7 @@ const fixErrorsInMigratedPages = function () {
 // cleanupPagesOld();
 // updatePageContent();
 // movePages();
-// fixErrorsInMigratedPages();
+fixErrorsInMigratedPages();
 
 // checks();
 
@@ -832,4 +832,6 @@ const fixErrorsInMigratedPages = function () {
 // movePages()
 // make note of errors
 // fixErrorsInMigratedPages() - add addtl platforms from body (InlineFilters and Fragments)
-// fixErrorsINMigratedPages() -
+// fixErrorsINMigratedPages() - make sure all instances of 'ios' are switched to 'swift'
+// commit changes and correct any 'unknown word' errors
+// run yarn build and fix errors surfaced

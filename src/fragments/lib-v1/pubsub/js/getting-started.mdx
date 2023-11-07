@@ -2,11 +2,13 @@ The AWS Amplify PubSub category provides connectivity with cloud-based message-o
 
 PubSub is available with **AWS IoT** and **Generic MQTT Over WebSocket Providers**.
 
-<!-- TODO Rewrite We do not show that there is a provider for Appsync - is that something we should be highlighting? -->
+{/* TODO Rewrite We do not show that there is a provider for Appsync - is that something we should be highlighting? */}
+
 <!-- Do we have CLI support for PubSub? -->
 
 <Callout>
-  With AWS IoT, AWS Amplify's PubSub automatically signs your HTTP requests when sending your messages.
+  With AWS IoT, AWS Amplify's PubSub automatically signs your HTTP requests when
+  sending your messages.
 </Callout>
 
 ## AWS IoT
@@ -96,8 +98,7 @@ You can integrate any MQTT Over WebSocket provider with your app. Click [here](h
 
 <Callout>
 
-Only JSON serializable message payloads are currently supported for MQTT providers within PubSub.  If you are attempting to use message payloads that are non-JSON serializable, consider transforming the payload into a format that aligns with the input type expected by
-[MQTT](https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html).
+Only JSON serializable message payloads are currently supported for MQTT providers within PubSub. If you are attempting to use message payloads that are non-JSON serializable, consider transforming the payload into a format that aligns with the input type expected by [MQTT](https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html).
 
 </Callout>
 

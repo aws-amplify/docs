@@ -12,16 +12,17 @@ do {
 ```
 
 You can refine your search by specifying following parameters inside `Geo.SearchForTextOptions`
+
 - `area`
   - `.near` - to act as the search origination location.
   - `.within` - to limit the area to search within.
 - `countries` - to limit the search results to given countries.
 - `maxResults` - to limit the maximum result set (defaults to 50).
 
+```swift
 let coordinates = Geo.Coordinates(latitude: 47.62246, longitude: -122.336775)
-let options = Geo.SearchForTextOptions(area: .near(coordinates),
-                                               countries: [.usa, .can],
-                                               maxResults: 25)
+let options = Geo.SearchForTextOptions(area: .near(coordinates), countries: [.usa, .can], maxResults: 25)
+
 do {
     let places = try await Amplify.Geo.search(for: "coffee shops", options: options)
     dump(places)
@@ -30,3 +31,4 @@ do {
 } catch {
     print("Unexpected error: \(error)")
 }
+```

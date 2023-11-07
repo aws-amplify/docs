@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Use transfer acceleration',
-  description: "How to enable and use S3's Transfer Acceleration on your S3 bucket",
-  platforms: ['javascript','react-native','android']
+  description:
+    "How to enable and use S3's Transfer Acceleration on your S3 bucket",
+  platforms: ['javascript', 'react-native', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,9 +19,7 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import js from '/src/fragments/lib-v1/storage/js/transfer-acceleration.mdx';
 
-<Fragments fragments={{ js: js, 'react-native': js }} />
+<Fragments fragments={{ javascript: js, 'react-native': js }} />

@@ -9,30 +9,30 @@ amplify add api
 Accept the **default values** which are highlighted below:
 
 ```console
-? Select from one of the below mentioned services: 
+? Select from one of the below mentioned services:
 # GraphQL
-? Here is the GraphQL API that we will create. Select a setting to edit 
-or continue 
+? Here is the GraphQL API that we will create. Select a setting to edit
+or continue
 # Continue
 ? Choose a schema template:
 # Single object with fields (e.g., “Todo” with
  ID, name, description)
-✔ Do you want to edit the schema now? (Y/n) 
+✔ Do you want to edit the schema now? (Y/n)
 # yes
 ```
 
 The generated schema is for a Todo app. Replace the GraphQL schema at `amplify/backend/api/RestaurantAPI/schema.graphql` with the following:
 
 ```graphql
-type Restaurant @model  @auth(rules: [{ allow: public }]){
+type Restaurant @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
   description: String!
   city: String!
-} 
+}
 ```
 
-The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.  In the example schema above, the `@model` directive is part of Amplify's [GraphQL transformer](/cli/graphql/data-modeling) functionality and the `@auth` directive determines what [authorization rules](/cli/graphql/authorization-rules/) to apply. 
+The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more. In the example schema above, the `@model` directive is part of Amplify's [GraphQL transformer](/cli/graphql/data-modeling) functionality and the `@auth` directive determines what [authorization rules](/cli/graphql/authorization-rules/) to apply.
 
 A type decorated with the `@model` directive will scaffold out the database table for the type (Restaurant table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 
@@ -93,8 +93,7 @@ Amplify.configure(aws_exports);
 
 <Callout warning={true}>
 
-  On Angular 12+, Typescript [strict mode](https://www.typescriptlang.org/tsconfig#strict) is enabled by default, which will introduce some type errors when you run the
-  application. Please see the TypeScript strict mode [troubleshooting guide](/lib/troubleshooting/strict-mode/q/platform/js/) to resolve them.
+On Angular 12+, Typescript [strict mode](https://www.typescriptlang.org/tsconfig#strict) is enabled by default, which will introduce some type errors when you run the application. Please see the TypeScript strict mode [troubleshooting guide](/lib/troubleshooting/strict-mode/q/platform/js/) to resolve them.
 
 </Callout>
 
@@ -108,9 +107,8 @@ Update `tsconfig.app.json` to include the "node" compiler option in _types_:
 
 <Callout>
 
-  Depending on your TypeScript version you may need to rename `aws-exports.js`
-  to `aws-exports.ts` prior to importing, or enable the `allowJs` [compiler option](https://www.typescriptlang.org/docs/handbook/compiler-options.html) in your tsconfig.
-  
+Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` [compiler option](https://www.typescriptlang.org/docs/handbook/compiler-options.html) in your tsconfig.
+
 </Callout>
 
 First, enable the Angular forms modules in `src/app/app.module.ts`:
@@ -170,7 +168,10 @@ import { APIService, Restaurant } from '../API.service';
 export class RestaurantsComponent {
   public createForm: FormGroup;
 
-  constructor(private api: APIService, private fb: FormBuilder) {
+  constructor(
+    private api: APIService,
+    private fb: FormBuilder
+  ) {
     this.createForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -236,7 +237,10 @@ export class RestaurantsComponent implements OnInit {
   /* declare restaurants variable */
   public restaurants: Array<Restaurant> = [];
 
-  constructor(private api: APIService, private fb: FormBuilder) {
+  constructor(
+    private api: APIService,
+    private fb: FormBuilder
+  ) {
     this.createForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -315,7 +319,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription = null;
   }
 ```
-The final `restaurants.component.ts` file should look like the following: 
+
+The final `restaurants.component.ts` file should look like the following:
 
 ```typescript
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -336,9 +341,12 @@ export class RestaurantsComponent implements OnInit, OnDestroy {
   /* declare restaurants variable */
   public restaurants: Array<Restaurant> = [];
   /** Declare subscription variable */
-  private subscription: ZenObservable.Subscription | null = null; 
+  private subscription: ZenObservable.Subscription | null = null;
 
-  constructor(private api: APIService, private fb: FormBuilder) {
+  constructor(
+    private api: APIService,
+    private fb: FormBuilder
+  ) {
     this.createForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -347,17 +355,17 @@ export class RestaurantsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.api.ListRestaurants().then(event => {
+    this.api.ListRestaurants().then((event) => {
       this.restaurants = event.items as Restaurant[];
     });
-  
+
     /* subscribe to new restaurants being created */
-    this.subscription = this.api.OnCreateRestaurantListener().subscribe(
-      (event: any) => {
+    this.subscription = this.api
+      .OnCreateRestaurantListener()
+      .subscribe((event: any) => {
         const newRestaurant = event.value.data.onCreateRestaurant;
         this.restaurants = [newRestaurant, ...this.restaurants];
-      }
-    );
+      });
   }
 
   ngOnDestroy() {
@@ -387,4 +395,4 @@ Next, run the app:
 npm start
 ```
 
-Now, open the app in 2 browser windows (both at <http://localhost:4200/>) so that you have your app running side by side. When creating a new item in one window, you should see it come through in the other window in real-time.
+Now, open the app in 2 browser windows (both at \http://localhost:4200/>) so that you have your app running side by side. When creating a new item in one window, you should see it come through in the other window in real-time.

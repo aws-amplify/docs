@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Set up Amplify Storage',
-  description: 'The Amplify Storage category provides a simple mechanism for managing user content for your app in public, protected, or private storage buckets. The Amplify AWS S3 Storage plugin leverages Amazon S3.',
-  platforms: ['javascript','flutter','swift','android', 'react-native']
+  description:
+    'The Amplify Storage category provides a simple mechanism for managing user content for your app in public, protected, or private storage buckets. The Amplify AWS S3 Storage plugin leverages Amazon S3.',
+  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +19,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import common_getting_started from '/src/fragments/lib/storage/native_common/getting-started/common.mdx';
 
@@ -50,6 +49,7 @@ amplify add storage
 ```
 
 Enter the following when prompted:
+
 ```console
 ? Please select from one of the below mentioned services:
     `Content (Images, audio, video, etc.)`
@@ -91,9 +91,9 @@ Add Amplify to your app with `yarn` or `npm`:
 npm install aws-amplify
 ```
 
-import js0 from '/src/fragments/lib/common/js/import_configuration.mdx'
+import js0 from '/src/fragments/lib/common/js/import_configuration.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />
 
 ```typescript
 import { Amplify } from 'aws-amplify';
@@ -103,6 +103,7 @@ Amplify.configure(amplifyconfig);
 ```
 
 ## Mocking and Local Testing with Amplify CLI
+
 Amplify CLI supports running a local mock server for testing your application with Amazon S3. Please see the [CLI toolchain documentation](/cli/usage/mock) for more details.
 
 </InlineFilter>

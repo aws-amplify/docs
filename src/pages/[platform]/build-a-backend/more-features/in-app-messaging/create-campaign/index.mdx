@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Create an In-App Messaging Campaign',
-  description: 'Learn how to create a new Pinpoint campaign and configure it to be used with your Amplify project.',
-  platforms: ['javascript','react-native']
+  description:
+    'Learn how to create a new Pinpoint campaign and configure it to be used with your Amplify project.',
+  platforms: ['javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +19,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import reactnative0 from '/src/fragments/lib/in-app-messaging/create-campaign/create-campaign.mdx';
 
@@ -27,4 +26,4 @@ import reactnative0 from '/src/fragments/lib/in-app-messaging/create-campaign/cr
 
 import js0 from '/src/fragments/lib/in-app-messaging/create-campaign/create-campaign.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />

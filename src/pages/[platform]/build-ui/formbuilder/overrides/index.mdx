@@ -1,20 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Extend input element in code',
-  description:,
-    "Use the \"overrides\" property to override any form input's properties. Use this as an escape hatch in case there's a property that you can't customize within Studio."
+  description:
+    "Use the \"overrides\" property to override any form input's properties. Use this as an escape hatch in case there's a property that you can't customize within Studio.",
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,7 +29,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
 Amplify Studio Forms are all based on top of the [Amplify UI library](https://ui.docs.amplify.aws/). The generated form provides a mechanism to override properties for each individual input component.
 

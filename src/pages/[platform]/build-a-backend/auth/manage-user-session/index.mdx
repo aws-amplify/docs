@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Manage user session and credentials',
   description: 'Learn how to manage user sessions and credentials.',
-  platforms: ['javascript','react-native']
+  platforms: ['javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,14 +18,13 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
-
-<InlineFilter filters={["js", "react-native"]}>
+<InlineFilter filters={["javascript", "react-native"]}>
 
 Amplify Auth provides access to current user sessions and tokens to help you retrieve your user's information to determine if they are signed in with a valid session and control their access to your app. You can manage tokens and expiration times and revoke sessions. In this guide we will review how to retrieve your user’s session and understand what token management options are available.
 
 Before you begin you will need:
+
 - An Amplify project with the Auth category configured
 - The Amplify libraries installed and configured
 - A test user signed in
@@ -50,8 +49,8 @@ async function currentAuthenticatedUser() {
     console.log(err);
   }
 }
-
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -68,12 +67,12 @@ async function currentAuthenticatedUser() {
     console.log(err);
   }
 }
-
 ```
+
 </Block>
 </BlockSwitcher>
 
-This method can be used to check if a user is signed in. It throws an error if the user is not authenticated. 
+This method can be used to check if a user is signed in. It throws an error if the user is not authenticated.
 
 <Callout>
 
@@ -85,11 +84,12 @@ The user's `signInDetails` are not supported when using the `Hosted UI` or the `
 
 Your user's session is their signed-in state, which grants them access to your app. When your users sign in, their credentials are exchanged for temporary access tokens. You can get session details to access these tokens and use this information to validate user access or perform actions unique to that user.
 
-If you only need the session details, you can use the `fetchAuthSession` API which returns a `tokens` object containing the JWTs (JSON Web Tokens).  
+If you only need the session details, you can use the `fetchAuthSession` API which returns a `tokens` object containing the JWTs (JSON Web Tokens).
 
 <Accordion title='Review what the tokens object contains and how tokens work' headingLevel='4' eyebrow='Learn more'>
 
 This secure information in the `tokens` object includes:
+
 - `idToken` - A JWT that contains user identity information like username and email. It is used to authenticate the user.
 - `accessToken` - A JWT used to access protected AWS resources and APIs. It contains the authorized scope.
 
@@ -97,7 +97,7 @@ Amazon Cognito tokens work by generating temporary access and ID tokens with an 
 
 </Accordion>
 
-<br/>
+<br />
 
 <Callout>
 
@@ -118,7 +118,6 @@ async function currentSession() {
     console.log(err);
   }
 }
-
 ```
 
 </Block>
@@ -134,7 +133,6 @@ async function currentSession() {
     console.log(err);
   }
 }
-
 ```
 
 </Block>
@@ -146,8 +144,7 @@ Token keys are automatically rotated for you for added security but you can upda
 
 ### Update your token-saving mechanism
 
-You can update the storage mechanism to choose where and how tokens are persisted in your application.
-The default option is `localStorage`. Additionally, you can import the `sessionStorage`, `sharedInMemoryStorage` or `CookieStorage` options as well. 
+You can update the storage mechanism to choose where and how tokens are persisted in your application. The default option is `localStorage`. Additionally, you can import the `sessionStorage`, `sharedInMemoryStorage` or `CookieStorage` options as well.
 
 If you want to customize your own mechanism, you can import the `KeyValueStorageInterface` interface and implement it in your own class.
 
@@ -160,16 +157,14 @@ In Amplify the `localStorage` is the default storage mechanism. It saves the tok
 
 ```ts
 import { Amplify, ResourcesConfig } from 'aws-amplify';
-import {
-  defaultStorage
-} from 'aws-amplify/utils';
+import { defaultStorage } from 'aws-amplify/utils';
 import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
     userPoolId: 'your_user_pool_id',
-    userPoolClientId: 'your_user_pool_client_id',
-  },
+    userPoolClientId: 'your_user_pool_client_id'
+  }
 };
 
 CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
@@ -177,11 +172,10 @@ CognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
 
 Amplify.configure(
   {
-    Auth: authConfig,
+    Auth: authConfig
   },
   { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
 );
-
 ```
 
 </Block>
@@ -189,16 +183,14 @@ Amplify.configure(
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-import {
-  defaultStorage
-} from 'aws-amplify/utils';
+import { defaultStorage } from 'aws-amplify/utils';
 import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig = {
   Cognito: {
     userPoolId: 'your_user_pool_id',
-    userPoolClientId: 'your_user_pool_client_id',
-  },
+    userPoolClientId: 'your_user_pool_client_id'
+  }
 };
 
 CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
@@ -206,11 +198,10 @@ CognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
 
 Amplify.configure(
   {
-    Auth: authConfig,
+    Auth: authConfig
   },
   { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
 );
-
 ```
 
 </Block>
@@ -225,16 +216,14 @@ Amplify.configure(
 
 ```ts
 import { Amplify, ResourcesConfig } from 'aws-amplify';
-import {
-  sessionStorage
-} from 'aws-amplify/utils';
+import { sessionStorage } from 'aws-amplify/utils';
 import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
     userPoolId: 'your_user_pool_id',
-    userPoolClientId: 'your_user_pool_client_id',
-  },
+    userPoolClientId: 'your_user_pool_client_id'
+  }
 };
 
 CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
@@ -242,11 +231,10 @@ CognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
 
 Amplify.configure(
   {
-    Auth: authConfig,
+    Auth: authConfig
   },
   { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
 );
-
 ```
 
 </Block>
@@ -254,16 +242,14 @@ Amplify.configure(
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-import {
-  sessionStorage
-} from 'aws-amplify/utils';
+import { sessionStorage } from 'aws-amplify/utils';
 import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig = {
   Cognito: {
     userPoolId: 'your_user_pool_id',
-    userPoolClientId: 'your_user_pool_client_id',
-  },
+    userPoolClientId: 'your_user_pool_client_id'
+  }
 };
 
 CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
@@ -271,11 +257,10 @@ CognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
 
 Amplify.configure(
   {
-    Auth: authConfig,
+    Auth: authConfig
   },
   { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
 );
-
 ```
 
 </Block>
@@ -296,8 +281,8 @@ import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
     userPoolId: 'your_user_pool_id',
-    userPoolClientId: 'your_user_pool_client_id',
-  },
+    userPoolClientId: 'your_user_pool_client_id'
+  }
 };
 
 class MyCustomStorage implements KeyValueStorageInterface {
@@ -321,39 +306,38 @@ CognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
 
 Amplify.configure(
   {
-    Auth: authConfig,
+    Auth: authConfig
   },
   { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
 );
-
 ```
 
 </Block>
 <Block name="JavaScript">
 
 ```javascript
-import { Amplify} from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig = {
   Cognito: {
     userPoolId: 'your_user_pool_id',
-    userPoolClientId: 'your_user_pool_client_id',
-  },
+    userPoolClientId: 'your_user_pool_client_id'
+  }
 };
 
 class MyCustomStorage {
   storageObject = {};
-  async setItem(key, value){
+  async setItem(key, value) {
     this.storageObject[key] = value;
   }
   async getItem(key) {
     return this.storageObject[key];
   }
-  async removeItem(key){
+  async removeItem(key) {
     delete this.storageObject[key];
   }
-  async clear(){
+  async clear() {
     this.storageObject = {};
   }
 }
@@ -363,11 +347,10 @@ CognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
 
 Amplify.configure(
   {
-    Auth: authConfig,
+    Auth: authConfig
   },
   { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
 );
-
 ```
 
 </Block>
@@ -377,7 +360,7 @@ When you get the current user session, the tokens will be saved in your custom l
 
 <Callout>
 
-**Note:** You can also update token expiration times depending on how you configured your Amazon Cognito User Pool. If you used the Amplify CLI, you can run `amplify update auth` to do so. If not, you can also go through the Amazon Cognito User Pool console under *App integration* > *App client* settings or update the appropriate parameters via the AWS CLI or CDK.
+**Note:** You can also update token expiration times depending on how you configured your Amazon Cognito User Pool. If you used the Amplify CLI, you can run `amplify update auth` to do so. If not, you can also go through the Amazon Cognito User Pool console under _App integration_ > _App client_ settings or update the appropriate parameters via the AWS CLI or CDK.
 
 </Callout>
 
@@ -397,7 +380,7 @@ Congratulations! You finished the **Manage user session and credentials** guide.
 
 Now that you updated how your credentials are managed you may also want to further refine the sing-in and sign-out workflows as well as update how you listen for these Auth events. We recommend you learn more about:
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["javascript"]}>
 
 - [Enable sign-up, sign-in, and sign-out](/lib/auth/emailpassword/q/platform/js/)
 - [Auth events](/lib/auth/auth-events/q/platform/js/)

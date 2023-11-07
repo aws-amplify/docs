@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Create, update, and delete application data',
-  description: 'Learn more about how to create and update data using GraphQL APIs in Amplify',
-  platforms: ['flutter','swift','android', 'javascript', 'react-native']
+  description:
+    'Learn more about how to create and update data using GraphQL APIs in Amplify',
+  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,19 +19,17 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 import ios0 from '/src/fragments/lib-v1/graphqlapi/ios/mutate-data.mdx';
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 <Fragments fragments={{ flutter: flutter_maintenance }} />
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -46,11 +45,11 @@ import flutter3 from '/src/fragments/lib-v1/graphqlapi/flutter/mutate-data.mdx';
 
 <InlineFilter filters={['js', 'react-native']}>
 
-In this guide, you will learn how to create, update, and delete your data using Amplify Libraries' GraphQL client. 
+In this guide, you will learn how to create, update, and delete your data using Amplify Libraries' GraphQL client.
 
 Before you begin, you will need:
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["javascript"]}>
 
 - An [application connected to the API](/lib-v1/graphqlapi/connect/q/platform/js/)
 
@@ -63,12 +62,12 @@ Before you begin, you will need:
 </InlineFilter>
 
 ## Run mutations to create, update, and delete application data
-  
+
 In GraphQL, mutations are APIs that are used to create, update, or delete data. This is different than queries, which are used to read the data but not change it. The following examples demonstrate how you can create, update, and delete items using the Amplify GraphQL client.
 
 ### Create an item
 
-<InlineFilter filters={["js", "react-native"]}>
+<InlineFilter filters={["javascript", "react-native"]}>
 
 You can create an item by first importing the API and mutations. Then you can add an item:
 
@@ -76,7 +75,7 @@ You can create an item by first importing the API and mutations. Then you can ad
 <Block name="TypeScript">
 
 ```ts
-import { API } from "aws-amplify";
+import { API } from 'aws-amplify';
 import * as mutations from './graphql/mutations';
 import { GraphQLQuery } from '@aws-amplify/api';
 import { CreateTodoInput, CreateTodoMutation } from './API';
@@ -86,8 +85,8 @@ const todoDetails: CreateTodoInput = {
   description: 'Learn AWS AppSync'
 };
 
-const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({ 
-  query: mutations.createTodo, 
+const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
+  query: mutations.createTodo,
   variables: { input: todoDetails }
 });
 ```
@@ -99,7 +98,7 @@ You should see the item created: `Learn AWS AppSync`.
 <Block name="JavaScript">
 
 ```js
-import { API } from "aws-amplify";
+import { API } from 'aws-amplify';
 import * as mutations from './graphql/mutations';
 
 const todoDetails = {
@@ -107,8 +106,8 @@ const todoDetails = {
   description: 'Learn AWS AppSync'
 };
 
-const newTodo = await API.graphql({ 
-  query: mutations.createTodo, 
+const newTodo = await API.graphql({
+  query: mutations.createTodo,
   variables: { input: todoDetails }
 });
 ```
@@ -121,7 +120,7 @@ You should see the item created: `Learn AWS AppSync`.
 
 <Callout>
 
-__Note:__ You do not need to specify the `createdAt` field. Amplify will automatically populate this field for you.
+**Note:** You do not need to specify the `createdAt` field. Amplify will automatically populate this field for you.
 
 </Callout>
 
@@ -129,7 +128,7 @@ __Note:__ You do not need to specify the `createdAt` field. Amplify will automat
 
 ### Update an item
 
-<InlineFilter filters={["js", "react-native"]}>
+<InlineFilter filters={["javascript", "react-native"]}>
 
 To update the item, use the GraphQL update mutation:
 
@@ -137,7 +136,7 @@ To update the item, use the GraphQL update mutation:
 <Block name="TypeScript">
 
 ```ts
-import { API } from "aws-amplify";
+import { API } from 'aws-amplify';
 import * as mutations from './graphql/mutations';
 import { GraphQLQuery } from '@aws-amplify/api';
 import { UpdateTodoInput, UpdateTodoMutation } from './API';
@@ -147,8 +146,8 @@ const todoDetails: UpdateTodoInput = {
   description: 'Updated description'
 };
 
-const updatedTodo = await API.graphql<GraphQLQuery<UpdateTodoMutation>>({ 
-  query: mutations.updateTodo, 
+const updatedTodo = await API.graphql<GraphQLQuery<UpdateTodoMutation>>({
+  query: mutations.updateTodo,
   variables: { input: todoDetails }
 });
 ```
@@ -158,17 +157,17 @@ const updatedTodo = await API.graphql<GraphQLQuery<UpdateTodoMutation>>({
 <Block name="JavaScript">
 
 ```js
-import { API } from "aws-amplify";
+import { API } from 'aws-amplify';
 import * as mutations from './graphql/mutations';
 
 const todoDetails = {
   id: 'some_id',
-//  _version: 'current_version', // add the "_version" field if your AppSync API has conflict detection (required for DataStore) enabled
+  //  _version: 'current_version', // add the "_version" field if your AppSync API has conflict detection (required for DataStore) enabled
   description: 'Updated description'
 };
 
-const updatedTodo = await API.graphql({ 
-  query: mutations.updateTodo, 
+const updatedTodo = await API.graphql({
+  query: mutations.updateTodo,
   variables: { input: todoDetails }
 });
 ```
@@ -179,19 +178,18 @@ const updatedTodo = await API.graphql({
 
 <Callout>
 
-__Notes:__
+**Notes:**
 
 - You do not need to specify the `updatedAt` field. Amplify will automatically populate this field for you.
-- If you specify *extra* input fields not expected by the API, this query will fail. You can see this in the `error` field returned by the query. In GraphQL, errors are not thrown like exceptions in other languages. Instead, any errors are captured and returned as part of the query result in the `error` field.
+- If you specify _extra_ input fields not expected by the API, this query will fail. You can see this in the `error` field returned by the query. In GraphQL, errors are not thrown like exceptions in other languages. Instead, any errors are captured and returned as part of the query result in the `error` field.
 
 </Callout>
 
 </InlineFilter>
 
-
 ### Delete an item
 
-<InlineFilter filters={["js", "react-native"]}>
+<InlineFilter filters={["javascript", "react-native"]}>
 
 You can then delete the Todo by using the delete mutation. To specify which item to delete, you only need to provide the `id` of that item:
 
@@ -199,17 +197,17 @@ You can then delete the Todo by using the delete mutation. To specify which item
 <Block name="TypeScript">
 
 ```ts
-import { API } from "aws-amplify";
+import { API } from 'aws-amplify';
 import * as mutations from './graphql/mutations';
 import { GraphQLQuery } from '@aws-amplify/api';
 import { DeleteTodoInput, DeleteTodoMutation } from './API';
 
 const todoDetails: DeleteTodoInput = {
-  id: 'some_id',
+  id: 'some_id'
 };
 
-const deletedTodo = await API.graphql<GraphQLQuery<DeleteTodoMutation>>({ 
-  query: mutations.deleteTodo, 
+const deletedTodo = await API.graphql<GraphQLQuery<DeleteTodoMutation>>({
+  query: mutations.deleteTodo,
   variables: { input: todoDetails }
 });
 ```
@@ -219,15 +217,15 @@ const deletedTodo = await API.graphql<GraphQLQuery<DeleteTodoMutation>>({
 <Block name="JavaScript">
 
 ```js
-import { API } from "aws-amplify";
+import { API } from 'aws-amplify';
 import * as mutations from './graphql/mutations';
 
 const todoDetails = {
-  id: 'some_id',
+  id: 'some_id'
 };
 
-const deletedTodo = await API.graphql({ 
-  query: mutations.deleteTodo, 
+const deletedTodo = await API.graphql({
+  query: mutations.deleteTodo,
   variables: { input: todoDetails }
 });
 ```
@@ -238,7 +236,7 @@ const deletedTodo = await API.graphql({
 
 <Callout>
 
-__Note:__ Join table records must be deleted before deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record before deleting a Post or Tag.
+**Note:** Join table records must be deleted before deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record before deleting a Post or Tag.
 
 </Callout>
 
@@ -250,7 +248,7 @@ Each AWS AppSync API uses a default authorization mode when you configure your a
 <Block name="TypeScript">
 
 ```ts
-import { API } from "aws-amplify";
+import { API } from 'aws-amplify';
 import { GraphQLQuery, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
 import * as mutations from './graphql/mutations';
 import { CreateTodoInput, CreateTodoMutation } from './API';
@@ -273,7 +271,7 @@ const todo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
 <Block name="JavaScript">
 
 ```js
-import { API } from "aws-amplify";
+import { API } from 'aws-amplify';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
 import * as mutations from './graphql/mutations';
 
@@ -297,7 +295,7 @@ const todo = await API.graphql({
 
 </InlineFilter>
 
-<InlineFilter filters={["js", "react-native"]}>
+<InlineFilter filters={["javascript", "react-native"]}>
 
 ## Cancel mutation requests
 
@@ -327,12 +325,12 @@ You need to ensure that the promise returned from `API.graphql()` has not been m
 
 ```javascript
 async function makeAPICall() {
-  return API.graphql({ query: "..." });
+  return API.graphql({ query: '...' });
 }
 const promise = makeAPICall();
 
 // The following will NOT cancel the request.
-API.cancel(promise, "my error message");
+API.cancel(promise, 'my error message');
 ```
 
 </InlineFilter>
@@ -345,7 +343,7 @@ Congratulations! You have finished the **Create, update, and delete application 
 
 Our recommended next steps include using the API to query data and subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["javascript"]}>
 
 - [Read application data](/lib-v1/graphqlapi/query-data/q/platform/js/)
 - [Subscribe to real-time events](/lib-v1/graphqlapi/subscribe-data/q/platform/js/)

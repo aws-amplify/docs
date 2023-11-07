@@ -1,31 +1,29 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
-  title: `Working with files / attachments`,
-  description: `Learn more about associating Amplify Storage files with Amplify GraphQL API records.`,
-  filterKey: 'platform',
-  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+  title: 'Working with files / attachments',
+  description:
+    'Learn more about associating Amplify Storage files with Amplify GraphQL API records.',
+  platforms: ['javascript', 'swift']
 };
 
-import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
-
-import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
-
-export const getStaticPaths = () => {
-  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
 };
 
-export const getStaticProps = (context) => {
+export function getStaticProps(context) {
   return {
     props: {
       platform: context.params.platform,
-      filterKind: meta.filterKey
+      meta
     }
   };
-};
+}
 
 import js0 from '/src/fragments/lib/graphqlapi/js/working-with-files.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />
 
 import ios0 from '/src/fragments/lib/graphqlapi/ios/working-with-files.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />

@@ -1,6 +1,6 @@
-import nextCallout from "/src/fragments/lib-v1/ssr/js/next-js-callout.mdx";
+import nextCallout from '/src/fragments/lib-v1/ssr/js/next-js-callout.mdx';
 
-<Fragments fragments={{ js: nextCallout }} />
+<Fragments fragments={{ javascript: nextCallout }} />
 
 To work well with server-rendered pages, Amplify JS requires slight modifications from how you would use it in a client-only environment.
 
@@ -8,22 +8,22 @@ To work well with server-rendered pages, Amplify JS requires slight modification
 
 ### Enabling SSR
 
-When using the Amplify CLI, the __aws-exports.js__ file gets created and updated automatically for you based upon the resources you have added and configured.
+When using the Amplify CLI, the **aws-exports.js** file gets created and updated automatically for you based upon the resources you have added and configured.
 
 For client-only apps, `Amplify.configure(awsExports)` is all you need.
 
 To enable SSR support, also provide `ssr: true`:
 
 ```js
-import { Amplify } from "aws-amplify";
-import awsExports from "../src/aws-exports";
+import { Amplify } from 'aws-amplify';
+import awsExports from '../src/aws-exports';
 
 Amplify.configure({ ...awsExports, ssr: true });
 ```
 
 By providing `ssr: true`, Amplify persists credentials on the client in cookies so that subsequent requests to the server have access to them.
 
-> **Note**: Once [vercel/next.js#16977](https://github.com/vercel/next.js/issues/16977) is resolved, you can hoist `Amplify.configure` into **pages/_app.js**.  Until then, be sure that all **pages/*** run `Amplify.configure({ ...awsExports, ssr: true })`.
+> **Note**: Once [vercel/next.js#16977](https://github.com/vercel/next.js/issues/16977) is resolved, you can hoist `Amplify.configure` into **pages/\_app.js**. Until then, be sure that all **pages/\*** run `Amplify.configure({ ...awsExports, ssr: true })`.
 
 ### withSSRContext
 
@@ -54,18 +54,18 @@ export default function HomePage({ posts = [] }) {
 When on the server, use `withSSRContext({ req?: ServerRequest })`:
 
 ```js
-import { Amplify, API, withSSRContext } from "aws-amplify";
+import { Amplify, API, withSSRContext } from 'aws-amplify';
 
 export async function getServerSideProps({ req }) {
   // Notice how the server uses `API` from `withSSRContext`, instead of the top-level `API`.
-  const SSR = withSSRContext({ req })
+  const SSR = withSSRContext({ req });
   const { data } = await SSR.API.graphql({ query: listPosts });
 
   return {
     props: {
       posts: data.listPosts.items
     }
-  }
+  };
 }
 ```
 
@@ -76,13 +76,15 @@ Server-side functions that don't have a req object (e.g. Next.js' getStaticProps
 </Callout>
 
 ## Use Amplify with Next.js App Router ("app/" directory)
+
 Amplify JavaScript can be used with the Next.js App Router (Next.js v13.4+) by applying the following changes:
 
-### 1. Run `Amplify.configure({ ...awsExports, ssr: true })` in **both** the client-side and server-side code 
+### 1. Run `Amplify.configure({ ...awsExports, ssr: true })` in **both** the client-side and server-side code
 
 To use Amplify with Next.js App Router, you **must** run `Amplify.configure()` in both Client and Server Components. The `ssr` option **must** be enabled.
 
 Example Next.js App Router Client Component containing your login flow (e.g. `app/page.tsx`):
+
 ```js
 'use client';
 
@@ -92,9 +94,9 @@ import awsExports from '@/aws-exports';
 Amplify.configure({ ...awsExports, ssr: true });
 
 export default function Home() {
-  return (
-    {/* Render a login form for your users */}
-  )
+  return {
+    /* Render a login form for your users */
+  };
 }
 ```
 
@@ -118,7 +120,7 @@ Example Next.js App Router Server Component that queries data from GraphQL (e.g.
 ```js
 import { Amplify, withSSRContext } from 'aws-amplify';
 import { headers } from 'next/headers';
-import { listPosts } from '@/graphql/queries'; 
+import { listPosts } from '@/graphql/queries';
 import awsExports from '@/aws-exports';
 
 Amplify.configure({ ...awsExports, ssr: true });
@@ -127,16 +129,15 @@ export default async function Page() {
   // Construct a req object & prepare an SSR enabled version of Amplify
   const req = {
     headers: {
-      cookie: headers().get('cookie'),
-    },
+      cookie: headers().get('cookie')
+    }
   };
-  const SSR = withSSRContext({ req })
+  const SSR = withSSRContext({ req });
 
   const { data } = await SSR.API.graphql({ query: listPosts });
 
   // ...
 }
-
 ```
 
 ## DataStore
@@ -202,26 +203,26 @@ Open **pages/index.js** and replace it with the following code:
 
 ```jsx
 // pages/index.js
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import Head from 'next/head';
+import styles from '../styles/Home.module.css';
 import {
   Amplify,
   Auth,
   AuthModeStrategyType,
   DataStore,
-  withSSRContext,
-} from "aws-amplify";
-import { Authenticator } from "@aws-amplify/ui-react";
-import { Post } from "../src/models";
-import { serializeModel } from "@aws-amplify/datastore/ssr";
-import awsExports from "../src/aws-exports";
+  withSSRContext
+} from 'aws-amplify';
+import { Authenticator } from '@aws-amplify/ui-react';
+import { Post } from '../src/models';
+import { serializeModel } from '@aws-amplify/datastore/ssr';
+import awsExports from '../src/aws-exports';
 
 Amplify.configure({
   ...awsExports,
   DataStore: {
-    authModeStrategyType: AuthModeStrategyType.MULTI_AUTH,
+    authModeStrategyType: AuthModeStrategyType.MULTI_AUTH
   },
-  ssr: true,
+  ssr: true
 });
 
 export async function getServerSideProps({ req }) {
@@ -231,8 +232,8 @@ export async function getServerSideProps({ req }) {
   return {
     props: {
       // This converts Post instances into serialized JSON for the client
-      posts: serializeModel(posts),
-    },
+      posts: serializeModel(posts)
+    }
   };
 }
 
@@ -244,8 +245,8 @@ async function handleCreatePost(event) {
   try {
     const post = await DataStore.save(
       new Post({
-        title: form.get("title"),
-        content: form.get("content"),
+        title: form.get('title'),
+        content: form.get('content')
       })
     );
 

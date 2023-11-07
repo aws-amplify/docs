@@ -11,7 +11,9 @@ On the first iOS build after upgrading the version of the Amplify packages in yo
 #### Example
 
 Below is an example of what the error will look like:
-<!-- // spell-checker: disable -->
+
+{/* // spell-checker: disable */}
+
 ```sh
 [!] CocoaPods could not find compatible versions for pod "Amplify":
   In snapshot (Podfile.lock):
@@ -24,7 +26,9 @@ You have either:
  * changed the constraints of dependency `Amplify` inside your development pod `amplify_auth_cognito`.
    You should run `pod update Amplify` to apply changes you've made.
 ```
-<!-- // spell-checker: enable -->
+
+{/* // spell-checker: enable */}
+
 #### Why does this occur?
 
 The flutter Amplify packages depend on native iOS Amplify libraries when targeting iOS. New versions of the flutter Amplify packages will often depend on new versions of the native iOS Amplify libraries. Your project will likely have a `Podfile.lock` file that locks all pods to a specific version. The error message that you see is telling you that the version in your `Podfile.lock` and the version required by the new version of the amplify flutter packages are conflicting.
@@ -34,4 +38,3 @@ The flutter Amplify packages depend on native iOS Amplify libraries when targeti
 - **Option 1 (recommended):** Run `pod update Amplify AWSPluginsCore AmplifyPlugins` from the ios dir. This will update the pods that are used by the amplify flutter packages.
 - **Option 2:** Delete the `Podfile.lock` (in the ios dir) and rebuild. A new `Podfile.lock` will be generated. Please note, this may cause other non amplify related dependencies to be updated as well.
 - **Option 3:** Run `pod update` from the ios dir. This should update your `Podfile.lock` file. Please note, this may cause other non amplify related dependencies to be updated as well.
-

@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Hub',
-  description: 'Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. ',
-  platforms: ['javascript','swift','android', 'react-native']
+  description:
+    'Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. ',
+  platforms: ['javascript', 'swift', 'android', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +19,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -31,15 +30,15 @@ import android1 from '/src/fragments/lib-v1/utilities/native_common/hub/common.m
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 import ios2 from '/src/fragments/lib-v1/utilities/native_common/hub/common.mdx';
 
-<Fragments fragments={{ ios: ios2 }} />
+<Fragments fragments={{ swift: ios2 }} />
 
 import js0 from '/src/fragments/lib-v1/utilities/js/hub.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />
 
 import reactnative0 from '/src/fragments/lib-v1/utilities/js/hub.mdx';
 

@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Automatically track sessions',
-  description: 'The Amplify analytics plugin records when an application opens and closes. This session information can be viewed either from your local computer’s terminal or the AWS Console for Pinpoint.',
-  platforms: ['swift','android', 'flutter', 'javascript', 'react-native']
+  description:
+    'The Amplify analytics plugin records when an application opens and closes. This session information can be viewed either from your local computer’s terminal or the AWS Console for Pinpoint.',
+  platforms: ['swift', 'android', 'flutter', 'javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,12 +19,10 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
@@ -31,7 +30,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import ios1 from '/src/fragments/lib-v1/analytics/autotrack.mdx';
 
-<Fragments fragments={{ ios: ios1 }} />
+<Fragments fragments={{ swift: ios1 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -47,7 +46,7 @@ import flutter3 from '/src/fragments/lib-v1/analytics/autotrack.mdx';
 
 import js0 from '/src/fragments/lib-v1/analytics/js/autotrack/autotrack.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />
 
 import reactnative0 from '/src/fragments/lib-v1/analytics/js/autotrack/autotrack.mdx';
 

@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Enable sign-up, sign-in, and sign-out',
-  description: "Learn how to use Amplify's sign-up, sign-in, and sign-out APIs.",
-  platforms: ['javascript','react-native']
+  description:
+    "Learn how to use Amplify's sign-up, sign-in, and sign-out APIs.",
+  platforms: ['javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,14 +19,12 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-      
 
-<InlineFilter filters={["js" , "react-native"]}>
+<InlineFilter filters={["javascript" , "react-native"]}>
 
-In this guide, you will set up sign-up, sign-in, and sign-out using the Amplify Libraries and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out. Once set up, you can connect this functionality to your frontend UI. 
+In this guide, you will set up sign-up, sign-in, and sign-out using the Amplify Libraries and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out. Once set up, you can connect this functionality to your frontend UI.
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["javascript"]}>
 
 <Callout>
 
@@ -33,7 +32,7 @@ This guide is for those who want to set up Amplify Auth with the Amplify Librari
 
 </Callout>
 
-Before you begin, you should have finished the [*Set up and connect backend resources*](/lib/auth/getting-started/q/platform/js/#set-up-and-connect-backend-resources) section of the *Set up Amplify Auth* guide.
+Before you begin, you should have finished the [_Set up and connect backend resources_](/lib/auth/getting-started/q/platform/js/#set-up-and-connect-backend-resources) section of the _Set up Amplify Auth_ guide.
 
 </InlineFilter>
 
@@ -45,7 +44,7 @@ This guide is for those who want to set up Amplify Auth with the Amplify Librari
 
 </Callout>
 
-Before you begin, you should have finished the [*Set up backend resources*](/lib/auth/getting-started/q/platform/react-native/#set-up-backend-resources) section of the *Set up Amplify Auth* guide.
+Before you begin, you should have finished the [_Set up backend resources_](/lib/auth/getting-started/q/platform/react-native/#set-up-backend-resources) section of the _Set up Amplify Auth_ guide.
 
 </InlineFilter>
 
@@ -71,14 +70,14 @@ User attributes (such as username and email) are used to identify your users. Th
 
 ```sh
 ? amplify update auth
-? What do you want to do? 
+? What do you want to do?
   'Walkthrough all the auth configurations'
 # Accept defaults for everything else
 
 # Select the attributes you want users to read/write
-? Specify read attributes: 
+? Specify read attributes:
   'Birthdate, Email, Given Name'
-? Specify write attributes: 
+? Specify write attributes:
   'Locale, Given Name'
 ```
 
@@ -98,9 +97,9 @@ Once you have these decisions in mind, you are ready to enable sign-up, sign-in,
 
 You can add the functionality to enable sign-up, sign-in, and sign-out with the Amplify Libraries. You can connect this to an existing UI or create your own.
 
-For many apps, user sign-up and sign-in with a username and password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. 
+For many apps, user sign-up and sign-in with a username and password is all that is required. Once authenticated, the app can talk to an API to access and mutate data.
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["javascript"]}>
 
 We will use the username and password authentication flow to get started. Both [third-party social provider federation](/lib/auth/social/q/platform/js/) and [Multi-factor authentication](/lib/auth/mfa/q/platform/js/) can be added after this initial setup.
 
@@ -129,7 +128,12 @@ type SignUpParameters = {
   phone_number: string;
 };
 
-async function handleSignUp({ username, password, email, phone_number }: SignUpParameters) {
+async function handleSignUp({
+  username,
+  password,
+  email,
+  phone_number
+}: SignUpParameters) {
   try {
     const { isSignUpComplete, userId, nextStep } = await signUp({
       username,
@@ -140,8 +144,8 @@ async function handleSignUp({ username, password, email, phone_number }: SignUpP
           phone_number // E.164 number convention
         },
         // optional
-        autoSignIn: true, // or SignInOptions e.g { authFlowType: "USER_SRP_AUTH" }
-      },
+        autoSignIn: true // or SignInOptions e.g { authFlowType: "USER_SRP_AUTH" }
+      }
     });
 
     console.log(userId);
@@ -150,6 +154,7 @@ async function handleSignUp({ username, password, email, phone_number }: SignUpP
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -167,8 +172,8 @@ async function handleSignUp({ username, password, email, phone_number }) {
           phone_number // E.164 number convention
         },
         // optional
-        autoSignIn: true, // or SignInOptions e.g { authFlowType: "USER_SRP_AUTH" }
-      },
+        autoSignIn: true // or SignInOptions e.g { authFlowType: "USER_SRP_AUTH" }
+      }
     });
 
     console.log(userId);
@@ -177,6 +182,7 @@ async function handleSignUp({ username, password, email, phone_number }) {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -196,7 +202,10 @@ By default, each user that signs up remains in the unconfirmed status until they
 ```ts
 import { confirmSignUp, type ConfirmSignUpInput } from 'aws-amplify/auth';
 
-async function handleSignUpConfirmation({ username, confirmationCode }: ConfirmSignUpInput) {
+async function handleSignUpConfirmation({
+  username,
+  confirmationCode
+}: ConfirmSignUpInput) {
   try {
     const { isSignUpComplete, nextStep } = await confirmSignUp({
       username,
@@ -207,6 +216,7 @@ async function handleSignUpConfirmation({ username, confirmationCode }: ConfirmS
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -224,23 +234,21 @@ async function handleSignUpConfirmation({ username, confirmationCode }) {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
 ### Auto sign-in
 
-The `autoSignIn` API will automatically sign-in a user when it was previously enabled by the `signUp` API and
-after any of the following cases has completed:
-- User confirmed their account with a verification code sent to their phone or email (default option).
-- User confirmed their account with a verification link sent to their phone or email. In order to
-enable this option you need to go to the [Amazon Cognito console](https://aws.amazon.com/pm/cognito),
-look for your userpool, then go to the `Messaging` tab and enable `link` mode inside the `Verification message` option.
-Finally you need to define the `signUpVerificationMethod` to `link` inside the `Cognito` option of your `Auth` config.
+The `autoSignIn` API will automatically sign-in a user when it was previously enabled by the `signUp` API and after any of the following cases has completed:
 
- ```ts
+- User confirmed their account with a verification code sent to their phone or email (default option).
+- User confirmed their account with a verification link sent to their phone or email. In order to enable this option you need to go to the [Amazon Cognito console](https://aws.amazon.com/pm/cognito), look for your userpool, then go to the `Messaging` tab and enable `link` mode inside the `Verification message` option. Finally you need to define the `signUpVerificationMethod` to `link` inside the `Cognito` option of your `Auth` config.
+
+```ts
 import { autoSignIn } from 'aws-amplify/auth';
 
- async function handleAutoSignIn() {
+async function handleAutoSignIn() {
   try {
     const signInOutput = await autoSignIn();
     // handle sign-in steps
@@ -248,7 +256,7 @@ import { autoSignIn } from 'aws-amplify/auth';
     console.log(error);
   }
 }
- ```
+```
 
 ### Sign-in
 
@@ -268,6 +276,7 @@ async function handleSignIn({ username, password }: SignInInput) {
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -282,6 +291,7 @@ async function signIn({ username, password }) {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -293,11 +303,11 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 - `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` - The TOTP setup process must be continued. Complete the process with `confirmSignIn`.
 - `CONFIRM_SIGN_IN_WITH_SMS_CODE` - The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`.
 - `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` - The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`.
-- `RESET_PASSWORD` - The user must reset their password via `resetPassword`. 
+- `RESET_PASSWORD` - The user must reset their password via `resetPassword`.
 - `CONFIRM_SIGN_UP` - The user hasn't completed the sign-up flow fully and must be confirmed via `confirmSignUp`.
 - `DONE` - The sign in process has been completed.
 
-For more information on handling the TOTP & MFA steps that may be returned, please see [*'Multi-factor authentication'*](/lib-v1/auth/mfa/q/platform/js/).
+For more information on handling the TOTP & MFA steps that may be returned, please see [_'Multi-factor authentication'_](/lib-v1/auth/mfa/q/platform/js/).
 
 ### Sign-out
 
@@ -317,6 +327,7 @@ async function handleSignOut() {
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -331,6 +342,7 @@ async function handleSignOut() {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -350,6 +362,7 @@ async function handleSignOut() {
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -364,6 +377,7 @@ async function handleSignOut() {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -381,19 +395,21 @@ Congratulations! You finished the **Enable sign-up, sign-in, sign-out** guide an
 
 ## Next steps
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["javascript"]}>
 
 Now that you completed setting up Amplify Auth with username and password, you may also want to add some additional features. We recommend:
-  - [Add social provider sign-in](/lib/auth/social/q/platform/js/)
-  - [Multi-factor authentication](/lib/auth/mfa/q/platform/js/)
+
+- [Add social provider sign-in](/lib/auth/social/q/platform/js/)
+- [Multi-factor authentication](/lib/auth/mfa/q/platform/js/)
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
-  Now that you completed setting up Amplify Auth with username and password, you may also want to add some additional features. We recommend:
-  - [Add social provider sign-in](/lib/auth/social/q/platform/react-native/)
-  - [Multi-factor authentication](/lib/auth/mfa/q/platform/react-native/)
+Now that you completed setting up Amplify Auth with username and password, you may also want to add some additional features. We recommend:
+
+- [Add social provider sign-in](/lib/auth/social/q/platform/react-native/)
+- [Multi-factor authentication](/lib/auth/mfa/q/platform/react-native/)
 
 </InlineFilter>
 

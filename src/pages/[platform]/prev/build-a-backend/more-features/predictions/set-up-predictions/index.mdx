@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Set up Predictions',
-  description: 'Get started with integrating ML capabilities into your application using Amplify',
-  platforms: ['swift','android']
+  description:
+    'Get started with integrating ML capabilities into your application using Amplify',
+  platforms: ['swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,16 +19,14 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 import ios1 from '/src/fragments/lib-v1/predictions/native_common/getting-started/common.mdx';
 
-<Fragments fragments={{ ios: ios1 }} />
+<Fragments fragments={{ swift: ios1 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 

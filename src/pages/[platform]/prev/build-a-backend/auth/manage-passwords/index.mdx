@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Set up password change and recovery',
   description: 'Use AWS Cognito Auth plugin to update or reset user password',
-  platforms: ['javascript','flutter','swift','android', 'react-native']
+  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,10 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
-
-<InlineFilter filters={["js", "react-native"]}>
+<InlineFilter filters={["javascript", "react-native"]}>
 
 Amplify Auth provides a secure way for your users to change their password or recover a forgotten password. This securely reduces friction for your users and improves their experience accessing your application.
 
@@ -49,21 +47,26 @@ async function forgotPassword(username: string) {
   try {
     const data = await Auth.forgotPassword(username);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 
 // Collect confirmation code and new password
-async function forgotPasswordSubmit(username: string, code: string, newPassword: string) {
+async function forgotPasswordSubmit(
+  username: string,
+  code: string,
+  newPassword: string
+) {
   try {
     const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -75,21 +78,22 @@ async function forgotPassword(username) {
   try {
     const data = await Auth.forgotPassword(username);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-} 
+}
 
 // Collect confirmation code and new password
 async function forgotPasswordSubmit(username, code, newPassword) {
   try {
     const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -99,7 +103,7 @@ In the case where the user's account password needs to be reset by an Admin, a c
 
 <Callout>
 
-**Note:** An Admin can reset a user's password by going into the Cognito Userpool console, selecting the user, and choosing "Reset password" under the *Actions* dropdown. This can also be done programmatically using the Cognito API Action `AdminResetUserPassword`. Learn more about [resetting a user's password as an Admin](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminResetUserPassword.html).
+**Note:** An Admin can reset a user's password by going into the Cognito Userpool console, selecting the user, and choosing "Reset password" under the _Actions_ dropdown. This can also be done programmatically using the Cognito API Action `AdminResetUserPassword`. Learn more about [resetting a user's password as an Admin](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminResetUserPassword.html).
 
 </Callout>
 
@@ -109,15 +113,20 @@ In the case where the user's account password needs to be reset by an Admin, a c
 ```ts
 import { Auth } from 'aws-amplify';
 
-async function forgotPasswordSubmit(username: string, code: string, newPassword: string) {
+async function forgotPasswordSubmit(
+  username: string,
+  code: string,
+  newPassword: string
+) {
   try {
     const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -128,11 +137,12 @@ async function forgotPasswordSubmit(username, code, newPassword) {
   try {
     const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -152,32 +162,34 @@ You can enable your users to change passwords using the `changePassword` method.
 ```ts
 import { Auth } from 'aws-amplify';
 
-async function changePassword (oldPassword: string, newPassword: string) {
+async function changePassword(oldPassword: string, newPassword: string) {
   try {
     const user = await Auth.currentAuthenticatedUser();
     const data = await Auth.changePassword(user, oldPassword, newPassword);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
+
 </Block>
 <Block name="JavaScript">
 
 ```javascript
 import { Auth } from 'aws-amplify';
 
-async function changePassword (oldPassword, newPassword) {
+async function changePassword(oldPassword, newPassword) {
   try {
     const user = await Auth.currentAuthenticatedUser();
     const data = await Auth.changePassword(user, oldPassword, newPassword);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -199,7 +211,7 @@ Congratulations! You finished the **Set up user password change and recovery** g
 
 Now that you enabled password management you may also want to add some additional features. We recommend you learn more about:
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["javascript"]}>
 
 - [Social sign-in (OAuth)](/lib-v1/auth/social/q/platform/js/)
 - [Multi-factor authentication](/lib-v1/auth/mfa/q/platform/js/)
@@ -217,7 +229,7 @@ Now that you enabled password management you may also want to add some additiona
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
@@ -225,7 +237,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import ios0 from '/src/fragments/lib-v1/auth/native_common/password_management/common.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 

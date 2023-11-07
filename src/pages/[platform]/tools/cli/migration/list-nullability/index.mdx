@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Amplify Codegen Models - List and list components nullability',
   description: 'Generating Amplify models with Amplify CLI 5.1.2',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,9 +28,8 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
-### **What is changing?** 
+### **What is changing?**
 
 Amplify CLI 5.1.2 has updated the codegen process to correctly set the optionality for types in models.
 
@@ -46,6 +45,7 @@ type ListStringContainer @model {
 ```
 
 In this example, there are four fields with different combinations of optionality:
+
 - `requiredElementRequiredList` - the list itself is required. Elements it contains must be non-null. Empty lists can only be represented as an empty array.
 - `requiredElementOptionalList` - the list itself is optional. If present, elements it contains must be non-null. Empty lists could be represented as either an empty array or a null field.
 - `optionalElementRequiredList` - the list itself is required. If present, elements it contains may be null.
@@ -53,19 +53,19 @@ In this example, there are four fields with different combinations of optionalit
 
 > The list component in this example is a String type, however, this applies for other types as well such as Int, Bool, and embedded types that you define yourself.
 
-### **Why are we introducing this change?** 
+### **Why are we introducing this change?**
 
 This is to align the optionality of the generated Swift models as closely as possible to the type defined in the schema.
 
-### **Who is impacted?** 
+### **Who is impacted?**
 
 <BlockSwitcher>
 
 <Block name="iOS">
 
-Developers building an iOS app with Amplify DataStore or Amplify API generates Swift models by running the command `amplify codegen models`. 
+Developers building an iOS app with Amplify DataStore or Amplify API generates Swift models by running the command `amplify codegen models`.
 
- _Previous generated Swift code_
+_Previous generated Swift code_
 
 ```swift
 public struct ListStringContainer: Model {
@@ -94,7 +94,7 @@ The difference between the current and previous code:
 - `requiredElementRequiredList` - No changes
 - `requiredElementOptionalList` - the list was required and is now optional.
 - `optionalElementRequiredList` - the list component was required and is now optional. The list was optional and is now required
-- `optionalElementOptionalList` - the list component was required and is now optional. 
+- `optionalElementOptionalList` - the list component was required and is now optional.
 
 </Block>
 
@@ -137,11 +137,11 @@ public var requiredElementOptionalList: [String]
 // Current - Swift type
 public var requiredElementOptionalList: [String]?
 
-// Previous - Code 
+// Previous - Code
 print(container.requiredElementOptionalList) // ["value1", "value2"]
 
 // Current - Code
-if let requiredElementList = container.requiredElementOptionalList { 
+if let requiredElementList = container.requiredElementOptionalList {
     print(requiredElementList) // ["value1", "value2"]
 }
 ```
@@ -150,7 +150,7 @@ Since the list was required and is now optional, unwrap the optional to retrieve
 
 **Recommendation:** Update the type in the schema from `[String!]` to`[String!]!` to make the list required if you do not have an app use case for storing a null list. This will remove the need to unwrap the list in code.
 
- Scenario 2. Schema: `optionalElementRequiredList: [String]!`
+Scenario 2. Schema: `optionalElementRequiredList: [String]!`
 
 ```swift
 // Previous - Swift type
@@ -160,7 +160,7 @@ public var optionalElementRequiredList: [String]?
 public var optionalElementRequiredList: [String?]
 
 // Previous - Code
-if let optionalElementRequiredList = container.optionalElementRequiredList { 
+if let optionalElementRequiredList = container.optionalElementRequiredList {
     print(optionalElementRequiredList) // ["value1", "value2"]
     for value in optionalElementRequiredList {
         print(value) // "value1", "value2
@@ -190,7 +190,7 @@ public var optionalElementOptionalList: [String]?
 public var optionalElementOptionalList: [String?]?
 
 // Previous - Code
-if let optionalElementOptionalList = container.optionalElementOptionalList { 
+if let optionalElementOptionalList = container.optionalElementOptionalList {
     print(optionalElementOptionalList) // ["value1", "value2"]
     for value in optionalElementOptionalList {
         print(value) // "value1", "value2
@@ -198,7 +198,7 @@ if let optionalElementOptionalList = container.optionalElementOptionalList {
 }
 
 // After
-if let optionalElementList = container.optionalElementOptionalList { 
+if let optionalElementList = container.optionalElementOptionalList {
     print(optionalElementList) // [Optional("value1"), Optional("value2")]
     for value in optionalElementList {
         if let value = value {

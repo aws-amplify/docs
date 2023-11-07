@@ -1,6 +1,6 @@
 List keys under a specified path, as well as `lastModified` timestamp.
 
-<!-- TODO Rewrite the details about prefixes here appear to be things that need to be added to ioS/Android/Flutter? Or is that too much info? -->
+{/* TODO Rewrite the details about prefixes here appear to be things that need to be added to ioS/Android/Flutter? Or is that too much info? */}
 
 ## Public level list
 
@@ -39,10 +39,7 @@ function processStorageList(response) {
     if (res.size) {
       files.push(res);
       // sometimes files declare a folder with a / within then
-      let possibleFolder = res.key
-        .split('/')
-        .slice(0, -1)
-        .join('/');
+      let possibleFolder = res.key.split('/').slice(0, -1).join('/');
       if (possibleFolder) folders.add(possibleFolder);
     } else {
       folders.add(res.key);

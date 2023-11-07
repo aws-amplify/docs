@@ -1,9 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Using GraphQL API',
-  description: 'Learn how to upload and download Amazon S3 Objects using AWS AppSync, a GraphQL based solution to build data-driven apps with real-time and offline capabilities.',
-  platforms: ['swift','android', 'angular', 'flutter', 'javascript', 'nextjs', 'react', 'react-native', 'vue']
+  description:
+    'Learn how to upload and download Amazon S3 Objects using AWS AppSync, a GraphQL based solution to build data-driven apps with real-time and offline capabilities.',
+  platforms: [
+    'swift',
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +29,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import all0 from '/src/fragments/sdk/library-callout.mdx';
 
@@ -27,7 +36,7 @@ import all0 from '/src/fragments/sdk/library-callout.mdx';
 
 import ios1 from '/src/fragments/sdk/storage/ios/graphql-api.mdx';
 
-<Fragments fragments={{ ios: ios1 }} />
+<Fragments fragments={{ swift: ios1 }} />
 
 import android2 from '/src/fragments/sdk/storage/android/graphql-api.mdx';
 

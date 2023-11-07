@@ -1,30 +1,3 @@
-  platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
-
-export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
-};
-
-export function getStaticProps(context) {
-  return {
-    props: {
-      platform: context.params.platform,
-      meta
-    }
-  };
-}
-          
 import {
   Badge,
   Heading,
@@ -38,7 +11,7 @@ import {
 import { FiExternalLink } from 'react-icons/fi';
 import { MdCheckCircle, MdOutlineInfo } from 'react-icons/md';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import Layout from '../../components/contribute/Layout';
+import Layout from '../../../components/contribute/Layout';
 
 const _4a = `
 git status 
@@ -92,8 +65,8 @@ const Code = ({ children, color }) => {
 
 export default function ContributeGettingStartedPage() {
   const meta = {
-  title: 'Getting Started',
-    description:,
+    title: 'Getting Started',
+    description:
       'The steps below will help you get set up to open a pull request in the Amplify JS project. The Amplify Contributor Program is an open invitation for you to participate in the Amplify open source development journey.'
   };
   return (

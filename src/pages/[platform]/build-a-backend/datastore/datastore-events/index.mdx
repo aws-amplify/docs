@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'DataStore events',
   description: 'Listening to DataStore events',
-  platforms: ['javascript','react-native','flutter','swift','android']
+  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +18,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 DataStore periodically publishes state notifications onto Amplify's Hub. You can subscribe to the Hub to gain insight into the internal state of the DataStore. Events are published when:
 
@@ -53,7 +51,7 @@ HubPayload `syncQueriesStartedEvent` contains:
 
 import js0 from '/src/fragments/lib/datastore/js/datastore-events/model-synced.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />
 
 import reactnative0 from '/src/fragments/lib/datastore/js/datastore-events/model-synced.mdx';
 
@@ -69,7 +67,7 @@ import flutter2 from '/src/fragments/lib/datastore/native_common/datastore-event
 
 import ios3 from '/src/fragments/lib/datastore/native_common/datastore-events/model-synced.mdx';
 
-<Fragments fragments={{ ios: ios3 }} />
+<Fragments fragments={{ swift: ios3 }} />
 
 ## syncQueriesReady
 
@@ -85,7 +83,7 @@ HubPayload: N/A
 
 import js4 from '/src/fragments/lib/datastore/js/datastore-events/outbox-mutation-enqueued.mdx';
 
-<Fragments fragments={{ js: js4 }} />
+<Fragments fragments={{ javascript: js4 }} />
 
 import reactnative1 from '/src/fragments/lib/datastore/js/datastore-events/outbox-mutation-enqueued.mdx';
 
@@ -101,11 +99,11 @@ import flutter6 from '/src/fragments/lib/datastore/native_common/datastore-event
 
 import ios7 from '/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-enqueued.mdx';
 
-<Fragments fragments={{ ios: ios7 }} />
+<Fragments fragments={{ swift: ios7 }} />
 
 import js8 from '/src/fragments/lib/datastore/js/datastore-events/outbox-mutation-processed.mdx';
 
-<Fragments fragments={{ js: js8 }} />
+<Fragments fragments={{ javascript: js8 }} />
 
 import reactnative2 from '/src/fragments/lib/datastore/js/datastore-events/outbox-mutation-processed.mdx';
 
@@ -121,7 +119,7 @@ import flutter10 from '/src/fragments/lib/datastore/native_common/datastore-even
 
 import ios11 from '/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-processed.mdx';
 
-<Fragments fragments={{ ios: ios11 }} />
+<Fragments fragments={{ swift: ios11 }} />
 
 import android12 from '/src/fragments/lib/datastore/android/datastore-events/outbox-mutation-failed.mdx';
 
@@ -145,7 +143,7 @@ To see if the network status is active, you could set up the following listener:
 
 import js13 from '/src/fragments/lib/datastore/js/datastore-events.mdx';
 
-<Fragments fragments={{ js: js13 }} />
+<Fragments fragments={{ javascript: js13 }} />
 
 import reactnative3 from '/src/fragments/lib/datastore/js/datastore-events.mdx';
 
@@ -157,7 +155,7 @@ import android14 from '/src/fragments/lib/datastore/android/datastore-events.mdx
 
 import ios15 from '/src/fragments/lib/datastore/ios/datastore-events.mdx';
 
-<Fragments fragments={{ ios: ios15 }} />
+<Fragments fragments={{ swift: ios15 }} />
 
 import flutter16 from '/src/fragments/lib/datastore/flutter/datastore-events.mdx';
 

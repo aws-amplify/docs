@@ -1,9 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Drop-in auth',
-  description: "Learn how to use and customize AWSMobileClient's simple “drop-in” auth UI for your application. ",
-  platforms: ['swift','android', 'angular', 'flutter', 'javascript', 'nextjs', 'react', 'react-native', 'vue']
+  description:
+    "Learn how to use and customize AWSMobileClient's simple “drop-in” auth UI for your application. ",
+  platforms: [
+    'swift',
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +29,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import all0 from '/src/fragments/sdk/library-callout.mdx';
 
@@ -27,7 +36,7 @@ import all0 from '/src/fragments/sdk/library-callout.mdx';
 
 import ios1 from '/src/fragments/sdk/auth/ios/drop-in-auth.mdx';
 
-<Fragments fragments={{ ios: ios1 }} />
+<Fragments fragments={{ swift: ios1 }} />
 
 import android2 from '/src/fragments/sdk/auth/android/drop-in-auth.mdx';
 

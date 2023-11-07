@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Set up password change and recovery',
   description: 'Set up user password change and recovery for your application.',
-  platforms: ['javascript','react-native','flutter','swift','android']
+  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,10 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
-
-<InlineFilter filters={["js", "react-native"]}>
+<InlineFilter filters={["javascript", "react-native"]}>
 
 Amplify Auth provides a secure way for your users to change their password or recover a forgotten password. This securely reduces friction for your users and improves their experience accessing your application.
 
@@ -65,6 +63,7 @@ function handleResetPasswordNextSteps(output: ResetPasswordOutput) {
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -96,6 +95,7 @@ function handleResetPasswordNextSteps(output) {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -105,15 +105,16 @@ To complete the password reset process, invoke the `confirmResetPassword` API wi
 <Block name="TypeScript">
 
 ```typescript
-import { confirmResetPassword, type ConfirmResetPasswordInput } from 'aws-amplify/auth';
+import {
+  confirmResetPassword,
+  type ConfirmResetPasswordInput
+} from 'aws-amplify/auth';
 
-async function handleConfirmResetPassword(
-  {
+async function handleConfirmResetPassword({
   username,
   confirmationCode,
   newPassword
-  }:ConfirmResetPasswordInput
-) {
+}: ConfirmResetPasswordInput) {
   try {
     await confirmResetPassword({ username, confirmationCode, newPassword });
   } catch (error) {
@@ -121,19 +122,18 @@ async function handleConfirmResetPassword(
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
 ```javascript
 import { confirmResetPassword } from 'aws-amplify/auth';
 
-async function handleConfirmResetPassword(
-  {
-   username,
-   confirmationCode,
-   newPassword
-  }
-) {
+async function handleConfirmResetPassword({
+  username,
+  confirmationCode,
+  newPassword
+}) {
   try {
     await confirmResetPassword({ username, confirmationCode, newPassword });
   } catch (error) {
@@ -141,6 +141,7 @@ async function handleConfirmResetPassword(
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -154,7 +155,10 @@ You can update a signed in user's password using the `updatePassword` API.
 ```typescript
 import { updatePassword, type UpdatePasswordInput } from 'aws-amplify/auth';
 
-async function handleUpdatePassword({ oldPassword, newPassword }:UpdatePasswordInput) {
+async function handleUpdatePassword({
+  oldPassword,
+  newPassword
+}: UpdatePasswordInput) {
   try {
     await updatePassword({ oldPassword, newPassword });
   } catch (err) {
@@ -162,6 +166,7 @@ async function handleUpdatePassword({ oldPassword, newPassword }:UpdatePasswordI
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -176,6 +181,7 @@ async function handleUpdatePassword(oldPassword, newPassword) {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -187,7 +193,7 @@ Congratulations! You finished the **Set up user password change and recovery** g
 
 Now that you enabled password management you may also want to add some additional features. We recommend you learn more about:
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["javascript"]}>
 
 - [Social sign-in (OAuth)](/lib/auth/social/q/platform/js/)
 - [Multi-factor authentication](/lib/auth/mfa/q/platform/js/)
@@ -205,7 +211,7 @@ Now that you enabled password management you may also want to add some additiona
 
 import ios0 from '/src/fragments/lib/auth/native_common/password_management/common.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />
 
 import android1 from '/src/fragments/lib/auth/native_common/password_management/common.mdx';
 

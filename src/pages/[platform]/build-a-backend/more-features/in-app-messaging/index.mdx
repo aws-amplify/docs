@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Overview',
-  description: 'Amplify In-App Messaging helps you better engage your users with messages they can see while actively using your application. Send targeted messages to your defined user segments or even trigger contextual messages based on user behavior. Once you are up and running with In-App Messaging, you’ll be able to create messages that look native to your application and deliver them to your users all without additional code changes.',
-  platforms: ['javascript','react-native']
+  description:
+    'Amplify In-App Messaging helps you better engage your users with messages they can see while actively using your application. Send targeted messages to your defined user segments or even trigger contextual messages based on user behavior. Once you are up and running with In-App Messaging, you’ll be able to create messages that look native to your application and deliver them to your users all without additional code changes.',
+  platforms: ['javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +19,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import reactnative0 from '/src/fragments/lib/in-app-messaging/overview/overview.mdx';
 
@@ -27,4 +26,4 @@ import reactnative0 from '/src/fragments/lib/in-app-messaging/overview/overview.
 
 import js0 from '/src/fragments/lib/in-app-messaging/overview/overview.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />

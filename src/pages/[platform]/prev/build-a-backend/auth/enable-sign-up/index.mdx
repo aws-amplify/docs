@@ -1,5 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Enable sign-up, sign-in, and sign-out',
   description: "Learn how to use Amplify's sign up, sign in and sign out APIs.",
@@ -18,14 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-      
 
-<InlineFilter filters={["js" , "react-native"]}>
+<InlineFilter filters={["javascript" , "react-native"]}>
 
-In this guide, you will set up sign-up, sign-in, and sign-out using the Amplify Libraries and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out. Once set up, you can connect this functionality to your frontend UI. 
+In this guide, you will set up sign-up, sign-in, and sign-out using the Amplify Libraries and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out. Once set up, you can connect this functionality to your frontend UI.
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["javascript"]}>
 
 <Callout>
 
@@ -33,7 +31,7 @@ This guide is for those who want to set up Amplify Auth with the Amplify Librari
 
 </Callout>
 
-Before you begin, you should have finished the [*Set up and connect backend resources*](/lib/auth/getting-started/q/platform/js/#set-up-and-connect-backend-resources) section of the *Set up Amplify Auth* guide.
+Before you begin, you should have finished the [_Set up and connect backend resources_](/lib/auth/getting-started/q/platform/js/#set-up-and-connect-backend-resources) section of the _Set up Amplify Auth_ guide.
 
 </InlineFilter>
 
@@ -45,7 +43,7 @@ This guide is for those who want to set up Amplify Auth with the Amplify Librari
 
 </Callout>
 
-Before you begin, you should have finished the [*Set up backend resources*](/lib/auth/getting-started/q/platform/react-native/#set-up-backend-resources) section of the *Set up Amplify Auth* guide.
+Before you begin, you should have finished the [_Set up backend resources_](/lib/auth/getting-started/q/platform/react-native/#set-up-backend-resources) section of the _Set up Amplify Auth_ guide.
 
 </InlineFilter>
 
@@ -71,14 +69,14 @@ User attributes (such as username and email) are used to identify your users. Th
 
 ```sh
 ? amplify update auth
-? What do you want to do? 
+? What do you want to do?
   'Walkthrough all the auth configurations'
 # Accept defaults for everything else
 
 # Select the attributes you want users to read/write
-? Specify read attributes: 
+? Specify read attributes:
   'Birthdate, Email, Given Name'
-? Specify write attributes: 
+? Specify write attributes:
   'Locale, Given Name'
 ```
 
@@ -98,9 +96,9 @@ Once you have these decisions in mind, you are ready to enable sign-up, sign-in,
 
 You can add the functionality to enable sign-up, sign-in, and sign-out with the Amplify Libraries. You can connect this to an existing UI or create your own.
 
-For many apps, user sign-up and sign-in with a username and password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. 
+For many apps, user sign-up and sign-in with a username and password is all that is required. Once authenticated, the app can talk to an API to access and mutate data.
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["javascript"]}>
 
 We will use the username and password authentication flow to get started. Both [third-party social provider federation](/lib/auth/social/q/platform/js/) and [Multi-factor authentication](/lib/auth/mfa/q/platform/js/) can be added after this initial setup.
 
@@ -129,20 +127,25 @@ type SignUpParameters = {
   phone_number: string;
 };
 
-export async function signUp({ username, password, email, phone_number }: SignUpParameters) {
+export async function signUp({
+  username,
+  password,
+  email,
+  phone_number
+}: SignUpParameters) {
   try {
     const { user } = await Auth.signUp({
       username,
       password,
       attributes: {
         email, // optional
-        phone_number, // optional - E.164 number convention
+        phone_number // optional - E.164 number convention
         // other custom attributes
       },
       autoSignIn: {
         // optional - enables auto sign in after user is confirmed
-        enabled: true,
-      },
+        enabled: true
+      }
     });
     console.log(user);
   } catch (error) {
@@ -150,6 +153,7 @@ export async function signUp({ username, password, email, phone_number }: SignUp
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -162,12 +166,13 @@ async function signUp() {
       username,
       password,
       attributes: {
-        email,          // optional
-        phone_number,   // optional - E.164 number convention
-        // other custom attributes 
+        email, // optional
+        phone_number // optional - E.164 number convention
+        // other custom attributes
       },
-      autoSignIn: { // optional - enables auto sign in after user is confirmed
-        enabled: true,
+      autoSignIn: {
+        // optional - enables auto sign in after user is confirmed
+        enabled: true
       }
     });
     console.log(user);
@@ -176,6 +181,7 @@ async function signUp() {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -194,7 +200,10 @@ type ConfirmSignUpParameters = {
   code: string;
 };
 
-export async function confirmSignUp({ username, code }: ConfirmSignUpParameters) {
+export async function confirmSignUp({
+  username,
+  code
+}: ConfirmSignUpParameters) {
   try {
     await Auth.confirmSignUp(username, code);
   } catch (error) {
@@ -202,6 +211,7 @@ export async function confirmSignUp({ username, code }: ConfirmSignUpParameters)
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -216,14 +226,13 @@ async function confirmSignUp() {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
-
 ### Auto sign-in after sign-up
 
-If you enabled `autoSignIn`, the `sign up` function will dispatch the `autoSignIn` hub event after successful confirmation.
-If authentication was successful, the event will contain `CognitoUser` in the data object. If auto sign-in failed, it will dispatch the `autoSignIn_failure` event.
+If you enabled `autoSignIn`, the `sign up` function will dispatch the `autoSignIn` hub event after successful confirmation. If authentication was successful, the event will contain `CognitoUser` in the data object. If auto sign-in failed, it will dispatch the `autoSignIn_failure` event.
 
 ```js
 import { Hub } from 'aws-amplify';
@@ -237,9 +246,8 @@ function listenToAutoSignInEvent() {
     } else if (event === 'autoSignIn_failure') {
       // redirect to sign in page
     }
-  })
+  });
 }
-
 ```
 
 ### Sign-in
@@ -265,6 +273,7 @@ export async function signIn({ username, password }: SignInParameters) {
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -279,6 +288,7 @@ async function signIn() {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -300,6 +310,7 @@ export async function signOut() {
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -314,6 +325,7 @@ async function signOut() {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -333,6 +345,7 @@ export async function signOut() {
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -347,6 +360,7 @@ async function signOut() {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -364,19 +378,21 @@ Congratulations! You finished the **Enable sign-up, sign-in, sign-out** guide an
 
 ## Next steps
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["javascript"]}>
 
 Now that you completed setting up Amplify Auth with username and password, you may also want to add some additional features. We recommend:
-  - [Add social provider sign-in](/lib-v1/auth/social/q/platform/js/)
-  - [Multi-factor authentication](/lib-v1/auth/mfa/q/platform/js/)
+
+- [Add social provider sign-in](/lib-v1/auth/social/q/platform/js/)
+- [Multi-factor authentication](/lib-v1/auth/mfa/q/platform/js/)
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
-  Now that you completed setting up Amplify Auth with username and password, you may also want to add some additional features. We recommend:
-  - [Add social provider sign-in](/lib-v1/auth/social/q/platform/react-native/)
-  - [Multi-factor authentication](/lib-v1/auth/mfa/q/platform/react-native/)
+Now that you completed setting up Amplify Auth with username and password, you may also want to add some additional features. We recommend:
+
+- [Add social provider sign-in](/lib-v1/auth/social/q/platform/react-native/)
+- [Multi-factor authentication](/lib-v1/auth/mfa/q/platform/react-native/)
 
 </InlineFilter>
 

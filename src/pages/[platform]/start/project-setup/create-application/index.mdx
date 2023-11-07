@@ -1,9 +1,16 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Create your application',
-  description: 'Project setup for Amplify prior to adding category specific example.',
-  platforms: ['angular, javascript, nextjs, react, vue','swift','android','react-native','flutter']
+  description:
+    'Project setup for Amplify prior to adding category specific example.',
+  platforms: [
+    'angular, javascript, nextjs, react, vue',
+    'swift',
+    'android',
+    'react-native',
+    'flutter'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +25,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import common_create_application from '/src/fragments/lib/project-setup/native_common/create-application/common.mdx';
 import reactnative_getting_started from '/src/fragments/start/getting-started/reactnative/setup.mdx';
@@ -41,11 +46,9 @@ import reactnative_getting_started from '/src/fragments/start/getting-started/re
 
 import versionRangeCallout from '/src/fragments/lib/ssr/nextjs/version-range-callout.mdx';
 
-<Fragments fragments={{ js: versionRangeCallout }} />
+<Fragments fragments={{ javascript: versionRangeCallout }} />
 
-To set up the project, you will need to create a new Next.js app with the
-[`create-next-app`](https://nextjs.org/docs/api-reference/create-next-app) tool.
-You'll then add Amplify and initialize a new project.
+To set up the project, you will need to create a new Next.js app with the [`create-next-app`](https://nextjs.org/docs/api-reference/create-next-app) tool. You'll then add Amplify and initialize a new project.
 
 Run the following command and following the instructions to create a Next.js app.
 
@@ -112,11 +115,12 @@ And finally, make sure to add `src/polyfills` to files in your `tsconfig.app.jso
   ],
 }
 ```
+
 </Block>
 
 <Block name="Angular 10-14">
 
-Add the following to your `src/polyfills.ts` file to recreate them: 
+Add the following to your `src/polyfills.ts` file to recreate them:
 
 ```javascript
 (window as any).global = window;
@@ -140,6 +144,7 @@ From your projects directory, run the following commands and follow the prompts:
 ```bash
 npm create vite@latest
 ```
+
 This creates a new React app in a new directory. Navigate to your new directory and run the app by using the following command:
 
 ```bash
@@ -169,13 +174,13 @@ Need to install the following packages:
 Ok to proceed? (y) y
 
 ✔ Project name: … myamplifyproject
-✔ Add TypeScript? … No 
-✔ Add JSX Support? … No 
-✔ Add Vue Router for Single Page Application development? … No 
-✔ Add Pinia for state management? … No 
-✔ Add Vitest for Unit Testing? … No 
-✔ Add Cypress for both Unit and End-to-End testing? … No 
-✔ Add ESLint for code quality? … No 
+✔ Add TypeScript? … No
+✔ Add JSX Support? … No
+✔ Add Vue Router for Single Page Application development? … No
+✔ Add Pinia for state management? … No
+✔ Add Vitest for Unit Testing? … No
+✔ Add Cypress for both Unit and End-to-End testing? … No
+✔ Add ESLint for code quality? … No
 ```
 
 This creates a new Vue app in a new directory. Navigate to your new directory and run the app by using the following command:
@@ -199,14 +204,11 @@ This runs a development server and see preview your app locally.
 
 ## Create a New Amplify Backend
 
-Now that you have a running app, it's time to set up Amplify so that you
-can set up the backend services you need.
+Now that you have a running app, it's time to set up Amplify so that you can set up the backend services you need.
 
 <Callout warning>
 
-Please ensure the Amplify CLI version in
-your system is higher than `12.5.1`. You can check the CLI version by
-running `amplify --version`.
+Please ensure the Amplify CLI version in your system is higher than `12.5.1`. You can check the CLI version by running `amplify --version`.
 
 </Callout>
 
@@ -245,24 +247,12 @@ https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
 
 When you initialize a new Amplify project, a few things happen:
 
-- It creates a top level directory called `amplify` that stores your backend
-definition. During the tutorial you'll add capabilities such as a GraphQL API
-and authentication. As you add features, the `amplify` folder will grow with
-infrastructure-as-code templates that define your backend stack.
-Infrastructure-as-code is a best practice way to create a replicable backend stack.
-- It creates a file called `amplifyconfiguration.json` in the `src` directory that holds
-all the configuration for the services you create with Amplify. This is how the
-Amplify client is able to get the necessary information about your backend services.
+- It creates a top level directory called `amplify` that stores your backend definition. During the tutorial you'll add capabilities such as a GraphQL API and authentication. As you add features, the `amplify` folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
+- It creates a file called `amplifyconfiguration.json` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
 - It modifies the `.gitignore` file, adding some generated files to the ignore list
-- A cloud project is created for you in the AWS Amplify Console that can be
-accessed by running `amplify console`. The Console provides a list of backend
-environments, deep links to provisioned resources per Amplify category, status
-of recent deployments, and instructions on how to promote, clone, pull, and delete
-backend resources.
+- A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources.
 
-As you add or remove categories and make updates to your backend configuration
-using the Amplify CLI, the configuration in `amplifyconfiguration.json` will update
-automatically.
+As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in `amplifyconfiguration.json` will update automatically.
 
 ## Install Amplify libraries
 

@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Manage MFA settings',
   description: 'Learn how to enable multi-factor authentication with Amplify.',
-  platforms: ['javascript','react-native','flutter','swift','android']
+  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,16 +18,15 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
-
-<InlineFilter filters={["js", "react-native"]}>
+<InlineFilter filters={["javascript", "react-native"]}>
 
 The Auth category supports Multi-factor Authentication (MFA) for user sign-in flows. MFA is an extra layer of security used to make sure that users trying to gain access to an account are who they say they are. It requires users to provide additional information to verify their identity. Amplify Auth supports the MFA methods with Time-based-One-Time Passwords (TOTP) as well as text messages (SMS). In this guide we will review how you can set up MFA using TOTP and SMS and the tradeoffs between these methods to help you choose the right set up for your application. We’ll also review how to set up MFA to remember a device and reduce sign-in friction for your users.
 
 Before you begin you will need:
+
 - The Amplify libraries installed and configured
-- *Optional* If you are using SMS you will need a phone number provisioned with an [SNS/Pinpoint](https://docs.aws.amazon.com/sns/latest/dg/channels-sms-originating-identities.html)
+- _Optional_ If you are using SMS you will need a phone number provisioned with an [SNS/Pinpoint](https://docs.aws.amazon.com/sns/latest/dg/channels-sms-originating-identities.html)
 
 ## Enable multi-factor authentication
 
@@ -35,20 +34,21 @@ Below are the steps you can use to set up MFA using SMS or TOTP with the Amplify
 
 <Callout>
 
-You can also use the Amazon Cognito console to enable MFA. You will first enable MFA for your Cognito User Pool and then set up MFA for your app. Please see the [*Amazon Cognito Developer Guide*](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html) for more information to set up MFA in Amazon Cognito. You can use the same Cognito console to enable or disable MFA.
+You can also use the Amazon Cognito console to enable MFA. You will first enable MFA for your Cognito User Pool and then set up MFA for your app. Please see the [_Amazon Cognito Developer Guide_](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html) for more information to set up MFA in Amazon Cognito. You can use the same Cognito console to enable or disable MFA.
 
 </Callout>
 
 ### Understand your MFA options
 
 When enabling MFA you will have two key decisions to make:
-- **MFA enforcement:** As part of this setup you will determine how MFA is enforced. If you require MFA by setting MFA login to "ON", all your users will need to complete MFA to sign in. If you keep it "Optional", your users will have the choice whether to enable MFA or not for their account. 
+
+- **MFA enforcement:** As part of this setup you will determine how MFA is enforced. If you require MFA by setting MFA login to "ON", all your users will need to complete MFA to sign in. If you keep it "Optional", your users will have the choice whether to enable MFA or not for their account.
 - **MFA methods:** You will also specify which MFA method you are using - TOTP (Time-based One-time Password), SMS (text message), or both. We recommend that you use TOTP-based MFA as it is more secure and you can reserve SMS for account recovery.
 
 <Accordion title='Compare TOTP and SMS MFA methods' headingLevel='4' eyebrow='Learn more'>
 
 |  | Time-based One-time Password (TOTP) | Short Message Service (SMS) |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | **Description** | Generates a short-lived numeric code for user authentication that includes a shared secret key and current time using an authenticator app. | Generates a one-time code shared via text message that is entered with other credentials for user authentication. |
 | **Benefits** | More secure than SMS since the code is generated locally and not transmitted over a network. TOTP also works without cell service as long as the TOTP app is installed. | Easy to set up with a user-provided phone number and is familiar to users as a common authentication method. |
 | **Constraints** | Requires an app to generate codes and adds to the initial setup of an account. Codes also expire quickly and must be used promptly after it is generated. | SMS requires cell service and can include an additional cost for the user. Although rare, SMS messages can also be intercepted. |
@@ -82,7 +82,7 @@ For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aw
 
 ```
 $ amplify add auth
- 
+
 ? Do you want to use the default authentication and security configuration?
   Manual configuration
 
@@ -106,7 +106,7 @@ Some next steps:
 
 ```
 $ amplify add auth
- 
+
 ? Do you want to use the default authentication and security configuration?
   Manual configuration
 
@@ -129,8 +129,7 @@ Some next steps:
 
 Run `amplify update auth` and follow the prompts as guided below.
 
-The following steps show how to enable MFA as "Optional" for users. In this mode, MFA must be enabled on a user-by-user basis, either through an Admin SDK 
-(e.g. via a Lambda trigger as part of the sign-up process), or manually in the Cognito console.
+The following steps show how to enable MFA as "Optional" for users. In this mode, MFA must be enabled on a user-by-user basis, either through an Admin SDK (e.g. via a Lambda trigger as part of the sign-up process), or manually in the Cognito console.
 
 If you'd like to make MFA required for users, you must first delete your auth resource by running `amplify remove auth`, then follow the **New Project** flow on this page.
 
@@ -166,8 +165,8 @@ Some next steps:
 "amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
 ```
 
-
 #### TOTP MFA
+
 ```
 $ amplify update auth
 
@@ -197,7 +196,7 @@ After you enable MFA you will also need to include MFA setup when users sign up.
 
 Once you have setup SMS as your second layer of authentication with MFA as shown above, your users will get an authentication code via a text message to complete sign-in after they sign in with their username and password.
 
-If you do not have one already, you will need to configure an IAM role to use with Amazon Simple Notification Service (Amazon SNS) to manage SMS messages. You will then add this role under the "Messaging" tab for your user pool in the Amazon Cognito console. For additional information see the [*Amazon Cognito SMS text message MFA*](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa-sms-text-message.html) documentation.
+If you do not have one already, you will need to configure an IAM role to use with Amazon Simple Notification Service (Amazon SNS) to manage SMS messages. You will then add this role under the "Messaging" tab for your user pool in the Amazon Cognito console. For additional information see the [_Amazon Cognito SMS text message MFA_](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa-sms-text-message.html) documentation.
 
 ### Enable SMS MFA during sign-up
 
@@ -207,7 +206,6 @@ You will need to pass `phone_number` as a user attribute to enable SMS MFA for y
 <Block name="TypeScript">
 
 ```ts
-
 import { signUp } from 'aws-amplify/auth';
 
 async function handleSignUp(
@@ -223,29 +221,24 @@ async function handleSignUp(
       options: {
         userAttributes: {
           phone_number,
-          email,
-        },
-      },
+          email
+        }
+      }
     });
   } catch (error) {
     console.log(error);
   }
 }
 ```
+
 </Block>
 
 <Block name="JavaScript">
 
 ```javascript
-
 import { signUp } from 'aws-amplify/auth';
 
-async function handleSignUp(
-  username,
-  password,
-  phone_number,
-  email
-) {
+async function handleSignUp(username, password, phone_number, email) {
   try {
     await signUp({
       username,
@@ -253,18 +246,18 @@ async function handleSignUp(
       options: {
         userAttributes: {
           phone_number,
-          email,
-        },
-      },
+          email
+        }
+      }
     });
   } catch (error) {
     console.log(error);
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
-
 
 By default, you have to verify a user account after they sign up using the `confirmSignUp` API, which will send a one-time password to the user's phone number or email, depending on your Amazon Cognito configuration.
 
@@ -274,7 +267,10 @@ By default, you have to verify a user account after they sign up using the `conf
 ```ts
 import { confirmSignUp } from 'aws-amplify/auth';
 
-async function handleSignUpConfirmation(username: string, confirmationCode: string) {
+async function handleSignUpConfirmation(
+  username: string,
+  confirmationCode: string
+) {
   try {
     await confirmSignUp({ username, confirmationCode });
   } catch (error) {
@@ -297,13 +293,13 @@ async function handleSignUpConfirmation(username, confirmationCode) {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
 ### Manage SMS MFA during sign-in
 
-After a user signs in, if they have MFA enabled for their account, a challenge will be returned that you would need to call the `confirmSignIn` API where the user provides
-their confirmation code sent to their phone number.
+After a user signs in, if they have MFA enabled for their account, a challenge will be returned that you would need to call the `confirmSignIn` API where the user provides their confirmation code sent to their phone number.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -311,10 +307,7 @@ their confirmation code sent to their phone number.
 ```typescript
 import { signIn } from 'aws-amplify/auth';
 
-async function handleSignIn(
-  username: string,
-  password: string
-) {
+async function handleSignIn(username: string, password: string) {
   try {
     await signIn({ username, password });
   } catch (error) {
@@ -322,6 +315,7 @@ async function handleSignIn(
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -336,6 +330,7 @@ async function handleSignIn(username, password) {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -373,11 +368,11 @@ async function handleSignInConfirmation(otpCode) {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
-After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user
-and optionally set it as preferred so that subsequent logins default to using this MFA type.
+After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
@@ -393,24 +388,17 @@ async function handleUpdateMFAPreference() {
 
 ## Multi-factor authentication with TOTP
 
-You can use Time-based One-Time Password (TOTP) for multi-factor authentication (MFA) in your web or mobile applications. The Amplify Auth category includes
-support for TOTP setup and verification using authenticator apps, offering an integrated solution and enhanced security for your users. These apps,
-such as Google Authenticator, Microsoft Authenticator, have the TOTP algorithm built-in and work by using a shared secret key and the current time to
-generate short-lived, six digit passwords.
+You can use Time-based One-Time Password (TOTP) for multi-factor authentication (MFA) in your web or mobile applications. The Amplify Auth category includes support for TOTP setup and verification using authenticator apps, offering an integrated solution and enhanced security for your users. These apps, such as Google Authenticator, Microsoft Authenticator, have the TOTP algorithm built-in and work by using a shared secret key and the current time to generate short-lived, six digit passwords.
 
 ### Set up TOTP for a user
 
-After you initiate a user sign in with the `signIn` API where a user is required to set up TOTP as an MFA method, the API call will return `CONTINUE_SIGN_IN_WITH_TOTP_SETUP`
-as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
+After you initiate a user sign in with the `signIn` API where a user is required to set up TOTP as an MFA method, the API call will return `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
 
 - MFA is marked as **Required** in your user pool.
 - TOTP is enabled in your user pool.
 - User does not have TOTP MFA set up already.
 
-The `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails`
-which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI`
-which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains
-a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app.
+The `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app.
 
 Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 
@@ -418,14 +406,13 @@ Once the authenticator app is set up, the user can generate a TOTP code and prov
 <Block name="TypeScript">
 
 ```ts
-
-import { signIn , SignInOutput } from 'aws-amplify/auth';
+import { signIn, SignInOutput } from 'aws-amplify/auth';
 
 async function handleSignIn(username: string, password: string) {
   try {
     const output = await signIn({
       username,
-      password,
+      password
     });
 
     handleSignInNextSteps(output);
@@ -460,7 +447,7 @@ async function handleSignIn(username, password) {
   try {
     const output = await signIn({
       username,
-      password,
+      password
     });
 
     handleSignInNextSteps(output);
@@ -519,11 +506,11 @@ async function handleSignInConfirmation(totpCode) {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
-After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user
-and optionally set it as preferred so that subsequent logins default to using this MFA type.
+After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
@@ -601,10 +588,7 @@ async function handleTOTPVerification(totpCode) {
 </Block>
 </BlockSwitcher>
 
-
-After TOTP setup is complete, call `updateMFAPreference` to record the MFA type as enabled for the user
-and optionally set it as preferred so that subsequent logins default to using this MFA type.
-
+After TOTP setup is complete, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
@@ -670,8 +654,7 @@ async function handleUpdateMFAPreference() {
 }
 ```
 
-If multiple MFA methods are enabled for the user, the `signIn` API will return `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` as the next step in the auth flow. During this scenario,
-the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
+If multiple MFA methods are enabled for the user, the `signIn` API will return `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -705,7 +688,7 @@ function promptUserForMFAType(
 async function handleMFASelection(mfaType: 'SMS' | 'TOTP') {
   try {
     const output = await confirmSignIn({
-      challengeResponse: mfaType,
+      challengeResponse: mfaType
     });
     handleSignInNextSteps(output);
   } catch (error) {
@@ -713,6 +696,7 @@ async function handleMFASelection(mfaType: 'SMS' | 'TOTP') {
   }
 }
 ```
+
 </Block>
 
 <Block name="JavaScript">
@@ -735,15 +719,14 @@ function handleSignInNextSteps(output) {
   }
 }
 
-function promptUserForMFAType(allowedMFATypes)
-{
+function promptUserForMFAType(allowedMFATypes) {
   // Prompt user to select MFA type
 }
 
 async function handleMFASelection(mfaType) {
   try {
     const output = await confirmSignIn({
-      challengeResponse: mfaType,
+      challengeResponse: mfaType
     });
     handleSignInNextSteps(output);
   } catch (error) {
@@ -762,6 +745,7 @@ Remembering a device is useful in conjunction with MFA because it allows the sec
 <Callout>
 
 **Note:** The [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are not available if any of the following conditions are met:
+
 - the federated OAuth flow with Cognito User Pools or Hosted UI is used, or
 - the User Pool uses `email/phone_number` or `alias` sign-in method, or
 - when the `signIn` API uses the `USER_PASSWORD_AUTH` as the `authFlowType`.
@@ -793,16 +777,16 @@ When MFA is enabled you will have the option to suppress the second factor durin
 
 ![Options for allow users to bypass MFA for trusted devices.](/images/auth/webconsole_remember2.png)
 
-When you have made your selection(s), click "Save changes".  You are now ready to start updating your code to manage remembered devices.
+When you have made your selection(s), click "Save changes". You are now ready to start updating your code to manage remembered devices.
 
 <Accordion title='Understand key terms used for tracking devices' headingLevel='4' eyebrow='Learn more'>
 
 There are differences to keep in mind when working with remembered, forgotten, and tracked devices.
 
-* **Tracked:** Every time the user signs in with a new device, the client is given the device key at the end of a successful authentication event. We use this device key to generate a salt and password verifier which is used to call the `ConfirmDevice` API. At this point, the device is considered to be "tracked".  Once the device is in a tracked state, you can use the Amazon Cognito console to see the time it started to be tracked, last authentication time, and other information about that device.
-* **Remembered:** Remembered devices are also tracked. During user authentication, the device key and secret pair assigned to a remembered device is used to authenticate the device to verify that it is the same device that the user previously used to sign in.
-* **Not Remembered:** A not-remembered device is a tracked device where Cognito has been configured to require users to "Opt-in" to remember a device but the user has chosen not to remember the device. This use case is for users signing into their application from a device that they don't own.
-* **Forgotten:** In the event that you no longer want to remember or track devices, you can use the `forgetDevice()` API to remove devices from being both remembered and tracked.
+- **Tracked:** Every time the user signs in with a new device, the client is given the device key at the end of a successful authentication event. We use this device key to generate a salt and password verifier which is used to call the `ConfirmDevice` API. At this point, the device is considered to be "tracked". Once the device is in a tracked state, you can use the Amazon Cognito console to see the time it started to be tracked, last authentication time, and other information about that device.
+- **Remembered:** Remembered devices are also tracked. During user authentication, the device key and secret pair assigned to a remembered device is used to authenticate the device to verify that it is the same device that the user previously used to sign in.
+- **Not Remembered:** A not-remembered device is a tracked device where Cognito has been configured to require users to "Opt-in" to remember a device but the user has chosen not to remember the device. This use case is for users signing into their application from a device that they don't own.
+- **Forgotten:** In the event that you no longer want to remember or track devices, you can use the `forgetDevice()` API to remove devices from being both remembered and tracked.
 
 </Accordion>
 
@@ -824,6 +808,7 @@ export async function handleRememberDevice() {
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -838,6 +823,7 @@ export async function handleRememberDevice() {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -859,6 +845,7 @@ export async function handleForgetDevice() {
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -873,6 +860,7 @@ export async function handleForgetDevice() {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -895,6 +883,7 @@ export async function handleFetchDevices() {
   }
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -910,6 +899,7 @@ async function handleFetchDevices() {
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -923,20 +913,20 @@ Congratulations! You finished the **Manage MFA settings** guide. In this guide, 
 
 Now that you completed setting up multi-factor authentication you may also want to add additional customization. We recommend you learn more about:
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["javascript"]}>
 
-* [Switching authentication flows](/lib/auth/switch-auth/q/platform/js/)
-* [Advanced workflows](/lib/auth/advanced/q/platform/js/)
+- [Switching authentication flows](/lib/auth/switch-auth/q/platform/js/)
+- [Advanced workflows](/lib/auth/advanced/q/platform/js/)
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
-* [Switching authentication flows](/lib/auth/switch-auth/q/platform/react-native/)
-* [Advanced workflows](/lib/auth/advanced/q/platform/react-native/)
+- [Switching authentication flows](/lib/auth/switch-auth/q/platform/react-native/)
+- [Advanced workflows](/lib/auth/advanced/q/platform/react-native/)
 
 </InlineFilter>
 
 import flows from '/src/fragments/lib/auth/common/mfa/flows.mdx';
 
-<Fragments fragments={{ ios: flows, flutter: flows, android: flows }} />
+<Fragments fragments={{ swift: flows, flutter: flows, android: flows }} />

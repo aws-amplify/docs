@@ -1,14 +1,16 @@
 Analytics Auto Tracking helps you to automatically track user behaviors like sessions start/stop, page view change and web events like clicking or mouseover.
+
 <Callout>
-  The Auto Tracking feature is only supported when you have Amazon Pinpoint configured for Amplify Analytics.
+  The Auto Tracking feature is only supported when you have Amazon Pinpoint
+  configured for Amplify Analytics.
 </Callout>
 
 ## Session Tracking
 
-You can track the session both in a web app or a React Native app by using Analytics. A web session can be defined in different ways. To keep it simple we define a web session as being active when the page is not hidden and inactive when the page is hidden.
-A session in a React Native app is active when the app is in the foreground and inactive when the app is in the background.
+You can track the session both in a web app or a React Native app by using Analytics. A web session can be defined in different ways. To keep it simple we define a web session as being active when the page is not hidden and inactive when the page is hidden. A session in a React Native app is active when the app is in the foreground and inactive when the app is in the background.
 
 For example:
+
 ```javascript
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
@@ -28,6 +30,7 @@ configureAutoTrack({
 ```
 
 By default, when the page/app transitions to the foreground, the Analytics module will send an event to the Amazon Pinpoint Service.
+
 ```json
 {
   "eventType": "_session_start",
@@ -38,6 +41,7 @@ By default, when the page/app transitions to the foreground, the Analytics modul
 ```
 
 This behavior can be disabled by calling `configureAutoTrack`:
+
 ```javascript
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
@@ -49,7 +53,7 @@ configureAutoTrack({
 
 import js0 from '/src/fragments/lib/analytics/js/autotrack/page-tracking.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />
 
 <Callout>
 

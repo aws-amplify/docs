@@ -22,11 +22,11 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 
 ## Configure the frontend
 
-import js0 from '/src/fragments/lib-v1/common/js/import_configuration.mdx'
+import js0 from '/src/fragments/lib-v1/common/js/import_configuration.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ javascript: js0 }} />
 
-import rn1 from '/src/fragments/lib-v1/common/react-native/import_configuration.mdx'
+import rn1 from '/src/fragments/lib-v1/common/react-native/import_configuration.mdx';
 
 <Fragments fragments={{ 'react-native': rn1 }} />
 
@@ -152,9 +152,7 @@ The Amplify CLI will set appropriate IAM policy for Roles in your Cognito Identi
         "textract:StartDocumentTextDetection",
         "rekognition:SearchFacesByImage"
       ],
-      "Resource": [
-        "*"
-      ]
+      "Resource": ["*"]
     }
   ]
 }
