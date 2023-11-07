@@ -233,26 +233,16 @@ export const data = defineData({
 
 ## Deploy and host
 
-In order to share your app with others, Amplify will need to connect to a git repo as the source of truth for your project.
+In order to deploy your backend resources to a persistent environment, you will need to connect your application source code to a git repository, and connect to Amplify Console.
 
-### Create a remote git repository
+### Connect git repository to Amplify Console
 
-If you already have your project remotely hosted in a git repository, you can skip this step. Otherwise, navigate to your preferred git provider, and add your project to a new repo.
+To begin connecting your git repository, sign in to the [AWS Console](https://console.aws.amazon.com/) and navigate to AWS Amplify. Next, select "build an app" to connect your existing source code provider:
 
-Amplify supports the following git providers:
-
-- GitHub: `gh repo create`
-- CodeCatalyst: `something`
-- CodeCommit: `something`
-- Gitlab: `something`
-- Bitbucket: `something`
-
-### Connect repo to Amplify Console
-
-![d](/images/gen2/console1.jpg)
+![Amplify Console view for choosing a git provider](/images/gen2/console1.jpg)
 
 ### Manage your app
 
-![d](/images/gen2/console2.png)
+![Amplify Console view for git-based deployments showcasing build status and backend resources](/images/gen2/console2.png)
 
-![d](/images/gen2/console3.png)
+![Amplify Console view for backend data resource's content management system](/images/gen2/console3.png)
