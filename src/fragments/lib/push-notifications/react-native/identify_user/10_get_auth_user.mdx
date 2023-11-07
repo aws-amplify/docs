@@ -1,0 +1,22 @@
+If the user is signed in through Amplify Auth [signIn](/lib/auth/emailpassword#sign-in), then you can retrieve the current user's ID as shown below:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { getCurrentUser, GetCurrentUserOutput } from 'aws-amplify/auth';
+
+const { userId }: GetCurrentUserOutput = await getCurrentUser();
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { getCurrentUser } from 'aws-amplify/auth';
+
+const { userId } = await getCurrentUser();
+```
+
+</Block>
+</BlockSwitcher>

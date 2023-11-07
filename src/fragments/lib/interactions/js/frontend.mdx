@@ -1,0 +1,32 @@
+import js0 from '/src/fragments/lib/common/js/import_configuration.mdx'
+
+<Callout>
+
+Make sure that the `@aws-amplify/interactions` package has the same version number as the `aws-amplify` package in your `package.json` file. 
+
+</Callout>
+
+Add the interactions package with npm:
+
+```sh
+npm install --save @aws-amplify/interactions aws-amplify
+
+```
+
+or with yarn:
+
+```sh
+
+yarn add @aws-amplify/interactions aws-amplify
+
+```
+
+<Fragments fragments={{ js: js0 }} />
+
+```javascript
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from './amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
+
+```

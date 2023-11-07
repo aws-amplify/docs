@@ -1,0 +1,39 @@
+export const meta = {
+  title: `Switching authentication flows`,
+  description: `Learn more about how to switch between different auth flows in Amplify.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import ios0 from '/src/fragments/lib/auth/ios/switch-auth/switch-auth.mdx';
+
+<Fragments fragments={{ ios: ios0 }} />
+
+import android0 from '/src/fragments/lib/auth/android/switch-auth/switch-auth.mdx';
+
+<Fragments fragments={{ android: android0 }} />
+
+import js0 from '/src/fragments/lib/auth/js/switch-auth.mdx';
+
+<Fragments fragments={{ js: js0 }} />
+
+import reactnative0 from '/src/fragments/lib/auth/js/switch-auth.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

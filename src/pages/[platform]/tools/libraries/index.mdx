@@ -1,0 +1,50 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Overview',
+  description:,
+    'The Amplify open-source client libraries provide use-case centric, opinionated, declarative, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. ',
+  disableTOC: 'true',
+  platforms: ['android','flutter','javascript','react-native','swift']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+
+import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+The Amplify open-source client libraries provide use-case centric, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. These libraries are powered by the AWS cloud. The libraries can be used with both new backends created using the Amplify CLI and existing backend resources.
+
+import ios0 from '/src/fragments/lib/ios.mdx';
+import android1 from '/src/fragments/lib/android.mdx';
+import flutter2 from '/src/fragments/lib/flutter.mdx';
+
+<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ android: android1 }} />
+<Fragments fragments={{ flutter: flutter2 }} />
+<InlineFilter filters={["js", "react-native"]}>
+
+## Amplify JavaScript
+
+The Amplify JavaScript libraries are supported for different web and mobile frameworks including React, React Native, Angular, and Vue.
+
+What's next? Here are some things you can add to your app:
+
+- [Authentication](/lib/auth/getting-started)
+- [File Storage](/lib/storage/getting-started)
+- [Analytics](/lib/analytics/getting-started)
+- [REST API](/lib/restapi/getting-started)
+
+</InlineFilter>

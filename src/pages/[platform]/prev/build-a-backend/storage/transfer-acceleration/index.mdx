@@ -1,0 +1,26 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Use transfer acceleration',
+  description: "How to enable and use S3's Transfer Acceleration on your S3 bucket",
+  platforms: ['javascript','react-native','android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+
+import js from '/src/fragments/lib-v1/storage/js/transfer-acceleration.mdx';
+
+<Fragments fragments={{ js: js, 'react-native': js }} />

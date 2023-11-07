@@ -1,0 +1,35 @@
+## Set up existing analytics backend
+
+The manual setup enables you to use your existing Amazon Pinpoint resource in your app.
+
+```javascript
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure({
+  ...Amplify.getConfig(),
+  Analytics: {
+    Pinpoint: {
+      // REQUIRED -  Amazon Pinpoint App Client ID
+      appId: 'XXXXXXXXXXabcdefghij1234567890ab',
+      // REQUIRED -  Amazon service region
+      region: 'us-east-1'
+    }
+  }
+});
+```
+
+## Update your IAM Policy
+
+Amazon Pinpoint service requires an IAM policy in order to use the `record` and `identifyUser` APIs:
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["mobiletargeting:UpdateEndpoint", "mobiletargeting:PutEvents"],
+      "Resource": ["arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"]
+    }
+  ]
+}
+```

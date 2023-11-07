@@ -1,0 +1,30 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Upgrade from AppSync SDK',
+  description: 'Learn how to upgrade from AWS AppSync SDK (Maintenance mode) to AWS Amplify.',
+  platforms: ['swift', 'javascript', 'react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+
+import js0 from '/src/fragments/lib/graphqlapi/js/upgrade-guide.mdx';
+
+<Fragments fragments={{ js: js0, 'react-native': js0 }} />
+
+import ios0 from '/src/fragments/lib/graphqlapi/ios/upgrade-guide.mdx';
+
+<Fragments fragments={{ ios: ios0 }} />

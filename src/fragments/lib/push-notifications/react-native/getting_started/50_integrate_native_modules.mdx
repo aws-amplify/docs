@@ -1,0 +1,41 @@
+## Integrate native modules
+
+<Callout>
+  On Android, there should be no additional integration steps after the
+  prerequisites above have been completed.
+</Callout>
+
+Since push notifications require interaction with the native platform, there are some additional steps required to integrate your React Native app with the Amplify Push Notifications native module.
+
+### Link the module
+
+You should have already installed the native module in an earlier step, now you need to link it. In your React Native app's root directory run the following command.
+
+```bash
+npx pod-install
+```
+
+### Update your Application Delegate
+
+Locate and open your `AppDelegate.m` or `AppDelegate.mm` file in your text editor. You should find it in your React Native project under `/ios/<your-project-name>`
+
+At the top of your `AppDelegate`, import Amplify Push Notifications:
+
+```objective-c
+#import "AppDelegate.h"
+#import "AmplifyPushNotification.h"
+
+...
+```
+
+In the body of your `AppDelegate`, add the following two methods:
+
+```objective-c
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [AmplifyPushNotification didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
+  [AmplifyPushNotification didReceiveRemoteNotification:userInfo withCompletionHandler:completionHandler];
+}
+```

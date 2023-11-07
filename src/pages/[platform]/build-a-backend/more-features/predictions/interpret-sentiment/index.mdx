@@ -1,0 +1,34 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Interpret sentiment',
+  description: 'Learn more about how to determine key phrases, sentiment, language, syntax, and entities from text using Amplify.',
+  platforms: ['javascript','react-native','swift','android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+
+import interpretJs from '/src/fragments/lib/predictions/js/interpret.mdx';
+import interpretIOS from '/src/fragments/lib/predictions/ios/interpret.mdx';
+import interpretAndroid from '/src/fragments/lib/predictions/android/interpret.mdx';
+
+<Fragments
+  fragments={{
+    js: interpretJs,
+    ios: interpretIOS,
+    android: interpretAndroid
+  }}
+/>

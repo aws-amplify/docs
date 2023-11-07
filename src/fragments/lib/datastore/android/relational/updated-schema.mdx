@@ -1,0 +1,27 @@
+For the examples below with DataStore let's add a new model to the [sample schema](/lib/datastore/getting-started#sample-schema):
+
+```graphql
+enum PostStatus {
+  ACTIVE
+  INACTIVE
+}
+
+type Post @model {
+  id: ID!
+  title: String!
+  rating: Int!
+  status: PostStatus!
+  # New field with @hasMany
+  comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+}
+
+# New model
+type Comment @model {
+  id: ID!
+  postID: ID! @index(name: "byPost")
+  post: Post! @belongsTo(fields: ["postID"])
+  content: String!
+}
+```
+
+Generate the models for the updated schema using the [Amplify CLI](/lib/datastore/getting-started#code-generation-amplify-cli).

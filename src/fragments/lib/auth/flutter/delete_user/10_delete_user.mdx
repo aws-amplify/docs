@@ -1,0 +1,10 @@
+```dart
+Future<void> deleteUser() async {
+  try {
+    await Amplify.Auth.deleteUser();
+    safePrint('Delete user succeeded');
+  } on AuthException catch (e) {
+    safePrint('Delete user failed with error: $e');
+  }
+}
+```

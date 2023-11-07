@@ -1,0 +1,21 @@
+```swift
+func signUpUser(
+    username: String,
+    password: String
+) async throws {
+
+    var userAttributes = [
+        AuthUserAttribute(.email, value: "test@example.com"),
+        AuthUserAttribute(.phoneNumber, value: "+18885551234")
+    ]
+
+    let options = AuthSignUpRequest.Options(
+        userAttributes: userAttributes)
+    let result = try await Amplify.Auth.signUp(
+        username: username,
+        password: password,
+        options: options)
+
+    print("Sign up next step: \(result.nextStep)")
+}
+```

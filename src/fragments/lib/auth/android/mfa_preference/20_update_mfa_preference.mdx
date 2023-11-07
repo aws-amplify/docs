@@ -1,0 +1,31 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+    AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+    plugin.updateMFAPreference(
+        MFAPreference.DISABLED, // SMS Preference
+        MFAPreference.PREFERRED, // TOTP Preference
+        () -> Log.i( "AuthQuickStart", "Preference updated successfully"),
+        e -> Log.e("AuthQuickStart", "Failed to update MFA preference.", e)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val cognitoAuthPlugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+cognitoAuthPlugin?.updateMFAPreference(
+    MFAPreference.DISABLED, // SMS Preference
+    MFAPreference.PREFERRED, // TOTP Preference
+    { Log.d("AuthQuickStart", "Preference updated successfully") },
+    { Log.e("AuthQuickStart", "Failed to update MFA preference.", it) }
+)
+```
+
+</Block>
+
+</BlockSwitcher>

@@ -1,0 +1,4 @@
+```swift
+let todo = Todo(name: "my first todo", description: "todo description")
+try await Amplify.API.mutate(request: .create(todo))
+```

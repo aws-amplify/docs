@@ -34,6 +34,7 @@ const cleanupPages = function () {
   //     });
   //   });
 
+  // remove empty directories
   glob('src/pages/**/').then((directories) => {
     directories.forEach((directory) => {
       fs.readdir(
@@ -518,11 +519,11 @@ const fixErrorsInMigratedPages = function () {
         let data = dataString.split('\n');
         // console.log(data);
 
-        // let platformsFromBody = [];
-        // const platformsFromMetaOneLine = [];
-        // const platformsFromMetaMultiLine = [];
-        // let platformListIndex;
-        // let count = 0;
+        let platformsFromBody = [];
+        const platformsFromMetaOneLine = [];
+        const platformsFromMetaMultiLine = [];
+        let platformListIndex;
+        let count = 0;
 
         // data.forEach((line) => {
         //   // if (!dataString.includes('platforms: ')) {
@@ -674,6 +675,7 @@ const fixErrorsInMigratedPages = function () {
         //   }
         // });
 
+        // make sure all instances of 'ios' are changed to 'swift'
         for (let i = 0; i < data.length; i++) {
           if (data[i].includes('platforms: [') && data[i].includes('ios')) {
             let arrayAsString = data[i].slice(data[i].indexOf('[') + 1);
@@ -804,10 +806,30 @@ const fixErrorsInMigratedPages = function () {
   });
 };
 
-cleanupPages();
+// cleanupPages();
 // cleanupPagesOld();
 // updatePageContent();
 // movePages();
 // fixErrorsInMigratedPages();
 
 // checks();
+
+// STEPS
+// checkout next-release/main and pull most recent changes from remote
+// create a branch for migration from next-release/main
+// checkout amplify_V6_branch and pull most recent changes from remote
+// change 'pages' directory to 'pages-old'
+// checkout migration branch
+
+// cleanupPages() - remove index.mdx files with content
+// cleanupPages() - remove empty directories in pages
+// remove children of src/pages/[platform]/index.mdx from directory.mjs
+// git checkout amplify_V6_branch -- src/pages-old
+// git checkout amplify_V6_branch -- src/fragments
+// cleanupPagesOld()
+// updatePageContent()
+// make note of errors
+// movePages()
+// make note of errors
+// fixErrorsInMigratedPages() - add addtl platforms from body (InlineFilters and Fragments)
+// fixErrorsINMigratedPages() -

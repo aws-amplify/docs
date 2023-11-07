@@ -1,0 +1,26 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Deploy a Next.js app',
+  description: 'How to deploy a Next.js Site to Amplify Hosting',
+  platforms: ['javascript']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+
+import js0 from '/src/fragments/guides/hosting/nextjs.mdx';
+
+<Fragments fragments={{ js: js0 }} />
