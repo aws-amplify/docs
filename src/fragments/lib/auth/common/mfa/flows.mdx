@@ -150,7 +150,7 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin) {
 
 </InlineFilter>
 
-<InlineFilter filters={['ios']}>
+<InlineFilter filters={['swift']}>
 
 <BlockSwitcher>
 
@@ -293,7 +293,7 @@ Future<void> confirmTotpUser(String totpCode) async {
 
 </InlineFilter>
 
-<InlineFilter filters={['ios']}>
+<InlineFilter filters={['swift']}>
 
 After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
@@ -477,7 +477,7 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin) {
 
 </InlineFilter>
 
-<InlineFilter filters={['ios']}>
+<InlineFilter filters={['swift']}>
 
 After TOTP setup is complete, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 

@@ -1,5 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Set up Push Notifications',
   description: 'Use of Amplify Push Notifications',
@@ -18,8 +18,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import commonRoute from '/src/fragments/lib/push-notifications/common/getting_started/getting-started.mdx';
 
@@ -27,10 +25,7 @@ import commonRoute from '/src/fragments/lib/push-notifications/common/getting_st
   fragments={{
     android: commonRoute,
     flutter: commonRoute,
-    ios: commonRoute,
+    swift: commonRoute,
     'react-native': commonRoute
-  }}
-/>
- commonRoute
   }}
 />

@@ -1194,7 +1194,7 @@ async function urlOpener(url: string, redirectUrl: string): Promise<void> {
     redirectUrl
   );
 
-  if (authSessionResult.type === "success" && Platform.OS === "ios") {
+  if (authSessionResult.type === "success" && Platform.OS === "swift") {
     WebBrowser.dismissBrowser();
     return Linking.openURL(authSessionResult.url);
   }

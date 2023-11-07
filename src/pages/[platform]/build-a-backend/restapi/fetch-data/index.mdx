@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Fetch data',
   description: 'Using the GET API REST in Amplify',
-  platforms: ['javascript','react-native','flutter','swift','android']
+  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +18,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import android_fetch from '/src/fragments/lib/restapi/android/fetch.mdx';
 import flutter_fetch from '/src/fragments/lib/restapi/flutter/fetch.mdx';
@@ -30,8 +28,8 @@ import js_fetch from '/src/fragments/lib/restapi/js/fetch.mdx';
   fragments={{
     android: android_fetch,
     flutter: flutter_fetch,
-    ios: ios_fetch,
-    js: js_fetch,
+    swift: ios_fetch,
+    javascript: js_fetch,
     'react-native': js_fetch
   }}
 />

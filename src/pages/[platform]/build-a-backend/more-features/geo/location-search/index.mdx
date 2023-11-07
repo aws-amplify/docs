@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Location search',
   description: 'The Amplify Geo category',
-  platforms: ['javascript','swift','android']
+  platforms: ['javascript', 'swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +18,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import nativeCommonSearch from '/src/fragments/lib/geo/native_common/search/common.mdx';
 import jsSearch from '/src/fragments/lib/geo/js/search.mdx';
@@ -27,7 +25,7 @@ import jsSearch from '/src/fragments/lib/geo/js/search.mdx';
 <Fragments
   fragments={{
     android: nativeCommonSearch,
-    ios: nativeCommonSearch,
-    js: jsSearch
+    swift: nativeCommonSearch,
+    javascript: jsSearch
   }}
 />

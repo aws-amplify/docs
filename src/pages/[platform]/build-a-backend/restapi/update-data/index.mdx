@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Update data',
   description: 'Using Post, Put, etc. in Amplify',
-  platforms: ['javascript','react-native','flutter','swift','android']
+  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +18,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import android_update from '/src/fragments/lib/restapi/android/update.mdx';
 import flutter_update from '/src/fragments/lib/restapi/flutter/update.mdx';
@@ -30,8 +28,8 @@ import js_fetch from '/src/fragments/lib/restapi/js/update.mdx';
   fragments={{
     android: android_update,
     flutter: flutter_update,
-    ios: ios_update,
-    js: js_fetch,
+    swift: ios_update,
+    javascript: js_fetch,
     'react-native': js_fetch
   }}
 />

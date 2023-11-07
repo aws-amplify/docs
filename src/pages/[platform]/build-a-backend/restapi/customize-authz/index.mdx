@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Define authorization rules',
-  description: "Learn more about how to define authorization rules for Amplify's REST API capabilities",
-  platforms: ['javascript','react-native','flutter','swift','android']
+  description:
+    "Learn more about how to define authorization rules for Amplify's REST API capabilities",
+  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +19,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import common_authz from '/src/fragments/lib/restapi/native_common/authz/common.mdx';
 import flutter_authz from '/src/fragments/lib/restapi/flutter/authz.mdx';
@@ -29,8 +28,8 @@ import js_authz from '/src/fragments/lib/restapi/js/authz.mdx';
   fragments={{
     android: common_authz,
     flutter: flutter_authz,
-    ios: common_authz,
-    js: js_authz,
+    swift: common_authz,
+    javascript: js_authz,
     'react-native': common_authz
   }}
 />

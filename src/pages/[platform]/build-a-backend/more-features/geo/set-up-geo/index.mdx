@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Set up Amplify Geo',
-  description: 'AWS Amplify Geo module provides a simple way to get map data, search for places, and reverse geocoding.',
-  platforms: ['javascript','swift','android']
+  description:
+    'AWS Amplify Geo module provides a simple way to get map data, search for places, and reverse geocoding.',
+  platforms: ['javascript', 'swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +19,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import nativeCommonGettingStarted from '/src/fragments/lib/geo/native_common/getting_started/common.mdx';
 import jsGettingStarted from '/src/fragments/lib/geo/js/getting-started.mdx';
@@ -27,7 +26,7 @@ import jsGettingStarted from '/src/fragments/lib/geo/js/getting-started.mdx';
 <Fragments
   fragments={{
     android: nativeCommonGettingStarted,
-    ios: nativeCommonGettingStarted,
-    js: jsGettingStarted
+    swift: nativeCommonGettingStarted,
+    javascript: jsGettingStarted
   }}
 />

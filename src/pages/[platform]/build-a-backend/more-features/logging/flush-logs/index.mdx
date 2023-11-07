@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Flush logs',
   description: 'Force flush logs',
-  platforms: ['swift','android']
+  platforms: ['swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,14 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import commonRoute from '/src/fragments/lib/logging/common/flush_logs/flush_logs.mdx';
 
 <Fragments
   fragments={{
     android: commonRoute,
-    ios: commonRoute
+    swift: commonRoute
   }}
 />

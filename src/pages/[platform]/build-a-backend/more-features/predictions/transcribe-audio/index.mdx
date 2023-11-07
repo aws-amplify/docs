@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Transcribe audio to text',
-  description: 'Learn more about how to transcribe audio to text (also known as speech-to-text) for your application using Amplify',
-  platforms: ['javascript','react-native','swift']
+  description:
+    'Learn more about how to transcribe audio to text (also known as speech-to-text) for your application using Amplify',
+  platforms: ['javascript', 'react-native', 'swift']
 };
 
 export const getStaticPaths = async () => {
@@ -18,15 +19,13 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import transcribeJs from '/src/fragments/lib/predictions/js/transcribe.mdx';
 import transcribeIOS from '/src/fragments/lib/predictions/ios/transcribe.mdx';
 
 <Fragments
   fragments={{
-    js: transcribeJs,
-    ios: transcribeIOS
+    javascript: transcribeJs,
+    swift: transcribeIOS
   }}
 />

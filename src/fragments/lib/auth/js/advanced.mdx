@@ -4,8 +4,7 @@ You can take specific actions when users sign-in or sign-out by subscribing to a
 
 ## Identity Pool Federation
 
-You can alternatively create your own custom credentials provider to get AWS credentials directly from Cognito Federated Identities and not use User Pool federation. You must supply the custom credentials provider to Amplify via the `Amplify.configure` method call. Below, you can see sample code of how such a custom provider can be built to achieve the use case. 
-
+You can alternatively create your own custom credentials provider to get AWS credentials directly from Cognito Federated Identities and not use User Pool federation. You must supply the custom credentials provider to Amplify via the `Amplify.configure` method call. Below, you can see sample code of how such a custom provider can be built to achieve the use case.
 
 ```js
 import { Amplify } from 'aws-amplify';
@@ -29,14 +28,14 @@ const cognitoidentity = new CognitoIdentity({
 // Note: The custom provider class must implement CredentialsAndIdentityIdProvider
 class CustomCredentialsProvider implements CredentialsAndIdentityIdProvider {
 
-  // Example class member that holds the login information 
+  // Example class member that holds the login information
   federatedLogin?: {
     domain: string,
     token: string
   };
 
   // Custom method to load the federated login information
-  loadFederatedLogin(login?: typeof this.federatedLogin) { 
+  loadFederatedLogin(login?: typeof this.federatedLogin) {
     // You may also persist this by caching if needed
     this.federatedLogin = login;
   }
@@ -75,11 +74,11 @@ class CustomCredentialsProvider implements CredentialsAndIdentityIdProvider {
     }
   }
   // Implement this to clear any cached credentials and identityId. This can be called when signing out of the federation service.
-  clearCredentialsAndIdentityId(): void {} 
+  clearCredentialsAndIdentityId(): void {}
 }
 
 // Create an instance of your custom provider
-const customCredentialsProvider = new CustomCredentialsProvider(); 
+const customCredentialsProvider = new CustomCredentialsProvider();
 Amplify.configure(awsconfig, {
   Auth: {
     // Supply the custom credentials provider to Amplify
@@ -91,7 +90,6 @@ Amplify.configure(awsconfig, {
 
 Now that the custom credentials provider is built and supplied to `Amplify.configure`, let's look at how you can use the custom credentials provider to finish federation into Cognito identity pool.
 
-
 <InlineFilter filters = {['react-native']}>
 
 ### Facebook Sign-in (React Native - Expo)
@@ -99,43 +97,45 @@ Now that the custom credentials provider is built and supplied to `Amplify.confi
 ```javascript
 import Expo from 'expo';
 import React from 'react';
-import {
-  fetchAuthSession,
-} from 'aws-amplify/auth';
+import { fetchAuthSession } from 'aws-amplify/auth';
 
 const App = () => {
   const signIn = async () => {
-    const { type, token, expires } = await Expo.Facebook.logInWithReadPermissionsAsync('YOUR_FACEBOOK_APP_ID', {
-        permissions: ['public_profile'],
-      });
+    const { type, token, expires } =
+      await Expo.Facebook.logInWithReadPermissionsAsync(
+        'YOUR_FACEBOOK_APP_ID',
+        {
+          permissions: ['public_profile']
+        }
+      );
     if (type === 'success') {
       // sign in with federated identity
       try {
         customCredentialsProvider.loadFederatedLogin({
           domain: 'graph.facebook.com',
-          token: token,
+          token: token
         });
         const fetchSessionResult = await fetchAuthSession(); // will return the credentials
-        console.log('fetchSessionResult: ', fetchSessionResult); 
-      } catch(err) {
+        console.log('fetchSessionResult: ', fetchSessionResult);
+      } catch (err) {
         console.log(err);
       }
     }
-  }
+  };
 
   // ...
 
   return (
     <View style={styles.container}>
-      <Button title='FBSignIn' onPress={signIn} />
+      <Button title="FBSignIn" onPress={signIn} />
     </View>
   );
-
-}
+};
 ```
+
 </InlineFilter>
 
-<InlineFilter filters = {['js']}>
+<InlineFilter filters = {['javascript']}>
 
 ### Facebook sign-in (React)
 
@@ -168,7 +168,7 @@ const SignInWithFacebook = () => {
               token: response.authResponse.accessToken,
             });
             const fetchSessionResult = await fetchAuthSession(); // will return the credentials
-            console.log('fetchSessionResult: ', fetchSessionResult); 
+            console.log('fetchSessionResult: ', fetchSessionResult);
           },
           {
             // the authorized scopes
@@ -204,7 +204,7 @@ const SignInWithFacebook = () => {
       version : 'v2.11'
     });
   }
-  
+
   return (
     <div>
       <button onClick={signIn}>Sign in with Facebook</button>
@@ -249,7 +249,7 @@ const SignInWithGoogle = () => {
             token: response.credential,
           });
           const fetchSessionResult = await fetchAuthSession(); // will return the credentials
-          console.log('fetchSessionResult: ', fetchSessionResult); 
+          console.log('fetchSessionResult: ', fetchSessionResult);
         },
       });
       window.google.accounts.id.renderButton(
@@ -276,25 +276,24 @@ Step 1. [Follow Auth0 integration instructions for Cognito Federated Identity Po
 Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from `Cognito Federated Identity Pools` using custom credentials provider you created at the start:
 
 ```js
-import {
-  fetchAuthSession,
-} from 'aws-amplify/auth';
+import { fetchAuthSession } from 'aws-amplify/auth';
 
 const { idToken, domain, name, email, phoneNumber } = getFromAuth0(); // get the user credentials and info from auth0
 
-async function getCognitoCredentials () {
+async function getCognitoCredentials() {
   try {
-     customCredentialsProvider.loadFederatedLogin({
-        domain,
-        token: idToken,
-      });
-      const fetchSessionResult = await fetchAuthSession(); // will return the credentials
-      console.log('fetchSessionResult: ', fetchSessionResult); 
-  } catch(err) {
+    customCredentialsProvider.loadFederatedLogin({
+      domain,
+      token: idToken
+    });
+    const fetchSessionResult = await fetchAuthSession(); // will return the credentials
+    console.log('fetchSessionResult: ', fetchSessionResult);
+  } catch (err) {
     console.log(err);
   }
 }
 ```
+
 </InlineFilter>
 
 ## Lambda Triggers
@@ -317,7 +316,7 @@ async function handleSignIn(username: string, password: string) {
         clientMetadata: {} // Optional, an object of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
       }
     });
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 }
@@ -325,7 +324,7 @@ async function handleSignIn(username: string, password: string) {
 
 ### Passing metadata to other Lambda triggers
 
-Many Cognito Lambda Triggers also accept unsanitized key/value pairs in the form of a `clientMetadata` attribute.  This attribute can be specified for various Auth APIs which result in Cognito Lambda Trigger execution.
+Many Cognito Lambda Triggers also accept unsanitized key/value pairs in the form of a `clientMetadata` attribute. This attribute can be specified for various Auth APIs which result in Cognito Lambda Trigger execution.
 
 These APIs include:
 
@@ -338,11 +337,11 @@ These APIs include:
 - `resendSignUpCode`
 - `updateUserAttributes`
 
-Please note that some of triggers which accept a `validationData` attribute will use `clientMetadata` as the value for `validationData`.  Exercise caution with using `clientMetadata` when you are relying on `validationData`.
+Please note that some of triggers which accept a `validationData` attribute will use `clientMetadata` as the value for `validationData`. Exercise caution with using `clientMetadata` when you are relying on `validationData`.
 
 ## Working with AWS service objects
 
-You can use AWS *Service Interface Objects* to work with AWS Services in authenticated State. You can call methods on any AWS Service interface object by passing your credentials from Amplify `fetchAuthSession` to the service call constructor:
+You can use AWS _Service Interface Objects_ to work with AWS Services in authenticated State. You can call methods on any AWS Service interface object by passing your credentials from Amplify `fetchAuthSession` to the service call constructor:
 
 ```javascript
 import { fetchAuthSession } from 'aws-amplify/auth';
@@ -351,18 +350,18 @@ import Route53 from 'aws-sdk/clients/route53';
 async function changeResourceRecordSets() {
   try {
     const { credentials } = await fetchAuthSession();
-  
+
     const route53 = new Route53({
       apiVersion: '2013-04-01',
       credentials
     });
-  
+
     // more code working with route53 object
     //route53.changeResourceRecordSets();
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
 
 <Callout warning>
