@@ -22,9 +22,13 @@ import {
   PLATFORM_DISPLAY_NAMES,
   Platform
 } from '@/data/platforms';
+import {
+  ALGOLIA_API_KEY,
+  ALGOLIA_INDEX_NAME,
+  ALGOLIA_APP_ID
+} from '../../constants/algolia';
 import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
 import { SpaceShip } from '@/components/SpaceShip';
-import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { Menu } from '@/components/Menu';
@@ -37,6 +41,8 @@ import flatDirectory from 'src/directory/flatDirectory.json';
 import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
+import { DocSearch } from '@docsearch/react';
+import '@docsearch/css';
 import { PageLastUpdated } from '../PageLastUpdated';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
@@ -206,14 +212,13 @@ export const Layout = ({
               {pageType === 'home' ? (
                 <SpaceShip hasBanner={shouldShowGen2Banner} />
               ) : null}
-
               <GlobalNav
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
                 currentSite="Docs"
                 isGen2={isGen2}
               />
-              <header className="layout-header">
+              <View as="header" className="layout-header">
                 <Flex className={`layout-search layout-search--${pageType}`}>
                   <Button
                     onClick={() => handleMenuToggle()}
@@ -232,7 +237,16 @@ export const Layout = ({
                       { 'layout-search__search--toc': showTOC }
                     )}
                   >
-                    <SearchBar />
+                    <DocSearch
+                      appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
+                      indexName={
+                        process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME
+                      }
+                      apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
+                      searchParameters={{
+                        facetFilters: [`platform:${currentPlatform}`]
+                      }}
+                    />
                   </View>
                 </Flex>
                 <View
@@ -290,7 +304,7 @@ export const Layout = ({
                     </div>
                   </View>
                 </View>
-              </header>
+              </View>
               <View key={router.asPath} className="layout-main">
                 <Flex
                   as="main"
