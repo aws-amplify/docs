@@ -74,9 +74,9 @@ export const data = defineData({
 });
 ```
 
-## Authentication
+## Authoring backend resources
 
-Each of the `resource.ts` files is where you _define_ the corresponding backend resource:
+Each of the `resource.ts` files is where you _define_ the corresponding backend resource. For instance, your authentication resource is defined at `amplify/auth/resource.ts` and configured with email and password by default.
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
@@ -88,7 +88,7 @@ export const auth = defineAuth({
 });
 ```
 
-The definitions are then imported and set in the `backend`:
+The resource definitions are then imported and defined as a part of your _backend_:
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
@@ -98,6 +98,21 @@ import { data } from './data/resource.js';
 defineBackend({
   auth,
   data
+});
+```
+
+## Authentication
+
+As mentioned above, your auth resource file is created with email and password auth by default. However, authentication can be extended beyond email and password, such as enabling login via phone:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    phone: true
+  }
 });
 ```
 
@@ -135,7 +150,7 @@ Run your application with `npm run dev` and navigate to `http://localhost:3000`.
 
 ## Data
 
-### Configure data resource
+Amplify project templates also include a "data" resource file. To view or modify your backend's schema, refer to `amplify/data/resource.ts`
 
 ```ts title="amplify/data/resource.ts"
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
@@ -143,9 +158,7 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 const schema = a.schema({
   Todo: a.model({
     title: a.string(),
-    description: a.string(),
-    comment: a.string(),
-    priority: a.enum(['low', 'medium', 'high']).default('low')
+    description: a.string()
   })
 });
 
@@ -158,7 +171,7 @@ export const data = defineData({
 
 ### Add data to your frontend
 
-Modify your app's home page file (e.g. `pages/index.tsx`) with the following contents:
+After viewing and/or modifying your backend's schema, you can begin to fetch this data from your frontend. Modify your app's home page file (e.g. `pages/index.tsx`) with the following contents:
 
 ```ts title="pages/index.tsx"
 import { useState, useEffect } from 'react';
@@ -193,7 +206,7 @@ export default function HomePage() {
 }
 ```
 
-Once you save the file and navigate back to `http://localhost:3000` you should see an empty list of todos.
+Once you save the file and navigate back to `http://localhost:3000` you should see an empty list of "todos".
 
 ## Iterating on your backend
 
