@@ -16,7 +16,11 @@ type Props = {
 };
 
 const overrides = {
-  '/': 'Home'
+  '/': 'Home',
+  '/javascript/prev': 'V6 (Preview)',
+  '/swift/prev': 'V1',
+  '/android/prev': 'V1',
+  '/flutter/prev': 'V0'
 };
 
 function generateBreadcrumbs(
