@@ -4,6 +4,7 @@ import {
   DEFAULT_NODE_PACKAGE_MANAGER
 } from '@/constants/node-package-managers';
 import { LOCAL_STORAGE } from '@/constants/local-storage';
+import { URL_SEARCH_PARAMS } from '@/constants/url-search-params';
 import type { PropsWithChildren } from 'react';
 import type { NodePackageManager } from '@/constants/node-package-managers';
 
@@ -55,6 +56,22 @@ export function NodePackageManagerProvider(
       localStorage.setItem(LOCAL_STORAGE.NODE_PACKAGE_MANAGER, state);
     }
   }, [state]);
+
+  useEffect(() => {
+    // since this runs last, we can load package manager choice from URL (e.g. visiting from an article)
+    if (typeof window !== 'undefined' && window.location.search) {
+      const searchParams = new URLSearchParams(window.location.search);
+      const packageManager = searchParams.get(
+        URL_SEARCH_PARAMS.NODE_PACKAGE_MANAGER
+      );
+      if (packageManager && NODE_PACKAGE_MANAGERS[packageManager]) {
+        dispatch({
+          type: 'update',
+          value: packageManager as NodePackageManager
+        });
+      }
+    }
+  }, []);
 
   return (
     <NodePackageManagerContext.Provider value={[state, dispatch]}>
