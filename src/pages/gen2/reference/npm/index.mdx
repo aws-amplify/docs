@@ -12,3 +12,81 @@ export function getStaticProps(context) {
   };
 
 }
+
+---
+title: create-amplify
+---
+
+```console title="Terminal"
+> npm create amplify
+
+Welcome to AWS Amplify!
+
+? Where should we create your new project? (.)
+
+✔ Resolving packages...
+
+  Amplify will run the following command:
+  If you skip this step, you can always run it yourself later
+
+ ╭──────────────────────────────────────────────────────────╮
+ │ npm add -D \                                             │
+ │  @aws-amplify/backend@1.0.0 \                            │
+ │  aws-cdk-lib@2.0.0 \                                     │
+ │  constructs@2.0.0 \                                      │
+ │  && \                                                    │
+ | npm add aws-amplify@1.0.0                                |
+ ╰──────────────────────────────────────────────────────────╯
+
+? Continue? › (Y/n)
+
+Successfully created new project!
+Get started by running `amplify sandbox`
+```
+
+```console title="Terminal"
+> npm create amplify . --yes
+Welcome to AWS Amplify!
+Get started by running `amplify sandbox`
+```
+
+```console title="Terminal"
+> npm create amplify my-project --yes
+Welcome to AWS Amplify!
+Get started by running `cd my-project; amplify sandbox`
+```
+
+
+---
+title: defineAuth
+---
+
+```ts
+class AuthFactory {}
+
+type DefineAuthProps = {
+  login: [];
+  // ...
+};
+
+declare function defineAuth(props: DefineAuthProps) {
+  return new AuthFactory(props);
+};
+```
+
+---
+title: defineData
+---
+
+```ts
+class DataFactory {}
+
+type DefineDataProps = {
+  schema: {};
+  // ...
+};
+
+declare function defineData(props: DefineDataProps) {
+  return new DataFactory(props);
+};
+```

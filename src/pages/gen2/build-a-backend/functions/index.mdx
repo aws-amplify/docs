@@ -12,3 +12,148 @@ export function getStaticProps(context) {
   };
 
 }
+
+---
+title: Functions
+---
+
+@TODO other runtimes, more examples, package.json's, etc.
+
+In AWS Amplify, Functions are a resource that define some logic that runs on AWS Lambda. Functions can be used to perform tasks such as generating a monthly report, resize an image when it is uploaded, or customizing authentication workflows.
+
+## Concepts
+
+In the AWS Amplify vNext experience the concept of a generic "Function" has been removed in favor of contextual functions such as "triggers" and "jobs". Functions can be defined anywhere within your project, however we recommend you write them next to the resource they are associated with.
+
+### Jobs
+
+Jobs are a new concept in AWS Amplify and are Functions that are scheduled or are not invoked by a request or auth/storage workflow. To get started, create a job's `resource` file:
+
+```ts title="amplify/jobs/monthly-report/resource.ts"
+import { defineFunction } from '@aws-amplify/backend';
+
+// do not pass any props to accept all 'default' configuration options
+// this will look for "./handler.ts"
+export default defineFunction();
+```
+
+Then create the job's `handler` file:
+
+```ts title="amplify/jobs/monthly-report/handler.ts"
+export const handler = async (event) => {
+  console.log(JSON.stringify(event));
+  // ...
+};
+```
+
+Lastly, import and set on your `backend`:
+
+```ts title="amplify/backend.ts"
+import { Backend } from '@aws-amplify/backend';
+import jobMonthlyReport from './jobs/monthly-report/resource';
+
+const backend = new Backend({
+  // @question can we set `jobs: { monthlyReport }` ?
+  jobMonthlyReport,
+});
+```
+
+## Auth Triggers
+
+[Cognito Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) are a way for you to customize auth flows.
+
+To define a trigger, create a single file and point the associated trigger prop to the file.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  triggers: {
+    postConfirmation: './post-confirmation.ts',
+  },
+});
+```
+
+```ts title="amplify/auth/post-confirmation.ts"
+import type { PostConfirmationTriggerHandler } from 'aws-lambda';
+
+export const handler: PostConfirmationTriggerHandler = async (event) => {
+  console.log(JSON.stringify(event));
+  return event;
+};
+```
+
+Alternatively, in the event you want to customize the Lambda runtime or grant access to another resource you can define functions with the `defineFunction` helper:
+
+```ts title="amplify/auth/resource"
+import { defineAuth, defineFunction } from '@aws-amplify/backend';
+import { data } from '../data/resource';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  triggers: {
+    postConfirmation: defineFunction({
+      access: [data.access.models.UserProfile.create()],
+      handler: './post-confirmation.ts',
+      runtime: 'nodejs18.x',
+    }),
+  },
+});
+```
+
+## Accessing Project Resources
+
+To grant access to resources in your project, import their definition and set using the provided `access` property.
+
+```ts title="amplify/jobs/monthly-report/resource.ts"
+import { defineFunction } from '@aws-amplify/backend';
+import { data } from '../../../data/resource';
+
+export default defineFunction({
+  // allow _all_ query operations
+  access: [data.access.Query()],
+});
+```
+
+In the context of `data` you can specify access fine-grained controls by allowing only specific operations per-model:
+
+```ts title="amplify/jobs/monthly-report/resource.ts"
+import { defineFunction } from '@aws-amplify/backend';
+import { data } from '../../../data/resource';
+
+export default defineFunction({
+  // grant fine-grained access controls by specifying the model and operation
+  access: [data.access.models.Post.list(), data.access.models.Post.byUpvotes()],
+});
+```
+
+## Accessing Custom or Existing AWS Resources
+
+To grant access to existing AWS resources that are not in your project, or resources that are defined using AWS CDK, you can specify an [IAM Policy Statement using AWS CDK](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.PolicyStatement.html):
+
+```ts title="amplify/backend.ts"
+import { Backend } from '@aws-amplify/backend';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import { MySnsResource } from './custom/MySnsResource';
+import { data } from './data/resource';
+import jobMonthlyReport from './jobs/monthly-report/resource';
+
+const backend = new Backend({
+  data,
+  jobMonthlyReport,
+});
+
+const email = new MySnsResource(backend.addStack('Email'), 'Email');
+
+backend.jobMonthlyReport.grantAccess(
+  new iam.PolicyStatement({
+    actions: ['ses:SendEmail'],
+    resource: [email.snsTopicArn],
+  })
+);
+```

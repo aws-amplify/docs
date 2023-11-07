@@ -12,3 +12,61 @@ export function getStaticProps(context) {
   };
 
 }
+
+
+# Monorepos and multi-repos
+
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+```text
+├── apps/
+│   ├── admin-dashboard/
+│   │   ├── next.config.mjs
+│   │   └── package.json
+│   └── marketing-site/
+│       ├── astro.config.mjs
+│       └── package.json
+├── packages/
+│   └── my-shared-backend/
+│       ├── amplify/
+│       │   ├── auth/
+│       │   │   └── resource.ts
+│       │   ├── data/
+│       │   │   └── resource.ts
+│       │   └── backend.ts
+│       └── package.json
+└── package.json
+```
+
+<Tabs>
+  <TabItem value="npm" label="npm" default>
+
+```bash title="Terminal"
+npx --workspace my-shared-backend amplify sandbox
+```
+
+  </TabItem>
+  <TabItem value="yarn" label="yarn">
+
+```bash title="Terminal"
+yarn workspace my-shared-backend amplify sandbox
+```
+
+  </TabItem>
+  <TabItem value="pnpm" label="pnpm">
+
+```bash title="Terminal"
+pnpm --filter my-shared-backend amplify sandbox
+```
+
+  </TabItem>
+  <TabItem value="bun" label="bun">
+
+```bash title="Terminal"
+@TODO
+```
+
+  </TabItem>
+</Tabs>

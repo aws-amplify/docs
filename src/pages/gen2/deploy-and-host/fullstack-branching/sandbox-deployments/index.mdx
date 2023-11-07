@@ -12,3 +12,42 @@ export function getStaticProps(context) {
   };
 
 }
+
+# Sandbox deployments
+
+## Getting started
+
+Amplify gives every developer a personal cloud sandbox where they can test changes rapidly without waiting on infrastructure deployments. To get started with a new Amplify, sandbox run the following command on your local machine:
+
+:::note
+Amplify sandbox should not be used for production applications.
+:::
+
+
+```bash
+npx amplify sandbox
+```
+
+## Creating a new sandbox environment
+
+When you deploy a sandbox, Amplify creates a temporary CloudFormation stack `amplify-{appName}-{$whoami}-sandbox` in your AWS account via the AWS CDK with the associated resources for your backend.
+
+![d](/img/sandbox1.png)
+
+After the successful deployment of the CloudFormation stack, the sandbox tracks and monitors for file changes in your backend and performs real-time updates to the CloudFormation stack using the hot capability of the AWS CDK.
+
+![d](/img/sandbox2.png)
+
+## Terminating a sandbox environment
+
+After testing all the changes associated to the backend, you can terminate the sandbox session via `Ctrl+C` and can then choose whether you want to keep or delete all the resources in the sandbox environment. 
+
+![d](/img/sandbox3.png)
+
+## Amplify Gen2 console
+
+You can view and manage all the sandboxes for your gen2 apps in the [Amplify Gen2 console](https://us-east-1.console.aws.amazon.com/amplify/apps/sandboxes).
+
+![d](/img/sandbox4.png)
+
+![d](/img/sandbox5.png)

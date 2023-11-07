@@ -1,0 +1,531 @@
+export const meta = {
+  title: 'Add custom business logic',
+  description:
+    'Learn how to customize your business logic for queries, mutations, and subscriptions.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+# Add custom business logic
+
+In this section you'll learn how to create a custom mutation, query, or subscription.
+
+First you need to define the entry point:
+
+1. Choose if you want a mutation, query, or subscription
+2. Provide "name", their inputs, and their expected outputs.
+3. Configure handler code to handle the custom business logic
+
+### 1. Choose between a query/mutation/subscription
+
+While query / mutation are functionally not different, they intend to communicate different intents to the client library consumer.
+
+| Type         | When to choose                                                                 |
+| ------------ | ------------------------------------------------------------------------------ |
+| Query        | When the request is read-only and it doesn't intend to modify any backend data |
+| Mutation     | When the request is intended to modify the backend data                        |
+| Subscription | When you want to receive an event in case of a mutation being executed         |
+
+### Add a custom mutation
+
+To add a custom mutation, use the `addMutation` function on your schema to configure your custom business logic handler. In our example, we'll enable the user to "like a post".
+
+Assume we have the following schema definition
+
+```ts
+const schema = a.schema({
+  Post: a
+    .model({
+      content: a.string(),
+      likes: a.number(),
+      author: a.string(),
+    })
+    .allow([
+      a.rule.owner(['create', 'read', 'delete']).storedInField('author'),
+    ]),
+
+  UserLikes: a.model({
+    user: a.string(),
+    postId: a.id(),
+  }),
+});
+```
+
+To add a custom mutation, we're going to first check if the user already liked a post by verifying the "UserLikes" table, then increment the likes counter in the Post table.
+
+```ts
+const schema = a.schema({
+// Post: a.model(...),
+// UserLikes: a.model(...),
+  likePost: a.mutation()
+    .arguments({ postId: a.string() })
+    .returns(a.ref('Post'))
+    .handler([
+    {
+      dataSource: a.ref('UserLikes').dataSource.table, // <-- new DataSource('DynamoDb', tablename) also compatible with the CDK for AppSync DataSource
+      req: (ctx, util) => {
+        return util.dynamodb.getItem({
+          user: ctx.identity.user,
+          postId: ctx.args.postId
+        })
+      },
+      res: (ctx, util) => {
+        if (ctx.result !== null) {
+          return util.error()
+        }
+        return ctx.result
+      }
+    },
+    {
+      dataSource: a.ref('Post').dataSource.table,
+      req: (ctx, util) => {
+        return util.dynamodb.updateItem({
+          key: {
+            id: ctx.args.postId,
+          }
+          value: 'INCREMENT: likes'
+        })
+      },
+      res: (ctx, util) => {
+        return ctx.stash.likedPost = ctx.result
+      }
+    },
+    {
+      dataSource: a.ref('UserLikes').dataSource.table,
+      req: (ctx, util) => {
+        return util.dynamodb.createItem({
+          user: ctx.identity.user,
+          postId: ctx.args.postId
+        })
+      },
+      res: (ctx) => {
+        return ctx.stash.likedPost
+      }
+    }
+    ]).authorization([a.allow.private()])
+}
+```
+
+On the client side, you can invoke the mutation via the API client:
+
+```ts
+import { generateClient } from 'aws-amplify/api';
+import type { Schema } from '@/amplify/data/+resource';
+
+const client = generateClient<Schema>();
+
+const posts = await client.models.Post.list();
+console.log(posts[0]);
+// { id: '...', ..., likes: 0 }
+
+const likedPost = await client.mutations.likePost({
+  postId: posts[0].id,
+});
+
+console.log(likedPost);
+// { id: '...', ..., likes: 1 }
+```
+
+### Add a custom query
+
+// TK the same as mutations but it's a.query(...) and the client is client.queries.searchTodoByLocation()
+
+### Add a custom subscription
+
+To add a custom subscription you need to provide a list of mutations that should trigger an event on the subscription. You can also provide additional arguments to use in the subscription to accept or reject subscription requests or to filter particular events based on the subscription inputs.
+
+```ts
+const schema = a.schema({
+  Message: a
+    .model({
+      content: a.string(),
+      from: a.string(),
+      to: a.string(),
+    })
+    .authorization([a.allow.owner().storedIn('from')]),
+
+  broadcastAnnouncement: a
+    .mutation()
+    .arguments({ content: a.string() })
+    .returns(a.ref('Chat'))
+    .handle([
+      {
+        req: (ctx, util) => {
+          return {
+            version: '2017-02-28',
+            payload: {
+              content: ctx.arguments.content,
+              from: 'ADMIN',
+            },
+          };
+        },
+        res: (ctx, util) => {
+          return ctx.result;
+        },
+      },
+    ]),
+
+  receive: a
+    .subscription()
+    .for(['broadcast', a.ref('Chat').mutations.create])
+    .arguments({ substring: a.string() })
+    .returns(a.ref('Chat'))
+    .handle([
+      {
+        res: (ctx, util) => {
+          util.extensions.setSubscriptionFilter({
+            filters: [
+              {
+                fieldName: 'content',
+                operator: 'in',
+                value: ctx.arguments.substring,
+              },
+              {
+                filterGroup: [
+                  {
+                    filters: [
+                      {
+                        fieldName: 'to',
+                        operator: 'eq',
+                        value: ctx.identity.claim,
+                      },
+                    ],
+                  },
+                  {
+                    filters: [
+                      {
+                        fieldName: 'from',
+                        operator: 'eq',
+                        value: 'ADMIN',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          });
+        },
+      },
+    ])
+    .authorization([a.allow.private()]),
+});
+```
+
+---- TK ADDITIONAL EXAMPLES BELOW ------------
+
+```ts
+const schema = a.schema({
+  Location: a.customType({
+    lat: a.float(),
+    long: a.float()
+  })
+  Todo: a.model({
+    content: a.string(),
+    location: a.ref('Location')
+  }).searchable({
+    location: {
+      type: 'geo_point'
+    }
+  }).allow([
+    a.rule.owner(['list', 'get', 'create', 'update', 'delete'])
+  ]),
+
+  searchTodosByLocation: a.query({
+    input: {
+      location: a.ref('Location'),
+      radiusInMiles: a.float()
+    },
+    output: a.ref('Todo').array()
+  }).do([{
+      dataSource: 'opensearch:Todo',
+      request: (ctx) => {
+        return {
+          operation: 'GET',
+          path: '/id/todos/_search',
+          params: {
+            headers: {},
+            queryString: {},
+            body: {
+              from: 0,
+              size: 50,
+              query: {
+                bool: {
+                  must: {
+                    match_all: {},
+                  },
+                  filter: {
+                    geo_distance: {
+                      distance: ctx.args.radiusInMiles.toString() + "mi",
+                      "todo.location": {
+                        lat: ctx.args.location.lat,
+                        long: ctx.args.location.long,
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      response: (ctx) => {
+
+      }
+    }]).authorization([a.allow.group('Admins')])
+})
+```
+
+---
+
+`.computed()` makes fields read only and you have to decide on how to compute the field. You can either pass in a quick "mapping function" OR pass in entire resolver pipelines. <-- "is this possible at all?"
+Option 1:
+
+```ts
+const schema = a.schema({
+  Todo: a.model({
+    content: a.string(),
+    completedOn: a.datetime().computed({
+      onUpdate: (fields) => {
+        if (fields.isDone) {
+          return util.time.epochMilliSecondsToFormatted();
+        } else {
+          return null;
+        }
+      },
+    }),
+    isDone: a.boolean(),
+  }),
+});
+```
+
+Option 2:
+
+```ts
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      completedOn: a.datetime().readOnly(),
+      isDone: a.boolean(),
+    })
+    .onBeforeUpdate([
+      {
+        request: (ctx) => {
+          ctx.stash.data = {
+            ...ctx.stash.data,
+            completedOn: util.time.epochMilliSecondsToFormatted(),
+          };
+        },
+      },
+    ]),
+});
+```
+
+PubSub DX
+Option 1:
+backend/data.ts
+
+```ts
+const schema = a.schema({
+  MousePosition: a
+    .event({
+      x: a.integer(),
+      y: a.integer(),
+    })
+    .channelId(a.string())
+    .forwardTo(['eventbridge:...']) // data source identifier
+    .allow([
+      a.public.to(['subscribe']),
+      a.private.provider('iam').to(['publish']),
+    ]),
+});
+```
+
+Client DX
+
+```ts
+import type { Schema } from '@/amplify/data/resource';
+import { generateClient } from 'aws-amplify/data';
+
+const client = generateClient<Schema>();
+
+const result = await client.events.MousePosition.broadcastTo('my-new-channel', {
+  x: 123,
+  y: 123,
+});
+
+const { channels, nextToken } =
+  await client.events.MousePosition.listChannels();
+const sub = client.events.MousePosition.subscribeTo('my-new-channel');
+
+sub.unsubscribe();
+
+const result = client.events.MousePosition.closeChannel('my-new-channel');
+```
+
+---
+
+Option 2:
+
+```ts
+const MousePositionEvent = {
+  channel: a.string(),
+  x: a.integer(),
+  y: a.integer(),
+};
+
+const schema = a.schema({
+  receiveMousePosition: a
+    .subscription(['broadcastMousePosition'])
+    .input({ channel: a.string() })
+    .filter((ctx, event) => {
+      if (!event.channel.startsWith(ctx.identity.groupClaim)) {
+        return null;
+      }
+      return event;
+    })
+    .output(MousePositionEvent),
+
+  // schema.addMutation(name: string, input: ..., output: ..., handlers: ...Resolver[])
+  // a.mutation().input().handlers().output().authorization()
+  // a.mutation().input().output().handlers().authorization() // <-- winner for now!
+  // a.mutation(input: ..., output: ..., handlers: ...Resolvers[]).authorization()
+  broadcastMousePosition: a
+    .mutation()
+    .input(MousePositionEvent)
+    .output(MousePositionEvent)
+    .do([
+      {
+        datasource: 'eventbridge',
+        request: {},
+        response: {},
+      },
+      {
+        request: (ctx) => {
+          return {
+            version: '2017-02-28',
+            payload: {
+              channel: ctx.args.name,
+              x: ctx.args.x,
+              y: ctx.args.y,
+            },
+          };
+        },
+        response: (ctx) => {
+          return ctx.result;
+        },
+      },
+    ]),
+});
+```
+
+```ts
+import type { Schema } from '@/amplify/data/resource'
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient<Schema>()
+
+const result = await client.mutations.broadcastMousePosition('my-new-channel', {
+  x: 123,
+  y: 123
+})
+
+const sub = client.subscriptions.receiveMousePosition('my-new-channel', {
+  next: (event) => {
+  }
+)
+
+sub.unsubscribe()
+```
+
+Context:
+
+- By default, we always generate CRUDL operations.
+- Sometimes you want to specialize CRUDL operations
+  - A) "likePost" === Update operation with limits (Michael)
+    - increment/decrement constraints
+      1. I'm only allowed to "undo" my like
+      2. I can only like once
+  - B) "batchCreateTodo" === Create Multiple Todos at once (Michael)
+    1. define the input type from a model but as array
+    2. MappingTemplate to write to datasource
+    3. handle errors if batch writing fails
+  - C) "searchbyLocationRadius" === Specialized Read operation with input limits (Rene)
+    1. Introduce input fields that are not part of the data model (radius In Miles)
+    2. Search for information using a custom created query (where there's some computation of "miles + location")
+- There are use cases with no relationship to a data model at all. For example, "PubSub" APIs. Default `@auth` rules should work
+  - D) Customers want a subscription (for Sub) and a mutation (for Pub) without any data source attached (Michael)
+  - E) Customers MIGHT want to extend with a data source (activity feed use cases, history use case) (Rene)
+    - Inject a step into the pub workflow that writes some data into a datasource
+      - (can be an existing `Activity: a.model()` or a CDK DynamoDB table)
+      - Sometimes the datasource can be event bridge as well (CDK)
+  - F) Customers might want to TRIGGER this event via EventBridge (limit the pub via IAM, so only the EventBridge API is authorized to pub/sub) (Michael)
+
+PostA: location (0, 0)
+PostB: location (-200, 0)
+
+search location (-1, -1, 2 miles radius)
+-> Should only result in [PostA]
+
+```graphql
+type Mutation {
+  likePost(input: ...): Post
+}
+```
+
+```ts
+const api= new AmplifyGraphQLAPI(this, ..., {
+  handlers: { // <--?
+    Mutation: {
+      likePost: [{
+        dataSource: "...",
+        ...
+      }]
+    }
+  }
+  // <- ????
+})
+
+api.addResolver({ // <--?
+  Mutation...
+})
+```
+
+```ts
+a.schema({
+  likePost: a
+    .mutation()
+    .input(a.ref('Post')) // Must pass an object or reference for input and output
+    .output(a.ref('Post')) // "do" function validates against the type correctness in final "res" return
+    .do([
+      {
+        dataSource: '...',
+        req: () => {},
+        res: () => {},
+      },
+    ]),
+
+  searchPostByLocation: a
+    .query()
+    .input({
+      lat: a.float(),
+      long: a.float(),
+      radiusInMiles: a.float(),
+    })
+    .output(a.ref('Post').array())
+    .do([
+      {
+        dataSource: '...',
+        req: () => {},
+        res: () => {},
+      },
+    ]),
+});
+```
