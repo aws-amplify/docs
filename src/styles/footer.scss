@@ -6,6 +6,10 @@
   font-size: var(--amplify-font-sizes-small);
   background: var(--amplify-colors-background-primary);
   z-index: 2;
+  container-type: inline-size;
+}
+.footer-wrapper {
+  flex-direction: column;
 }
 .footer__content {
   flex-direction: column;
@@ -27,8 +31,8 @@
   }
 }
 
-@media (min-width: 600px) {
-  .footer {
+@container (min-width: 600px) {
+  .footer-wrapper {
     flex-direction: row;
   }
   .footer__links {
@@ -40,6 +44,11 @@
   .footer {
     padding: var(--amplify-space-xl);
     margin-inline-start: var(--layout-sidebar-width);
+  }
+}
+
+@media (min-width: $toc-min) {
+  .footer {
     &--toc {
       margin-inline-end: var(--layout-toc-width);
     }

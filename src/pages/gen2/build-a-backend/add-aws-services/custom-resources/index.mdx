@@ -1,4 +1,14 @@
 export const meta = {
-  title: 'Custom Resources',
-  description: 'Custom Resources description'
+  title: 'Custom resources',
+  description:
+    'Learn how to write custom resources with the AWS CDK.'
 };
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}

@@ -2,10 +2,10 @@ import { Heading, Text, Flex, Button, Grid } from '@aws-amplify/ui-react';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
-import { Banner } from '@/components/Banner';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
 import PlatformFeatureList from '../components/FeatureLists/PlatformFeatureList';
 import LinkCards from '@/components/LinkCards';
+import Link from 'next/link';
 
 const meta = {
   title: 'Amplify Docs',
@@ -33,7 +33,6 @@ export default function Page() {
   return (
     <Flex className="home-content">
       <Flex className="home-intro">
-        <Banner />
         <Heading level={1} className="home-intro__heading">
           Amplify Docs
         </Heading>
@@ -43,14 +42,21 @@ export default function Page() {
           the cloud for authentication, storage, APIs, and more.
         </Text>
         <Flex className="home-cta">
-          <Button variation="primary" size="large" gap="small">
-            How Amplify Works{' '}
-            <IconChevron
-              aria-hidden="true"
-              className="icon-rotate-270"
-              fontSize=".875em"
-            />
-          </Button>
+          <Link
+            href={{
+              pathname: '/[platform]/how-amplify-works',
+              query: { platform: DEFAULT_PLATFORM }
+            }}
+          >
+            <Button variation="primary" size="large" gap="small">
+              How Amplify Works
+              <IconChevron
+                aria-hidden="true"
+                className="icon-rotate-270"
+                fontSize=".875em"
+              />
+            </Button>
+          </Link>
           <GetStartedPopover />
         </Flex>
       </Flex>

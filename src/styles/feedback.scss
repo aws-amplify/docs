@@ -1,0 +1,43 @@
+.feedback {
+  padding-top: var(--amplify-space-xl);
+  overflow: hidden;
+}
+
+.vote-response {
+  flex-direction: column;
+  opacity: 0;
+  overflow: visible;
+  white-space: nowrap;
+  padding-left: 0;
+  font-size: 0.9rem;
+  justify-content: center;
+  gap: 0;
+  // pointer-events: none;
+  visibility: hidden;
+  &-no {
+    &:hover {
+      opacity: 0.8;
+    }
+
+    span {
+      display: inline-block;
+    }
+  }
+}
+
+.vote-buttons-container {
+  padding-top: var(--amplify-space-medium);
+  align-items: center;
+}
+
+.vote-button {
+  justify-content: start;
+  font-size: 0.9rem;
+  color: inherit;
+  border-color: var(--amplify-colors-brand-secondary-);
+  height: fit-content;
+
+  .amplify-text {
+    padding-left: 7px;
+  }
+}

@@ -16,11 +16,16 @@ type Props = {
 };
 
 const overrides = {
-  '/': 'Home'
+  '/': 'Home',
+  '/javascript/prev': 'V6 (Preview)',
+  '/swift/prev': 'V1',
+  '/android/prev': 'V1',
+  '/flutter/prev': 'V0'
 };
 
 function generateBreadcrumbs(
   route: string,
+
   platform: string,
   isGen2: boolean
 ): BreadcrumbItem[] {
@@ -45,7 +50,10 @@ function generateBreadcrumbs(
       href['query'] = { platform };
     }
     let label = directoryEntry ? directoryEntry.title : url;
-    const override = overrides[url.replace('[platform]', platform)];
+    const override = overrides[url]
+      ? overrides[url]
+      : overrides[url.replace('[platform]', platform)];
+
     if (override) {
       label = override;
     }
