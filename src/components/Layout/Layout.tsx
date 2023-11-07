@@ -206,89 +206,91 @@ export const Layout = ({
               {pageType === 'home' ? (
                 <SpaceShip hasBanner={shouldShowGen2Banner} />
               ) : null}
+
               <GlobalNav
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
                 currentSite="Docs"
                 isGen2={isGen2}
               />
-              <Flex className={`layout-search layout-search--${pageType}`}>
-                <Button
-                  onClick={() => handleMenuToggle()}
-                  size="small"
-                  ref={menuButtonRef}
-                  className="search-menu-toggle mobile-toggle"
-                >
-                  <IconMenu aria-hidden="true" />
-                  Menu
-                </Button>
-
-                <View
-                  className={classNames(
-                    'layout-search__search',
-                    `layout-search__search--${pageType}`,
-                    { 'layout-search__search--toc': showTOC }
-                  )}
-                >
-                  <SearchBar />
-                </View>
-              </Flex>
-              <View
-                className={`layout-sidebar${
-                  menuOpen ? ' layout-sidebar--expanded' : ''
-                }`}
-              >
-                <View
-                  className={`layout-sidebar__backdrop${
-                    menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
-                  }`}
-                  onClick={() => toggleMenuOpen(false)}
-                ></View>
-                <View
-                  className={`layout-sidebar__inner${
-                    menuOpen ? ' layout-sidebar__inner--expanded' : ''
-                  }`}
-                >
+              <header className="layout-header">
+                <Flex className={`layout-search layout-search--${pageType}`}>
                   <Button
-                    size="small"
-                    colorTheme="overlay"
-                    className={classNames('layout-sidebar__mobile-toggle', {
-                      'layout-sidebar__mobile-toggle--open': menuOpen
-                    })}
-                    ref={sidebarMenuButtonRef}
                     onClick={() => handleMenuToggle()}
+                    size="small"
+                    ref={menuButtonRef}
+                    className="search-menu-toggle mobile-toggle"
                   >
-                    <IconDoubleChevron />
-                    <VisuallyHidden>Close menu</VisuallyHidden>
+                    <IconMenu aria-hidden="true" />
+                    Menu
                   </Button>
-                  {isGen2 ? null : (
-                    <div className="layout-sidebar-platform">
-                      <PlatformNavigator
-                        currentPlatform={
-                          PLATFORM_DISPLAY_NAMES[currentPlatform]
-                        }
-                      />
-                    </div>
-                  )}
 
-                  <div className="layout-sidebar-menu">
-                    <Menu
-                      rootMenuNode={rootMenuNode}
-                      currentPlatform={isGen2 ? undefined : currentPlatform}
-                    />
-                    <div className="layout-sidebar-feedback">
-                      <RepoActions router={router}></RepoActions>
-                      <Feedback router={router}></Feedback>
-                    </div>
-                    {showLastUpdatedDate && (
-                      <PageLastUpdated
-                        directoryData={flatDirectory[router.pathname]}
-                      />
+                  <View
+                    className={classNames(
+                      'layout-search__search',
+                      `layout-search__search--${pageType}`,
+                      { 'layout-search__search--toc': showTOC }
                     )}
-                  </div>
-                </View>
-              </View>
+                  >
+                    <SearchBar />
+                  </View>
+                </Flex>
+                <View
+                  className={`layout-sidebar${
+                    menuOpen ? ' layout-sidebar--expanded' : ''
+                  }`}
+                >
+                  <View
+                    className={`layout-sidebar__backdrop${
+                      menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
+                    }`}
+                    onClick={() => toggleMenuOpen(false)}
+                  ></View>
+                  <View
+                    className={`layout-sidebar__inner${
+                      menuOpen ? ' layout-sidebar__inner--expanded' : ''
+                    }`}
+                  >
+                    <Button
+                      size="small"
+                      colorTheme="overlay"
+                      className={classNames('layout-sidebar__mobile-toggle', {
+                        'layout-sidebar__mobile-toggle--open': menuOpen
+                      })}
+                      ref={sidebarMenuButtonRef}
+                      onClick={() => handleMenuToggle()}
+                    >
+                      <IconDoubleChevron />
+                      <VisuallyHidden>Close menu</VisuallyHidden>
+                    </Button>
+                    {isGen2 ? null : (
+                      <div className="layout-sidebar-platform">
+                        <PlatformNavigator
+                          currentPlatform={
+                            PLATFORM_DISPLAY_NAMES[currentPlatform]
+                          }
+                        />
+                      </div>
+                    )}
 
+                    <div className="layout-sidebar-menu">
+                      <Menu
+                        rootMenuNode={rootMenuNode}
+                        currentPlatform={isGen2 ? undefined : currentPlatform}
+                      />
+                      <div className="layout-sidebar-feedback">
+                        <RepoActions router={router}></RepoActions>
+                        <Feedback router={router}></Feedback>
+                      </div>
+                      {showLastUpdatedDate && (
+                        <PageLastUpdated
+                          directoryData={flatDirectory[router.pathname]}
+                        />
+                      )}
+                    </div>
+                  </View>
+                </View>
+              </header>
               <View key={router.asPath} className="layout-main">
                 <Flex
                   as="main"
