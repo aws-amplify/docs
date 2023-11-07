@@ -12,3 +12,41 @@ export function getStaticProps(context) {
   };
 
 }
+
+---
+title: Overriding Resources
+---
+
+When defining resources you can access the underlying AWS CDK construct props to modify resource configurations:
+
+```ts title="amplify/auth/resource.ts"
+// TODO: fix this, passwordPolicy is not editable
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  override: {
+    userPool: {
+      passwordPolicy: {
+        temporaryPasswordValidityDays: 3,
+      },
+    },
+  },
+});
+```
+
+Alternatively you can mutate the synthesized CDK constructs directly after setting them on your `backend`:
+
+```ts title="amplify/backend.ts"
+import { Backend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+
+const backend = new Backend({
+  auth,
+});
+
+// @TODO: fix this, this does not work
+backend.auth.userPool.passwordPolicy.temporaryPasswordValidityDays = 3;
+```
