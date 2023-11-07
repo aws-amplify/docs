@@ -1,8 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Set up push notification services',
-  description: 'Learn how to setup the various push notification services for your mobile app.',
+  description:
+    'Learn how to setup the various push notification services for your mobile app.',
   platforms: ['flutter']
 };
 
@@ -18,8 +19,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import commonRoute from '/src/fragments/lib/push-notifications/common/setup_push_service/setup-push-service.mdx';
 
@@ -27,10 +26,7 @@ import commonRoute from '/src/fragments/lib/push-notifications/common/setup_push
   fragments={{
     android: commonRoute,
     flutter: commonRoute,
-    ios: commonRoute,
+    swift: commonRoute,
     'react-native': commonRoute
   }}
-/>
-}
-/>
 />

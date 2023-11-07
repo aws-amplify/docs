@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'View logs',
   description: 'View logs in Amazon CloudWatch',
-  platforms: ['swift','android']
+  platforms: ['swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,14 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
-          
-
 
 import commonRoute from '/src/fragments/lib/logging/common/access_logs/access_logs.mdx';
 
 <Fragments
   fragments={{
     android: commonRoute,
-    ios: commonRoute
+    swift: commonRoute
   }}
 />

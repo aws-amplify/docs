@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Cache',
-  description: 'The Amplify Cache module provides a generic LRU cache for JavaScript developers to store data with priority and expiration settings.',
-  platforms: ['javascript','react-native']
+  description:
+    'The Amplify Cache module provides a generic LRU cache for JavaScript developers to store data with priority and expiration settings.',
+  platforms: ['javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,10 +19,8 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
-
-<InlineFilter filters={['js', 'react-native']}>
+<InlineFilter filters={['javascript', 'react-native']}>
 
 The Amplify Cache module provides a generic [LRU](https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_Recently_Used_.28LRU.29) cache for JavaScript developers to store data with priority and expiration settings.
 
