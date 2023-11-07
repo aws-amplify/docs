@@ -1137,12 +1137,7 @@ export const directory = {
               path: 'src/pages/[platform]/prev/build-a-backend/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/prev/build-a-backend/advanced-workflows/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/advanced-workflows/offline/index.mdx'
-                    }
-                  ]
+                  path: 'src/pages/[platform]/prev/build-a-backend/advanced-workflows/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/prev/build-a-backend/auth/index.mdx',
@@ -1179,9 +1174,6 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/auth/enable-sign-in/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/enable-sign-in-with-web-ui/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/auth/enable-sign-up/index.mdx'
@@ -1278,9 +1270,6 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/api-graphql-concepts/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/configure-authz-modes/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/existing-resources/index.mdx'
                     },
                     {
@@ -1303,9 +1292,6 @@ export const directory = {
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/index.mdx',
                       children: [
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/android-sdk/index.mdx'
-                        },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/auto-track-sessions/index.mdx'
                         },
@@ -1467,12 +1453,7 @@ export const directory = {
               path: 'src/pages/[platform]/prev/tools/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/prev/tools/libraries/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/prev/tools/libraries/configure-categories/index.mdx'
-                    }
-                  ]
+                  path: 'src/pages/[platform]/prev/tools/libraries/index.mdx'
                 }
               ]
             }
