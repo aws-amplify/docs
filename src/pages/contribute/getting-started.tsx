@@ -7,6 +7,7 @@ import {
   Image,
   Link
 } from '@aws-amplify/ui-react';
+import { IconChevron } from '@/components/Icons';
 import { FiExternalLink } from 'react-icons/fi';
 import { MdCheckCircle, MdOutlineInfo } from 'react-icons/md';
 import { MDXCode } from '@/components/MDXComponents';
@@ -23,6 +24,7 @@ export function getStaticProps() {
     props: {
       showLastUpdatedDate: false,
       showBreadcrumbs: false,
+      useCustomTitle: true,
       meta
     }
   };
@@ -77,7 +79,7 @@ const Code = ({
     <Text
       className="code-snippet"
       backgroundColor={color ? color : 'neutral.20'}
-      as="span"
+      as="code"
     >
       {children}
     </Text>
@@ -87,7 +89,16 @@ const Code = ({
 export default function Contribute() {
   return (
     <>
-      <Heading level={1}>Getting Started</Heading>
+      <Flex direction="column" gap="0" alignItems="flex-start">
+        <Link fontSize="medium" textDecoration="none" href="/contribute">
+          AWS Amplify contributor program{' '}
+          <Text as="span" marginInlineStart="xxs">
+            /
+          </Text>
+        </Link>
+        <Heading level={1}>Getting Started</Heading>
+      </Flex>
+
       <Text>
         The steps below will help you get set up to open a pull request in the
         Amplify JS project. Check out the <Code>CONTRIBUTING.md</Code> in each

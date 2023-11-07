@@ -17,6 +17,7 @@ export function getStaticProps() {
       hasTOC: false,
       showLastUpdatedDate: false,
       showBreadcrumbs: false,
+      useCustomTitle: true,
       meta
     }
   };
