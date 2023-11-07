@@ -72,38 +72,38 @@ Once complete, run `carthage update` and open the `*.xcworkspace` or `*.xcodepro
 
 Choose the `Add Other` button, navigate to the `AWS<#ServiceName#>.framework` files under `Carthage > Build > iOS` and select `AWSCore.framework` and the other service frameworks you require. Do not select the `Destination: Copy items` if needed check box when prompted.
 
-* AWSAuth
-* AWSAuthCore
-* AWSAuthUI
-* AWSAutoScaling
-* AWSCloudWatch
-* AWSCognito
-* AWSCognitoAuth
-* AWSCognitoIdentityProvider
-* AWSCognitoIdentityProviderASF
-* AWSCore
-* AWSDynamoDB
-* AWSEC2
-* AWSElasticLoadBalancing
-* AWSFacebookSignIn
-* AWSGoogleSignIn
-* AWSIoT
-* AWSKMS
-* AWSKinesis
-* AWSLambda
-* AWSLex
-* AWSLogs
-* AWSMachineLearning
-* AWSMobileClient
-* AWSPinpoint
-* AWSPolly
-* AWSRekognition
-* AWSS3
-* AWSSES
-* AWSSNS
-* AWSSQS
-* AWSSimpleDB
-* AWSUserPoolsSignIn
+- AWSAuth
+- AWSAuthCore
+- AWSAuthUI
+- AWSAutoScaling
+- AWSCloudWatch
+- AWSCognito
+- AWSCognitoAuth
+- AWSCognitoIdentityProvider
+- AWSCognitoIdentityProviderASF
+- AWSCore
+- AWSDynamoDB
+- AWSEC2
+- AWSElasticLoadBalancing
+- AWSFacebookSignIn
+- AWSGoogleSignIn
+- AWSIoT
+- AWSKMS
+- AWSKinesis
+- AWSLambda
+- AWSLex
+- AWSLogs
+- AWSMachineLearning
+- AWSMobileClient
+- AWSPinpoint
+- AWSPolly
+- AWSRekognition
+- AWSS3
+- AWSSES
+- AWSSNS
+- AWSSQS
+- AWSSimpleDB
+- AWSUserPoolsSignIn
 
 Under the `Build Phases` tab in your `Target`, choose the `+` button on the top left and then select `New Run Script Phase`.
 
@@ -112,7 +112,7 @@ Setup the build phase as follows. Make sure this phase is below the Embed Framew
 ```
 Shell /bin/sh
 
-bash "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
+bash "$\{BUILT_PRODUCTS_DIR}/$\{FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
 
 Show environment variables in build log: Checked
 Run script only when installing: Not checked
@@ -133,48 +133,48 @@ With your project open in Xcode, select your `Target`. Under `General` tab, find
 
 Click the `Add Other...` button, navigate to the `AWS<#ServiceName#>.framework` files and select them. Check the `Destination: Copy items if needed` checkbox when prompted.
 
-* `AWSAuth.framework`
-* `AWSAuthCore.framework`
-* `AWSAuthUI.framework`
-* `AWSAutoScaling.framework`
-* `AWSCloudWatch.framework`
-* `AWSCognito.framework`
-* `AWSCognitoAuth.framework`
-* `AWSCognitoIdentityProvider.framework`
-* `AWSCognitoIdentityProviderASF.framework`
-* `AWSCore.framework`
-* `AWSDynamoDB.framework`
-* `AWSEC2.framework`
-* `AWSElasticLoadBalancing.framework`
-* `AWSFacebookSignIn.framework`
-* `AWSGoogleSignIn.framework`
-* `AWSIoT.framework`
-* `AWSKMS.framework`
-* `AWSKinesis.framework`
-* `AWSLambda.framework`
-* `AWSLex.framework`
-* `AWSLogs.framework`
-* `AWSMachineLearning.framework`
-* `AWSMobileClient.framework`
-* `AWSPinpoint.framework`
-* `AWSPolly.framework`
-* `AWSRekognition.framework`
-* `AWSS3.framework`
-* `AWSSES.framework`
-* `AWSSNS.framework`
-* `AWSSQS.framework`
-* `AWSSimpleDB.framework`
-* `AWSUserPoolsSignIn.framework`
+- `AWSAuth.framework`
+- `AWSAuthCore.framework`
+- `AWSAuthUI.framework`
+- `AWSAutoScaling.framework`
+- `AWSCloudWatch.framework`
+- `AWSCognito.framework`
+- `AWSCognitoAuth.framework`
+- `AWSCognitoIdentityProvider.framework`
+- `AWSCognitoIdentityProviderASF.framework`
+- `AWSCore.framework`
+- `AWSDynamoDB.framework`
+- `AWSEC2.framework`
+- `AWSElasticLoadBalancing.framework`
+- `AWSFacebookSignIn.framework`
+- `AWSGoogleSignIn.framework`
+- `AWSIoT.framework`
+- `AWSKMS.framework`
+- `AWSKinesis.framework`
+- `AWSLambda.framework`
+- `AWSLex.framework`
+- `AWSLogs.framework`
+- `AWSMachineLearning.framework`
+- `AWSMobileClient.framework`
+- `AWSPinpoint.framework`
+- `AWSPolly.framework`
+- `AWSRekognition.framework`
+- `AWSS3.framework`
+- `AWSSES.framework`
+- `AWSSNS.framework`
+- `AWSSQS.framework`
+- `AWSSimpleDB.framework`
+- `AWSUserPoolsSignIn.framework`
 
 Under the `Build Phases` tab in your `Target`, click the `+` button on the top left and then select `New Run Script Phase`. Then setup the build phase as follows. Make sure this phase is below the `Embed Frameworks` phase.
 
     Shell /bin/sh
-        
-    bash "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
-        
+
+    bash "$\{BUILT_PRODUCTS_DIR}/$\{FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
+
     Show environment variables in build log: Checked
     Run script only when installing: Not checked
-        
+
     Input Files: Empty
     Output Files: Empty
 
@@ -182,7 +182,7 @@ Now **build** your project to start using the SDK. Whenever a new version of the
 
 ## AWS SDK Version vs. Semantic Versioning
 
-The AWS SDK for iOS does not follow semantic versioning. Instead, it increments the patch-level version for both backward-compatible bug fixes *and* non-breaking changes, and increments the minor version for breaking changes. Major version changes are rare, and usually indicate a dramatically different programming model.
+The AWS SDK for iOS does not follow semantic versioning. Instead, it increments the patch-level version for both backward-compatible bug fixes _and_ non-breaking changes, and increments the minor version for breaking changes. Major version changes are rare, and usually indicate a dramatically different programming model.
 
 For comparison, Semantic versioning increments the patch level for backward-compatible bug fixes, the minor version for backward-compatible new features, and the major version for breaking changes.
 
@@ -254,7 +254,7 @@ The following logging level options are available:
 - `.debug`
 - `.verbose`
 
-We recommend setting the log level to  `.off` before publishing to the App Store.
+We recommend setting the log level to `.off` before publishing to the App Store.
 
 CocoaLumberjack can direct logs to file or used as a framework that integrates with the Xcode console. For example:
 

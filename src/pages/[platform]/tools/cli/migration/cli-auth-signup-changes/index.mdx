@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'CLI Auth Signup Changes',
   description: '',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,18 +28,16 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
-## Who is affected? 
+## Who is affected?
 
-This article is relevant to you if you have an Auth resource created using  `amplify add auth`  with CLI versions 5.2.0 - 5.6.0.
+This article is relevant to you if you have an Auth resource created using `amplify add auth` with CLI versions 5.2.0 - 5.6.0.
 
-If your Auth resource was created with   `amplify add auth` using Amplify CLI Version 5.1.2 or earlier, or with Amplify CLI version 6.0.0 or later, you are not affected and you can ignore the rest of this article. 
-
+If your Auth resource was created with `amplify add auth` using Amplify CLI Version 5.1.2 or earlier, or with Amplify CLI version 6.0.0 or later, you are not affected and you can ignore the rest of this article.
 
 ## What Changed
 
-### **The *Original* CLI  `amplify add auth` Behavior (versions prior to 5.2.0)** 
+### **The _Original_ CLI `amplify add auth` Behavior (versions prior to 5.2.0)**
 
 Prior to CLI version 5.2.0, developers could choose **one** of these options:
 
@@ -51,10 +49,9 @@ How do you want users to be able to sign in? (Use the arrow keys)
  Email or Phone Number
 ```
 
-### **The *Changed* CLI `amplify add auth` Behavior (CLI versions 5.2.0 - 5.6.0)**
+### **The _Changed_ CLI `amplify add auth` Behavior (CLI versions 5.2.0 - 5.6.0)**
 
-In the CLI release 5.2.0 (July 27, 2021), additional functionality was added for developers configuring Auth. 
-Beginning in CLI version 5.2.0, developers could choose **any** of these options
+In the CLI release 5.2.0 (July 27, 2021), additional functionality was added for developers configuring Auth. Beginning in CLI version 5.2.0, developers could choose **any** of these options
 
 ```
 How do you want users to be able to sign in?
@@ -63,7 +60,7 @@ How do you want users to be able to sign in?
 [ ] Username
 ```
 
-### **Back to the *Original* Behavior (CLI version 6.0.0 and later)**
+### **Back to the _Original_ Behavior (CLI version 6.0.0 and later)**
 
 Beginning in CLI v6.0.0, the original behavior is reinstated and developers can once again choose **one** of these options:
 
@@ -77,34 +74,31 @@ How do you want users to be able to sign in? (Use the arrow keys)
 
 ## What is the impact of this change
 
-If you configured the Auth Resource with the changed `amplify add auth` behavior (CLI v5.2 - v5.6) you will need to use the changed  `amplify add auth` behavior whenever you run `amplify add auth` in order to get a compatible configuration. You can use the changed `amplify add auth` behavior in CLI v6.0.0 by enabling the "**auth.forceAliasAttributes**" feature flag.
+If you configured the Auth Resource with the changed `amplify add auth` behavior (CLI v5.2 - v5.6) you will need to use the changed `amplify add auth` behavior whenever you run `amplify add auth` in order to get a compatible configuration. You can use the changed `amplify add auth` behavior in CLI v6.0.0 by enabling the "**auth.forceAliasAttributes**" feature flag.
 
 The following code segment demonstrates how Auth.signup() can be used with the Auth resource created with CLI versions 5.2.0 - 5.6.0:
 
 ```ts
-const username = getGUID(); 
-const {user} = await Auth.signUp({
-      username,
-      password: "your-secure-password",
-      attributes: {
-        email: "youremail@yourdomain.com",
-      },
+const username = getGUID();
+const { user } = await Auth.signUp({
+  username,
+  password: 'your-secure-password',
+  attributes: {
+    email: 'youremail@yourdomain.com'
+  }
 });
 await Auth.confirmSignUp(username, code);
-await Auth.signIn("youremail@yourdomain.com", "your-secure-password");
+await Auth.signIn('youremail@yourdomain.com', 'your-secure-password');
 ```
 
 The following code segment demonstrates how Auth.signup() can be used with the Auth resource created with CLI versions 6.0 and later (this segment would not work for Auth configured with CLI 5.2.0 - 5.6.0):
 
 ```ts
-const {user} = await Auth.signUp({
-      username: "youremail@yourdomain.com",
-      password: "your-secure-password",
-      attributes: {
-        email: "youremail@yourdomain.com", 
-      }
+const { user } = await Auth.signUp({
+  username: 'youremail@yourdomain.com',
+  password: 'your-secure-password',
+  attributes: {
+    email: 'youremail@yourdomain.com'
+  }
 });
 ```
-
-
-
