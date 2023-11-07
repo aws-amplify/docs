@@ -208,3 +208,19 @@ export const trackWhatsNewBanner = () => {
     );
   });
 };
+
+// Track the click on the Version Switcher component
+export const trackVersionChange = (viewOld: boolean) => {
+  const opt = {
+    event: {
+      type: 'click',
+      name: `VersionChanged${viewOld ? 'Prev' : 'Current'}`
+    }
+  };
+
+  AWSMA.ready(() => {
+    document.dispatchEvent(
+      new CustomEvent(AWSMA.TRIGGER_EVENT, { detail: opt })
+    );
+  });
+};
