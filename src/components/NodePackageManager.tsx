@@ -1,5 +1,9 @@
-import { createContext, useContext, useReducer } from 'react';
-import { DEFAULT_NODE_PACKAGE_MANAGER } from '@/constants/node-package-managers';
+import { createContext, useContext, useEffect, useReducer } from 'react';
+import {
+  NODE_PACKAGE_MANAGERS,
+  DEFAULT_NODE_PACKAGE_MANAGER
+} from '@/constants/node-package-managers';
+import { LOCAL_STORAGE } from '@/constants/local-storage';
 import type { PropsWithChildren } from 'react';
 import type { NodePackageManager } from '@/constants/node-package-managers';
 
@@ -34,6 +38,23 @@ export function NodePackageManagerProvider(
     nodePackageManagerReducer,
     DEFAULT_NODE_PACKAGE_MANAGER
   );
+
+  useEffect(() => {
+    // load "saved" package manager choice
+    if (typeof window !== 'undefined' && window?.localStorage) {
+      const saved = localStorage.getItem(LOCAL_STORAGE.NODE_PACKAGE_MANAGER);
+      if (saved && NODE_PACKAGE_MANAGERS[saved]) {
+        dispatch({ type: 'update', value: saved as NodePackageManager });
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    // save package manager choice on change
+    if (typeof window !== 'undefined' && window?.localStorage) {
+      localStorage.setItem(LOCAL_STORAGE.NODE_PACKAGE_MANAGER, state);
+    }
+  }, [state]);
 
   return (
     <NodePackageManagerContext.Provider value={[state, dispatch]}>
