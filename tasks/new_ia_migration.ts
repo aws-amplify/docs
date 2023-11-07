@@ -806,11 +806,130 @@ const fixErrorsInMigratedPages = function () {
   });
 };
 
+const generateDirectory = function () {
+  const testOutput = '/src/directory/test.mdx';
+
+  const getDirectories = (source) =>
+    fs
+      .readdirSync(source, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name);
+
+  const fillDir = (dirObject, dirPath, filePath) => {
+    //first look for index.tsx or index.mdx
+    let fileType = 'index.tsx';
+    if (!fs.existsSync(`${dirPath}${fileType}`)) {
+      fileType = 'index.mdx';
+      if (!fs.existsSync(`${dirPath}${fileType}`)) {
+        //   console.log(`${filePath}${fileType} not found should I create it?`);
+        let route = filePath.replace('src/pages', '').slice(0, -1);
+        let title = route.split('/').slice(-1)[0].replaceAll('-', ' ');
+        title = titleCase(title);
+        //   console.log(`Title: ${title} Route: ${route}`);
+        let fileLocation = `${dirPath}${fileType}`;
+        // writeFile(fileLocation, createIndex(title, route));
+      }
+    }
+    dirObject.path = `${filePath}${fileType}`;
+    const children = getDirectories(dirPath);
+    if (children.length) {
+      dirObject.children = [];
+    }
+    children.forEach((childName) => {
+      let childObj = {};
+      const childDir = `${dirPath}${childName}/`;
+      const childFile = `${filePath}${childName}/`;
+      fillDir(childObj, childDir, childFile);
+      dirObject.children.push(childObj);
+    });
+  };
+
+  const titleCase = (str) => {
+    var splitStr = str.toLowerCase().split(' ');
+    for (var i = 0; i < splitStr.length; i++) {
+      splitStr[i] =
+        splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+    }
+    return splitStr.join(' ');
+  };
+
+  const createIndex = (title, route) => {
+    return `
+  import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+  import { getChildPageNodes } from '@/utils/getChildPageNodes';
+  import directory from 'src/directory/directory.json';
+
+  export const meta = {
+      title: '${title}',
+      description: '${title}',
+      platforms: [
+      'android',
+      'angular',
+      'flutter',
+      'javascript',
+      'nextjs',
+      'react',
+      'react-native',
+      'swift',
+      'vue'
+      ],
+      route: '${route}'
+  };
+
+  export const getStaticPaths = async () => {
+      return getCustomStaticPath(meta.platforms);
+  };
+
+  export function getStaticProps(context) {
+      const childPageNodes = getChildPageNodes(meta.route);
+      return {
+      props: {
+          platform: context.params.platform,
+          meta,
+          childPageNodes
+      }
+      };
+  }
+
+  # ${title}
+
+  <Overview childPageNodes={props.childPageNodes} />
+
+  `;
+  };
+
+  const writeFile = (filePath, content) => {
+    fs.writeFile(filePath, content, (err) => {
+      if (err) {
+        console.error(err);
+      }
+      // file written successfully
+    });
+  };
+
+  let dirPath = 'src/pages/';
+  let filePath = 'src/pages/';
+
+  let dirObject = {};
+
+  fillDir(dirObject, dirPath, filePath);
+
+  const output = 'src/directory/directory2.txt';
+  // console.log(dirObject);
+
+  writeFile(output, JSON.stringify(dirObject));
+
+  console.log(dirObject);
+
+  //need to manually add the UI docs external entry after running this
+};
+
 // cleanupPages();
 // cleanupPagesOld();
 // updatePageContent();
 // movePages();
-fixErrorsInMigratedPages();
+// fixErrorsInMigratedPages();
+generateDirectory();
 
 // checks();
 
