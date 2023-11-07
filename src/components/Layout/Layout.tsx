@@ -40,6 +40,7 @@ import { debounce } from '@/utils/debounce';
 import { DocSearch } from '@docsearch/react';
 import '@docsearch/css';
 import { PageLastUpdated } from '../PageLastUpdated';
+import { findDirectoryNode } from '@/utils/findDirectoryNode';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { Banner } from '@/components/Banner';
@@ -114,12 +115,13 @@ export const Layout = ({
   let rootMenuNode;
 
   const isGen2 = router.asPath.split('/')[1] === 'gen2';
-  const searhParam = isGen2 ? 'gen2' : '[platform]';
+  const isPrev = router.asPath.split('/')[2] === 'prev';
+  const searchParam = isGen2 ? 'gen2' : '[platform]';
 
   if (homepageNode?.children && homepageNode.children.length > 0) {
     rootMenuNode = homepageNode.children.find((node) => {
       if (node.path) {
-        return node.path.indexOf(searhParam) > -1;
+        return node.path.indexOf(searchParam) > -1;
       }
     });
   }
@@ -169,6 +171,31 @@ export const Layout = ({
       menuButtonRef?.current?.focus();
     }
   };
+  let platformNav = <div className="layout-sidebar-platform">
+    <PlatformNavigator
+      currentPlatform={
+        currentPlatform
+      }
+      isPrev={isPrev}
+    />
+  </div>
+  let menu = <Menu
+    currentPlatform={currentPlatform}
+    rootMenuNode={rootMenuNode}
+  />
+  if (isGen2) {
+    menu = <Menu
+      rootMenuNode={rootMenuNode}
+    />
+    platformNav = null;
+  } else if (isPrev) {
+    let prevNode = findDirectoryNode('/[platform]/prev');
+    menu = <Menu
+      currentPlatform={currentPlatform}
+      rootMenuNode={prevNode}
+    />
+  }
+
 
   return (
     <>
@@ -243,17 +270,14 @@ export const Layout = ({
                 </View>
               </Flex>
               <View
-                className={`layout-sidebar${menuOpen ? ' layout-sidebar--expanded' : ''
-                  }`}
+                className={classNames('layout-sidebar', { 'layout-sidebar--expanded': menuOpen })}
               >
                 <View
-                  className={`layout-sidebar__backdrop${menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
-                    }`}
+                  className={classNames('layout-sidebar__backdrop', { 'layout-sidebar__backdrop--expanded': menuOpen })}
                   onClick={() => toggleMenuOpen(false)}
                 ></View>
                 <View
-                  className={`layout-sidebar__inner${menuOpen ? ' layout-sidebar__inner--expanded' : ''
-                    }`}
+                  className={classNames('layout-sidebar__inner', { 'layout-sidebar__inner--expanded': menuOpen })}
                 >
                   <Button
                     size="small"
@@ -267,21 +291,10 @@ export const Layout = ({
                     <IconDoubleChevron />
                     <VisuallyHidden>Close menu</VisuallyHidden>
                   </Button>
-                  {isGen2 ? null : (
-                    <div className="layout-sidebar-platform">
-                      <PlatformNavigator
-                        currentPlatform={
-                          PLATFORM_DISPLAY_NAMES[currentPlatform]
-                        }
-                      />
-                    </div>
-                  )}
+                  {platformNav}
 
                   <div className="layout-sidebar-menu">
-                    <Menu
-                      rootMenuNode={rootMenuNode}
-                      currentPlatform={isGen2 ? undefined : currentPlatform}
-                    />
+                    {menu}
                     <div className="layout-sidebar-feedback">
                       <RepoActions router={router}></RepoActions>
                       <Feedback router={router}></Feedback>

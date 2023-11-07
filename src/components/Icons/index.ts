@@ -3,6 +3,7 @@ export { IconAngular } from './IconAngular';
 export { IconAmplify } from './IconAmplify';
 export { IconAWS } from './IconAWS';
 export { IconCheckCircle } from './IconCheckCircle';
+export { IconCheck } from './IconCheck';
 export { IconChevron } from './IconChevron';
 export { IconDiscord } from './IconDiscord';
 export { IconDoubleChevron } from './IconDoubleChevron';
