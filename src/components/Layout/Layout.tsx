@@ -27,7 +27,6 @@ import { SpaceShip } from '@/components/SpaceShip';
 import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
-import { trackPageVisit } from '../../utils/track';
 import { Menu } from '@/components/Menu';
 import { LayoutProvider } from '@/components/Layout';
 import { TableOfContents } from '@/components/TableOfContents';
@@ -40,6 +39,8 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import { PageLastUpdated } from '../PageLastUpdated';
 import { findDirectoryNode } from '@/utils/findDirectoryNode';
+import Feedback from '../Feedback';
+import RepoActions from '../Menu/RepoActions';
 import { Banner } from '@/components/Banner';
 
 export const Layout = ({
@@ -69,10 +70,6 @@ export const Layout = ({
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    trackPageVisit();
-  }, []);
 
   useEffect(() => {
     const headings: HeadingInterface[] = [];
@@ -290,7 +287,8 @@ export const Layout = ({
                   <div className="layout-sidebar-menu">
                     {menu}
                     <div className="layout-sidebar-feedback">
-                      [ Feedback widget goes here ]
+                      <RepoActions router={router}></RepoActions>
+                      <Feedback router={router}></Feedback>
                     </div>
                     {showLastUpdatedDate && (
                       <PageLastUpdated

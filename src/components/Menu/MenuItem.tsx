@@ -31,6 +31,7 @@ export function MenuItem({
   const [open, setOpen] = useState(false);
 
   const onLinkClick = () => {
+    // Category shouldn't be collapsible
     if (level > Levels.Category) {
       setOpen((prevOpen) => !prevOpen);
     }
@@ -41,7 +42,7 @@ export function MenuItem({
   };
 
   const handleFocus = () => {
-    if (parentSetOpen && level === 3) {
+    if (parentSetOpen) {
       parentSetOpen(true);
     }
   };
@@ -49,16 +50,28 @@ export function MenuItem({
   useEffect(() => {
     if (current) {
       if (pageNode.children && pageNode.children.length > 0) {
-        // if we're on a heading that has children, open it
+        // If we're on a heading that has children, open it
         setOpen(true);
       }
 
       if (parentSetOpen) {
-        // Don't think this scales well with deeply nested menus, what are some better ways to do this?
+        // Since the menu finds the "current" item based on the Page Node route
+        // it doesn't know it's parent unless we explicitly use the parent's setOpen
         parentSetOpen(true);
       }
     }
   }, []);
+
+  // Using this to help open nested menu items
+  // When the parent's setOpen gets called in the initial render from the useEffect above,
+  // it should cause the parent node to rerender. If this node has a parent too, then we should
+  // also open it. The goal is to keep opening the parent whenever we get a
+  // "current" menu item that is deeply nested
+  useEffect(() => {
+    if (open && parentSetOpen) {
+      parentSetOpen(true);
+    }
+  }, [open]);
 
   let pathname = pageNode.route;
 
@@ -74,6 +87,7 @@ export function MenuItem({
 
   let listItemStyle = '';
   let listItemLinkStyle = '';
+  let listItemLinkInnerStyle = '';
   switch (level) {
     case Levels.Category:
       listItemStyle = 'menu__list-item--category';
@@ -82,8 +96,12 @@ export function MenuItem({
     case Levels.Subcategory:
       listItemLinkStyle = 'menu__list-item__link--subcategory';
       break;
+    case Levels.Page:
+      listItemLinkStyle = 'menu__list-item__link--page';
+      break;
     default:
       listItemLinkStyle = 'menu__list-item__link--page';
+      listItemLinkInnerStyle = 'menu__list-item__link__inner--subpage';
       break;
   }
 
@@ -100,7 +118,9 @@ export function MenuItem({
           isExternal={true}
           onClick={onLinkClick}
         >
-          <Flex className="menu__list-item__link__inner">
+          <Flex
+            className={`menu__list-item__link__inner ${listItemLinkInnerStyle}`}
+          >
             {pageNode.title}
             <IconExternalLink />
           </Flex>
@@ -133,7 +153,9 @@ export function MenuItem({
           onClick={onLinkClick}
           passHref
         >
-          <Flex className="menu__list-item__link__inner">
+          <Flex
+            className={`menu__list-item__link__inner ${listItemLinkInnerStyle}`}
+          >
             {pageNode.title}
             {pageNode.children && level !== Levels.Category && (
               <IconChevron className={open ? '' : 'icon-rotate-90-reverse'} />
