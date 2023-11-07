@@ -28,7 +28,7 @@ export default function InternalLink({ href, children }) {
         const filterKey = filterKeys[filterKind];
         if (href.includes('#')) {
           const hrefParts = href.split('#');
-          href = `${hrefParts[0]}/q/${filterKind}/${filterKey}#${hrefParts[1]}`;
+          href = `${hrefParts[0]}q/${filterKind}/${filterKey}#${hrefParts[1]}`;
         } else {
           href += `/q/${filterKind}/${filterKey}`;
         }
