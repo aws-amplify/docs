@@ -6,17 +6,9 @@ export function usePathWithoutHash() {
   const router = useRouter();
 
   useEffect(() => {
-    const onRouteChangeComplete = () => {
-      // Get everything before the hashmark (#)
-      setPath(router.asPath.split('#')[0]);
-    };
-
-    router.events.on('routeChangeComplete', onRouteChangeComplete);
-
-    return () => {
-      router.events.off('routeChangeComplete', onRouteChangeComplete);
-    };
-  }, [router.asPath, router.events]);
+    // Get everything before the hashmark (#)
+    setPath(router.asPath.split('#')[0]);
+  }, [router.asPath]);
 
   return path;
 }
