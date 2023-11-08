@@ -57,11 +57,12 @@
       }
 
       &--subcategory {
-        font-size: 0.9rem;
+        font-size: 0.875rem;
+        font-weight: var(--amplify-font-weights-semibold);
       }
 
       &--page {
-        font-size: 0.75rem;
+        font-size: 0.875rem;
         color: var(--amplify-colors-neutral-80);
       }
 
