@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Set up Amplify DataStore',
-  description:
-    'Amplify DataStore provides a programming model for leveraging shared and distributed data without writing additional code for offline and online scenarios, which makes working with distributed, cross-user data just as simple as working with local-only data.',
-  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android']
+  description: 'Amplify DataStore provides a programming model for leveraging shared and distributed data without writing additional code for offline and online scenarios, which makes working with distributed, cross-user data just as simple as working with local-only data.',
+  platforms: ['javascript','react-native','flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios0 from '/src/fragments/lib/datastore/native_common/getting-started.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import android1 from '/src/fragments/lib/datastore/native_common/getting-started.mdx';
 
@@ -34,7 +35,7 @@ import flutter2 from '/src/fragments/lib/datastore/native_common/getting-started
 
 import js3 from '/src/fragments/lib/datastore/native_common/getting-started.mdx';
 
-<Fragments fragments={{ javascript: js3 }} />
+<Fragments fragments={{ js: js3 }} />
 
 import reactnative0 from '/src/fragments/lib/datastore/native_common/getting-started.mdx';
 

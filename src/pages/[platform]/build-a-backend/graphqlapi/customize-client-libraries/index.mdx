@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
-  title: 'Working with files / attachments',
-  description:
-    'Learn more about associating Amplify Storage files with Amplify GraphQL API records.',
-  platforms: ['javascript', 'swift']
+  title: 'How to Manage Image & File Uploads & Downloads',
+  description: 'How to manage image and file uploads and downloads with GraphQL and AWS Amplify',
+  platforms: ['javascript']
 };
 
 export const getStaticPaths = async () => {
@@ -19,11 +18,9 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-import js0 from '/src/fragments/lib/graphqlapi/js/working-with-files.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+import js0 from '/src/fragments/guides/api-graphql/js/image-and-file-uploads.mdx';
 
-import ios0 from '/src/fragments/lib/graphqlapi/ios/working-with-files.mdx';
-
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ js: js0 }} />

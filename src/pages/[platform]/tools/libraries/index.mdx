@@ -1,11 +1,11 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Overview',
-  description:
+  description:,
     'The Amplify open-source client libraries provide use-case centric, opinionated, declarative, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. ',
   disableTOC: 'true',
-  platforms: ['android', 'flutter', 'javascript', 'react-native', 'swift']
+  platforms: ['android','flutter','javascript','react-native','swift']
 };
 
 export const getStaticPaths = async () => {
@@ -20,6 +20,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
@@ -29,10 +31,10 @@ import ios0 from '/src/fragments/lib/ios.mdx';
 import android1 from '/src/fragments/lib/android.mdx';
 import flutter2 from '/src/fragments/lib/flutter.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 <Fragments fragments={{ android: android1 }} />
 <Fragments fragments={{ flutter: flutter2 }} />
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["js", "react-native"]}>
 
 ## Amplify JavaScript
 

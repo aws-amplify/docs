@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Example application',
   description: 'Full examples and resources using Amplify DataStore.',
-  platforms: ['javascript', 'react-native']
+  platforms: ['javascript','react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -18,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import js0 from '/src/fragments/lib/datastore/js/examples.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />
 
 import reactnative0 from '/src/fragments/lib/datastore/js/examples-react-native.mdx';
 

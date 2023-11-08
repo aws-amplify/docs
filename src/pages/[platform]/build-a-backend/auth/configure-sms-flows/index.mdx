@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Add SMS flows',
   description: 'Using phone numbers for sign-in and verification',
-  platforms: ['flutter', 'swift', 'android']
+  platforms: ['flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import flutter0 from '/src/fragments/lib/auth/common/sms/flows.mdx';
 
@@ -25,7 +27,7 @@ import flutter0 from '/src/fragments/lib/auth/common/sms/flows.mdx';
 
 import ios0 from '/src/fragments/lib/auth/common/sms/flows.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import android0 from '/src/fragments/lib/auth/common/sms/flows.mdx';
 

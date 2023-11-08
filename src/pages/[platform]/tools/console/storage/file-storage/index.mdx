@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'File storage',
   description: 'Get started with Amplify Studio',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 Amplify Studio File Storage provides a simple mechanism for managing user content for your app in public, protected or private storage folders. In Studio you can specify authorization rules that limit individual user or group access to create, read, update, or delete operations on your files. The File Storage category comes with built-in support for Amazon S3.
 
@@ -56,8 +57,8 @@ The authorization modes can always be edited under **Set up**, **Storage**.
 
 For default file access levels to work, your bucket needs to be configured accordingly:
 
-- **private/\{user_identity_id}/** - Only accessible for the individual user
-- **protected/\{user_identity_id}/** - Readable by all users, writable only by the creating user
+- **private/{user_identity_id}/** - Only accessible for the individual user
+- **protected/{user_identity_id}/** - Readable by all users, writable only by the creating user
 - **public/** - Accessible by all users of your app
 
 [Learn more about how to import file storage.](https://docs.amplify.aws/cli/storage/import/#connect-to-an-imported-s3-bucket-with-amplify-libraries)

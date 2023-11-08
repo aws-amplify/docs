@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Customize primary keys',
-  description:
-    'Learn more about advanced workflows in the Amplify DataStore category, including custom primary keys.',
-  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android']
+  description: 'Learn more about advanced workflows in the Amplify DataStore category, including custom primary keys.',
+  platforms: ['javascript','react-native','flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios0 from '/src/fragments/lib/datastore/native_common/advanced-workflows.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import android0 from '/src/fragments/lib/datastore/native_common/advanced-workflows.mdx';
 
@@ -34,4 +35,4 @@ import flutter0 from '/src/fragments/lib/datastore/native_common/advanced-workfl
 
 import js0 from '/src/fragments/lib/datastore/native_common/advanced-workflows.mdx';
 
-<Fragments fragments={{ javascript: js0, 'react-native': js0 }} />
+<Fragments fragments={{ js: js0, 'react-native': js0 }} />

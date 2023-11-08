@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
-  title: 'Switching authentication flows',
-  description:
-    'Learn more about how to switch between different auth flows in Amplify.',
-  platforms: ['android', 'javascript', 'react-native', 'swift']
+  title: 'Creating a custom authentication flow',
+  description: 'Creating a custom authentication flow with AWS Amplify',
+  platforms: ['javascript','react-native','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,19 +18,9 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-import ios0 from '/src/fragments/lib/auth/ios/switch-auth/switch-auth.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+import js0 from '/src/fragments/guides/authentication/js/custom-auth-flow.mdx';
 
-import android0 from '/src/fragments/lib/auth/android/switch-auth/switch-auth.mdx';
-
-<Fragments fragments={{ android: android0 }} />
-
-import js0 from '/src/fragments/lib/auth/js/switch-auth.mdx';
-
-<Fragments fragments={{ javascript: js0 }} />
-
-import reactnative0 from '/src/fragments/lib/auth/js/switch-auth.mdx';
-
-<Fragments fragments={{ 'react-native': reactnative0 }} />
+<Fragments fragments={{ js: js0 }} />

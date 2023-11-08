@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Get file properties',
-  description:
-    "Learn more about how to get a file's properties without downloading the file using Amplify's storage category.",
-  platforms: ['javascript', 'flutter', 'react-native']
+  description: "Learn more about how to get a file's properties without downloading the file using Amplify's storage category.",
+  platforms: ['javascript','flutter']
 };
 
 export const getStaticPaths = async () => {
@@ -19,12 +18,14 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import flutter0 from '/src/fragments/lib/storage/flutter/get-properties.mdx';
 
 <Fragments fragments={{ flutter: flutter0 }} />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['js', 'react-native']}>
 
 You can get file properties and metadata without downloading the file using `getProperties` API from `aws-amplify/storage`
 
@@ -36,8 +37,8 @@ try {
     key: 'key',
     options: {
       accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
-      targetIdentityId: 'xxxxxxx' // ID of another user, if `accessLevel: protected`
-    }
+      targetIdentityId: 'xxxxxxx', // ID of another user, if `accessLevel: protected`
+    },
   });
   console.log('File Properties ', result);
 } catch (error) {
@@ -62,7 +63,6 @@ The format of the response will look similar to the below example
 To get the metadata in result for all APIs you have to configure user defined metadata in CORS.
 
 Learn more about how to setup an appropriate [CORS Policy](https://docs.amplify.aws/lib-v1/storage/getting-started/q/platform/js/#amazon-s3-bucket-cors-policy-setup).
-
 </Callout>
 
 </InlineFilter>

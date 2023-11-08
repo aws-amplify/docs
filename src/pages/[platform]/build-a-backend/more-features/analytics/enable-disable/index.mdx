@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Enable and disable analytics',
   description: 'Learn how to enable/disable analytics using Amplify.',
-  platforms: ['javascript', 'react-native', 'swift', 'android', 'flutter']
+  platforms: ['javascript','react-native','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 ## Disable Analytics
 
@@ -25,7 +27,7 @@ Analytics is enabled by default when you configure it in your app. To disable An
 
 import js0 from '/src/fragments/lib/analytics/js/enable-disable/disable.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />
 
 import reactNative0 from '/src/fragments/lib/analytics/js/enable-disable/disable.mdx';
 
@@ -41,7 +43,7 @@ import flutter0 from '/src/fragments/lib/analytics/flutter/enable-disable/disabl
 
 import ios0 from '/src/fragments/lib/analytics/ios/enable-disable/disable.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 ## Enable Analytics
 
@@ -49,7 +51,7 @@ To enable analytics you can use the `enable` function in your app:
 
 import js1 from '/src/fragments/lib/analytics/js/enable-disable/enable.mdx';
 
-<Fragments fragments={{ javascript: js1 }} />
+<Fragments fragments={{ js: js1 }} />
 
 import reactNative1 from '/src/fragments/lib/analytics/js/enable-disable/enable.mdx';
 
@@ -65,4 +67,4 @@ import flutter1 from '/src/fragments/lib/analytics/flutter/enable-disable/enable
 
 import ios1 from '/src/fragments/lib/analytics/ios/enable-disable/enable.mdx';
 
-<Fragments fragments={{ swift: ios1 }} />
+<Fragments fragments={{ ios: ios1 }} />

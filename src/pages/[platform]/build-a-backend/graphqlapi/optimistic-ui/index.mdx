@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Optimistic UI',
-  description:
-    'Learn more about implementing optimistic UI with Amplify GraphQL API.',
-  platforms: ['javascript', 'swift']
+  description: 'Learn more about implementing optimistic UI with Amplify GraphQL API.',
+  platforms: ['javascript','swift']
 };
 
 export const getStaticPaths = async () => {
@@ -19,11 +18,13 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import js0 from '/src/fragments/lib/graphqlapi/js/optimistic-ui.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />
 
 import ios0 from '/src/fragments/lib/graphqlapi/ios/optimistic-ui.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />

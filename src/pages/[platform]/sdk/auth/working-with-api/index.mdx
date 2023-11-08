@@ -1,19 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Working with the API',
   description: "Learn more about how to use Amplify's auth APIs  ",
-  platforms: [
-    'swift',
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'vue'
-  ]
+  platforms: ['swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -28,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import all0 from '/src/fragments/sdk/library-callout.mdx';
 
@@ -35,7 +27,7 @@ import all0 from '/src/fragments/sdk/library-callout.mdx';
 
 import ios1 from '/src/fragments/sdk/auth/ios/working-with-api.mdx';
 
-<Fragments fragments={{ swift: ios1 }} />
+<Fragments fragments={{ ios: ios1 }} />
 
 import android2 from '/src/fragments/sdk/auth/android/working-with-api.mdx';
 

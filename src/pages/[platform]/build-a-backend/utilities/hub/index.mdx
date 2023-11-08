@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Hub',
-  description:
-    'Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. ',
-  platforms: ['javascript', 'react-native', 'swift', 'android']
+  description: 'Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. ',
+  platforms: ['javascript','react-native','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,17 +18,18 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import common_hub from '/src/fragments/lib/utilities/native_common/hub/common.mdx';
 
-<Fragments fragments={{ android: common_hub, swift: common_hub }} />
+<Fragments fragments={{ android: common_hub, ios: common_hub }} />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['js', 'react-native']}>
 
 Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. Amplify uses Hub for different categories to communicate with one another when specific events occur, such as authentication events like a user sign-in or notification of a file download.
 
 ## Installation
-
 ```javascript
 import { Hub } from 'aws-amplify/utils';
 ```
@@ -37,13 +37,12 @@ import { Hub } from 'aws-amplify/utils';
 ## Working with the API
 
 ### Channels
+A channel is a logical group name that you use to organize messages and listen on. These are strings and completely up to you as the developer to define for dispatching or listening. However, while you can dispatch to any channel, ***Amplify protects certain channels*** and will flag a warning as sending unexpected payloads could have undesirable side effects (such as impacting authentication flows). The protected channels are currently:
 
-A channel is a logical group name that you use to organize messages and listen on. These are strings and completely up to you as the developer to define for dispatching or listening. However, while you can dispatch to any channel, **_Amplify protects certain channels_** and will flag a warning as sending unexpected payloads could have undesirable side effects (such as impacting authentication flows). The protected channels are currently:
-
-- core
-- auth
-- analytics
-- storage
+* core
+* auth
+* analytics
+* storage
 
 ### Listening for messages
 
@@ -56,12 +55,9 @@ class MyClass {
   constructor() {
     Hub.listen('auth', (data) => {
       const { payload } = data;
-      this.onAuthEvent(payload);
-      console.log(
-        'A new auth event has happened: ',
-        data.payload.data.username + ' has ' + data.payload.event
-      );
-    });
+      this.onAuthEvent(payload);           
+      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
+    })
   }
 
   onAuthEvent(payload) {
@@ -73,28 +69,30 @@ class MyClass {
 ### Sending messages
 
 Sending events to different channels is done with the `dispatch` function:
-
 ```javascript
-Hub.dispatch('DogsChannel', {
-  event: 'buttonClick',
-  data: { color: 'blue' },
-  message: ''
+Hub.dispatch(
+  'DogsChannel', 
+  { 
+    event: 'buttonClick', 
+    data: {color:'blue'}, 
+    message:'' 
 });
 
 setTimeout(() => {
-  Hub.dispatch('CatsChannel', {
-    event: 'drinkMilk',
-    data: {
-      breed: 'Persian',
-      age: 5
-    },
-    message: `The cat ${cat.name} has finished her milk`
-  });
-}, 5000);
+  Hub.dispatch(
+    'CatsChannel', 
+    { 
+      event: 'drinkMilk', 
+      data: { 
+        breed: 'Persian',
+        age: 5
+      },
+      message: `The cat ${cat.name} has finished her milk`
+    }
+  );
+}, 5000)
 ```
-
 `Hub.dispatch(channel: string, payload: HubPayload)` can be used to dispatch a `HubPayload` to a `channel`. The `channel` is a logical grouping for your organization while the `HubPayload` is a type defined as:
-
 ```javascript
 export type HubPayload = {
   event: string,
@@ -110,10 +108,10 @@ The `event` field is recommended to be a small string without spaces such as `si
 Hub provides a way to stop listening for messages with calling the result of the `.listen` function. This may be useful if you no longer need to receive messages in your application flow, as well as to avoid any memory leaks on low powered devices when you are sending large amounts of data through Hub on multiple channels.
 
 To stop listening to a certain event, you need to wrap the listener function to a variable and call it once you no longer need it:
-
 ```javascript
+
 /* start listening for messages */
-const hubListenerCancel = Hub.listen('auth', (data) => {
+const hubListenerCancel = Hub.listen("auth", (data) => {
   console.log('Listening for all messages: ', data.payload.data);
 });
 

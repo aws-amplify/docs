@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Sync messages',
-  description:
-    "Learn how to sync in-app messages to your user's local device. Synced messages will be displayed when a matching event is triggered.",
-  platforms: ['javascript', 'react-native']
+  description: "Learn how to sync in-app messages to your user's local device. Synced messages will be displayed when a matching event is triggered.",
+  platforms: ['javascript','react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import reactnative0 from '/src/fragments/lib/in-app-messaging/sync-messages/sync-messages.mdx';
 
@@ -26,4 +27,4 @@ import reactnative0 from '/src/fragments/lib/in-app-messaging/sync-messages/sync
 
 import js0 from '/src/fragments/lib/in-app-messaging/sync-messages/sync-messages.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />

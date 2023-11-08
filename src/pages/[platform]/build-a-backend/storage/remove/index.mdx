@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Remove files',
-  description:
-    "Learn more about how to remove files using Amplify's storage category",
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
+  description: "Learn more about how to remove files using Amplify's storage category",
+  platforms: ['javascript','flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import android_remove from '/src/fragments/lib/storage/android/remove.mdx';
 import flutter_remove from '/src/fragments/lib/storage/flutter/remove.mdx';
@@ -28,13 +29,14 @@ import ios_remove from '/src/fragments/lib/storage/ios/remove.mdx';
   fragments={{
     android: android_remove,
     flutter: flutter_remove,
-    swift: ios_remove
+    ios: ios_remove
   }}
 />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['js', 'react-native']}>
 
-Delete stored data from the storage bucket. To remove a file, you need to provide the key. `accessLevel` can be 'guest', 'private', or 'protected', defaulting to 'guest'. Files can only be deleted for the current user. Deletion capabilities do not extend to files associated with other users.
+Delete stored data from the storage bucket. To remove a file, you need to provide the key. `accessLevel` can be 'guest', 'private', or 'protected', defaulting to 'guest'.
+Files can only be deleted for the current user. Deletion capabilities do not extend to files associated with other users.
 
 ## Guest level remove
 
@@ -46,6 +48,7 @@ try {
 } catch (error) {
   console.log('Error ', error);
 }
+
 ```
 
 ## Protected level remove

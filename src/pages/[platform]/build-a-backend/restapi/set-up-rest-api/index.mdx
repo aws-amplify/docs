@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Set up Amplify REST API',
-  description:
-    'The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. The REST API category can be used for creating signed requests against Amazon API Gateway when the API Gateway Authorization is set to AWS_IAM.',
-  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android']
+  description: 'The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. The REST API category can be used for creating signed requests against Amazon API Gateway when the API Gateway Authorization is set to AWS_IAM.',
+  platforms: ['javascript','react-native','flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import common_getting_started from '/src/fragments/lib/restapi/native_common/getting-started/common.mdx';
 
@@ -26,8 +27,8 @@ import common_getting_started from '/src/fragments/lib/restapi/native_common/get
   fragments={{
     android: common_getting_started,
     flutter: common_getting_started,
-    swift: common_getting_started,
-    javascript: common_getting_started,
+    ios: common_getting_started,
+    js: common_getting_started,
     'react-native': common_getting_started
   }}
 />

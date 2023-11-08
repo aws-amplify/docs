@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Observe in real time',
-  description:
-    'Learn more about how DataStore handles data changes in real-time.',
-  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
+  description: 'Learn more about how DataStore handles data changes in real-time.',
+  platforms: ['flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ ios: ios_maintenance }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
@@ -30,7 +31,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import ios0 from '/src/fragments/lib-v1/datastore/native_common/real-time.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -46,7 +47,7 @@ import flutter2 from '/src/fragments/lib-v1/datastore/native_common/real-time.md
 
 import js3 from '/src/fragments/lib-v1/datastore/native_common/real-time.mdx';
 
-<Fragments fragments={{ javascript: js3 }} />
+<Fragments fragments={{ js: js3 }} />
 
 import reactnative0 from '/src/fragments/lib-v1/datastore/native_common/real-time.mdx';
 

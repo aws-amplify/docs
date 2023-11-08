@@ -1,20 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Create your application',
-  description:
-    'Project setup for Amplify prior to adding category specific example.',
-  platforms: [
-    'angular',
-    'javascript',
-    'nextjs',
-    'react',
-    'vue',
-    'swift',
-    'android',
-    'flutter',
-    'react-native'
-  ]
+  description: 'Project setup for Amplify prior to adding category specific example.',
+  platforms: ['angular, javascript, nextjs, react, vue','swift','android','flutter']
 };
 
 export const getStaticPaths = async () => {
@@ -29,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ ios: ios_maintenance }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
@@ -40,7 +31,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import ios0 from '/src/fragments/lib-v1/project-setup/native_common/create-application/common.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -60,4 +51,4 @@ import react_native2 from '/src/fragments/start/getting-started/reactnative/setu
 
 import js0 from '/src/fragments/lib-v1/project-setup/js/getting-started.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />

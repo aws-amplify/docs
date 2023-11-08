@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Advanced workflows',
-  description:
-    'Learn more about advanced workflows in the Amplify auth category. This includes subscribing to events, identity pool federation, auth-related Lambda triggers and working with AWS service objects.',
-  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android']
+  description: 'Learn more about advanced workflows in the Amplify auth category. This includes subscribing to events, identity pool federation, auth-related Lambda triggers and working with AWS service objects.',
+  platforms: ['javascript','react-native','flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios0 from '/src/fragments/lib/auth/ios/advanced/advanced.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import android0 from '/src/fragments/lib/auth/android/advanced/advanced.mdx';
 
@@ -30,7 +31,7 @@ import android0 from '/src/fragments/lib/auth/android/advanced/advanced.mdx';
 
 import js0 from '/src/fragments/lib/auth/js/advanced.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />
 
 import reactnative0 from '/src/fragments/lib/auth/js/advanced.mdx';
 

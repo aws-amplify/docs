@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'List files',
-  description:
-    "Learn more about how to list all of the uploaded objects using Amplify's storage category.",
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
+  description: "Learn more about how to list all of the uploaded objects using Amplify's storage category.",
+  platforms: ['javascript','flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,16 +18,18 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import android_list from '/src/fragments/lib/storage/android/list.mdx';
 import flutter_list from '/src/fragments/lib/storage/flutter/list.mdx';
 import ios_list from '/src/fragments/lib/storage/ios/list.mdx';
 
 <Fragments
-  fragments={{ android: android_list, flutter: flutter_list, swift: ios_list }}
+  fragments={{ android: android_list, flutter: flutter_list, ios: ios_list }}
 />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['js', 'react-native']}>
 
 ## Guest level list
 
@@ -72,7 +73,10 @@ function processStorageList(response) {
     if (res.size) {
       files.push(res);
       // sometimes files declare a folder with a / within then
-      let possibleFolder = res.key.split('/').slice(0, -1).join('/');
+      let possibleFolder = res.key
+        .split('/')
+        .slice(0, -1)
+        .join('/');
       if (possibleFolder) folders.add(possibleFolder);
     } else {
       folders.add(res.key);
@@ -109,6 +113,7 @@ This places each item's data inside a special `__data` key.
 ## Protected level list
 
 To list current user's objects:
+
 
 ```javascript
 import { list } from 'aws-amplify/storage';
@@ -165,8 +170,8 @@ try {
   const response = await list({
     prefix: 'photos/',
     options: {
-      listAll: true
-    }
+      listAll: true,
+    },
   });
   // render list items from response.items
 } catch (error) {
@@ -188,8 +193,8 @@ const loadNextPage = async () => {
   let response = await list({
     options: {
       pageSize: PAGE_SIZE,
-      nextToken: nextToken
-    }
+      nextToken: nextToken,
+    },
   });
   if (response.nextToken) {
     nextToken = response.nextToken;

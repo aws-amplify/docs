@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Accessing credentials',
   description: 'Use AWS Cognito Auth plugin to access auth credentials',
-  platforms: ['flutter', 'swift', 'android']
+  platforms: ['flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios0 from '/src/fragments/lib/auth/native_common/access_credentials/common.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import android1 from '/src/fragments/lib/auth/native_common/access_credentials/common.mdx';
 

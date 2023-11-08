@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Identify a user',
-  description:
-    'Learn how to segment and target your In-App Messaging campaigns to specific user subsets.',
-  platforms: ['javascript', 'react-native']
+  description: 'Learn how to segment and target your In-App Messaging campaigns to specific user subsets.',
+  platforms: ['javascript','react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import reactnative0 from '/src/fragments/lib/in-app-messaging/identify-user/identify-user.mdx';
 
@@ -26,4 +27,4 @@ import reactnative0 from '/src/fragments/lib/in-app-messaging/identify-user/iden
 
 import js0 from '/src/fragments/lib/in-app-messaging/identify-user/identify-user.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />

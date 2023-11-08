@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Interact with bots',
-  description:
-    'Learn more about how to integrate chat bot interactions into your application using Amplify.',
-  platforms: ['javascript', 'react-native']
+  description: 'Learn more about how to integrate chat bot interactions into your application using Amplify.',
+  platforms: ['javascript','react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -19,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import js0 from '/src/fragments/lib/interactions/js/chatbot.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />
 
 import reactnative0 from '/src/fragments/lib/interactions/js/chatbot.mdx';
 

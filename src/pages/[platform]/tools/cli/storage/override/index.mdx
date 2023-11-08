@@ -1,20 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Override Amplify-generated S3 and DynamoDB resources',
-  description:
-    'The "amplify override storage" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated S3 and DynamoDB resources as CDK constructs. For example, developers can run the “amplify override storage” command to enable Transfer Acceleration for Amplify-generated S3 buckets.',
+  description:,
+    'The "amplify override storage" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated S3 and DynamoDB resources as CDK constructs. For example, developers can run the “amplify override storage” command to enable Transfer Acceleration for Amplify-generated S3 buckets.'
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,6 +29,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 ```bash
 amplify override storage
@@ -74,15 +75,16 @@ For example, you can use `amplify override storage` to add additional PUT and GE
 import { AmplifyS3ResourceTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyS3ResourceTemplate) {
-  resources.s3AuthPublicPolicy.policyDocument.Statement = [
-    ...resources.s3AuthPublicPolicy.policyDocument.Statement,
+  resources.s3AuthPublicPolicy.policyDocument.Statement =  [
+    ...resources.s3AuthPublicPolicy.policyDocument.Statement, 
     {
-      Effect: 'Allow',
-      Action: ['s3:PutObject', 's3:PutObjectAcl', 's3:GetObject'],
-      Resource: '<ARN of the S3 resource>'
+      Effect: "Allow",
+      Action: [ "s3:PutObject","s3:PutObjectAcl","s3:GetObject"], 
+      Resource: "<ARN of the S3 resource>"
     }
-  ];
+  ]
 }
+
 ```
 
 Please refer to the [IAM documentation](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazons3.html) for more information on actions, resources, and condition keys for Amazon S3.

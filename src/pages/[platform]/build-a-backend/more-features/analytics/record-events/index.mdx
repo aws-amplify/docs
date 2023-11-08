@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Record events',
   description: 'Learn how to record analytics events using Amplify.',
-  platforms: ['javascript', 'react-native', 'swift', 'android']
+  platforms: ['javascript','react-native','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import android_record from '/src/fragments/lib/analytics/android/record.mdx';
 import flutter_record from '/src/fragments/lib/analytics/flutter/record.mdx';
@@ -27,11 +29,11 @@ import ios_record from '/src/fragments/lib/analytics/ios/record.mdx';
   fragments={{
     android: android_record,
     flutter: flutter_record,
-    swift: ios_record
+    ios: ios_record
   }}
 />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['js', 'react-native']}>
 
 ## Recording Custom Events
 
@@ -90,7 +92,6 @@ However, it can take upwards of 30 minutes for the event to display in the Filte
 </Callout>
 
 ## Flush events
-
 The recorded events are saved in a buffer and sent to the remote server periodically. If needed, you have the option to manually clear all the events from the buffer by using the 'flushEvents' API.
 
 ```javascript

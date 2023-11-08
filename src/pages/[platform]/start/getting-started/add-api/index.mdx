@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Connect to the cloud',
-  description:
-    'Getting Started with Amplify Libraries - how to add API and database to your app.',
-  platforms: ['android', 'swift']
+  description: 'Getting Started with Amplify Libraries - how to add API and database to your app.',
+  platforms: ['android','swift']
 };
 
 export const getStaticPaths = async () => {
@@ -19,11 +18,14 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+      
 
-import ios0 from '/src/fragments/start/getting-started/ios/add-api.mdx';
+import ios0 from "/src/fragments/start/getting-started/ios/add-api.mdx";
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ios: ios0}} />
 
-import android1 from '/src/fragments/start/getting-started/android/add-api.mdx';
+import android1 from "/src/fragments/start/getting-started/android/add-api.mdx";
 
-<Fragments fragments={{ android: android1 }} />
+<Fragments fragments={{android: android1}} />
+

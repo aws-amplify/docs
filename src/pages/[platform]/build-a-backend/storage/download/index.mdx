@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Download files',
-  description:
-    'Learn more about how to download / retrieve files using the Storage category of Amplify',
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
+  description: 'Learn more about how to download / retrieve files using the Storage category of Amplify',
+  platforms: ['javascript','flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import android_download from '/src/fragments/lib/storage/android/download.mdx';
 import flutter_download from '/src/fragments/lib/storage/flutter/download.mdx';
@@ -28,11 +29,11 @@ import ios_download from '/src/fragments/lib/storage/ios/download.mdx';
   fragments={{
     android: android_download,
     flutter: flutter_download,
-    swift: ios_download
+    ios: ios_download
   }}
 />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['js', 'react-native']}>
 
 The following options are available for retrieving previously uploaded data:
 
@@ -45,7 +46,7 @@ import { getUrl } from 'aws-amplify/storage';
 
 const getUrlResult = await getUrl({
   key: filename,
-  options: {
+  options: { 
     accessLevel?: 'guest' , // can be 'private', 'protected', or 'guest' but defaults to `guest`
     targetIdentityId?: 'XXXXXXX', // id of another user, if `accessLevel` is `guest`
     validateObjectExistence?: false,  // defaults to false
@@ -62,14 +63,14 @@ console.log('URL expires at: ', getUrlResult.expiresAt);
 Inside your template or JSX code, you can use the `url` property to create a link to the file:
 
 ```html
-<a href="{signedURL.url.toString()}" target="_blank" rel="noreferrer">
-  {fileName} </a
->;
+<a href={signedURL.url.toString()} target="_blank" rel="noreferrer">
+  {fileName}
+</a>;
 ```
 
+
 <Callout>
-  This function does not check if the file exists by default. As result, the
-  signed URL may fail if the file to be download does not exist.
+This function does not check if the file exists by default. As result, the signed URL may fail if the file to be download does not exist.
 </Callout>
 
 ### Check for existence of a file
@@ -83,9 +84,10 @@ import { getUrl } from 'aws-amplify/storage';
 await getUrl({
   key: filename,
   options: {
-    validateObjectExistence: true // defaults to false
-  }
+    validateObjectExistence: true, // defaults to false
+  },
 });
+
 ```
 
 ### getUrl expiry
@@ -99,8 +101,7 @@ await getUrl({ key: 'filename.txt', options: { expiresIn: 60 } });
 ```
 
 <Callout>
-  The expiration time of the presigned url is dependent on the session and will
-  max out at 1 hour.
+The expiration time of the presigned url is dependent on the session and will max out at 1 hour.
 </Callout>
 
 ## downloadData
@@ -117,14 +118,15 @@ const { body, eTag } = await downloadData({
   options: {
     accessLevel: 'guest', // can be 'private' | 'protected' | 'guest'
     targetIdentityId: 'xxxxxxx', // id of another user, if `level: protected`
-    onProgress // Optional progress callback.
-  }
+    onProgress, // Optional progress callback.
+  },
 }).result;
-```
-
+ ```
+ 
 ### Get the text value of downloaded File
-
-You can consume the value of file in any of the three formats: `blob`, `json`, or `text`. You can call the respective method on the `body` property to consume the set data in the respective format.
+You can consume the value of file in any of the three formats: `blob`, `json`, 
+or `text`. You can call the respective method on the `body` property to consume 
+the set data in the respective format.
 
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
@@ -136,7 +138,7 @@ try {
   // or `downloadResult.body.json()` get read body in Blob or JSON format.
   console.log('Succeed: ', text);
 } catch (error) {
-  console.log('Error : ', error);
+  console.log('Error : ', error)
 }
 ```
 
@@ -181,8 +183,8 @@ try {
 To get the metadata in result for all APIs you have to configure user defined metadata in CORS.
 
 Learn more about how to setup an appropriate [CORS Policy](https://docs.amplify.aws/lib-v1/storage/getting-started/q/platform/js/#amazon-s3-bucket-cors-policy-setup).
-
 </Callout>
+
 
 ### Frequently Asked Questions
 

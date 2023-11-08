@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Use AWS SDK for Swift',
   description: 'Get the Amplify Logging escape hatch',
-  platforms: ['swift', 'android']
+  platforms: ['swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,12 +18,14 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import commonRoute from '/src/fragments/lib/logging/common/escapehatch/escapehatch.mdx';
 
 <Fragments
   fragments={{
     android: commonRoute,
-    swift: commonRoute
+    ios: commonRoute
   }}
 />

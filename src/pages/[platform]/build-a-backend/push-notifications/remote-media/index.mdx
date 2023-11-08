@@ -1,5 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Remote media',
   description: 'Support remote media.',
@@ -18,7 +18,9 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios0 from '/src/fragments/lib/push-notifications/common/remote-media.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />

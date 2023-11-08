@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Display message',
-  description:
-    'Learn how in-app messages are displayed when an In-App Messaging or analytics event is sent and matches the criteria set forth by your active In-App Messaging campaigns.',
-  platforms: ['javascript', 'react-native']
+  description: 'Learn how in-app messages are displayed when an In-App Messaging or analytics event is sent and matches the criteria set forth by your active In-App Messaging campaigns.',
+  platforms: ['javascript','react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import reactnative0 from '/src/fragments/lib/in-app-messaging/display-message/display-message.mdx';
 
@@ -26,4 +27,4 @@ import reactnative0 from '/src/fragments/lib/in-app-messaging/display-message/di
 
 import js0 from '/src/fragments/lib/in-app-messaging/display-message/display-message.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />

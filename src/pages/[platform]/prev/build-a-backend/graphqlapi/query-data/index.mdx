@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Read application data',
-  description:
-    "Learn more about how to fetch data using Amplify's GraphQL API category",
-  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
+  description: "Learn more about how to fetch data using Amplify's GraphQL API category",
+  platforms: ['flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,14 +18,16 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-<InlineFilter filters={["javascript", "react-native"]}>
+
+<InlineFilter filters={["js", "react-native"]}>
 
 You can read application data using the Amplify GraphQL client. In this guide, we will review the difference between reading data and getting data, how to filter query results to get just the data you need, and how to paginate results to make your data more manageable. We will also show you how to cancel these requests when needed.
 
 Before you begin, you will need:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["js"]}>
 
 - An [application connected to the API](/lib-v1/graphqlapi/connect/q/platform/js/)
 - Data already created to view
@@ -41,9 +42,9 @@ Before you begin, you will need:
 </InlineFilter>
 
 ## List and get your data
-
+  
 Queries are used to read data through the API and include the `list` and `get` operations.
-
+  
 The Amplify CLI automatically creates `list` and `get` queries for any @model type in your GraphQL API. The `list` query retrieves multiple items, such as Todo items, without needing to specific an identifier for a particular record. This is best suited for getting an overview or summary of items, or for enhancing the `list` operation to filter the items by specific criteria. When you want to query a single entry by an identifier, you would use `get` to retrieve a specific Todo item.
 
 <Callout>
@@ -52,7 +53,7 @@ The Amplify CLI automatically creates `list` and `get` queries for any @model ty
 
 </Callout>
 
-The Amplify CLI automatically generates GraphQL client code for all possible GraphQL operations—mutations, queries, and subscriptions. For JavaScript applications, this generated code is saved in the `src/graphql` folder by default.
+The Amplify CLI automatically generates GraphQL client code for all possible GraphQL operations—mutations, queries, and subscriptions. For JavaScript applications, this generated code is saved in the `src/graphql` folder by default. 
 
 To run a GraphQL query, import the generated query and run it with `API.graphql`:
 
@@ -66,9 +67,9 @@ import { GraphQLQuery } from '@aws-amplify/api';
 import { ListTodosQuery, GetTodoQuery } from './API';
 
 // Simple query
-const allTodos = await API.graphql<GraphQLQuery<ListTodosQuery>>({
-  query: queries.listTodos
-});
+const allTodos = await API.graphql<GraphQLQuery<ListTodosQuery>>(
+  { query: queries.listTodos }
+);
 console.log(allTodos); // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
 
 // Fetch a single record by its identifier
@@ -103,7 +104,7 @@ const oneTodo = await API.graphql({
 
 <Accordion title='Troubleshoot unauthorized errors' headingLevel='4' eyebrow='Troubleshooting'>
 
-You can run into unauthorized errors if you don't have at least one auth rule defined.
+You can run into unauthorized errors if you don't have at least one auth rule defined. 
 
 Use the `@auth` directive to configure authorization rules for public, signed-in user, per-user, and per-user-group data access. **Authorization rules operate on the deny-by-default principle**, meaning that if an authorization rule is not specifically configured, it is denied.
 
@@ -117,10 +118,11 @@ In the previous example, each signed-in user, or "owner", of a Todo can create, 
 
 Amplify also allows you to restrict the allowed operations, combine multiple authorization rules, and apply fine-grained field-level authorization.
 
-```graphql
-type Todo
-  @model
-  @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+``` graphql
+type Todo @model @auth(rules: [
+  { allow: public, operations: [read]},
+  { allow: owner }
+]) {
   content: String
 }
 ```
@@ -131,7 +133,7 @@ To learn more, see [Authorization rules](https://docs.amplify.aws/cli/graphql/au
 
 </Accordion>
 
-<br />
+<br/>
 
 <Accordion title='Custom authorization mode to query data' headingLevel='4' eyebrow='Learn more'>
 
@@ -161,6 +163,7 @@ import { API } from 'aws-amplify';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
 import * as queries from './graphql/queries';
 
+
 const todos = await API.graphql({
   query: queries.listTodos,
   authMode: GRAPHQL_AUTH_MODE.AWS_IAM
@@ -173,7 +176,7 @@ const todos = await API.graphql({
 </Accordion>
 
 ## Filter list queries
-
+  
 As your data grows, you will need to paginate your list queries. Fortunately, this is already built in to the Amplify-generated GraphQL API.
 
 <BlockSwitcher>
@@ -181,7 +184,7 @@ As your data grows, you will need to paginate your list queries. Fortunately, th
 
 ```ts
 import { API } from 'aws-amplify';
-import { listTodos } from './graphql/queries';
+import { listTodos } from './graphql/queries'
 import { ListTodosQueryVariables, ListTodosQuery } from './API';
 
 const variables: ListTodosQueryVariables = {
@@ -192,9 +195,8 @@ const variables: ListTodosQueryVariables = {
   }
 };
 
-await API.graphql<GraphQLQuery<ListTodosQuery>>({
-  query: listTodos,
-  variables: variables
+await API.graphql<GraphQLQuery<ListTodosQuery>>({ 
+  query: listTodos, variables: variables 
 });
 ```
 
@@ -204,7 +206,7 @@ await API.graphql<GraphQLQuery<ListTodosQuery>>({
 
 ```js
 import { API } from 'aws-amplify';
-import { listTodos } from './graphql/queries';
+import { listTodos } from './graphql/queries'
 
 const variables = {
   filter: {
@@ -214,10 +216,9 @@ const variables = {
   }
 };
 
-await API.graphql({
-  query: listTodos,
-  variables: variables
-});
+await API.graphql({ 
+  query: listTodos, variables: variables 
+});;
 ```
 
 </Block>
@@ -265,25 +266,27 @@ These filters vary based on the type of the field, but are linked to correspondi
 
 ### Compound filters
 
-You can combine filters with `and`, `or`, and `not` Boolean logic. Observe, in the previous auto-generated schema, that `ModelTodoFilterInput` is recursive in respect to those fields. So if, for example, you wanted to filter for `priority` values of 1 _or_ 2, you would do this:
+You can combine filters with `and`, `or`, and `not` Boolean logic. Observe, in the previous auto-generated schema, that `ModelTodoFilterInput` is recursive in respect to those fields. So if, for example, you wanted to filter for `priority` values of 1 *or* 2, you would do this:
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
 import { API } from 'aws-amplify';
-import { listTodos } from './graphql/queries';
+import { listTodos } from './graphql/queries'
 import { ListTodosQueryVariables, ListTodosQuery } from './API';
 
 const variables: ListTodosQueryVariables = {
   filter: {
-    or: [{ priority: { eq: 1 } }, { priority: { eq: 2 } }]
+    or: [
+      { priority: { eq: 1 } },
+      { priority: { eq: 2 } }
+    ]
   }
 };
 
-await API.graphql<GraphQLQuery<ListTodosQuery>>({
-  query: listTodos,
-  variables: variables
+await API.graphql<GraphQLQuery<ListTodosQuery>>({ 
+  query: listTodos, variables: variables 
 });
 ```
 
@@ -293,18 +296,20 @@ await API.graphql<GraphQLQuery<ListTodosQuery>>({
 
 ```js
 import { API } from 'aws-amplify';
-import { listTodos } from './graphql/queries';
+import { listTodos } from './graphql/queries'
 
 const variables = {
   filter: {
-    or: [{ priority: { eq: 1 } }, { priority: { eq: 2 } }]
+    or: [
+      { priority: { eq: 1 } },
+      { priority: { eq: 2 } }
+    ]
   }
 };
 
-await API.graphql({
-  query: listTodos,
-  variables: variables
-});
+await API.graphql({ 
+  query: listTodos, variables: variables 
+});;
 ```
 
 </Block>
@@ -321,33 +326,27 @@ To paginate your list query results, make a subsequent list query request with t
 
 ```ts
 import { API } from 'aws-amplify';
-import { listTodos } from './graphql/queries';
+import { listTodos } from './graphql/queries'
 import { ListTodosQueryVariables, ListTodosQuery } from './API';
 
 // Fetch first 20 records
 const variables: ListTodosQueryVariables = {
-  limit: 20
+  limit: 20, 
   // add filter as needed
 };
 
-const res =
-  (await API.graphql) <
-  GraphQLQuery<ListTodosQuery>({
-    query: listTodos,
-    variables: variables
-  });
+const res = await API.graphql<GraphQLQuery<ListTodosQuery>({ 
+  query: listTodos, variables: variables
+});
 
 const { items: itemsPage1, nextToken } = res.data?.listTodos;
 
 // Fetch the next 20 records
 variables.nextToken = nextToken;
 
-const res =
-  (await API.graphql) <
-  GraphQLQuery<ListTodosQuery>({
-    query: listTodos,
-    variables: variables
-  });
+const res = await API.graphql<GraphQLQuery<ListTodosQuery>({ 
+  query: listTodos, variables: variables 
+});
 
 const { items: itemsPage2 } = res.data?.listTodos;
 ```
@@ -358,17 +357,16 @@ const { items: itemsPage2 } = res.data?.listTodos;
 
 ```js
 import { API } from 'aws-amplify';
-import { listTodos } from './graphql/queries';
+import { listTodos } from './graphql/queries'
 
 // Fetch first 20 records
 const variables = {
-  limit: 20
+  limit: 20, 
   // add filter as needed
 };
 
-const res = await API.graphql({
-  query: listTodos,
-  variables: variables
+const res = await API.graphql({ 
+  query: listTodos, variables: variables
 });
 
 const { items: itemsPage1, nextToken } = res.data.listTodos;
@@ -376,9 +374,8 @@ const { items: itemsPage1, nextToken } = res.data.listTodos;
 // Fetch the next 20 records
 variables.nextToken = nextToken;
 
-const res = await API.graphql({
-  query: listTodos,
-  variables: variables
+const res = await API.graphql({ 
+  query: listTodos, variables: variables
 });
 
 const { items: itemsPage2 } = res.data.listTodos;
@@ -389,15 +386,15 @@ const { items: itemsPage2 } = res.data.listTodos;
 
 <Accordion title='Implement pagination in your GraphQL API' headingLevel='3' eyebrow='Walkthrough'>
 
-This brief walkthrough provides additional step-by-step guidance for implementing pagination.
+This brief walkthrough provides additional step-by-step guidance for implementing pagination. 
 
-When working with a large record set, you may want to only fetch the first **N** number of items. For example, let's start with a basic GraphQL schema for a Todo app:
+When working with a large record set, you may want to only fetch the first __N__ number of items. For example, let's start with a basic GraphQL schema for a Todo app:
 
 ```graphql
 type Todo @model {
   id: ID!
   title: String!
-  description: String
+  description: String 
 }
 ```
 
@@ -406,11 +403,7 @@ When the API is created with an `@model` directive, the following queries will a
 ```graphql
 type Query {
   getTodo(id: ID!): Todo
-  listTodos(
-    filter: ModelTodoFilterInput
-    limit: Int
-    nextToken: String
-  ): ModelTodoConnection
+  listTodos(filter: ModelTodoFilterInput, limit: Int, nextToken: String): ModelTodoConnection
 }
 ```
 
@@ -457,7 +450,7 @@ query listTodos {
 }
 ```
 
-Now, to query the next two items from the API, specify this `nextToken` as the argument:
+ Now, to query the next two items from the API, specify this `nextToken` as the argument:
 
 ```graphql
 query listTodos {
@@ -490,7 +483,7 @@ const listTodos = `
       nextToken
     }
   }
-`;
+`
 ```
 
 To specify a `limit` in a query from a JavaScript application, you can use the following code by setting the limit as a variable:
@@ -504,8 +497,8 @@ async function fetchTodos() {
     variables: {
       limit: 2
     }
-  });
-  console.log({ todoData });
+  })
+  console.log({ todoData })
 }
 ```
 
@@ -532,23 +525,22 @@ async function fetchTodos() {
     query: listTodos,
     variables: {
       limit: 2,
-      nextToken: '<token-id>'
+      nextToken: "<token-id>"
     }
-  });
-  console.log({ todoData });
+  })
+  console.log({ todoData })
 }
 ```
 
 </Accordion>
 
-<br />
+<br/>
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["js"]}>
 
 <Callout>
 
-**Limitations:**
-
+__Limitations:__
 - There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
 - Sorting is [available in DataStore](/lib-v1/datastore/data-access/q/platform/js/#predicates) but not in AWS AppSync.
 - AWS AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/guides/graphql-server-specification) but are spiritually similar.
@@ -562,8 +554,7 @@ async function fetchTodos() {
 
 <Callout>
 
-**Limitations:**
-
+__Limitations:__
 - There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
 - Sorting is [available in DataStore](/lib-v1/datastore/data-access/q/platform/react-native/#predicates) but not in AWS AppSync.
 - AWS AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/guides/graphql-server-specification) but are spiritually similar.
@@ -601,12 +592,12 @@ You need to ensure that the promise returned from `API.graphql()` has not been m
 
 ```javascript
 async function makeAPICall() {
-  return API.graphql({ query: '...' });
+  return API.graphql({ query: "..." });
 }
 const promise = makeAPICall();
 
 // The following will NOT cancel the request.
-API.cancel(promise, 'my error message');
+API.cancel(promise, "my error message");
 ```
 
 ## Conclusion
@@ -617,7 +608,7 @@ Congratulations! You have finished the **Read application data** guide. In this 
 
 Our recommended next steps include subscribing to real-time events to look for mutations in your data and continuing to build out and customize your information architecture for your data. Some resources that will help with this work include:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["js"]}>
 
 - [Subscribe to real-time events](/lib-v1/graphqlapi/subscribe-data/q/platform/js/)
 - [Authorization rules](/cli/graphql/authorization-rules/)
@@ -639,11 +630,11 @@ Our recommended next steps include subscribing to real-time events to look for m
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ ios: ios_maintenance }} />
 
 import ios0 from '/src/fragments/lib-v1/graphqlapi/ios/query-data.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 

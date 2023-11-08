@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Label objects in image',
-  description:
-    'Learn more about how to detect labels in an image using Amplify. For example you can detect if an image has objects such as chairs, desks etc.',
-  platforms: ['javascript', 'react-native', 'swift', 'android']
+  description: 'Learn more about how to detect labels in an image using Amplify. For example you can detect if an image has objects such as chairs, desks etc.',
+  platforms: ['javascript','react-native','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import labelImageJs from '/src/fragments/lib/predictions/js/label-image.mdx';
 import labelImageIOS from '/src/fragments/lib/predictions/ios/label-image.mdx';
@@ -26,8 +27,8 @@ import labelImageAndroid from '/src/fragments/lib/predictions/android/label-imag
 
 <Fragments
   fragments={{
-    javascript: labelImageJs,
-    swift: labelImageIOS,
+    js: labelImageJs,
+    ios: labelImageIOS,
     android: labelImageAndroid
   }}
 />

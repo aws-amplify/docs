@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Identify text',
-  description:
-    'Learn more about how to identify text from images and documents in your application using AWS Amplify.',
-  platforms: ['javascript', 'react-native', 'swift', 'android']
+  description: 'Learn more about how to identify text from images and documents in your application using AWS Amplify.',
+  platforms: ['javascript','react-native','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import identifyTextJs from '/src/fragments/lib/predictions/js/identify-text.mdx';
 import identifyTextIOS from '/src/fragments/lib/predictions/ios/identify-text.mdx';
@@ -26,8 +27,8 @@ import identifyTextAndroid from '/src/fragments/lib/predictions/android/identify
 
 <Fragments
   fragments={{
-    javascript: identifyTextJs,
-    swift: identifyTextIOS,
+    js: identifyTextJs,
+    ios: identifyTextIOS,
     android: identifyTextAndroid
   }}
 />

@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Use transfer acceleration',
-  description:
-    "How to enable and use S3's Transfer Acceleration on your S3 bucket",
-  platforms: ['javascript', 'flutter', 'android', 'react-native']
+  description: "How to enable and use S3's Transfer Acceleration on your S3 bucket",
+  platforms: ['javascript','flutter','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import common_transfer_acceleration from '/src/fragments/lib/storage/native_common/transfer-acceleration/common.mdx';
 
@@ -29,7 +30,7 @@ import common_transfer_acceleration from '/src/fragments/lib/storage/native_comm
   }}
 />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['js', 'react-native']}>
 
 <Callout warning>
 
@@ -50,7 +51,7 @@ $ amplify override storage
 Edit the file in your editor: <project>/amplify/backend/storage/accelerated-bucket/override.ts
 ```
 
-In the generated `override.ts` file use the following CDK snippet to enable transfer acceleration.
+In the generated `override.ts` file use the following CDK snippet to enable transfer acceleration. 
 
 ```javascript
 // amplify/backend/storage/accelerated-bucket/override.ts
@@ -71,8 +72,8 @@ amplify push
 
 ## Upload files using the accelerated S3 endpoint
 
-We switch to the accelerated S3 endpoint by using the `useAccelerateEndpoint` parameter set to `true`. For example the `getUrl` method
-
+We switch to the accelerated S3 endpoint by using the `useAccelerateEndpoint` parameter set to `true`. 
+For example the `getUrl` method
 ```javascript
 const getUrlResult = await getUrl({
   key: filename,
@@ -83,12 +84,11 @@ const getUrlResult = await getUrl({
 ```
 
 The following Storage APIs support accelerated endpoint
-
-- getUrl
-- getProperties
-- list
-- remove
-- downloadData
-- uploadData
+* getUrl
+* getProperties
+* list
+* remove
+* downloadData
+* uploadData
 
 </InlineFilter>

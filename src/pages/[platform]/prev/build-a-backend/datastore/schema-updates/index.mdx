@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Schema updates',
   description: 'Learn more about how to issue schema updates for DataStore',
-  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
+  platforms: ['flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,14 +18,16 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ ios: ios_maintenance }} />
 
 import ios0 from '/src/fragments/lib-v1/datastore/native_common/schema-updates.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
@@ -44,7 +46,7 @@ import flutter2 from '/src/fragments/lib-v1/datastore/native_common/schema-updat
 
 import js3 from '/src/fragments/lib-v1/datastore/native_common/schema-updates.mdx';
 
-<Fragments fragments={{ javascript: js3 }} />
+<Fragments fragments={{ js: js3 }} />
 
 import reactnative0 from '/src/fragments/lib-v1/datastore/native_common/schema-updates.mdx';
 

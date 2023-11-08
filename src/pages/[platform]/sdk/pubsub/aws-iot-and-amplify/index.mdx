@@ -1,9 +1,8 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Using with Amplify',
-  description:
-    'Learn how to use the AWS IoT capabilities in an application that uses the newest Amplify library.',
+  description: 'Learn how to use the AWS IoT capabilities in an application that uses the newest Amplify library.',
   platforms: ['swift']
 };
 
@@ -19,7 +18,9 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios1 from '/src/fragments/sdk/pubsub/ios/aws-iot-and-amplify.mdx';
 
-<Fragments fragments={{ swift: ios1 }} />
+<Fragments fragments={{ ios: ios1 }} />

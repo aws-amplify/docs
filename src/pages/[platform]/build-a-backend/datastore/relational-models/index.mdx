@@ -1,20 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Relational models',
-  description:
-    'Learn more about how DataStore handles relationships between Models, such as "has one", "has many", "belongs to".',
-  platforms: [
-    'javascript',
-    'react-native',
-    'flutter',
-    'swift',
-    'android',
-    'angular',
-    'nextjs',
-    'react',
-    'vue'
-  ]
+  description: 'Learn more about how DataStore handles relationships between Models, such as "has one", "has many", "belongs to".',
+  platforms: ['javascript','react-native','flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -29,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import gqlv2callout from '/src/fragments/cli/gqlv2callout.mdx';
 
@@ -36,7 +27,7 @@ import gqlv2callout from '/src/fragments/cli/gqlv2callout.mdx';
 
 import ios0 from '/src/fragments/lib/datastore/native_common/relational.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import android1 from '/src/fragments/lib/datastore/native_common/relational.mdx';
 
@@ -48,7 +39,7 @@ import flutter2 from '/src/fragments/lib/datastore/native_common/relational.mdx'
 
 import js3 from '/src/fragments/lib/datastore/native_common/relational.mdx';
 
-<Fragments fragments={{ javascript: js3 }} />
+<Fragments fragments={{ js: js3 }} />
 
 import reactnative0 from '/src/fragments/lib/datastore/native_common/relational.mdx';
 

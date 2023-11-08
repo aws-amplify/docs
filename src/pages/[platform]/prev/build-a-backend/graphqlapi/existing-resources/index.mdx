@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Use existing AWS resources',
-  description:
-    'Configure the Amplify Libraries to use existing AWS AppSync resources by referencing them in your configuration.',
-  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
+  description: 'Configure the Amplify Libraries to use existing AWS AppSync resources by referencing them in your configuration.',
+  platforms: ['flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import js0 from '/src/fragments/lib-v1/graphqlapi/js/existing-resources.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />
 
 import reactnative0 from '/src/fragments/lib-v1/graphqlapi/js/existing-resources.mdx';
 
@@ -42,11 +43,11 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ ios: ios_maintenance }} />
 
 import ios1 from '/src/fragments/lib-v1/graphqlapi/existing-resources.mdx';
 
-<Fragments fragments={{ swift: ios1 }} />
+<Fragments fragments={{ ios: ios1 }} />
 
 import flutter2 from '/src/fragments/lib-v1/graphqlapi/existing-resources.mdx';
 

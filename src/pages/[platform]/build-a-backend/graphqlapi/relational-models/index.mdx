@@ -1,9 +1,8 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Relational models',
-  description:
-    'Learn more about how API (GraphQL) handles relationships between Models, such as "has one", "has many", "belongs to".',
+  description: 'Learn more about how API (GraphQL) handles relationships between Models, such as "has one", "has many", "belongs to".',
   platforms: ['android']
 };
 
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 <InlineFilter filters={["android"]}>
 
@@ -248,24 +249,24 @@ In order to handle the loaded/lazy states of relationships, the code generated m
 
 ```java
 public final class Post implements Model {
-
+  
   public ModelList<Comment> getComments()
 }
 
 public final class Comment implements Model {
-
+  
   public ModelReference<Post> getPost()
 }
 ```
 
 ModelReference and ModelList types are either Lazy (Default) or Loaded. See [Customizing Query Depth](#customizing-query-depth-with-custom-selection-sets) to learn how to eagerly load connected relationships.
 
-- ModelReference\<M\>
-  - LazyModelReference\<M\>
-  - LoadedModelReference\<M\>
-- ModelList\<M\>
-  - LazyModelList\<M\>
-  - LoadedModelList\<M\>
+* ModelReference<M\>
+    - LazyModelReference<M\>
+    - LoadedModelReference<M\>
+* ModelList<M\>
+    - LazyModelList<M\>
+    - LoadedModelList<M\>
 
 ### Unwrap ModelReference type
 
@@ -659,7 +660,7 @@ Query for the `Comment` and the `Post` that it belongs to:
 ```java
 Amplify.API.query(
     ModelQuery.<Comment, CommentPath>get(
-        Comment.class,
+        Comment.class, 
         new Comment.CommentIdentifier("c1"),
         (commentPath -> includes(commentPath.getPost()))
     ),
@@ -726,7 +727,7 @@ This will populate the selection set of the post in the GraphQL document which i
 
 </InlineFilter>
 
-Query for the `Post` and the first page of comments for the post:
+Query for the `Post` and the first page of comments for the post: 
 
 <InlineFilter filters={["android"]}>
 
@@ -811,23 +812,19 @@ ModelQuery.get<Comment, CommentPath>(Comment::class.java, "c1") { commentPath ->
     includes(commentPath.post.comments)
 }
 ```
-
 This query fetches a comment, eagerly loading the parent post and first page of comments for the post.
-
 </Block>
 <Block name="Kotlin">
 
 ```kotlin
 ModelQuery.get<Comment, CommentPath>(
-    Comment::class.java,
+    Comment::class.java, 
     "c1"
 ) { commentPath ->
     includes(commentPath.post.comments)
 }
 ```
-
 This query fetches a comment, eagerly loading the parent post and first page of comments for the post.
-
 </Block>
 </BlockSwitcher>
 
@@ -839,23 +836,19 @@ ModelQuery.get<PostEditor, PostEditorPath>(PostEditor::class.java, "pe1") { post
     includes(postEditorPath.post, postEditorPath.comments)
 }
 ```
-
 This query fetches a postEditor and eagerly loads its post and comments
-
 </Block>
 <Block name="Kotlin">
 
 ```kotlin
 ModelQuery.get<PostEditor, PostEditorPath>(
-    PostEditor::class.java,
+    PostEditor::class.java, 
     "pe1"
 ) { postEditorPath ->
     includes(postEditorPath.post, postEditorPath.comments)
 }
 ```
-
 This query fetches a postEditor and eagerly loads its post and comments
-
 </Block>
 </BlockSwitcher>
 

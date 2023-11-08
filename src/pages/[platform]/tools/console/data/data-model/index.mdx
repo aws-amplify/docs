@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Data modeling',
-  description: 'Get started with Amplify Studio',
+  description: "Get started with Amplify Studio",
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 ## Data modeling example
 
@@ -45,14 +46,14 @@ In this example you will build a data model for a bookstore to maintain informat
     href="https://sandbox.amplifyapp.com/schema-design/8771638b-a00a-4a1d-af23-26913967cc5f/clone"
     containertag="amplify-external-link"
   >
-    <img alt="Amplify Studio logo" src="/images/console/adminui.svg" />
-    <div>
+    <CardGraphic alt="Amplify Studio logo" src="/images/console/adminui.svg" />
+    <CardDetail>
       <h4>Clone in Sandbox</h4>
       <p>
         A bookstore data model template with four models called Book, ISBN,
         Publisher, and Author
       </p>
-    </div>
+    </CardDetail>
   </Card>
 </Grid>
 <br />
@@ -68,42 +69,40 @@ The Studio data model designer provides a visual way to define your app's data m
 The experience for modeling data is the same in the sandbox and in Studio. With an AWS account, you will have real-time data synchronization capabilities and you will also be able to set authorization rules on your models. For more information, see [Authorization](/console/authz/authorization). All data models are provisioned in your account as AWS AppSync GraphQL APIs and Amazon DynamoDB tables. As with every feature of Studio, it can be further extended with the CLI.
 
 ## DataStore and GraphQL
+When you save and deploy your data model, Amplify Studio generates a GraphQL API for you using AWS AppSync. By default, all data models built with Studio are provisioned as GraphQL APIs without DataStore - however, **Studio supports all Amplify GraphQL APIs, with and without DataStore**. 
 
-When you save and deploy your data model, Amplify Studio generates a GraphQL API for you using AWS AppSync. By default, all data models built with Studio are provisioned as GraphQL APIs without DataStore - however, **Studio supports all Amplify GraphQL APIs, with and without DataStore**.
-
-**[DataStore](/lib/datastore/getting-started)** is a wrapper for your GraphQL API that uses local, on-device storage to handle offline use. DataStore automatically synchronizes data between your mobile or web app and your database, and uses a **Conflict Resolution strategy** to handle data conflicts. DataStore is automatically added to your API when you select a Conflict Resolution method.
+**[DataStore](/lib/datastore/getting-started)** is a wrapper for your GraphQL API that uses local, on-device storage to handle offline use. DataStore automatically synchronizes data between your mobile or web app and your database, and uses a **Conflict Resolution strategy** to handle data conflicts. DataStore is automatically added to your API when you select a Conflict Resolution method. 
 
 ### Impact of changing Conflict Resolution
 
-You can change the settings for your GraphQL API at any time via Studio or the CLI. However, turning Conflict Resolution off or on is a **significant** app change.
+You can change the settings for your GraphQL API at any time via Studio or the CLI. However, turning Conflict Resolution off or on is a **significant** app change. 
 
 **Updating Syntax**
 
-To interface with your data while Conflict Resolution is enabled, you will likely be using [DataStore syntax](/lib/datastore/data-access/q/platform/js/). However, if Conflict Resolution is disabled, any data interactions must be updated to use [GraphQL syntax](/lib/graphqlapi/mutate-data/q/platform/js/) instead.
+To interface with your data while Conflict Resolution is enabled, you will likely be using [DataStore syntax](/lib/datastore/data-access/q/platform/js/). However, if Conflict Resolution is disabled, any data interactions must be updated to use [GraphQL syntax](/lib/graphqlapi/mutate-data/q/platform/js/) instead. 
 
 **Inaccessible data**
 
 When a GraphQL API is created with Conflict Resolution enabled, [several hidden fields](/lib/datastore/how-it-works/q/platform/js/#conflict-resolution) are automatically added to each of your data models - these fields are required for querying and mutating data, and if any records have these values set to `null`, those records will be inaccessible.
 
-If Conflict Resolution is disabled, these fields will no longer be populated when records are created or modified. This will have no immediate impact on your app, so long as you are using [GraphQL syntax](/lib/graphqlapi/mutate-data/q/platform/js/) to interact with your data. However, if Conflict Resolution is later re-enabled, **any existing data in the API will be inaccessible until the required fields are set for all existing records**.
+If Conflict Resolution is disabled, these fields will no longer be populated when records are created or modified. This will have no immediate impact on your app, so long as you are using [GraphQL syntax](/lib/graphqlapi/mutate-data/q/platform/js/) to interact with your data. However, if Conflict Resolution is later re-enabled, **any existing data in the API will be inaccessible until the required fields are set for all existing records**. 
 
-To avoid this situation, it's recommended to only enable/disable Conflict Resolution on APIs with no pre-existing data.
+To avoid this situation, it's recommended to only enable/disable Conflict Resolution on APIs with no pre-existing data. 
 
 ### Changing GraphQL API settings
 
 To use Studio to enable/disable Conflict Resolution, or to change your Conflict Resolution settings, take the following steps:
-
 1. Navigate to **[Amplify Studio](/console/adminui/start/#log-into-the-amplify-console) > Data**
-2. Select **GraphQL API settings** at the top of the page ![screenshot of the Data tab, highlighting the GraphQL API settings link](/images/console/conflict-resolution1.png)
-3. Toggle Conflict Resolution off or on, or change your Conflict Resolution strategy ![screenshot of the GraphQL API settings, highlighting the Conflict Resolution switch, and dropdown with options](/images/console/conflict-resolution2.png)
+2. Select **GraphQL API settings** at the top of the page
+![screenshot of the Data tab, highlighting the GraphQL API settings link](/images/console/conflict-resolution1.png)
+3. Toggle Conflict Resolution off or on, or change your Conflict Resolution strategy
+![screenshot of the GraphQL API settings, highlighting the Conflict Resolution switch, and dropdown with options](/images/console/conflict-resolution2.png)
 4. Return to the Data Modeling screen and select **Save and Deploy**
 
-To configure your API using the Amplify CLI, run `amplify configure api` in your terminal and follow the prompts.
+To configure your API using the Amplify CLI, run `amplify configure api` in your terminal and follow the prompts. 
 
 ## Limitations
-
 Applications with Conflict Resolution disabled have some minor limitations:
-
 - Sorting by column in [Data Manager](./content-management) is not supported
 - [Figma-to-Code Collections](../uibuilder/collections/) do not support Pagination, and have limited support for Search
 - [Forms with relationships](../formbuilder/special-inputs/) have some limitations when searching Autocomplete fields
@@ -115,7 +114,6 @@ To get access to these features, turn on DataStore and select a Conflict Resolut
 If a data model contains unsupported directives or field-level parameters, the **Visual editor** under Data modeling will not be available to use, and **Data manager** may have limited functionality. However, you can continue using other Amplify Studio features and use the Amplify CLI to make modifications to GraphQL schemas.
 
 Unsupported directives in Studio include:
-
 - [`@default` directive](/cli/graphql/data-modeling/#assign-default-values-for-fields)
 - [`@index` directive](/cli/graphql/data-modeling/#configure-a-secondary-index)
 - [`@function` directive](/cli/graphql/custom-business-logic/#lambda-function-resolver)
@@ -130,14 +128,14 @@ Unsupported directives in Studio include:
 - [`@auth` custom `identityClaim`](/cli/graphql/authorization-rules/#configure-custom-identity-and-group-claims)
 - [`@auth` field-level rules](/cli/graphql/authorization-rules/#field-level-authorization-rules)
 - [OIDC and Function providers](/cli/graphql/authorization-rules/#using-oidc-authorization-provider)
-- [OwnerField as Array type](/cli/graphql/authorization-rules/#multi-user-data-access)
+- [OwnerField as Array type](/cli/graphql/authorization-rules/#multi-user-data-access) 
 - [`Query` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)
 - [`Mutation` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)
 - [`Subscription` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)
 
 <Callout>
 
-Data modeling only supports `@index` directive on a hasMany relationship.
+Data modeling only supports `@index` directive on a hasMany relationship. 
 
 </Callout>
 
@@ -148,7 +146,8 @@ Your schema file could not be loaded
 The schema.graphql file in your project could not be loaded. This may be because the file was moved, or because you are using a split schema, which is not supported.
 ```
 
-This message occurs as Amplify Studio does not support splitting GraphQL schemas, such as saving as a set of `.graphql` files in the `amplify/backend/api/<api-name>/schema/` directory. E.g. `Query.graphql`, `User.graphql`, and `Post.graphql`. To resolve the issue, you will need to combine the files using the following steps.
+This message occurs as Amplify Studio does not support splitting GraphQL schemas, such as saving as a set of `.graphql` files in the `amplify/backend/api/<api-name>/schema/` directory. E.g. `Query.graphql`, `User.graphql`, and `Post.graphql`. 
+To resolve the issue, you will need to combine the files using the following steps.
 
 1. [Pull your Amplify project](/console/adminui/extend-cli/#to-configure-the-amplify-cli-for-use-without-an-aws-account) to a local directory
 2. In the `amplify/backend/api/` directory, create a file named `schema.graphql`

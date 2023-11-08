@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Set up Amplify Interactions',
-  description:
-    'AWS Amplify Interactions category enables AI-powered chatbots in your web or mobile apps. You can use Interactions to configure your backend chatbot provider and to integrate a chatbot UI into your app with just a single line of code.',
-  platforms: ['javascript', 'react-native']
+  description: 'AWS Amplify Interactions category enables AI-powered chatbots in your web or mobile apps. You can use Interactions to configure your backend chatbot provider and to integrate a chatbot UI into your app with just a single line of code.',
+  platforms: ['javascript','react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -19,12 +18,14 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import gettingStartedJs from '/src/fragments/lib/interactions/js/getting-started.mdx';
 
 <Fragments
   fragments={{
-    javascript: gettingStartedJs,
+    js: gettingStartedJs,
     'react-native': gettingStartedJs
   }}
 />

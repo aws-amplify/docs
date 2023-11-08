@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Define authorization rules',
-  description:
-    "Learn more about how to define authorization rules for Amplify's REST API capabilities",
-  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
+  description: "Learn more about how to define authorization rules for Amplify's REST API capabilities",
+  platforms: ['flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,14 +18,16 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ ios: ios_maintenance }} />
 
 import ios1 from '/src/fragments/lib-v1/restapi/native_common/authz/common.mdx';
 
-<Fragments fragments={{ swift: ios1 }} />
+<Fragments fragments={{ ios: ios1 }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
@@ -46,7 +47,7 @@ import flutter3 from '/src/fragments/lib-v1/restapi/flutter/authz.mdx';
 
 import js0 from '/src/fragments/lib-v1/restapi/js/authz.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />
 
 import reactnative0 from '/src/fragments/lib-v1/restapi/js/authz.mdx';
 

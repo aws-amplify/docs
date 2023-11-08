@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Enable sign-in',
-  description:
-    'Use AWS Cognito Auth plugin to sign in a user into AWS Cognito User Pool',
-  platforms: ['flutter', 'swift', 'android']
+  description: 'Use AWS Cognito Auth plugin to sign in a user into AWS Cognito User Pool',
+  platforms: ['flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,14 +18,16 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ ios: ios_maintenance }} />
 
 import ios0 from '/src/fragments/lib-v1/auth/native_common/signin/common.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 

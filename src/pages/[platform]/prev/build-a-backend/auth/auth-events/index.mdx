@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Listen to auth events',
   description: 'Listen to various auth events',
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
+  platforms: ['javascript','flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,8 +18,10 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+      
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["js", "react-native"]}>
 
 Tapping into auth events allows you to react to user flows in real time and trigger custom business logic. For example, you may want to capture data, synchronize your app's state, and personalize the user's experience. You can listen to and respond to events across the Auth lifecycle such as sign-in and sign-out. In this guide we will describe how you can listen to these auth events.
 
@@ -32,7 +34,7 @@ Before you begin, you will need:
 
 You can use Amplify Hub with its built in Amplify Auth events to subscribe a listener using a publish-subscribe pattern and capture events between different parts of your application. The Amplify Auth category publishes in the `auth` channel when auth events such as `signIn`, `signUp`, and `signOut` happen independent from your app code.
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["js"]}>
 
 You can review the Amplify Hub guide to [learn more](/lib/utilities/hub/q/platform/js/).
 
@@ -63,9 +65,10 @@ import { Hub } from 'aws-amplify';
 
 const listener = (data) => {
   console.log(data);
-};
+}
 
-Hub.listen('auth', listener);
+Hub.listen('auth', listener)
+
 ```
 
 Once your app is set up to subscribe and listen to specific event types from the `auth` channel, the listeners will be notified asynchronously when an event occurs. This pattern allows for a one-to-many relationship where one auth event can be shared with many different listeners that have been subscribed. This lets your app react based on the event rather than proactively poll for information.
@@ -167,7 +170,6 @@ const listener = (data) => {
 
 Hub.listen('auth', listener);
 ```
-
 </Block>
 <Block name="JavaScript">
 
@@ -259,7 +261,6 @@ const listener = (data) => {
 
 Hub.listen('auth', listener);
 ```
-
 </Block>
 </BlockSwitcher>
 
@@ -270,6 +271,7 @@ You can also stop listening for messages by calling the result of the `Hub.liste
 To stop listening to a certain event, you need to wrap the listener function with a variable and call it once you no longer need it:
 
 ```javascript
+
 /* start listening for messages */
 const hubListenerCancelToken = Hub.listen('auth', (data) => {
   console.log('Listening for all auth events: ', data.payload.data);
@@ -289,7 +291,7 @@ Congratulations! You finished the **Listen to auth events** guide. In this guide
 
 Now that you can listen to auth events you may also want to add some additional features. We recommend you learn more about:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["js"]}>
 
 - [Manage user profile](/lib-v1/auth/manageusers/q/platform/js/)
 - [Set up password change and recovery](/lib-v1/auth/password_management/q/platform/js/)
@@ -305,13 +307,13 @@ Now that you can listen to auth events you may also want to add some additional 
 
 </InlineFilter>
 
-<InlineFilter filters={["swift","android","flutter"]}>
+<InlineFilter filters={["ios","android","flutter"]}>
 
 AWS Cognito Auth Plugin sends important events through Amplify Hub.
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ ios: ios_maintenance }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
@@ -319,7 +321,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import ios1 from '/src/fragments/lib-v1/auth/ios/hub_events/10_listen_events.mdx';
 
-<Fragments fragments={{ swift: ios1 }} />
+<Fragments fragments={{ ios: ios1 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 

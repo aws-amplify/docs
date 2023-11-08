@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Manage user profiles',
-  description:
-    'Learn more about how to enable customers to personalize their profile and verify their contact information with attributes.',
-  platforms: ['javascript', 'react-native']
+  description: 'Learn more about how to enable customers to personalize their profile and verify their contact information with attributes.',
+  platforms: ['javascript','react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -19,13 +18,14 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-<InlineFilter filters={["javascript", "react-native"]}>
+
+<InlineFilter filters={["js", "react-native"]}>
 
 User profile management helps you keep your applications secure while also personalizing your app experiences. In this guide we will review how you can enable your users to personalize their profile and verify their contact information. This includes outlining how you can set up user attributes, verify them, and allow your users to delete them when necessary.
 
 Before you begin, you will need:
-
 - An Amplify project with the Auth category configured
 - The Amplify libraries installed and configured
 
@@ -35,7 +35,7 @@ User attributes such as email address, phone number help you identify individual
 
 ### Enable standard attributes
 
-Amazon Cognito has a set of default standard attributes. To configure and enable standard user attributes using the Amplify CLI in your app, you can run the Amplify `amplify add auth` command and choose `Walkthrough all the auth configurations`. If you have previously created your auth resources, you can instead run the `amplify update auth` command in your terminal. When prompted for `Specify read attributes` and `Specify write attributes`, choose the attributes you'd like to enable in your app.
+Amazon Cognito has a set of default standard attributes. To configure and enable standard user attributes using the Amplify CLI in your app, you can run the Amplify `amplify add auth` command and choose `Walkthrough all the auth configurations`. If you have previously created your auth resources, you can instead run the `amplify update auth` command in your terminal. When prompted for `Specify read attributes` and `Specify write attributes`, choose the attributes you'd like to enable in your app. 
 
 <Accordion title='Review standard attributes options' headingLevel='4' eyebrow='Learn more'>
 
@@ -81,9 +81,9 @@ async function handleSignUp() {
           phone_number: '+12128601234', // E.164 number convention
           given_name: 'Jane',
           family_name: 'Doe',
-          nickname: 'Jane'
-        }
-      }
+          nickname: 'Jane',
+        },
+      },
     });
   } catch (e) {
     console.log(e);
@@ -103,7 +103,7 @@ signUp({
     userAttributes: {
       'custom:attribute_name_1': 'attribute_value_1',
       'custom:attribute_name_2': 'attribute_value_2',
-      'custom:attribute_name_3': 'attribute_value_3'
+      'custom:attribute_name_3': 'attribute_value_3',
     }
   }
 });
@@ -111,7 +111,8 @@ signUp({
 
 ### Retrieve user attributes
 
-You can then retrieve user attributes for your users to read in their profile. This helps you personalize their frontend experience as well as control what they will see.
+You can then retrieve user attributes for your users to read in their profile. This helps you personalize their frontend experience 
+as well as control what they will see. 
 
 You can retrieve a user's latest attributes using the `fetchUserAttributes` API.
 
@@ -142,7 +143,7 @@ Invoke the `updateUserAttribute` API to create or update existing user attribute
 ```typescript
 import {
   updateUserAttribute,
-  type UpdateUserAttributeOutput
+  type UpdateUserAttributeOutput,
 } from 'aws-amplify/auth';
 
 async function handleUpdateUserAttribute(attributeKey: string, value: string) {
@@ -150,8 +151,8 @@ async function handleUpdateUserAttribute(attributeKey: string, value: string) {
     const output = await updateUserAttribute({
       userAttribute: {
         attributeKey,
-        value
-      }
+        value,
+      },
     });
     handleUpdateUserAttributeNextSteps(output);
   } catch (error) {
@@ -176,20 +177,21 @@ function handleUpdateUserAttributeNextSteps(output: UpdateUserAttributeOutput) {
   }
 }
 ```
-
 </Block>
 <Block name="JavaScript">
 
 ```javascript
-import { updateUserAttribute } from 'aws-amplify/auth';
+import {
+  updateUserAttribute,
+} from 'aws-amplify/auth';
 
 async function handleUpdateUserAttribute(attributeKey, value) {
   try {
     const output = await updateUserAttribute({
       userAttribute: {
         attributeKey,
-        value
-      }
+        value,
+      },
     });
     handleUpdateUserAttributeNextSteps(output);
   } catch (error) {
@@ -214,7 +216,6 @@ function handleUpdateUserAttributeNextSteps(output) {
   }
 }
 ```
-
 </Block>
 </BlockSwitcher>
 
@@ -233,10 +234,7 @@ Invoke the `updateUserAttributes` API to create or update multiple existing user
 <Block name="TypeScript">
 
 ```typescript
-import {
-  updateUserAttributes,
-  type UpdateUserAttributesOutput
-} from 'aws-amplify/auth';
+import { updateUserAttributes, type UpdateUserAttributesOutput } from 'aws-amplify/auth';
 
 async function handleUpdateEmailAndNameAttributes(
   updatedEmail: string,
@@ -246,16 +244,15 @@ async function handleUpdateEmailAndNameAttributes(
     const attributes = await updateUserAttributes({
       userAttributes: {
         email: updatedEmail,
-        name: updatedName
-      }
+        name: updatedName,
+      },
     });
-    // handle next steps
+   // handle next steps
   } catch (error) {
     console.log(error);
   }
 }
 ```
-
 </Block>
 <Block name="JavaScript">
 
@@ -279,27 +276,28 @@ async function handleUpdateEmailAndNameAttributes(
   }
 }
 ```
-
 </Block>
 </BlockSwitcher>
 
+
 ### Verify user attribute
 
-Some attributes require confirmation for the attribute update to complete. If the attribute needs to be confirmed, part of the result of the `updateUserAttribute` or `updateUserAttributes` APIs will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the `confirmUserAttribute` API with their input:
+Some attributes require confirmation for the attribute update to complete. If the attribute needs to be confirmed, part of the result of the `updateUserAttribute` or `updateUserAttributes`
+APIs will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When 
+the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the `confirmUserAttribute` API with their input:
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```typescript
-import {
-  confirmUserAttribute,
-  type ConfirmUserAttributeInput
-} from 'aws-amplify/auth';
+import { confirmUserAttribute , type ConfirmUserAttributeInput} from 'aws-amplify/auth';
 
-async function handleConfirmUserAttribute({
-  userAttributeKey,
-  confirmationCode
-}: ConfirmUserAttributeInput) {
+async function handleConfirmUserAttribute(
+  {
+   userAttributeKey,
+   confirmationCode
+  }:ConfirmUserAttributeInput
+) {
   try {
     await confirmUserAttribute({ userAttributeKey, confirmationCode });
   } catch (error) {
@@ -307,17 +305,18 @@ async function handleConfirmUserAttribute({
   }
 }
 ```
-
 </Block>
 <Block name="JavaScript">
 
 ```javascript
 import { confirmUserAttribute } from 'aws-amplify/auth';
 
-async function handleConfirmUserAttribute({
-  userAttributeKey,
-  confirmationCode
-}) {
+async function handleConfirmUserAttribute(
+  {
+   userAttributeKey,
+   confirmationCode
+  }
+) {
   try {
     await confirmUserAttribute({ userAttributeKey, confirmationCode });
   } catch (error) {
@@ -325,7 +324,6 @@ async function handleConfirmUserAttribute({
   }
 }
 ```
-
 </Block>
 </BlockSwitcher>
 
@@ -337,17 +335,14 @@ If an attribute needs to be verified while the user is authenticated, invoke the
 <Block name="TypeScript">
 
 ```ts
-import {
-  sendUserAttributeVerificationCode,
-  type VerifiableUserAttributeKey
-} from 'aws-amplify/auth';
+import { sendUserAttributeVerificationCode, type VerifiableUserAttributeKey } from 'aws-amplify/auth';
 
 async function handleSendUserAttributeVerificationCode(
   key: VerifiableUserAttributeKey
 ) {
   try {
     await sendUserAttributeVerificationCode({
-      userAttributeKey: key
+      userAttributeKey: key,
     });
   } catch (error) {
     console.log(error);
@@ -364,7 +359,7 @@ import { sendUserAttributeVerificationCode } from 'aws-amplify/auth';
 async function handleSendUserAttributeVerificationCode(key) {
   try {
     await sendUserAttributeVerificationCode({
-      userAttributeKey: key
+      userAttributeKey: key,
     });
   } catch (error) {
     console.log(error);
@@ -374,6 +369,8 @@ async function handleSendUserAttributeVerificationCode(key) {
 
 </Block>
 </BlockSwitcher>
+
+
 
 ### Delete user attributes
 
@@ -385,7 +382,7 @@ The `deleteUserAttributes` API allows to delete one or more user attributes.
 ```ts
 import {
   deleteUserAttributes,
-  type DeleteUserAttributesInput
+  type DeleteUserAttributesInput,
 } from 'aws-amplify/auth';
 
 async function handleDeleteUserAttributes(
@@ -393,7 +390,7 @@ async function handleDeleteUserAttributes(
 ) {
   try {
     await deleteUserAttributes({
-      userAttributeKeys: ['custom:my_custom_attribute', ...keys]
+      userAttributeKeys: ['custom:my_custom_attribute', ...keys],
     });
   } catch (error) {
     console.log(error);
@@ -405,12 +402,14 @@ async function handleDeleteUserAttributes(
 <Block name="JavaScript">
 
 ```js
-import { deleteUserAttributes } from 'aws-amplify/auth';
+import {
+  deleteUserAttributes,
+} from 'aws-amplify/auth';
 
 async function handleDeleteUserAttributes(keys) {
   try {
     await deleteUserAttributes({
-      userAttributeKeys: ['custom:my_custom_attribute', ...keys]
+      userAttributeKeys: ['custom:my_custom_attribute', ...keys],
     });
   } catch (error) {
     console.log(error);
@@ -431,7 +430,7 @@ Congratulations! You finished the **Manage user profiles** guide and your users 
 
 Now that you completed setting up user profile management, you may also want to add some additional features. We recommend:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["js"]}>
 
 - [Set up password change and recovery](/lib/auth/password_management/q/platform/js/)
 - [Custom Attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes)

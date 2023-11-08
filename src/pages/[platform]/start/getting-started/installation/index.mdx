@@ -1,19 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Set up Amplify',
   description: 'Getting Started with Amplify - Prerequisites',
-  platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'swift',
-    'react',
-    'react-native',
-    'vue'
-  ]
+  platforms: ['android','angular','flutter','javascript','nextjs','swift','react','react-native','vue']
 };
 
 export const getStaticPaths = async () => {
@@ -28,41 +18,41 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+      
 
-import js0 from '/src/fragments/start/getting-started/common/prereq.mdx';
+import js0 from "/src/fragments/start/getting-started/common/prereq.mdx";
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{js: js0}} />
 
-import react1 from '/src/fragments/start/getting-started/common/prereq.mdx';
+import react1 from "/src/fragments/start/getting-started/common/prereq.mdx";
 
-<Fragments fragments={{ react: react1 }} />
+<Fragments fragments={{react: react1}} />
 
-import angular2 from '/src/fragments/start/getting-started/common/prereq.mdx';
+import angular2 from "/src/fragments/start/getting-started/common/prereq.mdx";
 
-<Fragments fragments={{ angular: angular2 }} />
+<Fragments fragments={{angular: angular2}} />
 
-import vue3 from '/src/fragments/start/getting-started/common/prereq.mdx';
+import vue3 from "/src/fragments/start/getting-started/common/prereq.mdx";
 
-<Fragments fragments={{ vue: vue3 }} />
+<Fragments fragments={{vue: vue3}} />
 
-import next4 from '/src/fragments/start/getting-started/common/prereq.mdx';
+import next4 from "/src/fragments/start/getting-started/common/prereq.mdx";
 
-<Fragments fragments={{ next: next4 }} />
+<Fragments fragments={{next: next4}} />
 
-import android5 from '/src/fragments/start/getting-started/common/prereq.mdx';
+import android5 from "/src/fragments/start/getting-started/common/prereq.mdx";
 
-<Fragments fragments={{ android: android5 }} />
+<Fragments fragments={{android: android5}} />
 
-import ios6 from '/src/fragments/start/getting-started/common/prereq.mdx';
+import ios6 from "/src/fragments/start/getting-started/common/prereq.mdx";
 
-<Fragments fragments={{ swift: ios6 }} />
+<Fragments fragments={{ios: ios6}} />
 
-import react_native7 from '/src/fragments/start/getting-started/common/prereq.mdx';
+import react_native7 from "/src/fragments/start/getting-started/common/prereq.mdx";
 
-{' '}
+  <Fragments fragments={{"react-native": react_native7}} />
 
-<Fragments fragments={{ 'react-native': react_native7 }} />
+import flutter9 from "/src/fragments/start/getting-started/common/prereq.mdx";
 
-import flutter9 from '/src/fragments/start/getting-started/common/prereq.mdx';
-
-<Fragments fragments={{ flutter: flutter9 }} />
+<Fragments fragments={{flutter: flutter9}} />

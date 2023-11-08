@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Use existing AWS resources',
-  description:
-    'Configure the Amplify Libraries to use existing Amazon API Gateway resources by referencing them in your configuration.',
-  platforms: ['flutter', 'swift', 'android']
+  description: 'Configure the Amplify Libraries to use existing Amazon API Gateway resources by referencing them in your configuration.',
+  platforms: ['flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ ios: ios_maintenance }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -38,7 +39,7 @@ import android0 from '/src/fragments/lib-v1/restapi/existing-resources.mdx';
 
 import ios1 from '/src/fragments/lib-v1/restapi/existing-resources.mdx';
 
-<Fragments fragments={{ swift: ios1 }} />
+<Fragments fragments={{ ios: ios1 }} />
 
 import flutter2 from '/src/fragments/lib-v1/restapi/existing-resources.mdx';
 

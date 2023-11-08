@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Set up Amplify PubSub',
-  description:
-    'The AWS Amplify PubSub category provides connectivity with cloud-based message-oriented middleware. You can use PubSub to pass messages between your app instances and your app’s backend creating real-time interactive experiences.',
-  platforms: ['javascript', 'react-native']
+  description: 'The AWS Amplify PubSub category provides connectivity with cloud-based message-oriented middleware. You can use PubSub to pass messages between your app instances and your app’s backend creating real-time interactive experiences.',
+  platforms: ['javascript','react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -19,12 +18,14 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import pubsubGettingStarted from '/src/fragments/lib/pubsub/js/getting-started.mdx';
 
 <Fragments
   fragments={{
-    javascript: pubsubGettingStarted,
+    js: pubsubGettingStarted,
     'react-native': pubsubGettingStarted
   }}
 />

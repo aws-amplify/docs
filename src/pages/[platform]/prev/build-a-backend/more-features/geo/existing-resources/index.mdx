@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Use existing Amazon Location resources',
-  description:
-    'Configure Amplify Geo to use existing Amazon Location Service resources by referencing them in your configuration.',
-  platforms: ['swift', 'android', 'javascript']
+  description: 'Configure Amplify Geo to use existing Amazon Location Service resources by referencing them in your configuration.',
+  platforms: ['swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -30,12 +31,12 @@ import android1 from '/src/fragments/lib-v1/geo/existing-resources.mdx';
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ ios: ios_maintenance }} />
 
 import ios2 from '/src/fragments/lib-v1/geo/existing-resources.mdx';
 
-<Fragments fragments={{ swift: ios2 }} />
+<Fragments fragments={{ ios: ios2 }} />
 
 import js0 from '/src/fragments/lib-v1/geo/existing-resources.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />

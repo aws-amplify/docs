@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Clear messages',
-  description:
-    "Learn more about how to clear synced in-app messages from the user's device.",
-  platforms: ['javascript', 'react-native']
+  description: "Learn more about how to clear synced in-app messages from the user's device.",
+  platforms: ['javascript','react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import reactnative0 from '/src/fragments/lib/in-app-messaging/clear-messages/clear-messages.mdx';
 
@@ -26,4 +27,4 @@ import reactnative0 from '/src/fragments/lib/in-app-messaging/clear-messages/cle
 
 import js0 from '/src/fragments/lib/in-app-messaging/clear-messages/clear-messages.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />

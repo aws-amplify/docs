@@ -1,5 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Manage geofences',
   description: 'The Amplify Geo category',
@@ -18,7 +18,9 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import jsGeofences from '/src/fragments/lib/geo/js/geofences.mdx';
 
-<Fragments fragments={{ javascript: jsGeofences }} />
+<Fragments fragments={{ js: jsGeofences }} />

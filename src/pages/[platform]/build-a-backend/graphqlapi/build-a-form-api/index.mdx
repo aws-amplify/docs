@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Building a Form API with GraphQL',
   description: 'How to implement pagination with GraphQL',
-  platforms: ['javascript', 'swift', 'android']
+  platforms: ['javascript','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+      
 
 In this guide you will learn how to build and interact with a Form API using Amplify.
 
@@ -63,10 +65,12 @@ amplify add api
   > Yes
 ```
 
-The CLI should open the GraphQL schema, located at **amplify/backend/api/contactapi/schema.graphql**, in your text editor. Update the schema with the following and save the file:
+The CLI should open the GraphQL schema, located at __amplify/backend/api/contactapi/schema.graphql__, in your text editor. Update the schema with the following and save the file:
 
 ```graphql
-type Contact @model(mutations: { create: "createContact" }) {
+type Contact @model(mutations: {
+  create: "createContact"
+}) {
   id: ID!
   name: String!
   phone: String!
@@ -91,7 +95,10 @@ To create a new contact, you can use the `createContact` mutation:
 
 ```graphql
 mutation createContact {
-  createContact(input: { name: "Chris", phone: "+1-555-555-5555" }) {
+  createContact(input: {
+    name: "Chris"
+    phone: "+1-555-555-5555"
+  }) {
     id
     name
     phone
@@ -113,6 +120,6 @@ query listContacts {
 }
 ```
 
-import js0 from '/src/fragments/guides/api-graphql/js/building-a-form-api.mdx';
+import js0 from "/src/fragments/guides/api-graphql/js/building-a-form-api.mdx";
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{js: js0}} />

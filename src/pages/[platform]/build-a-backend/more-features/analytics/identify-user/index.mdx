@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Identify user',
-  description:
-    'Use the Amplify analytics plugin to inform Pinpoint about your users.',
-  platforms: ['swift', 'android', 'javascript', 'react-native']
+  description: 'Use the Amplify analytics plugin to inform Pinpoint about your users.',
+  platforms: ['swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import android_identify_user from '/src/fragments/lib/analytics/android/identifyuser.mdx';
 import flutter_identify_user from '/src/fragments/lib/analytics/flutter/identifyuser.mdx';
@@ -28,11 +29,11 @@ import ios_identify_user from '/src/fragments/lib/analytics/ios/identifyuser.mdx
   fragments={{
     android: android_identify_user,
     flutter: flutter_identify_user,
-    swift: ios_identify_user
+    ios: ios_identify_user
   }}
 />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['js', 'react-native']}>
 
 This API sends information about the current user to Amazon Pinpoint.
 
@@ -41,33 +42,33 @@ Additional information such as the user's name, email, location, and device can 
 If the user was signed in through [signIn](/lib-v1/auth/emailpassword/q/platform/js/) you can retrieve the current user's ID as shown below:
 
 ```js
-import { identifyUser } from 'aws-amplify/analytics';
-import { getCurrentUser } from 'aws-amplify/auth';
+import { identifyUser } from "aws-amplify/analytics";
+import { getCurrentUser } from "aws-amplify/auth";
 
 const location = {
   latitude: 47.606209,
   longitude: -122.332069,
-  postalCode: '98122',
-  city: 'Seattle',
-  region: 'WA',
-  country: 'USA'
+  postalCode: "98122",
+  city: "Seattle",
+  region: "WA",
+  country: "USA"
 };
 
 const attributes = {
-  name: 'username',
-  email: 'name@example.com',
-  plan: 'plan',
-  phoneNumber: '+11234567890',
+  name: "username",
+  email: "name@example.com",
+  plan: "plan",
+  phoneNumber: "+11234567890",
   age: 25
-};
+}
 
 const userProfile = {
   location,
   attributes
-};
+}
 
 async function sendUserData() {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser(); 
 
   identifyUser({
     userId: user.userId,
@@ -76,8 +77,8 @@ async function sendUserData() {
 }
 ```
 
-import js0 from '/src/fragments/lib/analytics/native_common/identify-use-cases.mdx';
+import js0 from "/src/fragments/lib/analytics/native_common/identify-use-cases.mdx";
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />
 
 </InlineFilter>

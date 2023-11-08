@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Subscribe to real-time events',
-  description:
-    'Learn more about how to observe to data changes using subscriptions in Amplify.',
-  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
+  description: 'Learn more about how to observe to data changes using subscriptions in Amplify.',
+  platforms: ['flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,14 +18,17 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-<InlineFilter filters={["javascript", "react-native"]}>
+
+
+<InlineFilter filters={["js", "react-native"]}>
 
 In this guide, we will outline the benefits of enabling real-time data integrations and how to set up and filter these subscriptions. We will also cover how to unsubscribe from subscriptions.
 
 Before you begin, you will need:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["js"]}>
 
 - An [application connected to the API](/lib-v1/graphqlapi/connect/q/platform/js/)
 - Data already created to modify
@@ -51,32 +53,28 @@ Subscriptions is a GraphQL feature that allows the server to send data to its cl
 import { Amplify, API } from 'aws-amplify';
 import { GraphQLSubscription } from '@aws-amplify/api';
 import * as subscriptions from './graphql/subscriptions';
-import {
-  OnCreateTodoSubscription,
-  OnUpdateTodoSubscription,
-  OnDeleteTodoSubscription
-} from './API';
+import { OnCreateTodoSubscription,OnUpdateTodoSubscription,OnDeleteTodoSubscription } from './API';
 
 // Subscribe to creation of Todo
-const createSub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>({
-  query: subscriptions.onCreateTodo
-}).subscribe({
+const createSub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
+  { query: subscriptions.onCreateTodo }
+).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: (error) => console.warn(error)
 });
 
 // Subscribe to update of Todo
-const updateSub = API.graphql<GraphQLSubscription<OnUpdateTodoSubscription>>({
-  query: subscriptions.onUpdateTodo
-}).subscribe({
+const updateSub = API.graphql<GraphQLSubscription<OnUpdateTodoSubscription>>(
+  { query: subscriptions.onUpdateTodo }
+).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: (error) => console.warn(error)
 });
 
 // Subscribe to deletion of Todo
-const deleteSub = API.graphql<GraphQLSubscription<OnDeleteTodoSubscription>>({
-  query: subscriptions.onDeleteTodo
-}).subscribe({
+const deleteSub = API.graphql<GraphQLSubscription<OnDeleteTodoSubscription>>(
+  { query: subscriptions.onDeleteTodo }
+).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: (error) => console.warn(error)
 });
@@ -95,19 +93,25 @@ import { Amplify, API } from 'aws-amplify';
 import * as subscriptions from './graphql/subscriptions';
 
 // Subscribe to creation of Todo
-const createSub = API.graphql({ query: subscriptions.onCreateTodo }).subscribe({
+const createSub = API.graphql(
+  { query: subscriptions.onCreateTodo }
+).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: (error) => console.warn(error)
 });
 
 // Subscribe to update of Todo
-const updateSub = API.graphql({ query: subscriptions.onUpdateTodo }).subscribe({
-  next: ({ provider, value }) => console.log({ provider, value }),
-  error: (error) => console.warn(error)
-});
+const updateSub = API.graphql(
+   { query: subscriptions.onUpdateTodo }
+  ).subscribe({
+    next: ({ provider, value }) => console.log({ provider, value }),
+    error: (error) => console.warn(error)
+  });
 
 // Subscribe to deletion of Todo
-const deleteSub = API.graphql({ query: subscriptions.onDeleteTodo }).subscribe({
+const deleteSub = API.graphql(
+  { query: subscriptions.onDeleteTodo }
+).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: (error) => console.warn(error)
 });
@@ -131,24 +135,20 @@ Subscriptions take an optional `filter` argument to define service-side subscrip
 ```ts
 // ...
 import { GraphQLSubscription } from '@aws-amplify/api';
-import {
-  OnCreateTodoSubscriptionVariables,
-  OnCreateTodoSubscription
-} from './API';
+import { OnCreateTodoSubscriptionVariables, OnCreateTodoSubscription } from './API';
 
 const variables: OnCreateTodoSubscriptionVariables = {
   filter: {
     // Only receive Todo messages where the "type" field is "Personal"
-    type: { eq: 'Personal' }
+    type: { eq: "Personal" }
   }
-};
+}
 
-const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>({
-  query: subscriptions.onCreateTodo,
-  variables
-}).subscribe({
+const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
+  { query: subscriptions.onCreateTodo, variables }
+).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
-  error: (error) => console.warn(error)
+  error: error => console.warn(error)
 });
 ```
 
@@ -162,16 +162,15 @@ const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>({
 const variables = {
   filter: {
     // Only receive Todo messages where the "type" field is "Personal"
-    type: { eq: 'Personal' }
+    type: { eq: "Personal" }
   }
-};
+}
 
-const sub = API.graphql({
-  query: subscriptions.onCreateTodo,
-  variables
-}).subscribe({
+const sub = API.graphql(
+  { query: subscriptions.onCreateTodo, variables }
+).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
-  error: (error) => console.warn(error)
+  error: error => console.warn(error)
 });
 ```
 
@@ -182,8 +181,7 @@ If you want to get all subscription events, don't specify any `filter` parameter
 
 <Callout>
 
-**Limitations:**
-
+__Limitations:__
 - Specifying an empty object `{}` as a filter is **not** recommended. Using `{}` as a filter might cause inconsistent behavior based on your data model's authorization rules.
 - If you are using dynamic group authorization and you authorize based on a single group per record, subscriptions are only supported if the user is part of five or fewer user groups.
 - Additionally, if you authorize by using an array of groups (`groups: [String]`),
@@ -241,8 +239,8 @@ import {
 
 const fetchRecentData = () => {
   // Retrieve some/all data from AppSync
-  const allTodos = await API.graphql<GraphQLQuery<ListTodosQuery>>({
-    query: queries.listTodos
+  const allTodos = await API.graphql<GraphQLQuery<ListTodosQuery>>({ 
+    query: queries.listTodos 
   });
 }
 
@@ -343,21 +341,21 @@ const cleanupSubscriptions = () => {
 
 </Accordion>
 
-<br />
+<br/>
 
 <Accordion title='Create a custom GraphQL subscription by ID' headingLevel='4' eyebrow='Walkthrough'>
 
 This brief walkthrough provides additional step-by-step guidance for creating a custom GraphQL subscription that will only be connected and triggered by a mutation containing a specific ID as an argument. Take, for example, the following GraphQL schema:
 
 ```graphql
-type Post @model @auth(rules: [{ allow: public }]) {
+type Post @model @auth(rules: [{ allow: public }]){
   id: ID!
   title: String!
   content: String
   comments: [Comment] @hasMany
 }
 
-type Comment @model @auth(rules: [{ allow: public }]) {
+type Comment @model @auth(rules: [{ allow: public }]){
   id: ID!
   content: String
 }
@@ -384,14 +382,14 @@ Because the schema has a one-to-many relationship enabled between posts and comm
 To implement this, update the schema with the following:
 
 ```graphql
-type Post @model @auth(rules: [{ allow: public }]) {
+type Post @model @auth(rules: [{ allow: public }]){
   id: ID!
   title: String!
   content: String
   comments: [Comment] @hasMany
 }
 
-type Comment @model @auth(rules: [{ allow: public }]) {
+type Comment @model @auth(rules: [{ allow: public }]){
   id: ID!
   content: String
   postCommentsId: ID!
@@ -401,6 +399,7 @@ type Subscription {
   onCommentByPostId(postCommentsId: ID!): Comment
     @aws_subscribe(mutations: ["createComment"])
 }
+
 ```
 
 Now you can create a custom subscription for comment creation with a specific post ID:
@@ -412,13 +411,14 @@ import { onCommentByPostId } from './graphql/subscriptions';
 API.graphql({
   query: onCommentByPostId,
   variables: {
-    postCommentsId: '12345'
+    postCommentsId: "12345"
   }
-}).subscribe({
-  next: (data) => {
-    console.log('data: ', data);
+})
+.subscribe({
+  next: data => {
+    console.log('data: ', data)
   }
-});
+})
 ```
 
 </Accordion>
@@ -448,11 +448,11 @@ Our recommended next steps include continuing to build out and customize your in
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ ios: ios_maintenance }} />
 
 import ios0 from '/src/fragments/lib-v1/graphqlapi/ios/subscribe-data.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 

@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Generate model files',
   description: 'Getting Started with Amplify Libraries - Generate model files',
-  platforms: ['android', 'flutter', 'swift', 'react-native']
+  platforms: ['android','flutter','swift']
 };
 
 export const getStaticPaths = async () => {
@@ -18,19 +18,21 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+      
 
-import ios0 from '/src/fragments/start/getting-started/ios/generate-model.mdx';
+import ios0 from "/src/fragments/start/getting-started/ios/generate-model.mdx";
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ios: ios0}} />
 
-import android1 from '/src/fragments/start/getting-started/android/generate-model.mdx';
+import android1 from "/src/fragments/start/getting-started/android/generate-model.mdx";
 
-<Fragments fragments={{ android: android1 }} />
+<Fragments fragments={{android: android1}} />
 
-import flutter2 from '/src/fragments/start/getting-started/flutter/generate-model.mdx';
+import flutter2 from "/src/fragments/start/getting-started/flutter/generate-model.mdx";
 
-<Fragments fragments={{ flutter: flutter2 }} />
+<Fragments fragments={{flutter: flutter2}} />
 
-import react_native3 from '/src/fragments/start/getting-started/reactnative/generate-model.mdx';
+import react_native3 from "/src/fragments/start/getting-started/reactnative/generate-model.mdx";
 
-<Fragments fragments={{ 'react-native': react_native3 }} />
+<Fragments fragments={{"react-native": react_native3}} />

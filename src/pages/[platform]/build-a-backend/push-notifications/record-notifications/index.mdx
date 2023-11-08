@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Record notification events',
   description: 'Record Notification events with the Amazon Pinpoint service.',
-  platforms: ['swift', 'android']
+  platforms: ['swift']
 };
 
 export const getStaticPaths = async () => {
@@ -18,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import android0 from '/src/fragments/lib/push-notifications/android//record_notifications/10_handle_notification_received.mdx';
 
@@ -29,4 +31,4 @@ import android3 from '/src/fragments/lib/push-notifications/common/record-notifi
 
 import ios1 from '/src/fragments/lib/push-notifications/common/record-notifications.mdx';
 
-<Fragments fragments={{ swift: ios1 }} />
+<Fragments fragments={{ ios: ios1 }} />

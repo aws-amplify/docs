@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Resolving conflicts',
-  description:
-    'Learn how to resolve conflicts when an event is sent and meets the criteria set forth by multiple in-app messages.',
-  platforms: ['javascript', 'react-native']
+  description: 'Learn how to resolve conflicts when an event is sent and meets the criteria set forth by multiple in-app messages.',
+  platforms: ['javascript','react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import reactnative0 from '/src/fragments/lib/in-app-messaging/resolve-conflicts/resolve-conflicts.mdx';
 
@@ -26,4 +27,4 @@ import reactnative0 from '/src/fragments/lib/in-app-messaging/resolve-conflicts/
 
 import js0 from '/src/fragments/lib/in-app-messaging/resolve-conflicts/resolve-conflicts.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />

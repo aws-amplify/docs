@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Deploy an express server',
   description: 'How to deploy an Express server to AWS using AWS Amplify',
-  platforms: ['javascript', 'swift', 'android']
+  platforms: ['javascript','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 In this guide you'll learn how to deploy an [Express](https://expressjs.com/) web server complete with routing.
 
@@ -89,7 +91,7 @@ Find the route for `app.get('/items')` and update it to the following:
 
 ```js
 // amplify/backend/function/mylambda/src/app.js
-app.get('/items', function (req, res) {
+app.get('/items', function(req, res) {
   const items = ['hello', 'world'];
   res.json({ success: 'get call succeed!', items });
 });
@@ -105,11 +107,11 @@ amplify push
 
 import js0 from '/src/fragments/guides/api-rest/js/express-api-call.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />
 
 import ios1 from '/src/fragments/guides/api-rest/ios/express-api-call.mdx';
 
-<Fragments fragments={{ swift: ios1 }} />
+<Fragments fragments={{ ios: ios1 }} />
 
 import android2 from '/src/fragments/guides/api-rest/android/express-api-call.mdx';
 

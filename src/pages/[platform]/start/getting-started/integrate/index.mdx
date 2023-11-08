@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Integrate your app',
-  description:
-    'Getting Started with Amplify Libraries - How to integrate Amplify into your app',
-  platforms: ['android', 'flutter', 'swift', 'react-native']
+  description: 'Getting Started with Amplify Libraries - How to integrate Amplify into your app',
+  platforms: ['android','flutter','swift']
 };
 
 export const getStaticPaths = async () => {
@@ -19,19 +18,21 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+      
 
-import ios0 from '/src/fragments/start/getting-started/ios/integrate.mdx';
+import ios0 from "/src/fragments/start/getting-started/ios/integrate.mdx";
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ios: ios0}} />
 
-import android1 from '/src/fragments/start/getting-started/android/integrate.mdx';
+import android1 from "/src/fragments/start/getting-started/android/integrate.mdx";
 
-<Fragments fragments={{ android: android1 }} />
+<Fragments fragments={{android: android1}} />
 
-import flutter2 from '/src/fragments/start/getting-started/flutter/integrate.mdx';
+import flutter2 from "/src/fragments/start/getting-started/flutter/integrate.mdx";
 
-<Fragments fragments={{ flutter: flutter2 }} />
+<Fragments fragments={{flutter: flutter2}} />
 
-import react_native3 from '/src/fragments/start/getting-started/reactnative/integrate.mdx';
+import react_native3 from "/src/fragments/start/getting-started/reactnative/integrate.mdx";
 
-<Fragments fragments={{ 'react-native': react_native3 }} />
+<Fragments fragments={{"react-native": react_native3}} />

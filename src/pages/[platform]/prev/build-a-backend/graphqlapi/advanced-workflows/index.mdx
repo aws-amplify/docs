@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Advanced Workflows',
   description: "Learn more about advanced workflows in Amplify's API category",
-  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
+  platforms: ['flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import js1 from '/src/fragments/lib-v1/graphqlapi/js/delta-sync.mdx';
 
-<Fragments fragments={{ javascript: js1 }} />
+<Fragments fragments={{ js: js1 }} />
 
 import reactnative1 from '/src/fragments/lib-v1/graphqlapi/js/delta-sync.mdx';
 
@@ -29,7 +31,7 @@ import reactnative1 from '/src/fragments/lib-v1/graphqlapi/js/delta-sync.mdx';
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ ios: ios_maintenance }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
@@ -37,7 +39,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import ios2 from '/src/fragments/lib-v1/graphqlapi/native_common/advanced-workflows/common.mdx';
 
-<Fragments fragments={{ swift: ios2 }} />
+<Fragments fragments={{ ios: ios2 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 

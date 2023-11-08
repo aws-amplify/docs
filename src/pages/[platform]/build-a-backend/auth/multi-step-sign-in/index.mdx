@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Sign-in next steps',
-  description:
-    'Use AWS Cognito Auth plugin to complete a multi step authentication flow',
-  platforms: ['android', 'swift', 'flutter']
+  description: 'Use AWS Cognito Auth plugin to complete a multi step authentication flow',
+  platforms: ['android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios0 from '/src/fragments/lib/auth/native_common/signin_next_steps/common.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import android1 from '/src/fragments/lib/auth/native_common/signin_next_steps/common.mdx';
 
@@ -30,4 +31,5 @@ import android1 from '/src/fragments/lib/auth/native_common/signin_next_steps/co
 
 import flutter from '/src/fragments/lib/auth/native_common/signin_next_steps/common.mdx';
 
-<Fragments fragments={{ flutter: flutter }} />r }} />
+<Fragments fragments={{ flutter: flutter }} />
+r }} />

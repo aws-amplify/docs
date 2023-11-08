@@ -1,0 +1,32 @@
+export const meta = {
+  title: `Change Log Levels`,
+  description: `Change log levels by categories and users`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import commonRoute from '/src/fragments/lib/logging/common/change_log_levels/change_log_levels.mdx';
+
+<Fragments
+  fragments={{
+    android: commonRoute,
+    ios: commonRoute
+  }}
+/>

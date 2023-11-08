@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Record events',
   description: 'Learn how to record analytics events using Amplify.',
-  platforms: ['javascript', 'swift', 'android', 'flutter', 'react-native']
+  platforms: ['javascript','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ ios: ios_maintenance }} />
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
@@ -29,7 +31,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 import ios1 from '/src/fragments/lib-v1/analytics/ios/record.mdx';
 
-<Fragments fragments={{ swift: ios1 }} />
+<Fragments fragments={{ ios: ios1 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -45,7 +47,7 @@ import flutter3 from '/src/fragments/lib-v1/analytics/flutter/record.mdx';
 
 import js0 from '/src/fragments/lib-v1/analytics/js/record.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{ js: js0 }} />
 
 import reactnative0 from '/src/fragments/lib-v1/analytics/js/record.mdx';
 

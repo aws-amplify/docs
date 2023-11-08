@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Enable sign-in with web UI',
-  description:
-    'Use AWS Cognito Auth plugin to register and authenticate a user with a prebuilt web UI',
-  platforms: ['flutter', 'swift', 'android']
+  description: 'Use AWS Cognito Auth plugin to register and authenticate a user with a prebuilt web UI',
+  platforms: ['flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,10 +18,12 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import ios0 from '/src/fragments/lib/auth/native_common/signin_web_ui/common.mdx';
 
-<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import android1 from '/src/fragments/lib/auth/native_common/signin_web_ui/common.mdx';
 

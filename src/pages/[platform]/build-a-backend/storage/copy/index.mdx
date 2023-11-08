@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Copy files',
-  description:
-    "Learn more about how to copy files using Amplify's storage category.",
-  platforms: ['javascript', 'flutter', 'react-native']
+  description: "Learn more about how to copy files using Amplify's storage category.",
+  platforms: ['javascript','flutter']
 };
 
 export const getStaticPaths = async () => {
@@ -19,14 +18,17 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 import flutter0 from '/src/fragments/lib/storage/flutter/copy.mdx';
 
 <Fragments fragments={{ flutter: flutter0 }} />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['js', 'react-native']}>
 
-`copy` method copies an existing file to a different key and returns a `{key: 'destKey'}` object upon success.
+`copy` method copies an existing file to a different key and returns a `{key: 'destKey'}` object upon
+success.
 
 <Callout>
 
@@ -42,12 +44,12 @@ import { copy } from 'aws-amplify/storage';
 const copyFile = async () => {
   try {
     const response = await copy({
-      source: {
+      source: { 
         key: 'srcKey',
         accessLevel: 'private' // optional 'guest', 'private', or 'protected'. Defaults to 'guest'.
         targetIdentityId: 'targetIdentityId' // optional, set it to other user's identity ID if copy from other user
       },
-      destination: {
+      destination: { 
         key: 'destKey',
         accessLevel: 'private' // optional 'guest', 'private', or 'protected'. Defaults to 'guest'.
       },
@@ -86,18 +88,16 @@ import { copy, list } from 'aws-amplify/storage';
 // Copies 'existing/srcKey' to 'copied/destKey' from 'guest' to 'private'
 const copied = await copy({
   source: {
-    key: 'existing/srcKey'
+    key: 'existing/srcKey',
   },
   destination: {
     key: 'copied/destKey',
-    accessLevel: 'private'
-  }
+    accessLevel: 'private',
+  },
 });
 
 // There should now be a new file with key "copied/destKey" in the 'private' level
-console.log(
-  (await list({ prefix: 'copied/', options: { accessLevel: 'private' } })).items
-); // [ { ..., key: 'copied/destKey' } ]
+console.log((await list({ prefix: 'copied/', options: { accessLevel: 'private' }})).items); // [ { ..., key: 'copied/destKey' } ]
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
@@ -115,27 +115,23 @@ const copied = await copy({
   source: {
     key: 'existing/srcKey',
     accessLevel: 'protected',
-    targetIdentityId: 'identityId'
+    targetIdentityId: 'identityId',
   },
   destination: {
     key: 'copied/destKey',
-    accessLevel: 'private'
-  }
+    accessLevel: 'private',
+  },
 });
 
 // There should now be a new file with key "copied/destKey"
-console.log(
-  (await list({ prefix: 'copied/', options: { accessLevel: 'private' } })).items
-); // [..., key: 'copied/destKey']
+console.log((await list({ prefix: 'copied/', options: { accessLevel: 'private' }})).items); // [..., key: 'copied/destKey']
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
-The format of the response will look similar to the below example
+The format of the response will look similar to the below example 
 
-```javascript
-{
-  key: 'copied/destKey';
-}
+```javascript 
+{ key: 'copied/destKey' }
 ```
 
 <Callout>
