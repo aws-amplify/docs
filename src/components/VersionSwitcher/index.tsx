@@ -14,7 +14,6 @@ const findRoute = (platform, isPrev) => {
   const newRoute = isPrev
     ? path.replace('/[platform]/prev', '/[platform]')
     : path.replace('/[platform]', '/[platform]/prev');
-    console.log(newRoute);
   const pageNode = flatDirectory[newRoute];
   if (pageNode && pageNode.platforms && pageNode.platforms.includes(platform)) {
     return newRoute;
