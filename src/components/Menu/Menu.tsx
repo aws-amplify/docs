@@ -21,7 +21,6 @@ export function Menu({
   let childrenNodes = rootMenuNode?.children?.filter((childNode) => {
     return invalidChildren.indexOf(childNode.route) === -1;
   });
-  console.log(childrenNodes);
   if (isPrev) {
     // replace build a backend with previous build a backend
     const buildABackend = findDirectoryNode(PREV_BUILD_A_BACKEND);

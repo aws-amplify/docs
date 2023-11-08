@@ -12,8 +12,9 @@ const findRoute = (platform, isPrev) => {
   const router = useRouter();
   const path = router.pathname;
   const newRoute = isPrev
-    ? path.replace(PREV_BUILD_A_BACKEND, BUILD_A_BACKEND)
-    : path.replace(BUILD_A_BACKEND, PREV_BUILD_A_BACKEND);
+    ? path.replace('/[platform]/prev', '/[platform]')
+    : path.replace('/[platform]', '/[platform]/prev');
+    console.log(newRoute);
   const pageNode = flatDirectory[newRoute];
   if (pageNode && pageNode.platforms && pageNode.platforms.includes(platform)) {
     return newRoute;
