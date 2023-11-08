@@ -15,7 +15,8 @@
 
 .layout-search {
   padding: var(--amplify-space-medium);
-  position: sticky;
+  position: fixed;
+  width: 100%;
   z-index: 2;
   top: var(--docs-dev-center-nav);
   background-color: var(--amplify-colors-background-primary);
@@ -32,6 +33,10 @@
 
 .layout-main {
   padding: var(--amplify-space-medium);
+  padding-top: calc(
+    var(--docs-dev-center-nav) + var(--layout-search-height) +
+      var(--amplify-space-medium)
+  );
   position: relative;
   overflow-x: hidden;
 }
@@ -127,6 +132,13 @@
   gap: var(--amplify-space-large);
   max-width: 1000px;
   padding-bottom: var(--amplify-space-xxl);
+}
+
+.layout-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
 }
 
 @keyframes menu {
