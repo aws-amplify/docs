@@ -28,7 +28,7 @@ export const TableOfContents = ({ headers }) => {
               key={`toc-${index}`}
             >
               <Link
-                href={`#${hash}`}
+                href={`${hash}`}
                 className={`toc-item__link toc-item__link--${level}`}
               >
                 {linkText}
