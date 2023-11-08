@@ -48,7 +48,7 @@ import { findDirectoryNode } from '@/utils/findDirectoryNode';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { Banner } from '@/components/Banner';
-import { useRouterAsPath } from '@/utils/useRouterAsPath';
+import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 
 export const Layout = ({
   children,
@@ -110,7 +110,7 @@ export const Layout = ({
 
   const showTOC = hasTOC && tocHeadings.length > 0;
   const router = useRouter();
-  const asPathWithNoHash = useRouterAsPath();
+  const asPathWithNoHash = usePathWithoutHash();
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
