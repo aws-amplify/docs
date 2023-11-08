@@ -5,6 +5,10 @@ import { theme } from './code-theme';
 import { View, Button } from '@aws-amplify/ui-react';
 import { versions } from '@/constants/versions';
 import { trackCopyClicks } from '@/utils/track';
+(typeof global !== 'undefined' ? global : window).Prism = Prism;
+require('prismjs/components/prism-java');
+require('prismjs/components/prism-dart');
+require('prismjs/components/prism-diff');
 
 require('./cli-error-language.js');
 
@@ -35,6 +39,8 @@ export const MDXCode = (props) => {
 
   const [copied, setCopied] = React.useState(false);
   const [code, setCode] = React.useState(codeString);
+  const shouldShowCopy = language !== 'console';
+
   const copy = () => {
     trackCopyClicks(codeString);
     setCopied(true);
@@ -72,19 +78,21 @@ export const MDXCode = (props) => {
                   </div>
                 ))}
               </pre>
-              <CopyToClipboard text={codeString} onCopy={copy}>
-                <Button
-                  size="small"
-                  variation="link"
-                  disabled={copied}
-                  className="code-copy"
-                  position="absolute"
-                  right="xxxs"
-                  top="xxxs"
-                >
-                  {copied ? 'Copied!' : 'Copy'}
-                </Button>
-              </CopyToClipboard>
+              {shouldShowCopy ? (
+                <CopyToClipboard text={codeString} onCopy={copy}>
+                  <Button
+                    size="small"
+                    variation="link"
+                    disabled={copied}
+                    className="code-copy"
+                    position="absolute"
+                    right="xxxs"
+                    top="xxxs"
+                  >
+                    {copied ? 'Copied!' : 'Copy'}
+                  </Button>
+                </CopyToClipboard>
+              ) : null}
             </View>
           </View>
         </View>

@@ -70,15 +70,15 @@ const getCspContent = (context) => {
       connect-src 'self' ${ANALYTICS_CSP.all.connect.join(
         ' '
       )} ${ANALYTICS_CSP.alpha.connect.join(
-      ' '
-    )} https://*.algolia.net https://*.algolianet.com *.amazonaws.com;
+        ' '
+      )} https://*.algolia.net https://*.algolianet.com *.amazonaws.com;
       img-src 'self' https://img.shields.io data: ${ANALYTICS_CSP.all.img.join(
         ' '
       )} ${ANALYTICS_CSP.alpha.img.join(' ')}; 
       media-src 'self';
       script-src 'unsafe-eval' 'self' ${cspInlineScriptHash} ${ANALYTICS_CSP.alpha.script.join(
-      ' '
-    )} ${ANALYTICS_CSP.all.script.join(' ')};`;
+        ' '
+      )} ${ANALYTICS_CSP.all.script.join(' ')};`;
   }
 
   // Prod environment
@@ -93,22 +93,22 @@ const getCspContent = (context) => {
     connect-src 'self' ${ANALYTICS_CSP.all.connect.join(
       ' '
     )} ${ANALYTICS_CSP.prod.connect.join(
-    ' '
-  )} https://*.algolia.net https://*.algolianet.com *.amazonaws.com;
+      ' '
+    )} https://*.algolia.net https://*.algolianet.com *.amazonaws.com;
     img-src 'self' https://img.shields.io ${ANALYTICS_CSP.all.img.join(
       ' '
     )} ${ANALYTICS_CSP.prod.img.join(' ')};
     media-src 'self';
     script-src 'self' ${cspInlineScriptHash} ${ANALYTICS_CSP.prod.script.join(
-    ' '
-  )} ${ANALYTICS_CSP.all.script.join(' ')};
+      ' '
+    )} ${ANALYTICS_CSP.all.script.join(' ')};
   `;
 };
 
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head>
           <meta
             httpEquiv="Content-Security-Policy"
