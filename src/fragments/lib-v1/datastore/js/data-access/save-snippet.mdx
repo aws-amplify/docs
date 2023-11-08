@@ -1,0 +1,15 @@
+```js
+await DataStore.save(
+  new Post({
+    title: 'My First Post',
+    rating: 10,
+    status: PostStatus.INACTIVE
+  })
+);
+```
+
+<Callout>
+
+Omitted or `undefined` optional fields are converted to `null` upon instantiation.
+
+</Callout>

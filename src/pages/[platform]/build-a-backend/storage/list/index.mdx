@@ -4,7 +4,7 @@ export const meta = {
   title: 'List files',
   description:
     "Learn more about how to list all of the uploaded objects using Amplify's storage category.",
-  platforms: ['javascript', 'flutter', 'swift', 'android']
+  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -20,31 +20,15 @@ export function getStaticProps(context) {
   };
 }
 
-import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+import android_list from '/src/fragments/lib/storage/android/list.mdx';
+import flutter_list from '/src/fragments/lib/storage/flutter/list.mdx';
+import ios_list from '/src/fragments/lib/storage/ios/list.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments
+  fragments={{ android: android_list, flutter: flutter_list, swift: ios_list }}
+/>
 
-import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
-
-<Fragments fragments={{ flutter: flutter_maintenance }} />
-
-import ios1 from '/src/fragments/lib-v1/storage/ios/list.mdx';
-
-<Fragments fragments={{ swift: ios1 }} />
-
-import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
-
-<Fragments fragments={{ android: android_maintenance }} />
-
-import android2 from '/src/fragments/lib-v1/storage/android/list.mdx';
-
-<Fragments fragments={{ android: android2 }} />
-
-import flutter3 from '/src/fragments/lib-v1/storage/flutter/list.mdx';
-
-<Fragments fragments={{ flutter: flutter3 }} />
-
-<InlineFilter filters={['javascript']}>
+<InlineFilter filters={['javascript', 'react-native']}>
 
 ## Guest level list
 

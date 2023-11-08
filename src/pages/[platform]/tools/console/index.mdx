@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Console',
+  title: 'Overview',
   description:
     'Amplify Studio is a visual development environment for building a fullstack app.',
+  disableTOC: 'true',
   platforms: [
     'android',
     'angular',
@@ -14,8 +15,7 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ],
-  disableTOC: 'true'
+  ]
 };
 
 export const getStaticPaths = async () => {

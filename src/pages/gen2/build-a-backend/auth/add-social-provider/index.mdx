@@ -12,3 +12,217 @@ export function getStaticProps(context) {
   };
 
 }
+
+# Social Sign in
+
+You can enable the use of sign-in with social providers by using the `amplify/auth/resource.ts` file. With Amplify Auth, you can enable your users to Sign in With Apple, Sign in with Google, Login with Amazon, and Facebook.
+
+## Backend configuration
+
+The following is an example of how you would set up access to all of the social providers supported by Amplify Auth. You also need to set up your `redirectSignIn` and `redirectSignOut` URLs for your application, which will inform your backend resources how to behave when initiating sign in and sign out operations in your app.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    externalProviders: {
+      google: {
+        clientId: 'clientId',
+        clientSecret: 'clientSecret',
+      },
+      signInWithApple: {
+        keyId: 'keyId',
+        privateKey: 'privateKey',
+        teamId: 'teamId',
+      },
+      loginWithAmazon: {
+        clientId: '',
+        clientSecret: '',
+      },
+      facebook: {
+        clientId: 'clientId',
+        clientSecret: 'clientSecret',
+      },
+      callbackUrls: ['http://localhost:3000/', 'https://mywebsite.com/profile'],
+      logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com'],
+    },
+  },
+});
+```
+
+## Customizing scopes for retrieving user data from social providers
+
+You can determine the pieces of data you want to retrieve from each social provider when setting them up in the `amplify/auth/resource.ts` file using `scopes`.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    externalAuthProviders: {
+      google: {
+        clientId: 'clientId',
+        clientSecret: 'clientSecret',
+        // highlight-next-line
+        scopes: ['email'],
+      },
+      callbackUrls: ['http://localhost:3000/', 'https://mywebsite.com/profile'],
+      logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com'],
+    },
+  },
+});
+```
+
+## Attribute mapping
+
+You can map which attributes are mapped between your social login provider and your users created in Cognito. We will be able to have the best level of protection for developers if we ensure that attribute mappings that would not work are called out by the type system.
+
+:::note Setting up user attributes
+
+If you add an attribute in your userpool as required that is not allowed for your social providers, signing in with that social provider will cause an error.
+
+:::
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    externalAuthProviders: {
+      google: {
+        clientId: '',
+        clientSecret: '',
+        // highlight-start
+        userAttributeMapping: {
+          email: 'email',
+        },
+        // highlight-end
+      },
+      callbackUrls: ['http://localhost:3000/', 'http://myProductionlink'],
+      logoutUrls: ['http://localhost:3000/', 'http://myProductionLink'],
+    },
+  },
+});
+```
+
+## Authenticator code
+
+[Link](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#social-providers)
+
+## Custom code
+
+Enabling a signing in of a user with a social provider can be done as shown in the following code snippet.
+
+```ts title="src/my-client-side-js.js"
+import { Auth } from 'aws-amplify';
+
+try {
+  const { user } = await Auth.signInWithWebUI({
+    provider: 'google',
+  });
+} catch (error) {
+  console.log('error signing up:', error);
+}
+```
+
+OIDC SAML
+
+You can integrate with an OIDC or SAML authentication provider, so that I
+
+## Backend configuration
+
+The following is an example of the OIDC and SAML authentication provider set up.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    externalAuthProviders: {
+      oidc: {
+        providerName: '',
+        issuerURL: '',
+      },
+      saml: {
+        providerName: '',
+      },
+      callbackUrls: ['http://localhost:3000/', 'http://myProductionlink'],
+      logoutUrls: ['http://localhost:3000/', 'http://myProductionLink'],
+    },
+  },
+});
+```
+
+## Customizing scopes for retrieving user data from OIDC/SAML providers
+
+You can determine the pieces of data you want to retrieve from each SAML/OIDC provider when setting them up in the `amplify/auth/resource.ts` file using `scopes`.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    externalAuthProviders: {
+      oidc: {
+        providerName: '',
+        // highlight-next-line
+        scopes: ['email'],
+      },
+      callbackUrls: ['http://localhost:3000/', 'http://myProductionlink'],
+      logoutUrls: ['http://localhost:3000/', 'http://myProductionLink'],
+    },
+  },
+});
+```
+
+## Attribute mapping
+
+You can map which attributes are mapped between your OIDC/SAML authentication providers and your users created in Cognito. We will be able to have the best level of protection for developers if we ensure that attribute mappings that would not work are called out by the type system.
+
+:::note Setting up user attributes
+
+If you add an attribute in your userpool as required that is not allowed for your social providers, signing in with that social provider will cause an error.
+
+:::
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    externalAuthProviders: {
+      oidc: {
+        providerName: '',
+        // highlight-start
+        userAttributeMapping: {
+          email: 'email',
+        },
+        // highlight-end
+      },
+      callbackUrls: ['http://localhost:3000/', 'https://mywebsite.com/profile'],
+      logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com'],
+    },
+  },
+});
+```
+
+## Authenticator code
+
+[Link](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#social-providers)
+
+## Custom code
+
+Enabling a signing in of a user with a social provider can be done as shown in the following code snippet.
+
+```ts title="src/my-client-side-js.js"
+import { Auth } from 'aws-amplify';
+
+try {
+  const { user } = await Auth.signInWithWebUI({
+    provider: 'google',
+  });
+} catch (error) {
+  console.log('error signing up:', error);
+}
+```

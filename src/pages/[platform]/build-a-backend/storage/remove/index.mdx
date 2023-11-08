@@ -4,7 +4,7 @@ export const meta = {
   title: 'Remove files',
   description:
     "Learn more about how to remove files using Amplify's storage category",
-  platforms: ['javascript', 'flutter', 'swift', 'android']
+  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -20,31 +20,19 @@ export function getStaticProps(context) {
   };
 }
 
-import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+import android_remove from '/src/fragments/lib/storage/android/remove.mdx';
+import flutter_remove from '/src/fragments/lib/storage/flutter/remove.mdx';
+import ios_remove from '/src/fragments/lib/storage/ios/remove.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments
+  fragments={{
+    android: android_remove,
+    flutter: flutter_remove,
+    swift: ios_remove
+  }}
+/>
 
-import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
-
-<Fragments fragments={{ flutter: flutter_maintenance }} />
-
-import ios1 from '/src/fragments/lib-v1/storage/ios/remove.mdx';
-
-<Fragments fragments={{ swift: ios1 }} />
-
-import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
-
-<Fragments fragments={{ android: android_maintenance }} />
-
-import android2 from '/src/fragments/lib-v1/storage/android/remove.mdx';
-
-<Fragments fragments={{ android: android2 }} />
-
-import flutter3 from '/src/fragments/lib-v1/storage/flutter/remove.mdx';
-
-<Fragments fragments={{ flutter: flutter3 }} />
-
-<InlineFilter filters={['javascript']}>
+<InlineFilter filters={['javascript', 'react-native']}>
 
 Delete stored data from the storage bucket. To remove a file, you need to provide the key. `accessLevel` can be 'guest', 'private', or 'protected', defaulting to 'guest'. Files can only be deleted for the current user. Deletion capabilities do not extend to files associated with other users.
 

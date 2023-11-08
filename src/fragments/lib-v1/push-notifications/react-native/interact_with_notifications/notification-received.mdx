@@ -1,0 +1,32 @@
+## Respond to a notification being received
+
+Push notifications received by your users are useful engagement tools but they also provide a data delivery mechanism to your app!
+
+Your app will likely need to respond to notifications being received in different ways depending on its state, namely while it is either actively in the foreground (where your app may respond by updating UI) or not (where your app may respond by performing tasks to ensure your app experience is up to date).
+
+|        App state        |             Handle with              |
+| :---------------------: | :----------------------------------: |
+|       Foreground        | `onNotificationReceivedInForeground` |
+| Background / Terminated | `onNotificationReceivedInBackground` |
+
+### Notification received in foreground
+
+Notifications received while your app is in the foreground state do not get displayed. But their contents may be useful for updating your app (e.g. updating the UI to reflect a new inbox message).
+
+Add `onNotificationReceivedInForeground` listeners to respond to a push notification being received while your app is in a foreground state.
+
+import onForegroundNotification from '/src/fragments/lib-v1/push-notifications/react-native/interact_with_notifications/on-foreground-notification.mdx';
+
+<Fragments fragments={{ 'react-native': onForegroundNotification }} />
+
+### Notification received in background
+
+You may be able to improve your users' experience by having your app perform tasks in the background (e.g. fetching data) so they will have the most up-to-date experience when they next launch your app.
+
+Add `onNotificationReceivedInBackground` listeners to respond to a push notification being received while your app is in a background **or** terminated state.
+
+For background notifications to be handled while your app is terminated, it is important to note:
+
+import onBackgroundNotification from '/src/fragments/lib-v1/push-notifications/react-native/interact_with_notifications/on-background-notification.mdx';
+
+<Fragments fragments={{ 'react-native': onBackgroundNotification }} />

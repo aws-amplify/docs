@@ -1,20 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Theming',
-  description:
-    'Configure your Amplify-generated UI components to match your brand using the Amplify Theme Editor Figma plugin',
+  description: 'Configure your Amplify-generated UI components to match your brand using the Amplify Theme Editor Figma plugin',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 Use [AWS Amplify UI Builder plugin](https://www.figma.com/community/plugin/1040722185526429545) to customize the UI primitives in your Figma file to match your brand's look and feel. Amplify Studio allows you to visually configure the [Amplify UI theme](https://ui.docs.amplify.aws/react/theming) definition.
 
@@ -37,7 +37,6 @@ The plugin saves your theme directly in the Figma file itself so when you sync y
 ## Install AWS Amplify UI Builder (Figma plugin)
 
 To install the UI Builder plugin:
-
 1. Go to the [UI Builder plugin page](https://www.figma.com/community/plugin/1040722185526429545)
 2. Click "Install" on the top-right corner
 3. Go to your Figma file
@@ -64,8 +63,7 @@ You can choose any layer and assign the fill to your brand colors. Updating the 
 ![Auto-cascading brand color levels](/images/studio/theming/brand-color-cascade.gif)
 
 <Callout>
-  The Figma plugin creates color styles that match the colors in the theme. But
-  any changes to color styles directly won't have an effect on the theme.
+  The Figma plugin creates color styles that match the colors in the theme. But any changes to color styles directly won't have an effect on the theme.
 </Callout>
 
 ### 3. Modify UI primitive colors
@@ -73,7 +71,6 @@ You can choose any layer and assign the fill to your brand colors. Updating the 
 Individual primitives such as Alerts have their own bindings for color to fine-tune their look and feel as well. This is especially useful as you start defining colors for states such as "success", "warning", "error", or "info".
 
 To change colors of UI primitives:
-
 1. Open the Amplify Theme Editor
 2. Click on the "Component" tab
 3. Select the value you want to edit. For example: `components.badge.error.backgroundColor`. You can also filter the list of component tokens with the search bar at the top
@@ -82,7 +79,7 @@ To change colors of UI primitives:
 
 ![Modify UI primitive colors](/images/studio/theming/component-color.gif)
 
-Colors in the theme can either be references to _other_ colors or exact Hex, HSL, or RGB values.
+Colors in the theme can either be references to *other* colors or exact Hex, HSL, or RGB values.
 
 ![Modify UI primitive colors with HSL](/images/studio/theming/component-color-hsl.gif)
 
@@ -93,7 +90,6 @@ Each Amplify UI theme contains definitions for spacing such as "small", "large",
 ![Use space definitions in Figma](/images/studio/theming/space.gif)
 
 To apply spacing tokens to your own components:
-
 1. Open the Amplify Theme Editor
 2. Click on the "Apply" tab
 3. Select a frame
@@ -102,10 +98,10 @@ To apply spacing tokens to your own components:
 
 ![Apply theme values in Figma](/images/studio/theming/apply.gif)
 
+
 ## Font sizes
 
 To update the font sizes in the theme:
-
 1. Open the Amplify Theme Editor
 2. Click on the "Font sizes" tab
 3. Click on any of the font sizes to edit it
@@ -119,7 +115,6 @@ You can input 'rem' values or 'px' values. Updating font sizes will update the p
 You can edit border widths and radii in addition to colors as well.
 
 To update the font sizes in the theme:
-
 1. Open the Amplify Theme Editor
 2. Click on the "Borders" tab
 3. Click on any of the border widths or radii to edit it
@@ -131,7 +126,6 @@ You can apply these border values to your own components by selecting the 'Apply
 ## Breakpoints
 
 The Amplify Theme Editor allows you to apply breakpoints to your component variants, making them responsive. To change the pixel values for your breakpoints:
-
 1. Open the Amplify Theme Editor
 2. Select the <strong>Breakpoints</strong> tab
 3. Select any breakpoint size
@@ -139,12 +133,14 @@ The Amplify Theme Editor allows you to apply breakpoints to your component varia
 
 ![Breakpoints tab within the Amplify Theme Editor with the small breakpoint selected and set to 480 pixels](/images/studio/responsive/breakpoints.png)
 
+
 The grey bar within the outlined box will indicate your pixel value compared to a standard 1920px-wide display.
 
 You can learn more about how to use breakpoints in the [Responsive components documentation](responsive/).
 
+
 <Callout>
 
-If you have any issues, please let us know by [filing an issue on Github](https://github.com/aws-amplify/amplify-studio/issues).
+  If you have any issues, please let us know by [filing an issue on Github](https://github.com/aws-amplify/amplify-studio/issues).
 
 </Callout>

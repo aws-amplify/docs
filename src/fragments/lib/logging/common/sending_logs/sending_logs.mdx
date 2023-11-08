@@ -1,14 +1,14 @@
-With the Amplify Logger, you can send logs to Amazon CloudWatch from errors that are caught by the Amplify library or by adding your own custom log messages.  You can also customize which levels of log messages to send to CloudWatch.
+With the Amplify Logger, you can send logs to Amazon CloudWatch from errors that are caught by the Amplify library or by adding your own custom log messages. You can also customize which levels of log messages to send to CloudWatch.
 
 ## Log messages
 
 <Callout>
 
-You should follow best security practices when logging messages.  This includes validating log messages and ensuring log messages don't contain personally identifiable information and/or sensitive data.
+You should follow best security practices when logging messages. This includes validating log messages and ensuring log messages don't contain personally identifiable information and/or sensitive data.
 
 </Callout>
 
-You can log messages using the Amplify logger to a specific namespace to help you group logs that are similar when they are sent to CloudWatch. To accomplish this, get an instance of the `Logger` and specify a `category name` and/or `namespace`.  Use the `Logger` instance to log messages at the desired log level.  The `category name` and `namespace` values are used to tag your log messages that will appear in CloudWatch.  They are also used to identify and fetch the logger again without creating a new `Logger` instance.
+You can log messages using the Amplify logger to a specific namespace to help you group logs that are similar when they are sent to CloudWatch. To accomplish this, get an instance of the `Logger` and specify a `category name` and/or `namespace`. Use the `Logger` instance to log messages at the desired log level. The `category name` and `namespace` values are used to tag your log messages that will appear in CloudWatch. They are also used to identify and fetch the logger again without creating a new `Logger` instance.
 
 import iosSendLog from '/src/fragments/lib/logging/ios/sending_logs/10_sending_logs.mdx';
 import androidSendLog from '/src/fragments/lib/logging/android/sending_logs/10_sending_logs.mdx';
@@ -17,7 +17,7 @@ You can also log JSON formatted log messages to leverage [AWS CloudWatch](https:
 
 <Fragments
   fragments={{
-    ios: iosSendLog,
+    swift: iosSendLog,
     android: androidSendLog
   }}
 />
@@ -27,7 +27,7 @@ import androidCategories from '/src/fragments/lib/logging/android/common/10_cate
 
 <Fragments
   fragments={{
-    ios: iOSCategories,
+    swift: iOSCategories,
     android: androidCategories
   }}
 />

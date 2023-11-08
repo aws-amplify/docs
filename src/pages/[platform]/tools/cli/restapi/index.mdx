@@ -101,12 +101,12 @@ This will be the configuration for `/items` path in API Gateway:
  |_ /items               Main resource. Eg: /items
     ANY                    Includes methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT
     OPTIONS                Allow pre-flight requests in CORS by browser
-    |_ /{proxy+}         Proxy resource. Eg: /items/, /items/id, items/object/{id}
+    |_ /\{proxy+}         Proxy resource. Eg: /items/, /items/id, items/object/\{id}
        ANY                  Includes methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT
        OPTIONS              Allow pre-flight requests in CORS by browser
 ```
 
-By default Amplify CLI creates a greedy path variable `/items/{proxy+}` that catches all child resources for a path and forwards them to your Lambda. This will match all child routes including `/items/id` and `/items/object/id`.
+By default Amplify CLI creates a greedy path variable `/items/\{proxy+}` that catches all child resources for a path and forwards them to your Lambda. This will match all child routes including `/items/id` and `/items/object/id`.
 
 - Choose a Lambda source **Create a new Lambda function**
 - Provide a friendly name for your resource to be used as a label for this category in the project: **itemsLambda**
@@ -155,7 +155,7 @@ At the end of this command you can take note of your new REST API url.
 REST API endpoint: https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev
 ```
 
-> REST APIs follow this pattern `https://{restapi-id}.execute-api.{region}.amazonaws.com/{environment}/{path}`.
+> REST APIs follow this pattern `https://{restapi-id}.execute-api.\{region}.amazonaws.com/\{environment}/\{path}`.
 
 Let's see an overview of all the resources created by Amplify CLI.
 

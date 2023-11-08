@@ -30,7 +30,7 @@ Future<void> savePostAndEditor() async {
     // then you save the model that links a post with an editor
     await Amplify.DataStore.save(postEditor);
   } on DataStoreException catch (e) {
-    safePrint('Something went wrong saving model: $\{e.message}');
+    safePrint('Something went wrong saving model: ${e.message}');
   }
 }
 ```

@@ -2,46 +2,45 @@
 
 The Amplify Analytics plugin provides a simple interface to record custom events within your app:
 
-import ios0 from "/src/fragments/lib/analytics/ios/record-event-code.mdx";
+import ios0 from '/src/fragments/lib/analytics/ios/record-event-code.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
 <Callout>
 
 The AWS Pinpoint event count updates in minutes after recording your event.
 
-However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Pinpoint. 
+However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Pinpoint.
 
 </Callout>
 
 ## Flush Events
 
-By default, events are automatically flushed out to the network every 60 seconds. 
+By default, events are automatically flushed out to the network every 60 seconds.
 
 If you would like to change this, update `amplifyconfiguration.json` and set the value you would prefer under `autoFlushEventsInterval`, expressed in seconds:
 
 ```json
 {
-    "UserAgent": "aws-amplify-cli/2.0",
-    "Version": "1.0",
-    "analytics": {
-        "plugins": {
-            "awsPinpointAnalyticsPlugin": {
-                "pinpointAnalytics": {
-                    "appId": "AppID",
-                    "region": "Region"
-                },
-                "autoFlushEventsInterval": 60
-            }
-        }
+  "UserAgent": "aws-amplify-cli/2.0",
+  "Version": "1.0",
+  "analytics": {
+    "plugins": {
+      "awsPinpointAnalyticsPlugin": {
+        "pinpointAnalytics": {
+          "appId": "AppID",
+          "region": "Region"
+        },
+        "autoFlushEventsInterval": 60
+      }
     }
+  }
 }
 ```
 
 > **Note**
 >
 > Setting `autoFlushEventsInterval` to 0 will **disable** the automatic flush of events and you will be responsible for submitting them.
-
 
 To manually submit the recoded events to the backend, call:
 
@@ -53,18 +52,18 @@ The plugin automatically batches requests in order to reduce network bandwidth a
 
 ## Authentication events
 
-import native_common from "/src/fragments/lib-v1/analytics/native_common/getting-started/auth-events.mdx";
+import native_common from '/src/fragments/lib-v1/analytics/native_common/getting-started/auth-events.mdx';
 
-<Fragments fragments={{all: native_common}} />
+<Fragments fragments={{ all: native_common }} />
 
-  ```swift
-  func sendUserSignInEvent() {
-      let event = BasicAnalyticsEvent(
-          name: "_userauth.sign_in"
-      )
-      Amplify.Analytics.record(event: event)
-  }
-  ```
+```swift
+func sendUserSignInEvent() {
+    let event = BasicAnalyticsEvent(
+        name: "_userauth.sign_in"
+    )
+    Amplify.Analytics.record(event: event)
+}
+```
 
 ## Global Properties
 

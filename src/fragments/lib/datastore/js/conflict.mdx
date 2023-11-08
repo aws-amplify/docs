@@ -4,7 +4,7 @@ Finally you can configure the number of records to sync as an upper bound on ite
 
 ### Example
 
-The code below illustrates a conflict resolution handler for the `Post` model that retries a mutation with the same title, but the most recent remote data for all other fields. The conflict resolution handler discards conflicts for all other models (by returning the `DISCARD` symbol imported from `@aws-amplify/datastore`).
+The code below illustrates a conflict resolution handler for the `Post` model that retries a mutation with the same title, but the most recent remote data for all other fields. The conflict resolution handler discards conflicts for all other models (by returning the `DISCARD` symbol imported from `aws-amplify/datastore`).
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -13,7 +13,7 @@ The code below illustrates a conflict resolution handler for the `Post` model th
 import {
   DISCARD,
   PersistentModelConstructor,
-} from "@aws-amplify/datastore";
+} from "aws-amplify/datastore";
 
 DataStore.configure({
   errorHandler: (error) => {
@@ -43,7 +43,7 @@ DataStore.configure({
 <Block name="JavaScript">
 
 ```js
-import { DISCARD } from "@aws-amplify/datastore";
+import { DISCARD } from "aws-amplify/datastore";
 
 DataStore.configure({
   errorHandler: (error) => {

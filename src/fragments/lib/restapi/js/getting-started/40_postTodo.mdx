@@ -1,0 +1,22 @@
+```javascript
+import { post } from 'aws-amplify/api';
+
+async function postTodo() {
+  try {
+    const restOperation = post({
+      apiName: 'todo-api',
+      path: '/todo',
+      options: {
+        body: {
+          message: 'Mow the lawn'
+        }
+      }
+    });
+    await restOperation.response;
+    console.log('POST call succeeded');
+    console.log(response);
+  } catch (e) {
+    console.log('POST call failed: ', e);
+  }
+}
+```
