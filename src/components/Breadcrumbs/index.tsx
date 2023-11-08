@@ -12,7 +12,6 @@ type BreadcrumbItem = {
 type Props = {
   route: string;
   platform: string;
-  isGen2: boolean;
 };
 
 const overrides = {
@@ -34,7 +33,6 @@ const overrides = {
 
 function generateBreadcrumbs(
   route: string,
-
   platform: string
 ): BreadcrumbItem[] {
   const breadcrumbs: BreadcrumbItem[] = [];

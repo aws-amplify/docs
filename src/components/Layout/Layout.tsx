@@ -317,7 +317,6 @@ export const Layout = ({
                     <Breadcrumbs
                       route={pathname}
                       platform={currentPlatform}
-                      isGen2={isGen2}
                     />
                   ) : null}
                   {shouldShowGen2Banner ? <Banner /> : null}
