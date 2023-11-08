@@ -2,7 +2,6 @@ export { IconAndroid } from './IconAndroid';
 export { IconAngular } from './IconAngular';
 export { IconAmplify } from './IconAmplify';
 export { IconAWS } from './IconAWS';
-export { IconCheckCircle } from './IconCheckCircle';
 export { IconCheck } from './IconCheck';
 export { IconCheckCircle } from './IconCheckCircle';
 export { IconChevron } from './IconChevron';
