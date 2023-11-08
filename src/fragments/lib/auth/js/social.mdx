@@ -64,9 +64,9 @@ After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate you
 import React, { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import awsConfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(awsConfig);
+Amplify.configure(amplifyconfig);
 
 function App() {
   const [user, setUser] = useState(null);
@@ -121,9 +121,9 @@ function App() {
 import React, { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import awsConfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(awsConfig);
+Amplify.configure(amplifyconfig);
 
 function App() {
   const [user, setUser] = useState(null);
@@ -183,7 +183,7 @@ For *Sign in Redirect URI(s)* inputs, you can put one URI for local development 
 **Note:** if you have multiple redirect URI inputs, you'll need to handle both of them where you configure your Amplify project. For example:
 
 ```javascript
-import awsConfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
@@ -199,17 +199,17 @@ const isLocalhost = Boolean(
 const [
   localRedirectSignIn,
   productionRedirectSignIn,
-] = awsConfig.oauth.redirectSignIn.split(",");
+] = amplifyconfig.oauth.redirectSignIn.split(",");
 
 const [
   localRedirectSignOut,
   productionRedirectSignOut,
-] = awsConfig.oauth.redirectSignOut.split(",");
+] = amplifyconfig.oauth.redirectSignOut.split(",");
 
 const updatedAwsConfig = {
-  ...awsConfig,
+  ...amplifyconfig,
   oauth: {
-    ...awsConfig.oauth,
+    ...amplifyconfig.oauth,
     redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
     redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
   }
@@ -226,7 +226,7 @@ Amplify.configure(updatedAwsConfig);
 ```ts
 import { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
-import awsConfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -242,17 +242,17 @@ const isLocalhost = Boolean(
 const [
   localRedirectSignIn,
   productionRedirectSignIn,
-] = awsConfig.oauth.redirectSignIn.split(',');
+] = amplifyconfig.oauth.redirectSignIn.split(',');
 
 const [
   localRedirectSignOut,
   productionRedirectSignOut,
-] = awsConfig.oauth.redirectSignOut.split(',');
+] = amplifyconfig.oauth.redirectSignOut.split(',');
 
 const updatedAwsConfig = {
-  ...awsConfig,
+  ...amplifyconfig,
   oauth: {
-    ...awsConfig.oauth,
+    ...amplifyconfig.oauth,
     redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
     redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
   }
@@ -313,7 +313,7 @@ export default App;
 ```js
 import { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
-import awsConfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -329,17 +329,17 @@ const isLocalhost = Boolean(
 const [
   localRedirectSignIn,
   productionRedirectSignIn,
-] = awsConfig.oauth.redirectSignIn.split(',');
+] = amplifyconfig.oauth.redirectSignIn.split(',');
 
 const [
   localRedirectSignOut,
   productionRedirectSignOut,
-] = awsConfig.oauth.redirectSignOut.split(',');
+] = amplifyconfig.oauth.redirectSignOut.split(',');
 
 const updatedAwsConfig = {
-  ...awsConfig,
+  ...amplifyconfig,
   oauth: {
-    ...awsConfig.oauth,
+    ...amplifyconfig.oauth,
     redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
     redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
   }

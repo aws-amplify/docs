@@ -9,10 +9,10 @@ export const MDXHeading = (props) => {
 
   if (children && typeof children != 'string') {
     let newChildren = '';
-    for (let i = 0; i < children.length, i++; ) {
+    for (let i = 0; i < children.length; i++) {
       if (typeof children[i] == 'string') {
         newChildren = newChildren + children[i];
-      } else {
+      } else if (typeof children[i] != 'string') {
         newChildren = newChildren + children[i].props.children;
       }
     }
@@ -22,7 +22,7 @@ export const MDXHeading = (props) => {
   }
 
   return (
-    <Heading level={level} id={slug(children)}>
+    <Heading level={level} id={href}>
       {/* Only output heading links for h2 and h3 \ */}
       {level == 2 || level == 3 ? (
         <Link href={href}>{children}</Link>

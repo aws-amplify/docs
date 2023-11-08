@@ -16,9 +16,9 @@ Future<void> removeFile({
         accessLevel: accessLevel,
       ),
     ).result;
-    safePrint('Removed file: $\{result.removedItem.key}');
+    safePrint('Removed file: ${result.removedItem.key}');
   } on StorageException catch (e) {
-    safePrint('Error deleting file: $\{e.message}');
+    safePrint('Error deleting file: ${e.message}');
     rethrow;
   }
 }
@@ -41,9 +41,9 @@ Future<void> removePrivateFiles({
         accessLevel: StorageAccessLevel.private,
       ),
     ).result;
-    safePrint('Removed files: $\{result.removedItems}');
+    safePrint('Removed files: ${result.removedItems}');
   } on StorageException catch (e) {
-    safePrint('Error deleting files: $\{e.message}');
+    safePrint('Error deleting files: ${e.message}');
     rethrow;
   }
 }

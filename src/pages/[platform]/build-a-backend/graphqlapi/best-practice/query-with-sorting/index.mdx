@@ -1,5 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'GraphQL query with sorting by date',
   description: 'How to implement sorting in a GraphQL query',
@@ -18,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+      
 
 In this guide you will learn how to implement sorting in a GraphQL API. In our example, you will implement sorting results by date in either an ascending or descending order by implementing an additional data access pattern leveraging a DynamoDB Global Secondary Index using the `@index` GraphQL Transformer directive.
 
@@ -28,7 +30,7 @@ To get started, let's start with a basic GraphQL schema for a Todo app:
 ```graphql
 type Todo @model {
   id: ID!
-  title: 'GraphQL query with sorting by date',
+  title: String!
 }
 ```
 
@@ -37,11 +39,7 @@ When the API is created with an `@model` directive, the following queries will a
 ```graphql
 type Query {
   getTodo(id: ID!): Todo
-  listTodos(
-    filter: ModelTodoFilterInput
-    limit: Int
-    nextToken: String
-  ): ModelTodoConnection
+  listTodos(filter: ModelTodoFilterInput, limit: Int, nextToken: String): ModelTodoConnection
 }
 ```
 
@@ -54,7 +52,7 @@ type ModelTodoConnection {
 }
 ```
 
-By default, the `listTodos` query will return the `items` array **unordered**. Many times you will need these items to be ordered by title, by creation date, or in some other way.
+By default, the `listTodos` query will return the `items` array __unordered__. Many times you will need these items to be ordered by title, by creation date, or in some other way.
 
 To enable this, you can use the [@index](/cli/graphql/data-modeling) directive. This directive will allow you to set a custom `sortKey` on any field in your API.
 
@@ -67,7 +65,7 @@ To enable this, update your schema with the following:
 ```graphql
 type Todo @model {
   id: ID!
-  title: 'GraphQL query with sorting by date',
+  title: String!
   type: String! @index(name: "todosByDate", queryField: "todosByDate", sortKeyFields: ["createdAt"])
   createdAt: String!
 }
@@ -84,7 +82,7 @@ Next, create a few todos being sure to populate the `type` field:
 ```graphql
 mutation createTodo {
   createTodo(input: {
-  title: 'GraphQL query with sorting by date',
+    title: "Todo 1"
     type: "Todo"
   }) {
     id
@@ -97,7 +95,10 @@ Now, you can query for todos by date in an ascending or descending order using t
 
 ```graphql
 query todosByDate {
-  todosByDate(type: "Todo", sortDirection: ASC) {
+  todosByDate(
+    type: "Todo"
+    sortDirection: ASC
+  ) {
     items {
       id
       title
@@ -107,7 +108,10 @@ query todosByDate {
 }
 
 query todosByDateDescending {
-  todosByDate(type: "Todo", sortDirection: DESC) {
+  todosByDate(
+    type: "Todo"
+    sortDirection: DESC
+  ) {
     items {
       id
       title
@@ -117,4 +121,5 @@ query todosByDateDescending {
 }
 ```
 
-To learn more about the `@index` directive, check out the documentation [here](/cli/graphql/data-modeling) ing)
+To learn more about the `@index` directive, check out the documentation [here](/cli/graphql/data-modeling)
+ing)

@@ -1,12 +1,13 @@
-You can use Amplify Geo to collect and send location data of users to [Amazon Location Service](https://aws.amazon.com/location/).  This can be helpful in building asset and delivery tracking features to help business understand the current and historical locations of their products, personnel, and infrastructure.  See [Common use cases for using Amazon Location Service](https://docs.aws.amazon.com/location/latest/developerguide/common-usecases.html).  Tracking capabilities is configurable to provide a balance and flexibility between power efficiency and location accuracy. Location data can also be retrieved and deleted at any point.  
+You can use Amplify Geo to collect and send location data of users to [Amazon Location Service](https://aws.amazon.com/location/). This can be helpful in building asset and delivery tracking features to help business understand the current and historical locations of their products, personnel, and infrastructure. See [Common use cases for using Amazon Location Service](https://docs.aws.amazon.com/location/latest/developerguide/common-usecases.html). Tracking capabilities is configurable to provide a balance and flexibility between power efficiency and location accuracy. Location data can also be retrieved and deleted at any point.
 
 ## What is a Tracker
+
 A tracker is an Amazon Location Service resource that stores location updates for a collection of devices as they move. The tracker can be used to query the devices' current location or location history.
 
 ## Configure Device Tracking via Amplify CLI
 
-To start provisioning Tracker resources in Amazon Location Service,  go to your project directory and execute the command: `amplify add geo`.
-Follow the prompts provided by the Amplify CLI to configure default or advanced settings. 
+To start provisioning Tracker resources in Amazon Location Service, go to your project directory and execute the command: `amplify add geo`. Follow the prompts provided by the Amplify CLI to configure default or advanced settings.
+
 ```sh
 amplify add geo
 
@@ -20,53 +21,59 @@ amplify add geo
 
 ```
 
-
 Once you have successfully configured your tracker, use the following command to push your changes to the backend:
+
 ```sh
 amplify push
 ```
 
 ## Device Tracking Identification
-Amplify Geo associates a location update to a device ID when the locations are sent to Amazon Location Service.  You can identify and query location updates by unique users or devices based on the device ID associated to the location updates. Amplify Geo provides a default device ID for you.  You can also provide your own device ID.
 
-* **User-provided**: A device ID provided by you.  You are responsible for removing any personally identifiable information (PII) or discernable pattern from your provided device ID.  You are responsible for following best security practices.  Amplify does not guarantee or prevent collisions with other device IDs. It is up to you to determine if this device ID is consistent across app sessions and devices.  We recommend using `Geo.Device.tiedToUser()` instead.
-* **`Geo.Device.tiedToUser()`**: Amplify generated device ID tied to the user but not the device.  This device ID is consistent across app sessions and devices.
-* **`Geo.Device.tiedToDevice()`**: Amplify generated device ID tied to user and device combination.  This device ID is consistent across app sessions and users. If a different user logs into the same app on the same device, the same ID is used.  If the app user moves to a new device or uninstall and reinstall the app, then a new ID is generated.
-* **`Geo.Device.tiedToUserAndDevice()`**: Amplify generated device ID tied to both the user and device. This device ID is consistent across app sessions and logout/login.  A new ID is generated if the user authenticates as a different user, moves to a different device, or uninstall/reinstall the app. 
+Amplify Geo associates a location update to a device ID when the locations are sent to Amazon Location Service. You can identify and query location updates by unique users or devices based on the device ID associated to the location updates. Amplify Geo provides a default device ID for you. You can also provide your own device ID.
+
+- **User-provided**: A device ID provided by you. You are responsible for removing any personally identifiable information (PII) or discernable pattern from your provided device ID. You are responsible for following best security practices. Amplify does not guarantee or prevent collisions with other device IDs. It is up to you to determine if this device ID is consistent across app sessions and devices. We recommend using `Geo.Device.tiedToUser()` instead.
+- **`Geo.Device.tiedToUser()`**: Amplify generated device ID tied to the user but not the device. This device ID is consistent across app sessions and devices.
+- **`Geo.Device.tiedToDevice()`**: Amplify generated device ID tied to user and device combination. This device ID is consistent across app sessions and users. If a different user logs into the same app on the same device, the same ID is used. If the app user moves to a new device or uninstall and reinstall the app, then a new ID is generated.
+- **`Geo.Device.tiedToUserAndDevice()`**: Amplify generated device ID tied to both the user and device. This device ID is consistent across app sessions and logout/login. A new ID is generated if the user authenticates as a different user, moves to a different device, or uninstall/reinstall the app.
 
 ## Tracking Options
-Various tracking capabilities are configurable to support your tracking use cases.  Tracking modes are configured via `TrackingSessionOptions` when starting a tracking session.  Below are the different tracking options:
 
-import ios0 from "/src/fragments/lib/geo/ios/device_tracking/10_tracking_options.mdx";
+Various tracking capabilities are configurable to support your tracking use cases. Tracking modes are configured via `TrackingSessionOptions` when starting a tracking session. Below are the different tracking options:
 
-<Fragments fragments={{ios: ios0}} />
+import ios0 from '/src/fragments/lib/geo/ios/device_tracking/10_tracking_options.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
 
 ## Start Tracking
+
 To start a tracking session based on a set of tracking session options:
 
-import ios1 from "/src/fragments/lib/geo/ios/device_tracking/20_start_tracking.mdx";
+import ios1 from '/src/fragments/lib/geo/ios/device_tracking/20_start_tracking.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ swift: ios1 }} />
 
 ## Stop Tracking
+
 To stop an existing tracking session:
 
-import ios2 from "/src/fragments/lib/geo/ios/device_tracking/30_stop_tracking.mdx";
+import ios2 from '/src/fragments/lib/geo/ios/device_tracking/30_stop_tracking.mdx';
 
-<Fragments fragments={{ios: ios2}} />
+<Fragments fragments={{ swift: ios2 }} />
 
 If there are updates stored locally and the session is configured for offline, then the locations will be sent to Amazon Location Service when the device is online.
 
 ## Manual Location Update
+
 Location update can be sent on-demand outside of the tracking.
 
-import ios3 from "/src/fragments/lib/geo/ios/device_tracking/40_manual_update.mdx";
+import ios3 from '/src/fragments/lib/geo/ios/device_tracking/40_manual_update.mdx';
 
-<Fragments fragments={{ios: ios3}} />
+<Fragments fragments={{ swift: ios3 }} />
 
 ## Delete Location History
+
 To delete a device's location history permanently:
 
-import ios4 from "/src/fragments/lib/geo/ios/device_tracking/50_delete_history.mdx";
+import ios4 from '/src/fragments/lib/geo/ios/device_tracking/50_delete_history.mdx';
 
-<Fragments fragments={{ios: ios4}} />
+<Fragments fragments={{ swift: ios4 }} />

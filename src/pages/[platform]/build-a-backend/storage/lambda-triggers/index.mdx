@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Lambda triggers',
-  description:
-    'Learn more about how to enable triggers for the Storage Category with Amazon S3 & Amazon DynamoDB as Providers. The CLI supports associating Lambda triggers with S3 and DynamoDB events. ',
-  platforms: ['javascript', 'flutter', 'swift', 'android']
+  description: 'Learn more about how to enable triggers for the Storage Category with Amazon S3 & Amazon DynamoDB as Providers. The CLI supports associating Lambda triggers with S3 and DynamoDB events. ',
+  platforms: ['javascript','flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,10 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
-
-<Fragments fragments={{ flutter: flutter_maintenance }} />
 
 If you are looking to enable triggers for the Storage Category with Amazon S3 & Amazon DynamoDB as Providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI.
 

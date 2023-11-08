@@ -4,7 +4,7 @@ export const meta = {
   title: 'Set up Predictions',
   description:
     'Get started with integrating ML capabilities into your application using Amplify',
-  platforms: ['swift', 'android']
+  platforms: ['javascript', 'react-native', 'swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -26,9 +26,7 @@ import gettingStartedCommon from '/src/fragments/lib/predictions/native_common/g
 <Fragments
   fragments={{
     javascript: gettingStartedJs,
-    'react-native': gettingStartedJs,
-    ios: gettingStartedCommon,
+    swift: gettingStartedCommon,
     android: gettingStartedCommon
   }}
 />
-n }} />

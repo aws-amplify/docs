@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Connecting a REST API to a Lambda',
   description: 'How to connect a REST API to a Lambda function',
-  platforms: ['javascript', 'swift', 'android']
+  platforms: ['javascript','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 In this guide you will learn how to connect a REST API to an existing Lambda function.
 
@@ -28,7 +30,7 @@ amplify add api
 
 ? Please select from one of the below mentioned services: REST
 ? Provide a friendly name for your resource to be used as a label for this category in the project: myapi
-? Provide a path (e.g., /book/\{isbn}): /hello
+? Provide a path (e.g., /book/{isbn}): /hello
 ? Choose a Lambda source: Use a Lambda function already added in the current Amplify project
 ? Choose the Lambda function to invoke by this path: <your-function-name>
 ? Restrict API access: N

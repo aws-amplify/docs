@@ -1,0 +1,71 @@
+The Amazon Kinesis analytics provider allows you to send analytics data to an [Amazon Kinesis](https://aws.amazon.com/kinesis) stream for real-time processing.
+
+## Installation and Configuration
+
+Register the _AWSKinesisProvider_ with the Analytics category:
+
+```javascript
+import { Analytics, AWSKinesisProvider } from 'aws-amplify';
+Analytics.addPluggable(new AWSKinesisProvider());
+```
+
+If you did not use the CLI, ensure you have [setup IAM permissions](https://docs.aws.amazon.com/streams/latest/dev/learning-kinesis-module-one-iam.html) for `PutRecords`.
+
+Example IAM policy for Amazon Kinesis:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["kinesis:PutRecord", "kinesis:PutRecords"],
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+For more information visit [Amazon Kinesis Developer Documentation](https://docs.aws.amazon.com/streams/latest/dev/learning-kinesis-module-one-iam.html).
+
+Configure Kinesis:
+
+```javascript
+// Configure the plugin after adding it to the Analytics module
+Analytics.configure({
+  AWSKinesis: {
+    // OPTIONAL -  Amazon Kinesis service region
+    region: 'XX-XXXX-X',
+
+    // OPTIONAL - The buffer size for events in number of items.
+    bufferSize: 1000,
+
+    // OPTIONAL - The number of events to be deleted from the buffer when flushed.
+    flushSize: 100,
+
+    // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
+    flushInterval: 5000, // 5s
+
+    // OPTIONAL - The limit for failed recording retries.
+    resendLimit: 5
+  }
+});
+```
+
+## Stream data
+
+You can send a data to a Kinesis stream with the standard `record()` method:
+
+```javascript
+Analytics.record(
+  {
+    data: {
+      // The data blob to put into the record
+    },
+    // OPTIONAL
+    partitionKey: 'myPartitionKey',
+    streamName: 'myKinesisStream'
+  },
+  'AWSKinesis'
+);
+```

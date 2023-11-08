@@ -3,10 +3,11 @@ Future<void> fetchCurrentUserAttributes() async {
   try {
     final result = await Amplify.Auth.fetchUserAttributes();
     for (final element in result) {
-      print('key: $\{element.userAttributeKey}; value: $\{element.value}');
+      print('key: ${element.userAttributeKey}; value: ${element.value}');
     }
   } on AuthException catch (e) {
     print(e.message);
   }
 }
 ```
+

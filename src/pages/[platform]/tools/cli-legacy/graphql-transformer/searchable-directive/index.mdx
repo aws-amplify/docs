@@ -1,20 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Make your data searchable',
-  description:
-    'The @searchable directive handles streaming the data of an @model object type to the Amazon OpenSearch Service and configures search resolvers that search that information.',
+  description: 'The @searchable directive handles streaming the data of an @model object type to the Amazon OpenSearch Service and configures search resolvers that search that information.',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,14 +28,16 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-<MigrationAlert isLegacy url={'/cli/graphql/search-and-result-aggregations'} />
+<MigrationAlert isLegacy url={"/cli/graphql/search-and-result-aggregations"}/>
 
 ## @searchable
 
 The `@searchable` directive handles streaming the data of an `@model` object type to the Amazon OpenSearch Service and configures search resolvers that search that information.
 
-> **Migration warning**: You might observe duplicate records on search operations, if you deployed your GraphQL schema using CLI version older than 4.14.1 and have thereafter updated your schema & deployed the changes with a CLI version between 4.14.1 - 4.16.1. Please use this Python [script](https://github.com/aws-amplify/amplify-category-api/blob/main/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) to remove the duplicate records from your OpenSearch cluster. [This script](https://github.com/aws-amplify/amplify-category-api/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) indexes data from your DynamoDB Table to your OpenSearch Cluster. View an example of how to call the script with the following parameters [here](https://aws-amplify.github.io/docs/cli-toolchain/graphql#example-of-calling-the-script).
+> **Migration warning**: You might observe duplicate records on search operations, if you deployed your GraphQL schema using CLI version older than 4.14.1 and have thereafter updated your schema & deployed the changes with a CLI version between 4.14.1 - 4.16.1.
+Please use this Python [script](https://github.com/aws-amplify/amplify-category-api/blob/main/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) to remove the duplicate records from your OpenSearch cluster. [This script](https://github.com/aws-amplify/amplify-category-api/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) indexes data from your DynamoDB Table to your OpenSearch Cluster. View an example of how to call the script with the following parameters [here](https://aws-amplify.github.io/docs/cli-toolchain/graphql#example-of-calling-the-script).
 
 > **Billing warning**: `@searchable` incurs an additional cost depending on instance size. For more information refer to the [Amazon OpenSearch service pricing](https://aws.amazon.com/elasticsearch-service/pricing/).
 
@@ -45,9 +46,7 @@ The `@searchable` directive handles streaming the data of an `@model` object typ
 ```graphql
 # Streams data from DynamoDB to OpenSearch and exposes search capabilities.
 directive @searchable(queries: SearchableQueryMap) on OBJECT
-input SearchableQueryMap {
-  search: String
-}
+input SearchableQueryMap { search: String }
 ```
 
 ### Usage
@@ -57,18 +56,19 @@ Given the following schema an index is created for Post, if there are more types
 ```graphql
 type Post @model @searchable {
   id: ID!
-  title: 'Make your data searchable',
+  title: String!
   createdAt: String!
   updatedAt: String!
   upvotes: Int
 }
 ```
 
-You may then create objects in DynamoDB that will be automatically streamed to lambda using the normal `createPost` mutation.
+You may then create objects in DynamoDB that will be automatically streamed to lambda
+using the normal `createPost` mutation.
 
 ```graphql
 mutation CreatePost {
-  title: 'Make your data searchable',
+  createPost(input: { title: "Stream me to OpenSearch!" }) {
     id
     title
     createdAt
@@ -82,7 +82,7 @@ And then search for posts using a `match` query:
 
 ```graphql
 query SearchPosts {
-  title: 'Make your data searchable',
+  searchPosts(filter: { title: { match: "Stream" }}) {
     items {
       id
       title
@@ -112,7 +112,7 @@ For example, you can filter using the wildcard expression to search for posts us
 
 ```graphql
 query SearchPosts {
-  title: 'Make your data searchable',
+  searchPost(filter: { title: { wildcard: "S*OpenSearch!" }}) {
     items {
       id
       title
@@ -123,12 +123,12 @@ query SearchPosts {
 
 The above query returns all documents whose `title` begins with `S` and ends with `OpenSearch!`.
 
-Moreover you can use the `filter` parameter to pass a nested `and`/`or`/`not` condition. By default, every operation in the filter properties is _AND_ ed. You can use the `or` or `not` properties in the `filter` parameter of the search query to override this behavior. Each of these operators (`and`, `or`, `not` properties in the filter object) accepts an array of searchable types which are in turn joined by the corresponding operator. For example, consider the following search query:
+Moreover you can use the `filter` parameter to pass a nested `and`/`or`/`not` condition. By default, every operation in the filter properties is *AND* ed. You can use the `or` or `not` properties in the `filter` parameter of the search query to override this behavior. Each of these operators (`and`, `or`, `not` properties in the filter object) accepts an array of searchable types which are in turn joined by the corresponding operator. For example, consider the following search query:
 
 ```graphql
 query SearchPosts {
   searchPost(filter: {
-  title: 'Make your data searchable',
+    title: { wildcard: "S*" }
     or: [
       { createdAt: { eq: "08/20/2018" } },
       { updatedAt: { eq: "08/20/2018" } }
@@ -146,12 +146,12 @@ Assuming you used the `createPost` mutation to create new posts with `title`, `c
 
 Here is a complete list of searchable operations per GraphQL type supported as of today:
 
-| GraphQL Type | Searchable Operation |
-| --: | :-- |
-| String | `ne`, `eq`, `match`, `matchPhrase`, `matchPhrasePrefix`, `multiMatch`, `exists`, `wildcard`, `regexp` |
-| Int | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range` |
-| Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range` |
-| Boolean | `eq`, `ne` |
+| GraphQL Type        | Searchable Operation           |
+|-------------:|:-------------|
+| String      | `ne`, `eq`, `match`, `matchPhrase`, `matchPhrasePrefix`, `multiMatch`, `exists`, `wildcard`, `regexp` |
+| Int     | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
+| Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
+| Boolean | `eq`, `ne`      |
 
 ### Known limitations
 
@@ -163,34 +163,33 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 
 ### Configure environment OpenSearch instance type
 
-By default Amplify CLI will configure a `t2.small` instance type. This is great for getting started and prototyping BUT not recommended to be used in the production environment per the OpenSearch [best practices](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/bp.html). You can configure the OpenSearch instance type per environment as follows:
+By default Amplify CLI will configure a `t2.small` instance type. This is great for getting started and prototyping BUT not recommended to be used in the production environment per the OpenSearch [best practices](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/bp.html).
+You can configure the OpenSearch instance type per environment as follows:
 
 1. Run `amplify env add` to create a new environment (e.g. "prod")
 2. Edit the `amplify/team-provider-info.json` file and set `ElasticSearchInstanceType` to the instance type that works for your application
-
 ```json
-{
-  "dev": {
-    "categories": {
-      "api": {
-        "<your-api-name>": {
-          "ElasticSearchInstanceType": "t2.small.elasticsearch"
+  {
+    "dev": {
+      "categories": {
+        "api": {
+          "<your-api-name>" : {
+            "ElasticSearchInstanceType": "t2.small.elasticsearch"
+          }
         }
       }
-    }
-  },
-  "prod": {
-    "categories": {
-      "api": {
-        "<your-api-name>": {
-          "ElasticSearchInstanceType": "t2.medium.elasticsearch"
+    },
+    "prod": {
+      "categories": {
+        "api": {
+          "<your-api-name>" : {
+            "ElasticSearchInstanceType": "t2.medium.elasticsearch"
+          }
         }
       }
     }
   }
-}
 ```
-
 3. Deploy your changes with `amplify push`
 
 Learn more about Amazon OpenSearch Service instance types [here](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/supported-instance-types.html).
