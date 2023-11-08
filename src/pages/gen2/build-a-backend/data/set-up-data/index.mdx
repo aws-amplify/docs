@@ -117,25 +117,7 @@ To connect your frontend code to your backend, you need to:
 2. generate a new API client from the Amplify library
 3. make an API request with end-to-end type-safety
 
-In your app's entry point, make the following edits:
-
-<BlockSwitcher>
-
-<Block name="Next.js (App Router)">
-
-TODO pending discussion with PM team
-
-</Block>
-
-<Block name="Next.js (Pages Router)">
-
-TODO pending discussion with PM team
-
-</Block>
-
-<Block name="React (Vite)">
-
-In your **main.tsx** file, import the Amplify library and configuration files. Then, configure the library with the following code snippet:
+In your app's entry point, typically **main.tsx** for React apps created using Vite, make the following edits:
 
 ```tsx
 import { Amplify } from 'aws-amplify'
@@ -143,10 +125,6 @@ import { amplifyconfiguration } from '@/amplifyconfiguration.json'
 
 Amplify.configure(config);
 ```
-
-</Block>
-
-</BlockSwitcher>
 
 
 ## Write data to your backend
