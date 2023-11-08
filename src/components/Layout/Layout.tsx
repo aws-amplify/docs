@@ -313,7 +313,6 @@ export const Layout = ({
                   as="main"
                   className={`main${showTOC ? ' main--toc' : ''}`}
                 >
-                  {shouldShowGen2Banner ? <Banner /> : null}
                   {showBreadcrumbs ? (
                     <Breadcrumbs
                       route={pathname}
@@ -321,6 +320,7 @@ export const Layout = ({
                       isGen2={isGen2}
                     />
                   ) : null}
+                  {shouldShowGen2Banner ? <Banner /> : null}
                   {useCustomTitle ? null : (
                     <Heading level={1}>{pageTitle}</Heading>
                   )}

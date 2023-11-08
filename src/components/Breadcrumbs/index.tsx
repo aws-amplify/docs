@@ -20,14 +20,22 @@ const overrides = {
   '/javascript/prev': 'V6 (Preview)',
   '/swift/prev': 'V1',
   '/android/prev': 'V1',
-  '/flutter/prev': 'V0'
+  '/flutter/prev': 'V0',
+  '/javascript': 'Javascript',
+  '/react': 'React',
+  '/flutter': 'Flutter',
+  '/swift': 'Swift',
+  '/android': 'Android',
+  '/react-native': 'React Native',
+  '/angular': 'Angular',
+  '/nextjs': 'Next.js',
+  '/vue': 'Vue'
 };
 
 function generateBreadcrumbs(
   route: string,
 
-  platform: string,
-  isGen2: boolean
+  platform: string
 ): BreadcrumbItem[] {
   const breadcrumbs: BreadcrumbItem[] = [];
 
@@ -35,10 +43,6 @@ function generateBreadcrumbs(
   let urls: string[] = [];
   for (let i = 1; i <= pieces.length; i++) {
     urls.push(`/${pieces.slice(0, i).join('/')}`);
-  }
-
-  if (!isGen2) {
-    urls.splice(0, 0, '/');
   }
 
   urls.forEach((url) => {
