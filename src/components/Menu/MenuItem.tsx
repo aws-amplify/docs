@@ -60,7 +60,7 @@ export function MenuItem({
         parentSetOpen(true);
       }
     }
-  }, []);
+  }, [router.asPath]);
 
   // Using this to help open nested menu items
   // When the parent's setOpen gets called in the initial render from the useEffect above,
