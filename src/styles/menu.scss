@@ -52,16 +52,17 @@
       }
 
       &--category {
-        font-weight: 700;
-        font-size: 1rem;
+        font-weight: var(--amplify-font-weights-bold);
+        font-size: var(--amplify-font-sizes-medium);
       }
 
       &--subcategory {
-        font-size: 0.9rem;
+        font-size: var(--amplify-font-sizes-small);
+        font-weight: var(--amplify-font-weights-semibold);
       }
 
       &--page {
-        font-size: 0.75rem;
+        font-size: var(--amplify-font-sizes-small);
         color: var(--amplify-colors-neutral-80);
       }
 
