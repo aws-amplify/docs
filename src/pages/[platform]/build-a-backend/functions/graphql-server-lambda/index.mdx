@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'GraphQL Server in Lambda',
   description: 'How to run an Apollo GraphQL server in a Lambda function',
-  platforms: ['javascript', 'swift', 'android']
+  platforms: ['javascript','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -18,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+      
 
 In this guide you will learn how to run a GraphQL server in a Lambda function. In this example you will be using [Apollo Server](https://www.apollographql.com/docs/) and [Apollo Server Lambda](https://www.apollographql.com/docs/apollo-server/deployment/lambda/), but you can use any server implementation you would like.
 
@@ -75,42 +77,40 @@ cd ../../../../../
 
 Now, let's open the code for the function.
 
-Open **amplify/backend/function/apolloserver/src/index.js**. Here, you will see the main function handler. Update the function with the following code:
+Open __amplify/backend/function/apolloserver/src/index.js__. Here, you will see the main function handler. Update the function with the following code:
 
 ```javascript
 const { ApolloServer, gql } = require('apollo-server-lambda');
 
 /* Construct a schema, using GraphQL schema language */
 const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
+  type Query { hello: String }
+`
 
 /* Provide resolver functions for your schema fields */
 const resolvers = {
   Query: {
-    hello: () => 'Hello from Apollo!!'
-  }
-};
+    hello: () => 'Hello from Apollo!!',
+  },
+}
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: ({ event, context }) => ({
-    headers: event.headers,
-    functionName: context.functionName,
-    event,
-    context
+    typeDefs,
+    resolvers,
+    context: ({ event, context }) => ({
+      headers: event.headers,
+      functionName: context.functionName,
+      event,
+      context,
+    }),
   })
-});
-
+  
 exports.handler = server.createHandler({
   cors: {
     origin: '*',
-    credentials: true
+    credentials: true,
   }
-});
+})
 ```
 
 Now, you can deploy the function and GraphQL API:

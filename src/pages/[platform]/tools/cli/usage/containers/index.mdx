@@ -409,10 +409,10 @@ On running `amplify push` command, the IAM policies specified in the `custom-pol
 
 ### Multi-Environment Workflow
 
-To specify AWS ARN resources across environments, an optional ‘$\{env\}’ parameter can be used within the resource string. The ‘$\{env\}’ parameter in the AWS ARN resource will get populated with the current Amplify environment name at deployment.
+To specify AWS ARN resources across environments, an optional ‘$\{env}’ parameter can be used within the resource string. The ‘$\{env}’ parameter in the AWS ARN resource will get populated with the current Amplify environment name at deployment.
 
 ```json
-"Resource": ["arn:aws:s3:::$\{env\}my-bucket"]
+"Resource": ["arn:aws:s3:::$\{env}my-bucket"]
 ```
 
 ## Hosting

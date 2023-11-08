@@ -12,3 +12,23 @@ export function getStaticProps(context) {
   };
 
 }
+
+# Overriding Authentication resources
+
+The Amplify Auth features have default configurations for its features when you use the `amplify/auth/resource.ts` file. You can customize your authentication resources to enable it to behave exactly as needed for your use cases.
+
+```ts title="amplify/auth/resource.ts"
+// @TODO fix this, override is not available
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  override: {
+    userPoolClient: {
+      refreshTokenValidity: 30,
+    },
+  },
+});
+```

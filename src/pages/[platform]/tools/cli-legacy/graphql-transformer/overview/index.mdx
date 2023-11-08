@@ -1,20 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Overview',
-  description:
-    "With Amplify CLI and GraphQL Transform, you define your application's data model using the GraphQL Schema Definition Language (SDL) and the library converts your SDL schema into a set of fully descriptive AWS CloudFormation templates that implement your data model.",
+  description: "With Amplify CLI and GraphQL Transform, you define your application's data model using the GraphQL Schema Definition Language (SDL) and the library converts your SDL schema into a set of fully descriptive AWS CloudFormation templates that implement your data model.",
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,8 +28,9 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-<MigrationAlert isLegacy url={'/cli/graphql/overview'} />
+<MigrationAlert isLegacy url={"/cli/graphql/overview"}/>
 
 The GraphQL Transform provides a simple to use abstraction that helps you quickly create backends for your web and mobile applications on AWS. With the GraphQL Transform, you define your application's data model using the GraphQL Schema Definition Language (SDL) and the library handles converting your SDL definition into a set of fully descriptive AWS CloudFormation templates that implement your data model.
 
@@ -44,7 +44,7 @@ type Blog @model {
 }
 type Post @model {
   id: ID!
-  title: 'Overview',
+  title: String!
   blog: Blog @connection(name: "BlogPosts")
   comments: [Comment] @connection(name: "PostComments")
 }
@@ -55,7 +55,11 @@ type Comment @model {
 }
 ```
 
-The GraphQL Transform simplifies the process of developing, deploying, and maintaining GraphQL APIs. With it, you define your API using the [GraphQL Schema Definition Language (SDL)](https://graphql.org/learn/schema/) and can then use automation to transform it into a fully descriptive cloudformation template that implements the spec. The transform also provides a framework through which you can define your own transformers as `@directives` for custom workflows.
+The GraphQL Transform simplifies the process of
+developing, deploying, and maintaining GraphQL APIs. With it, you define your API using the
+[GraphQL Schema Definition Language (SDL)](https://graphql.org/learn/schema/) and can then use automation to transform it into a fully
+descriptive cloudformation template that implements the spec. The transform also provides a framework
+through which you can define your own transformers as `@directives` for custom workflows.
 
 ## Create a GraphQL API
 
@@ -76,7 +80,8 @@ Select the following options:
 - Select GraphQL
 - When asked if you have a schema, say No
 - Select one of the default samples; you can change this later
-- Choose to edit the schema and it will open the new `schema.graphql` in your editor
+- Choose to edit the schema and it will open the new `schema.graphql` in your
+  editor
 
 You can leave the sample as is or try this schema.
 
@@ -88,7 +93,7 @@ type Blog @model {
 }
 type Post @model {
   id: ID!
-  title: 'Overview',
+  title: String!
   blog: Blog @connection(name: "BlogPosts")
   comments: [Comment] @connection(name: "PostComments")
 }
@@ -99,7 +104,9 @@ type Comment @model {
 }
 ```
 
-Once you are happy with your schema, save the file and hit enter in your terminal window. if no error messages are thrown this means the transformation was successful and you can deploy your new API.
+Once you are happy with your schema, save the file and hit enter in your
+terminal window. if no error messages are thrown this means the transformation
+was successful and you can deploy your new API.
 
 ```bash
 amplify push
@@ -168,7 +175,7 @@ query GetBlog($blogId:ID!) {
     id
     name
     posts(filter: {
-  title: 'Overview',
+      title: {
         eq: "My Post!"
       }
     }) {
@@ -192,7 +199,7 @@ query ListBlogs {
     items {
       id
       name
-  title: 'Overview',
+      posts { # or try adding: posts(filter: { title: { eq: "My Post!" } })
         items {
           id
           title
@@ -226,41 +233,37 @@ amplify push
 ```
 
 The following schema updates require replacement of the underlying DynamoDB table:
-
 1. Removing or renaming a model
 2. Modifying the [primary key](/cli-legacy/graphql-transformer/key) of a model
 3. Modifying a Local Secondary Index of a model (only applies to projects with [secondaryKeyAsGSI](/cli/reference/feature-flags/#secondaryKeyAsGSI) turned off)
 
 When trying to push a schema change with one or more of these updates you will see an error message explaining that you will lose ALL DATA in any table that requires replacement. To confirm you want to continue with the deployment, run:
-
 ```bash
 amplify push --allow-destructive-graphql-schema-updates
 ```
-
 <Callout>
 In general, this command should only be used during development.
 
 If you are making a breaking change to a production API but you want to retain the data in the affected table(s), you can [create a backup](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/CreateBackupAWS.html) before running `amplify push --allow-destructive-graphql-schema-updates`
-
 </Callout>
 
 ## Rebuild GraphQL API
 
-<Callout>Rebuild should NEVER be used in a production environment!</Callout>
+<Callout>
+Rebuild should NEVER be used in a production environment!
+</Callout>
 
 When in development, sometimes test data gets in a bad state or you want to make many changes to your schema all at once. In these cases, you may wish to "rebuild" all of the tables backing your schema. To do this, run:
-
 ```bash
 amplify rebuild api
 ```
-
 This will recreate ALL of the tables backing models in your schema. ALL DATA in ALL TABLES will be deleted.
 
 ## API Category Project Structure
 
-At a high level, the transform libraries take a schema defined in the GraphQL Schema Definition Language (SDL) and converts it into a set of AWS CloudFormation templates and other assets that are deployed as part of `amplify push`. The full set of assets uploaded can be found at _amplify/backend/api/YOUR-API-NAME/build_.
+At a high level, the transform libraries take a schema defined in the GraphQL Schema Definition Language (SDL) and converts it into a set of AWS CloudFormation templates and other assets that are deployed as part of `amplify push`. The full set of assets uploaded can be found at *amplify/backend/api/YOUR-API-NAME/build*.
 
-When creating APIs, you will make changes to the other files and directories in the _amplify/backend/api/YOUR-API-NAME/_ directory but you should not manually change anything in the _build_ directory. The build directory will be overwritten the next time you run `amplify push` or `amplify api gql-compile`. Here is an overview of the API directory:
+When creating APIs, you will make changes to the other files and directories in the *amplify/backend/api/YOUR-API-NAME/* directory but you should not manually change anything in the *build* directory. The build directory will be overwritten the next time you run `amplify push` or `amplify api gql-compile`. Here is an overview of the API directory:
 
 ```console
 -build/

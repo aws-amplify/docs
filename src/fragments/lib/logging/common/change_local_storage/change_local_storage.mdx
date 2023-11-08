@@ -1,6 +1,6 @@
 When using the Amplify Logger, all logged messages are saved locally on the user's device first before sending them to CloudWatch.
 
-In this section, you will learn about how to configure the maximum amount of local logs are stored.  This can be helpful to determine how much logs are stored locally depending on your network availability and offline use cases.
+In this section, you will learn about how to configure the maximum amount of local logs are stored. This can be helpful to determine how much logs are stored locally depending on your network availability and offline use cases.
 
 ## Change local storage maximum size
 
@@ -11,14 +11,15 @@ import androidLocalStorageSize from '/src/fragments/lib/logging/android/change_l
 import commonLocalStorageSize from '/src/fragments/lib/logging/common/change_local_storage/10_local_storage_size.mdx';
 
 <BlockSwitcher>
-    <Block name="With Configuration File">
-        <Fragments fragments={{all: commonLocalStorageSize}}/>
-    </Block>
-    <Block name="With Code">
-        <Fragments
-            fragments={{
-                ios: iosLocalStorageSize,
-                android: androidLocalStorageSize
-            }}/>
-    </Block>
+  <Block name="With Configuration File">
+    <Fragments fragments={{ all: commonLocalStorageSize }} />
+  </Block>
+  <Block name="With Code">
+    <Fragments
+      fragments={{
+        swift: iosLocalStorageSize,
+        android: androidLocalStorageSize
+      }}
+    />
+  </Block>
 </BlockSwitcher>

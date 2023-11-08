@@ -1,20 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Command hooks',
-  description:
-    'Execute custom scripts before, during, and after Amplify CLI commands (“amplify push”, “amplify api gql-compile”, and more).',
+  description: 'Execute custom scripts before, during, and after Amplify CLI commands (“amplify push”, “amplify api gql-compile”, and more).',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,11 +28,11 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 Use Command Hooks to execute custom scripts before, during, and after Amplify CLI commands (“amplify push”, “amplify api gql-compile”, and more). This allows you to extend Amplify’s best-practice defaults to meet your organization’s specific security guidelines and operational requirements.
 
 ## Adding a command hook
-
 <Callout>
 
 Hooks need to be checked into source control in order to be made available across machines. `amplify pull` will not re-create the hooks folder automatically as these are considered changes that need to be committed to the repository.
@@ -44,38 +43,33 @@ Place your custom scripts in the `amplify/hooks` directory and set the script fi
 
 For this example, let's create a hook to ensure that a minimum major Amplify CLI version is used before deployment (`amplify push`).
 
-Let's add `pre-push.js` in the `amplify/hooks` directory with the following contents. _Note: You need to create a `amplify/hooks` folder if your Amplify project was created prior to Amplify CLI version 5.5.0_
+Let's add `pre-push.js` in the `amplify/hooks` directory with the following contents. *Note: You need to create a `amplify/hooks` folder if your Amplify project was created prior to Amplify CLI version 5.5.0*
 
 ```js
 const fs = require('fs');
 const parameters = JSON.parse(fs.readFileSync(0, { encoding: 'utf8' }));
 
 // Get the running Amplify CLI major version number
-const currentCLIMajorVersion = parameters.data.amplify.version.split('.')[0];
-console.log('Amplify CLI major version: ', currentCLIMajorVersion);
+const currentCLIMajorVersion = parameters.data.amplify.version.split('.')[0]
+console.log('Amplify CLI major version: ', currentCLIMajorVersion)
 
-const MINIMUM_MAJOR_AMPLIFY_CLI_VERSION = 5;
-console.log(
-  'Minimum required Amplify CLI major version: ',
-  MINIMUM_MAJOR_AMPLIFY_CLI_VERSION
-);
+const MINIMUM_MAJOR_AMPLIFY_CLI_VERSION = 5
+console.log('Minimum required Amplify CLI major version: ', MINIMUM_MAJOR_AMPLIFY_CLI_VERSION)
 
 if (currentCLIMajorVersion < MINIMUM_MAJOR_AMPLIFY_CLI_VERSION) {
   // Non-zero exit code will stop the Amplify CLI command's execution
-  console.log('Minimum CLI version requirement not met.');
-  process.exit(1);
+  console.log('Minimum CLI version requirement not met.')
+  process.exit(1)
 } else {
-  console.log('Minimum CLI version requirement met.');
-  process.exit(0);
+  console.log('Minimum CLI version requirement met.')
+  process.exit(0)
 }
 ```
 
 Next, let's run `amplify push`:
-
 ```bash
 amplify push
 ```
-
 ```console
 ----- 🪝 pre-push execution start -----
 Amplify CLI major version: 5
@@ -85,7 +79,6 @@ Minimum CLI version requirement met.
 ```
 
 ## How to name command hook scripts
-
 To hook into a command, the script file in the `amplify/hooks` directory should be named with the following naming convention:
 
 `pre|post-<command>[-<sub-command>].extension`
@@ -96,35 +89,36 @@ To hook into a command, the script file in the `amplify/hooks` directory should 
 
 The following is an exhaustive list of all commands along with their subcommands that are supported by Amplify CLI:
 
-| commands | sub-commands **(optional)** |
-| --- | --- |
-| `add` | all categories (`api`, `auth`, etc.)<br/>`codegen`<br/>`env`<br/> |
-| `update` | all categories (`api`, `auth`, etc.)<br/>`env`<br/> |
-| `remove` | all categories (`api`, `auth`, etc.)<br/>`env`<br/> |
-| `push` | `analytics`, `api`, `auth`, `function`, `hosting`, `interactions`, `storage`, `xr` |
-| `pull` | `env`<br/> |
-| `publish` | - |
-| `delete` | - |
-| `checkout` | `env` |
-| `list` | `env` |
-| `get` | `env` |
-| `mock` | `api`, `storage`, `function`<br/> |
-| `build` | `function`<br/> |
-| `status` | `notifications`<br/> |
-| `import` | `auth`, `storage`, `env`<br/> |
-| `gqlcompile` | `api`<br/> |
-| `addgraphqldatasource` | `api`<br/> |
-| `statements` | `codegen`<br/> |
-| `types` | `codegen`<br/> |
+commands                | sub-commands **(optional)**
+------------------------|------------------------
+`add`                     |all categories (`api`, `auth`, etc.)<br/>`codegen`<br/>`env`<br/>
+`update`                  |all categories (`api`, `auth`, etc.)<br/>`env`<br/>
+`remove`                  |all categories (`api`, `auth`, etc.)<br/>`env`<br/>
+`push`                    |`analytics`, `api`, `auth`, `function`, `hosting`, `interactions`, `storage`, `xr`
+`pull`                    |`env`<br/>
+`publish`                 |-
+`delete`                  |-
+`checkout`                |`env`
+`list`                    |`env`
+`get`                     |`env`
+`mock`                    |`api`, `storage`, `function`<br/>
+`build`                   |`function`<br/>
+`status`                  |`notifications`<br/>
+`import`                  |`auth`, `storage`, `env`<br/>
+`gqlcompile`              |`api`<br/>
+`addgraphqldatasource`    |`api`<br/>
+`statements`              |`codegen`<br/>
+`types`                  |`codegen`<br/>
 
-_Note: Multiple hook scripts with the same filename are not allowed_
+
+
+*Note: Multiple hook scripts with the same filename are not allowed*
 
 ## Access parameters in hook scripts
 
 Command hooks receive two parameters, `data` and `error`. Amplify CLI passes parameters to hook scripts as a JSON string through standard input.
 
 ### **data** parameter structure
-
 ```json
 {
   "amplify": {
@@ -142,35 +136,32 @@ Command hooks receive two parameters, `data` and `error`. Amplify CLI passes par
 ```
 
 - amplify
-  - version - current Amplify CLI version
-  - environment - current Amplify environment
-    - envName - current Amplify environment name
-    - projectPath - path to current Amplify project
-    - defaultEditor - chosen editor in init step. Example `vscode`
-  - command - hooked Amplify CLI command. Example: `push`
-  - subCommand - hooked Amplify CLI subcommand or plugin. Example `auth`, `env`.
-  - argv - list containing the arguments passed to Amplify CLI through the command line
+    - version - current Amplify CLI version
+    - environment - current Amplify environment
+        - envName - current Amplify environment name
+        - projectPath - path to current Amplify project
+        - defaultEditor - chosen editor in init step. Example `vscode`
+    - command - hooked Amplify CLI command. Example: `push`
+    - subCommand - hooked Amplify CLI subcommand or plugin. Example `auth`, `env`.
+    - argv - list containing the arguments passed to Amplify CLI through the command line
 
 ### **error** parameter structure
 
 **error** is `undefined` if no error is emitted. Otherwise, it has the following structure:
-
 ```json
 {
   "message": String,
   "stack": String
 }
 ```
-
 - message - the error message emitted by Amplify CLI
 - stack - the error stack emitted by Amplify CLI
 
 ### How to access command hook parameters in Node.js
-
 ```javascript
 const fs = require('fs');
 const parameters = JSON.parse(fs.readFileSync(0, { encoding: 'utf8' }));
-console.log(parameters.data, parameters.error);
+console.log(parameters.data, parameters.error)
 ```
 
 ### How to access command hook parameters in Bash
@@ -178,7 +169,6 @@ console.log(parameters.data, parameters.error);
 First, install a JSON parser like [`jq`](https://stedolan.github.io/jq/download/).
 
 Then, parse the parameters:
-
 ```bash
 parameters=`cat`
 data=$(jq -r '.data' <<< "$parameters")
@@ -188,7 +178,6 @@ echo $error
 ```
 
 ## How to conditionally stop an Amplify CLI command execution
-
 To stop the execution of Amplify CLI, the hook scripts can exit with a non-zero exit code.
 
 <BlockSwitcher>
@@ -196,7 +185,7 @@ To stop the execution of Amplify CLI, the hook scripts can exit with a non-zero 
 <Block name="Node.js">
 
 ```js
-process.exit(1);
+process.exit(1)
 ```
 
 </Block>
@@ -211,16 +200,14 @@ exit 1
 
 </BlockSwitcher>
 
-## Advanced command hook configurations
 
+## Advanced command hook configurations
 You can optionally add `hooks-config.json` in `amplify/hooks` to configure custom scripting runtimes or manage external dependencies.
 
 ### Adding a custom scripting runtime
-
 By default, Node.js and Bash are supported. To support additional runtimes, add `extensions` to the `hooks-config.json` file in the `amplify/hooks` folder.
 
 An example showcasing python runtime support and different runtime settings based on operating system:
-
 ```json
 {
   "extensions": {
@@ -230,12 +217,11 @@ An example showcasing python runtime support and different runtime settings base
     "js": {
       "runtime": "~/.nvm/versions/node/v14.17.1/bin/node",
       "runtime_windows": "node",
-      "runtime_options": ["--require", "./payload.js"]
+      "runtime_options": ["--require", "./payload.js"],
     }
   }
 }
 ```
-
 - The keys in the `extensions` ( js, py ) are values that will be used as `extension` in the [naming convention](#how-to-name-command-hook-scripts) used when naming the hook scripts.
 - `runtime` (required) - symlink (`node`, `python`, `bash`) or path to executable (`~/.nvm/versions/node/v14.17.1/bin/node`).
 - `runtime_windows` (optional) - windows specific symlink or path to executable.
@@ -246,14 +232,13 @@ An example showcasing python runtime support and different runtime settings base
 Packages from external package managers like `npm` can be used in command hooks scripts. In this example, you'll install `axios` as a dependency for your Node.js hooks.
 
 First, go to the hooks folder and install the `axios` dependency.
-
 ```bash
 cd amplify/hooks
 npm init
 npm install axios
 ```
 
-_Note_: If you use command hooks with Amplify Hosting CI/CD pipelines, you also need to have a `preBuild` step configured to install the hook dependencies:
+*Note*: If you use command hooks with Amplify Hosting CI/CD pipelines, you also need to have a `preBuild` step configured to install the hook dependencies:
 
 ```yaml
 backend:
@@ -263,6 +248,7 @@ backend:
       - cd amplify/hooks
       - npm install
 frontend:
+...
 ```
 
 Dependency directories and files, such as `node_modules`, should be added to `ignore` in `hooks-config.json`.
@@ -273,7 +259,7 @@ Dependency directories and files, such as `node_modules`, should be added to `ig
 }
 ```
 
-_Note_: All entries in `ignore` should follow the [.gitignore specification](http://git-scm.com/docs/gitignore).
+*Note*: All entries in `ignore` should follow the [.gitignore specification](http://git-scm.com/docs/gitignore).
 
 You can now use `axios` in your hook scripts placed in the `amplify/hooks` directory.
 
@@ -295,8 +281,8 @@ const hookHandler = async (data, error) => {
 };
 
 const getParameters = async () => {
-  const fs = require('fs');
-  return JSON.parse(fs.readFileSync(0, { encoding: 'utf8' }));
+  const fs = require("fs");
+  return JSON.parse(fs.readFileSync(0, { encoding: "utf8" }));
 };
 
 getParameters()
@@ -308,7 +294,6 @@ getParameters()
 ```
 
 ## Using command hooks in Amplify's CI/CD pipeline
-
 Command hooks are executed when [CI/CD builds are triggered on Amplify Hosting](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html). To execute hook scripts in the Amplify Hosting, add the hook scripts to the `amplify/hooks` directory and commit them to your source control.
 
 By default only `pre-push` and `post-push` hooks will be executed on builds in Amplify Hosting.
@@ -318,32 +303,30 @@ To use scripting runtimes other than Node.js and Bash, see [Adding a custom scri
 In this example, you'll add a `python` hook script running in the Amplify Hosting's CI/CD pipeline:
 
 1. Add the python hook script along with `hooks-config.json` to the hooks directory.
-
-   ```bash
-   touch amplify/hooks/hooks-config.json
-   ```
+    ```bash
+    touch amplify/hooks/hooks-config.json
+    ```
 
 2. Navigate to your app in the Amplify Hosting and select **App settings** > **Build settings** to update the `preBuild` phase to install python.
-
-   ```yaml
-   ---
-   backend:
-   phases:
-     preBuild:
-     commands:
-       - yum install -y python3
-   frontend:
-   ```
+    ```yaml
+    ...
+    backend:
+    phases:
+        preBuild:
+        commands:
+            - yum install -y python3
+    frontend:
+    ...
+    ```
 
 3. Add `python3` to `hooks-config.json` and push the change to your source control to trigger the Amplify Hosting build.
-
-   ```json
-   {
-     "extensions": {
-       "py": { "runtime": "python3" }
-     }
-   }
-   ```
+    ```json
+    {
+        "extensions": {
+            "py": { "runtime": "python3" }
+        }
+    }
+    ```
 
 4. You’re all set! The python command hooks will be executed in new CI/CD builds.
 

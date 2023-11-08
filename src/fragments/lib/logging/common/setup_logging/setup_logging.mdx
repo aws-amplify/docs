@@ -7,7 +7,7 @@ import androidPreReq from '/src/fragments/lib/logging/android/setup_logging/10_p
 
 <Fragments
   fragments={{
-    ios: iosPreReq,
+    swift: iosPreReq,
     android: androidPreReq
   }}
 />
@@ -55,7 +55,7 @@ export class RemoteLoggingConstraintsConstruct extends Construct {
 
     const authRole = iam.Role.fromRoleName(this, "Auth-Role", authRoleName)
     const unAuthRole = iam.Role.fromRoleName(this, "UnAuth-Role", unAuthRoleName)
-    const logResource = `arn:aws:logs:$\{region}:$\{account}:log-group:$\{logGroupName}:log-stream:*`
+    const logResource = `arn:aws:logs:${region}:${account}:log-group:${logGroupName}:log-stream:*`
     const logIAMPolicy = new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       resources: [logResource],
@@ -87,7 +87,7 @@ import androidInitWithoutConfig from '/src/fragments/lib/logging/android/setup_l
   <Block name="With Configuration File">
     <Fragments
       fragments={{
-        ios: iosInitWithConfig,
+        swift: iosInitWithConfig,
         android: androidInitWithConfig
       }}
     />
@@ -97,7 +97,7 @@ import androidInitWithoutConfig from '/src/fragments/lib/logging/android/setup_l
 <Block name="With Code">
   <Fragments
     fragments={{
-      ios: iosInitWithoutConfig,
+      swift: iosInitWithoutConfig,
       android: androidInitWithoutConfig
     }}
   />

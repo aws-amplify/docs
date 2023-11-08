@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Button, Flex, Text, View } from '@aws-amplify/ui-react';
 import { IconChevron } from '@/components/Icons';
 import { frameworks } from '@/constants/frameworks';
@@ -21,6 +21,16 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
       }
     }
   });
+
+  const handleBlur = useCallback(
+    (e) => {
+      // Use relatedTarget to see if the target receiving focus is outside of the popover
+      if (contentRef.current && !contentRef.current.contains(e.relatedTarget)) {
+        setIsOpen(false);
+      }
+    },
+    [contentRef]
+  );
 
   useEffect(() => {
     if (isOpen) {
@@ -66,6 +76,7 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
           as="nav"
           tabIndex={0}
           ref={contentRef}
+          onBlur={handleBlur}
           ariaLabel="Platform navigation"
         >
           <ul className="popover-list">

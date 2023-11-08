@@ -44,7 +44,7 @@ code {
 }
 .line-number {
   flex: 0 0 var(--amplify-space-medium);
-  color: var(--amplify-colors-neutral-60);
+  color: var(--code-theme-comment);
   margin-inline-end: var(--amplify-space-small);
   text-align: end;
 }

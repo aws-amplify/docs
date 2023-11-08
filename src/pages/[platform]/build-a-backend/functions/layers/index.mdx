@@ -1,21 +1,21 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Reuse code and assets using layers',
-  description:
-    "Use Amplify CLI's Lambda layer capability to reuse code & assets across functions.",
+  description: "Use Amplify CLI's Lambda layer capability to reuse code & assets across functions.",
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
+
 export const getStaticPaths = async () => {
   return getCustomStaticPath(meta.platforms);
 };
@@ -28,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 Lambda layers allow you to pull common code & assets for your Lambda function into a centralized location. With Lambda layers you can:
 
@@ -79,12 +80,13 @@ Next, you'll be guided through a workflow to provide a **layer name**, and selec
 
 After that, you'll be asked to configure your **layer's permission**.
 
-The **current AWS account will always have access to this layer**. In addition, the customer can configure access for:
+The **current AWS account will always have access to this layer**.
+In addition, the customer can configure access for:
 
 - **Specific AWS accounts**: provide a comma-separated list of AWS Account IDs to provide access to them.
-- **Specific AWS organizations**: provide a comma-separated list of AWS Organization IDs to provide access to them. _AWS Organization IDs start with `o-`._
+- **Specific AWS organizations**: provide a comma-separated list of AWS Organization IDs to provide access to them. *AWS Organization IDs start with `o-`.*
 - **Public**: make this layer available for everyone AWS. Anyone in AWS can reference this layer using its ARN.
-
+ 
 ```console
 Next steps:
 Move your libraries to the following folder:
@@ -116,9 +118,9 @@ A `nodejs` folder is auto-generated for you. In there you'll find an empty `pack
 
 Any dependency listed within the layer's `package.json` file will be installed and packaged during `amplify push`.
 
-Any node module that is in the layer's `node_modules` folder can be accessed from the function as if the node module is in the function's `node_modules` folder.
+Any node module that is in the layer's `node_modules` folder can be accessed from the function as if the node module is in the function's `node_modules` folder. 
 
-_In order to take advantage of Lambda layer's for your NodeJS function, you don't even need to update your function's code!_
+*In order to take advantage of Lambda layer's for your NodeJS function, you don't even need to update your function's code!*
 
 </Block>
 
@@ -136,7 +138,7 @@ Any assets like large images or other files that you want to share across variou
 
 ### Lambda layer versions
 
-Every time `amplify push` or `amplify update function` is run, Amplify CLI checks if a layer's content has changed and automatically creates a new _layer version_. Layer versions are immutable and functions always use a specific layer version.
+Every time `amplify push` or `amplify update function` is run, Amplify CLI checks if a layer's content has changed and automatically creates a new *layer version*. Layer versions are immutable and functions always use a specific layer version. 
 
 In order to speed up deployments when vast amount of node_modules exist, Amplify CLI scans only for changes within each module's `package.json` file. If you don't see Amplify CLI detect your latest changes, verify that at least of your node module's `package.json` content has changed.
 
@@ -207,9 +209,8 @@ You can update layer's permissions by running `amplify update function` and sele
 Next, you'll be prompted to select the layer for which you want to update the settings for.
 
 #### Note: Update Layer Permissions from Public to Specific
-
-- To update a lambda layer from Public access to Specific (Account/Organization) access, please remember to remove Public access by **un-selecting** the option in the 'amplify update' CLI flow before selecting a specific AWS account/organization.
-- If you have already selected 'Public' access, just adding additional 'specific' AWS accounts/organizations will not have any effect on the Lambda Layer configuration. It will not automatically remove Public access.
+  - To update a lambda layer from Public access to Specific (Account/Organization) access, please remember to remove Public access by **un-selecting** the option in the 'amplify update' CLI flow before selecting a specific AWS account/organization.
+  - If you have already selected 'Public' access, just adding additional 'specific' AWS accounts/organizations will not have any effect on the Lambda Layer configuration. It will not automatically remove Public access. 
 
 ## Remove a layer
 

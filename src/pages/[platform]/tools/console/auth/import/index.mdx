@@ -1,20 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Import Amazon Cognito resources',
-  description:
-    'Configure Amplify Studio to use existing Amazon Cognito user pool and identity pool resources as an authentication and authorization mechanism for other Amplify categories ( For example, API, Storage, and more).',
+  description: 'Configure Amplify Studio to use existing Amazon Cognito user pool and identity pool resources as an authentication and authorization mechanism for other Amplify categories ( For example, API, Storage, and more).',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 Importing an Amazon Cognito resource is particularly useful if you’re trying to do the following:
 
@@ -78,7 +78,8 @@ We can also use Amplify CLI to [import a Cognito identity pool resource](/cli/au
 
 <Callout>
 
-In order to import a Cognito identity pool resource a Cognito user pool resource is required. Note: Amplify does not manage the lifecycle of an imported resource.
+In order to import a Cognito identity pool resource a Cognito user pool resource is required.
+Note: Amplify does not manage the lifecycle of an imported resource.
 
 </Callout>
 

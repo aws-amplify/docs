@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Define your model types',
   description: 'Specify the various types that make up your schema.',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,16 +28,23 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-<MigrationAlert isLegacy url={'/cli/graphql/data-modeling'} />
+<MigrationAlert isLegacy url={"/cli/graphql/data-modeling"}/>
 
 ## @model
 
-Object types that are annotated with `@model` are top-level entities in the generated API. Objects annotated with `@model` are stored in Amazon DynamoDB and are capable of being protected via `@auth`, related to other objects via `@connection`, and streamed into Amazon OpenSearch via `@searchable`. You may also apply the `@versioned` directive to instantly add a version field and conflict detection to a model type.
+Object types that are annotated with `@model` are top-level entities in the
+generated API. Objects annotated with `@model` are stored in Amazon DynamoDB and are
+capable of being protected via `@auth`, related to other objects via `@connection`,
+and streamed into Amazon OpenSearch via `@searchable`. You may also apply the
+`@versioned` directive to instantly add a version field and conflict detection to a
+model type.
 
 ### Definition
 
-The following SDL defines the `@model` directive that allows you to easily define top level object types in your API that are backed by Amazon DynamoDB.
+The following SDL defines the `@model` directive that allows you to easily define
+top level object types in your API that are backed by Amazon DynamoDB.
 
 ```graphql
 directive @model(
@@ -74,12 +81,14 @@ input TimestampConfiguration {
 
 ### Usage
 
-Define a GraphQL object type and annotate it with the `@model` directive to store objects of that type in DynamoDB and automatically configure CRUDL queries and mutations.
+Define a GraphQL object type and annotate it with the `@model` directive to store
+objects of that type in DynamoDB and automatically configure CRUDL queries and
+mutations.
 
 ```graphql
 type Post @model {
   id: ID! # id: ID! is a required attribute.
-  title: 'Define your model types',
+  title: String!
   tags: [String!]!
 }
 ```
@@ -89,19 +98,20 @@ You may also override the names of any generated queries, mutations and subscrip
 ```graphql
 type Post @model(queries: { get: "post" }, mutations: null, subscriptions: null) {
   id: ID!
-  title: 'Define your model types',
+  title: String!
   tags: [String!]!
 }
 ```
 
-This would create and configure a single query field `post(id: ID!): Post` and no mutation fields.
+This would create and configure a single query field `post(id: ID!): Post` and
+no mutation fields.
 
 Model directive automatically adds createdAt and updatedAt timestamps to each entities. The timestamp field names can be changed by passing `timestamps` attribute to the directive
 
 ```graphql
 type Post @model(timestamps:{createdAt: "createdOn", updatedAt: "updatedOn"}) {
   id: ID!
-  title: 'Define your model types',
+  title: String!
   tags: [String!]!
 }
 ```
@@ -111,7 +121,7 @@ The above schema will generate Post with `createdOn` and `updatedOn` fields as s
 ```graphql
 type Post {
   id: ID!
-  title: 'Define your model types',
+  title: String!
   tags: [String!]!
   createdOn: AWSDateTime!
   updatedOn: AWSDateTime!
@@ -123,7 +133,7 @@ The automatically added `createdAt` and `updatedAt` fields can't be set in creat
 ```graphql
 type Post @model {
   id: ID!
-  title: 'Define your model types',
+  title: String!
   tags: [String!]!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
@@ -147,7 +157,7 @@ This input schema document
 ```graphql
 type Post @model {
   id: ID!
-  title: 'Define your model types',
+  title: String
   metadata: MetaData
 }
 type MetaData {
@@ -161,7 +171,7 @@ would generate the following schema parts
 ```graphql
 type Post {
   id: ID!
-  title: 'Define your model types',
+  title: String!
   metadata: MetaData
   createdAt: AWSDatetime
   updatedAt: AWSDateTime
@@ -247,7 +257,7 @@ input ModelBooleanFilterInput {
 
 input ModelPostFilterInput {
   id: ModelIDFilterInput
-  title: 'Define your model types',
+  title: ModelStringFilterInput
   and: [ModelPostFilterInput]
   or: [ModelPostFilterInput]
   not: ModelPostFilterInput
@@ -259,13 +269,13 @@ type Query {
 }
 
 input CreatePostInput {
-  title: 'Define your model types',
+  title: String!
   metadata: MetaDataInput
 }
 
 input UpdatePostInput {
   id: ID!
-  title: 'Define your model types',
+  title: String
   metadata: MetaDataInput
 }
 

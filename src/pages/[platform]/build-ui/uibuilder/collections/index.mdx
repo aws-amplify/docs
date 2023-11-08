@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Collections',
   description: 'Collections',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 Collections are any list of repeating items. You can visually create a collection from any individual component by selecting the **Create collection** button in the top right corner of the UI component editor. All collections are generated as code with real-time subscriptions automatically set up.
 
@@ -37,16 +38,14 @@ Amplify Studio offers a visual way to bind collections to items in your data mod
 
 ### GraphQL and DataStore
 
-Amplify Studio supports data binding to all Amplify GraphQL APIs, **with or without DataStore**. [Learn more about DataStore and Conflict Resolution here](/console/data/data-model/#datastore-and-graphql).
+Amplify Studio supports data binding to all Amplify GraphQL APIs, **with or without DataStore**. [Learn more about DataStore and Conflict Resolution here](/console/data/data-model/#datastore-and-graphql). 
 
-For APIs without DataStore, there are some minor Collection feature limitations:
-
+For APIs without DataStore, there are some minor Collection feature limitations: 
 - Collections cannot be [Sorted](#set-sort-conditions)
 - Collections have limited [Search](#set-search-and-pagination)
 - Collections have limited [Pagination](#set-search-and-pagination)
 
 Additionally, if your data has any relationships, APIs without DataStore require a query depth of 4 or greater. To update your codegen query depth:
-
 1. Navigate to the root directory of your project in your terminal
 1. Run `amplify configure codegen`
 1. When prompted, set query depth to 4 or greater. All other options can be set to your preference
@@ -99,14 +98,15 @@ Collections bound to GraphQL APIs without DataStore have limited Search capabili
 
 </Callout>
 
+
 ![Screenshot showing search](/images/console/ui-collections-search.png)
 
 ### Pagination
 
-Collections can be configured to automatically paginate, with a specific number of items per page. Select **Include** on the left-hand bar to enable pagination and set the number of items.
+Collections can be configured to automatically paginate, with a specific number of items per page. Select **Include** on the left-hand bar to enable pagination and set the number of items. 
 
 ![Screenshot showing pagination](/images/console/ui-collections-pagination.png)
 
-For collections bound to GraphQL APIs without DataStore, pagination has limited support. Users can step forward through pages (e.g. page 1 to page 2), but cannot skip pages (e.g. page 1 to page 3).
+For collections bound to GraphQL APIs without DataStore, pagination has limited support. Users can step forward through pages (e.g. page 1 to page 2), but cannot skip pages (e.g. page 1 to page 3). 
 
 [Learn more about DataStore and Conflict Resolution](/console/data/data-model/#datastore-and-graphql)

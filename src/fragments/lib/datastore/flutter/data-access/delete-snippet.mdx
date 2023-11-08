@@ -15,7 +15,7 @@ Future<void> deletePostsWithId() async {
   try {
     await Amplify.DataStore.delete(postToDelete);
   } on DataStoreException catch (e) {
-    safePrint('Something went wrong deleting model: $\{e.message}');
+    safePrint('Something went wrong deleting model: ${e.message}');
   }
 }
 ```

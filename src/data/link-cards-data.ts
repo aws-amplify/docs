@@ -13,7 +13,7 @@ const linkCardData = {
   flutter: {
     github: '#',
     roadmap: '#',
-    githubContent: 'flutter Libraries on Github'
+    githubContent: 'Flutter Libraries on Github'
   },
   javascript: {
     github: '#',
@@ -23,24 +23,24 @@ const linkCardData = {
   nextjs: {
     github: '#',
     roadmap: '#',
-    githubContent: 'nextjs Libraries on Github'
+    githubContent: 'Next.js Libraries on Github'
   },
   react: {
     github: '#',
     roadmap: '#',
-    githubContent: 'react Libraries on Github'
+    githubContent: 'React Libraries on Github'
   },
   'react-native': {
     github: '#',
     roadmap: '#',
-    githubContent: 'react-native Libraries on Github'
+    githubContent: 'React Native Libraries on Github'
   },
   swift: {
     github: '#',
     roadmap: '#',
-    githubContent: 'swift Libraries on Github'
+    githubContent: 'Swift Libraries on Github'
   },
-  vue: { github: '#', roadmap: '#', githubContent: 'vue Libraries on Github' }
+  vue: { github: '#', roadmap: '#', githubContent: 'Vue Libraries on Github' }
 };
 
 export default linkCardData;

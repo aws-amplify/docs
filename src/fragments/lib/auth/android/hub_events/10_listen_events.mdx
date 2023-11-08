@@ -51,7 +51,7 @@ Amplify.Hub.subscribe(HubChannel.AUTH) { event ->
             AuthChannelEventName.USER_DELETED.name ->
                 Log.i("AuthQuickstart", "User has been deleted")
             else ->
-                Log.w("AuthQuickstart", "Unhandled Auth Event: $\{event.name}")
+                Log.w("AuthQuickstart", "Unhandled Auth Event: ${event.name}")
         }
     }
 }
@@ -77,7 +77,7 @@ Amplify.Hub.subscribe(HubChannel.AUTH).collect {
             AuthChannelEventName.USER_DELETED.name ->
                 Log.i("AuthQuickstart", "User has been deleted.")
             else ->
-                Log.w("AuthQuickstart", "Unhandled Auth Event: $\{it.name}")
+                Log.w("AuthQuickstart", "Unhandled Auth Event: ${it.name}")
         }
     }
 }

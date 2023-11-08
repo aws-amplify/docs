@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'How to use Lambda GraphQL Resolvers',
-  description:
-    'How to use Lambda GraphQL resolvers to interact with other services',
-  platforms: ['javascript', 'swift', 'android']
+  description: 'How to use Lambda GraphQL resolvers to interact with other services',
+  platforms: ['javascript','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +18,8 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
 
 The [GraphQL Transform Library](/cli/graphql/custom-business-logic#lambda-function-resolver) provides a `@function` directive that enables the configuration of AWS Lambda function resolvers within your GraphQL API. In this guide you will learn how to use Lambda functions as GraphQL resolvers to interact with other services and APIs using the `@function` directive.
 
@@ -29,12 +30,12 @@ To get started, let's take a look at a GraphQL schema with a query and a mutatio
 ```graphql
 # A query that returns the arguments
 type Query {
-  echo(msg: String): String @function(name: "functionName-$\{env\}")
+  echo(msg: String): String @function(name: "functionName-${env}")
 }
 
 # A mutation that adds two numbers
 type Mutation {
-  add(number1: Int, number2: Int): Int @function(name: "functionName-$\{env\}")
+  add(number1: Int, number2: Int): Int @function(name: "functionName-${env}")
 }
 ```
 
@@ -150,11 +151,11 @@ Next, update the base GraphQL schema (located at **amplify/backend/api/gqllambda
 
 ```graphql
 type Query {
-  echo(msg: String): String @function(name: "echofunction-$\{env\}")
+  echo(msg: String): String @function(name: "echofunction-${env}")
 }
 
 type Mutation {
-  add(number1: Int, number2: Int): Int @function(name: "addingfunction-$\{env\}")
+  add(number1: Int, number2: Int): Int @function(name: "addingfunction-${env}")
 }
 ```
 
@@ -216,8 +217,8 @@ Now, update the GraphQL schema and add a `getCoins` resolver to the Query type:
 
 ```graphql
 type Query {
-  echo(msg: String): String @function(name: "gqlfunc-$\{env\}")
-  getCoins(limit: Int): String @function(name: "cryptofunction-$\{env\}")
+  echo(msg: String): String @function(name: "gqlfunc-${env}")
+  getCoins(limit: Int): String @function(name: "cryptofunction-${env}")
 }
 ```
 

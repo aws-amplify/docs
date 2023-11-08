@@ -4,7 +4,7 @@ Future<void> signOutCurrentUser() async {
   if (result is CognitoCompleteSignOut) {
     safePrint('Sign out completed successfully');
   } else if (result is CognitoFailedSignOut) {
-    safePrint('Error signing user out: $\{result.exception.message}');
+    safePrint('Error signing user out: ${result.exception.message}');
   }
 }
 ```

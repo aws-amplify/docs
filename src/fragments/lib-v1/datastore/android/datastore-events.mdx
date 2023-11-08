@@ -18,9 +18,9 @@ Amplify.Hub.subscribe(
 ```kotlin
 Amplify.Hub.subscribe(HubChannel.DATASTORE,
     { it.name.equals(DataStoreChannelEventName.NETWORK_STATUS.toString()) },
-    {
+    { 
         val networkStatus = it.data as NetworkStatusEvent
-        Log.i("MyAmplifyApp", "User has a network connection? $\{networkStatus.active}")
+        Log.i("MyAmplifyApp", "User has a network connection? ${networkStatus.active}")
     }
 )
 ```
@@ -33,7 +33,7 @@ Amplify.Hub.subscribe(DATASTORE)
     { it.name == NETWORK_STATUS.toString() }
     .collect {
         val event = it.data as NetworkStatusEvent
-        Log.i("MyAmplifyApp", "User has a network connection: $\{event.active}")
+        Log.i("MyAmplifyApp", "User has a network connection: ${event.active}")
     }
 ```
 
