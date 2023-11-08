@@ -8,6 +8,7 @@ import { trackCopyClicks } from '@/utils/track';
 (typeof global !== 'undefined' ? global : window).Prism = Prism;
 import('prismjs/components/prism-java');
 import('prismjs/components/prism-dart');
+import('prismjs/components/prism-diff');
 
 require('./cli-error-language.js');
 
