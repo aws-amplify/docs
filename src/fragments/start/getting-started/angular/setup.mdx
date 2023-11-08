@@ -2,63 +2,16 @@ Use the [Angular CLI](https://github.com/angular/angular-cli) to bootstrap a new
 
 ```bash
 npx -p @angular/cli ng new amplify-app
+```
 
+```console
 ? Would you like to add Angular routing? Y
 ? Which stylesheet format would you like to use? (your preferred stylesheet provider)
+```
 
+```bash
 cd amplify-app
 ```
-
-Angular 6+ does not include shims for 'global' or 'process'.
-
-<BlockSwitcher>
-
-<Block name="Angular 15">
-
-First, create `src/polyfills.ts` and add the following:
-
-```javascript
-(window as any).global = window;
-(window as any).process = {
-  env: { DEBUG: undefined },
-};
-```
-
-Then, open your `angular.json` file, and add `src/polyfills.ts` to polyfills array(s) in your `angular.json`. These arrays are located in projects.`<project-name>.architect.<task-name>.options`.
-
-```javascript
-"polyfills": [
-  "zone.js",
-  "src/polyfills.ts"
-],
-```
-
-And finally, make sure to add `src/polyfills` to files in your `tsconfig.app.json`:
-
-```javascript
-{
-  "files": [
-    "src/main.ts",
-    "src/polyfills.ts"
-  ],
-}
-```
-</Block>
-
-<Block name="Angular 6-14">
-
-Add the following to your `src/polyfills.ts` file to recreate them: 
-
-```javascript
-(window as any).global = window;
-(window as any).process = {
-  env: { DEBUG: undefined },
-};
-```
-
-</Block>
-
-</BlockSwitcher>
 
 ## Create a new Amplify backend
 
@@ -100,7 +53,7 @@ https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
 When you initialize a new Amplify project, a few things happen:
 
 - It creates a top level directory called `amplify` that stores your backend definition. During the tutorial you'll add capabilities such as authentication, GraphQL API, storage, and set up authorization rules for the API. As you add features, the `amplify` folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
-- It creates a file called `aws-exports.js` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
+- It creates a file called `amplifyconfiguration.json` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
 - It modifies the `.gitignore` file, adding some generated files to the ignore list.
 - A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources.
 
@@ -121,21 +74,6 @@ The `@aws-amplify/ui-angular` package is a set of Angular components and an Angu
 Angular CLI output warnings: if you see CommonJS or AMD dependencies optimization bailouts warnings using Angular 9+, you can use this [gist](https://gist.github.com/wlee221/6d98d96740bea6f53327b4db4a432616) to remove them. More details about these [here](https://angular.io/guide/build#configuring-commonjs-dependencies).
 
 </Callout>
-
-### Strictly typing `aws-exports`
-
-If you have TypeScript [strict mode](https://www.typescriptlang.org/tsconfig/#strict) on and see the error
-
-```
-Could not find a declaration file for module './aws-exports'. 'aws-exports.js' implicitly has an 'any' type.
-```
-
-Create a `aws-exports.d.ts` file on the same level as aws-exports with the following content:
-
-```ts
-declare const awsmobile: Record<string, any>
-export default awsmobile;
-```
 
 ### Importing the Amplify Angular UI Module
 
