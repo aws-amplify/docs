@@ -6,13 +6,14 @@ import { IconCheck } from '@/components/Icons';
 import { PLATFORM_VERSIONS } from '@/data/platforms';
 import classNames from 'classnames';
 import { trackVersionChange } from '@/utils/track';
+import { BUILD_A_BACKEND, PREV_BUILD_A_BACKEND } from '@/data/routes';
 
 const findRoute = (platform, isPrev) => {
   const router = useRouter();
   const path = router.pathname;
   const newRoute = isPrev
-    ? path.replace('/[platform]/prev', '/[platform]')
-    : path.replace('/[platform]', '/[platform]/prev');
+    ? path.replace(PREV_BUILD_A_BACKEND, BUILD_A_BACKEND)
+    : path.replace(BUILD_A_BACKEND, PREV_BUILD_A_BACKEND);
   const pageNode = flatDirectory[newRoute];
   if (pageNode && pageNode.platforms && pageNode.platforms.includes(platform)) {
     return newRoute;
@@ -23,7 +24,7 @@ export const VersionSwitcher = ({ platform, isPrev, ...rest }) => {
   const router = useRouter();
   const versions = PLATFORM_VERSIONS[platform];
   const switchPath = findRoute(platform, isPrev);
-  let path = isPrev ? '/[platform]' : '/[platform]/prev';
+  let path = isPrev ? BUILD_A_BACKEND : PREV_BUILD_A_BACKEND;
   if (switchPath) path = switchPath;
 
   const inactiveHref = {

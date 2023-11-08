@@ -143,8 +143,8 @@ export const Layout = ({
     currentPlatform = platform
       ? platform
       : PLATFORMS.includes(asPathPlatform)
-      ? asPathPlatform
-      : DEFAULT_PLATFORM;
+        ? asPathPlatform
+        : DEFAULT_PLATFORM;
   }
 
   const title = [
@@ -184,8 +184,7 @@ export const Layout = ({
   if (isGen2) {
     menu = <Menu rootMenuNode={rootMenuNode} />;
   } else if (isPrev) {
-    let prevNode = findDirectoryNode('/[platform]/prev');
-    menu = <Menu currentPlatform={currentPlatform} rootMenuNode={prevNode} />;
+    menu = <Menu currentPlatform={currentPlatform} rootMenuNode={rootMenuNode} isPrev={true} />
   }
 
   return (
