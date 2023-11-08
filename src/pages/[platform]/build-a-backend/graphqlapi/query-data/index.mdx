@@ -133,7 +133,7 @@ import { listTodos } from './graphql/queries';
 
 const client = generateClient();
 
-const variables: ListTodosQueryVariables = {
+const variables = {
   filter: {
     priority: {
       eq: 1
@@ -141,11 +141,10 @@ const variables: ListTodosQueryVariables = {
   }
 };
 
-(await client.graphql) >
-  {
-    query: listTodos,
-    variables: variables
-  };
+await client.graphql({
+  query: listTodos,
+  variables: variables
+});
 ```
 
 <Accordion title='How do filters work?' headingLevel='4' eyebrow='Learn more'>
@@ -198,7 +197,7 @@ import { listTodos } from './graphql/queries';
 
 const client = generateClient();
 
-const variables: ListTodosQueryVariables = {
+const variables = {
   filter: {
     or: [{ priority: { eq: 1 } }, { priority: { eq: 2 } }]
   }
