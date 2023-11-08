@@ -1,6 +1,5 @@
 import React from 'react';
 import { trackExternalLink } from '../../utils/track';
-import { ExternalLinkIcon } from '../Icons';
 
 type ExternalLinkProps = {
   children: React.ReactNode;
@@ -30,7 +29,6 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
       }}
     >
       {children}
-      {icon && <ExternalLinkIcon />}
     </a>
   );
 };
