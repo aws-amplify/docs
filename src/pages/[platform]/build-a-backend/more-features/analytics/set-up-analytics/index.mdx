@@ -160,3 +160,21 @@ Congratulations! Now that you have Analytics' backend provisioned and Analytics 
 - [Record Events](/lib/analytics/record)
 - [Track Sessions](/lib/analytics/autotrack)
 - [Identify User](/lib/analytics/identifyuser)
+
+
+<InlineFilter filters={['react-native']}>
+
+## Known Issues
+
+When importing alternative service providers listed below, instead of the default Pinpoint provider:
+* Kinesis (`aws-amplify/analytics/kinesis`)
+* Kinesis Data Firehose (`aws-amplify/analytics/kinesis-firehose`)
+* Personalize Event (`aws-amplify/analytics/personalize`)
+
+you may encounter the following error when starting the bundler:
+
+> Error: Unable to resolve module stream from /path/to/node_modules/@aws-sdk/...
+This is a [known issue](https://github.com/aws/aws-sdk-js-v3/issues/4877). Please follow [the steps](https://github.com/aws/aws-sdk-js-v3/issues/4877#issuecomment-1656007484) 
+outlined in the issue to resolve the error.
+
+</InlineFilter>
