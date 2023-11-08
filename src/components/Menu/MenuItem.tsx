@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import { ReactElement, useContext, useEffect, useState } from 'react';
 import { Link as AmplifyUILink, Flex } from '@aws-amplify/ui-react';
 import { IconExternalLink, IconChevron } from '@/components/Icons';
@@ -20,6 +20,18 @@ type MenuItemProps = {
   currentPlatform?: Platform;
 };
 
+function getPathname(route, currentPlatform: Platform | undefined) {
+  let pathname = route;
+
+  if (currentPlatform) {
+    pathname = pathname.replace('[platform]', currentPlatform) + '/';
+  } else {
+    pathname += '/';
+  }
+
+  return pathname;
+}
+
 export function MenuItem({
   pageNode,
   parentSetOpen,
@@ -27,16 +39,20 @@ export function MenuItem({
   currentPlatform
 }: MenuItemProps): ReactElement {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
-  const router = useRouter();
+  const asPathWithoutHash = usePathWithoutHash();
   const [open, setOpen] = useState(false);
 
   const onLinkClick = () => {
     // Category shouldn't be collapsible
-    if (level > Levels.Category) {
+    if (
+      level > Levels.Category &&
+      asPathWithoutHash === getPathname(pageNode.route, currentPlatform)
+    ) {
       setOpen((prevOpen) => !prevOpen);
     }
 
     if (menuOpen) {
+      // Close the menu after clicking a link (applies to the mobile menu)
       toggleMenuOpen(false);
     }
   };
@@ -60,28 +76,11 @@ export function MenuItem({
         parentSetOpen(true);
       }
     }
-  }, []);
+  }, [asPathWithoutHash]);
 
-  // Using this to help open nested menu items
-  // When the parent's setOpen gets called in the initial render from the useEffect above,
-  // it should cause the parent node to rerender. If this node has a parent too, then we should
-  // also open it. The goal is to keep opening the parent whenever we get a
-  // "current" menu item that is deeply nested
-  useEffect(() => {
-    if (open && parentSetOpen) {
-      parentSetOpen(true);
-    }
-  }, [open]);
+  let pathname = getPathname(pageNode.route, currentPlatform);
 
-  let pathname = pageNode.route;
-
-  if (currentPlatform) {
-    pathname = pageNode.route.replace('[platform]', currentPlatform) + '/';
-  } else {
-    pathname += '/';
-  }
-
-  const current = router.asPath === pathname;
+  const current = asPathWithoutHash === pathname;
 
   const currentStyle = current ? 'menu__list-item__link--current' : '';
 
@@ -107,6 +106,15 @@ export function MenuItem({
 
   if (!pageNode) {
     return <></>;
+  }
+
+  // Using this to help open nested menu items
+  // When the parent's setOpen gets called in the initial render from the useEffect above,
+  // it should cause the parent node to rerender. If this node has a parent too, then we should
+  // also open it. The goal is to keep opening the parent whenever we get a
+  // "current" menu item that is deeply nested
+  if (open && parentSetOpen) {
+    parentSetOpen(true);
   }
 
   if (pageNode.isExternal) {
