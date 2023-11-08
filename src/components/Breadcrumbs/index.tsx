@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@aws-amplify/ui-react';
 import { findDirectoryNode as findNode } from '@/utils/findDirectoryNode';
 import classNames from 'classnames';
+import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 
 type BreadcrumbItem = {
   href: { pathname: string; query?: { platform: string } };
@@ -20,15 +21,15 @@ const overrides = {
   '/swift/prev': 'V1',
   '/android/prev': 'V1',
   '/flutter/prev': 'V0',
-  '/javascript': 'Javascript',
-  '/react': 'React',
-  '/flutter': 'Flutter',
-  '/swift': 'Swift',
-  '/android': 'Android',
-  '/react-native': 'React Native',
-  '/angular': 'Angular',
-  '/nextjs': 'Next.js',
-  '/vue': 'Vue'
+  '/javascript': PLATFORM_DISPLAY_NAMES['javascript'],
+  '/react': PLATFORM_DISPLAY_NAMES['react'],
+  '/flutter': PLATFORM_DISPLAY_NAMES['flutter'],
+  '/swift': PLATFORM_DISPLAY_NAMES['swift'],
+  '/android': PLATFORM_DISPLAY_NAMES['android'],
+  '/react-native': PLATFORM_DISPLAY_NAMES['react-native'],
+  '/angular': PLATFORM_DISPLAY_NAMES['angular'],
+  '/nextjs': PLATFORM_DISPLAY_NAMES['nextjs'],
+  '/vue': PLATFORM_DISPLAY_NAMES['vue']
 };
 
 function generateBreadcrumbs(
