@@ -1,4 +1,4 @@
-import { useRouterAsPath } from '@/utils/useRouterAsPath';
+import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import { ReactElement, useContext, useEffect, useState } from 'react';
 import { Link as AmplifyUILink, Flex } from '@aws-amplify/ui-react';
 import { IconExternalLink, IconChevron } from '@/components/Icons';
@@ -39,14 +39,14 @@ export function MenuItem({
   currentPlatform
 }: MenuItemProps): ReactElement {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
-  const asPath = useRouterAsPath();
+  const asPathWithoutHash = usePathWithoutHash();
   const [open, setOpen] = useState(false);
 
   const onLinkClick = () => {
     // Category shouldn't be collapsible
     if (
       level > Levels.Category &&
-      asPath === getPathname(pageNode.route, currentPlatform)
+      asPathWithoutHash === getPathname(pageNode.route, currentPlatform)
     ) {
       setOpen((prevOpen) => !prevOpen);
     }
@@ -76,11 +76,11 @@ export function MenuItem({
         parentSetOpen(true);
       }
     }
-  }, [asPath]);
+  }, [asPathWithoutHash]);
 
   let pathname = getPathname(pageNode.route, currentPlatform);
 
-  const current = asPath === pathname;
+  const current = asPathWithoutHash === pathname;
 
   const currentStyle = current ? 'menu__list-item__link--current' : '';
 
