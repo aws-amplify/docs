@@ -77,6 +77,17 @@ export function MenuItem({
     }
   }, [asPathWithoutHash]);
 
+  useEffect(() => {
+    // Using this to help open nested menu items
+    // When the parent's setOpen gets called in the initial render from the useEffect above,
+    // it should cause the parent node to rerender. If this node has a parent too, then we should
+    // also open it. The goal is to keep opening the parent whenever we get a
+    // "current" menu item that is deeply nested
+    if (open && parentSetOpen) {
+      parentSetOpen(true);
+    }
+  }, [open]);
+
   let pathname = getPathname(pageNode.route, currentPlatform);
 
   const current = asPathWithoutHash === pathname;
@@ -105,15 +116,6 @@ export function MenuItem({
 
   if (!pageNode) {
     return <></>;
-  }
-
-  // Using this to help open nested menu items
-  // When the parent's setOpen gets called in the initial render from the useEffect above,
-  // it should cause the parent node to rerender. If this node has a parent too, then we should
-  // also open it. The goal is to keep opening the parent whenever we get a
-  // "current" menu item that is deeply nested
-  if (open && parentSetOpen) {
-    parentSetOpen(true);
   }
 
   if (pageNode.isExternal) {

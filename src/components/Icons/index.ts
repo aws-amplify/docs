@@ -2,6 +2,7 @@ export { IconAndroid } from './IconAndroid';
 export { IconAngular } from './IconAngular';
 export { IconAmplify } from './IconAmplify';
 export { IconAWS } from './IconAWS';
+export { IconCheckCircle } from './IconCheckCircle';
 export { IconCheck } from './IconCheck';
 export { IconCheckCircle } from './IconCheckCircle';
 export { IconChevron } from './IconChevron';
@@ -27,8 +28,3 @@ export { IconExternalLink } from './IconExternalLink';
 export { IconThumbsUp } from './IconThumbsUp';
 export { IconThumbsDown } from './IconThumbsDown';
 export { IconPencil } from './IconPencil';
-
-export * from './CloseIcon';
-export * from './ExternalLinkIcon';
-export * from './MenuIcon';
-export * from './TOCIcon';
