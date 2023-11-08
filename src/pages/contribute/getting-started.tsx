@@ -1,15 +1,9 @@
+import { Heading, Text, Badge, Flex, Image, Link } from '@aws-amplify/ui-react';
 import {
-  Heading,
-  Text,
-  Badge,
-  Flex,
-  Icon,
-  Image,
-  Link
-} from '@aws-amplify/ui-react';
-import { IconCheckCircle } from '@/components/Icons';
-import { FiExternalLink } from 'react-icons/fi';
-import { MdOutlineInfo } from 'react-icons/md';
+  IconCheckCircle,
+  IconInfo,
+  IconExternalLink
+} from '@/components/Icons';
 import { MDXCode } from '@/components/MDXComponents';
 
 const meta = {
@@ -65,7 +59,7 @@ git checkout -b "<group-token>/<short-token>/<branch-name>"
 git checkout -b "<short-token>/<branch-name>"
 `.trim();
 
-export default function Contribute() {
+export default function GettingStarted() {
   return (
     <>
       <Text>
@@ -85,40 +79,47 @@ export default function Contribute() {
       </Text>
 
       <Heading level={2}>Prerequisites</Heading>
-      <Flex direction="column">
-        <Text>
-          <IconCheckCircle />A GitHub account. You can create one{' '}
-          <Link isExternal href="https://github.com/join">
-            here <FiExternalLink />.
-          </Link>
-        </Text>
-        <Text>
+      <Flex direction="column" as="ul">
+        <Flex as="li" alignItems="center" gap="xs">
           <IconCheckCircle />
-          IDE (e.g. VS Code)
-        </Text>
-        <Text>
+          <Text>
+            A GitHub account. You can create one{' '}
+            <Link isExternal href="https://github.com/join">
+              here <IconExternalLink />.
+            </Link>
+          </Text>
+        </Flex>
+        <Flex as="li" alignItems="center" gap="xs">
           <IconCheckCircle />
-          Amplify JS development environment. Follow the steps{' '}
-          <Link
-            href="https://github.com/aws-amplify/amplify-js/blob/main/CONTRIBUTING.md#setting-up-for-local-development"
-            isExternal
-          >
-            here
-            <FiExternalLink />
-          </Link>{' '}
-          to get set up.
-        </Text>
-        <Text>
+          <Text>IDE (e.g. VS Code)</Text>
+        </Flex>
+        <Flex as="li" alignItems="center" gap="xs">
           <IconCheckCircle />
-          Set up the Amplify Docs{' '}
-          <Link
-            isExternal
-            href="https://github.com/aws-amplify/docs#getting-started"
-          >
-            development environment <FiExternalLink />
-          </Link>
-          .<Badge marginLeft="8px">Optional</Badge>
-        </Text>
+          <Text>
+            Amplify JS development environment. Follow the steps{' '}
+            <Link
+              href="https://github.com/aws-amplify/amplify-js/blob/main/CONTRIBUTING.md#setting-up-for-local-development"
+              isExternal
+            >
+              here
+              <IconExternalLink />
+            </Link>{' '}
+            to get set up.
+          </Text>
+        </Flex>
+        <Flex as="li" alignItems="center" gap="xs">
+          <IconCheckCircle />
+          <Text>
+            Set up the Amplify Docs{' '}
+            <Link
+              isExternal
+              href="https://github.com/aws-amplify/docs#getting-started"
+            >
+              development environment <IconExternalLink />
+            </Link>
+            .<Badge marginLeft="8px">Optional</Badge>
+          </Text>
+        </Flex>
       </Flex>
 
       <Heading level={2}>Steps to take to make your contribution</Heading>
@@ -131,7 +132,7 @@ export default function Contribute() {
               isExternal
               href="https://github.com/aws-amplify/amplify-js/contribute"
             >
-              contributing page <FiExternalLink />
+              contributing page <IconExternalLink />
             </Link>{' '}
             of the Amplify JS repo and find the right issue for you.
           </Text>
@@ -140,7 +141,7 @@ export default function Contribute() {
           <Text>
             Fork the{' '}
             <Link isExternal href="https://github.com/aws-amplify/amplify-js">
-              Amplify JS <FiExternalLink />
+              Amplify JS <IconExternalLink />
             </Link>{' '}
             GitHub project.
           </Text>
@@ -152,6 +153,7 @@ export default function Contribute() {
           </Text>
 
           <Image
+            marginBlock="medium"
             objectFit="cover"
             width="100%"
             height="100%"
@@ -174,36 +176,34 @@ export default function Contribute() {
           </Text>
           <MDXCode language="bash" codeString={_5a}></MDXCode>
 
-          <Flex direction="column" margin="1em 1em">
-            <Text>
-              <Icon color="blue.60" width="25px" height="25px">
-                <MdOutlineInfo />{' '}
-              </Icon>
-              Use the <code>group-token</code> to indicate the category you are
-              working on. e.g. <code>amplify-datastore</code>.
-            </Text>
-            <Text>
-              <Icon color="blue.60" width="25px" height="25px">
-                <MdOutlineInfo />{' '}
-              </Icon>
-              The <code>short-token</code> can be one of the following:{' '}
-              <code>feat</code>, <code>chore</code>, or <code>bug</code>.
-            </Text>
-            <Text>
-              <Icon color="blue.60" width="25px" height="25px">
-                <MdOutlineInfo />{' '}
-              </Icon>
-              The <code>branch-name</code> should be representative of the
-              feature or fix.
-            </Text>
+          <Flex direction="column">
+            <Flex alignItems="center" gap="xs">
+              <IconInfo />
+              <Text>
+                Use the <code>group-token</code> to indicate the category you
+                are working on. e.g. <code>amplify-datastore</code>.
+              </Text>
+            </Flex>
+            <Flex alignItems="center" gap="xs">
+              <IconInfo />
+              <Text>
+                The <code>short-token</code> can be one of the following:{' '}
+                <code>feat</code>, <code>chore</code>, or <code>bug</code>.
+              </Text>
+            </Flex>
+            <Flex alignItems="center" gap="xs">
+              <IconInfo />
+              <Text>
+                The <code>branch-name</code> should be representative of the
+                feature or fix.
+              </Text>
+            </Flex>
           </Flex>
         </li>
         <li>
           Make your contribution and then run <code>git add</code>,{' '}
           <code>git commit</code> and <code>push</code> your branch.
-          <br />
           <MDXCode language="bash" codeString={_6a}></MDXCode>
-          <br />
           <Text>
             GitHub will process the push command and display a link to create a
             pull request.
@@ -250,7 +250,7 @@ export default function Contribute() {
             isExternal
           >
             Amplify JS Contributing Guidelines
-            <FiExternalLink />
+            <IconExternalLink />
           </Link>
         </Heading>
         <Text>
@@ -260,7 +260,7 @@ export default function Contribute() {
         <Heading level={4}>
           <Link href="/">
             Amplify Documentation
-            <FiExternalLink />
+            <IconExternalLink />
           </Link>
         </Heading>
         <Text>Learn more about AWS Amplify the the JS library.</Text>
@@ -268,7 +268,7 @@ export default function Contribute() {
         <Heading level={4}>
           <Link href="https://discord.com/invite/amplify" isExternal>
             Amplify Community Discord server
-            <FiExternalLink />
+            <IconExternalLink />
           </Link>
         </Heading>
         <Text>
@@ -279,7 +279,7 @@ export default function Contribute() {
         <Heading level={4}>
           <Link href="https://discord.gg/kfWYHw73eA" isExternal>
             The <code>contribute-to-javascript</code> Discord channel
-            <FiExternalLink />
+            <IconExternalLink />
           </Link>
         </Heading>
         <Text>
@@ -289,7 +289,7 @@ export default function Contribute() {
         <Heading level={4}>
           <Link href="https://discord.com/invite/amplify" isExternal>
             Amplify Discord Office Hours
-            <FiExternalLink />
+            <IconExternalLink />
           </Link>
         </Heading>
 
