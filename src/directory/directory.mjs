@@ -224,7 +224,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/relational-models/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/customize-client-libraries/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/working-with-files/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/optimistic-ui/index.mdx'
