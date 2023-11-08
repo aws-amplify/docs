@@ -1,20 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Migrate project to another AWS account',
-  description:
-    'Amplify CLI can be used to easily re-create resources in a different AWS account.',
+  description: 'Amplify CLI can be used to easily re-create resources in a different AWS account.',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 Amplify CLI can be used to easily re-create resources in a different AWS account.
 
@@ -42,6 +42,7 @@ Amplify CLI updates the `amplify/team-provider-info.json` file with the new envi
 
 <Callout warning>
 
-If your project includes custom resources, cloning the project to a new environment may not work correctly. Ensure that custom resource names are parameterized to guarantee uniqueness when cloning between accounts, regions and Amplify environments
+If your project includes custom resources, cloning the project to a new environment may not work correctly.
+Ensure that custom resource names are parameterized to guarantee uniqueness when cloning between accounts, regions and Amplify environments
 
 </Callout>

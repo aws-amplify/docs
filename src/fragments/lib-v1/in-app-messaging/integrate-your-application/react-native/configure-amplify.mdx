@@ -1,0 +1,12 @@
+### Configure Amplify
+
+import rn1 from '/src/fragments/lib-v1/common/react-native/import_configuration.mdx';
+
+<Fragments fragments={{ 'react-native': rn1 }} />
+
+```js
+import { Amplify } from 'aws-amplify';
+import awsconfig from './src/aws-exports';
+
+Amplify.configure(awsconfig);
+```

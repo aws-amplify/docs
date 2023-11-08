@@ -1,3 +1,23 @@
-```js
-const count = await Notifications.Push.getBadgeCount();
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  getBadgeCount,
+  GetBadgeCountOutput
+} from 'aws-amplify/push-notifications';
+
+const count: GetBadgeCountOutput = await getBadgeCount();
 ```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { getBadgeCount } from 'aws-amplify/push-notifications';
+
+const count = await getBadgeCount();
+```
+
+</Block>
+</BlockSwitcher>

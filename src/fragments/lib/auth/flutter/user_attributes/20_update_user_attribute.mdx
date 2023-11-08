@@ -11,12 +11,14 @@ Future<void> updateUserEmail({
     );
     _handleUpdateUserAttributeResult(result);
   } on AuthException catch (e) {
-    safePrint('Error updating user attribute: $\{e.message}');
+    safePrint('Error updating user attribute: ${e.message}');
   }
 }
 ```
 
-User attribute updates may require additional verification before they're complete. Check the `UpdateUserAttributeResult` returned from `Amplify.Auth.updateUserAttribute` to see which next step, if any, is required. When the update is complete, the next step will be `done`.
+User attribute updates may require additional verification before they're complete. Check the
+`UpdateUserAttributeResult` returned from `Amplify.Auth.updateUserAttribute` to see which next
+step, if any, is required. When the update is complete, the next step will be `done`.
 
 ```dart
 void _handleUpdateUserAttributeResult(
@@ -35,8 +37,8 @@ void _handleUpdateUserAttributeResult(
 
 void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
   safePrint(
-    'A confirmation code has been sent to $\{codeDeliveryDetails.destination}. '
-    'Please check your $\{codeDeliveryDetails.deliveryMedium.name} for the code.',
+    'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
+    'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
   );
 }
 ```
@@ -71,7 +73,7 @@ Future<void> updateUserAttributes() async {
       }
     });
   } on AuthException catch (e) {
-    safePrint('Error updating user attributes: $\{e.message}');
+    safePrint('Error updating user attributes: ${e.message}');
   }
 }
 ```

@@ -1,16 +1,16 @@
 Invoke the `signOut` api to sign out a user from the Auth category. You can only have one user signed in at a given time.
 
-import android0 from "/src/fragments/lib-v1/auth/android/signout/10_local_signout.mdx";
+import android0 from '/src/fragments/lib-v1/auth/android/signout/10_local_signout.mdx';
 
-<Fragments fragments={{android: android0}} />
+<Fragments fragments={{ android: android0 }} />
 
-import ios1 from "/src/fragments/lib-v1/auth/ios/signout/10_local_signout.mdx";
+import ios1 from '/src/fragments/lib-v1/auth/ios/signout/10_local_signout.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ swift: ios1 }} />
 
-import flutter2 from "/src/fragments/lib-v1/auth/flutter/signout/10_local_signout.mdx";
+import flutter2 from '/src/fragments/lib-v1/auth/flutter/signout/10_local_signout.mdx';
 
-<Fragments fragments={{flutter: flutter2}} />
+<Fragments fragments={{ flutter: flutter2 }} />
 
 Calling signOut without any options will just delete the local cache and keychain of the user. If you would like to sign out of all devices, invoke the signOut api with advanced options.
 
@@ -22,20 +22,21 @@ For limiting subsequent calls to these other services after invalidating tokens,
 
 Token revocation is enabled automatically on new Amazon Cognito User Pools, however existing User Pools must enable this feature, [using the Cognito Console or AWS CLI](https://docs.aws.amazon.com/cognito/latest/developerguide/token-revocation.html).
 
-import android3 from "/src/fragments/lib-v1/auth/android/signout/20_global_signout.mdx";
+import android3 from '/src/fragments/lib-v1/auth/android/signout/20_global_signout.mdx';
 
-<Fragments fragments={{android: android3}} />
+<Fragments fragments={{ android: android3 }} />
 
-import ios4 from "/src/fragments/lib-v1/auth/ios/signout/20_global_signout.mdx";
+import ios4 from '/src/fragments/lib-v1/auth/ios/signout/20_global_signout.mdx';
 
-<Fragments fragments={{ios: ios4}} />
+<Fragments fragments={{ swift: ios4 }} />
 
-import flutter5 from "/src/fragments/lib-v1/auth/flutter/signout/20_global_signout.mdx";
+import flutter5 from '/src/fragments/lib-v1/auth/flutter/signout/20_global_signout.mdx';
 
-<Fragments fragments={{flutter: flutter5}} />
+<Fragments fragments={{ flutter: flutter5 }} />
 
 Calling signout with `globalSignOut = true` will invalidate all the Cognito User Pool tokens of the signed in user. If the user is signed into a device, they won't be authorized to perform a task that requires a valid token when a global signout is called from some other device. They need to sign in again to get valid tokens.
 
 <Callout warning>
-Global signout functionality does not work if you use one of the web UI sign in methods.
+  Global signout functionality does not work if you use one of the web UI sign
+  in methods.
 </Callout>

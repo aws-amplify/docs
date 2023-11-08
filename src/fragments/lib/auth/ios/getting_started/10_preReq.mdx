@@ -1,13 +1,12 @@
-import ios0 from "/src/fragments/lib/ios-prereq-category.mdx";
+import ios0 from '/src/fragments/lib/ios-prereq-category.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
 <Callout>
 
 To use Auth in a macOS project, you'll need to enable the Keychain Sharing capability. In Xcode, navigate to **your application target** > **Signing & Capabilities** > **+ Capability**, then select **Keychain Sharing.**
 
-This capability is required because Auth uses the Data Protection Keychain on macOS as a platform best practice.
-See [TN3137: macOS keychain APIs and implementations](https://developer.apple.com/documentation/technotes/tn3137-on-mac-keychains) for more information on how Keychain works on macOS and the Keychain Sharing entitlement.
+This capability is required because Auth uses the Data Protection Keychain on macOS as a platform best practice. See [TN3137: macOS keychain APIs and implementations](https://developer.apple.com/documentation/technotes/tn3137-on-mac-keychains) for more information on how Keychain works on macOS and the Keychain Sharing entitlement.
 
 For more information on adding capabilities to your application, see [Xcode Capabilities](https://developer.apple.com/documentation/xcode/capabilities).
 

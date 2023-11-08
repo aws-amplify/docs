@@ -1,26 +1,35 @@
 ## Setup the backend
 
-If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
+If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the _default configuration_).
 
 Run `amplify add predictions` and select **Identify**. Then use the following answers:
 
 ```console
-? What would you like to identify? 
-  Identify Text 
-  Identify Entities 
-❯ Identify Labels 
-  Learn More 
+? What would you like to identify?
+  Identify Text
+  Identify Entities
+❯ Identify Labels
+  Learn More
 
 ? Would you like use the default configuration? (Use arrow keys)
-❯ Default Configuration 
-  Advanced Configuration 
+❯ Default Configuration
+  Advanced Configuration
 
 ? Who should have access? Auth and Guest users
 ```
 
 The Advanced Configuration will allow you to select moderation for unsafe content or all of the identified labels. Default uses both.
 
-Now run `amplify push` which will generate your `aws-exports.js` and create resources in the cloud. You can now either add this to your backend or skip and add more features to your app.
+**NOTE:** Due to a [known issue](https://github.com/aws-amplify/amplify-cli/issues/12208), you will need to update your amplify backend configuration with the properties below before pushing to the cloud:
+
+**amplify/backend/identify-labels-resource/parameters.json**
+
+```json
+"access": "auth | authAndGuest",
+"type": "LABELS | UNSAFE | ALL"
+```
+
+Now run `amplify push` which will generate your `amplifyconfiguration.json` and create resources in the cloud. You can now either add this to your backend or skip and add more features to your app.
 
 Services used: Amazon Rekognition
 
@@ -29,56 +38,63 @@ Services used: Amazon Rekognition
 Detect labels, such if an image has a desk or a chair in it
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 Predictions.identify({
   labels: {
     source: {
-      file,
+      file
     },
-    type: "LABELS"
+    type: 'LABELS'
   }
 })
-.then(response => {
-  const { labels } = response;
-  labels.forEach(object => {
-    const { name, boundingBoxes } = object
-  });
-})
-.catch(err => console.log({ err }));
+  .then((response) => {
+    const { labels } = response;
+    labels.forEach((object) => {
+      const { name, boundingBoxes } = object;
+    });
+  })
+  .catch((err) => console.log({ err }));
 ```
 
 Detect unsafe content in an image
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 Predictions.identify({
   labels: {
     source: {
-      file,
+      file
     },
-    type: "UNSAFE"
+    type: 'UNSAFE'
   }
 })
-.then(response => {
-  const { unsafe } = response; // boolean 
-})
-.catch(err => console.log({ err }));
+  .then((response) => {
+    const { unsafe } = response; // boolean
+  })
+  .catch((err) => console.log({ err }));
 ```
 
 for both labels and unsafe content
+
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 Predictions.identify({
   labels: {
     source: {
-      file,
+      file
     },
-    type: "ALL"
+    type: 'ALL'
   }
 })
-.then(response => {
-  const { labels } = response;
-  const { unsafe } = response; // boolean 
-  labels.forEach(object => {
-    const { name, boundingBoxes } = object
-  });
-})
-.catch(err => console.log({ err });
+  .then((response) => {
+    const { labels } = response;
+    const { unsafe } = response; // boolean
+    labels.forEach((object) => {
+      const { name, boundingBoxes } = object;
+    });
+  })
+  .catch((err) => console.log({ err }));
 ```

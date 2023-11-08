@@ -11,3 +11,370 @@ export function getStaticProps(context) {
   };
 
 }
+
+# Realtime API and Database for next-generation apps
+
+with GraphQL support, fine-grained authorization rules, end-to-end type-safety, connects to existing PostgreSQL and MySQL databases.
+
+## Works with new or <u>any</u> existing data sources
+
+Get an end-to-end type-safe API backed by new DynamoDB tables or integrate with existing MySQL and PostgreSQL databases. Don't worry, you can always use Lambda to connect to anything else. See [Connect API to Data](./01_connectToDB.md).
+
+### Provision new DynamoDB tables:
+
+Use TypeScript to define your API's data models and Amplify automatically deploys DynamoDB database tables to match them.
+
+```ts
+import { a, defineData } from '@aws-amplify/backend';
+
+const schema = a
+  .schema({
+    Todo: a.model({
+      content: a.string(),
+      isDone: a.boolean(),
+    }),
+  })
+  .authorization([a.allow.public()]);
+
+export type Schema = typeof schema;
+export const data = defineData({ schema });
+```
+
+### Connect to existing MySQL or PostgreSQL databases:
+
+Provide your database URL and Amplify automatically infers the API schema. Amplify sets up CRUDL operations and real-time subscriptions.
+
+```bash
+amplify import api
+> Database URL: https://mysqldatabase.example.com/
+
+✔ API for your MySQL database created in "schema.rds.ts".
+```
+
+Apply access control rules, write custom SQL handlers, and deploy.
+
+```ts
+import { a, defineData } from '@aws-amplify/backend';
+import { schema as rdsSchema } from './schema.rds.ts';
+
+rdsSchema.models.todos.renameTo('Todo'); // rename database table names
+rdsSchema.models.todos.authorization([a.allow.owner()]); // add authorization rules
+
+export type Schema = typeof rdsSchema;
+export const data = defineData({ schema: rdsSchema });
+```
+
+### Connect to any data source using AWS Lambda:
+
+Any data source that's not built-in to Amplify can be connected with AWS Lambda. Write your own handler to any data source you need.
+
+```ts
+import { a, defineData } from '@aws-amplify/backend';
+
+const schema = a
+  .schema({
+    pushToSNS: a
+      .query()
+      .arguments({ content: a.string() })
+      .returns(a.boolean())
+      .function('push-to-sns-lambda'),
+  })
+  .authorization([a.allow.public()]);
+
+export type Schema = typeof schema;
+export const data = defineData({ schema });
+```
+
+## Realtime is the modern default
+
+### Subscribe to a live feed of data:
+
+Live feed in a single API - Fetches existing data and continuously applies changes from create, update, and delete operations in realtime.
+
+```ts
+const [posts, setPosts] = useState<Post[]>([])
+
+useEffect(() => {
+  const sub = client.models.Post
+    .observeQuery()
+    .subscribe({ items } => {
+      setPosts(items)
+    })
+
+  return () => sub.unsubscribe()
+}, [])
+```
+
+### Subscribe to specific data model events:
+
+Subscribe to create, update, or delete events individually to build realtime notification interfaces.
+
+```ts
+const [notifications, setNotifications] = useState<string[]>([])
+
+useEffect(() => {
+  const sub = client.models.Post
+    .on('create')
+    .subscribe({ event, data } => {
+      setNotifications([
+        `${data.author} created a new post`,
+        ...notifications
+      ])
+    })
+
+  return () => sub.unsubscribe()
+}, [])
+```
+
+### Realtime server-side data filters:
+
+Optimize network traffic sent to your clients using client-defined server-side subscription filters. Less traffic leads to more savings.
+
+```ts
+const sub = client.models.Post
+  .on('create', {
+    filters: {
+      isFriend: {
+        eq: true
+      }
+    }
+  })
+  .subscribe({ event, data } => {
+    // ...
+  })
+
+return () => sub.unsubscribe()
+```
+
+## Data authorization from a single source of truth
+
+### Fine-grained deny-by-default authorization:
+
+Deny-by-default authorization means all access must be explicitly defined. If you didn't set an access rule, then you don't have access. Configure authorization rules across the entire schema, a particular data model, or specifically on a field.
+
+```ts
+import { a, defineData } from '@aws-amplify/backend'
+
+const schema = a.schema({
+  Student: a.model({
+    name: a.string()
+    ssn: a.string().authorization([a.allow.owner().to(["read", "update"])])
+  }).authorization([
+    a.allow.specificGroup("Admin"),
+    a.allow.owner().to(["read", "update"])
+  ]),
+
+  Course: a.model({
+    title: a.string(),
+    content: a.string()
+  })
+}).authorization([a.allow.public().to(["read"])])
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+// Unless otherwise specific anyone authenticated with an API key can read from a data model
+
+export type Schema = typeof schema
+export const data = defineData({ schema })
+```
+
+**No public access** because model-level authorization rule supersedes schema-level authorization rule
+
+**The "Admin" group** can CRUDL all records but can't read or write the `ssn` field because `ssn`'s field-level authorization rule supersedes the model-level authorization rule.
+
+| Field | Create | Read | Update | Delete |
+| ----- | ------ | ---- | ------ | ------ |
+| name  | ✔️     | ✔️   | ✔️     | ✔️     |
+| ssn   | x      | x    | x      | x      |
+
+**Students can only read and update their own records** because they're governed by an "owner"-based authorization rule. They can read and update their own `ssn` because the `ssn`'s field-level authorization rule permits it.
+
+| Field | Create | Read | Update | Delete |
+| ----- | ------ | ---- | ------ | ------ |
+| name  | x      | ✔️   | ✔️     | x      |
+| ssn   | x      | ✔️   | ✔️     | x      |
+
+**Public read-only access** because there's no model-level authorization rule, hence the `Course` table will default to the schema-level authorization rule.
+
+| Field   | Create | Read | Update | Delete |
+| ------- | ------ | ---- | ------ | ------ |
+| title   | x      | ✔️️  | x      | x      |
+| content | x      | ✔️   | x      | x      |
+
+### Multi-user, multi-group authorization built-in
+
+Build real-time shared collaboration experiences with ease. Change who gets access dynamically during application runtime.
+
+TK add visual/code
+
+### Use Lambda to author your own custom authorization logic
+
+Have an existing authorization system that you want to repurpose? Assign a `custom` authorization logic to your data models.
+
+```ts
+import { a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Supplier: a
+    .model({
+      name: a.string(),
+      address: a.string(),
+      costCenter: a.string(),
+    })
+    .authorization([a.allow.custom()]), // <- Use custom authorization
+});
+
+export type Schema = typeof schema;
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    lambdaAuthorizer: 'my-authorization-function',
+  },
+});
+```
+
+## End-to-end type-safe GraphQL API
+
+### Connect frontend to API in a few lines of code
+
+Instant frontend code completion to match your backend changes. (TK add video(?))
+
+```ts
+import { Amplify } from 'aws-amplify'
+import { generateClient } from 'aws-amplify/api'
+import type { Schema } from '@/amplify/data/resource'
+
+import amplifyconfiguration from '@/amplifyconfiguration'
+
+Amplify.configure(amplifyconfiguration)
+
+const client = generateClient<Schema>()
+
+client.models.Todo.li[<-code completion goes here>]
+```
+
+### Fetch only what you need
+
+Use custom selection set to specify exactly the data you need to prevent over fetching of data or fetch nested data with a single request.
+
+```ts
+const [todosWithAttachments] = await client.models.Todo.list({
+  selectionSet: ['content', 'attachments.*'],
+});
+
+todosWithAttachments.forEach((todo) => {
+  todo.attachments.forEach((attachment) => {
+    downloadFile(attachment.fileUrl);
+  });
+});
+```
+
+### Make raw GraphQL requests if you need to
+
+Leverage native GraphQL features like fragments, multi-operation in a single request, or aliases.
+
+```ts
+client.graphql({
+  query: /*GraphQL*/ `query {
+      listNearbyUsers(input: {
+        lat: 100.0
+        long: 100.0
+      }) {
+        ...userFields
+      }
+    }
+
+    mutation {
+      createUser(input: {
+        name: "John Doe"
+        email: "john@example.com"
+      }) {
+        ...userFields 
+      }
+    }
+
+    fragment userFields on User {
+      id
+      name
+      email
+    }`,
+});
+```
+
+## The enterprise-readiness you expect from AWS
+
+### First-class AWS CDK support
+
+Use the Amplify Data CDK construct to seamlessly integrate with the rest of your company's infrastructure-as-code workflows.
+
+```ts
+import * as cdk from 'aws-cdk-lib';
+import { AmplifyGraphqlApi } from '@aws-amplify/graphql-construct-alpha';
+
+export class BackendStack extends cdk.Stack {
+  constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    const amplifyApi = new AmplifyGraphqlApi(this, 'AmplifyCdkGraphQlApi', {
+      schema: /* GraphQL */ `...`,
+    });
+
+    // Get access to all generated resources as L2 or L1 CDK constructs
+    const supplierTable = amplifyApi.resources.tables['Supplier'];
+  }
+}
+```
+
+### Private APIs accessible only behind VPCs
+
+With CDK you get full control of the generated resources that means you can leverage the recent enterprise features of AWS AppSync, Amazon DynamoDB, Amazon OpenSearch, and more.
+
+```ts
+import * as cdk from 'aws-cdk-lib';
+import { AmplifyGraphqlApi } from '@aws-amplify/graphql-construct-alpha';
+
+export class BackendStack extends cdk.Stack {
+  constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    const amplifyApi = new AmplifyGraphqlApi(this, 'AmplifyCdkGraphQlApi', {
+      schema: /* GraphQL */ `...`,
+    });
+
+    amplifyApi.resources.cfnResources.cfnGraphqlApi.visibility = 'PRIVATE';
+  }
+}
+```
+
+### Web application firewall to block and rate-limit unwanted traffic
+
+AWS WAF helps you protect against common web exploits and bots that can affect availability, compromise security, or consume excessive resources.
+
+```ts
+import * as cdk from 'aws-cdk-lib';
+import { CfnWebAcl, CfnWebACLAssociation } from '@aws-cdk/aws-wafv2';
+import { AmplifyGraphqlApi } from '@aws-amplify/graphql-construct-alpha';
+
+export class BackendStack extends cdk.Stack {
+  constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    const amplifyApi = new AmplifyGraphqlApi(this, 'AmplifyCdkGraphQlApi', {
+      schema: /* GraphQL */ `...`,
+    });
+
+    // Reference L1 AppSync API required for WAF configuration
+    const appSyncApi = amplifyApi.resources.cfnResources.cfnGraphqlApi;
+
+    // Setup WAF and associate it with generated APpSync API
+    const waf = new CfnWebACL(this, 'waf', {
+      /* ... */
+    });
+
+    const wafAssoc = new CfnWebACLAssociation(this, 'tnc-waf-assoc', {
+      resourceArn: appSyncApi.attrArn,
+      webAclArn: waf.attrArn,
+    });
+
+    wafAssoc.node.addDependency(appSyncApi);
+  }
+}
+```

@@ -15,7 +15,7 @@ Future<void> updatePost() async {
   try {
     await Amplify.DataStore.save(newPost);
   } on DataStoreException catch (e) {
-    safePrint('Something went wrong updating model: $\{e.message}');
+    safePrint('Something went wrong updating model: ${e.message}');
   }
 }
 ```

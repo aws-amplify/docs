@@ -4,7 +4,7 @@ export const meta = {
   title: 'Upload files',
   description:
     "Learn more about how to upload files using Amplify's storage category",
-  platforms: ['javascript', 'flutter', 'swift', 'android']
+  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -20,31 +20,19 @@ export function getStaticProps(context) {
   };
 }
 
-import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+import android_upload from '/src/fragments/lib/storage/android/upload.mdx';
+import flutter_upload from '/src/fragments/lib/storage/flutter/upload.mdx';
+import ios_upload from '/src/fragments/lib/storage/ios/upload.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments
+  fragments={{
+    android: android_upload,
+    flutter: flutter_upload,
+    swift: ios_upload
+  }}
+/>
 
-import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
-
-<Fragments fragments={{ flutter: flutter_maintenance }} />
-
-import ios1 from '/src/fragments/lib-v1/storage/ios/upload.mdx';
-
-<Fragments fragments={{ swift: ios1 }} />
-
-import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
-
-<Fragments fragments={{ android: android_maintenance }} />
-
-import android2 from '/src/fragments/lib-v1/storage/android/upload.mdx';
-
-<Fragments fragments={{ android: android2 }} />
-
-import flutter3 from '/src/fragments/lib-v1/storage/flutter/upload.mdx';
-
-<Fragments fragments={{ flutter: flutter3 }} />
-
-<InlineFilter filters={['javascript']}>
+<InlineFilter filters={['javascript', 'react-native']}>
 
 ## uploadData
 
@@ -62,13 +50,14 @@ try {
       onProgress // Optional progress callback.
     }
   }).result;
-  console.log('Key from Response: ', result.key);
+  console.log('Succeeded: ', result);
 } catch (error) {
   console.log('Error : ', error);
 }
 ```
 
 ### Public level
+
 The `accessLevel` defaults to `guest`
 
 ```javascript
@@ -79,7 +68,7 @@ try {
     key: filename,
     data: file
   }).result;
-  console.log('Key from Response: ', result.key);
+  console.log('Succeeded: ', result);
 } catch (error) {
   console.log('Error : ', error);
 }
@@ -98,7 +87,7 @@ try {
       accessLevel: 'protected'
     }
   }).result;
-  console.log('Key from Response: ', result.key);
+  console.log('Succeeded: ', result);
 } catch (error) {
   console.log('Error : ', error);
 }
@@ -117,7 +106,7 @@ try {
       accessLevel: 'private'
     }
   }).result;
-  console.log('Key from Response: ', result.key);
+  console.log('Succeeded: ', result);
 } catch (error) {
   console.log('Error : ', error);
 }
@@ -172,7 +161,7 @@ await uploadTask.result;
 ## Cancel upload
 
 ```javascript
-import { uploadData } from 'aws-amplify/storage';
+import { uploadData, isCancelError } from 'aws-amplify/storage';
 
 const uploadTask = uploadData({ key, data: file });
 //...

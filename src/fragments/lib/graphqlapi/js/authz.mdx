@@ -4,7 +4,7 @@ Each AppSync API is set with a __default__ authorization mode.
 
 AWS AppSync also supports [multiple authorization modes on a single API](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) enabling you to add additional authorization modes.
 
-In order to use this feature with the Amplify GraphQL Client the `API.graphql({...})` function accepts an optional parameter called `authMode`, its value will be one of the supported auth modes:
+In order to use this feature with the Amplify GraphQL Client the `client.graphql({...})` function accepts an optional parameter called `authMode`, its value will be one of the supported auth modes:
 
 - `API_KEY`
 - `AWS_IAM`
@@ -16,41 +16,19 @@ In order to use this feature with the Amplify GraphQL Client the `API.graphql({.
 
 This is an example of using `AWS_IAM` as an authorization mode:
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
 ```ts
-import { API, GraphQLQuery, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import { generateClient } from 'aws-amplify/api'
 import * as mutations from './graphql/mutations';
-import { CreateTodoMutation } from './API';
+
+const client = generateClient()
 
 // Creating a post is restricted to IAM 
-const createdTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
+const createdTodo = await client.graphql({
   query: mutations.createTodo,
   variables: { input: todoDetails },
-  authMode: GRAPHQL_AUTH_MODE.AWS_IAM
+  authMode: 'iam'
 });
 ```
-
-</Block>
-<Block name="JavaScript">
-
-```js
-import { API, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
-import * as mutations from './graphql/mutations';
-
-// Creating a post is restricted to IAM 
-const createdTodo = await API.graphql({
-  query: mutations.createTodo,
-  variables: {input: todoDetails},
-  authMode: GRAPHQL_AUTH_MODE.AWS_IAM
-});
-```
-
-</Block>
-</BlockSwitcher>
-
-Previous examples uses `graphqlOperation` function. That function only creates an object with two attributes `query` and `variables`. In order to use `authMode` you need to pass this object as is mentioned on the previous example.
 
 <Callout>
 
@@ -66,80 +44,35 @@ If you are using a Lambda function as an authorization mode with your AppSync AP
 
 The following example assumes `AWS_LAMBDA` is configured as the default authentication type for your API:
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
 ```ts
-// ...
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
 
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
 
-const createdTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
+const createdTodo = await client.graphql({
   query: mutations.createTodo,
   variables: {input: todoDetails},
   authToken: lambdaAuthToken
 });
 ```
-
-</Block>
-<Block name="JavaScript">
-
-```js
-// ...
-
-const getAuthToken = () => 'myAuthToken';
-const lambdaAuthToken = getAuthToken();
-
-const createdTodo = await API.graphql({
-  query: mutations.createTodo,
-  variables: {input: todoDetails},
-  authToken: lambdaAuthToken
-});
-```
-
-</Block>
-</BlockSwitcher>
 
 If you have a different default authentication type and would like to use `AWS_LAMBDA` with a request:
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
 ```ts
-// ...
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
-import { CreateTodoMutation } from './API';
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
 
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
 
-const createdTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
+const createdTodo = await client.graphql({
   query: mutations.createTodo,
   variables: {input: todoDetails},
-  authMode: GRAPHQL_AUTH_MODE.AWS_LAMBDA,
+  authMode: 'lambda',
   authToken: lambdaAuthToken
 });
 ```
-
-</Block>
-<Block name="JavaScript">
-
-```js
-// ...
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
-
-const getAuthToken = () => 'myAuthToken';
-const lambdaAuthToken = getAuthToken();
-
-const createdTodo = await API.graphql({
-  query: mutations.createTodo,
-  variables: {input: todoDetails},
-  authMode: GRAPHQL_AUTH_MODE.AWS_LAMBDA,
-  authToken: lambdaAuthToken
-});
-```
-
-</Block>
-</BlockSwitcher>
-

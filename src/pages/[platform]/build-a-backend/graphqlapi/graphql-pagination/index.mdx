@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'GraphQL pagination',
   description: 'How to implement pagination with GraphQL ',
-  platforms: ['swift', 'android']
+  platforms: ['javascript', 'react-native', 'swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -62,7 +62,7 @@ To test this out, try creating 5 todos using a mutation like this:
 ```sh
 mutation createTodo {
   createTodo(input: {
-  title: 'GraphQL pagination',
+    title: "Todo 1"
     description: "My first todo"
   }) {
     id

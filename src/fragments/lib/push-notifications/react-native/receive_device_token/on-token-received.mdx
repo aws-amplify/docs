@@ -1,9 +1,36 @@
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  onTokenReceived,
+  OnTokenReceivedInput,
+  OnTokenReceivedOutput
+} from 'aws-amplify/push-notifications';
+
+const myTokenReceivedHandler: OnTokenReceivedInput = (token) => {
+  // Do something with the received token
+};
+
+const listener: OnTokenReceivedOutput = onTokenReceived(myTokenReceivedHandler);
+
+listener.remove(); // Remember to remove the listener when it is no longer needed
+```
+
+</Block>
+<Block name="JavaScript">
+
 ```js
+import { onTokenReceived } from 'aws-amplify/push-notifications';
+
 const myTokenReceivedHandler = (token) => {
   // Do something with the received token
 };
 
-const listener = Notifications.Push.onTokenReceived(myTokenReceivedHandler);
+const listener = onTokenReceived(myTokenReceivedHandler);
 
 listener.remove(); // Remember to remove the listener when it is no longer needed
 ```
+
+</Block>
+</BlockSwitcher>
