@@ -57,10 +57,10 @@ type Todo @model @auth(rules: [{ allow: public }]) {
     - **description** - an optional string field containing additional details about a Todo item
     - **isComplete** - a non-optional boolean field indicating the completion status of a Todo item
 
-        <Callout>
+<Callout>
 
-        **Note:** You are also specifying an @auth directive on your model which can be useful for setting up authorization rules later, but for the purposes of this tutorial, the model will be authorized for public access. You can read more about authorization rules [here](https://docs.amplify.aws/lib/datastore/setup-auth-rules/q/platform/js).
+**Note:** You are also specifying an @auth directive on your model which can be useful for setting up authorization rules later, but for the purposes of this tutorial, the model will be authorized for public access. You can read more about authorization rules [here](https://docs.amplify.aws/lib/datastore/setup-auth-rules/q/platform/js).
 
-        </Callout>
+</Callout>
 
 Now that local Amplify and data models are set up, you’re ready to integrate with the app!
