@@ -5,6 +5,9 @@ import { theme } from './code-theme';
 import { View, Button } from '@aws-amplify/ui-react';
 import { versions } from '@/constants/versions';
 import { trackCopyClicks } from '@/utils/track';
+(typeof global !== 'undefined' ? global : window).Prism = Prism;
+import('prismjs/components/prism-java');
+import('prismjs/components/prism-dart');
 
 require('./cli-error-language.js');
 
