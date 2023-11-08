@@ -3,6 +3,7 @@ import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
+import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { Flex, Heading, Button, Text } from '@aws-amplify/ui-react';
 import LinkCards from '@/components/LinkCards';
 import PlatformFeatureList from '@/components/FeatureLists/PlatformFeatureList';
@@ -55,17 +56,17 @@ const PlatformOverview = ({ platform }) => {
           the cloud for authentication, storage, APIs, and more.
         </Text>
         <Flex className="home-cta">
-          <Link
+          <InternalLinkButton
+            variation="primary"
+            size="large"
             href={{
               pathname: '/[platform]/how-amplify-works',
               query: { platform: platform }
             }}
           >
-            <Button variation="primary" size="large" gap="small">
-              How Amplify Works
-              <IconChevron className="icon-rotate-270" fontSize=".875em" />
-            </Button>
-          </Link>
+            How Amplify Works
+            <IconChevron className="icon-rotate-270" fontSize=".875em" />
+          </InternalLinkButton>
 
           <GetStartedPopover />
         </Flex>
