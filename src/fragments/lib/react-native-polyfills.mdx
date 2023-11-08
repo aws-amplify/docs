@@ -1,15 +1,15 @@
 ### Install Amplify and its dependencies
 
 ```bash
-npm install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values react-native-url-polyfill
+npm install aws-amplify @aws-amplify/react-native @aws-amplify/interactions @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values text-encoding-polyfill
 ```
 
-You need to add the crypto.getRandomValues and URL polyfills to your application's entry point file (in most React Native apps this will be the top level index.js).
+You need to add the crypto.getRandomValues and encoding polyfills to your application's entry point file (in most React Native apps this will be the top level index.js).
 
 ```js
 // Example index.js
 import 'react-native-get-random-values';
-import 'react-native-url-polyfill/auto';
+import 'text-encoding-polyfill';
 
 import { AppRegistry } from 'react-native';
 import App from './App';
