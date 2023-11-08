@@ -48,6 +48,7 @@ import { findDirectoryNode } from '@/utils/findDirectoryNode';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { Banner } from '@/components/Banner';
+import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 
 export const Layout = ({
   children,
@@ -109,17 +110,18 @@ export const Layout = ({
 
   const showTOC = hasTOC && tocHeadings.length > 0;
   const router = useRouter();
+  const asPathWithNoHash = usePathWithoutHash();
   const basePath = 'docs.amplify.aws';
-  const metaUrl = url ? url : basePath + router.asPath;
+  const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
-  const shouldShowGen2Banner = GEN2BANNER_URLS.includes(router.asPath);
+  const shouldShowGen2Banner = GEN2BANNER_URLS.includes(asPathWithNoHash);
 
   let currentPlatform = DEFAULT_PLATFORM;
   const homepageNode = directory as PageNode;
   let rootMenuNode;
 
-  const isGen2 = router.asPath.split('/')[1] === 'gen2';
-  const isPrev = router.asPath.split('/')[2] === 'prev';
+  const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
+  const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
   const searchParam = isGen2 ? 'gen2' : '[platform]';
 
   if (homepageNode?.children && homepageNode.children.length > 0) {
@@ -136,7 +138,7 @@ export const Layout = ({
     // To get the "platform" the client was trying to visit, we have to get the string at index 1
     // Doing this because when visiting a 404 page, there is no `router.query.platform`, so we have
     // to check where the user was trying to visit from
-    const asPathPlatform = router.asPath.split('/')[1] as Platform;
+    const asPathPlatform = asPathWithNoHash.split('/')[1] as Platform;
 
     currentPlatform = platform
       ? platform
@@ -313,7 +315,7 @@ export const Layout = ({
                   </View>
                 </View>
               </View>
-              <View key={router.asPath} className="layout-main">
+              <View key={asPathWithNoHash} className="layout-main">
                 <Flex
                   as="main"
                   className={`main${showTOC ? ' main--toc' : ''}`}
