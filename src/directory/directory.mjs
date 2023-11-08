@@ -203,7 +203,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/set-up-data/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect-to-api/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/api-graphql-concepts/index.mdx'
