@@ -200,10 +200,52 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/graphqlapi/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/advanced-workflows/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/set-up-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/api-graphql-concepts/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/customize-authz-modes/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/mutate-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/query-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/subscribe-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/relational-models/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/customize-client-libraries/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/optimistic-ui/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/cancel-request/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/offline/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/graphql-from-nodejs/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/advanced-workflows/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/existing-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/upgrade-guide/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/index.mdx',
@@ -213,57 +255,6 @@ export const directory = {
                     }
                   ]
                 },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/build-a-form-api/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/cancel-request/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/customize-authz-modes/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/customize-client-libraries/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/existing-resources/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/garphql-from-nodejs/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/graphql-pagination/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/lambda-graphql-resolvers/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/mutate-data/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/offline/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/optimistic-ui/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/query-data/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/relational-models/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/set-up-data/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/subscribe-data/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/subscriptions-by-id/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/upgrade-guide/index.mdx'
-                }
               ]
             },
             {
