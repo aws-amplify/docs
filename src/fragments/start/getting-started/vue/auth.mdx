@@ -34,7 +34,7 @@ amplify console
 
 ## Create login UI
 
-Now that you have your authentication service deployed to AWS, it's time to add authentication to your Vue app. Creating the login flow can be quite difficult and time consuming to get right. Luckily Amplify has an authentication UI component you can use that will provide the entire authentication flow for us, using your configuration specified in your **aws-exports.js** file.
+Now that you have your authentication service deployed to AWS, it's time to add authentication to your Vue app. Creating the login flow can be quite difficult and time consuming to get right. Luckily Amplify has an authentication UI component you can use that will provide the entire authentication flow for us, using your configuration specified in your **amplifyconfiguration.json** file.
 
 Open **src/App.vue** and make the following changes.
 
@@ -69,6 +69,6 @@ You can also [customize](https://ui.docs.amplify.aws/vue/components/authenticato
 
 In addition to the `authenticator` you can build custom authentication flows using the `Auth` class.
 
-`Auth` has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)
+Amplify Auth has over 25 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow.
 
 In the next section, you'll host your app on the Amplify Console, a hosting service complete with a globally available CDN, atomic deployments, easy custom domains, and CI / CD.
