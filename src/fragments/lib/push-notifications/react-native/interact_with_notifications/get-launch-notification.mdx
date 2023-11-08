@@ -1,5 +1,26 @@
-```js
-const launchNotification = await Notifications.Push.getLaunchNotification();
+<BlockSwitcher>
+<Block name="TypeScript">
 
-... // Take further action with the `launchNotification`
+```ts
+import {
+  getLaunchNotification,
+  GetLaunchNotificationOutput
+} from 'aws-amplify/push-notifications';
+
+const launchNotification: GetLaunchNotificationOutput = await getLaunchNotification();
+
+// Take further action with the `launchNotification`
 ```
+</Block>
+<Block name="JavaScript">
+
+```js
+import { getLaunchNotification } from 'aws-amplify/push-notifications';
+
+const launchNotification = await getLaunchNotification();
+
+// Take further action with the `launchNotification`
+```
+
+</Block>
+</BlockSwitcher>

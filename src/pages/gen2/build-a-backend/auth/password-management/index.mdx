@@ -12,3 +12,17 @@ export function getStaticProps(context) {
   };
 
 }
+
+# Account recovery and reset password
+
+You can set up settings here for how a user can recover their account if they forgot their password
+
+## Proposed state
+
+By default, your users can retrieve access to their accounts if they forgot their password by using either their phone or email. The following are the default account recovery methods used when either `phone` or `email` are used as login options.
+
+| Login option        | User account verification channel |
+| ------------------- | --------------------------------- |
+| `phone`             | Phone Number                      |
+| `email`             | Email                             |
+| `email` and `phone` | Email                             |

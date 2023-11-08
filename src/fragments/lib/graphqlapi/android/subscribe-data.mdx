@@ -23,7 +23,7 @@ subscription.cancel();
 val subscription = Amplify.API.subscribe(
     ModelSubscription.onCreate(Todo::class.java),
     { Log.i("ApiQuickStart", "Subscription established") },
-    { Log.i("ApiQuickStart", "Todo create subscription received: $\{(it.data as Todo).name}") },
+    { Log.i("ApiQuickStart", "Todo create subscription received: ${(it.data as Todo).name}") },
     { Log.e("ApiQuickStart", "Subscription failed", it) },
     { Log.i("ApiQuickStart", "Subscription completed") }
 )
@@ -40,7 +40,7 @@ val job = activityScope.launch {
     try {
         Amplify.API.subscribe(ModelSubscription.onCreate(Todo::class.java))
             .catch { Log.e("ApiQuickStart", "Error on subscription", it) }
-            .collect { Log.i("ApiQuickStart", "Todo created!  $\{it.data.name}") }
+            .collect { Log.i("ApiQuickStart", "Todo created!  ${it.data.name}") }
     } catch (notEstablished: ApiException) {
         Log.e("ApiQuickStart", "Subscription not established", it)
     }

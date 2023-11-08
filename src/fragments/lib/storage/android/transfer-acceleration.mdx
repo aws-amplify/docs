@@ -1,7 +1,6 @@
 ## Upload files using the accelerated S3 endpoint
 
 We switch to the accelerated S3 endpoint by using the `useAccelerateEndpoint` parameter set to `true` in the `AWSS3StorageUploadFileOptions`.
-
 <BlockSwitcher>
 
 <Block name="Java">
@@ -17,7 +16,6 @@ AWSS3StorageUploadFileOptions awsS3StorageUploadFileOptions =
    storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
 );
 ```
-
 </Block>
 <Block name="Kotlin - Callbacks">
 
@@ -33,7 +31,6 @@ val awsS3StorageUploadFileOptions = AWSS3StorageUploadFileOptions.builder().
    { Log.e("MyAmplifyApp", "Upload failed", it) }
 )
 ```
-
 </Block>
 <Block name="Kotlin - Coroutines">
 
@@ -44,13 +41,12 @@ val awsS3StorageUploadFileOptions = AWSS3StorageUploadFileOptions.builder().
 val upload = Amplify.Storage.uploadFile("KEY", file, awsS3StorageUploadFileOptions)
 try {
     val result = upload.result()
-    Log.i("MyAmplifyApp", "Successfully uploaded: $\{result.key}")
+    Log.i("MyAmplifyApp", "Successfully uploaded: ${result.key}")
 } catch (error: StorageException) {
     Log.e("MyAmplifyApp", "Upload failed", error)
 }
 )
 ```
-
 </Block>
 <Block name="RxJava">
 
@@ -67,7 +63,6 @@ rxUploadOperation
             );
 );
 ```
-
 </Block>
 </BlockSwitcher>
 <Callout>Note: useAccelerateEndpoint flag is available in AWSS3StorageUploadFileOptions, AWSS3StorageUploadInputStreamOptions, AWSS3StorageDownloadFileOptions and AWSS3StorageGetPresignedUrlOptions</Callout>

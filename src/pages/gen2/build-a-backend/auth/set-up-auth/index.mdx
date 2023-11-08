@@ -12,3 +12,100 @@ export function getStaticProps(context) {
   };
 
 }
+
+## Set up backend resource
+
+To create a new Amplify project, you can run the below command in your terminal
+
+```bash title=Terminal
+npm create amplify
+```
+
+Once your Amplify project is created, you will see a `backend` folder that is created in your app project. If you navigate to your backend folder, you will see an amplify/auth/resource.ts file that contains the definition of your Amplify Auth resources.
+
+You can set up either login mechanisms that work with an email/phone and password, use passwordless authentication with Magic Link and One-time password, or use social providers.
+
+:::note
+
+At a minimum you will need to pass a `loginWith` value to set up how your users login to your app. By default, logging in with email and password is set up by default if you do not provide any value.
+
+:::
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+});
+```
+
+In order to test your newly created Auth resource, you can run the below command.
+
+```bash title=Terminal
+npx amplify sandbox
+```
+
+This command will also take care of generating a configuration file to enable your frontend app to connect to your backend resources.
+
+If you enable any of these values, they will also be available as user profile attributes for any users you create.
+
+### Zero config with `<Authenticator>`
+
+Authenticator component adds complete authentication flows to your application with minimal boilerplate. The Authenticator works seamlessly with configuration in `amplify/auth/resource.ts` to automatically work with your backend.
+
+You can add the Authenticator connected UI component by wrapping it in your app's entry point.
+
+```ts title="pages/_app.ts"
+import { Amplify } from 'aws-amplify';
+import { Authenticator } from '@aws-amplify/ui-react';
+import config from '../amplifyconfiguration';
+import '@aws-amplify/ui-react/styles.css';
+
+Amplify.configure(config);
+
+export default function App() {
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main>
+          <h1>Hello {user.username}</h1>
+          <button onClick={signOut}>Sign out</button>
+        </main>
+      )}
+    </Authenticator>
+  );
+}
+```
+
+```ts
+// in Next.js middleware with the App Router
+import { runInMiddleware, runInServerComponent, runInServerAction, runInServiceRoute } from "@aws-amplify/adapter-nextjs";
+import { fetchAuthSession } from "aws-amplify/auth/server";
+import { NextRequest, NextResponse } from "next/server";
+
+export async function middleware(request: NextRequest) {
+  const response = NextResponse.next();
+
+  const authenticated = await runWithAmplifyServerContext({
+    nextServerContext: { request, response },
+    operation: async (contextSpec) => {
+      try {
+        const session = await fetchAuthSession(contextSpec);
+        return session.tokens !== undefined;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    }
+  });
+
+  const authentication = await runInMiddleware(async (contextSpec) => {
+    const session = await fetchAuthSession(contextSpec)
+    const url = await getUrl(contextSpec, {
+      accessLevel: // ...
+    })
+  })
+}
+```

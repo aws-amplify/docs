@@ -1,6 +1,6 @@
-import ios0 from "/src/fragments/lib/ios-escape-hatch-warning.mdx";
+import ios0 from '/src/fragments/lib/ios-escape-hatch-warning.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
 Add import statements
 
@@ -12,6 +12,6 @@ import AWSCloudWatchLogs
 Get a direct reference to the instance of CloudWatchLogsClientProtocol and directly interact with AWSCloudWatch via the [AWS SDK for Swift](https://docs.aws.amazon.com/sdk-for-swift/index.html)
 
 ```swift
-let cloudWatchPlugin = try Amplify.Logging.getPlugin(for: "awsCloudWatchLoggingPlugin") as? AWSCloudWatchLoggingPlugin 
+let cloudWatchPlugin = try Amplify.Logging.getPlugin(for: "awsCloudWatchLoggingPlugin") as? AWSCloudWatchLoggingPlugin
 let cloudWatchClient: CloudWatchLogsClientProtocol? = cloudWatchPlugin?.getEscapeHatch()
 ```

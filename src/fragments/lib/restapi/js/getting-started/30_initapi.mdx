@@ -1,0 +1,10 @@
+To initialize the Amplify API category you need to configure Amplify with `Amplify.configure()`.
+
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `index.js` in React or `main.ts` in Angular.
+
+```javascript
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from './amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
+```

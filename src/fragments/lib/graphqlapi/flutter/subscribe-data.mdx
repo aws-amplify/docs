@@ -41,7 +41,7 @@ void subscribe() {
   );
   subscription = operation.listen(
     (event) {
-      safePrint('Subscription event data received: $\{event.data}');
+      safePrint('Subscription event data received: ${event.data}');
     },
     onError: (Object e) => safePrint('Error in subscription stream: $e'),
   );
@@ -155,7 +155,7 @@ Future<void> getTodos() async {
 
     final todos = response.data?.items ?? [];
     if (response.errors.isNotEmpty) {
-      safePrint('errors: $\{response.errors}');
+      safePrint('errors: ${response.errors}');
     }
 
     setState(() {

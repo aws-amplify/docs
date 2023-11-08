@@ -24,10 +24,10 @@ Future<void> uploadProtected() async {
         key: 'ExampleKey',
         options: uploadOptions,
         onProgress: (progress) {
-          safePrint('Fraction completed: $\{progress.getFractionCompleted()}');
+          safePrint('Fraction completed: ${progress.getFractionCompleted()}');
         }
     );
-    safePrint('Successfully uploaded file: $\{result.key}');
+    safePrint('Successfully uploaded file: ${result.key}');
   } on StorageException catch (e) {
     safePrint('Error uploading protected file: $e');
   }

@@ -21,7 +21,7 @@ Amplify.DataStore.query(Comment::class.java, Post.STATUS.eq(PostStatus.ACTIVE),
     { matches ->
         while (matches.hasNext()) {
             val comment = matches.next()
-            Log.i("MyAmplifyApp", "Content: $\{comment.content}")
+            Log.i("MyAmplifyApp", "Content: ${comment.content}")
         }
     },
     { Log.e("MyAmplifyApp", "Query failed", it) }
@@ -35,7 +35,7 @@ Amplify.DataStore.query(Comment::class.java, Post.STATUS.eq(PostStatus.ACTIVE),
 Amplify.DataStore
     .query(Comment::class, Where.matches(Post.STATUS.eq(PostStatus.ACTIVE)))
     .catch { Log.e("MyAmplifyApp", "Query failed", it) }
-    .collect { Log.i("MyAmplifyApp", "Content: $\{it.content}") }
+    .collect { Log.i("MyAmplifyApp", "Content: ${it.content}") }
 ```
 
 </Block>

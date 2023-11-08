@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Working with maps',
   description: 'The Amplify Geo category',
-  platforms: ['swift', 'android']
+  platforms: ['swift', 'android', 'javascript']
 };
 
 export const getStaticPaths = async () => {
@@ -34,3 +34,7 @@ import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 import ios2 from '/src/fragments/lib-v1/geo/native_common/maps/common.mdx';
 
 <Fragments fragments={{ swift: ios2 }} />
+
+import js0 from '/src/fragments/lib-v1/geo/js/maps.mdx';
+
+<Fragments fragments={{ javascript: js0 }} />

@@ -12,3 +12,51 @@ export function getStaticProps(context) {
   };
 
 }
+
+
+# Monorepos and multi-repos
+
+
+```text
+├── apps/
+│   ├── admin-dashboard/
+│   │   ├── next.config.mjs
+│   │   └── package.json
+│   └── marketing-site/
+│       ├── astro.config.mjs
+│       └── package.json
+├── packages/
+│   └── my-shared-backend/
+│       ├── amplify/
+│       │   ├── auth/
+│       │   │   └── resource.ts
+│       │   ├── data/
+│       │   │   └── resource.ts
+│       │   └── backend.ts
+│       └── package.json
+└── package.json
+```
+
+npm
+
+```bash title="Terminal"
+npx --workspace my-shared-backend amplify sandbox
+```
+
+yarn
+
+```bash title="Terminal"
+yarn workspace my-shared-backend amplify sandbox
+```
+
+pnpm
+
+```bash title="Terminal"
+pnpm --filter my-shared-backend amplify sandbox
+```
+
+bun
+
+```bash title="Terminal"
+@TODO
+```

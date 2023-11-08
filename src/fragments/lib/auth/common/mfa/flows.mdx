@@ -248,7 +248,7 @@ Future<void> signInUser(String username, String password) async {
     );
     return _handleSignInResult(result);
   } on AuthException catch (e) {
-    safePrint('Error signing in: $\{e.message}');
+    safePrint('Error signing in: ${e.message}');
   }
 }
 
@@ -273,7 +273,8 @@ import iosConfirmSignIn from '/src/fragments/lib/auth/ios/totp/confirm_sign_in.m
 <Fragments fragments={{ swift: iosConfirmSignIn }} />
 
 import androidConfirmSignIn from '/src/fragments/lib/auth/android/totp/confirm_sign_in.mdx';
-<Fragments fragments={{ android: androidConfirmSignIn }} />;
+
+<Fragments fragments={{ android: androidConfirmSignIn }} />
 
 <InlineFilter filters={['flutter']}>
 
@@ -285,7 +286,7 @@ Future<void> confirmTotpUser(String totpCode) async {
     );
     return _handleSignInResult(result);
   } on AuthException catch (e) {
-    safePrint('Error confirming TOTP code: $\{e.message}');
+    safePrint('Error confirming TOTP code: ${e.message}');
   }
 }
 ```
@@ -558,8 +559,8 @@ Future<void> getCurrentMfaPreference() async {
   final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
 
   final currentPreference = await cognitoPlugin.fetchMfaPreference();
-  safePrint('Enabled MFA types for user: $\{currentPreference.enabled}');
-  safePrint('Preferred MFA type for user: $\{currentPreference.preferred}');
+  safePrint('Enabled MFA types for user: ${currentPreference.enabled}');
+  safePrint('Preferred MFA type for user: ${currentPreference.preferred}');
 }
 ```
 
@@ -638,7 +639,7 @@ Future<void> _handleMfaSelection(MfaType selection) async {
     );
     return _handleSignInResult(result);
   } on AuthException catch (e) {
-    safePrint('Error resending code: $\{e.message}');
+    safePrint('Error resending code: ${e.message}');
   }
 }
 ```

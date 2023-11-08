@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
-  title: 'UI Builder',
-  description: 'Figma to React code with Amplify Studio',
+  title: 'Overview',
+  description: "Figma to React code with Amplify Studio",
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 Amplify Studio offers an integration with Figma, allowing you to generate clean React code by importing your Figma design file. [Figma](https://figma.com/) is a browser-based UI and UX design application that is used to build high-fidelity designs. In the standard product development lifecycle, UI or UX designers build mockups that get implemented as code by developers. Amplify Studio automatically converts any [Figma component](https://help.figma.com/hc/en-us/articles/360038662654-Guide-to-Components-in-Figma) in your Figma file to a [React component](https://reactjs.org/docs/components-and-props.html) that is then usable in your app.
 
@@ -74,21 +75,22 @@ npm install aws-amplify @aws-amplify/ui-react
 2. In your application's entrypoint file (e.g. `src/index.js` for create-react-app or `src/main.jsx` for Vite), add the following imports and configuration
 
 ```jsx
-import { ThemeProvider } from '@aws-amplify/ui-react';
+import {ThemeProvider} from "@aws-amplify/ui-react";
 import { Amplify } from 'aws-amplify';
-import awsconfig from './aws-exports';
-import '@aws-amplify/ui-react/styles.css';
+import amplifyconfig from './amplifyconfiguration.json';
+import "@aws-amplify/ui-react/styles.css";
 import studioTheme from './ui-components/studioTheme';
+
 Amplify.configure(awsconfig);
 ```
-
 3. In your application's entrypoint file (e.g. `src/index.js` for create-react-app or `src/main.jsx` for Vite), wrap the `<App />` with the following:
 
 ```jsx
 <ThemeProvider theme={studioTheme}>
-  <App />
+    <App />
 </ThemeProvider>
 ```
+
 
 Alternatively, initial project setup instructions can be found at any time within any component. In Studio, pick a component and choose **Configure** to get to the component editor screen. Choose **Get component code** at the bottom of the page.
 
@@ -101,27 +103,28 @@ Go to the **Initial project setup** tab and follow the setup instructions.
 ## Step 4: Import and render your components
 
 Navigate to the root directory of your project. In the project root directory, run `amplify pull` to import React code generated from your Figma components. Then, import your components to use them in your application. Replace "ComponentA" and "ComponentB" with the names of your components:
-
 ```jsx
-import { ComponentA, ComponentB } from './ui-components';
+import { ComponentA, ComponentB }  from './ui-components';
+
 ```
 
 Amplify CLI places all generated UI component code in the `src/ui-components` directory as JSX and TS files. All generated code is built with primitives from the Amplify UI library.
 
 Although you can inspect the component code, any changes to component code will be overwritten on the next `amplify pull`. Instead, you can update the source component in Figma and resync, or you can use overrides to customize individual components inline. **[Learn how to extend your components with code here](/console/uibuilder/override)**.
 
+
+
 ## Upgrading Figma files
 
 In order to upgrade your Figma file, the newest version of all Amplify UI primitives must be imported into your customized Figma file.
 
 <Callout>
-  After the upgrade, some child props and data bindings might not get copied
-  over properly. Review your components to make sure everything is working and
-  re-apply any bindings that didn't get carried over.
+After the upgrade, some child props and data bindings might not get copied over properly. Review your components to make sure everything is working and re-apply any bindings that didn't get carried over.
 </Callout>
 
 1. In you current Figma file, open the AWS Amplify UI Builder Figma plugin and click the **Copy Theme** button in the bottom.
-1. Duplicate the new [Figma community file](https://www.figma.com/community/file/1047600760128127424) into your Figma account. ![Duplicate the new figma file](/images/console/ui-figma-file.png)
+1. Duplicate the new [Figma community file](https://www.figma.com/community/file/1047600760128127424) into your Figma account.
+![Duplicate the new figma file](/images/console/ui-figma-file.png)
 1. In the _new_ Figma file, open the AWS Amplify UI Builder Figma plugin. Navigate to the **Theme presets/Import** tab. Click in the paste your theme input and paste (ctrl/cmd + v). This should update the new file with your theme.
 1. In the _new_ Figma file, go to the **My Components** page and delete everything
 1. Go back to your old Figma file and copy everything from the **My Components** page.
@@ -129,6 +132,7 @@ In order to upgrade your Figma file, the newest version of all Amplify UI primit
 1. Open the AWS Amplify Figma Plugin, you should see a message at the top. Click the button to update the components. This will re-link the instances of Amplify UI primitives in your file.
 1. Get the URL of the _new_ Figma file and replace the URL of the Figma file in Amplify Studio.
 1. Click the Sync from Figma button.
+
 
 ### Figma file changelog
 
@@ -138,18 +142,20 @@ This update coincides with a major change to the Figma plugin which now allows f
 
 Added a Theme page to display Amplify UI theme values and documentation. Updated the default custom components and examples to show more real-world use-cases. Improved the documentation and organization of the file. Added primitives Loader and Placeholder, and Button variations `warning` and `destructive`.
 
+
 #### 1.2.0: July 25 2022
 
-- Update supported Amplify UI React version to 3.1.0.
-- Add TextAreaField primitive component. You can change any existing TextField into a TextAreaField by selecting the desired TextField instance and choosing "TextAreaField" under the Swap Instance dropdown. ![Convert TextField to TextArea](/images/console/ui-figma-textfield-to-textarea.gif)
+* Update supported Amplify UI React version to 3.1.0.
+* Add TextAreaField primitive component. You can change any existing TextField into a TextAreaField by selecting the desired TextField instance and choosing "TextAreaField" under the Swap Instance dropdown.
+![Convert TextField to TextArea](/images/console/ui-figma-textfield-to-textarea.gif)
 
 #### 1.0.0: March 2 2022
 
-- Fixing primitive component layer names to map properly to React props.
-- Removing the Icon primitive and adding a custom Icon component. This change allows for easier icon customization.
-- Fixing visual discrepancies between Figma file and React components.
-- Re-organizing primitive component variants to make the default variant more expected. For example, default size and default variation of the button instead of the primary variation.
-- Adding version number to the Figma file
+* Fixing primitive component layer names to map properly to React props.
+* Removing the Icon primitive and adding a custom Icon component. This change allows for easier icon customization.
+* Fixing visual discrepancies between Figma file and React components.
+* Re-organizing primitive component variants to make the default variant more expected. For example, default size and default variation of the button instead of the primary variation.
+* Adding version number to the Figma file
 
 ### Limitations
 

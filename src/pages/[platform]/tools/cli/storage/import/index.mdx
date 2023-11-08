@@ -1,20 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Use an existing S3 bucket or DynamoDB table',
-  description:
-    'Configure the Amplify CLI to use existing S3 bucket or DynamoDB table resources as a storage resource for other Amplify categories. (API, Function, and more)',
+  description: 'Configure the Amplify CLI to use existing S3 bucket or DynamoDB table resources as a storage resource for other Amplify categories. (API, Function, and more)',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 Import an existing S3 bucket or DynamoDB tables into your Amplify project. Get started by running `amplify import storage` command to search for & import an S3 or DynamoDB resource from your account.
 
@@ -65,8 +65,8 @@ Run `amplify push` to complete the import procedure.
 By default, Amplify Libraries assumes that S3 buckets are configured with the following access patterns:
 
 - `public/` - Accessible by all users of your app
-- `protected/\{user_identity_id\}/` - Readable by all users, but writable only by the creating user
-- `private/\{user_identity_id\}/` - Only accessible for the individual user
+- `protected/{user_identity_id}/` - Readable by all users, but writable only by the creating user
+- `private/{user_identity_id}/` - Only accessible for the individual user
 
 You can either configure your IAM role to use the Amplify-recommended policies or in your Amplify libraries configuration [overwrite the default storage path behavior](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js#customize-object-key-path).
 
@@ -74,7 +74,7 @@ It is highly recommended to review your S3 bucket's CORS settings. Review the [r
 
 ### Configuring IAM role to use Amplify-recommended policies
 
-If you're using an imported S3 bucket with an imported Cognito resource, then you'll need to update the policy of your Cognito Identity Pool's authenticated and unauthenticated role. Create new **managed policies** (not _inline policies_) for these roles with the following statements:
+If you're using an imported S3 bucket with an imported Cognito resource, then you'll need to update the policy of your Cognito Identity Pool's authenticated and unauthenticated role. Create new __managed policies__ (not *inline policies*) for these roles with the following statements:
 
 > Make sure to replace `{YOUR_S3_BUCKET_NAME}` with your S3 bucket's name.
 
@@ -84,8 +84,14 @@ If you're using an imported S3 bucket with an imported Cognito resource, then yo
 
 ```json
 {
-  "Action": ["s3:PutObject", "s3:GetObject", "s3:DeleteObject"],
-  "Resource": ["arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/public/*"],
+  "Action": [
+    "s3:PutObject",
+    "s3:GetObject",
+    "s3:DeleteObject"
+  ],
+  "Resource": [
+    "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/public/*"
+  ],
   "Effect": "Allow"
 }
 ```
@@ -129,8 +135,14 @@ If you're using an imported S3 bucket with an imported Cognito resource, then yo
 
 ```json
 {
-  "Action": ["s3:PutObject", "s3:GetObject", "s3:DeleteObject"],
-  "Resource": ["arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/public/*"],
+  "Action": [
+    "s3:PutObject",
+    "s3:GetObject",
+    "s3:DeleteObject"
+  ],
+  "Resource": [
+    "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/public/*"
+  ],
   "Effect": "Allow"
 }
 ```
@@ -139,7 +151,11 @@ If you're using an imported S3 bucket with an imported Cognito resource, then yo
 
 ```json
 {
-  "Action": ["s3:PutObject", "s3:GetObject", "s3:DeleteObject"],
+  "Action": [
+    "s3:PutObject",
+    "s3:GetObject",
+    "s3:DeleteObject"
+  ],
   "Resource": [
     "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/protected/${cognito-identity.amazonaws.com:sub}/*"
   ],
@@ -151,7 +167,11 @@ If you're using an imported S3 bucket with an imported Cognito resource, then yo
 
 ```json
 {
-  "Action": ["s3:PutObject", "s3:GetObject", "s3:DeleteObject"],
+  "Action": [
+    "s3:PutObject",
+    "s3:GetObject",
+    "s3:DeleteObject"
+  ],
   "Resource": [
     "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/private/${cognito-identity.amazonaws.com:sub}/*"
   ],
@@ -218,14 +238,14 @@ Run `amplify push` to complete the unlink procedure.
 
 In order to successfully build your application with Amplify Hosting add the following environment variables to your build environment:
 
-| Environment Variable | Description | Imported Resource | Required |
-| --- | --- | --- | --- |
-| AMPLIFY_STORAGE_BUCKET_NAME | The name of the S3 bucket being imported for storage | S3 bucket | Yes |
-| AMPLIFY_STORAGE_REGION | The AWS region in which the S3 bucket or the DynamoDB table is located (for example: us-east-1, us-west-2, etc.) | S3 bucket or DynamoDB table | Yes |
-| AMPLIFY_STORAGE_TABLES | The name of the storage resource and DynamoDB table being imported for storage | DynamoDB table | Yes |
+|Environment Variable|Description|Imported Resource|Required
+|-|-|-|-|
+|AMPLIFY_STORAGE_BUCKET_NAME|The name of the S3 bucket being imported for storage|S3 bucket|Yes
+|AMPLIFY_STORAGE_REGION|The AWS region in which the S3 bucket or the DynamoDB table is located (for example: us-east-1, us-west-2, etc.)|S3 bucket or DynamoDB table|Yes
+|AMPLIFY_STORAGE_TABLES|The name of the storage resource and DynamoDB table being imported for storage|DynamoDB table|Yes
 
 <Callout warning>
-The value of the AMPLIFY_STORAGE_TABLES environment variable needs to be in a json format such as:
+The value of the AMPLIFY_STORAGE_TABLES environment variable needs to be in a json format such as: 
 
 ```
 {
@@ -233,7 +253,5 @@ The value of the AMPLIFY_STORAGE_TABLES environment variable needs to be in a js
   "STORAGE_RESOURCE_NAME_2":"DDB_TABLE_NAME_2"  // If you are importing more than a single DynamoDB table
 }
 ```
-
 The values for the `STORAGE_RESOURCE_NAME` and `DDB_TABLE_NAME` fields can be retrieved from the amplify/team-provider-info.json file.
-
 </Callout>

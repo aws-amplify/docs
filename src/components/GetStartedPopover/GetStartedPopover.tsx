@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import classNames from 'classnames';
 import { Button, Flex, VisuallyHidden, View } from '@aws-amplify/ui-react';
 import Link from 'next/link';
@@ -94,7 +94,7 @@ const getStartedLinks = [
   }
 ];
 
-export const GetStartedPopover = ({}) => {
+export const GetStartedPopover = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -112,6 +112,16 @@ export const GetStartedPopover = ({}) => {
       contentRef?.current?.focus();
     }
   }, [expanded]);
+
+  const handleBlur = useCallback(
+    (e) => {
+      // Use relatedTarget to see if the target receiving focus is outside of the popover
+      if (contentRef.current && !contentRef.current.contains(e.relatedTarget)) {
+        setExpanded(false);
+      }
+    },
+    [contentRef]
+  );
 
   return (
     <Flex className="split-button">
@@ -151,6 +161,7 @@ export const GetStartedPopover = ({}) => {
           as="nav"
           tabIndex={0}
           ref={contentRef}
+          onBlur={handleBlur}
           aria-label="Getting started guides for other platforms"
         >
           <ul className="popover-list">
