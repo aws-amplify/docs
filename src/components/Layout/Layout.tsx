@@ -22,7 +22,11 @@ import {
   PLATFORM_DISPLAY_NAMES,
   Platform
 } from '@/data/platforms';
-import { ALGOLIA_API_KEY, ALGOLIA_INDEX_NAME, ALGOLIA_APP_ID } from '../../constants/algolia';
+import {
+  ALGOLIA_API_KEY,
+  ALGOLIA_INDEX_NAME,
+  ALGOLIA_APP_ID
+} from '../../constants/algolia';
 import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
 import { SpaceShip } from '@/components/SpaceShip';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
@@ -137,8 +141,8 @@ export const Layout = ({
     currentPlatform = platform
       ? platform
       : PLATFORMS.includes(asPathPlatform)
-        ? asPathPlatform
-        : DEFAULT_PLATFORM;
+      ? asPathPlatform
+      : DEFAULT_PLATFORM;
   }
 
   const title = [
@@ -171,31 +175,16 @@ export const Layout = ({
       menuButtonRef?.current?.focus();
     }
   };
-  let platformNav = <div className="layout-sidebar-platform">
-    <PlatformNavigator
-      currentPlatform={
-        currentPlatform
-      }
-      isPrev={isPrev}
-    />
-  </div>
-  let menu = <Menu
-    currentPlatform={currentPlatform}
-    rootMenuNode={rootMenuNode}
-  />
+
+  let menu = (
+    <Menu currentPlatform={currentPlatform} rootMenuNode={rootMenuNode} />
+  );
   if (isGen2) {
-    menu = <Menu
-      rootMenuNode={rootMenuNode}
-    />
-    platformNav = null;
+    menu = <Menu rootMenuNode={rootMenuNode} />;
   } else if (isPrev) {
     let prevNode = findDirectoryNode('/[platform]/prev');
-    menu = <Menu
-      currentPlatform={currentPlatform}
-      rootMenuNode={prevNode}
-    />
+    menu = <Menu currentPlatform={currentPlatform} rootMenuNode={prevNode} />;
   }
-
 
   return (
     <>
@@ -241,73 +230,89 @@ export const Layout = ({
                 currentSite="Docs"
                 isGen2={isGen2}
               />
-              <Flex className={`layout-search layout-search--${pageType}`}>
-                <Button
-                  onClick={() => handleMenuToggle()}
-                  size="small"
-                  ref={menuButtonRef}
-                  className="search-menu-toggle mobile-toggle"
-                >
-                  <IconMenu aria-hidden="true" />
-                  Menu
-                </Button>
-
-                <View
-                  className={classNames(
-                    'layout-search__search',
-                    `layout-search__search--${pageType}`,
-                    { 'layout-search__search--toc': showTOC }
-                  )}
-                >
-                  <DocSearch
-                    appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
-                    indexName={process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME}
-                    apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
-                    searchParameters={{
-                      facetFilters: [`platform:${currentPlatform}`],
-                    }}
-                  />
-                </View>
-              </Flex>
-              <View
-                className={classNames('layout-sidebar', { 'layout-sidebar--expanded': menuOpen })}
-              >
-                <View
-                  className={classNames('layout-sidebar__backdrop', { 'layout-sidebar__backdrop--expanded': menuOpen })}
-                  onClick={() => toggleMenuOpen(false)}
-                ></View>
-                <View
-                  className={classNames('layout-sidebar__inner', { 'layout-sidebar__inner--expanded': menuOpen })}
-                >
+              <View as="header" className="layout-header">
+                <Flex className={`layout-search layout-search--${pageType}`}>
                   <Button
-                    size="small"
-                    colorTheme="overlay"
-                    className={classNames('layout-sidebar__mobile-toggle', {
-                      'layout-sidebar__mobile-toggle--open': menuOpen
-                    })}
-                    ref={sidebarMenuButtonRef}
                     onClick={() => handleMenuToggle()}
+                    size="small"
+                    ref={menuButtonRef}
+                    className="search-menu-toggle mobile-toggle"
                   >
-                    <IconDoubleChevron />
-                    <VisuallyHidden>Close menu</VisuallyHidden>
+                    <IconMenu aria-hidden="true" />
+                    Menu
                   </Button>
-                  {platformNav}
 
-                  <div className="layout-sidebar-menu">
-                    {menu}
-                    <div className="layout-sidebar-feedback">
-                      <RepoActions router={router}></RepoActions>
-                      <Feedback router={router}></Feedback>
-                    </div>
-                    {showLastUpdatedDate && (
-                      <PageLastUpdated
-                        directoryData={flatDirectory[router.pathname]}
-                      />
+                  <View
+                    className={classNames(
+                      'layout-search__search',
+                      `layout-search__search--${pageType}`,
+                      { 'layout-search__search--toc': showTOC }
                     )}
-                  </div>
+                  >
+                    <DocSearch
+                      appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
+                      indexName={
+                        process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME
+                      }
+                      apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
+                      searchParameters={{
+                        facetFilters: [`platform:${currentPlatform}`]
+                      }}
+                    />
+                  </View>
+                </Flex>
+                <View
+                  className={classNames('layout-sidebar', {
+                    'layout-sidebar--expanded': menuOpen
+                  })}
+                >
+                  <View
+                    className={classNames('layout-sidebar__backdrop', {
+                      'layout-sidebar__backdrop--expanded': menuOpen
+                    })}
+                    onClick={() => toggleMenuOpen(false)}
+                  ></View>
+                  <View
+                    className={classNames('layout-sidebar__inner', {
+                      'layout-sidebar__inner--expanded': menuOpen
+                    })}
+                  >
+                    <Button
+                      size="small"
+                      colorTheme="overlay"
+                      className={classNames('layout-sidebar__mobile-toggle', {
+                        'layout-sidebar__mobile-toggle--open': menuOpen
+                      })}
+                      ref={sidebarMenuButtonRef}
+                      onClick={() => handleMenuToggle()}
+                    >
+                      <IconDoubleChevron />
+                      <VisuallyHidden>Close menu</VisuallyHidden>
+                    </Button>
+                    {isGen2 ? null : (
+                      <div className="layout-sidebar-platform">
+                        <PlatformNavigator
+                          currentPlatform={currentPlatform}
+                          isPrev={isPrev}
+                        />
+                      </div>
+                    )}
+
+                    <div className="layout-sidebar-menu">
+                      {menu}
+                      <div className="layout-sidebar-feedback">
+                        <RepoActions router={router}></RepoActions>
+                        <Feedback router={router}></Feedback>
+                      </div>
+                      {showLastUpdatedDate && (
+                        <PageLastUpdated
+                          directoryData={flatDirectory[router.pathname]}
+                        />
+                      )}
+                    </div>
+                  </View>
                 </View>
               </View>
-
               <View key={router.asPath} className="layout-main">
                 <Flex
                   as="main"

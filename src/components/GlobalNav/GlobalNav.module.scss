@@ -29,9 +29,10 @@
   --nav-links-spacing: var(--amplify-space-small);
 
   background-color: var(--navbar-background-color);
-  position: sticky;
+  position: fixed;
   top: 0px;
   z-index: 200;
+  width: 100%;
 
   box-shadow: var(--navbar-box-shadow);
   a,
@@ -259,7 +260,6 @@
   }
 
   .nav-links-container {
-    position: inherit;
     flex-direction: row;
     height: var(--dev-center-nav-height);
     gap: var(--nav-links-spacing);
