@@ -4,7 +4,7 @@ export const meta = {
   title: 'Download files',
   description:
     'Learn more about how to download / retrieve files using the Storage category of Amplify',
-  platforms: ['javascript', 'flutter', 'swift', 'android']
+  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -20,31 +20,19 @@ export function getStaticProps(context) {
   };
 }
 
-import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+import android_download from '/src/fragments/lib/storage/android/download.mdx';
+import flutter_download from '/src/fragments/lib/storage/flutter/download.mdx';
+import ios_download from '/src/fragments/lib/storage/ios/download.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments
+  fragments={{
+    android: android_download,
+    flutter: flutter_download,
+    swift: ios_download
+  }}
+/>
 
-import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
-
-<Fragments fragments={{ flutter: flutter_maintenance }} />
-
-import ios1 from '/src/fragments/lib-v1/storage/ios/download.mdx';
-
-<Fragments fragments={{ swift: ios1 }} />
-
-import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
-
-<Fragments fragments={{ android: android_maintenance }} />
-
-import android2 from '/src/fragments/lib-v1/storage/android/download.mdx';
-
-<Fragments fragments={{ android: android2 }} />
-
-import flutter3 from '/src/fragments/lib-v1/storage/flutter/download.mdx';
-
-<Fragments fragments={{ flutter: flutter3 }} />
-
-<InlineFilter filters={['javascript']}>
+<InlineFilter filters={['javascript', 'react-native']}>
 
 The following options are available for retrieving previously uploaded data:
 
@@ -65,23 +53,24 @@ const getUrlResult = await getUrl({
     useAccelerateEndpoint?: true; // Whether to use accelerate endpoint.
   },
 });
+console.log('signed URL: ', getUrlResult.url);
+console.log('URL expires at: ', getUrlResult.expiresAt);
 ```
 
-`getUrl` returns a signed URL `string` to your file. You can use this to create a download link for users to click on. Note that this function **does not check if the file exists by default**. You can enable this check by setting `validateObjectExistence` to `true`.
+`getUrl` returns a signed URL in the `url` property of the result. You can use this to create a download link for users to click on. The `expiresAt` property is a `Date` object that represents the time at which the URL will expire.
 
-> Note: Currently, the expiration time of the presigned url is dependent on the session and will max out at 1 hour.
+Inside your template or JSX code, you can use the `url` property to create a link to the file:
 
-```js
-import { getUrl } from 'aws-amplify/storage';
-
-// get the signed URL string
-const signedURL = getUrl({ key: filename }); // get key from list
-
-// inside your template or JSX code. Note <a download> doesn't work here because it is not same origin
-<a href={signedURL.url.toString()} target="_blank" rel="noreferrer">
-  {fileName}
-</a>;
+```html
+<a href="{signedURL.url.toString()}" target="_blank" rel="noreferrer">
+  {fileName} </a
+>;
 ```
+
+<Callout>
+  This function does not check if the file exists by default. As result, the
+  signed URL may fail if the file to be download does not exist.
+</Callout>
 
 ### Check for existence of a file
 
@@ -109,6 +98,11 @@ import { getUrl } from 'aws-amplify/storage';
 await getUrl({ key: 'filename.txt', options: { expiresIn: 60 } });
 ```
 
+<Callout>
+  The expiration time of the presigned url is dependent on the session and will
+  max out at 1 hour.
+</Callout>
+
 ## downloadData
 
 Download a file to in-memory buffer.
@@ -130,22 +124,23 @@ const { body, eTag } = await downloadData({
 
 ### Get the text value of downloaded File
 
-we can get the value of file in any of the three formats: 'blob', 'json', or 'text'. Replaces the respective method to get respective value.
+You can consume the value of file in any of the three formats: `blob`, `json`, or `text`. You can call the respective method on the `body` property to consume the set data in the respective format.
 
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
 try {
-  const downloadResult: { body: Pick<Body, 'blob' | 'json' | 'text'> }
-  = await downloadData({ key: filename }).result;
-  if (downloadResult?.body?.text)
-    downloadResult?.body
-      ?.text()
-      .then((result) => console.log(result));
+  const downloadResult = await downloadData({ key: filename }).result;
+  const text = await downloadResult.body.text();
+  // Alternatively, you can use `downloadResult.body.blob()`
+  // or `downloadResult.body.json()` get read body in Blob or JSON format.
+  console.log('Succeed: ', text);
 } catch (error) {
-  console.log('Error : ', error)
+  console.log('Error : ', error);
 }
 ```
+
+### Track the progress of a download task
 
 To track the progress of your download, you can use `onProgress`:
 
@@ -166,10 +161,10 @@ const { body, eTag } = await downloadData(
 ).result;
 ```
 
-Cancel a task
+### Cancel a download task
 
 ```javascript
-import { downloadData } from 'aws-amplify/storage';
+import { downloadData, isCancelError } from 'aws-amplify/storage';
 
 const downloadTask = downloadData({ key, data: file });
 downloadTask.cancel();

@@ -1,9 +1,25 @@
-<Callout>
-  If you use TypeScript for your development, the string values returned can be
-  represented as PushNotificationPermissionStatus enum members as well.
-</Callout>
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  getPermissionStatus,
+  GetPermissionStatusOutput
+} from 'aws-amplify/push-notifications';
+
+const status: GetPermissionStatusOutput = await getPermissionStatus();
+// 'shouldRequest' | 'shouldExplainThenRequest' | 'granted' | 'denied'
+```
+
+</Block>
+<Block name="JavaScript">
 
 ```js
-const status = await Notifications.Push.getPermissionStatus();
-// 'SHOULD_REQUEST' | 'SHOULD_EXPLAIN_THEN_REQUEST' | 'GRANTED' | 'DENIED'
+import { getPermissionStatus } from 'aws-amplify/push-notifications';
+
+const status = await getPermissionStatus();
+// 'shouldRequest' | 'shouldExplainThenRequest' | 'granted' | 'denied'
 ```
+
+</Block>
+</BlockSwitcher>

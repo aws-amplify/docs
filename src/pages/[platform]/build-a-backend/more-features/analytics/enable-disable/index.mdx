@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Enable and disable analytics',
   description: 'Learn how to enable/disable analytics using Amplify.',
-  platforms: ['javascript', 'react-native', 'swift', 'android']
+  platforms: ['javascript', 'react-native', 'swift', 'android', 'flutter']
 };
 
 export const getStaticPaths = async () => {
@@ -23,6 +23,14 @@ export function getStaticProps(context) {
 
 Analytics is enabled by default when you configure it in your app. To disable Analytics in your app use the `disable` function:
 
+import js0 from '/src/fragments/lib/analytics/js/enable-disable/disable.mdx';
+
+<Fragments fragments={{ javascript: js0 }} />
+
+import reactNative0 from '/src/fragments/lib/analytics/js/enable-disable/disable.mdx';
+
+<Fragments fragments={{ 'react-native': reactNative0 }} />
+
 import android0 from '/src/fragments/lib/analytics/android/enable-disable/disable.mdx';
 
 <Fragments fragments={{ android: android0 }} />
@@ -35,17 +43,17 @@ import ios0 from '/src/fragments/lib/analytics/ios/enable-disable/disable.mdx';
 
 <Fragments fragments={{ swift: ios0 }} />
 
-import js0 from '/src/fragments/lib/analytics/js/enable-disable/disable.mdx';
-
-<Fragments fragments={{ javascript: js0 }} />
-
-import reactnative0 from '/src/fragments/lib/analytics/js/enable-disable/disable.mdx';
-
-<Fragments fragments={{ 'react-native': reactnative0 }} />
-
 ## Enable Analytics
 
 To enable analytics you can use the `enable` function in your app:
+
+import js1 from '/src/fragments/lib/analytics/js/enable-disable/enable.mdx';
+
+<Fragments fragments={{ javascript: js1 }} />
+
+import reactNative1 from '/src/fragments/lib/analytics/js/enable-disable/enable.mdx';
+
+<Fragments fragments={{ 'react-native': reactNative1 }} />
 
 import android1 from '/src/fragments/lib/analytics/android/enable-disable/enable.mdx';
 
@@ -58,11 +66,3 @@ import flutter1 from '/src/fragments/lib/analytics/flutter/enable-disable/enable
 import ios1 from '/src/fragments/lib/analytics/ios/enable-disable/enable.mdx';
 
 <Fragments fragments={{ swift: ios1 }} />
-
-import js1 from '/src/fragments/lib/analytics/js/enable-disable/enable.mdx';
-
-<Fragments fragments={{ javascript: js1 }} />
-
-import reactnative1 from '/src/fragments/lib/analytics/js/enable-disable/enable.mdx';
-
-<Fragments fragments={{ 'react-native': reactnative1 }} />

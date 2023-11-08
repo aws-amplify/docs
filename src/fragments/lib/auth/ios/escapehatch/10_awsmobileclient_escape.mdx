@@ -1,11 +1,10 @@
-For advanced use cases where Amplify does not provide the functionality you're looking for,
-you can retrieve the escape hatch to access the underlying SDK.
+For advanced use cases where Amplify does not provide the functionality you're looking for, you can retrieve the escape hatch to access the underlying SDK.
 
-import ios0 from "/src/fragments/lib/ios-escape-hatch-warning.mdx";
+import ios0 from '/src/fragments/lib/ios-escape-hatch-warning.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
-The escape hatch provides access to the underlying `AWSCognitoIdentityProvider` instance.  Import the necessary types:
+The escape hatch provides access to the underlying `AWSCognitoIdentityProvider` instance. Import the necessary types:
 
 ```swift
 import AWSCognitoAuthPlugin
@@ -17,10 +16,10 @@ Then retrieve the escape hatch with this code:
 ```swift
 func getEscapeHatch() {
     let client: CognitoIdentityProviderClient
-    
+
     // Get the instance of AWSCognitoAuthPlugin
     let plugin = try? Amplify.Auth.getPlugin(for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
-    
+
     // Get the instance of CognitoIdentityProviderClient
     if case .userPoolAndIdentityPool(let userPoolClient, _) = plugin?.getEscapeHatch() {
         client = userPoolClient

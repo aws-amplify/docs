@@ -1,4 +1,5 @@
 This section describes different use cases for constructing your own custom GraphQL requests and how to approach it. You may want to construct your own GraphQL request if you want to
+
 - retrieve only a subset of the data to reduce data transfer
 - retrieve nested objects at a depth that you choose
 - combine multiple operations into a single request
@@ -6,22 +7,22 @@ This section describes different use cases for constructing your own custom Grap
 
 A GraphQL request is automatically generated for you when using AWSAPIPlugin with the existing workflow. For example, if you have a Todo model, a mutation request to save the Todo will look like this:
 
-import ios0 from "/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/10_example.mdx";
+import ios0 from '/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/10_example.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
-import android1 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/10_example.mdx";
+import android1 from '/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/10_example.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ android: android1 }} />
 
-import flutter1 from "/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/10_example.mdx";
+import flutter1 from '/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/10_example.mdx';
 
-<Fragments fragments={{flutter: flutter1}} />
+<Fragments fragments={{ flutter: flutter1 }} />
 
-Underneath the covers, a request is generated with a GraphQL document and variables and sent to the AppSync service. 
+Underneath the covers, a request is generated with a GraphQL document and variables and sent to the AppSync service.
 
 ```json
-{ 
+{
   "query": "mutation createTodo($input: CreateTodoInput!) {
     createTodo(input: $input) {
       id
@@ -40,8 +41,9 @@ Underneath the covers, a request is generated with a GraphQL document and variab
 ```
 
 The different parts of the document are described as follows
+
 - `mutation` - the operation type to be performed, other operation types are `query` and `subscription`
-- `createTodo($input: CreateTodoInput!)` - the name and input of the operation. 
+- `createTodo($input: CreateTodoInput!)` - the name and input of the operation.
 - `$input: CreateTodoInput!` - the input of type `CreateTodoInput!` referencing the variables containing JSON input
 - `createTodo(input: $input)` - the mutation operation which takes a variable input from `$input`
 - the selection set containing `id`, `name`, and `description` are fields specified to be returned in the response
@@ -60,7 +62,9 @@ query getTodo($id: ID!) {
   }
 }
 ```
+
 The response data will look like this
+
 ```json
 {
   "data": {
@@ -71,21 +75,23 @@ The response data will look like this
   }
 }
 ```
+
 First, create your own `GraphQLRequest`
 
-import ios2 from "/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/20_custom.mdx";
+import ios2 from '/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/20_custom.mdx';
 
-<Fragments fragments={{ios: ios2}} />
+<Fragments fragments={{ swift: ios2 }} />
 
-import android3 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/20_custom.mdx";
+import android3 from '/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/20_custom.mdx';
 
-<Fragments fragments={{android: android3}} />
+<Fragments fragments={{ android: android3 }} />
 
-import flutter3 from "/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/20_custom.mdx";
+import flutter3 from '/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/20_custom.mdx';
 
-<Fragments fragments={{flutter: flutter3}} />
+<Fragments fragments={{ flutter: flutter3 }} />
 
 ## Nested Data
+
 If you have a relational model, you can retrieve the nested object by creating a `GraphQLRequest` with a selection set containing the nested object's fields. For example, in this schema, the Post can contain multiple comments and notes.
 
 ```graphql
@@ -120,46 +126,46 @@ type Note @model {
 
 If you only want to retrieve the comments, without the notes, create a `GraphQLRequest` for the Post with nested fields only containing the comment fields.
 
-import ios4 from "/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/30_nested.mdx";
+import ios4 from '/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/30_nested.mdx';
 
-<Fragments fragments={{ios: ios4}} />
+<Fragments fragments={{ swift: ios4 }} />
 
-import android5 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/30_nested.mdx";
+import android5 from '/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/30_nested.mdx';
 
-<Fragments fragments={{android: android5}} />
+<Fragments fragments={{ android: android5 }} />
 
-import flutter5 from "/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/30_nested.mdx";
+import flutter5 from '/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/30_nested.mdx';
 
-<Fragments fragments={{flutter: flutter5}} />
+<Fragments fragments={{ flutter: flutter5 }} />
 
 ## Combining Multiple Operations
 
 When you want to perform more than one operation in a single request, you can place them within the same document. For example, to retrieve a Post and a Todo
 
-import ios6 from "/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/40_multiple.mdx";
+import ios6 from '/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/40_multiple.mdx';
 
-<Fragments fragments={{ios: ios6}} />
+<Fragments fragments={{ swift: ios6 }} />
 
-import android7 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/40_multiple.mdx";
+import android7 from '/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/40_multiple.mdx';
 
-<Fragments fragments={{android: android7}} />
+<Fragments fragments={{ android: android7 }} />
 
-import flutter7 from "/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/40_multiple.mdx";
+import flutter7 from '/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/40_multiple.mdx';
 
-<Fragments fragments={{flutter: flutter7}} />
+<Fragments fragments={{ flutter: flutter7 }} />
 
 ## Adding Headers to Outgoing Requests
 
 By default, the API plugin includes appropriate authorization headers on your outgoing requests. However, you may have an advanced use case where you wish to send additional request headers to AppSync.
 
-import ios8 from "/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/50_interceptor.mdx";
+import ios8 from '/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/50_interceptor.mdx';
 
-<Fragments fragments={{ios: ios8}} />
+<Fragments fragments={{ swift: ios8 }} />
 
-import android9 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/50_interceptor.mdx";
+import android9 from '/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/50_interceptor.mdx';
 
-<Fragments fragments={{android: android9}} />
+<Fragments fragments={{ android: android9 }} />
 
-import flutter8 from "/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/50_interceptor.mdx";
+import flutter8 from '/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/50_interceptor.mdx';
 
-<Fragments fragments={{flutter: flutter8}} />
+<Fragments fragments={{ flutter: flutter8 }} />

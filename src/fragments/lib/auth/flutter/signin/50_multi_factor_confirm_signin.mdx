@@ -6,7 +6,7 @@ Future<void> confirmMFAUser() async {
     );
     await _handleSignInResult(result);
   } on AuthException catch (e) {
-    safePrint('Error confirming sign in: $\{e.message}');
+    safePrint('Error confirming sign in: ${e.message}');
   }
 }
 ```

@@ -19,9 +19,9 @@ Future<void> movePrivateFile({
       ),
     ).result;
 
-    safePrint('Moved file to: $\{result.movedItem.key}');
+    safePrint('Moved file to: ${result.movedItem.key}');
   } on StorageException catch (e) {
-    safePrint('Something went wrong moving the file: $\{e.message}');
+    safePrint('Something went wrong moving the file: ${e.message}');
     rethrow;
   }
 }

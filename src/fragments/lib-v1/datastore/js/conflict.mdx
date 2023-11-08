@@ -1,0 +1,72 @@
+DataStore has a few optional configurations, such as the ability to specify a custom handler for error messages that take place in any part of the system. You can also specify a custom conflict handler that runs if a mutation is rejected by AWS AppSync during one of the conflict resolution strategies.
+
+Finally you can configure the number of records to sync as an upper bound on items (per-Model) which will be stored locally on the device, as well as a custom interval in minutes which is an override of the default 24 hour "base query" which runs as part of the Delta Sync process.
+
+### Example
+
+The code below illustrates a conflict resolution handler for the `Post` model that retries a mutation with the same title, but the most recent remote data for all other fields. The conflict resolution handler discards conflicts for all other models (by returning the `DISCARD` symbol imported from `@aws-amplify/datastore`).
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  DISCARD,
+  PersistentModelConstructor,
+} from "@aws-amplify/datastore";
+
+DataStore.configure({
+  errorHandler: (error) => {
+    console.warn("Unrecoverable error", { error });
+  },
+  conflictHandler: async (data) => {
+    // Example conflict handler
+    if (data.modelConstructor as PersistentModelConstructor<Todo> === Todo) {
+      const remoteModel = data.remoteModel as Todo;
+      const localModel = data.localModel as Todo;
+      
+      const newModel = Todo.copyOf(remoteModel, (d) => {
+        d.name = localModel.name;
+      });
+      
+      return newModel;
+    }
+
+    return DISCARD;
+  },
+  maxRecordsToSync: 30000,
+  fullSyncInterval: 60, // minutes
+});
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { DISCARD } from "@aws-amplify/datastore";
+
+DataStore.configure({
+  errorHandler: (error) => {
+    console.warn("Unrecoverable error", { error });
+  },
+  conflictHandler: async (data) => {
+    // Example conflict handler
+    const modelConstructor = data.modelConstructor;
+    if (modelConstructor === Post) {
+      const remoteModel = data.remoteModel;
+      const localModel = data.localModel;
+      const newModel = modelConstructor.copyOf(remoteModel, (d) => {
+        d.title = localModel.title;
+      });
+      return newModel;
+    }
+
+    return DISCARD;
+  },
+  maxRecordsToSync: 30000,
+  fullSyncInterval: 60, // minutes
+});
+```
+
+</Block>
+</BlockSwitcher>

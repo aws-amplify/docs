@@ -26,20 +26,20 @@ In the following procedure, you’ll connect your app to the Amazon Location Ser
 In your React App, open `src/App.js` file, and call the following function to initialize the Amazon Location Service client:
 
 ```javascript
-import { Amplify, Auth } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import { fetchAuthSession } from 'aws-amplify/auth';
 import {
   LocationClient,
   AssociateTrackerConsumerCommand
 } from '@aws-sdk/client-location';
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
 
 const createClient = async () => {
-  const credentials = await Auth.currentCredentials();
+  const session = await fetchAuthSession();
   const client = new LocationClient({
-    credentials,
-    region: awsconfig.aws_project_region
+    credentials: session.credentials,
+    region: amplifyconfig.aws_project_region
   });
   return client;
 };

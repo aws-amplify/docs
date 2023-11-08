@@ -1,43 +1,45 @@
 ## Reset password
+
 In order to reset your password, use the resetPassword api - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
 
-import ios0 from "/src/fragments/lib/auth/ios/password_management/10_reset_password.mdx";
+import ios0 from '/src/fragments/lib/auth/ios/password_management/10_reset_password.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
-import android1 from "/src/fragments/lib/auth/android/password_management/10_reset_password.mdx";
+import android1 from '/src/fragments/lib/auth/android/password_management/10_reset_password.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ android: android1 }} />
 
-import flutter2 from "/src/fragments/lib/auth/flutter/password_management/10_reset_password.mdx";
+import flutter2 from '/src/fragments/lib/auth/flutter/password_management/10_reset_password.mdx';
 
-<Fragments fragments={{flutter: flutter2}} />
+<Fragments fragments={{ flutter: flutter2 }} />
 
 To complete the password reset process, invoke the confirmResetPassword api with the code you were sent and the new password you want.
 
-import ios3 from "/src/fragments/lib/auth/ios/password_management/20_confirm_reset_password.mdx";
+import ios3 from '/src/fragments/lib/auth/ios/password_management/20_confirm_reset_password.mdx';
 
-<Fragments fragments={{ios: ios3}} />
+<Fragments fragments={{ swift: ios3 }} />
 
-import android4 from "/src/fragments/lib/auth/android/password_management/20_confirm_reset_password.mdx";
+import android4 from '/src/fragments/lib/auth/android/password_management/20_confirm_reset_password.mdx';
 
-<Fragments fragments={{android: android4}} />
+<Fragments fragments={{ android: android4 }} />
 
-import flutter5 from "/src/fragments/lib/auth/flutter/password_management/20_confirm_reset_password.mdx";
+import flutter5 from '/src/fragments/lib/auth/flutter/password_management/20_confirm_reset_password.mdx';
 
-<Fragments fragments={{flutter: flutter5}} />
+<Fragments fragments={{ flutter: flutter5 }} />
 
 ## Change password
+
 A signed in user can update their password using the updatePassword api:
 
-import ios6 from "/src/fragments/lib/auth/ios/password_management/30_change_password.mdx";
+import ios6 from '/src/fragments/lib/auth/ios/password_management/30_change_password.mdx';
 
-<Fragments fragments={{ios: ios6}} />
+<Fragments fragments={{ swift: ios6 }} />
 
-import android7 from "/src/fragments/lib/auth/android/password_management/30_change_password.mdx";
+import android7 from '/src/fragments/lib/auth/android/password_management/30_change_password.mdx';
 
-<Fragments fragments={{android: android7}} />
+<Fragments fragments={{ android: android7 }} />
 
-import flutter8 from "/src/fragments/lib/auth/flutter/password_management/30_change_password.mdx";
+import flutter8 from '/src/fragments/lib/auth/flutter/password_management/30_change_password.mdx';
 
-<Fragments fragments={{flutter: flutter8}} />
+<Fragments fragments={{ flutter: flutter8 }} />

@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Diagnose',
   description: 'More information about diagnose command in Amplify CLI',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 Non-sensitive configurations of your Amplify backend can be securely shared with Amplify by running the command
 
@@ -37,16 +38,17 @@ amplify diagnose --send-report
 
 The CLI collects non-sensitive files from your Amplify backend into a zip file and transmits it to a secure location. Below are the files CLI collects, transmits and stores:
 
-- [backend-config.json](https://docs.amplify.aws/cli/reference/files/#backend-configjson): Includes all the categories that were provided in the project.
-- CloudFormation files: CLI generated CloudFormation files that are used to provide resources.
-- [cli.json](https://docs.amplify.aws/cli/reference/files/#clijson): The feature flag configuration.
-- [amplify.state](https://docs.amplify.aws/cli/reference/files/#general-category-files): Internal metadata on how to invoke the function category.
-- [parameters.json](https://docs.amplify.aws/cli/reference/files/#category-parametersjson) and cli-inputs.json.
-- schema.graphql or schema folder that are part of the GraphQL API.
-- override.ts provides any custom extensions to the CloudFormation.
-- Function category dependency information stored in package files.
+* [backend-config.json](https://docs.amplify.aws/cli/reference/files/#backend-configjson): Includes all the categories that were provided in the project.
+* CloudFormation files: CLI generated CloudFormation files that are used to provide resources.
+* [cli.json](https://docs.amplify.aws/cli/reference/files/#clijson): The feature flag configuration.
+* [amplify.state](https://docs.amplify.aws/cli/reference/files/#general-category-files): Internal metadata on how to invoke the function category.
+* [parameters.json](https://docs.amplify.aws/cli/reference/files/#category-parametersjson) and cli-inputs.json. 
+* schema.graphql or schema folder that are part of the GraphQL API.
+* override.ts provides any custom extensions to the CloudFormation.
+* Function category dependency information stored in package files.
 
 After the zip file is transmitted successfully the current project’s unique identifier is printed. The identifier is used to access the zip file for debugging purposes by the support engineer.
+
 
 ```bash
 Project Identifier: 56b5981ed6cf5caad90fb2f8aed150e2
@@ -54,22 +56,25 @@ Project Identifier: 56b5981ed6cf5caad90fb2f8aed150e2
 
 ### Automatic Report Sharing
 
+
 To help improve Amplify CLI you can opt in to automatically share your project configurations with Amplify CLI on failures. The is a project level setting and can be toggled per project. The project can opt out by running
+
 
 ```bash
 amplify diagnose --auto-send-off
 ```
 
-and opt in by
+and opt in by 
 
 ```bash
 amplify diagnose --auto-send-on
-```
+``` 
 
 The CLI collects two extra files including the files below and the files collected using `amplify diagnose --send-report`
 
-- Error details: Including the stack trace, message and error name.
-- CloudFormation updates when an `amplify push` is invoked.
+* Error details: Including the stack trace, message and error name.
+* CloudFormation updates when an `amplify push` is invoked.
+
 
 ## Security
 

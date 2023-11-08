@@ -5,30 +5,12 @@
 In order to start receiving messages from your provider, you need to subscribe to a topic as follows;
 
 ```javascript
-PubSub.subscribe('myTopic').subscribe({
+pubsub.subscribe({ topics: 'myTopic' }).subscribe({
   next: (data) => console.log('Message received', data),
   error: (error) => console.error(error),
   complete: () => console.log('Done')
 });
 ```
-
-If multiple providers are defined in your app you can include the specific provider you would like to subscribe to:
-
-```javascript
-PubSub.subscribe('myTopic', { provider: 'AWSIoTProvider' }).subscribe({
-  //...
-});
-
-PubSub.subscribe('myTopic', { provider: 'MqttOverWSProvider' }).subscribe({
-  //...
-});
-```
-
-<Callout>
-
-**Note:** If you do not include a specific provider it will subscribe to all of the configured PubSub providers in your app.
-
-</Callout>
 
 Following events will be triggered with `subscribe()`
 
@@ -43,7 +25,7 @@ Following events will be triggered with `subscribe()`
 To subscribe for multiple topics, just pass a String array including the topic names:
 
 ```javascript
-PubSub.subscribe(['myTopic1', 'myTopic1']).subscribe({
+pubsub.subscribe({ topics: ['myTopic1', 'myTopic1'] }).subscribe({
   //...
 });
 ```
@@ -53,7 +35,7 @@ PubSub.subscribe(['myTopic1', 'myTopic1']).subscribe({
 To stop receiving messages from a topic, you can use `unsubscribe()` method:
 
 ```javascript
-const sub1 = PubSub.subscribe('myTopicA').subscribe({
+const sub1 = pubsub.subscribe({ topics: 'myTopicA' }).subscribe({
   next: (data) => console.log('Message received', data),
   error: (error) => console.error(error),
   complete: () => console.log('Done')
@@ -69,7 +51,7 @@ Now that your application is setup and using pubsub subscriptions, you may want 
 
 ```typescript
 import { CONNECTION_STATE_CHANGE, ConnectionState } from '@aws-amplify/pubsub';
-import { Hub } from 'aws-amplify';
+import { Hub } from 'aws-amplify/utils';
 
 Hub.listen('pubsub', (data: any) => {
   const { payload } = data;
@@ -110,7 +92,7 @@ Hub.listen("pubsub", (data: any) => {
   }
 });
 
-PubSub.subscribe('myTopic').subscribe({
+pubsub.subscribe('myTopic').subscribe({
   next: data => // Process incoming messages
 })
 ```

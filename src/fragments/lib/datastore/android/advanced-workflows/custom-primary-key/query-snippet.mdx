@@ -34,7 +34,7 @@ Amplify.DataStore.query(Book::class.java, Where.identifier(Book::class.java, "12
 ```kotlin
 Amplify.DataStore.query(Book::class, Where.identifier(Book::class.java, "12345"))
     .catch { Log.e("MyAmplifyApp", "Query failed", it) }
-    .collect { Log.i("MyAmplifyApp", "Title: $\{it.title}") }
+    .collect { Log.i("MyAmplifyApp", "Title: ${it.title}") }
 ```
 
 </Block>
@@ -89,7 +89,7 @@ Amplify.DataStore.query(Book::class.java, Where.identifier(Book::class.java,
 Amplify.DataStore.query(Book::class, Where.identifier(Book::class.java,
         BookIdentifier( "12345", "My Title")))
   .catch { Log.e("MyAmplifyApp", "Query failed", it) }
-  .collect { Log.i("MyAmplifyApp", "Title: $\{it.title}") }
+  .collect { Log.i("MyAmplifyApp", "Title: ${it.title}") }
 ```
 
 </Block>
@@ -105,3 +105,5 @@ RxAmplify.DataStore.query(Post.class, Where.identifier(Book::class.java,
 
 </Block>
 </BlockSwitcher>
+
+

@@ -2,9 +2,9 @@
 
 <Block name="Stable (Mobile)">
 
-import all0 from '/src/fragments/guides/api-graphql/common/subscriptions-by-id.mdx';
+import all0 from "/src/fragments/guides/api-graphql/common/subscriptions-by-id.mdx";
 
-<Fragments fragments={{ all: all0 }} />
+<Fragments fragments={{all: all0}} />
 
 ```dart
 Future<void> subscribeByPostId(String postId) async {
@@ -19,7 +19,7 @@ Future<void> subscribeByPostId(String postId) async {
     ''';
   final Stream<GraphQLResponse<String>> operation = Amplify.API.subscribe(
     GraphQLRequest<String>(
-      document: graphQLDocument,
+      document: graphQLDocument, 
       variables: <String, String>{'id': postId},
     ),
     onEstablished: () => print('Subscription established'),
@@ -27,7 +27,7 @@ Future<void> subscribeByPostId(String postId) async {
 
   try {
     await for (var event in operation) {
-      print('Subscription event data received: $\{event.data}');
+      print('Subscription event data received: ${event.data}');
     }
   } on Exception catch (e) {
     print('Error in subscription stream: $e');
@@ -42,18 +42,18 @@ Future<void> subscribeByPostId(String postId) async {
 Take for example the following GraphQL schema:
 
 ```graphql
-type Post @model @auth(rules: [{ allow: public, provider: apiKey }]) {
+type Post @model @auth(rules: [{ allow: public, provider: apiKey }]){
   id: ID!
   title: String!
   content: String
   comments: [Comment] @hasMany
 }
 
-type Comment @model @auth(rules: [{ allow: public, provider: apiKey }]) {
+type Comment @model @auth(rules: [{ allow: public, provider: apiKey }]){
   id: ID!
   content: String
   post: Post @belongsTo(fields: ["postCommentsId"])
-  postCommentsId: ID!
+  postCommentsId: ID! 
 }
 ```
 
@@ -74,7 +74,7 @@ Future<void> subscribeByPostId(String postId) async {
 
   try {
     await for (var event in operation) {
-      print('Subscription event data received: $\{event.data}');
+      print('Subscription event data received: ${event.data}');
     }
   } on Exception catch (e) {
     print('Error in subscription stream: $e');

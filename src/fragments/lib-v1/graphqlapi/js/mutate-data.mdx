@@ -1,0 +1,234 @@
+## Using Amplify GraphQL client
+
+### Mutations
+
+In GraphQL, mutations are used to create, update, or delete data. Here are some examples of creating, updating, and deleting items using the Amplify GraphQL client.
+
+#### Creating an item
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API } from "aws-amplify";
+import * as mutations from './graphql/mutations';
+import { GraphQLQuery } from '@aws-amplify/api';
+import { CreateTodoInput, CreateTodoMutation } from './API';
+
+const todoDetails: CreateTodoInput = {
+  name: 'Todo 1',
+  description: 'Learn AWS AppSync'
+};
+
+const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({ 
+  query: mutations.createTodo, 
+  variables: { input: todoDetails }
+});
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+import { API } from "aws-amplify";
+import * as mutations from './graphql/mutations';
+
+const todoDetails = {
+  name: 'Todo 1',
+  description: 'Learn AWS AppSync'
+};
+
+const newTodo = await API.graphql({ 
+  query: mutations.createTodo, 
+  variables: { input: todoDetails }
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+You do not have to pass in `createdAt` and `updatedAt` fields, AppSync manages this for you.
+
+You can optionally import the `graphqlOperation` helper function to help you construct the argument object:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// ...
+import { API, graphqlOperation } from 'aws-amplify';
+
+// equivalent to above example
+const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>(
+  graphqlOperation(mutations.createTodo, { input: todoDetails })
+);
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+// ...
+import { API, graphqlOperation } from 'aws-amplify';
+
+// equivalent to above example
+const newTodo = await API.graphql(
+  graphqlOperation(mutations.createTodo, { input: todoDetails })
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+#### Updating an item
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API } from "aws-amplify";
+import * as mutations from './graphql/mutations';
+import { GraphQLQuery } from '@aws-amplify/api';
+import { UpdateTodoInput, UpdateTodoMutation } from './API';
+
+const todoDetails: UpdateTodoInput = {
+  id: 'some_id',
+  description: 'Updated description'
+};
+
+const updatedTodo = await API.graphql<GraphQLQuery<UpdateTodoMutation>>({ 
+  query: mutations.updateTodo, 
+  variables: { input: todoDetails }
+});
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+import { API } from "aws-amplify";
+import * as mutations from './graphql/mutations';
+
+const todoDetails = {
+  id: 'some_id',
+//  _version: 'current_version', // add the "_version" field if your AppSync API has conflict detection (required for DataStore) enabled
+  description: 'Updated description'
+};
+
+const updatedTodo = await API.graphql({ 
+  query: mutations.updateTodo, 
+  variables: { input: todoDetails }
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+Notes:
+
+- You do not have to pass in `createdAt` and `updatedAt` fields, AppSync manages this for you.
+- If you pass in *extra* input fields not expected by the AppSync schema, this query will fail. You can see this in the `error` field returned by the query (the query itself does not throw, per GraphQL design).
+
+#### Deleting an item
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API } from "aws-amplify";
+import * as mutations from './graphql/mutations';
+import { GraphQLQuery } from '@aws-amplify/api';
+import { DeleteTodoInput, DeleteTodoMutation } from './API';
+
+const todoDetails: DeleteTodoInput = {
+  id: 'some_id',
+};
+
+const deletedTodo = await API.graphql<GraphQLQuery<DeleteTodoMutation>>({ 
+  query: mutations.deleteTodo, 
+  variables: { input: todoDetails }
+});
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+import { API } from "aws-amplify";
+import * as mutations from './graphql/mutations';
+
+const todoDetails = {
+  id: 'some_id',
+};
+
+const deletedTodo = await API.graphql({ 
+  query: mutations.deleteTodo, 
+  variables: { input: todoDetails }
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+Only an `id` is needed.
+
+<Callout>
+Join table records must be deleted prior to deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record prior to deleting a Post or Tag.
+</Callout>
+
+### Custom authorization mode
+
+By default, each AppSync API will be set with a default authorization mode when you configure your app. If you would like to override the default authorization mode, you can do so by passing in an `authMode` property.
+
+#### Mutation with custom authorization mode
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API } from "aws-amplify";
+import { GraphQLQuery, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import * as mutations from './graphql/mutations';
+import { CreateTodoInput, CreateTodoMutation } from './API';
+
+const todoDetails: CreateTodoInput = {
+  id: 'some_id',
+  name: 'My todo!',
+  description: 'Hello world!'
+};
+
+const todo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
+  query: mutations.createTodo,
+  variables: { input: todoDetails },
+  authMode: GRAPHQL_AUTH_MODE.AWS_IAM
+});
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+import { API } from "aws-amplify";
+import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import * as mutations from './graphql/mutations';
+
+const todoDetails = {
+  id: 'some_id',
+  name: 'My todo!',
+  description: 'Hello world!'
+};
+
+const todo = await API.graphql({
+  query: mutations.createTodo,
+  variables: { input: todoDetails },
+  authMode: GRAPHQL_AUTH_MODE.AWS_IAM
+});
+```
+
+</Block>
+</BlockSwitcher>

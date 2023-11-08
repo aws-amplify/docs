@@ -1,19 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: `Deleting data`,
+  title: 'Delete data',
   description: 'Using the Delete API REST in Amplify',
-  platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -52,3 +42,11 @@ import android2 from '/src/fragments/lib-v1/restapi/android/delete.mdx';
 import flutter3 from '/src/fragments/lib-v1/restapi/flutter/delete.mdx';
 
 <Fragments fragments={{ flutter: flutter3 }} />
+
+import js0 from '/src/fragments/lib-v1/restapi/js/delete.mdx';
+
+<Fragments fragments={{ javascript: js0 }} />
+
+import reactnative0 from '/src/fragments/lib-v1/restapi/js/delete.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
