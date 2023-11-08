@@ -1,0 +1,21 @@
+Delete stored data from the storage bucket.
+
+{/* TODO Rewrite is it important to have separate between the difference storage protection levels? */}
+
+## Public level remove
+
+```javascript
+await Storage.remove('test.txt');
+```
+
+## Protected level remove
+
+```javascript
+await Storage.remove('test.txt', { level: 'protected' });
+```
+
+## Private level remove
+
+```javascript
+await Storage.remove('test.txt', { level: 'private' });
+```

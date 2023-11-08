@@ -51,7 +51,7 @@ For the following example, let's add a Post and Comment model to the [schema](/l
 ```graphql
 type Post @model {
   id: ID!
-  title: 'Relational models',
+  title: String!
   rating: Int!
   comments: [Comment] @hasMany
 }
@@ -515,7 +515,7 @@ Join table records must be deleted prior to deleting the associated records. For
 ```graphql
 type Post @model {
   id: ID!
-  title: 'Relational models',
+  title: String!
   rating: Int
   editors: [User] @manyToMany(relationName: "PostEditor")
 }

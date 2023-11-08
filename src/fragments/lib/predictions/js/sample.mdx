@@ -2,17 +2,24 @@
 
 A sample React application with all of the Predictions features is provided below. It shows how to use all scenarios above by calling the appropriate `convert`, `identify`, and `interpret` API calls in the Amplify library.
 
-To use `Predictions.convert()` with Amazon Transcribe you will need to install the following dependency in your app first:
+<Callout>
+
+This example uses the package `microphone-stream`, which you will need to install along with the necessary polyfills if you would like to use the sample directly.
 
 ```bash
 npm install microphone-stream
 ```
 
+If you are using Vite, [this package](https://www.npmjs.com/package/vite-plugin-node-polyfills) provides straightforward instructions on installing the necessary polyfills.
+
+</Callout>
+
 The components in the app code below are rendered according to the scenarios above like so:
+
 
 ```javascript
 return (
-  <div className="App">
+  <div>
     <TextTranslation />
     <TextToSpeech />
     <SpeechToText />
@@ -28,23 +35,19 @@ return (
 React app code
 
 ```javascript
-import React, { useState } from 'react';
-
-import './App.css';
-import { Amplify, Storage, Predictions } from 'aws-amplify';
-import { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
-
-import awsconfig from './aws-exports';
-
+import { Predictions } from '@aws-amplify/predictions';
+import { Amplify } from 'aws-amplify';
 import mic from 'microphone-stream';
+import { useState } from 'react';
+import './App.css';
+import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(awsconfig);
-Amplify.addPluggable(new AmazonAIPredictionsProvider());
+Amplify.configure(amplifyconfig);
 
 function TextIdentification() {
-  const [response, setResponse] = useState("You can add a photo by uploading directly from the app ")
+  const [response, setResponse] = useState('You can add a photo by uploading directly from the app');
 
-  function identifyFromFile(event) {
+  const identifyFromFile = async (event) => {
     setResponse('identifying text...');
     const { target: { files } } = event;
     const [file,] = files || [];
@@ -52,21 +55,23 @@ function TextIdentification() {
     if (!file) {
       return;
     }
-    Predictions.identify({
-      text: {
-        source: {
-          file,
-        },
-        format: "PLAIN", // Available options "PLAIN", "FORM", "TABLE", "ALL"
-      }
-    }).then(({text: { fullText }}) => {
-      setResponse(fullText)
-    })
-      .catch(err => setResponse(JSON.stringify(err, null, 2)))
+    try {
+      const { text } = await Predictions.identify({
+        text: {
+          source: {
+            file,
+          },
+          format: 'PLAIN', // Available options 'PLAIN', 'FORM', 'TABLE', 'ALL'
+        }
+      })
+      setResponse(text.fullText);
+    } catch (err) {
+      setResponse(JSON.stringify(err, null, 2));
+    }
   }
 
   return (
-    <div className="Text">
+    <div>
       <div>
         <h3>Text identification</h3>
         <input type="file" onChange={identifyFromFile}></input>
@@ -77,10 +82,9 @@ function TextIdentification() {
 }
 
 function EntityIdentification() {
-  const [response, setResponse] = useState("Click upload for test ")
-  const [src, setSrc] = useState("");
+  const [response, setResponse] = useState('Click upload for test');
 
-  function identifyFromFile(event) {
+  const identifyFromFile = async (event) => {
     setResponse('searching...');
     
     const { target: { files } } = event;
@@ -89,110 +93,66 @@ function EntityIdentification() {
     if (!file) {
       return;
     }
-    Predictions.identify({
-      entities: {
-        source: {
-          file,
-        },
-        /**For using the Identify Entities advanced features, enable collection:true and comment out celebrityDetection
-         * Then after you upload a face with PredictionsUpload you'll be able to run this again
-         * and it will tell you if the photo you're testing is in that Collection or not and display it*/
-        //collection: true
-        celebrityDetection: true
-      }
-    }).then(result => {
-      console.log(result);
-      const entities = result.entities;
-      let imageId = ""
-      let names = ""
-      entities.forEach(({ boundingBox, metadata: { name = "", externalImageId = "" } }) => {
-        const {
-          width, // ratio of overall image width
-          height, // ratio of overall image height
-          left, // left coordinate as a ratio of overall image width
-          top // top coordinate as a ratio of overall image height
-        } = boundingBox;
-        imageId = externalImageId;
-        if (name) {
-          names += name + " .";
-        }
-        console.log({ name });
-      })
-      if (imageId) {
-        Storage.get("", {
-          customPrefix: {
-            public: imageId
+    try {
+      const result = await Predictions.identify({
+        entities: {
+          source: {
+            file,
           },
-          level: "public",
-        }).then(setSrc); // this should be better but it works
-      }
-      console.log({ entities });
-      setResponse(names);
-    })
-      .catch(err => console.log(err))
+          /*
+          * For using the Identify Entities advanced features, enable collection:true and comment out celebrityDetection
+          * Then after you upload an image to your S3 bucket (protected/predictions/index-faces/) you'll be able to run this again
+          * and it will tell you if the photo you're testing is in that Collection or not
+          */
+          // collection: true
+          celebrityDetection: true
+        }
+      });
+      setResponse(JSON.stringify(result, null, 2))
+    } catch (err) {
+      setResponse(JSON.stringify(err, null, 2));
+    }
   }
 
   return (
-    <div className="Text">
+    <div>
       <div>
         <h3>Entity identification</h3>
         <input type="file" onChange={identifyFromFile}></input>
         <p>{response}</p>
-        { src && <img src="{src}"></img>}
-      </div>
-    </div>
-  );
-}
-
-function PredictionsUpload() {
-  /* This is Identify Entities Advanced feature
-   * This will upload user images to the appropriate bucket prefix
-   * and a Lambda trigger will automatically perform indexing
-   */
-  function upload(event) {
-    const { target: { files } } = event;
-    const [file,] = files || [];
-    Storage.put(file.name, file, {
-      level: 'protected',
-      customPrefix: {
-        protected: 'protected/predictions/index-faces/',
-      }
-    });
-  }
-
-  return (
-    <div className="Text">
-      <div>
-        <h3>Upload to predictions s3</h3>
-        <input type="file" onChange={upload}></input>
       </div>
     </div>
   );
 }
 
 function LabelsIdentification() {
-  const [response, setResponse] = useState("Click upload for test ")
+  const [response, setResponse] = useState('Click upload for test')
 
-  function identifyFromFile(event) {
+  const identifyFromFile = async (event) => {
     const { target: { files } } = event;
     const [file,] = files || [];
 
     if (!file) {
       return;
     }
-    Predictions.identify({
-      labels: {
-        source: {
-          file,
-        },
-        type: "ALL" // "LABELS" will detect objects , "UNSAFE" will detect if content is not safe, "ALL" will do both default on aws-exports.js
-      }
-    }).then(result => setResponse(JSON.stringify(result, null, 2)))
-      .catch(err => setResponse(JSON.stringify(err, null, 2)))
+    try {
+      const result = Predictions.identify({
+        labels: {
+          source: {
+            file,
+          },
+          type: 'ALL' // 'LABELS' will detect objects , 'UNSAFE' will detect if content is not safe, 'ALL' will do both default on amplifyconfiguration.json
+        }
+      });
+      console.log(result);
+      setResponse(JSON.stringify(result, null, 2));
+    } catch (err) {
+      setResponse(JSON.stringify(err, null, 2));
+    }
   }
 
   return (
-    <div className="Text">
+    <div>
       <div>
         <h3>Labels identification</h3>
         <input type="file" onChange={identifyFromFile}></input>
@@ -202,12 +162,12 @@ function LabelsIdentification() {
   );
 }
 
-function SpeechToText(props) {
-  const [response, setResponse] = useState("Press 'start recording' to begin your transcription. Press STOP recording once you finish speaking.")
+function SpeechToText() {
+  const [response, setResponse] = useState('Record audio to generate a transcription.')
   
-  function AudioRecorder(props) {
+  function AudioRecorder({ finishRecording }) {
     const [recording, setRecording] = useState(false);
-    const [micStream, setMicStream] = useState();
+    const [micStream, setMicStream] = useState<any>();
     const [audioBuffer] = useState(
       (function() {
         let buffer = [];
@@ -216,7 +176,7 @@ function SpeechToText(props) {
           return buffer;
         }
         function newBuffer() {
-          console.log("resetting buffer");
+          console.log('resetting buffer');
           buffer = [];
         }
  
@@ -225,7 +185,7 @@ function SpeechToText(props) {
             newBuffer();
           },
           addData: function(raw) {
-            return add(raw);
+            add(raw);
           },
           getData: function() {
             return buffer;
@@ -234,15 +194,14 @@ function SpeechToText(props) {
       })()
     );
 
-    async function startRecording() {
+    const startRecording = async () => {
       console.log('start recording');
       audioBuffer.reset();
 
-      window.navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
-        const startMic = new mic();
-
-        startMic.setStream(stream);
-        startMic.on('data', (chunk) => {
+      const startMic = new mic();
+      startMic.setStream(await window.navigator.mediaDevices.getUserMedia({ video: false, audio: true }));
+      
+      startMic.on('data', (chunk) => {
           var raw = mic.toRaw(chunk);
           if (raw == null) {
             return;
@@ -251,29 +210,23 @@ function SpeechToText(props) {
 
         });
 
-        setRecording(true);
-        setMicStream(startMic);
-      });
+      setRecording(true);
+      setMicStream(startMic);
     }
 
     async function stopRecording() {
       console.log('stop recording');
-      const { finishRecording } = props;
 
       micStream.stop();
       setMicStream(null);
       setRecording(false);
 
       const resultBuffer = audioBuffer.getData();
-
-      if (typeof finishRecording === "function") {
-        finishRecording(resultBuffer);
-      }
-
+      finishRecording(resultBuffer);
     }
 
     return (
-      <div className="audioRecorder">
+      <div>
         <div>
           {recording && <button onClick={stopRecording}>Stop recording</button>}
           {!recording && <button onClick={startRecording}>Start recording</button>}
@@ -282,22 +235,26 @@ function SpeechToText(props) {
     );
   }
 
-  function convertFromBuffer(bytes) {
+  const convertFromBuffer = async (bytes) => {
     setResponse('Converting text...');
     
-    Predictions.convert({
-      transcription: {
-        source: {
-          bytes
+    try {
+      const { transcription } = await Predictions.convert({
+        transcription: {
+          source: {
+            bytes
+          },
+          language: 'en-US', // other options include 'en-GB', 'fr-FR', 'fr-CA', 'es-US'
         },
-        // language: "en-US", // other options are "en-GB", "fr-FR", "fr-CA", "es-US"
-      },
-    }).then(({ transcription: { fullText } }) => setResponse(fullText))
-      .catch(err => setResponse(JSON.stringify(err, null, 2)))
+      });
+      setResponse(transcription.fullText);
+    } catch (err) {
+      setResponse(JSON.stringify(err, null, 2));
+    }
   }
 
   return (
-    <div className="Text">
+    <div>
       <div>
         <h3>Speech to text</h3>
         <AudioRecorder finishRecording={convertFromBuffer} />
@@ -308,45 +265,47 @@ function SpeechToText(props) {
 }
 
 function TextToSpeech() {
-  const [response, setResponse] = useState("...")
-  const [textToGenerateSpeech, setTextToGenerateSpeech] = useState("write to speech");
+  const [response, setResponse] = useState('...')
+  const [textToGenerateSpeech, setTextToGenerateSpeech] = useState('write to generate audio');
 
-  function generateTextToSpeech() {
+  const generateTextToSpeech = async () => {
     setResponse('Generating audio...');
-    Predictions.convert({
-      textToSpeech: {
-        source: {
-          text: textToGenerateSpeech,
-        },
-        voiceId: "Amy" // default configured on aws-exports.js 
-        // list of different options are here https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
-      }
-    }).then(result => {
+    
+    try {
+      const result = await Predictions.convert({
+        textToSpeech: {
+          source: {
+            text: textToGenerateSpeech,
+          },
+          voiceId: 'Amy' // default configured on amplifyconfiguration.json
+          // list of different options are here https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
+        }
+      });
+      
       let AudioContext = window.AudioContext || window.webkitAudioContext;
-      console.log({ AudioContext });
-      const audioCtx = new AudioContext(); 
+      const audioCtx = new AudioContext();
       const source = audioCtx.createBufferSource();
       audioCtx.decodeAudioData(result.audioStream, (buffer) => {
-
         source.buffer = buffer;
         source.connect(audioCtx.destination);
         source.start(0);
-      }, (err) => console.log({err}));
+      }, (err) => console.log({ err }));
       
-      setResponse(`Generation completed, press play`);
-    })
-      .catch(err => setResponse(err))
+      setResponse('Generation completed');
+    } catch(err: unknown) {
+      setResponse(JSON.stringify(err, null, 2));
+    }
   }
 
-  function setText(event) {
+  const setText = (event) => {
     setTextToGenerateSpeech(event.target.value);
   }
 
   return (
-    <div className="Text">
+    <div>
       <div>
         <h3>Text To Speech</h3>
-        <input value={textToGenerateSpeech} onChange={setText}></input>
+        <input type="text" value={textToGenerateSpeech} onChange={setText}></input>
         <button onClick={generateTextToSpeech}>Text to Speech</button>
         <h3>{response}</h3>
       </div>
@@ -355,21 +314,25 @@ function TextToSpeech() {
 }
 
 function TextTranslation() {
-  const [response, setResponse] = useState("Input some text and click enter to test")
-  const [textToTranslate, setTextToTranslate] = useState("write to translate");
+  const [response, setResponse] = useState('Input some text and click enter to test');
+  const [textToTranslate, setTextToTranslate] = useState('write to translate');
 
-  function translate() {
-    Predictions.convert({
-      translateText: {
-        source: {
-          text: textToTranslate,
-          // language : "es" // defaults configured on aws-exports.js
-          // supported languages https://docs.aws.amazon.com/translate/latest/dg/how-it-works.html#how-it-works-language-codes
-        },
-        // targetLanguage: "en"
-      }
-    }).then(result => setResponse(JSON.stringify(result, null, 2)))
-      .catch(err => setResponse(JSON.stringify(err, null, 2)))
+  const translate = async () => {
+    try {
+      const result = Predictions.convert({
+        translateText: {
+          source: {
+            text: textToTranslate,
+            // language : "es" // defaults configured on amplifyconfiguration.json
+            // supported languages https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html
+          },
+          // targetLanguage: "en"
+        }
+      })
+      setResponse(JSON.stringify(result, null, 2));
+    } catch(err: unknown) {
+      setResponse(JSON.stringify(err, null, 2));
+    }
   }
 
   function setText(event) {
@@ -377,10 +340,10 @@ function TextTranslation() {
   }
 
   return (
-    <div className="Text">
+    <div>
       <div>
         <h3>Text Translation</h3>
-        <input value={textToTranslate} onChange={setText}></input>
+        <input type="text" value={textToTranslate} onChange={setText}></input>
         <button onClick={translate}>Translate</button>
         <p>{response}</p>
       </div>
@@ -389,19 +352,23 @@ function TextTranslation() {
 }
 
 function TextInterpretation() {
-  const [response, setResponse] = useState("Input some text and click enter to test")
-  const [textToInterpret, setTextToInterpret] = useState("write some text here to interpret");
+  const [response, setResponse] = useState('Input some text and click enter to test');
+  const [textToInterpret, setTextToInterpret] = useState('write some text here to interpret');
 
-  function interpretFromPredictions() {
-    Predictions.interpret({
-      text: {
-        source: {
-          text: textToInterpret,
-        },
-        type: "ALL"
-      }
-    }).then(result => setResponse(JSON.stringify(result, null, 2)))
-      .catch(err => setResponse(JSON.stringify(err, null, 2)))
+  const interpretFromPredictions = async () => {
+    try {
+      const result = Predictions.interpret({
+        text: {
+          source: {
+            text: textToInterpret,
+          },
+          type: 'all'
+        }
+      })
+      setResponse(JSON.stringify(result, null, 2));
+    } catch (err) { 
+      setResponse(JSON.stringify(err, null, 2));
+    }
   }
 
   function setText(event) {
@@ -409,7 +376,7 @@ function TextInterpretation() {
   }
 
   return (
-    <div className="Text">
+    <div>
       <div>
         <h3>Text interpretation</h3>
         <input value={textToInterpret} onChange={setText}></input>
@@ -422,29 +389,19 @@ function TextInterpretation() {
 
 function App() {
   return (
-    <div className="App">
-      Translate Text
+    <div>
       <TextTranslation />
       <br/>
-      Speech Generation
       <TextToSpeech />
       <br/>
-      Transcribe Audio
       <SpeechToText />
       <br/>
-      Identify Text
       <TextIdentification />
       <br/>
-      Identify Entities
       <EntityIdentification />
       <br/>
-      Identify Entities (Advanced)
-      <PredictionsUpload />
-      <br/>
-      Label Objects
       <LabelsIdentification />
       <br/>
-      Text Interpretation
       <TextInterpretation />
     </div>
   );

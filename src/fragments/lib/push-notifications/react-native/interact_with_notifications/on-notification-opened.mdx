@@ -1,11 +1,40 @@
-```js
-const myNotificationOpenedHandler = (notification) => {
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  onNotificationOpened,
+  OnNotificationOpenedInput,
+  OnNotificationOpenedOutput
+} from 'aws-amplify/push-notifications';
+
+const myNotificationOpenedHandler: OnNotificationOpenedInput = (
+  notification
+) => {
   // Take further action with the opened push notification message
 };
 
-const listener = Notifications.Push.onNotificationOpened(
+const listener: OnNotificationOpenedOutput = onNotificationOpened(
   myNotificationOpenedHandler
 );
 
 listener.remove(); // Remember to remove the listener when it is no longer needed
 ```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { onNotificationOpened } from 'aws-amplify/push-notifications';
+
+const myNotificationOpenedHandler = (notification) => {
+  // Take further action with the opened push notification message
+};
+
+const listener = onNotificationOpened(myNotificationOpenedHandler);
+
+listener.remove(); // Remember to remove the listener when it is no longer needed
+```
+
+</Block>
+</BlockSwitcher>

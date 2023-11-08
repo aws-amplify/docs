@@ -1,4 +1,3 @@
-
 Once you're happy with your application, you can start syncing with the cloud by provisioning a backend from your project. DataStore can connect to remote backend and automatically sync all locally saved data using GraphQL as a data protocol.
 
 <Callout>
@@ -19,17 +18,17 @@ The next step is to make sure the locally saved data is synchronized with a clou
 
 </Callout>
 
-import ios0 from "/src/fragments/lib/datastore/ios/sync/10-installPlugin.mdx";
+import ios0 from '/src/fragments/lib/datastore/ios/sync/10-installPlugin.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
-import android1 from "/src/fragments/lib/datastore/android/sync/10-installPlugin.mdx";
+import android1 from '/src/fragments/lib/datastore/android/sync/10-installPlugin.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ android: android1 }} />
 
-import flutter2 from "/src/fragments/lib/datastore/flutter/sync/10-installPlugin.mdx";
+import flutter2 from '/src/fragments/lib/datastore/flutter/sync/10-installPlugin.mdx';
 
-<Fragments fragments={{flutter: flutter2}} />
+<Fragments fragments={{ flutter: flutter2 }} />
 
 ### Push the backend to the cloud
 
@@ -51,7 +50,7 @@ You should see a table similar to this one.
 
 <Callout>
 
-**Troubleshooting:** if `amplify status` gives you an error saying *"You are not working inside a valid Amplify project"*, make sure you run `amplify init` before the next step.
+**Troubleshooting:** if `amplify status` gives you an error saying _"You are not working inside a valid Amplify project"_, make sure you run `amplify init` before the next step.
 
 </Callout>
 
@@ -73,9 +72,9 @@ DataStore can connect to an existing AWS AppSync backend that has been deployed 
 
 For more information on this workflow please see the [Multiple Frontends documentation](/cli/teams/multi-frontend).
 
-import distributedDataFragment from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
+import distributedDataFragment from '/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx';
 
-<Fragments fragments={{all: distributedDataFragment}} />
+<Fragments fragments={{ all: distributedDataFragment }} />
 
 ## Clear local data
 
@@ -89,44 +88,44 @@ One common use for `clear()` is to manage different users sharing the same devic
 
 </Callout>
 
-import js6 from "/src/fragments/lib/datastore/js/sync/40-clear.mdx";
+import js6 from '/src/fragments/lib/datastore/js/sync/40-clear.mdx';
 
-<Fragments fragments={{js: js6}} />
+<Fragments fragments={{ javascript: js6 }} />
 
-import reactnative0 from "/src/fragments/lib/datastore/js/sync/40-clear.mdx";
+import reactnative0 from '/src/fragments/lib/datastore/js/sync/40-clear.mdx';
 
-<Fragments fragments={{'react-native': reactnative0}} />
+<Fragments fragments={{ 'react-native': reactnative0 }} />
 
-import ios7 from "/src/fragments/lib/datastore/ios/sync/40-clear.mdx";
+import ios7 from '/src/fragments/lib/datastore/ios/sync/40-clear.mdx';
 
-<Fragments fragments={{ios: ios7}} />
+<Fragments fragments={{ swift: ios7 }} />
 
-import android8 from "/src/fragments/lib/datastore/android/sync/40-clear.mdx";
+import android8 from '/src/fragments/lib/datastore/android/sync/40-clear.mdx';
 
-<Fragments fragments={{android: android8}} />
+<Fragments fragments={{ android: android8 }} />
 
-import flutter9 from "/src/fragments/lib/datastore/flutter/sync/40-clear.mdx";
+import flutter9 from '/src/fragments/lib/datastore/flutter/sync/40-clear.mdx';
 
-<Fragments fragments={{flutter: flutter9}} />
+<Fragments fragments={{ flutter: flutter9 }} />
 
 This is a simple yet effective example. However, in a real scenario you might want to only call `clear()` when a different user is `signedIn` in order to avoid clearing the database for a repeated sign-in of the same user.
 
-import js10 from "/src/fragments/lib/datastore/js/sync/50-selectiveSync.mdx";
+import js10 from '/src/fragments/lib/datastore/js/sync/50-selectiveSync.mdx';
 
-<Fragments fragments={{js: js10}} />
+<Fragments fragments={{ javascript: js10 }} />
 
-import reactnative1 from "/src/fragments/lib/datastore/js/sync/50-selectiveSync.mdx";
+import reactnative1 from '/src/fragments/lib/datastore/js/sync/50-selectiveSync.mdx';
 
-<Fragments fragments={{'react-native': reactnative1}} />
+<Fragments fragments={{ 'react-native': reactnative1 }} />
 
-import android11 from "/src/fragments/lib/datastore/android/sync/50-selectiveSync.mdx";
+import android11 from '/src/fragments/lib/datastore/android/sync/50-selectiveSync.mdx';
 
-<Fragments fragments={{android: android11}} />
+<Fragments fragments={{ android: android11 }} />
 
-import ios12 from "/src/fragments/lib/datastore/ios/sync/50-selectiveSync.mdx";
+import ios12 from '/src/fragments/lib/datastore/ios/sync/50-selectiveSync.mdx';
 
-<Fragments fragments={{ios: ios12}} />
+<Fragments fragments={{ swift: ios12 }} />
 
-import flutter13 from "/src/fragments/lib/datastore/flutter/sync/50-selectiveSync.mdx";
+import flutter13 from '/src/fragments/lib/datastore/flutter/sync/50-selectiveSync.mdx';
 
-<Fragments fragments={{flutter: flutter13}} />
+<Fragments fragments={{ flutter: flutter13 }} />

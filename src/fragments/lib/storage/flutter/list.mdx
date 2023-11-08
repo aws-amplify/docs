@@ -1,9 +1,8 @@
 You can list all files uploaded under a given path.
 
 This will list all files located under path `album` that:
-
-- have `private` access level
-- are in the root of `album/` (the result doesn't include files under any sub path)
+* have `private` access level
+* are in the root of `album/` (the result doesn't include files under any sub path)
 
 ```dart
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -25,12 +24,12 @@ Future<void> listAlbum() async {
           ),
         ),
       ).result;
-      safePrint('Listed items: $\{result.items}');
+      safePrint('Listed items: ${result.items}');
       nextToken = result.nextToken;
       hasNextPage = result.hasNextPage;
     } while (hasNextPage);
   } on StorageException catch (e) {
-    safePrint('Error listing files: $\{e.message}');
+    safePrint('Error listing files: ${e.message}');
     rethrow;
   }
 }
@@ -55,9 +54,9 @@ Future<void> listAllWithGuestAccessLevel() async {
       ),
     ).result;
 
-    safePrint('Listed items: $\{result.items}');
+    safePrint('Listed items: ${result.items}');
   } on StorageException catch (e) {
-    safePrint('Error listing files: $\{e.message}');
+    safePrint('Error listing files: ${e.message}');
     rethrow;
   }
 }

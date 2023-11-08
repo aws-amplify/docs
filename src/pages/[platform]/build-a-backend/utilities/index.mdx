@@ -1,10 +1,21 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
-  title: 'Hub',
-  description:
-    'Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. ',
-  platforms: ['swift', 'android']
+  title: 'Utilities',
+  description: 'Utilities',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  route: '/[platform]/build-a-backend/utilities'
 };
 
 export const getStaticPaths = async () => {
@@ -12,27 +23,14 @@ export const getStaticPaths = async () => {
 };
 
 export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
       platform: context.params.platform,
-      meta
+      meta,
+      childPageNodes
     }
   };
 }
 
-import js0 from '/src/fragments/lib/utilities/js/hub.mdx';
-
-<Fragments fragments={{ javascript: js0 }} />
-
-import reactnative0 from '/src/fragments/lib/utilities/js/hub.mdx';
-
-<Fragments fragments={{ 'react-native': reactnative0 }} />
-
-import android1 from '/src/fragments/lib/utilities/native_common/hub/common.mdx';
-
-<Fragments fragments={{ android: android1 }} />
-
-import ios2 from '/src/fragments/lib/utilities/native_common/hub/common.mdx';
-
-<Fragments fragments={{ swift: ios2 }} />
-os2 }} />
+<Overview childPageNodes={props.childPageNodes} />

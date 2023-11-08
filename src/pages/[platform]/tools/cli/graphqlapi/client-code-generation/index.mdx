@@ -1,20 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'JavaScript, Android, Swift, and Flutter client code generation',
-  description:
-    "Amplify's codegen capabilities generates native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements(queries, mutations, and subscriptions).",
+  description: "Amplify's codegen capabilities generates native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements(queries, mutations, and subscriptions).",
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 <MigrationAlert url={'/cli-legacy/graphql-transformer/codegen'} />
 
@@ -187,7 +187,7 @@ type Blog @model {
 }
 type Post @model {
   id: ID!
-  title: 'JavaScript, Android, Swift, and Flutter client code generation',
+  title: String!
   blog: Blog @belongsTo
   comments: [Comment] @hasMany
 }

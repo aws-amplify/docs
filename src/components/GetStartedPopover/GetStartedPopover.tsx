@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import classNames from 'classnames';
 import { Button, Flex, VisuallyHidden, View } from '@aws-amplify/ui-react';
 import Link from 'next/link';
+import { InternalLinkButton } from '@/components/InternalLinkButton';
 import {
   IconChevron,
   IconAndroid,
@@ -14,7 +15,7 @@ import {
   IconVue
 } from '@/components/Icons';
 import { useClickOutside } from '@/utils/useClickOutside';
-import { DEFAULT_PLATFORM, Platform } from '@/data/platforms';
+import { DEFAULT_PLATFORM } from '@/data/platforms';
 
 const getStartedHref = '/[platform]/start/getting-started/introduction/';
 
@@ -93,7 +94,7 @@ const getStartedLinks = [
   }
 ];
 
-export const GetStartedPopover = ({}) => {
+export const GetStartedPopover = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -112,18 +113,28 @@ export const GetStartedPopover = ({}) => {
     }
   }, [expanded]);
 
+  const handleBlur = useCallback(
+    (e) => {
+      // Use relatedTarget to see if the target receiving focus is outside of the popover
+      if (contentRef.current && !contentRef.current.contains(e.relatedTarget)) {
+        setExpanded(false);
+      }
+    },
+    [contentRef]
+  );
+
   return (
     <Flex className="split-button">
-      <Link
+      <InternalLinkButton
+        size="large"
+        className="split-button__start"
         href={{
           pathname: '/[platform]/start/getting-started/introduction/',
           query: { platform: DEFAULT_PLATFORM }
         }}
       >
-        <Button size="large" className="split-button__start">
-          Get started
-        </Button>
-      </Link>
+        Get started
+      </InternalLinkButton>
 
       <View className="popover-wrapper">
         <Button
@@ -150,6 +161,7 @@ export const GetStartedPopover = ({}) => {
           as="nav"
           tabIndex={0}
           ref={contentRef}
+          onBlur={handleBlur}
           aria-label="Getting started guides for other platforms"
         >
           <ul className="popover-list">

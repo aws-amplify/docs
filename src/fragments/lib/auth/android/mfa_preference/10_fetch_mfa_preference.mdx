@@ -20,7 +20,7 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlug
 ```kotlin
 val cognitoAuthPlugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
 cognitoAuthPlugin?.fetchMFAPreference(
-    { Log.d("AuthQuickStart", "Fetched MFA preference, enabled: $\{it.enabled}, preferred: $\{it.preferred}") },
+    { Log.d("AuthQuickStart", "Fetched MFA preference, enabled: ${it.enabled}, preferred: ${it.preferred}") },
     { Log.e("AuthQuickStart", "Failed to fetch MFA preference.", it) }
 )
 ```

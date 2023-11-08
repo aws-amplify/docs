@@ -2,16 +2,18 @@ In-app messages are displayed when an In-App Messaging or analytics event is sen
 
 ## Analytics event
 
-Now that messages have been synced to your users’ devices, Amplify In-App Messaging will allow you to start displaying them with Amplify Analytics events with no additional integration steps. Any events you record or are already recording using the `Analytics.record` API are automatically picked up and processed by In-App Messaging. If the event matches the attributes and criteria defined in an in-app message, that message will be displayed.
+Now that messages have been synced to your users’ devices, Amplify In-App Messaging will allow you to start displaying them with Amplify Analytics events with no additional integration steps. Any events you record or are already recording using the Analytics' `record` API are automatically picked up and processed by In-App Messaging. If the event matches the attributes and criteria defined in an in-app message, that message will be displayed.
 
 ```js
+import { record } from 'aws-amplify/analytics';
+
 const event = {
   name: 'first_event',
   attributes: { color: 'red' },
   metrics: { quantity: 10 }
 };
 
-Analytics.record(event);
+record(event);
 ```
 
 If the event name, attributes, and metrics match those set forth by one of your In-App Messaging campaigns, you should see the in-app message displayed in your app.
@@ -21,13 +23,15 @@ If the event name, attributes, and metrics match those set forth by one of your 
 In addition to or instead of Amplify Analytics events, you can also dispatch In-App Messaging events to trigger an in-app message display programmatically.
 
 ```js
+import { dispatchEvent } from 'aws-amplify/in-app-messaging';
+
 const event = {
   name: 'first_event',
   attributes: { color: 'red' },
   metrics: { quantity: 10 }
 };
 
-InAppMessaging.dispatchEvent(event);
+dispatchEvent(event);
 ```
 
 If the event name, attributes, and metrics match those set forth by one of your In-App Messaging campaigns, you should see the in-app message displayed in your app.

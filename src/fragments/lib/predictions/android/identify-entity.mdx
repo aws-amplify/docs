@@ -54,7 +54,7 @@ fun detectEntities(image: Bitmap) {
     { result ->
       val identifyResult = result as IdentifyEntitiesResult
       val metadata = identifyResult.entities.firstOrNull()
-      Log.i("MyAmplifyApp", "$\{metadata?.box?.toShortString()}")
+      Log.i("MyAmplifyApp", "${metadata?.box?.toShortString()}")
     },
     { Log.e("MyAmplifyApp", "Entity detection failed", it) }
   )
@@ -161,7 +161,7 @@ fun detectEntities(image: Bitmap) {
     { result ->
       val identifyResult = result as IdentifyEntityMatchesResult
       val match = identifyResult.entityMatches.firstOrNull()
-      Log.i("AmplifyQuickstart", "$\{match?.externalImageId}");
+      Log.i("AmplifyQuickstart", "${match?.externalImageId}");
     },
     { Log.e("AmplifyQuickstart", "Identify failed", it) }
   )
@@ -206,7 +206,7 @@ public void detectEntities(Bitmap image) {
 
 ### Detecting Celebrities
 
-To detect celebrities you can pass in `IdentifyActionType.DETECT_CELEBRITIES`. Results are mapped to `IdentifyCelebritiesResult`. For example:
+To detect celebrities you can pass in `IdentifyActionType.DETECT_CELEBRITIES`.  Results are mapped to `IdentifyCelebritiesResult`.  For example:
 
 <BlockSwitcher>
 <Block name="Java">
@@ -235,7 +235,7 @@ fun detectCelebs(image: Bitmap) {
     { result ->
       val identifyResult = result as IdentifyCelebritiesResult
       val metadata = identifyResult.celebrities.firstOrNull()
-      Log.i("MyAmplifyApp", "$\{metadata?.celebrity?.name}")
+      Log.i("MyAmplifyApp", "${metadata?.celebrity?.name}")
     },
     { Log.e("MyAmplifyApp", "Identify failed", it) }
   )

@@ -4,7 +4,7 @@ export const meta = {
   title: 'Use transfer acceleration',
   description:
     "How to enable and use S3's Transfer Acceleration on your S3 bucket",
-  platforms: ['javascript', 'android']
+  platforms: ['javascript', 'flutter', 'android', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -20,7 +20,16 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={['javascript']}>
+import common_transfer_acceleration from '/src/fragments/lib/storage/native_common/transfer-acceleration/common.mdx';
+
+<Fragments
+  fragments={{
+    android: common_transfer_acceleration,
+    flutter: common_transfer_acceleration
+  }}
+/>
+
+<InlineFilter filters={['javascript', 'react-native']}>
 
 <Callout warning>
 

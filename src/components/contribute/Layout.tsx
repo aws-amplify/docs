@@ -1,6 +1,6 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import { ThemeProvider } from '@aws-amplify/ui-react';
-import { default as BaseLayout } from '../Layout';
+import { Layout as BaseLayout } from '../Layout';
 import { theme } from './theme';
 import type { PropsWithChildren } from 'react';
 
@@ -17,7 +17,7 @@ export default function Layout({ children, meta }: LayoutProps) {
   const url = 'https://docs.amplify.aws/contribute';
   return (
     <>
-    <Head>
+      <Head>
         <title>AWS Amplify Contributor Program</title>
 
         <meta name="HandheldFriendly" content="True" />
@@ -44,11 +44,11 @@ export default function Layout({ children, meta }: LayoutProps) {
         />
         <meta name="twitter:domain" content={url} />
       </Head>
-    <div id="contributor-page">
-      <ThemeProvider theme={theme}>
-        <BaseLayout meta={meta}>{children}</BaseLayout>
-      </ThemeProvider>
-    </div>
+      <div id="contributor-page">
+        <ThemeProvider theme={theme}>
+          <BaseLayout meta={meta}>{children}</BaseLayout>
+        </ThemeProvider>
+      </div>
     </>
   );
 }
