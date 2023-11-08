@@ -690,7 +690,6 @@ export const directory = {
             }
           ]
         },
-        { path: 'src/pages/[platform]/contribute/index.tsx' },
         {
           path: 'src/pages/[platform]/deploy-and-host/index.mdx',
           children: [
@@ -2064,7 +2063,7 @@ export const directory = {
             },
             {
               path: 'src/pages/gen2/how-amplify-works/existing-projects/index.mdx'
-            },
+            }
           ]
         },
         {
@@ -2233,6 +2232,14 @@ export const directory = {
               path: 'src/pages/gen2/reference/npm/index.mdx'
             }
           ]
+        }
+      ]
+    },
+    {
+      path: 'src/pages/contribute/index.tsx',
+      children: [
+        {
+          path: 'src/pages/contribute/getting-started.tsx'
         }
       ]
     }

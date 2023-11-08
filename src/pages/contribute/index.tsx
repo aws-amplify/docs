@@ -1,14 +1,15 @@
-import { Heading, Text, Flex, Button, View, Link } from '@aws-amplify/ui-react';
+import { Heading, Text, Flex, View } from '@aws-amplify/ui-react';
+import { InternalLinkButton } from '@/components/InternalLinkButton';
 import HowItWorks from '@/components/contribute/HowItWorks';
 import { YoutubeEmbed } from '@/components/YoutubeEmbed';
 import { Columns } from '@/components/Columns';
 import * as img from '../../constants/img';
 
 const meta = {
-  title: 'Amplify Docs',
+  title: 'AWS Amplify Contributor Program',
   description:
     'Amplify documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.',
-  url: 'https://docs.amplify.aws/'
+  hideFromNav: true
 };
 
 export function getStaticProps() {
@@ -16,7 +17,6 @@ export function getStaticProps() {
     props: {
       hasTOC: false,
       showLastUpdatedDate: false,
-      showBreadcrumbs: false,
       useCustomTitle: true,
       meta
     }
@@ -37,11 +37,13 @@ export default function Contribute() {
         </Text>
 
         <Flex justifyContent="center" wrap="wrap">
-          <Link href="/contribute/getting-started" isExternal={false}>
-            <Button size="large" variation="primary">
-              Get Started Contributing
-            </Button>
-          </Link>
+          <InternalLinkButton
+            href="/contribute/getting-started"
+            size="large"
+            variation="primary"
+          >
+            Get Started Contributing
+          </InternalLinkButton>
         </Flex>
       </Flex>
 

@@ -25,7 +25,6 @@ async function getMetaStringObj(filePath) {
       // JSON5 can parse the meta object without needing quotes around the object keys
       let metaObj = match[1].replaceAll('`', "'");
       const result = JSON5.parse(metaObj);
-
       return result;
     } catch (err) {
       throw new Error(
@@ -52,7 +51,6 @@ async function traverseDirectoryObject(directoryNode) {
         for (const key of Object.keys(metaObj)) {
           directoryNode[key] = metaObj[key];
         }
-
         // Get the last updated date
         try {
           directoryNode['lastUpdated'] = await getLastModifiedDate(

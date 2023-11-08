@@ -7,24 +7,21 @@ import {
   Image,
   Link
 } from '@aws-amplify/ui-react';
-import { IconChevron } from '@/components/Icons';
+import { IconCheckCircle } from '@/components/Icons';
 import { FiExternalLink } from 'react-icons/fi';
-import { MdCheckCircle, MdOutlineInfo } from 'react-icons/md';
+import { MdOutlineInfo } from 'react-icons/md';
 import { MDXCode } from '@/components/MDXComponents';
 
 const meta = {
-  title: 'Amplify Docs',
+  title: 'Getting started',
   description:
-    'Amplify documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.',
-  url: 'https://docs.amplify.aws/'
+    'Amplify documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.'
 };
 
 export function getStaticProps() {
   return {
     props: {
       showLastUpdatedDate: false,
-      showBreadcrumbs: false,
-      useCustomTitle: true,
       meta
     }
   };
@@ -68,40 +65,12 @@ git checkout -b "<group-token>/<short-token>/<branch-name>"
 git checkout -b "<short-token>/<branch-name>"
 `.trim();
 
-const Code = ({
-  children,
-  color
-}: {
-  children?: React.ReactNode;
-  color?: string;
-}) => {
-  return (
-    <Text
-      className="code-snippet"
-      backgroundColor={color ? color : 'neutral.20'}
-      as="code"
-    >
-      {children}
-    </Text>
-  );
-};
-
 export default function Contribute() {
   return (
     <>
-      <Flex direction="column" gap="0" alignItems="flex-start">
-        <Link fontSize="medium" textDecoration="none" href="/contribute">
-          AWS Amplify contributor program{' '}
-          <Text as="span" marginInlineStart="xxs">
-            /
-          </Text>
-        </Link>
-        <Heading level={1}>Getting Started</Heading>
-      </Flex>
-
       <Text>
         The steps below will help you get set up to open a pull request in the
-        Amplify JS project. Check out the <Code>CONTRIBUTING.md</Code> in each
+        Amplify JS project. Check out the <code>CONTRIBUTING.md</code> in each
         project's repository for instructions on how to get started with local
         environment set up.
       </Text>
@@ -118,18 +87,17 @@ export default function Contribute() {
       <Heading level={2}>Prerequisites</Heading>
       <Flex direction="column">
         <Text>
-          <Icon as={MdCheckCircle} marginRight="8px" />A GitHub account. You can
-          create one{' '}
+          <IconCheckCircle />A GitHub account. You can create one{' '}
           <Link isExternal href="https://github.com/join">
             here <FiExternalLink />.
           </Link>
         </Text>
         <Text>
-          <Icon as={MdCheckCircle} marginRight="8px" />
+          <IconCheckCircle />
           IDE (e.g. VS Code)
         </Text>
         <Text>
-          <Icon as={MdCheckCircle} marginRight="8px" />
+          <IconCheckCircle />
           Amplify JS development environment. Follow the steps{' '}
           <Link
             href="https://github.com/aws-amplify/amplify-js/blob/main/CONTRIBUTING.md#setting-up-for-local-development"
@@ -141,7 +109,7 @@ export default function Contribute() {
           to get set up.
         </Text>
         <Text>
-          <Icon as={MdCheckCircle} marginRight="8px" />
+          <IconCheckCircle />
           Set up the Amplify Docs{' '}
           <Link
             isExternal
@@ -193,9 +161,9 @@ export default function Contribute() {
         </li>
         <li>
           <Text>
-            Run <Code>git status</Code> before you start coding to make sure
+            Run <code>git status</code> before you start coding to make sure
             everything in the project files are updated with the{' '}
-            <Code>origin/main</Code> branch.
+            <code>origin/main</code> branch.
           </Text>
           <MDXCode language="bash" codeString={_4a}></MDXCode>
         </li>
@@ -211,29 +179,28 @@ export default function Contribute() {
               <Icon color="blue.60" width="25px" height="25px">
                 <MdOutlineInfo />{' '}
               </Icon>
-              Use the <Code color="orange.20">group-token</Code> to indicate the
-              category you are working on. e.g. <Code>amplify-datastore</Code>.
+              Use the <code>group-token</code> to indicate the category you are
+              working on. e.g. <code>amplify-datastore</code>.
             </Text>
             <Text>
               <Icon color="blue.60" width="25px" height="25px">
                 <MdOutlineInfo />{' '}
               </Icon>
-              The <Code color="orange.20">short-token</Code> can be one of the
-              following: <Code>feat</Code>, <Code>chore</Code>, or{' '}
-              <Code>bug</Code>.
+              The <code>short-token</code> can be one of the following:{' '}
+              <code>feat</code>, <code>chore</code>, or <code>bug</code>.
             </Text>
             <Text>
               <Icon color="blue.60" width="25px" height="25px">
                 <MdOutlineInfo />{' '}
               </Icon>
-              The <Code color="orange.20">branch-name</Code> should be
-              representative of the feature or fix.
+              The <code>branch-name</code> should be representative of the
+              feature or fix.
             </Text>
           </Flex>
         </li>
         <li>
-          Make your contribution and then run <Code>git add</Code>,{' '}
-          <Code>git commit</Code> and <Code>push</Code> your branch.
+          Make your contribution and then run <code>git add</code>,{' '}
+          <code>git commit</code> and <code>push</code> your branch.
           <br />
           <MDXCode language="bash" codeString={_6a}></MDXCode>
           <br />
@@ -311,7 +278,7 @@ export default function Contribute() {
 
         <Heading level={4}>
           <Link href="https://discord.gg/kfWYHw73eA" isExternal>
-            The <Code>contribute-to-javascript</Code> Discord channel
+            The <code>contribute-to-javascript</code> Discord channel
             <FiExternalLink />
           </Link>
         </Heading>

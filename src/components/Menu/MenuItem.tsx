@@ -29,7 +29,6 @@ export function MenuItem({
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const router = useRouter();
   const [open, setOpen] = useState(false);
-
   const onLinkClick = () => {
     // Category shouldn't be collapsible
     if (level > Levels.Category) {
@@ -128,8 +127,9 @@ export function MenuItem({
       </li>
     );
   } else if (
-    (currentPlatform && pageNode?.platforms?.includes(currentPlatform)) ||
-    !pageNode.platforms
+    !pageNode.hideFromNav &&
+    ((currentPlatform && pageNode?.platforms?.includes(currentPlatform)) ||
+      !pageNode.platforms)
   ) {
     const href = {
       pathname: `${pageNode.route}`

@@ -45,4 +45,10 @@ export type PageNode = {
    * String representing when file was last edited
    */
   lastUpdated?: string;
+
+  /**
+   * Denotes whether the page should be included in the side nav.
+   * Set as a page level static prop
+   */
+  hideFromNav?: boolean;
 };
