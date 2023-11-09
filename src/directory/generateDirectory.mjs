@@ -67,11 +67,13 @@ async function traverseDirectoryObject(directoryNode) {
         const relativePath = path.relative(rootPath, directoryNode.path);
         const parsedPath = path.parse(relativePath);
 
+        // Set up the `route` property which is what we will use to link everything in Next.js
+        // Use `path.posix.join` to use only forward slashes (and not backslashes like on Windows machines)
         if (parsedPath.name === 'index') {
           // For 'index' files we only want to display their directory name as the path
-          directoryNode['route'] = path.join('/', parsedPath.dir);
+          directoryNode['route'] = path.posix.join('/', parsedPath.dir);
         } else {
-          directoryNode['route'] = path.join(
+          directoryNode['route'] = path.posix.join(
             '/',
             parsedPath.dir,
             parsedPath.name
