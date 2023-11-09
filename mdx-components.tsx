@@ -9,7 +9,7 @@ import { Block, BlockSwitcher } from './src/components/BlockSwitcher';
 import { Callout } from './src/components/Callout';
 import Fragments from './src/components/Fragments';
 import { MDXCode, MDXHeading, MDXLink } from './src/components/MDXComponents';
-import MigrationAlert from './src/components/MigrationAlert';
+import { MigrationAlert } from './src/components/MigrationAlert';
 import preToCodeBlock from './src/utils/pre-to-code-block';
 import { Overview } from './src/components/Overview';
 import ExternalLink from './src/components/ExternalLink';
