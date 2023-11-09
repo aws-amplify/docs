@@ -397,7 +397,7 @@ import React, { useEffect, useState } from "react";
 import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
-import { CognitoAuthUser } from "aws-amplify/auth/cognito";
+import { AuthUser } from "aws-amplify/auth";
 import config from './amplifyconfiguration.json';
 
 Amplify.configure(config);
@@ -544,7 +544,7 @@ import { Text, View, Linking, Button } from "react-native";
 import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
-import { CognitoAuthUser } from "aws-amplify/auth/cognito";
+import { AuthUser } from "aws-amplify/auth";
 import config from './amplifyconfiguration.json';
 
 Amplify.configure(config);
@@ -722,7 +722,7 @@ import React, { useEffect, useState } from "react";
 import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
-import { CognitoAuthUser } from "aws-amplify/auth/cognito";
+import { AuthUser } from "aws-amplify/auth";
 
 Amplify.configure({
   Auth: {
