@@ -121,6 +121,8 @@ export const Layout = ({
   let rootMenuNode;
 
   const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
+  const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
+  const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
   const searchParam = isGen2 ? 'gen2' : '[platform]';
 
@@ -229,7 +231,7 @@ export const Layout = ({
               <GlobalNav
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-                currentSite="Docs"
+                currentSite={currentGlobalNavMenuItem}
                 isGen2={isGen2}
               />
               <View as="header" className="layout-header">
@@ -321,10 +323,7 @@ export const Layout = ({
                   className={`main${showTOC ? ' main--toc' : ''}`}
                 >
                   {showBreadcrumbs ? (
-                    <Breadcrumbs
-                      route={pathname}
-                      platform={currentPlatform}
-                    />
+                    <Breadcrumbs route={pathname} platform={currentPlatform} />
                   ) : null}
                   {shouldShowGen2Banner ? <Banner /> : null}
                   {useCustomTitle ? null : (
