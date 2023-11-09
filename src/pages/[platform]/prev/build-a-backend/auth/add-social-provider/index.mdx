@@ -44,7 +44,7 @@ import flutter3 from '/src/fragments/lib-v1/auth/native_common/social_signin_web
 
 <Fragments fragments={{ flutter: flutter3 }} />
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 You can enable your users to sign-in and authenticate with your app using their existing accounts with social providers like Apple, Amazon, Facebook, and Google. Once you configure your backend resources, you can then configure your app to sign in users for that provider. This process will securely exchange credentials and gather user information. This information can then be used to create a new user in your app or link the social account to an existing user. Incorporating social provider sign-in provides your users with a streamlined registration, more sign-in options, and an integrated experience across their existing accounts and your app.
 
@@ -189,7 +189,7 @@ To begin with the CLI, run the following in your project’s root folder:
 amplify add auth     ## "amplify update auth" if already configured
 ```
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 Choose the following options:
 
@@ -358,7 +358,7 @@ You have configured your Auth category and updated your URL with the social prov
 
 After configuring the OAuth endpoints (with Cognito Hosted UI), you can integrate your app by invoking the `Auth.federatedSignIn()` function which will redirect the user to the Cognito Hosted UI and provide options to sign in via user name password as well as any of the Social providers you have configured. Also, note that passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below example.
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 <Callout>
 
@@ -656,7 +656,7 @@ export default function App() {
 
 ### Redirect URLs
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 For _Sign in Redirect URI(s)_ inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for _Sign out redirect URI(s)_.
 
@@ -1481,7 +1481,7 @@ const styles = StyleSheet.create({
 
 When you create or update your authentication configuration, Amplify will setup the configuration locally, but it does not automatically deploy the changes to your backend environment. You will need to run `amplify push` to deploy the changes to your backed environment.
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 You can deploy your app to the Amplify Console with continuous deployment of the frontend and backend, please follow [these instructions](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#creating-a-new-backend-environment-with-authentication-parameters).
 
@@ -1495,7 +1495,7 @@ Congratulations! You finished the **Add social provider sign-in** guide. In this
 
 Now that you have social provider sign-in you may also want to learn additional ways to customize these workflows. We recommend you learn more about:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 - [Password management](/lib-v1/auth/password_management/q/platform/js/)
 - [Identity Pool Federation](/lib-v1/auth/advanced/q/platform/js/#identity-pool-federation)
