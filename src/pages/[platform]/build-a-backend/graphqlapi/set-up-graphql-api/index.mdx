@@ -4,7 +4,17 @@ export const meta = {
   title: 'Set up Amplify GraphQL API',
   description:
     "Learn more about how to get started with Amplify's API category",
-  platforms: ['javascript', 'react-native', 'swift', 'android', 'flutter','angular','nextjs','react','vue'] 
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -30,7 +40,15 @@ import android1 from '/src/fragments/lib/graphqlapi/native_common/getting-starte
 
 import js2 from '/src/fragments/lib/graphqlapi/js/getting-started.mdx';
 
-<Fragments fragments={{  javascript: js2 , angular: js2, nextjs: js2, react: js2, vue: js2 }} />
+<Fragments
+  fragments={{
+    javascript: js2,
+    angular: js2,
+    nextjs: js2,
+    react: js2,
+    vue: js2
+  }}
+/>
 
 import reactnative0 from '/src/fragments/lib/graphqlapi/js/getting-started.mdx';
 

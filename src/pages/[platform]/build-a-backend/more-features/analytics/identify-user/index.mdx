@@ -4,7 +4,16 @@ export const meta = {
   title: 'Identify user',
   description:
     'Use the Amplify analytics plugin to inform Pinpoint about your users.',
-  platforms: ['swift', 'android', 'javascript', 'react-native','angular','nextjs','react','vue'] 
+  platforms: [
+    'swift',
+    'android',
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -78,6 +87,14 @@ async function sendUserData() {
 
 import js0 from '/src/fragments/lib/analytics/native_common/identify-use-cases.mdx';
 
-<Fragments fragments={{  javascript: js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
 
 </InlineFilter>

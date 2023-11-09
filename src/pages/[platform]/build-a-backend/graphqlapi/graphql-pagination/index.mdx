@@ -3,7 +3,16 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'GraphQL pagination',
   description: 'How to implement pagination with GraphQL ',
-  platforms: ['javascript', 'react-native', 'swift', 'android','angular','nextjs','react','vue'] 
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -106,4 +115,12 @@ When there are no other items left to be returned, the `nextToken` in the respon
 
 import js0 from '/src/fragments/guides/api-graphql/js/graphql-pagination.mdx';
 
-<Fragments fragments={{  javascript: js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>

@@ -4,7 +4,17 @@ export const meta = {
   title: 'Use existing AWS resources',
   description:
     'Configure the Amplify Libraries to use existing Amazon API Gateway resources by referencing them in your configuration.',
-  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native','angular','nextjs','react','vue'] 
+  platforms: [
+    'flutter',
+    'swift',
+    'android',
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -34,7 +44,15 @@ import flutter2 from '/src/fragments/lib/restapi/existing-resources.mdx';
 
 import js3 from '/src/fragments/lib/restapi/js/existing-resources.mdx';
 
-<Fragments fragments={{  javascript: js3 , angular: js3, nextjs: js3, react: js3, vue: js3 }} />
+<Fragments
+  fragments={{
+    javascript: js3,
+    angular: js3,
+    nextjs: js3,
+    react: js3,
+    vue: js3
+  }}
+/>
 
 import rn4 from '/src/fragments/lib/restapi/js/existing-resources.mdx';
 

@@ -3,7 +3,17 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Enable and disable analytics',
   description: 'Learn how to enable/disable analytics using Amplify.',
-  platforms: ['javascript', 'react-native', 'swift', 'android', 'flutter','angular','nextjs','react','vue'] 
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -25,7 +35,15 @@ Analytics is enabled by default when you configure it in your app. To disable An
 
 import js0 from '/src/fragments/lib/analytics/js/enable-disable/disable.mdx';
 
-<Fragments fragments={{  javascript: js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
 
 import reactNative0 from '/src/fragments/lib/analytics/js/enable-disable/disable.mdx';
 
@@ -49,7 +67,20 @@ To enable analytics you can use the `enable` function in your app:
 
 import js1 from '/src/fragments/lib/analytics/js/enable-disable/enable.mdx';
 
-<Fragments fragments={{  javascript: js1 , angular: js1, nextjs: js1, react: js1, vue: js1 }} />
+<<<<<<< HEAD
+
+# <Fragments fragments={{  javascript: js1 , angular: js1, nextjs: js1, react: js1, vue: js1 }} />
+
+<Fragments
+  fragments={{
+    javascript: js1,
+    angular: js1,
+    nextjs: js1,
+    react: js1,
+    vue: js1
+  }}
+/>
+>>>>>>> next-release/platform-check
 
 import reactNative1 from '/src/fragments/lib/analytics/js/enable-disable/enable.mdx';
 

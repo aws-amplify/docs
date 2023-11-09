@@ -4,7 +4,15 @@ export const meta = {
   title: 'Upgrade from AppSync SDK',
   description:
     'Learn how to upgrade from AWS AppSync SDK (Maintenance mode) to AWS Amplify.',
-  platforms: ['swift', 'javascript', 'react-native','angular','nextjs','react','vue'] 
+  platforms: [
+    'swift',
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -22,7 +30,16 @@ export function getStaticProps(context) {
 
 import js0 from '/src/fragments/lib/graphqlapi/js/upgrade-guide.mdx';
 
-<Fragments fragments={{  javascript: js0,  'react-native': js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
+<Fragments
+  fragments={{
+    javascript: js0,
+    'react-native': js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
 
 import ios0 from '/src/fragments/lib/graphqlapi/ios/upgrade-guide.mdx';
 
