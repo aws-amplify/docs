@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@aws-amplify/ui-react';
 import { findDirectoryNode as findNode } from '@/utils/findDirectoryNode';
 import classNames from 'classnames';
+import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 
 type BreadcrumbItem = {
   href: { pathname: string; query?: { platform: string } };
@@ -12,7 +13,6 @@ type BreadcrumbItem = {
 type Props = {
   route: string;
   platform: string;
-  isGen2: boolean;
 };
 
 const overrides = {
@@ -20,14 +20,21 @@ const overrides = {
   '/javascript/prev': 'V5',
   '/swift/prev': 'V1',
   '/android/prev': 'V1',
-  '/flutter/prev': 'V0'
+  '/flutter/prev': 'V0',
+  '/javascript': PLATFORM_DISPLAY_NAMES['javascript'],
+  '/react': PLATFORM_DISPLAY_NAMES['react'],
+  '/flutter': PLATFORM_DISPLAY_NAMES['flutter'],
+  '/swift': PLATFORM_DISPLAY_NAMES['swift'],
+  '/android': PLATFORM_DISPLAY_NAMES['android'],
+  '/react-native': PLATFORM_DISPLAY_NAMES['react-native'],
+  '/angular': PLATFORM_DISPLAY_NAMES['angular'],
+  '/nextjs': PLATFORM_DISPLAY_NAMES['nextjs'],
+  '/vue': PLATFORM_DISPLAY_NAMES['vue']
 };
 
 function generateBreadcrumbs(
   route: string,
-
-  platform: string,
-  isGen2: boolean
+  platform: string
 ): BreadcrumbItem[] {
   const breadcrumbs: BreadcrumbItem[] = [];
 
@@ -35,10 +42,6 @@ function generateBreadcrumbs(
   let urls: string[] = [];
   for (let i = 1; i <= pieces.length; i++) {
     urls.push(`/${pieces.slice(0, i).join('/')}`);
-  }
-
-  if (!isGen2) {
-    urls.splice(0, 0, '/');
   }
 
   urls.forEach((url) => {
