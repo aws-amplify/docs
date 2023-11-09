@@ -132,27 +132,6 @@ textarea:not([rows]) {
   min-height: 10em;
 }
 
-table:not([class]) {
-  border-collapse: collapse;
-  th {
-    border-top: 1px solid var(--amplify-colors-border-secondary);
-  }
-  td,
-  th {
-    border-bottom: 1px solid var(--amplify-colors-border-secondary);
-    padding: var(--amplify-space-xs) var(--amplify-space-small);
-    border-right: 1px solid var(--amplify-colors-border-secondary);
-    &:first-child {
-      border-left: 1px solid var(--amplify-colors-border-secondary);
-    }
-  }
-  tbody {
-    tr:hover {
-      background-color: var(--amplify-colors-neutral-10);
-    }
-  }
-}
-
 .max-headline-content {
   max-width: 60ch;
 }
