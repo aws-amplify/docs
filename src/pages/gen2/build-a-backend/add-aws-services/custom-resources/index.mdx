@@ -17,9 +17,17 @@ export function getStaticProps(context) {
 title: Custom Resources
 ---
 
-@TODO better examples of constructs and stacks
+Custom resources can be written using the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/api/v2/).
 
-Custom resources can be written using the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/api/v2/). You have the option to create individual [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) or [Stacks](https://docs.aws.amazon.com/cdk/v2/guide/stacks.html).
+From the [Concepts - AWS Cloud Development Kit (AWS CDK) v2](https://docs.aws.amazon.com/cdk/v2/guide/core_concepts.html) documentation
+
+:::info
+
+> AWS CDK apps are composed of building blocks known as [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html), which are composed together to form [stacks](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Stack.html) and [apps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.App.html).
+
+:::
+
+With the Amplify Code-first DX, you have the option to create individual [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) and [Stacks](https://docs.aws.amazon.com/cdk/v2/guide/stacks.html) which will be composed into the [Backend](https://next-docs.amplify.aws/gen2/how-amplify-works/concepts/#backend) for your project.
 
 ## Defining a CDK Construct
 
@@ -82,11 +90,11 @@ export class Backup extends Construct {
 The custom CDK construct can then be added to the `backend`:
 
 ```ts title="amplify/backend.ts"
-import { Backend } from '@aws-amplify/backend';
+import { defineBackend } from '@aws-amplify/backend';
 import { Backup } from './custom/Backup';
 import { data } from './data/resource';
 
-const backend = new Backend({
+const backend = new defineBackend({
   data,
 });
 
@@ -167,7 +175,7 @@ import { Backend } from '@aws-amplify/backend';
 import { BackupStack } from './custom/BackupStack';
 import { data } from './data/resource';
 
-const backend = new Backend({
+const backend = new defineBackend({
   data,
 });
 
