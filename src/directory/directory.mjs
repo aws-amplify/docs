@@ -100,53 +100,67 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/datastore/index.mdx',
+              path: 'src/pages/[platform]/build-a-backend/graphqlapi/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/additional-methods/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/authz-rules-setup/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect-to-api/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/conflict-resolution/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/api-graphql-concepts/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/customize-primary-keys/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/customize-authz-modes/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/data-usage-policy/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/mutate-data/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/datastore-events/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/query-data/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/example-application/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/subscribe-data/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/how-it-works/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/relational-models/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/manipulate-data/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/working-with-files/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/parallel-processing/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/optimistic-ui/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/real-time/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/cancel-request/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/relational-models/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/offline/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/schema-updates/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/graphql-from-nodejs/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/set-up-datastore/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/advanced-workflows/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/sync-to-cloud/index.mdx'
-                }
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/existing-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/modify-amplify-generated-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/upgrade-guide/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/query-with-sorting/index.mdx'
+                    }
+                  ]
+                },
               ]
             },
             {
@@ -197,64 +211,53 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/graphqlapi/index.mdx',
+              path: 'src/pages/[platform]/build-a-backend/datastore/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/additional-methods/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect-to-api/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/authz-rules-setup/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/api-graphql-concepts/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/conflict-resolution/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/customize-authz-modes/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/customize-primary-keys/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/mutate-data/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/data-usage-policy/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/query-data/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/datastore-events/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/subscribe-data/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/example-application/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/relational-models/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/how-it-works/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/working-with-files/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/manipulate-data/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/optimistic-ui/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/parallel-processing/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/cancel-request/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/real-time/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/offline/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/relational-models/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/graphql-from-nodejs/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/schema-updates/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/advanced-workflows/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/datastore/set-up-datastore/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/existing-resources/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/upgrade-guide/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/query-with-sorting/index.mdx'
-                    }
-                  ]
-                },
+                  path: 'src/pages/[platform]/build-a-backend/datastore/sync-to-cloud/index.mdx'
+                }
               ]
             },
             {
@@ -1725,9 +1728,6 @@ export const directory = {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/override-appsync/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/schema-evolution/index.mdx'
                     },
                     {
@@ -2128,9 +2128,10 @@ export const directory = {
                 {
                   path: 'src/pages/gen2/build-a-backend/data/set-up-data/index.mdx'
                 },
-                {
-                  path: 'src/pages/gen2/build-a-backend/data/connect-existing-data/index.mdx'
-                },
+                // Uncommented because this feature won't be ready for re:invent
+                // {
+                //   path: 'src/pages/gen2/build-a-backend/data/connect-existing-data/index.mdx'
+                // },
                 {
                   path: 'src/pages/gen2/build-a-backend/data/connect-to-API/index.mdx'
                 },
@@ -2144,22 +2145,31 @@ export const directory = {
                   path: 'src/pages/gen2/build-a-backend/data/subscribe-data/index.mdx'
                 },
                 {
+                  path: 'src/pages/gen2/build-a-backend/data/data-modeling/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/add-fields/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/identifiers/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/relationships/index.mdx'
+                    },
+                  ]
+                },
+                {
                   path: 'src/pages/gen2/build-a-backend/data/customize-authz/index.mdx'
                 },
                 {
+                  path: 'src/pages/gen2/build-a-backend/data/override-resources/index.mdx'
+                },
+                // Uncommented because this feature won't be ready for re:invent
+                // {
+                //   path: 'src/pages/gen2/build-a-backend/data/offline/index.mdx'
+                // },
+                {
                   path: 'src/pages/gen2/build-a-backend/data/migration/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/data/data-modeling/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/data/relationships/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/data/existing-resources/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/data/offline/index.mdx'
                 }
               ]
             },
