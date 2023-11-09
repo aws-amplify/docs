@@ -1,0 +1,83 @@
+export const meta = {
+  title: `Enable/Disable Analytics`,
+  description: `Learn how to enable/disable analytics using Amplify.`,
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+export const getStaticPaths = () => {
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+
+<Fragments fragments={{ android: android_maintenance }} />
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ ios: ios_maintenance }} />
+
+## Disable Analytics
+
+Analytics is enabled by default when you configure it in your app. To disable Analytics in your app use the `disable` function:
+
+import android0 from '/src/fragments/lib-v1/analytics/android/enable-disable/disable.mdx';
+
+<Fragments fragments={{ android: android0 }} />
+
+import ios0 from '/src/fragments/lib-v1/analytics/ios/enable-disable/disable.mdx';
+
+<Fragments fragments={{ ios: ios0 }} />
+
+import flutter0 from '/src/fragments/lib-v1/analytics/flutter/enable-disable/disable.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />
+
+import js0 from '/src/fragments/lib-v1/analytics/js/enable-disable/disable.mdx';
+
+<Fragments fragments={{ js: js0 }} />
+
+import reactnative0 from '/src/fragments/lib-v1/analytics/js/enable-disable/disable.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
+
+## Enable Analytics
+
+To enable analytics you can use the `enable` function in your app:
+
+import android1 from '/src/fragments/lib-v1/analytics/android/enable-disable/enable.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import ios1 from '/src/fragments/lib-v1/analytics/ios/enable-disable/enable.mdx';
+
+<Fragments fragments={{ ios: ios1 }} />
+
+import flutter1 from '/src/fragments/lib-v1/analytics/flutter/enable-disable/enable.mdx';
+
+<Fragments fragments={{ flutter: flutter1 }} />
+
+import js1 from '/src/fragments/lib-v1/analytics/js/enable-disable/enable.mdx';
+
+<Fragments fragments={{ js: js1 }} />
+
+import reactnative1 from '/src/fragments/lib-v1/analytics/js/enable-disable/enable.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative1 }} />
