@@ -1,19 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Connect machine learning services',
-  description: 'The @predictions directive allows you to query an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly.',
+  description:
+    'The @predictions directive allows you to query an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,11 +29,10 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
 <MigrationAlert
   isLegacy
-  url={'/cli/graphql/connect-to-machine-learning-services'}
+  url={'/[platform]/cli/graphql/connect-to-machine-learning-services'}
 />
 
 ## @predictions
