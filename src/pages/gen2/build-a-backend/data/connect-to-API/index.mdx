@@ -13,206 +13,295 @@ export function getStaticProps(context) {
 
 }
 
-# Connect app code to API
+In this guide, you will connect your application code to the backend API using the Amplify Libraries. We will review how to install and configure Amplify Libraries.
 
-You can use the Amplify library to connect GraphQL APIs created in various ways:
-- Amplify vNext-generated API (backend/data.ts)
-- Amplify Classic-generated API (`backend/api/<api-name\>/schema.graphql`)
-- any existing AWS AppSync GraphQL API
-- GraphQL APIs hosted using API Gateway
+Before you begin, you will need:
+- your cloud sandbox with an Amplify Data resource up and running (`npx amplify sandbox`)
+- A frontend application set up. For instructions on setting up an app, see [Project Setup: Create your application](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/js/)
+- [npm installed](https://docs.npmjs.com/getting-started)
 
-Depending on the API you connect to and the way the API is provisioned, you'll get different levels of support for end-to-end typing. 
+## Install the Amplify Library
 
-To connect your app code to your GraphQL API, you need to provide the API endpoint URL and the default authorization mode. 
+You need the Amplify Library to connect to your Data backend. To install the the Amplify client library, navigate to your frontend's root folder and run the following command in your Terminal:
 
-:::note
-The **Default Authorization Mode** is the authorization mode that the GraphQL API should be authorized with when no other authorization mode is specified at the request time. **Default Authorization Mode** is a setting that you can configure for the AWS Amplify-generated APIs and AWS AppSync GraphQL APIs.
-:::
-
-## Configure the GraphQL API endpoint URL
-
-The Amplify library connects you to a GraphQL API endpoint based on the information provided to `Amplify.configure()`.
-
-vNext
-
-When running the cloud sandbox (`amplify sandbox`), an `amplifyconfiguration.js` file is generated for you. This file contains your API's endpoint information, auth configurations, and typings details.
-
-```ts
-import { Amplify } from 'aws-amplify'
-// highlight-next-line
-import amplifyconfiguration from './amplifyconfiguration'
-
-// highlight-next-line
-Amplify.configure(amplifyconfiguration)
+```bash
+npm install aws-amplify
 ```
 
-Amplify CLI
+## Configure the Amplify Library
 
-When you deploy your backend (`amplify push`), an `aws-exports.js` file is generated for you. This file contains your API's endpoint information and auth configurations.
+You will then configure the library to connect with your Amplify Data's backend API:
+
+When you deploy you're iterating on your backend (`npx amplify sandbox`), an `amplifyconfiguration.json` file is generated for you. This file contains your API's endpoint information and auth configurations. Add the following code to your app's entrypoint to initialize and configure the Amplify client library:
 
 ```ts
 import { Amplify } from 'aws-amplify'
-// highlight-next-line
-import awsconfig from './aws-exports'
+import config from './amplifyconfiguration.json'
 
-// highlight-next-line
-Amplify.configure(awsconfig)
+Amplify.configure(config)
 ```
 
-Existing AppSync GraphQL API
+## Generate the Amplify Data client
 
-When working with existing GraphQL APIs, you must manually provide your API endpoint and auth configurations. First, to configure the GraphQL API endpoint URL, set the `aws_appsync_graphqlEndpoint` and `aws_appsync_region` values. 
+Once the Amplify library is configured, you can generate a "Data client" for your frontend code to make fully-typed API requests to your backend. To generate a new Data client, use the following code:
 
 ```ts
-import { Amplify } from 'aws-amplify'
+import { generateClient } from 'aws-amplify/api'
+import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
 
-Amplify.configure({
-  // highlight-start
-  aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
-  // highlight-end
+const client = generateClient<Schema>()
+
+// Now you should be able to make CRUDL operations with the 
+// Data client
+async function fetchTodos() {
+  const { data: todos, errors } = await client.models.Todo.list()
+}
+```
+
+## Configure authorization mode
+
+The **Authorization Mode** is determines how a request should be authorized with the backend. By default, Amplify Data uses the "userPool" authorization which uses the signed-in user credentials to sign an API request. If you use public authorization rules for you data models, you need to use "apiKey" an an authorization mode. Review [Authorization Rules](/gen2/build-a-backend/data/customize-authz) to learn more about which authorization modes to choose for which type of request. A **Default Authorization Mode** is provided as part of the **amplifyconfiguration.json** that is generated upon a successful deployment.
+
+You can generate different Data clients with different authorization modes or pass in the authorization mode at the request time.
+
+### Set authorization mode on a Data client
+
+To apply the same authorization mode on all requests from a Data client, specify the `authMode` parameter on the `generateClient` function.
+
+<BlockSwitcher>
+
+<Block name="API Key">
+
+```ts
+import { generateClient } from 'aws-amplify/api'
+import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
+
+const client = generateClient<Schema>({
+  authMode: 'apiKey'
 })
 ```
 
-## Configure the default authorization mode settings
-
-Amplify library supports the following authorization modes for GraphQL APIs:
-- API Key
-- Cognito user pool
-- AWS IAM
-- OpenID Connect
-- Lambda authorizer
-- Custom request headers
-
-If you use Samsara or Amplify CLI to generate your Amplify client configurations (`amplifyconfiguration.ts`/`aws-exports.js`), then this setting is automatically configured for you as part of [Configure the GraphQL API endpoint URL](#configure-the-graphql-api-endpoint-url).
-
-Use the following guides to customize the authorization modes for your existing GraphQL APIs.  
-
-### Use API Key as the default authorization mode
+</Block>
+<Block name="Amazon Cognito user pool">
 
 ```ts
-import { Amplify } from 'aws-amplify'
+import { generateClient } from 'aws-amplify/api'
+import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
 
-Amplify.configure({
-  aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
+const client = generateClient<Schema>({
+  authMode: 'userPool'
+})
+```
+</Block>
+<Block name="AWS IAM">
 
-  // Set the auth type as "API_KEY" and pass in the API key value
-  // highlight-start
-  aws_appsync_authenticationType: 'API_KEY',
-  aws_appsync_apiKey: 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx'
-  // highlight-end
+```ts
+import { generateClient } from 'aws-amplify/api'
+import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
+
+const client = generateClient<Schema>({
+  authMode: 'iam'
+})
+```
+</Block>
+<Block name="OpenID Connect (OIDC)">
+
+```ts
+import { generateClient } from 'aws-amplify/api'
+import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
+
+const client = generateClient<Schema>({
+  authMode: 'oidc'
 })
 ```
 
-### Use Amazon Cognito user pool as the default authorization mode
+</Block>
+<Block name="Lambda Authorizer">
 
-[TK add context on auth]
+You can implement your own custom API authorization logic using a AWS Lambda function. Review [Custom Authorization Rule](TK) to learn more about how to implement your authorization protocol with AWS Lambda.
 
 ```ts
-import { Amplify } from 'aws-amplify'
+import { generateClient } from 'aws-amplify/api'
+import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
 
-Amplify.configure({
-  aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
+const getAuthToken = () => 'myAuthToken';
+const lambdaAuthToken = getAuthToken();
 
-  // Set the auth type as "AMAZON_COGNITO_USER_POOLS"
-  // highlight-start
-  aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
-  // highlight-end
+const client = generateClient<Schema>({
+  authMode: 'lambda',
+  authToken: lambdaAuthToken
 })
 ```
 
-### Use AWS IAM as the default authorization mode
+</Block>
+</BlockSwitcher>
 
-[TK add context on auth]
+### Set authorization mode on the request-level
+
+You can also specify the authorization mode on each individual API request. This is useful if your application typically only uses one authorization mode with a small number of exceptions.
+
+<BlockSwitcher>
+
+<Block name="API Key">
 
 ```ts
-import { Amplify } from 'aws-amplify'
-
-Amplify.configure({
-  aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
-
-  // Set the auth type as "AWS_IAM"
-  // highlight-start
-  aws_appsync_authenticationType: 'AWS_IAM',
-  // highlight-end
+const { data: todos, errors } = await client.models.Todo.list({
+  authMode: 'apiKey'
 })
 ```
 
-### Use OpenID Connect as the default authorization mode
-
-[TK add context on]  // Before calling API.graphql(...) is required to do Auth.federatedSignIn(...) check authentication guide for details.
-
+</Block>
+<Block name="Amazon Cognito user pool">
 
 ```ts
-import { Amplify } from 'aws-amplify'
+const { data: todos, errors } = await client.models.Todo.list({
+  authMode: 'userPool'
+})
+```
+</Block>
+<Block name="AWS IAM">
 
-Amplify.configure({
-  aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
+```ts
+const { data: todos, errors } = await client.models.Todo.list({
+  authMode: 'iam'
+})
+```
+</Block>
+<Block name="OpenID Connect (OIDC)">
 
-  // Set the auth type as "OPENID_CONNECT"
-  // highlight-start
-  aws_appsync_authenticationType: 'OPENID_CONNECT',
-  // highlight-end
+```ts
+const { data: todos, errors } = await client.models.Todo.list({
+  authMode: 'oidc'
 })
 ```
 
-### Use Lambda authorizer as the default authorization mode
+</Block>
+<Block name="Lambda Authorizer">
 
-You can implement your own custom API authorization logic using an AWS Lambda function. To add a Lambda as an authorization mode for your AppSync API, go to the Settings section of the AppSync console.
-
-If you are using a Lambda function as an authorization mode with your AppSync API, you will need to pass an authentication token with each API request and will need to manage token refresh in your application.
-
-```ts
-import { Amplify } from 'aws-amplify'
-
-Amplify.configure({
-  aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
-
-  // Set the auth type as "AWS_LAMBDA"
-  // highlight-start
-  aws_appsync_authenticationType: 'AWS_LAMBDA',
-  // highlight-end
-})
-```
-
-Next, when you make the GraphQL API request, you can provide an `authToken` parameter to add to your request header.
+You can implement your own custom API authorization logic using a AWS Lambda function. Review [Custom Authorization Rule](TK) to learn more about how to implement your authorization protocol with AWS Lambda.
 
 ```ts
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
 
-const createdTodo = await client.graphql({
-  query: queries.listTodos,
-  // highlight-next-line
+const { data: todos, errors } = await client.models.Todo.list({
+  authMode: 'lambda'
   authToken: lambdaAuthToken
-});
-```
-
-### Use custom request headers for API authorization
-
-When working with a non-AppSync GraphQL endpoint, you may need to set request headers for authorization purposes. This is done by passing a `graphql_headers` function into the configuration:
-
-```ts
-import { Amplify } from 'aws-amplify'
-
-Amplify.configure({
-  aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
-  aws_appsync_region: 'us-east-1',
-
-  // Set the graphql_headers value and pass in a function to supply headers
-  // highlight-start
-  API: {
-    graphql_headers: async() => ({
-      'My-Custom-Header': 'My Value'
-    })
-  }
-  // highlight-end
 })
 ```
 
-## Generate a type-safe API client
+</Block>
+</BlockSwitcher>
+
+## Set custom request headers for GraphQL APIs
+
+When working with a GraphQL endpoint, you may need to set request headers for authorization purposes or to pass additional metadata from your frontend to the  backend API. This is done by specifying a `headers` parameter into the configuration. You can define headers either on a per Data client-level or on a per-request level:
+
+<BlockSwitcher>
+
+<Block name="Custom headers per Data client">
+
+```ts
+import type { Schema } from '@/backend/schema'
+import { generateClient } from 'aws-amplify/data'
+
+const client = generateClient<Schema>({
+  headers: {
+    'My-Custom-Header': 'my value'
+  }
+})
+```
+
+</Block>
+
+<Block name="Custom headers per request">
+
+```ts
+// same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
+const res = await client.models.Blog.get(
+    'myBlogId',
+    {
+      headers: {
+        'My-Custom-Header': 'my value'
+      }
+    },
+);
+```
+
+</Block>
+
+</BlockSwitcher>
+
+The examples above show you how to set static headers but you can also programmatically set headers by specifying an async function for `headers`:
+
+<BlockSwitcher>
+
+<Block name="Custom headers per Data client">
+
+```ts
+import type { Schema } from '@/backend/schema'
+import { generateClient } from 'aws-amplify/data'
+
+const client = generateClient<Schema>({
+  headers: async (requestOptions) => {
+    console.log(requestOptions)
+    /* The request options allow you to customize your headers based on the request options such
+       as http method, headers, request URI, and query string. These options are typically used
+       to create a request signature.
+    {
+      method: '...',
+      headers: { },
+      uri: '/',
+      queryString: ""
+    }
+    */
+    return {
+      'My-Custom-Header': 'my value'
+    }
+  }
+})
+```
+
+</Block>
+
+<Block name="Custom headers per request">
+
+```ts
+// same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
+const res = await client.models.Blog.get(
+  'myBlogId',
+  {
+    headers: async (requestOptions) => {
+      console.log(requestOptions)
+      /* The request options allow you to customize your headers based on the request options such
+        as http method, headers, request URI, and query string. These options are typically used
+        to create a request signature.
+      {
+        method: '...',
+        headers: { },
+        uri: '/',
+        queryString: ""
+      }
+      */
+      return {
+        'My-Custom-Header': 'my value'
+      }
+    }
+  }
+);
+```
+
+</Block>
+
+</BlockSwitcher>
+
+## Conclusion
+
+Congratulations! You have finished the **Connect your app code to the API** guide. In this guide, you reviewed the required configuration and installed and configured Amplify Libraries. You also reviewed some quick ways to customize the data client with different authorization modes and custom headers.
+
+## Next steps
+
+Our recommended next steps include using the API to mutate and query data. You can also review how to subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
+- [Create, update, and delete application data](/lib/graphqlapi/mutate-data/q/platform/js/)
+- [Read application data](/lib/graphqlapi/query-data/q/platform/js/)
+- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/js/)
