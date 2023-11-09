@@ -1,9 +1,12 @@
-code {
+code:not([class]) {
   font-family: var(--font-code);
-  font-size: 0.875em;
+  font-size: var(--amplify-font-sizes-small);
+  margin-bottom: 1px;
   background-color: var(--amplify-colors-neutral-20);
   padding: var(--amplify-space-xxxs) var(--amplify-space-xxs);
   border-radius: var(--amplify-radii-small);
+  display: inline-block;
+  line-height: var(--amplify-line-heights-small);
 }
 
 .pre-filename {
@@ -39,14 +42,16 @@ code {
 }
 
 .token-line {
-  display: flex;
+  display: block;
   line-height: var(--amplify-line-heights-medium);
 }
 .line-number {
-  flex: 0 0 var(--amplify-space-medium);
   color: var(--code-theme-comment);
   margin-inline-end: var(--amplify-space-small);
   text-align: end;
+  user-select: none;
+  display: inline-block;
+  width: var(--amplify-space-medium);
 }
 
 .code-copy {
