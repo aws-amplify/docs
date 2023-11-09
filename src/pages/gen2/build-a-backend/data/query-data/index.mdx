@@ -176,6 +176,60 @@ export const PaginationHasMorePagesExample = () => {
 
 </Callout>
 
+## Fetch only the data you need with custom selection set
+
+While a modeled business domain may contain a lot of models with a lot of fields, its usage in apps typically requires only subsets of data or fields to fulfill the data requirements of the different components or screens. It is necessary to offer a mechanism to retrieve subsets of models and its relationships. Having such a mechanism would help with the data requirements of screens/components in an optimal way (only used data will be transferred), improving the app's data usage, the latency and its end-user's perceived performance.
+
+A **custom selection set** allows consumers to specify on a per-call basis the fields the consumer wishes to retrieve, this is possible for all operations that return data (CRUDL + observeQuery). The desired fields are specified in a strongly-typed way (discoverable via intellisense) with a "dot notation".
+
+```ts
+// same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
+const {
+  data: blogWithSubsetOfData,
+  errors
+} = await client.models.Blog.get(
+  '<MY_BLOG_ID>',
+  {
+    selectionSet: [
+      'author.email',
+      'publication.company.location.city',
+      'content.*'
+    ]
+  },
+);
+```
+
+## TypeScript type helpers for Amplify Data
+
+When working with TypeScript you often need to specify the type of your data models for type generics. For example, when working with `useState` from React, you need to provide a type in TypeScript to ensure type-safety for the rest of your component code that uses the returned state. Use the `Schema["MODEL_NAME"]` pattern to get consumable TypeScript types for the shapes of the data model return values coming from the backend API.
+
+```ts
+import { type Schema } from '@/backend/data/resource'
+
+type Post = Schema["Post"];
+
+const [posts, setPosts] = useState<Post[]>([]);
+```
+
+You can combine the `Schema["MODEL_NAME"]` type with the `SelectionSet` helper type to describe the return type of API requests using the `selectionSet` parameter:
+
+```ts
+import { type SelectionSet } from 'aws-amplify/data'
+import { type Schema } from '@/backend/data/resource'
+
+
+const selectionSet = ['content', 'author', 'comments.*'] as const;
+type PostWithComments = SelectionSet<Schema["Post"], typeof selectionSet>;
+
+// ... 
+const [posts, setPosts] = useState<PostWithComments[]>([]);
+
+async fetchPosts() {
+  const { data: postsWithComments } = await client.models.Post.list({ selectionSet })
+  setPosts(postsWithComments)
+}
+```
+
 ## Cancel read requests
 
 You can cancel any query API request by calling `.cancel` on the query request promise that's returned by `.list(...)` or `.get(...)`.
