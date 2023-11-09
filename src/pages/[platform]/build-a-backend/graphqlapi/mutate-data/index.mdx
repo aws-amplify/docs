@@ -4,7 +4,7 @@ export const meta = {
   title: 'Create, update, and delete application data',
   description:
     'Learn more about how to create and update data using GraphQL APIs in Amplify.',
-  platforms: ['javascript', 'react-native', 'swift', 'android', 'flutter']
+  platforms: ['javascript', 'react-native', 'swift', 'android', 'flutter','angular','nextjs','react','vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -24,7 +24,7 @@ In this guide, you will learn how to create, update, and delete your data using 
 
 Before you begin, you will need:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 - An [application connected to the API](/lib/graphqlapi/connect/q/platform/js/)
 
@@ -60,7 +60,7 @@ In GraphQL, mutations are APIs that are used to create, update, or delete data. 
 
 ### Create an item
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 You can create an item by first importing the API and mutations. Then you can add an item:
 
@@ -263,7 +263,7 @@ Future<void> createTodo() async {
 
 ### Update an item
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 To update the item, use the GraphQL update mutation:
 
@@ -330,7 +330,7 @@ Future<void> updateTodo(Todo originalTodo) async {
 
 ### Delete an item
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 You can then delete the Todo by using the delete mutation. To specify which item to delete, you only need to provide the `id` of that item:
 
@@ -426,7 +426,7 @@ Future<void> deleteTodoById(Todo todoToDelete) async {
 
 </InlineFilter>
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 ## Cancel mutation requests
 
@@ -474,7 +474,7 @@ Congratulations! You have finished the **Create, update, and delete application 
 
 Our recommended next steps include using the API to query data and subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 - [Read application data](/lib/graphqlapi/query-data/q/platform/js/)
 - [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/js/)
