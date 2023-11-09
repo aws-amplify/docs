@@ -607,6 +607,24 @@ export const directory = {
           path: 'src/pages/[platform]/build-ui/index.mdx',
           children: [
             {
+              isExternal: true,
+              route: 'https://ui.docs.amplify.aws/',
+              title: 'Amplify UI',
+              description:
+                'Amplify UI simplifies building accessible, performant, and beautiful applications with cloud-connected capabilities, building blocks, theming, and utilities.',
+              platforms: [
+                'android',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'angular',
+                'flutter',
+                'swift',
+                'vue'
+              ]
+            },
+            {
               path: 'src/pages/[platform]/build-ui/formbuilder/index.mdx',
               children: [
                 {
