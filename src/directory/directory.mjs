@@ -2128,10 +2128,10 @@ export const directory = {
                   path: 'src/pages/gen2/build-a-backend/data/subscribe-data/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/data/customize-authz/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/data/data-modeling/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/data/data-modeling/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/data/customize-authz/index.mdx'
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/data/relationships/index.mdx'
