@@ -12,7 +12,7 @@ import {
   MdCelebration,
   MdPageview
 } from 'react-icons/md';
-import { FiExternalLink, FiCheck, FiGitPullRequest } from 'react-icons/fi';
+import { FiGitPullRequest } from 'react-icons/fi';
 import { IconCheck, IconExternalLink } from '@/components/Icons';
 
 export default function HowItWorks() {
@@ -151,7 +151,7 @@ export default function HowItWorks() {
               href="https://aws.amazon.com/blogs/mobile/new-introducing-the-amplify-badge-program/"
               isExternal
             >
-              Amplify badge <FiExternalLink />
+              Amplify badge <IconExternalLink />
             </Link>{' '}
             for your first contribution or make progress toward the Intermediate
             and Advanced badges!

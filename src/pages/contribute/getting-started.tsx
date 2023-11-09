@@ -101,8 +101,7 @@ export default function GettingStarted() {
               href="https://github.com/aws-amplify/amplify-js/blob/main/CONTRIBUTING.md#setting-up-for-local-development"
               isExternal
             >
-              here
-              <IconExternalLink />
+              here <IconExternalLink />
             </Link>{' '}
             to get set up.
           </Text>
@@ -249,8 +248,7 @@ export default function GettingStarted() {
             href="https://github.com/aws-amplify/amplify-js/blob/main/CONTRIBUTING.md#contributing-guidelines"
             isExternal
           >
-            Amplify JS Contributing Guidelines
-            <IconExternalLink />
+            Amplify JS Contributing Guidelines <IconExternalLink />
           </Link>
         </Heading>
         <Text>
@@ -259,16 +257,14 @@ export default function GettingStarted() {
 
         <Heading level={4}>
           <Link href="/">
-            Amplify Documentation
-            <IconExternalLink />
+            Amplify Documentation <IconExternalLink />
           </Link>
         </Heading>
         <Text>Learn more about AWS Amplify the the JS library.</Text>
 
         <Heading level={4}>
           <Link href="https://discord.com/invite/amplify" isExternal>
-            Amplify Community Discord server
-            <IconExternalLink />
+            Amplify Community Discord server <IconExternalLink />
           </Link>
         </Heading>
         <Text>
@@ -278,8 +274,7 @@ export default function GettingStarted() {
 
         <Heading level={4}>
           <Link href="https://discord.gg/kfWYHw73eA" isExternal>
-            The <code>contribute-to-javascript</code> Discord channel
-            <IconExternalLink />
+            The #contribute-to-javascript Discord channel <IconExternalLink />
           </Link>
         </Heading>
         <Text>
@@ -288,8 +283,7 @@ export default function GettingStarted() {
         </Text>
         <Heading level={4}>
           <Link href="https://discord.com/invite/amplify" isExternal>
-            Amplify Discord Office Hours
-            <IconExternalLink />
+            Amplify Discord Office Hours <IconExternalLink />
           </Link>
         </Heading>
 
