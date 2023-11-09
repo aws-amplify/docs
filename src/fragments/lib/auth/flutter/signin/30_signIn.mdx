@@ -1,6 +1,6 @@
 <Callout>
 
-Please note that you will be prevented from successfully calling `signIn` if a user has already signed in and a valid session is active. You must first call `signOut` to remove the original session.
+Please note that you will be prevented from successfully calling `signIn` if a user has already signed in and a valid session is active.  You must first call `signOut` to remove the original session.
 
 </Callout>
 
@@ -13,12 +13,14 @@ Future<void> signInUser(String username, String password) async {
     );
     await _handleSignInResult(result);
   } on AuthException catch (e) {
-    safePrint('Error signing in: $\{e.message}');
+    safePrint('Error signing in: ${e.message}');
   }
 }
 ```
 
-Depending on your configuration and how the user signed up, one or more confirmations will be necessary. Use the `SignInResult` returned from `Amplify.Auth.signIn` to check the next step for signing in. When the value is `done`, the user has successfully signed in.
+Depending on your configuration and how the user signed up, one or more confirmations will be necessary.
+Use the `SignInResult` returned from `Amplify.Auth.signIn` to check the next step for signing in. When
+the value is `done`, the user has successfully signed in.
 
 ```dart
 Future<void> _handleSignInResult(SignInResult result) async {
@@ -56,8 +58,8 @@ Future<void> _handleSignInResult(SignInResult result) async {
 
 void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
   safePrint(
-    'A confirmation code has been sent to $\{codeDeliveryDetails.destination}. '
-    'Please check your $\{codeDeliveryDetails.deliveryMedium.name} for the code.',
+    'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
+    'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
   );
 }
 ```

@@ -20,14 +20,14 @@ export function getStaticProps(context) {
   };
 }
 
-import js0 from '/src/fragments/lib/geo/js/escapehatch.mdx';
+import androidEscapeHatch from '/src/fragments/lib/geo/android/escapehatch.mdx';
+import iosEscapeHatch from '/src/fragments/lib/geo/ios/escapehatch.mdx';
+import jsEscapeHatch from '/src/fragments/lib/geo/js/escapehatch.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
-
-import android1 from '/src/fragments/lib/geo/android/escapehatch.mdx';
-
-<Fragments fragments={{ android: android1 }} />
-
-import ios2 from '/src/fragments/lib/geo/ios/escapehatch.mdx';
-
-<Fragments fragments={{ swift: ios2 }} />
+<Fragments
+  fragments={{
+    android: androidEscapeHatch,
+    swift: iosEscapeHatch,
+    javascript: jsEscapeHatch
+  }}
+/>

@@ -1,0 +1,32 @@
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+export async function fetchDevices() {
+  try {
+    const result = await Auth.fetchDevices();
+    console.log(result);
+  } catch (err) {
+    console.log('Error fetching devices', err);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Auth } from 'aws-amplify';
+
+async function fetchDevices() {
+  try {
+    const result = await Auth.fetchDevices();
+    console.log(result);
+  } catch (err) {
+    console.log('Error fetching devices', err);
+  }
+}
+```
+</Block>
+</BlockSwitcher>

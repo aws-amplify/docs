@@ -1,4 +1,5 @@
-You can list all of the objects uploaded under a given prefix by setting the pageSize. If the pageSize is set lower than the total file size available, A single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, the user can use the nextToken from the previous call response.
+You can list all of the objects uploaded under a given prefix by setting the pageSize. If the pageSize is set lower than the total file size available,
+A single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, the user can use the nextToken from the previous call response.
 
 This will list all public files:
 
@@ -34,9 +35,9 @@ val options = StoragePagedListOptions.builder()
 Amplify.Storage.list("", options,
     { result ->
         result.items.forEach { item ->
-            Log.i("MyAmplifyApp", "Item: $\{item.key}")
+            Log.i("MyAmplifyApp", "Item: ${item.key}")
         }
-        Log.i("MyAmplifyApp", "Next Token: $\{result.nextToken}")
+        Log.i("MyAmplifyApp", "Next Token: ${result.nextToken}")
     },
     { Log.e("MyAmplifyApp", "List failure", it) }
 )
@@ -55,7 +56,7 @@ try {
     result.items.forEach {
         Log.i("MyAmplifyApp", "Item: $it")
     }
-    Log.i("MyAmplifyApp", "next token: $\{result.nextToken}")
+    Log.i("MyAmplifyApp", "next token: ${result.nextToken}")
 } catch (error: StorageException) {
     Log.e("MyAmplifyApp", "List failure", error)
 }
@@ -124,9 +125,9 @@ val options = StoragePagedListOptions.builder()
 Amplify.Storage.list("", options,
     { result ->
         result.items.forEach { item ->
-            Log.i("MyAmplifyApp", "Item: $\{item.key}")
+            Log.i("MyAmplifyApp", "Item: ${item.key}")
         }
-        Log.i("MyAmplifyApp", "Next Token: $\{result.nextToken}")
+        Log.i("MyAmplifyApp", "Next Token: ${result.nextToken}")
     },
     { Log.e("MyAmplifyApp", "List failure", it) }
 )
@@ -147,7 +148,7 @@ try {
     result.items.forEach {
         Log.i("MyAmplifyApp", "Item: $it")
     }
-    Log.i("MyAmplifyApp", "next token: $\{result.nextToken}")
+    Log.i("MyAmplifyApp", "next token: ${result.nextToken}")
 } catch (error: StorageException) {
     Log.e("MyAmplifyApp", "List failure", error)
 }

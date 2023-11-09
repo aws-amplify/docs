@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Build UI',
   description: 'Figma to React code with Amplify Studio',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,12 +28,15 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 With Studio’s new **UI Library**, you can sync components from Figma to React code. Amplify also provides you with a handy Figma file to get started faster. The Amplify Figma file includes both UI primitives and component templates. You can also create your own component in Figma! In this tutorial, you'll create a home listings app using Amplify Studio.
 
 ## Create UI components in Figma
 
-1. **Clone the [Amplify UI Figma file](https://www.figma.com/community/file/1047600760128127424)** ![Screenshot showing how to sync with Figma](/images/studio/sync-with-figma.png) The Amplify UI Figma file provides a starting point for your app. It includes common UI primitives and pre-built UI components.
+1. **Clone the [Amplify UI Figma file](https://www.figma.com/community/file/1047600760128127424)** 
+![Screenshot showing how to sync with Figma](/images/studio/sync-with-figma.png) 
+The Amplify UI Figma file provides a starting point for your app. It includes common UI primitives and pre-built UI components.
 
 2. **Explore the UI primitives and templates**
 
@@ -85,7 +88,7 @@ return (
 
 ## Removing multiple UI components
 
-1. In UI Library, click on the `edit` button.
+1. In UI Library, click on the `edit` button. 
 
 ![edit button](/images/studio/buildui/edit-ui-library.png)
 

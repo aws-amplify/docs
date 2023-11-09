@@ -1,9 +1,138 @@
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  identifyUser,
+  IdentifyUserInput
+} from 'aws-amplify/push-notifications';
+
+const identifyUserInput: IdentifyUserInput = {
+  userId: '', // E.g. user-id
+  userProfile: {
+    email: '', // E.g. example@service.com
+    name: '', // E.g. name-of-the-user
+    plan: '' // E.g. plan-they-subscribe-to
+    customProperties: {
+      // E.g. hobbies: ['cooking', 'knitting'],
+    },
+    demographic: {
+      appVersion: '',
+      locale: '', // E.g. en_US
+      make: '', // E.g. Apple
+      model: '', // E.g. iPhone
+      modelVersion: '', // E.g. 13
+      platform: '', // E.g. iOS
+      platformVersion: '', // E.g. 15
+      timezone: '' // E.g. Americas/Los_Angeles
+    },
+    location: {
+      city: '', // E.g. Seattle
+      country: '', // E.g. US,
+      postalCode: '', // E.g. 98121
+      region: '', // E.g. WA
+      latitude: 0.0,
+      longitude: 0.0
+    },
+    metrics: {
+      // E.g. logins: 157
+    },
+  },
+};
+
+await identifyUser(identifyUserInput);
+```
+
+</Block>
+<Block name="JavaScript">
+
 ```js
-const userInfo = {
-  attributes: {
-    hobbies: ['cooking', 'knitting']
+import { identifyUser } from 'aws-amplify/push-notifications';
+
+const identifyUserInput = {
+  userId: '', // E.g. user-id
+  userProfile: {
+    email: '', // E.g. example@service.com
+    name: '', // E.g. name-of-the-user
+    plan: '' // E.g. plan-they-subscribe-to
+    customProperties: {
+      // E.g. hobbies: ['cooking', 'knitting'],
+    },
+    demographic: {
+      appVersion: '',
+      locale: '', // E.g. en_US
+      make: '', // E.g. Apple
+      model: '', // E.g. iPhone
+      modelVersion: '', // E.g. 13
+      platform: '', // E.g. iOS
+      platformVersion: '', // E.g. 15
+      timezone: '' // E.g. Americas/Los_Angeles
+    },
+    location: {
+      city: '', // E.g. Seattle
+      country: '', // E.g. US,
+      postalCode: '', // E.g. 98121
+      region: '', // E.g. WA
+      latitude: 0.0,
+      longitude: 0.0
+    },
+    metrics: {
+      // E.g. logins: 157
+    },
+  },
+};
+
+await identifyUser(identifyUserInput);
+```
+
+</Block>
+</BlockSwitcher>
+
+When using `identifyUser` with Amazon Pinpoint, in addition to the other user info properties you can configure the `address`, `optOut` and `userAttributes` properties under `options`.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  identifyUser,
+  IdentifyUserInput
+} from 'aws-amplify/push-notifications';
+
+const identifyUserInput: IdentifyUserInput = {
+  userId: '', // E.g. user-id
+  options: {
+    address: '' // E.g. A device token or email address
+    optOut: ''  // Either ALL or NONE
+    userAttributes: {
+      // E.g. interests: ['soccer', 'shoes'],
+    }
   }
 };
 
-await Notifications.Push.identifyUser(userId, userInfo);
+await identifyUser(identifyUserInput);
 ```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { identifyUser } from 'aws-amplify/push-notifications';
+
+const identifyUserInput = {
+  userId: '', // E.g. user-id
+  options: {
+    address: '' // E.g. A device token or email address
+    optOut: ''  // Either ALL or NONE
+    userAttributes: {
+      // E.g. interests: ['soccer', 'shoes'],
+    }
+  },
+
+};
+
+await identifyUser(identifyUserInput);
+```
+
+</Block>
+</BlockSwitcher>

@@ -140,7 +140,7 @@ Finally, update your AndroidManifest.xml with updates to `<uses-permissions>` fo
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-            {/*other code\ */}
+            <!--other code-->
 
         <application
             android:allowBackup="true"
@@ -150,7 +150,7 @@ Finally, update your AndroidManifest.xml with updates to `<uses-permissions>` fo
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
-            {/*other code\ */}
+            <!--other code-->
         </application>
 ```
 
@@ -336,11 +336,11 @@ Any data returned by a query is automatically written to the Apollo Cache (e.g. 
 | Key                      | Value                                            |
 | ------------------------ | ------------------------------------------------ |
 | ROOT_QUERY               | [ROOT_QUERY.listPosts, ROOT_QUERY.getPost(id:1)] |
-| ROOT_QUERY.listPosts     | \{0, 1, \…,N\}                                   |
-| Post:0                   | \{author:"Nadia", content:"ABC"\}                |
-| Post:1                   | \{author:"Shaggy", content:"DEF"\}               |
+| ROOT_QUERY.listPosts     | \{0, 1, ...,N}                                   |
+| Post:0                   | \{author:"Nadia", content:"ABC"}                 |
+| Post:1                   | \{author:"Shaggy", content:"DEF"}                |
 | ...                      | ...                                              |
-| Post:N                   | \{author:"Pancho", content:"XYZ"\}               |
+| Post:N                   | \{author:"Pancho", content:"XYZ"}                |
 | ROOT_QUERY.getPost(id:1) | ref: $Post:1                                     |
 
 Notice that the cache keys are normalized where the `getPost(id:1)` query references the same element that is part of the `listPosts` query. This happens automatically on Android by using `id` as a common cache key to uniquely identify the objects. You can choose to change the cache key with the `.resolver()` method when creating the `AWSAppSyncClient`:

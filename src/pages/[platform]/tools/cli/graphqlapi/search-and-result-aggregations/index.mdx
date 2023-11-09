@@ -1,20 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Build search and aggregate queries',
-  description:
-    'Add authorization rules to your GraphQL schema to control access to your data.',
+  description: 'Add authorization rules to your GraphQL schema to control access to your data.',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,11 +28,11 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-<MigrationAlert url={'/cli-legacy/graphql-transformer/searchable'} />
+<MigrationAlert url={"/cli-legacy/graphql-transformer/searchable"}/>
 
 Add the `@searchable` directive to an `@model` type to enable OpenSearch-based data search and result aggregations. This gives you the ability to:
-
 - search for data using advanced filters, such as substring matching, wildcards, regex, `and`/`or`/`not` conditions
 - get aggregation values, such as sum, average, min, max, terms
 - retrieve total search result count
@@ -52,13 +51,13 @@ type Student @model @searchable {
 
 ## Search and filter data
 
-Every model with a `@searchable` directive attached generates a new "search" GraphQL query to search and filter for records. The example above provides you the ability to search for "Student" records using a "searchStudents" query.
+Every model with a `@searchable` directive attached generates a new "search" GraphQL query to search and filter for records. The example above provides you the ability to search for "Student" records using a "searchStudents" query.  
 
-The `filter` parameter allows you to filter for records based on their field values.
+The `filter` parameter allows you to filter for records based on their field values. 
 
 ```graphql
 query SearchStudentsByEmail {
-  searchStudents(filter: { name: { eq: "Rene Brandel" } }) {
+  searchStudents(filter: { name: { eq: "Rene Brandel" }}) {
     items {
       id
       name
@@ -72,26 +71,26 @@ In the example above, the search result consists of students with the name "Rene
 
 ### Supported search operations
 
-| Field type | Supported search operations |
-| --- | --- |
-| String | ne, eq, match, matchPhrase, matchPhrasePrefix, multiMatch, exists, wildcard, regexp |
-| Int | ne, gt, lt, gte, lte, eq, range |
-| Float | ne, gt, lt, gte, lte, eq, range |
-| Boolean | eq, ne |
-| Enum | ne, eq, match, matchPhrase, matchPhrasePrefix, multiMatch, exists, wildcard, regexp |
+|Field type|Supported search operations|
+|-|-|
+|String|ne, eq, match, matchPhrase, matchPhrasePrefix, multiMatch, exists, wildcard, regexp|
+|Int|ne, gt, lt, gte, lte, eq, range|
+|Float|ne, gt, lt, gte, lte, eq, range|
+|Boolean|eq, ne|
+|Enum|ne, eq, match, matchPhrase, matchPhrasePrefix, multiMatch, exists, wildcard, regexp|
 
 ### Nested search conditions (and, or, not)
-
-Use the filter parameter to pass a nested `and`/`or`/`not` condition.
+Use the filter parameter to pass a nested `and`/`or`/`not` condition. 
 
 ```graphql
 query MyQuery {
-  searchStudents(
-    filter: {
-      name: { wildcard: "*Brandel" }
-      or: [{ dateOfBirth: { lt: "2000-01-01" } }, { email: { exists: true } }]
-    }
-  ) {
+  searchStudents(filter: {
+    name: {wildcard: "*Brandel"}
+    or: [
+      { dateOfBirth: { lt: "2000-01-01" } },
+      { email: { exists: true } }
+    ]
+  }) {
     items {
       id
       name
@@ -102,24 +101,23 @@ query MyQuery {
 }
 ```
 
-By default, every operation in the filter properties is `and`ed. Use the `or` or `not` properties in the search query's `filter` parameter to override this behavior.
+By default, every operation in the filter properties is `and`ed. Use the `or` or `not` properties in the search query's `filter` parameter to override this behavior. 
 
 The query above returns a "Student" if:
-
 - their name ends with "Brandel"
 - `and`
   - their date of birth is earlier than 2000-01-01
   - `or`
-  - their email exists.
+  - their email exists. 
 
 ## Sort search results
 
-Use the `sort` parameter to sort your search results by a field in ascending or descending order. The `field` argument accepts any field available on the model. The `direction` accepts either `asc` or `desc`.
+Use the `sort` parameter to sort your search results by a field in ascending or descending order. The `field` argument accepts any field available on the model. The `direction` accepts either `asc` or `desc`. 
 
 ```graphql
 query SearchAndSort {
   searchStudents(
-    filter: { name: { wildcard: "*Brandel" } }
+    filter: { name: { wildcard: "*Brandel" } },
     sort: { direction: desc, field: name }
   ) {
     items {
@@ -139,11 +137,11 @@ To sort over multiple fields, provide array of sort conditions. When sorting ove
 ```graphql
 query SearchAndSort {
   searchStudents(
-    filter: { name: { wildcard: "*Brandel" } }
+    filter: {name: {wildcard: "*Brandel"}},
     sort: [
-      { field: name, direction: desc } # Sort condition #1
-      { field: dateOfBirth, direction: asc } # Sort condition #2
-    ]
+      {field: name, direction: desc}, # Sort condition #1
+      {field: dateOfBirth, direction: asc} # Sort condition #2
+    ]  
   ) {
     items {
       id
@@ -180,7 +178,7 @@ Add the `total` field in your query response to get the total count of search re
 
 ```graphql
 query MyQuery {
-  searchStudents(filter: { name: { wildcard: "*Brandel" } }) {
+  searchStudents(filter: {name: {wildcard: "*Brandel"}}) {
     items {
       id
     }
@@ -189,11 +187,13 @@ query MyQuery {
 }
 ```
 
-In the example above, the response's `total` field contains the total search result count for "Students" whose name ends with "Brandel". Note: `total` is calculated based on all records, irrespective of pagination configurations.
+In the example above, the response's `total` field contains the total search result count for "Students" whose name ends with "Brandel".
+Note: `total` is calculated based on all records, irrespective of pagination configurations.
 
 ## Aggregate values for search result (minimum, maximum, average, sum, terms)
 
-Use the `aggregates` parameter to get aggregate values such as "minimum", "maximum", "average", and "sum" returned in the `aggregateItems` field. Note: `aggregates` are calculated based on all records, irrespective of pagination configurations.
+Use the `aggregates` parameter to get aggregate values such as "minimum", "maximum", "average", and "sum" returned in the `aggregateItems` field.
+Note: `aggregates` are calculated based on all records, irrespective of pagination configurations.
 
 <BlockSwitcher>
 <Block name="Minimum (min)">
@@ -204,12 +204,10 @@ Provide the `min` value as the `aggregate` `type` and specify the `aggregateItem
 query MyQuery {
   searchStudents(
     aggregates: {
-      type: min # Specifies that you want the "min" value
-      field: examsCompleted # Specifies the field for the aggregate value
-      name: "minimumExams" # provides a name to reference in the response field
-    }
-    filter: { name: { wildcard: "Rene*" } }
-  ) {
+      type: min, # Specifies that you want the "min" value
+      field: examsCompleted, # Specifies the field for the aggregate value
+      name: "minimumExams" # provides a name to reference in the response field 
+    } filter: { name: {wildcard: "Rene*"}}) {
     aggregateItems {
       name
       result {
@@ -238,7 +236,6 @@ In the example above, the response includes the minimum value of "examsCompleted
   }
 }
 ```
-
 </Block>
 
 <Block name="Maximum (max)">
@@ -249,12 +246,10 @@ Provide the `max` value as the `aggregate` `type` and specify the `aggregateItem
 query MyQuery {
   searchStudents(
     aggregates: {
-      type: max # Specifies that you want the "max" value
-      field: examsCompleted # Specifies the field for the aggregate value
-      name: "maximumExams" # provides a name to reference in the response field
-    }
-    filter: { name: { wildcard: "Rene*" } }
-  ) {
+      type: max, # Specifies that you want the "max" value
+      field: examsCompleted, # Specifies the field for the aggregate value
+      name: "maximumExams" # provides a name to reference in the response field 
+    } filter: { name: {wildcard: "Rene*"}}) {
     aggregateItems {
       name
       result {
@@ -283,7 +278,6 @@ In the example above, the response includes the maximum value of "examsCompleted
   }
 }
 ```
-
 </Block>
 
 <Block name="Average (avg)">
@@ -294,12 +288,10 @@ Provide the `avg` value as the `aggregate` `type` and specify the `aggregateItem
 query MyQuery {
   searchStudents(
     aggregates: {
-      type: avg # Specifies that you want the "avg" value
-      field: examsCompleted # Specifies the field for the aggregate value
-      name: "averageExams" # provides a name to reference in the response field
-    }
-    filter: { name: { wildcard: "Rene*" } }
-  ) {
+      type: avg, # Specifies that you want the "avg" value
+      field: examsCompleted, # Specifies the field for the aggregate value
+      name: "averageExams" # provides a name to reference in the response field 
+    } filter: { name: {wildcard: "Rene*"}}) {
     aggregateItems {
       name
       result {
@@ -313,7 +305,6 @@ query MyQuery {
 ```
 
 In the example above, the response includes the average value of "examsCompleted" for all Students whose name starts with "Rene".
-
 ```graphql
 {
   "data": {
@@ -339,12 +330,10 @@ Provide the `sum` value as the `aggregate` `type` and specify the `aggregateItem
 query MyQuery {
   searchStudents(
     aggregates: {
-      type: sum # Specifies that you want the "sum" value
-      field: examsCompleted # Specifies the field for the aggregate value
-      name: "examsSum" # provides a name to reference in the response field
-    }
-    filter: { name: { wildcard: "Rene*" } }
-  ) {
+      type: sum, # Specifies that you want the "sum" value
+      field: examsCompleted, # Specifies the field for the aggregate value
+      name: "examsSum" # provides a name to reference in the response field 
+    } filter: { name: {wildcard: "Rene*"}}) {
     aggregateItems {
       name
       result {
@@ -381,9 +370,11 @@ Provide the `terms` value as the `aggregate` `type` and specify the `aggregateIt
 
 ```graphql
 query MyQuery {
-  searchTodos(
-    aggregates: { field: description, type: terms, name: "descriptionTerms" }
-  ) {
+  searchTodos(aggregates: {
+    field: description,
+    type: terms,
+    name: "descriptionTerms"
+  }) {
     aggregateItems {
       result {
         ... on SearchableAggregateBucketResult {
@@ -398,6 +389,7 @@ query MyQuery {
     }
   }
 }
+
 ```
 
 In the example above, the response includes the terms for the description and their count:
@@ -430,20 +422,17 @@ In the example above, the response includes the terms for the description and th
 </BlockSwitcher>
 
 ## Set up OpenSearch for production environments
-
-By default, Amplify CLI will configure a t2.small instance type. This is great for getting started and prototyping but not recommended to be used in the production environment per the [OpenSearch best practices](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/bp.html).
+By default, Amplify CLI will configure a t2.small instance type. This is great for getting started and prototyping but not recommended to be used in the production environment per the [OpenSearch best practices](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/bp.html). 
 
 To configure the OpenSearch instance type per environment:
-
 1. Run `amplify env add` to create a new environment (e.g. "prod")
 2. Edit the `amplify/team-provider-info.json` file and set `OpenSearchInstanceType` to the instance type that works for your application
-
 ```json
 {
   "dev": {
     "categories": {
       "api": {
-        "<your-api-name>": {
+        "<your-api-name>" : {
           "OpenSearchInstanceType": "t2.small.elasticsearch"
         }
       }
@@ -452,7 +441,7 @@ To configure the OpenSearch instance type per environment:
   "prod": {
     "categories": {
       "api": {
-        "<your-api-name>": {
+        "<your-api-name>" : {
           "OpenSearchInstanceType": "t2.medium.elasticsearch"
         }
       }
@@ -460,21 +449,16 @@ To configure the OpenSearch instance type per environment:
   }
 }
 ```
-
 3. Deploy your changes with `amplify push`
 
 Learn more about Amazon OpenSearch Service instance types [here](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/supported-instance-types.html).
 
 ## How it works
-
 The `@searchable` directive streams the data of an @model type to Amazon OpenSearch Service and configures search resolvers to query against OpenSearch.
 
 Type definition of the `@searchable` directive:
-
 ```graphql
 # Streams data from DynamoDB to OpenSearch and exposes search capabilities.
 directive @searchable(queries: SearchableQueryMap) on OBJECT
-input SearchableQueryMap {
-  search: String
-}
+input SearchableQueryMap { search: String }
 ```

@@ -13,7 +13,7 @@ Future<void> fetchAllCommentsForPostId(String postId) async {
     );
     safePrint('Comments: $comments');
   } on DataStoreException catch (e) {
-    safePrint('Something went wrong querying posts: $\{e.message}');
+    safePrint('Something went wrong querying posts: ${e.message}');
   }
 }
 ```

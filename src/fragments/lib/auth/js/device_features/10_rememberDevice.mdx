@@ -2,14 +2,13 @@
 <Block name="TypeScript">
 
 ```ts
-import { Auth } from 'aws-amplify';
+import { rememberDevice } from 'aws-amplify/auth';
 
-export async function rememberDevice() {
+export async function handleRememberDevice() {
   try {
-    const result = await Auth.rememberDevice();
-    console.log(result);
+    await rememberDevice();
   } catch (error) {
-    console.log('Error remembering device', error);
+    console.log(error);
   }
 }
 ```
@@ -17,14 +16,13 @@ export async function rememberDevice() {
 <Block name="JavaScript">
 
 ```js
-import { Auth } from 'aws-amplify';
+import { rememberDevice } from 'aws-amplify/auth';
 
-async function rememberDevice() {
+export async function handleRememberDevice() {
   try {
-    const result = await Auth.rememberDevice();
-    console.log(result);
+    await rememberDevice();
   } catch (error) {
-    console.log('Error remembering device', error);
+    console.log(error);
   }
 }
 ```

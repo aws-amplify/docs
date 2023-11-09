@@ -3,9 +3,9 @@ import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
+import { InternalLinkButton } from '@/components/InternalLinkButton';
 import PlatformFeatureList from '../components/FeatureLists/PlatformFeatureList';
 import LinkCards from '@/components/LinkCards';
-import Link from 'next/link';
 
 const meta = {
   title: 'Amplify Docs',
@@ -42,21 +42,21 @@ export default function Page() {
           the cloud for authentication, storage, APIs, and more.
         </Text>
         <Flex className="home-cta">
-          <Link
+          <InternalLinkButton
+            variation="primary"
+            size="large"
             href={{
               pathname: '/[platform]/how-amplify-works',
               query: { platform: DEFAULT_PLATFORM }
             }}
           >
-            <Button variation="primary" size="large" gap="small">
-              How Amplify Works
-              <IconChevron
-                aria-hidden="true"
-                className="icon-rotate-270"
-                fontSize=".875em"
-              />
-            </Button>
-          </Link>
+            How Amplify Works
+            <IconChevron
+              aria-hidden="true"
+              className="icon-rotate-270"
+              fontSize=".875em"
+            />
+          </InternalLinkButton>
           <GetStartedPopover />
         </Flex>
       </Flex>

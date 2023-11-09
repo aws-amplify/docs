@@ -1,0 +1,1 @@
+export { InternalLinkButton } from './InternalLinkButton';

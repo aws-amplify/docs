@@ -3,17 +3,19 @@ For client side authentication there are three different flows:
 
 1. `USER_SRP_AUTH`: The `USER_SRP_AUTH` flow uses the [SRP protocol (Secure Remote Password)](https://en.wikipedia.org/wiki/Secure_Remote_Password_protocol) where the password never leaves the client and is unknown to the server. This is the recommended flow and is used by default.
 
-2. `USER_PASSWORD_AUTH`: The `USER_PASSWORD_AUTH` flow will send user credentials unencrypted to the backend. If you want to migrate users to Cognito using the "Migration" trigger and avoid forcing users to reset their passwords, you will need to use this authentication type because the Lambda function invoked by the trigger needs to verify the supplied credentials.
+2. `USER_PASSWORD_AUTH`: The `USER_PASSWORD_AUTH` flow will send user credentials to the backend without applying SRP encryption. If you want to migrate users to Cognito using the "Migration" trigger and avoid forcing users to reset their passwords, you will need to use this authentication type because the Lambda function invoked by the trigger needs to verify the supplied credentials.
 
-3. `CUSTOM_AUTH`: The `CUSTOM_AUTH` flow is used to allow for a series of challenge and response cycles that can be customized to meet different requirements.
+3. `CUSTOM_WITH_SRP` & `CUSTOM_WITHOUT_SRP`: Allows for a series of challenge and response cycles that can be customized to meet different requirements.
 
-To configure `Auth` to use the different flows:
+The Auth flow can be customized when calling `signIn`, for example:
 
 ```javascript
-Auth.configure({
-  // other configurations...
-  // ...
-  authenticationFlowType: 'USER_SRP_AUTH' | 'USER_PASSWORD_AUTH' | 'CUSTOM_AUTH',
+signIn({
+  username,
+  password,
+  options: {
+      authFlowType: 'USER_PASSWORD_AUTH'
+  }
 })
 ```
 
@@ -33,9 +35,12 @@ Amazon Cognito provides a trigger to migrate users from your existing user direc
 
 In short, the Lambda function will validate the user credentials against your existing user directory and return a response object containing the user attributes and status on success. An error message will be returned if an error occurs. There's a documentation [here](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-import-using-lambda.html) on how to set up this migration flow and more detailed instructions [here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-migrate-user.html#cognito-user-pools-lambda-trigger-syntax-user-migration) on how the lambda should handle request and response objects.
 
-## CUSTOM_AUTH flow
+## `CUSTOM_WITH_SRP` & `CUSTOM_WITHOUT_SRP` flows
 
-Amazon Cognito User Pools supports customizing the authentication flow to enable custom challenge types, in addition to a password in order to verify the identity of users. These challenge types may include CAPTCHAs or dynamic challenge questions.
+Amazon Cognito user pools supports customizing the authentication flow to enable custom challenge types, 
+in addition to a password in order to verify the identity of users. These challenge types may include CAPTCHAs
+or dynamic challenge questions. The `CUSTOM_WITH_SRP` flow requires a password when calling `signIn`. Both of 
+these flows map to the `CUSTOM_AUTH` flow in Cognito.
 
 To define your challenges for custom authentication flow, you need to implement three Lambda triggers for Amazon Cognito.
 
@@ -47,37 +52,28 @@ For more information about working with Lambda Triggers for custom authenticatio
 
 ### Custom authentication flow
 
-To initiate a custom authentication flow in your app, call `signIn` without a password. A custom challenge needs to be answered using the `sendCustomChallengeAnswer` method:
+To initiate a custom authentication flow in your app, call `signIn` without a password. A custom challenge needs to be answered using the `confirmSignIn` API:
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
-import { Auth } from 'aws-amplify';
+import { signIn, confirmSignIn } from 'aws-amplify/auth';
 
-Auth.configure({
-  // other configurations
-  // ...
-  authenticationFlowType: 'CUSTOM_AUTH',
-});
-
-type SignInParameters = {
-  username: string;
-  password: string;
-};
-
-export async function signIn({ username, password }: SignInParameters) {
+export async function handleSignIn(username: string) {
   const challengeResponse = 'the answer for the challenge';
   try {
-    const user = await Auth.signIn(username, password);
-    if (user?.challengeName === 'CUSTOM_CHALLENGE') {
+    const { nextStep } = await signIn({
+      username,
+      options: {
+        authFlowType: 'CUSTOM_WITHOUT_SRP',
+      },
+    });
+    if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE') {
       try {
         // to send the answer of the custom challenge
-        const challengeAnswerResponse = await Auth.sendCustomChallengeAnswer(
-          user,
-          challengeResponse
-        );
-        console.log(challengeAnswerResponse);
+        const output = await confirmSignIn({ challengeResponse });
+        console.log(output);
       } catch (err) {
         console.log(err);
       }
@@ -86,31 +82,28 @@ export async function signIn({ username, password }: SignInParameters) {
     console.log(err);
   }
 }
+
 ```
 </Block>
 <Block name="JavaScript">
 
 ```js
-import { Auth } from 'aws-amplify';
+import { signIn, confirmSignIn } from 'aws-amplify/auth';
 
-Auth.configure({
-  // other configurations
-  // ...
-  authenticationFlowType: 'CUSTOM_AUTH',
-});
-
-async function signIn(username, password) {
+export async function handleSignIn(username) {
   const challengeResponse = 'the answer for the challenge';
   try {
-    const user = await Auth.signIn(username, password);
-    if (user?.challengeName === 'CUSTOM_CHALLENGE') {
+    const { nextStep } = await signIn({
+      username,
+      options: {
+        authFlowType: 'CUSTOM_WITHOUT_SRP',
+      },
+    });
+    if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE') {
       try {
         // to send the answer of the custom challenge
-        const challengeAnswerResponse = await Auth.sendCustomChallengeAnswer(
-          user,
-          challengeResponse
-        );
-        console.log(challengeAnswerResponse);
+        const output = await confirmSignIn({ challengeResponse });
+        console.log(output);
       } catch (err) {
         console.log(err);
       }

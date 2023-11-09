@@ -5,13 +5,12 @@ amplify add api
 ```
 
 Enter the following when prompted:
-
 ```console
 ? Please select from one of the below mentioned services:
     `REST`
 ? Provide a friendly name for your resource to be used as a label for this category in the project:
     `api`
-? Provide a path (e.g., /book/\{isbn}):
+? Provide a path (e.g., /book/{isbn}):
     `/todo`
 ? Choose a Lambda source
     `Create a new Lambda function`
@@ -44,7 +43,7 @@ To push your changes to the cloud, **execute the command**:
 amplify push
 ```
 
-Upon completion, `amplifyconfiguration.json` should be updated to reference provisioned backend storage resources. Note that these files should already be a part of your project if you followed the [Project setup walkthrough](/lib/project-setup/create-application).
+Upon completion, `amplifyconfiguration.json` should be updated to reference provisioned backend storage resources.  Note that these files should already be a part of your project if you followed the [Project setup walkthrough](/lib/project-setup/create-application).
 
 <Callout warning>
 

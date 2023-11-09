@@ -54,28 +54,34 @@ final storagePlugin = AmplifyStorageS3(
 await Amplify.addPlugin(storagePlugin);
 ```
 
-Add the IAM policy that corresponds with the prefixes defined above to enable read, write and delete operation for all the objects under path _myPublicPrefix/_:
-
+Add the IAM policy that corresponds with the prefixes defined above to enable read, write and delete operation for all the objects under path *myPublicPrefix/*:
 ```json
 {
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
       "Resource": ["arn:aws:s3:::your-s3-bucket/myPublicPrefix/*"]
     }
   ]
 }
+
 ```
-
-If you want to have custom _private_ path prefix like _`myPrivatePrefix/`_, you need to add it into your IAM policy:
-
+If you want to have custom *private* path prefix like *`myPrivatePrefix/`*, you need to add it into your IAM policy:
 ```json
 {
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
       "Resource": [
         "arn:aws:s3:::your-s3-bucket/myPrivatePrefix/${cognito-identity.amazonaws.com:sub}/*"
       ]
@@ -83,7 +89,6 @@ If you want to have custom _private_ path prefix like _`myPrivatePrefix/`_, you 
   ]
 }
 ```
-
 #### Passthrough PrefixResolver
 
 If you would like no prefix resolution logic, such as performing S3 requests at the root of the bucket, you can use the `PassThroughPrefixResolver` provided by the `amplify_storage_s3` package.

@@ -12,13 +12,15 @@ Future<void> signInCustomFlow(String username) async {
       challengeHint = result.nextStep.additionalInfo['hint'];
     });
   } on AuthException catch (e) {
-    safePrint('Error signing in: $\{e.message}');
+    safePrint('Error signing in: ${e.message}');
   }
 }
 ```
 
 <Callout>
 
-Please note that you will be prevented from successfully calling `signIn` if a user has already signed in and a valid session is active. You must first call `signOut` to remove the original session.
+Please note that you will be prevented from successfully calling `signIn` if a
+user has already signed in and a valid session is active. You must first call
+`signOut` to remove the original session.
 
 </Callout>

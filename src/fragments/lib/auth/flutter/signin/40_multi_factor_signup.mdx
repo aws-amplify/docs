@@ -13,7 +13,7 @@ Future<void> setUpMFASignUp() async {
     );
     await _handleSignUpResult(result);
   } on AuthException catch (e) {
-    safePrint('Error signing up: $\{e.message}');
+    safePrint('Error signing up: ${e.message}');
   }
 }
 ```

@@ -6,11 +6,12 @@
 import React, { Component } from 'react';
 import { Text, StyleSheet, ScrollView } from 'react-native';
 
-import { Amplify, DataStore, Predicates } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import { DataStore, Predicates } from 'aws-amplify/datastore';
 import { Post, PostStatus, Comment } from './src/models';
 
-import awsConfig from './aws-exports';
-Amplify.configure(awsConfig);
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
 let subscription;
 
 class App extends Component {
@@ -36,7 +37,7 @@ class App extends Component {
   onCreatePost() {
     DataStore.save(
       new Post({
-        title: `New Post $\{Date.now()}`,
+        title: `New Post ${Date.now()}`,
         rating: Math.floor(Math.random() * (8 - 1) + 1),
         status: PostStatus.ACTIVE
       })
@@ -45,7 +46,7 @@ class App extends Component {
 
   async onCreatePostAndComments() {
     const post = new Post({
-      title: `New Post with comments $\{Date.now()}`,
+      title: `New Post with comments ${Date.now()}`,
       rating: 5,
       status: PostStatus.ACTIVE
     });
@@ -55,7 +56,7 @@ class App extends Component {
     for (let i = 0; i < 2; i++) {
       DataStore.save(
         new Comment({
-          content: `New comment $\{Date.now()}`,
+          content: `New comment ${Date.now()}`,
           post
         })
       );
@@ -94,7 +95,7 @@ class App extends Component {
           Delete All Posts
         </Text>
         {this.state.posts.map((post, i) => (
-          <Text key={i}>{`$\{post.title} $\{post.rating}`}</Text>
+          <Text key={i}>{`${post.title} ${post.rating}`}</Text>
         ))}
       </ScrollView>
     );

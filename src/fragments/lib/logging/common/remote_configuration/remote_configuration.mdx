@@ -64,7 +64,7 @@ export class RemoteLoggingConstraintsConstruct extends Construct {
 
     const authRole = iam.Role.fromRoleName(this, "Auth-Role", authRoleName)
     const unAuthRole = iam.Role.fromRoleName(this, "UnAuth-Role", unAuthRoleName)
-    const logResource = `arn:aws:logs:$\{region}:$\{account}:log-group:$\{logGroupName}:log-stream:*`
+    const logResource = `arn:aws:logs:${region}:${account}:log-group:${logGroupName}:log-stream:*`
     const logIAMPolicy = new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       resources: [logResource],
@@ -125,7 +125,7 @@ export class RemoteLoggingConstraintsConstruct extends Construct {
     unAuthRole.addToPrincipalPolicy(apiInvokePolicy)
 
     new cdk.CfnOutput(this, 'APIEndpoint', {
-      value: `https://$\{api.restApiId}.execute-api.$\{region}.amazonaws.com/prod/loggingconstraints`,
+      value: `https://${api.restApiId}.execute-api.${region}.amazonaws.com/prod/loggingconstraints`,
     });
     new cdk.CfnOutput(this, 'CloudWatchLogGroupName', { value: logGroupName });
     new cdk.CfnOutput(this, 'CloudWatchRegion', { value: region });
@@ -232,7 +232,7 @@ import remoteConfigProvider from '/src/fragments/lib/logging/common/remote_confi
   <Block name="With Code">
     <Fragments
       fragments={{
-        ios: iosRemoteConfigProvider,
+        swift: iosRemoteConfigProvider,
         android: androidRemoteConfigProvider
       }}
     />

@@ -64,7 +64,7 @@ Future<void> confirmTotpUser(String totpCode) async {
     );
     return _handleSignInResult(result);
   } on AuthException catch (e) {
-    safePrint('Error confirming TOTP code: $\{e.message}');
+    safePrint('Error confirming TOTP code: ${e.message}');
   }
 }
 ```
@@ -109,7 +109,7 @@ Future<void> _handleMfaSelection(MfaType selection) async {
     );
     return _handleSignInResult(result);
   } on AuthException catch (e) {
-    safePrint('Error resending code: $\{e.message}');
+    safePrint('Error resending code: ${e.message}');
   }
 }
 ```
@@ -149,7 +149,7 @@ Future<void> confirmTotpUser(String totpCode) async {
     );
     return _handleSignInResult(result);
   } on AuthException catch (e) {
-    safePrint('Error confirming TOTP code: $\{e.message}');
+    safePrint('Error confirming TOTP code: ${e.message}');
   }
 }
 ```

@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'UI event handler',
   description: 'Figma to React code with Amplify Studio',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 Amplify Studio offers the ability to bind UI component events (`onClick`, `onChange`, and more) to actions to build interactive components. Use the UI component editor to map UI components' events to actions for navigation, data manipulation, authentication, and more. All data bindings get automatically included in generated code.
 
@@ -47,17 +48,17 @@ The "Go to URL" action navigates the customer to the designated URL. You can als
 1. Select the `Go to URL`
 2. Enter the target URL. For example: `https://support.example.com`
 
-| Studio interface to "Go to URL" | Live app navigating to the URL |
-| --- | --- |
-| ![Studio interface to configure "Go to URL"](/images/console/go_to_url_studio.png) | ![Interactive website](/images/console/go_to_url_app.gif) |
+|Studio interface to "Go to URL"|Live app navigating to the URL|
+|-|-|
+|![Studio interface to configure "Go to URL"](/images/console/go_to_url_studio.png) | ![Interactive website](/images/console/go_to_url_app.gif)|
 
 3. Dynamically navigate to a specific item's URL in a collection by concatenating the item's id. In the example below, the URL is concatenated with `home`'s `id` field.
 
-![Studio interface to dynamically bind URL to element ID](/images/console/go_to_url_collection.png)
+![Studio interface to dynamically bind URL to element ID](/images/console/go_to_url_collection.png) 
 
 ### Open URL in new tab
 
-Select "Open URL in new tab" to open the target URL in a new tab. Similar to [Go to URL](#go-to-url), you can also construct the URL with dynamic data provided by the component's top-level properties.
+Select "Open URL in new tab" to open the target URL in a new tab. Similar to [Go to URL](#go-to-url), you can also construct the URL with dynamic data provided by the component's top-level properties. 
 
 ### Scroll to anchor
 
@@ -73,28 +74,31 @@ You can bind an onClick action to scroll to a designated anchor (based on HTML's
   <td>
 
 ```jsx
-import { HeroLayout1 } from './ui-components';
+import { HeroLayout1 } from './ui-components'
 
 <div className="App">
   <HeroLayout1 />
   ...
   <div id="lorem-ipsum">
     <h2>Lorem Ipsum</h2>
-    <p>Here is a description of my new feature.</p>
+    <p>
+      Here is a description of my new feature.
+    </p>
   </div>
   ...
-</div>;
+</div>
 ```
 
 </td>
 <td>
 
-![Scroll to a specific element's id](/images/console/scroll_to_anchor.gif)
+![Scroll to a specific element's id](/images/console/scroll_to_anchor.gif) 
 
 </td>
 </tr>
 </tbody>
 </table>
+
 
 ### Refresh page
 
@@ -108,10 +112,9 @@ Select "Refresh" to execute a browser refresh of the current page.
 
 </Callout>
 
-You can bind UI elements to data actions, so your Figma-generated UI components function as forms. Data actions include the ability to create, update, and delete records from your database.
+You can bind UI elements to data actions, so your Figma-generated UI components function as forms. Data actions include the ability to create, update, and delete records from your database. 
 
 Make sure to mark the component as a `form` for accessibility.
-
 1. Select the top element from the element tree
 2. Add a new child property named `as`
 3. Set the value to `form`
@@ -120,9 +123,9 @@ This will render the component within an HTML `<form />` element.
 
 ### Using DataStore
 
-Forms created using Studio event handlers can work with any Amplify GraphQL API, with or without DataStore.
+Forms created using Studio event handlers can work with any Amplify GraphQL API, with or without DataStore. 
 
-If you are using DataStore, however, DataStore will only use the default authentication type and not the additional types unless configured with MULTI_AUTH enabled. In most cases, you will want to have authentication for your forms. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in.
+If you are using DataStore, however, DataStore will only use the default authentication type and not the additional types unless configured with MULTI_AUTH enabled. In most cases, you will want to have authentication for your forms. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in. 
 
 To enable multiple authentication types in DataStore & Amplify Forms, please refer to [Configure Multiple Authorization Types](/lib/datastore/setup-auth-rules/#configure-multiple-authorization-types).
 
@@ -137,12 +140,13 @@ You can create a new record based on the values provided by input fields. For ex
 
 1. Select the "Submit" button element
 2. Add an onClick action to the element
-3. Choose the "Create" data action
+3. Choose the "Create" data action 
 4. Select the database model to create a record for
 5. Map the model fields to input values
 
 </td>
 <td>
+
 
 ![Studio console experience to create a record](/images/console/create_data_studio.gif)
 
@@ -150,6 +154,7 @@ You can create a new record based on the values provided by input fields. For ex
 </tr>
 </tbody>
 </table>
+
 
 Render the component with the "Create" data action. **Pro tip:** Amplify Studio's collection components synchronizes data in real-time. If a new record is available in the database, it will automatically sync to the app.
 
@@ -176,13 +181,14 @@ You can update an existing record using the "Update" data action. For example, u
 
 1. Select the "Submit" button element
 2. Add an onClick action to the element
-3. Choose the "Update" data action
+3. Choose the "Update" data action 
 4. Select the database model to create a record for
 5. Enter the ID of the record to update
 6. Map the model fields to input values
 
 </td>
 <td>
+
 
 ![Studio console experience to create a record](/images/console/update_data_studio.gif)
 
@@ -227,12 +233,13 @@ You can delete a new record based on a model's ID field. For example, if you hav
 
 1. Select the "Delete" button element
 2. Add an onClick action to the element
-3. Choose the "Delete" data action
+3. Choose the "Delete" data action 
 4. Select the database model to delete from
 5. Map the ID value to a property
 
 </td>
 <td>
+
 
 ![Studio console experience to create a record](/images/console/delete_data_studio.gif)
 
@@ -241,11 +248,11 @@ You can delete a new record based on a model's ID field. For example, if you hav
 </tbody>
 </table>
 
-In your app code, you can set an onClick handler for Home collections to show the delete modal. Then, set the `DeleteHome` component's `home` property to configure which home to delete. You can also listen in to the `ui` Hub events to dismiss the modal after the record is deleted.
+In your app code, you can set an onClick handler for Home collections to show the delete modal. Then, set the `DeleteHome` component's `home` property to configure which home to delete. You can also listen in to the `ui` Hub events to dismiss the modal after the record is deleted. 
 
 ```jsx
 import { HomeCollection, DeleteHome } from './ui-components'
-import { Hub } from 'aws-amplify'
+import { Hub } from 'aws-amplify/utils'
 import { useState, useEffect } from 'react'
 
 ...
@@ -274,7 +281,7 @@ function App() {
 }
 ```
 
-![Delete a record in-app experience](/images/console/delete_data_app.gif)
+![Delete a record in-app experience](/images/console/delete_data_app.gif) 
 
 ## Bind UI event to modify another UI element
 
@@ -287,11 +294,11 @@ Use the element modification action binding to introduce more UI-level interacti
 5. Update the desired background color value
 6. Repeat with "onMouseLeave" property to reset the background value
 
-![Studio experience to configure hover effects](/images/console/modify_element_studio.gif)
+![Studio experience to configure hover effects](/images/console/modify_element_studio.gif) 
 
 ## Bind UI to "sign out" actions
 
-Use the "Sign out" actions to sign out the user from the app. Choose to either sign out from the current device or across all devices, also known as global sign out.
+Use the "Sign out" actions to sign out the user from the app. Choose to either sign out from the current device or across all devices, also known as global sign out. 
 
 <table>
 <tbody>
@@ -300,10 +307,11 @@ Use the "Sign out" actions to sign out the user from the app. Choose to either s
 
 1. Select the "Sign out" button element
 2. Add an onClick action to the element
-3. Choose the "Sign out from this device" data action
+3. Choose the "Sign out from this device" data action 
 
 </td>
 <td>
+
 
 ![Studio console experience to configure a sign out action](/images/console/sign_out_studio.gif)
 
@@ -315,17 +323,17 @@ Use the "Sign out" actions to sign out the user from the app. Choose to either s
 The sign out actions work in combination with the [`Authenticator` component](https://ui.docs.amplify.aws/react/components/authenticator). When you sign out, the Authenticator will appear to request the user to sign-in again.
 
 ```jsx
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import { UserInfo } from './ui-components';
+import { withAuthenticator } from '@aws-amplify/ui-react'
+import { UserInfo } from './ui-components'
 
 function App() {
-  return <UserInfo />;
+  return <UserInfo />
 }
 
 export default withAuthenticator(App);
 ```
 
-![Sign out experience in-app](/images/console/sign_out_app.gif)
+![Sign out experience in-app](/images/console/sign_out_app.gif) 
 
 ## Handle UI changes after action execution
 

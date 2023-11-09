@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Usage Data in Amplify CLI',
   description: 'More information about usage data in Amplify CLI',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,6 +28,9 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
+  
 
 At AWS, we develop and launch services based on what we learn from interactions with our customers. We use customer feedback to iterate on our product. Anonymized usage data helps us to better understand our customers’ needs, diagnose issues, and deliver features that improve the customer experience.
 
@@ -51,7 +54,7 @@ Run the following command to turn on Amplify CLI usage data collection
 amplify configure --usage-data-on
 ```
 
-\*_Usage data collection is managed on a machine per installation basis enabling/disabling will change it for all the projects on that instance_
+**Usage data collection is managed on a machine per installation basis enabling/disabling will change it for all the projects on that instance*
 
 ## Learn More
 

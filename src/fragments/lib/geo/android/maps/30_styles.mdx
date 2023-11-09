@@ -76,13 +76,13 @@ mapView.setStyle(mapStyle, style -> {
 ```
 
 With `AmplifyMapView`:
-
 ```java
 // where mapStyle is a reference to the selected style from Amplify.Geo.getAvailableMaps
 amplifyMapView.getMapView().setStyle(mapStyle, style -> {
     Log.i("MyAmplifyApp", "Finished loading " + mapStyle.getStyle());
 });
 ```
+
 
 </Block>
 <Block name="Kotlin">
@@ -92,7 +92,7 @@ With `MapLibreView`:
 ```kotlin
 // where mapStyle is a reference to the selected style from Amplify.Geo.getAvailableMaps
 mapView.setStyle(mapStyle) { style ->
-    Log.i("MyAmplifyApp", "Finished loading $\{mapStyle.style}.")
+    Log.i("MyAmplifyApp", "Finished loading ${mapStyle.style}.")
 }
 ```
 
@@ -101,7 +101,7 @@ With `AmplifyMapView`:
 ```kotlin
 // where mapStyle is a reference to the selected style from Amplify.Geo.getAvailableMaps
 amplifyMapView.mapView.setStyle(mapStyle) { style ->
-    Log.i("MyAmplifyApp", "Finished loading $\{mapStyle.style}.")
+    Log.i("MyAmplifyApp", "Finished loading ${mapStyle.style}.")
 }
 ```
 

@@ -1,0 +1,5 @@
+```js
+const posts = await DataStore.query(Post, Predicates.ALL, {
+  sort: (s) => s.rating(SortDirection.ASCENDING).title(SortDirection.DESCENDING)
+});
+```

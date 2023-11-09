@@ -20,7 +20,7 @@ Amplify.Auth.setUpTOTP(
 ```kotlin
 Amplify.Auth.setUpTOTP(
     { result ->
-        Log.d("AuthQuickstart","Shared secret that will be used to set up TOTP in the authenticator app $\{result.sharedSecret}")
+        Log.d("AuthQuickstart","Shared secret that will be used to set up TOTP in the authenticator app ${result.sharedSecret}")
         // appName parameter will help distinguish the account in the Authenticator app
         val setupURI = result.getSetupURI("<Your_App_Name>>")
         // Prompt the user to enter the TOTP code generated in their authenticator app
@@ -36,7 +36,7 @@ Amplify.Auth.setUpTOTP(
 ```kotlin
 try {
     val result = Amplify.Auth.setUpTOTP()
-    Log.d("AuthQuickstart","Shared secret that will be used to set up TOTP in the authenticator app $\{result.sharedSecret}")
+    Log.d("AuthQuickstart","Shared secret that will be used to set up TOTP in the authenticator app ${result.sharedSecret}")
     // appName parameter will help distinguish the account in the Authenticator app
     val setupURI = result.getSetupURI("<Your_App_Name>>")
     // Prompt the user to enter the TOTP code generated in their authenticator app

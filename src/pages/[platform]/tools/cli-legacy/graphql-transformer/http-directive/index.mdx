@@ -1,20 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Configure HTTP resolvers',
-  description:
-    'The "@http" directive allows you to quickly connect HTTP or HTTPS endpoint to an AppSync API by creating an AWS AppSync HTTP resolver.',
+  description: 'The "@http" directive allows you to quickly connect HTTP or HTTPS endpoint to an AppSync API by creating an AWS AppSync HTTP resolver.',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,8 +28,9 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-<MigrationAlert isLegacy url={'/cli/graphql/custom-business-logic'} />
+<MigrationAlert isLegacy url={"/cli/graphql/custom-business-logic"}/>
 
 ## @http
 
@@ -39,18 +39,8 @@ The `@http` directive allows you to quickly configure HTTP resolvers within your
 ### Definition
 
 ```graphql
-directive @http(
-  method: HttpMethod
-  url: String!
-  headers: [HttpHeader]
-) on FIELD_DEFINITION
-enum HttpMethod {
-  PUT
-  POST
-  GET
-  DELETE
-  PATCH
-}
+directive @http(method: HttpMethod, url: String!, headers: [HttpHeader]) on FIELD_DEFINITION
+enum HttpMethod { PUT POST GET DELETE PATCH }
 input HttpHeader {
   key: String
   value: String
@@ -64,7 +54,7 @@ The `@http` directive allows you to quickly connect HTTP or HTTPS endpoint to an
 ```graphql
 type Post {
   id: ID!
-  title: 'Configure HTTP resolvers',
+  title: String
   description: String
   views: Int
 }
@@ -124,7 +114,7 @@ You can fetch a specific post by enclosing the `id` in the `params` input object
 
 ```graphql
 query post {
-  getPost(params: { id: "POST_ID" }) {
+  getPost(params: {id: "POST_ID"}) {
     id
     title
   }
@@ -168,8 +158,8 @@ input QueryListPostsQueryInput {
 You can query for posts using the `query` input object
 
 ```graphql
-query posts {
-  listPosts(query: { sort: "DESC", from: "last-week", limit: 5 }) {
+query posts{
+  listPosts(query: {sort: "DESC", from: "last-week", limit: 5}) {
     id
     title
     description
@@ -190,7 +180,7 @@ The `@http` directive also allows you to specify the body of a request, which is
 
 ```graphql
 type Mutation {
-  title: 'Configure HTTP resolvers',
+  addPost(title: String!, description: String!, views: Int): Post
     @http(method: POST, url: "https://www.example.com/post")
 }
 ```
@@ -203,13 +193,13 @@ type Mutation {
 }
 
 input QueryAddPostQueryInput {
-  title: 'Configure HTTP resolvers',
+  title: String
   description: String
   views: Int
 }
 
 input QueryAddPostBodyInput {
-  title: 'Configure HTTP resolvers',
+  title: String
   description: String
   views: Int
 }
@@ -219,7 +209,7 @@ You can add a post by using the `body` input object:
 
 ```graphql
 mutation add {
-  title: 'Configure HTTP resolvers',
+  addPost(body: {title: "new post", description: "fresh content"}) {
     id
   }
 }
@@ -231,18 +221,20 @@ which will send
 POST /post
 Host: www.example.com
 {
-  title: 'Configure HTTP resolvers',
+  title: "new post"
   description: "fresh content"
 }
 ```
 
 **Specifying the environment**
 
-The `@http` directive allows you to use `$\{env\}` to reference the current Amplify CLI environment.
+The `@http` directive allows you to use `${env}` to reference the current Amplify CLI environment.
 
 ```graphql
 type Query {
-  listPosts: Post @http(url: "https://www.example.com/$\{env\}/posts")
+  listPosts: Post @http(
+    url: "https://www.example.com/${env}/posts"
+  )
 }
 ```
 
@@ -259,7 +251,9 @@ The `@http` directive allows you to use `${aws_region}` to reference the AWS reg
 
 ```graphql
 type Query {
-  listPosts: Post @http(url: "https://www.example.com/${aws_region}/posts")
+ listPosts: Post @http(
+  url: "https://www.example.com/${aws_region}/posts"
+ )
 }
 ```
 
@@ -279,7 +273,7 @@ Given the definition
 ```graphql
 type Post {
   id: ID!
-  title: 'Configure HTTP resolvers',
+  title: String
   description: String
   views: Int
   comments: [Comment]
@@ -292,14 +286,14 @@ type Comment {
 
 type Mutation {
   updatePost(
-  title: 'Configure HTTP resolvers',
+    title: String!
     description: String!
     views: Int
     withComments: Boolean
   ): Post
     @http(
       method: PUT
-      url: "https://www.example.com/$\{env\}/posts/:id"
+      url: "https://www.example.com/${env}/posts/:id"
       headers: [{ key: "X-Header", value: "X-Header-Value" }]
     )
 }
@@ -310,7 +304,7 @@ you can update a post with
 ```graphql
 mutation update {
   updatePost(
-  title: 'Configure HTTP resolvers',
+    body: {title: "new title", description: "updated description", views: 100}
     params: {id: "EXISTING_ID"}
     query: {withComments: true}) {
     id
@@ -331,7 +325,7 @@ PUT /DEV/posts/EXISTING_ID?withComments=true
 Host: www.example.com
 X-Header: X-Header-Value
 {
-  title: 'Configure HTTP resolvers',
+  title: "new title"
   description: "updated description"
   views: 100
 }
@@ -344,7 +338,7 @@ In some cases, you may want to send a request based on existing field data. Take
 ```graphql
 type Post {
   id: ID!
-  title: 'Configure HTTP resolvers',
+  title: String
   description: String
   views: Int
   comments: [Comment]
@@ -361,7 +355,7 @@ A post can be fetched at `/posts/:id` and a post's comments at `/posts/:id/comme
 ```graphql
 type Post {
   id: ID!
-  title: 'Configure HTTP resolvers',
+  title: String
   description: String
   views: Int
   comments: [Comment]
@@ -382,7 +376,7 @@ You can retrieve the comments of a specific post with the following query and se
 
 ```graphql
 query post {
-  getPost(params: { id: "POST_ID" }) {
+  getPost(params: {id: "POST_ID"}) {
     id
     title
     description

@@ -23,7 +23,7 @@ async function getMetaStringObj(filePath) {
     try {
       // Using JSON5 because the meta object is a "relaxed" JSON
       // JSON5 can parse the meta object without needing quotes around the object keys
-      let metaObj = match[1].replaceAll('`',"'");
+      let metaObj = match[1].replaceAll('`', "'");
       const result = JSON5.parse(metaObj);
 
       return result;

@@ -269,11 +269,11 @@ Any data returned by a query is automatically written to the Apollo Cache (e.g. 
 | Key                      | Value                                            |
 | ------------------------ | ------------------------------------------------ |
 | ROOT_QUERY               | [ROOT_QUERY.listPosts, ROOT_QUERY.getPost(id:1)] |
-| ROOT_QUERY.listPosts     | \{0, 1, \…,N\}                                   |
-| Post:0                   | \{author:"Nadia", content:"ABC"\}                |
-| Post:1                   | \{author:"Shaggy", content:"DEF"\}               |
+| ROOT_QUERY.listPosts     | \{0, 1, ...,N}                                   |
+| Post:0                   | \{author:"Nadia", content:"ABC"}                 |
+| Post:1                   | \{author:"Shaggy", content:"DEF"}                |
 | ...                      | ...                                              |
-| Post:N                   | \{author:"Pancho", content:"XYZ"\}               |
+| Post:N                   | \{author:"Pancho", content:"XYZ"}                |
 | ROOT_QUERY.getPost(id:1) | ref: $Post:1                                     |
 
 Notice that the cache keys are normalized where the `getPost(id:1)` query references the same element that is part of the `listPosts` query. This only happens when you define a common cache key to uniquely identify the objects. This is done when you configure the AppSync client in your AppDelegate with:

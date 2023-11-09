@@ -1,0 +1,40 @@
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+async function updatePost(id, newTitle) {
+  const original = await DataStore.query(Post, id);
+
+  if (original) {
+    const updatedPost = await DataStore.save(
+      Post.copyOf(original, updated => {
+        updated.title = newTitle
+      })
+    );
+  }
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+async function updatePost(id, newTitle) {
+  const original = await DataStore.query(Post, id);
+  
+  const updatedPost = await DataStore.save(
+    Post.copyOf(original, updated => {
+      updated.title = newTitle
+    })
+  );
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+<Callout>
+
+Models in DataStore are *immutable*. To update a record you must use the `copyOf` function to apply updates to the item's fields rather than mutating the instance directly.
+
+</Callout>

@@ -128,7 +128,7 @@ export function MenuItem({
       </li>
     );
   } else if (
-    (currentPlatform && pageNode.platforms.includes(currentPlatform)) ||
+    (currentPlatform && pageNode?.platforms?.includes(currentPlatform)) ||
     !pageNode.platforms
   ) {
     const href = {

@@ -1,10 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Overview',
+  title: 'How it works',
   description:
     'Amplify DataStore provides a persistent on-device storage repository for you to write, read, and observe changes to data if you are online or offline, and seamlessly sync to the cloud as well as across devices. Learn more about how it works.',
-  platforms: ['android']
+  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -43,4 +43,11 @@ import android1 from '/src/fragments/lib-v1/datastore/native_common/how-it-works
 import flutter2 from '/src/fragments/lib-v1/datastore/native_common/how-it-works.mdx';
 
 <Fragments fragments={{ flutter: flutter2 }} />
-/>
+
+import js3 from '/src/fragments/lib-v1/datastore/native_common/how-it-works.mdx';
+
+<Fragments fragments={{ javascript: js3 }} />
+
+import reactnative0 from '/src/fragments/lib-v1/datastore/native_common/how-it-works.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

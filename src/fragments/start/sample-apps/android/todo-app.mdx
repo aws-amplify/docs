@@ -12,65 +12,85 @@ This is a simple To Do app that allows users to add and remove items in a To Do 
 
     Change directory to root folder of whichever language you want to use.
 
+<BlockSwitcher>
+
+    <Block name="Java">
+
+    ```java
+    cd amplify-android-samples/getting-started/todo/java
+    ```
+
+    </Block>
+
+    <Block name="Kotlin">
+
+    ```kotlin
+    cd amplify-android-samples/getting-started/todo/kotlin
+    ```
+
+    </Block>
+
+</BlockSwitcher>
+
 3.  Follow the [instructions](/start/getting-started/generate-model) to generate model files.
 
 4.  Connect the project to the cloud by running the command:
 
-    ```bash
-    amplify push
-    ```
+        ```bash
+        amplify push
+        ```
 
-    Answer `No` to `? Do you want to generate code for your newly created GraphQL API`. Answering `Yes` will generate an `API.java` file which is only necessary when directly using the AWS AppSync SDK. When you're using Amplify API or Amplify DataStore, you'll use the `amplify codegen models` command to generate Java models.
+        Answer `No` to `? Do you want to generate code for your newly created GraphQL API`. Answering `Yes` will generate an `API.java` file which is only necessary when directly using the AWS AppSync SDK. When you're using Amplify API or Amplify DataStore, you'll use the `amplify codegen models` command to generate Java models.
 
-    After this step, you will see the following in the terminal if the project is successfully connected to the cloud:
+        After this step, you will see the following in the terminal if the project is successfully connected to the cloud:
 
-          <BlockSwitcher>
+<BlockSwitcher>
 
     <Block name="Java">
 
-    ```
-    GraphQL schema compiled successfully.
+```
+GraphQL schema compiled successfully.
 
-    Edit your schema at amplify-android-samples/getting-started/todo/java/amplify/backend/api/todoapp/schema.graphql or place .graphql files in a directory at amplify-android-samples/getting-started/todo/java/amplify/backend/api/todoapp/schema
-    Successfully generated models. Generated models can be found in amplify-android-samples/getting-started/todo/java/app/src/main/java
-    Post-pull status:
+Edit your schema at amplify-android-samples/getting-started/todo/java/amplify/backend/api/todoapp/schema.graphql or place .graphql files in a directory at amplify-android-samples/getting-started/todo/java/amplify/backend/api/todoapp/schema
+Successfully generated models. Generated models can be found in amplify-android-samples/getting-started/todo/java/app/src/main/java
+Post-pull status:
 
-        Current Environment: dev
+    Current Environment: dev
 
-    ┌──────────┬───────────────┬───────────┬───────────────────┐
-    │ Category │ Resource name │ Operation │ Provider plugin   │
-    ├──────────┼───────────────┼───────────┼───────────────────┤
-    │ Api      │ todoapp       │ No Change │ awscloudformation │
-    └──────────┴───────────────┴───────────┴───────────────────┘
+┌──────────┬───────────────┬───────────┬───────────────────┐
+│ Category │ Resource name │ Operation │ Provider plugin   │
+├──────────┼───────────────┼───────────┼───────────────────┤
+│ Api      │ todoapp       │ No Change │ awscloudformation │
+└──────────┴───────────────┴───────────┴───────────────────┘
 
-    ```
+```
 
-          </Block>
+    </Block>
 
     <Block name="Kotlin">
 
-    ```
-    GraphQL schema compiled successfully.
+```
+GraphQL schema compiled successfully.
 
-    Edit your schema at amplify-android-samples/getting-started/todo/kotlin/amplify/backend/api/todoapp/schema.graphql or place .graphql files in a directory at amplify-android-samples/getting-started/todo/kotlin/amplify/backend/api/todoapp/schema
-    Successfully generated models. Generated models can be found in amplify-android-samples/getting-started/todo/kotlin/app/src/main/java
-    Post-pull status:
+Edit your schema at amplify-android-samples/getting-started/todo/kotlin/amplify/backend/api/todoapp/schema.graphql or place .graphql files in a directory at amplify-android-samples/getting-started/todo/kotlin/amplify/backend/api/todoapp/schema
+Successfully generated models. Generated models can be found in amplify-android-samples/getting-started/todo/kotlin/app/src/main/java
+Post-pull status:
 
-        Current Environment: dev
+    Current Environment: dev
 
-    ┌──────────┬───────────────┬───────────┬───────────────────┐
-    │ Category │ Resource name │ Operation │ Provider plugin   │
-    ├──────────┼───────────────┼───────────┼───────────────────┤
-    │ Api      │ todoapp       │ No Change │ awscloudformation │
-    └──────────┴───────────────┴───────────┴───────────────────┘
+┌──────────┬───────────────┬───────────┬───────────────────┐
+│ Category │ Resource name │ Operation │ Provider plugin   │
+├──────────┼───────────────┼───────────┼───────────────────┤
+│ Api      │ todoapp       │ No Change │ awscloudformation │
+└──────────┴───────────────┴───────────┴───────────────────┘
 
-    ```
+```
 
-          </Block>
+      </Block>
 
-    </BlockSwitcher>
+</BlockSwitcher>
 
-5.  Build and run the ToDo app on an emulator or Android device in Android Studio.
+5. Build and run the ToDo app on an emulator or Android device in Android Studio.
 
 ## App Features
 

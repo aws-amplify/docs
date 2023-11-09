@@ -1,8 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
-  title: 'CLI legacy',
-  description: 'CLI legacy',
+  title: 'CLI Legacy',
+  description: 'CLI Legacy',
   platforms: [
     'android',
     'angular',
@@ -13,7 +14,8 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ]
+  ],
+  route: '/[platform]/tools/cli-legacy'
 };
 
 export const getStaticPaths = async () => {
@@ -21,12 +23,14 @@ export const getStaticPaths = async () => {
 };
 
 export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
       platform: context.params.platform,
-      meta
+      meta,
+      childPageNodes
     }
   };
 }
 
-This page is just here for testing purposes.
+<Overview childPageNodes={props.childPageNodes} />

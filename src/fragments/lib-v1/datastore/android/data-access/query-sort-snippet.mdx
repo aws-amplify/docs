@@ -25,7 +25,7 @@ Amplify.DataStore.query(Post::class.java,
     { posts ->
         while (posts.hasNext()) {
             val post = posts.next()
-            Log.i("MyAmplifyApp", "Title: $\{post.title}")
+            Log.i("MyAmplifyApp", "Title: ${post.title}")
         }
     },
     { Log.e("MyAmplifyApp", "Query failed", it) }
@@ -40,7 +40,7 @@ Amplify.DataStore.query(Post::class.java,
 Amplify.DataStore
     .query(Post::class, Where.sorted(Post.RATING.ascending()))
     .catch { Log.e("MyAmplifyApp", "Query failed", it) }
-    .collect { Log.i("MyAmplifyApp", "Title: $\{it.title}") }
+    .collect { Log.i("MyAmplifyApp", "Title: ${it.title}") }
 ```
 
 </Block>

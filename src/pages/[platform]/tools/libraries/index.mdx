@@ -1,11 +1,11 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Libraries',
+  title: 'Overview',
   description:
     'The Amplify open-source client libraries provide use-case centric, opinionated, declarative, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. ',
   disableTOC: 'true',
-  platforms: ['android', 'flutter', 'javascript', 'swift']
+  platforms: ['android', 'flutter', 'javascript', 'react-native', 'swift']
 };
 
 export const getStaticPaths = async () => {
@@ -23,59 +23,26 @@ export function getStaticProps(context) {
 
 import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
-import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+The Amplify open-source client libraries provide use-case centric, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. These libraries are powered by the AWS cloud. The libraries can be used with both new backends created using the Amplify CLI and existing backend resources.
 
-<Fragments fragments={{ swift: ios_maintenance }} />
-
-import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
-
-<Fragments fragments={{ android: android_maintenance }} />
-
-import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
-
-<Fragments fragments={{ flutter: flutter_maintenance }} />
-
-<InlineFilter filters={['swift', 'android', 'flutter', 'javascript']}>
-  The Amplify open-source client libraries provide use-case centric, and
-  easy-to-use interfaces across different categories of cloud powered operations
-  enabling mobile and web developers to easily interact with their backends.
-  These libraries are powered by the AWS cloud. The libraries can be used with
-  both new backends created using the Amplify CLI and existing backend
-  resources.
-</InlineFilter>
-
-import ios0 from '/src/fragments/lib-v1/ios.mdx';
+import ios0 from '/src/fragments/lib/ios.mdx';
+import android1 from '/src/fragments/lib/android.mdx';
+import flutter2 from '/src/fragments/lib/flutter.mdx';
 
 <Fragments fragments={{ swift: ios0 }} />
-
-import android1 from '/src/fragments/lib-v1/android.mdx';
-
 <Fragments fragments={{ android: android1 }} />
-
-import flutter2 from '/src/fragments/lib-v1/flutter.mdx';
-
 <Fragments fragments={{ flutter: flutter2 }} />
-
-<InlineFilter filters={['javascript']}>
+<InlineFilter filters={["javascript", "react-native"]}>
 
 ## Amplify JavaScript
 
-<Callout warning>
-
-Welcome to the developer preview of **Amplify JavaScript v6**. This preview introduces functional interfaces, TypeScript improvements and improved Next.js SSR support for Authentication, Analytics, and Storage.
-
-The team is working on the other categories for the v6 general availability release. This developer preview is offered for you to try it out and provide feedback on the coming changes.
-
-[Provide feedback or file a bug on the Amplify JavaScript v6 Developer Preview](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage,v6-dev-preview&projects=&template=1.bug_report.yaml)
-
-</Callout>
-
-The Amplify JavaScript libraries are supported for different web and mobile frameworks including React, Angular, Solid, and Vue.
+The Amplify JavaScript libraries are supported for different web and mobile frameworks including React, React Native, Angular, and Vue.
 
 What's next? Here are some things you can add to your app:
 
-- [Authentication](/lib-v1/auth/getting-started)
-- [File Storage](/lib-v1/storage/getting-started)
-- [Analytics](/lib-v1/analytics/getting-started)
+- [Authentication](/lib/auth/getting-started)
+- [File Storage](/lib/storage/getting-started)
+- [Analytics](/lib/analytics/getting-started)
+- [REST API](/lib/restapi/getting-started)
 
 </InlineFilter>

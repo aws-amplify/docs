@@ -1,20 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: `Getting started`,
+  title: 'Set up Amplify REST API',
   description:
     'The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. The REST API category can be used for creating signed requests against Amazon API Gateway when the API Gateway Authorization is set to AWS_IAM.',
-  platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -53,3 +43,11 @@ import android2 from '/src/fragments/lib-v1/restapi/native_common/getting-starte
 import flutter3 from '/src/fragments/lib-v1/restapi/native_common/getting-started/common.mdx';
 
 <Fragments fragments={{ flutter: flutter3 }} />
+
+import js0 from '/src/fragments/lib-v1/restapi/js/getting-started.mdx';
+
+<Fragments fragments={{ javascript: js0 }} />
+
+import reactnative0 from '/src/fragments/lib-v1/restapi/js/getting-started.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

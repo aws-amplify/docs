@@ -1,20 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'IAM Roles & MFA',
-  description:
-    'Configure the Amplify CLI to assume an IAM role by defining a profile for the role in the shared "~/.aws/config" file.',
+  description: 'Configure the Amplify CLI to assume an IAM role by defining a profile for the role in the shared "~/.aws/config" file.',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,12 +28,16 @@ export function getStaticProps(context) {
     }
   };
 }
+          
+
+ 
 
 You can optionally configure the Amplify CLI to assume an IAM role by defining a [profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) for the role in the shared `~/.aws/config` file. This is similar to how the [AWS CLI](https://aws.amazon.com/cli/) functions, including short term credentials. This can be useful when you have multiple developers using one or more AWS accounts, including team workflows where you want to restrict the category updates they might be permitted to make. The AWS config and credentials files are shared between the Amplify CLI, AWS CLI, and other AWS SDKs; however, the Amplify CLI does not parse special characters such as `.`, unless they are properly escaped (`\.`). Additional information about the format of the config and credentials files can be found [here](https://docs.aws.amazon.com/sdkref/latest/guide/file-format.html).
 
 When prompted during the execution of `amplify init` or the `amplify configure project` command, you will select a configured profile for the role, and the Amplify CLI will handle the logic to retrieve, cache and refresh the temp credentials. If Multi-Factor Authentication (MFA) is enabled, the CLI will prompt you to enter the MFA token code when it needs to retrieve or refresh temporary credentials.
 
-The Amplify CLI has its own mechanism of caching temporary credentials, it does NOT use the same cache of the AWS CLI. The temporary credentials are cached at `~/.amplify/awscloudformation/cache.json`. You can remove all cached credentials by removing this file. If you only want to remove the cached temp credentials associated with a particular project, execute `amplify awscloudformation reset-cache` or it's alias `amplify aws reset-cache` in the project.
+The Amplify CLI has its own mechanism of caching temporary credentials, it does NOT use the same cache of the AWS CLI. The temporary credentials are cached at `~/.amplify/awscloudformation/cache.json`. You can remove all cached credentials by removing this file.
+If you only want to remove the cached temp credentials associated with a particular project, execute `amplify awscloudformation reset-cache` or it's alias `amplify aws reset-cache` in the project.
 
 ## Step by step guide to create and assume an IAM role
 
@@ -53,7 +56,8 @@ Assume Biz Corp has decided to hire Dev Corp to develop its inventory management
 5. Although optional, it is recommended to select `Require external ID` and enter the external id given to you by Dev Corp. (click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) for more details on external IDs).
 6. If you want to restrict the role to users who sign in with multi-factor authentication (MFA), select `Require MFA`(click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html) for more details on MFA).
 7. Choose `Next: Permissions`.
-8. Select permissions policies that you want the developers from Dev Corp to have when the role is assumed. Note: You MUST grant the role permissions to perform CloudFormation actions and create associated resources (depending on the categories you use in your project) such as:
+8. Select permissions policies that you want the developers from Dev Corp to have when the role is assumed.
+Note: You MUST grant the role permissions to perform CloudFormation actions and create associated resources (depending on the categories you use in your project) such as:
 
 - Cognito User and Identity Pools
 - S3 buckets
@@ -69,8 +73,8 @@ Assume Biz Corp has decided to hire Dev Corp to develop its inventory management
 9. Choose `Next: Tagging`, attach tags if you want (optional).
 10. Choose `Next: Review`, type a name for your role, and optionally add the role description.
 11. Enter the required fields such as the "Role name".
-12. Choose `Create role`.
-13. Give the Role Arn to Dev Corp.
+11. Choose `Create role`.
+12. Give the Role Arn to Dev Corp.
 
 ## 2. Set up the user to assume the role (Dev Corp)
 
@@ -83,14 +87,14 @@ Assume Biz Corp has decided to hire Dev Corp to develop its inventory management
 
 ```json
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": "sts:AssumeRole",
-      "Resource": "<biz_corp_rol_arn>"
-    }
-  ]
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "sts:AssumeRole",
+            "Resource": "<biz_corp_rol_arn>"
+        }
+    ]
 }
 ```
 
@@ -114,7 +118,8 @@ Assume Biz Corp has decided to hire Dev Corp to develop its inventory management
 
 ### 2.3 Assign MFA device (Optional)
 
-This must be set up if the Biz Corp selected to `Require MFA` when creating the role. This needs to be set up by Dev Corp users and in their respective AWS account.<br/> We are using a virtual MFA device, such as the Google Authenticator app, in this example.
+This must be set up if the Biz Corp selected to `Require MFA` when creating the role. This needs to be set up by Dev Corp users and in their respective AWS account.<br/>
+We are using a virtual MFA device, such as the Google Authenticator app, in this example.
 
 1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console.
 2. In the navigation pane of the console, choose `Users` and select the user created above in 2.2.
@@ -127,7 +132,9 @@ This must be set up if the Biz Corp selected to `Require MFA` when creating the 
 
 ## 3. Set up the local development environment (Dev Corp)
 
-1. On the local development system, create the following two files if they do not exist.<br/> `~/.aws/config`<br/> `~/.aws/credentials`<br/>
+1. On the local development system, create the following two files if they do not exist.<br/>
+  `~/.aws/config`<br/>
+  `~/.aws/credentials`<br/>
 2. Insert the following contents into the `~/.aws/config` file:
 
 ```ini

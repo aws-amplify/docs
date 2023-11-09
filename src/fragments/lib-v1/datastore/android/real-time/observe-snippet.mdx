@@ -36,7 +36,7 @@ Amplify.DataStore.observe(Post::class)
     .onStart { Log.i("MyAmplifyApp", "Observation began") }
     .catch { Log.e("MyAmplifyApp", "Observation failed", it) }
     .onCompletion { Log.i("MyAmplifyApp", "Observation complete") }
-    .collect { Log.i("MyAmplifyApp", "Post: $\{it.item()}") }
+    .collect { Log.i("MyAmplifyApp", "Post: ${it.item()}") }
 ```
 
 </Block>

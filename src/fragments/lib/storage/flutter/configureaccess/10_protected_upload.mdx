@@ -16,9 +16,9 @@ Future<void> uploadProtectedFile({
       key: key,
       options: options,
     ).result;
-    safePrint('Uploaded file: $\{uploadResult.uploadedItem.key}');
+    safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
   } on StorageException catch (e) {
-    safePrint('Something went wrong uploading file: $\{e.message}');
+    safePrint('Something went wrong uploading file: ${e.message}');
     rethrow;
   }
 }

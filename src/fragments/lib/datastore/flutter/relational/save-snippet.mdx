@@ -19,7 +19,7 @@ Future<void> savePostAndComment() async {
     await Amplify.DataStore.save(post);
     await Amplify.DataStore.save(comment);
   } on DataStoreException catch (e) {
-    safePrint('Something went wrong querying posts: $\{e.message}');
+    safePrint('Something went wrong querying posts: ${e.message}');
   }
 }
 ```

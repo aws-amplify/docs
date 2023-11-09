@@ -6,7 +6,7 @@ Future<void> signInWithWebUI() async {
     final result = await Amplify.Auth.signInWithWebUI();
     safePrint('Sign in result: $result');
   } on AuthException catch (e) {
-    safePrint('Error signing in: $\{e.message}');
+    safePrint('Error signing in: ${e.message}');
   }
 }
 ```
@@ -21,14 +21,13 @@ Future<void> signInWithWebUIProvider() async {
     );
     safePrint('Result: $result');
   } on AuthException catch (e) {
-    safePrint('Error signing in: $\{e.message}');
+    safePrint('Error signing in: ${e.message}');
   }
 }
 ```
 
 Amplify Flutter currently supports the following social sign-in providers:
-
-- Google
-- Facebook
-- Login With Amazon
-- Apple
+  * Google
+  * Facebook
+  * Login With Amazon
+  * Apple

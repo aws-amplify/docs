@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Additional DataStore methods',
   description: 'Other Amplify DataStore methods',
-  platforms: ['flutter', 'swift', 'android']
+  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -42,3 +42,11 @@ import ios2 from '/src/fragments/lib-v1/datastore/native_common/other-methods.md
 import flutter from '/src/fragments/lib-v1/datastore/native_common/other-methods.mdx';
 
 <Fragments fragments={{ flutter: flutter }} />
+
+import js0 from '/src/fragments/lib-v1/datastore/js/other-methods.mdx';
+
+<Fragments fragments={{ javascript: js0 }} />
+
+import reactnative0 from '/src/fragments/lib-v1/datastore/js/other-methods.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

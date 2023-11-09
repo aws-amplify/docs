@@ -19,14 +19,13 @@ export function getStaticProps(context) {
   };
 }
 
-import js0 from '/src/fragments/lib/geo/js/maps.mdx';
+import nativeCommonMaps from '/src/fragments/lib/geo/native_common/maps/common.mdx';
+import jsMaps from '/src/fragments/lib/geo/js/maps.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
-
-import android1 from '/src/fragments/lib/geo/native_common/maps/common.mdx';
-
-<Fragments fragments={{ android: android1 }} />
-
-import ios2 from '/src/fragments/lib/geo/native_common/maps/common.mdx';
-
-<Fragments fragments={{ swift: ios2 }} />
+<Fragments
+  fragments={{
+    android: nativeCommonMaps,
+    swift: nativeCommonMaps,
+    javascript: jsMaps
+  }}
+/>

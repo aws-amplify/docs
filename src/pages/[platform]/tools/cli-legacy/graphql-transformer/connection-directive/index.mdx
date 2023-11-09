@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Add relationships between types',
   description: 'Define relationships with other types in your schema.',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,8 +28,9 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-<MigrationAlert isLegacy url={'/cli/graphql/data-modeling'} />
+<MigrationAlert isLegacy url={"/cli/graphql/data-modeling"}/>
 
 ## @connection
 
@@ -90,7 +91,7 @@ After it's transformed, you can create projects and query the connected team as 
 
 ```graphql
 mutation CreateProject {
-  createProject(input: { name: "New Project", teamID: "a-team-id" }) {
+  createProject(input: { name: "New Project", teamID: "a-team-id"}) {
     id
     name
     team {
@@ -112,7 +113,7 @@ The following schema defines a Post that can have many comments:
 ```graphql
 type Post @model {
   id: ID!
-  title: 'Add relationships between types',
+  title: String!
   comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
 }
 
@@ -124,11 +125,12 @@ type Comment @model
 }
 ```
 
-Note how a one-to-many connection needs an `@key` that allows comments to be queried by the postID and the connection uses this key to get all comments whose postID is the id of the post was called on. After it's transformed, you can create comments and query the connected Post as follows:
+Note how a one-to-many connection needs an `@key` that allows comments to be queried by the postID and the connection uses this key to get all comments whose postID is the id of the post was called on.
+After it's transformed, you can create comments and query the connected Post as follows:
 
 ```graphql
 mutation CreatePost {
-  title: 'Add relationships between types',
+  createPost(input: { id: "a-post-id", title: "Post Title" } ) {
     id
     title
   }
@@ -166,7 +168,7 @@ You can make a connection bi-directional by adding a many-to-one connection to t
 ```graphql
 type Post @model {
   id: ID!
-  title: 'Add relationships between types',
+  title: String!
   comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
 }
 
@@ -183,7 +185,7 @@ After it's transformed, you can create comments with a post as follows:
 
 ```graphql
 mutation CreatePost {
-  title: 'Add relationships between types',
+  createPost(input: { id: "a-post-id", title: "Post Title" } ) {
     id
     title
   }
@@ -208,7 +210,7 @@ And you can query a Comment with its Post, then all Comments of that Post by nav
 
 ```graphql
 query GetCommentWithPostAndComments {
-  getComment(id: "a-comment-id-1") {
+  getComment( id: "a-comment-id-1" ) {
     id
     content
     post {
@@ -232,7 +234,7 @@ You can implement many to many using two 1-M @connections, an @key, and a joinin
 ```graphql
 type Post @model {
   id: ID!
-  title: 'Add relationships between types',
+  title: String!
   editors: [PostEditor] @connection(keyName: "byPost", fields: ["id"])
 }
 
@@ -256,14 +258,15 @@ type User @model {
 }
 ```
 
-This case is a bidirectional many-to-many which is why two `@key` calls are needed on the PostEditor model. You can first create a Post and a User, and then add a connection between them with by creating a PostEditor object as follows:
+This case is a bidirectional many-to-many which is why two `@key` calls are needed on the PostEditor model.
+You can first create a Post and a User, and then add a connection between them with by creating a PostEditor object as follows:
 
 ```graphql
 mutation CreateData {
-  title: 'Add relationships between types',
+  p1: createPost(input: { id: "P1", title: "Post 1" }) {
     id
   }
-  title: 'Add relationships between types',
+  p2: createPost(input: { id: "P2", title: "Post 2" }) {
     id
   }
   u1: createUser(input: { id: "U1", username: "user1" }) {
@@ -331,10 +334,8 @@ query GetPostWithEditorsWithPosts {
   }
 }
 ```
-
 <Callout warning>
-  Amplify Studio does not support custom naming. Changing the auto-generated
-  name will break Amplify Studio.
+Amplify Studio does not support custom naming. Changing the auto-generated name will break Amplify Studio.
 </Callout>
 
 #### Alternative definition
@@ -342,12 +343,7 @@ query GetPostWithEditorsWithPosts {
 The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of `@connection` that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use `@key` and the new `@connection` via the fields argument.
 
 ```graphql
-directive @connection(
-  name: String
-  keyField: String
-  sortField: String
-  limit: Int
-) on FIELD_DEFINITION
+directive @connection(name: String, keyField: String, sortField: String, limit: Int) on FIELD_DEFINITION
 ```
 
 This parameterization is not compatible with `@key`. See the parameterization above to use `@connection` with indexes created by @key.
@@ -359,7 +355,7 @@ The default number of nested objects is 100. You can override this behavior by s
 ```graphql
 type Post @model {
   id: ID!
-  title: 'Add relationships between types',
+  title: String!
   comments: [Comment] @connection(limit: 50)
 }
 
@@ -373,4 +369,9 @@ type Comment @model {
 
 In order to keep connection queries fast and efficient, the GraphQL transform manages global secondary indexes (GSIs) on the generated tables on your behalf when using @connection
 
-> **Note:** After you have pushed a `@connection` directive you should not try to change it. If you try to change it, the DynamoDB UpdateTable operation will fail. Should you need to change a `@connection`, you should add a new `@connection` that implements the new access pattern, update your application to use the new `@connection`, and then delete the old `@connection` when it's no longer needed.
+> **Note:** After you have pushed a `@connection` directive you should not try to
+change it. If you try to change it, the DynamoDB
+UpdateTable operation will fail. Should you need to change a `@connection`, you should add a new
+`@connection` that implements the new access pattern, update your application
+to use the new `@connection`, and then delete the old `@connection` when it's no
+longer needed.

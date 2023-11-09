@@ -1,34 +1,85 @@
-## Send messages to bot
 
+
+## AWS Lex V2
+### Send messages to bot
 You can send a text message to chatbot backend with `send()` command. The method returns a promise that includes the chatbot response.
 
 ```javascript
-import { Interactions } from 'aws-amplify';
+import { Interactions } from '@aws-amplify/interactions';
 
 let userInput = "I want to reserve a hotel for tonight";
 
-// Provide a bot name and user input
-const response = await Interactions.send("BookTrip", userInput);
+(async () => {
+  // Provide a bot name and user input
+  const response = await Interactions.send({
+    botName: "TheBotName",
+    message: userInput
+  });
 
-// Log chatbot response
-console.log(response.message);
+  // Log chatbot response
+  console.log(response.message);
+})()
 ```
 
-## Display end of chat message
+### Display end of chat message
 
-You can use `onComplete()` method to register a function to catch errors or chatbot confirmations when the session successfully ends.  
+You can use `onComplete()` method to register a function to catch errors or chatbot confirmations when the session successfully ends.
+
+```typescript
+import { Interactions } from '@aws-amplify/interactions';
+
+Interactions.onComplete({
+  botName: "TheBotName",
+  callback: (error?: Error, completion?: {[key: string]: any}) => {
+     if (error) {
+        alert('bot conversation failed');
+     } else if (completion) {
+        console.debug('done: ' + JSON.stringify(completion, null, 2));
+        alert('Trip booked. Thank you! What would you like to do next?');
+     }
+  }
+});
+```
+
+## AWS Lex V1
+The Lex V1 module is located in a different path, and we strongly advise you to migrate to the Lex V2 bot ([migration guide](https://docs.aws.amazon.com/lexv2/latest/dg/migration.html)).
+
+### Send messages to bot
+The exposed APIs have same signatures. You can send a text message to chatbot backend with `send()` command. The method returns a promise that includes the chatbot response.
 
 ```javascript
+import { Interactions as InteractionsLexV1 } from '@aws-amplify/interactions/lex-v1';
 
-const handleComplete = function (err, confirmation) {
-    if (err) {
+let userInput = "I want to reserve a hotel for tonight";
+
+(async () => {
+  // Provide a bot name and user input
+  const response = await InteractionsLexV1.send({
+    botName: "TheBotName",
+    message: userInput
+  });
+
+  // Log chatbot response
+  console.log(response.message);
+})()
+```
+
+### Display end of chat message
+
+You can use `onComplete()` method to register a function to catch errors or chatbot confirmations when the session successfully ends.
+
+```typescript
+import { Interactions as InteractionsLexV1 } from '@aws-amplify/interactions/lex-v1';
+
+InteractionsLexV1.onComplete({
+  botName: "TheBotName",
+  callback: (error?: Error, completion?: {[key: string]: any}) => {
+     if (error) {
         alert('bot conversation failed');
-        return;
-    }
-    alert('done: ' + JSON.stringify(confirmation, null, 2));
-
-    return 'Trip booked. Thank you! What would you like to do next?';
-}
-
-Interactions.onComplete(botName, handleComplete );
+     } else if (completion) {
+        console.debug('done: ' + JSON.stringify(completion, null, 2));
+        alert('Trip booked. Thank you! What would you like to do next?');
+     }
+  }
+});
 ```

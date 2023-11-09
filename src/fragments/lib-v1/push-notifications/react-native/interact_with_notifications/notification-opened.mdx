@@ -1,0 +1,32 @@
+## Respond to a notification being opened
+
+When a user taps on a notification displayed on their device, your app will be either launched or brought to the foreground. Knowing the contents of the notification the user interacted with can help you take further action (e.g. follow a deep link) or glean additional insight into your user engagement.
+
+To help you with this, Amplify provides two ways of handling notifications being opened. It is recommended that you handle both to ensure your users the most consistent and seamless experience.
+
+|        App state        |       Handle with       |
+| :---------------------: | :---------------------: |
+| Foreground / Background | `onNotificationOpened`  |
+|       Terminated        | `getLaunchNotification` |
+
+### onNotificationOpened
+
+Add `onNotificationOpened` listeners to respond to a push notification being opened while your app is in a foreground **or** background state.
+
+import onNotificationOpened from '/src/fragments/lib-v1/push-notifications/react-native/interact_with_notifications/on-notification-opened.mdx';
+
+<Fragments fragments={{ 'react-native': onNotificationOpened }} />
+
+### getLaunchNotification
+
+When your app is launched from a terminated state, you must call `getLaunchNotification` to obtain the notification which launched your app.
+
+Calling `getLaunchNotification` _consumes_ the launch notification and will yield a `null` result if:
+
+- You called it more than once (i.e. subsequent calls will be `null`)
+- Another notification was opened while your app was running (either in foreground or background)
+- Your app was brought back to the foreground by some other means (e.g. user tapped the app icon)
+
+import getLaunchNotification from '/src/fragments/lib-v1/push-notifications/react-native/interact_with_notifications/get-launch-notification.mdx';
+
+<Fragments fragments={{ 'react-native': getLaunchNotification }} />

@@ -39,7 +39,7 @@ Amplify.Predictions.interpret(
 
 ```kotlin
 Amplify.Predictions.interpret("I like to eat spaghetti",
-    { Log.i("MyAmplifyApp", "$\{it.sentiment?.value}") },
+    { Log.i("MyAmplifyApp", "${it.sentiment?.value}") },
     { Log.e("MyAmplifyApp", "Interpret failed", it) }
 )
 ```
@@ -51,7 +51,7 @@ Amplify.Predictions.interpret("I like to eat spaghetti",
 val text = "I like to eat spaghetti"
 try {
     val result = Amplify.Predictions.interpret(text)
-    Log.i("MyAmplifyApp", "$\{result.sentiment?.value}")
+    Log.i("MyAmplifyApp", "${result.sentiment?.value}")
 } catch (error: PredictionsException) {
     Log.e("MyAmplifyApp", "Interpret failed", error)
 }

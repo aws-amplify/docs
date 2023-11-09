@@ -19,7 +19,7 @@ A key difference to notice between using Amplify Geo and Google Maps is with Goo
 
 ### Authorization
 
-When using Google Maps Platform or other similar services like Mapbox you will first be prompted to go to the Google Cloud Console to set up APIs and create an API key where you will then use the API key when requesting the Google Maps JS API. With Amplify Geo you will instead setup Amplify Auth using Amplify CLI and the `MapView` component will read the auth configuration from the `aws-exports.js` file. Behind the scenes Amplify Auth uses Amazon Cognito to set up client credentials with access to Location Service and Geo will use those credentials when making any location related API calls. More information on setting Amplify Auth and Geo can be found below in the `Setting Up Amplify` section.
+When using Google Maps Platform or other similar services like Mapbox you will first be prompted to go to the Google Cloud Console to set up APIs and create an API key where you will then use the API key when requesting the Google Maps JS API. With Amplify Geo you will instead setup Amplify Auth using Amplify CLI and the `MapView` component will read the auth configuration from the `amplifyconfiguration.json` file. Behind the scenes Amplify Auth uses Amazon Cognito to set up client credentials with access to Location Service and Geo will use those credentials when making any location related API calls. More information on setting Amplify Auth and Geo can be found below in the `Setting Up Amplify` section.
 
 ## Create a webpage
 
@@ -34,7 +34,7 @@ When using Google Maps Platform or other similar services like Mapbox you will f
     <meta charset="utf-8">
     <title>Display a map on a webpage</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    {/* Import MapLibre  \ */}
+    <!-- Import MapLibre  -->
     <script src="https://cdn.amplify.aws/packages/maplibre-gl/1.15.2/maplibre-gl.js"
         integrity="sha384-rwYfkmAOpciZS2bDuwZ/Xa/Gog6jXem8D/whm3wnsZSVFemDDlprcUXHnDDUcrNU" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
@@ -42,8 +42,8 @@ When using Google Maps Platform or other similar services like Mapbox you will f
         integrity="sha384-DrPVD9GufrxGb7kWwRv0CywpXTmfvbKOZ5i5pN7urmIThew0zXKTME+gutUgtpeD" crossorigin="anonymous"
         referrerpolicy="no-referrer">
     </link>
-    {/* Import Amplify  \ */}
-    <script src="https://cdn.amplify.aws/packages/core/5.0.5/aws-amplify-core.min.js"
+    <!-- Import Amplify  -->
+    <script src="https://cdn.amplify.aws/packages/core/5.0.5/aws-amplify-core.min.js" 
         integrity="sha384-eM2urkpomL9SRm/kuPHZG3XPEItAiUAAyotT/AqlhSus8iAqs/EfHaYy1Jn5ih7K" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
     <script src="https://cdn.amplify.aws/packages/auth/5.0.5/aws-amplify-auth.min.js"
@@ -75,10 +75,10 @@ When using Google Maps Platform or other similar services like Mapbox you will f
 <body>
     <div id="map"></div>
     <script type="module">
-        import awsconfig from "./aws-exports.js";
+        import amplifyconfig from "./amplifyconfiguration.json" assert { type: "json" };
         const { Amplify } = aws_amplify_core;
         const { createMap } = AmplifyMapLibre;
-        Amplify.configure(awsconfig);
+        Amplify.configure(amplifyconfig);
 
         // Add code from below steps here
     </script>
@@ -92,7 +92,7 @@ This code imports the MapLibre GL JS library and CSS, one of the popular options
 ### Setting up Amplify
 
 1. You will need to use the [Amplify CLI to setup Amplify Geo Map resources](/cli/geo/maps). Follow instructions for creating a map.
-1. Once the CLI workflow has completed you should have an `aws-exports.js` file in the same directory as your `index.html` file.
+1. Once the CLI workflow has completed you should have an `amplifyconfiguration.json` file in the same directory as your `index.html` file.
 1. Save your `index.html` file.
 
 ## Display a map
@@ -143,9 +143,7 @@ Here you will add a marker to your map
 With Amplify Geo and MapLibre you can do the following.
 
 ```js
-const marker = new maplibregl.Marker()
-  .setLngLat([-122.4783, 37.8199])
-  .addTo(map);
+const marker = new maplibregl.Marker().setLngLat([-122.4783, 37.8199]).addTo(map);
 ```
 
 Save your changes and refresh your page and you should see a default blue marker icon on your map.
@@ -164,8 +162,8 @@ Using the Google Maps JS API you would add a marker as show below.
 
 ```js
 const marker = new google.maps.Marker({
-  center: { lat: 37.8199, lng: -122.4783 },
-  map: map
+center: { lat: 37.8199, lng: -122.4783 },
+map: map
 });
 ```
 
@@ -309,13 +307,13 @@ With Amplify Geo and MapLibre you can do the following.
 
 ```js
 // Create a div to hold the search component
-const el = document.createElement('div');
-el.setAttribute('id', 'search');
+const el = document.createElement("div");
+el.setAttribute("id", "search");
 document.body.appendChild(el);
 
 // Create the geocoder component and append it to the div you created earlier
 const geocoder = createAmplifyGeocoder();
-document.getElementById('search').appendChild(geocoder.onAdd());
+document.getElementById("search").appendChild(geocoder.onAdd());
 ```
 
 Save your changes and refresh your page and now when you should see a maplibre-gl-geocoder control in the div you created.
@@ -340,12 +338,12 @@ Some lines omitted for brevity, see the Google Maps Platform Places Search Box e
 
 ```js
 // Create a input to hold the search component
-const el = document.createElement('input');
-el.setAttribute('id', 'pac-input');
+const el = document.createElement("input");
+el.setAttribute("id", "pac-input");
 document.body.appendChild(el);
 
 // Create the search box and link it to the UI element.
-const input = document.getElementById('pac-input');
+const input = document.getElementById("pac-input");
 const searchBox = new google.maps.places.SearchBox(input);
 ```
 

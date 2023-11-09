@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'GraphQL Transformer @auth identity claim changes',
   description: '',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 The Amplify CLI is changing the default owner value in GraphQL APIs in v8.1.0. Previously, the API stored only the `username` by default. In this next release behind a feature flag, and in an upcoming major CLI release, the GraphQL Transformer will store a user's unique `sub` and `username`.
 
@@ -42,16 +43,16 @@ The sort key fields for your `@primaryKey`s can no longer be part of an owner-ba
 ```graphql
 ## NOT supported schema example 1 ##
 type Item @auth(rules: [{ allow: owner }]) @model {
-  id: ID! @primaryKey(sortKeyFields: ["owner"])
-  owner: String ## "owner" is an auto-generated field of the owner-based authorization rule
+   id: ID! @primaryKey(sortKeyFields: [ "owner" ])
+   owner: String ## "owner" is an auto-generated field of the owner-based authorization rule
 }
 ```
 
 ```graphql
 ## NOT supported schema example 2 ##
 type Item @auth(rules: [{ allow: owner, ownerField: "user" }]) @model {
-  id: ID! @primaryKey(sortKeyFields: ["owner"])
-  user: String ## "user" is the designated "ownerField" of the owner-based authorization rule
+   id: ID! @primaryKey(sortKeyFields: [ "owner" ])
+   user: String ## "user" is the designated "ownerField" of the owner-based authorization rule
 }
 ```
 
@@ -60,10 +61,10 @@ If your table requires this configuration, it is recommended to set the `identit
 Additionally, if you want to continue making queries with the owner field as the secondary query parameter, consider using the `@index` directive instead. Using the mentioned example, you can set up a query as the following:
 
 ```graphql
-type Todo @auth(rules: [{ allow: owner, ownerField: "user" }]) {
-  listId: ID!
-    @primaryKey
-    @index(name: "byUser", sortKeyFields: ["user"], queryField: "todoByUser")
+type Todo @auth(rules: [
+  { allow: owner, ownerField: "user" }
+]) {
+  listId: ID! @primaryKey @index(name: "byUser", sortKeyFields: ["user"], queryField: "todoByUser")
   user: String!
 }
 ```
@@ -143,7 +144,7 @@ type Todo
     ]
   ) {
   id: ID!
-  title: 'GraphQL Transformer @auth identity claim changes',
+  title: String!
 }
 ```
 
@@ -162,7 +163,7 @@ type Todo
     ]
   ) {
   id: ID!
-  title: 'GraphQL Transformer @auth identity claim changes',
+  title: String!
 }
 ```
 
@@ -180,7 +181,7 @@ type Todo
     ]
   ) {
   id: ID!
-  title: 'GraphQL Transformer @auth identity claim changes',
+  title: String!
 }
 ```
 
@@ -204,7 +205,7 @@ type Todo
     ]
   ) {
   id: ID!
-  title: 'GraphQL Transformer @auth identity claim changes',
+  title: String!
 }
 ```
 
@@ -217,8 +218,8 @@ v8.1.0 of the Amplify CLI is introducing the feature flag, `useSubUsernameForDef
 The Amplify CLI team will release v9.0.0, with the feature flag removed, and developers will need to manually set `"username"` to their schemas to maintain their former API contract, or the resolvers will start to store `sub::username` in their databases.
 
 ## Check for invalid owner identity claims
-
-Amplify CLI `v10.0.0` is adding stricter checks to ensure that valid owner identity claims exist in the customer's JWT token before storing these values in the owner field. **Previously**, if the developer-specified owner identity claim does not exist in the customer's JWT token, a default none value was stored in the owner field.
+Amplify CLI `v10.0.0` is adding stricter checks to ensure that valid owner identity claims exist in the customer's JWT token before storing these values in the owner field.
+**Previously**, if the developer-specified owner identity claim does not exist in the customer's JWT token, a default none value was stored in the owner field.
 
 **Amplify CLI `v10.0.0` and above**, if the developer-specified identity claim does not exist in the customer's JWT token, the customer will be not be authorized to access the record.
 
@@ -239,7 +240,7 @@ type Todo
   )
 {
   id: ID!
-  title: 'GraphQL Transformer @auth identity claim changes',
+  title: String!
 }
 ```
 
@@ -259,7 +260,7 @@ type Todo
   )
 {
   id: ID!
-  title: 'GraphQL Transformer @auth identity claim changes',
+  title: String!
 }
 ```
 

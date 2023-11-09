@@ -1,4 +1,6 @@
-When called successfully, the signin APIs will return an `AuthSignInResult`. Inspect the `nextStep` property in the result to see if additional signin steps are required. The `nextStep` property is of enum type `AuthSignInStep`. Depending on its value, your code should take one of the following actions:
+
+When called successfully, the signin APIs will return an `AuthSignInResult`. Inspect the `nextStep` property in the result to see if additional signin steps are required.
+The `nextStep` property is of enum type `AuthSignInStep`. Depending on its value, your code should take one of the following actions:
 
 <BlockSwitcher>
 
@@ -108,29 +110,29 @@ try {
                   }
                   AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP -> {
                       Log.i("AuthQuickstart", "Received next step as continue sign in by setting up TOTP")
-                      Log.i("AuthQuickstart", "Shared secret that will be used to set up TOTP in the authenticator app $\{nextStep.totpSetupDetails.sharedSecret}")
+                      Log.i("AuthQuickstart", "Shared secret that will be used to set up TOTP in the authenticator app ${nextStep.totpSetupDetails.sharedSecret}")
                       // Prompt the user to enter the TOTP code generated in their authenticator app
                       // Then invoke `confirmSignIn` api with the code
                   }
                   AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SELECTION -> {
                       Log.i("AuthQuickstart", "Received next step as continue sign in by selecting MFA type")
-                      Log.i("AuthQuickstart", "Allowed MFA types $\{nextStep.allowedMFATypes}")
+                      Log.i("AuthQuickstart", "Allowed MFA types ${nextStep.allowedMFATypes}")
                       // Prompt the user to select the MFA type they want to use
                       // Then invoke `confirmSignIn` api with the MFA type
                   }
                   AuthSignInStep.CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE -> {
-                      Log.i("AuthQuickstart", "SMS code sent to $\{nextStep.codeDeliveryDetails?.destination}")
-                      Log.i("AuthQuickstart", "Additional Info $\{nextStep.additionalInfo}")
+                      Log.i("AuthQuickstart", "SMS code sent to ${nextStep.codeDeliveryDetails?.destination}")
+                      Log.i("AuthQuickstart", "Additional Info ${nextStep.additionalInfo}")
                       // Prompt the user to enter the SMS MFA code they received
                       // Then invoke `confirmSignIn` api with the code
                   }
                   AuthSignInStep.CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE -> {
-                      Log.i("AuthQuickstart","Custom challenge, additional info: $\{nextStep.additionalInfo}")
+                      Log.i("AuthQuickstart","Custom challenge, additional info: ${nextStep.additionalInfo}")
                       // Prompt the user to enter custom challenge answer
                       // Then invoke `confirmSignIn` api with the answer
                   }
                   AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD -> {
-                      Log.i("AuthQuickstart", "Sign in with new password, additional info: $\{nextStep.additionalInfo}")
+                      Log.i("AuthQuickstart", "Sign in with new password, additional info: ${nextStep.additionalInfo}")
                       // Prompt the user to enter a new password
                       // Then invoke `confirmSignIn` api with new password
                   }
@@ -187,31 +189,31 @@ try {
         }
         AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP -> {
             Log.i("AuthQuickstart", "Received next step as continue sign in by setting up TOTP")
-            Log.i("AuthQuickstart", "Shared secret that will be used to set up TOTP in the authenticator app $\{nextStep.totpSetupDetails.sharedSecret}")
+            Log.i("AuthQuickstart", "Shared secret that will be used to set up TOTP in the authenticator app ${nextStep.totpSetupDetails.sharedSecret}")
             // Prompt the user to enter the TOTP code generated in their authenticator app
             // Then invoke `confirmSignIn` api with the code
         }
         AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SELECTION -> {
             Log.i("AuthQuickstart", "Received next step as continue sign in by selecting MFA type")
-            Log.i("AuthQuickstart", "Allowed MFA types $\{nextStep.allowedMFATypes}")
+            Log.i("AuthQuickstart", "Allowed MFA types ${nextStep.allowedMFATypes}")
             // Prompt the user to select the MFA type they want to use
             // Then invoke `confirmSignIn` api with the MFA type
         }
         AuthSignInStep.CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE -> {
-            Log.i("AuthQuickstart", "SMS code sent to $\{nextStep.codeDeliveryDetails?.destination}")
-            Log.i("AuthQuickstart", "Additional Info $\{nextStep.additionalInfo}")
+            Log.i("AuthQuickstart", "SMS code sent to ${nextStep.codeDeliveryDetails?.destination}")
+            Log.i("AuthQuickstart", "Additional Info ${nextStep.additionalInfo}")
             // Prompt the user to enter the SMS MFA code they received
             // Then invoke `confirmSignIn` api with the code
         }
         AuthSignInStep.CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE -> {
-            Log.i("AuthQuickstart", "Custom challenge, additional info: $\{nextStep.additionalInfo}")
+            Log.i("AuthQuickstart", "Custom challenge, additional info: ${nextStep.additionalInfo}")
             // Prompt the user to enter custom challenge answer
             // Then invoke `confirmSignIn` api with the answer
         }
         AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD -> {
             Log.i(
                 "AuthQuickstart",
-                "Sign in with new password, additional info: $\{nextStep.additionalInfo}"
+                "Sign in with new password, additional info: ${nextStep.additionalInfo}"
             )
             // Prompt the user to enter a new password
             // Then invoke `confirmSignIn` api with new password

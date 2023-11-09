@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Test',
   description: 'Testing the REST API.',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 ## Test the API from the terminal
 
@@ -104,7 +105,7 @@ amplify mock function todosLambda
 
 Select the following options:
 
-- Provide the path to the event JSON object relative to `{project}/amplify/backend/function/todosLambda` **src/event.json**
+- Provide the path to the event JSON object relative to `{project}/amplify/backend/function/todosLambda` __src/event.json__
 
 ```console
 Starting execution...
@@ -131,7 +132,7 @@ GET /todos?limit=10
 - In the Resources pane, choose the method you want to test. Pick `ANY` right under `/todos`.
 
 ```console
-/
+/                        
  |_ /todos               Main resource. Eg: /todos
    ANY                   Includes methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT
    OPTIONS               Allow pre-flight requests in CORS by browser
@@ -162,7 +163,7 @@ Tue Aug 18 17:36:14 UTC 2020 : HTTP Method: GET, Resource Path: /todos
 Tue Aug 18 17:36:14 UTC 2020 : Method request path: {}
 Tue Aug 18 17:36:14 UTC 2020 : Method request query string: {limit=10}
 Tue Aug 18 17:36:14 UTC 2020 : Method request headers: {}
-Tue Aug 18 17:36:14 UTC 2020 : Method request body before transformations:
+Tue Aug 18 17:36:14 UTC 2020 : Method request body before transformations: 
 Tue Aug 18 17:36:14 UTC 2020 : Endpoint request URI: https://lambda.eu-west-2.amazonaws.com/2015-03-31/functions/arn:aws:lambda:eu-west-2:664371068953:function:expressLambda-dev/invocations
 Tue Aug 18 17:36:14 UTC 2020 : Endpoint request headers: { X-Amz-Date=20200818T173614Z, X-Amz-Source-Arn=arn:aws:execute-api:eu-west-2:664371068953:s3zmw6fqy5/test-invoke-stage/GET/todos, Accept=application/json, User-Agent=AmazonAPIGateway_s3zmw6fqy5, X-Amz-Security-Token=IQoJb3JpZ2luX2VjEDEaCWV1LXdlc3QtMiJGMEQCIC3KIeR66WhaCBw+eJ+GPhF7y4hz9xC2nN+ARb7T3psyAiBdsoaD9yMfiw2dHWjQM5x7vM11XmToNSGu64mckUQdzSq0AwgaEAEaDDU0NDM4ODgxNjY2MyIMIzObNbCd6QtYwb0IKpEDpHXEzkM2OYq7JfL0U/WbF09KNamodfnifRYwZd/GNOwykykc/zHiU9X0XZPRd+QTnQe/9eoy8DaxBkDgRzQQjTThQWJWadtcfjryTLRKpVeo1UueL+f6DTUDf+URjb0P9CN1gPm+ntZD3LSyAXGwACKG7YMA5/HyeEk [TRUNCATED]
 Tue Aug 18 17:36:14 UTC 2020 : Endpoint request body after transformations: {"resource":"/todos","path":"/todos","httpMethod":"GET","headers":null,"multiValueHeaders":null,"queryStringParameters":{"limit":"10"},"multiValueQueryStringParameters":{"limit":["10"]},"pathParameters":null,"stageVariables":null,"requestContext":{"resourcePath":"/todos","httpMethod":"GET","requestTime":"18/Aug/2020:17:36:14 +0000","path":"/todos","accountId":"EXAMPLE_ID","protocol":"HTTP/1.1","stage":"test-invoke-stage","domainPrefix":"testPrefix","requestTimeEpoch":1597772174890,"requestId":"4fc3c0c7-6f9f-4ac3-84d7-205500f39b5f","identity":{"cognitoIdentityPoolId":null,"cognitoIdentityId":null,"apiKey":"test-invoke-api-key","principalOrgId":null,"cognitoAuthenticationType":null,"userArn":"arn:aws:iam::664371068953:root","apiKeyId":"test-invoke-api-key-id","userAgent":"aws-internal/3 aws-sdk-java/1.11.820 Linux/4.9.217-0.1.ac.205.84.332.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.252-b09 java/1.8.0_252 v [TRUNCATED]

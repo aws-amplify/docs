@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Write React code',
   description: 'Create a database and GraphQL API.',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 The generated UI components accept properties available on the ["Flex" component](https://ui.docs.amplify.aws/react/components/flex) or properties available on the ["Collection" component](https://ui.docs.amplify.aws/react/components/collection).
 
@@ -35,14 +36,14 @@ For example, to make a component go full width you can use all the properties av
 
 ```js
 import './App.css';
-import { NewHomes, NavBar, MarketingFooter } from './ui-components';
+import { NewHomes, NavBar, MarketingFooter } from './ui-components'
 
 function App() {
   return (
     <div className="App">
-      <NavBar width={'100vw'} />
-      <NewHomes isPaginated itemsPerPage={3} />
-      <MarketingFooter width={'100vw'} />
+      <NavBar width={"100vw"}/>
+      <NewHomes isPaginated itemsPerPage={3}/>
+      <MarketingFooter width={"100vw"}/>
     </div>
   );
 }

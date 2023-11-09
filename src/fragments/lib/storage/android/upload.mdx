@@ -1,7 +1,6 @@
 Amplify allows you to upload `File`s and `InputStream`s.
 
 ## Upload InputStream
-
 To upload data to S3 from an `InputStream`:
 
 <BlockSwitcher>
@@ -11,7 +10,7 @@ To upload data to S3 from an `InputStream`:
 private void uploadInputStream() {
     try {
         InputStream exampleInputStream = getContentResolver().openInputStream(uri);
-
+        
         Amplify.Storage.uploadInputStream(
                 "ExampleKey",
                 exampleInputStream,
@@ -32,7 +31,7 @@ private fun uploadInputStream(uri: Uri) {
     val stream = contentResolver.openInputStream(uri)
 
     Amplify.Storage.uploadInputStream("ExampleKey", stream,
-        { Log.i("MyAmplifyApp", "Successfully uploaded: $\{it.key}") },
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}") },
         { Log.e("MyAmplifyApp", "Upload failed", it) }
     )
 }
@@ -48,7 +47,7 @@ private suspend fun uploadInputStream(uri: Uri) {
     val upload = Amplify.Storage.uploadInputStream("ExampleKey", stream)
     try {
         val result = upload.result()
-        Log.i("MyAmplifyApp", "Successfully uploaded: $\{result.key}.")
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.key}.")
     } catch (error: StorageException) {
         Log.e("MyAmplifyApp", "Upload failed")
     }
@@ -62,10 +61,10 @@ private suspend fun uploadInputStream(uri: Uri) {
 private void uploadInputStream() {
     try {
         InputStream exampleInputStream = getContentResolver().openInputStream(uri);
-
+        
         RxProgressAwareSingleOperation<StorageUploadInputStreamResult> rxUploadOperation =
                 RxAmplify.Storage.uploadInputStream("ExampleKey", exampleInputStream);
-
+        
         rxUploadOperation
                 .observeResult()
                 .subscribe(
@@ -82,8 +81,7 @@ private void uploadInputStream() {
 </BlockSwitcher>
 
 ## Upload files
-
-To upload to S3 from a data object, specify the key and the file to be uploaded.
+To upload to S3 from a data object, specify the key and the file to be uploaded. 
 
 <BlockSwitcher>
 <Block name="Java">
@@ -118,7 +116,7 @@ private fun uploadFile() {
     exampleFile.writeText("Example file contents")
 
     Amplify.Storage.uploadFile("ExampleKey", exampleFile,
-        { Log.i("MyAmplifyApp", "Successfully uploaded: $\{it.key}") },
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}") },
         { Log.e("MyAmplifyApp", "Upload failed", it) }
     )
 }
@@ -135,7 +133,7 @@ private suspend fun uploadFile() {
     val upload = Amplify.Storage.uploadFile("ExampleKey", exampleFile)
     try {
         val result = upload.result()
-        Log.i("MyAmplifyApp", "Successfully uploaded: $\{result.key}")
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.key}")
     } catch (error: StorageException) {
         Log.e("MyAmplifyApp", "Upload failed", error)
     }
@@ -210,8 +208,8 @@ private fun uploadFile() {
 
     val options = StorageUploadFileOptions.defaultInstance()
     Amplify.Storage.uploadFile("ExampleKey", exampleFile, options,
-        { Log.i("MyAmplifyApp", "Fraction completed: $\{it.fractionCompleted}") },
-        { Log.i("MyAmplifyApp", "Successfully uploaded: $\{it.key}") },
+        { Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}") },
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}") },
         { Log.e("MyAmplifyApp", "Upload failed", it) }
     )
 }
@@ -229,12 +227,12 @@ private suspend fun uploadFile() {
     val upload = Amplify.Storage.uploadFile("ExampleKey", exampleFile, options)
     val progressJob = activityScope.async {
         upload.progress().collect {
-            Log.i("MyAmplifyApp", "Fraction completed: $\{it.fractionCompleted}")
+            Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
         }
     }
     try {
         val result = upload.result()
-        Log.i("MyAmplifyApp", "Successfully uploaded: $\{result.key}")
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.key}")
     } catch (error: StorageException) {
         Log.e("MyAmplifyApp", "Upload failed", error)
     }

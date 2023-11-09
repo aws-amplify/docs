@@ -4,7 +4,7 @@ export const meta = {
   title: 'Syncing data to cloud',
   description:
     'Learn more about how DataStore connects to an AppSync backend and automatically syncs all locally saved data using GraphQL.',
-  platforms: ['flutter', 'swift', 'android']
+  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -43,3 +43,11 @@ import android1 from '/src/fragments/lib-v1/datastore/native_common/sync.mdx';
 import flutter2 from '/src/fragments/lib-v1/datastore/native_common/sync.mdx';
 
 <Fragments fragments={{ flutter: flutter2 }} />
+
+import js3 from '/src/fragments/lib-v1/datastore/native_common/sync.mdx';
+
+<Fragments fragments={{ javascript: js3 }} />
+
+import reactnative0 from '/src/fragments/lib-v1/datastore/native_common/sync.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

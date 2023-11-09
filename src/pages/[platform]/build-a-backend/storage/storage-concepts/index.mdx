@@ -1,10 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Storage concepts',
-  description:
-    'Learn more about the foundational storage concepts for cloud-based application and how they work with Amplify.',
-  platforms: ['javascript', 'flutter', 'swift', 'android']
+  description: 'Learn more about the foundational storage concepts for cloud-based application and how they work with Amplify.',
+  platforms: ['javascript','flutter','swift','android']
 };
 
 export const getStaticPaths = async () => {
@@ -19,14 +18,10 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
-
-<Fragments fragments={{ flutter: flutter_maintenance }} />
 
 AWS Amplify storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets. The storage category comes with built-in support for [Amazon S3 (Simple Storage Service)](https://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html).
-
-![Image](/images/s3_overview.jpg)
 
 ## S3 Core Concepts
 

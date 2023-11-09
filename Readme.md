@@ -58,7 +58,7 @@ When editing content that hasn't been migrated, you may see the following patter
 ```jsx
 import js from '/src/fragments/lib/datastore/js/conflict.mdx';
 
-<Fragments fragments={{ js: js }} />;
+<Fragments fragments={{ javascript: js }} />;
 ```
 
 This pattern incorporates fragment files into a page and conditionally renders content based off selected platform added as a condition to the `Fragments` tag.

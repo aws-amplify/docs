@@ -11,7 +11,7 @@ Future<void> queryPublishedOrWithRatingTwoPosts() async {
     );
     safePrint('Posts that are published, or have a rating 2: $posts');
   } on DataStoreException catch (e) {
-    safePrint('Something went wrong querying posts: $\{e.message}');
+    safePrint('Something went wrong querying posts: ${e.message}');
   }
 }
 ```

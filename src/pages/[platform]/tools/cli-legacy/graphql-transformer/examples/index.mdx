@@ -1,20 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'Examples',
-  description:
-    "Refer to these examples to learn about various sample application's GraphQL schemas.",
+  description: "Refer to these examples to learn about various sample application's GraphQL schemas.",
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,8 +28,9 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
-<MigrationAlert isLegacy url={'/cli/graphql/examples-and-solutions'} />
+<MigrationAlert isLegacy url={"/cli/graphql/examples-and-solutions"}/>
 
 ## Simple Todo
 
@@ -52,7 +52,7 @@ type Blog @model {
 }
 type Post @model {
   id: ID!
-  title: 'Examples',
+  title: String!
   blog: Blog @connection(name: "BlogPosts")
   comments: [Comment] @connection(name: "PostComments")
 }
@@ -112,7 +112,7 @@ query GetBlog($blogId:ID!) {
     id
     name
     posts(filter: {
-  title: 'Examples',
+      title: {
         eq: "My Post!"
       }
     }) {
@@ -136,7 +136,7 @@ query ListBlogs {
     items {
       id
       name
-  title: 'Examples',
+      posts { # or try adding: posts(filter: { title: { eq: "My Post!" } })
         items {
           id
           title
@@ -165,7 +165,7 @@ type Task
     {allow: groups, groups: ["Employees"], mutations: null, queries: [get, list]}
   ]) {
   id: ID!
-  title: 'Examples',
+  title: String!
   description: String
   status: String
 }
@@ -182,13 +182,11 @@ type PrivateNote
 ```graphql
 # Create a task. Only allowed if a manager.
 mutation CreateTask {
-  createTask(
-    input: {
-      title: "A task"
-      description: "A task description"
-      status: "pending"
-    }
-  ) {
+  createTask(input:{
+    title:"A task",
+    description:"A task description",
+    status: "pending"
+  }) {
     id
     title
     description
@@ -196,8 +194,8 @@ mutation CreateTask {
 }
 
 # Get a task. Allowed if an employee.
-query GetTask($taskId: ID!) {
-  getTask(id: $taskId) {
+query GetTask($taskId:ID!) {
+  getTask(id:$taskId) {
     id
     title
     description
@@ -206,15 +204,15 @@ query GetTask($taskId: ID!) {
 
 # Automatically inject the username as owner attribute.
 mutation CreatePrivateNote {
-  createPrivateNote(input: { content: "A private note of user 1" }) {
+  createPrivateNote(input:{content:"A private note of user 1"}) {
     id
     content
   }
 }
 
 # Unauthorized error if not owner.
-query GetPrivateNote($privateNoteId: ID!) {
-  getPrivateNote(id: $privateNoteId) {
+query GetPrivateNote($privateNoteId:ID!) {
+  getPrivateNote(id:$privateNoteId) {
     id
     content
   }
@@ -245,7 +243,9 @@ type Note @model @versioned {
 
 ```graphql
 mutation Create {
-  createNote(input: { content: "A note" }) {
+  createNote(input:{
+    content:"A note"
+  }) {
     id
     content
     version
@@ -253,9 +253,11 @@ mutation Create {
 }
 
 mutation Update($noteId: ID!) {
-  updateNote(
-    input: { id: $noteId, content: "A second version", expectedVersion: 1 }
-  ) {
+  updateNote(input:{
+    id: $noteId,
+    content:"A second version",
+    expectedVersion: 1
+  }) {
     id
     content
     version
@@ -263,7 +265,10 @@ mutation Update($noteId: ID!) {
 }
 
 mutation Delete($noteId: ID!) {
-  deleteNote(input: { id: $noteId, expectedVersion: 2 }) {
+  deleteNote(input:{
+    id: $noteId,
+    expectedVersion: 2
+  }) {
     id
     content
     version
@@ -273,7 +278,10 @@ mutation Delete($noteId: ID!) {
 
 ## Common Patterns for the API Category
 
-The Amplify CLI exposes the GraphQL Transform libraries to help create APIs with common patterns and best practices baked in but it also provides number of escape hatches for those situations where you might need a bit more control. Here are a few common use cases you might find useful.
+The Amplify CLI exposes the GraphQL Transform libraries to help create APIs with common
+patterns and best practices baked in but it also provides number of escape hatches for
+those situations where you might need a bit more control. Here are a few common use cases
+you might find useful.
 
 ### Filter Subscriptions by model fields and/or relations
 
@@ -299,7 +307,7 @@ type Comment @model {
 
 This is the simpler method of filtering subscriptions, as it requires one less change to the model than filtering on relations.
 
-1. Add the subscriptions argument on the _@model_ directive, telling Amplify to _not_ generate subscriptions for your Comment type.
+1. Add the subscriptions argument on the *@model* directive, telling Amplify to *not* generate subscriptions for your Comment type.
 
 ```graphql
 type Comment @model(subscriptions: null) {
@@ -315,20 +323,17 @@ type Comment @model(subscriptions: null) {
 
 ```graphql
 type Subscription {
-  onCreateComment(content: String): Comment
-    @aws_subscribe(mutations: ["createComment"])
-  onUpdateComment(id: ID, content: String): Comment
-    @aws_subscribe(mutations: ["updateComment"])
-  onDeleteComment(id: ID, content: String): Comment
-    @aws_subscribe(mutations: ["deleteComment"])
+  onCreateComment(content: String): Comment @aws_subscribe(mutations: ["createComment"])
+  onUpdateComment(id: ID, content: String): Comment @aws_subscribe(mutations: ["updateComment"])
+  onDeleteComment(id: ID, content: String): Comment @aws_subscribe(mutations: ["deleteComment"])
 }
 ```
 
-**Filtering by related (_@connection_ designated) type**
+**Filtering by related (*@connection* designated) type**
 
 This is useful when you need to filter by what Todo objects the Comments are connected to. You will need to augment your schema slightly to enable this.
 
-1. Add the subscriptions argument on the _@model_ directive, telling Amplify to _not_ generate subscriptions for your Comment type. Also, just as importantly, you will be utilizing an auto-generated column from DynamoDB by adding `commentTodoId` to our Comment model:
+1. Add the subscriptions argument on the *@model* directive, telling Amplify to *not* generate subscriptions for your Comment type. Also, just as importantly, you will be utilizing an auto-generated column from DynamoDB by adding `commentTodoId` to our Comment model:
 
 ```graphql
 type Comment @model(subscriptions: null) {
@@ -345,12 +350,9 @@ type Comment @model(subscriptions: null) {
 
 ```graphql
 type Subscription {
-  onCreateComment(commentTodoId: String): Comment
-    @aws_subscribe(mutations: ["createComment"])
-  onUpdateComment(id: ID, commentTodoId: String): Comment
-    @aws_subscribe(mutations: ["updateComment"])
-  onDeleteComment(id: ID, commentTodoId: String): Comment
-    @aws_subscribe(mutations: ["deleteComment"])
+  onCreateComment(commentTodoId: String): Comment @aws_subscribe(mutations: ["createComment"])
+  onUpdateComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: ["updateComment"])
+  onDeleteComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: ["deleteComment"])
 }
 ```
 

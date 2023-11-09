@@ -112,7 +112,7 @@ Setup the build phase as follows. Make sure this phase is below the Embed Framew
 ```
 Shell /bin/sh
 
-bash "$\{BUILT_PRODUCTS_DIR\}/$\{FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
+bash "$\{BUILT_PRODUCTS_DIR}/$\{FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
 
 Show environment variables in build log: Checked
 Run script only when installing: Not checked
@@ -170,7 +170,7 @@ Under the `Build Phases` tab in your `Target`, click the `+` button on the top l
 
     Shell /bin/sh
 
-    bash "$\{BUILT_PRODUCTS_DIR\}/$\{FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
+    bash "$\{BUILT_PRODUCTS_DIR}/$\{FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
 
     Show environment variables in build log: Checked
     Run script only when installing: Not checked

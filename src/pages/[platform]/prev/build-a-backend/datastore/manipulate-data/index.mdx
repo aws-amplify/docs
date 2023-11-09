@@ -4,7 +4,7 @@ export const meta = {
   title: 'Manipulating data',
   description:
     'Learn how to save, query, paginate, update, delete and observe data in DataStore.',
-  platforms: ['flutter', 'swift', 'android']
+  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -43,3 +43,11 @@ import android1 from '/src/fragments/lib-v1/datastore/native_common/data-access.
 import flutter2 from '/src/fragments/lib-v1/datastore/native_common/data-access.mdx';
 
 <Fragments fragments={{ flutter: flutter2 }} />
+
+import js3 from '/src/fragments/lib-v1/datastore/native_common/data-access.mdx';
+
+<Fragments fragments={{ javascript: js3 }} />
+
+import reactnative0 from '/src/fragments/lib-v1/datastore/native_common/data-access.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

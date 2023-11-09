@@ -29,7 +29,7 @@ export const theme: PrismTheme = {
     {
       types: ['comment'],
       style: {
-        color: 'rgb(99, 119, 119)',
+        color: 'var(--code-theme-comment)',
         fontStyle: 'italic'
       }
     },
@@ -85,7 +85,7 @@ export const theme: PrismTheme = {
     {
       types: ['boolean'],
       style: {
-        color: 'rgb(255, 88, 116)'
+        color: 'var(--amplify-colors-red-40)'
       }
     },
     {

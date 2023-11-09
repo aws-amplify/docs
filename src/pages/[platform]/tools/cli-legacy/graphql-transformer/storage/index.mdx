@@ -1,20 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+                  
 export const meta = {
   title: 'GraphQL transform and Storage',
-  description:
-    'The GraphQL Transform, Amplify CLI, and Amplify Library make it simple to add complex object support with Amazon S3 to an application.',
+  description: 'The GraphQL Transform, Amplify CLI, and Amplify Library make it simple to add complex object support with Amazon S3 to an application.',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+                'android',
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'swift',
+                'vue'
+              ]
 };
 
 export const getStaticPaths = async () => {
@@ -29,6 +28,7 @@ export function getStaticProps(context) {
     }
   };
 }
+          
 
 The GraphQL Transform, Amplify CLI, and Amplify Library make it simple to add complex object support with Amazon S3 to an application.
 
@@ -38,10 +38,11 @@ This documentation references the AWS AppSync SDK for JavaScript (V2), which is 
 
 </Callout>
 
+
 <Callout warning>
 
-Note: Complex objects are not supported by DataStore-enabled GraphQL APIs.
-
+  Note: Complex objects are not supported by DataStore-enabled GraphQL APIs.
+  
 </Callout>
 
 ### Basics
@@ -80,7 +81,7 @@ The GraphQL Transform handles creating the relevant input types and will store p
 **Run a mutation with S3 objects from your client app:**
 
 ```graphql
-mutation ($input: CreatePictureInput!) {
+mutation($input: CreatePictureInput!) {
   createPicture(input: $input) {
     id
     name

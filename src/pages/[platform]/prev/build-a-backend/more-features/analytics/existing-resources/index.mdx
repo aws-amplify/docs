@@ -4,7 +4,7 @@ export const meta = {
   title: 'Use existing AWS resources',
   description:
     'Configure the Amplify Libraries to use existing Amazon Pinpoint resources by referencing them in your configuration.',
-  platforms: ['swift', 'android']
+  platforms: ['swift', 'android', 'flutter', 'javascript', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -43,3 +43,11 @@ import ios1 from '/src/fragments/lib-v1/analytics/ios/existing-resources.mdx';
 import flutter2 from '/src/fragments/lib-v1/analytics/flutter/existing-resources.mdx';
 
 <Fragments fragments={{ flutter: flutter2 }} />
+
+import js0 from '/src/fragments/lib-v1/analytics/js/existing-resources.mdx';
+
+<Fragments fragments={{ javascript: js0 }} />
+
+import reactnative0 from '/src/fragments/lib-v1/analytics/js/existing-resources.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

@@ -1,28 +1,27 @@
-Invoke the `signOut` api to sign out a user from the Auth category. You can only have one user signed in at a given time.
-Calling signOut without any options will delete the local cache and keychain of the user and revoke the token if enabled on Amazon Cognito User Pools. If you would like to sign out of all devices, invoke the signOut api with advanced options.
+Invoke the `signOut` api to sign out a user from the Auth category. You can only have one user signed in at a given time. Calling signOut without any options will delete the local cache and keychain of the user and revoke the token if enabled on Amazon Cognito User Pools. If you would like to sign out of all devices, invoke the signOut api with advanced options.
 
+import android0 from '/src/fragments/lib/auth/android/signout/10_local_signout.mdx';
 
-import android0 from "/src/fragments/lib/auth/android/signout/10_local_signout.mdx";
+<Fragments fragments={{ android: android0 }} />
 
-<Fragments fragments={{android: android0}} />
+import ios1 from '/src/fragments/lib/auth/ios/signout/10_local_signout.mdx';
 
-import ios1 from "/src/fragments/lib/auth/ios/signout/10_local_signout.mdx";
+<Fragments fragments={{ swift: ios1 }} />
 
-<Fragments fragments={{ios: ios1}} />
+import flutter2 from '/src/fragments/lib/auth/flutter/signout/10_local_signout.mdx';
 
-import flutter2 from "/src/fragments/lib/auth/flutter/signout/10_local_signout.mdx";
+<Fragments fragments={{ flutter: flutter2 }} />
 
-<Fragments fragments={{flutter: flutter2}} />
+import android2 from '/src/fragments/lib/auth/android/signout/15_sign_out_types.mdx';
 
-import android2 from "/src/fragments/lib/auth/android/signout/15_sign_out_types.mdx";
+<Fragments fragments={{ android: android2 }} />
 
-<Fragments fragments={{android: android2}} />
+import ios2 from '/src/fragments/lib/auth/ios/signout/15_sign_out_types.mdx';
 
-import ios2 from "/src/fragments/lib/auth/ios/signout/15_sign_out_types.mdx";
-
-<Fragments fragments={{ios: ios2}} />
+<Fragments fragments={{ swift: ios2 }} />
 
 ## Token Revocation
+
 [Amazon Cognito now supports token revocation](https://aws.amazon.com/about-aws/whats-new/2021/06/amazon-cognito-now-supports-targeted-sign-out-through-refresh-token-revocation/). This means that the Cognito refresh token cannot be used anymore to generate new Access and Id Tokens.
 
 Access and Id Tokens are short-lived (60 minutes by default but can be set from 5 minutes to 1 day). After revocation, these tokens cannot be used with Cognito User Pools anymore. However, they are still valid when used with other services like AppSync or API Gateway.
@@ -32,16 +31,17 @@ For limiting subsequent calls to these other services after invalidating tokens,
 Token revocation is enabled automatically on new Amazon Cognito User Pools, however existing User Pools must enable this feature, [using the Cognito Console or AWS CLI](https://docs.aws.amazon.com/cognito/latest/developerguide/token-revocation.html).
 
 ## Global Sign Out
+
 Calling signout with `globalSignOut = true` will invalidate all the Cognito User Pool tokens of the signed in user. If the user is signed into a device, they won't be authorized to perform a task that requires a valid token when a global signout is called from some other device. They need to sign in again to get valid tokens.
 
-import android3 from "/src/fragments/lib/auth/android/signout/20_global_signout.mdx";
+import android3 from '/src/fragments/lib/auth/android/signout/20_global_signout.mdx';
 
-<Fragments fragments={{android: android3}} />
+<Fragments fragments={{ android: android3 }} />
 
-import ios4 from "/src/fragments/lib/auth/ios/signout/20_global_signout.mdx";
+import ios4 from '/src/fragments/lib/auth/ios/signout/20_global_signout.mdx';
 
-<Fragments fragments={{ios: ios4}} />
+<Fragments fragments={{ swift: ios4 }} />
 
-import flutter5 from "/src/fragments/lib/auth/flutter/signout/20_global_signout.mdx";
+import flutter5 from '/src/fragments/lib/auth/flutter/signout/20_global_signout.mdx';
 
-<Fragments fragments={{flutter: flutter5}} />
+<Fragments fragments={{ flutter: flutter5 }} />
