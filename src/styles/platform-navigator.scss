@@ -7,7 +7,7 @@
     display: flex;
     justify-content: space-between;
     white-space: nowrap;
-    padding-inline-start: var(--amplify-space-xs)
+    gap: var(--amplify-space-xs);
   }
 
   .popover {

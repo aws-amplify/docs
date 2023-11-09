@@ -59,13 +59,13 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
             fontWeight="normal"
             ref={triggerRef}
             flex="1 1 0"
-            paddingRight="xs"
+            paddingInline="xs"
           >
             <Flex as="span" alignItems="center" gap="xs">
               {platformItem.icon}
               {platformTitle}
             </Flex>
-            <IconChevron className={isOpen ? '' : 'icon-rotate-90-reverse'} />
+            <IconChevron fontSize="xs" className={isOpen ? '' : 'icon-rotate-90-reverse'} />
           </Button>
           {PLATFORM_VERSIONS[currentPlatform] && <VersionSwitcher platform={currentPlatform} isPrev={isPrev} flex="1 1 0" />}
         </Flex>
