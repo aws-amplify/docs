@@ -20,6 +20,11 @@ code:not([class]) {
   border-radius: var(--amplify-radii-small);
   background: var(--amplify-colors-neutral-100);
   overflow: hidden;
+  /* There are some instances of code blocks in ol/ul and 
+   * this is to add some spacing so they look better */
+  li & {
+    margin-block: var(--amplify-space-small);
+  }
 }
 .pre-wrapper__inner {
   font-size: var(--amplify-font-sizes-small);
