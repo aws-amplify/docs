@@ -158,7 +158,7 @@ In Amplify the `localStorage` is the default storage mechanism. It saves the tok
 ```ts
 import { Amplify, ResourcesConfig } from 'aws-amplify';
 import { defaultStorage } from 'aws-amplify/utils';
-import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
@@ -184,7 +184,7 @@ Amplify.configure(
 ```javascript
 import { Amplify } from 'aws-amplify';
 import { defaultStorage } from 'aws-amplify/utils';
-import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig = {
   Cognito: {
@@ -217,7 +217,7 @@ Amplify.configure(
 ```ts
 import { Amplify, ResourcesConfig } from 'aws-amplify';
 import { sessionStorage } from 'aws-amplify/utils';
-import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
@@ -243,7 +243,7 @@ Amplify.configure(
 ```javascript
 import { Amplify } from 'aws-amplify';
 import { sessionStorage } from 'aws-amplify/utils';
-import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig = {
   Cognito: {
@@ -276,7 +276,7 @@ You can implement your own custom storage mechanism by creating a class that imp
 ```ts
 import { Amplify, ResourcesConfig } from 'aws-amplify';
 import { KeyValueStorageInterface } from 'aws-amplify/utils';
-import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
