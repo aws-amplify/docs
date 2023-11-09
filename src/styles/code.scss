@@ -41,7 +41,6 @@ code:not([class]) {
   line-height: var(--amplify-line-heights-medium);
 }
 .line-number {
-  flex: 0 0 var(--amplify-space-medium);
   color: var(--code-theme-comment);
   margin-inline-end: var(--amplify-space-small);
   text-align: end;
