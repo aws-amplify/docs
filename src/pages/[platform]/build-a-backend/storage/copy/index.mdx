@@ -4,7 +4,7 @@ export const meta = {
   title: 'Copy files',
   description:
     "Learn more about how to copy files using Amplify's storage category.",
-  platforms: ['javascript', 'flutter', 'react-native']
+  platforms: ['javascript', 'flutter', 'react-native','angular','nextjs','react','vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -24,7 +24,7 @@ import flutter0 from '/src/fragments/lib/storage/flutter/copy.mdx';
 
 <Fragments fragments={{ flutter: flutter0 }} />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['javascript',  'react-native', "angular", "nextjs", "react", "vue"]}>
 
 `copy` method copies an existing file to a different key and returns a `{key: 'destKey'}` object upon success.
 

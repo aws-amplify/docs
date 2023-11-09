@@ -4,7 +4,7 @@ export const meta = {
   title: 'Set up Amplify Storage',
   description:
     'The Amplify Storage category provides a simple mechanism for managing user content for your app in public, protected, or private storage buckets. The Amplify AWS S3 Storage plugin leverages Amazon S3.',
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
+  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native','angular','nextjs','react','vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -30,7 +30,7 @@ import common_getting_started from '/src/fragments/lib/storage/native_common/get
   }}
 />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['javascript',  'react-native', "angular", "nextjs", "react", "vue"]}>
 
 ## Prerequisites
 
@@ -93,7 +93,7 @@ npm install aws-amplify
 
 import js0 from '/src/fragments/lib/common/js/import_configuration.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments fragments={{  javascript: js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
 
 ```typescript
 import { Amplify } from 'aws-amplify';

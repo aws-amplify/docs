@@ -4,7 +4,7 @@ export const meta = {
   title: 'Create, update, and delete application data',
   description:
     'Learn more about how to create and update data using GraphQL APIs in Amplify',
-  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
+  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native','angular','nextjs','react','vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -43,13 +43,13 @@ import flutter3 from '/src/fragments/lib-v1/graphqlapi/flutter/mutate-data.mdx';
 
 <Fragments fragments={{ flutter: flutter3 }} />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['javascript',  'react-native', "angular", "nextjs", "react", "vue"]}>
 
 In this guide, you will learn how to create, update, and delete your data using Amplify Libraries' GraphQL client.
 
 Before you begin, you will need:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 - An [application connected to the API](/lib-v1/graphqlapi/connect/q/platform/js/)
 
@@ -67,7 +67,7 @@ In GraphQL, mutations are APIs that are used to create, update, or delete data. 
 
 ### Create an item
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 You can create an item by first importing the API and mutations. Then you can add an item:
 
@@ -128,7 +128,7 @@ You should see the item created: `Learn AWS AppSync`.
 
 ### Update an item
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 To update the item, use the GraphQL update mutation:
 
@@ -189,7 +189,7 @@ const updatedTodo = await API.graphql({
 
 ### Delete an item
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 You can then delete the Todo by using the delete mutation. To specify which item to delete, you only need to provide the `id` of that item:
 
@@ -295,7 +295,7 @@ const todo = await API.graphql({
 
 </InlineFilter>
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 ## Cancel mutation requests
 
@@ -343,7 +343,7 @@ Congratulations! You have finished the **Create, update, and delete application 
 
 Our recommended next steps include using the API to query data and subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 - [Read application data](/lib-v1/graphqlapi/query-data/q/platform/js/)
 - [Subscribe to real-time events](/lib-v1/graphqlapi/subscribe-data/q/platform/js/)

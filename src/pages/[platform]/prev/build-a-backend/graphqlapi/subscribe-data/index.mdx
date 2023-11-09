@@ -4,7 +4,7 @@ export const meta = {
   title: 'Subscribe to real-time events',
   description:
     'Learn more about how to observe to data changes using subscriptions in Amplify.',
-  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
+  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native','angular','nextjs','react','vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -20,13 +20,13 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 In this guide, we will outline the benefits of enabling real-time data integrations and how to set up and filter these subscriptions. We will also cover how to unsubscribe from subscriptions.
 
 Before you begin, you will need:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 - An [application connected to the API](/lib-v1/graphqlapi/connect/q/platform/js/)
 - Data already created to modify

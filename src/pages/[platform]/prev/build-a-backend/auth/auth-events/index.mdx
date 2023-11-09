@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Listen to auth events',
   description: 'Listen to various auth events',
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
+  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native','angular','nextjs','react','vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -19,7 +19,7 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 Tapping into auth events allows you to react to user flows in real time and trigger custom business logic. For example, you may want to capture data, synchronize your app's state, and personalize the user's experience. You can listen to and respond to events across the Auth lifecycle such as sign-in and sign-out. In this guide we will describe how you can listen to these auth events.
 
@@ -32,7 +32,7 @@ Before you begin, you will need:
 
 You can use Amplify Hub with its built in Amplify Auth events to subscribe a listener using a publish-subscribe pattern and capture events between different parts of your application. The Amplify Auth category publishes in the `auth` channel when auth events such as `signIn`, `signUp`, and `signOut` happen independent from your app code.
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 You can review the Amplify Hub guide to [learn more](/lib/utilities/hub/q/platform/js/).
 
@@ -289,7 +289,7 @@ Congratulations! You finished the **Listen to auth events** guide. In this guide
 
 Now that you can listen to auth events you may also want to add some additional features. We recommend you learn more about:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 - [Manage user profile](/lib-v1/auth/manageusers/q/platform/js/)
 - [Set up password change and recovery](/lib-v1/auth/password_management/q/platform/js/)

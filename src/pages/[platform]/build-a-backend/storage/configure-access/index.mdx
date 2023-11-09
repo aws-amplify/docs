@@ -4,7 +4,7 @@ export const meta = {
   title: 'File access levels',
   description:
     'Learn about configuring different access levels in Amplify Storage. Objects can be public, protected, or private.',
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
+  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native','angular','nextjs','react','vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -30,7 +30,7 @@ import common_configureaccess from '/src/fragments/lib/storage/native_common/con
   }}
 />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['javascript',  'react-native', "angular", "nextjs", "react", "vue"]}>
 
 Storage module can manage files with three different access levels; `guest`, `protected` and `private`. The Amplify CLI configures three different access levels on the storage bucket: guest, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito identity pool Role. You will have the option of adding CRUD (Create/Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels.
 
