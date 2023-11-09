@@ -16,16 +16,16 @@ export const MDXHeading = (props) => {
         newChildren = newChildren + children[i].props.children;
       }
     }
-    href = `#${slug(newChildren)}`;
+    href = `${slug(newChildren)}`;
   } else {
-    href = `#${slug(children)}`;
+    href = `${slug(children)}`;
   }
 
   return (
     <Heading level={level} id={href}>
       {/* Only output heading links for h2 and h3 \ */}
       {level == 2 || level == 3 ? (
-        <Link href={href}>{children}</Link>
+        <Link href={`#${href}`}>{children}</Link>
       ) : (
         children
       )}
