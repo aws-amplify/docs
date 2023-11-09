@@ -1,19 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Configurable parameters',
-  description: 'Additional configurable parameters for GraphQL Transform can be passed to the CloudFormation template itself. This provides escape hatches without leaking too many implementation details into the SDL definition',
+  description:
+    'Additional configurable parameters for GraphQL Transform can be passed to the CloudFormation template itself. This provides escape hatches without leaking too many implementation details into the SDL definition',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,9 +29,8 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
-<MigrationAlert isLegacy url={"/cli/graphql/override"}/>
+<MigrationAlert isLegacy url={'/[platform]/cli/graphql/override'} />
 
 Much of the behavior of the GraphQL Transform logic is configured by passing arguments to the directives in the GraphQL SDL definition. However, certain other things are configured by passing parameters to the CloudFormation template itself. This provides escape hatches without leaking too many implementation details into the SDL definition. You can pass values to these parameters by adding them to the `parameters.json` file in the API directory of your amplify project.
 
@@ -202,18 +202,22 @@ For more information, see https://docs.aws.amazon.com/amazondynamodb/latest/deve
 ```graphql
 type Task
   @model
-  @auth(rules: [
-    {allow: groups, groups: ["Managers"], operations: [create, update, delete]},
-    {allow: groups, groups: ["Employees"], operations: [read, list]}
-  ]) {
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Managers"]
+        operations: [create, update, delete]
+      }
+      { allow: groups, groups: ["Employees"], operations: [read, list] }
+    ]
+  ) {
   id: ID!
   title: String!
   description: String
   status: String
 }
-type PrivateNote
-  @model
-  @auth(rules: [{allow: owner}]) {
+type PrivateNote @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   content: String!
 }

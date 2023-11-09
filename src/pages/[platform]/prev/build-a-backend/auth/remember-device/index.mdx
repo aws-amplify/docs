@@ -4,7 +4,17 @@ export const meta = {
   title: 'Remember a device',
   description:
     'You can use the device-related features of Amazon Cognito User Pools by enabling the Devices features. Go to your Cognito User Pool, choose Devices in left navigation menu and then choose either User Opt In or Always.',
-  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
+  platforms: [
+    'flutter',
+    'swift',
+    'android',
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -44,7 +54,7 @@ import flutter3 from '/src/fragments/lib-v1/auth/common/device_features/common.m
 
 <Fragments fragments={{ flutter: flutter3 }} />
 
-<InlineFilter filters={["javascript" , "react-native"]}>
+<InlineFilter filters={["javascript" ,  "react-native", "angular", "nextjs", "react", "vue"]}>
 <Callout>
 
 The [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library when using the federated OAuth flow with Cognito User Pools or Hosted UI.
@@ -90,7 +100,16 @@ You can mark your device as remembered:
 
 import js2 from '/src/fragments/lib-v1/auth/js/device_features/10_rememberDevice.mdx';
 
-<Fragments fragments={{ javascript: js2, 'react-native': js2 }} />
+<Fragments
+  fragments={{
+    javascript: js2,
+    'react-native': js2,
+    angular: js2,
+    nextjs: js2,
+    react: js2,
+    vue: js2
+  }}
+/>
 
 ### Forget Device
 
@@ -98,7 +117,16 @@ You can forget your device by using the following API. Note that forgotten devic
 
 import js6 from '/src/fragments/lib-v1/auth/js/device_features/20_forgetDevice.mdx';
 
-<Fragments fragments={{ javascript: js6, 'react-native': js6 }} />
+<Fragments
+  fragments={{
+    javascript: js6,
+    'react-native': js6,
+    angular: js6,
+    nextjs: js6,
+    react: js6,
+    vue: js6
+  }}
+/>
 
 ### Fetch Devices
 
@@ -106,7 +134,16 @@ You can fetch a list of remembered devices by using the following:
 
 import js10 from '/src/fragments/lib-v1/auth/js/device_features/30_fetchDevice.mdx';
 
-<Fragments fragments={{ javascript: js10, 'react-native': js10 }} />
+<Fragments
+  fragments={{
+    javascript: js10,
+    'react-native': js10,
+    angular: js10,
+    nextjs: js10,
+    react: js10,
+    vue: js10
+  }}
+/>
 
 ## Terminology
 
