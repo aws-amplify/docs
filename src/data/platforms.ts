@@ -50,7 +50,27 @@ export const PLATFORM_VERSIONS = {
   'javascript': {
     prev: 'v5',
     current: 'v6'
-  }
+  },
+  'react-native': {
+    prev: 'v5',
+    current: 'v6'
+  },
+  'react': {
+    prev: 'v5',
+    current: 'v6'
+  },
+  'angular': {
+    prev: 'v5',
+    current: 'v6'
+  },
+  'vue': {
+    prev: 'v5',
+    current: 'v6'
+  },
+  'nextjs': {
+    prev: 'v5',
+    current: 'v6'
+  },
 }
 
 export const DEFAULT_PLATFORM: Platform = 'javascript';
