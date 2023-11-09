@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { useClickOutside } from '@/utils/useClickOutside';
 import { VersionSwitcher } from '../VersionSwitcher';
 import { PLATFORM_VERSIONS, PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import { useTabKeyDetection } from '@/utils/useTabKeyDetection';
 
 export function PlatformNavigator({ currentPlatform, isPrev }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -22,15 +23,26 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
     }
   });
 
-  const handleBlur = useCallback(
-    (e) => {
-      // Use relatedTarget to see if the target receiving focus is outside of the popover
-      if (contentRef.current && !contentRef.current.contains(e.relatedTarget)) {
+  const { isTabKeyPressed, setIsTabKeyPressed } =
+    useTabKeyDetection(contentRef);
+
+  const handleBlur = (e) => {
+    // Use relatedTarget to see if the target receiving focus is outside of the popover
+    if (
+      contentRef.current &&
+      !contentRef.current.contains(e.relatedTarget) &&
+      isTabKeyPressed
+    ) {
+      if (isOpen) {
         setIsOpen(false);
+
+        // Since the custom hook is only listening to the keydown and keyup
+        // event on the ref we pass in, the keyup event doesn't get registered
+        // when we lose focus and so the state isn't reset. Reset it here
+        setIsTabKeyPressed(false);
       }
-    },
-    [contentRef]
-  );
+    }
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -67,7 +79,13 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
             </Flex>
             <IconChevron fontSize="xs" className={isOpen ? '' : 'icon-rotate-90-reverse'} />
           </Button>
-          {PLATFORM_VERSIONS[currentPlatform] && <VersionSwitcher platform={currentPlatform} isPrev={isPrev} flex="1 1 0" />}
+          {PLATFORM_VERSIONS[currentPlatform] && (
+            <VersionSwitcher
+              platform={currentPlatform}
+              isPrev={isPrev}
+              flex="1 1 0"
+            />
+          )}
         </Flex>
         <View
           className={classNames('popover', {
