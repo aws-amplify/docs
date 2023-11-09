@@ -27,6 +27,13 @@
   }
 }
 
+.classic-banner {
+  &.amplify-message--info {
+    background-color: var(--amplify-colors-teal-10);
+    border: 1px solid var(--amplify-colors-teal-40);
+  }
+}
+
 @container (min-width: 700px) {
   .message-banner {
     &__inner {
