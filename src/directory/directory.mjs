@@ -610,6 +610,24 @@ export const directory = {
           path: 'src/pages/[platform]/build-ui/index.mdx',
           children: [
             {
+              isExternal: true,
+              route: 'https://ui.docs.amplify.aws/',
+              title: 'Amplify UI',
+              description:
+                'Amplify UI simplifies building accessible, performant, and beautiful applications with cloud-connected capabilities, building blocks, theming, and utilities.',
+              platforms: [
+                'android',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'angular',
+                'flutter',
+                'swift',
+                'vue'
+              ]
+            },
+            {
               path: 'src/pages/[platform]/build-ui/formbuilder/index.mdx',
               children: [
                 {
@@ -684,7 +702,6 @@ export const directory = {
             }
           ]
         },
-        { path: 'src/pages/[platform]/contribute/index.tsx' },
         {
           path: 'src/pages/[platform]/deploy-and-host/index.mdx',
           children: [
@@ -2055,7 +2072,7 @@ export const directory = {
             },
             {
               path: 'src/pages/gen2/how-amplify-works/existing-projects/index.mdx'
-            },
+            }
           ]
         },
         {
@@ -2234,6 +2251,14 @@ export const directory = {
               path: 'src/pages/gen2/reference/npm/index.mdx'
             }
           ]
+        }
+      ]
+    },
+    {
+      path: 'src/pages/contribute/index.tsx',
+      children: [
+        {
+          path: 'src/pages/contribute/getting-started.tsx'
         }
       ]
     }

@@ -67,16 +67,18 @@ export const MDXCode = (props) => {
                 <View className="pre-filename">{fileName}</View>
               ) : null}
               <pre style={style} className="pre">
-                {tokens.map((line, i) => (
-                  <div key={i} {...getLineProps({ line })}>
-                    {showLineNumbers && (
-                      <span className="line-number">{i + 1}</span>
-                    )}
-                    {line.map((token, key) => (
-                      <span key={key} {...getTokenProps({ token })} />
-                    ))}
-                  </div>
-                ))}
+                <code className="pre-code">
+                  {tokens.map((line, i) => (
+                    <div key={i} {...getLineProps({ line })}>
+                      {showLineNumbers && (
+                        <span className="line-number">{i + 1}</span>
+                      )}
+                      {line.map((token, key) => (
+                        <span key={key} {...getTokenProps({ token })} />
+                      ))}
+                    </div>
+                  ))}
+                </code>
               </pre>
               {shouldShowCopy ? (
                 <CopyToClipboard text={codeString} onCopy={copy}>
