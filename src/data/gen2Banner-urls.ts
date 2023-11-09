@@ -21,7 +21,7 @@ export const GEN2BANNER_URLS = [
   '/nextjs/start/',
   '/react/start/',
   '/vue/start/',
-  '/react-native/',
+  '/react-native/start/',
   '/javascript/build-a-backend/',
   '/angular/build-a-backend/',
   '/nextjs/build-a-backend/',
