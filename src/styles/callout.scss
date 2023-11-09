@@ -15,4 +15,8 @@
       color: var(--amplify-colors-orange-100);
     }
   }
+
+  &__content {
+    min-width: 0;
+  }
 }
