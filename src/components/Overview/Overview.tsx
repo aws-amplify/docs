@@ -20,13 +20,7 @@ export function Overview({ childPageNodes }: OverviewProps) {
   return (
     <Columns columns={2} size="small" className="overview">
       {childPageNodes
-        .filter((node) => {
-          if (currentPlatform) {
-            return node?.platforms?.includes(currentPlatform)
-          } else {
-            return true
-          }
-        })
+        .filter((node) => node?.platforms?.includes(currentPlatform))
         .map((node) => (
           <Link
             key={node.route}

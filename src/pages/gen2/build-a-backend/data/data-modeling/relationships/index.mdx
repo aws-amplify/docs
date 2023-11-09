@@ -20,47 +20,12 @@ Sometimes when retrieving data for a given entity, retrieving its relationships 
 
 |Relationship|Description|
 |------------|--------|
-|`hasOne`|Create a one-directional one-to-one relationship between two models. For example, a Project "has one" Team. This allows you to query the team from the project record.|
-|`hasMany`|Create a one-directional one-to-many relationship between two models. For example, a Post has many comments. This allows you to query all the comments from the post record.|
-|`belongsTo`|Use a "belongs to" relationship to make a "has one" or "has many" relationship bi-directional. For example, a Project has one Team and a Team belongs to a Project. This allows you to reference the team from the project record and vice versa.|
-|`manyToMany`| Creates a bi-directional relationship, it needs to be defined on both related models. For example, a Blog has many Tags and a Tag has many Blogs.|
+|`a.hasMany()`|Create a one-directional one-to-many relationship between two models. For example, a Post has many comments. This allows you to query all the comments from the post record.|
+|`a.manyToMany()`| Creates a bi-directional relationship, it needs to be defined on both related models. For example, a Blog has many Tags and a Tag has many Blogs.|
+|`a.hasOne()`|Create a one-directional one-to-one relationship between two models. For example, a Project "has one" Team. This allows you to query the team from the project record.|
+|`a.belongsTo()`|Use a "belongs to" relationship to make a "has one" or "has many" relationship bi-directional. This bi-directionality only facilitates your ability to read from both sides of the relationship. For example, a Project has one Team and a Team belongs to a Project. This allows you to reference the team from the project record and vice versa.|
 
-## Define a "Has One" relationship
-
-Create a one-directional one-to-one relationship between two models using the `hasOne()` method.
-
-In the example below, a Project has a Team.
-
-```typescript
-const schema = a.schema({
-  Project: a.model({
-    name: a.string(),
-    team: a.hasOne('Team')
-  }),
-  Team: a.model({
-    name: a.string(),
-  }),
-});
-```
-By using `hasOne` this way, it will automatically generate a field to hold the identifier of the related model.
-To customize the field that holds the relationship information, set the `field` argument and match it to a field on the type
-
-```typescript
-const schema = a.schema({
-  Project: a.model({
-    name: a.string(),
-    teamID: a.string(), // 1. add a field to store the team's unique identifier
-    team: a.hasOne('Team').references('teamId'), // 2. reference the team's 
-  }),
-  Team: a.model({
-    name: a.string(),
-  }),
-});
-```
-
-A `hasOne` relationship always uses a reference to the identifier field (or fields) of the related model, by default `id` unless overwritten with the `identifier()` method.
-
-## Define a "Has Many" relationship
+## Model a "Has Many" relationship
 
 Create a one-directional one-to-many relationship between two models using the `hasMany()` method.
 
@@ -78,15 +43,153 @@ const schema = a.schema({
 });
 ```
 
-As with other relationship types, the field used to hold the identifier for the related entity can be customized by passing a second argument with a `field` attribute.
+### Create a "Has Many" relationship between records
 
-## Define a bi-directional relationship
+```ts
+const { data: team } = await client.models.Team.create({
+  mantra: "Hello"
+})
 
-Make a "has one" or "has many" relationship bi-directional with the `belongsTo()` method.
+await client.models.Member.update({
+  id: "SOME_MEMBER_ID",
+  team
+})
+```
+
+### Update a "Has Many" relationship between records
+
+```ts
+await client.models.Member.update({
+  id: "SOME_MEMBER_ID",
+  team
+})
+```
+
+### Delete a "Has Many" relationship between records
+
+```ts
+await client.models.Member.update({
+  id: "SOME_MEMBER_ID",
+  team: undefined
+})
+```
+
+### Lazy load a "Has Many" relationships
+
+```ts
+const { data: team } = await client.models.Team.get({ id: "MY_TEAM_ID"})
+
+const { data: members } = await team.members()
+
+members.forEach(member => console.log(member.id))
+```
+
+### Eagerly load a "Has Many" relationships
+
+```ts
+const { data: teamWithMembers } = await client.models.Team.get({
+  id: "MY_TEAM_ID"
+  }, {
+  selectionSet: ["id", "members.*"]
+})
+
+teamWithMembers.members.forEach(member => console.log(member.id))
+```
+
+## Model a "Many-to-many" relationship
+Create a many-to-many relationship between two models with the `manyToMany()` method. Provide a common `relationName` on both models to join them into a many-to-many relationship. 
+
+```typescript
+const schema = a.schema({
+  Post: a.model({
+    title: a.string(),
+    content: a.string(),
+    tags: a.manyToMany('Tag', { relationName: 'PostTags'})
+  }),
+  Tag: a.model({
+    name: a.string(),
+    posts: a.manyToMany('Post', { relationName: 'PostTags'})
+  }),
+});
+```
+
+## Model a "Has One" relationship
+
+Create a one-directional one-to-one relationship between two models using the `hasOne()` method.
+
+In the example below, a Project has a Team.
+
+```typescript
+const schema = a.schema({
+  Project: a.model({
+    name: a.string(),
+    team: a.hasOne('Team')
+  }),
+  Team: a.model({
+    name: a.string(),
+  }),
+});
+```
+By using `hasOne` this way, it will automatically generate a field to hold the identifier of the related model.
+
+### Create a "Has One" relationship between records
+
+To create a "has one" relationship between records, first create the parent item then create the child item and assign the parent. 
+
+```ts
+TK
+```
+
+### Update a "Has One" relationship between records
+
+To update a "Has One" relationship between records, you first have to get the child item, then set the reference to the parent to another parent.
+
+```ts
+TK
+```
+
+### Delete a "Has One" relationship between records
+
+To delete a "Has One" relationship between records, you first have to unlink 
+
+### Lazy load a "Has One" relationships
+
+### Eagerly load a "Has One" relationships
+
+### Model multiple relationships between two models
+
+```typescript
+const schema = a.schema({
+  Employee: a.model({
+    firstName: a.string(),
+    lastName: a.string(),
+  }),
+  Organization: a.model({
+    name: a.string(),
+    individualContributors: a.hasMany('Employee'),
+    managers: a.hasMany('Employee'),
+  }),
+});
+```
+
+```ts
+const client = generateClient<Schema>();
+
+const { data: org } = await client.models.Organization.get('AE6191BF-FEB4-4D8B-867D-898A7DA33101');
+
+const { data: ics } = await org.individualContributors();
+const { data: managers } = await org.managers();
+```
+
+
+## Model a bi-directional relationship
+
+Make a "has one" or "has many" relationship bi-directional with the `belongsTo()` method. The bi-directionality of `belongsTo()` grants you the ability to query the related item from both sides of the relationship. 
 
 > Note: The `belongsTo()` method requires that a `hasOne()` or `hasMany()` relationship already exists from parent to the related model.
 
 ### Bi-directional Has One relationship
+
 ```typescript
 const schema = a.schema({
   Project: a.model({
@@ -110,6 +213,8 @@ console.log((await team.project()).name); // There is a 'project' field in the t
 (await team.project()).team === team; // Navigating back to the team from the project
 ```
 
+"Belongs to"-relationships **does not** allow you to update both sides of a "has one" and "belongs to" relationship in a transactional nature.
+
 ### Bi-directional Has Many relationship
 
 ```typescript
@@ -131,48 +236,6 @@ const client = generateClient<Schema>();
 const { data: post } = await client.models.Post.get('FABF27EE-25D2-4851-AE1C-09BCA1604C77');
 
 (await post.comments())[0].post === post; // Navigating back to the post from the comment
-```
-
-## Define a "Many-to-many" relationship
-Create a many-to-many relationship between two models with the `manyToMany()` method. Provide a common `relationName` on both models to join them into a many-to-many relationship. 
-
-```typescript
-const schema = a.schema({
-  Post: a.model({
-    title: a.string(),
-    content: a.string(),
-    tags: a.manyToMany('Tag', { relationName: 'PostTags'})
-  }),
-  Tag: a.model({
-    name: a.string(),
-    posts: a.manyToMany('Post', { relationName: 'PostTags'})
-  }),
-});
-```
-
-### Create multiple relationships between two models
-
-```typescript
-const schema = a.schema({
-  Employee: a.model({
-    firstName: a.string(),
-    lastName: a.string(),
-  }),
-  Organization: a.model({
-    name: a.string(),
-    individualContributors: a.hasMany('Employee'),
-    managers: a.hasMany('Employee'),
-  }),
-});
-```
-
-```ts
-const client = generateClient<Schema>();
-
-const { data: org } = await client.models.Organization.get('AE6191BF-FEB4-4D8B-867D-898A7DA33101');
-
-const { data: ics } = await org.individualContributors();
-const { data: managers } = await org.managers();
 ```
 
 ### Relationships to a model with a composite identifier
