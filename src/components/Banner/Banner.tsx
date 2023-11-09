@@ -35,8 +35,6 @@ export const Banner: React.FC<BannerProps> = ({ url = '/gen2' }) => {
             target="_blank"
             rel="noopener noreferrer"
             className="message-banner__button"
-            target="_blank"
-            rel="noopener noreferrer"
           >
             Go to Amplify Gen 2 docs
             <IconChevron className="icon-rotate-270" fontSize=".875em" />
