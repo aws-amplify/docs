@@ -1,19 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Data access patterns',
-  description: 'Learn how to support these 17 common database access patterns using GraphQL, AWS Amplify, and the GraphQL Transform library',
+  description:
+    'Learn how to support these 17 common database access patterns using GraphQL, AWS Amplify, and the GraphQL Transform library',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,31 +29,33 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
-<MigrationAlert isLegacy url={"/cli/graphql/examples-and-solutions"}/>
+<MigrationAlert
+  isLegacy
+  url={'/[platform]/cli/graphql/examples-and-solutions'}
+/>
 
 In the [DynamoDB documentation for modeling relational data in a NoSQL database](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html), there is an in depth example of 17 access patterns from the [First Steps for Modeling Relational Data in DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html) page.
 
-| | Most common/import access patterns in our organization|
-|---|--------------|
-|1| Look up employee details by employee ID|
-|2| Query employee details by employee name|
-|3| Find an employee's phone number(s)|
-|4| Find a customer's phone number(s)|
-|5| Get orders for a given customer within a given date range|
-|6| Show all open orders within a given date range across all customers|
-|7| See all employees recently hired|
-|8| Find all employees working in a given warehouse|
-|9| Get all items on order for a given product|
-|10| Get current inventories for a given product at all warehouses|
-|11| Get customers by account representative|
-|12| Get orders by account representative and date|
-|13| Get all items on order for a given product|
-|14| Get all employees with a given job title|
-|15| Get inventory by product and warehouse|
-|16| Get total product inventory|
-|17| Get account representatives ranked by order total and sales period|
+|     | Most common/import access patterns in our organization              |
+| --- | ------------------------------------------------------------------- |
+| 1   | Look up employee details by employee ID                             |
+| 2   | Query employee details by employee name                             |
+| 3   | Find an employee's phone number(s)                                  |
+| 4   | Find a customer's phone number(s)                                   |
+| 5   | Get orders for a given customer within a given date range           |
+| 6   | Show all open orders within a given date range across all customers |
+| 7   | See all employees recently hired                                    |
+| 8   | Find all employees working in a given warehouse                     |
+| 9   | Get all items on order for a given product                          |
+| 10  | Get current inventories for a given product at all warehouses       |
+| 11  | Get customers by account representative                             |
+| 12  | Get orders by account representative and date                       |
+| 13  | Get all items on order for a given product                          |
+| 14  | Get all employees with a given job title                            |
+| 15  | Get inventory by product and warehouse                              |
+| 16  | Get total product inventory                                         |
+| 17  | Get account representatives ranked by order total and sales period  |
 
 In this example, you will learn how to support these data access patterns using GraphQL, AWS Amplify, and the GraphQL Transform library. This example has the following types:
 
@@ -66,10 +69,17 @@ In this example, you will learn how to support these data access patterns using 
 The [following schema](https://gist.github.com/dabit3/e0af16db09b6e206292d1c5cfc0d0a07) introduces the required keys and connections so that you can support these access patterns:
 
 ```graphql
-type Order @model
-  @key(name: "byCustomerByStatusByDate", fields: ["customerID", "status", "date"])
+type Order
+  @model
+  @key(
+    name: "byCustomerByStatusByDate"
+    fields: ["customerID", "status", "date"]
+  )
   @key(name: "byCustomerByDate", fields: ["customerID", "date"])
-  @key(name: "byRepresentativebyDate", fields: ["accountRepresentativeID", "date"])
+  @key(
+    name: "byRepresentativebyDate"
+    fields: ["accountRepresentativeID", "date"]
+  )
   @key(name: "byProduct", fields: ["productID", "id"]) {
   id: ID!
   customerID: ID!
@@ -80,21 +90,36 @@ type Order @model
   date: String!
 }
 
-type Customer @model
+type Customer
+  @model
   @key(name: "byRepresentative", fields: ["accountRepresentativeID", "id"]) {
   id: ID!
   name: String!
   phoneNumber: String
   accountRepresentativeID: ID!
   ordersByDate: [Order] @connection(keyName: "byCustomerByDate", fields: ["id"])
-  ordersByStatusDate: [Order] @connection(keyName: "byCustomerByStatusByDate", fields: ["id"])
+  ordersByStatusDate: [Order]
+    @connection(keyName: "byCustomerByStatusByDate", fields: ["id"])
 }
 
-type Employee @model
-  @key(name: "newHire", fields: ["newHire", "id"], queryField: "employeesNewHire")
-  @key(name: "newHireByStartDate", fields: ["newHire", "startDate"], queryField: "employeesNewHireByStartDate")
+type Employee
+  @model
+  @key(
+    name: "newHire"
+    fields: ["newHire", "id"]
+    queryField: "employeesNewHire"
+  )
+  @key(
+    name: "newHireByStartDate"
+    fields: ["newHire", "startDate"]
+    queryField: "employeesNewHireByStartDate"
+  )
   @key(name: "byName", fields: ["name", "id"], queryField: "employeeByName")
-  @key(name: "byTitle", fields: ["jobTitle", "id"], queryField: "employeesByJobTitle")
+  @key(
+    name: "byTitle"
+    fields: ["jobTitle", "id"]
+    queryField: "employeesByJobTitle"
+  )
   @key(name: "byWarehouse", fields: ["warehouseID", "id"]) {
   id: ID!
   name: String!
@@ -110,8 +135,13 @@ type Warehouse @model {
   employees: [Employee] @connection(keyName: "byWarehouse", fields: ["id"])
 }
 
-type AccountRepresentative @model
-  @key(name: "bySalesPeriodByOrderTotal", fields: ["salesPeriod", "orderTotal"], queryField: "repsByPeriodAndTotal") {
+type AccountRepresentative
+  @model
+  @key(
+    name: "bySalesPeriodByOrderTotal"
+    fields: ["salesPeriod", "orderTotal"]
+    queryField: "repsByPeriodAndTotal"
+  ) {
   id: ID!
   customers: [Customer] @connection(keyName: "byRepresentative", fields: ["id"])
   orders: [Order] @connection(keyName: "byRepresentativebyDate", fields: ["id"])
@@ -119,8 +149,13 @@ type AccountRepresentative @model
   salesPeriod: String
 }
 
-type Inventory @model
-  @key(name: "byWarehouseID", fields: ["warehouseID"], queryField: "itemsByWarehouseID")
+type Inventory
+  @model
+  @key(
+    name: "byWarehouseID"
+    fields: ["warehouseID"]
+    queryField: "itemsByWarehouseID"
+  )
   @key(fields: ["productID", "warehouseID"]) {
   productID: ID!
   warehouseID: ID!
@@ -140,21 +175,23 @@ Now that you have the schema created, let's create the items in the database tha
 ```graphql
 # first
 mutation createWarehouse {
-  createWarehouse(input: {id: "1"}) {
+  createWarehouse(input: { id: "1" }) {
     id
   }
 }
 
 # second
 mutation createEmployee {
-  createEmployee(input: {
-    id: "amanda"
-    name: "Amanda",
-    startDate: "2018-05-22",
-    phoneNumber: "6015555555",
-    warehouseID: "1",
-    jobTitle: "Manager",
-    newHire: "true"}
+  createEmployee(
+    input: {
+      id: "amanda"
+      name: "Amanda"
+      startDate: "2018-05-22"
+      phoneNumber: "6015555555"
+      warehouseID: "1"
+      jobTitle: "Manager"
+      newHire: "true"
+    }
   ) {
     id
     jobTitle
@@ -168,11 +205,9 @@ mutation createEmployee {
 
 # third
 mutation createAccountRepresentative {
-  createAccountRepresentative(input: {
-    id: "dabit"
-    orderTotal: 400000
-    salesPeriod: "January 2019"
-  }) {
+  createAccountRepresentative(
+    input: { id: "dabit", orderTotal: 400000, salesPeriod: "January 2019" }
+  ) {
     id
     orderTotal
     salesPeriod
@@ -181,12 +216,14 @@ mutation createAccountRepresentative {
 
 # fourth
 mutation createCustomer {
-  createCustomer(input: {
-    id: "jennifer_thomas"
-    accountRepresentativeID: "dabit"
-    name: "Jennifer Thomas"
-    phoneNumber: "+16015555555"
-  }) {
+  createCustomer(
+    input: {
+      id: "jennifer_thomas"
+      accountRepresentativeID: "dabit"
+      name: "Jennifer Thomas"
+      phoneNumber: "+16015555555"
+    }
+  ) {
     id
     name
     accountRepresentativeID
@@ -196,10 +233,7 @@ mutation createCustomer {
 
 # fifth
 mutation createProduct {
-  createProduct(input: {
-    id: "yeezyboost"
-    name: "Yeezy Boost"
-  }) {
+  createProduct(input: { id: "yeezyboost", name: "Yeezy Boost" }) {
     id
     name
   }
@@ -207,11 +241,9 @@ mutation createProduct {
 
 # sixth
 mutation createInventory {
-  createInventory(input: {
-    productID: "yeezyboost"
-    warehouseID: "1"
-    inventoryAmount: 300
-  }) {
+  createInventory(
+    input: { productID: "yeezyboost", warehouseID: "1", inventoryAmount: 300 }
+  ) {
     productID
     inventoryAmount
     warehouseID
@@ -220,14 +252,16 @@ mutation createInventory {
 
 # seventh
 mutation createOrder {
-  createOrder(input: {
-    amount: 300
-    date: "2018-07-12"
-    status: "pending"
-    accountRepresentativeID: "dabit"
-    customerID: "jennifer_thomas"
-    productID: "yeezyboost"
-  }) {
+  createOrder(
+    input: {
+      amount: 300
+      date: "2018-07-12"
+      status: "pending"
+      accountRepresentativeID: "dabit"
+      customerID: "jennifer_thomas"
+      productID: "yeezyboost"
+    }
+  ) {
     id
     customerID
     accountRepresentativeID
@@ -302,9 +336,7 @@ The query one would need to get the orders to a customer within a date range wou
 ```graphql
 query getCustomerWithOrdersByDate($customerID: ID!) {
   getCustomer(id: $customerID) {
-    ordersByDate(date: {
-      between: [ "2018-01-22", "2020-10-11" ]
-    }) {
+    ordersByDate(date: { between: ["2018-01-22", "2020-10-11"] }) {
       items {
         id
         amount
@@ -324,16 +356,19 @@ In this example, a composite sort key (combination of two or more keys) with the
 ```graphql
 query getCustomerWithOrdersByStatusDate($customerID: ID!) {
   getCustomer(id: $customerID) {
-    ordersByStatusDate (statusDate: {
-      between: [
-        { status: "pending" date:  "2018-01-22" },
-        { status: "pending", date: "2020-10-11"}
-      ]}) {
-        items {
-            id
-            amount
-            date
-        }
+    ordersByStatusDate(
+      statusDate: {
+        between: [
+          { status: "pending", date: "2018-01-22" }
+          { status: "pending", date: "2020-10-11" }
+        ]
+      }
+    ) {
+      items {
+        id
+        amount
+        date
+      }
     }
   }
 }
@@ -381,7 +416,7 @@ This needs a one to many relationship from warehouses to employees. As can be se
 query getWarehouse($warehouseID: ID!) {
   getWarehouse(id: $warehouseID) {
     id
-    employees{
+    employees {
       items {
         id
         name
@@ -460,17 +495,13 @@ As can be seen in the AccountRepresentative model this connection uses the `byRe
 query getOrdersForAccountRepresentative($representativeId: ID!) {
   getAccountRepresentative(id: $representativeId) {
     id
-    orders(date: {
-      between: [
-         "2010-01-22", "2020-10-11"
-      ]
-    }) {
-        items {
-          id
-          status
-          amount
-          date
-        }
+    orders(date: { between: ["2010-01-22", "2020-10-11"] }) {
+      items {
+        id
+        status
+        amount
+        date
+      }
     }
   }
 }
@@ -511,7 +542,6 @@ query inventoryByProductAndWarehouse($productID: ID!, $warehouseID: ID!) {
     inventoryAmount
   }
 }
-
 ```
 
 You can also get all inventory from an individual warehouse by using the `itemsByWarehouseID` query created by the `byWarehouseID` key:
@@ -550,11 +580,10 @@ The sales period is either a date range or maybe even a month or week. Therefore
 ```graphql
 query repsByPeriodAndTotal {
   repsByPeriodAndTotal(
-    sortDirection: DESC,
-    salesPeriod: "January 2019",
-    orderTotal: {
-      ge: 1000
-    }) {
+    sortDirection: DESC
+    salesPeriod: "January 2019"
+    orderTotal: { ge: 1000 }
+  ) {
     items {
       id
       orderTotal
