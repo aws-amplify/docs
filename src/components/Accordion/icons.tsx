@@ -12,7 +12,7 @@ export const Expand = () => {
 export const DeepDive = () => {
   return (
     <Icon aria-label="Deep Dive">
-      <MdHighlightAlt size={'unset'} />
+      <MdHighlightAlt size={23} />
     </Icon>
   );
 };
