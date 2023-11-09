@@ -157,7 +157,7 @@ const sendEmail = async (msg: string) => {
 };
 ```
 
-The `CustomNotifications` CDK construct can then be added to the `backend` of the Amplify project:
+The `CustomNotifications` CDK construct can then be added to the `backend` of the Amplify stack one or more times, with different props for each instance.
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
