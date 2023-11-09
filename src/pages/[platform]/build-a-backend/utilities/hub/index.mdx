@@ -4,7 +4,7 @@ export const meta = {
   title: 'Hub',
   description:
     'Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. ',
-  platforms: ['javascript', 'react-native', 'swift', 'android']
+  platforms: ['javascript', 'react-native', 'swift', 'android','angular','nextjs','react','vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -24,7 +24,7 @@ import common_hub from '/src/fragments/lib/utilities/native_common/hub/common.md
 
 <Fragments fragments={{ android: common_hub, swift: common_hub }} />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['javascript',  'react-native', "angular", "nextjs", "react", "vue"]}>
 
 Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. Amplify uses Hub for different categories to communicate with one another when specific events occur, such as authentication events like a user sign-in or notification of a file download.
 
