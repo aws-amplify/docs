@@ -98,7 +98,9 @@ const schema = a.schema({
     project: a.belongsTo('Project'),
   }),
 });
+```
 
+```ts
 const client = generateClient<Schema>();
 
 const { data: team } = await client.models.Team.get('FABF27EE-25D2-4851-AE1C-09BCA1604C77');
@@ -121,7 +123,9 @@ const schema = a.schema({
     post: a.belongsTo('Post'),
   }),
 });
+```
 
+```ts
 const client = generateClient<Schema>();
 
 const { data: post } = await client.models.Post.get('FABF27EE-25D2-4851-AE1C-09BCA1604C77');
@@ -160,7 +164,9 @@ const schema = a.schema({
     managers: a.hasMany('Employee'),
   }),
 });
+```
 
+```ts
 const client = generateClient<Schema>();
 
 const { data: org } = await client.models.Organization.get('AE6191BF-FEB4-4D8B-867D-898A7DA33101');
