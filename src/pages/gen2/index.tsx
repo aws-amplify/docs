@@ -183,7 +183,7 @@ const schema = a.schema({
   Todo: a.model({
     title: a.string(), 
     description: a.string().optional(), 
-    priority: a.enum(['low','medium', 'high']).default('low'),
+    priority: a.enum(['low','medium', 'high']),
   }),
 });
 
