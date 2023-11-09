@@ -100,103 +100,6 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/datastore/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/additional-methods/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/authz-rules-setup/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/conflict-resolution/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/customize-primary-keys/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/data-usage-policy/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/datastore-events/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/example-application/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/how-it-works/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/manipulate-data/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/parallel-processing/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/real-time/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/relational-models/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/schema-updates/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/set-up-datastore/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/datastore/sync-to-cloud/index.mdx'
-                }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/build-a-backend/debugging/index.mdx'
-            },
-            {
-              path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/appsync-operations-to-lambda-layer/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/build-options/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/cognito-trigger-lambda-dynamodb/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/configure-options/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/connect-rest-api/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/dynamodb-from-lambda-nodejs/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/dynamodb-from-lambda-python/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/environment-variables/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/graphql-from-lambda/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/graphql-server-lambda/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/integrate-dynamodb-with-lambda/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/layers/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/secrets/index.mdx'
-                }
-              ]
-            },
-            {
               path: 'src/pages/[platform]/build-a-backend/graphqlapi/index.mdx',
               children: [
                 {
@@ -255,6 +158,103 @@ export const directory = {
                     }
                   ]
                 },
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/debugging/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/appsync-operations-to-lambda-layer/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/build-options/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/cognito-trigger-lambda-dynamodb/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/configure-options/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/connect-rest-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/dynamodb-from-lambda-nodejs/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/dynamodb-from-lambda-python/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/environment-variables/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/graphql-from-lambda/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/graphql-server-lambda/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/integrate-dynamodb-with-lambda/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/layers/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/secrets/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/datastore/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/additional-methods/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/authz-rules-setup/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/conflict-resolution/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/customize-primary-keys/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/data-usage-policy/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/datastore-events/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/example-application/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/how-it-works/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/manipulate-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/parallel-processing/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/real-time/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/relational-models/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/schema-updates/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/set-up-datastore/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/datastore/sync-to-cloud/index.mdx'
+                }
               ]
             },
             {
