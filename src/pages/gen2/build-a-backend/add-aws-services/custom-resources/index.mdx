@@ -13,10 +13,6 @@ export function getStaticProps(context) {
 
 }
 
----
-title: Custom Resources
----
-
 Custom resources can be written using the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/api/v2/).
 
 From the [Concepts - AWS Cloud Development Kit (AWS CDK) v2](https://docs.aws.amazon.com/cdk/v2/guide/core_concepts.html) documentation
@@ -37,71 +33,150 @@ With the Amplify Code-first DX, you have the option to create individual [Constr
 
 :::
 
-```ts title="amplify/custom/Backup.ts"
-import { Construct } from 'constructs';
-import * as cdk from 'aws-cdk-lib';
-import * as backup from 'aws-cdk-lib/aws-backup';
-import * as events from 'aws-cdk-lib/aws-events';
-import * as rds from 'aws-cdk-lib/aws-rds';
 
-/**
- * Define the stack's props
- */
-export type BackupStackProps = {
-  /**
-   * Database instance to back up
-   */
-  database: rds.DatabaseInstance;
-};
+Here is an explanation of why a customer would want to define a Custom construct in and an example use case:
 
-/**
- * Configure a "Backup" construct to backup DynamoDB Tables created by `data`
- */
-export class Backup extends Construct {
-  constructor(scope: Construct, id: string, props: BackupStackProps) {
-    super(scope, id, props);
+Custom constructs allow you to encapsulate common patterns into reusable components. This helps you implement best practices, accelerate development, and maintain consistency across applications.
 
-    const { database } = props;
+A common use case is creating a custom notification construct that combines a Lambda function with SNS and SES. For example, the construct would:
 
-    // create the backup plan
-    const plan = new backup.BackupPlan(this, 'BackupPlan', {
-      backupPlanRules: [
-        new backup.BackupPlanRule({
-          completionWindow: cdk.Duration.hours(2),
-          startWindow: cdk.Duration.hours(1),
-          scheduleExpression: events.Schedule.cron({
-            day: '15',
-            hour: '3',
-            minute: '30',
-          }),
-          moveToColdStorageAfter: cdk.Duration.days(30),
-        }),
-      ],
+- Create a Lambda function that is triggered by some event like a data update
+- The Lambda would publish a message to an SNS topic
+- An email subscription to the SNS topic can be added that leverages SES to send an email notification on the event
+
+The `CustomNotifications` custom CDK construct can be defined as follows:
+
+```ts title="amplify/custom/CustomNotifications.ts"
+import { Runtime } from "aws-cdk-lib/aws-lambda";
+import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
+import { Topic } from "aws-cdk-lib/aws-sns";
+import {
+  EmailSubscription,
+  LambdaSubscription,
+} from "aws-cdk-lib/aws-sns-subscriptions";
+import { Construct } from "constructs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+interface CustomNotificationsProps {
+  emailSubscription: string;
+  sourceAddress: string;
+  recipientAddress: string;
+  emailSubject?: string;
+}
+
+export class CustomNotifications extends Construct {
+  constructor(scope: Construct, id: string, props: CustomNotificationsProps) {
+    const { emailSubscription, sourceAddress, recipientAddress, emailSubject } =
+      props;
+
+    super(scope, id);
+
+    const topic = new Topic(this, "NotificationTopic");
+
+    const lambda = new NodejsFunction(this, "NotificationHandler", {
+      runtime: Runtime.NODEJS_18_X,
+      handler: "index.handler",
+      entry: join(__dirname, "index.ts"),
+      functionName: "notificationHandler",
+      bundling: {
+        externalModules: [
+          "aws-sdk", // Use the 'aws-sdk' available in the Lambda runtime
+        ],
+      },
+      environment: {
+        topicArn: topic.topicArn,
+        recipientAddress,
+        sourceAddress,
+        emailSubject: emailSubject || "Notification email",
+      },
     });
 
-    // add the database to the backup plan
-    plan.addSelection('Selection', {
-      resources: [backup.BackupResource.fromRdsDatabaseInstance(database)],
-    });
+    topic.addSubscription(new LambdaSubscription(lambda));
+    topic.addSubscription(new EmailSubscription(emailSubscription));
   }
 }
 ```
 
-The custom CDK construct can then be added to the `backend`:
+The Lambda function code can be defined as follows:
+
+```ts title="amplify/custom/index.ts"
+import { SNSEvent } from "aws-lambda";
+import AWS from "aws-sdk";
+
+// Initialize AWS SDK clients
+const sns = new AWS.SNS();
+const ses = new AWS.SES();
+
+// Lambda handler
+exports.handler = async (event: SNSEvent) => {
+  // Get message content
+  const message = event.Records[0].Sns.Message;
+
+  // Log received message
+  console.log("Received SNS message:", message);
+
+  // Publish message to another SNS topic
+  await publishMessage(message);
+
+  // Send email
+  await sendEmail(message);
+
+  return { status: "success" };
+};
+
+// Publish to SNS
+const publishMessage = async (msg: string) => {
+  const params = {
+    TopicArn: process.env.topicArn,
+    Message: msg,
+  };
+
+  await sns.publish(params).promise();
+};
+
+// Send email via SES
+const sendEmail = async (msg: string) => {
+  const params = {
+    Source: process.env.sourceAddress,
+    Destination: {
+      ToAddresses: [process.env.recipientAddress],
+    },
+    Message: {
+      Body: {
+        Text: { Data: msg },
+      },
+      Subject: { Data: process.env.emailSubject },
+    },
+  };
+
+  await ses.sendEmail(params).promise();
+};
+```
+
+The `CustomNotifications` CDK construct can then be added to the `backend` of the Amplify project:
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
-import { Backup } from './custom/Backup';
+import { CustomNotifications } from './custom/CustomNotifications';
 import { data } from './data/resource';
 
 const backend = new defineBackend({
   data,
 });
 
-// construct Backup by adding a stack to your backend
-new Backup(backend.getStack('Backup'), 'Backup', {
-  database: backend.data.resources.database,
-});
+new CustomNotifications(
+  backend.getStack("CustomNotifications"),
+  "CustomNotifications",
+  {
+    emailSubscription: "email@example.com",
+    sourceAddress: "sender@example.com",
+    recipientAddress: "recipient@example.com",
+  }
+);
 ```
 
 :::note
