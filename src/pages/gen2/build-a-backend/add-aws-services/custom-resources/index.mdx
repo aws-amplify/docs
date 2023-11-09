@@ -91,7 +91,7 @@ const backend = new Backend({
 });
 
 // construct Backup by adding a stack to your backend
-new Backup(backend.getOrCreateStack('Backup'), 'Backup', {
+new Backup(backend.getStack('Backup'), 'Backup', {
   database: backend.data.resources.database,
 });
 ```
@@ -172,7 +172,7 @@ const backend = new Backend({
 });
 
 // construct BackupStack using the backend's root CloudFormation stack as the scope
-new BackupStack(backend.root, 'Backup', {
+new BackupStack(backend.getStack('BackupStack'), 'Backup', {
   database: backend.data.resources.database,
 });
 ```
