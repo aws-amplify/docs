@@ -61,7 +61,7 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
             flex="1 1 0"
             paddingRight="xs"
           >
-            <Flex as="span" alignItems="center" gap="small">
+            <Flex as="span" alignItems="center" gap="xs">
               {platformItem.icon}
               {platformTitle}
             </Flex>
