@@ -13,7 +13,7 @@ const addAddtlPlatformAvailabilityToJSContent = function () {
     );
   });
 
-  // //  add platforms in meta
+  //  add platforms in meta
   pages.forEach((file) => {
     fs.readFile(file, 'utf8', (err, dataString) => {
       if (err) {
@@ -105,117 +105,76 @@ const addAddtlPlatformAvailabilityToJSContent = function () {
     });
   });
 
-  // add platforms in fragments
-  pages.forEach((file) => {
-    fs.readFile(file, 'utf8', (err, dataString) => {
-      if (err) {
-        console.log('[ ERROR READING PAGE:  ]', file, err);
-      } else {
-        let data = dataString.split('\n');
-        for (let i = 0; i < data.length; i++) {
-          if (
-            data[i].startsWith('<Fragments fragments={{') &&
-            data[i].includes('javascript:') &&
-            (!data[i].includes('angular:') ||
-              !data[i].includes('nextjs:') ||
-              !data[i].includes('react:') ||
-              !data[i].includes('vue:'))
-          ) {
-            let fragments = data[i].slice(
-              data[i].indexOf('{{') + 2,
-              data[i].indexOf('}}')
-            );
-            fragments = fragments.split(',');
-            fragments.forEach((fragment) => {
-              if (fragment.includes('javascript:')) {
-                fragment = fragment.replaceAll(' ', '');
-                // console.log(fragment);
-                let fileRef = fragment.slice(fragment.indexOf(':') + 1);
-                fileRef = fileRef.replaceAll(' ', '');
-                fragments.splice(fragments[fragment], 1);
-                fragments.push(
-                  `javascript: ${fileRef}`,
-                  `angular: ${fileRef}`,
-                  `nextjs: ${fileRef}`,
-                  `react: ${fileRef}`,
-                  `vue: ${fileRef}`
-                );
-              }
-            });
-            fragments = fragments.join(', ');
-            data[i] = '<Fragments fragments={{ ' + fragments + ' }} />';
-          } else if (
-            data[i].startsWith('<InlineFilter filters={["') &&
-            data[i].includes('javascript') &&
-            (!data[i].includes('angular') ||
-              !data[i].includes('nextjs') ||
-              !data[i].includes('react') ||
-              !data[i].includes('vue'))
-          ) {
-            // console.log(data[i]);
-            let filters = data[i].slice(
-              data[i].indexOf('{[') + 2,
-              data[i].indexOf(']}')
-            );
-            filters = filters.split(',');
-            filters.push('"angular"', '"nextjs"', '"react"', '"vue"');
-            filters = filters.join(', ');
-            data[i] = '<InlineFilter filters={[' + filters + ']}>';
-          }
-        }
-        const newContent = data.join('\n');
-        console.log(newContent);
-        // fs.writeFile(file, newContent, (err) => {
-        //   if (err) {
-        //     console.log('[ ERROR WRITING CONTENT ]', file, err);
-        //   } else if (data != newContent) {
-        //     console.log('[ SUCCESS: PLATFORM EDITS WRITTEN ]', file);
-        //   }
-        // });
-      }
-    });
-  });
-
-  // add platforms to InlineFilters
-  pages.forEach((file) => {
-    fs.readFile(file, 'utf8', (err, dataString) => {
-      if (err) {
-        console.log('[ ERROR READING PAGE:  ]', file, err);
-      } else {
-        let data = dataString.split('\n');
-        for (let i = 0; i < data.length; i++) {
-          if (
-            data[i].startsWith('<InlineFilter filters={["') &&
-            data[i].includes('javascript') &&
-            (!data[i].includes('angular') ||
-              !data[i].includes('nextjs') ||
-              !data[i].includes('react') ||
-              !data[i].includes('vue'))
-          ) {
-            // console.log(data[i]);
-            let filters = data[i].slice(
-              data[i].indexOf('{[') + 2,
-              data[i].indexOf(']}')
-            );
-            filters = filters.split(',');
-            filters.push('"angular"', '"nextjs"', '"react"', '"vue"');
-            filters = filters.join(', ');
-            data[i] = '<InlineFilter filters={[' + filters + ']}>';
-
-            const newContent = data.join('\n');
-
-            fs.writeFile(file, newContent, (err) => {
-              if (err) {
-                console.log('[ ERROR WRITING CONTENT ]', file, err);
-              } else if (data != newContent) {
-                console.log('[ SUCCESS: PLATFORM EDITS WRITTEN ]', file);
-              }
-            });
-          }
-        }
-      }
-    });
-  });
+  // add platforms in fragments and inlineFilters
+  // pages.forEach((file) => {
+  //   fs.readFile(file, 'utf8', (err, dataString) => {
+  //     if (err) {
+  //       console.log('[ ERROR READING PAGE:  ]', file, err);
+  //     } else {
+  //       let data = dataString.split('\n');
+  //       for (let i = 0; i < data.length; i++) {
+  //         if (
+  //           data[i].startsWith('<Fragments fragments={{') &&
+  //           data[i].includes('javascript:') &&
+  //           (!data[i].includes('angular:') ||
+  //             !data[i].includes('nextjs:') ||
+  //             !data[i].includes('react:') ||
+  //             !data[i].includes('vue:'))
+  //         ) {
+  //           let fragments = data[i].slice(
+  //             data[i].indexOf('{{') + 2,
+  //             data[i].indexOf('}}')
+  //           );
+  //           fragments = fragments.split(',');
+  //           fragments.forEach((fragment) => {
+  //             if (fragment.includes('javascript:')) {
+  //               fragment = fragment.replaceAll(' ', '');
+  //               // console.log(fragment);
+  //               let fileRef = fragment.slice(fragment.indexOf(':') + 1);
+  //               fileRef = fileRef.replaceAll(' ', '');
+  //               fragments.splice(fragments[fragment], 1);
+  //               fragments.push(
+  //                 `javascript: ${fileRef}`,
+  //                 `angular: ${fileRef}`,
+  //                 `nextjs: ${fileRef}`,
+  //                 `react: ${fileRef}`,
+  //                 `vue: ${fileRef}`
+  //               );
+  //             }
+  //           });
+  //           fragments = fragments.join(', ');
+  //           data[i] = '<Fragments fragments={{ ' + fragments + ' }} />';
+  //         } else if (
+  //           data[i].startsWith('<InlineFilter filters={[') &&
+  //           data[i].includes('javascript') &&
+  //           (!data[i].includes('angular') ||
+  //             !data[i].includes('nextjs') ||
+  //             !data[i].includes('react') ||
+  //             !data[i].includes('vue'))
+  //         ) {
+  //           // console.log(data[i]);
+  //           let filters = data[i].slice(
+  //             data[i].indexOf('{[') + 2,
+  //             data[i].indexOf(']}')
+  //           );
+  //           filters = filters.split(',');
+  //           filters.push('"angular"', '"nextjs"', '"react"', '"vue"');
+  //           filters = filters.join(', ');
+  //           data[i] = '<InlineFilter filters={[' + filters + ']}>';
+  //         }
+  //       }
+  //       const newContent = data.join('\n');
+  //       // console.log(newContent);
+  //       fs.writeFile(file, newContent, (err) => {
+  //         if (err) {
+  //           console.log('[ ERROR WRITING CONTENT ]', file, err);
+  //         } else if (data != newContent) {
+  //           console.log('[ SUCCESS: PLATFORM EDITS WRITTEN ]', file);
+  //         }
+  //       });
+  //     }
+  //   });
+  // });
 };
 
 const updateFragments = function () {};
