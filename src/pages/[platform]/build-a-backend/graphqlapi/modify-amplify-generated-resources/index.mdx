@@ -1,19 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
-  title: 'Override Amplify-generated AppSync resources',
-  description: 'The "amplify override api" command generates a developer-configurable "overrides" TypeScript file that provides Amplify-generated AppSync resources as CDK constructs. For example, developers can configure API settings that are not directly available in the Amplify CLI workflow, such as X-Ray tracing.',
-  platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+  title: 'Set up Amplify GraphQL API',
+  description:
+    "Learn more about how to get started with Amplify's API category",
+  platforms: ['javascript', 'react-native', 'swift', 'android', 'flutter']
 };
 
 export const getStaticPaths = async () => {
@@ -28,7 +19,12 @@ export function getStaticProps(context) {
     }
   };
 }
-          
+
+Amplify GraphQL API uses a variety of auto-generated, underlying AWS services and resources. You can customize these underlying resources to optimize the deployed stack for your specific use case.
+
+<BlockSwitcher>
+
+<Block name="Amplify CLI">
 
 ```bash
 amplify override api
@@ -43,7 +39,33 @@ If you need to customize a specific Amplify-generated VTL resolver, review [Over
 
 The command creates a new `overrides.ts` file under `amplify/backend/api/<resource-name>/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
 
+</Block>
+<Block name="AWS CDK">
+
+In your CDK project, you can access every underlying resource as an ["L2"](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html#constructs_using) or ["L1" construct](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html#constructs_l1_using). Access the generated resources as L2 constructs via the `.resources` property on the returned stack or access the generated resources as L1 constructs using the `.resources.cfnResources` property.
+
+```ts
+const api = new AmplifyGraphQlApi(this, 'api', { <params> });
+
+// Access L2 resources under `.resources`
+api.resources.tables["Todo"].tableArn;
+
+// Access L1 resources under `.resources.cfnResources`
+api.resources.cfnResources.cfnGraphqlApi.xrayEnabled = true;
+Object.values(api.resources.cfnResources.cfnTables).forEach(table => {
+  table.pointInTimeRecoverySpecification = { pointInTimeRecoveryEnabled: false };
+});
+```
+
+</Block>
+
+</BlockSwitcher>
+
 ## Customize Amplify-generated AppSync GraphQL API resources
+
+<BlockSwitcher>
+
+<Block name="Amplify CLI">
 
 Apply all the overrides in the `override(...)` function. For example to enable X-Ray tracing for the AppSync GraphQL API:
 
@@ -67,7 +89,35 @@ You can override the following GraphQL API resources that Amplify generates:
 |[AmplifyDataStoreIAMRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|IAM role used to access the delta sync table for DataStore|
 |[DynamoDBAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM policy to access the DynamoDB resources from AppSync|
 
+</Block>
+<Block name="AWS CDK">
+
+Apply all the customizations on `.resources.graphqlApi` or `.resources.cfnResources.cfnGraphqlApi`. For example to enable X-Ray tracing for the AppSync GraphQL API:
+
+```ts
+const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
+  definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, 'schema.graphql')),
+  authorizationModes: {
+    defaultAuthorizationMode: "API_KEY",
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30),
+    },
+  },
+});
+
+amplifyApi.resources.cfnResources.cfnGraphqlApi.xrayEnabled = true
+```
+
+</Block>
+
+</BlockSwitcher>
+
 ## Customize Amplify-generated resources for @model directive
+
+
+<BlockSwitcher>
+
+<Block name="Amplify CLI">
 
 Apply all the overrides in the `override(...)` function. Pass in the @model type name into `resources.models[...]` to modify the resources generated for that particular @model type. For example, to enable time-to-live on the Todo `@model` type's DynamoDB table:
 
@@ -103,9 +153,40 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
   resources.models["Todo"].modelDatasource.dynamoDbConfig['deltaSyncConfig']['baseTableTtl'] = '3600'
 }
 ```
+
+</Block>
+<Block name="AWS CDK">
+
+Apply all the customizations on `.resources.tables["MODEL_NAME"]` or `.resources.cfnResources.cfnTables["MODEL_NAME"]`. Pass in the @model type name into `.resources.cfnResources.cfnTables["MODEL_NAME"]` to modify the resources generated for that particular @model type. For example, to enable time-to-live on the Todo `@model` type's DynamoDB table:
+
+```ts
+const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
+  definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, 'schema.graphql')),
+  authorizationModes: {
+    defaultAuthorizationMode: "API_KEY",
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30),
+    },
+  },
+});
+
+amplifyApi.resources.cfnResources.cfnTables["Todo"].timeToLiveSpecification = {
+  attributeName: "ttl",
+  enabled: true
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
 ### Example - Configure DynamoDB table's billing mode
 
 Set the [DynamoDB billing mode](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-billingmode) for the DynamoDB table. Either "PROVISIONED" or "PAY_PER_REQUEST".
+
+<BlockSwitcher>
+
+<Block name="Amplify CLI">
 
 ```ts
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
@@ -114,6 +195,28 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
   resources.models['Post'].modelDDBTable.billingMode = 'PAY_PER_REQUEST';
 }
 ```
+
+</Block>
+<Block name="AWS CDK">
+
+```ts
+const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
+  definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, 'schema.graphql')),
+  authorizationModes: {
+    defaultAuthorizationMode: "API_KEY",
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30),
+    },
+  },
+});
+
+amplifyApi.resources.cfnResources.cfnTables["Todo"].billingMode = "PAY_PER_REQUEST"
+```
+
+</Block>
+
+</BlockSwitcher>
+
 ### Example - Configure provisioned throughput for DynamoDB table or Global Secondary Index
 Override the default [ProvisionedThroughput](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-provisionedthroughput) provisioned for each `@model` table and its Global Secondary Indexes (GSI).
 
@@ -142,6 +245,10 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
 ### Example - Enable point-in-time recovery for DynamoDB table
 Enable/disable [DynamoDB point-in-time recovery](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-table-pointintimerecoveryspecification.html) for each `@model` table.
 
+<BlockSwitcher>
+
+<Block name="Amplify CLI">
+
 ```ts
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
@@ -151,6 +258,30 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
   }
 }
 ```
+
+</Block>
+<Block name="AWS CDK">
+
+```ts
+const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
+  definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, 'schema.graphql')),
+  authorizationModes: {
+    defaultAuthorizationMode: "API_KEY",
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30),
+    },
+  },
+});
+
+amplifyApi.resources.cfnResources.cfnTables["Todo"].pointInTimeRecoverySpecification = {
+  pointInTimeRecoveryEnabled: true
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
 
 ## Customize Amplify-generated resources for @searchable (OpenSearch) directive
 

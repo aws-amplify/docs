@@ -148,6 +148,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/existing-resources/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/modify-amplify-generated-resources/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/upgrade-guide/index.mdx'
                 },
                 {
@@ -1706,9 +1709,6 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/override-appsync/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/schema-evolution/index.mdx'
