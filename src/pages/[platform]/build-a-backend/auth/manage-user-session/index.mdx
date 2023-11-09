@@ -158,7 +158,7 @@ In Amplify the `localStorage` is the default storage mechanism. It saves the tok
 ```ts
 import { Amplify, ResourcesConfig } from 'aws-amplify';
 import { defaultStorage } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
@@ -167,14 +167,14 @@ const authConfig: ResourcesConfig['Auth'] = {
   }
 };
 
-CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-CognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
 
 Amplify.configure(
   {
     Auth: authConfig
   },
-  { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
 ```
 
@@ -184,7 +184,7 @@ Amplify.configure(
 ```javascript
 import { Amplify } from 'aws-amplify';
 import { defaultStorage } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig = {
   Cognito: {
@@ -193,14 +193,14 @@ const authConfig = {
   }
 };
 
-CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-CognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
 
 Amplify.configure(
   {
     Auth: authConfig
   },
-  { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
 ```
 
@@ -217,7 +217,7 @@ Amplify.configure(
 ```ts
 import { Amplify, ResourcesConfig } from 'aws-amplify';
 import { sessionStorage } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
@@ -226,14 +226,14 @@ const authConfig: ResourcesConfig['Auth'] = {
   }
 };
 
-CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-CognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
 
 Amplify.configure(
   {
     Auth: authConfig
   },
-  { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
 ```
 
@@ -243,7 +243,7 @@ Amplify.configure(
 ```javascript
 import { Amplify } from 'aws-amplify';
 import { sessionStorage } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig = {
   Cognito: {
@@ -252,14 +252,14 @@ const authConfig = {
   }
 };
 
-CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-CognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
 
 Amplify.configure(
   {
     Auth: authConfig
   },
-  { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
 ```
 
@@ -276,7 +276,7 @@ You can implement your own custom storage mechanism by creating a class that imp
 ```ts
 import { Amplify, ResourcesConfig } from 'aws-amplify';
 import { KeyValueStorageInterface } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
@@ -301,14 +301,14 @@ class MyCustomStorage implements KeyValueStorageInterface {
   }
 }
 
-CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-CognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
 
 Amplify.configure(
   {
     Auth: authConfig
   },
-  { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
 ```
 
@@ -317,7 +317,7 @@ Amplify.configure(
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig = {
   Cognito: {
@@ -342,14 +342,14 @@ class MyCustomStorage {
   }
 }
 
-CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-CognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
 
 Amplify.configure(
   {
     Auth: authConfig
   },
-  { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
 ```
 
