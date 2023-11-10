@@ -1,10 +1,11 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { JS_PLATFORMS } from '@/data/platforms'
 
 export const meta = {
   title: 'Modify Amplify-generated resources',
   description:
-    "Learn more about how to get started with Amplify's API category",
-  platforms: ['javascript', 'react-native', 'swift', 'android', 'flutter']
+    "Learn more about how to modify Amplify-generated resources for Amplify GraphQL APIs. This allows you to modify underlying AppSync, DynamoDB, Lambda, and OpenSearch resources.",
+  platforms: [...JS_PLATFORMS, 'swift', 'android', 'flutter']
 };
 
 export const getStaticPaths = async () => {
