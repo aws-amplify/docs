@@ -22,54 +22,1100 @@ export function getStaticProps(context) {
 
 import next0 from '/src/fragments/start/getting-started/next/api.mdx';
 
-<Fragments fragments={{ next: next0 }} />
+<Fragments fragments={{ nextjs: next0 }} />
 
-import react1 from '/src/fragments/start/getting-started/react/api.mdx';
+<InlineFilter filters={['javascript','react','angular','react-native','vue']}>
 
-<Fragments fragments={{ react: react1 }} />
+Now that you’ve created and configured your application and initialized a new Amplify project, you can add a feature. The first feature you will add is an API.
 
-import angular2 from '/src/fragments/start/getting-started/angular/data-model.mdx';
+The Amplify CLI supports creating and interacting with two types of API categories: REST and GraphQL.
 
-<Fragments fragments={{ angular: angular2 }} />
+The API you will be creating in this step is a GraphQL API using AWS AppSync (a managed GraphQL service) and the database will be Amazon DynamoDB (a NoSQL database).
 
-import js4 from '/src/fragments/start/getting-started/vanillajs/data-model.mdx';
+## Create a GraphQL API and database
 
-<Fragments fragments={{ javascript: js4 }} />
+Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the following command from the root of your application directory:
 
-import vue5 from '/src/fragments/start/getting-started/vue/data-model.mdx';
+```bash
+amplify add api
+```
 
-<Fragments fragments={{ vue: vue5 }} />
+Select the explicit values below to enable **API key** (for public read access) and **Cognito User Pools** (for authenticated access).
 
-import next6 from '/src/fragments/start/getting-started/common/data-model-footer.mdx';
+```console
+? Select from one of the below mentioned services: GraphQL
+? Here is the GraphQL API that we will create. Select a setting to edit or continue Continue
+? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
 
-<Fragments fragments={{ next: next6 }} />
+```
 
-import react7 from '/src/fragments/start/getting-started/common/data-model-footer.mdx';
+The CLI should open this GraphQL schema in your text editor.
 
-<Fragments fragments={{ react: react7 }} />
+**amplify/backend/api/amplifyjsapp/schema.graphql**
 
-import angular8 from '/src/fragments/start/getting-started/common/data-model-footer.mdx';
+```graphql
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+```
 
-<Fragments fragments={{ angular: angular8 }} />
+The schema generated is for a Todo app. You'll notice a `@model` directive on the `Todo` type. This directive is part of the [GraphQL transformer](/cli/graphql/data-modeling) feature of the Amplify CLI.
 
-import js10 from '/src/fragments/start/getting-started/common/data-model-footer.mdx';
+The GraphQL transformer provides custom GraphQL directives that allow you to define data models, set up authorization rules, configure serverless functions as resolvers, and more.
 
-<Fragments fragments={{ javascript: js10 }} />
+A GraphQL type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 
-import vue11 from '/src/fragments/start/getting-started/common/data-model-footer.mdx';
+From the command line, press **enter** to accept the schema and continue to the next steps.
 
-<Fragments fragments={{ vue: vue11 }} />
+### Deploying the API
 
-import reactnativeDataModel from '/src/fragments/start/getting-started/reactnative/data-model.mdx';
+To deploy this backend, run the `push` command:
 
-<Fragments fragments={{ 'react-native': reactnativeDataModel }} />
+```bash
+amplify push
+```
 
-import reactnativeDataModelFooter from '/src/fragments/start/getting-started/common/data-model-footer.mdx';
+Now the API is live and you can start interacting with it! The API you have deployed includes operations for creating, reading, updating, deleting, and listing posts.
 
-<Fragments fragments={{ 'react-native': reactnativeDataModelFooter }} />
+Next, run the following command to check Amplify's status:
+
+```bash
+amplify status
+```
+
+This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
+
+```console
+
+    Current Environment: dev
+
+┌──────────┬───────────────────────┬───────────┬───────────────────┐
+│ Category │ Resource name         │ Operation │ Provider plugin   │
+├──────────┼───────────────────────┼───────────┼───────────────────┤
+│ Auth     │ <your_project_name>   │ No Change │ awscloudformation │
+├──────────┼───────────────────────┼───────────┼───────────────────┤
+│ Api      │ <your_project_name>   │ No Change │ awscloudformation │
+└──────────┴───────────────────────┴───────────┴───────────────────┘
+```
+
+To view the GraphQL API in the AppSync console at any time, run the following command:
+
+```bash
+amplify console api
+```
+
+To view your entire app in the Amplify console at any time, run the following command:
+
+```bash
+amplify console
+```
+
+### (Optional) Test your API
+
+To test this out locally, you can run the `mock` command. Note: Refer to the [instructions to setup mocking](https://docs.amplify.aws/cli/usage/mock/).
+
+> If you'd like to go ahead and connect the front end, you can [jump to the next step](#connect-frontend-to-api).
+
+```bash
+amplify mock api
+```
+
+_Note:_ `amplify mock api` requires Java.
+
+```console
+# If you have not already deployed your API, you will be walked through the following steps for GraphQL code generation
+? Choose the code generation language target: javascript (or preferred target)
+? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested] 2
+```
+
+This will open the GraphiQL explorer on a local port. From the test environment you can try out different operations locally, like queries and mutations.
+
+In the GraphiQL toolbar, select **Use: User Pool** and try creating a post:
+
+```graphql
+mutation CreatePost {
+  createPost(input: { title: "Test Post", content: "post content" }) {
+    id
+    owner
+    title
+    updatedAt
+    createdAt
+    content
+  }
+}
+```
+
+Next, update auth to **Use: API Key** and try querying the list of posts:
+
+```graphql
+query ListPosts {
+  listPosts {
+    items {
+      content
+      createdAt
+      id
+      owner
+      title
+    }
+  }
+}
+```
+
+## Connect frontend to API
 
 <InlineFilter filters={['javascript']}>
 
-Javascript filters
+Update your `main.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `client.graphql()`:
+
+```javascript
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+
+import amplifyconfig from './amplifyconfiguration.json';
+import { createTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
+import { onCreateTodo } from './graphql/subscriptions';
+
+Amplify.configure(amplifyconfig);
+
+const client = generateClient();
+
+async function addTodo() {
+  const todo = {
+    name: 'Use AppSync',
+    description: `Realtime and Offline (${new Date().toLocaleString()})`
+  };
+
+  return await client.graphql({
+    query: createTodo,
+    variables: {
+      input: todo
+    }
+  });
+}
+
+async function fetchTodos() {
+  client
+    .graphql({
+      query: listTodos
+    })
+    .then((evt) => {
+      evt.data.listTodos.items.map((todo, i) => {
+        QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
+      });
+    });
+}
+
+const MutationButton = document.getElementById('MutationEventButton');
+const MutationResult = document.getElementById('MutationResult');
+const QueryResult = document.getElementById('QueryResult');
+const SubscriptionResult = document.getElementById('SubscriptionResult');
+
+MutationButton.addEventListener('click', (evt) => {
+  addTodo().then((evt) => {
+    MutationResult.innerHTML += `<p>${evt.data.createTodo.name} - ${evt.data.createTodo.description}</p>`;
+  });
+});
+
+client.graphql({ query: onCreateTodo }).subscribe({
+  next: (evt) => {
+    const todo = evt.data.onCreateTodo;
+    SubscriptionResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
+  }
+});
+
+fetchTodos();
+```
+
+Let's walk through some of the functions:
+
+**fetchTodos** - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
+
+**addTodo** - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `createTodo` mutation. A difference between the `listTodos` query and the `createTodo` mutation is that `createTodo` accepts an argument containing the variables needed for the mutation.
 
 </InlineFilter>
+
+<InlineFilter filters={['react']}>
+
+In this section you will create a way to list and create todos from the React application. To do this, you will create a form with a button to create todos as well as a way to fetch and render the list of todos.
+
+Open **src/App.jsx** and replace it with the following code:
+
+```javascript
+import { useEffect, useState } from 'react';
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+
+import { createTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
+
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
+
+const initialState = { name: '', description: '' };
+const client = generateClient();
+
+const App = () => {
+  const [formState, setFormState] = useState(initialState);
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  function setInput(key, value) {
+    setFormState({ ...formState, [key]: value });
+  }
+
+  async function fetchTodos() {
+    try {
+      const todoData = await client.graphql({
+        query: listTodos
+      });
+      const todos = todoData.data.listTodos.items;
+      setTodos(todos);
+    } catch (err) {
+      console.log('error fetching todos');
+    }
+  }
+
+  async function addTodo() {
+    try {
+      if (!formState.name || !formState.description) return;
+      const todo = { ...formState };
+      setTodos([...todos, todo]);
+      setFormState(initialState);
+      await client.graphql({
+        query: createTodo,
+        variables: {
+          input: todo
+        }
+      });
+    } catch (err) {
+      console.log('error creating todo:', err);
+    }
+  }
+
+  return (
+    <div style={styles.container}>
+      <h2>Amplify Todos</h2>
+      <input
+        onChange={(event) => setInput('name', event.target.value)}
+        style={styles.input}
+        value={formState.name}
+        placeholder="Name"
+      />
+      <input
+        onChange={(event) => setInput('description', event.target.value)}
+        style={styles.input}
+        value={formState.description}
+        placeholder="Description"
+      />
+      <button style={styles.button} onClick={addTodo}>
+        Create Todo
+      </button>
+      {todos.map((todo, index) => (
+        <div key={todo.id ? todo.id : index} style={styles.todo}>
+          <p style={styles.todoName}>{todo.name}</p>
+          <p style={styles.todoDescription}>{todo.description}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const styles = {
+  container: {
+    width: 400,
+    margin: '0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 20
+  },
+  todo: { marginBottom: 15 },
+  input: {
+    border: 'none',
+    backgroundColor: '#ddd',
+    marginBottom: 10,
+    padding: 8,
+    fontSize: 18
+  },
+  todoName: { fontSize: 20, fontWeight: 'bold' },
+  todoDescription: { marginBottom: 0 },
+  button: {
+    backgroundColor: 'black',
+    color: 'white',
+    outline: 'none',
+    fontSize: 18,
+    padding: '12px 0px'
+  }
+};
+
+export default App;
+```
+
+**useEffect** - After the component renders, the `useEffect` hook is called and it invokes the `fetchTodos` function.
+
+**fetchTodos** - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
+
+**addTodo** - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `createTodo` mutation. A difference between the `listTodos` query and the `createTodo` mutation is that `createTodo` accepts an argument containing the variables needed for the mutation.
+
+</InlineFilter>
+
+<InlineFilter filters={['angular']}>
+
+Open `src/main.ts` and add the following code to configure the Angular project with Amplify:
+
+```typescript
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from './amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
+```
+
+In order to import `amplifyconfiguration.json` files in Typescript, you may need to modify your tsconfig.json and enable `resolveJsonModule` and `allowSyntheticDefaultImports` in the case that `strict` mode is enabled.
+
+```json
+{
+  ...
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    ...
+  }
+}
+```
+
+First, enable the Angular forms modules in `src/app/app.module.ts`:
+
+```js
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
+
+/* new form imports */
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { TodosComponent } from './todos/todos.component';
+
+@NgModule({
+  declarations: [AppComponent, TodosComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    AmplifyAuthenticatorModule,
+    /* configuring form modules */
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+
+Next, create an `todos` Angular component:
+
+```
+npx ng generate component todos
+```
+
+Open `src/app/app.component.html`, and replace the default content with the Angular component you created:
+
+```html
+<app-todos></app-todos>
+```
+
+In your `src/app/todos/todos.component.ts` file, add data to your database with a mutation by using the `API.ts` file which was generated when you ran `amplify add api`:
+
+```typescript
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { generateClient } from 'aws-amplify/api';
+import { Todo, ListTodosQuery } from '../API';
+import * as mutations from '../../graphql/mutations';
+
+@Component({
+  selector: 'app-todos',
+  templateUrl: './todos.component.html',
+  styleUrls: ['./todos.component.css']
+})
+export class TodosComponent {
+  public createForm: FormGroup;
+  public client: ReturnType<typeof generateClient>;
+
+  constructor(private fb: FormBuilder) {
+    this.createForm = this.fb.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required]
+    });
+
+    this.client = generateClient();
+  }
+
+  public async onCreate(todo: Todo) {
+    try {
+      const response = await this.client.graphql({
+        query: mutations.createTodo,
+        variables: {
+          input: todo
+        }
+      });
+      console.log('item created!', response);
+      this.createForm.reset();
+    } catch (e) {
+      console.log('error creating todo...', e);
+    }
+  }
+}
+```
+
+Next, add a form that will be used for creating todos. Add the following to your `src/app/todos/todos.component.html`:
+
+```html
+<div class="form-body">
+  <form
+    autocomplete="off"
+    [formGroup]="createForm"
+    (ngSubmit)="onCreate(createForm.value)"
+  >
+    <div>
+      <label>Name: </label>
+      <input type="text" formControlName="name" autocomplete="off" />
+    </div>
+    <div>
+      <label>Description: </label>
+      <input type="text" formControlName="description" autocomplete="off" />
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+```
+
+Next, update your `TodosComponent` class so that it will list all todos in the database when the app starts. To do so, implement [OnInit](https://angular.io/api/core/OnInit) and add a `ListTodos` query in `src/app/todos/todos.component.ts`. Store the query results in an array.
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { generateClient } from 'aws-amplify/api';
+import { ListTodosQuery, Todo } from '../API';
+import * as mutations from '../../graphql/mutations';
+import * as queries from '../../graphql/queries';
+
+@Component({
+  selector: 'app-todos',
+  templateUrl: './todos.component.html',
+  styleUrls: ['./todos.component.css']
+})
+export class TodosComponent implements OnInit {
+  public createForm: FormGroup;
+  public client: ReturnType<typeof generateClient>;
+
+  /* declare todos variable */
+  public todos: ListTodosQuery['listTodos'];
+
+  constructor(private fb: FormBuilder) {
+    this.createForm = this.fb.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required]
+    });
+
+    this.client = generateClient();
+  }
+
+  async ngOnInit() {
+    /* fetch todos when app loads */
+    try {
+      const response = await this.client.graphql({
+        query: queries.listTodos
+      });
+      this.todos = response.data.listTodos;
+    } catch (e) {
+      console.log('error fetching todos', e);
+    }
+  }
+
+  public async onCreate(todo: Todo) {
+    try {
+      const response = await this.client.graphql({
+        query: mutations.createTodo,
+        variables: {
+          input: todo
+        }
+      });
+      console.log('item created!', response);
+      this.createForm.reset();
+    } catch (e) {
+      console.log('error creating todo...', e);
+    }
+  }
+}
+```
+
+Add the following to your `src/app/todos/todos.component.html` to display any of the todos you have added:
+
+```html
+<div *ngFor="let todo of todos?.items">
+  <div>{{ todo?.name }}</div>
+  <div>{{ todo?.description }}</div>
+</div>
+```
+
+To subscribe to realtime data, declare a subscription class variable and update `ngOnInit` in `src/app/todos.component.ts`. When the app starts, this code will set up a subscription. The subscription will update the `todos` array when new events are received (when a new todo is created):
+
+```typescript
+...
+
+private subscription: any = null;
+
+async ngOnInit() {
+
+  ...
+
+  try {
+    const res = await this.client.graphql({
+      query: queries.listTodos
+    })
+    console.log(res)
+
+    this.todos = res.data.listTodos;
+  } catch(e) {
+    console.log(e)
+  };
+
+  /* subscribe to new todos being created */
+  this.subscription = this.client.graphql({
+    query: subs.onCreateTodo
+  }).subscribe((event: any) => {
+      const newTodo = event.data.onCreateTodo;
+      this.todos.items = [newTodo, ...this.todos.items];
+  });
+}
+```
+
+Finally, unsubscribe from the subscription when the component is destroyed. Import and add `OnDestroy` in `src/app/todos.component.ts`:
+
+```typescript
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+...
+
+export class AppComponent implements OnInit, OnDestroy {
+
+  ...
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.subscription = null;
+  }
+}
+```
+
+The final `todos.component.ts` file should look like the following:
+
+```typescript
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { generateClient } from 'aws-amplify/api';
+import { Todo, ListTodosQuery } from '../../API';
+import * as queries from '../../graphql/queries';
+import * as mutations from '../../graphql/mutations';
+import * as subscriptions from '../../graphql/subscriptions';
+
+@Component({
+  selector: 'app-todos',
+  templateUrl: './todos.component.html',
+  styleUrls: ['./todos.component.css']
+})
+export class TodosComponent implements OnInit, OnDestroy {
+  public createForm: FormGroup;
+  public client: ReturnType<typeof generateClient>;
+  public todos: ListTodosQuery['listTodos'];
+  private subscription: any = null;
+
+  constructor(private fb: FormBuilder) {
+    this.createForm = this.fb.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required]
+    });
+
+    this.client = generateClient();
+  }
+
+  async ngOnInit() {
+    try {
+      const res = await this.client.graphql({
+        query: queries.listTodos
+      });
+      console.log(res);
+      this.todos = res.data.listTodos;
+    } catch (e) {
+      console.log(e);
+    }
+
+    this.subscription = this.client
+      .graphql({
+        query: subs.onCreateTodo
+      })
+      .subscribe((event: any) => {
+        console.log(event);
+        const newTodo = event.data.onCreateTodo;
+        this.todos.items = [newTodo, ...this.todos.items];
+      });
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.subscription = null;
+  }
+
+  public async onCreate(todo: Todo) {
+    try {
+      const res = await this.client.graphql({
+        query: mutations.createTodo,
+        variables: {
+          input: todo
+        }
+      });
+      console.log('item created!', res);
+      this.createForm.reset();
+    } catch (e) {
+      console.log('error creating todo...', e);
+    }
+  }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['react-native']}>
+
+In this section you will create a way to list and create todos from the React application. To do this, you will create a form with a button to create todos as well as a way to fetch and render the list of todos.
+
+<BlockSwitcher>
+<Block name="Expo CLI">
+
+Open **App.js** and replace it with the following code:
+
+```javascript
+import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  SafeAreaView
+} from 'react-native';
+import { generateClient } from 'aws-amplify/api';
+import { createTodo } from './src/graphql/mutations';
+import { listTodos } from './src/graphql/queries';
+
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from './src/amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
+
+const initialState = { name: '', description: '' };
+const client = generateClient();
+
+const App = () => {
+  const [formState, setFormState] = useState(initialState);
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  function setInput(key, value) {
+    setFormState({ ...formState, [key]: value });
+  }
+
+  async function fetchTodos() {
+    try {
+      const todoData = await client.graphql({
+        query: listTodos
+      });
+      const todos = todoData.data.listTodos.items;
+      setTodos(todos);
+    } catch (err) {
+      console.log('error fetching todos');
+    }
+  }
+
+  async function addTodo() {
+    try {
+      if (!formState.name || !formState.description) return;
+      const todo = { ...formState };
+      setTodos([...todos, todo]);
+      setFormState(initialState);
+      await client.graphql({
+        query: createTodo,
+        variables: {
+          input: todo
+        }
+      });
+    } catch (err) {
+      console.log('error creating todo:', err);
+    }
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <TextInput
+          onChangeText={(value) => setInput('name', value)}
+          style={styles.input}
+          value={formState.name}
+          placeholder="Name"
+        />
+        <TextInput
+          onChangeText={(value) => setInput('description', value)}
+          style={styles.input}
+          value={formState.description}
+          placeholder="Description"
+        />
+        <Pressable onPress={addTodo} style={styles.buttonContainer}>
+          <Text style={styles.buttonText}>Create todo</Text>
+        </Pressable>
+        {todos.map((todo, index) => (
+          <View key={todo.id ? todo.id : index} style={styles.todo}>
+            <Text style={styles.todoName}>{todo.name}</Text>
+            <Text style={styles.todoDescription}>{todo.description}</Text>
+          </View>
+        ))}
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default App;
+
+const styles = StyleSheet.create({
+  container: { width: 400, flex: 1, padding: 20, alignSelf: 'center' },
+  todo: { marginBottom: 15 },
+  input: {
+    backgroundColor: '#ddd',
+    marginBottom: 10,
+    padding: 8,
+    fontSize: 18
+  },
+  todoName: { fontSize: 20, fontWeight: 'bold' },
+  buttonContainer: {
+    alignSelf: 'center',
+    backgroundColor: 'black',
+    paddingHorizontal: 8
+  },
+  buttonText: { color: 'white', padding: 16, fontSize: 18 }
+});
+```
+
+</Block>
+<Block name="React Native CLI">
+
+Open **App.tsx** and replace it with the following code:
+
+```javascript
+import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  SafeAreaView
+} from 'react-native';
+import { generateClient } from 'aws-amplify/api';
+import { createTodo } from './src/graphql/mutations';
+import { listTodos } from './src/graphql/queries';
+
+const initialState = { name: '', description: '' };
+const client = generateClient();
+
+const App = () => {
+  const [formState, setFormState] = useState(initialState);
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  function setInput(key, value) {
+    setFormState({ ...formState, [key]: value });
+  }
+
+  async function fetchTodos() {
+    try {
+      const todoData = await client.graphql({
+        query: listTodos
+      });
+      const todos = todoData.data.listTodos.items;
+      setTodos(todos);
+    } catch (err) {
+      console.log('error fetching todos');
+    }
+  }
+
+  async function addTodo() {
+    try {
+      if (!formState.name || !formState.description) return;
+      const todo = { ...formState };
+      setTodos([...todos, todo]);
+      setFormState(initialState);
+      await client.graphql({
+        query: createTodo,
+        variables: {
+          input: todo
+        }
+      });
+    } catch (err) {
+      console.log('error creating todo:', err);
+    }
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <TextInput
+          onChangeText={(value) => setInput('name', value)}
+          style={styles.input}
+          value={formState.name}
+          placeholder="Name"
+        />
+        <TextInput
+          onChangeText={(value) => setInput('description', value)}
+          style={styles.input}
+          value={formState.description}
+          placeholder="Description"
+        />
+        <Pressable onPress={addTodo} style={styles.buttonContainer}>
+          <Text style={styles.buttonText}>Create todo</Text>
+        </Pressable>
+        {todos.map((todo, index) => (
+          <View key={todo.id ? todo.id : index} style={styles.todo}>
+            <Text style={styles.todoName}>{todo.name}</Text>
+            <Text style={styles.todoDescription}>{todo.description}</Text>
+          </View>
+        ))}
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default App;
+
+const styles = StyleSheet.create({
+  container: { width: 400, flex: 1, padding: 20, alignSelf: 'center' },
+  todo: { marginBottom: 15 },
+  input: {
+    backgroundColor: '#ddd',
+    marginBottom: 10,
+    padding: 8,
+    fontSize: 18
+  },
+  todoName: { fontSize: 20, fontWeight: 'bold' },
+  buttonContainer: {
+    alignSelf: 'center',
+    backgroundColor: 'black',
+    paddingHorizontal: 8
+  },
+  buttonText: { color: 'white', padding: 16, fontSize: 18 }
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+Let's walk through some of the functions:
+
+**useEffect** - After the component renders, the `useEffect` hook is called and it invokes the `fetchTodos` function.
+
+**fetchTodos** - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
+
+**addTodo** - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `createTodo` mutation. A difference between the `listTodos` query and the `createTodo` mutation is that `createTodo` accepts an argument containing the variables needed for the mutation.
+
+</InlineFilter>
+
+<InlineFilter filters={['vue']}>
+
+Next, open **App.vue**.
+
+### Writing data with GraphQL mutations
+
+To create a new todo in the database, create a `client` by using the `generateClient()` operation, then pass the `createTodo` mutation into `client.graphql()` along with the data you'd like to write.
+
+```html
+<template>
+  <div id="app">
+    <h1>Todo App</h1>
+    <input type="text" v-model="name" placeholder="Todo name" />
+    <input type="text" v-model="description" placeholder="Todo description" />
+    <button v-on:click="createTodo">Create Todo</button>
+  </div>
+</template>
+
+<script>
+  import { generateClient } from 'aws-amplify/api';
+  import { createTodo } from './graphql/mutations';
+
+  const client = generateClient();
+
+  export default {
+    name: 'app',
+    data() {
+      return {
+        name: '',
+        description: ''
+      };
+    },
+    methods: {
+      async createTodo() {
+        const { name, description } = this;
+        if (!name || !description) return;
+        const todo = { name, description };
+        await client.graphql({
+          query: createTodo,
+          variables: { input: todo }
+        });
+        this.name = '';
+        this.description = '';
+      }
+    }
+  };
+</script>
+```
+
+### Reading data with GraphQL queries
+
+To display the data, update `App.vue` to list all the items in the database by importing `listTodos` and then using the `created()` Vue lifecycle method to update the page when a query runs on page load:
+
+```html
+<template>
+  <div id="app">
+    <h1>Todo App</h1>
+    <input type="text" v-model="name" placeholder="Todo name" />
+    <input type="text" v-model="description" placeholder="Todo description" />
+    <button v-on:click="createTodo">Create Todo</button>
+    <div v-for="item in todos" :key="item.id">
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.description }}</p>
+    </div>
+  </div>
+</template>
+
+<script>
+  import { generateClient } from 'aws-amplify/api';
+  import { createTodo } from './graphql/mutations';
+  import { listTodos } from './graphql/queries';
+
+  const client = generateClient();
+
+  export default {
+    name: 'App',
+    async created() {
+      this.getTodos();
+    },
+    data() {
+      return {
+        name: '',
+        description: '',
+        todos: []
+      };
+    },
+    methods: {
+      async createTodo() {
+        const { name, description } = this;
+        if (!name || !description) return;
+        const todo = { name, description };
+        await client.graphql({
+          query: createTodo,
+          variables: { input: todo }
+        });
+        this.name = '';
+        this.description = '';
+      },
+      async getTodos() {
+        const todos = await client.graphql({
+          query: listTodos
+        });
+        this.todos = todos.data.listTodos.items;
+      }
+    }
+  };
+</script>
+```
+
+### Real-time data with GraphQL subscriptions
+
+Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
+
+```javascript
+<script>
+  // other imports
+  import { onCreateTodo } from './graphql/subscriptions';
+
+  export default {
+    // other functions and properties
+    async created() {
+      this.getTodos();
+      this.subscribe();
+    },
+    methods: {
+      // other methods
+      subscribe() {
+        client.graphql({ query: onCreateTodo }).subscribe({
+          next: ({ data }) => {
+            let todo = data.onCreateTodo;
+            if (this.todos.some((item) => item.id === todo.id)) return; // remove duplications
+            this.todos = [...this.todos, todo];
+          }
+        });
+      }
+    }
+  };
+</script>
+```
+
+</InlineFilter>
+
+## Run locally
+
+Next, run the app and you should see the form rendered to the screen and be able to create and view the list of todos:
+
+<InlineFilter filters={['react', 'javascript', 'vue']}>
+
+```bash
+npm run dev
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['angular','react-native']}>
+
+```bash
+npm start
+```
+
+</InlineFilter>
+
+</InlineFilter>
+
+You have successfully deployed your API and connected it to your app!
