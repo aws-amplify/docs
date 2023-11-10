@@ -1731,26 +1731,8 @@ export const directory = {
                   path: 'src/pages/[platform]/tools/cli/graphqlapi/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/client-code-generation/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/connect-machine-learning-services/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/custom-buisness-logic/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/data-modeling/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
                     },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/schema-evolution/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/search-and-result-aggregations/index.mdx'
-                    }
                   ]
                 },
                 { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
