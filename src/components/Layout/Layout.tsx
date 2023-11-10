@@ -44,7 +44,6 @@ import { debounce } from '@/utils/debounce';
 import { DocSearch } from '@docsearch/react';
 import '@docsearch/css';
 import { PageLastUpdated } from '../PageLastUpdated';
-import { findDirectoryNode } from '@/utils/findDirectoryNode';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { Banner } from '@/components/Banner';
@@ -108,6 +107,7 @@ export const Layout = ({
     }
   }, [children, pageType]);
 
+  const mainId = 'pageMain';
   const showTOC = hasTOC && tocHeadings.length > 0;
   const router = useRouter();
   const asPathWithNoHash = usePathWithoutHash();
@@ -145,8 +145,8 @@ export const Layout = ({
     currentPlatform = platform
       ? platform
       : PLATFORMS.includes(asPathPlatform)
-        ? asPathPlatform
-        : DEFAULT_PLATFORM;
+      ? asPathPlatform
+      : DEFAULT_PLATFORM;
   }
 
   const title = [
@@ -186,7 +186,13 @@ export const Layout = ({
   if (isGen2) {
     menu = <Menu rootMenuNode={rootMenuNode} />;
   } else if (isPrev) {
-    menu = <Menu currentPlatform={currentPlatform} rootMenuNode={rootMenuNode} isPrev={true} />
+    menu = (
+      <Menu
+        currentPlatform={currentPlatform}
+        rootMenuNode={rootMenuNode}
+        isPrev={true}
+      />
+    );
   }
 
   return (
@@ -232,6 +238,7 @@ export const Layout = ({
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
                 currentSite={currentGlobalNavMenuItem}
                 isGen2={isGen2}
+                mainId={mainId}
               />
               <View as="header" className="layout-header">
                 <Flex className={`layout-search layout-search--${pageType}`}>
@@ -318,7 +325,10 @@ export const Layout = ({
               </View>
               <View key={asPathWithNoHash} className="layout-main">
                 <Flex
+                  id={mainId}
                   as="main"
+                  tabIndex={-1}
+                  aria-label="Main content"
                   className={`main${showTOC ? ' main--toc' : ''}`}
                 >
                   {showBreadcrumbs ? (
