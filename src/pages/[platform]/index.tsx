@@ -68,7 +68,7 @@ const PlatformOverview = ({ platform }) => {
             <IconChevron className="icon-rotate-270" fontSize=".875em" />
           </InternalLinkButton>
 
-          <GetStartedPopover />
+          <GetStartedPopover platform={platform} />
         </Flex>
       </Flex>
       <Flex direction="column">
