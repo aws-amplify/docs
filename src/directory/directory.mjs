@@ -109,6 +109,12 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect-to-api/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/data-modeling/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/api-graphql-concepts/index.mdx'
                 },
                 {
@@ -127,6 +133,12 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/relational-models/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/custom-buisness-logic/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/working-with-files/index.mdx'
                 },
                 {
@@ -139,7 +151,10 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/offline/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/graphql-from-nodejs/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect-from-server-runtime/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/client-code-generation/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/advanced-workflows/index.mdx'
