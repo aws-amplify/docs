@@ -241,12 +241,6 @@ npx create-expo-app amplified_todo
 cd amplified_todo
 ```
 
-Install the necessary dependencies by running the following command:
-
-```sh
-npm install aws-amplify @aws-amplify/react-native @aws-amplify/rtn-web-browser @react-native-community/netinfo @react-native-async-storage/async-storage
-```
-
 Start the app with the following command:
 
 For Android:
@@ -272,18 +266,6 @@ After you [setup development environment](https://reactnative.dev/docs/environme
 npx react-native init amplified_todo
 
 cd amplified_todo
-```
-
-Install the necessary dependencies by running the following command:
-
-```sh
-npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage
-```
-
-You will also need to install the pod dependencies for iOS:
-
-```sh
-npx pod-install
 ```
 
 Start the app with the following command:
@@ -550,6 +532,34 @@ The `aws-amplify` package is the main library for working with Amplify Libraries
 ```bash
 npm install aws-amplify
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={['react-native']}>
+Install the necessary dependencies by running the following command:
+
+<BlockSwitcher>
+<Block name="Expo CLI">
+
+```sh
+npm install aws-amplify @aws-amplify/react-native @aws-amplify/rtn-web-browser @react-native-community/netinfo @react-native-async-storage/async-storage
+```
+
+</Block>
+<Block name="React Native CLI">
+
+```sh
+npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage
+```
+
+You will also need to install the pod dependencies for iOS:
+
+```sh
+npx pod-install
+```
+
+</Block>
+</BlockSwitcher>
 
 </InlineFilter>
 
