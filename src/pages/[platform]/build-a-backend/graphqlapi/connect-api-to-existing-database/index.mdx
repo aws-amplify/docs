@@ -200,7 +200,7 @@ If there are a large number of queries occurring concurrently, it can exceed the
 
 The RDS Proxy acts as an intermediary sitting in front of your database. Instead of each application query opening a direct connection to the database, they will connect through the Proxy. The Proxy helps manage and pool these connections to avoid overwhelming your database cluster. This improves the availability of your API, allowing more queries to execute concurrently without hitting connection limits.
 
-However, there is a tradeoff of increased latency - queries may take slightly longer as they wait for an available connection from the Proxy pool. There are also additional costs associated with using RDS Proxy. Please refer to the pricing page for RDS Proxy to learn more.
+However, there is a tradeoff of increased latency - queries may take slightly longer as they wait for an available connection from the Proxy pool. There are also additional costs associated with using RDS Proxy. Please refer to the [pricing page for RDS Proxy](https://aws.amazon.com/rds/proxy/pricing/) to learn more.
 
 </Accordion>
 
