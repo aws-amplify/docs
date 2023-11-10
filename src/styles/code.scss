@@ -7,6 +7,7 @@ code:not([class]) {
   border-radius: var(--amplify-radii-small);
   display: inline-block;
   line-height: var(--amplify-line-heights-small);
+  font-style: normal;
 }
 
 .pre-filename {
