@@ -1,4 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { JS_PLATFORMS } from '@/data/platforms';
 
 export const meta = {
   title: 'Set up Amplify GraphQL API',
@@ -42,7 +43,7 @@ import flutter3 from '/src/fragments/lib/graphqlapi/native_common/getting-starte
 
 <Fragments fragments={{ flutter: flutter3 }} />
 
-<InlineFilter filters={['all-javascript']}>
+<InlineFilter filters={JS_PLATFORMS}>
 
 Amplify's GraphQL API category allows you to build a secure, real-time GraphQL API backed by a database in minutes. Define your data model in a GraphQL schema and Amplify will deploy a GraphQL API powered by AWS AppSync, connect to a database powered by Amazon DynamoDB on your behalf. You can secure your API with authorization rules and scale to custom use cases with AWS Lambda.
 
