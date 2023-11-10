@@ -6,6 +6,8 @@
   &__button {
     display: flex;
     justify-content: space-between;
+    white-space: nowrap;
+    gap: var(--amplify-space-xs);
   }
 
   .popover {

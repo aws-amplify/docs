@@ -25,7 +25,9 @@
     &.active {
       background-color: var(--amplify-colors-teal-40);
     }
-
+    &:focus {
+      z-index: 1;
+    }
     &:hover,
     &:active {
       background-color: var(--amplify-colors-teal-20);

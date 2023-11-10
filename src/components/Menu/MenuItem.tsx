@@ -122,7 +122,7 @@ export function MenuItem({
     return (
       <li key={pageNode.route} className="menu__list-item">
         <AmplifyUILink
-          className={`menu__list-item__link ${listItemLinkStyle} ${currentStyle}`}
+          className={`menu__list-item__link menu__list-item__link--external  ${listItemLinkStyle}`}
           href={pageNode.route}
           isExternal={true}
           onClick={onLinkClick}
