@@ -13,10 +13,12 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ]
+  ],
+  route: '/[platform]/build-a-backend/restapi'
 };
 
 export const getStaticPaths = async () => {
+  const childPageNodes = getChildPageNodes(meta.route);
   return getCustomStaticPath(meta.platforms);
 };
 
