@@ -210,7 +210,7 @@ The `CustomNotifications` CDK construct can then be added to the `backend` of th
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
-import { CustomNotifications } from './custom/CustomNotifications';
+import { CustomNotifications } from './custom/CustomNotifications/resource';
 import { data } from './data/resource';
 
 const backend = new defineBackend({
