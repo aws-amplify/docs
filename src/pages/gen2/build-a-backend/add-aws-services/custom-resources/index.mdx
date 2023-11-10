@@ -292,7 +292,7 @@ export class LambdaInAVpcStack extends Stack {
 
     const getDataLambda: NodejsFunction = new NodejsFunction(
       this,
-      id + "-getDataLambda",
+      `${id}-getDataLambda`,
       {
         memorySize: 1024,
         timeout: Duration.seconds(5),
@@ -316,7 +316,7 @@ export class LambdaInAVpcStack extends Stack {
 The Lambda function code for the `getDataLambda` is:
 
 ```ts title="amplify/custom/LambdaInAVpcStack/getData.ts"
-import { APIGatewayProxyResultV2 } from "aws-lambda";
+import type { APIGatewayProxyResultV2 } from "aws-lambda";
 
 // example data; example data can be fetched from a database
 const geoData = [
@@ -331,7 +331,7 @@ const geoData = [
   },
 ];
 
-export async function handler(): Promise<APIGatewayProxyResultV2> {
+export const handler = async (): Promise<APIGatewayProxyResultV2> => {
   try {
     return {
       statusCode: 200,
