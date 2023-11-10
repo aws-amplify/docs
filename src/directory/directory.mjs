@@ -7,6 +7,90 @@ export const directory = {
     {
       path: 'src/pages/[platform]/index.tsx',
       children: [
+        { path: 'src/pages/[platform]/how-amplify-works/index.mdx' },
+        {
+          path: 'src/pages/[platform]/start/index.mdx',
+          children: [
+            {
+              path: 'src/pages/[platform]/start/getting-started/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/start/getting-started/introduction/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/installation/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/setup/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/generate-model/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/data-model/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/integrate/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/add-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/auth/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/hosting/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/getting-started/nextsteps/index.mdx'
+                },
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/start/project-setup/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/start/project-setup/prerequisites/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/create-application/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/upgrade-guide/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/async-programming-model/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/kotlin-coroutines/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/rxjava/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/combine-framework/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/escape-hatch/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/platform-setup/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/use-existing-resources/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/start/sample-apps/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/start/sample-apps/to-do-app/index.mdx'
+                }
+              ]
+            }
+          ]
+        },
         {
           path: 'src/pages/[platform]/build-a-backend/index.mdx',
           children: [
@@ -758,7 +842,6 @@ export const directory = {
             }
           ]
         },
-        { path: 'src/pages/[platform]/how-amplify-works/index.mdx' },
         {
           path: 'src/pages/[platform]/prev/index.mdx',
           children: [
@@ -1492,89 +1575,6 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/sdk/storage/transfer-utility/index.mdx'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          path: 'src/pages/[platform]/start/index.mdx',
-          children: [
-            {
-              path: 'src/pages/[platform]/start/getting-started/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/start/getting-started/add-api/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/getting-started/auth/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/getting-started/data-model/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/getting-started/generate-model/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/getting-started/hosting/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/getting-started/installation/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/getting-started/integrate/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/getting-started/introduction/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/getting-started/nextsteps/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/getting-started/setup/index.mdx'
-                }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/start/project-setup/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/start/project-setup/async-programming-model/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/combine-framework/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/create-application/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/escape-hatch/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/kotlin-coroutines/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/platform-setup/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/prerequisites/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/rxjava/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/upgrade-guide/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/use-existing-resources/index.mdx'
-                }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/start/sample-apps/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/start/sample-apps/to-do-app/index.mdx'
                 }
               ]
             }
