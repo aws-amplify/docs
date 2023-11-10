@@ -140,6 +140,13 @@ textarea:not([rows]) {
   max-width: 80ch;
 }
 
+blockquote {
+  padding: var(--amplify-space-medium);
+  border-left: 12px solid var(--amplify-colors-teal-10);
+  color: var(--amplify-colors-font-secondary);
+  font-style: italic;
+}
+
 ul,
 ol {
   margin: 0;
