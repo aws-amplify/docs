@@ -1,8 +1,8 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Manage geofences',
-  description: 'Provision and manage geofences in your application with Amplify Geo.',
+  title: 'Migrate from Google Maps',
+  description: 'Migrate applications from Google Maps to Amplify Geo',
   platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue']
 };
 
@@ -19,14 +19,23 @@ export function getStaticProps(context) {
   };
 }
 
-import jsGeofences from '/src/fragments/lib/geo/js/geofences.mdx';
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
+};
+
+import js0 from '/src/fragments/lib-v1/geo/js/google-migration.mdx';
 
 <Fragments
   fragments={{
-    javascript: jsGeofences,
-    angular: jsGeofences,
-    nextjs: jsGeofences,
-    react: jsGeofences,
-    vue: jsGeofences
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
   }}
 />
