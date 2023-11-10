@@ -383,7 +383,25 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/more-features/geo/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/amazon-location-sdk/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/set-up-geo/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/configure-maps/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/maps/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/configure-location-search/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/location-search/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/configure-geofencing/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/manage-geofences/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/geo/existing-resources/index.mdx'
@@ -392,16 +410,7 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/more-features/geo/google-migration/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/location-search/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/manage-geofences/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/maps/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/set-up-geo/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/amazon-location-sdk/index.mdx'
                     }
                   ]
                 },
@@ -1037,19 +1046,25 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/index.mdx',
                       children: [
                         {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/amazon-location-sdk/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/existing-resources/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/location-search/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/set-up-geo/index.mdx'
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/maps/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/set-up-geo/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/location-search/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/manage-geofences/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/existing-resources/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/google-migration/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/amazon-location-sdk/index.mdx'
                         }
                       ]
                     },
@@ -1695,20 +1710,6 @@ export const directory = {
                   ]
                 },
                 { path: 'src/pages/[platform]/tools/cli/custom/index.mdx' },
-                {
-                  path: 'src/pages/[platform]/tools/cli/geo/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/tools/cli/geo/configure-geofencing/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/geo/configure-location-search/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/geo/configure-maps/index.mdx'
-                    }
-                  ]
-                },
                 {
                   path: 'src/pages/[platform]/tools/cli/graphqlapi/index.mdx',
                   children: [
