@@ -19,4 +19,9 @@
   &__content {
     min-width: 0;
   }
+
+  .pre-wrapper {
+    /* Class for code block */
+    margin: var(--amplify-space-large) 0;
+  }
 }
