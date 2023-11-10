@@ -576,7 +576,7 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/more-features/geo/configure-geofencing/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/manage-geofences/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/geofences/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/geo/existing-resources/index.mdx'
@@ -1188,7 +1188,7 @@ export const directory = {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/location-search/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/manage-geofences/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/geofences/index.mdx'
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/existing-resources/index.mdx'
