@@ -100,53 +100,6 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/debugging/index.mdx'
-            },
-            {
-              path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/appsync-operations-to-lambda-layer/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/build-options/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/cognito-trigger-lambda-dynamodb/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/configure-options/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/connect-rest-api/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/dynamodb-from-lambda-nodejs/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/dynamodb-from-lambda-python/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/environment-variables/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/graphql-from-lambda/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/graphql-server-lambda/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/integrate-dynamodb-with-lambda/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/layers/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/secrets/index.mdx'
-                }
-              ]
-            },
-            {
               path: 'src/pages/[platform]/build-a-backend/graphqlapi/index.mdx',
               children: [
                 {
@@ -195,6 +148,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/existing-resources/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/modify-amplify-generated-resources/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/upgrade-guide/index.mdx'
                 },
                 {
@@ -205,6 +161,53 @@ export const directory = {
                     }
                   ]
                 },
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/debugging/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/appsync-operations-to-lambda-layer/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/build-options/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/cognito-trigger-lambda-dynamodb/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/configure-options/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/connect-rest-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/dynamodb-from-lambda-nodejs/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/dynamodb-from-lambda-python/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/environment-variables/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/graphql-from-lambda/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/graphql-server-lambda/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/integrate-dynamodb-with-lambda/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/layers/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/secrets/index.mdx'
+                }
               ]
             },
             {
@@ -612,6 +615,24 @@ export const directory = {
         {
           path: 'src/pages/[platform]/build-ui/index.mdx',
           children: [
+            {
+              isExternal: true,
+              route: 'https://ui.docs.amplify.aws/',
+              title: 'Amplify UI',
+              description:
+                'Amplify UI simplifies building accessible, performant, and beautiful applications with cloud-connected capabilities, building blocks, theming, and utilities.',
+              platforms: [
+                'android',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'angular',
+                'flutter',
+                'swift',
+                'vue'
+              ]
+            },
             {
               path: 'src/pages/[platform]/build-ui/formbuilder/index.mdx',
               children: [
@@ -1610,9 +1631,6 @@ export const directory = {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/override-appsync/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/schema-evolution/index.mdx'
                     },
                     {
@@ -2013,9 +2031,10 @@ export const directory = {
                 {
                   path: 'src/pages/gen2/build-a-backend/data/set-up-data/index.mdx'
                 },
-                {
-                  path: 'src/pages/gen2/build-a-backend/data/connect-existing-data/index.mdx'
-                },
+                // Uncommented because this feature won't be ready for re:invent
+                // {
+                //   path: 'src/pages/gen2/build-a-backend/data/connect-existing-data/index.mdx'
+                // },
                 {
                   path: 'src/pages/gen2/build-a-backend/data/connect-to-API/index.mdx'
                 },
@@ -2029,22 +2048,31 @@ export const directory = {
                   path: 'src/pages/gen2/build-a-backend/data/subscribe-data/index.mdx'
                 },
                 {
+                  path: 'src/pages/gen2/build-a-backend/data/data-modeling/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/add-fields/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/identifiers/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/relationships/index.mdx'
+                    },
+                  ]
+                },
+                {
                   path: 'src/pages/gen2/build-a-backend/data/customize-authz/index.mdx'
                 },
                 {
+                  path: 'src/pages/gen2/build-a-backend/data/override-resources/index.mdx'
+                },
+                // Uncommented because this feature won't be ready for re:invent
+                // {
+                //   path: 'src/pages/gen2/build-a-backend/data/offline/index.mdx'
+                // },
+                {
                   path: 'src/pages/gen2/build-a-backend/data/migration/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/data/data-modeling/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/data/relationships/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/data/existing-resources/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/data/offline/index.mdx'
                 }
               ]
             },
