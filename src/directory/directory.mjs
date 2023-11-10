@@ -303,9 +303,9 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-          title: 'Connect your app code to the API',
-          route: '/lib/graphqlapi/connect',
-          filters: ['js']
+            title: 'Connect your app code to the API',
+            route: '/lib/graphqlapi/connect',
+            filters: ['js']
           },
           {
             title: 'Concepts',
@@ -2680,6 +2680,11 @@ export const directory = {
       'api-rest': {
         title: 'API (REST)',
         items: [
+          {
+            title: 'Generative AI',
+            route: '/guides/api-rest/gen-ai',
+            filters: ['js']
+          },
           {
             title: 'NodeJS API',
             route: '/guides/api-rest/node-api',
