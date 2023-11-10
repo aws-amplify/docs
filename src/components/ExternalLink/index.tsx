@@ -13,8 +13,6 @@ type ExternalLinkProps = {
 const ExternalLink: React.FC<ExternalLinkProps> = ({
   children,
   href,
-  anchorTitle,
-  icon,
   className
 }) => {
   return (
@@ -23,7 +21,6 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
       className={className}
       rel="noopener noreferrer"
       target="_blank"
-      title={anchorTitle}
       onClick={(e) => {
         trackLink(href);
       }}
