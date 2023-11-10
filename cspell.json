@@ -1532,7 +1532,18 @@
     "wafv",
     "autoKsuid",
     "astro",
-    "disambiguator"
+    "disambiguator",
+    "tinyint",
+    "tinytext",
+    "mediumtext",
+    "longtext",
+    "linestring",
+    "smallint",
+    "mediumint",
+    "varbinary",
+    "tinyblob",
+    "mediumblob",
+    "longblob"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
