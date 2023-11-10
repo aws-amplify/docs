@@ -339,7 +339,7 @@ export default function ContributeGettingStartedPage() {
                 </Link>
               </Heading>
               <Text fontSize={'large'}>
-                Learn more about AWS Amplify the the JS library.
+                Learn more about the AWS Amplify JS library.
               </Text>
 
               <Heading level={4}>
