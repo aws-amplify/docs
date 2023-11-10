@@ -21,21 +21,18 @@ The infrastructure defined via CDK code is deployed along with the Amplify proje
 
 From the [Concepts - AWS Cloud Development Kit (AWS CDK) v2](https://docs.aws.amazon.com/cdk/v2/guide/core_concepts.html) documentation
 
-:::info
-
+<Callout>
 > AWS CDK apps are composed of building blocks known as [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html), which are composed together to form [stacks](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Stack.html) and [apps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.App.html).
-
-:::
+</Callout>
 
 With the Amplify Code-first DX, you have the option to create individual [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) and [Stacks](https://docs.aws.amazon.com/cdk/v2/guide/stacks.html) which will be composed into the [Backend](https://next-docs.amplify.aws/gen2/how-amplify-works/concepts/#backend) for your project.
 
 ## Defining a CDK Construct
 
-:::info
 
+<Callout>
 > Constructs are the basic building blocks of AWS CDK apps. A construct represents a "cloud component" and encapsulates everything AWS CloudFormation needs to create the component. [Read more](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html)
-
-:::
+</Callout>
 
 
 Custom constructs allow you to encapsulate common patterns into reusable components. This helps you implement best practices, accelerate development, and maintain consistency across applications.
@@ -228,19 +225,16 @@ new CustomNotifications(
 );
 ```
 
-:::note
-
+<Callout>
 Resources created by the `define*` helpers can only be accessed _after_ setting them on the `backend`
-
-:::
+</Callout>
 
 ## Defining a CDK Stack
 
-:::info
 
+<Callout>
 > The unit of deployment in the AWS CDK is called a stack. All AWS resources defined within the scope of a stack, either directly or indirectly, are provisioned as a single unit. [Read more](https://docs.aws.amazon.com/cdk/v2/guide/stacks.html)
-
-:::
+</Callout>
 
 
 The stack below contains a Lambda function that is deployed to a VPC. It is important that these resources be deployed as a singled unit instead of composed from other constructs as their functionality depends on one another.
