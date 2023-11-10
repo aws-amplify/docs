@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import classNames from 'classnames';
 import { Button, Flex, VisuallyHidden, View } from '@aws-amplify/ui-react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import {
   IconChevron,
@@ -95,7 +96,7 @@ const getStartedLinks = [
   }
 ];
 
-export const GetStartedPopover = () => {
+export const GetStartedPopover = (platform) => {
   const [expanded, setExpanded] = useState<boolean>(false);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -135,6 +136,8 @@ export const GetStartedPopover = () => {
     }
   };
 
+  platform = platform.platform;
+
   return (
     <Flex className="split-button">
       <InternalLinkButton
@@ -142,7 +145,7 @@ export const GetStartedPopover = () => {
         className="split-button__start"
         href={{
           pathname: '/[platform]/start/getting-started/introduction/',
-          query: { platform: DEFAULT_PLATFORM }
+          query: { platform: platform }
         }}
       >
         Get started

@@ -57,7 +57,7 @@ export default function Page() {
               fontSize=".875em"
             />
           </InternalLinkButton>
-          <GetStartedPopover />
+          <GetStartedPopover platform={DEFAULT_PLATFORM} />
         </Flex>
       </Flex>
       <Flex direction="column">
