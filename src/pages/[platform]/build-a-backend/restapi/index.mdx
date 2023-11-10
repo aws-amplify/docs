@@ -19,15 +19,16 @@ export const meta = {
 };
 
 export const getStaticPaths = async () => {
-  const childPageNodes = getChildPageNodes(meta.route);
   return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
       platform: context.params.platform,
-      meta
+      meta,
+      childPageNodes
     }
   };
 }
