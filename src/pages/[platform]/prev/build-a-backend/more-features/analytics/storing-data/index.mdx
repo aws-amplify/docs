@@ -1,0 +1,27 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Storing analytics data',
+  description:
+    'The Amazon Kinesis Firehose analytics provider allows you to send analytics data to an Amazon Kinesis Firehose stream for reliably storing data.',
+  platforms: ['javascript']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import js0 from '/src/fragments/lib-v1/analytics/js/storing.mdx';
+
+<Fragments fragments={{ javascript: js0 }} />
+
+[comment]: <> (TODO rewrite Need to get clarity on whether I can use multiple pluggable for analytics at the same time. So for Personalize and Kinesis.)
