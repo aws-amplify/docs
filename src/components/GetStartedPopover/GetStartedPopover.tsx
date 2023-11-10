@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import classNames from 'classnames';
 import { Button, Flex, VisuallyHidden, View } from '@aws-amplify/ui-react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import {
   IconChevron,
