@@ -8,7 +8,7 @@ import PlatformFeatureList from '../components/FeatureLists/PlatformFeatureList'
 import LinkCards from '@/components/LinkCards';
 
 const meta = {
-  title: 'Amplify Docs',
+  title: 'Amplify Documentation',
   description:
     'Amplify documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.',
   url: 'https://docs.amplify.aws/'
@@ -34,7 +34,7 @@ export default function Page() {
     <Flex className="home-content">
       <Flex className="home-intro">
         <Heading level={1} className="home-intro__heading">
-          Amplify Docs
+          Amplify Documentation
         </Heading>
         <Text className="home-intro__text">
           AWS Amplify streamlines full-stack app development. With its
