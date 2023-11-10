@@ -193,6 +193,12 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect-to-api/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/data-modeling/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/api-graphql-concepts/index.mdx'
                 },
                 {
@@ -211,25 +217,37 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/relational-models/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/custom-buisness-logic/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/working-with-files/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/optimistic-ui/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/cancel-request/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/offline/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/graphql-from-nodejs/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect-from-server-runtime/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/client-code-generation/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/advanced-workflows/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/existing-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect-machine-learning-services/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/schema-evolution/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/modify-amplify-generated-resources/index.mdx'
@@ -1713,26 +1731,8 @@ export const directory = {
                   path: 'src/pages/[platform]/tools/cli/graphqlapi/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/client-code-generation/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/connect-machine-learning-services/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/custom-buisness-logic/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/data-modeling/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
                     },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/schema-evolution/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/search-and-result-aggregations/index.mdx'
-                    }
                   ]
                 },
                 { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
