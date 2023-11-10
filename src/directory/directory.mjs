@@ -403,7 +403,16 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/more-features/datastore/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/additional-methods/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/set-up-datastore/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/manipulate-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/relational-models/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/sync-to-cloud/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/datastore/authz-rules-setup/index.mdx'
@@ -412,40 +421,28 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/more-features/datastore/conflict-resolution/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/customize-primary-keys/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/data-usage-policy/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/real-time/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/datastore/datastore-events/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/example-application/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/how-it-works/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/manipulate-data/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/parallel-processing/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/real-time/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/relational-models/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/additional-methods/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/datastore/schema-updates/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/set-up-datastore/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/how-it-works/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/sync-to-cloud/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/example-application/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/customize-primary-keys/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/data-usage-policy/index.mdx'
                     }
                   ]
                 },
@@ -1228,53 +1225,6 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/additional-methods/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/app-uninstall/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/authz-rules-setup/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/conflict-resolution/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/customize-primary-keys/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/data-usage-policy/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/datastore-events/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/how-it-works/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/manipulate-data/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/real-time/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/relational-models/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/schema-updates/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/set-up-datastore/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/sync-to-cloud/index.mdx'
-                    }
-                  ]
-                },
-                {
                   path: 'src/pages/[platform]/prev/build-a-backend/debugging/index.mdx'
                 },
                 {
@@ -1323,6 +1273,53 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/set-up-analytics/index.mdx'
+                        }
+                      ]
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/index.mdx',
+                      children: [
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/set-up-datastore/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/manipulate-data/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/relational-models/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/sync-to-cloud/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/authz-rules-setup/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/conflict-resolution/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/real-time/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/datastore-events/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/additional-methods/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/schema-updates/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/how-it-works/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/customize-primary-keys/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/data-usage-policy/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/app-uninstall/index.mdx'
                         }
                       ]
                     },
