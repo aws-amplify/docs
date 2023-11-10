@@ -28,9 +28,17 @@ export default function InternalLink({ href, children }) {
         const filterKey = filterKeys[filterKind];
         if (href.includes('#')) {
           const hrefParts = href.split('#');
-          href = `${hrefParts[0]}/q/${filterKind}/${filterKey}#${hrefParts[1]}`;
+          if (hrefParts[0].endsWith('/')) {
+            href = `${hrefParts[0]}q/${filterKind}/${filterKey}#${hrefParts[1]}`;
+          } else {
+            href = `${hrefParts[0]}/q/${filterKind}/${filterKey}#${hrefParts[1]}`;
+          }
         } else {
-          href += `/q/${filterKind}/${filterKey}`;
+          if (href.endsWith('/')) {
+            href += `q/${filterKind}/${filterKey}`;
+          } else {
+            href += `/q/${filterKind}/${filterKey}`;
+          }
         }
       }
     }
