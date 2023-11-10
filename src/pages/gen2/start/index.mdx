@@ -1,5 +1,5 @@
 export const meta = {
-  title: 'Getting started',
+  title: 'Get started',
   description: 'Learn how to get started with AWS Amplify (Gen 2).'
 };
 
@@ -9,18 +9,22 @@ export function getStaticProps(context) {
       meta
     }
   };
-
 }
 
 ## Installation
 
 Open your existing project or create a new one:
 
-npm={`npm create next-app -- my-app --typescript\ncd my-app`} yarn={`yarn create next-app my-app --typescript\ncd my-app`} pnpm={`pnpm create next-app my-app --typescript\ncd my-app`}
+```bash
+npm create next-app -- my-app --typescript
+cd my-app
+```
 
 The easiest way to get started with AWS Amplify is through [npm](https://npmjs.com) with [`create-amplify`](https://www.npmjs.com/package/create-amplify)
 
-npm="npm create amplify" yarn="yarn create amplify" pnpm="pnpm create amplify"
+```bash
+npm create amplify
+```
 
 You can run this command from within your existing project with little to no disturbances. It will scaffold a lightweight Amplify project with the following files:
 
@@ -41,7 +45,9 @@ You can run this command from within your existing project with little to no dis
 
 Once scaffolded, you're ready to create your first cloud sandbox. Amplify gives every developer a personal cloud sandbox where they can test changes rapidly using live AWS services. Sandbox should not be used for production applications. To use Amplify's [Sandbox mode](http://localhost:3000#fix-me), run the following command:
 
-npm="npx amplify sandbox" yarn="yarn amplify sandbox" pnpm="pnpm amplify sandbox"
+```bash
+npx amplify sandbox
+```
 
 Try making a change to your data model and hit save. Changes are deployed in seconds.
 
@@ -52,7 +58,7 @@ const schema = a.schema({
   Todo: a.model({
     title: a.string(),
     description: a.string(),
-    priority: a.enum(['low', 'medium', 'high']).default('low')
+    priority: a.enum(['low', 'medium', 'high'])
   })
 });
 
@@ -94,7 +100,9 @@ defineBackend({
 
 First, install the Amplify UI component library:
 
-npm="npm add @aws-amplify/ui-react" yarn="yarn add @aws-amplify/ui-react" pnpm="pnpm add @aws-amplify/ui-react"
+```bash
+npm add @aws-amplify/ui-react
+```
 
 Next, in your app's entry point (e.g. `pages/_app.ts`, etc.), add the following imports and wrap your App in the `withAuthenticator` function:
 
@@ -130,7 +138,7 @@ const schema = a.schema({
     title: a.string(),
     description: a.string(),
     comment: a.string(),
-    priority: a.enum(['low', 'medium', 'high']).default('low')
+    priority: a.enum(['low', 'medium', 'high'])
   })
 });
 
@@ -192,7 +200,7 @@ const schema = a.schema({
     title: a.string(),
     description: a.string(),
     comment: a.string(),
-    priority: a.enum(['low', 'medium', 'high']).default('low')
+    priority: a.enum(['low', 'medium', 'high'])
   })
 });
 

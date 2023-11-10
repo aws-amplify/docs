@@ -17,6 +17,7 @@ import {
   IconVue,
   IconChevron
 } from '@/components/Icons';
+import { ClassicBanner } from '@/components/Banner';
 import { Columns } from '@/components/Columns';
 import { FeatureList, FeatureItem } from '@/components/FeatureLists';
 
@@ -61,6 +62,7 @@ const supportedFrameworks = [
 const Gen2Overview = () => {
   return (
     <Flex className="home-content">
+      <ClassicBanner />
       <Flex className="home-section">
         <Heading level={1}>
           Amplify Docs{' '}
@@ -183,7 +185,7 @@ const schema = a.schema({
   Todo: a.model({
     title: a.string(), 
     description: a.string().optional(), 
-    priority: a.enum(['low','medium', 'high']).default('low'),
+    priority: a.enum(['low','medium', 'high']),
   }),
 });
 
