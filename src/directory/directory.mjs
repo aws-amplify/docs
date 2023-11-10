@@ -2064,11 +2064,16 @@ export const directory = {
             },
             {
               path: 'src/pages/gen2/how-amplify-works/existing-projects/index.mdx'
-            },
+            }
           ]
         },
         {
-          path: 'src/pages/gen2/start/index.mdx'
+          path: 'src/pages/gen2/start/index.mdx',
+          children: [
+            {
+              path: 'src/pages/gen2/start/manual-installation/index.mdx'
+            }
+          ]
         },
         {
           path: 'src/pages/gen2/build-a-backend/index.mdx',
