@@ -4,9 +4,16 @@
       outline: 2px solid var(--amplify-colors-border-focus);
     }
   }
+
+  border: var(--amplify-border-widths-small) solid
+    var(--amplify-colors-border-secondary);
+  border-radius: var(--amplify-radii-small);
+
   &__block {
     margin-top: var(--amplify-space-medium);
     flex-direction: column;
+    padding: 0 var(--amplify-space-small);
+    padding-bottom: var(--amplify-space-small);
   }
   .amplify-tabs {
     overflow-x: auto;

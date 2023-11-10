@@ -1,19 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Incorporate machine learning',
-  description: 'Add AI/ML capabilities such as text recognition, image labeling, text-to-speech, and translation to your GraphQL API.',
+  description:
+    'Add AI/ML capabilities such as text recognition, image labeling, text-to-speech, and translation to your GraphQL API.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,9 +29,10 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
-<MigrationAlert url={'/cli-legacy/graphql-transformer/predictions'} />
+<MigrationAlert
+  url={'/[platform]/cli-legacy/graphql-transformer/predictions'}
+/>
 
 Amplify allows you to identify text on an image, identify labels on an image, translate text, and synthesize speech from text with the `@predictions` directive.
 

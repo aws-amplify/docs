@@ -121,6 +121,8 @@ export const Layout = ({
   let rootMenuNode;
 
   const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
+  const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
+  const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
   const searchParam = isGen2 ? 'gen2' : '[platform]';
 
@@ -143,8 +145,8 @@ export const Layout = ({
     currentPlatform = platform
       ? platform
       : PLATFORMS.includes(asPathPlatform)
-      ? asPathPlatform
-      : DEFAULT_PLATFORM;
+        ? asPathPlatform
+        : DEFAULT_PLATFORM;
   }
 
   const title = [
@@ -184,8 +186,7 @@ export const Layout = ({
   if (isGen2) {
     menu = <Menu rootMenuNode={rootMenuNode} />;
   } else if (isPrev) {
-    let prevNode = findDirectoryNode('/[platform]/prev');
-    menu = <Menu currentPlatform={currentPlatform} rootMenuNode={prevNode} />;
+    menu = <Menu currentPlatform={currentPlatform} rootMenuNode={rootMenuNode} isPrev={true} />
   }
 
   return (
@@ -229,7 +230,7 @@ export const Layout = ({
               <GlobalNav
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-                currentSite="Docs"
+                currentSite={currentGlobalNavMenuItem}
                 isGen2={isGen2}
               />
               <View as="header" className="layout-header">
@@ -321,10 +322,7 @@ export const Layout = ({
                   className={`main${showTOC ? ' main--toc' : ''}`}
                 >
                   {showBreadcrumbs ? (
-                    <Breadcrumbs
-                      route={pathname}
-                      platform={currentPlatform}
-                    />
+                    <Breadcrumbs route={pathname} platform={currentPlatform} />
                   ) : null}
                   {shouldShowGen2Banner ? <Banner /> : null}
                   {useCustomTitle ? null : (

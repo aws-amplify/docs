@@ -41,7 +41,6 @@ export function MenuItem({
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const asPathWithoutHash = usePathWithoutHash();
   const [open, setOpen] = useState(false);
-
   const onLinkClick = () => {
     // Category shouldn't be collapsible
     if (
@@ -123,7 +122,7 @@ export function MenuItem({
     return (
       <li key={pageNode.route} className="menu__list-item">
         <AmplifyUILink
-          className={`menu__list-item__link ${listItemLinkStyle} ${currentStyle}`}
+          className={`menu__list-item__link menu__list-item__link--external  ${listItemLinkStyle}`}
           href={pageNode.route}
           isExternal={true}
           onClick={onLinkClick}
@@ -138,8 +137,9 @@ export function MenuItem({
       </li>
     );
   } else if (
-    (currentPlatform && pageNode?.platforms?.includes(currentPlatform)) ||
-    !pageNode.platforms
+    !pageNode.hideFromNav &&
+    ((currentPlatform && pageNode?.platforms?.includes(currentPlatform)) ||
+      !pageNode.platforms)
   ) {
     const href = {
       pathname: `${pageNode.route}`
