@@ -4,7 +4,7 @@ export const meta = {
   title: 'Configure authorization modes',
   description:
     "Learn more about how to configure authorization modes in Amplify's API category",
-  platforms: ['swift', 'android', 'javascript', 'react-native', 'flutter']
+  platforms: ['swift', 'android', 'flutter']
 };
 
 export const getStaticPaths = async () => {
@@ -30,7 +30,15 @@ import android1 from '/src/fragments/lib/graphqlapi/native_common/authz/common.m
 
 import js2 from '/src/fragments/lib/graphqlapi/js/authz.mdx';
 
-<Fragments fragments={{ javascript: js2 }} />
+<Fragments
+  fragments={{
+    javascript: js2,
+    angular: js2,
+    nextjs: js2,
+    react: js2,
+    vue: js2
+  }}
+/>
 
 import reactnative0 from '/src/fragments/lib/graphqlapi/js/authz.mdx';
 

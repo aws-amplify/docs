@@ -1,4 +1,4 @@
-import { ReactElement, useContext } from 'react';
+import { ReactElement } from 'react';
 import { MenuItem } from './MenuItem';
 import { Platform } from '@/data/platforms';
 import { PageNode } from 'src/directory/directory';
@@ -8,7 +8,7 @@ type MenuProps = {
   rootMenuNode: PageNode | undefined;
 };
 
-const invalidChildren = ["/[platform]/prev"];
+const invalidChildren = ['/[platform]/prev'];
 
 export function Menu({
   currentPlatform,
