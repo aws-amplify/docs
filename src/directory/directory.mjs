@@ -2210,14 +2210,22 @@ export const directory = {
           path: 'src/pages/gen2/deploy-and-host/index.mdx',
           children: [
             {
-              path: 'src/pages/gen2/deploy-and-host/local-development/index.mdx'
+              path: 'src/pages/gen2/deploy-and-host/hosting/index.mdx'
+            },
+            {
+              path: 'src/pages/gen2/deploy-and-host/sandbox-environments/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/gen2/deploy-and-host/sandbox-environments/setup/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/sandbox-environments/secrets/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/gen2/deploy-and-host/fullstack-branching/index.mdx',
               children: [
-                {
-                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/sandbox-deployments/index.mdx'
-                },
                 {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/branch-deployments/index.mdx'
                 },
