@@ -145,9 +145,6 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/optimistic-ui/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/cancel-request/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/offline/index.mdx'
                 },
                 {
@@ -161,6 +158,12 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/existing-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect-machine-learning-services/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/schema-evolution/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/modify-amplify-generated-resources/index.mdx'
