@@ -51,7 +51,7 @@ Select the explicit values below to enable **API key** (for public read access) 
 
 The CLI should open this GraphQL schema in your text editor.
 
-**amplify/backend/api/amplifyjsapp/schema.graphql**
+**amplify/backend/api/your-api-name/schema.graphql**
 
 ```graphql
 # This "input" configures a global authorization rule to enable public access to
@@ -99,9 +99,9 @@ This will give us the current status of the Amplify project, including the curre
 ┌──────────┬───────────────────────┬───────────┬───────────────────┐
 │ Category │ Resource name         │ Operation │ Provider plugin   │
 ├──────────┼───────────────────────┼───────────┼───────────────────┤
-│ Auth     │ <your_project_name>   │ No Change │ awscloudformation │
+│ Auth     │ your-auth-name        │ No Change │ awscloudformation │
 ├──────────┼───────────────────────┼───────────┼───────────────────┤
-│ Api      │ <your_project_name>   │ No Change │ awscloudformation │
+│ Api      │ your-api-name         │ No Change │ awscloudformation │
 └──────────┴───────────────────────┴───────────┴───────────────────┘
 ```
 
@@ -139,32 +139,32 @@ _Note:_ `amplify mock api` requires Java.
 
 This will open the GraphiQL explorer on a local port. From the test environment you can try out different operations locally, like queries and mutations.
 
-In the GraphiQL toolbar, select **Use: User Pool** and try creating a post:
+In the GraphiQL toolbar, select **Use: User Pool** and try creating a todo:
 
 ```graphql
-mutation CreatePost {
-  createPost(input: { title: "Test Post", content: "post content" }) {
+mutation CreateTodo {
+  createPost(input: { name: "Test Todo", description: "Todo description" }) {
     id
     owner
-    title
+    name
     updatedAt
     createdAt
-    content
+    description
   }
 }
 ```
 
-Next, update auth to **Use: API Key** and try querying the list of posts:
+Next, update auth to **Use: API Key** and try querying the list of todos:
 
 ```graphql
-query ListPosts {
-  listPosts {
+query ListTodos {
+  listTodos {
     items {
-      content
+      description
       createdAt
       id
       owner
-      title
+      name
     }
   }
 }
@@ -174,13 +174,13 @@ query ListPosts {
 
 <InlineFilter filters={['javascript']}>
 
-Update your `main.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `client.graphql()`:
+Update your `main.js` file to setup your app to add data to your database with a mutation by using `client.graphql()`:
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-import { generateClient } from 'aws-amplify/api';
-
 import amplifyconfig from './amplifyconfiguration.json';
+
+import { generateClient } from 'aws-amplify/api';
 import { createTodo } from './graphql/mutations';
 import { listTodos } from './graphql/queries';
 import { onCreateTodo } from './graphql/subscriptions';
@@ -188,6 +188,11 @@ import { onCreateTodo } from './graphql/subscriptions';
 Amplify.configure(amplifyconfig);
 
 const client = generateClient();
+
+const MutationButton = document.getElementById('MutationEventButton');
+const MutationResult = document.getElementById('MutationResult');
+const QueryResult = document.getElementById('QueryResult');
+const SubscriptionResult = document.getElementById('SubscriptionResult');
 
 async function addTodo() {
   const todo = {
@@ -204,21 +209,27 @@ async function addTodo() {
 }
 
 async function fetchTodos() {
-  client
-    .graphql({
+  try {
+    const response = await client.graphql({
       query: listTodos
-    })
-    .then((evt) => {
-      evt.data.listTodos.items.map((todo, i) => {
-        QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
-      });
     });
-}
 
-const MutationButton = document.getElementById('MutationEventButton');
-const MutationResult = document.getElementById('MutationResult');
-const QueryResult = document.getElementById('QueryResult');
-const SubscriptionResult = document.getElementById('SubscriptionResult');
+    response.data.listTodos.items.map((todo, i) => {
+      QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
+    });
+  } catch (e) {
+    console.log('Something went wrong', e);
+  }
+
+  // client.graphql({
+  //     query: listTodos
+  //   })
+  //   .then((evt) => {
+  //     evt.data.listTodos.items.map((todo, i) => {
+  //       QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
+  //     });
+  //   });
+}
 
 MutationButton.addEventListener('click', (evt) => {
   addTodo().then((evt) => {
@@ -1098,7 +1109,7 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
 
 ## Run locally
 
-Next, run the app and you should see the form rendered to the screen and be able to create and view the list of todos:
+Next, run the app and you should see the updated UI with the ability to create and view the list of todos:
 
 <InlineFilter filters={['react', 'javascript', 'vue']}>
 
