@@ -13,24 +13,42 @@ export function getStaticProps(context) {
 
 }
 
-## Installation
+AWS Amplify is a collection of cloud services and libraries for fullstack application development. Amplify provides frontend libraries, UI components, backend building, and frontend hosting for building fullstack cloud apps. This tutorial will teach you how to use Amplify's new code-first developer experience to build a fullstack application with data, authentication, and frontend hosting which are all deployed to AWS. If you're completely new to AWS Amplify, you may want to read more about [how it works](https://docs.amplify.aws/how-amplify-works/) and [the concepts behind the second generation of AWS Amplify](/concepts), which this tutorial will use.
 
-Open your existing project or create a new one:
+This getting started guide will walk you through how to build a to do list application with TypeScript, Next.js, and React. If you're new to these technologies, we recommend you go through the official [React](https://react.dev/learn/tutorial-tic-tac-toe), [Next.js](https://nextjs.org/docs/getting-started/installation), and [TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html) tutorials first.
 
+In this tutorial you will learn:
+- How to initialize a new Amplify Code-first DX application 
+- 
+- 
 
-  npm={`npm create next-app -- my-app --typescript\ncd my-app`}
-  yarn={`yarn create next-app my-app --typescript\ncd my-app`}
-  pnpm={`pnpm create next-app my-app --typescript\ncd my-app`}
+## Prerequisites
 
+Before you get started, make sure you have the following installed:
 
-The easiest way to get started with AWS Amplify is through [npm](https://npmjs.com) with [`create-amplify`](https://www.npmjs.com/package/create-amplify)
+- [Node.js](https://nodejs.org/) v14.x or later
+- [npm v6.14.4](https://www.npmjs.com/) or later
+- [git](https://git-scm.com/) v2.14.1 or later
 
+You will also need to [create an AWS Account](https://portal.aws.amazon.com/billing/signup). Note that AWS Amplify is part of the [AWS Free Tier](https://aws.amazon.com/amplify/pricing/).
+
+## Create a Project
+
+First, you'll need to create a new Next.js app. We will use TypeScript for this project, we won't use Tailwind CSS, and we will use Next.js's App Router. The following command will create a Next.js app in a directory called `amplify-gen2-getting-started`. You will be prompted with three questions about your preferences for your app which you can 
+
+  npm={`npx create-next-app amplify-gen2-getting-started --app --typescript --no-tailwind --src-dir --eslint --no-import-alias\ncd amplify-gen2-getting-started`}
+  yarn={`yarn create next-app amplify-gen2-getting-started --app --typescript --no-tailwind --src-dir --eslint --no-import-alias\ncd my-app`}
+  pnpm={`pnpm create next-app amplify-gen2-getting-started --app --typescript --no-tailwind --src-dir --eslint --no-import-alias\ncd amplify-gen2-getting-started`}
+
+Amplify has a [CLI tool](https://www.npmjs.com/package/create-amplify) called `create-amplify` which will initialize Amplify in your project. You can use this command in an existing frontend application with little to no disturbances.
 
   npm="npm create amplify"
   yarn="yarn create amplify"
   pnpm="pnpm create amplify"
 
-You can run this command from within your existing project with little to no disturbances. It will scaffold a lightweight Amplify project with the following files:
+You will be asked `? Where should we create your project?`. Press your enter key to choose your current directory.
+
+Running this command will scaffold a lightweight Amplify project in your current project with the following files:
 
 ```text
 ├── amplify/
@@ -47,24 +65,50 @@ You can run this command from within your existing project with little to no dis
 └── tsconfig.json
 ```
 
-Once scaffolded, you're ready to create your first cloud sandbox. Amplify gives every developer a personal cloud sandbox where they can test changes rapidly using live AWS services. Sandbox should not be used for production applications. To use Amplify's [Sandbox mode](http://localhost:3000#fix-me), run the following command:
+## Create a Cloud Sandbox
 
+Now that Amplify's initialized, you're ready to create your first cloud sandbox which will allow you to test your changes rapidly with deployed AWS resources. When you're working with a team, each developer will have their own personal cloud sandbox.
+
+> Sandbox should not be used for production applications.
+
+To use Amplify's [Sandbox mode](http://localhost:3000#fix-me), run the following command:
 
   npm="npx amplify sandbox"
   yarn="yarn amplify sandbox"
   pnpm="pnpm amplify sandbox"
 
+When you're done with your development session, you can shut down your sandbox and it will prompt you to tear down the resources you were using.
 
-Try making a change to your data model and hit save. Changes are deployed in seconds.
+## Data
 
-```ts {6} showLineNumbers
+If you open up the `/amplify/data/resource.ts` file in your text editor, you'll see some generated code:
+
+```ts
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Todo: a.model({
+    name: a.string(),
+    order: a.string(),
+  }),
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({ schema });
+```
+The schema generated by Amplify is for a Todo app. First, we'll define a schema, which is a blueprint for how our app's data will be laid out. Within the schema, we'll define models which will correspond to database table - `Todo` in the above code. Finally, we'll define fields which are attributes which each data instance will have - in the generated code the fields are `name` and `description`. Each field will have a type attached to it, in the above examples we are stating that both `name` and `description` are strings.
+
+Let's make a quick change to our data model and add a `done` field which will be a `boolean` which can be set to `true` or `false` depending if our Todo list item is complete.
+
+```diff
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 const schema = a.schema({
   Todo: a.model({
     title: a.string(),
     description: a.string(),
-    priority: a.enum(['low', 'medium', 'high']).default('low'),
++   done: a.boolean()
   }),
 });
 
@@ -74,6 +118,8 @@ export const data = defineData({
   schema,
 });
 ```
+
+Once you save your change to the data model, your changes will be deployed in seconds within your cloud sandbox. 
 
 ## Authentication
 
