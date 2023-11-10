@@ -38,22 +38,28 @@ Here is an explanation of why a customer would want to define a Custom construct
 
 Custom constructs allow you to encapsulate common patterns into reusable components. This helps you implement best practices, accelerate development, and maintain consistency across applications.
 
-A common use case is creating a custom notification construct that combines a Lambda function with SNS and SES. For example, the construct would:
+A common use case is creating a custom notification construct that combines a Lambda functions with SNS and SES.
 
-- Create a Lambda function that is triggered by some event like a data update
-- The Lambda would publish a message to an SNS topic
-- An email subscription to the SNS topic can be added that leverages SES to send an email notification on the event
+This AWS CDK construct implements a decoupled notification system using Amazon SNS and Lambda. It allows publishing notification messages to an SNS topic from one Lambda function, and processing those messages asynchronously using a separate Lambda subscribed to the topic.
+
+The key components are:
+
+- An Amazon SNS topic to receive notification messages
+- A Lambda function to publish messages to the SNS topic
+- A second Lambda subscribed to the topic that processes the messages and sends emails via Amazon SES
+
+The publisher Lambda allows publishing a message containing the email subject, body text, and recipient address. The emailer Lambda retrieves messages from the SNS topic and handles sending the actual emails.
 
 The `CustomNotifications` custom CDK construct can be defined as follows:
 
-```ts title="amplify/custom/CustomNotifications.ts"
+```ts title="amplify/custom/CustomNotifications/resource.ts"
 import { Runtime } from "aws-cdk-lib/aws-lambda";
-import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
-import { Topic } from "aws-cdk-lib/aws-sns";
 import {
-  EmailSubscription,
-  LambdaSubscription,
-} from "aws-cdk-lib/aws-sns-subscriptions";
+  NodejsFunction,
+  NodejsFunctionProps,
+} from "aws-cdk-lib/aws-lambda-nodejs";
+import * as sns from "aws-cdk-lib/aws-sns";
+import * as subs from "aws-cdk-lib/aws-sns-subscriptions";
 import { Construct } from "constructs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
@@ -61,99 +67,144 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+export type Message = {
+  subject: string;
+  body: string;
+  recipient: string;
+};
 interface CustomNotificationsProps {
-  emailSubscription: string;
   sourceAddress: string;
-  recipientAddress: string;
-  emailSubject?: string;
 }
 
 export class CustomNotifications extends Construct {
   constructor(scope: Construct, id: string, props: CustomNotificationsProps) {
-    const { emailSubscription, sourceAddress, recipientAddress, emailSubject } =
-      props;
-
     super(scope, id);
 
-    const topic = new Topic(this, "NotificationTopic");
+    const { sourceAddress } = props;
 
-    const lambda = new NodejsFunction(this, "NotificationHandler", {
-      runtime: Runtime.NODEJS_18_X,
-      handler: "index.handler",
-      entry: join(__dirname, "index.ts"),
-      functionName: "notificationHandler",
+    // Create SNS topic
+    const topic = new sns.Topic(this, "NotificationTopic");
+
+    const nodeJsFunctionProps: NodejsFunctionProps = {
       bundling: {
         externalModules: [
           "aws-sdk", // Use the 'aws-sdk' available in the Lambda runtime
         ],
       },
+      runtime: Runtime.NODEJS_18_X,
+      handler: "index.handler",
+    };
+
+    // Lambda to publish messages
+    const publisher = new NodejsFunction(this, "Publisher", {
+      entry: join(__dirname, "publisher.ts"),
       environment: {
         topicArn: topic.topicArn,
-        recipientAddress,
-        sourceAddress,
-        emailSubject: emailSubject || "Notification email",
       },
+      ...nodeJsFunctionProps,
     });
 
-    topic.addSubscription(new LambdaSubscription(lambda));
-    topic.addSubscription(new EmailSubscription(emailSubscription));
+    // Lambda to process messages
+    const emailer = new NodejsFunction(this, "Emailer", {
+      entry: join(__dirname, "emailer.ts"),
+      environment: {
+        sourceAddress,
+      },
+      ...nodeJsFunctionProps,
+    });
+
+    // Subscribe emailer lambda to SNS topic
+    topic.addSubscription(new subs.LambdaSubscription(emailer));
+
+    // Allow publisher to publish to SNS topic
+    topic.grantPublish(publisher);
   }
 }
 ```
 
-The Lambda function code can be defined as follows:
+The Lambda function code for the `Publisher` is:
 
-```ts title="amplify/custom/index.ts"
-import { SNSEvent } from "aws-lambda";
-import AWS from "aws-sdk";
+```ts title="amplify/custom/CustomNotifications/publisher.ts"
+// publisher Lambda
+import { SNS } from "aws-sdk";
+import { Message } from "./resource";
 
-// Initialize AWS SDK clients
-const sns = new AWS.SNS();
-const ses = new AWS.SES();
+const topic = new SNS();
 
-// Lambda handler
-exports.handler = async (event: SNSEvent) => {
-  // Get message content
-  const message = event.Records[0].Sns.Message;
+export const handler = async (event: any) => {
+  try {
+    const { subject, body, recipient } = event;
 
-  // Log received message
-  console.log("Received SNS message:", message);
+    const message = {
+      subject,
+      body,
+      recipient,
+    };
 
-  // Publish message to another SNS topic
-  await publishMessage(message);
-
-  // Send email
-  await sendEmail(message);
-
-  return { status: "success" };
+    // Publish message to SNS
+    await topic.publish(message).promise();
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 };
 
-// Publish to SNS
-const publishMessage = async (msg: string) => {
-  const params = {
-    TopicArn: process.env.topicArn,
-    Message: msg,
-  };
+```
 
-  await sns.publish(params).promise();
+```ts title="amplify/custom/CustomNotifications/emailer.ts"
+// emailer Lambda
+import { SNSEvent } from "@types/aws-lambda";
+import { SNSHandler } from "aws-lambda";
+import { SES, SNS } from "aws-sdk";
+import { Message } from "./resource";
+
+const topic = new SNS();
+const ses = new SES();
+
+export const handler: SNSHandler = async (event: SNSEvent) => {
+  try {
+    for (const record of event.Records) {
+      const message = JSON.parse(record.Sns.Message);
+
+      // Send email with SES
+      await sendEmail(message);
+
+      // Delete message from SNS
+      await topic
+        .deleteMessage({
+          TopicArn: record.Sns.TopicArn,
+          ReceiptHandle: record.Sns.ReceiptHandle,
+        })
+        .promise();
+    }
+  } catch (err) {
+    console.error(err);
+  }
 };
 
-// Send email via SES
-const sendEmail = async (msg: string) => {
+const sendEmail = async (msg: Message) => {
+  const { recipient, subject, body } = msg;
+
   const params = {
     Source: process.env.sourceAddress,
     Destination: {
-      ToAddresses: [process.env.recipientAddress],
+      ToAddresses: [recipient],
     },
     Message: {
       Body: {
-        Text: { Data: msg },
+        Text: { Data: body },
       },
-      Subject: { Data: process.env.emailSubject },
+      Subject: { Data: subject },
     },
   };
 
-  await ses.sendEmail(params).promise();
+  try {
+    const result = await ses.sendEmail(params).promise();
+    console.log(`Email sent to ${recipient}: ${result.MessageId}`);
+  } catch (err) {
+    console.error(`Error sending email to ${recipient}: ${err}`);
+    throw err;
+  }
 };
 ```
 
@@ -171,11 +222,7 @@ const backend = new defineBackend({
 new CustomNotifications(
   backend.getStack("CustomNotifications"),
   "CustomNotifications",
-  {
-    emailSubscription: "email@example.com",
-    sourceAddress: "sender@example.com",
-    recipientAddress: "recipient@example.com",
-  }
+  { sourceAddress: "sender@example.com", }
 );
 ```
 
@@ -193,54 +240,7 @@ Resources created by the `define*` helpers can only be accessed _after_ setting 
 
 :::
 
-```ts title="amplify/custom/BackupStack.ts"
-import { Construct } from 'constructs';
-import * as cdk from 'aws-cdk-lib';
-import * as backup from 'aws-cdk-lib/aws-backup';
-import * as events from 'aws-cdk-lib/aws-events';
-import * as rds from 'aws-cdk-lib/aws-rds';
-
-/**
- * Define the stack's props
- */
-export type BackupStackProps = cdk.StackProps & {
-  /**
-   * Database instance to back up
-   */
-  database: rds.DatabaseInstance;
-};
-
-/**
- * Configure an "BackupStack" to backup DynamoDB Tables created by `data`
- */
-export class BackupStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: BackupStackProps) {
-    super(scope, id, props);
-
-    const { database } = props;
-
-    // create the backup plan
-    const plan = new backup.BackupPlan(this, 'BackupPlan', {
-      backupPlanRules: [
-        new backup.BackupPlanRule({
-          completionWindow: cdk.Duration.hours(2),
-          startWindow: cdk.Duration.hours(1),
-          scheduleExpression: events.Schedule.cron({
-            day: '15',
-            hour: '3',
-            minute: '30',
-          }),
-          moveToColdStorageAfter: cdk.Duration.days(30),
-        }),
-      ],
-    });
-
-    // add the database to the backup plan
-    plan.addSelection('Selection', {
-      resources: [backup.BackupResource.fromRdsDatabaseInstance(database)],
-    });
-  }
-}
+```ts title="amplify/custom/.ts"
 ```
 
 The custom CDK stack can then be added to the `backend`:
