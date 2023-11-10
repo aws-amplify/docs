@@ -23,18 +23,26 @@
     }
 
     &__link {
-      color: var(--amplify-colors-font-primary);
+      color: inherit;
       text-decoration: none;
 
-      &:hover,
-      &:visited,
-      &:focus {
-        color: var(--amplify-colors-font-primary);
+      &:visited {
+        color: inherit;
       }
 
       &:focus {
         outline: 2px auto var(--amplify-colors-border-focus);
         outline-offset: -1px;
+      }
+
+      &--external {
+        color: inherit;
+
+        &:hover,
+        &:visited,
+        &:focus {
+          color: inherit;
+        }
       }
 
       &__inner {
