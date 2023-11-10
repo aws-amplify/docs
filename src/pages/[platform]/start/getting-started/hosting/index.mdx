@@ -22,11 +22,11 @@ export function getStaticProps(context) {
 
 import next0 from '/src/fragments/start/getting-started/next/hosting.mdx';
 
-<Fragments fragments={{ next: next0 }} />;
+<Fragments fragments={{ next: next0 }} />
 
 import angular2 from '/src/fragments/start/getting-started/angular/hosting.mdx';
 
-<Fragments fragments={{ angular: angular2 }} />;
+<Fragments fragments={{ angular: angular2 }} />
 
 import js4 from '/src/fragments/start/getting-started/vanillajs/hosting.mdx';
 import vue5 from '/src/fragments/start/getting-started/vanillajs/hosting.mdx';
@@ -67,7 +67,11 @@ amplify publish
 
 Congratulations, your app is online!
 
+<InlineFilter filters={['javascript']}>
+
 ![image](/images/browser-vanillajs-hosting.png)
+
+</InlineFilter>
 
 After publishing, your terminal will display your app URL hosted on a `amplifyapp.com` domain. Whenever you have additional changes to publish, just re-run the `amplify publish` command.
 

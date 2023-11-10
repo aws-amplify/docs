@@ -31,9 +31,6 @@ export function getStaticProps(context) {
 
 import js0 from '/src/fragments/start/getting-started/common/prereq.mdx';
 
-
-
-
 Before you begin, make sure you have the following installed:
 
 - [Node.js](https://nodejs.org/) v14.x or later
@@ -46,19 +43,21 @@ Before you begin, make sure you have the following installed:
 
 </InlineFilter>
 
+<InlineFilter filters={['react','nextjs']}>
 
-<InlineFilter filters={['react']}>
+<Callout>
 
 This tutorial assumes that you're familiar with both JavaScript/ES6 and React. If you need to brush up on React, we recommend going through the [official tutorial](https://react.dev/learn).
 
-</InlineFilter>
+</Callout>
 
+</InlineFilter>
 
 <InlineFilter filters={['react-native']}>
 - Initialize a new React Native application. There are two ways to do this:
 
-  1. Expo CLI - Easier for new React Native developers
-  2. React Native CLI - If you are already familiar with mobile development, enables you to build native code into your project.
+1. Expo CLI - Easier for new React Native developers
+2. React Native CLI - If you are already familiar with mobile development, enables you to build native code into your project.
 
 This tutorial will cover both, so use what's best for you.
 
@@ -76,30 +75,29 @@ If you don't already have an AWS account, you'll need to create one in order to 
 
 The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cloud services for your app. Let's go ahead and install the Amplify CLI.
 
-
 <BlockSwitcher>
 
   <Block name="NPM">
 
-  ```bash
-  npm install -g @aws-amplify/cli
-  ```
+```bash
+npm install -g @aws-amplify/cli
+```
 
   </Block>
 
   <Block name="cURL (Mac and Linux)">
 
-  ```bash
-  curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
-  ```
+```bash
+curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
+```
 
   </Block>
 
   <Block name="cURL (Windows)">
 
-  ```bash
-  curl -sL https://aws-amplify.github.io/amplify-cli/install-win -o install.cmd && install.cmd
-  ```
+```bash
+curl -sL https://aws-amplify.github.io/amplify-cli/install-win -o install.cmd && install.cmd
+```
 
   </Block>
 
@@ -109,7 +107,7 @@ The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cl
 
 [Resolve `EACCES` permissions when installing packages globally](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally) with npm
 
-</Callout> 
+</Callout>
 
 ## Configure the Amplify CLI
 
@@ -171,7 +169,7 @@ On the next page select **Create access key**. You’ll then see a page with the
 
 Enter the values you just copied into the corresponding CLI prompts.
 
-````console
+```console
 Enter the access key of the newly created user:
 ? accessKeyId:  # YOUR_ACCESS_KEY_ID
 ? secretAccessKey:  # YOUR_SECRET_ACCESS_KEY
@@ -179,6 +177,6 @@ This would update/create the AWS Profile in your local machine
 ? Profile Name:  # (default)
 
 Successfully set up the new user.
-````
+```
 
 In the next section, you'll set up the app and initialize Amplify.
