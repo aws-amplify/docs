@@ -1187,34 +1187,34 @@ export const directory = {
                       ]
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/index.mdx',
+                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/index.mdx',
                       children: [
                         {
-                          path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/set-up-in-app-messaging/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/set-up-in-app-messaging/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/create-campaign/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/create-campaign/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/integrate-application/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/integrate-application/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/sync-messages/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/sync-messages/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/display-messages/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/display-messages/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/clear-messages/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/clear-messages/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/identify-user/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/identify-user/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/respond-interaction-events/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/respond-interaction-events/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/resolve-conflicts/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/resolve-conflicts/index.mdx'
                         }
                       ]
                     },
