@@ -56,6 +56,12 @@ export const directory = {
                   path: 'src/pages/[platform]/start/project-setup/create-application/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/start/project-setup/platform-setup/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/escape-hatch/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/start/project-setup/upgrade-guide/index.mdx'
                 },
                 {
@@ -69,12 +75,6 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/start/project-setup/combine-framework/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/escape-hatch/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/platform-setup/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/start/project-setup/use-existing-resources/index.mdx'
@@ -1202,32 +1202,32 @@ export const directory = {
                   path: 'src/pages/[platform]/prev/start/project-setup/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/prev/start/project-setup/async-programming-model/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/combine-framework/index.mdx'
+                      path: 'src/pages/[platform]/prev/start/project-setup/prerequisites/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/start/project-setup/create-application/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/start/project-setup/escape-hatch/index.mdx'
+                      path: 'src/pages/[platform]/prev/start/project-setup/async-programming-model/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/start/project-setup/kotlin-coroutines/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/platform-setup/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/prerequisites/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/start/project-setup/rxjava/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/start/project-setup/use-existing-resources/index.mdx'
-                    }
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/combine-framework/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/escape-hatch/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/platform-setup/index.mdx'
+                    },
                   ]
                 }
               ]
