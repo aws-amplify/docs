@@ -627,37 +627,37 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/more-features/logging/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/android-sdk/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/change-local-storage/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/change-log-levels/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/configure-user/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/enable-disable/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/flush-logs/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/hub-events/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/remote-configuration/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/set-up-logging/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/logging/send-logs/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/set-up-logging/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/change-log-levels/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/flush-logs/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/enable-disable/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/configure-user/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/logging/view-logs/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/remote-configuration/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/change-local-storage/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/hub-events/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/sdk/index.mdx'
                     }
                   ]
                 },
