@@ -269,50 +269,6 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/debugging/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/appsync-operations-to-lambda-layer/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/build-options/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/cognito-trigger-lambda-dynamodb/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/configure-options/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/connect-rest-api/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/dynamodb-from-lambda-nodejs/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/dynamodb-from-lambda-python/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/environment-variables/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/graphql-from-lambda/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/graphql-server-lambda/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/integrate-dynamodb-with-lambda/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/layers/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/functions/secrets/index.mdx'
-                }
-              ]
-            },
-            {
               path: 'src/pages/[platform]/build-a-backend/push-notifications/index.mdx',
               children: [
                 {
@@ -385,6 +341,29 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/restapi/update-data/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/set-up-function/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/layers/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/environment-variables/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/secrets/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/build-options/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/configure-options/index.mdx'
                 }
               ]
             },
