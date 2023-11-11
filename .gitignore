@@ -92,3 +92,7 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+.yarn
+.yarnrc.yml
+yarn.lock
+package.json
