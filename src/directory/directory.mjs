@@ -700,13 +700,13 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/more-features/pubsub/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/pubsub/publish/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/build-a-backend/more-features/pubsub/set-up-pubsub/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/pubsub/subscribe/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/pubsub/publish/index.mdx'
                     }
                   ]
                 }
@@ -1255,6 +1255,20 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/translate/index.mdx'
+                        }
+                      ]
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/pubsub/index.mdx',
+                      children: [
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/pubsub/set-up-pubsub/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/pubsub/subscribe/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/pubsub/publish/index.mdx'
                         }
                       ]
                     }
