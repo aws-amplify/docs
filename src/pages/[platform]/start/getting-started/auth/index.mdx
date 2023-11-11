@@ -27,11 +27,9 @@ import angular1 from '/src/fragments/start/getting-started/angular/auth.mdx';
 
 import vue2 from '/src/fragments/start/getting-started/vue/auth.mdx';
 
-<Fragments fragments={{ vue: vue2 }} />
-
 import reactNativeAuth from '/src/fragments/start/getting-started/reactnative/auth.mdx';
 
-<InlineFilter filters={['react-native','angular']}>
+<InlineFilter filters={['react-native','angular','vue']}>
 
 The next feature you will be adding is authentication.
 
@@ -113,6 +111,16 @@ npx pod-install
 
 </InlineFilter>
 
+<InlineFilter filters={['vue']}>
+
+The `@aws-amplify/ui-vue` package includes Vue specific UI components you'll use to build your app. Install it with the following command:
+
+```bash
+npm install @aws-amplify/ui-vue
+```
+
+</InlineFilter>
+
 ### Add the Amplify UI Authenticator component
 
 <InlineFilter filters={['angular']}>
@@ -163,7 +171,7 @@ Navigate to `src/app/app.component.html`, and wrap `app-todos` with `<amplify-au
 </amplify-authenticator>
 ```
 
-### Unhandled Promise Console Warnings
+#### Unhandled Promise Console Warnings
 
 If you see `Unhandled Promise rejection: [message] ; zone: <root> ; ...` errors on console, you can add the following code after you import zone.js inside `src/polyfills.ts` file:
 
@@ -225,6 +233,9 @@ return (
   <SafeAreaView style={styles.container}>
     <View style={styles.container}>
       <SignOutButton />
+    </View>
+  </SafeAreaView>
+);
 //...
 ```
 
@@ -504,6 +515,29 @@ const styles = StyleSheet.create({
 
 </Block>
 </BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={['vue']}>
+
+Open **src/App.vue** and make the following changes.
+
+Within the **App.vue**, add the `authenticator` component:
+
+```html
+<script setup>
+  import { Authenticator } from '@aws-amplify/ui-vue';
+  import '@aws-amplify/ui-vue/styles.css';
+</script>
+<template>
+  <authenticator>
+    <template v-slot="{ user, signOut }">
+      <h1>Hello {{ user.username }}!</h1>
+      <button @click="signOut">Sign Out</button>
+    </template>
+  </authenticator>
+</template>
+```
 
 </InlineFilter>
 

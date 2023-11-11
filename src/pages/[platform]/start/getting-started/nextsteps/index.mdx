@@ -38,20 +38,9 @@ import react_native5 from '/src/fragments/start/getting-started/common/nextsteps
 
 import angular7 from '/src/fragments/start/getting-started/angular/nextsteps.mdx';
 import js8 from '/src/fragments/start/getting-started/vanillajs/nextsteps.mdx';
+import vue9 from '/src/fragments/start/getting-started/vue/nextsteps.mdx';
 import react11 from '/src/fragments/start/getting-started/react/nextsteps.mdx';
 import react_native12 from '/src/fragments/start/getting-started/reactnative/nextsteps.mdx';
-
-<InlineFilter filters={['javascript','react','angular','react-native']}>
-
-🎉 Congratulations! Your app is built, with a realtime backend.
-
-What next? Here are some things to add to your app:
-
-</InlineFilter>
-
-import vue9 from '/src/fragments/start/getting-started/vue/nextsteps.mdx';
-
-<Fragments fragments={{ vue: vue9 }} />
 
 import next10 from '/src/fragments/start/getting-started/react/nextsteps.mdx';
 
@@ -69,7 +58,15 @@ import flutter16 from '/src/fragments/start/getting-started/flutter/nextsteps.md
 
 <Fragments fragments={{ flutter: flutter16 }} />
 
-<InlineFilter filters={['javascript','react','angular']}>
+<InlineFilter filters={['javascript','react','angular','react-native','vue']}>
+
+🎉 Congratulations! Your app is built, with a realtime backend.
+
+What next? Here are some things to add to your app:
+
+</InlineFilter>
+
+<InlineFilter filters={['javascript','react','angular','vue']}>
 
 - [Authentication](/lib/auth/getting-started)
 - [DataStore](/lib/datastore/getting-started)
