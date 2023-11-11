@@ -467,6 +467,41 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/more-features/index.mdx',
               children: [
                 {
+                  path: 'src/pages/[platform]/build-a-backend/more-features/predictions/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/set-up-predictions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/text-to-speech/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/transcribe-audio/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/translate/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/identify-text/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/identify-entity/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/label-image/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/interpret-sentiment/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/example-app/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/sdk/index.mdx'
+                    }
+                  ]
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/more-features/analytics/index.mdx',
                   children: [
                     {
@@ -667,41 +702,6 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/logging/sdk/index.mdx'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/more-features/predictions/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/example-app/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/identify-entity/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/identify-text/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/interpret-sentiment/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/label-image/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/sdk/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/set-up-predictions/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/text-to-speech/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/transcribe-audio/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/translate/index.mdx'
                     }
                   ]
                 },
@@ -1085,6 +1085,41 @@ export const directory = {
                   path: 'src/pages/[platform]/prev/build-a-backend/more-features/index.mdx',
                   children: [
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/index.mdx',
+                      children: [
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/set-up-predictions/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/text-to-speech/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/transcribe-audio/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/translate/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/identify-text/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/identify-entity/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/label-image/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/interpret-sentiment/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/example-app/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/sdk/index.mdx'
+                        }
+                      ]
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/index.mdx',
                       children: [
                         {
@@ -1241,35 +1276,6 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/interactions/chatbot/index.mdx'
-                        }
-                      ]
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/index.mdx',
-                      children: [
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/identify-entity/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/identify-text/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/interpret-sentiment/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/label-image/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/set-up-predictions/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/text-to-speech/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/transcribe/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/translate/index.mdx'
                         }
                       ]
                     },
