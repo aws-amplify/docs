@@ -1870,25 +1870,22 @@ export const directory = {
                   path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/auth-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/client-codegen/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/config-params/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/connection-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/data-access-patterns/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/overview/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/directives/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/examples/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/model-directive/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/key-directive/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/auth-directive/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/connection-directive/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/function-directive/index.mdx'
@@ -1897,31 +1894,34 @@ export const directory = {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/http-directive/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/key-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/model-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/overview/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/overwrite-customize-resolvers/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/predictions-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/relational-databases/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/searchable-directive/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/versioned-directive/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/data-access-patterns/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/storage/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/versioned-directive/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/relational-databases/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/client-codegen/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/overwrite-customize-resolvers/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/config-params/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/examples/index.mdx'
                     }
                   ]
                 }
