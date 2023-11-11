@@ -593,31 +593,31 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/clear-messages/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/set-up-in-app-messaging/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/create-campaign/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/display-message/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/integrate-application/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/sync-messages/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/display-messages/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/clear-messages/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/identify-user/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/integrate-application/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/resolve-conflicts/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/respond-interaction-events/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/set-up-in-app-messaging/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/sync-messages/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/resolve-conflicts/index.mdx'
                     }
                   ]
                 },
@@ -625,10 +625,10 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/more-features/interactions/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/interactions/chatbot/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/interactions/set-up-interactions/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/interactions/set-up-interactions/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/interactions/chatbot/index.mdx'
                     }
                   ]
                 },
@@ -636,37 +636,37 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/more-features/logging/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/android-sdk/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/change-local-storage/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/change-log-levels/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/configure-user/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/enable-disable/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/flush-logs/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/hub-events/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/remote-configuration/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/set-up-logging/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/logging/send-logs/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/set-up-logging/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/change-log-levels/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/flush-logs/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/enable-disable/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/configure-user/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/logging/view-logs/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/remote-configuration/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/change-local-storage/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/hub-events/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/logging/sdk/index.mdx'
                     }
                   ]
                 },
@@ -709,13 +709,13 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/more-features/pubsub/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/pubsub/publish/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/build-a-backend/more-features/pubsub/set-up-pubsub/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/pubsub/subscribe/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/pubsub/publish/index.mdx'
                     }
                   ]
                 }
@@ -1202,6 +1202,49 @@ export const directory = {
                       ]
                     },
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/index.mdx',
+                      children: [
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/set-up-in-app-messaging/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/create-campaign/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/integrate-application/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/sync-messages/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/display-messages/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/clear-messages/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/identify-user/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/respond-interaction-events/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/in-app-messaging/resolve-conflicts/index.mdx'
+                        }
+                      ]
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/interactions/index.mdx',
+                      children: [
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/interactions/set-up-interactions/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/interactions/chatbot/index.mdx'
+                        }
+                      ]
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/index.mdx',
                       children: [
                         {
@@ -1227,6 +1270,20 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/translate/index.mdx'
+                        }
+                      ]
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/pubsub/index.mdx',
+                      children: [
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/pubsub/set-up-pubsub/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/pubsub/subscribe/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/pubsub/publish/index.mdx'
                         }
                       ]
                     }
