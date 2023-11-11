@@ -1219,6 +1219,17 @@ export const directory = {
                       ]
                     },
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/interactions/index.mdx',
+                      children: [
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/interactions/chatbot/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/interactions/set-up-interactions/index.mdx'
+                        }
+                      ]
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/index.mdx',
                       children: [
                         {
