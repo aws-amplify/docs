@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Create an in-app messaging campaign',
+  title: 'Subscribe and unsubscribe',
   description:
-    'Learn how to create a new Pinpoint campaign and configure it to be used with your Amplify project.',
+    "Learn more about how to subscribe to and unsubscribe from topics using Amplify's PubSub category",
   platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
 };
 
@@ -20,11 +20,7 @@ export function getStaticProps(context) {
   };
 }
 
-import reactnative0 from '/src/fragments/lib/in-app-messaging/create-campaign/create-campaign.mdx';
-
-<Fragments fragments={{ 'react-native': reactnative0 }} />
-
-import js0 from '/src/fragments/lib/in-app-messaging/create-campaign/create-campaign.mdx';
+import js0 from '/src/fragments/lib-v1/pubsub/js/subunsub.mdx';
 
 <Fragments
   fragments={{
@@ -35,3 +31,7 @@ import js0 from '/src/fragments/lib/in-app-messaging/create-campaign/create-camp
     vue: js0
   }}
 />
+
+import reactnative0 from '/src/fragments/lib-v1/pubsub/js/subunsub.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
