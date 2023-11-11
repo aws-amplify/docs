@@ -8,11 +8,25 @@ import { Amplify } from 'aws-amplify';
 Amplify.configure({
   ...Amplify.getConfig(),
   Analytics: {
+    ...Amplify.getConfig().Analytics,
     Pinpoint: {
       // REQUIRED -  Amazon Pinpoint App Client ID
       appId: 'XXXXXXXXXXabcdefghij1234567890ab',
+
       // REQUIRED -  Amazon service region
-      region: 'us-east-1'
+      region: 'us-east-1',
+
+      // OPTIONAL - How many events can be buffered at once.
+      bufferSize: 1000,
+
+      // OPTIONAL - How many events will be flushed from the buffer per batch.
+      flushSize: 100,
+
+      // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
+      flushInterval: 5000, // 5s
+
+      // OPTIONAL - The limit for failed recording retries.
+      resendLimit: 5
     }
   }
 });
