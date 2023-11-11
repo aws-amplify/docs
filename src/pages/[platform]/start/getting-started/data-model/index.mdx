@@ -99,8 +99,6 @@ This will give us the current status of the Amplify project, including the curre
 ┌──────────┬───────────────────────┬───────────┬───────────────────┐
 │ Category │ Resource name         │ Operation │ Provider plugin   │
 ├──────────┼───────────────────────┼───────────┼───────────────────┤
-│ Auth     │ your-auth-name        │ No Change │ awscloudformation │
-├──────────┼───────────────────────┼───────────┼───────────────────┤
 │ Api      │ your-api-name         │ No Change │ awscloudformation │
 └──────────┴───────────────────────┴───────────┴───────────────────┘
 ```
@@ -143,7 +141,7 @@ In the GraphiQL toolbar, select **Use: User Pool** and try creating a todo:
 
 ```graphql
 mutation CreateTodo {
-  createPost(input: { name: "Test Todo", description: "Todo description" }) {
+  createTodo(input: { name: "Test Todo", description: "Todo description" }) {
     id
     owner
     name
@@ -1118,8 +1116,14 @@ npm run dev
 ```
 
 </InlineFilter>
+<InlineFilter filters={['angular']}>
 
-<InlineFilter filters={['angular','react-native']}>
+```bash
+npm start
+```
+
+</InlineFilter>
+<InlineFilter filters={['react-native']}>
 
 Start the app with the following command:
 

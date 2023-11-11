@@ -25,15 +25,13 @@ import react0 from '/src/fragments/start/getting-started/react/auth.mdx';
 
 import angular1 from '/src/fragments/start/getting-started/angular/auth.mdx';
 
-<Fragments fragments={{ angular: angular1 }} />
-
 import vue2 from '/src/fragments/start/getting-started/vue/auth.mdx';
 
 <Fragments fragments={{ vue: vue2 }} />
 
 import reactNativeAuth from '/src/fragments/start/getting-started/reactnative/auth.mdx';
 
-<InlineFilter filters={['react-native']}>
+<InlineFilter filters={['react-native','angular']}>
 
 The next feature you will be adding is authentication.
 
@@ -72,9 +70,21 @@ amplify console
 
 ## Create login UI
 
-Creating a login flow can be quite difficult and time consuming to get right. Luckily, Amplify UI has an [`Authenticator`](https://ui.docs.amplify.aws/react-native/connected-components/authenticator) component that provides an entire authentication flow for you, using the configuration you specified in **amplifyconfiguration.json.**
+Now that you have your authentication service deployed to AWS, it's time to add authentication to your Angular app. Creating a login flow can be quite difficult and time consuming to get right. Luckily, Amplify UI has an `Authenticator` component that provides an entire authentication flow for you, using the configuration you specified in **amplifyconfiguration.json.**
 
 ### Install Amplify UI
+
+<InlineFilter filters={['angular']}>
+
+The `@aws-amplify/ui-angular` package includes React Native specific UI components you'll use to build your app. Install it with the following command:
+
+```bash
+npm install @aws-amplify/ui-angular
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['react-native']}>
 
 The `@aws-amplify/ui-react-native` package includes React Native specific UI components you'll use to build your app. Install it with the following command:
 
@@ -101,7 +111,71 @@ npx pod-install
 </Block>
 </BlockSwitcher>
 
+</InlineFilter>
+
 ### Add the Amplify UI Authenticator component
+
+<InlineFilter filters={['angular']}>
+
+Add the **Amplify Authenticator UI Module** to `src/app/app.module.ts`:
+
+```ts
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    /* configure App with AmplifyAuthenticatorModule */
+    AmplifyAuthenticatorModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+
+First, import Authenticator style inside your stylesheet (e.g. `src/style.css`):
+
+```css
+@import '~@aws-amplify/ui-angular/theme.css';
+```
+
+Navigate to `src/app/app.component.html`, and wrap `app-todos` with `<amplify-authenticator>` to enable authentication:
+
+```html
+<amplify-authenticator>
+  <ng-template
+    amplifySlot="authenticated"
+    let-user="user"
+    let-signOut="signOut"
+  >
+    <app-todos></app-todos>
+    <button (click)="signOut()">Sign Out</button>
+  </ng-template>
+</amplify-authenticator>
+```
+
+### Unhandled Promise Console Warnings
+
+If you see `Unhandled Promise rejection: [message] ; zone: <root> ; ...` errors on console, you can add the following code after you import zone.js inside `src/polyfills.ts` file:
+
+```ts
+import 'zone.js/dist/zone'; // Included with Angular CLI.
+
+(window as any).Zone['__zone_symbol__ignoreConsoleErrorUncaughtError'] = true;
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['react-native']}>
 
 <BlockSwitcher>
 <Block name="Expo CLI">
@@ -430,6 +504,8 @@ const styles = StyleSheet.create({
 
 </Block>
 </BlockSwitcher>
+
+</InlineFilter>
 
 Using Amplify UI connected components makes it easier to manage styling across your entire app.
 

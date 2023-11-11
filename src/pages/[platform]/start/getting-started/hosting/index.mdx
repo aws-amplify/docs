@@ -25,14 +25,11 @@ import next0 from '/src/fragments/start/getting-started/next/hosting.mdx';
 <Fragments fragments={{ next: next0 }} />
 
 import angular2 from '/src/fragments/start/getting-started/angular/hosting.mdx';
-
-<Fragments fragments={{ angular: angular2 }} />
-
 import js4 from '/src/fragments/start/getting-started/vanillajs/hosting.mdx';
 import vue5 from '/src/fragments/start/getting-started/vanillajs/hosting.mdx';
 import react1 from '/src/fragments/start/getting-started/vanillajs/hosting.mdx';
 
-<InlineFilter filters={['javascript','vue','react']}>
+<InlineFilter filters={['javascript','vue','react','angular']}>
 
 You've successfully built your first app with Amplify! Now that you've built something, it's time to deploy it to the web with Amplify Hosting!
 
@@ -48,7 +45,7 @@ amplify add hosting
 
 Select the defaults for the following prompts:
 
-<InlineFilter filters={['javascript','vue','react']}>
+<InlineFilter filters={['javascript','vue','react','angular']}>
 
 ```console
 ? Select the plugin module to execute: Hosting with Amplify Console (Managed hosting with custom domains, Continuous deployment)
@@ -65,11 +62,40 @@ Run the following command to publish your app.
 amplify publish
 ```
 
+<InlineFilter filters={['angular']}>
+
+<Callout>
+
+If you get "Error: bundle initial exceeded maximum budget" error based on bundle size, you need to bump the maximum bundle size budget for your Angular application. Find the `budgets` keyword in `angular.json`, and bump `maximumError`:
+
+</Callout>
+```json
+{
+  // ...
+  "budgets": [
+    {
+      "type": "initial",
+      "maximumWarning": "500kb",
+      "maximumError": "2mb"
+    }
+    // ...
+  ]
+}
+```
+
+</InlineFilter>
+
 Congratulations, your app is online!
 
 <InlineFilter filters={['javascript']}>
 
 ![image](/images/browser-vanillajs-hosting.png)
+
+</InlineFilter>
+
+<InlineFilter filters={['react']}>
+
+![image](/images/browser-published-updated.png)
 
 </InlineFilter>
 
