@@ -44,11 +44,11 @@ import { debounce } from '@/utils/debounce';
 import { DocSearch } from '@docsearch/react';
 import '@docsearch/css';
 import { PageLastUpdated } from '../PageLastUpdated';
-import { findDirectoryNode } from '@/utils/findDirectoryNode';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { Banner } from '@/components/Banner';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
+import { NextPrevious, NEXT_PREVIOUS_SECTIONS } from '@/components/NextPrevious';
 
 export const Layout = ({
   children,
@@ -125,6 +125,9 @@ export const Layout = ({
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
   const searchParam = isGen2 ? 'gen2' : '[platform]';
+  const showNextPrev = NEXT_PREVIOUS_SECTIONS.some((section) => {
+    return asPathWithNoHash.includes(section) && !asPathWithNoHash.endsWith(section);
+  })
 
   if (homepageNode?.children && homepageNode.children.length > 0) {
     rootMenuNode = homepageNode.children.find((node) => {
@@ -329,6 +332,7 @@ export const Layout = ({
                     <Heading level={1}>{pageTitle}</Heading>
                   )}
                   {children}
+                  {showNextPrev && <NextPrevious />}
                 </Flex>
                 {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
               </View>
