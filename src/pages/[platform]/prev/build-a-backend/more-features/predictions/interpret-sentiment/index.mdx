@@ -3,8 +3,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Interpret sentiment',
   description:
-    'Learn more about how to determine key phrases, sentiment, language, syntax, and entities from text using Amplify.',
-  platforms: ['swift', 'android']
+    'Learn how to determine key phrases, sentiment, language, syntax, and entities from text using Amplify.',
+  platforms: ['swift', 'android', 'javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
 };
 
 export const getStaticPaths = async () => {
@@ -41,6 +41,10 @@ import interpretJs from '/src/fragments/lib-v1/predictions/js/interpret.mdx';
 <Fragments
   fragments={{
     javascript: interpretJs,
-    'react-native': interpretJs
+    'react-native': interpretJs,
+    angular: interpretJs,
+    nextjs: interpretJs,
+    react: interpretJs,
+    vue: interpretJs
   }}
 />

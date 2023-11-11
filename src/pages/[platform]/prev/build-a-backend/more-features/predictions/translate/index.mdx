@@ -4,7 +4,7 @@ export const meta = {
   title: 'Translate language',
   description:
     'Learn more about how to integrate translation capabilities for your application using Amplify',
-  platforms: ['swift', 'android']
+  platforms: ['javascript', 'react-native', 'swift', 'android', 'angular', 'nextjs', 'react', 'vue']
 };
 
 export const getStaticPaths = async () => {
@@ -41,6 +41,10 @@ import translateJs from '/src/fragments/lib-v1/predictions/js/translate.mdx';
 <Fragments
   fragments={{
     javascript: translateJs,
-    'react-native': translateJs
+    'react-native': translateJs,
+    angular: translateJs,
+    nextjs: translateJs,
+    react: translateJs,
+    vue: translateJs
   }}
 />
