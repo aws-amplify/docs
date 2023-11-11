@@ -23,25 +23,17 @@ export function getStaticProps(context) {
   };
 }
 
-## Prerequisites
+This guide walks through how to use Amplify Auth, GraphQL API, REST API, and Storage category APIs from Next.js server-side runtimes.
 
 import versionRangeCallout from '/src/fragments/lib/ssr/nextjs/version-range-callout.mdx';
 
 <Fragments fragments={{ js: versionRangeCallout }} />
 
-If you have not done so already, please follow the [create application](/lib/project-setup/create-application/q/platform/js/)
-guide to create your Next.js project, and Amplify backend.
+Before you begin, you will need:
+- [A Next.js application created](/[platform]/start/project-setup/create-application/)
+- [Installed and configured Amplify libraries for Next.js](/[platform]/build-a-backend/server-side-rendering/)
 
-If you already have an existing Amplify backend, you can run the following command
-at the root of you project to integrate with your existing backend.
-
-```bash
-amplify pull
-```
-
-## Configuration
-
-### Configure Amplify for Server Side Usage
+## Configure Amplify Library for server-side usage
 
 To use Amplify APIs on the server-side of your Next.js app, you will need to
 create a `runWithAmplifyServerContextRunner` function.
@@ -52,7 +44,7 @@ In this file, you will import the Amplify configuration object from the
 the `createServerRunner` function to create the `runWithAmplifyServerContextRunner`
 function.
 
-For example, the `amplifyServerUtils.ts` file may contain the following content:
+For example, the `utils/amplifyServerUtils.ts` file may contain the following content:
 
 ```typescript
 import { createServerRunner } from "@aws-amplify/adapter-nextjs";
@@ -70,7 +62,7 @@ with in isolated request contexts. Usage examples see
 **TIP:** You only need to call the `createServerRunner` function once and reuse the
 `runWithAmplifyServerContext` function throughout.
 
-### Configure Amplify for Client Side Usage
+## Configure Amplify library for client-side usage
 
 When you use the Amplify library on the client-side of your Next.js app, you will
 need to configure Amplify by calling the Amplify.configure as you would to use
@@ -102,7 +94,11 @@ export default function RootLayoutThatConfiguresAmplifyOnTheClient({
 }
 ```
 
-**TIP:** To avoid repetitive calls to `Amplify.configure`, you can call it once in a top-level client-side rendered layout component. 
+<Callout>
+
+To avoid repetitive calls to `Amplify.configure`, you can call it once in a top-level client-side rendered layout component. 
+
+</Callout>
 
 <Accordion title='Configure Amplify in a Next.js App Router application' headingLevel='4' eyebrow='Learn more'>
 
@@ -154,14 +150,14 @@ export default function RootLayout({
 
 </Accordion>
 
-## Authentication
+## Authentication with Next.js server-side runtime
 
 You can use the Amplify Auth category APIs to sign up and sign in your end users
 on the client side. With setting `ssr: true` when calling `Amplify.configure`,
 the Amplify library uses cookies to store tokens, which will be sent along with
 HTTP requests to your Next.js app server.
 
-### Manage Auth Session with The `middleware`
+### Manage Auth session with the Next.js Middleware
 
 You can use the `fetchAuthSession` API to check the auth sessions that are attached
 to the incoming requests in the middleware of your Next.js app to protect your
@@ -384,7 +380,7 @@ export async function getStaticProps() {
 }
 ```
 
-### Amplify API Next.js Server Support
+## Supported APIs for Next.js server-side usage
 
 All APIs that support use on the server are exported from the
 `aws-amplify/<category>/server` sub paths. You **must** use these APIs for any
