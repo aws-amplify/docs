@@ -1456,17 +1456,6 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/prev/build-a-backend/storage/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/storage/android-sdk/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/storage/get-properties/index.mdx'
-                    }
-                  ]
-                },
-                {
                   path: 'src/pages/[platform]/prev/build-a-backend/troubleshooting/index.mdx',
                   children: [
                     {
@@ -1793,17 +1782,6 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli/start/set-up-cli/index.mdx'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/tools/cli/storage/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/tools/cli/storage/import/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/storage/override/index.mdx'
                     }
                   ]
                 },
