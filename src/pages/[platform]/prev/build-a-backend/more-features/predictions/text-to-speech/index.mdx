@@ -1,10 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Text to speech',
+  title: 'Text-to-speech',
   description:
-    'Learn more about how to integrate text-to-speech capabilities into your application using Amplify.',
-  platforms: ['swift', 'android']
+    'Learn how to integrate text-to-speech capabilities into your application using Amplify.',
+  platforms: ['swift', 'android', 'javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
 };
 
 export const getStaticPaths = async () => {
@@ -41,6 +41,10 @@ import textSpeechJs from '/src/fragments/lib-v1/predictions/js/text-speech.mdx';
 <Fragments
   fragments={{
     javascript: textSpeechJs,
-    'react-native': textSpeechJs
+    'react-native': textSpeechJs,
+    angular: textSpeechJs,
+    nextjs: textSpeechJs,
+    react: textSpeechJs,
+    vue: textSpeechJs
   }}
 />

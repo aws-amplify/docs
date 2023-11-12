@@ -1,75 +1,80 @@
-import {
-  NextPreviousContainerStyle,
-  NextPreviousLinkStyle,
-  NextPreviousTextStyle,
-} from "./styles";
-import InternalLink from "../InternalLink";
-import {
-  getChapterDirectory,
-  isProductRoot,
-} from "../../utils/getLocalDirectory";
-import type { DirectoryItem } from "../Menu/Directory";
+import Link from 'next/link';
+import { View, Flex } from '@aws-amplify/ui-react';
+import directory from 'src/directory/directory.json';
+import { useRouter } from 'next/router';
+import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 
-type Directory = {
-  items: DirectoryItem[];
-}
+export const NextPrevious = () => {
 
-function Prev(item: DirectoryItem) {
+  const platform = useCurrentPlatform();
+  const router = useRouter();
+  const pathname = router.pathname;
+
+  const findDirectoryNodes = (route, dir = directory, platform, previous, next) => {
+    const children = dir?.children?.filter((child) => {
+      return child?.platforms?.includes(platform);
+    });
+    if (dir.route === route) {
+      return { previous, next };
+    } else if (children && children.length) {
+      for (let i = 0; i < children.length; i++) {
+        let child = children[i];
+        let res = findDirectoryNodes(route, child, platform, children[i - 1], children[i + 1]);
+        if (res) return res;
+      }
+      return {};
+    }
+  }
+
+  const { previous, next } = findDirectoryNodes(pathname, directory, platform, null, null);
+  let nextHref, prevHref;
+  if (next) {
+    nextHref = {
+      pathname: next.route,
+      query: {
+        platform
+      }
+    }
+  }
+  if (previous) {
+    prevHref = {
+      pathname: previous.route,
+      query: {
+        platform
+      }
+    }
+  }
+
+  const justifyContent = next && previous ?
+    'space-between' : previous ? 'flex-start' : 'flex-end';
+
+
   return (
-    <InternalLink href={item.route}>
-      <NextPreviousLinkStyle isPrevious={true}>
-        <img src="/assets/arrow-left.svg" alt=""  width="8" height="56" className="previousArrow"/>
-        <NextPreviousTextStyle isPrevious={true}>
-          <span>previous</span>
-          <h4>{item.title}</h4>
-        </NextPreviousTextStyle>
-      </NextPreviousLinkStyle>
-    </InternalLink>
+    <Flex justifyContent={justifyContent} className="next-prev">
+      {previous &&
+        (<Link href={prevHref}>
+          <Flex>
+            <img src="/assets/arrow-left.svg" alt="" width="8" height="56" className="previousArrow" />
+            <Flex direction="column" gap="0">
+              <View className="next-prev__label">PREVIOUS</View>
+              <View className="next-prev__title">{previous.title}</View>
+            </Flex>
+          </Flex>
+        </Link>)}
+      {next &&
+        (<Link href={nextHref}>
+          <Flex>
+            <Flex direction="column" gap="0">
+              <View className="next-prev__label">NEXT</View>
+              <View className="next-prev__title">{next.title}</View>
+            </Flex>
+            <img src="/assets/arrow-right.svg" alt="" width="8" height="56" className="nextArrow" />
+          </Flex>
+        </Link>)}
+    </Flex>
   );
 }
 
-function Next(item: DirectoryItem) {
-  return (
-    <InternalLink href={item.route}>
-      <NextPreviousLinkStyle isPrevious={false}>
-        <NextPreviousTextStyle isPrevious={false}>
-          <span>next</span>
-          <h4>{item.title}</h4>
-        </NextPreviousTextStyle>
-        <img src="/assets/arrow-right.svg" alt="" width="8" height="56" className="nextArrow"/>
-      </NextPreviousLinkStyle>
-    </InternalLink>
-  );
-}
-
-export default function NextPrevious({url, filterKey}) {
-  if (isProductRoot(url)) {
-    return <></>;
-  }
-
-  const chapterDirectory = getChapterDirectory(url) as Directory;
-  if (!chapterDirectory) {
-    return null;
-  }
-
-  let {items} = chapterDirectory;
-  items = items.filter((item) => {
-    if (!("filters" in item) || item.filters.includes(filterKey)) return true;
-    return false;
-  });
-  let itemIndex = -1;
-  for (let i = 0; i < items.length; ++i) {
-    if (url.startsWith(items[i].route)) itemIndex = i;
-  }
-
-  if (itemIndex === -1) {
-    return <></>;
-  }
-
-  return (
-    <NextPreviousContainerStyle>
-      {itemIndex !== 0 ? Prev(items[itemIndex - 1]) : <div />}
-      {itemIndex != items.length - 1 ? Next(items[itemIndex + 1]) : <div />}
-    </NextPreviousContainerStyle>
-  );
-}
+export const NEXT_PREVIOUS_SECTIONS = [
+  '/start/getting-started/'
+]
