@@ -1028,9 +1028,6 @@ export const directory = {
                   path: 'src/pages/[platform]/prev/build-a-backend/storage/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/storage/configure-storage/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/set-up-storage/index.mdx'
                     },
                     {
@@ -1076,13 +1073,7 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/custom-plugin/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/storage/import/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/existing-resources/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/storage/modify-amplify-generated-resources/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/sdk/index.mdx'
