@@ -1,11 +1,10 @@
 import '@aws-amplify/ui-react/styles.css';
 import '../styles/styles.scss';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
 import { CANONICAL_URLS } from '@/data/canonical-urls';
-import { NodePackageManagerProvider } from '@/components/NodePackageManager';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { trackPageVisit } from '../utils/track';
 
@@ -176,11 +175,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="canonical" href={canonicalUrl} />
       </Head>
 
-      <MDXProvider>
-        <NodePackageManagerProvider>
-          {getLayout(<Component {...pageProps} />)}
-        </NodePackageManagerProvider>
-      </MDXProvider>
+      <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>
 
       {process.env.BUILD_ENV !== 'production' ? (
         <>
