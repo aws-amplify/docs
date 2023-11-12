@@ -467,6 +467,41 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/more-features/index.mdx',
               children: [
                 {
+                  path: 'src/pages/[platform]/build-a-backend/more-features/predictions/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/set-up-predictions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/text-to-speech/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/transcribe-audio/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/translate/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/identify-text/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/identify-entity/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/label-image/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/interpret-sentiment/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/example-app/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/sdk/index.mdx'
+                    }
+                  ]
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/more-features/analytics/index.mdx',
                   children: [
                     {
@@ -558,7 +593,25 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/more-features/geo/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/amazon-location-sdk/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/set-up-geo/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/configure-maps/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/maps/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/configure-location-search/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/location-search/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/configure-geofencing/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/geofences/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/geo/existing-resources/index.mdx'
@@ -567,16 +620,7 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/more-features/geo/google-migration/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/location-search/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/manage-geofences/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/maps/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/set-up-geo/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/geo/amazon-location-sdk/index.mdx'
                     }
                   ]
                 },
@@ -658,41 +702,6 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/logging/sdk/index.mdx'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/more-features/predictions/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/example-app/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/identify-entity/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/identify-text/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/interpret-sentiment/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/label-image/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/sdk/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/set-up-predictions/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/text-to-speech/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/transcribe-audio/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/translate/index.mdx'
                     }
                   ]
                 },
@@ -1076,6 +1085,41 @@ export const directory = {
                   path: 'src/pages/[platform]/prev/build-a-backend/more-features/index.mdx',
                   children: [
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/index.mdx',
+                      children: [
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/set-up-predictions/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/text-to-speech/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/transcribe-audio/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/translate/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/identify-text/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/identify-entity/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/label-image/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/interpret-sentiment/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/example-app/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/sdk/index.mdx'
+                        }
+                      ]
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/index.mdx',
                       children: [
                         {
@@ -1170,19 +1214,25 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/index.mdx',
                       children: [
                         {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/amazon-location-sdk/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/existing-resources/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/location-search/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/set-up-geo/index.mdx'
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/maps/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/set-up-geo/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/location-search/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/geofences/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/existing-resources/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/google-migration/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/amazon-location-sdk/index.mdx'
                         }
                       ]
                     },
@@ -1226,35 +1276,6 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/interactions/chatbot/index.mdx'
-                        }
-                      ]
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/index.mdx',
-                      children: [
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/identify-entity/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/identify-text/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/interpret-sentiment/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/label-image/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/set-up-predictions/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/text-to-speech/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/transcribe/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/translate/index.mdx'
                         }
                       ]
                     },
@@ -1308,7 +1329,16 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/prev/start/project-setup/use-existing-resources/index.mdx'
-                    }
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/combine-framework/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/escape-hatch/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/start/project-setup/platform-setup/index.mdx'
+                    },
                   ]
                 }
               ]
@@ -1674,20 +1704,6 @@ export const directory = {
                 },
                 { path: 'src/pages/[platform]/tools/cli/custom/index.mdx' },
                 {
-                  path: 'src/pages/[platform]/tools/cli/geo/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/tools/cli/geo/configure-geofencing/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/geo/configure-location-search/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/geo/configure-maps/index.mdx'
-                    }
-                  ]
-                },
-                {
                   path: 'src/pages/[platform]/tools/cli/graphqlapi/index.mdx',
                   children: [
                     {
@@ -1870,25 +1886,22 @@ export const directory = {
                   path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/auth-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/client-codegen/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/config-params/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/connection-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/data-access-patterns/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/overview/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/directives/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/examples/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/model-directive/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/key-directive/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/auth-directive/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/connection-directive/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/function-directive/index.mdx'
@@ -1897,31 +1910,34 @@ export const directory = {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/http-directive/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/key-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/model-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/overview/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/overwrite-customize-resolvers/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/predictions-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/relational-databases/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/searchable-directive/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/versioned-directive/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/data-access-patterns/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/storage/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/versioned-directive/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/relational-databases/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/client-codegen/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/overwrite-customize-resolvers/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/config-params/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/examples/index.mdx'
                     }
                   ]
                 }

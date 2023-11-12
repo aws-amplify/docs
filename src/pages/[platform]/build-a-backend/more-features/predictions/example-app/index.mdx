@@ -2,8 +2,9 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Example application',
-  description: "Sample code for Amplify's predictions category",
-  platforms: ['javascript', 'react-native','angular','nextjs','react','vue'] 
+  description:
+    'Sample code for using the Predictions category in Amplify.',
+  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -23,6 +24,11 @@ import sampleJs from '/src/fragments/lib/predictions/js/sample.mdx';
 
 <Fragments
   fragments={{
-    javascript: sampleJs
+    javascript: sampleJs,
+    'react-native': sampleJs,
+    angular: sampleJs,
+    nextjs: sampleJs,
+    react: sampleJs,
+    vue: sampleJs
   }}
 />
