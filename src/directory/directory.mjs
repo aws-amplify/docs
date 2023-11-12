@@ -56,6 +56,12 @@ export const directory = {
                   path: 'src/pages/[platform]/start/project-setup/create-application/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/start/project-setup/platform-setup/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/escape-hatch/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/start/project-setup/combine-framework/index.mdx'
                 },
                 {
@@ -69,12 +75,6 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/start/project-setup/rxjava/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/escape-hatch/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/platform-setup/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/start/project-setup/use-existing-resources/index.mdx'
@@ -748,25 +748,25 @@ export const directory = {
               path: 'src/pages/[platform]/build-ui/formbuilder/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-ui/formbuilder/call-to-action/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-ui/formbuilder/customize/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-ui/formbuilder/data-binding/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-ui/formbuilder/lifecycle/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-ui/formbuilder/overrides/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-ui/formbuilder/special-inputs/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-ui/formbuilder/validations/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/lifecycle/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/call-to-action/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/overrides/index.mdx'
                 }
               ]
             },
@@ -774,28 +774,28 @@ export const directory = {
               path: 'src/pages/[platform]/build-ui/uibuilder/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-ui/uibuilder/bestpractices/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-ui/uibuilder/collections/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-ui/uibuilder/databinding/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-ui/uibuilder/eventhandling/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-ui/uibuilder/override/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-ui/uibuilder/responsive/index.mdx'
+                  path: 'src/pages/[platform]/build-ui/uibuilder/collections/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-ui/uibuilder/slots/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-ui/uibuilder/theming/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/uibuilder/responsive/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/uibuilder/override/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/uibuilder/bestpractices/index.mdx'
                 }
               ]
             }
