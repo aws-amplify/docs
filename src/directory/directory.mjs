@@ -56,6 +56,12 @@ export const directory = {
                   path: 'src/pages/[platform]/start/project-setup/create-application/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/start/project-setup/platform-setup/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/project-setup/escape-hatch/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/start/project-setup/upgrade-guide/index.mdx'
                 },
                 {
@@ -69,12 +75,6 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/start/project-setup/combine-framework/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/escape-hatch/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/project-setup/platform-setup/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/start/project-setup/use-existing-resources/index.mdx'
@@ -858,6 +858,38 @@ export const directory = {
           path: 'src/pages/[platform]/prev/index.mdx',
           children: [
             {
+              path: 'src/pages/[platform]/prev/start/project-setup/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/prev/start/project-setup/prerequisites/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/prev/start/project-setup/create-application/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/prev/start/project-setup/async-programming-model/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/prev/start/project-setup/kotlin-coroutines/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/prev/start/project-setup/rxjava/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/prev/start/project-setup/use-existing-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/prev/start/project-setup/combine-framework/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/prev/start/project-setup/escape-hatch/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/prev/start/project-setup/platform-setup/index.mdx'
+                },
+              ]
+            },
+            {
               path: 'src/pages/[platform]/prev/build-a-backend/index.mdx',
               children: [
                 {
@@ -1301,43 +1333,6 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/prev/start/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/prev/start/project-setup/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/async-programming-model/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/combine-framework/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/create-application/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/escape-hatch/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/kotlin-coroutines/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/platform-setup/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/prerequisites/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/rxjava/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/use-existing-resources/index.mdx'
-                    }
-                  ]
-                }
-              ]
-            },
-            {
               path: 'src/pages/[platform]/prev/tools/index.mdx',
               children: [
                 {
@@ -1661,25 +1656,22 @@ export const directory = {
                   path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/auth-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/client-codegen/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/config-params/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/connection-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/data-access-patterns/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/overview/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/directives/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/examples/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/model-directive/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/key-directive/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/auth-directive/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/connection-directive/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/function-directive/index.mdx'
@@ -1688,31 +1680,34 @@ export const directory = {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/http-directive/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/key-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/model-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/overview/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/overwrite-customize-resolvers/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/predictions-directive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/relational-databases/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/searchable-directive/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/versioned-directive/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/data-access-patterns/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/storage/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/versioned-directive/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/relational-databases/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/client-codegen/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/overwrite-customize-resolvers/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/config-params/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli-legacy/graphql-transformer/examples/index.mdx'
                     }
                   ]
                 }
