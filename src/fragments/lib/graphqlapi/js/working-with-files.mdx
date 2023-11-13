@@ -7,20 +7,20 @@ To get started, run the following commands in an existing Amplify project:
 npm i @aws-amplify/ui-react
 
 # Select default configuration:
-amplify add auth             
+amplify add auth
 
 # Select "Content", "Auth users only", full CRUD access,
 # and default configuration:
-amplify add storage          
+amplify add storage
 
 # Select default configuration
-amplify add api              
+amplify add api
 ```
 
 When prompted, use the following schema, which can also be found under `amplify/backend/api/[name of project]/schema.graphql`:
 
 ```graphql
-type Song @model @auth(rules: [{ allow: public}]) {
+type Song @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
   coverArtKey: String # Set as optional to allow adding file after initial create
@@ -29,7 +29,7 @@ type Song @model @auth(rules: [{ allow: public}]) {
 
 Save the schema and run `amplify push` to deploy the changes.
 
-Next, at the root of your project, set *all* access to `private` by configuring the Storage object globally. This will restrict file access to only the signed-in user.
+Next, at the root of your project, set _all_ access to `private` by configuring the Storage object globally. This will restrict file access to only the signed-in user.
 
 ```js
 Storage.configure({ level: 'private' });
@@ -45,13 +45,13 @@ For the complete working example, including required imports, obtaining the file
 
 Your application needs authorization credentials for reading and writing to both Storage and the GraphQL API, except in the case where all data and files are intended to be publicly accessible.
 
-The Storage and API categories govern data access based on their own authorization patterns, meaning that it's necessary to configure appropriate auth roles for each individual category. Although both categories share the same access credentials set up through the Auth category, they work independently from one another. For instance, adding an `@auth` directive to the API schema does not guard against file access in the Storage category. Likewise, adding authorization rules to the Storage category does not guard against data access in the API category. 
+The Storage and API categories govern data access based on their own authorization patterns, meaning that it's necessary to configure appropriate auth roles for each individual category. Although both categories share the same access credentials set up through the Auth category, they work independently from one another. For instance, adding an `@auth` directive to the API schema does not guard against file access in the Storage category. Likewise, adding authorization rules to the Storage category does not guard against data access in the API category.
 
-When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool role. You will then have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. **Even after adding this configuration via the CLI, all Storage access is still `public` by default.** To guard against accidental public access, the Storage access levels must either be configured on the Storage object globally, or set within individual function calls. This guide uses the former approach, setting all Storage access to `private` globally. 
+When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool role. You will then have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. **Even after adding this configuration via the CLI, all Storage access is still `public` by default.** To guard against accidental public access, the Storage access levels must either be configured on the Storage object globally, or set within individual function calls. This guide uses the former approach, setting all Storage access to `private` globally.
 
 The ability to independently configure authorization rules for each category allows for more granular control over data access, and adds greater flexibility. For scenarios where authorization patterns must be mixed and matched, configure the access level on individual Storage function calls. For example, you may want to use `private` CRUD access on an individual Storage function call for files that should only be accessible by the owner (such as personal files), `protected` read access to allow all logged in users to view common files (such as images in a shared photo album), and `public` read access to allow all users to view a file (such as a public profile picture).
 
-For more details on how to configure Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/). For more on configuring GraphQL API authorization, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/js/).
+For more details on how to configure Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/). For more on configuring GraphQL API authorization, see the [API documentation](/[platform]/build-a-backend/graphqlapi/customize-authz//q/platform/js/).
 
 ## Create a record with an associated file
 
@@ -64,19 +64,19 @@ The API record's `id` is prepended to the Storage file name to ensure uniqueness
 </Callout>
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import { uploadData, getUrl } from 'aws-amplify/storage'
+import { generateClient } from 'aws-amplify/api';
+import { uploadData, getUrl } from 'aws-amplify/storage';
 
-const client = generateClient()
+const client = generateClient();
 
 const createSongDetails = {
-  name: `My first song`,
+  name: `My first song`
 };
 
 // Create the API record:
 const response = await client.graphql({
   query: mutations.createSong,
-  variables: { input: createSongDetails },
+  variables: { input: createSongDetails }
 });
 
 const song = response.data.createSong;
@@ -88,19 +88,19 @@ const result = await uploadData({
   key: `${song.id}-${file.name}`,
   data: file,
   options: {
-    contentType: "image/png", // contentType is optional
+    contentType: 'image/png' // contentType is optional
   }
 }).result;
 
 const updateSongDetails = {
   id: song.id,
-  coverArtKey: result?.key,
+  coverArtKey: result?.key
 };
 
 // Add the file association to the record:
 const updateResponse = await client.graphql({
   query: mutations.updateSong,
-  variables: { input: updateSongDetails },
+  variables: { input: updateSongDetails }
 });
 
 const updatedSong = updateResponse.data.updateSong;
@@ -110,34 +110,35 @@ if (!updatedSong.coverArtKey) return;
 
 // Retrieve the file's signed URL:
 const signedURL = await getUrl({ key: updatedSong.coverArtKey });
-``` 
+```
 
 ## Add or update a file for an associated record
 
 To associate a file with a record, update the record with the key returned by the Storage upload. The following example uploads the file using Storage, updates the record with the file's key, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image.
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import { uploadData, getUrl } from 'aws-amplify/storage'
+import { generateClient } from 'aws-amplify/api';
+import { uploadData, getUrl } from 'aws-amplify/storage';
 
-const client = generateClient()
+const client = generateClient();
 // Upload the Storage file:
 const result = await uploadData({
   key: `${currentSong.id}-${file.name}`,
-  data: file, options: {
-    contentType: "image/png", // contentType is optional
+  data: file,
+  options: {
+    contentType: 'image/png' // contentType is optional
   }
 }).result;
 
 const updateSongDetails = {
   id: currentSong.id,
-  coverArtKey: result?.key,
+  coverArtKey: result?.key
 };
 
 // Add the file association to the record:
 const response = await client.graphql({
   query: mutations.updateSong,
-  variables: { input: updateSongDetails },
+  variables: { input: updateSongDetails }
 });
 
 const updatedSong = response.data.updateSong;
@@ -147,22 +148,22 @@ if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the file's signed URL:
 const signedURL = await getUrl({ key: updatedSong.coverArtKey });
-``` 
+```
 
 ## Query a record and retrieve the associated file
 
 To retrieve the file associated with a record, first query the record, then use Storage to get the signed URL. The signed URL can then be used to download the file, display an image, etc:
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import { getUrl } from 'aws-amplify/storage'
+import { generateClient } from 'aws-amplify/api';
+import { getUrl } from 'aws-amplify/storage';
 
-const client = generateClient()
+const client = generateClient();
 
 // Query the record to get the file key:
 const response = await client.graphql({
   query: queries.getSong,
-  variables: { id: currentSong.id },
+  variables: { id: currentSong.id }
 });
 const song = response.data.getSong;
 
@@ -171,28 +172,29 @@ if (!song?.coverArtKey) return;
 
 // Retrieve the signed URL:
 const signedURL = await getUrl({ key: song.coverArtKey });
-``` 
+```
 
 ## Delete and remove files associated with API records
+
 There are three common deletion workflows when working with Storage files and the GraphQL API:
 
 1. Remove the file association, continue to persist both file and record.
 2. Remove the record association and delete the file.
-2. Delete both file and record.
+3. Delete both file and record.
 
 ### Remove the file association, continue to persist both file and record
 
 The following example removes the file association from the record, but does not delete the file from S3, nor the record from the database.
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
+import { generateClient } from 'aws-amplify/api';
 
-const client = generateClient()
+const client = generateClient();
 
 // Remove the file association, continue to persist both file and record
 const response = await client.graphql({
   query: queries.getSong,
-  variables: { id: currentSong.id },
+  variables: { id: currentSong.id }
 });
 
 const song = response.data.getSong;
@@ -202,29 +204,29 @@ if (!song?.coverArtKey) return;
 
 const songDetails = {
   id: song.id,
-  coverArtKey: null,
+  coverArtKey: null
 };
 
 const updatedSong = await client.graphql({
   query: mutations.updateSong,
-  variables: { input: songDetails },
+  variables: { input: songDetails }
 });
-``` 
+```
 
 ### Remove the record association and delete the file
 
 The following example removes the file from the record, then deletes the file from S3:
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import { remove } from 'aws-amplify/storage'
+import { generateClient } from 'aws-amplify/api';
+import { remove } from 'aws-amplify/storage';
 
-const client = generateClient()
+const client = generateClient();
 
 // Remove the record association and delete the file
 const response = await client.graphql({
   query: queries.getSong,
-  variables: { id: currentSong.id },
+  variables: { id: currentSong.id }
 });
 
 const song = response?.data?.getSong;
@@ -234,31 +236,31 @@ if (!song?.coverArtKey) return;
 
 const songDetails = {
   id: song.id,
-  coverArtKey: null, // Set the file association to `null`
+  coverArtKey: null // Set the file association to `null`
 };
 
 // Remove associated file from record
 const updatedSong = await client.graphql({
   query: mutations.updateSong,
-  variables: { input: songDetails },
+  variables: { input: songDetails }
 });
 
 // Delete the file from S3:
 await remove({ key: song.coverArtKey });
-``` 
+```
 
 ### Delete both file and record
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import { remove } from 'aws-amplify/storage'
+import { generateClient } from 'aws-amplify/api';
+import { remove } from 'aws-amplify/storage';
 
-const client = generateClient()
+const client = generateClient();
 
 // Delete both file and record
 const response = await client.graphql({
   query: queries.getSong,
-  variables: { id: currentSong.id },
+  variables: { id: currentSong.id }
 });
 
 const song = response.data.getSong;
@@ -269,19 +271,18 @@ if (!song?.coverArtKey) return;
 await remove({ key: song.coverArtKey });
 
 const songDetails = {
-  id: song.id,
+  id: song.id
 };
 
 await client.graphql({
   query: mutations.deleteSong,
-  variables: { input: songDetails },
+  variables: { input: songDetails }
 });
-``` 
+```
 
 ## Working with multiple files
 
-You may want to add multiple files to a single record, such as a user profile with multiple images. 
-To do this, you can add a list of file keys to the record. The following example adds a list of file keys to a record:
+You may want to add multiple files to a single record, such as a user profile with multiple images. To do this, you can add a list of file keys to the record. The following example adds a list of file keys to a record:
 
 ### GraphQL schema to associate a data model with multiple files
 
@@ -302,19 +303,19 @@ CRUD operations when working with multiple files is the same as when working wit
 First create a record via the GraphQL API, then upload the files to Storage, and finally add the associations between the record and files.
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import { uploadData, getUrl } from 'aws-amplify/storage'
+import { generateClient } from 'aws-amplify/api';
+import { uploadData, getUrl } from 'aws-amplify/storage';
 
-const client = generateClient()
+const client = generateClient();
 
 const photoAlbumDetails = {
-  name: `My first photoAlbum`,
+  name: `My first photoAlbum`
 };
 
 // Create the API record:
 const response = await client.graphql({
   query: mutations.createPhotoAlbum,
-  variables: { input: photoAlbumDetails },
+  variables: { input: photoAlbumDetails }
 });
 
 const photoAlbum = response.data.createPhotoAlbum;
@@ -328,9 +329,9 @@ const imageKeys = await Promise.all(
       key: `${photoAlbum.id}-${file.name}`,
       data: file,
       options: {
-        contentType: "image/png", // contentType is optional
+        contentType: 'image/png' // contentType is optional
       }
-  }).result;
+    }).result;
 
     return result.key;
   })
@@ -338,13 +339,13 @@ const imageKeys = await Promise.all(
 
 const updatePhotoAlbumDetails = {
   id: photoAlbum.id,
-  imageKeys: imageKeys,
+  imageKeys: imageKeys
 };
 
 // Add the file association to the record:
 const updateResponse = await client.graphql({
   query: mutations.updatePhotoAlbum,
-  variables: { input: updatePhotoAlbumDetails },
+  variables: { input: updatePhotoAlbumDetails }
 });
 
 const updatedPhotoAlbum = updateResponse.data.updatePhotoAlbum;
@@ -356,17 +357,17 @@ if (!updatedPhotoAlbum.imageKeys?.length) return;
 const signedUrls = await Promise.all(
   updatedPhotoAlbum.imageKeys.map(async (key) => await getUrl({ key }))
 );
-``` 
+```
 
 ### Add new files to an associated record
 
 To associate additional files with a record, update the record with the keys returned by the Storage uploads.
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import { uploadData, getUrl } from 'aws-amplify/storage'
+import { generateClient } from 'aws-amplify/api';
+import { uploadData, getUrl } from 'aws-amplify/storage';
 
-const client = generateClient()
+const client = generateClient();
 
 // Upload all files to Storage:
 const newImageKeys = await Promise.all(
@@ -375,9 +376,9 @@ const newImageKeys = await Promise.all(
       key: `${currentPhotoAlbum.id}-${file.name}`,
       data: file,
       options: {
-        contentType: "image/png", // contentType is optional
+        contentType: 'image/png' // contentType is optional
       }
-  }).result;
+    }).result;
 
     return result.key;
   })
@@ -386,7 +387,7 @@ const newImageKeys = await Promise.all(
 // Query existing record to retrieve currently associated files:
 const queriedResponse = await client.graphql({
   query: queries.getPhotoAlbum,
-  variables: { id: currentPhotoAlbum.id },
+  variables: { id: currentPhotoAlbum.id }
 });
 
 const photoAlbum = queriedResponse.data.getPhotoAlbum;
@@ -398,13 +399,13 @@ const updatedImageKeys = [...newImageKeys, ...photoAlbum.imageKeys];
 
 const photoAlbumDetails = {
   id: currentPhotoAlbum.id,
-  imageKeys: updatedImageKeys,
+  imageKeys: updatedImageKeys
 };
 
 // Update record with merged file associations:
 const response = await client.graphql({
   query: mutations.updatePhotoAlbum,
-  variables: { input: photoAlbumDetails },
+  variables: { input: photoAlbumDetails }
 });
 
 const updatedPhotoAlbum = response.data.updatePhotoAlbum;
@@ -416,24 +417,24 @@ if (!updatedPhotoAlbum?.imageKeys) return;
 const signedUrls = await Promise.all(
   updatedPhotoAlbum?.imageKeys.map(async (key) => await getUrl({ key }))
 );
-``` 
+```
 
 ### Update the file for an associated record
 
 Updating a file for an associated record is the same as updating a file for a single file record, with the exception that you will need to update the list of file keys.
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import { uploadData, getUrl } from 'aws-amplify/storage'
+import { generateClient } from 'aws-amplify/api';
+import { uploadData, getUrl } from 'aws-amplify/storage';
 
-const client = generateClient()
+const client = generateClient();
 
 // Upload new file to Storage:
 const result = await uploadData({
   key: `${currentPhotoAlbum.id}-${file.name}`,
   data: file,
   options: {
-    contentType: "image/png", // contentType is optional
+    contentType: 'image/png' // contentType is optional
   }
 }).result;
 
@@ -442,7 +443,7 @@ const newFileKey = result.key;
 // Query existing record to retrieve currently associated files:
 const queriedResponse = await client.graphql({
   query: queries.getPhotoAlbum,
-  variables: { id: currentPhotoAlbum.id },
+  variables: { id: currentPhotoAlbum.id }
 });
 
 const photoAlbum = queriedResponse.data.getPhotoAlbum;
@@ -455,18 +456,18 @@ const [lastImageKey] = photoAlbum.imageKeys.slice(-1);
 // Remove last file association by key
 const updatedImageKeys = [
   ...photoAlbum.imageKeys.filter((key) => key !== lastImageKey),
-  newFileKey,
+  newFileKey
 ];
 
 const photoAlbumDetails = {
   id: currentPhotoAlbum.id,
-  imageKeys: updatedImageKeys,
+  imageKeys: updatedImageKeys
 };
 
 // Update record with updated file associations:
 const response = await client.graphql({
   query: mutations.updatePhotoAlbum,
-  variables: { input: photoAlbumDetails },
+  variables: { input: photoAlbumDetails }
 });
 
 const updatedPhotoAlbum = response.data.updatePhotoAlbum;
@@ -478,22 +479,22 @@ if (!updatedPhotoAlbum?.imageKeys) return;
 const signedUrls = await Promise.all(
   updatedPhotoAlbum?.imageKeys.map(async (key) => await getUrl({ key }))
 );
-``` 
+```
 
 ### Query a record and retrieve the associated files
 
 To retrieve the files associated with a record, first query the record, then use Storage to retrieve all of the signed URLs.
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import { getUrl } from 'aws-amplify/storage'
+import { generateClient } from 'aws-amplify/api';
+import { getUrl } from 'aws-amplify/storage';
 
-const client = generateClient()
+const client = generateClient();
 
 // Query the record to get the file keys:
 const response = await client.graphql({
   query: queries.getPhotoAlbum,
-  variables: { id: currentPhotoAlbum.id },
+  variables: { id: currentPhotoAlbum.id }
 });
 const photoAlbum = response.data.getPhotoAlbum;
 
@@ -507,7 +508,7 @@ const signedUrls = await Promise.all(
     return await getUrl({ key: imageKey });
   })
 );
-``` 
+```
 
 ### Delete and remove files associated with API records
 
@@ -516,13 +517,13 @@ The workflow for deleting and removing files associated with API records is the 
 #### Remove the file association, continue to persist both files and record
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
+import { generateClient } from 'aws-amplify/api';
 
-const client = generateClient()
+const client = generateClient();
 
 const response = await client.graphql({
   query: queries.getPhotoAlbum,
-  variables: { id: currentPhotoAlbum.id },
+  variables: { id: currentPhotoAlbum.id }
 });
 
 const photoAlbum = response.data.getPhotoAlbum;
@@ -532,26 +533,26 @@ if (!photoAlbum?.imageKeys) return;
 
 const photoAlbumDetails = {
   id: photoAlbum.id,
-  imageKeys: null,
+  imageKeys: null
 };
 
 const updatedPhotoAlbum = await client.graphql({
   query: mutations.updatePhotoAlbum,
-  variables: { input: photoAlbumDetails },
+  variables: { input: photoAlbumDetails }
 });
-``` 
+```
 
 #### Remove the record association and delete the files
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import { remove } from 'aws-amplify/storage'
+import { generateClient } from 'aws-amplify/api';
+import { remove } from 'aws-amplify/storage';
 
-const client = generateClient()
+const client = generateClient();
 
 const response = await client.graphql({
   query: queries.getPhotoAlbum,
-  variables: { id: currentPhotoAlbum.id },
+  variables: { id: currentPhotoAlbum.id }
 });
 
 const photoAlbum = response.data.getPhotoAlbum;
@@ -561,13 +562,13 @@ if (!photoAlbum?.imageKeys) return;
 
 const photoAlbumDetails = {
   id: photoAlbum.id,
-  imageKeys: null, // Set the file association to `null`
+  imageKeys: null // Set the file association to `null`
 };
 
 // Remove associated files from record
 const updateResponse = await client.graphql({
   query: mutations.updatePhotoAlbum,
-  variables: { input: photoAlbumDetails },
+  variables: { input: photoAlbumDetails }
 });
 
 const updatedPhotoAlbum = updateResponse.data.updatePhotoAlbum;
@@ -579,19 +580,19 @@ await Promise.all(
     await remove({ key: imageKey });
   })
 );
-``` 
+```
 
 #### Delete record and all associated files
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import { remove } from 'aws-amplify/storage'
+import { generateClient } from 'aws-amplify/api';
+import { remove } from 'aws-amplify/storage';
 
-const client = generateClient()
+const client = generateClient();
 
 const response = await client.graphql({
   query: queries.getPhotoAlbum,
-  variables: { id: currentPhotoAlbum.id },
+  variables: { id: currentPhotoAlbum.id }
 });
 
 const photoAlbum = response.data.getPhotoAlbum;
@@ -599,12 +600,12 @@ const photoAlbum = response.data.getPhotoAlbum;
 if (!photoAlbum) return;
 
 const photoAlbumDetails = {
-  id: photoAlbum.id,
+  id: photoAlbum.id
 };
 
 await client.graphql({
   query: mutations.deletePhotoAlbum,
-  variables: { input: photoAlbumDetails },
+  variables: { input: photoAlbumDetails }
 });
 
 // If the record has no associated file, we can return early.
@@ -616,13 +617,13 @@ await Promise.all(
     await remove({ key: imageKey });
   })
 );
-``` 
+```
 
 ## Data consistency when working with records and files
 
-The recommended access patterns in these docs attempt to remove deleted files, but favor leaving orphans over leaving records that point to non-existent files. This optimizes for read latency by ensuring clients *rarely* attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records *on-device* to point to non-existent files.
+The recommended access patterns in these docs attempt to remove deleted files, but favor leaving orphans over leaving records that point to non-existent files. This optimizes for read latency by ensuring clients _rarely_ attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records _on-device_ to point to non-existent files.
 
-One example is when we [create an API record, associate the Storage file with that record, and then retrieve the file's signed URL](#create-a-record-with-an-associated-file). "Device A" calls the GraphQL API to create `API_Record_1`, and then associates that record with `First_Photo`. Before "Device A" is about to retrieve the signed URL, "Device B" might query `API_Record_1`, delete `First_Photo`, and update the record accordingly. However, "Device A" is still using the old `API_Record_1`, which is now out-of-date. Even though the shared global state is correctly in sync at every stage, the individual device ("Device A") has an out-of-date record that points to a non-existent file. Similar issues can conceivably occur for updates. Depending on your app, some of these mismatches can be minimized *even more* with [real-time data / GraphQL subscriptions](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/).
+One example is when we [create an API record, associate the Storage file with that record, and then retrieve the file's signed URL](#create-a-record-with-an-associated-file). "Device A" calls the GraphQL API to create `API_Record_1`, and then associates that record with `First_Photo`. Before "Device A" is about to retrieve the signed URL, "Device B" might query `API_Record_1`, delete `First_Photo`, and update the record accordingly. However, "Device A" is still using the old `API_Record_1`, which is now out-of-date. Even though the shared global state is correctly in sync at every stage, the individual device ("Device A") has an out-of-date record that points to a non-existent file. Similar issues can conceivably occur for updates. Depending on your app, some of these mismatches can be minimized _even more_ with [real-time data / GraphQL subscriptions](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/).
 
 It is important to understand when these mismatches can occur and to add meaningful error handling around these cases. This guide does not include exhaustive error handling, real-time subscriptions, re-querying of outdated records, or attempts to retry failed operations. However, these are all important considerations for a production-level application.
 
@@ -945,21 +946,21 @@ function App() {
 }
 
 export default App;
-``` 
+```
 
 </Block>
 <Block name="Single File (JS)">
 
 ```js
-import { useState } from "react";
-import { Amplify } from 'aws-amplify'
-import { generateClient } from 'aws-amplify/api'
-import { getUrl, uploadData, remove } from 'aws-amplify/storage'
-import { Authenticator } from "@aws-amplify/ui-react";
-import "@aws-amplify/ui-react/styles.css";
-import config from './amplifyconfiguration.json'
-import * as queries from "./graphql/queries";
-import * as mutations from "./graphql/mutations";
+import { useState } from 'react';
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+import { getUrl, uploadData, remove } from 'aws-amplify/storage';
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
+import * as queries from './graphql/queries';
+import * as mutations from './graphql/mutations';
 
 Amplify.configure(config, {
   Storage: {
@@ -968,15 +969,15 @@ Amplify.configure(config, {
       defaultAccessLevel: 'private'
     }
   }
-})
+});
 
-const client = generateClient()
+const client = generateClient();
 
 function App() {
   const [currentSong, setCurrentSong] = useState(null);
 
   // Used to display image for current song:
-  const [currentImageUrl, setCurrentImageUrl] = useState("");
+  const [currentImageUrl, setCurrentImageUrl] = useState('');
 
   async function createSongWithImage(e) {
     if (!e.target.files) return;
@@ -985,13 +986,13 @@ function App() {
 
     try {
       const createSongDetails = {
-        name: `My first song`,
+        name: `My first song`
       };
 
       // Create the API record:
       const response = await client.graphql({
         query: mutations.createSong,
-        variables: { input: createSongDetails },
+        variables: { input: createSongDetails }
       });
 
       const song = response.data.createSong;
@@ -1003,19 +1004,19 @@ function App() {
         key: `${song.id}-${file.name}`,
         data: file,
         options: {
-          contentType: "image/png", // contentType is optional
+          contentType: 'image/png' // contentType is optional
         }
       }).result;
 
       const updateSongDetails = {
         id: song.id,
-        coverArtKey: result?.key,
+        coverArtKey: result?.key
       };
 
       // Add the file association to the record:
       const updateResponse = await client.graphql({
         query: mutations.updateSong,
-        variables: { input: updateSongDetails },
+        variables: { input: updateSongDetails }
       });
 
       const updatedSong = updateResponse.data.updateSong;
@@ -1029,7 +1030,7 @@ function App() {
       const signedURL = await getUrl({ key: updatedSong.coverArtKey });
       setCurrentImageUrl(signedURL.url.toString());
     } catch (error) {
-      console.error("Error create song / file:", error);
+      console.error('Error create song / file:', error);
     }
   }
 
@@ -1046,20 +1047,21 @@ function App() {
       // Upload the Storage file:
       const result = await uploadData({
         key: `${currentSong.id}-${file.name}`,
-        data: file, options: {
-          contentType: "image/png", // contentType is optional
+        data: file,
+        options: {
+          contentType: 'image/png' // contentType is optional
         }
       }).result;
 
       const updateSongDetails = {
         id: currentSong.id,
-        coverArtKey: result?.key,
+        coverArtKey: result?.key
       };
 
       // Add the file association to the record:
       const response = await client.graphql({
         query: mutations.updateSong,
-        variables: { input: updateSongDetails },
+        variables: { input: updateSongDetails }
       });
 
       const updatedSong = response.data.updateSong;
@@ -1073,7 +1075,7 @@ function App() {
       const signedURL = await getUrl({ key: updatedSong.coverArtKey });
       setCurrentImageUrl(signedURL.url.toString());
     } catch (error) {
-      console.error("Error uploading image / adding image to song: ", error);
+      console.error('Error uploading image / adding image to song: ', error);
     }
   }
 
@@ -1083,7 +1085,7 @@ function App() {
       // Query the record to get the file key:
       const response = await client.graphql({
         query: queries.getSong,
-        variables: { id: currentSong.id },
+        variables: { id: currentSong.id }
       });
       const song = response.data.getSong;
 
@@ -1095,7 +1097,7 @@ function App() {
 
       setCurrentImageUrl(signedURL.url.toString());
     } catch (error) {
-      console.error("Error getting song / image:", error);
+      console.error('Error getting song / image:', error);
     }
   }
 
@@ -1106,7 +1108,7 @@ function App() {
     try {
       const response = await client.graphql({
         query: queries.getSong,
-        variables: { id: currentSong.id },
+        variables: { id: currentSong.id }
       });
 
       const song = response.data.getSong;
@@ -1116,19 +1118,19 @@ function App() {
 
       const songDetails = {
         id: song.id,
-        coverArtKey: null,
+        coverArtKey: null
       };
 
       const updatedSong = await client.graphql({
         query: mutations.updateSong,
-        variables: { input: songDetails },
+        variables: { input: songDetails }
       });
 
       // If successful, the response here will be `null`:
       setCurrentSong(updatedSong.data.updateSong);
       setCurrentImageUrl(updatedSong.data.updateSong.coverArtKey);
     } catch (error) {
-      console.error("Error removing image from song: ", error);
+      console.error('Error removing image from song: ', error);
     }
   }
 
@@ -1139,7 +1141,7 @@ function App() {
     try {
       const response = await client.graphql({
         query: queries.getSong,
-        variables: { id: currentSong.id },
+        variables: { id: currentSong.id }
       });
 
       const song = response?.data?.getSong;
@@ -1149,13 +1151,13 @@ function App() {
 
       const songDetails = {
         id: song.id,
-        coverArtKey: null, // Set the file association to `null`
+        coverArtKey: null // Set the file association to `null`
       };
 
       // Remove associated file from record
       const updatedSong = await client.graphql({
         query: mutations.updateSong,
-        variables: { input: songDetails },
+        variables: { input: songDetails }
       });
 
       // Delete the file from S3:
@@ -1165,7 +1167,7 @@ function App() {
       setCurrentSong(updatedSong.data.updateSong);
       setCurrentImageUrl(updatedSong.data.updateSong.coverArtKey);
     } catch (error) {
-      console.error("Error deleting image: ", error);
+      console.error('Error deleting image: ', error);
     }
   }
 
@@ -1176,7 +1178,7 @@ function App() {
     try {
       const response = await client.graphql({
         query: queries.getSong,
-        variables: { id: currentSong.id },
+        variables: { id: currentSong.id }
       });
 
       const song = response.data.getSong;
@@ -1187,23 +1189,23 @@ function App() {
       await remove({ key: song.coverArtKey });
 
       const songDetails = {
-        id: song.id,
+        id: song.id
       };
 
       await client.graphql({
         query: mutations.deleteSong,
-        variables: { input: songDetails },
+        variables: { input: songDetails }
       });
 
       clearLocalState();
     } catch (error) {
-      console.error("Error deleting song: ", error);
+      console.error('Error deleting song: ', error);
     }
   }
 
   function clearLocalState() {
     setCurrentSong(null);
-    setCurrentImageUrl("");
+    setCurrentImageUrl('');
   }
 
   return (
@@ -1211,9 +1213,9 @@ function App() {
       {({ signOut, user }) => (
         <main
           style={{
-            alignItems: "center",
-            display: "flex",
-            flexDirection: "column",
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column'
           }}
         >
           <h1>Hello {user?.username}!</h1>
@@ -1804,15 +1806,15 @@ export default App;
 <Block name="Multi-File (JS)">
 
 ```js
-import { useState } from "react";
-import { Amplify } from 'aws-amplify'
-import { generateClient } from 'aws-amplify/api'
-import { getUrl, uploadData, remove } from 'aws-amplify/storage'
-import { Authenticator } from "@aws-amplify/ui-react";
-import "@aws-amplify/ui-react/styles.css";
-import config from './amplifyconfiguration.json'
-import * as queries from "./graphql/queries";
-import * as mutations from "./graphql/mutations";
+import { useState } from 'react';
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+import { getUrl, uploadData, remove } from 'aws-amplify/storage';
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
+import * as queries from './graphql/queries';
+import * as mutations from './graphql/mutations';
 
 Amplify.configure(config, {
   Storage: {
@@ -1820,9 +1822,9 @@ Amplify.configure(config, {
       defaultAccessLevel: 'private'
     }
   }
-})
+});
 
-const client = generateClient()
+const client = generateClient();
 
 function App() {
   const [currentPhotoAlbum, setCurrentPhotoAlbum] = useState(null);
@@ -1837,13 +1839,13 @@ function App() {
 
     try {
       const photoAlbumDetails = {
-        name: `My first photoAlbum`,
+        name: `My first photoAlbum`
       };
 
       // Create the API record:
       const response = await client.graphql({
         query: mutations.createPhotoAlbum,
-        variables: { input: photoAlbumDetails },
+        variables: { input: photoAlbumDetails }
       });
 
       const photoAlbum = response.data.createPhotoAlbum;
@@ -1855,19 +1857,19 @@ function App() {
         key: `${photoAlbum.id}-${file.name}`,
         data: file,
         options: {
-          contentType: "image/png", // contentType is optional
+          contentType: 'image/png' // contentType is optional
         }
       }).result;
 
       const updatePhotoAlbumDetails = {
         id: photoAlbum.id,
-        imageKeys: [result.key],
+        imageKeys: [result.key]
       };
 
       // Add the file association to the record:
       const updateResponse = await client.graphql({
         query: mutations.updatePhotoAlbum,
-        variables: { input: updatePhotoAlbumDetails },
+        variables: { input: updatePhotoAlbumDetails }
       });
 
       const updatedPhotoAlbum = updateResponse.data.updatePhotoAlbum;
@@ -1881,7 +1883,7 @@ function App() {
       const signedURL = await getUrl({ key: updatedPhotoAlbum.imageKeys[0] });
       setCurrentImages([signedURL.url.toString()]);
     } catch (error) {
-      console.error("Error create photoAlbum / file:", error);
+      console.error('Error create photoAlbum / file:', error);
     }
   }
 
@@ -1890,13 +1892,13 @@ function App() {
 
     try {
       const photoAlbumDetails = {
-        name: `My first photoAlbum`,
+        name: `My first photoAlbum`
       };
 
       // Create the API record:
       const response = await client.graphql({
         query: mutations.createPhotoAlbum,
-        variables: { input: photoAlbumDetails },
+        variables: { input: photoAlbumDetails }
       });
 
       const photoAlbum = response.data.createPhotoAlbum;
@@ -1910,9 +1912,9 @@ function App() {
             key: `${photoAlbum.id}-${file.name}`,
             data: file,
             options: {
-              contentType: "image/png", // contentType is optional
+              contentType: 'image/png' // contentType is optional
             }
-        }).result;
+          }).result;
 
           return result.key;
         })
@@ -1920,13 +1922,13 @@ function App() {
 
       const updatePhotoAlbumDetails = {
         id: photoAlbum.id,
-        imageKeys: imageKeys,
+        imageKeys: imageKeys
       };
 
       // Add the file association to the record:
       const updateResponse = await client.graphql({
         query: mutations.updatePhotoAlbum,
-        variables: { input: updatePhotoAlbumDetails },
+        variables: { input: updatePhotoAlbumDetails }
       });
 
       const updatedPhotoAlbum = updateResponse.data.updatePhotoAlbum;
@@ -1942,9 +1944,9 @@ function App() {
       );
 
       if (!signedUrls) return;
-      setCurrentImages(signedUrls.map(signedUrl => signedUrl.url.toString()));
+      setCurrentImages(signedUrls.map((signedUrl) => signedUrl.url.toString()));
     } catch (error) {
-      console.error("Error create photoAlbum / file:", error);
+      console.error('Error create photoAlbum / file:', error);
     }
   }
 
@@ -1961,9 +1963,9 @@ function App() {
             key: `${currentPhotoAlbum.id}-${file.name}`,
             data: file,
             options: {
-              contentType: "image/png", // contentType is optional
+              contentType: 'image/png' // contentType is optional
             }
-        }).result;
+          }).result;
 
           return result.key;
         })
@@ -1972,7 +1974,7 @@ function App() {
       // Query existing record to retrieve currently associated files:
       const queriedResponse = await client.graphql({
         query: queries.getPhotoAlbum,
-        variables: { id: currentPhotoAlbum.id },
+        variables: { id: currentPhotoAlbum.id }
       });
 
       const photoAlbum = queriedResponse.data.getPhotoAlbum;
@@ -1984,13 +1986,13 @@ function App() {
 
       const photoAlbumDetails = {
         id: currentPhotoAlbum.id,
-        imageKeys: updatedImageKeys,
+        imageKeys: updatedImageKeys
       };
 
       // Update record with merged file associations:
       const response = await client.graphql({
         query: mutations.updatePhotoAlbum,
-        variables: { input: photoAlbumDetails },
+        variables: { input: photoAlbumDetails }
       });
 
       const updatedPhotoAlbum = response.data.updatePhotoAlbum;
@@ -2006,10 +2008,10 @@ function App() {
 
       if (!signedUrls) return;
 
-      setCurrentImages(signedUrls.map(signedUrl => signedUrl.url.toString()));
+      setCurrentImages(signedUrls.map((signedUrl) => signedUrl.url.toString()));
     } catch (error) {
       console.error(
-        "Error uploading image / adding image to photoAlbum: ",
+        'Error uploading image / adding image to photoAlbum: ',
         error
       );
     }
@@ -2029,7 +2031,7 @@ function App() {
         key: `${currentPhotoAlbum.id}-${file.name}`,
         data: file,
         options: {
-          contentType: "image/png", // contentType is optional
+          contentType: 'image/png' // contentType is optional
         }
       }).result;
 
@@ -2038,7 +2040,7 @@ function App() {
       // Query existing record to retrieve currently associated files:
       const queriedResponse = await client.graphql({
         query: queries.getPhotoAlbum,
-        variables: { id: currentPhotoAlbum.id },
+        variables: { id: currentPhotoAlbum.id }
       });
 
       const photoAlbum = queriedResponse.data.getPhotoAlbum;
@@ -2051,18 +2053,18 @@ function App() {
       // Remove last file association by key
       const updatedImageKeys = [
         ...photoAlbum.imageKeys.filter((key) => key !== lastImageKey),
-        newFileKey,
+        newFileKey
       ];
 
       const photoAlbumDetails = {
         id: currentPhotoAlbum.id,
-        imageKeys: updatedImageKeys,
+        imageKeys: updatedImageKeys
       };
 
       // Update record with updated file associations:
       const response = await client.graphql({
         query: mutations.updatePhotoAlbum,
-        variables: { input: photoAlbumDetails },
+        variables: { input: photoAlbumDetails }
       });
 
       const updatedPhotoAlbum = response.data.updatePhotoAlbum;
@@ -2078,22 +2080,24 @@ function App() {
 
       if (!signedUrls) return;
 
-      setCurrentImages(signedUrls.map(signedUrl => signedUrl.url.toString()));
+      setCurrentImages(signedUrls.map((signedUrl) => signedUrl.url.toString()));
     } catch (error) {
       console.error(
-        "Error uploading image / adding image to photoAlbum: ",
+        'Error uploading image / adding image to photoAlbum: ',
         error
       );
     }
   }
 
   async function getImagesForPhotoAlbum() {
-    if (!currentPhotoAlbum) { return }
+    if (!currentPhotoAlbum) {
+      return;
+    }
     try {
       // Query the record to get the file keys:
       const response = await client.graphql({
         query: queries.getPhotoAlbum,
-        variables: { id: currentPhotoAlbum.id },
+        variables: { id: currentPhotoAlbum.id }
       });
       const photoAlbum = response.data.getPhotoAlbum;
 
@@ -2108,9 +2112,11 @@ function App() {
         })
       );
 
-      setCurrentImages(signedUrls.map(signedUrl => signedUrl?.url.toString()));
+      setCurrentImages(
+        signedUrls.map((signedUrl) => signedUrl?.url.toString())
+      );
     } catch (error) {
-      console.error("Error getting photoAlbum / image:", error);
+      console.error('Error getting photoAlbum / image:', error);
     }
   }
 
@@ -2121,7 +2127,7 @@ function App() {
     try {
       const response = await client.graphql({
         query: queries.getPhotoAlbum,
-        variables: { id: currentPhotoAlbum.id },
+        variables: { id: currentPhotoAlbum.id }
       });
 
       const photoAlbum = response.data.getPhotoAlbum;
@@ -2131,19 +2137,19 @@ function App() {
 
       const photoAlbumDetails = {
         id: photoAlbum.id,
-        imageKeys: null,
+        imageKeys: null
       };
 
       const updatedPhotoAlbum = await client.graphql({
         query: mutations.updatePhotoAlbum,
-        variables: { input: photoAlbumDetails },
+        variables: { input: photoAlbumDetails }
       });
 
       // If successful, the response here will be `null`:
       setCurrentPhotoAlbum(updatedPhotoAlbum.data.updatePhotoAlbum);
       setCurrentImages(updatedPhotoAlbum.data.updatePhotoAlbum?.imageKeys);
     } catch (error) {
-      console.error("Error removing image from photoAlbum: ", error);
+      console.error('Error removing image from photoAlbum: ', error);
     }
   }
 
@@ -2154,7 +2160,7 @@ function App() {
     try {
       const response = await client.graphql({
         query: queries.getPhotoAlbum,
-        variables: { id: currentPhotoAlbum.id },
+        variables: { id: currentPhotoAlbum.id }
       });
 
       const photoAlbum = response.data.getPhotoAlbum;
@@ -2164,13 +2170,13 @@ function App() {
 
       const photoAlbumDetails = {
         id: photoAlbum.id,
-        imageKeys: null, // Set the file association to `null`
+        imageKeys: null // Set the file association to `null`
       };
 
       // Remove associated files from record
       const updateResponse = await client.graphql({
         query: mutations.updatePhotoAlbum,
-        variables: { input: photoAlbumDetails },
+        variables: { input: photoAlbumDetails }
       });
 
       const updatedPhotoAlbum = updateResponse.data.updatePhotoAlbum;
@@ -2187,7 +2193,7 @@ function App() {
       setCurrentPhotoAlbum(updatedPhotoAlbum);
       setCurrentImages(null);
     } catch (error) {
-      console.error("Error deleting image: ", error);
+      console.error('Error deleting image: ', error);
     }
   }
 
@@ -2198,7 +2204,7 @@ function App() {
     try {
       const response = await client.graphql({
         query: queries.getPhotoAlbum,
-        variables: { id: currentPhotoAlbum.id },
+        variables: { id: currentPhotoAlbum.id }
       });
 
       const photoAlbum = response.data.getPhotoAlbum;
@@ -2206,12 +2212,12 @@ function App() {
       if (!photoAlbum) return;
 
       const photoAlbumDetails = {
-        id: photoAlbum.id,
+        id: photoAlbum.id
       };
 
       await client.graphql({
         query: mutations.deletePhotoAlbum,
-        variables: { input: photoAlbumDetails },
+        variables: { input: photoAlbumDetails }
       });
 
       setCurrentPhotoAlbum(null);
@@ -2228,7 +2234,7 @@ function App() {
 
       clearLocalState();
     } catch (error) {
-      console.error("Error deleting photoAlbum: ", error);
+      console.error('Error deleting photoAlbum: ', error);
     }
   }
 
@@ -2242,9 +2248,9 @@ function App() {
       {({ signOut, user }) => (
         <main
           style={{
-            alignItems: "center",
-            display: "flex",
-            flexDirection: "column",
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column'
           }}
         >
           <h1>Hello {user?.username}!</h1>

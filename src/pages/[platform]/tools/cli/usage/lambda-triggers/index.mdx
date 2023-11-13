@@ -307,8 +307,8 @@ As you can see in the prompt above, you can either choose to use an existing Lam
 
 You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify CLI. There are two ways by which DynamoDB is provisioned by the Amplify CLI
 
-- As a part of the [Storage category](/cli/storage/overview#)
-- As a part of the [GraphQL API (types with @model annotation)](/cli/graphql/data-modeling)
+- As a part of the [Storage category](/[platform]/build-a-backend/storage/configure-storage/#)
+- As a part of the [GraphQL API (types with @model annotation)](/[platform]/tools/cli/graphqlapi/data-modeling/)
 
 ### As a part of the Storage category
 
@@ -419,4 +419,4 @@ Then select `Amazon Kinesis Stream` when prompted with event source question and
   Provide the ARN of Kinesis stream directly
 ```
 
-After the completion of the above flow, a Lambda function will be created in your `amplify/backend/function` directory and will be invoked when a new event is pushed to a Kinesis stream. Please refer to [Working with the API](/lib/analytics/getting-started) to learn more about publishing your events to Kinesis stream.
+After the completion of the above flow, a Lambda function will be created in your `amplify/backend/function` directory and will be invoked when a new event is pushed to a Kinesis stream. Please refer to [Working with the API](/[platform]/build-a-backend/more-features/analytics/set-up-analytics/) to learn more about publishing your events to Kinesis stream.

@@ -19,7 +19,7 @@ Select the explicit values below to enable **API key** (for public read access) 
 ? Here is the GraphQL API that we will create. Select a setting to edit or continue Continue
 ? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
 
-⚠️  WARNING: your GraphQL API currently allows public create, read, update, and delete access to all models via an API Key. To configure PRODUCTION-READY authorization rules, review: https://docs.amplify.aws/cli/graphql/authorization-rules
+⚠️  WARNING: your GraphQL API currently allows public create, read, update, and delete access to all models via an API Key. To configure PRODUCTION-READY authorization rules, review: https://docs.amplify.aws/nextjs/build-a-backend/graphqlapi/customize-auth/
 
 ✅ GraphQL schema compiled successfully.
 
@@ -48,7 +48,7 @@ type Post
 }
 ```
 
-The schema generated is for a blog app. You'll notice a directive on the `Post` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql/data-modeling) library of Amplify.
+The schema generated is for a blog app. You'll notice a directive on the `Post` type of `@model`. This directive is part of the [GraphQL transform](/[platform]/tools/cli/graphqlapi/data-modeling/) library of Amplify.
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
@@ -67,7 +67,7 @@ amplify push
 
 ✔ Successfully pulled backend environment dev from the cloud.
 ⠹ Building resource api/nextamplified
-⚠️  WARNING: your GraphQL API currently allows public create, read, update, and delete access to all models via an API Key. To configure PRODUCTION-READY authorization rules, review: https://docs.amplify.aws/cli/graphql/authorization-rules
+⚠️  WARNING: your GraphQL API currently allows public create, read, update, and delete access to all models via an API Key. To configure PRODUCTION-READY authorization rules, review: https://docs.amplify.aws/nextjs/build-a-backend/graphqlapi/customize-auth/
 
 
     Current Environment: dev
@@ -94,7 +94,7 @@ Using service: Cognito, provided by: awscloudformation
 "amplify push" will build all your local backend resources and provision it in the cloud
 "amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
 
-⚠️ WARNING: owners may reassign ownership for the following model(s) and role(s): Post: [owner]. If this is not intentional, you may want to apply field-level authorization rules to these fields. To read more: https://docs.amplify.aws/cli/graphql/authorization-rules/#per-user--owner-based-data-access.
+⚠️ WARNING: owners may reassign ownership for the following model(s) and role(s): Post: [owner]. If this is not intentional, you may want to apply field-level authorization rules to these fields. To read more: https://docs.amplify.aws/nextjs/build-a-backend/graphqlapi/customize-auth/#per-user--owner-based-data-access.
 ✅ GraphQL schema compiled successfully.
 
 Edit your schema at <path-to-project>/next-amplified/amplify/backend/api/nextamplified/schema.graphql or place .graphql files in a directory at <path-to-project>/next-amplified/amplify/backend/api/nextamplified/schema

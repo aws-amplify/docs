@@ -25,9 +25,9 @@ This guide walks through how you can connect to the Amplify GraphQL API from any
 ## Connect to GraphQL API from a Next.js server runtime
 
 Before you begin, you will need:
-- [A Next.js application created](/[platform]/start/project-setup/create-application/)
-- [Installed and configured Amplify libraries for Next.js](/[platform]/build-a-backend/server-side-rendering/)
-- [Deployed a GraphQL API via the Amplify CLI, AWS CDK](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/), or directly using [AWS AppSync](https://aws.amazon.com/appsync/)
+- [A Next.js application created]()
+- [Installed and configured Amplify libraries for Next.js]()
+- [Deployed a GraphQL API via the Amplify CLI, AWS CDK](), or directly using [AWS AppSync](https://aws.amazon.com/appsync/)
 
 ### Step 1 - Choose the correct GraphQL API client for Next.js server runtimes
 
@@ -93,7 +93,7 @@ We recommend to generate the server API client in a utility file. Then, import t
 
 <Block name="generateServerClientUsingReqRes() 🌐">
 
-To generate a GraphQL API client for the Next.js server runtime using `NextRequest` and `NextResponse`, you need to only provide your Amplify configuration. When making the individual API requests, you'll need to pass it into an [`runWithAmplifyServerContext`](/[platform]/build-a-backend/server-side-rendering) function to pass in the cookies from request and response variables.
+To generate a GraphQL API client for the Next.js server runtime using `NextRequest` and `NextResponse`, you need to only provide your Amplify configuration. When making the individual API requests, you'll need to pass it into an [`runWithAmplifyServerContext`]() function to pass in the cookies from request and response variables.
 
 ```ts
 import amplifyConfig from '@/amplifyconfiguration.json'
@@ -151,7 +151,7 @@ async fetchTodos() {
 
 <Block name="generateServerClientUsingReqRes() 🌐">
 
-Import the NextRequest/NextResponse-based GraphQL API's server client in your Next.js server runtime code and make your GraphQL within the `runWithAmplifyServerContext` function. Review [Server-side Rendering](/[platform]/build-a-backend/server-side-rendering) to learn more about creating an Amplify server context. 
+Import the NextRequest/NextResponse-based GraphQL API's server client in your Next.js server runtime code and make your GraphQL within the `runWithAmplifyServerContext` function. Review [Server-side Rendering]() to learn more about creating an Amplify server context. 
 
 For example, in a Next.js Pages Router API route, use the `req` and `res` parameters from the `handler` function with `runWithAmplifyServerContext`:  
 
@@ -310,7 +310,7 @@ For functions written using CommonJS, you will need to install version 2 of `nod
 
 ### Query
 
-Using an API Key for authenticating your requests, you can query the GraphQL API to get a list of all `Todo`s. To paginate over the list queries, you need to pass in a `limit` and `nextToken` on the `listTodos` query. See more at [GraphQL pagination ](/guides/api-graphql/graphql-pagination).
+Using an API Key for authenticating your requests, you can query the GraphQL API to get a list of all `Todo`s. To paginate over the list queries, you need to pass in a `limit` and `nextToken` on the `listTodos` query. See more at [GraphQL pagination ](/[platform]/build-a-backend/graphqlapi/graphql-pagination/).
 
 {/* prettier-ignore */}
 ```js

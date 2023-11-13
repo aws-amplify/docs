@@ -1105,7 +1105,7 @@ const replaceOldLinks = function () {
   });
 
   // find and replace all links in fragments
-  pages.forEach((file) => {
+  fragments.forEach((file) => {
     fs.readFile(file, 'utf8', (err, dataString) => {
       if (err) {
         console.log('[ ERROR READING PAGE:  ]', file, err);
@@ -1284,14 +1284,14 @@ const replaceOldLinks = function () {
             data[i] = data[i].replace(prevLink, freshLink);
           }
         }
-        // const newContent = data.join('\n');
-        // fs.writeFile(file, newContent, (err) => {
-        //   if (err) {
-        //     console.log('[ ERROR WRITING CONTENT ]', file, err);
-        //   } else if (data != newContent) {
-        //     console.log('[ SUCCESS: PLATFORM EDITS WRITTEN ]', file);
-        //   }
-        // });
+        const newContent = data.join('\n');
+        fs.writeFile(file, newContent, (err) => {
+          if (err) {
+            console.log('[ ERROR WRITING CONTENT ]', file, err);
+          } else if (data != newContent) {
+            console.log('[ SUCCESS: PLATFORM EDITS WRITTEN ]', file);
+          }
+        });
       }
     });
   });
@@ -1363,5 +1363,5 @@ const checkForBrokenLinks = function () {
 
 // addAddtlJSPlatformsToMeta();
 // addAddtlJSPlatformsToFragmentsInlineFilters();
-replaceOldLinks();
-// checkForBrokenLinks();
+// replaceOldLinks();
+checkForBrokenLinks();
