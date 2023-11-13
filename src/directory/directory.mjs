@@ -380,9 +380,6 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx'
-            },
-            {
               path: 'src/pages/[platform]/build-a-backend/push-notifications/index.mdx',
               children: [
                 {
@@ -961,17 +958,6 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/tools/cli/storage/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/tools/cli/storage/import/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/storage/override/index.mdx'
-                    }
-                  ]
-                },
-                {
                   path: 'src/pages/[platform]/tools/cli/teams/index.mdx',
                   children: [
                     {
@@ -1111,72 +1097,6 @@ export const directory = {
         {
           path: 'src/pages/[platform]/prev/index.mdx',
           children: [
-            {
-              path: 'src/pages/[platform]/prev/start/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/prev/start/project-setup/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/prerequisites/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/create-application/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/platform-setup/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/escape-hatch/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/async-programming-model/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/combine-framework/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/kotlin-coroutines/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/rxjava/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/start/project-setup/use-existing-resources/index.mdx'
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/prev/build-a-backend/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/prev/start/project-setup/create-application/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/prev/start/project-setup/async-programming-model/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/prev/start/project-setup/kotlin-coroutines/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/prev/start/project-setup/rxjava/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/prev/start/project-setup/use-existing-resources/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/prev/start/project-setup/combine-framework/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/prev/start/project-setup/escape-hatch/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/prev/start/project-setup/platform-setup/index.mdx'
-                },
-              ]
-            },
             {
               path: 'src/pages/[platform]/prev/build-a-backend/index.mdx',
               children: [
@@ -1325,9 +1245,6 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/download/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/storage/query-transfers/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/get-properties/index.mdx'
                     },
                     {
@@ -1335,9 +1252,6 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/copy/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/storage/move/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/remove/index.mdx'
