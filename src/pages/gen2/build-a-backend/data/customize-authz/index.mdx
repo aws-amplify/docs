@@ -318,6 +318,7 @@ The Lambda function of choice will receive an authorization token from the clien
 
 To configure a Lambda function as the authorization mode, set the `lambdaConfig` in the CDK construct. Use the `ttl` to designate the toke expiry time.
 
+@TODO: Update code snippet to use latest authorization schema
 ```ts
 const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
   definition: AmplifyGraphqlDefinition.fromFiles(
@@ -401,3 +402,46 @@ Your Lambda authorization function needs to return the following JSON:
 ```
 
 Review the Amplify Library documentation to set the custom authorization token for [GraphQL API](/lib/graphqlapi/authz#aws-lambda) and [DataStore](/lib/datastore/setup-auth-rules#configure-custom-authorization-logic-with-aws-lambda).
+
+
+## Configure multiple authorization rules
+When combining multiple authorization rules, they are "logically OR"-ed.
+
+```ts
+export const schema = a.schema({
+  Post: a.model({
+    title: a.string(),
+    content: a.string()
+  }).authorization([
+    a.allow.public("iam").to(["read"]),
+    a.allow.owner()
+  ])
+})
+```
+
+```ts
+import { generateClient } from 'aws-amplify/api'
+import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
+
+import * as mutations from '@/graphql/mutations'
+import * as queries from '@/graphql/queries'
+
+const client = generateClient<Schema>()
+
+// Creating a post is restricted to Cognito User Pools
+const { data: newPostResult , errors } = await client.models.Post.create({
+	query: queries.createPost,
+	variables: { input: { title: 'Hello World' } },
+	authMode: 'userPool',
+});
+
+// Listing posts is available to all users (verified by IAM)
+const { data: listPostsResult , errors } = await client.models.Post.list({
+	query: queries.listPosts,
+	authMode: 'iam',
+});
+```
+
+In the example above:
+- Any user (signed in or not, verified by IAM) is allowed to read all posts
+- Owners are allowed to create, read, update, and delete their own posts.
