@@ -22,11 +22,10 @@ export const NextPrevious = () => {
         let res = findDirectoryNodes(route, child, platform, children[i - 1], children[i + 1]);
         if (res) return res;
       }
-      return {};
     }
   }
 
-  const { previous, next } = findDirectoryNodes(pathname, directory, platform, null, null);
+  const { previous, next } = findDirectoryNodes(pathname, directory, platform, null, null) || {};
   let nextHref, prevHref;
   if (next) {
     nextHref = {
@@ -76,5 +75,8 @@ export const NextPrevious = () => {
 }
 
 export const NEXT_PREVIOUS_SECTIONS = [
-  '/start/getting-started/'
+  '/start/getting-started/',
+  '/start/project-setup/',
+  '/build-ui/formbuilder/',
+  '/build-ui/uibuilder/'
 ]
