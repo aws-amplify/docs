@@ -10,12 +10,19 @@ code:not([class]) {
   font-style: normal;
 }
 
+.pre-header {
+  align-items: center;
+  padding: var(--amplify-space-xs) 0;
+  &--filename {
+    border-bottom: 1px solid var(--amplify-colors-neutral-90);
+    margin-bottom: var(--amplify-space-medium);
+  }
+}
 .pre-filename {
   color: var(--amplify-colors-font-inverse);
   font-size: var(--amplify-font-sizes-medium);
-  padding: var(--amplify-space-medium) 0;
-  border-bottom: 1px solid var(--amplify-colors-neutral-90);
 }
+
 .pre-wrapper {
   padding: 1px;
   border-radius: var(--amplify-radii-small);
@@ -32,13 +39,13 @@ code:not([class]) {
   background: var(--amplify-colors-neutral-100);
   position: relative;
   border-radius: var(--amplify-radii-small);
-  padding: 0 var(--amplify-space-large);
+  padding: 0 var(--amplify-space-medium);
 }
 
 .pre {
   margin: 0;
   overflow: auto;
-  padding-block: var(--amplify-space-large);
+  padding-block-end: var(--amplify-space-medium);
   font-size: var(--amplify-font-sizes-medium);
 }
 
@@ -56,6 +63,8 @@ code:not([class]) {
 }
 
 .code-copy {
+  margin-inline-start: auto;
+  padding-block: var(--amplify-space-xxxs);
   color: var(--amplify-colors-font-inverse);
   border-radius: var(--amplify-radii-small);
   &:hover {
