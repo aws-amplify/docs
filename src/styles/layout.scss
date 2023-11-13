@@ -173,8 +173,6 @@
   }
   .layout-search {
     height: var(--layout-search-height);
-  }
-  .layout-search--inner {
     padding-inline-start: calc(
       var(--layout-sidebar-width) + var(--amplify-space-xxl)
     );
