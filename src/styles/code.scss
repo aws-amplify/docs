@@ -13,6 +13,8 @@ code:not([class]) {
 .pre-header {
   align-items: center;
   padding: var(--amplify-space-xs) 0;
+  border-bottom: 1px solid var(--amplify-colors-neutral-90);
+  margin-bottom: var(--amplify-space-medium);
   &--filename {
     border-bottom: 1px solid var(--amplify-colors-neutral-90);
     margin-bottom: var(--amplify-space-medium);
