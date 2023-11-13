@@ -14,7 +14,7 @@ export function getStaticProps(context) {
 
 The easiest way to get started with AWS Amplify is through [npm](https://npmjs.com) with [`create-amplify`](https://www.npmjs.com/package/create-amplify), however it may be preferable to start from scratch, either with an existing frontend app or a brand new directory.
 
-To get started, we will walk you through initializing your project, install dependencies, and author your first backend.
+To get started, we will walk you through how to initialize your project, install dependencies, and author your first backend.
 
 First, create your project's `package.json` with `npm init -y`. Then, install the required dependencies for building a backend:
 
@@ -24,7 +24,7 @@ npm add --save-dev @aws-amplify/backend @aws-amplify/backend-cli typescript
 
 <Callout info>
 
-**Note**: TypeScript is not a requirement, however recommended for an optimal experience
+**Note**: TypeScript is not a requirement but is recommended for an optimal experience.
 
 </Callout>
 
@@ -56,7 +56,7 @@ Or, you can create a file local to the Amplify backend directory, `amplify/packa
 
 </Callout>
 
-Moving forward, you can use other `define*` functions to _define_ additional resources, such as authentication:
+Moving forward, you can use other `define*` functions to _define_ additional resources. For example, you can define authentication:
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
@@ -68,7 +68,7 @@ export const auth = defineAuth({
 });
 ```
 
-This is how you will also define your data resource:
+And then define your data resource:
 
 ```ts title="amplify/data/resource.ts"
 import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
@@ -81,7 +81,7 @@ export const data = defineData({
 });
 ```
 
-Each of these newly-defined resources are then imported and set on the backend definition:
+Each of these newly-defined resources are then imported and set in the backend definition:
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
@@ -98,5 +98,5 @@ defineBackend({
 
 - [Learn more about defining authentication](/gen2/build-a-backend/auth)
 - [Learn more about defining data](/gen2/build-a-backend/data)
-- [Get started with cloud sandbox](/gen2/deploy-and-host/local-development)
+- [Get started with cloud sandbox](/gen2/deploy-and-host/sandbox-environments)
 - [Deploy and host your first app](/gen2/deploy-and-host/fullstack-branching)

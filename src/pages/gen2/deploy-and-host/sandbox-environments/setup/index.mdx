@@ -1,5 +1,5 @@
 export const meta = {
-  title: 'Setup a cloud sandbox',
+  title: 'Set up a cloud sandbox',
   description: 'Guide to set up a cloud sandbox environment on your machine.'
 };
 
@@ -12,19 +12,19 @@ export function getStaticProps(context) {
 
 }
 
-Amplify gives every developer a personal cloud sandbox environment that provide isolated development spaces for developers to rapidly build, test, and iterate on their fullstack app. Each developer gets their own disposable sandbox environment connected to cloud resources.
+Amplify gives every developer a personal cloud sandbox environment that provides isolated development spaces for developers to rapidly build, test, and iterate on their fullstack app. Each developer gets their own disposable sandbox environment connected to cloud resources.
 
 ![How cloud sandbox environments work.](/images/gen2/how-amplify-works/sandbox.png)
 
 ## Creating a new sandbox environment
 
-Pre-requisites:
+Before you begin, you will need to:
 
 - Follow the [getting started](../../../start/getting-started/) instructions
 - Ensure `@aws-amplify/backend-cli` is in your `package.json > devDependencies`. If not, run `npm install @aws-amplify/backend-cli`
-- Configure your local machine to be able to deploy to AWS.
+- Configure your local machine to be able to deploy to AWS
 
-Open the terminal and run the following command
+Open the terminal and run the following command:
 
 ```bash
 cd myapp
