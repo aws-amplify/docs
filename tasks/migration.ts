@@ -1090,14 +1090,17 @@ const replaceOldLinks = function () {
       dest = instance['New backend source'].slice(9);
       if (dest.includes('/index.')) {
         dest = dest.slice(0, dest.indexOf('/index.'));
+      } else if (dest.includes('.tsx') || dest.includes('.mdx')) {
+        dest = dest.slice(0, dest.indexOf('.'));
       }
     }
 
     const d = {
       from: start,
       plat: variable,
-      to: dest
+      to: dest + '/'
     };
+
     redirectLinks.push(d);
   });
 
@@ -1201,73 +1204,78 @@ const replaceOldLinks = function () {
                 };
 
                 redirectLinks.forEach((instruction) => {
-                  if (instruction.from == k.origLink) {
-                    // console.log(instruction.from);
-                    k.newLink = instruction.to;
-                  } else if (k.newLink == '') {
-                    console.log('no new link: ', k.origLink);
-                  } else if (
-                    k.plat &&
-                    k.plat.includes('platform') &&
-                    !k.plat.includes('[platform]')
+                  if (k.origLink[k.origLink.length - 1] == '/') {
+                    k.origLink = k.origLink.slice(0, k.origLink.length - 1);
+                  }
+                  if (
+                    !k.origLink.startsWith('/[platform]') &&
+                    !k.origLink.startsWith('/gen2')
                   ) {
-                    const revLink =
-                      k.origLink.slice(
-                        0,
-                        k.origLink.indexOf('/q/platform/') + 12
-                      ) + '[platform]';
-                    // console.log('orig: ', k.origLink);
-                    // console.log(' rev: ', revLink);
-                    if (instruction.from == revLink) {
+                    if (instruction.from == k.origLink) {
                       k.newLink = instruction.to;
-                    }
-                    // console.log('instruction: ', instruction.from);
-                    // console.log(' k.origLink: ', k.origLink);
-                  } else if (
-                    k.plat &&
-                    k.plat.includes('integration') &&
-                    !k.plat.includes('[integration]')
-                  ) {
-                    const revLink =
-                      k.origLink.slice(
-                        0,
-                        k.origLink.indexOf('/q/integration/') + 15
-                      ) + '[integration]';
-                    // console.log('orig: ', k.origLink);
-                    // console.log(' rev: ', revLink);
-                    if (instruction.from == revLink) {
-                      k.newLink = instruction.to;
-                    }
-                    // console.log('instruction: ', instruction.from);
-                    // console.log(' k.origLink: ', k.origLink);
-                  } else if (k.plat) {
-                    let combined = k.origLink + k.plat;
-                    if (combined.includes('//')) {
-                      combined = combined.replaceAll('//', '/');
-                    }
-                    if (instruction.from == combined) {
-                      k.newLink = instruction.to;
+                    } else if (
+                      k.plat &&
+                      k.plat.includes('platform') &&
+                      !k.plat.includes('[platform]')
+                    ) {
+                      const revLink =
+                        k.origLink.slice(
+                          0,
+                          k.origLink.indexOf('/q/platform/') + 12
+                        ) + '[platform]';
+                      // console.log('orig: ', k.origLink);
+                      // console.log(' rev: ', revLink);
+                      if (instruction.from == revLink) {
+                        k.newLink = instruction.to;
+                      }
+                      // console.log('instruction: ', instruction.from);
+                      // console.log(' k.origLink: ', k.origLink);
+                    } else if (
+                      k.plat &&
+                      k.plat.includes('integration') &&
+                      !k.plat.includes('[integration]')
+                    ) {
+                      const revLink =
+                        k.origLink.slice(
+                          0,
+                          k.origLink.indexOf('/q/integration/') + 15
+                        ) + '[integration]';
+                      // console.log('orig: ', k.origLink);
+                      // console.log(' rev: ', revLink);
+                      if (instruction.from == revLink) {
+                        k.newLink = instruction.to;
+                      }
+                      // console.log('instruction: ', instruction.from);
+                      // console.log(' k.origLink: ', k.origLink);
+                    } else if (k.plat) {
+                      let combined = k.origLink + k.plat;
+                      if (combined.includes('//')) {
+                        combined = combined.replaceAll('//', '/');
+                      }
+                      if (instruction.from == combined) {
+                        k.newLink = instruction.to;
+                      }
                     }
                   }
                 });
-
-                // if (
-                //   k.newLink == '' &&
-                //   !k.origLink.startsWith('/[platform]/') &&
-                //   !k.origLink.startsWith('/swift')
-                // ) {
-                //   console.log(k);
-                // }
 
                 if (k.anchor) {
                   k.newLink = k.newLink + anchor;
                 }
 
+                if (
+                  !k.origLink.startsWith('/[platform]') &&
+                  !k.origLink.startsWith('/gen2') &&
+                  k.newLink == ''
+                ) {
+                  console.log(k);
+                }
+
                 prevLink = link;
                 freshLink = k.newLink;
 
-                console.log('old: ', link);
-                console.log('new: ', k.newLink);
+                // console.log('old: ', link);
+                // console.log('new: ', k.newLink);
               }
             }
             // console.log('prevLink', prevLink);
@@ -1355,5 +1363,5 @@ const checkForBrokenLinks = function () {
 
 // addAddtlJSPlatformsToMeta();
 // addAddtlJSPlatformsToFragmentsInlineFilters();
-// replaceOldLinks();
-checkForBrokenLinks();
+replaceOldLinks();
+// checkForBrokenLinks();
