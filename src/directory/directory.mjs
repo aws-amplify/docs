@@ -805,11 +805,21 @@ export const directory = {
           path: 'src/pages/[platform]/deploy-and-host/index.mdx',
           children: [
             {
-              path: 'src/pages/[platform]/deploy-and-host/custom-configuration/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/custom-configuration/configure-custom-domain/index.mdx'
-                }
+              isExternal: true,
+              route: 'https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html',
+              title: 'Amplify Hosting',
+              description:
+                'Amplify Hosting provides a git-based workflow for hosting fullstack serverless web apps with continuous deployment.',
+              platforms: [
+                'android',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'angular',
+                'flutter',
+                'swift',
+                'vue'
               ]
             },
             {
@@ -826,6 +836,14 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/deploy-and-host/deployment/pull-request-previews/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/deploy-and-host/custom-configuration/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/custom-configuration/configure-custom-domain/index.mdx'
                 }
               ]
             }
