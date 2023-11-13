@@ -51,4 +51,11 @@ export type PageNode = {
    * Set as a page level static prop
    */
   hideFromNav?: boolean;
+
+  /**
+   * This denotes that a directory entry should not be filtered out from the nav
+   * The intended use case for this attribute is to mark manually added directory entries to show
+   * in the base menu /[platform]/sdk as an example.
+   */
+  isUnfilterable?: boolean;
 };

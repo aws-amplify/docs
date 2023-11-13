@@ -43,7 +43,7 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/start/getting-started/nextsteps/index.mdx'
-                },
+                }
               ]
             },
             {
@@ -720,7 +720,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/upgrade-amplify-packages/index.mdx'
                 }
               ]
-            },
+            }
           ]
         },
         {
@@ -854,7 +854,7 @@ export const directory = {
                   children: [
                     {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
-                    },
+                    }
                   ]
                 },
                 { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
@@ -1652,6 +1652,24 @@ export const directory = {
           ]
         },
         {
+          path: 'src/pages/[platform]/tools/cli-legacy/index.mdx',
+          title: 'CLI (Legacy)',
+          description: 'CLI (Legacy)',
+          platforms: [
+            'android',
+            'angular',
+            'flutter',
+            'javascript',
+            'nextjs',
+            'react',
+            'react-native',
+            'swift',
+            'vue'
+          ],
+          route: '/[platform]/tools/cli-legacy',
+          isUnfilterable: true
+        },
+        {
           path: 'src/pages/[platform]/sdk/index.mdx',
           children: [
             {
@@ -1768,6 +1786,16 @@ export const directory = {
               ]
             }
           ]
+        },
+        {
+          path: 'src/pages/[platform]/sdk/index.mdx',
+          title: 'AWS Mobile SDK - Overview',
+          description:
+            'The AWS Mobile SDK for Android enables you to build mobile apps by providing simplified APIs for AWS services such as Amazon Cognito, Amazon S3, AWS AppSync, and more.',
+          disableTOC: 'true',
+          platforms: ['swift', 'android'],
+          route: '/[platform]/sdk',
+          isUnfilterable: true
         }
       ]
     },
