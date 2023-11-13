@@ -10,12 +10,17 @@ code:not([class]) {
   font-style: normal;
 }
 
+.pre-header {
+  align-items: center;
+  padding: var(--amplify-space-xs) 0;
+  border-bottom: 1px solid var(--amplify-colors-neutral-90);
+}
 .pre-filename {
   color: var(--amplify-colors-font-inverse);
   font-size: var(--amplify-font-sizes-medium);
-  padding: var(--amplify-space-medium) 0;
-  border-bottom: 1px solid var(--amplify-colors-neutral-90);
+  line-height: var(--amplify-line-heights-small);
 }
+
 .pre-wrapper {
   padding: 1px;
   border-radius: var(--amplify-radii-small);
@@ -38,8 +43,12 @@ code:not([class]) {
 .pre {
   margin: 0;
   overflow: auto;
-  padding-block: var(--amplify-space-large);
+  padding-block-start: var(--amplify-space-medium);
+  padding-block-end: var(--amplify-space-large);
   font-size: var(--amplify-font-sizes-medium);
+  &--header {
+    padding-block: var(--amplify-space-large);
+  }
 }
 
 .token-line {
@@ -48,7 +57,7 @@ code:not([class]) {
 }
 .line-number {
   color: var(--code-theme-comment);
-  margin-inline-end: var(--amplify-space-small);
+  margin-inline-end: var(--amplify-space-medium);
   text-align: end;
   user-select: none;
   display: inline-block;
@@ -56,6 +65,8 @@ code:not([class]) {
 }
 
 .code-copy {
+  margin-inline-start: auto;
+  padding-block: var(--amplify-space-xxxs);
   color: var(--amplify-colors-font-inverse);
   border-radius: var(--amplify-radii-small);
   &:hover {
