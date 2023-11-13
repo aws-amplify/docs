@@ -304,49 +304,55 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/storage/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/android-sdk/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/configure-access/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/copy/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/download/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/existing-resources/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/get-properties/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/lambda-triggers/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/list/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/move/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/query-transfers/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/remove/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/configure-storage/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/set-up-storage/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/storage-concepts/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/upload/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/download/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/query-transfers/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/get-properties/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/list/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/copy/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/move/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/remove/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/configure-access/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/transfer-acceleration/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/upload/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/lambda-triggers/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/import/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/existing-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/modify-amplify-generated-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/sdk/index.mdx'
                 }
               ]
             },
