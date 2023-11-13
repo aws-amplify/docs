@@ -83,11 +83,7 @@ function BreadcrumbsComponent({ route, platform, isGen2 }: Props) {
         {items?.map(({ href, label }, i) => {
           const isCurrent = i === items.length - 1;
           return (
-            <Breadcrumbs.Item
-              key={href.pathname}
-              paddingTop="small"
-              className="breadcrumb__item"
-            >
+            <Breadcrumbs.Item key={href.pathname} className="breadcrumb__item">
               <Link
                 href={href}
                 passHref

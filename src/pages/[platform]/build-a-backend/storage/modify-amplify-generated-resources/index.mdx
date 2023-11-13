@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Override Amplify-generated S3 and DynamoDB resources',
+  title: 'Modify Amplify-generated resources',
   description:
-    'The "amplify override storage" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated S3 and DynamoDB resources as CDK constructs. For example, developers can run the “amplify override storage” command to enable Transfer Acceleration for Amplify-generated S3 buckets.',
+    'The "amplify override storage" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated S3 and DynamoDB resources as CDK constructs. For example, developers can run the "amplify override storage" command to enable Transfer Acceleration for Amplify-generated S3 buckets.',
   platforms: [
     'android',
     'angular',
@@ -29,6 +29,8 @@ export function getStaticProps(context) {
     }
   };
 }
+
+Amplify Storage uses underlying AWS services and resources such as S3 and DynamoDB. You can customize these underlying resources for your specific use case.
 
 ```bash
 amplify override storage
