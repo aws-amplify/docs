@@ -1,18 +1,12 @@
-The fastest way to get started is using the `amplify-app` npx script.
-
-<YoutubeEmbed embedId="wH-UnQy1ltM" />
-<br/>
-
 <BlockSwitcher>
 <Block name="React Native">
 
 Start with the [React Native CLI](https://reactnative.dev/docs/getting-started):
 
 ```bash
-npx react-native@0.68.2 init AmplifyDataStoreRN --version 0.68.2
+npx react-native init AmplifyDataStoreRN
 cd AmplifyDataStoreRN
-npx amplify-app@latest
-npm install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage core-js
+npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
 ```
 
 You will also need to install the pod dependencies for iOS:
@@ -28,10 +22,9 @@ React Native CLI apps can now use SQLite with DataStore. SQLite offers considera
 To enable SQLite with DataStore for enhanced local database performance, follow the steps below:
 
 ```sh
-npx react-native@0.68.2 init AmplifyDataStoreRN --version 0.68.2
+npx react-native init AmplifyDataStoreRN
 cd AmplifyDataStoreRN
-npx amplify-app@latest
-npm install aws-amplify amazon-cognito-identity-js @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-community/netinfo @react-native-async-storage/async-storage core-js
+npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-async-storage/async-storage react-native-get-random-values
 npx pod-install
 ```
 
@@ -60,7 +53,6 @@ Start with the [Expo CLI](https://docs.expo.dev/):
 ```bash
 npx create-expo-app AmplifyDataStoreExpo
 cd AmplifyDataStoreExpo
-npx amplify-app@latest
 expo install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage
 ```
 
