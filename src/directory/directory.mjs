@@ -43,7 +43,7 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/start/getting-started/nextsteps/index.mdx'
-                },
+                }
               ]
             },
             {
@@ -217,7 +217,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/relational-models/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/custom-buisness-logic/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/custom-business-logic/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/index.mdx'
@@ -705,7 +705,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/upgrade-amplify-packages/index.mdx'
                 }
               ]
-            },
+            }
           ]
         },
         {
@@ -839,7 +839,7 @@ export const directory = {
                   children: [
                     {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
-                    },
+                    }
                   ]
                 },
                 { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
