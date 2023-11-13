@@ -1534,7 +1534,9 @@
     "astro",
     "disambiguator",
     "autobranch",
-    "gitflow"
+    "gitflow",
+    "SIWA",
+    "hotswap"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
