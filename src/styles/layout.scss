@@ -132,6 +132,11 @@
   gap: var(--amplify-space-large);
   max-width: 1000px;
   padding-bottom: var(--amplify-space-xxl);
+  scroll-margin-block-start: 12rem;
+  &:focus-visible {
+    outline: 2px solid var(--amplify-colors-border-focus);
+    outline-offset: var(--amplify-space-xs);
+  }
 }
 
 .layout-header {

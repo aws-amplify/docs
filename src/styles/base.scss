@@ -164,3 +164,20 @@ ol:not([class]) {
     scroll-margin-top: 9rem;
   }
 }
+
+.skip-to-main {
+  position: fixed;
+  z-index: 201; // GlobalNav is set to 200
+  top: var(--amplify-space-small);
+  inset-inline-start: 50%;
+  transform: translate(-50%, 0);
+  &:not(:focus):not(:active) {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+}
