@@ -130,7 +130,7 @@
   flex-direction: column;
   container-type: inline-size;
   gap: var(--amplify-space-large);
-  max-width: 1000px;
+  max-width: var(--content-max-width);
   padding-bottom: var(--amplify-space-xxl);
   scroll-margin-block-start: 12rem;
   &:focus-visible {
