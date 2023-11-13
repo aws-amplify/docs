@@ -1,19 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Set up a function',
-  description: 'Use Amplify CLI to add powerful Lambda functions to your cloud-based mobile and web app with a simple guided workflow.',
-  platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+  description:
+    'Use Amplify CLI to add powerful Lambda functions to your cloud-based mobile and web app with a simple guided workflow.',
+  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native','angular','nextjs','react','vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -43,7 +34,7 @@ amplify add function
 ? Provide the AWS Lambda function name: lambdafunction
 ? Choose the runtime that you want to use: NodeJS
 ? Choose the function template that you want to use: (Use arrow keys)
-❯ Hello world function
+> Hello world function
   CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)
   Serverless express function (Integration with Amazon API Gateway)
 ```
@@ -61,14 +52,14 @@ $ amplify update function
 Please select the Lambda Function you would want to update: lambdafunction
 ? Which setting do you want to update? Resource access permissions
 ? Select the category (Press <space> to select, <a> to toggle all, <i> to invert selection)
-❯◉ api
- ◯ function
- ◯ storage
- ◯ auth
+> api
+  function
+  storage
+  auth
 ? Select the operations you want to permit on <YOUR_API_NAME> (Press <space> to select, <a> to toggle all, <i> to invert selection)
-❯◉ Query
- ◯ Mutation
- ◯ Subscription
+> Query
+  Mutation
+  Subscription
 
 You can access the following resource attributes as environment variables from your Lambda function
 	API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT
@@ -115,7 +106,6 @@ You can grant your Lambda function  access to your existing resources. After run
 
 **Resource**: Specify resources that the AWS resource needs access. The resource accepts multiple Arns for a service and wild card character ‘*’ is accepted.
 
-
 > Note: Specifying resource or action as ‘*’ is not recommended as best practice. This gives the Amplify function resource Administrative privileges which should be avoided.
 
 
@@ -134,7 +124,6 @@ If your Amplify resource requires access to multiple AWS services and resources,
 ]
 ```
 
-
 Optionally, the `Effect` field can be specified to use ‘Allow’ or ‘Deny’. If not specified the field defaults to ‘Allow’
 
 ```json
@@ -147,7 +136,7 @@ Optionally, the `Effect` field can be specified to use ‘Allow’ or ‘Deny’
 
 ### Multi-Environment Workflow
 
-To specify AWS ARN resources across environments, an optional ‘\${env}’ parameter can be used for resources. The ‘\${env}’ parameter in the AWS ARN resource will get populated with the current Amplify environment name at deployment.
+To specify AWS ARN resources across environments, an optional `\${env}` parameter can be used for resources. The `\${env}` parameter in the AWS ARN resource will get populated with the current Amplify environment name at deployment.
 
 ``` json
 "Resource": ["arn:aws:s3:::${env}my-bucket"]
