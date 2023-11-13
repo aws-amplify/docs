@@ -301,3 +301,103 @@ By default, `group` authorization leverages Amazon Cognito user pool groups but 
 2. If you authorize via an array of groups (`groups: a.string().array()` example above),
   - subscriptions are only supported if the user is part of 20 or fewer groups
   - you can only authorize 20 or fewer user groups per record
+
+### Custom authorization rule
+
+You can define your own custom authorization rule with a Lambda function.
+
+```graphql
+type Salary @model @auth(rules: [{ allow: custom }]) {
+  id: ID!
+  wage: Int
+  currency: String
+}
+```
+
+The Lambda function of choice will receive an authorization token from the client and execute the desired authorization logic. The AppSync GraphQL API will receive a payload from Lambda after invocation to allow or deny the API call accordingly.
+
+To configure a Lambda function as the authorization mode, set the `lambdaConfig` in the CDK construct. Use the `ttl` to designate the toke expiry time.
+
+```ts
+const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
+  definition: AmplifyGraphqlDefinition.fromFiles(
+    path.join(__dirname, "schema.graphql")
+  ),
+  authorizationModes: {
+    defaultAuthorizationMode: "AWS_LAMBDA",
+    lambdaConfig: {
+      function: new lambda.Function(this, "MyAuthLambda", {
+        code: lambda.Code.fromAsset(path.join(__dirname, "handlers/auth")),
+        handler: "index.handler",
+        runtime: lambda.Runtime.NODEJS_18_X,
+      }),
+      ttl: cdk.Duration.seconds(10),
+    },
+  },
+});
+```
+
+You can leverage this Lambda function code template as a starting point to author your authorization handler code:
+
+```js
+// This is sample code. Please update this to suite your schema
+
+/**
+ * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
+ */
+exports.handler = async (event) => {
+  console.log(`EVENT: ${JSON.stringify(event)}`);
+  const {
+    authorizationToken,
+    requestContext: { apiId, accountId },
+  } = event;
+  const response = {
+    isAuthorized: authorizationToken === 'custom-authorized',
+    resolverContext: {
+      // eslint-disable-next-line spellcheck/spell-checker
+      userid: 'user-id',
+      info: 'contextual information A',
+      more_info: 'contextual information B',
+    },
+    deniedFields: [
+      `arn:aws:appsync:${process.env.AWS_REGION}:${accountId}:apis/${apiId}/types/Event/fields/comments`,
+      `Mutation.createEvent`,
+    ],
+    ttlOverride: 300,
+  };
+  console.log(`response >`, JSON.stringify(response, null, 2));
+  return response;
+};
+```
+
+You can use the default Amplify provided template as a starting point for your custom authorization rule. The authorization Lambda function receives:
+
+```json
+{
+    "authorizationToken": "ExampleAuthToken123123123", # Authorization token specified by client
+    "requestContext": {
+        "apiId": "aaaaaa123123123example123", # AppSync API ID
+        "accountId": "111122223333", # AWS Account ID
+        "requestId": "f4081827-1111-4444-5555-5cf4695f339f",
+        "queryString": "mutation CreateEvent {...}\n\nquery MyQuery {...}\n", # GraphQL query
+        "operationName": "MyQuery", # GraphQL operation name
+        "variables": {} # any additional variables supplied to the operation
+    }
+}
+```
+
+Your Lambda authorization function needs to return the following JSON:
+
+```json
+{
+  // required
+  "isAuthorized": true, // if "false" then an UnauthorizedException is raised, access is denied
+  "resolverContext": { "banana": "very yellow" }, // JSON object visible as $ctx.identity.resolverContext in VTL resolver templates
+
+  // optional
+  "deniedFields": ["TypeName.FieldName"], // Forces the fields to "null" when returned to the client
+  "ttlOverride": 10 // The number of seconds that the response should be cached for. Overrides default specified in "amplify update api"
+}
+```
+
+Review the Amplify Library documentation to set the custom authorization token for [GraphQL API](/lib/graphqlapi/authz#aws-lambda) and [DataStore](/lib/datastore/setup-auth-rules#configure-custom-authorization-logic-with-aws-lambda).
