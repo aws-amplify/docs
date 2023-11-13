@@ -48,15 +48,9 @@ import {AmpligramCollection} from './ui-components'
 
 All generated code exposes an `overrides` prop on all components and children to give you full control over extending generated code. The following example shows how to override the color of the title of the `FAQItem` component, that is part of the default Figma file, to red.
 
-<<<<<<< HEAD
-1. In Studio, navigate to the `FAQItem` component
-2. Find the name of the text element, in this case `Title`
-3. Wherever you are rendering the `FAQItem` add an `overrides` prop.
-=======
 1.  In Studio, navigate to the `FAQItem` component
 2.  Find the name of the text element, in this case `Title`
 3.  Wherever you are rendering the `FAQItem` add an `overrides` prop.
->>>>>>> next-release/main
 
 <Grid templateColumns={{ base: '1fr', large: '240px 1fr' }} gap="small">
   <View maxWidth="240px" margin="auto">
@@ -72,23 +66,9 @@ All generated code exposes an `overrides` prop on all components and children to
         <FAQItem overrides={{ Title: { color: 'red' } }} />
         ```
 
-<<<<<<< HEAD
-```jsx
-import {FAQItem} from './ui-components'
-...
-...                //⬇️ Element name shown in Studio
-<FAQItem overrides={{"Title": { color: "red" } }}/>
-```
-
-</td>
-</tr>
-</tbody>
-</table>
-=======
       </View>
 
 </Grid>
->>>>>>> next-release/main
 
 ### Extend generated collections via overrideItems prop
 
@@ -118,21 +98,13 @@ If you want to override a prop for a specific element within a collection item, 
 
 <Callout info>
 
-<<<<<<< HEAD
 **Note**: Studio supports nested collections with any GraphQL API created with Amplify, [with and without DataStore](/[platform]/tools/console/data/data-model/#datastore-and-graphql). However, these different data types have different syntax.
-=======
-**Note**: Studio supports nested collections with any GraphQL API created with Amplify, [with and without DataStore](/console/data/data-model/#datastore-and-graphql). However, these different data types have different syntax.
->>>>>>> next-release/main
 
 </Callout>
 
 Component slots within collections allow you to conditionally render additional nested collections. For example, use nested collections to generate a collection of posts, each with its own collection of related comments.
 
-<<<<<<< HEAD
 In this example, you have two collections: `AmpligramCollection`, which has a slot named `comments`, and `CommentViewCollection`. These are bound to the `Post` and `Comment` data models, which have a [one-to-many relationship](/[platform]/tools/console/data/relationships/) - therefore, each record in the `Post` data model has a field named `Comments`, whose value is an array of `Comment` records.
-=======
-In this example, you have two collections: `AmpligramCollection`, which has a slot named `comments`, and `CommentViewCollection`. These are bound to the `Post` and `Comment` data models, which have a [one-to-many relationship](/console/data/relationships/) - therefore, each record in the `Post` data model has a field named `Comments`, whose value is an array of `Comment` records.
->>>>>>> next-release/main
 
 First, nest the `CommentViewCollection` within the `comment` component slot in the `AmpligramCollection` by using the `overrideItems` functionality. This will render every item in the `CommentViewCollection` in each `Ampligram` slot.
 
@@ -191,11 +163,7 @@ export default App;
 
 ### Add business logic during or after action execution
 
-<<<<<<< HEAD
 If your components are bound to a [GraphQL API using DataStore](/[platform]/tools/console/data/data-model//#datastore-and-graphql), you can use the Amplify Hub to listen to actions that are executed via [UI event handlers](/[platform]/build-ui/uibuilder/eventhandling/) and then add your custom business logic.
-=======
-If your components are bound to a [GraphQL API using DataStore](/console/data/data-model/#datastore-and-graphql), you can use the Amplify Hub to listen to actions that are executed via [UI event handlers](/console/uibuilder/eventhandling) and then add your custom business logic.
->>>>>>> next-release/main
 
 ```jsx
 import { Hub } from 'aws-amplify/utils'
@@ -212,7 +180,6 @@ In the example above, you can add your own custom business logic, when the custo
 
 | Action name | Description |
 | --- | --- |
-<<<<<<< HEAD
 | actions:core:navigate:started | [Navigate action](/[platform]/build-ui/uibuilder/eventhandling/#bind-ui-to-navigation-actions) started |
 | actions:core:navigate:finished | [Navigate action](/[platform]/build-ui/uibuilder/eventhandling/#bind-ui-to-navigation-actions) finished (possibly with errors) |
 | actions:datastore:create:started | [DataStore create action](/[platform]/build-ui/uibuilder/eventhandling/#create-a-record-in-database) started |
@@ -223,18 +190,6 @@ In the example above, you can add your own custom business logic, when the custo
 | actions:datastore:delete:finished | [DataStore delete action](/[platform]/build-ui/uibuilder/eventhandling/#delete-a-record-from-database) finished (possibly with errors) |
 | actions:auth:signout:started | [SignOut action](/[platform]/build-ui/uibuilder/eventhandling/#bind-ui-to-sign-out-actions) started |
 | actions:auth:signout:finished | [SignOut action](/[platform]/build-ui/uibuilder/eventhandling/#bind-ui-to-sign-out-actions) finished (possibly with errors) |
-=======
-| actions:core:navigate:started | [Navigate action](/console/uibuilder/eventhandling/#bind-ui-to-navigation-actions) started |
-| actions:core:navigate:finished | [Navigate action](/console/uibuilder/eventhandling/#bind-ui-to-navigation-actions) finished (possibly with errors) |
-| actions:datastore:create:started | [DataStore create action](/console/uibuilder/eventhandling/#create-a-record-in-database) started |
-| actions:datastore:create:finished | [DataStore create action](/console/uibuilder/eventhandling/#create-a-record-in-database) finished |
-| actions:datastore:update:started | [DataStore update action](/console/uibuilder/eventhandling/#update-a-record-from-database) started |
-| actions:datastore:update:finished | [DataStore update action](/console/uibuilder/eventhandling/#update-a-record-from-database) finished (possibly with errors) |
-| actions:datastore:delete:started | [DataStore delete action](/console/uibuilder/eventhandling/#delete-a-record-from-database) started |
-| actions:datastore:delete:finished | [DataStore delete action](/console/uibuilder/eventhandling/#delete-a-record-from-database) finished (possibly with errors) |
-| actions:auth:signout:started | [SignOut action](/console/uibuilder/eventhandling/#bind-ui-to-sign-out-actions) started |
-| actions:auth:signout:finished | [SignOut action](/console/uibuilder/eventhandling/#bind-ui-to-sign-out-actions) finished (possibly with errors) |
->>>>>>> next-release/main
 
 ## Modify generated code
 
@@ -354,11 +309,7 @@ return (
 
 ### Navigation from parent to detail views
 
-<<<<<<< HEAD
 Amplify Studio provides [navigation action bindings](/[platform]/build-ui/uibuilder/eventhandling/#bind-ui-to-navigation-actions) but if you want to integrate with your own routing system, you can also self-manage the navigation actions.
-=======
-Amplify Studio provides [navigation action bindings](/console/uibuilder/eventhandling/#bind-ui-to-navigation-actions) but if you want to integrate with your own routing system, you can also self-manage the navigation actions.
->>>>>>> next-release/main
 
 For example, you want to click on an item in a collection to get to detail views. Use the `overrideItems` prop to modify each element's property within a collection. The return value of `overrideItems` will be applied as an override onto the collection item's component.
 
