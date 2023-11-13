@@ -1,4 +1,4 @@
-import { Flex, View } from '@aws-amplify/ui-react';
+import { Flex } from '@aws-amplify/ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import flatDirectory from 'src/directory/flatDirectory.json';
@@ -22,10 +22,13 @@ const findRoute = (platform, isPrev) => {
 
 export const VersionSwitcher = ({ platform, isPrev, ...rest }) => {
   const router = useRouter();
+  const pathname = router.pathname;
   const versions = PLATFORM_VERSIONS[platform];
   const switchPath = findRoute(platform, isPrev);
   let path = isPrev ? BUILD_A_BACKEND : PREV_BUILD_A_BACKEND;
-  if (switchPath) path = switchPath;
+  if (switchPath &&
+    (pathname.startsWith(BUILD_A_BACKEND) || pathname.startsWith(PREV_BUILD_A_BACKEND))
+  ) path = switchPath;
 
   const inactiveHref = {
     pathname: path,
@@ -35,7 +38,7 @@ export const VersionSwitcher = ({ platform, isPrev, ...rest }) => {
   };
 
   const activeHref = {
-    pathname: router.pathname,
+    pathname: pathname,
     query: {
       platform: platform
     }
