@@ -17,12 +17,10 @@ Amplify Gen2 provides the ability to add custom AWS resources with the [AWS Clou
 
 CDK extends Amplify by making it easy to add custom resources and configurations beyond what Amplify supports out of the box. For example, a developer could use CDK to hook up a Redis cache, add a Lambda function that runs on a schedule, or implement custom security rules.
 
-The infrastructure defined via CDK code is deployed along with the Amplify project. This gives developers the simplicity of Amplify combined with the flexibility of CDK for situations where they need more customization.
-
-From the [Concepts - AWS Cloud Development Kit (AWS CDK) v2](https://docs.aws.amazon.com/cdk/v2/guide/core_concepts.html) documentation
+The infrastructure defined via CDK code is deployed along with the Amplify project. This gives developers the simplicity of Amplify, combined with the flexibility of CDK for situations where they need more customization.
 
 <Callout>
-> AWS CDK apps are composed of building blocks known as [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html), which are composed together to form [stacks](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Stack.html) and [apps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.App.html).
+AWS CDK apps are composed of building blocks known as [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html), which are composed together to form [stacks](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Stack.html) and [apps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.App.html). You can learn more in the [Concepts - AWS Cloud Development Kit (AWS CDK) v2](https://docs.aws.amazon.com/cdk/v2/guide/core_concepts.html) documentation.
 </Callout>
 
 With the Amplify Code-first DX, you have the option to create individual [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) and [Stacks](https://docs.aws.amazon.com/cdk/v2/guide/stacks.html) which will be composed into the [Backend](https://next-docs.amplify.aws/gen2/how-amplify-works/concepts/#backend) for your project.
@@ -31,7 +29,7 @@ With the Amplify Code-first DX, you have the option to create individual [Constr
 
 
 <Callout>
-> Constructs are the basic building blocks of AWS CDK apps. A construct represents a "cloud component" and encapsulates everything AWS CloudFormation needs to create the component. [Read more](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html)
+Constructs are the basic building blocks of AWS CDK apps. A construct represents a "cloud component" and encapsulates everything AWS CloudFormation needs to create the component. [Read more](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html)
 </Callout>
 
 
@@ -151,6 +149,8 @@ export const handler = async (event: any) => {
 };
 ```
 
+The Lambda function code for the `Emailer` is:
+
 ```ts title="amplify/custom/CustomNotifications/emailer.ts"
 // emailer Lambda
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
@@ -230,18 +230,17 @@ new CustomNotifications(
 ```
 
 <Callout>
-Resources created by the `define*` helpers can only be accessed _after_ setting them on the `backend`
+**Note:** Resources created by the `define*` helpers can only be accessed _after_ setting them on the `backend`.
 </Callout>
 
 ## Defining a CDK Stack
 
-
 <Callout>
-> The unit of deployment in the AWS CDK is called a stack. All AWS resources defined within the scope of a stack, either directly or indirectly, are provisioned as a single unit. [Read more](https://docs.aws.amazon.com/cdk/v2/guide/stacks.html)
+The unit of deployment in the AWS CDK is called a stack. All AWS resources defined within the scope of a stack, either directly or indirectly, are provisioned as a single unit. [Read more](https://docs.aws.amazon.com/cdk/v2/guide/stacks.html)
 </Callout>
 
 
-The stack below contains a Lambda function that is deployed to a VPC. It is important that these resources be deployed as a singled unit instead of composed from other constructs as their functionality depends on one another.
+The stack below contains a Lambda function that is deployed to a VPC. It is important that these resources be deployed as a single unit instead of composed from other constructs as their functionality depends on one another.
 
 ```ts title="amplify/custom/LambdaInAVpcStack/resource.ts"
 import {
@@ -349,9 +348,7 @@ export const handler = async (): Promise<APIGatewayProxyResultV2> => {
 }
 ```
 
-The custom CDK stack can then be added to the `backend`:
-
-The `LambdaInAVpcStack` CDK Stack can then be added to the `backend` of the Amplify stack one or more times, with different props for each instance.
+The `LambdaInAVpcStack` CDK stack can then be added to the `backend` of the Amplify stack one or more times, with different props for each instance.
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
@@ -368,7 +365,6 @@ new CustomNotifications(
   { sourceAddress: "sender@example.com", }
 );
 ```
-
 
 ## Community CDK Resources
 
