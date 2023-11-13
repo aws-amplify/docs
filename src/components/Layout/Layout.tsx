@@ -262,7 +262,7 @@ export const Layout = ({
                       }
                       apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
                       searchParameters={{
-                        facetFilters: [`platform:${currentPlatform}`]
+                        facetFilters: [`platform:${isGen2 ? 'gen2' : currentPlatform}`]
                       }}
                     />
                   </View>
