@@ -82,7 +82,7 @@ query byUser($user: String!) {
 }
 ```
 
-Learn more about [configuring the `@index` directive here](/[platform]/tools/cli/graphqlapi/data-modeling//#configure-a-secondary-index).
+Learn more about [configuring the `@index` directive here](/[platform]/build-a-backend/graphqlapi/data-modeling//#configure-a-secondary-index).
 
 There are no other breaking changes to your GraphQL API when using the new default identity claim. The resolvers will store these values in your DynamoDB tables in the format of `<sub>::<username>`, and return `username` to the client code by default.
 

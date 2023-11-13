@@ -292,7 +292,7 @@ At this point, you should see a new `src/graphql/` folder that contains client h
 
 <Callout>
 
-For Flutter, Android, and Swift client code generation, refer to [JavaScript, Android, Swift, and Flutter client code generation](/[platform]/tools/cli/graphqlapi/client-code-generation/).
+For Flutter, Android, and Swift client code generation, refer to [JavaScript, Android, Swift, and Flutter client code generation](/[platform]/build-a-backend/graphqlapi/client-code-generation/).
 
 </Callout>
 
@@ -412,7 +412,7 @@ npx @aws-amplify/cli codegen
 The following schema updates require replacement of the underlying DynamoDB table:
 
 1. Removing or renaming a model
-2. Modifying the [primary key](/[platform]/tools/cli/graphqlapi/data-modeling/#configure-a-primary-key) of a model
+2. Modifying the [primary key](/[platform]/build-a-backend/graphqlapi/data-modeling/#configure-a-primary-key) of a model
 3. Modifying a Local Secondary Index of a model (only applies to projects with [secondaryKeyAsGSI](/[platform]/tools/cli/reference/feature-flags/#secondaryKeyAsGSI) turned off)
 
 When trying to push a schema change with one or more of these updates you will see an error message explaining that you will lose ALL DATA in any table that requires replacement. To confirm you want to continue with the deployment, run:
@@ -459,12 +459,12 @@ Success! You've learned how to create a GraphQL API backed by a database table a
 
 There's so much more to discover with Amplify's GraphQL API capabilities. Learn more about:
 
-- [How to model your database table and their access patterns](/[platform]/tools/cli/graphqlapi/data-modeling/)
+- [How to model your database table and their access patterns](/[platform]/build-a-backend/graphqlapi/data-modeling/)
 - [Secure your API with fine-grained authorization rules](/[platform]/build-a-backend/graphqlapi/customize-auth/)
-- [Create relationships between different database model](/[platform]/tools/cli/graphqlapi/data-modeling/#setup-relationships-between-models)
-- [Add custom business logic to the GraphQL API](/[platform]/tools/cli/graphqlapi/custom-business-logic/)
-- [Run search and result aggregation queries](/[platform]/tools/cli/graphqlapi/search-and-result-aggregations/)
-- [Connect to machine learning services](/[platform]/tools/cli/graphqlapi/connect-machine-learning-services/)
+- [Create relationships between different database model](/[platform]/build-a-backend/graphqlapi/data-modeling/#setup-relationships-between-models)
+- [Add custom business logic to the GraphQL API](/[platform]/build-a-backend/graphqlapi/custom-business-logic/)
+- [Run search and result aggregation queries](/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/)
+- [Connect to machine learning services](/[platform]/build-a-backend/graphqlapi/connect-machine-learning-services/)
 - [Examples and solutions](/[platform]/build-a-backend/graphqlapi/best-practice/)
 
 </InlineFilter>

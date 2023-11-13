@@ -835,10 +835,10 @@ export const directory = {
                 },
                 { path: 'src/pages/[platform]/tools/cli/custom/index.mdx' },
                 {
-                  path: 'src/pages/[platform]/tools/cli/graphqlapi/index.mdx',
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/graphqlapi/directives-reference/index.mdx'
                     }
                   ]
                 },
