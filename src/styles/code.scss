@@ -68,13 +68,3 @@ code:not([class]) {
     box-shadow: 0 0 0 2px var(--amplify-colors-neutral-10);
   }
 }
-
-[data-amplify-theme='gen2-theme'] {
-  .pre-wrapper {
-    background-image: linear-gradient(
-      var(--amplify-colors-pink-40) 0,
-      var(--amplify-colors-purple-20) 100%
-    );
-    box-shadow: 0 2px 10px hsla(221, 85, 18, 0.3);
-  }
-}
