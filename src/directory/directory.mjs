@@ -262,7 +262,7 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/query-with-sorting/index.mdx'
                     }
                   ]
-                },
+                }
               ]
             },
             {
@@ -1812,18 +1812,29 @@ export const directory = {
           path: 'src/pages/gen2/how-amplify-works/index.mdx',
           children: [
             {
-              path: 'src/pages/gen2/how-amplify-works/concepts/index.mdx'
-            },
-            {
               path: 'src/pages/gen2/how-amplify-works/project-structure/index.mdx'
             },
             {
-              path: 'src/pages/gen2/how-amplify-works/existing-projects/index.mdx'
+              path: 'src/pages/gen2/how-amplify-works/mobile-support/index.mdx'
+            },
+            {
+              path: 'src/pages/gen2/how-amplify-works/faq/index.mdx'
             }
           ]
         },
         {
-          path: 'src/pages/gen2/start/index.mdx'
+          path: 'src/pages/gen2/start/index.mdx',
+          children: [
+            {
+              path: 'src/pages/gen2/start/getting-started/index.mdx'
+            },
+            {
+              path: 'src/pages/gen2/start/account-setup/index.mdx'
+            },
+            {
+              path: 'src/pages/gen2/start/manual-installation/index.mdx'
+            }
+          ]
         },
         {
           path: 'src/pages/gen2/build-a-backend/index.mdx',
@@ -1902,7 +1913,7 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/gen2/build-a-backend/data/data-modeling/relationships/index.mdx'
-                    },
+                    }
                   ]
                 },
                 {
@@ -1946,25 +1957,27 @@ export const directory = {
           path: 'src/pages/gen2/deploy-and-host/index.mdx',
           children: [
             {
-              path: 'src/pages/gen2/deploy-and-host/local-development/index.mdx'
+              path: 'src/pages/gen2/deploy-and-host/hosting/index.mdx'
             },
             {
-              path: 'src/pages/gen2/deploy-and-host/hosting-features/index.mdx'
+              path: 'src/pages/gen2/deploy-and-host/sandbox-environments/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/gen2/deploy-and-host/sandbox-environments/setup/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/sandbox-environments/secrets/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/gen2/deploy-and-host/fullstack-branching/index.mdx',
               children: [
                 {
-                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/sandbox-deployments/index.mdx'
-                },
-                {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/branch-deployments/index.mdx'
                 },
                 {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/pr-previews/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/moving-to-prod/index.mdx'
                 },
                 {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/cross-account-deployments/index.mdx'

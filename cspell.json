@@ -1532,7 +1532,11 @@
     "wafv",
     "autoKsuid",
     "astro",
-    "disambiguator"
+    "disambiguator",
+    "autobranch",
+    "gitflow",
+    "SIWA",
+    "hotswap"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
