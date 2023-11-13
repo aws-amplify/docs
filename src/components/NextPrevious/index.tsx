@@ -78,5 +78,13 @@ export const NEXT_PREVIOUS_SECTIONS = [
   '/start/getting-started/',
   '/start/project-setup/',
   '/build-ui/formbuilder/',
-  '/build-ui/uibuilder/'
+  '/build-ui/uibuilder/',
+  '/build-a-backend/auth/',
+  '/build-a-backend/functions/',
+  '/build-a-backend/graphqlapi/',
+  '/build-a-backend/more-features/',
+  '/build-a-backend/push-notifications/',
+  '/build-a-backend/restapi/',
+  '/build-a-backend/storage/',
+  '/build-a-backend/utilities/'
 ]
