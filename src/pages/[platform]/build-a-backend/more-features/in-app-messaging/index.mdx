@@ -1,10 +1,18 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
-  title: 'Overview',
-  description:
-    'Amplify In-App Messaging helps you better engage your users with messages they can see while actively using your application. Send targeted messages to your defined user segments or even trigger contextual messages based on user behavior. Once you are up and running with In-App Messaging, you’ll be able to create messages that look native to your application and deliver them to your users all without additional code changes.',
-  platforms: ['javascript', 'react-native']
+  title: 'In-app Messaging',
+  description: 'Amplify In-App Messaging helps you better engage your users with messages they can see while actively using your application. Send targeted messages to your defined user segments or even trigger contextual messages based on user behavior. Once you are up and running with In-App Messaging, you’ll be able to create messages that look native to your application and deliver them to your users all without additional code changes.',
+platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ],
+  route: '/[platform]/build-a-backend/more-features/in-app-messaging'
 };
 
 export const getStaticPaths = async () => {
@@ -12,10 +20,12 @@ export const getStaticPaths = async () => {
 };
 
 export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
       platform: context.params.platform,
-      meta
+      meta,
+      childPageNodes
     }
   };
 }
@@ -26,4 +36,16 @@ import reactnative0 from '/src/fragments/lib/in-app-messaging/overview/overview.
 
 import js0 from '/src/fragments/lib/in-app-messaging/overview/overview.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
+
+## Learn more
+
+<Overview childPageNodes={props.childPageNodes} />

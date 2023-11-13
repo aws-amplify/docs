@@ -10,16 +10,20 @@ export type Platform =
   'vue';
 export type Platforms = Platform[];
 
-export const PLATFORMS: Platforms = [
-  'android',
+export const JS_PLATFORMS = [
   'angular',
-  'flutter',
   'javascript',
   'nextjs',
   'react',
   'react-native',
-  'swift',
   'vue'
+] as const;
+
+export const PLATFORMS: Platforms = [
+  'android',
+  'flutter',
+  'swift',
+  ...JS_PLATFORMS
 ];
 
 export const PLATFORM_DISPLAY_NAMES: Record<Platform, string> = {
@@ -50,7 +54,27 @@ export const PLATFORM_VERSIONS = {
   'javascript': {
     prev: 'v5',
     current: 'v6'
-  }
+  },
+  'react-native': {
+    prev: 'v5',
+    current: 'v6'
+  },
+  'react': {
+    prev: 'v5',
+    current: 'v6'
+  },
+  'angular': {
+    prev: 'v5',
+    current: 'v6'
+  },
+  'vue': {
+    prev: 'v5',
+    current: 'v6'
+  },
+  'nextjs': {
+    prev: 'v5',
+    current: 'v6'
+  },
 }
 
 export const DEFAULT_PLATFORM: Platform = 'javascript';

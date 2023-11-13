@@ -1,7 +1,7 @@
 /* Media query Sass variables */
 
 /* $mq-mobile is the min-width we flip to 'desktop' layout */
-$mq-mobile: 800px;
+$mq-mobile: 1000px;
 
 /** 
  * $toc-min is the min-width we show the table of 
@@ -10,6 +10,7 @@ $mq-mobile: 800px;
 $toc-min: 1360px;
 
 :root {
+  --content-max-width: 1000px;
   --docs-dev-center-nav: 4rem;
   --search-menu-bar-height: 4.6rem;
   --layout-sidebar-width: 340px;

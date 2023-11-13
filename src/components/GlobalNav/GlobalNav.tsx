@@ -6,6 +6,7 @@ import { NavMenuIconType } from './components/icons/IconLink';
 import { RightNavLinks } from './components/RightNavLinks';
 import { AmplifyNavLink } from './components/AmplifyNavLink';
 import { LeftNavLinks } from './components/LeftNavLinks';
+import { SkipToMain } from '@/components/SkipToMain';
 
 export enum NavMenuItemType {
   DEFAULT = 'DEFAULT',
@@ -27,14 +28,16 @@ export interface NavProps {
   socialLinks?: NavMenuItem[];
   currentSite: string;
   isGen2?: boolean;
+  mainId: string;
 }
 
 export function GlobalNav({
   currentSite,
+  isGen2,
   leftLinks,
+  mainId,
   rightLinks,
-  socialLinks,
-  isGen2
+  socialLinks
 }: NavProps) {
   const themeableSites: any = {
     'UI Library': true
@@ -54,6 +57,7 @@ export function GlobalNav({
       }`}
       aria-label="Amplify Dev Center - External links to additional Amplify resources"
     >
+      <SkipToMain mainId={mainId} />
       <Flex className={styles['nav-links-container']}>
         <Flex height="100%" id="left-nav" className={styles['left-nav-links']}>
           <AmplifyNavLink

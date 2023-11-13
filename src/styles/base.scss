@@ -53,6 +53,7 @@ ol[role='list'] {
 body {
   min-height: 100vh;
   line-height: var(--amplify-line-heights-medium);
+  font-size: var(--amplify-font-sizes-medium);
   color: var(--amplify-colors-font-primary);
 }
 
@@ -115,7 +116,6 @@ a,
 img,
 picture {
   max-width: 100%;
-  display: block;
 }
 
 /* Inherit fonts for inputs and buttons */
@@ -139,13 +139,44 @@ textarea:not([rows]) {
   max-width: 80ch;
 }
 
-ul {
+blockquote {
+  padding: var(--amplify-space-medium);
+  border-left: 12px solid var(--amplify-colors-brand-primary-10);
+  color: var(--amplify-colors-font-secondary);
+  font-style: italic;
+}
+
+ul,
+ol {
   margin: 0;
+}
+
+ol:not([class]) {
+  li {
+    margin-bottom: var(--amplify-space-small);
+  }
 }
 
 .main {
   .amplify-heading--2,
   .amplify-heading--3 {
     scroll-margin-top: 9rem;
+  }
+}
+
+.skip-to-main {
+  position: fixed;
+  z-index: 201; // GlobalNav is set to 200
+  top: var(--amplify-space-small);
+  inset-inline-start: 50%;
+  transform: translate(-50%, 0);
+  &:not(:focus):not(:active) {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
   }
 }

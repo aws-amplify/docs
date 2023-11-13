@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Manage user session and credentials',
   description: 'Learn how to manage user sessions and credentials.',
-  platforms: ['javascript', 'react-native']
+  platforms: ['javascript', 'react-native','angular','nextjs','react','vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -19,11 +19,11 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 Amplify Auth provides access to current user sessions and tokens to help you retrieve your user's information to determine if they are signed in with a valid session and control their access to your app. You can manage tokens and expiration times and revoke sessions. In this guide we will review how to retrieve your user’s session and understand what token management options are available.
 
-Before you begin you will need:
+Before you begin, you will need:
 
 - An Amplify project with the Auth category configured
 - The Amplify libraries installed and configured
@@ -158,7 +158,7 @@ In Amplify the `localStorage` is the default storage mechanism. It saves the tok
 ```ts
 import { Amplify, ResourcesConfig } from 'aws-amplify';
 import { defaultStorage } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
@@ -167,14 +167,14 @@ const authConfig: ResourcesConfig['Auth'] = {
   }
 };
 
-CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-CognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
 
 Amplify.configure(
   {
     Auth: authConfig
   },
-  { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
 ```
 
@@ -184,7 +184,7 @@ Amplify.configure(
 ```javascript
 import { Amplify } from 'aws-amplify';
 import { defaultStorage } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig = {
   Cognito: {
@@ -193,14 +193,14 @@ const authConfig = {
   }
 };
 
-CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-CognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
 
 Amplify.configure(
   {
     Auth: authConfig
   },
-  { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
 ```
 
@@ -217,7 +217,7 @@ Amplify.configure(
 ```ts
 import { Amplify, ResourcesConfig } from 'aws-amplify';
 import { sessionStorage } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
@@ -226,14 +226,14 @@ const authConfig: ResourcesConfig['Auth'] = {
   }
 };
 
-CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-CognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
 
 Amplify.configure(
   {
     Auth: authConfig
   },
-  { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
 ```
 
@@ -243,7 +243,7 @@ Amplify.configure(
 ```javascript
 import { Amplify } from 'aws-amplify';
 import { sessionStorage } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig = {
   Cognito: {
@@ -252,14 +252,14 @@ const authConfig = {
   }
 };
 
-CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-CognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
 
 Amplify.configure(
   {
     Auth: authConfig
   },
-  { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
 ```
 
@@ -276,7 +276,7 @@ You can implement your own custom storage mechanism by creating a class that imp
 ```ts
 import { Amplify, ResourcesConfig } from 'aws-amplify';
 import { KeyValueStorageInterface } from 'aws-amplify/utils';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig: ResourcesConfig['Auth'] = {
   Cognito: {
@@ -301,14 +301,14 @@ class MyCustomStorage implements KeyValueStorageInterface {
   }
 }
 
-CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-CognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
 
 Amplify.configure(
   {
     Auth: authConfig
   },
-  { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
 ```
 
@@ -317,7 +317,7 @@ Amplify.configure(
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-import { CognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 const authConfig = {
   Cognito: {
@@ -342,14 +342,14 @@ class MyCustomStorage {
   }
 }
 
-CognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-CognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
 
 Amplify.configure(
   {
     Auth: authConfig
   },
-  { Auth: { tokenProvider: CognitoUserPoolsTokenProvider } }
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
 ```
 
@@ -380,7 +380,7 @@ Congratulations! You finished the **Manage user session and credentials** guide.
 
 Now that you updated how your credentials are managed you may also want to further refine the sing-in and sign-out workflows as well as update how you listen for these Auth events. We recommend you learn more about:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 - [Enable sign-up, sign-in, and sign-out](/lib/auth/emailpassword/q/platform/js/)
 - [Auth events](/lib/auth/auth-events/q/platform/js/)
