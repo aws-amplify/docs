@@ -1296,9 +1296,9 @@ export const directory = {
                 {
                   path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/index.mdx',
                   children: [
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/set-up-push-notifications/index.mdx'
-                    },
+                    // {
+                    //   path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/set-up-push-notifications/index.mdx'
+                    // },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/request-permissions/index.mdx'
                     },
