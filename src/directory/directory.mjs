@@ -1103,21 +1103,17 @@ export const directory = {
           ]
         },
         {
-          // path: 'src/pages/[platform]/reference/index.mdx',
           isExternal: true,
               route: 'https://aws-amplify.github.io/amplify-js/api/',
               title: 'API Reference',
               description:
                 'API Reference',
               platforms: [
-                'android',
                 'javascript',
                 'nextjs',
                 'react',
                 'react-native',
                 'angular',
-                'flutter',
-                'swift',
                 'vue'
               ]
 
