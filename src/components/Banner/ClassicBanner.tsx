@@ -9,9 +9,9 @@ export const ClassicBanner = () => {
     >
       <Flex direction="column" gap="xs">
         <Text>
-          Amplify Gen 2 has a new a toolkit that offers an
-          infrastructure-from-code (IC) experience, allowing you to focus on
-          your business logic instead of configuring cloud infrastructure.
+          Amplify Gen 2 has a new toolkit that offers an
+          infrastructure-from-code (IC) experience, so you can focus on your
+          business logic instead of configuring cloud infrastructure.
         </Text>
         <Text>
           Looking for the existing Amplify documentation?{' '}
