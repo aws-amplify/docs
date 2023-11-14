@@ -543,8 +543,6 @@ cdk deploy
 </Block>
 </BlockSwitcher>
 
-## Making preserved changes to the GraphQL Schema
-
 <Accordion title="Supported Directives" headingLevel="3" eyebrow="Info">
 | Name         | Supported | Model Level | Field Level | Preserved | Description |
 |--------------|:---------:|:-----------:|:-----------:|:---------:|-------------|
@@ -581,7 +579,7 @@ type Post @refersTo(name: "posts") @model {
 }
 ```
 
-### Create custom queries and mutations
+## Create custom queries and mutations
 
 Amplify GraphQL API for SQL databases introduces the `@sql` directive, which allows you to define SQL statements in custom GraphQL queries and mutations. This provides more flexibility when the default, auto-generated GraphQL queries and mutations are not sufficient.
 
@@ -632,7 +630,7 @@ type Query {
 
 The SQL statement will be executed as if it were defined inline in the schema. The same rules apply in terms of using parameters, ensuring valid SQL syntax, and matching the return type to row data.
 
-#### Custom Query
+### Custom Query
 
 ```graphql
 type Query {
@@ -643,7 +641,7 @@ type Query {
 }
 ```
 
-#### Custom Mutation
+### Custom Mutation
 
 ```graphql
 type Mutation {
@@ -652,7 +650,7 @@ type Mutation {
 }
 ```
 
-#### Returning row data from custom mutations
+### Returning row data from custom mutations
 
 SQL statements such as `INSERT`, `UPDATE` and `DELETE` return the number of rows affected.
 
@@ -725,11 +723,11 @@ type Mutation {
 </Block>
 </BlockSwitcher>
 
-### Create relationships between models
+## Create relationships between models
 
 You can use the `@hasOne`, `@hasMany`, and `@belongsTo` relational directives to create relationships between models. When using a MySQL or PostgreSQL database, the field named in the `references` parameter of a relational directive must exist on the child.
 
-#### Has One relationship
+### Has One relationship
 
 Create a one-directional one-to-one relationship between two models using the `@hasOne` directive.
 
@@ -747,7 +745,7 @@ type User
 }
 ```
 
-#### Has Many relationship
+### Has Many relationship
 
 Create a one-directional one-to-many relationship between two models using the `@hasMany` directive.
 
@@ -767,7 +765,7 @@ type Post @model {
 }
 ```
 
-#### Belongs To relationship
+### Belongs To relationship
 
 Make a "has one" or "has many" relationship bi-directional with the `@belongsTo` directive.
 
