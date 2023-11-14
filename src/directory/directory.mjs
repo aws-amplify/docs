@@ -879,17 +879,6 @@ export const directory = {
                     }
                   ]
                 },
-                {
-                  path: 'src/pages/[platform]/tools/cli/auth/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/tools/cli/auth/import/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/auth/override-cognito/index.mdx'
-                    }
-                  ]
-                },
                 { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
                 { path: 'src/pages/[platform]/tools/cli/custom/index.mdx' },
                 {
