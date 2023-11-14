@@ -206,6 +206,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect-to-api/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect-api-to-existing-database/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/api-graphql-concepts/index.mdx'
                 },
                 {
@@ -254,7 +257,7 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/query-with-sorting/index.mdx'
                     }
                   ]
-                },
+                }
               ]
             },
             {
@@ -2055,7 +2058,7 @@ export const directory = {
             },
             {
               path: 'src/pages/gen2/how-amplify-works/existing-projects/index.mdx'
-            },
+            }
           ]
         },
         {
