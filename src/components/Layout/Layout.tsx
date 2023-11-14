@@ -48,7 +48,10 @@ import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { Banner } from '@/components/Banner';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
-import { NextPrevious, NEXT_PREVIOUS_SECTIONS } from '@/components/NextPrevious';
+import {
+  NextPrevious,
+  NEXT_PREVIOUS_SECTIONS
+} from '@/components/NextPrevious';
 
 export const Layout = ({
   children,
@@ -124,8 +127,10 @@ export const Layout = ({
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
   const showNextPrev = NEXT_PREVIOUS_SECTIONS.some((section) => {
-    return asPathWithNoHash.includes(section) && !asPathWithNoHash.endsWith(section);
-  })
+    return (
+      asPathWithNoHash.includes(section) && !asPathWithNoHash.endsWith(section)
+    );
+  });
 
   if (!isGen2) {
     // [platform] will always be the very first subpath right?
@@ -237,16 +242,20 @@ export const Layout = ({
                       { 'layout-search__search--toc': showTOC }
                     )}
                   >
-                    <DocSearch
-                      appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
-                      indexName={
-                        process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME
-                      }
-                      apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
-                      searchParameters={{
-                        facetFilters: [`platform:${isGen2 ? 'gen2' : currentPlatform}`]
-                      }}
-                    />
+                    <View className="layout-search__search__container">
+                      <DocSearch
+                        appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
+                        indexName={
+                          process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME
+                        }
+                        apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
+                        searchParameters={{
+                          facetFilters: [
+                            `platform:${isGen2 ? 'gen2' : currentPlatform}`
+                          ]
+                        }}
+                      />
+                    </View>
                   </View>
                 </Flex>
                 <View
