@@ -29,55 +29,9 @@ export function getStaticProps(context) {
   };
 }
 
-import angular0 from '/src/fragments/start/getting-started/common/nextsteps-header.mdx';
-
-<Fragments fragments={{ angular: angular0 }} />
-
-import js1 from '/src/fragments/start/getting-started/common/nextsteps-header.mdx';
-
-<Fragments fragments={{ javascript: js1 }} />
-
-import vue2 from '/src/fragments/start/getting-started/common/nextsteps-header.mdx';
-
-<Fragments fragments={{ vue: vue2 }} />
-
-import next3 from '/src/fragments/start/getting-started/common/nextsteps-header.mdx';
-
-<Fragments fragments={{ nextjs: next3 }} />
-
-import react4 from '/src/fragments/start/getting-started/common/nextsteps-header.mdx';
-
-<Fragments fragments={{ react: react4 }} />
-
-import react_native5 from '/src/fragments/start/getting-started/common/nextsteps-header.mdx';
-
-<Fragments fragments={{ 'react-native': react_native5 }} />
-
-import angular7 from '/src/fragments/start/getting-started/angular/nextsteps.mdx';
-
-<Fragments fragments={{ angular: angular7 }} />
-
-import js8 from '/src/fragments/start/getting-started/vanillajs/nextsteps.mdx';
-
-<Fragments fragments={{ javascript: js8 }} />
-
-import vue9 from '/src/fragments/start/getting-started/vue/nextsteps.mdx';
-
-<Fragments fragments={{ vue: vue9 }} />
-
 import next10 from '/src/fragments/start/getting-started/react/nextsteps.mdx';
 
-<Fragments fragments={{ nextjs: next10 }} />
-
-import react11 from '/src/fragments/start/getting-started/react/nextsteps.mdx';
-
-<Fragments fragments={{ react: react11 }} />
-
-import react_native12 from '/src/fragments/start/getting-started/reactnative/nextsteps.mdx';
-
-{' '}
-
-<Fragments fragments={{ 'react-native': react_native12 }} />
+<Fragments fragments={{ next: next10 }} />
 
 import ios14 from '/src/fragments/start/getting-started/ios/nextsteps.mdx';
 
@@ -90,3 +44,36 @@ import android15 from '/src/fragments/start/getting-started/android/nextsteps.md
 import flutter16 from '/src/fragments/start/getting-started/flutter/nextsteps.mdx';
 
 <Fragments fragments={{ flutter: flutter16 }} />
+
+<InlineFilter filters={['javascript','react','angular','react-native','vue']}>
+
+🎉 Congratulations! Your app is built, with a realtime backend.
+
+What next? Here are some things to add to your app:
+
+</InlineFilter>
+
+<InlineFilter filters={['javascript','react','angular','vue']}>
+
+- [Authentication](/lib/auth/getting-started)
+- [DataStore](/lib/datastore/getting-started)
+- [User File Storage](/lib/storage/getting-started)
+- [Serverless APIs](/lib/graphqlapi/getting-started)
+- [Analytics](/lib/analytics/getting-started)
+- [AI/ML](/lib/predictions/getting-started)
+- [PubSub](/lib/pubsub/getting-started)
+
+</InlineFilter>
+<InlineFilter filters={['react-native']}>
+
+- [Authentication](/lib/auth/getting-started)
+- [DataStore](/lib/datastore/getting-started)
+- [User File Storage](/lib/storage/getting-started)
+- [Serverless APIs](/lib/graphqlapi/getting-started)
+- [Analytics](/lib/analytics/getting-started)
+- [AI/ML](/lib/predictions/getting-started)
+- [In-App Messaging](/lib/in-app-messaging/overview)
+- [Push Notifications](/lib/push-notifications/getting-started)
+- [PubSub](/lib/pubsub/getting-started)
+
+</InlineFilter>
