@@ -1,7 +1,6 @@
 ## Selectively syncing a subset of your data
 
-By default, DataStore downloads the entire contents of your cloud data source to your local device.
-The max number of records that will be stored is configurable [here](/lib-v1/datastore/conflict#custom-configuration).
+By default, DataStore downloads the entire contents of your cloud data source to your local device. The max number of records that will be stored is configurable [here](/[platform]/prev/build-a-backend/more-features/datastore/conflict-resolution/#custom-configuration).
 
 You can utilize selective sync to only persist a subset of your data instead.
 
@@ -28,14 +27,13 @@ When DataStore starts syncing, only Posts with `rating > 5` and Comments with `P
 
 <Callout>
 
-  Developers should only specify a single `syncExpression` per model. Any subsequent expressions for the same model will
-  be ignored.
+Developers should only specify a single `syncExpression` per model. Any subsequent expressions for the same model will be ignored.
 
 </Callout>
 
 ### Reevaluate expressions at runtime
-Sync expressions get evaluated whenever DataStore starts.
-In order to have your expressions reevaluated, you can execute `Amplify.DataStore.clear()` or `Amplify.DataStore.stop()` followed by `Amplify.DataStore.start()`.
+
+Sync expressions get evaluated whenever DataStore starts. In order to have your expressions reevaluated, you can execute `Amplify.DataStore.clear()` or `Amplify.DataStore.stop()` followed by `Amplify.DataStore.start()`.
 
 If you have the following expression and you want to change the filter that gets applied at runtime, you can do the following:
 
@@ -80,7 +78,7 @@ Keep in mind: `Amplify.DataStore.stop()` will retain the local store's existing 
 
 <Callout>
 
-  When applying a more restrictive filter, clear the local records first by running `DataStore.clear()` instead:
+When applying a more restrictive filter, clear the local records first by running `DataStore.clear()` instead:
 
 </Callout>
 
@@ -131,7 +129,7 @@ Future<void> initialize() async {
 
 <Callout warning>
 
-  `DataStore.configure()` should only by called once.
+`DataStore.configure()` should only by called once.
 
 </Callout>
 
@@ -141,7 +139,7 @@ By default, Datastore sync performs a [Scan](https://docs.aws.amazon.com/amazond
 
 You can enable Query during the sync by following the below steps:
 
-1. Create a [Global Secondary Index (GSI)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) for your schema, e.g. in the below schema a GSI will be created using field `lastName` as the GSI primary key, and `createdAt` as the GSI sort key. Learn about creating GSIs with the `@index` directive [here](https://docs.amplify.aws/cli/graphql/data-modeling).
+1. Create a [Global Secondary Index (GSI)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) for your schema, e.g. in the below schema a GSI will be created using field `lastName` as the GSI primary key, and `createdAt` as the GSI sort key. Learn about creating GSIs with the `@index` directive [here](/[platform]/build-a-backend/graphqlapi/data-modeling/).
 
 ```graphql
 type User @model {
@@ -150,7 +148,7 @@ type User @model {
   lastName: String! @index(name: "byLastName", sortKeyFields: ["createdAt"])
   createdAt: AWSDateTime!
 }
-   ```
+```
 
 2. Configure DataStore with `syncExpression` returning a predicate that maps to a query expression.
 

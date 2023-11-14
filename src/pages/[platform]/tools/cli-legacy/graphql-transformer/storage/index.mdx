@@ -1,19 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'GraphQL transform and Storage',
-  description: 'The GraphQL Transform, Amplify CLI, and Amplify Library make it simple to add complex object support with Amazon S3 to an application.',
+  description:
+    'The GraphQL Transform, Amplify CLI, and Amplify Library make it simple to add complex object support with Amazon S3 to an application.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,21 +29,19 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
 The GraphQL Transform, Amplify CLI, and Amplify Library make it simple to add complex object support with Amazon S3 to an application.
 
 <Callout>
 
-This documentation references the AWS AppSync SDK for JavaScript (V2), which is now in Maintenance mode. Please refer to the [Upgrade Guide](/lib/graphqlapi/upgrade-guide) and the [Working with Files](/lib/graphqlapi/working-with-files/) guide for updated guidance.
+This documentation references the AWS AppSync SDK for JavaScript (V2), which is now in Maintenance mode. Please refer to the [Upgrade Guide](/[platform]/build-a-backend/graphqlapi/upgrade-guide/) and the [Working with Files](/[platform]/build-a-backend/graphqlapi/customize-client-libraries/) guide for updated guidance.
 
 </Callout>
 
-
 <Callout warning>
 
-  Note: Complex objects are not supported by DataStore-enabled GraphQL APIs.
-  
+Note: Complex objects are not supported by DataStore-enabled GraphQL APIs.
+
 </Callout>
 
 ### Basics
@@ -81,7 +80,7 @@ The GraphQL Transform handles creating the relevant input types and will store p
 **Run a mutation with S3 objects from your client app:**
 
 ```graphql
-mutation($input: CreatePictureInput!) {
+mutation ($input: CreatePictureInput!) {
   createPicture(input: $input) {
     id
     name

@@ -83,7 +83,7 @@ These files work together to maintain the overall state of the Amplify project s
 
 > Add to version control: YES
 
-The `backend-config.json` in the `backend` directory contains configuration about your project's backend, such as how connects to AWS resources (eg. Cognito for auth or AppSync for an API backend). Typically, this file is updated by the CLI commands like `amplify add auth` or `amplify add api`. It can also be [extended manually](/cli/custom/cloudformation) to configure your backend beyond Amplify CLI's features. Both the `amplify/backend` and `amplify/#current-cloud-backend` directories contain a `backend-config.json` file.
+The `backend-config.json` in the `backend` directory contains configuration about your project's backend, such as how connects to AWS resources (eg. Cognito for auth or AppSync for an API backend). Typically, this file is updated by the CLI commands like `amplify add auth` or `amplify add api`. It can also be [extended manually](/[platform]/tools/cli/custom/cloudformation/) to configure your backend beyond Amplify CLI's features. Both the `amplify/backend` and `amplify/#current-cloud-backend` directories contain a `backend-config.json` file.
 
 ### amplify-meta.json
 
@@ -169,7 +169,7 @@ amplifytools.xcconfig
 
 > Add to version control: YES
 
-Used to share project info within your team. Learn more at [Share single environment](/cli/teams/shared#sharing-projects-within-the-team).
+Used to share project info within your team. Learn more at [Share single environment](/[platform]/tools/cli/teams/shared/#sharing-projects-within-the-team).
 
 ### cli.json
 
@@ -177,7 +177,7 @@ Used to share project info within your team. Learn more at [Share single environ
 
 > Add to version control: YES
 
-Contains feature flag configuration for the project. If this file does not exist, it is created by Amplify CLI during `amplify init`. Environment specific feature flag overrides can also be defined in `cli.<environment name>.json`. If an environment specific file exists for the currently checked out environment, during `amplify env add` command the same file will be copied for the newly created environment as well. Learn more at [Feature flags](/cli/reference/feature-flags).
+Contains feature flag configuration for the project. If this file does not exist, it is created by Amplify CLI during `amplify init`. Environment specific feature flag overrides can also be defined in `cli.<environment name>.json`. If an environment specific file exists for the currently checked out environment, during `amplify env add` command the same file will be copied for the newly created environment as well. Learn more at [Feature flags](/[platform]/tools/cli/reference/feature-flags/).
 
 ## General Category Files
 

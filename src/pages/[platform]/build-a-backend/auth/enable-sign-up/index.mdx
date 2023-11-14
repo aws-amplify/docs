@@ -4,7 +4,7 @@ export const meta = {
   title: 'Enable sign-up, sign-in, and sign-out',
   description:
     "Learn how to use Amplify's sign-up, sign-in, and sign-out APIs.",
-  platforms: ['javascript', 'react-native','angular','nextjs','react','vue'] 
+  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
 };
 
 export const getStaticPaths = async () => {
@@ -32,7 +32,7 @@ This guide is for those who want to set up Amplify Auth with the Amplify Librari
 
 </Callout>
 
-Before you begin, you should have finished the [_Set up and connect backend resources_](/lib/auth/getting-started/q/platform/js/#set-up-and-connect-backend-resources) section of the _Set up Amplify Auth_ guide.
+Before you begin, you should have finished the [_Set up and connect backend resources_](/[platform]/build-a-backend/auth/set-up-auth/#set-up-and-connect-backend-resources) section of the _Set up Amplify Auth_ guide.
 
 </InlineFilter>
 
@@ -44,7 +44,7 @@ This guide is for those who want to set up Amplify Auth with the Amplify Librari
 
 </Callout>
 
-Before you begin, you should have finished the [_Set up backend resources_](/lib/auth/getting-started/q/platform/react-native/#set-up-backend-resources) section of the _Set up Amplify Auth_ guide.
+Before you begin, you should have finished the [_Set up backend resources_](/[platform]/build-a-backend/auth/set-up-auth/#set-up-backend-resources) section of the _Set up Amplify Auth_ guide.
 
 </InlineFilter>
 
@@ -101,13 +101,13 @@ For many apps, user sign-up and sign-in with a username and password is all that
 
 <InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
-We will use the username and password authentication flow to get started. Both [third-party social provider federation](/lib/auth/social/q/platform/js/) and [Multi-factor authentication](/lib/auth/mfa/q/platform/js/) can be added after this initial setup.
+We will use the username and password authentication flow to get started. Both [third-party social provider federation](/[platform]/build-a-backend/auth/add-social-provider//) and [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/) can be added after this initial setup.
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
-We will use the username and password authentication flow to get started. Both [third-party social provider federation](/lib/auth/social/q/platform/react-native/) and [Multi-factor authentication](/lib/auth/mfa/q/platform/react-native/) can be added after this initial set up.
+We will use the username and password authentication flow to get started. Both [third-party social provider federation](/[platform]/build-a-backend/auth/add-social-provider//) and [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/) can be added after this initial set up.
 
 </InlineFilter>
 
@@ -307,7 +307,7 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 - `CONFIRM_SIGN_UP` - The user hasn't completed the sign-up flow fully and must be confirmed via `confirmSignUp`.
 - `DONE` - The sign in process has been completed.
 
-For more information on handling the TOTP & MFA steps that may be returned, please see [_'Multi-factor authentication'_](/lib-v1/auth/mfa/q/platform/js/).
+For more information on handling the TOTP & MFA steps that may be returned, please see [_'Multi-factor authentication'_](/[platform]/prev/build-a-backend/auth/manage-mfa/).
 
 ### Sign-out
 
@@ -399,8 +399,8 @@ Congratulations! You finished the **Enable sign-up, sign-in, sign-out** guide an
 
 Now that you completed setting up Amplify Auth with username and password, you may also want to add some additional features. We recommend:
 
-- [Add social provider sign-in](/lib/auth/social/q/platform/js/)
-- [Multi-factor authentication](/lib/auth/mfa/q/platform/js/)
+- [Add social provider sign-in](/[platform]/build-a-backend/auth/add-social-provider/)
+- [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/)
 
 </InlineFilter>
 
@@ -408,8 +408,8 @@ Now that you completed setting up Amplify Auth with username and password, you m
 
 Now that you completed setting up Amplify Auth with username and password, you may also want to add some additional features. We recommend:
 
-- [Add social provider sign-in](/lib/auth/social/q/platform/react-native/)
-- [Multi-factor authentication](/lib/auth/mfa/q/platform/react-native/)
+- [Add social provider sign-in](/[platform]/build-a-backend/auth/add-social-provider/)
+- [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/)
 
 </InlineFilter>
 
