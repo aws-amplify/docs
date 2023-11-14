@@ -4,7 +4,8 @@ export const meta = {
   title: 'Connect your API to an existing database',
   description:
     'Learn how to connect your API to an existing MySQL or PostgreSQL database.',
-  platforms: ['javascript', 'react-native']
+    platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android']
+
 };
 
 export const getStaticPaths = async () => {
@@ -20,7 +21,7 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={['javascript', 'react-native', 'flutter', 'swift', 'android']}>
 
 In this section, you'll learn how to:
 
@@ -46,7 +47,13 @@ Amplify CLI supports connecting to any existing MySQL or PostgreSQL database.
 
 If your database exists within a VPC, the RDS instance must be configured to be `Publicly accessible`. This does not mean the instance needs to accessible from the internet.
 
-An inbound rule must be added to the security group to allow traffic on port 3306 for MySQL databases, 5432 for PostgreSQL databases, or the port chosen when setting up the instance.
+When importing a database schema, the Amplify CLI will automatically discover that the RDS instance is in a VPC and install a Lambda function into that VPC, subnets, and security groups.
+
+The target security group(s) must have two inbound rules set up:
+
+- A rule allowing traffic on port 443 from the security group.
+
+- An inbound rule allowing traffic on the database port from the security group. (Default: 3306 for MySQL. 5432 for PostgreSQL.)
 
 <Callout>
   **NOTE:** Make sure to limit the type of inbound traffic your security group
@@ -62,6 +69,8 @@ First, set up your GraphQL API by running:
 ```sh
 amplify import api
 ```
+
+Answer the prompts with your database connection details:
 
 ```console
 ? Here is the GraphQL API that we will create. Select a setting to edit or continue:
@@ -111,11 +120,33 @@ The Amplify CLI will attempt to fetch the database schema and regenerate the Gra
 </Block>
 
 <Block name="AWS CDK">
+
 Pre-requisites:
 
 - Have an existing MySQL or PostgreSQL database deployed
 - The [AWS CDK CLI is installed](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install)
 - Have an [AWS CDK application initialized](https://docs.aws.amazon.com/cdk/v2/guide/hello_world.html)
+
+<Accordion title="Configure VPC settings for your database" headingLevel="3" eyebrow="Learn more">
+
+If your database exists within a VPC, the RDS instance must be configured to be `Publicly accessible`. This does not mean the instance needs to accessible from the internet.
+
+When importing a database schema, the Amplify CLI will automatically discover that the RDS instance is in a VPC and install a Lambda function into that VPC, subnets, and security groups.
+
+The target security group(s) must have two inbound rules set up:
+
+- A rule allowing traffic on port 443 from the security group.
+
+- An inbound rule allowing traffic on the database port from the security group. (Default: 3306 for MySQL. 5432 for PostgreSQL.)
+
+<Callout>
+  **NOTE:** Make sure to limit the type of inbound traffic your security group
+  allows according to your security needs and/or use cases. For information on
+  security group rules, please refer to the Amazon EC2 documentation:
+  https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-rules-reference.html?icmpid=docs_ec2_console
+</Callout>
+
+</Accordion>
 
 First, install required packages:
 
@@ -132,20 +163,90 @@ import {
 } from '@aws-amplify/graphql-api-construct';
 ```
 
+Create a `blogs` table in your database:
+
+```sql
+CREATE TABLE blogs (
+  id      varchar(255)  NOT NULL PRIMARY KEY,
+  title   varchar(255)  NOT NULL,
+);
+```
+
+Execute the following SQL statement on your database using a MySQL, PostgreSQL Client or CLI tool similar to `psql` and export the output to a CSV file:
+
+<Callout>
+  **NOTE:** Make sure to include column headers when exporting the output to a
+  CSV file.
+</Callout>
+
+<BlockSwitcher>
+<Block name="MySQL">
+```sql
+SELECT information_schema.columns.*,
+       information_schema.statistics.index_name,
+       information_schema.statistics.non_unique,
+       information_schema.statistics.seq_in_index,
+       information_schema.statistics.nullable
+FROM   information_schema.columns
+       LEFT JOIN information_schema.statistics
+              ON information_schema.columns.table_name =
+                 information_schema.statistics.table_name
+                 AND information_schema.columns.column_name =
+                     information_schema.statistics.column_name
+WHERE  information_schema.columns.table_schema = '<database-name>'
+```
+</Block>
+<Block name="PostgreSQL">
+```sql
+SELECT enum_name,
+       enum_values,
+       table_name,
+       column_name,
+       column_default,
+       ordinal_position,
+       data_type,
+       udt_name,
+       is_nullable,
+       character_maximum_length,
+       indexname,
+       REPLACE(Substring(indexdef FROM '\((.*)\)'), '"', '') AS index_columns
+FROM   information_schema.columns
+       LEFT JOIN pg_indexes
+              ON information_schema.columns.table_name = pg_indexes.tablename
+                 AND information_schema.columns.column_name = any (
+                     String_to_array(
+                     REPLACE(Substring
+                     (indexdef FROM '\((.*)\)'), '"', ''), ', ') )
+       LEFT JOIN (SELECT t.typname              AS enum_name,
+                         Array_agg(e.enumlabel) AS enum_values
+                  FROM   pg_type t
+                         JOIN pg_enum e
+                           ON t.oid = e.enumtypid
+                         JOIN pg_catalog.pg_namespace n
+                           ON n.oid = t.typnamespace
+                  WHERE  n.nspname = 'public'
+                  GROUP  BY enum_name) enums
+              ON enums.enum_name = information_schema.columns.udt_name
+WHERE  table_schema = 'public'
+       AND table_catalog = '<database-name>'
+```
+</Block>
+</BlockSwitcher>
+
+Generate an Amplify GraphQL API schema by running the following command, replacing the `--sql-schema` value with the path to the CSV file created in the previous step:
+
+```sh
+npx @aws-amplify/cli api generate-schema --sql-schema <path-to-schema.csv> --engine-type mysql --out schema.sql.graphql
+```
+
 In the main stack class, add the following code to define a new GraphQL API. Replace `stack` with the name of your stack instance:
 
 ```ts
 new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
   apiName: 'MySqlBoundApi',
-  definition: AmplifyGraphqlDefinition.fromString(
-    /* GraphQL */ `
-      type Todo @model @refersTo(name: "todos") {
-        id: ID! @primaryKey
-        description: String!
-      }
-    `,
+  definition: AmplifyGraphqlDefinition.fromFilesAndDefinition(
+    [path.join(__dirname, 'schema.sql.graphql')],
     {
-      name: 'MySqlDB',
       strategy: {
         dbType: 'MYSQL',
         vpcConfiguration: {
@@ -179,13 +280,15 @@ new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
 });
 ```
 
-Before deploying:
+The API will have an API key enabled for authorization. Sandbox mode is enabled for testing.
+
+Before deploying, make sure to:
 
 - Change the `dbType` to match your database engine of either MySQL or PostgreSQL.
 
-- Update the `vpcId`, `securityGroupIds`, and `subnetAvailabilityZoneConfig` according to your AWS environment.
+- Update the `vpcId`, `securityGroupIds`, and `subnetAvailabilityZoneConfig` with your vpc details.
 
-- Update the SSM parameter paths within `dbConnectionConfig`.
+- Update the SSM parameter paths within `dbConnectionConfig` to point to those existing in your AWS account.
 
 </Block>
 </BlockSwitcher>
@@ -214,19 +317,20 @@ All model level authorization rules are supported for Amplify GraphQL schemas ge
 
 In the example below, public users authorized via API Key are granted unrestricted access to all posts.
 
-Add the following auth rule to the `Post` model within the `schema.sql.graphql` file:
+Add the following auth rule to the `Blog` model within the `schema.sql.graphql` file:
 
 ```graphql
-type Post @model @auth(rules: [{ allow: public }]) {
+type Blog @model @refersTo(name: "blogs") @auth(rules: [{ allow: public }]) {
   id: String! @primaryKey
   title: String!
-  content: String!
 }
 ```
 
 In a real world scenario, you can instead define auth rules that only allow public users to read posts, and authenticated users the ability to update or delete their posts.
 
 For more information on each rule please refer to our documentation on [Authorization rules](/cli/graphql/authorization-rules/).
+
+## Deploy your API
 
 <BlockSwitcher>
 <Block name="Amplify CLI">
@@ -252,10 +356,6 @@ To deploy the API, you can use the `cdk deploy` command:
 ```sh
 cdk deploy
 ```
-
-This will deploy the AWS AppSync API connected to your RDS database based on the GraphQL schema and SSM parameters provided.
-
-The API will have an API key enabled for authorization. Sandbox mode is enabled for testing.
 
 </Block>
 </BlockSwitcher>
@@ -326,7 +426,7 @@ You can start querying from the AWS AppSync console or integrate it into your ap
 
 ```sql
 CREATE TABLE posts (
-  person_id       varchar(255)           NOT NULL PRIMARY KEY,
+  id              varchar(255)           NOT NULL PRIMARY KEY,
   title           varchar(255)           NOT NULL,
   content         varchar(255)           NOT NULL,
   published       tinyint(1)  DEFAULT 0  NOT NULL
@@ -357,7 +457,7 @@ amplify push -y
 
 ```sql
 CREATE TABLE posts (
-  person_id       varchar(255)           NOT NULL PRIMARY KEY,
+  id              varchar(255)           NOT NULL PRIMARY KEY,
   title           varchar(255)           NOT NULL,
   content         varchar(255)           NOT NULL,
   published       tinyint(1)  DEFAULT 0  NOT NULL
@@ -365,13 +465,69 @@ CREATE TABLE posts (
 );
 ```
 
-2. Generate an updated schema:
+2. Run the following SQL statement on your database using a MySQL, PostgreSQL Client or CLI tool similar to `psql`. Export the output to a CSV file with column headers included.
+
+<BlockSwitcher>
+<Block name="MySQL">
+```sql
+SELECT information_schema.columns.*,
+       information_schema.statistics.index_name,
+       information_schema.statistics.non_unique,
+       information_schema.statistics.seq_in_index,
+       information_schema.statistics.nullable
+FROM   information_schema.columns
+       LEFT JOIN information_schema.statistics
+              ON information_schema.columns.table_name =
+                 information_schema.statistics.table_name
+                 AND information_schema.columns.column_name =
+                     information_schema.statistics.column_name
+WHERE  information_schema.columns.table_schema = '<database-name>'
+```
+</Block>
+<Block name="PostgreSQL">
+```sql
+SELECT enum_name,
+       enum_values,
+       table_name,
+       column_name,
+       column_default,
+       ordinal_position,
+       data_type,
+       udt_name,
+       is_nullable,
+       character_maximum_length,
+       indexname,
+       REPLACE(Substring(indexdef FROM '\((.*)\)'), '"', '') AS index_columns
+FROM   information_schema.columns
+       LEFT JOIN pg_indexes
+              ON information_schema.columns.table_name = pg_indexes.tablename
+                 AND information_schema.columns.column_name = any (
+                     String_to_array(
+                     REPLACE(Substring
+                     (indexdef FROM '\((.*)\)'), '"', ''), ', ') )
+       LEFT JOIN (SELECT t.typname              AS enum_name,
+                         Array_agg(e.enumlabel) AS enum_values
+                  FROM   pg_type t
+                         JOIN pg_enum e
+                           ON t.oid = e.enumtypid
+                         JOIN pg_catalog.pg_namespace n
+                           ON n.oid = t.typnamespace
+                  WHERE  n.nspname = 'public'
+                  GROUP  BY enum_name) enums
+              ON enums.enum_name = information_schema.columns.udt_name
+WHERE  table_schema = 'public'
+       AND table_catalog = '<database-name>'
+```
+</Block>
+</BlockSwitcher>
+
+3. Generate an updated schema by running the following command, replacing the `--sql-schema` value with the path to the CSV file created in the previous step:
 
 ```sh
-npx @aws-amplify/cli api generate-schema —sql-schema <sql-schema/my-schema.csv> —engineType mysql —out schema.sql.graphql
+npx @aws-amplify/cli api generate-schema --sql-schema <path-to-schema.csv> --engine-type mysql --out schema.sql.graphql
 ```
 
-3. Deploy your changes to the cloud:
+4. Deploy your changes to the cloud:
 
 ```sh
 cdk deploy
@@ -380,23 +536,23 @@ cdk deploy
 </Block>
 </BlockSwitcher>
 
-## Make preserved changes to the GraphQL Schema
+## Making preserved changes to the GraphQL Schema
 
-<Accordion title="Directives" headingLevel="3" eyebrow="Info">
+<Accordion title="Supported Directives" headingLevel="3" eyebrow="Info">
 | Name         | Supported | Model Level | Field Level | Preserved | Description |
 |--------------|:---------:|:-----------:|:-----------:|:---------:|-------------|
-| `@model`     | ✅        | ✅          | ❌          | ✅        | Creates a datasource and resolver for a table            |
+| `@model`     | ✅        | ✅          | ❌          | ✅        | Creates a datasource and resolver for a table.            |
 | `@auth`      | ✅        | ✅          | ❌          | ✅        | Allows access to data based on a set of authorization methods and operations. |
 | `@primaryKey`| ✅        | ❌          | ✅          | ❌        | Sets a field to be the primary key. |
-| `@index`     | ✅        | ❌          | ✅          | ❌        | Creates an index on a table         |
-| `@default`   | ✅        | ❌          | ✅          | ❌        | Sets the default value for a column         |
-| `@hasOne`    | ✅        | ❌          | ✅          | ✅        | Creates a one-way 1:1 relationship from a parent to child model. |
-| `@hasMany`   | ✅        | ❌          | ✅          | ✅        | Creates a one-way 1:M relationship between two models, the reference being on the child. |
-| `@belongsTo` | ✅        | ❌          | ✅          | ✅        | Creates bi-directional relationship with the parent model. |
-| `@manyToMany`| ❌        | ❌          | ❌          | ❌        | Creates a M:N relationship between two models       |
+| `@index`     | ✅        | ❌          | ✅          | ❌        | Defines an index on a table.         |
+| `@default`   | ✅        | ❌          | ✅          | ❌        | Sets the default value for a column.         |
+| `@hasOne`    | ✅        | ❌          | ✅          | ✅        | Defines a one-way 1:1 relationship from a parent to child model. |
+| `@hasMany`   | ✅        | ❌          | ✅          | ✅        | Defines a one-way 1:M relationship between two models, the reference being on the child. |
+| `@belongsTo` | ✅        | ❌          | ✅          | ✅        | Defines bi-directional relationship with the parent model. |
+| `@manyToMany`| ❌        | ❌          | ❌          | ❌        | Defines a M:N relationship between two models.       |
 | `@refersTo`  | ✅        | ✅          | ✅          | ✅        | Maps a model to a table, or a field to a column, by name. |
-| `@mapsTo`    | ❌        | ❌          | ❌          | ❌        | Maps a model to a DynamoDB table        |
-| `@sql`       | ✅        | ❌          | ✅          | ✅        | Accepts a SQL statement to be executed to resolve a Custom Query or Mutation. |
+| `@mapsTo`    | ❌        | ❌          | ❌          | ❌        | Maps a model to a DynamoDB table.        |
+| `@sql`       | ✅        | ❌          | ✅          | ✅        | Accepts an inline SQL statement or reference to a .sql file to be executed to resolve a Custom Query or Mutation. |
 
 </Accordion>
 
@@ -424,7 +580,7 @@ Amplify GraphQL API for SQL databases introduces the `@sql` directive, which all
 
 There are two ways to specify the SQL statement - inline or by referencing a `.sql` file.
 
-#### Inline SQL Statement
+**Inline SQL Statement**
 
 You can embed the SQL statement directly in the schema using the `statement` argument.
 
@@ -441,7 +597,7 @@ type Query {
 
 {/* TODO: Add a NOTE: about proxy/connection pinning here. */}
 
-#### SQL File Reference
+**SQL File Reference**
 
 For longer, more complex SQL queries, you can specify the statement in a separate `.sql` file rather than inline. Referencing a file keeps your schema clean and allows reuse of SQL statements across fields.
 
