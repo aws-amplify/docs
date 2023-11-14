@@ -51,4 +51,10 @@ export type PageNode = {
    * Set as a page level static prop
    */
   hideFromNav?: boolean;
+
+  /**
+   * This flag indicates that the children for this node should be hidden in the base menu
+   * This is being used for categories like Cli - Legacy and SDK
+   */
+  hideChildrenOnBase?: boolean;
 };

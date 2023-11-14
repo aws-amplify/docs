@@ -22,20 +22,20 @@ const getStartedHref = '/[platform]/start/getting-started/introduction/';
 
 const getStartedLinks = [
   {
-    title: 'JavaScript',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'javascript' }
-    },
-    icon: <IconJS />
-  },
-  {
     title: 'React',
     href: {
       pathname: getStartedHref,
       query: { platform: 'react' }
     },
     icon: <IconReact />
+  },
+  {
+    title: 'JavaScript',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'javascript' }
+    },
+    icon: <IconJS />
   },
   {
     title: 'Flutter',

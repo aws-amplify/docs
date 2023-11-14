@@ -77,4 +77,4 @@ export const PLATFORM_VERSIONS = {
   },
 }
 
-export const DEFAULT_PLATFORM: Platform = 'javascript';
+export const DEFAULT_PLATFORM: Platform = 'react';
