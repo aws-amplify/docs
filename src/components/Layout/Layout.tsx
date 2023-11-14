@@ -203,7 +203,7 @@ export const Layout = ({
         />
         <meta
           property="twitter:image"
-          content="https://docs.amplify.aws/assets/ogp.jpg"
+          content={`https://docs.amplify.aws/assets/${isGen2 ? 'gen2' : 'classic'}-og.png`}
           key="twitter:image"
         />
       </Head>
