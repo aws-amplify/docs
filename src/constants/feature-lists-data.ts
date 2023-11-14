@@ -8,7 +8,7 @@ const featureListData = {
             content:
               'Add auth to apps using the Amplify CLI and Studio. Support for login, MFA, social providers, and CAPTCHA protection. Integrate auth with intuitive client library APIs.',
             linkText: 'Simple Configuration',
-            link: '/build-a-backend/auth/set-up-auth/'
+            link: 'build-a-backend/auth/set-up-auth/'
           },
           {
             content:
@@ -21,7 +21,7 @@ const featureListData = {
             content:
               'Manage users and groups directly in Amplify Studio without writing code. Maintain full control of your user base.',
             linkText: 'User management',
-            link: '/tools/console/auth/user-management/'
+            link: 'tools/console/auth/user-management/'
           }
         ],
         heading: 'Auth'
@@ -756,13 +756,6 @@ const featureListData = {
               'Manage content through APIs for listing, accessing, and manipulating files. Set file permission levels, configure automatic events and triggers, and more.',
             linkText: 'Advanced file operations and access control',
             link: 'build-a-backend/storage/configure-access/'
-          },
-          {
-            content:
-              'Integrate pre-built UI components to upload, display, and manage cloud-stored content with minimal coding. The components provide out-of-the-box capabilities so developers can focus on building their app instead of writing boilerplate UI code.',
-            linkText: 'Cloud-connected UI components',
-            link: 'https://ui.docs.amplify.aws/react/connected-components/storage',
-            isExternal: true
           }
         ],
         heading: 'Storage'
