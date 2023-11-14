@@ -6,9 +6,9 @@ const featureListData = {
         items: [
           {
             content:
-              'Add auth to apps using the Amplify CLI and Studio. Support for login, MFA, social providers, and CAPTCHA protection. Integrate auth with intuitive client library APIs.',
-            linkText: 'Simple Configuration',
-            link: '/build-a-backend/auth/set-up-auth/'
+              'Easily configure auth for your app with Amplify CLI and Studio—supports login, MFA, social providers, and more. Then integrate auth with intuitive client library APIs.',
+            linkText: 'Simple configuration',
+            link: 'build-a-backend/auth/set-up-auth/'
           },
           {
             content:
@@ -19,7 +19,7 @@ const featureListData = {
           },
           {
             content:
-              'Manage users and groups directly in Amplify Studio without writing code. Maintain full control of your user base.',
+              'Manage and maintain full control of your user base in Amplify Studio, without writing code.',
             linkText: 'User management',
             link: '/tools/console/auth/user-management/'
           }
@@ -31,20 +31,20 @@ const featureListData = {
         items: [
           {
             content:
-              "Amplify provides advanced, intuitive data modeling capabilities. Define your API using our the schema.graphql file in the CLI or Amplify Studio's visual editor. Model relationships between types, customize fields, and configure validation rules. Amplify handles turning the schema into fully implemented backend and frontend code.",
+              "Model relationships between types, customize fields, and configure validation rules using the CLI or Amplify Studio's visual editor. Amplify turns your schema into fully implemented backend and frontend code. ",
             linkText: 'Powerful data modeling',
             link: 'build-a-backend/graphqlapi/data-modeling/'
           },
           {
             content:
-              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Subscriptions allow real-time data sync. Integrate backend data sources like DynamoDB easily.',
+              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Sync data in real time and integrate backend data sources easily.',
             linkText: 'Seamless real-time data access',
             link: 'build-a-backend/graphqlapi/subscribe-data/'
           },
           {
             content:
-              'Implement fine-grained authorization rules and policies to securely access data. Control auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
-            linkText: 'Granular Authorization',
+              'Implement fine-grained authorization to securely access data, while controlling auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
+            linkText: 'Granular authorization',
             link: 'build-a-backend/graphqlapi/customize-authorization-rules/'
           }
         ],
@@ -54,7 +54,7 @@ const featureListData = {
         items: [
           {
             content:
-              'Author backend code in preferred languages and frameworks - JavaScript, Python, Go, Java, .NET. Amplify handles deployment on AWS Lambda for serverless execution.',
+              'Write backend code in your preferred language or framework. Amplify handles deployment on AWS Lambda for serverless execution.',
             linkText: 'Flexible runtime support',
             link: 'build-a-backend/functions/set-up-function/'
           },
@@ -98,8 +98,8 @@ const featureListData = {
         items: [
           {
             content:
-              'Add auth to apps using the Amplify CLI and Studio. Support for login, MFA, social providers, and CAPTCHA protection. Integrate auth with intuitive client library APIs.',
-            linkText: 'Simple Configuration',
+              'Easily configure auth for your app with Amplify CLI and Studio—supports login, MFA, social providers, and more. Then integrate auth with intuitive client library APIs.',
+            linkText: 'Simple configuration',
             link: 'build-a-backend/auth/set-up-auth/'
           },
           {
@@ -111,7 +111,7 @@ const featureListData = {
           },
           {
             content:
-              'Manage users and groups directly in Amplify Studio without writing code. Maintain full control of your user base.',
+              'Manage and maintain full control of your user base in Amplify Studio, without writing code.',
             linkText: 'User management',
             link: 'tools/console/auth/user-management/'
           }
@@ -123,20 +123,20 @@ const featureListData = {
         items: [
           {
             content:
-              "Amplify provides advanced, intuitive data modeling capabilities. Define your API using our the schema.graphql file in the CLI or Amplify Studio's visual editor. Model relationships between types, customize fields, and configure validation rules. Amplify handles turning the schema into fully implemented backend and frontend code.",
+              "Model relationships between types, customize fields, and configure validation rules using the CLI or Amplify Studio's visual editor. Amplify turns your schema into fully implemented backend and frontend code. ",
             linkText: 'Powerful data modeling',
             link: 'build-a-backend/graphqlapi/data-modeling/'
           },
           {
             content:
-              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Subscriptions allow real-time data sync. Integrate backend data sources like DynamoDB easily.',
+              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Sync data in real time and integrate backend data sources easily.',
             linkText: 'Seamless real-time data access',
             link: 'build-a-backend/graphqlapi/subscribe-data/'
           },
           {
             content:
-              'Implement fine-grained authorization rules and policies to securely access data. Control auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
-            linkText: 'Granular Authorization',
+              'Implement fine-grained authorization to securely access data, while controlling auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
+            linkText: 'Granular authorization',
             link: 'build-a-backend/graphqlapi/customize-authorization-rules/'
           }
         ],
@@ -147,7 +147,7 @@ const featureListData = {
         items: [
           {
             content:
-              'Author backend code in preferred languages and frameworks - JavaScript, Python, Go, Java, .NET. Amplify handles deployment on AWS Lambda for serverless execution.',
+              'Write backend code in your preferred language or framework. Amplify handles deployment on AWS Lambda for serverless execution.',
             linkText: 'Flexible runtime support',
             link: 'build-a-backend/functions/set-up-function/'
           },
@@ -191,8 +191,8 @@ const featureListData = {
         items: [
           {
             content:
-              'Add auth to apps using the Amplify CLI and Studio. Support for login, MFA, social providers, and CAPTCHA protection. Integrate auth with intuitive client library APIs.',
-            linkText: 'Simple Configuration',
+              'Easily configure auth for your app with Amplify CLI and Studio—supports login, MFA, social providers, and more. Then integrate auth with intuitive client library APIs.',
+            linkText: 'Simple configuration',
             link: 'build-a-backend/auth/set-up-auth/'
           },
           {
@@ -204,7 +204,7 @@ const featureListData = {
           },
           {
             content:
-              'Manage users and groups directly in Amplify Studio without writing code. Maintain full control of your user base.',
+              'Manage and maintain full control of your user base in Amplify Studio, without writing code.',
             linkText: 'User management',
             link: 'tools/console/auth/user-management/'
           }
@@ -216,20 +216,20 @@ const featureListData = {
         items: [
           {
             content:
-              "Amplify provides advanced, intuitive data modeling capabilities. Define your API using our the schema.graphql file in the CLI or Amplify Studio's visual editor. Model relationships between types, customize fields, and configure validation rules. Amplify handles turning the schema into fully implemented backend and frontend code.",
+              "Model relationships between types, customize fields, and configure validation rules using the CLI or Amplify Studio's visual editor. Amplify turns your schema into fully implemented backend and frontend code. ",
             linkText: 'Powerful data modeling',
             link: 'build-a-backend/graphqlapi/data-modeling/'
           },
           {
             content:
-              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Subscriptions allow real-time data sync. Integrate backend data sources like DynamoDB easily.',
+              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Sync data in real time and integrate backend data sources easily.',
             linkText: 'Seamless real-time data access',
             link: 'build-a-backend/graphqlapi/subscribe-data/'
           },
           {
             content:
-              'Implement fine-grained authorization rules and policies to securely access data. Control auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
-            linkText: 'Granular Authorization',
+              'Implement fine-grained authorization to securely access data, while controlling auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
+            linkText: 'Granular authorization',
             link: 'build-a-backend/graphqlapi/customize-authorization-rules/'
           }
         ],
@@ -240,7 +240,7 @@ const featureListData = {
         items: [
           {
             content:
-              'Author backend code in preferred languages and frameworks - JavaScript, Python, Go, Java, .NET. Amplify handles deployment on AWS Lambda for serverless execution.',
+              'Write backend code in your preferred language or framework. Amplify handles deployment on AWS Lambda for serverless execution.',
             linkText: 'Flexible runtime support',
             link: 'build-a-backend/functions/set-up-function/'
           },
@@ -284,8 +284,8 @@ const featureListData = {
         items: [
           {
             content:
-              'Add auth to apps using the Amplify CLI and Studio. Support for login, MFA, social providers, and CAPTCHA protection. Integrate auth with intuitive client library APIs.',
-            linkText: 'Simple Configuration',
+              'Easily configure auth for your app with Amplify CLI and Studio—supports login, MFA, social providers, and more. Then integrate auth with intuitive client library APIs.',
+            linkText: 'Simple configuration',
             link: 'build-a-backend/auth/set-up-auth/'
           },
           {
@@ -297,7 +297,7 @@ const featureListData = {
           },
           {
             content:
-              'Manage users and groups directly in Amplify Studio without writing code. Maintain full control of your user base.',
+              'Manage and maintain full control of your user base in Amplify Studio, without writing code.',
             linkText: 'User management',
             link: 'tools/console/auth/user-management/'
           }
@@ -309,20 +309,20 @@ const featureListData = {
         items: [
           {
             content:
-              "Amplify provides advanced, intuitive data modeling capabilities. Define your API using our the schema.graphql file in the CLI or Amplify Studio's visual editor. Model relationships between types, customize fields, and configure validation rules. Amplify handles turning the schema into fully implemented backend and frontend code.",
+              "Model relationships between types, customize fields, and configure validation rules using the CLI or Amplify Studio's visual editor. Amplify turns your schema into fully implemented backend and frontend code. ",
             linkText: 'Powerful data modeling',
             link: 'build-a-backend/graphqlapi/data-modeling/'
           },
           {
             content:
-              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Subscriptions allow real-time data sync. Integrate backend data sources like DynamoDB easily.',
+              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Sync data in real time and integrate backend data sources easily.',
             linkText: 'Seamless real-time data access',
             link: 'build-a-backend/graphqlapi/subscribe-data/'
           },
           {
             content:
-              'Implement fine-grained authorization rules and policies to securely access data. Control auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
-            linkText: 'Granular Authorization',
+              'Implement fine-grained authorization to securely access data, while controlling auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
+            linkText: 'Granular authorization',
             link: 'build-a-backend/graphqlapi/customize-authorization-rules/'
           }
         ],
@@ -333,7 +333,7 @@ const featureListData = {
         items: [
           {
             content:
-              'Author backend code in preferred languages and frameworks - JavaScript, Python, Go, Java, .NET. Amplify handles deployment on AWS Lambda for serverless execution.',
+              'Write backend code in your preferred language or framework. Amplify handles deployment on AWS Lambda for serverless execution.',
             linkText: 'Flexible runtime support',
             link: 'build-a-backend/functions/set-up-function/'
           },
@@ -368,7 +368,7 @@ const featureListData = {
           },
           {
             content:
-              'Integrate pre-built UI components to upload, display, and manage cloud-stored content with minimal coding. The components provide out-of-the-box capabilities so developers can focus on building their app instead of writing boilerplate UI code.',
+              'Integrate pre-built UI components to upload, display, and manage cloud-stored content with minimal coding. Focus on building your app instead of writing boilerplate UI code ',
             linkText: 'Cloud-connected UI components',
             link: 'https://ui.docs.amplify.aws/react/connected-components/storage',
             isExternal: true
@@ -384,8 +384,8 @@ const featureListData = {
         items: [
           {
             content:
-              'Add auth to apps using the Amplify CLI and Studio. Support for login, MFA, social providers, and CAPTCHA protection. Integrate auth with intuitive client library APIs.',
-            linkText: 'Simple Configuration',
+              'Easily configure auth for your app with Amplify CLI and Studio—supports login, MFA, social providers, and more. Then integrate auth with intuitive client library APIs.',
+            linkText: 'Simple configuration',
             link: 'build-a-backend/auth/set-up-auth/'
           },
           {
@@ -397,7 +397,7 @@ const featureListData = {
           },
           {
             content:
-              'Manage users and groups directly in Amplify Studio without writing code. Maintain full control of your user base.',
+              'Manage and maintain full control of your user base in Amplify Studio, without writing code.',
             linkText: 'User management',
             link: 'tools/console/auth/user-management/'
           }
@@ -409,20 +409,20 @@ const featureListData = {
         items: [
           {
             content:
-              "Amplify provides advanced, intuitive data modeling capabilities. Define your API using our the schema.graphql file in the CLI or Amplify Studio's visual editor. Model relationships between types, customize fields, and configure validation rules. Amplify handles turning the schema into fully implemented backend and frontend code.",
+              "Model relationships between types, customize fields, and configure validation rules using the CLI or Amplify Studio's visual editor. Amplify turns your schema into fully implemented backend and frontend code. ",
             linkText: 'Powerful data modeling',
             link: 'build-a-backend/graphqlapi/data-modeling/'
           },
           {
             content:
-              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Subscriptions allow real-time data sync. Integrate backend data sources like DynamoDB easily.',
+              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Sync data in real time and integrate backend data sources easily.',
             linkText: 'Seamless real-time data access',
             link: 'build-a-backend/graphqlapi/subscribe-data/'
           },
           {
             content:
-              'Implement fine-grained authorization rules and policies to securely access data. Control auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
-            linkText: 'Granular Authorization',
+              'Implement fine-grained authorization to securely access data, while controlling auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
+            linkText: 'Granular authorization',
             link: 'build-a-backend/graphqlapi/customize-authorization-rules/'
           }
         ],
@@ -433,7 +433,7 @@ const featureListData = {
         items: [
           {
             content:
-              'Author backend code in preferred languages and frameworks - JavaScript, Python, Go, Java, .NET. Amplify handles deployment on AWS Lambda for serverless execution.',
+              'Write backend code in your preferred language or framework. Amplify handles deployment on AWS Lambda for serverless execution.',
             linkText: 'Flexible runtime support',
             link: 'build-a-backend/functions/set-up-function/'
           },
@@ -477,8 +477,8 @@ const featureListData = {
         items: [
           {
             content:
-              'Add auth to apps using the Amplify CLI and Studio. Support for login, MFA, social providers, and CAPTCHA protection. Integrate auth with intuitive client library APIs.',
-            linkText: 'Simple Configuration',
+              'Easily configure auth for your app with Amplify CLI and Studio—supports login, MFA, social providers, and more. Then integrate auth with intuitive client library APIs.',
+            linkText: 'Simple configuration',
             link: 'build-a-backend/auth/set-up-auth/'
           },
           {
@@ -490,7 +490,7 @@ const featureListData = {
           },
           {
             content:
-              'Manage users and groups directly in Amplify Studio without writing code. Maintain full control of your user base.',
+              'Manage and maintain full control of your user base in Amplify Studio, without writing code.',
             linkText: 'User management',
             link: 'tools/console/auth/user-management/'
           }
@@ -502,20 +502,20 @@ const featureListData = {
         items: [
           {
             content:
-              "Amplify provides advanced, intuitive data modeling capabilities. Define your API using our the schema.graphql file in the CLI or Amplify Studio's visual editor. Model relationships between types, customize fields, and configure validation rules. Amplify handles turning the schema into fully implemented backend and frontend code.",
+              "Model relationships between types, customize fields, and configure validation rules using the CLI or Amplify Studio's visual editor. Amplify turns your schema into fully implemented backend and frontend code. ",
             linkText: 'Powerful data modeling',
             link: 'build-a-backend/graphqlapi/data-modeling/'
           },
           {
             content:
-              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Subscriptions allow real-time data sync. Integrate backend data sources like DynamoDB easily.',
+              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Sync data in real time and integrate backend data sources easily.',
             linkText: 'Seamless real-time data access',
             link: 'build-a-backend/graphqlapi/subscribe-data/'
           },
           {
             content:
-              'Implement fine-grained authorization rules and policies to securely access data. Control auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
-            linkText: 'Granular Authorization',
+              'Implement fine-grained authorization to securely access data, while controlling auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
+            linkText: 'Granular authorization',
             link: 'build-a-backend/graphqlapi/customize-authorization-rules/'
           }
         ],
@@ -525,7 +525,7 @@ const featureListData = {
         items: [
           {
             content:
-              'Author backend code in preferred languages and frameworks - JavaScript, Python, Go, Java, .NET. Amplify handles deployment on AWS Lambda for serverless execution.',
+              'Write backend code in your preferred language or framework. Amplify handles deployment on AWS Lambda for serverless execution.',
             linkText: 'Flexible runtime support',
             link: 'build-a-backend/functions/set-up-function/'
           },
@@ -560,7 +560,7 @@ const featureListData = {
           },
           {
             content:
-              'Integrate pre-built UI components to upload, display, and manage cloud-stored content with minimal coding. The components provide out-of-the-box capabilities so developers can focus on building their app instead of writing boilerplate UI code.',
+              'Integrate pre-built UI components to upload, display, and manage cloud-stored content with minimal coding. Focus on building your app instead of writing boilerplate UI code ',
             linkText: 'Cloud-connected UI components',
             link: 'https://ui.docs.amplify.aws/react/connected-components/storage',
             isExternal: true
@@ -576,8 +576,8 @@ const featureListData = {
         items: [
           {
             content:
-              'Add auth to apps using the Amplify CLI and Studio. Support for login, MFA, social providers, and CAPTCHA protection. Integrate auth with intuitive client library APIs.',
-            linkText: 'Simple Configuration',
+              'Easily configure auth for your app with Amplify CLI and Studio—supports login, MFA, social providers, and more. Then integrate auth with intuitive client library APIs.',
+            linkText: 'Simple configuration',
             link: 'build-a-backend/auth/set-up-auth/'
           },
           {
@@ -589,7 +589,7 @@ const featureListData = {
           },
           {
             content:
-              'Manage users and groups directly in Amplify Studio without writing code. Maintain full control of your user base.',
+              'Manage and maintain full control of your user base in Amplify Studio, without writing code.',
             linkText: 'User management',
             link: 'tools/console/auth/user-management/'
           }
@@ -601,20 +601,20 @@ const featureListData = {
         items: [
           {
             content:
-              "Amplify provides advanced, intuitive data modeling capabilities. Define your API using our the schema.graphql file in the CLI or Amplify Studio's visual editor. Model relationships between types, customize fields, and configure validation rules. Amplify handles turning the schema into fully implemented backend and frontend code.",
+              "Model relationships between types, customize fields, and configure validation rules using the CLI or Amplify Studio's visual editor. Amplify turns your schema into fully implemented backend and frontend code. ",
             linkText: 'Powerful data modeling',
             link: 'build-a-backend/graphqlapi/data-modeling/'
           },
           {
             content:
-              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Subscriptions allow real-time data sync. Integrate backend data sources like DynamoDB easily.',
+              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Sync data in real time and integrate backend data sources easily.',
             linkText: 'Seamless real-time data access',
             link: 'build-a-backend/graphqlapi/subscribe-data/'
           },
           {
             content:
-              'Implement fine-grained authorization rules and policies to securely access data. Control auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
-            linkText: 'Granular Authorization',
+              'Implement fine-grained authorization to securely access data, while controlling auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
+            linkText: 'Granular authorization',
             link: 'build-a-backend/graphqlapi/customize-authorization-rules/'
           }
         ],
@@ -625,7 +625,7 @@ const featureListData = {
         items: [
           {
             content:
-              'Author backend code in preferred languages and frameworks - JavaScript, Python, Go, Java, .NET. Amplify handles deployment on AWS Lambda for serverless execution.',
+              'Write backend code in your preferred language or framework. Amplify handles deployment on AWS Lambda for serverless execution.',
             linkText: 'Flexible runtime support',
             link: 'build-a-backend/functions/set-up-function/'
           },
@@ -660,7 +660,7 @@ const featureListData = {
           },
           {
             content:
-              'Integrate pre-built UI components to upload, display, and manage cloud-stored content with minimal coding. The components provide out-of-the-box capabilities so developers can focus on building their app instead of writing boilerplate UI code.',
+              'Integrate pre-built UI components to upload, display, and manage cloud-stored content with minimal coding. Focus on building your app instead of writing boilerplate UI code ',
             linkText: 'Cloud-connected UI components',
             link: 'https://ui.docs.amplify.aws/react/connected-components/storage',
             isExternal: true
@@ -676,8 +676,8 @@ const featureListData = {
         items: [
           {
             content:
-              'Add auth to apps using the Amplify CLI and Studio. Support for login, MFA, social providers, and CAPTCHA protection. Integrate auth with intuitive client library APIs.',
-            linkText: 'Simple Configuration',
+              'Easily configure auth for your app with Amplify CLI and Studio—supports login, MFA, social providers, and more. Then integrate auth with intuitive client library APIs.',
+            linkText: 'Simple configuration',
             link: 'build-a-backend/auth/set-up-auth/'
           },
           {
@@ -689,7 +689,7 @@ const featureListData = {
           },
           {
             content:
-              'Manage users and groups directly in Amplify Studio without writing code. Maintain full control of your user base.',
+              'Manage and maintain full control of your user base in Amplify Studio, without writing code.',
             linkText: 'User management',
             link: 'tools/console/auth/user-management/'
           }
@@ -701,20 +701,20 @@ const featureListData = {
         items: [
           {
             content:
-              "Amplify provides advanced, intuitive data modeling capabilities. Define your API using our the schema.graphql file in the CLI or Amplify Studio's visual editor. Model relationships between types, customize fields, and configure validation rules. Amplify handles turning the schema into fully implemented backend and frontend code.",
+              "Model relationships between types, customize fields, and configure validation rules using the CLI or Amplify Studio's visual editor. Amplify turns your schema into fully implemented backend and frontend code. ",
             linkText: 'Powerful data modeling',
             link: 'build-a-backend/graphqlapi/data-modeling/'
           },
           {
             content:
-              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Subscriptions allow real-time data sync. Integrate backend data sources like DynamoDB easily.',
+              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Sync data in real time and integrate backend data sources easily.',
             linkText: 'Seamless real-time data access',
             link: 'build-a-backend/graphqlapi/subscribe-data/'
           },
           {
             content:
-              'Implement fine-grained authorization rules and policies to securely access data. Control auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
-            linkText: 'Granular Authorization',
+              'Implement fine-grained authorization to securely access data, while controlling auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
+            linkText: 'Granular authorization',
             link: 'build-a-backend/graphqlapi/customize-authorization-rules/'
           }
         ],
@@ -724,7 +724,7 @@ const featureListData = {
         items: [
           {
             content:
-              'Author backend code in preferred languages and frameworks - JavaScript, Python, Go, Java, .NET. Amplify handles deployment on AWS Lambda for serverless execution.',
+              'Write backend code in your preferred language or framework. Amplify handles deployment on AWS Lambda for serverless execution.',
             linkText: 'Flexible runtime support',
             link: 'build-a-backend/functions/set-up-function/'
           },
@@ -759,7 +759,7 @@ const featureListData = {
           },
           {
             content:
-              'Integrate pre-built UI components to upload, display, and manage cloud-stored content with minimal coding. The components provide out-of-the-box capabilities so developers can focus on building their app instead of writing boilerplate UI code.',
+              'Integrate pre-built UI components to upload, display, and manage cloud-stored content with minimal coding. Focus on building your app instead of writing boilerplate UI code ',
             linkText: 'Cloud-connected UI components',
             link: 'https://ui.docs.amplify.aws/react/connected-components/storage',
             isExternal: true
@@ -775,8 +775,8 @@ const featureListData = {
         items: [
           {
             content:
-              'Add auth to apps using the Amplify CLI and Studio. Support for login, MFA, social providers, and CAPTCHA protection. Integrate auth with intuitive client library APIs.',
-            linkText: 'Simple Configuration',
+              'Easily configure auth for your app with Amplify CLI and Studio—supports login, MFA, social providers, and more. Then integrate auth with intuitive client library APIs.',
+            linkText: 'Simple configuration',
             link: 'build-a-backend/auth/set-up-auth/'
           },
           {
@@ -788,7 +788,7 @@ const featureListData = {
           },
           {
             content:
-              'Manage users and groups directly in Amplify Studio without writing code. Maintain full control of your user base.',
+              'Manage and maintain full control of your user base in Amplify Studio, without writing code.',
             linkText: 'User management',
             link: 'tools/console/auth/user-management/'
           }
@@ -800,20 +800,20 @@ const featureListData = {
         items: [
           {
             content:
-              "Amplify provides advanced, intuitive data modeling capabilities. Define your API using our the schema.graphql file in the CLI or Amplify Studio's visual editor. Model relationships between types, customize fields, and configure validation rules. Amplify handles turning the schema into fully implemented backend and frontend code.",
+              "Model relationships between types, customize fields, and configure validation rules using the CLI or Amplify Studio's visual editor. Amplify turns your schema into fully implemented backend and frontend code. ",
             linkText: 'Powerful data modeling',
             link: 'build-a-backend/graphqlapi/data-modeling/'
           },
           {
             content:
-              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Subscriptions allow real-time data sync. Integrate backend data sources like DynamoDB easily.',
+              'Fetch and mutate data through generated GraphQL queries and mutations from your frontend. Sync data in real time and integrate backend data sources easily.',
             linkText: 'Seamless real-time data access',
             link: 'build-a-backend/graphqlapi/subscribe-data/'
           },
           {
             content:
-              'Implement fine-grained authorization rules and policies to securely access data. Control auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
-            linkText: 'Granular Authorization',
+              'Implement fine-grained authorization to securely access data, while controlling auth at the API level or on individual fields. Manage access with AWS IAM policies or your own auth provider.',
+            linkText: 'Granular authorization',
             link: 'build-a-backend/graphqlapi/customize-authorization-rules/'
           }
         ],
@@ -824,7 +824,7 @@ const featureListData = {
         items: [
           {
             content:
-              'Author backend code in preferred languages and frameworks - JavaScript, Python, Go, Java, .NET. Amplify handles deployment on AWS Lambda for serverless execution.',
+              'Write backend code in your preferred language or framework. Amplify handles deployment on AWS Lambda for serverless execution.',
             linkText: 'Flexible runtime support',
             link: 'build-a-backend/functions/set-up-function/'
           },
