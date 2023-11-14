@@ -29,9 +29,6 @@ export function getStaticProps(context) {
   };
 }
 
-import next10 from '/src/fragments/start/getting-started/react/nextsteps.mdx';
-
-<Fragments fragments={{ next: next10 }} />
 
 import ios14 from '/src/fragments/start/getting-started/ios/nextsteps.mdx';
 
@@ -45,7 +42,7 @@ import flutter16 from '/src/fragments/start/getting-started/flutter/nextsteps.md
 
 <Fragments fragments={{ flutter: flutter16 }} />
 
-<InlineFilter filters={['javascript','react','angular','react-native','vue']}>
+<InlineFilter filters={['javascript','react','angular','react-native','vue', 'nextjs']}>
 
 🎉 Congratulations! Your app is built, with a realtime backend.
 
@@ -53,10 +50,9 @@ What next? Here are some things to add to your app:
 
 </InlineFilter>
 
-<InlineFilter filters={['javascript','react','angular','vue']}>
+<InlineFilter filters={['javascript','react','angular','vue', 'nextjs']}>
 
 - [Authentication](/lib/auth/getting-started)
-- [DataStore](/lib/datastore/getting-started)
 - [User File Storage](/lib/storage/getting-started)
 - [Serverless APIs](/lib/graphqlapi/getting-started)
 - [Analytics](/lib/analytics/getting-started)
@@ -67,7 +63,6 @@ What next? Here are some things to add to your app:
 <InlineFilter filters={['react-native']}>
 
 - [Authentication](/lib/auth/getting-started)
-- [DataStore](/lib/datastore/getting-started)
 - [User File Storage](/lib/storage/getting-started)
 - [Serverless APIs](/lib/graphqlapi/getting-started)
 - [Analytics](/lib/analytics/getting-started)
