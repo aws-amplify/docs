@@ -16,7 +16,7 @@
     "@algolia/autocomplete-theme-classic": "^1.6.1",
     "@algolia/client-search": "^4.13.0",
     "@aws-amplify/amplify-cli-core": "^4.2.10",
-    "@aws-amplify/ui-react": "^5.3.1",
+    "@aws-amplify/ui-react": "^5.3.2",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
     "@mdx-js/mdx": "^2.0.0",
