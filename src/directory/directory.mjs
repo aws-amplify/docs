@@ -98,9 +98,6 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/auth/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/configure-auth/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx'
                 },
                 {
@@ -1200,7 +1197,7 @@ export const directory = {
                   path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/advanced-workflows/index.mdx'
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/set-up-graphql-api/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/api-graphql-concepts/index.mdx'
@@ -1209,23 +1206,23 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/customize-authz-modes/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/existing-resources/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/mutate-data/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/offline/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/query-data/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/set-up-data/index.mdx'
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/index.mdx'
-                    }
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/offline/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/advanced-workflows/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/existing-resources/index.mdx'
+                    },
                   ]
                 },
                 {
