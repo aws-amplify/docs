@@ -1654,57 +1654,6 @@ export const directory = {
           path: 'src/pages/[platform]/sdk/index.mdx',
           children: [
             {
-              path: 'src/pages/[platform]/sdk/analytics/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/sdk/analytics/endpoints/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/analytics/events/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/analytics/getting-started/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/analytics/kinesis/index.mdx'
-                }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/sdk/api/index.mdx',
-              children: [
-                { path: 'src/pages/[platform]/sdk/api/graphql/index.mdx' },
-                { path: 'src/pages/[platform]/sdk/api/rest/index.mdx' }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/sdk/auth/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/sdk/auth/custom-auth-flow/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/auth/device-features/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/auth/drop-in-auth/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/auth/federated-identities/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/auth/getting-started/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/auth/guest-access/index.mdx'
-                },
-                { path: 'src/pages/[platform]/sdk/auth/hosted-ui/index.mdx' },
-                {
-                  path: 'src/pages/[platform]/sdk/auth/working-with-api/index.mdx'
-                }
-              ]
-            },
-            {
               path: 'src/pages/[platform]/sdk/configuration/index.mdx',
               children: [
                 {
@@ -1722,16 +1671,67 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/sdk/pubsub/index.mdx',
+              path: 'src/pages/[platform]/sdk/analytics/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/sdk/pubsub/aws-iot-and-amplify/index.mdx'
+                  path: 'src/pages/[platform]/sdk/analytics/getting-started/index.mdx'
                 },
+                {
+                  path: 'src/pages/[platform]/sdk/analytics/events/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/analytics/endpoints/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/analytics/kinesis/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/sdk/api/index.mdx',
+              children: [
+                { path: 'src/pages/[platform]/sdk/api/graphql/index.mdx' },
+                { path: 'src/pages/[platform]/sdk/api/rest/index.mdx' }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/sdk/auth/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/sdk/auth/getting-started/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/auth/guest-access/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/auth/drop-in-auth/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/auth/working-with-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/auth/federated-identities/index.mdx'
+                },
+                { path: 'src/pages/[platform]/sdk/auth/hosted-ui/index.mdx' },
+                {
+                  path: 'src/pages/[platform]/sdk/auth/custom-auth-flow/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/auth/device-features/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/sdk/pubsub/index.mdx',
+              children: [
                 {
                   path: 'src/pages/[platform]/sdk/pubsub/getting-started/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/sdk/pubsub/working-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/pubsub/aws-iot-and-amplify/index.mdx'
                 }
               ]
             },
@@ -1753,16 +1753,16 @@ export const directory = {
               path: 'src/pages/[platform]/sdk/storage/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/sdk/storage/configure-access/index.mdx'
+                  path: 'src/pages/[platform]/sdk/storage/getting-started/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/sdk/storage/getting-started/index.mdx'
+                  path: 'src/pages/[platform]/sdk/storage/transfer-utility/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/sdk/storage/graphql-api/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/sdk/storage/transfer-utility/index.mdx'
+                  path: 'src/pages/[platform]/sdk/storage/configure-access/index.mdx'
                 }
               ]
             }
