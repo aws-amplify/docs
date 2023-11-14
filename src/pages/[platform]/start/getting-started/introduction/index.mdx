@@ -1,4 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 
 export const meta = {
   title: 'Introduction',
@@ -82,30 +83,24 @@ import android11 from '/src/fragments/start/getting-started/android/build-footer
 
 <Fragments fragments={{ android: android11 }} />
 
-import flutter12 from '/src/fragments/start/getting-started/flutter/build-footer.mdx';
+<InlineFilter filters={["javascript", "nextjs", "react", "react-native", "angular", "vue", "flutter"]}>
 
-<Fragments fragments={{ flutter: flutter12 }} />
+<br />
+<InternalLinkButton href={{
+  pathname: '/[platform]/start/getting-started/installation',
+  query: { platform: useCurrentPlatform() }
+}}>
+  <span slot="text">Start the Tutorial</span>
+</InternalLinkButton>
 
-import js13 from '/src/fragments/start/getting-started/common/build-footer.mdx';
+Use Amplify Studio to get started with Amplify. [Get started](https://sandbox.amplifyapp.com/getting-started)
 
-<Fragments fragments={{ javascript: js13 }} />
+</InlineFilter>
 
-import next14 from '/src/fragments/start/getting-started/common/build-footer.mdx';
+<InlineFilter filters={["flutter"]}>
 
-<Fragments fragments={{ nextjs: next14 }} />
+<small>
+Flutter and the related logo are trademarks of Google LLC. We are not endorsed by or affiliated with Google LLC.
+</small>
 
-import react15 from '/src/fragments/start/getting-started/common/build-footer.mdx';
-
-<Fragments fragments={{ react: react15 }} />
-
-import react_native16 from '/src/fragments/start/getting-started/common/build-footer.mdx';
-
-<Fragments fragments={{ 'react-native': react_native16 }} />
-
-import angular17 from '/src/fragments/start/getting-started/common/build-footer.mdx';
-
-<Fragments fragments={{ angular: angular17 }} />
-
-import vue19 from '/src/fragments/start/getting-started/common/build-footer.mdx';
-
-<Fragments fragments={{ vue: vue19 }} />
+</InlineFilter>

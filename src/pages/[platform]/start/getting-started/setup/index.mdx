@@ -563,11 +563,15 @@ npx pod-install
 
 </InlineFilter>
 
+<InlineFilter filters={["angular"]}>
+
 <Callout>
 
 Angular CLI output warnings: if you see CommonJS or AMD dependencies optimization bailouts warnings using Angular 9+, you can use this [gist](https://gist.github.com/wlee221/6d98d96740bea6f53327b4db4a432616) to remove them. More details about these [here](https://angular.io/guide/build#configuring-commonjs-dependencies).
 
 </Callout>
+
+</InlineFilter>
 
 ## Set up frontend
 
@@ -595,11 +599,27 @@ Next, configure Amplify so it can interact with backend services.
         Open **src/main.js** and add the following code below the last import:
     </InlineFilter>
 
+    <InlineFilter filters={["angular", "nextjs", "react", "vue"]}>
+    
     ```javascript
     import { Amplify } from 'aws-amplify';
     import amplifyconfig from './amplifyconfiguration.json';
     Amplify.configure(amplifyconfig);
     ```
+
+    </InlineFilter>
+
+    <InlineFilter filters={["javascript"]}>
+    
+    ```javascript
+    import './style.css'
+    import { Amplify } from 'aws-amplify';
+    import amplifyconfig from './src/amplifyconfiguration.json';
+    Amplify.configure(amplifyconfig);
+    ```
+
+    </InlineFilter>
+
 
 </InlineFilter>
 
