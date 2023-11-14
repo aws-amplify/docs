@@ -20,11 +20,7 @@ export function getStaticProps(context) {
   };
 }
 
-import next0 from '/src/fragments/start/getting-started/next/api.mdx';
-
-<Fragments fragments={{ nextjs: next0 }} />
-
-<InlineFilter filters={['javascript','react','angular','react-native','vue']}>
+<InlineFilter filters={['javascript','react','angular','react-native','vue', 'nextjs']}>
 
 Now that you’ve created and configured your application and initialized a new Amplify project, you can add a feature. The first feature you will add is an API.
 
@@ -172,6 +168,8 @@ query ListTodos {
 ```
 
 </Accordion>
+
+<InlineFilter filters={["javascript", "angular", "vue", "react", "react-native"]}>
 
 ## Connect frontend to API
 
@@ -1095,11 +1093,98 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
 
 </InlineFilter>
 
+</InlineFilter>
+
+<InlineFilter filters={["nextjs"]}>
+## API with Server-Side Rendering (SSR)
+
+In this section you will create a way to list and create todos from the Next.js application. To do this, you will fetch & render the latest todos from the server as well as create a new todo.
+
+Open **app/page.tsx** and replace it with the following code:
+
+```jsx
+// app/page.tsx
+import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
+import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
+
+import * as mutations from '@/src/graphql/mutations';
+import * as queries from '@/src/graphql/queries';
+
+import config from '@/src/amplifyconfiguration.json';
+
+export const cookiesClient = generateServerClientUsingCookies({
+  config,
+  cookies
+});
+
+async function createTodo(formData: FormData) {
+  'use server';
+
+  await cookiesClient.graphql({
+    query: mutations.createTodo,
+    variables: {
+      input: {
+        name: formData.get('name')?.toString() ?? ''
+      }
+    }
+  });
+
+  revalidatePath('/');
+}
+
+export default async function Home() {
+  const { data, errors } = await cookiesClient.graphql({
+    query: queries.listTodos
+  });
+
+  const todos = data.listTodos.items;
+
+  return (
+    <div
+      style={{
+        maxWidth: '500px',
+        margin: '0 auto',
+        textAlign: 'center',
+        marginTop: '100px'
+      }}
+    >
+      <form action={createTodo}>
+        <input name="name" placeholder="Add a todo" />
+        <button type="submit">Add</button>
+      </form>
+
+      {(!todos || todos.length === 0 || errors) && (
+        <div>
+          <p>No todos, please add one.</p>
+        </div>
+      )}
+
+      <ul>
+        {todos.map((todo) => {
+          return <li style={{ listStyle: 'none' }}>{todo.name}</li>;
+        })}
+      </ul>
+    </div>
+  );
+}
+```
+
+Let's walk through some of this file:
+
+- First we import `generateServerClientUsingCookies` from `@aws-amplify/adapter-nextjs/api` and use it to generate a `cookiesClient` using the `amplifyconfiguration.json` in our project as `config` and `cookies` from `@next/headers`.
+
+- Using `cookiesClient.graphql` we call `queries.listTodos` and await the response and assign the items returned to `todos` then iterate over them to display. If there are no todos, display the message "No todos, please add one".
+
+- The form above the list of todos is a [Server-only form in Next.js](https://nextjs.org/docs/app/building-your-application/data-fetching/forms-and-mutations#server-only-forms) which submits it's data to the `createTodo` async function. When called, `createTodo` sends a mutation via `cookiesClient.graphql` to the GraphQL API, then calls `revalidatePath` from the Next.js cache to invalidate the page cache and fetch the latest todos.
+
+</InlineFilter>
+
 ## Run locally
 
 Next, run the app and you should see the updated UI with the ability to create and view the list of todos:
 
-<InlineFilter filters={['react', 'javascript', 'vue']}>
+<InlineFilter filters={['react', 'javascript', 'vue', 'nextjs']}>
 
 ```bash
 npm run dev
