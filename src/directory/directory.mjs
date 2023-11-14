@@ -43,7 +43,7 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/start/getting-started/nextsteps/index.mdx'
-                },
+                }
               ]
             },
             {
@@ -1635,7 +1635,7 @@ export const directory = {
                   children: [
                     {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
-                    },
+                    }
                   ]
                 },
                 { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
@@ -1968,10 +1968,7 @@ export const directory = {
           path: 'src/pages/gen2/how-amplify-works/index.mdx',
           children: [
             {
-              path: 'src/pages/gen2/how-amplify-works/project-structure/index.mdx'
-            },
-            {
-              path: 'src/pages/gen2/how-amplify-works/mobile-support/index.mdx'
+              path: 'src/pages/gen2/how-amplify-works/concepts/index.mdx'
             },
             {
               path: 'src/pages/gen2/how-amplify-works/faq/index.mdx'
@@ -1989,6 +1986,9 @@ export const directory = {
             },
             {
               path: 'src/pages/gen2/start/manual-installation/index.mdx'
+            },
+            {
+              path: 'src/pages/gen2/start/mobile-support/index.mdx'
             }
           ]
         },
@@ -2122,7 +2122,7 @@ export const directory = {
                   path: 'src/pages/gen2/deploy-and-host/sandbox-environments/setup/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/deploy-and-host/sandbox-environments/secrets/index.mdx'
+                  path: 'src/pages/gen2/deploy-and-host/sandbox-environments/features/index.mdx'
                 }
               ]
             },
@@ -2154,6 +2154,9 @@ export const directory = {
         {
           path: 'src/pages/gen2/reference/index.mdx',
           children: [
+            {
+              path: 'src/pages/gen2/reference/project-structure/index.mdx'
+            },
             {
               path: 'src/pages/gen2/reference/amplifyconfiguration/index.mdx'
             },

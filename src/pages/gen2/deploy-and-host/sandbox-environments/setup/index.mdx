@@ -1,5 +1,5 @@
 export const meta = {
-  title: 'Setup a cloud sandbox',
+  title: 'Local development',
   description: 'Guide to set up a cloud sandbox environment on your machine.'
 };
 
@@ -35,7 +35,7 @@ When you deploy a cloud sandbox, Amplify creates an AWS CloudFormation stack `am
 
 ![sandbox](/images/gen2/sandbox/sandbox1.png)
 
-After the successful deployment of the CloudFormation stack, the sandbox tracks and monitors for file changes in your backend and performs real-time updates to the CloudFormation stack. This functionality is built leveraging the hotswap capability of the AWS CDK.
+After the successful deployment of the CloudFormation stack, the sandbox tracks and monitors for file changes in your `amplify` folder and performs real-time updates to the CloudFormation stack. This functionality is built leveraging the hotswap capability of the AWS CDK.
 
 ![sandbox](/images/gen2/sandbox/sandbox2.png)
 
