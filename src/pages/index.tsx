@@ -70,7 +70,7 @@ export default function Page() {
           other resources will help you build, connect, and host fullstack apps
           on AWS. Get started by selecting your preferred framework.
         </Text>
-        <FrameworkGrid currentKey="javascript" />
+        <FrameworkGrid currentKey={defaultPlatform} />
       </Flex>
       <PlatformFeatureList platform={defaultPlatform} />
       <LinkCards platform={defaultPlatform} />
