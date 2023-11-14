@@ -993,25 +993,25 @@ export const directory = {
                   path: 'src/pages/[platform]/tools/cli/reference/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/cli/reference/diagnose/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/reference/feature-flags/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/reference/files/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/tools/cli/reference/iam/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli/reference/iam-roles-mfa/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/reference/ssm-parameter-store/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/reference/files/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli/reference/usage-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/reference/diagnose/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/reference/feature-flags/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/reference/ssm-parameter-store/index.mdx'
                     }
                   ]
                 }
