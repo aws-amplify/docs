@@ -29,9 +29,6 @@ export function getStaticProps(context) {
   };
 }
 
-import next10 from '/src/fragments/start/getting-started/react/nextsteps.mdx';
-
-<Fragments fragments={{ next: next10 }} />
 
 import ios14 from '/src/fragments/start/getting-started/ios/nextsteps.mdx';
 
@@ -45,7 +42,7 @@ import flutter16 from '/src/fragments/start/getting-started/flutter/nextsteps.md
 
 <Fragments fragments={{ flutter: flutter16 }} />
 
-<InlineFilter filters={['javascript','react','angular','react-native','vue']}>
+<InlineFilter filters={['javascript','react','angular','react-native','vue', 'nextjs']}>
 
 🎉 Congratulations! Your app is built, with a realtime backend.
 
@@ -53,10 +50,9 @@ What next? Here are some things to add to your app:
 
 </InlineFilter>
 
-<InlineFilter filters={['javascript','react','angular','vue']}>
+<InlineFilter filters={['javascript','react','angular','vue', 'nextjs']}>
 
 - [Authentication](/[platform]/build-a-backend/auth/set-up-auth/)
-- [DataStore](/[platform]/build-a-backend/datastore/set-up-datastore/)
 - [User File Storage](/[platform]/build-a-backend/storage/set-up-storage/)
 - [Serverless APIs](/[platform]/build-a-backend/storage/set-up-storage/)
 - [Analytics](/[platform]/build-a-backend/more-features/analytics/set-up-analytics/)
@@ -67,7 +63,6 @@ What next? Here are some things to add to your app:
 <InlineFilter filters={['react-native']}>
 
 - [Authentication](/[platform]/build-a-backend/auth/set-up-auth/)
-- [DataStore](/[platform]/build-a-backend/datastore/set-up-datastore/)
 - [User File Storage](/[platform]/build-a-backend/storage/set-up-storage/)
 - [Serverless APIs](/[platform]/build-a-backend/storage/set-up-storage/)
 - [Analytics](/[platform]/build-a-backend/more-features/analytics/set-up-analytics/)
