@@ -880,7 +880,11 @@ export const directory = {
                   ]
                 },
                 { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
-                { path: 'src/pages/[platform]/tools/cli/custom/index.mdx' },
+                { path: 'src/pages/[platform]/tools/cli/custom/index.mdx',
+              children: [
+                { path: 'src/pages/[platform]/tolls/cli/custom/cdk/index.mdx'},
+                { path: 'src/pages/[platform]/tolls/cli/custom/cloudformation/index.mdx'},
+              ] },
                 {
                   path: 'src/pages/[platform]/tools/cli/project/index.mdx',
                   children: [
