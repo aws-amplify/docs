@@ -841,6 +841,36 @@ export const directory = {
               path: 'src/pages/[platform]/tools/cli/index.mdx',
               children: [
                 {
+                  path: 'src/pages/[platform]/tools/cli/start/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/tools/cli/start/set-up-cli/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/start/key-workflows/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/tools/cli/graphqlapi/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
+                    },
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/tools/cli/restapi/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/tools/cli/restapi/testing/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/restapi/override-api-gateway/index.mdx'
+                    }
+                  ]
+                },
+                {
                   path: 'src/pages/[platform]/tools/cli/auth/index.mdx',
                   children: [
                     {
@@ -851,45 +881,68 @@ export const directory = {
                     }
                   ]
                 },
+                { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
                 { path: 'src/pages/[platform]/tools/cli/custom/index.mdx' },
                 {
-                  path: 'src/pages/[platform]/tools/cli/graphqlapi/index.mdx',
+                  path: 'src/pages/[platform]/tools/cli/project/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/project/tags/index.mdx'
                     },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/project/permissions-boundary/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/project/command-hooks/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/project/monorepo/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/project/override-iam/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/project/troubleshooting/index.mdx'
+                    }
                   ]
                 },
-                { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
                 {
-                  path: 'src/pages/[platform]/tools/cli/migration/index.mdx',
+                  path: 'src/pages/[platform]/tools/cli/teams/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/cli/migration/aws-cdk-migration/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/teams/shared/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/migration/cli-auth-signup-changes/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/teams/sandbox/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/migration/cli-migrate-aws-account/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/teams/multi-frontend/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/migration/identity-claim-changes/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/teams/cicd/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/migration/lambda-layers-update/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/teams/commands/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/tools/cli/usage/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/tools/cli/usage/lambda-triggers/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/migration/lazy-load-custom-selection-set/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/usage/mock/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/migration/list-nullability/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/usage/containers/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/migration/override/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/usage/export-to-cdk/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/migration/transformer-migration/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/usage/headless/index.mdx'
                     }
                   ]
                 },
@@ -905,25 +958,34 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/tools/cli/project/index.mdx',
+                  path: 'src/pages/[platform]/tools/cli/migration/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/cli/project/command-hooks/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/migration/aws-cdk-migration/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/project/monorepo/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/migration/lazy-load-custom-selection-set/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/project/override-iam/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/migration/transformer-migration/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/project/permissions-boundary/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/migration/override/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/project/tags/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/migration/lambda-layers-update/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/project/troubleshooting/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/migration/cli-auth-signup-changes/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/migration/list-nullability/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/migration/cli-migrate-aws-account/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/migration/identity-claim-changes/index.mdx'
                     }
                   ]
                 },
@@ -952,68 +1014,6 @@ export const directory = {
                       path: 'src/pages/[platform]/tools/cli/reference/usage-data/index.mdx'
                     }
                   ]
-                },
-                {
-                  path: 'src/pages/[platform]/tools/cli/restapi/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/tools/cli/restapi/override-api-gateway/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/restapi/testing/index.mdx'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/tools/cli/start/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/tools/cli/start/key-workflows/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/start/set-up-cli/index.mdx'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/tools/cli/teams/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/tools/cli/teams/cicd/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/teams/commands/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/teams/multi-frontend/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/teams/sandbox/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/teams/shared/index.mdx'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/tools/cli/usage/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/tools/cli/usage/containers/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/usage/export-to-cdk/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/usage/headless/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/usage/lambda-triggers/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/usage/mock/index.mdx'
-                    }
-                  ]
                 }
               ]
             },
@@ -1024,16 +1024,50 @@ export const directory = {
                   path: 'src/pages/[platform]/tools/console/adminui/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/console/adminui/access-management/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/console/adminui/custom-domain/index.mdx'
+                      path: 'src/pages/[platform]/tools/console/adminui/start/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/console/adminui/extend-cli/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/console/adminui/start/index.mdx'
+                      path: 'src/pages/[platform]/tools/console/adminui/access-management/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/console/adminui/custom-domain/index.mdx'
+                    }  
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/tools/console/tutorial/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/tools/console/tutorial/buildui/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/console/tutorial/data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/console/tutorial/bindui/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/console/tutorial/collections/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/console/tutorial/code/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/tools/console/data/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/tools/console/data/data-model/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/console/data/relationships/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/console/data/content-management/index.mdx'
                     }
                   ]
                 },
@@ -1041,10 +1075,10 @@ export const directory = {
                   path: 'src/pages/[platform]/tools/console/auth/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/console/auth/import/index.mdx'
+                      path: 'src/pages/[platform]/tools/console/auth/user-management/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/console/auth/user-management/index.mdx'
+                      path: 'src/pages/[platform]/tools/console/auth/import/index.mdx'
                     }
                   ]
                 },
@@ -1057,20 +1091,6 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/tools/console/data/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/tools/console/data/content-management/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/console/data/data-model/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/console/data/relationships/index.mdx'
-                    }
-                  ]
-                },
-                {
                   path: 'src/pages/[platform]/tools/console/storage/index.mdx',
                   children: [
                     {
@@ -1078,26 +1098,6 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/tools/console/storage/file-storage/index.mdx'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/tools/console/tutorial/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/tools/console/tutorial/bindui/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/console/tutorial/buildui/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/console/tutorial/code/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/console/tutorial/collections/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/console/tutorial/data/index.mdx'
                     }
                   ]
                 }
