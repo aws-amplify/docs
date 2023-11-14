@@ -401,7 +401,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/receive-device-token/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/interact-with-notificiations/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/interact-with-notifications/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/identify-user/index.mdx'
@@ -1296,9 +1296,9 @@ export const directory = {
                 {
                   path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/index.mdx',
                   children: [
-                    // {
-                    //   path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/set-up-push-notifications/index.mdx'
-                    // },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/set-up-push-notifications/index.mdx'
+                    },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/request-permissions/index.mdx'
                     },
@@ -1306,7 +1306,7 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/receive-device-token/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/interact-with-notificiations/index.mdx'
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/interact-with-notifications/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/identify-user/index.mdx'
