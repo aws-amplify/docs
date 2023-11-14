@@ -1,7 +1,6 @@
 export const meta = {
   title: 'Create, update, and delete application data',
-  description:
-    'Learn how to mutate application data.'
+  description: 'Learn how to mutate application data.'
 };
 
 export function getStaticProps(context) {
@@ -17,7 +16,7 @@ In this guide, you will learn how to create, update, and delete your data using 
 
 Before you begin, you will need:
 
-- An [application connected to the API](/lib/graphqlapi/connect/q/platform/js/)
+- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/connect-to-api/)
 
 ## Create an item
 
@@ -97,16 +96,19 @@ Each API request uses a authorization mode. If you get unauthorized errors, you 
 
 ```ts
 import { generateClient } from 'aws-amplify/api';
-import { type Schema } from '@/amplify/data/resource'
+import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
 
-const { errors, data: newTodo } = await client.models.Todo.create({
-  content: "My new todo",
-  done: true,
-}, {
-  authMode: 'apiKey'
-})
+const { errors, data: newTodo } = await client.models.Todo.create(
+  {
+    content: 'My new todo',
+    done: true
+  },
+  {
+    authMode: 'apiKey'
+  }
+);
 ```
 
 </Accordion>
@@ -140,7 +142,7 @@ You need to ensure that the promise returned from `.create()`, `.update()`, and 
 
 ```javascript
 async function makeAPICall() {
-  return client.models.Todo.create({ content: "New Todo" });
+  return client.models.Todo.create({ content: 'New Todo' });
 }
 const promise = makeAPICall();
 
@@ -156,5 +158,5 @@ Congratulations! You have finished the **Create, update, and delete application 
 
 Our recommended next steps include using the API to query data and subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
 
-- [Read application data](/lib/graphqlapi/query-data/q/platform/js/)
-- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/js/)
+- [Read application data](/[platform]/build-a-backend/graphqlapi/query-data/)
+- [Subscribe to real-time events](/[platform]/build-a-backend/graphqlapi/subscribe-data/)

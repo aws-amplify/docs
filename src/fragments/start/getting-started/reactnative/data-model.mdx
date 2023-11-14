@@ -22,7 +22,7 @@ Accept the **default values** which are highlighted below:
 
 The CLI should open this GraphQL schema in your text editor.
 
-__amplify/backend/api/myapi/schema.graphql__
+**amplify/backend/api/myapi/schema.graphql**
 
 ```graphql
 # This "input" configures a global authorization rule to enable public access to
@@ -37,13 +37,13 @@ type Todo @model {
 
 ```
 
-The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql/data-modeling) library of Amplify. 
+The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](/[platform]/build-a-backend/graphqlapi/data-modeling/) library of Amplify.
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
 A type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 
-From the command line, press __enter__ to accept the schema and continue to the next steps.
+From the command line, press **enter** to accept the schema and continue to the next steps.
 
 ### Deploying the API
 
@@ -107,7 +107,7 @@ To test this out locally, you can run the `mock` command.
 amplify mock api
 ```
 
-*Note:* `amplify mock api` requires Java. If you have not already deployed your API with `amplify push`, you will be walked through the following steps for GraphQL code generation.
+_Note:_ `amplify mock api` requires Java. If you have not already deployed your API with `amplify push`, you will be walked through the following steps for GraphQL code generation.
 
 ```console
 ? Do you want to generate code for your newly created GraphQL API Yes
@@ -123,10 +123,12 @@ Try running a couple of mutations locally and then querying for the todos:
 
 ```graphql
 mutation createTodo {
-  createTodo(input: {
-    name: "Build an API"
-    description: "Build a serverless API with Amplify and GraphQL"
-  }) {
+  createTodo(
+    input: {
+      name: "Build an API"
+      description: "Build a serverless API with Amplify and GraphQL"
+    }
+  ) {
     id
     name
     description
@@ -151,17 +153,17 @@ In this section you will create a way to list and create todos from the React ap
 <BlockSwitcher>
 <Block name="Expo CLI">
 
-Open __App.js__ and replace it with the following code:
+Open **App.js** and replace it with the following code:
 
 ```javascript
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   Pressable,
-  SafeAreaView,
+  SafeAreaView
 } from 'react-native';
 import {generateClient} from 'aws-amplify/api';
 import {createTodo} from './src/graphql/mutations';
@@ -183,7 +185,7 @@ const App = () => {
   }, []);
 
   function setInput(key, value) {
-    setFormState({...formState, [key]: value});
+    setFormState({ ...formState, [key]: value });
   }
 
   async function fetchTodos() {
@@ -201,7 +203,7 @@ const App = () => {
   async function addTodo() {
     try {
       if (!formState.name || !formState.description) return;
-      const todo = {...formState};
+      const todo = { ...formState };
       setTodos([...todos, todo]);
       setFormState(initialState);
       await client.graphql({
@@ -219,13 +221,13 @@ const App = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <TextInput
-          onChangeText={value => setInput('name', value)}
+          onChangeText={(value) => setInput('name', value)}
           style={styles.input}
           value={formState.name}
           placeholder="Name"
         />
         <TextInput
-          onChangeText={value => setInput('description', value)}
+          onChangeText={(value) => setInput('description', value)}
           style={styles.input}
           value={formState.description}
           placeholder="Description"
@@ -247,33 +249,38 @@ const App = () => {
 export default App;
 
 const styles = StyleSheet.create({
-  container: {width: 400, flex: 1, padding: 20, alignSelf: 'center'},
-  todo: {marginBottom: 15},
-  input: {backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18},
-  todoName: {fontSize: 20, fontWeight: 'bold'},
+  container: { width: 400, flex: 1, padding: 20, alignSelf: 'center' },
+  todo: { marginBottom: 15 },
+  input: {
+    backgroundColor: '#ddd',
+    marginBottom: 10,
+    padding: 8,
+    fontSize: 18
+  },
+  todoName: { fontSize: 20, fontWeight: 'bold' },
   buttonContainer: {
     alignSelf: 'center',
     backgroundColor: 'black',
-    paddingHorizontal: 8,
+    paddingHorizontal: 8
   },
-  buttonText: {color: 'white', padding: 16, fontSize: 18},
+  buttonText: { color: 'white', padding: 16, fontSize: 18 }
 });
 ```
 
 </Block>
 <Block name="React Native CLI">
 
-Open __App.tsx__ and replace it with the following code:
+Open **App.tsx** and replace it with the following code:
 
 ```javascript
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   Pressable,
-  SafeAreaView,
+  SafeAreaView
 } from 'react-native';
 import { generateClient } from 'aws-amplify/api';
 import {createTodo} from './src/graphql/mutations';
@@ -291,7 +298,7 @@ const App = () => {
   }, []);
 
   function setInput(key, value) {
-    setFormState({...formState, [key]: value});
+    setFormState({ ...formState, [key]: value });
   }
 
   async function fetchTodos() {
@@ -309,7 +316,7 @@ const App = () => {
   async function addTodo() {
     try {
       if (!formState.name || !formState.description) return;
-      const todo = {...formState};
+      const todo = { ...formState };
       setTodos([...todos, todo]);
       setFormState(initialState);
       await client.graphql({
@@ -327,13 +334,13 @@ const App = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <TextInput
-          onChangeText={value => setInput('name', value)}
+          onChangeText={(value) => setInput('name', value)}
           style={styles.input}
           value={formState.name}
           placeholder="Name"
         />
         <TextInput
-          onChangeText={value => setInput('description', value)}
+          onChangeText={(value) => setInput('description', value)}
           style={styles.input}
           value={formState.description}
           placeholder="Description"
@@ -355,16 +362,21 @@ const App = () => {
 export default App;
 
 const styles = StyleSheet.create({
-  container: {width: 400, flex: 1, padding: 20, alignSelf: 'center'},
-  todo: {marginBottom: 15},
-  input: {backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18},
-  todoName: {fontSize: 20, fontWeight: 'bold'},
+  container: { width: 400, flex: 1, padding: 20, alignSelf: 'center' },
+  todo: { marginBottom: 15 },
+  input: {
+    backgroundColor: '#ddd',
+    marginBottom: 10,
+    padding: 8,
+    fontSize: 18
+  },
+  todoName: { fontSize: 20, fontWeight: 'bold' },
   buttonContainer: {
     alignSelf: 'center',
     backgroundColor: 'black',
-    paddingHorizontal: 8,
+    paddingHorizontal: 8
   },
-  buttonText: {color: 'white', padding: 16, fontSize: 18},
+  buttonText: { color: 'white', padding: 16, fontSize: 18 }
 });
 ```
 
@@ -373,7 +385,7 @@ const styles = StyleSheet.create({
 
 Let's walk through some of the functions:
 
-__useEffect__ - After the component renders, the `useEffect` hook is called and it invokes the `fetchTodos` function.
+**useEffect** - After the component renders, the `useEffect` hook is called and it invokes the `fetchTodos` function.
 
 __fetchTodos__ - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
 

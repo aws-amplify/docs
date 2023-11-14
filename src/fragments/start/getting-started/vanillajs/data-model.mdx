@@ -1,6 +1,6 @@
 Now that you’ve initialized a new Amplify project, you can add a feature. The first feature you will add is an API. An API will allow you to save and read data to and from the cloud.
 
-The Amplify CLI supports creating and interacting with two types of API categories: [REST](/lib/restapi/getting-started) and [GraphQL](/lib/graphqlapi/getting-started).
+The Amplify CLI supports creating and interacting with two types of API categories: [REST](/[platform]/build-a-backend/restapi/set-up-rest-api/) and [GraphQL](/[platform]/build-a-backend/graphqlapi/set-up-data/).
 
 The API you will be creating in this step is a GraphQL API using AWS AppSync (a managed GraphQL service) and the database will be Amazon DynamoDB (a NoSQL database).
 
@@ -31,9 +31,10 @@ The CLI should open this GraphQL schema in your text editor.
 
 ```graphql
 # This "input" configures a global authorization rule to enable public access to
-# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
-
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/javascript/build-a-backend/graphqlapi/customize-auth/
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
 type Todo @model {
   id: ID!
   name: String!
@@ -41,7 +42,7 @@ type Todo @model {
 }
 ```
 
-The schema generated is for a Todo app. You'll notice a `@model` directive on the `Todo` type. This directive is part of the [GraphQL transformer](/cli/graphql/data-modeling) feature of the Amplify CLI.
+The schema generated is for a Todo app. You'll notice a `@model` directive on the `Todo` type. This directive is part of the [GraphQL transformer](/[platform]/build-a-backend/graphqlapi/data-modeling/) feature of the Amplify CLI.
 
 The GraphQL transformer provides custom GraphQL directives that allow you to define data models, set up authorization rules, configure serverless functions as resolvers, and more.
 

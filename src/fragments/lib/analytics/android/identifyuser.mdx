@@ -2,7 +2,7 @@ This call sends information that you have specified about the user to Amazon Pin
 
 In addition, `customProperties` and `userAttributes` can also be provided when invoking `identifyUser`. The Amazon Pinpoint console makes that data available as part of the criteria for segment creation. Attributes passed in via `customProperties` will appear under **Custom Endpoint Attributes**, while `userAttributes` will appear under **Custom User Attributes**. See the [Pinpoint documentation](https://docs.aws.amazon.com/pinpoint/latest/userguide/segments-building.html#choosecriteria) for more information on segment creation.
 
-You can get the current user's ID from the Amplify Auth category as shown below. Be sure you have it added and setup per the [Auth category documentation](/lib/auth/getting-started).
+You can get the current user's ID from the Amplify Auth category as shown below. Be sure you have it added and setup per the [Auth category documentation](/[platform]/build-a-backend/auth/set-up-auth/).
 
 If you have asked for location access and received permission, you can also provide that in `UserProfile.Location`.
 
