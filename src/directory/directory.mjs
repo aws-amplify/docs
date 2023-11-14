@@ -714,7 +714,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/upgrade-amplify-packages/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/migration-guide/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/index.mdx'
                 }
               ]
             }
