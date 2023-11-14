@@ -63,7 +63,7 @@ The aws-amplify package in v6 includes the categories below:
 * DataStore
 * InAppMessaging
 
-If you would like to use [Geo](https://quip-amazon.com/eIoRAt3ah8wx/Migrating-from-Amplify-V5-to-Amplify-V6#temp:C:fNN5a330ab1631b4515936eb6194), [Predictions](https://quip-amazon.com/eIoRAt3ah8wx/Migrating-from-Amplify-V5-to-Amplify-V6#temp:C:fNNce183d9ecbc54832b1b1cb7ab), [PubSub](https://quip-amazon.com/eIoRAt3ah8wx/Migrating-from-Amplify-V5-to-Amplify-V6#temp:C:fNN7cd353cb08fc4a65aa730a4df), or [Interactions](https://quip-amazon.com/eIoRAt3ah8wx/Migrating-from-Amplify-V5-to-Amplify-V6#temp:C:fNN7332387c4be0408ba8f09ad74) you will need to install those packages separately. (see category-specific migration instructions)
+If you would like to use Geo, Predictions, PubSub, or Interactions you will need to install those packages separately. (see [category-specific migration instructions](migration-guide/#4-upgrade-category-usage))
 
 </Block>
 
@@ -684,6 +684,157 @@ For a deeper look at how the PubSub functionality in V6, check out our [PubSub c
 </Accordion>
 
 <Accordion title='Storage' headingLevel='4'>
+
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/storage` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+
+<BlockSwitcher>
+<Block name="V5">
+```
+import { Amplify, Auth, Storage } from 'aws-amplify';
+
+// Set up Amplify Storage with Manual configuration
+Amplify.configure({
+  Auth: {
+    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab', //REQUIRED - Amazon Cognito Identity Pool ID
+    region: 'XX-XXXX-X', // REQUIRED - Amazon Cognito Region
+    userPoolId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito User Pool ID
+    userPoolWebClientId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito Web Client ID
+  },
+  Storage: {
+    AWSS3: {
+      bucket: '', //REQUIRED -  Amazon S3 bucket name
+      region: 'XX-XXXX-X', //OPTIONAL -  Amazon service region
+      isObjectLockEnabled: true //OPTIONAl - Object Lock parameter
+    }
+  }
+});
+
+// Upload files 
+const result = await Storage.put("test.txt", "Hello");
+
+// Download files 
+await Storage.get('filename.txt', { validateObjectExistence: true });
+
+```
+</Block>
+<Block name="V6">
+```
+import { uploadData, downloadData } from 'aws-amplify/storage';
+
+// Upload files to s3 bucket
+try {
+  const result = await uploadData({
+    key: filename,
+    data: file,
+    options: {
+      accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
+      onProgress // Optional progress callback.
+    }
+  }).result;
+  console.log('Succeeded: ', result);
+} catch (error) {
+  console.log('Error : ', error);
+}
+
+// Download a file from s3 bucket
+const { body, eTag } = await downloadData({
+  key,
+  data: file,
+  options: {
+    accessLevel: 'guest', // can be 'private' | 'protected' | 'guest'
+    targetIdentityId: 'xxxxxxx', // id of another user, if `level: protected`
+    onProgress, // Optional progress callback.
+  },
+}).result;
+```
+</Block>
+</BlockSwitcher>
+
+For a deeper look at how the Storage functionality in V6, check out our [Storage category documentation](http://lib/storage/getting-started/q/platform/js/).
+
+</Accordion>
+
+<Accordion title='Utilities' headingLevel='4'>
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/utils` path as shown below.  Use the switcher below to see the differences between v5 and v6:
+
+<BlockSwitcher>
+<Block name="V5">
+```
+import { ServiceWorker, Cache, Hub, I18n, Logger } from 'aws-amplify';
+
+// Service Worker
+const serviceWorker = new ServiceWorker();
+
+// Cache
+Cache.setItem(key, value, [options]);
+
+// Hub (Listening for messages)
+class MyClass {
+    constructor() {
+        Hub.listen('auth', (data) => {
+            const { payload } = data;
+            this.onAuthEvent(payload);           
+            console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
+        })
+    }
+
+    onAuthEvent(payload) {
+        // ... your implementation
+    }
+}
+
+// Internationalization
+I18n.setLanguage('fr');
+
+// Logger 
+const logger = new Logger('foo');
+
+logger.info('info bar');
+logger.debug('debug bar');
+logger.warn('warn bar');
+logger.error('error bar');
+
+```
+</Block>
+<Block name="V6">
+```
+import { ServiceWorker, Cache, Hub, I18n, ConsoleLogger } from 'aws-amplify/utils'; 
+
+// Service Worker
+const serviceWorker = new ServiceWorker();
+
+// Cache
+Cache.setItem(key, value, [options]);
+
+// Hub (Listening for messages)
+class MyClass {
+  constructor() {
+    Hub.listen('auth', (data) => {
+      const { payload } = data;
+      this.onAuthEvent(payload);           
+      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
+    })
+  }
+
+  onAuthEvent(payload) {
+    // ... your implementation
+  }
+}
+
+// Internationalization
+I18n.setLanguage('fr');
+
+// Console Logger
+const logger = new ConsoleLogger('foo');
+
+logger.info('info bar');
+logger.debug('debug bar');
+logger.warn('warn bar');
+logger.error('error bar');
+
+```
+</Block>
+</BlockSwitcher>
 
 For a deeper look at V6... 
 
