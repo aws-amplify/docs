@@ -21,6 +21,11 @@ const overrides = {
   '/swift/prev': 'V1',
   '/android/prev': 'V1',
   '/flutter/prev': 'V0',
+  '/react/prev': 'V5',
+  '/react-native/prev': 'V5',
+  '/angular/prev': 'V5',
+  '/nextjs/prev': 'V5',
+  '/vue/prev': 'V5',
   '/javascript': PLATFORM_DISPLAY_NAMES['javascript'],
   '/react': PLATFORM_DISPLAY_NAMES['react'],
   '/flutter': PLATFORM_DISPLAY_NAMES['flutter'],
@@ -78,11 +83,7 @@ function BreadcrumbsComponent({ route, platform, isGen2 }: Props) {
         {items?.map(({ href, label }, i) => {
           const isCurrent = i === items.length - 1;
           return (
-            <Breadcrumbs.Item
-              key={href.pathname}
-              paddingTop="small"
-              className="breadcrumb__item"
-            >
+            <Breadcrumbs.Item key={href.pathname} className="breadcrumb__item">
               <Link
                 href={href}
                 passHref

@@ -45,4 +45,16 @@ export type PageNode = {
    * String representing when file was last edited
    */
   lastUpdated?: string;
+
+  /**
+   * Denotes whether the page should be included in the side nav.
+   * Set as a page level static prop
+   */
+  hideFromNav?: boolean;
+
+  /**
+   * This flag indicates that the children for this node should be hidden in the base menu
+   * This is being used for categories like Cli - Legacy and SDK
+   */
+  hideChildrenOnBase?: boolean;
 };

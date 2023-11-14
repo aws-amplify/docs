@@ -15,6 +15,7 @@ import * as subscriptions from './graphql/subscriptions';
 ### Simple Query
 
 Running a GraphQL query is simple. Import the generated query and execute it with `client.graphql`:
+
 ```js
 import { generateClient } from 'aws-amplify/api'
 import * as queries from './graphql/queries';
@@ -39,10 +40,10 @@ By default, each AppSync API will be set with a default authorization mode when 
 #### Query with custom authorization mode
 
 ```js
-import { generateClient } from 'aws-amplify/api'
+import { generateClient } from 'aws-amplify/api';
 import * as queries from './graphql/queries';
 
-const client = generateClient()
+const client = generateClient();
 
 const todos = await client.graphql({
   query: queries.listTodos,
@@ -106,8 +107,9 @@ const variables: ListTodosQueryVariables = {
   }
 };
 
-await client.graphql({ 
-  query: listTodos, variables: variables 
+await client.graphql({
+  query: listTodos,
+  variables: variables
 });
 ```
 
@@ -124,9 +126,10 @@ const variables = {
   }
 };
 
-await client.graphql({ 
-  query: listTodos, variables: variables 
-});;
+await client.graphql({
+  query: listTodos,
+  variables: variables
+});
 ```
 
 </Block>
@@ -144,15 +147,13 @@ import { ListTodosQueryVariables, ListTodosQuery } from './API';
 
 const variables: ListTodosQueryVariables = {
   filter: {
-    or: [
-      { priority: { eq:1 } },
-      { priority: { eq:2 } }
-    ]
+    or: [{ priority: { eq: 1 } }, { priority: { eq: 2 } }]
   }
 };
 
-await client.graphql({ 
-  query: listTodos, variables: variables 
+await client.graphql({
+  query: listTodos,
+  variables: variables
 });
 ```
 
@@ -163,16 +164,14 @@ await client.graphql({
 ```js
 const variables = {
   filter: {
-    or: [
-      { priority: { eq:1 } },
-      { priority: { eq:2 } }
-    ]
+    or: [{ priority: { eq: 1 } }, { priority: { eq: 2 } }]
   }
 };
 
-await client.graphql({ 
-  query: listTodos, variables: variables 
-});;
+await client.graphql({
+  query: listTodos,
+  variables: variables
+});
 ```
 
 </Block>
@@ -192,22 +191,28 @@ import { ListTodosQueryVariables, ListTodosQuery } from './API';
 
 // Fetch first 20 records
 const variables: ListTodosQueryVariables = {
-  limit: 20, 
+  limit: 20
   // add filter as needed
 };
 
-const res = await client.graphql<GraphQLQuery<ListTodosQuery>({ 
-  query: listTodos, variables: variables
-});
+const res =
+  (await client.graphql) <
+  GraphQLQuery<ListTodosQuery>({
+    query: listTodos,
+    variables: variables
+  });
 
 const { items: itemsPage1, nextToken } = res.data?.listTodos;
 
 // Fetch the next 20 records
 variables.nextToken = nextToken;
 
-const res = await client.graphql<GraphQLQuery<ListTodosQuery>({ 
-  query: listTodos, variables: variables 
-});
+const res =
+  (await client.graphql) <
+  GraphQLQuery<ListTodosQuery>({
+    query: listTodos,
+    variables: variables
+  });
 
 const { items: itemsPage2 } = res.data?.listTodos;
 ```
@@ -219,12 +224,13 @@ const { items: itemsPage2 } = res.data?.listTodos;
 ```js
 // Fetch first 20 records
 const variables = {
-  limit: 20, 
+  limit: 20
   // add filter as needed
 };
 
-const res = await client.graphql({ 
-  query: listTodos, variables: variables
+const res = await client.graphql({
+  query: listTodos,
+  variables: variables
 });
 
 const { items: itemsPage1, nextToken } = res.data.listTodos;
@@ -232,8 +238,9 @@ const { items: itemsPage1, nextToken } = res.data.listTodos;
 // Fetch the next 20 records
 variables.nextToken = nextToken;
 
-const res = await client.graphql({ 
-  query: listTodos, variables: variables
+const res = await client.graphql({
+  query: listTodos,
+  variables: variables
 });
 
 const { items: itemsPage2 } = res.data.listTodos;
@@ -247,6 +254,6 @@ A `nextToken` is a very long string that looks like `"eyJ2ZXJzaW9uejE1a2RPanZPQz
 ### Frequently Asked Questions
 
 - There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
-- Sorting is [available in DataStore](https://docs.amplify.aws/lib/datastore/data-access/q/platform/js#predicates) but not in AppSync.
+- Sorting is [available in DataStore](/[platform]/build-a-backend/datastore/manipulate-data//q/platform/js#predicates) but not in AppSync.
 - AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/guides/graphql-server-specification) but are spiritually similar.
 - You [cannot query by `page` number](https://github.com/aws-amplify/amplify-cli/issues/5086), you have to query by `nextToken`.

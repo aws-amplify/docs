@@ -1,6 +1,6 @@
 ## Subscribing to Events
 
-You can take specific actions when users sign-in or sign-out by subscribing to authentication events in your app. Please see our [Hub Module Developer Guide](/lib/utilities/hub) for more information.
+You can take specific actions when users sign-in or sign-out by subscribing to authentication events in your app. Please see our [Hub Module Developer Guide](/[platform]/build-a-backend/utilities/hub/) for more information.
 
 ## Identity Pool Federation
 
@@ -90,7 +90,7 @@ Amplify.configure(awsconfig, {
 
 Now that the custom credentials provider is built and supplied to `Amplify.configure`, let's look at how you can use the custom credentials provider to finish federation into Cognito identity pool.
 
-<InlineFilter filters = {['react-native']}>
+<InlineFilter filters={['react-native']}>
 
 ### Facebook Sign-in (React Native - Expo)
 
@@ -135,7 +135,7 @@ const App = () => {
 
 </InlineFilter>
 
-<InlineFilter filters = {['javascript']}>
+<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
 
 ### Facebook sign-in (React)
 
@@ -298,7 +298,7 @@ async function getCognitoCredentials() {
 
 ## Lambda Triggers
 
-The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your Cognito User Pool. These enable you to add custom functionality to your registration and authentication flows. [Read more](/cli/function)
+The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your Cognito User Pool. These enable you to add custom functionality to your registration and authentication flows. [Read more](/[platform]/build-a-backend/functions/set-up-function/)
 
 ### Pre Authentication and Pre Sign-up Lambda triggers
 

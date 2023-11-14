@@ -15,7 +15,7 @@ export function getStaticProps(context) {
 
 ## Overview
 
-AWS Amplify (Gen 2) introduces a TypeScript-based, code-first developer experience for defining backends compared to Amplify's original CLI-driven DX (Gen 1). The Gen 2 DX offers a unified Amplify developer experience with the same hosting, backend, and UI building capabilities previously available in CLI/Studio, but with a infrastructure-from-code paradigm (IfC). IfC empowers frontend developers to deploy cloud infrastructure by simply expressing their app’s data model, business logic, authentication, and authorization rules completely in TypeScript. The IfC automatically configures the correct cloud resources and removes manual requirement to stitch together underlying AWS services.
+AWS Amplify (Gen 2) introduces a TypeScript-based, code-first developer experience (DX) for defining backends compared to Amplify's original CLI-driven DX (Gen 1). The Gen 2 DX offers a unified Amplify developer experience with the same hosting, backend, and UI building capabilities previously available in CLI/Studio, but with an infrastructure-from-code paradigm (IfC). IfC empowers frontend developers to deploy cloud infrastructure by simply expressing their app’s data model, business logic, authentication, and authorization rules completely in TypeScript. The IfC automatically configures the correct cloud resources and removes manual requirement to stitch together underlying AWS services.
 
 ## Capabilities
 
@@ -23,25 +23,25 @@ Just like Gen 1, you can use Amplify for end-to-end fullstack development with m
 
 ### TypeScript for the fullstack
 
-With the Gen 2 DX you provision backend infrastructure by authoring TypeScript without any additional tooling overhead. The pink box below highlights the main difference in how you provision infrastructure compared to Gen 1. In Gen 1 you would use Studio's console or the CLI to provision infrastructure, in Gen 2 you author TypeScript code in files that follow a file-based convention (e.g. `amplify/auth/resource.ts` or `amplify/auth/data.ts`). With TypeScript types and classes for their resources, you gain strict typing and intellisense to prevent errors. A breaking change on the backend code immediately reflects as a type error on the co-located frontend code. Additionally, the file-based convention provides transparency and predictability for you to author a backend - by grouping resources by type into separate files, you know exactly where to look for resource definitions.
+With the Gen 2 DX you provision backend infrastructure by authoring TypeScript without any additional tooling overhead. The pink box below highlights the main difference in how you provision infrastructure compared to Gen 1. In Gen 1, you would use Studio's console or the CLI to provision infrastructure. In Gen 2, you author TypeScript code in files that follow a file-based convention (for example, `amplify/auth/resource.ts` or `amplify/auth/data.ts`). With TypeScript types and classes for your resources, you gain strict typing and intellisense to prevent errors. A breaking change on the backend code immediately reflects as a type error on the co-located frontend code. Additionally, the file-based convention provides transparency and predictability for you to author a backend - by grouping resources by type into separate files, you know exactly where to look for resource definitions.
 
 ![How Amplify capabilities can be used together or independently.](/images/gen2/how-amplify-works/amplify-flow.png)
 
 ### Faster local development
 
-We have re-imagined local fullstack development with per-developer cloud sandbox environments that are optimized for faster iterations. Each developer on a team gets an isolated cloud development environment against which they can test their changes. These cloud sandbox environments are meant for local development only, and deploy high-fidelity AWS backends. Depending on the workflow, iterative updates are now deployed up to 8X faster than Gen 1 deployments. In the diagram below, 4 developers are able to work on fullstack features independently without clobbering each other.
+We have re-imagined local fullstack development with per-developer cloud sandbox environments that are optimized for faster iterations. Each developer on your team gets an isolated cloud development environment where they can test their changes. These cloud sandbox environments are meant for local development only, and deploy high-fidelity AWS backends. Depending on the workflow, iterative updates are now deployed up to 8X faster than Gen 1 deployments. In the diagram below, 4 developers are able to work on fullstack features independently without interfering with each other.
 
 ![How cloud sandbox environments work.](/images/gen2/how-amplify-works/sandbox.png)
 
 ### Fullstack Git-based environments
 
-With Gen 2, all shared environments (e.g. `production`, `staging`, `gamma`) map 1:1 to Git branches in your repository. New features can be tested in ephemeral environments by deploying pull requests as PR previews (or feature branches) before they are merged into production. Unlike the Gen1 experience that requires customers to configure a number of steps in the CLI and Console to set up fullstack environment, the Gen2 experience is zero-config. Because of our code-first approach, the Git repository is always the source of truth for the state of the fullstack app - all backend resources are defined as code for reproducibility and portability across branches. This along with central management of environment variables and secrets simplifies the promotion workflow from lower to upper environments.
+With Gen 2, all shared environments (e.g. `production`, `staging`, `gamma`) map 1:1 to Git branches in your repository. New features can be tested in ephemeral environments by deploying pull requests as PR previews (or feature branches) before they are merged into production. Unlike the Gen 1 experience that requires you to configure a number of steps in the CLI and Console to set up fullstack environment, the Gen 2 experience is zero-config. Because of our code-first approach, the Git repository is always the source of truth for the state of the fullstack app - all backend resources are defined as code for reproducibility and portability across branches. This code-first approach, along with central management of environment variables and secrets, simplifies the promotion workflow from lower to upper environments.
 
 ![How fullstack deployments work.](/images/gen2/how-amplify-works/fullstack.png)
 
 ### Unified management console
 
-All branches can be managed in our new Amplify console. The Gen 2 Amplify console consolidates the console experiences across Studio and Hosting, providing a single place for customers to manage their builds, hosting settings (e.g. custom domains), deployed resources (e.g. data browser or user management), and environment variables/secrets. Even though customers can access deployed resources directly in other AWS service consoles, the Amplify console will offer a first party experience for the core categories (e.g. Data, Auth, Storage, Functions) that offer experiences developers building apps need. For example with Data, we offer an API playground and a data manager (coming soon) that offers relationship building, seed data generation, file upload capabilities.
+All branches can be managed in our new Amplify console. The Gen 2 Amplify console consolidates the console experiences across Studio and Hosting, providing a single place for you to manage your builds, hosting settings (for example, custom domains), deployed resources (for example, data browser or user management), and environment variables and secrets. Even though you can access deployed resources directly in other AWS service consoles, the Amplify console offers you a direct experience for core categories like Data and Auth. For example with Data, we offer an API playground and a data manager (coming soon) that offers relationship building, seed data generation, and file upload capabilities.
 
 <video autoPlay={true} muted={true} loop={true} width="100%">
   <source src="/images/gen2/how-amplify-works/console.mp4" />
@@ -51,7 +51,7 @@ All branches can be managed in our new Amplify console. The Gen 2 Amplify consol
 
 ### Data
 
-The `@aws-amplify/backend` library offers a TypeScript-first `Data` library for setting up a GraphQL API (powered by AWS AppSync) and NoSQL database (powered by Amazon DynamoDB). Navigate to `amplify/data/resource.ts` and add the following TS code. The `defineData` function turns the schema into a fully functioning data backend with all the boilerplate handled automatically.
+The `@aws-amplify/backend` library offers a TypeScript-first `Data` library for setting up a GraphQL API (powered by AWS AppSync) and NoSQL database (powered by Amazon DynamoDB). Navigate to `amplify/data/resource.ts` and add the following TS code. The `defineData` function will then turn the schema into a fully functioning data backend with all the boilerplate handled automatically.
 
 <Callout>
   The schema-based approach is an evolution of the GraphQL Transformer in Gen 1.
@@ -66,7 +66,7 @@ const schema = a.schema({
   Todo: a.model({
     title: a.string(),
     description: a.string(),
-    priority: a.enum(['low', 'medium', 'high']).default('low')
+    priority: a.enum(['low', 'medium', 'high'])
   })
 });
 
@@ -131,7 +131,7 @@ export const auth = defineAuth({
 });
 ```
 
-Then, you could use the Amplify `Authenticator` component or the client libraries to add user flows.
+Then, you can use the Amplify `Authenticator` component or the client libraries to add user flows.
 
 ```ts
 import { withAuthenticator } from '@aws-amplify/ui-react';
@@ -158,7 +158,7 @@ Amplify makes it easy to quickly build web app user interfaces using our UI comp
 
 ### Add any AWS resource
 
-Gen 2 is layered on top of [AWS Cloud Development Kit](https://docs.aws.amazon.com/cdk/api/v2/) - in fact the Data and Auth capabilities in `@aws-amplify/backend` wrap L3 AWS CDK constructs. As a result, extending the Amplify generated resources does not require any special configuration (e.g. Gen 1 requires `amplify add custom` create a new sub-project with its own dependency tree). The example below adds Amazon Location Services by adding a file: `amplify/custom/maps/resource.ts`
+Gen 2 is layered on top of [AWS Cloud Development Kit](https://docs.aws.amazon.com/cdk/api/v2/) - in fact the Data and Auth capabilities in `@aws-amplify/backend` wrap L3 AWS CDK constructs. As a result, extending the Amplify-generated resources does not require any special configuration (in contrast, Gen 1 requires `amplify add custom` to create a new sub-project with its own dependency tree). The example below adds Amazon Location Services by adding the file: `amplify/custom/maps/resource.ts`
 
 ```ts
 import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
@@ -186,7 +186,7 @@ export class LocationMapStack extends Stack {
 }
 ```
 
-This is then included in the `amplify/backend.ts` file so it gets deployed as part of your Amplify project.
+This is then included in the `amplify/backend.ts` file so it is deployed as part of your Amplify project.
 
 ```ts
 import { Backend } from '@aws-amplify/backend';
@@ -208,6 +208,6 @@ new LocationMapStack(
 
 ### Connect to existing resources
 
-Just like in Gen 1, Amplify is designed to work with your existing AWS resources and configurations. For example, you can use Amplify's pre-built authentication UI components with an existing Amazon Cognito user pool you created and configured separately. Or you can display images and files from an existing S3 bucket in your app's user interface by integrating with Amplify Storage.
+Just like in Gen 1, Amplify is designed to work with your existing AWS resources and configurations. For example, you can use Amplify's pre-built authentication UI components with an existing Amazon Cognito User Pool that you created and configured separately. Or you can display images and files from an existing S3 bucket in your app's user interface by integrating with Amplify Storage.
 
 Amplify's libraries provide an interface to leverage your existing AWS services so that you can adopt Amplify's capabilities incrementally into your current workflows, without disrupting your existing backend infrastructure.

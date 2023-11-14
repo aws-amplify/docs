@@ -23,7 +23,9 @@ export function AmplifyNavLink({
           <Text as="span" className={styles['dev-center-logo']}>
             Amplify code-first DX
           </Text>
-          <Badge className={styles['navbar-badge']}>Preview</Badge>
+          <Badge marginInlineStart="medium" className={styles['navbar-badge']}>
+            Preview
+          </Badge>
         </Link>
       ) : (
         <>

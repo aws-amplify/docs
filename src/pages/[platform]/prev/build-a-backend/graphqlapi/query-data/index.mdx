@@ -4,7 +4,17 @@ export const meta = {
   title: 'Read application data',
   description:
     "Learn more about how to fetch data using Amplify's GraphQL API category",
-  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native']
+  platforms: [
+    'flutter',
+    'swift',
+    'android',
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -20,22 +30,22 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 You can read application data using the Amplify GraphQL client. In this guide, we will review the difference between reading data and getting data, how to filter query results to get just the data you need, and how to paginate results to make your data more manageable. We will also show you how to cancel these requests when needed.
 
 Before you begin, you will need:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
-- An [application connected to the API](/lib-v1/graphqlapi/connect/q/platform/js/)
+- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/connect-to-api/)
 - Data already created to view
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
-- An [application connected to the API](/lib-v1/graphqlapi/getting-started/q/platform/react-native/)
+- An [application connected to the API](/[platform]/prev/build-a-backend/graphqlapi/set-up-data/)
 - Data already created to view
 
 </InlineFilter>
@@ -127,7 +137,7 @@ type Todo
 
 In the previous example, everyone (`public`) can read every Todo, but the `owner` (authenticated users) can create, read, update, and delete their own Todos.
 
-To learn more, see [Authorization rules](https://docs.amplify.aws/cli/graphql/authorization-rules/) for the GraphQL API.
+To learn more, see [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-auth//) for the GraphQL API.
 
 </Accordion>
 
@@ -543,14 +553,14 @@ async function fetchTodos() {
 
 <br />
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 <Callout>
 
 **Limitations:**
 
 - There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
-- Sorting is [available in DataStore](/lib-v1/datastore/data-access/q/platform/js/#predicates) but not in AWS AppSync.
+- Sorting is [available in DataStore](/[platform]/prev/build-a-backend/more-features/datastore/manipulate-data/#predicates) but not in AWS AppSync.
 - AWS AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/guides/graphql-server-specification) but are spiritually similar.
 - You [cannot query by `page` number](https://github.com/aws-amplify/amplify-cli/issues/5086); you have to query by `nextToken`.
 
@@ -565,7 +575,7 @@ async function fetchTodos() {
 **Limitations:**
 
 - There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
-- Sorting is [available in DataStore](/lib-v1/datastore/data-access/q/platform/react-native/#predicates) but not in AWS AppSync.
+- Sorting is [available in DataStore](/[platform]/prev/build-a-backend/more-features/datastore/manipulate-data/#predicates) but not in AWS AppSync.
 - AWS AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/guides/graphql-server-specification) but are spiritually similar.
 - You [cannot query by `page` number](https://github.com/aws-amplify/amplify-cli/issues/5086); you have to query by `nextToken`.
 
@@ -617,21 +627,21 @@ Congratulations! You have finished the **Read application data** guide. In this 
 
 Our recommended next steps include subscribing to real-time events to look for mutations in your data and continuing to build out and customize your information architecture for your data. Some resources that will help with this work include:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
-- [Subscribe to real-time events](/lib-v1/graphqlapi/subscribe-data/q/platform/js/)
-- [Authorization rules](/cli/graphql/authorization-rules/)
-- [Data modeling](/cli/graphql/data-modeling/)
-- [Custom business logic](/cli/graphql/custom-business-logic/)
+- [Subscribe to real-time events](/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/)
+- [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-auth/)
+- [Data modeling](/[platform]/build-a-backend/graphqlapi/data-modeling/)
+- [Custom business logic](/[platform]/build-a-backend/graphqlapi/custom-business-logic/)
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
-- [Subscribe to real-time events](/lib-v1/graphqlapi/subscribe-data/q/platform/react-native/)
-- [Authorization rules](/cli/graphql/authorization-rules/)
-- [Data modeling](/cli/graphql/data-modeling/)
-- [Custom business logic](/cli/graphql/custom-business-logic/)
+- [Subscribe to real-time events](/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/)
+- [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-auth/)
+- [Data modeling](/[platform]/build-a-backend/graphqlapi/data-modeling/)
+- [Custom business logic](/[platform]/build-a-backend/graphqlapi/custom-business-logic/)
 
 </InlineFilter>
 

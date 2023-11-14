@@ -1,6 +1,6 @@
 ### Prefer private session during signIn on iOS.
 
-Amplify Flutter uses the amplify-ios library on the iOS platform to facilitate Web UI sign in and other Auth functionality. See the [amplify-ios Web UI documentation](/lib-v1/auth/signin_web_ui/q/platform/ios/#prefer-private-session-during-signin) for details on how amplify-ios manages the interaction between the application and the Web UI.
+Amplify Flutter uses the amplify-ios library on the iOS platform to facilitate Web UI sign in and other Auth functionality. See the [amplify-ios Web UI documentation](/[platform]/prev/build-a-backend/auth/sign-in-with-web-ui/#prefer-private-session-during-signin) for details on how amplify-ios manages the interaction between the application and the Web UI.
 
 As noted in the amplify-ios documentation, it is possible to use a private session when calling `Auth.signInWithWebUI`. This will bypass the permissions dialog that is displayed to the end user, although it will also prevent reuse of existing sessions from the user's browser. For example, if the user is logged into Google in their browser and try to sign in using Google in your app, they would now need to re-enter their credentials.
 

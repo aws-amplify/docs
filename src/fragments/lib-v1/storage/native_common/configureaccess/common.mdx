@@ -4,9 +4,9 @@ When adding the Storage category, you configure the level of access users have t
 - **Protected** Readable by all users, but only writable by the creating user
 - **Private** Readable and writable only by the creating user
 
-Guest access does **not** mean that your files are totally public. A "guest" is a user of your application who has not yet signed in. To enable access at this level, you will still be required to configured [Authentication](/lib-v1/auth/getting-started) in your app. The user must be able to assume an unauthenticated role from your Cognito Identity Pool.
+Guest access does **not** mean that your files are totally public. A "guest" is a user of your application who has not yet signed in. To enable access at this level, you will still be required to configured [Authentication](/[platform]/prev/build-a-backend/auth/set-up-auth/) in your app. The user must be able to assume an unauthenticated role from your Cognito Identity Pool.
 
-For protected and private access, the `[IDENTITY_ID]` below corresponds to the unique ID of the user. Once the user has signed in, the `[IDENTITY_ID]` can be retrieved from the session by accessing the identity id. See [Accessing credentials](/lib-v1/auth/access_credentials) to retrieve the identity id, and use this as the unique ID of the authenticated user.
+For protected and private access, the `[IDENTITY_ID]` below corresponds to the unique ID of the user. Once the user has signed in, the `[IDENTITY_ID]` can be retrieved from the session by accessing the identity id. See [Accessing credentials](/[platform]/prev/build-a-backend/auth/accessing-credentials/) to retrieve the identity id, and use this as the unique ID of the authenticated user.
 
 <Callout>
 

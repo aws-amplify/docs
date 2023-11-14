@@ -1,11 +1,11 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Overview',
+  title: 'Libraries',
   description:
     'The Amplify open-source client libraries provide use-case centric, opinionated, declarative, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. ',
   disableTOC: 'true',
-  platforms: ['android', 'flutter', 'javascript', 'react-native', 'swift']
+  platforms: ['android', 'flutter', 'javascript', 'react-native', 'swift','angular','nextjs','react','vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -32,7 +32,7 @@ import flutter2 from '/src/fragments/lib/flutter.mdx';
 <Fragments fragments={{ swift: ios0 }} />
 <Fragments fragments={{ android: android1 }} />
 <Fragments fragments={{ flutter: flutter2 }} />
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 ## Amplify JavaScript
 
@@ -40,9 +40,9 @@ The Amplify JavaScript libraries are supported for different web and mobile fram
 
 What's next? Here are some things you can add to your app:
 
-- [Authentication](/lib/auth/getting-started)
-- [File Storage](/lib/storage/getting-started)
-- [Analytics](/lib/analytics/getting-started)
-- [REST API](/lib/restapi/getting-started)
+- [Authentication](/[platform]/build-a-backend/auth/set-up-auth/)
+- [File Storage](/[platform]/build-a-backend/storage/set-up-storage/)
+- [Analytics](/[platform]/build-a-backend/more-features/analytics/set-up-analytics/)
+- [REST API](/[platform]/build-a-backend/restapi/set-up-rest-api/)
 
 </InlineFilter>

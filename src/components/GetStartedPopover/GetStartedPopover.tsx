@@ -16,18 +16,11 @@ import {
 } from '@/components/Icons';
 import { useClickOutside } from '@/utils/useClickOutside';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
+import { useTabKeyDetection } from '@/utils/useTabKeyDetection';
 
 const getStartedHref = '/[platform]/start/getting-started/introduction/';
 
 const getStartedLinks = [
-  {
-    title: 'JavaScript',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'javascript' }
-    },
-    icon: <IconJS />
-  },
   {
     title: 'React',
     href: {
@@ -35,6 +28,14 @@ const getStartedLinks = [
       query: { platform: 'react' }
     },
     icon: <IconReact />
+  },
+  {
+    title: 'JavaScript',
+    href: {
+      pathname: getStartedHref,
+      query: { platform: 'javascript' }
+    },
+    icon: <IconJS />
   },
   {
     title: 'Flutter',
@@ -94,7 +95,7 @@ const getStartedLinks = [
   }
 ];
 
-export const GetStartedPopover = () => {
+export const GetStartedPopover = (platform) => {
   const [expanded, setExpanded] = useState<boolean>(false);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -107,21 +108,34 @@ export const GetStartedPopover = () => {
     }
   });
 
+  const { isTabKeyPressed, setIsTabKeyPressed } =
+    useTabKeyDetection(contentRef);
+
   useEffect(() => {
     if (expanded) {
       contentRef?.current?.focus();
     }
   }, [expanded]);
 
-  const handleBlur = useCallback(
-    (e) => {
-      // Use relatedTarget to see if the target receiving focus is outside of the popover
-      if (contentRef.current && !contentRef.current.contains(e.relatedTarget)) {
+  const handleBlur = (e) => {
+    // Use relatedTarget to see if the target receiving focus is outside of the popover
+    if (
+      contentRef.current &&
+      !contentRef.current.contains(e.relatedTarget) &&
+      isTabKeyPressed
+    ) {
+      if (expanded) {
         setExpanded(false);
+
+        // Since the custom hook is only listening to the keydown and keyup
+        // event on the ref we pass in, the keyup event doesn't get registered
+        // when we lose focus and so the state isn't reset. Reset it here
+        setIsTabKeyPressed(false);
       }
-    },
-    [contentRef]
-  );
+    }
+  };
+
+  platform = platform.platform;
 
   return (
     <Flex className="split-button">
@@ -130,7 +144,7 @@ export const GetStartedPopover = () => {
         className="split-button__start"
         href={{
           pathname: '/[platform]/start/getting-started/introduction/',
-          query: { platform: DEFAULT_PLATFORM }
+          query: { platform: platform }
         }}
       >
         Get started

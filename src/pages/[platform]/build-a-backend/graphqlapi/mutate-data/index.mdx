@@ -4,7 +4,17 @@ export const meta = {
   title: 'Create, update, and delete application data',
   description:
     'Learn more about how to create and update data using GraphQL APIs in Amplify.',
-  platforms: ['javascript', 'react-native', 'swift', 'android', 'flutter']
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -24,33 +34,33 @@ In this guide, you will learn how to create, update, and delete your data using 
 
 Before you begin, you will need:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
-- An [application connected to the API](/lib/graphqlapi/connect/q/platform/js/)
+- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/connect-to-api/)
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
-- An [application connected to the API](/lib/graphqlapi/getting-started/q/platform/react-native/)
+- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/set-up-data/)
 
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
 
-- An [application connected to the API](/lib/graphqlapi/getting-started/q/platform/android/)
+- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/set-up-data/)
 
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
 
-- An [application connected to the API](/lib/graphqlapi/getting-started/q/platform/ios/)
+- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/set-up-data/)
 
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
 
-- An [application connected to the API](/lib/graphqlapi/getting-started/q/platform/flutter/)
+- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/set-up-data/)
 
 </InlineFilter>
 
@@ -60,7 +70,7 @@ In GraphQL, mutations are APIs that are used to create, update, or delete data. 
 
 ### Create an item
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 You can create an item by first importing the API and mutations. Then you can add an item:
 
@@ -263,7 +273,7 @@ Future<void> createTodo() async {
 
 ### Update an item
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 To update the item, use the GraphQL update mutation:
 
@@ -330,7 +340,7 @@ Future<void> updateTodo(Todo originalTodo) async {
 
 ### Delete an item
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 You can then delete the Todo by using the delete mutation. To specify which item to delete, you only need to provide the `id` of that item:
 
@@ -426,7 +436,7 @@ Future<void> deleteTodoById(Todo todoToDelete) async {
 
 </InlineFilter>
 
-<InlineFilter filters={["javascript", "react-native"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 ## Cancel mutation requests
 
@@ -440,7 +450,7 @@ try {
 } catch (error) {
   console.log(error);
   // If the error is because the request was cancelled you can confirm here.
-  if (API.isCancel(error)) {
+  if (client.isCancelError(error)) {
     console.log(error.message); // "my message for cancellation"
     // handle user cancellation logic
   }
@@ -474,37 +484,37 @@ Congratulations! You have finished the **Create, update, and delete application 
 
 Our recommended next steps include using the API to query data and subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
-- [Read application data](/lib/graphqlapi/query-data/q/platform/js/)
-- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/js/)
+- [Read application data](/[platform]/build-a-backend/graphqlapi/query-data/)
+- [Subscribe to real-time events](/[platform]/build-a-backend/graphqlapi/subscribe-data/)
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
-- [Read application data](/lib/graphqlapi/query-data/q/platform/react-native/)
-- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/react-native/)
+- [Read application data](/[platform]/build-a-backend/graphqlapi/query-data/)
+- [Subscribe to real-time events](/[platform]/build-a-backend/graphqlapi/subscribe-data/)
 
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
 
-- [Read application data](/lib/graphqlapi/query-data/q/platform/ios/)
-- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/ios/)
+- [Read application data](/[platform]/build-a-backend/graphqlapi/query-data/)
+- [Subscribe to real-time events](/[platform]/build-a-backend/graphqlapi/subscribe-data/)
 
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
 
-- [Read application data](/lib/graphqlapi/query-data/q/platform/android/)
-- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/android/)
+- [Read application data](/[platform]/build-a-backend/graphqlapi/query-data/)
+- [Subscribe to real-time events](/[platform]/build-a-backend/graphqlapi/subscribe-data/)
 
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
 
-- [Read application data](/lib/graphqlapi/query-data/q/platform/flutter/)
-- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/flutter/)
+- [Read application data](/[platform]/build-a-backend/graphqlapi/query-data/)
+- [Subscribe to real-time events](/[platform]/build-a-backend/graphqlapi/subscribe-data/)
 
 </InlineFilter>

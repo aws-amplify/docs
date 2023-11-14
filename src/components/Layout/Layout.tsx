@@ -44,11 +44,14 @@ import { debounce } from '@/utils/debounce';
 import { DocSearch } from '@docsearch/react';
 import '@docsearch/css';
 import { PageLastUpdated } from '../PageLastUpdated';
-import { findDirectoryNode } from '@/utils/findDirectoryNode';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { Banner } from '@/components/Banner';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
+import {
+  NextPrevious,
+  NEXT_PREVIOUS_SECTIONS
+} from '@/components/NextPrevious';
 
 export const Layout = ({
   children,
@@ -108,6 +111,7 @@ export const Layout = ({
     }
   }, [children, pageType]);
 
+  const mainId = 'pageMain';
   const showTOC = hasTOC && tocHeadings.length > 0;
   const router = useRouter();
   const asPathWithNoHash = usePathWithoutHash();
@@ -115,22 +119,16 @@ export const Layout = ({
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
   const shouldShowGen2Banner = GEN2BANNER_URLS.includes(asPathWithNoHash);
-
-  let currentPlatform = DEFAULT_PLATFORM;
-  const homepageNode = directory as PageNode;
-  let rootMenuNode;
-
   const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
+  let currentPlatform = isGen2 ? undefined : DEFAULT_PLATFORM;
+  const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
+  const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
-  const searchParam = isGen2 ? 'gen2' : '[platform]';
-
-  if (homepageNode?.children && homepageNode.children.length > 0) {
-    rootMenuNode = homepageNode.children.find((node) => {
-      if (node.path) {
-        return node.path.indexOf(searchParam) > -1;
-      }
-    });
-  }
+  const showNextPrev = NEXT_PREVIOUS_SECTIONS.some((section) => {
+    return (
+      asPathWithNoHash.includes(section) && !asPathWithNoHash.endsWith(section)
+    );
+  });
 
   if (!isGen2) {
     // [platform] will always be the very first subpath right?
@@ -143,19 +141,19 @@ export const Layout = ({
     currentPlatform = platform
       ? platform
       : PLATFORMS.includes(asPathPlatform)
-      ? asPathPlatform
-      : DEFAULT_PLATFORM;
+        ? asPathPlatform
+        : DEFAULT_PLATFORM;
   }
 
   const title = [
     pageTitle,
     platform ? PLATFORM_DISPLAY_NAMES[platform] : null,
-    'AWS Amplify Docs'
+    'AWS Amplify Documentation'
   ]
     .filter((s) => s !== '' && s !== null)
     .join(' - ');
 
-  const description = `${pageDescription} AWS Amplify Docs`;
+  const description = `${pageDescription} AWS Amplify Documentation`;
 
   const handleScroll = debounce((e) => {
     const bodyScroll = e.target.documentElement.scrollTop;
@@ -177,16 +175,6 @@ export const Layout = ({
       menuButtonRef?.current?.focus();
     }
   };
-
-  let menu = (
-    <Menu currentPlatform={currentPlatform} rootMenuNode={rootMenuNode} />
-  );
-  if (isGen2) {
-    menu = <Menu rootMenuNode={rootMenuNode} />;
-  } else if (isPrev) {
-    let prevNode = findDirectoryNode('/[platform]/prev');
-    menu = <Menu currentPlatform={currentPlatform} rootMenuNode={prevNode} />;
-  }
 
   return (
     <>
@@ -229,8 +217,9 @@ export const Layout = ({
               <GlobalNav
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-                currentSite="Docs"
+                currentSite={currentGlobalNavMenuItem}
                 isGen2={isGen2}
+                mainId={mainId}
               />
               <View as="header" className="layout-header">
                 <Flex className={`layout-search layout-search--${pageType}`}>
@@ -251,16 +240,20 @@ export const Layout = ({
                       { 'layout-search__search--toc': showTOC }
                     )}
                   >
-                    <DocSearch
-                      appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
-                      indexName={
-                        process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME
-                      }
-                      apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
-                      searchParameters={{
-                        facetFilters: [`platform:${currentPlatform}`]
-                      }}
-                    />
+                    <View className="layout-search__search__container">
+                      <DocSearch
+                        appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
+                        indexName={
+                          process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME
+                        }
+                        apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
+                        searchParameters={{
+                          facetFilters: [
+                            `platform:${isGen2 ? 'gen2' : currentPlatform}`
+                          ]
+                        }}
+                      />
+                    </View>
                   </View>
                 </Flex>
                 <View
@@ -301,7 +294,7 @@ export const Layout = ({
                     )}
 
                     <div className="layout-sidebar-menu">
-                      {menu}
+                      <Menu currentPlatform={currentPlatform} path={asPathWithNoHash} />
                       <div className="layout-sidebar-feedback">
                         <RepoActions router={router}></RepoActions>
                         <Feedback router={router}></Feedback>
@@ -317,20 +310,21 @@ export const Layout = ({
               </View>
               <View key={asPathWithNoHash} className="layout-main">
                 <Flex
+                  id={mainId}
                   as="main"
+                  tabIndex={-1}
+                  aria-label="Main content"
                   className={`main${showTOC ? ' main--toc' : ''}`}
                 >
                   {showBreadcrumbs ? (
-                    <Breadcrumbs
-                      route={pathname}
-                      platform={currentPlatform}
-                    />
+                    <Breadcrumbs route={pathname} platform={currentPlatform} />
                   ) : null}
                   {shouldShowGen2Banner ? <Banner /> : null}
                   {useCustomTitle ? null : (
                     <Heading level={1}>{pageTitle}</Heading>
                   )}
                   {children}
+                  {showNextPrev && <NextPrevious />}
                 </Flex>
                 {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
               </View>

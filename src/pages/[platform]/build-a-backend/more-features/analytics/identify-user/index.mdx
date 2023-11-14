@@ -4,7 +4,17 @@ export const meta = {
   title: 'Identify user',
   description:
     'Use the Amplify analytics plugin to inform Pinpoint about your users.',
-  platforms: ['swift', 'android', 'javascript', 'react-native']
+  platforms: [
+    'swift',
+    'android',
+    'flutter',
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -32,13 +42,13 @@ import ios_identify_user from '/src/fragments/lib/analytics/ios/identifyuser.mdx
   }}
 />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['javascript',  'react-native', "angular", "nextjs", "react", "vue"]}>
 
 This API sends information about the current user to Amazon Pinpoint.
 
 Additional information such as the user's name, email, location, and device can be included by specifying the `UserProfile`. Custom attributes can also be included by setting `UserProfile.attributes`.
 
-If the user was signed in through [signIn](/lib-v1/auth/emailpassword/q/platform/js/) you can retrieve the current user's ID as shown below:
+If the user was signed in through [signIn](/[platform]/prev/build-a-backend/auth/enable-sign-up/) you can retrieve the current user's ID as shown below:
 
 ```js
 import { identifyUser } from 'aws-amplify/analytics';
@@ -78,6 +88,14 @@ async function sendUserData() {
 
 import js0 from '/src/fragments/lib/analytics/native_common/identify-use-cases.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
 
 </InlineFilter>

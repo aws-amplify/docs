@@ -3,7 +3,15 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Building a Form API with GraphQL',
   description: 'How to implement pagination with GraphQL',
-  platforms: ['javascript', 'swift', 'android']
+  platforms: [
+    'javascript',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -75,7 +83,7 @@ type Contact @model(mutations: { create: "createContact" }) {
 
 <Callout>
 
-In the above schema, we've overriding the default mutations and are specifying that only the `createContact` mutation be allowed to be created. By doing this, the API does not allow users to update or delete contacts. For more fine grained authorization rules, check out the [@auth directive](/cli/graphql/authorization-rules).
+In the above schema, we've overriding the default mutations and are specifying that only the `createContact` mutation be allowed to be created. By doing this, the API does not allow users to update or delete contacts. For more fine grained authorization rules, check out the [@auth directive](/[platform]/build-a-backend/graphqlapi/customize-auth/).
 
 </Callout>
 
@@ -115,4 +123,12 @@ query listContacts {
 
 import js0 from '/src/fragments/guides/api-graphql/js/building-a-form-api.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>

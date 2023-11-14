@@ -3,7 +3,15 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Deploy Python API',
   description: 'How to deploy a Python API using Amplify Functions',
-  platforms: ['javascript', 'swift', 'android']
+  platforms: [
+    'javascript',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -93,7 +101,15 @@ Here is how you can send a GET request to the API.
 
 import js0 from '/src/fragments/guides/api-rest/js/python-api-call.mdx';
 
-<Fragments fragments={{ javascript: js0 }} />
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
 
 import ios1 from '/src/fragments/guides/api-rest/ios/rest-api-call.mdx';
 
@@ -103,7 +119,7 @@ import android2 from '/src/fragments/guides/api-rest/android/rest-api-call.mdx';
 
 <Fragments fragments={{ android: android2 }} />
 
-To learn more about interacting with REST APIs using Amplify, check out the complete documentation [here](/lib/restapi/getting-started).
+To learn more about interacting with REST APIs using Amplify, check out the complete documentation [here](/[platform]/build-a-backend/restapi/set-up-rest-api/).
 
 The API endpoint is located in the `aws-exports.js` folder.
 

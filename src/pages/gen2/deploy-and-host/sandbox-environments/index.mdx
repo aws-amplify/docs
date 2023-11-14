@@ -1,0 +1,19 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Cloud sandbox environments',
+  description: 'Learn about sandbox development.',
+  route: '/gen2/deploy-and-host/sandbox-environments'
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

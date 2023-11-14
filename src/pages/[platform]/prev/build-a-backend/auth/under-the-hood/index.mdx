@@ -4,7 +4,17 @@ export const meta = {
   title: 'Under the hood',
   description:
     'Learn more about the foundational auth concepts for cloud-based applications and how they work with Amplify.',
-  platforms: ['javascript', 'android', 'swift', 'flutter', 'react-native']
+  platforms: [
+    'javascript',
+    'android',
+    'swift',
+    'flutter',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -40,7 +50,7 @@ import flutter3 from '/src/fragments/lib-v1/auth/common/overview.mdx';
 
 <Fragments fragments={{ flutter: flutter3 }} />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['javascript',  'react-native', "angular", "nextjs", "react", "vue"]}>
 
 _Authentication_ is a process to validate **who you are** (abbreviated as _AuthN_). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon.
 
@@ -52,7 +62,7 @@ In the Amplify ecosystem, the most common Authentication method is either using 
 
 [Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html) is a full-featured user directory service to handle user registration, authentication, and account recovery. [Amazon Cognito Federated Identities or Identity Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-identity.html) on the other hand, is a way to authorize your users to use AWS services.
 
-Amplify interfaces with User Pools to store your user information, including federation with other OpenID providers like Facebook & Google, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file (to an S3 bucket). The Amplify CLI automates the access control policies for these AWS resources as well as provides [fine grained access controls via GraphQL](https://docs.amplify.aws/cli/graphql/authorization-rules) for protecting data in your APIs.
+Amplify interfaces with User Pools to store your user information, including federation with other OpenID providers like Facebook & Google, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file (to an S3 bucket). The Amplify CLI automates the access control policies for these AWS resources as well as provides [fine grained access controls via GraphQL](/[platform]/build-a-backend/graphqlapi/customize-auth/) for protecting data in your APIs.
 
 Authorization is often done in one of two ways:
 

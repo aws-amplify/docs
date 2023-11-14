@@ -1551,7 +1551,11 @@
     "enumlabel",
     "enumtypid",
     "typnamespace",
-    "nspname"
+    "nspname",
+    "autobranch",
+    "gitflow",
+    "SIWA",
+    "hotswap"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [

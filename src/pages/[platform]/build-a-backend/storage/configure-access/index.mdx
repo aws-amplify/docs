@@ -4,7 +4,7 @@ export const meta = {
   title: 'File access levels',
   description:
     'Learn about configuring different access levels in Amplify Storage. Objects can be public, protected, or private.',
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native']
+  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native','angular','nextjs','react','vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -30,7 +30,7 @@ import common_configureaccess from '/src/fragments/lib/storage/native_common/con
   }}
 />
 
-<InlineFilter filters={['javascript', 'react-native']}>
+<InlineFilter filters={['javascript',  'react-native', 'angular', 'nextjs', 'react', 'vue']}>
 
 Storage module can manage files with three different access levels; `guest`, `protected` and `private`. The Amplify CLI configures three different access levels on the storage bucket: guest, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito identity pool Role. You will have the option of adding CRUD (Create/Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels.
 
@@ -40,7 +40,7 @@ If you had previously enabled user sign-in by running `amplify add auth` in your
 - Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 - Private: Only accessible for the individual user. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 
-When using Auth and Storage modules together, you do not need to construct the `/{user_identity_id}/` manually as the library will use the configured Cognito Identity ID for your user/device along with the configured access level for an action. This includes UnAuthenticated access where you will first call `Auth.currentCredentials()` before a Storage action. See [Authentication](/lib/auth/overview) for more information.
+When using Auth and Storage modules together, you do not need to construct the `/{user_identity_id}/` manually as the library will use the configured Cognito Identity ID for your user/device along with the configured access level for an action. This includes UnAuthenticated access where you will first call `Auth.currentCredentials()` before a Storage action. See [Authentication](/[platform]/build-a-backend/auth/under-the-hood/) for more information.
 
 The access level can be configured on the Storage object globally. Alternatively, the access levels can be set in individual function calls.
 

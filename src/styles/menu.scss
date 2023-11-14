@@ -26,13 +26,19 @@
       color: inherit;
       text-decoration: none;
 
-      &:hover {
-        color: inherit;
-      }
-
       &:focus {
         outline: 2px auto var(--amplify-colors-border-focus);
         outline-offset: -1px;
+      }
+
+      &--external {
+        color: inherit;
+
+        &:hover,
+        &:visited,
+        &:focus {
+          color: inherit;
+        }
       }
 
       &__inner {

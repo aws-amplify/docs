@@ -1,19 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Directives',
-  description: 'The Amplify CLI provides GraphQL directives to enhance your schema with additional capabilities, such as custom indexes, authorization rules, function triggers, and more.',
+  description:
+    'The Amplify CLI provides GraphQL directives to enhance your schema with additional capabilities, such as custom indexes, authorization rules, function triggers, and more.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,23 +29,22 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
-<MigrationAlert isLegacy url={'/cli/graphql/overview'} />
+<MigrationAlert isLegacy url={'/[platform]/build-a-backend/graphqlapi/'} />
 
 The Amplify CLI provides GraphQL directives to enhance your schema with additional capabilities such as custom indexes, authorization rules, function triggers, and more.
 
 ## Amplify-provided directives
 
-- [`@model`: Defines top level object types in your API that are backed by Amazon DynamoDB](/cli-legacy/graphql-transformer/model)
-- [`@key`: Configures custom index structures for @model types](/cli-legacy/graphql-transformer/key)
-- [`@auth`: Defines authorization rules for your @model types and fields](/cli-legacy/graphql-transformer/auth)
-- [`@connection`: Defines 1:1, 1:M, and N:M relationships between @model types](/cli-legacy/graphql-transformer/connection)
-- [`@function`: Configures a Lambda function resolvers for a field](/cli-legacy/graphql-transformer/function)
-- [`@http`: Configures an HTTP resolver for a field](/cli-legacy/graphql-transformer/http)
-- [`@predictions`: Queries an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly](/cli-legacy/graphql-transformer/predictions)
-- [`@searchable`: Makes your data searchable by streaming it to Amazon OpenSearch](/cli-legacy/graphql-transformer/searchable)
-- [`@versioned`: Defines the versioning and conflict resolution strategy for an @model type](/cli-legacy/graphql-transformer/versioned)
+- [`@model`: Defines top level object types in your API that are backed by Amazon DynamoDB](../model-directive)
+- [`@key`: Configures custom index structures for @model types](../key-directive)
+- [`@auth`: Defines authorization rules for your @model types and fields](../auth-directive)
+- [`@connection`: Defines 1:1, 1:M, and N:M relationships between @model types](../connection-directive)
+- [`@function`: Configures a Lambda function resolvers for a field](../function-directive)
+- [`@http`: Configures an HTTP resolver for a field](../http-directive)
+- [`@predictions`: Queries an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly](../predictions-directive)
+- [`@searchable`: Makes your data searchable by streaming it to Amazon OpenSearch](../searchable-directive)
+- [`@versioned`: Defines the versioning and conflict resolution strategy for an @model type](../versioned-directive)
 
 <Callout warning>
   Limitation with DataStore: Custom primary keys are not supported by the
@@ -72,4 +72,4 @@ Learn more about these directives in the [AWS AppSync Developer Guide](https://d
 - [`@firehose`: Add a simple interceptor to all of your Amplify API mutations and queries](https://github.com/LaugnaHealth/graphql-firehose-transformer)
 - [`@retain`: Enable the "Retain" deletion policy for your Amplify-generated DynamoDB tables](https://github.com/flogy/graphql-retain-transformer)
 
-> Looking to build your own transformers & directives? Check out the guide on [how to author your own transformer & directives](/cli/plugins/authoring#authoring-custom-graphql-transformers--directives).
+> Looking to build your own transformers & directives? Check out the guide on [how to author your own transformer & directives](/[platform]/tools/cli/plugins/authoring/#authoring-custom-graphql-transformers--directives).
