@@ -139,14 +139,18 @@ Wherever you called `Amplify.configure({aws-exports});` previously (usually in t
   </div>
 </Columns>
 
-<Callout>Amplify configure will now accept either the config json file OR a strongly typed configuration object. Therefore, if you need to add additional configuration, you will call configure twice: once with the contents of amplifyconfiguration.json, and then again using Amplify.getConfig() plus any additions. Keep in mind that any call to configuration will fully override previous configurations, so pay special attention to nested configurations.</Callout>
+<Callout>
+
+`Amplify.configure()` will now accept either the config JSON file or a strongly typed configuration object. Therefore, if you need to add additional configuration, you will call configure twice: once with the contents of **amplifyconfiguration.json**, and then again using `Amplify.getConfig()` plus any additions. Keep in mind that any call to configuration will fully override previous configurations, so pay special attention to nested configurations.
+
+</Callout>
 
 If you have previously configured Amplify by passing the configuration object literal when calling the `Amplify.configure()` function, you can now configure Amplify manually with type safety. Please refer to the documentation of each category that you are using for migration.
 
 * [Authentication - Set up and configure Amplify Auth](/[platform]/build-a-backend/auth/set-up-auth/#set-up-and-configure-amplify-auth) - see **Existing Resources** tab
-* [API (GraphQL) - Configure the default authorization mode](/[platform]/build-a-backend/graphqlapi/connect-to-api/#configure-the-default-authorization-mode)
-* [API (REST) - Define authorization rules](/[platform]/build-a-backend/restapi/customize-authz/)
+* [API (GraphQL) - Configure the Amplify Library](/[platform]/build-a-backend/graphqlapi/connect-to-api/#configure-the-default-authorization-mode) - see **Existing AppSync GraphQL API** tab
 * [API (REST) - Use existing AWS resources](/[platform]/build-a-backend/restapi/existing-resources/)
+* [API (REST) - Define authorization rules](/[platform]/build-a-backend/restapi/customize-authz/)
 * [Storage - Use existing AWS resources](/[platform]/build-a-backend/storage/existing-resources/)
 * [Analytics - Use existing AWS resources](/[platform]/build-a-backend/more-features/analytics/existing-resources/)
 * [Analytics - Streaming analytics data (Kinesis)](/[platform]/build-a-backend/more-features/analytics/streaming-data/#installation-and-configuration)
@@ -298,7 +302,7 @@ For a deeper look at V6 Analytics functionality, check out our [Analytics catego
 
 <Accordion title='API (GraphQL)' headingLevel='4'>
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/generateClient` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/api` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
 
 <BlockSwitcher>
 
