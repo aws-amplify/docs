@@ -14,16 +14,16 @@ import {
 
 const frameworks = [
   {
-    title: 'JavaScript',
-    key: 'javascript',
-    href: '/javascript',
-    icon: <IconJS />
-  },
-  {
     title: 'React',
     key: 'react',
     href: '/react',
     icon: <IconReact />
+  },
+  {
+    title: 'JavaScript',
+    key: 'javascript',
+    href: '/javascript',
+    icon: <IconJS />
   },
   {
     title: 'Flutter',
