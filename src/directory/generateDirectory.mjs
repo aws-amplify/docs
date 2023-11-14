@@ -7,6 +7,9 @@ import { directory } from './directory.mjs';
 import { writeFile } from 'fs/promises';
 import { getLastModifiedDate } from 'git-jiggy';
 
+// Set up the root path so that we can get the correct path from the current working directory
+const rootPath = path.resolve(cwd(), 'src/pages');
+
 /**
  * Helper function to use RegEx to grab the "meta" object
  * @param {string} filePath
@@ -34,7 +37,6 @@ async function getMetaStringObj(filePath) {
     }
   }
 }
-const rootPath = path.resolve(cwd(), 'src/pages');
 
 /**
  * Traverses the directoryNode parameter and updates itself with properties
@@ -64,11 +66,22 @@ async function traverseDirectoryObject(directoryNode) {
           );
         }
 
+        // Relative file path from the `src/pages` directory
+        // This helps us create the paths like "/[platform]/..." and "/gen2/..."
         const relativePath = path.relative(rootPath, directoryNode.path);
-        const parsedPath = path.parse(relativePath);
+
+        // Convert the relative path, that could be POSIX or Windows,
+        // into a POSIX path that contains forward slashes for the path separator.
+        // This is so we can let the default paths correctly find the file paths and then
+        // use the forward slashes to help set up the route for Next.js
+        const posixRelativePath = path.posix.join(
+          ...relativePath.split(path.sep)
+        );
+
+        const parsedPath = path.posix.parse(posixRelativePath);
 
         // Set up the `route` property which is what we will use to link everything in Next.js
-        // Use `path.posix.join` to use only forward slashes (and not backslashes like on Windows machines)
+        // Use `path.posix.join` to use only forward slashes
         if (parsedPath.name === 'index') {
           // For 'index' files we only want to display their directory name as the path
           directoryNode['route'] = path.posix.join('/', parsedPath.dir);
