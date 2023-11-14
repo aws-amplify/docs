@@ -39,7 +39,7 @@ import versionRangeCallout from '/src/fragments/lib/ssr/nextjs/version-range-cal
 Before you begin, you will need:
 
 - [A Next.js application created](/[platform]/start/project-setup/create-application/)
-- [Installed and configured Amplify libraries for Next.js](/[platform]/build-a-backend/server-side-rendering/)
+- [Installed Amplify libraries for Next.js](/[platform]/start/project-setup/create-application/#install-amplify-libraries)
 
 ## Configure Amplify Library for server-side usage
 
@@ -58,7 +58,7 @@ export const { runWithAmplifyServerContext } = createServerRunner({
 });
 ```
 
-You can use the exported runWithAmplifyServerContext function to call Amplify APIs with in isolated request contexts. Usage examples see [here](#using-amplify-category-apis-as-a-data-source-on-the-server-side).
+You can use the exported `runWithAmplifyServerContext` function to call Amplify APIs with in isolated request contexts. Usage examples see [here](#calling-amplify-category-apis-on-the-server-side).
 
 **TIP:** You only need to call the `createServerRunner` function once and reuse the `runWithAmplifyServerContext` function throughout.
 
@@ -169,7 +169,7 @@ export async function middleware(request: NextRequest) {
     nextServerContext: { request, response },
     operation: async (contextSpec) => {
       try {
-        const session = await fetchAuthSession(contextSpec, {});
+        const session = await fetchAuthSession(contextSpec);
         return session.tokens !== undefined;
       } catch (error) {
         console.log(error);
@@ -218,7 +218,7 @@ For the **GraphQL API** category, review [Connect to GraphQL API from server-sid
 
 <Callout>
 
-**NOTE:** A subset of Amplify APIs can now be called on the server side of a Next.js app. These APIs are exported from the `/server` sub paths. See [the full list](#amplify-api-nextjs-server-support) of supported APIs.
+**NOTE:** A subset of Amplify APIs can now be called on the server side of a Next.js app. These APIs are exported from the `/server` sub paths. See [the full list](#supported-apis-for-nextjs-server-side-usage) of supported APIs.
 
 </Callout>
 
@@ -383,4 +383,4 @@ All APIs that support use on the server are exported from the `aws-amplify/<cate
 
 ## Migrate from Amplify JavaScript v5
 
-The Amplify JS v5 `withSSRContext` utility is no longer available with Amplify JS v6. You will need to use the `runWithAmplifyServerContext` function exported from `@aws-amplify/adapter-nextjs` to make Amplify API calls on the server side of your Next.js app. Usage examples see [here](#using-amplify-category-apis-as-a-data-source-on-the-server-side).
+The Amplify JS v5 `withSSRContext` utility is no longer available with Amplify JS v6. You will need to use the `createServerRunner` function exported from `@aws-amplify/adapter-nextjs` to create a `runWithAmplifyServerContext` function, and use this function to make Amplify API calls on the server side of your Next.js app. For usage examples, see [here](#calling-amplify-category-apis-on-the-server-side).
