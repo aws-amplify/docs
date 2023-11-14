@@ -1,8 +1,4 @@
-The next feature you will be adding is authentication.
-
-## Authentication with Amplify
-
-Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery & other operations. In this tutorial, you'll learn how to add authentication to your application using Amazon Cognito and username/password login.
+The next feature you will be adding is authentication. Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery & other operations. In this tutorial, you'll learn how to add authentication to your application using Amazon Cognito and username/password login.
 
 ## Create authentication service
 
@@ -98,7 +94,11 @@ Run the app to see the new authentication flow protecting the app:
 npm run dev
 ```
 
-Now you should see the app load with an authentication flow allowing users to sign up and sign in. Here's all the code below:
+Now you should see the app load with an authentication flow allowing users to sign up and sign in.
+
+<Accordion title="Review complete code example">
+
+Here's all the code below:
 
 ```javascript
 /* src/App.js */
@@ -226,7 +226,9 @@ App.propTypes = {
 export default withAuthenticator(App);
 ```
 
-### Bonus: Use Amplify UI Primitives
+</Accordion>
+
+<Accordion title="Bonus: Use Amplify UI Primitives">
 
 You used two Amplify UI components, `Heading` and `Button`. You could also convert the rest of the app to Amplify UI components by replacing the `p` tags with `Text`, the `input`s with `TextField`s and the `div`s with `View`s.
 
@@ -276,12 +278,14 @@ import {
 </View>
 ```
 
+</Accordion>
+
 Using Amplify UI components together makes it easier to manage styling across your entire app.
 
 In this example, you used the Amplify React UI library and the `withAuthenticator` component to quickly get up and running with a real-world authentication flow.
 
 You can also [customize this component](https://ui.docs.amplify.aws/react/components/authenticator/customization) to add or remove fields, update styling, or other configurations. You can even [override function calls](https://ui.docs.amplify.aws/react/components/authenticator/customization#override-function-calls) if needed.
 
-If you would like to build your own authentication flow instead, you can use the [Auth category in Amplify Libraries for JS](/lib/auth/getting-started). Amplify's Auth category class over 20 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
+If you would like to build your own authentication flow instead, you can use the [Auth category in Amplify Libraries for JS](/[platform]/build-a-backend/auth/set-up-auth/). Amplify's Auth category class over 20 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
 
 In the next section, you'll host your app on the Amplify Console, a hosting service complete with a globally available CDN, automatic deployments, easy custom domains, and CI / CD.

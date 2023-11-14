@@ -1,15 +1,11 @@
-With the basic setup complete, you can now model the data your application will work with. 
-These models are specified as GraphQL schemas. You can [learn more](/cli/graphql/overview) 
-about GraphQL schemas and data modeling. We can start by creating the budget management 
-data model.
+With the basic setup complete, you can now model the data your application will work with. These models are specified as GraphQL schemas. You can [learn more](/[platform]/build-a-backend/graphqlapi/) about GraphQL schemas and data modeling. We can start by creating the budget management data model.
 
 ## Create data model
 
-> Make sure you have followed the steps in the [Prerequisites](/start/getting-started/installation/q/integration/flutter/)
-  section and have the Amplify CLI installed and configured.
+> Make sure you have followed the steps in the [Prerequisites](/[platform]/start/getting-started/installation/) section and have the Amplify CLI installed and configured.
 
 1. In the console, navigate to your project's root.
-2. Run `amplify init` to initialize your Amplify project. 
+2. Run `amplify init` to initialize your Amplify project.
 3. Enter a name for your project and proceed through the remaining steps. Most of the defaults should be correct for you.
 
 ```console
@@ -56,16 +52,16 @@ Try "amplify add api" to create a backend API and then "amplify push" to deploy 
 ```
 
 4. Now, we can run `amplify add api` to create the data model.
- 
-    - For the first prompt, select **GraphQL**
-    - Highlight **Authorization modes** and press `<Enter>`. Change it to **Amazon Cognito User Pool**.
-    - Select **Default configuration**, **Username**, then **No, I am done.**
-    - Enter `N` when prompted to **Configure additional auth types**
-    - Select **Continue**
-    - For your schema template, choose **Blank Schema**
-    - When prompted to edit the schema, enter `Y`
 
-    Your `schema.graphql` file will open. Replace its contents with the following:
+   - For the first prompt, select **GraphQL**
+   - Highlight **Authorization modes** and press `<Enter>`. Change it to **Amazon Cognito User Pool**.
+   - Select **Default configuration**, **Username**, then **No, I am done.**
+   - Enter `N` when prompted to **Configure additional auth types**
+   - Select **Continue**
+   - For your schema template, choose **Blank Schema**
+   - When prompted to edit the schema, enter `Y`
+
+   Your `schema.graphql` file will open. Replace its contents with the following:
 
 ```graphql
 type BudgetEntry @model @auth(rules: [{ allow: owner }]) {
@@ -73,14 +69,13 @@ type BudgetEntry @model @auth(rules: [{ allow: owner }]) {
   title: String!
   description: String
   amount: Float!
-} 
+}
 ```
 
 5. Save the file.
 6. Back in the console, run `amplify push -y`.
 
-    Your project will start deploying to AWS. This is a good time to relax and grab a cup of coffee. 
-    After a few minutes, you should see the following:
+   Your project will start deploying to AWS. This is a good time to relax and grab a cup of coffee. After a few minutes, you should see the following:
 
 ```console
 Deployment state saved successfully.

@@ -1,7 +1,6 @@
 export const meta = {
   title: 'Read application data',
-  description:
-    'Learn how to query application data.'
+  description: 'Learn how to query application data.'
 };
 
 export function getStaticProps(context) {
@@ -13,12 +12,11 @@ export function getStaticProps(context) {
 
 }
 
-
 You can read application data using the Amplify Data client. In this guide, we will review the difference between reading data and getting data, how to filter query results to get just the data you need, and how to paginate results to make your data more manageable. We will also show you how to cancel these requests when needed.
 
 Before you begin, you will need:
 
-- An [application connected to the API](/lib/graphqlapi/connect/q/platform/js/)
+- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/connect-to-api/)
 - Data already created to view
 
 ## List and get your data
@@ -35,18 +33,18 @@ You can list items by first generating the Data client with your backend Data sc
 
 ```ts
 import { generateClient } from 'aws-amplify/api';
-import { type Schema } from '@/amplify/data/resource'
+import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
 
 // list all items
-const { data: todos, errors } = await client.models.Todo.list()
+const { data: todos, errors } = await client.models.Todo.list();
 
 // get a specific item
 const { data: inventory, errors } = await client.models.Inventory.get({
-  productId: "...",
-  warehouseId: "..."
-})
+  productId: '...',
+  warehouseId: '...'
+});
 ```
 
 <Accordion title='Troubleshoot unauthorized errors' headingLevel='4' eyebrow='Troubleshooting'>
@@ -55,14 +53,15 @@ Each API request uses a authorization mode. If you get unauthorized errors, you 
 
 ```ts
 import { generateClient } from 'aws-amplify/api';
-import { type Schema } from '@/amplify/data/resource'
+import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
 
 const { errors, data: newTodo } = await client.models.Todo.list({
   authMode: 'apiKey'
-})
+});
 ```
+
 </Accordion>
 
 ## Filter list queries
@@ -71,17 +70,17 @@ As your data grows, you will need to paginate your list queries. Fortunately, th
 
 ```ts
 import { generateClient } from 'aws-amplify/api';
-import { type Schema } from '@/amplify/data/resource'
+import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
 
 const { data: todos, errors } = await client.models.Todo.list({
   filter: {
     content: {
-      startsWith: "hello"
+      startsWith: 'hello'
     }
   }
-})
+});
 ```
 
 ### Compound filters
@@ -90,19 +89,22 @@ You can combine filters with `and`, `or`, and `not` Boolean logic. Observe that 
 
 ```ts
 import { generateClient } from 'aws-amplify/api';
-import { type Schema } from '@/amplify/data/resource'
+import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
 
 const { data: todos, errors } = await client.models.Todo.list({
   filter: {
-    or: [{
-      priority: { eq: 1 }
-    }, {
-      priority: { eq: 2 }
-    }]
+    or: [
+      {
+        priority: { eq: 1 }
+      },
+      {
+        priority: { eq: 2 }
+      }
+    ]
   }
-})
+});
 ```
 
 Note that querying for `priority` of 1 and 2 would return no results, because this is Boolean logic instead of natural language.
@@ -113,7 +115,7 @@ To paginate your list query results, make a subsequent list query request with t
 
 ```ts
 import { generateClient } from 'aws-amplify/api';
-import { type Schema } from '@/amplify/data/resource'
+import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
 
@@ -123,8 +125,8 @@ const {
   errors
 } = await client.models.Todo.list({
   limit: 100, // default value is 100
-  nextToken: "eyJ2ZXJzaW9uejE1a2..." // previous nextToken
-})
+  nextToken: 'eyJ2ZXJzaW9uejE1a2...' // previous nextToken
+});
 ```
 
 If you're building a React application, you can use Amplify UI's `usePagination` hook to help with managing the pagination user experience.
@@ -184,10 +186,7 @@ A **custom selection set** allows consumers to specify on a per-call basis the f
 
 ```ts
 // same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
-const {
-  data: blogWithSubsetOfData,
-  errors
-} = await client.models.Blog.get(
+const { data: blogWithSubsetOfData, errors } = await client.models.Blog.get(
   '<MY_BLOG_ID>',
   {
     selectionSet: [
@@ -195,7 +194,7 @@ const {
       'publication.company.location.city',
       'content.*'
     ]
-  },
+  }
 );
 ```
 
@@ -204,9 +203,9 @@ const {
 When working with TypeScript you often need to specify the type of your data models for type generics. For example, when working with `useState` from React, you need to provide a type in TypeScript to ensure type-safety for the rest of your component code that uses the returned state. Use the `Schema["MODEL_NAME"]` pattern to get consumable TypeScript types for the shapes of the data model return values coming from the backend API.
 
 ```ts
-import { type Schema } from '@/backend/data/resource'
+import { type Schema } from '@/backend/data/resource';
 
-type Post = Schema["Post"];
+type Post = Schema['Post'];
 
 const [posts, setPosts] = useState<Post[]>([]);
 ```
@@ -221,7 +220,7 @@ import { type Schema } from '@/backend/data/resource'
 const selectionSet = ['content', 'author', 'comments.*'] as const;
 type PostWithComments = SelectionSet<Schema["Post"], typeof selectionSet>;
 
-// ... 
+// ...
 const [posts, setPosts] = useState<PostWithComments[]>([]);
 
 async fetchPosts() {
@@ -275,7 +274,7 @@ Congratulations! You have finished the **Read application data** guide. In this 
 
 Our recommended next steps include subscribing to real-time events to look for mutations in your data and continuing to build out and customize your information architecture for your data. Some resources that will help with this work include:
 
-- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/js/)
-- [Authorization rules](/cli/graphql/authorization-rules/)
-- [Data modeling](/cli/graphql/data-modeling/)
-- [Custom business logic](/cli/graphql/custom-business-logic/)
+- [Subscribe to real-time events](/[platform]/build-a-backend/graphqlapi/subscribe-data/)
+- [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-auth/)
+- [Data modeling](/[platform]/build-a-backend/graphqlapi/data-modeling/)
+- [Custom business logic](/[platform]/build-a-backend/graphqlapi/custom-business-logic/)

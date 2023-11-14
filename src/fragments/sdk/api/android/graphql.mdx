@@ -321,7 +321,7 @@ try {
 
 ### Mocking and Local Testing
 
-Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](/cli/usage/mock) for more details.
+Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](/[platform]/tools/cli/usage/mock/) for more details.
 
 ### Client Architecture
 
@@ -464,7 +464,7 @@ For client authorization AppSync supports API Keys, Amazon IAM credentials (we r
 
 #### API Key
 
-API Key is the easiest way to setup and prototype your application with AppSync. It's also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports "Guest" access. See [the authentication section for more details](/sdk/auth/getting-started). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+API Key is the easiest way to setup and prototype your application with AppSync. It's also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports "Guest" access. See [the authentication section for more details](/[platform]/sdk/auth/getting-started/). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
 
 ```json
 {
@@ -492,7 +492,7 @@ mAWSAppSyncClient = AWSAppSyncClient.builder()
 
 #### Cognito User Pools
 
-Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/sdk/auth/getting-started). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/[platform]/sdk/auth/getting-started/). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
 
 ```json
 {
@@ -536,7 +536,7 @@ mAWSAppSyncClient = AWSAppSyncClient.builder()
 
 #### IAM
 
-When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth`. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/sdk/auth/getting-started) For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth`. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/[platform]/sdk/auth/getting-started/) For manual configuration, add the following snippet to your `awsconfiguration.json` file:
 
 ```json
 {

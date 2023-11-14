@@ -121,27 +121,16 @@ export const Layout = ({
   const shouldShowGen2Banner = GEN2BANNER_URLS.includes(asPathWithNoHash);
 
   let currentPlatform = DEFAULT_PLATFORM;
-  const homepageNode = directory as PageNode;
-  let rootMenuNode;
 
   const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
-  const searchParam = isGen2 ? 'gen2' : '[platform]';
   const showNextPrev = NEXT_PREVIOUS_SECTIONS.some((section) => {
     return (
       asPathWithNoHash.includes(section) && !asPathWithNoHash.endsWith(section)
     );
   });
-
-  if (homepageNode?.children && homepageNode.children.length > 0) {
-    rootMenuNode = homepageNode.children.find((node) => {
-      if (node.path) {
-        return node.path.indexOf(searchParam) > -1;
-      }
-    });
-  }
 
   if (!isGen2) {
     // [platform] will always be the very first subpath right?
@@ -154,8 +143,8 @@ export const Layout = ({
     currentPlatform = platform
       ? platform
       : PLATFORMS.includes(asPathPlatform)
-      ? asPathPlatform
-      : DEFAULT_PLATFORM;
+        ? asPathPlatform
+        : DEFAULT_PLATFORM;
   }
 
   const title = [
@@ -188,21 +177,6 @@ export const Layout = ({
       menuButtonRef?.current?.focus();
     }
   };
-
-  let menu = (
-    <Menu currentPlatform={currentPlatform} rootMenuNode={rootMenuNode} />
-  );
-  if (isGen2) {
-    menu = <Menu rootMenuNode={rootMenuNode} />;
-  } else if (isPrev) {
-    menu = (
-      <Menu
-        currentPlatform={currentPlatform}
-        rootMenuNode={rootMenuNode}
-        isPrev={true}
-      />
-    );
-  }
 
   return (
     <>
@@ -322,7 +296,7 @@ export const Layout = ({
                     )}
 
                     <div className="layout-sidebar-menu">
-                      {menu}
+                      <Menu currentPlatform={currentPlatform} path={asPathWithNoHash} />
                       <div className="layout-sidebar-feedback">
                         <RepoActions router={router}></RepoActions>
                         <Feedback router={router}></Feedback>

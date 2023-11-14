@@ -5,12 +5,13 @@ import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 export const MDXLink = (props) => {
   const { href, children } = props;
   const isInternal = href && (href.startsWith('/') || href.startsWith('#'));
+  const platform = useCurrentPlatform();
 
   return isInternal ? (
     <Link
       href={{
         pathname: decodeURI(href),
-        query: { platform: useCurrentPlatform() }
+        ...(platform && { query: { platform: useCurrentPlatform() } })
       }}
     >
       {children}

@@ -49,20 +49,23 @@ Amplify's GraphQL API category allows you to build a secure, real-time GraphQL A
 
 ## Creating your first API and database table
 
-Amplify's GraphQL API category can be deployed either using the [Amplify CLI](/cli/) or using [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/). The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your frontend app. The AWS CDK is an open-source Infrastructure-as-Code framework used to model and provision your AWS cloud application resources with familiar programming languages.
+Amplify's GraphQL API category can be deployed either using the [Amplify CLI](/[platform]/tools/cli) or using [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/). The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your frontend app. The AWS CDK is an open-source Infrastructure-as-Code framework used to model and provision your AWS cloud application resources with familiar programming languages.
 
 <BlockSwitcher>
 
 <Block name="Amplify CLI">
 
 Pre-requisites:
-- The [Amplify CLI is installed and configured](/cli/start/install/)
+
+- The [Amplify CLI is installed and configured](/[platform]/tools/cli/start/set-up-cli/)
 - Have an Amplify [project already initialized](http://localhost:3000/cli/start/workflows/#initialize-new-project)
 
 First, set up your GraphQL API by running:
+
 ```bash
 amplify add api
 ```
+
 ```console
 ? Select from one of the below mentioned services:
 > GraphQL
@@ -83,8 +86,9 @@ Accept the default values and your code editor should show a GraphQL schema for 
 ```graphql
 # This "input" configures a global authorization rule to enable public access to
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/auth
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
-
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
 type Todo @model {
   id: ID!
   name: String!
@@ -94,7 +98,8 @@ type Todo @model {
 
 <Callout warning>
 
-`input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }` allows you to get started quickly without worrying about authorization rules. Review the [Authorization rules](/cli/graphql/authorization-rules) section to setup the appropriate access control for your GraphQL API.
+`input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }` allows you to get started quickly without worrying about authorization rules. Review the [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-auth/) section to setup the appropriate access control for your GraphQL API.
+
 </Callout>
 
 </Block>
@@ -107,6 +112,7 @@ The Amplify GraphQL API CDK construct is currently only available for TypeScript
 </Callout>
 
 Pre-requisites:
+
 - The [AWS CDK CLI is installed](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install)
 - Have an [AWS CDK application initialized](https://docs.aws.amazon.com/cdk/v2/guide/hello_world.html)
 
@@ -119,21 +125,26 @@ npm install @aws-amplify/graphql-api-construct
 Next, go to your stack and import the Amplify GraphQL CDK construct and create your new Amplify GraphQL API:
 
 ```ts
-import { AmplifyGraphqlApi, AmplifyGraphqlDefinition } from '@aws-amplify/graphql-api-construct'
+import {
+  AmplifyGraphqlApi,
+  AmplifyGraphqlDefinition
+} from '@aws-amplify/graphql-api-construct';
 
 export class BackendStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     const amplifyApi = new AmplifyGraphqlApi(this, 'AmplifyCdkGraphQlApi', {
-      definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, "schema.graphql")),
+      definition: AmplifyGraphqlDefinition.fromFiles(
+        path.join(__dirname, 'schema.graphql')
+      ),
       authorizationModes: {
         defaultAuthorizationMode: 'API_KEY',
         apiKeyConfig: {
-          expires: cdk.Duration.days(30) 
+          expires: cdk.Duration.days(30)
         }
-      },
-    })
+      }
+    });
   }
 }
 ```
@@ -162,6 +173,7 @@ Now let's deploy your changes to the cloud:
 <Block name="Amplify CLI">
 
 Run the following command in your Terminal:
+
 ```bash
 amplify push -y
 ```
@@ -171,6 +183,7 @@ amplify push -y
 <Block name="AWS CDK">
 
 Run the following command in your Terminal:
+
 ```bash
 cdk deploy
 ```
@@ -186,7 +199,7 @@ To connect your application to your API, we recommend to use the Amplify Library
 
 ### Install the Amplify Library
 
-Use Amplify libraries to connect your app with your GraphQL endpoint. 
+Use Amplify libraries to connect your app with your GraphQL endpoint.
 
 Add the Amplify library to your app with `npm`:
 
@@ -199,7 +212,7 @@ npm install aws-amplify
 <BlockSwitcher>
 <Block name="Amplify CLI">
 
-As part of the `amplify push` deployment workflow, a new `amplifyconfiguration.json` file is generated for you. `amplifyconfiguration.json` is the client configuration file for the Amplify libraries, it includes your API endpoint URL, authentication information, and region. 
+As part of the `amplify push` deployment workflow, a new `amplifyconfiguration.json` file is generated for you. `amplifyconfiguration.json` is the client configuration file for the Amplify libraries, it includes your API endpoint URL, authentication information, and region.
 
 In your app's entry point i.e. App.js in React, import and load the configuration file:
 
@@ -209,7 +222,7 @@ import { generateClient } from 'aws-amplify/api';
 import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 
-const client = generateClient()
+const client = generateClient();
 ```
 
 </Block>
@@ -240,15 +253,14 @@ Amplify.configure({
       endpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
       region: 'us-east-1',
       defaultAuthMode: 'apiKey',
-      apiKey: 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx',
-    },
+      apiKey: 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx'
+    }
   }
 });
 ```
 
 </Block>
 </BlockSwitcher>
-
 
 ### Generate GraphQL client helper code
 
@@ -280,37 +292,36 @@ At this point, you should see a new `src/graphql/` folder that contains client h
 
 <Callout>
 
-For Flutter, Android, and Swift client code generation, refer to [JavaScript, Android, Swift, and Flutter client code generation](/cli/graphql/client-code-generation/).
+For Flutter, Android, and Swift client code generation, refer to [JavaScript, Android, Swift, and Flutter client code generation](/[platform]/build-a-backend/graphqlapi/client-code-generation/).
 
 </Callout>
 
 </Block>
 </BlockSwitcher>
 
-
 ## Add your first record
 
 Next, let's try to query from the GraphQL API. Follow along the steps below to make a query from a React app:
 
 ```js
-import { generateClient } from 'aws-amplify/api'
-import { createTodo, updateTodo, deleteTodo } from './graphql/mutations'
-import { listTodos } from './graphql/queries'
+import { generateClient } from 'aws-amplify/api';
+import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
 ```
 
 Then, create your first todo item with the a GraphQL API call:
 
 ```js
-const client = generateClient()
+const client = generateClient();
 
 const result = await client.graphql({
-  query: createTodo, 
+  query: createTodo,
   variables: {
     input: {
       name: 'My first todo!'
     }
   }
-})
+});
 ```
 
 ## Query records from the table
@@ -318,8 +329,8 @@ const result = await client.graphql({
 Use the GraphQL query statement to list all todos in your app:
 
 ```js
-const result = await client.graphql({ query: listTodos })
-console.log(result)
+const result = await client.graphql({ query: listTodos });
+console.log(result);
 ```
 
 You should see the record created above: `My first todo!`.
@@ -330,15 +341,15 @@ To update the record use the GraphQL update mutation:
 
 ```js
 const result = await client.graphql({
-  query: updateTodo, 
+  query: updateTodo,
   variables: {
     input: {
-      id: "<...>",
-      name: "My first updated todo!"
+      id: '<...>',
+      name: 'My first updated todo!'
     }
   }
-})
-console.log(result)
+});
+console.log(result);
 ```
 
 The result should contain the updated value: `My first updated todo!`.
@@ -352,12 +363,13 @@ const result = await client.graphql({
   query: deleteTodo,
   variables: {
     input: {
-      id: "<...>",
+      id: '<...>'
     }
   }
-})
-console.log(result)
+});
+console.log(result);
 ```
+
 The result output should indicate to you that the record was successfully deleted!
 
 ## Iterating on your data model using the GraphQL schema
@@ -378,6 +390,7 @@ You can then push updated changes with:
 ```bash
 amplify push
 ```
+
 </Block>
 <Block name="AWS CDK">
 
@@ -397,33 +410,37 @@ npx @aws-amplify/cli codegen
 </BlockSwitcher>
 
 The following schema updates require replacement of the underlying DynamoDB table:
+
 1. Removing or renaming a model
-2. Modifying the [primary key](/cli/graphql/data-modeling/#configure-a-primary-key) of a model
-3. Modifying a Local Secondary Index of a model (only applies to projects with [secondaryKeyAsGSI](/cli/reference/feature-flags/#secondaryKeyAsGSI) turned off)
+2. Modifying the [primary key](/[platform]/build-a-backend/graphqlapi/data-modeling/#configure-a-primary-key) of a model
+3. Modifying a Local Secondary Index of a model (only applies to projects with [secondaryKeyAsGSI](/[platform]/tools/cli/reference/feature-flags/#secondaryKeyAsGSI) turned off)
 
 When trying to push a schema change with one or more of these updates you will see an error message explaining that you will lose ALL DATA in any table that requires replacement. To confirm you want to continue with the deployment, run:
+
 ```bash
 amplify push --allow-destructive-graphql-schema-updates
 ```
+
 <Callout>
 In general, this command should only be used during development.
 
 If you are making a breaking change to a production API but you want to retain the data in the affected table(s), you can [create a backup](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/CreateBackupAWS.html) before running `amplify push --allow-destructive-graphql-schema-updates`
+
 </Callout>
 
 ## Rebuild GraphQL API
 
-<Callout>
-Rebuild should NEVER be used in a production environment!
-</Callout>
+<Callout>Rebuild should NEVER be used in a production environment!</Callout>
 
 When in development, sometimes test data gets in a bad state or you want to make many changes to your schema all at once. In these cases, you may wish to "rebuild" all of the tables backing your schema. To do this, run the following in your Terminal:
+
 <BlockSwitcher>
 <Block name="Amplify CLI">
 
 ```bash
 amplify rebuild api
 ```
+
 </Block>
 <Block name="AWS CDK">
 
@@ -431,21 +448,23 @@ amplify rebuild api
 cdk destroy
 cdk deploy
 ```
+
 </Block>
 </BlockSwitcher>
 This will recreate ALL of the tables backing models in your schema. ALL DATA in ALL TABLES will be deleted.
 
 ## Next steps
 
-Success! You've learned how to create a GraphQL API backed by a database table and also how to run queries and mutations from your app. 
+Success! You've learned how to create a GraphQL API backed by a database table and also how to run queries and mutations from your app.
 
-There's so much more to discover with Amplify's GraphQL API capabilities. Learn more about: 
-- [How to model your database table and their access patterns](/cli/graphql/data-modeling)
-- [Secure your API with fine-grained authorization rules](/cli/graphql/authorization-rules)
-- [Create relationships between different database model](/cli/graphql/data-modeling/#setup-relationships-between-models)
-- [Add custom business logic to the GraphQL API](/cli/graphql/custom-business-logic)
-- [Run search and result aggregation queries](/cli/graphql/search-and-result-aggregations/)
-- [Connect to machine learning services](/cli/graphql/connect-to-machine-learning-services/)
-- [Examples and solutions](/cli/graphql/examples-and-solutions/)
+There's so much more to discover with Amplify's GraphQL API capabilities. Learn more about:
+
+- [How to model your database table and their access patterns](/[platform]/build-a-backend/graphqlapi/data-modeling/)
+- [Secure your API with fine-grained authorization rules](/[platform]/build-a-backend/graphqlapi/customize-auth/)
+- [Create relationships between different database model](/[platform]/build-a-backend/graphqlapi/data-modeling/#setup-relationships-between-models)
+- [Add custom business logic to the GraphQL API](/[platform]/build-a-backend/graphqlapi/custom-business-logic/)
+- [Run search and result aggregation queries](/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/)
+- [Connect to machine learning services](/[platform]/build-a-backend/graphqlapi/connect-machine-learning-services/)
+- [Examples and solutions](/[platform]/build-a-backend/graphqlapi/best-practice/)
 
 </InlineFilter>

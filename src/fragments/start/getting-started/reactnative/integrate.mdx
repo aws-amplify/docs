@@ -348,7 +348,7 @@ You will see a console error when you run your app "Datastore - Data won't synch
 
 Now that you have a way to add Todo items, you need a way to list them out. You also want to observe updates to those items as they are added, updated, or removed.
 
-This can be achieved with `DataStore.observeQuery()`. `observeQuery()` will return a Stream of query snapshots. Each snapshot will contain the current list of items, as well as boolean value to indicate if DataStore's sync process has completed. You can find more info about `observeQuery()` [here](/lib/datastore/real-time/#observe-query-results-in-real-time).
+This can be achieved with `DataStore.observeQuery()`. `observeQuery()` will return a Stream of query snapshots. Each snapshot will contain the current list of items, as well as boolean value to indicate if DataStore's sync process has completed. You can find more info about `observeQuery()` [here](/[platform]/build-a-backend/more-features/datastore/real-time/#observe-query-results-in-real-time).
 
 You will use the `useEffect()` hook of **TodoList** component to list the todo items. `useEffect()` can be used to perform side effects in function components. Add the below `useEffect()` in the **TodoList** component right after state initialization. You can find more about the useEffect hook [here](https://reactjs.org/docs/hooks-effect.html).
 
