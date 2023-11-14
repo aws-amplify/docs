@@ -505,3 +505,34 @@ export const schema = a.schema({
 Since the `description` field is not accessible by "Admin" Cognito group users, they cannot delete any `Todo` records.
 
 </Callout>
+
+### Use IAM authorization within the AppSync console
+IAM-based `@auth` rules are scoped down to only work with Amplify-generated IAM roles. To access the GraphQL API with IAM authorization within your AppSync console, you need to explicitly allow list the IAM user's name.
+
+To grant an external AWS Resource or an IAM role access to this GraphQL API in CDK, you need to explicitly list the IAM role by adding them to `adminRoles` property.
+
+```ts title="amplify/data/resource.ts"
+// amplify/data/resource.ts
+import { a, defineData, type ClientSchema } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  Todo: a.model({
+    name: a.string(),
+    description: a.string(),
+  }),
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    // Pass in the IAM Role names which to grant full read/write access to the API for models via IAM authorization.
+    allowListedRoleNames: ["userRole"],
+  },
+});
+```
+
+These "Admin Roles" have special access privileges that are scoped based on their [IAM policy](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html#aws-iam-authorization) instead of any particular `@auth` rule.
+
+These "Admin Roles" have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
