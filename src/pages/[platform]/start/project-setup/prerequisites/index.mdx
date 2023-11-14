@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Set up Amplify prerequisites',
   description: 'Project Setup with Amplify - Prerequisites',
-  platforms: ['javascript', 'swift', 'android', 'react-native', 'flutter']
+  platforms: ['javascript', 'react', 'nextjs', 'angular', 'vue', 'swift', 'android', 'react-native', 'flutter']
 };
 
 export const getStaticPaths = async () => {
@@ -21,15 +21,7 @@ export function getStaticProps(context) {
 
 import common_header from '/src/fragments/lib/project-setup/native_common/prereq/common_header.mdx';
 
-<Fragments
-  fragments={{
-    swift: common_header,
-    android: common_header,
-    'react-native': common_header,
-    javascript: common_header,
-    flutter: common_header
-  }}
-/>
+<Fragments fragments={{ all: common_header }} />
 
 import ios_prereq from '/src/fragments/lib/project-setup/ios/prereq/prereq.mdx';
 import android_prereq from '/src/fragments/lib/project-setup/android/prereq/prereq.mdx';
@@ -51,12 +43,4 @@ import flutter_prereq from '/src/fragments/lib/project-setup/flutter/prereq/prer
 
 import common_body from '/src/fragments/lib/project-setup/native_common/prereq/common_body.mdx';
 
-<Fragments
-  fragments={{
-    swift: common_body,
-    android: common_body,
-    'react-native': common_body,
-    javascript: common_body,
-    flutter: common_body
-  }}
-/>
+<Fragments fragments={{ all: common_body }} />
