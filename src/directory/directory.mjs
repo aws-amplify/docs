@@ -1292,11 +1292,6 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/prev/build-a-backend/sever-side-rendering/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/sever-side-rendering/set-up-ssr/index.mdx'
-                    }
-                  ]
                 },
                 {
                   path: 'src/pages/[platform]/prev/build-a-backend/utilities/index.mdx',
