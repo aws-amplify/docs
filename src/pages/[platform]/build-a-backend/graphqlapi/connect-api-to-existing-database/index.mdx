@@ -241,7 +241,7 @@ Generate an Amplify GraphQL API schema by running the following command, replaci
 npx @aws-amplify/cli api generate-schema --sql-schema <path-to-schema.csv> --engine-type mysql --out schema.sql.graphql
 ```
 
-In the main stack class, add the following code to define a new GraphQL API. Replace `stack` with the name of your stack instance:
+In the main stack class, add the following code to define a new GraphQL API. Replace `stack` with the name of your stack instance and update the path to the `schema.sql.graphql` file generated in the previous step:
 
 ```ts
 new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
