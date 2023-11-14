@@ -329,7 +329,7 @@ await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
 <Block name="V6">
 
 ```ts
-import { generateClient } from "aws-amplify/api";
+import { generateClient } from 'aws-amplify/api';
 import * as mutations from './graphql/mutations';
 
 const client = generateClient()
@@ -917,6 +917,76 @@ For a deeper look at V6...
 </Accordion>
 
 <Accordion title='Server-side Rendering' headingLevel='4'>
+
+<BlockSwitcher>
+
+<Block name="V5">
+
+```js
+import { Amplify, withSSRContext } from 'aws-amplify';
+import { listTodos } from './graphql/queries';
+import awsExports from './aws-exports';
+
+Amplify.configure({ ...awsExports, ssr: true });
+
+const getServerSideProps = async ({ req }) => {
+  const SSR = withSSRContext({ req });
+  const { data } = await SSR.API.graphql({ query: listTodos });
+
+  return {
+    props: {
+      posts: data.listTodos.items
+    }
+  };
+};
+```
+
+</Block>
+
+<Block name="V6">
+
+```js
+import { createServerRunner } from '@aws-amplify/adapter-nextjs';
+import { generateServerClientUsingReqRes } from '@aws-amplify/adapter-nextjs/api';
+import { listTodos } from './graphql/mutations';
+import amplifyConfig from './amplifyconfiguration.json';
+
+const { runWithAmplifyServerContext } = createServerRunner({
+  config: amplifyConfig
+});
+
+export const reqResBasedClient = generateServerClientUsingReqRes({
+  config: amplifyConfig
+});
+
+const getServerSideProps = async ({ req, res }) => {
+  const data = await runWithAmplifyServerContext({
+    nextServerContext: { request: req, response: res },
+    operation: async (contextSpec) => {
+      try {
+        const { data } = await reqResBasedClient.graphql({
+          query: listTodos
+        })
+
+        return data;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    }
+  });
+
+  return {
+    props: {
+      posts: data.listTodos.items
+    }
+  };
+};
+```
+
+</Block>
+
+</BlockSwitcher>
 
 For a deeper look at V6... 
 
