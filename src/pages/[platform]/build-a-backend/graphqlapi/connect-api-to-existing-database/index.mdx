@@ -371,6 +371,13 @@ You can start querying from the AWS AppSync console or integrate it into your ap
   headingLevel="3"
   eyebrow="Info"
 >
+<Callout>
+
+**Note:** MySQL does not support time zone offsets in date time or timestamp fields. Instead, we will convert these values to `datetime`, without the offset.
+
+Unlike MySQL, PostgreSQL does support date time or timestamp values with an offset.
+
+</Callout>
 | SQL                | GraphQL      |
 |--------------------|--------------|
 | **String**         |              |
