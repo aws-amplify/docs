@@ -98,9 +98,6 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/auth/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/configure-auth/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx'
                 },
                 {
