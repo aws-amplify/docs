@@ -238,7 +238,7 @@ as a challenge and next step to handle in your app. You will get that challenge 
 The `continueSignInWithTOTPSetup` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails`
 which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI`
 which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains
-a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app.
+a `sharedSecret` which can be manually entered into an authenticator app.
 
 Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 
@@ -270,7 +270,7 @@ Future<void> _handleSignInResult(SignInResult result) async {
     // ···
     case AuthSignInStep.continueSignInWithTotpSetup:
       final totpSetupDetails = result.nextStep.totpSetupDetails!;
-      final setupUri = totpSetupDetails.getSetupUri(appName: 'MyApp');
+      final setupUri = totpSetupDetails.getSetupUri(appName: '<Your_App_Name>');
       safePrint('Open URI to complete setup: $setupUri');
     // ···
   }
@@ -402,9 +402,7 @@ TOTP MFA can be set up after a user has signed in. This can be done when the fol
 
 TOTP can be set up by calling the `setUpTOTP` and `verifyTOTPSetup` APIs in the `Auth` category.
 
-Invoke the `setUpTOTP` API to generate a `TOTPSetupDetails` object which should be used to configure an Authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` which generates a URI that can be used, for example, in a button to open the user's installed Authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains a `sharedSecret` which can be used to either generate a QR code or be manually entered into an Authenticator app.
-
-that contains the `sharedSecret` which will be used to either to generate a QR code or can be manually entered into an Authenticator app.
+Invoke the `setUpTOTP` API to generate a `TOTPSetupDetails` object which should be used to configure an Authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` which generates a URI that can be used, for example, in a button to open the user's installed Authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains a `sharedSecret` which can be manually entered into an authenticator app.
 
 import iosSetUpTOTP from "/src/fragments/lib/auth/ios/totp/set_up_totp.mdx";
 
@@ -421,7 +419,7 @@ import androidSetUpTOTP from "/src/fragments/lib/auth/android/totp/set_up_totp.m
 Future<void> setUpTotp() async {
   try {
     final totpSetupDetails = await Amplify.Auth.setUpTotp();
-    final setupUri = totpSetupDetails.getSetupUri(appName: 'MyApp');
+    final setupUri = totpSetupDetails.getSetupUri(appName: '<Your_App_Name>');
     safePrint('Open URI to complete setup: $setupUri');
   } on AuthException catch (e) {
     safePrint('An error occurred setting up TOTP: $e');
