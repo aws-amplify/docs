@@ -1,0 +1,24 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Test push notifications',
+  description: 'Overview of testing your push notifications',
+  platforms: ['react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import testing from '/src/fragments/lib/push-notifications/common/testing.mdx';
+
+<Fragments fragments={{ 'react-native': testing }} />

@@ -27,7 +27,7 @@ import {
   ALGOLIA_INDEX_NAME,
   ALGOLIA_APP_ID
 } from '../../constants/algolia';
-import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
+// import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
 import { SpaceShip } from '@/components/SpaceShip';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
@@ -118,30 +118,17 @@ export const Layout = ({
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
-  const shouldShowGen2Banner = GEN2BANNER_URLS.includes(asPathWithNoHash);
-
-  let currentPlatform = DEFAULT_PLATFORM;
-  const homepageNode = directory as PageNode;
-  let rootMenuNode;
-
+  const shouldShowGen2Banner = false; // GEN2BANNER_URLS.includes(asPathWithNoHash);
   const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
+  let currentPlatform = isGen2 ? undefined : DEFAULT_PLATFORM;
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
-  const searchParam = isGen2 ? 'gen2' : '[platform]';
   const showNextPrev = NEXT_PREVIOUS_SECTIONS.some((section) => {
     return (
       asPathWithNoHash.includes(section) && !asPathWithNoHash.endsWith(section)
     );
   });
-
-  if (homepageNode?.children && homepageNode.children.length > 0) {
-    rootMenuNode = homepageNode.children.find((node) => {
-      if (node.path) {
-        return node.path.indexOf(searchParam) > -1;
-      }
-    });
-  }
 
   if (!isGen2) {
     // [platform] will always be the very first subpath right?
@@ -154,8 +141,8 @@ export const Layout = ({
     currentPlatform = platform
       ? platform
       : PLATFORMS.includes(asPathPlatform)
-      ? asPathPlatform
-      : DEFAULT_PLATFORM;
+        ? asPathPlatform
+        : DEFAULT_PLATFORM;
   }
 
   const title = [
@@ -188,21 +175,6 @@ export const Layout = ({
       menuButtonRef?.current?.focus();
     }
   };
-
-  let menu = (
-    <Menu currentPlatform={currentPlatform} rootMenuNode={rootMenuNode} />
-  );
-  if (isGen2) {
-    menu = <Menu rootMenuNode={rootMenuNode} />;
-  } else if (isPrev) {
-    menu = (
-      <Menu
-        currentPlatform={currentPlatform}
-        rootMenuNode={rootMenuNode}
-        isPrev={true}
-      />
-    );
-  }
 
   return (
     <>
@@ -322,7 +294,7 @@ export const Layout = ({
                     )}
 
                     <div className="layout-sidebar-menu">
-                      {menu}
+                      <Menu currentPlatform={currentPlatform} path={asPathWithNoHash} />
                       <div className="layout-sidebar-feedback">
                         <RepoActions router={router}></RepoActions>
                         <Feedback router={router}></Feedback>
