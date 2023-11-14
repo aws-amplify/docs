@@ -703,6 +703,9 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/upgrade-amplify-packages/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/migration-guide/index.mdx'
                 }
               ]
             }
@@ -1034,7 +1037,7 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/tools/console/adminui/custom-domain/index.mdx'
-                    }  
+                    }
                   ]
                 },
                 {

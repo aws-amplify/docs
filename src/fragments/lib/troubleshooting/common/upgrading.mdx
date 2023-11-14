@@ -1,0 +1,970 @@
+This migration guide will help you upgrade your Amplify JavaScript project from v5 to v6. In order to provide you with a cleaner experience, better typings, improved support for NextJS, and improved [tree-shaking](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking) leading to [a much smaller bundle-size](http://link.to/bundle-size-improvements), we made the following changes for v6:
+
+1. We have transitioned to an approach where you only import the features you need from each of our categories.
+2. Most API’s now use named params instead of positional params, allowing for cleaner and more consistent typing.
+3. We have enabled typescript strict mode on all categories and have added typing to help make it easier to connect your backend resources if you have chosen not to use the Amplify CLI.
+
+Below is an example of how you would have previously in v5 interacted with the Amplify JavaScript library.
+
+```
+import { CognitoUser } from '@aws-amplify/auth';
+import { Auth } from 'aws-amplify';
+
+const handleSignIn = async ({username, password}: {
+    username: string,
+    password: string
+}) => {
+    const user: CognitoUser = Auth.signIn(username, password);
+}
+```
+
+The following is an example of how you would accomplish the same functionality with v6, using our new imports and API surface.
+
+```
+import { signIn, SignInInput, SignInOutput } from 'aws-amplify/auth';
+
+const handleSignIn = async({username, password}: {
+    username: string,
+    password: string
+}) => {
+    const { isSignUpComplete, userId, nextStep } = signIn({username, password});
+}
+```
+
+## Steps to Upgrade
+
+### 1. Upgrade your dev environment
+
+In order to use Amplify V6, you will need to make sure you are using the following versions in your development environment:
+
+* [Node.js](https://nodejs.org/) v16.x or later
+* [npm](https://www.npmjs.com/) v9.7.1 or later
+
+### 2. Update your Amplify project dependencies
+
+<Callout>Make sure to delete your package-lock.json and node_modules folder before running `npm install`</Callout>
+
+<BlockSwitcher>
+
+<Block name="Web">
+
+Upgrade to the latest Amplify library using the following command.
+
+```
+npm install aws-amplify
+```
+
+The aws-amplify package in v6 includes the categories below:
+
+* Auth
+* Storage
+* Analytics
+* API
+* DataStore
+* InAppMessaging
+
+If you would like to use [Geo](https://quip-amazon.com/eIoRAt3ah8wx/Migrating-from-Amplify-V5-to-Amplify-V6#temp:C:fNN5a330ab1631b4515936eb6194), [Predictions](https://quip-amazon.com/eIoRAt3ah8wx/Migrating-from-Amplify-V5-to-Amplify-V6#temp:C:fNNce183d9ecbc54832b1b1cb7ab), [PubSub](https://quip-amazon.com/eIoRAt3ah8wx/Migrating-from-Amplify-V5-to-Amplify-V6#temp:C:fNN7cd353cb08fc4a65aa730a4df), or [Interactions](https://quip-amazon.com/eIoRAt3ah8wx/Migrating-from-Amplify-V5-to-Amplify-V6#temp:C:fNN7332387c4be0408ba8f09ad74) you will need to install those packages separately. (see category-specific migration instructions)
+
+</Block>
+
+<Block name="React Native">
+
+In v6, you will no longer need the `amazon-cognito-identity-js`, so that dependency should be removed from your package.json.
+
+Then upgrade/install the necessary dependencies using the following command:
+
+```
+npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
+```
+
+Note that v6 supports react-native v0.70+, so if you prefer manually upgrading dependencies double-check the version of react-native in your package.json file.
+
+<Callout>
+
+If you are using `signInWithRedirect` (previously `Auth.federatedSignIn`) you will need to install the `@aws-amplify/rtn-web-browser` native module.
+
+If you are using Push Notifications, you will need to upgrade the `@aws-amplify/rtn-push-notification` native module to v1.2+ (if you were using push notifications in v5, this dependency should already be added)
+
+</Callout>
+
+</Block>
+
+<Block name="NextJS">
+
+Upgrade/install the necessary dependencies using the following command:
+
+```
+npm install aws-amplify @aws-amplify/adapter-nextjs
+```
+
+The `@aws-amplify/adapter-nextjs` provides adapter functions to enable use of Amplify APIs on the server side of your Next.js app for use cases such as Server Side Rendering (SSR) by using the App Router.
+
+Note that v6 supports NextJS v13.5.0 through 14. We recommend upgrading if you are using a version less than 13.5.0.
+
+<Callout>NextJS v13.5.0 requires Node v16.14.0 or later and NextJS v14+ requires Node v18.17.0 or later</Callout>
+
+</Block>
+
+</BlockSwitcher>
+
+### 3. Upgrade Amplify CLI version and configuration file
+
+If you created your project with Amplify CLI version < 12.5.1, upgrade your CLI version and regenerate your configuration file using the scripts below.
+
+```
+amplify upgrade
+amplify push
+```
+
+This will generate a new configuration file called `amplifyconfiguration.json`
+
+Wherever you called `Amplify.configure({aws-exports});` previously (usually in the root of your project) update your code as shown below
+
+<Grid templateColumns={{base: '1fr 1fr'}} width="100%" gap="small">
+  <View>
+    **V5**
+    ```
+    import awsconfig from './aws-exports';
+
+    Amplify.configure(awsconfig);
+    ```
+  </View>
+
+  <View>
+    **V6**
+    ```
+    import amplifyconfig from './amplifyconfiguration.json';
+
+    Amplify.configure(amplifyconfig);
+    ```
+  </View>
+</Grid>
+
+
+
+
+
+**(Callout)** Amplify configure will now accept either the config json file OR a strongly typed configuration object. Therefore, if you need to add additional configuration, you will call configure twice: once with the contents of amplifyconfiguration.json, and then again using Amplify.getConfig() plus any additions. Keep in mind that any call to configuration will fully override previous configurations, so pay special attention to nested configurations.
+
+Using the Storage category as an example, the configuration should be updated as below:
+**V5**
+
+```
+Amplify.configure({ 
+  ...awsExports,
+  aws_user_files_s3_bucket_region: 'us-east-1', // (required) - Amazon S3 bucket region
+  aws_user_files_s3_bucket: 'testappa321fb103f1f2ae6a4d25d8cd2161728123152-dev' // (required) - Amazon S3 bucket URI
+});
+```
+
+**V6**
+
+```
+Amplify.configure(amplifyconfig);
+const storageConfig = Amplify.getConfig().Storage;
+
+Amplify.configure({
+   ...Amplify.getConfig(),
+   Storage: {
+          ...storageConfig,
+         S3: {
+            ...storageConfig.S3,
+            bucket: 'testapp123-dev',
+            region: 'us-east-1'
+        }
+   }
+});
+```
+
+#### (Running Amplify on the server with NextJS)
+
+To enable the use of the Amplify JavaScript library on the server, you need to set the `ssr` configuration to true in the `Amplify.configure` function.
+
+```
+Amplify.configure(amplifyConfig, {
+  ssr: true
+});
+```
+
+
+For a complete list of possible configurations see [this document](https://quip-amazon.com/eIoRAt3ah8wx/Migrating-from-Amplify-V5-to-Amplify-V6#temp:C:fNNbb1389beb748482b9788e2a45) (temporary link)
+
+### 4. Upgrade category usage
+
+#### **(ssr)**
+
+**(Callout)** DataStore is no longer supported in an SSR context: if you are using DataStore within your SSR project, you will need to migrate to the API category.
+
+#### Auth
+
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/auth` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+
+***(Inset block switcher to show v5 vs v6)***
+
+```
+import { Auth } from 'aws-amplify';
+
+async function signIn() {
+  try {
+    const user = await Auth.signIn(username, password);
+  } catch (error) {
+    console.log('error signing in', error);
+  }
+}
+
+async function signOut() {
+  try {
+    await Auth.signOut();
+  } catch (error) {
+    console.log('error signing out: ', error);
+  }
+}
+```
+
+```
+import { signIn, signOut } from 'aws-amplify/auth';
+
+async function signIn({ username, password }) {
+  try {
+    const { isSignedIn, nextStep } = await signIn({ username, password });
+  } catch (error) {
+    console.log('error signing in', error);
+  }
+}
+
+async function handleSignOut() {
+  try {
+    await signOut();
+  } catch (error) {
+    console.log('error signing out: ', error);
+  }
+}
+
+```
+
+For a deeper look at v6 Auth functionality, check out our [Authentication category documentation](http://lib/auth/getting-started/q/platform/js/). 
+
+#### Analytics
+
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/analytics` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+
+***(Inset block switcher to show v5 vs v6)***
+
+```
+import { Analytics} from 'aws-amplify';
+
+Analytics.record({
+  name: 'albumVisit',
+  attributes: {},
+  metrics: { minutesListened: 30 }
+});
+
+Analytics.autoTrack('session', {
+    // REQUIRED, turn on/off the auto tracking
+    enable: true,
+    // OPTIONAL, the attributes of the event, you can either pass an object or a function
+    // which allows you to define dynamic attributes
+    attributes: {
+        attr: 'attr'
+    },
+    // OPTIONAL, the service provider, by default is the Amazon Pinpoint
+    provider: 'AWSPinpoint'
+});
+```
+
+```
+import { record, `configureAutoTrack` } from 'aws-amplify/analytics';
+
+record({
+  event: {
+    name: 'albumVisit',
+    attributes: { genre: '', artist: '' }
+  }
+});
+
+configureAutoTrack({
+  // REQUIRED, turn on/off the auto tracking
+  enable: true,
+  // REQUIRED, the event type, it's one of 'event', 'pageView' or 'session'
+  type: 'session',
+  // OPTIONAL, additional options for the tracked event.
+  options: {
+    // OPTIONAL, the attributes of the event
+    attributes: {
+      customizableField: 'attr'
+    }
+  }
+});
+```
+
+For a deeper look at V6 Analytics functionality, check out our [Analytics category documentation](http://lib-v1/analytics/getting-started/q/platform/js/).
+
+
+#### API (GraphQL)
+
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/generateClient` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+
+***(Inset block switcher to show v5 vs v6)***
+
+```
+import { API, graphqlOperation } from 'aws-amplify';
+import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
+
+const todo = { name: "My first todo", description: "Hello world!" };
+
+/* create a todo */
+await API.graphql(graphqlOperation(createTodo, {input: todo}));
+
+/* update a todo */
+await API.graphql(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
+
+/* delete a todo */
+await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
+```
+
+```
+import { generateClient } from "aws-amplify/api";
+import * as mutations from './graphql/mutations';
+
+const client = generateClient()
+
+const todoDetails = {
+  name: 'Todo 1',
+  description: 'Learn AWS AppSync'
+};
+
+/* create a todo */
+const newTodo = await client.graphql({ 
+  query: mutations.createTodo, 
+  variables: { input: todoDetails }
+});
+
+/* update a todo */
+const updatedTodo = await client.graphql({ 
+  query: mutations.updateTodo, 
+  variables: { input: todoDetails }
+});
+
+/* delete a todo */
+const deletedTodo = await client.graphql({ 
+  query: mutations.deleteTodo, 
+  variables: { input: todoDetails }
+});
+```
+
+For a deeper look at how the GraphQL API functionality in V6, check out our [API (GraphQL) category documentation](http://lib-v1/graphqlapi/mutate-data/q/platform/js/).
+
+
+#### API (REST) - in progress
+
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/api` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+
+***(Inset block switcher to show v5 vs v6)***
+
+```
+`import`` ``{`` ``Amplify``,`` API ``}`` ``from`` ``'aws-amplify'``;
+
+const apiName = 'MyApiName';
+const path = '/path';
+const myInit = {
+  headers: {}, // OPTIONAL
+  response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
+  queryStringParameters: {
+    name: 'param' // OPTIONAL
+  }
+};
+
+API.get(apiName, path, myInit)
+  .then((response) => {
+    // Add your code here
+  })
+  .catch((error) => {
+    console.log(error.response);
+  });`
+```
+
+```
+import { generateClient } from "aws-amplify/api";
+import * as mutations from './graphql/mutations';
+
+const client = generateClient()
+
+const todoDetails = {
+  name: 'Todo 1',
+  description: 'Learn AWS AppSync'
+};
+
+/* create a todo */
+const newTodo = await client.graphql({ 
+  query: mutations.createTodo, 
+  variables: { input: todoDetails }
+});
+
+/* update a todo */
+const updatedTodo = await client.graphql({ 
+  query: mutations.updateTodo, 
+  variables: { input: todoDetails }
+});
+
+/* delete a todo */
+const deletedTodo = await client.graphql({ 
+  query: mutations.deleteTodo, 
+  variables: { input: todoDetails }
+});
+```
+
+For a deeper look at how the GraphQL API functionality in V6, check out our [API (GraphQL) category documentation](http://lib-v1/graphqlapi/mutate-data/q/platform/js/).
+
+#### In-App Messaging
+
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/in-app-messaging` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+
+***(Inset block switcher to show v5 vs v6)***
+
+```
+import `{` Notifications } from 'aws-amplify';
+
+const { InAppMessaging } = Notifications;
+InAppMessaging.syncMessages();
+
+const sendEvent = (eventName: string) => { 
+  InAppMessaging.dispatchEvent({name: eventName});
+}
+```
+
+```
+import {
+  dispatchEvent,
+  initializeInAppMessaging,
+  syncMessages
+} from 'aws-amplify/in-app-messaging';
+
+initializeInAppMessaging();
+syncMessages();
+
+const sendEvent = (eventName: string) => { 
+  dispatchEvent({name: eventName});
+}
+```
+
+
+***(Inset block switcher to show v5 vs v6)***
+
+
+For a deeper look at In App Messaging functionality in v6, check out our [In App Messaging category documentation](http://build-a-backend/more-features/in-app-messaging/set-up-in-app-messaging/). 
+
+#### Interactions
+
+For a deeper look at V6... 
+
+
+#### Predictions
+
+To use Predictions in v6, you will first need to install the category as a separate dependency using the below command:
+
+```
+npm install @aws-amplify/predictions
+```
+
+**(Callout)** Make sure that the `@aws-amplify/predictions` package has the same version number as the `aws-amplify` package in your `package.json` file.
+
+In v6, the provider will be included by default and you are no longer required to call `Predictions.addPluggable` to use this category. Otherwise, Predictions operates in the same way as before. Use the switcher below to see the differences between v5 and v6: 
+
+***(Inset block switcher to show v5 vs v6)***
+
+```
+import { Amplify } from 'aws-amplify';
+import {
+  Predictions,
+  AmazonAIPredictionsProvider
+} from '@aws-amplify/predictions';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+Predictions.addPluggable(new AmazonAIPredictionsProvider());
+
+`const`` translateText = async ``({textToTranslate})`` => ``{
+    const result = await Predictions.convert({
+      translateText: {
+        source: {
+          text: textToTranslate
+        }
+      }
+    });`
+`}`
+```
+
+```
+import { Predictions } from '@aws-amplify/predictions';
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from './amplifyconfiguration.json';
+
+Amplify.configure(amplifyConfig);
+
+const translateText = async ({textToTranslate}) => {
+    const result = await Predictions.convert({
+      translateText: {
+        source: {
+          text: textToTranslate
+        }
+      }
+    });
+}
+```
+
+
+For a deeper look at Predictions functionality in v6, check out our [Predictions category documentation](http://lib/predictions/getting-started/q/platform/js/). 
+
+#### PubSub (not in umbrella)
+
+For a deeper look at V6... 
+
+#### Storage
+
+For a deeper look at V6... 
+
+
+#### Utilities
+
+For a deeper look at V6... 
+
+
+#### Server-side Rendering
+
+For a deeper look at V6... 
+
+
+#### Troubleshooting
+
+For a deeper look at V6... 
+
+
+
+## Appendix: `Amplify.configure` mapping from v5 to v6
+
+WIP by [Allan Zheng](https://quip-amazon.com/AYC9EAagYcR)
+
+This sections explains how to migrate the various configuration options that Amplify supports. Configuration files generated by Amplify CLI (i.e. `amplifyconfiguration.json` or `aws-exports.js`) are fully supported in v6 and don't require migration.
+
+### Auth
+
+#### `storage`
+
+In v5, `storage` configures storing the Auth tokens in alternative storage mechanism(defaults to `LocalStorage`), or custom storage implementation. The function below shows 2 common use cases. 
+
+**Example: Using `sessionStorage` instead of `LocalStorage`**
+**v5**
+
+```
+import { Auth } from 'aws-amplify';
+
+Auth.configure({
+  storage: sessionStorage
+});
+
+// Alternatively
+Amplify.configure({
+  Auth: {
+    storage: sessionStorage
+  }
+});
+```
+
+**v6**
+
+```
+import { Amplify } from 'aws-amplify';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import { sessionStorage } from 'aws-amplify/utils';
+
+Amplify.configure(amplifyConfig);
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(
+    sessionStorage
+);
+```
+
+
+**Example: Using a custom storage implementation**
+In v5, the custom storage interface is synchronous.  In v6, they are fully async now.
+**v5**
+
+```
+import { Amplify } from 'aws-amplify';
+
+export class MyCustomStorage {
+
+    storageObject = {};
+  
+    setItem(key, value) {
+        this.storageObject[key] = value
+    }
+    getItem(key) {
+        return this.storageObject[key]
+    }
+    removeItem(key) {
+        delete this.storageObject[key]
+    }
+  
+    clear() {
+        this.storageObject = {};
+        return this.storageObject;
+    }
+}
+
+Auth.configure({
+  storage: new MyCustomStorage()
+});
+
+// Alternatively
+Amplify.configure({
+  Auth: {
+    storage: new MyCustomStorage()
+  }
+});
+```
+
+**v6**
+
+```
+// This example is in TypeScript
+
+import { KeyValueStorageInterface } from 'aws-amplify/core';
+
+export class MyCustomStorage implements KeyValueStorageInterface {
+
+    storageObject = {};
+  
+    async setItem(key: string, value: value) {
+        this.storageObject[key] = value
+    }
+    async getItem(key: string) {
+        return this.storageObject[key]
+    }
+    async removeItem(key: string) {
+        delete this.storageObject[key]
+    }
+  
+    async clear() {
+        this.storageObject = {};
+        return this.storageObject;
+    }
+}
+
+Amplify.configure(amplifyConfig);
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(
+    new MyCustomStorage()
+);
+
+```
+
+
+
+#### `cookieStorage`
+
+In v5 cookie storage can be enabled by configuring the `cookieStorage` option. In v6 cookie storage can be enabled by configuring and setting `CookieStorage` to `cognitoUserPoolsTokenProvider`.
+**v5**
+**v6**
+
+```
+import { Auth } from 'aws-amplify';
+
+Amplify.configure({
+  Auth: {
+    cookieStorage: {
+      domain: 'localhost',
+      path: '/',
+      expires: 365,
+      secure: false,
+      sameSite: 'strict',
+    },
+  },
+});
+// OR
+Auth.configure({
+  cookieStorage: { /**/ }
+})
+```
+
+```
+import { Amplify } from 'aws-amplify';
+import { cognitoUserPoolsTokenProvider } from '@aws-amplify/auth/cognito';
+import { CookieStorage } from '@aws-amplify/core';
+
+Amplify.configure(amplifyConfig);
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(
+    new CookieStorage({
+        domain: 'localhost',
+        path: '/',
+        expires: 365,
+        secure: false,
+        sameSite: 'strict',
+    })
+);
+
+Amplify.configure(amplifyConfig, {
+  Auth: {
+    tokenProvider: cognitoUserPoolsTokenProvider
+  }
+});
+```
+
+#### `authenticationFlowType`
+
+In v5, you can use `authenticationFlowType` to configure the authentication flow(SRP or custom) in the Auth category level. In v6, they are exposed as individual functional APIs:
+**v5**
+
+```
+import { Amplify, Auth } from 'aws-amplify';
+
+const authenticationFlowType = 'USER_SRP_AUTH';
+// Alternatives
+const authenticationFlowType = 'USER_PASSWORD_AUTH';
+const authenticationFlowType = 'CUSTOM_AUTH';
+
+Amplify.configure({
+  Auth: {
+    authenticationFlowType: 'USER_SRP_AUTH'
+  }
+});
+
+Auth.signIn(params);
+
+```
+
+**v6**
+
+```
+import { Amplify } from 'aws-amplify';
+import { signIn } from 'aws-amplify/auth';
+
+Amplify.configure(amplifyConfig);
+
+signIn({
+  username,
+  password,
+  options: {
+    // Skip other options
+    authFlowType: 'USER_SRP_AUTH',
+    // Alternatively you can use 'USER_PASSWORD_AUTH', 
+    // 'CUSTOM_WITH_SRP', and 'CUSTOM_WITHOUT_SRP' auth flow types
+  }
+});
+```
+
+#### `clientMetadata`
+
+in v5, you can pass client metadata to Cognito lambda triggers with the associated configuration. In v6, you can set this option with each functional APIs
+**v5**
+
+```
+import { Amplify, Auth } from 'aws-amplify';
+
+Amplify.configure({
+  Auth: {
+    clientMetadata: { key: 'value' }
+  }   
+});
+// OR
+Auth.configure({
+  clientMetadata: { key: 'value' }
+});
+```
+
+**v6**
+
+```
+// More APIs supports in clientMetadata
+import { signUp } from 'aws-amplify/auth';
+
+signUp({
+  username,
+  password,
+  options: {
+    // Skip other options...
+    clientMetadata: { key: 'value' }
+  }
+})
+```
+
+#### `endpoint`
+
+in v5, you can overwrite the user pool service endpoint with associated configuration:
+**v5**
+
+```
+import { Amplify, Auth } from 'aws-amplify';
+
+Amplify.configure({
+  Auth: {
+    endpoint: 'https://custom-cognito-idp.endpoint'
+  }   
+});
+// OR
+Auth.configure({
+  endpoint: 'https://custom-cognito-idp.endpoint'
+});
+```
+
+**v6**
+
+```
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure(amplifyConfig);
+const existingConfigs = Amplify.getConfig();
+
+Amplify.configure({
+  ...existingConfigs,
+  Auth: {
+    Cognito: {
+      ...existingConfigs.Auth.Cognito,
+      userPoolEndpoint: 'https://custom-cognito-idp.endpoint'
+    }
+  }
+})
+```
+
+#### [Deprecated]`refreshHandlers` 
+
+In v5, for development purposes, you can use the handlers to override SDK provided refresh handlers. You can use it to register (or retrieve) a Cognito `IdentityId` and an OpenID Connect token for a user authenticated by your backend authentication process. The identityId can be created with `GetOpenIdTokenForDeveloperIdentity` API. This functionality has been removed in v6. You can implement your own token & credential provider in v6 if required: (link here once ready)
+
+```
+Amplify.configure({
+  Auth: {
+    refreshHandlers: {
+      developer: async () => { /* get OpenID token for developer identity */ }
+    }
+  }
+});
+```
+
+### Storage
+
+### `level`
+
+In v5, you can set the default access level using the Storage configuration method. In v6, you configure it at the Amplify singleton.
+**v5**
+
+```
+import { Storage, Amplify } from 'aws-amplify';
+
+Amplify.configure({
+  Storage: {
+    AWSS3: {
+      level: 'public'
+    }
+  }
+});
+// OR
+Storage.configure({
+  level: 'public'
+});
+```
+
+**v6**
+
+```
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure(amplifyConfig, {
+  Storage: {
+    S3: {
+      defaultAccessLevel: 'guest' // 'public' is renamed to 'guest' in v6
+    }
+  }
+});
+```
+
+### `customPrefix`
+
+in v5, you can use set the custom prefix strings to upload objects. In v6, you can dynamically resolve the custom prefixes
+**v5**
+
+```
+import { Storage, Amplify } from 'aws-amplify';
+
+Amplify.configure({
+  Storage: {
+    AWSS3: {
+      customPrefix: {
+        `public``:`` ``'myPublicPrefix/'``,`
+`        ``protected``:`` ``'myProtectedPrefix/'``,`
+`        ``private``:`` ``'myPrivatePrefix/'`
+      }
+    }
+  }
+});
+// OR
+Storage.configure({
+  customPrefix: {
+    public: 'myPublicPrefix/',
+    protected: 'myProtectedPrefix/',
+    private: 'myPrivatePrefix/'
+  }
+});
+```
+
+**v6**
+
+```
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure(amplifyConfig, {
+  Storage: {
+    S3: {
+      prefixResolver: async ({ accessLevel, targetIdentityId }) => {
+        switch (accessLevel) {
+          case 'guest':
+            return 'myPublicPrefix/'
+          case 'protected':
+            return 'myProtectedPrefix/'
+          case 'private':
+            return 'myPrivatePrefix/'
+        }
+      }
+    }
+  }
+});
+```
+
+### [Deprecated]`track`
+
+in v5, `track` configuration enables the library send tracking events to Pinpoint. These events are dropped on server side if Pinpoint is not set up for storage events. We have deprecated this configuration in v6. If you are blocked on this feature, please [create a feature request](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml) for us.
+
+### [Deprecated]`serverSideEncryption` & `SSECustomerAlgorithm` & `SSECustomerKey` & `SSECustomerKeyMD5` & `SSEKMSKeyId` 
+
+in v5, a series of configurations are provideed to support S3 server-side encryption behaviors. Starting January 2023, S3 enables default server side encryption for all new objects. As result, they are deprecated in v6. If you are blocked on this feature, please [create a feature request](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml) for us.
+
+### Analytics
+
+#### `autoSessionRecord`
+
+In v5, you can configure the session tracking in Analytics class with `autoSessionRecord` configuration. In v6, this is replaced by functional `configureAutoTrack` API.
+**v5**
+
+```
+import { Analytics } from 'aws-amplify';
+
+Analytics.configure({
+  autoSessionRecord: true,
+});
+```
+
+**v6**
+
+```
+import { configureAutoTrack } from 'aws-amplify/analytics'
+
+configureAutoTrack({
+  enable: true,
+  //...skip other options.
+});
+```
+
+#### `[Deprecated]endpoint`
+
+#### `[Deprecated]endpointId`
+
