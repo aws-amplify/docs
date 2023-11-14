@@ -43,7 +43,7 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/start/getting-started/nextsteps/index.mdx'
-                }
+                },
               ]
             },
             {
@@ -705,7 +705,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/upgrade-amplify-packages/index.mdx'
                 }
               ]
-            }
+            },
           ]
         },
         {
@@ -791,8 +791,7 @@ export const directory = {
           children: [
             {
               isExternal: true,
-              route:
-                'https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html',
+              route: 'https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html',
               title: 'Amplify Hosting',
               description:
                 'Amplify Hosting provides a git-based workflow for hosting fullstack serverless web apps with continuous deployment.',
@@ -858,7 +857,7 @@ export const directory = {
                   children: [
                     {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
-                    }
+                    },
                   ]
                 },
                 { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
