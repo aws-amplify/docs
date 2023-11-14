@@ -389,40 +389,40 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/push-notifications/index.mdx',
               children: [
                 {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/set-up-push-notifications/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/register-device/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/record-notifications/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/request-permissions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/receive-device-token/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/interact-with-notificiations/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/identify-user/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/app-badge-count/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/enable-rich-notifications/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/identify-user/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/interact-with-notificiations/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/receive-device-token/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/record-notifications/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/register-device/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/remote-media/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/request-permissions/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/set-up-push-notifications/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/test-notifications/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/set-up-push-services/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/test-notifications/index.mdx'
                 }
               ]
             },
@@ -1293,6 +1293,41 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/sdk/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/set-up-push-notifications/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/request-permissions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/receive-device-token/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/interact-with-notificiations/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/identify-user/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/app-badge-count/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/enable-rich-notifications/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/test-notifications/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/set-up-push-services/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/migrate-from-previous-version/index.mdx'
                     }
                   ]
                 },
