@@ -422,7 +422,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/test-notifications/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/set-up-push-services/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/set-up-push-service/index.mdx'
                 }
               ]
             },
@@ -1324,7 +1324,7 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/test-notifications/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/set-up-push-services/index.mdx'
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/set-up-push-service/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/migrate-from-previous-version/index.mdx'
