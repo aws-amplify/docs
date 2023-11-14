@@ -725,7 +725,7 @@ type Mutation {
 
 ## Create relationships between models
 
-You can use the `@hasOne`, `@hasMany`, and `@belongsTo` relational directives to create relationships between models. When using a MySQL or PostgreSQL database, the field named in the `references` parameter of a relational directive must exist on the child.
+You can use the `@hasOne`, `@hasMany`, and `@belongsTo` relational directives to create relationships between models. The field named in the `references` parameter of the relational directives must exist on the child model.
 
 ### Has One relationship
 
