@@ -918,6 +918,8 @@ For a deeper look at V6...
 
 <Accordion title='Server-side Rendering' headingLevel='4'>
 
+The Amplify JS v5 withSSRContext utility is no longer available with Amplify JS v6. You will need to use the runWithAmplifyServerContext function exported from @aws-amplify/adapter-nextjs to make Amplify API calls on the server side of your Next.js app. Use the switcher below to see the differences between v5 and v6:
+
 <BlockSwitcher>
 
 <Block name="V5">
@@ -964,7 +966,7 @@ const getServerSideProps = async ({ req, res }) => {
     nextServerContext: { request: req, response: res },
     operation: async (contextSpec) => {
       try {
-        const { data } = await reqResBasedClient.graphql({
+        const { data } = await reqResBasedClient.graphql(contextSpec, {
           query: listTodos
         })
 
@@ -988,6 +990,6 @@ const getServerSideProps = async ({ req, res }) => {
 
 </BlockSwitcher>
 
-For a deeper look at V6... 
+We highly recommend reading the [v6 docs on Server-Side Rendering](/[platform]/build-a-backend/server-side-rendering/), as there has been a shift in approach to accommodate working with cookies and middleware in NextJS, and it is important to have deeper context on what has changed. 
 
 </Accordion>
