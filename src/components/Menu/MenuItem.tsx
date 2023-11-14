@@ -18,6 +18,7 @@ type MenuItemProps = {
   parentSetOpen: React.Dispatch<React.SetStateAction<boolean>> | null;
   level: number;
   currentPlatform?: Platform;
+  hideChildren?: boolean;
 };
 
 function getPathname(route, currentPlatform: Platform | undefined) {
@@ -36,11 +37,13 @@ export function MenuItem({
   pageNode,
   parentSetOpen,
   level,
-  currentPlatform
+  currentPlatform,
+  hideChildren
 }: MenuItemProps): ReactElement {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const asPathWithoutHash = usePathWithoutHash();
   const [open, setOpen] = useState(false);
+  const children = hideChildren ? [] : pageNode.children;
   const onLinkClick = () => {
     // Category shouldn't be collapsible
     if (
@@ -64,7 +67,7 @@ export function MenuItem({
 
   useEffect(() => {
     if (current) {
-      if (pageNode.children && pageNode.children.length > 0) {
+      if (children && children.length > 0) {
         // If we're on a heading that has children, open it
         setOpen(true);
       }
@@ -167,18 +170,17 @@ export function MenuItem({
             className={`menu__list-item__link__inner ${listItemLinkInnerStyle}`}
           >
             {pageNode.title}
-            {pageNode.children && level !== Levels.Category && (
+            {children && level !== Levels.Category && (
               <IconChevron className={open ? '' : 'icon-rotate-90-reverse'} />
             )}
           </Flex>
         </Link>
-        {pageNode.children && (
+        {children && (
           <ul
-            className={`menu__list ${
-              !open && level > Levels.Category ? 'menu__list--hide' : ''
-            }`}
+            className={`menu__list ${!open && level > Levels.Category ? 'menu__list--hide' : ''
+              }`}
           >
-            {pageNode.children.map((child, index) => (
+            {children.map((child, index) => (
               <MenuItem
                 key={index}
                 pageNode={child}

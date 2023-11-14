@@ -53,9 +53,8 @@ export type PageNode = {
   hideFromNav?: boolean;
 
   /**
-   * This denotes that a directory entry should not be filtered out from the nav
-   * The intended use case for this attribute is to mark manually added directory entries to show
-   * in the base menu /[platform]/sdk as an example.
+   * This flag indicates that the children for this node should be hidden in the base menu
+   * This is being used for categories like Cli - Legacy and SDK
    */
-  isUnfilterable?: boolean;
+  hideChildrenOnBase?: boolean;
 };

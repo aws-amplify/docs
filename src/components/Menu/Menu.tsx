@@ -10,7 +10,7 @@ type MenuProps = {
   path: string;
 };
 
-const invalidChildren = ['/[platform]/prev', '/[platform]/sdk', '/[platform]/tools/cli-legacy'];
+const invalidChildren = ['/[platform]/prev'];
 
 export function Menu({
   currentPlatform,
@@ -20,7 +20,7 @@ export function Menu({
   const isPrev = path.split('/')[2] === 'prev';
   const isLegacy = path.split('/')[3] === 'cli-legacy';
   const isSDK = path.split('/')[2] === 'sdk';
-  let rootMenuNode, childrenNodes;
+  let rootMenuNode, childrenNodes, baseMenu;
   if (isLegacy) {
     rootMenuNode = { children: [findDirectoryNode('/[platform]/tools/cli-legacy')] };
     childrenNodes = rootMenuNode.children;
@@ -31,6 +31,7 @@ export function Menu({
     rootMenuNode = findDirectoryNode('/gen2');
     childrenNodes = rootMenuNode.children;
   } else {
+    baseMenu = true;
     rootMenuNode = findDirectoryNode('/[platform]');
     childrenNodes = rootMenuNode?.children?.filter((childNode) => {
       return invalidChildren.indexOf(childNode.route) === -1 || childNode.isUnfilterable;
@@ -59,6 +60,7 @@ export function Menu({
                 pageNode={child as PageNode}
                 parentSetOpen={null}
                 level={1}
+                hideChildren={child.hideChildrenOnBase && baseMenu}
                 {...(currentPlatform
                   ? { currentPlatform: currentPlatform }
                   : {})}
