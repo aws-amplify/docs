@@ -436,10 +436,16 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/utilities/cache/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/utilities/console-logger/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/utilities/hub/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/utilities/i18n/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/utilities/service-worker/index.mdx'
                 }
               ]
             },
@@ -1297,7 +1303,18 @@ export const directory = {
                   path: 'src/pages/[platform]/prev/build-a-backend/utilities/index.mdx',
                   children: [
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/utilities/cache/index.mdx'
+                    },                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/utilities/console-logger/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/utilities/hub/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/utilities/i18n/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/utilities/service-worker/index.mdx'
                     }
                   ]
                 },
