@@ -107,16 +107,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     ...
+}
 ```
 
 Build and run your program to see the initialized client in Xcode messages. Since you haven't logged in yet it will print a state of `signedOut`. The `userState` returns an ENUM which you can perform different actions in your workflow. For example, now add to the `viewDidLoad()` function of your `ViewController.swift`:
 
 ```swift
+import AWSMobileClient
 
-    import AWSMobileClient
-
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
     ...
-
     override func viewDidLoad() {
         super.viewDidLoad()
         switch( AWSMobileClient.default().currentUserState) {
@@ -132,6 +133,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
                 AWSMobileClient.default().signOut()
             }
     }
+}
 ```
 
 You might leverage the above workflow to perform other actions in the `signedIn` case, such as calling [GraphQL APIs with AWS AppSync](/[platform]/sdk/api/graphql/) or uploading content with [Amazon S3](/[platform]/sdk/storage/getting-started/).
