@@ -385,15 +385,6 @@ export default App;
 
 <InlineFilter filters={['angular']}>
 
-Open `src/main.ts` and add the following code to configure the Angular project with Amplify:
-
-```typescript
-import { Amplify } from 'aws-amplify';
-import amplifyconfig from './amplifyconfiguration.json';
-
-Amplify.configure(amplifyconfig);
-```
-
 In order to import `amplifyconfiguration.json` files in Typescript, you may need to modify your tsconfig.json and enable `resolveJsonModule` and `allowSyntheticDefaultImports` in the case that `strict` mode is enabled.
 
 ```json
@@ -412,12 +403,10 @@ First, enable the Angular forms modules in `src/app/app.module.ts`:
 ```js
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 /* new form imports */
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TodosComponent } from './todos/todos.component';
 
@@ -426,7 +415,6 @@ import { TodosComponent } from './todos/todos.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AmplifyAuthenticatorModule,
     /* configuring form modules */
     FormsModule,
     ReactiveFormsModule
