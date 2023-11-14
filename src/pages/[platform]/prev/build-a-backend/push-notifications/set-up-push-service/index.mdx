@@ -1,0 +1,25 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up push notification services',
+  description:
+    'Learn how to setup the various push notification services for your mobile app.',
+  platforms: ['react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import crossPlatformSetupService from '/src/fragments/lib/push-notifications/common/setup_push_service/cross-platform-setup.mdx';
+
+<Fragments fragments={{ 'react-native': crossPlatformSetupService }} />

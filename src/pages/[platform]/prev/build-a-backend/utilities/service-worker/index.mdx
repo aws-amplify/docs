@@ -1,10 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Server-Side Rendering',
-  description: 'Get started with Server-Side Rendering (SSR)',
-  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue'],
-    route: '/[platform]/build-a-backend/server-side-rendering'
+  title: 'Service Worker',
+  description:
+    'AWS Amplify ServiceWorker class enables registering a service worker in the browser and communicating with it via postMessage events, so that you can create rich offline experiences with Push APIs and analytics.',
+  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue'] 
 };
 
 export const getStaticPaths = async () => {
@@ -20,7 +20,7 @@ export function getStaticProps(context) {
   };
 }
 
-import js0 from '/src/fragments/lib-v1/ssr/js/getting-started.mdx';
+import js0 from '/src/fragments/lib-v1/utilities/serviceworker.mdx';
 
 <Fragments
   fragments={{

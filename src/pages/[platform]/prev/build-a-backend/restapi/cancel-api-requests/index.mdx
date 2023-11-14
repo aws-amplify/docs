@@ -1,10 +1,17 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Server-Side Rendering',
-  description: 'Get started with Server-Side Rendering (SSR)',
-  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue'],
-    route: '/[platform]/build-a-backend/server-side-rendering'
+  title: 'Cancel API requests',
+  description:
+    "Using the Cancel API in Amplify",
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -20,7 +27,7 @@ export function getStaticProps(context) {
   };
 }
 
-import js0 from '/src/fragments/lib-v1/ssr/js/getting-started.mdx';
+import js0 from '/src/fragments/lib-v1/restapi/js/cancel.mdx';
 
 <Fragments
   fragments={{
@@ -31,3 +38,7 @@ import js0 from '/src/fragments/lib-v1/ssr/js/getting-started.mdx';
     vue: js0
   }}
 />
+
+import reactnative0 from '/src/fragments/lib-v1/restapi/js/cancel.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

@@ -275,34 +275,31 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/restapi/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/restapi/customize-authz/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/restapi/delete-data/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/restapi/existing-resources/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/restapi/express-server/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/restapi/fetch-data/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/restapi/go-api/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/restapi/nodejs-api/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/restapi/python-api/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/restapi/configure-rest-api/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/restapi/set-up-rest-api/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/restapi/fetch-data/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/restapi/update-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/restapi/delete-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/restapi/customize-authz/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/restapi/test-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/restapi/existing-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/restapi/override-api-gateway/index.mdx'
                 }
               ]
             },
@@ -389,40 +386,40 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/push-notifications/index.mdx',
               children: [
                 {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/set-up-push-notifications/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/register-device/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/record-notifications/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/request-permissions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/receive-device-token/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/interact-with-notifications/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/identify-user/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/app-badge-count/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/enable-rich-notifications/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/identify-user/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/interact-with-notificiations/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/receive-device-token/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/record-notifications/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/register-device/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/remote-media/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/request-permissions/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/set-up-push-notifications/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/push-notifications/set-up-push-services/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/test-notifications/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/set-up-push-service/index.mdx'
                 }
               ]
             },
@@ -436,10 +433,16 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/utilities/cache/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/utilities/console-logger/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/utilities/hub/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/utilities/i18n/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/utilities/service-worker/index.mdx'
                 }
               ]
             },
@@ -865,17 +868,6 @@ export const directory = {
                     }
                   ]
                 },
-                {
-                  path: 'src/pages/[platform]/tools/cli/restapi/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/tools/cli/restapi/testing/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/restapi/override-api-gateway/index.mdx'
-                    }
-                  ]
-                },
                 { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
                 { path: 'src/pages/[platform]/tools/cli/custom/index.mdx' },
                 {
@@ -1229,22 +1221,25 @@ export const directory = {
                   path: 'src/pages/[platform]/prev/build-a-backend/restapi/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/customize-authz/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/delete-data/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/existing-resources/index.mdx'
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/set-up-rest-api/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/restapi/fetch-data/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/set-up-rest-api/index.mdx'
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/update-data/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/update-data/index.mdx'
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/delete-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/cancel-api-requests/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/customize-authz/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/existing-resources/index.mdx'
                     }
                   ]
                 },
@@ -1299,18 +1294,59 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/prev/build-a-backend/sever-side-rendering/index.mdx',
+                  path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/sever-side-rendering/set-up-ssr/index.mdx'
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/set-up-push-notifications/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/request-permissions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/receive-device-token/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/interact-with-notifications/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/identify-user/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/app-badge-count/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/enable-rich-notifications/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/test-notifications/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/set-up-push-service/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/push-notifications/migrate-from-previous-version/index.mdx'
                     }
                   ]
+                },
+                {
+                  path: 'src/pages/[platform]/prev/build-a-backend/sever-side-rendering/index.mdx',
                 },
                 {
                   path: 'src/pages/[platform]/prev/build-a-backend/utilities/index.mdx',
                   children: [
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/utilities/cache/index.mdx'
+                    },                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/utilities/console-logger/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/utilities/hub/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/utilities/i18n/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/utilities/service-worker/index.mdx'
                     }
                   ]
                 },
@@ -1536,6 +1572,9 @@ export const directory = {
                   children: [
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/troubleshooting/upgrade-amplify-packages/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/troubleshooting/strict-mode/index.mdx'
                     }
                   ]
                 }
