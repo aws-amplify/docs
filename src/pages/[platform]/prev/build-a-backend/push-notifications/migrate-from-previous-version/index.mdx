@@ -1,0 +1,25 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate from previous version',
+  description:
+    'Migrate from the deprecated to the new version of Amplify Push Notifications.',
+  platforms: ['react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import migrateFromPrevious from '/src/fragments/lib-v1/push-notifications/react-native/migrate-from-previous-version.mdx';
+
+<Fragments fragments={{ 'react-native': migrateFromPrevious }} />
