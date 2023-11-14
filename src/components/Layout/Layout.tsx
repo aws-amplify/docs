@@ -119,10 +119,8 @@ export const Layout = ({
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
   const shouldShowGen2Banner = GEN2BANNER_URLS.includes(asPathWithNoHash);
-
-  let currentPlatform = DEFAULT_PLATFORM;
-
   const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
+  let currentPlatform = isGen2 ? undefined : DEFAULT_PLATFORM;
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
