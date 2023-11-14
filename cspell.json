@@ -1543,7 +1543,15 @@
     "varbinary",
     "tinyblob",
     "mediumblob",
-    "longblob"
+    "longblob",
+    "psql",
+    "indexname",
+    "indexdef",
+    "typname",
+    "enumlabel",
+    "enumtypid",
+    "typnamespace",
+    "nspname"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
