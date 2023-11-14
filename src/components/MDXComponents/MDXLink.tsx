@@ -9,8 +9,6 @@ export const MDXLink = (props) => {
   if (href.startsWith('/') && href.includes('#')) {
     hash = href.slice(href.indexOf('#'));
     href = href.slice(0, href.indexOf('#'));
-
-    console.log(href, hash)
   }
 
   return isInternal ? (
