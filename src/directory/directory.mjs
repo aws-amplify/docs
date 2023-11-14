@@ -1626,6 +1626,15 @@ export const directory = {
               ]
             },
             {
+              path: 'src/pages/[platform]/sdk/info/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/sdk/info/app-uninstall/index.mdx'
+                },
+                { path: 'src/pages/[platform]/sdk/info/overview/index.mdx' }
+              ]
+            },
+            {
               path: 'src/pages/[platform]/sdk/analytics/index.mdx',
               children: [
                 {
@@ -1676,16 +1685,6 @@ export const directory = {
                 }
               ]
             },
-            // Uncommented because this feature is not shown
-            // {
-            //   path: 'src/pages/[platform]/sdk/info/index.mdx',
-            //   children: [
-            //     {
-            //       path: 'src/pages/[platform]/sdk/info/app-uninstall/index.mdx'
-            //     },
-            //     { path: 'src/pages/[platform]/sdk/info/overview/index.mdx' }
-            //   ]
-            // },
             {
               path: 'src/pages/[platform]/sdk/pubsub/index.mdx',
               children: [
