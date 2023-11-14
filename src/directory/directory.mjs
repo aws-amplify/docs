@@ -1137,76 +1137,88 @@ export const directory = {
                   path: 'src/pages/[platform]/prev/build-a-backend/auth/index.mdx',
                   children: [
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/set-up-auth/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/manage-user-session/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/auth/accessing-credentials/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/add-sms-flows/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/add-social-provider/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/advanced-workflows/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/android-sdk/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/auth-events/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/custom-auth-flow/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/custom-auth-flows/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/delete-user/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/enable-guest-access/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/enable-sign-in/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/enable-sign-up/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/existing-resources/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/manage-mfa/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/manage-passwords/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/manage-user-profile/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/managing-attributes/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/auth/managing-credentials/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/multi-step-sign-in/index.mdx'
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/enable-sign-up/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/enable-sign-in/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/add-social-provider/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/manage-user-profile/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/manage-user-attributes/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/managing-attributes/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/manage-passwords/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/manage-mfa/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/add-sms-flows/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/auth/remember-device/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/set-up-auth/index.mdx'
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/sign-out/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/switch-auth/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/enable-guest-access/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/multi-step-sign-in/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/email-only-sign-up/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/advanced-workflows/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/sign-in-custom-flow/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/auth/sign-in-with-web-ui/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/sign-out/index.mdx'
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/delete-user-account/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/auth/under-the-hood/index.mdx'
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/existing-resources/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/auth-events/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/sdk/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/under-the-hood/index.mdx'
                     }
                   ]
                 },
