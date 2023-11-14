@@ -639,6 +639,9 @@ export class cdkStack extends cdk.Stack {
       }]
     );
 
+    const apiIdRef = cdk.Fn.Ref(retVal.api['<your-api-name>'].GraphQLAPIIdOutput)
+    const envRef = cdk.Fn.Ref('env')
+
     const requestVTL = `
       ## [Start] Initialization default values. **
       $util.qr($ctx.stash.put("defaultValues", $util.defaultIfNull($ctx.stash.defaultValues, {})))
@@ -656,7 +659,7 @@ export class cdkStack extends cdk.Stack {
         "version": "2018-05-29",
         "operation": "BatchPutItem",
         "tables": {
-          "<TYPE-NAME-HERE>-${apiIdRef}-${envRef}": $todosArray
+          "<MODEL-NAME-HERE>-${apiIdRef}-${envRef}": $todosArray
         }
       } )
     `
@@ -665,7 +668,7 @@ export class cdkStack extends cdk.Stack {
       #if( $ctx.error )
         $util.error($ctx.error.message, $ctx.error.type)
       #else
-        $util.toJson($ctx.result.data.<TYPE-NAME-HERE>-${apiIdRef}-${envRef})
+        $util.toJson($ctx.result.data.<MODEL-NAME-HERE>-${apiIdRef}-${envRef})
       #end
       ## [End] ResponseTemplate. **
     `;
