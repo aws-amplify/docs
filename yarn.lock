@@ -200,15 +200,15 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@aws-amplify/amplify-cli-core@^4.2.10":
-  version "4.2.10"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.2.10.tgz#6d927681649d68825fe041aa16ac94ed1ce8d845"
-  integrity sha512-WxGy5nDMHFebjxl4yNr/uTLXJM6M3TqB2CXCSn0UVQ8XI8RYUX60DKUnvq0LtETZZkFqTReqJq7MNpTFhgXyvw==
+"@aws-amplify/amplify-cli-core@^4.2.13":
+  version "4.2.13"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.2.13.tgz#89ed9c340ecfec980ac8996407e1bd96b1bcd49e"
+  integrity sha512-GRCVlP0TyXhVaC/3hPJl55nHY8EqZw7sVdKglNmgVSRu1X+EPDFp+QFPEemSbcirgGQ/r5IoBdyQybDLXAY3bw==
   dependencies:
-    "@aws-amplify/amplify-cli-logger" "1.3.6"
-    "@aws-amplify/amplify-function-plugin-interface" "1.11.0"
-    "@aws-amplify/amplify-prompts" "2.8.4"
-    "@aws-amplify/graphql-transformer-interfaces" "^3.2.0"
+    "@aws-amplify/amplify-cli-logger" "1.3.8"
+    "@aws-amplify/amplify-function-plugin-interface" "1.12.1"
+    "@aws-amplify/amplify-prompts" "2.8.6"
+    "@aws-amplify/graphql-transformer-interfaces" "^3.2.2"
     "@aws-sdk/util-arn-parser" "^3.310.0"
     "@yarnpkg/lockfile" "^1.1.0"
     ajv "^6.12.6"
@@ -236,30 +236,30 @@
     which "^2.0.2"
     yaml "^2.2.2"
 
-"@aws-amplify/amplify-cli-logger@1.3.6":
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-logger/-/amplify-cli-logger-1.3.6.tgz#341a64921e3165e104ce6f0d717067b440402498"
-  integrity sha512-wjiSZbu/5sK7In08Q5se6LkUPR8waGn6V6mc2p5r7tBK9f3UxAaY5UjYPD5ulO6l3dOsLcWGWnClLTdImUmiZQ==
+"@aws-amplify/amplify-cli-logger@1.3.8":
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-logger/-/amplify-cli-logger-1.3.8.tgz#4ec9e51177d4ff0a852c9cdf177a2af38fe08b9d"
+  integrity sha512-ici3+D8cTrZeTtkKp42ibJmyuLdT7Pl7clY7K/wXAUzsKjljf+cuXr9jb4viwfwAGlQdmS7eqQv9aysz+sfELA==
   dependencies:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"@aws-amplify/amplify-cli-shared-interfaces@1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-shared-interfaces/-/amplify-cli-shared-interfaces-1.2.3.tgz#01afc1508e11faadeb5d45298e8b5c486dc272b0"
-  integrity sha512-c/c82OMAFZvgjkfeMFE/h1ycqC7218IfeVNLN7rVGMS98hRs810zRXvFc1w8uI+zwUiDV8+bzAuzODqt5aC9iA==
+"@aws-amplify/amplify-cli-shared-interfaces@1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-shared-interfaces/-/amplify-cli-shared-interfaces-1.2.5.tgz#59657a41c5674009293bef924f9140c853dfaf16"
+  integrity sha512-dmg5x5Llk3FBLXh8hXdxhb2fVyoNZi7gb8y7mSraI2UwhmyfgWzmF924yrGbbVQXvRfWY1070OR1SKSqahtEpQ==
 
-"@aws-amplify/amplify-function-plugin-interface@1.11.0":
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-function-plugin-interface/-/amplify-function-plugin-interface-1.11.0.tgz#f09bbfdd16677c35e8455a9cb7b0cb658f58a7bc"
-  integrity sha512-X0Ywl6zBd54XOiWDGakaoCKogTtU7wR+s+8egmQuBMYJK/kW+apvyPGI7wdXGommwXYs1Hs1vr61V+h/+Rbfig==
+"@aws-amplify/amplify-function-plugin-interface@1.12.1":
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-function-plugin-interface/-/amplify-function-plugin-interface-1.12.1.tgz#92703945ab8f4a5e084d7018e8f7e9f1c53ec136"
+  integrity sha512-il5Ctl0OfTmwkZ++rsY2/N0mwsdRjpkQStQsijHQt0kDz9F22TFVXaeYvmWM3yRRy7dIH5qyGnDZFkA00tJnZA==
 
-"@aws-amplify/amplify-prompts@2.8.4":
-  version "2.8.4"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-prompts/-/amplify-prompts-2.8.4.tgz#cb2880312284d28b2fa1a3266942d73169cd3432"
-  integrity sha512-hR6oUzosH8DIb1aZXmPxdvMBsNRORsR8dy6/Wl8D4pGyPDxJPFZ2BqIS4DECX/gjDTiZx9ivso7ABCkF5w7pUg==
+"@aws-amplify/amplify-prompts@2.8.6":
+  version "2.8.6"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-prompts/-/amplify-prompts-2.8.6.tgz#3da7f24f73e7ef81642971c7f98e65b5e12abb97"
+  integrity sha512-45MPYGRINmiZquKM42x+fFhR1i0uv5IajnY2QmhoV/8qIQOF64o4RiNHsxfgAEndcBiWCLOLvLoiQa0BfYqByg==
   dependencies:
-    "@aws-amplify/amplify-cli-shared-interfaces" "1.2.3"
+    "@aws-amplify/amplify-cli-shared-interfaces" "1.2.5"
     chalk "^4.1.1"
     enquirer "^2.3.6"
 
@@ -376,10 +376,10 @@
     camelcase-keys "6.2.2"
     tslib "^1.8.0"
 
-"@aws-amplify/graphql-transformer-interfaces@^3.2.0":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-3.2.1.tgz#6a375c368cf926789b9b2bf0d021b8c03feedcc7"
-  integrity sha512-TZS546r0H8S5HRbBDWcZI87ijYcD3fMMvKsZEv9r417YhfjXepweLADZap293OMu6H+LyU23XS3aVEjA99AWng==
+"@aws-amplify/graphql-transformer-interfaces@^3.2.2":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-3.2.2.tgz#97f7826fc4a233c6cc502759fd90f661e6bb868e"
+  integrity sha512-hEZze0cxTUn6cerwKFnGKzz8+pHC29kZ0aIjkxEXfm4brZQOlqmGPPBxtsv2uSxjhn2EA8QdKSO5AARiVnGV+g==
   dependencies:
     graphql "^15.5.0"
 
