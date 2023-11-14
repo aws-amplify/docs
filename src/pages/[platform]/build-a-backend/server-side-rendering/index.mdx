@@ -4,7 +4,14 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 export const meta = {
   title: 'Server-Side Rendering',
   description: 'Server-Side Rendering',
-  platforms: ["javascript", "react-native", "react", "nextjs", "angular", "vue"],
+  platforms: [
+    'javascript',
+    'react-native',
+    'react',
+    'nextjs',
+    'angular',
+    'vue'
+  ],
   route: '/[platform]/build-a-backend/server-side-rendering'
 };
 
@@ -30,8 +37,9 @@ import versionRangeCallout from '/src/fragments/lib/ssr/nextjs/version-range-cal
 <Fragments fragments={{ js: versionRangeCallout }} />
 
 Before you begin, you will need:
-- [A Next.js application created]()
-- [Installed and configured Amplify libraries for Next.js]()
+
+- [A Next.js application created](/[platform]/start/project-setup/create-application/)
+- [Installed and configured Amplify libraries for Next.js](/[platform]/build-a-backend/server-side-rendering/)
 
 ## Configure Amplify Library for server-side usage
 
@@ -42,11 +50,11 @@ You can create an `amplifyServerUtils.ts` file under a `utils` folder in your co
 For example, the `utils/amplifyServerUtils.ts` file may contain the following content:
 
 ```typescript
-import { createServerRunner } from "@aws-amplify/adapter-nextjs";
+import { createServerRunner } from '@aws-amplify/adapter-nextjs';
 import config from '@/amplifyconfiguration.json';
 
 export const { runWithAmplifyServerContext } = createServerRunner({
-    config,
+  config
 });
 ```
 
@@ -60,8 +68,7 @@ When you use the Amplify library on the client-side of your Next.js app, you wil
 
 <Callout>
 
-**NOTE:** To use the Amplify library on the client side in a Next.js app, you will
-need to set `ssr` to `true` when calling `Amplify.configure`.
+**NOTE:** To use the Amplify library on the client side in a Next.js app, you will need to set `ssr` to `true` when calling `Amplify.configure`.
 
 </Callout>
 
@@ -72,11 +79,11 @@ import config from '@/amplifyconfiguration.json';
 import { Amplify } from 'aws-amplify';
 
 Amplify.configure(config, {
-  ssr: true, // required when using Amplify with Next.js
+  ssr: true // required when using Amplify with Next.js
 });
 
 export default function RootLayoutThatConfiguresAmplifyOnTheClient({
-  children,
+  children
 }: {
   children: React.ReactNode;
 }) {
@@ -86,7 +93,7 @@ export default function RootLayoutThatConfiguresAmplifyOnTheClient({
 
 <Callout>
 
-To avoid repetitive calls to `Amplify.configure`, you can call it once in a top-level client-side rendered layout component. 
+To avoid repetitive calls to `Amplify.configure`, you can call it once in a top-level client-side rendered layout component.
 
 </Callout>
 
@@ -95,6 +102,7 @@ To avoid repetitive calls to `Amplify.configure`, you can call it once in a top-
 If you're using the Next.js App Router, you can create a client component to configure Amplify and import it into your root layout.
 
 `ConfigureAmplifyClientSide.ts`:
+
 ```typescript
 'use client';
 
@@ -104,11 +112,12 @@ import config from '../amplifyconfiguration.json';
 Amplify.configure(config, { ssr: true });
 
 export default function ConfigureAmplifyClientSide() {
-    return null;
+  return null;
 }
 ```
 
 `layout.tsx`:
+
 ```jsx
 import ConfigureAmplifyClientSide from '@/components/ConfigureAmplifyClientSide';
 import './globals.css';
@@ -166,7 +175,7 @@ export async function middleware(request: NextRequest) {
         console.log(error);
         return false;
       }
-    },
+    }
   });
 
   if (authenticated) {
@@ -185,8 +194,8 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|sign-in).*)',
-  ],
+    '/((?!api|_next/static|_next/image|favicon.ico|sign-in).*)'
+  ]
 };
 ```
 
@@ -205,7 +214,7 @@ For the **Auth**, **REST APIs**, and **Storage** categories to use Amplify APIs 
 1. Import the API from the `/server` sub path.
 2. Use the `runWithAmplifyServerContext` helper function created by calling the `createServerRunner` function exported from `@aws-amplify/adapter-nextjs` to call the Amplify API in an isolated server context.
 
-For the **GraphQL API** category, review [Connect to GraphQL API from server-side runtimes]().
+For the **GraphQL API** category, review [Connect to GraphQL API from server-side runtimes](/[platform]/build-a-backend/graphqlapi/connect-from-server-runtime/).
 
 <Callout>
 
@@ -233,7 +242,7 @@ export default async function AuthGetCurrentUserServer() {
   try {
     const currentUser = await runWithAmplifyServerContext({
       nextServerContext: { cookies },
-      operation: (contextSpec) => getCurrentUser(contextSpec),
+      operation: (contextSpec) => getCurrentUser(contextSpec)
     });
 
     return (
@@ -266,11 +275,11 @@ export default async function StaticallyRenderedPage() {
     const splashUrl = await runWithAmplifyServerContext({
       nextServerContext: null,
       operation: (contextSpec) =>
-      getUrl(contextSpec, {
-        key: 'splash.png',
-      }),
+        getUrl(contextSpec, {
+          key: 'splash.png'
+        })
     });
-    
+
     return (
       <Image
         src={splashUrl.url.toString()}
@@ -305,7 +314,7 @@ import { runWithAmplifyServerContext } from '@/utils/amplifyServerUtils';
 export async function GET() {
   const user = await runWithAmplifyServerContext({
     nextServerContext: { cookies },
-    operation: (contextSpec) => getCurrentUser(contextSpec),
+    operation: (contextSpec) => getCurrentUser(contextSpec)
   });
 
   return NextResponse.json({ user });
@@ -324,11 +333,11 @@ The following example extracts current user data from the request and provides t
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const currentUser = await runWithAmplifyServerContext({
     nextServerContext: { request: req, response: res },
-    operation: (contextSpec) => getCurrentUser(contextSpec),
+    operation: (contextSpec) => getCurrentUser(contextSpec)
   });
 
-  return { props: { currentUser }};
-}
+  return { props: { currentUser } };
+};
 ```
 
 #### In `getStaticProps`
@@ -339,12 +348,12 @@ Similar to static rendering with the App Router, you can pass `null` as the valu
 export async function getStaticProps() {
   const splashUrl = await runWithAmplifyServerContext({
     nextServerContext: null,
-    operation: (contextSpec) => getUrl(contextSpec, { key: 'splash.png' }),
+    operation: (contextSpec) => getUrl(contextSpec, { key: 'splash.png' })
   });
 
   return {
     props: { imageUrl: splashUrl.url.toString() },
-    revalidate: (splashUrl.expiresAt.getTime() - Date.now()) / 1000, // in seconds
+    revalidate: (splashUrl.expiresAt.getTime() - Date.now()) / 1000 // in seconds
   };
 }
 ```
@@ -353,24 +362,24 @@ export async function getStaticProps() {
 
 All APIs that support use on the server are exported from the `aws-amplify/<category>/server` sub paths. You **must** use these APIs for any server side use cases.
 
-| Category   | APIs                  | Server (Node.js) Amplify Hosting/Vercel | Vercel Edge Runtime (middleware) |
-| ---------- | --------------------- | --------------------------------------- | -------------------------------- |
-| Auth       | `fetchAuthSession`    | ✅| ✅|
-| Auth       | `fetchUserAttributes` | ✅| ✅|
-| Auth       | `getCurrentUser`      | ✅| ✅|
-| API (GraphQL) | `generateServerClientUsingCookies`| ✅|  |
-| API (GraphQL) | `generateServerClientUsingReqRes` | ✅|  |
-| API (REST) | `GET`                 | ✅|  |
-| API (REST) | `POST`                | ✅|  |
-| API (REST) | `PUT`                 | ✅|  |
-| API (REST) | `DEL`                 | ✅|  |
-| API (REST) | `HEAD`                | ✅|  |
-| API (REST) | `PATCH`               | ✅|  |
-| Storage    | `getUrl`              | ✅|  |
-| Storage    | `getProperties`       | ✅|  |
-| Storage    | `list`                | ✅|  |
-| Storage    | `remove`              | ✅|  |
-| Storage    | `copy`                | ✅|  |
+| Category | APIs | Server (Node.js) Amplify Hosting/Vercel | Vercel Edge Runtime (middleware) |
+| --- | --- | --- | --- |
+| Auth | `fetchAuthSession` | ✅ | ✅ |
+| Auth | `fetchUserAttributes` | ✅ | ✅ |
+| Auth | `getCurrentUser` | ✅ | ✅ |
+| API (GraphQL) | `generateServerClientUsingCookies` | ✅ |  |
+| API (GraphQL) | `generateServerClientUsingReqRes` | ✅ |  |
+| API (REST) | `GET` | ✅ |  |
+| API (REST) | `POST` | ✅ |  |
+| API (REST) | `PUT` | ✅ |  |
+| API (REST) | `DEL` | ✅ |  |
+| API (REST) | `HEAD` | ✅ |  |
+| API (REST) | `PATCH` | ✅ |  |
+| Storage | `getUrl` | ✅ |  |
+| Storage | `getProperties` | ✅ |  |
+| Storage | `list` | ✅ |  |
+| Storage | `remove` | ✅ |  |
+| Storage | `copy` | ✅ |  |
 
 ## Migrate from Amplify JavaScript v5
 

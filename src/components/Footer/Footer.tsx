@@ -23,15 +23,16 @@ export const Footer = ({ hasTOC = false }: FooterProps) => {
             supported by Amazon Web Services.
           </p>
           <p>
+            {' '}
             © {new Date().getFullYear()}, Amazon Web Services, Inc. and its
             affiliates.
           </p>
           <p>
-            All rights reserved. View the
+            All rights reserved. View the{' '}
             <ExternalLink href={links.TERMS} className="footer-link">
               site terms
-            </ExternalLink>
-            and
+            </ExternalLink>{' '}
+            and{' '}
             <ExternalLink href={links.PRIVACY} className="footer-link">
               privacy policy
             </ExternalLink>

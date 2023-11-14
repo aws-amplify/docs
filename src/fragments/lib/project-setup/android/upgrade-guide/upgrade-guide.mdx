@@ -3,11 +3,13 @@ The latest version (v2) of Amplify Library for Android supports **Android SDK AP
 In addition to the underlying SDK changes, the following are the API changes you will notice from v1 to v2:
 
 ## Auth
+
 - [signIn](/[platform]/build-a-backend/auth/enable-sign-in/#sign-in-a-user) now returns result with `isSignedIn` instead of `isSignInComplete`
 - [confirmResetPassword](/[platform]/build-a-backend/auth/manage-passwords/#reset-password) API takes additional `username` parameter.
 - [signOut](/[platform]/build-a-backend/auth/sign-out/) now takes single `onComplete` parameter instead of `onSuccess` and `onError`.
 - [fetchAuthSession](/[platform]/build-a-backend/auth/accessing-credentials/) now returns `identityIdResult` instead of `identityId`.
 - `getCurrentUser` API is now asynchronous and requires `onSuccess` and `onError` parameters. `AuthUser` is returned in `onSuccess`
+
 ```kotlin
 Amplify.Auth.getCurrentUser({ authUser ->
     Log.i("MyAmplifyApp", "Current User is $authUser")
@@ -15,6 +17,7 @@ Amplify.Auth.getCurrentUser({ authUser ->
     Log.e("MyAmplifyApp", "Error getting current user", exception)
 })
 ```
+
 - The escape hatch now provides access to the underlying `CognitoIdentityProviderClient` and `CognitoIdentityClient` instance. Read more [here](/[platform]/build-a-backend/auth/android-sdk/).
 - Parameters `signInQueryParameters`, `signOutQueryParameters`, and `tokenQueryParameters` are dropped from `AuthWebUISignInOptions`.
 - `federationProviderName` has been dropped from `AWSCognitoAuthWebUISignInOptions`.
@@ -27,9 +30,5 @@ With the latest version of Amplify Library for Android, you now have access to t
 - [Analytics](/[platform]/build-a-backend/more-features/analytics/sdk/)
 - [Auth](/[platform]/build-a-backend/auth/android-sdk/)
 - [Geo](/[platform]/build-a-backend/more-features/geo/amazon-location-sdk/)
-- [Predictions]()
+- [Predictions](/[platform]/build-a-backend/more-features/predictions/sdk/)
 - [Storage](/[platform]/build-a-backend/storage/sdk/)
-
-
-
-
