@@ -41,7 +41,7 @@ Amplify CLI let's you choose either an existing Lambda function or create a new 
 
 > Lambda templates use [serverless-express](https://github.com/awslabs/aws-serverless-express) and provide the building blocks to start your REST API development.
 
-> See the list of all [supported Lambda runtimes](/cli/function).
+> See the list of all [supported Lambda runtimes](/[platform]/build-a-backend/functions/set-up-function/).
 
 Amplify CLI allows you to restrict REST API access to
 
@@ -65,7 +65,7 @@ For each user type you can further specify what actions it has access to.
 | Guest user | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | Amazon Cognito |
 | User Pool Group | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | Amazon Cognito |
 
-REST APIs have support for [multiple environments](/cli/teams/overview) (e.g. dev, qa, and prod). This means that you can easily isolate different versions of your REST API by using different Amplify environments.
+REST APIs have support for [multiple environments](/[platform]/tools/cli/teams/) (e.g. dev, qa, and prod). This means that you can easily isolate different versions of your REST API by using different Amplify environments.
 
 Because Amplify environments could be in separate AWS accounts, you cannot use the environment feature of API Gateway. Each Amplify environment will have a separate API Gateway resource associated with it. For example:
 

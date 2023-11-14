@@ -1,19 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Lambda triggers',
-  description: "Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Associate a Lambda trigger with an auth scenario, S3 bucket, DynamoDB table, or Kinesis Stream managed through the Amplify CLI.",
+  description:
+    "Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Associate a Lambda trigger with an auth scenario, S3 bucket, DynamoDB table, or Kinesis Stream managed through the Amplify CLI.",
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,7 +29,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
 Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Amplify ships common trigger templates which you can enable and modify (if necessary) through a few simple questions.
 
@@ -131,29 +131,27 @@ import ReCAPTCHA from 'react-google-recaptcha';
 Amplify.configure(amplifyconfig);
 
 const CaptchaConfirmSignIn = (props) => {
-
   const handleConfirmSignIn = async (value) => {
     try {
-      const res = await confirmSignIn({challengeResponse: value})
-      console.log('User has signed in.', res)
+      const res = await confirmSignIn({ challengeResponse: value });
+      console.log('User has signed in.', res);
     } catch (e) {
-      console.log('Sign in failed',e)
+      console.log('Sign in failed', e);
     }
-  }
+  };
 
   return (
     <div>
-        <ReCAPTCHA
-          sitekey="your-client-side-google-recaptcha-key"
-          onChange={handleConfirmSignIn}
-        />
+      <ReCAPTCHA
+        sitekey="your-client-side-google-recaptcha-key"
+        onChange={handleConfirmSignIn}
+      />
     </div>
   );
-}
+};
 
 function App() {
-
-  const [showCaptcha,setShowCaptcha] = useState(false);
+  const [showCaptcha, setShowCaptcha] = useState(false);
 
   const handleSignIn = async () => {
     try {
@@ -163,16 +161,16 @@ function App() {
         options: {
           authFlowType: 'CUSTOM_WITH_SRP'
         }
-      })
+      });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
   return (
-      <div className="App">
-        <button onClick={handleSignIn}>Sign In</button>
-        { showCaptcha && <CaptchaConfirmation /> }
-      </div>
+    <div className="App">
+      <button onClick={handleSignIn}>Sign In</button>
+      {showCaptcha && <CaptchaConfirmation />}
+    </div>
   );
 }
 
@@ -209,8 +207,6 @@ Amplify.configure(amplifyconfig);
 export class AppModule {}
 ```
 
-
-
 ```js
 // app.component.ts
 
@@ -222,7 +218,6 @@ import { signIn, confirmSignIn } from 'aws-amplify/auth';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
   title = 'cli-lambda-sample';
   displayCaptcha = false;
 
@@ -234,18 +229,18 @@ export class AppComponent {
         options: {
           authFlowType: 'CUSTOM_WITH_SRP'
         }
-      })
-      displayCaptcha = nextStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE'
+      });
+      displayCaptcha = nextStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE';
     } catch (e) {
-      console.log("Sign In Failed",e)
+      console.log('Sign In Failed', e);
     }
   }
-  
+
   async handleConfirmSignIn(e) {
     try {
-      await confirmSignIn({ challengeResponse: e})
-    } catch(e){
-      console.log("Failed to confirm sign in",e)
+      await confirmSignIn({ challengeResponse: e });
+    } catch (e) {
+      console.log('Failed to confirm sign in', e);
     }
   }
 }
@@ -262,6 +257,7 @@ export class AppComponent {
   ></re-captcha>
 </div>
 ```
+
 </Block>
 
 </BlockSwitcher>
@@ -307,8 +303,8 @@ As you can see in the prompt above, you can either choose to use an existing Lam
 
 You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify CLI. There are two ways by which DynamoDB is provisioned by the Amplify CLI
 
-- As a part of the [Storage category](/cli/storage/overview#)
-- As a part of the [GraphQL API (types with @model annotation)](/cli/graphql/data-modeling)
+- As a part of the [Storage category](/[platform]/build-a-backend/storage/configure-storage/#)
+- As a part of the [GraphQL API (types with @model annotation)](/[platform]/build-a-backend/graphqlapi/data-modeling/)
 
 ### As a part of the Storage category
 
@@ -367,7 +363,7 @@ After the above question, you can select one of the types annotated by @model fo
 On completion of the above mentioned flow, a boilerplate lambda function trigger will be created in your `amplify/backend/function` directory with the following template:
 
 ```js
-exports.handler = function(event, context) {
+exports.handler = function (event, context) {
   console.log(JSON.stringify(event, null, 2));
   event.Records.forEach((record) => {
     console.log(record.eventID);
@@ -419,4 +415,4 @@ Then select `Amazon Kinesis Stream` when prompted with event source question and
   Provide the ARN of Kinesis stream directly
 ```
 
-After the completion of the above flow, a Lambda function will be created in your `amplify/backend/function` directory and will be invoked when a new event is pushed to a Kinesis stream. Please refer to [Working with the API](/lib/analytics/getting-started) to learn more about publishing your events to Kinesis stream.
+After the completion of the above flow, a Lambda function will be created in your `amplify/backend/function` directory and will be invoked when a new event is pushed to a Kinesis stream. Please refer to [Working with the API](/[platform]/build-a-backend/more-features/analytics/set-up-analytics/) to learn more about publishing your events to Kinesis stream.
