@@ -48,7 +48,10 @@ import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { Banner } from '@/components/Banner';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
-import { NextPrevious, NEXT_PREVIOUS_SECTIONS } from '@/components/NextPrevious';
+import {
+  NextPrevious,
+  NEXT_PREVIOUS_SECTIONS
+} from '@/components/NextPrevious';
 
 export const Layout = ({
   children,
@@ -127,8 +130,10 @@ export const Layout = ({
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
   const searchParam = isGen2 ? 'gen2' : '[platform]';
   const showNextPrev = NEXT_PREVIOUS_SECTIONS.some((section) => {
-    return asPathWithNoHash.includes(section) && !asPathWithNoHash.endsWith(section);
-  })
+    return (
+      asPathWithNoHash.includes(section) && !asPathWithNoHash.endsWith(section)
+    );
+  });
 
   if (homepageNode?.children && homepageNode.children.length > 0) {
     rootMenuNode = homepageNode.children.find((node) => {
@@ -263,16 +268,20 @@ export const Layout = ({
                       { 'layout-search__search--toc': showTOC }
                     )}
                   >
-                    <DocSearch
-                      appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
-                      indexName={
-                        process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME
-                      }
-                      apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
-                      searchParameters={{
-                        facetFilters: [`platform:${isGen2 ? 'gen2' : currentPlatform}`]
-                      }}
-                    />
+                    <View className="layout-search__search__container">
+                      <DocSearch
+                        appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
+                        indexName={
+                          process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME
+                        }
+                        apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
+                        searchParameters={{
+                          facetFilters: [
+                            `platform:${isGen2 ? 'gen2' : currentPlatform}`
+                          ]
+                        }}
+                      />
+                    </View>
                   </View>
                 </Flex>
                 <View

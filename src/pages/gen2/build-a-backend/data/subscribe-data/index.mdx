@@ -1,7 +1,6 @@
 export const meta = {
   title: 'Subscribe to real time events',
-  description:
-    'Learn how to subscribe to real time events.'
+  description: 'Learn how to subscribe to real time events.'
 };
 
 export function getStaticProps(context) {
@@ -17,8 +16,7 @@ In this guide, we will outline the benefits of enabling real-time data integrati
 
 Before you begin, you will need:
 
-
-- An [application connected to the API](/lib/graphqlapi/connect/q/platform/js/)
+- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/connect-to-api/)
 - Data already created to modify
 
 ## Set up a real-time list query
@@ -61,30 +59,27 @@ Subscriptions is a feature that allows the server to send data to its clients wh
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '@/backend/data/resource'
+import { type Schema } from '@/backend/data/resource';
 
 const client = generateClient<Schema>();
 
 // Subscribe to creation of Todo
-const createSub = client.models.Todo.onCreate()
-  .subscribe({
-    next: ({ data }) => console.log(data),
-    error: (error) => console.warn(error)
-  });
+const createSub = client.models.Todo.onCreate().subscribe({
+  next: ({ data }) => console.log(data),
+  error: (error) => console.warn(error)
+});
 
 // Subscribe to update of Todo
-const updateSub = client.models.Todo.onUpdate()
-  .subscribe({
-    next: ({ data }) => console.log(data),
-    error: (error) => console.warn(error)
-  });
+const updateSub = client.models.Todo.onUpdate().subscribe({
+  next: ({ data }) => console.log(data),
+  error: (error) => console.warn(error)
+});
 
 // Subscribe to deletion of Todo
-const deleteSub = client.models.Todo.onDelete()
-  .subscribe({
-    next: ({ data }) => console.log(data),
-    error: (error) => console.warn(error)
-  });
+const deleteSub = client.models.Todo.onDelete().subscribe({
+  next: ({ data }) => console.log(data),
+  error: (error) => console.warn(error)
+});
 
 // Stop receiving data updates from the subscription
 createSub.unsubscribe();
@@ -98,21 +93,20 @@ Subscriptions take an optional `filter` argument to define service-side subscrip
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '@/backend/data/resource'
+import { type Schema } from '@/backend/data/resource';
 
 const client = generateClient<Schema>();
 
 const sub = client.models.Todo.onCreate({
   filter: {
     content: {
-      contains: "groceries"
+      contains: 'groceries'
     }
   }
-})
-  .subscribe({
-    next: ({ data }) => console.log(data),
-    error: (error) => console.warn(error)
-  });
+}).subscribe({
+  next: ({ data }) => console.log(data),
+  error: (error) => console.warn(error)
+});
 ```
 
 If you want to get all subscription events, don't specify any `filter` parameters.
@@ -228,6 +222,6 @@ Congratulations! You have finished the **Subscribe to real-time events** guide. 
 
 Our recommended next steps include continuing to build out and customize your information architecture for your data. Some resources that will help with this work include:
 
-- [Authorization rules](/cli/graphql/authorization-rules/)
-- [Data modeling](/cli/graphql/data-modeling/)
-- [Custom business logic](/cli/graphql/custom-business-logic/)
+- [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-auth/)
+- [Data modeling](/[platform]/build-a-backend/graphqlapi/data-modeling/)
+- [Custom business logic](/[platform]/build-a-backend/graphqlapi/custom-business-logic/)

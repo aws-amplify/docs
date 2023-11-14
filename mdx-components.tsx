@@ -17,7 +17,8 @@ import { ExternalLinkButton } from './src/components/ExternalLinkButton';
 import InternalLink from './src/components/InternalLink';
 import { InternalLinkButton } from './src/components/InternalLinkButton';
 import FilterContent from './src/components/FilterContent';
-import { Grid } from '@aws-amplify/ui-react';
+import { Grid, View } from '@aws-amplify/ui-react';
+import { Columns } from './src/components/Columns';
 
 const ResponsiveImage = (props) => (
   <ExportedImage style={{ height: 'auto' }} {...props} />
@@ -66,6 +67,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     InternalLinkButton,
     FilterContent,
     Grid,
+    Columns,
+    View,
     ...components
   };
 }

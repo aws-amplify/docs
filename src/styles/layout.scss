@@ -130,7 +130,7 @@
   flex-direction: column;
   container-type: inline-size;
   gap: var(--amplify-space-large);
-  max-width: 1000px;
+  max-width: var(--content-max-width);
   padding-bottom: var(--amplify-space-xxl);
   scroll-margin-block-start: 12rem;
   &:focus-visible {
@@ -173,8 +173,6 @@
   }
   .layout-search {
     height: var(--layout-search-height);
-  }
-  .layout-search--inner {
     padding-inline-start: calc(
       var(--layout-sidebar-width) + var(--amplify-space-xxl)
     );

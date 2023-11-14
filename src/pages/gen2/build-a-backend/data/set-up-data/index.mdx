@@ -51,19 +51,21 @@ graph LR
 
 ## Building your data backend
 
-If you've run `npm create amplify` already, you should see an `amplify/data/resource.ts` file, which is the central location to configure your data backend. The most important element is the `schema` object, which defines your backend data models (`a.model()`) and custom queries (`a.query()`), mutations (`a.mutation()`), and subscriptions (`a.subscription()`). 
+If you've run `npm create amplify` already, you should see an `amplify/data/resource.ts` file, which is the central location to configure your data backend. The most important element is the `schema` object, which defines your backend data models (`a.model()`) and custom queries (`a.query()`), mutations (`a.mutation()`), and subscriptions (`a.subscription()`).
 
 ```ts title="backend/data/resource.ts"
-import { a, defineData, type ClientSchema } from '@aws-amplify/backend'
+import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
 
 const schema = a.schema({
-  Todo: a.model({
-    content: a.string(),
-    isDone: a.boolean()
-  }).authorization([a.allow.public()])
-})
+  Todo: a
+    .model({
+      content: a.string(),
+      isDone: a.boolean()
+    })
+    .authorization([a.allow.public()])
+});
 
-// Used for code completion / highlighting when making requests from frontend 
+// Used for code completion / highlighting when making requests from frontend
 export type Schema = ClientSchema<typeof schema>;
 
 // defines the data resource to be deployed
@@ -71,6 +73,7 @@ export const data = defineData({ schema });
 ```
 
 Every `a.model()` automatically creates the following resources in the cloud:
+
 - a DynamoDB database table to store records
 - query and mutation APIs to create, read (list/get), update, and delete records
 - real-time APIs to subscribe for create, update, and delete events of records
@@ -120,12 +123,11 @@ To connect your frontend code to your backend, you need to:
 In your app's entry point, typically **main.tsx** for React apps created using Vite, make the following edits:
 
 ```tsx
-import { Amplify } from 'aws-amplify'
-import { amplifyconfiguration } from '@/amplifyconfiguration.json'
+import { Amplify } from 'aws-amplify';
+import { amplifyconfiguration } from '@/amplifyconfiguration.json';
 
 Amplify.configure(config);
 ```
-
 
 ## Write data to your backend
 
@@ -252,15 +254,16 @@ Now try to open your app in two browser windows and see how creating a Todo in o
 
 <Callout>
 
-You can also use `.onCreate`, `.onUpdate`, or `.onDelete` to subscribe to specific events. Review  [Subscribe to real-time events](/gen2/build-a-backend/data/subscribe-data) to learn more about subscribing to specific mutation events.
+You can also use `.onCreate`, `.onUpdate`, or `.onDelete` to subscribe to specific events. Review [Subscribe to real-time events](/gen2/build-a-backend/data/subscribe-data) to learn more about subscribing to specific mutation events.
 
 </Callout>
 
 ## Next steps
 
-Success! You've learned how to create your first real-time API and database with Amplify Data. 
+Success! You've learned how to create your first real-time API and database with Amplify Data.
 
-There's so much more to discover with Amplify Data. Learn more about: 
+There's so much more to discover with Amplify Data. Learn more about:
+
 - [How to model your database table and their access patterns](/gen2/build-a-backend/data/data-modeling)
 - [Secure your API with fine-grained authorization rules](/gen2/build-a-backend/data/authorization-rules)
 - [Create relationships between different database model](/gen2/build-a-backend/data/data-modeling/#setup-relationships-between-models)
