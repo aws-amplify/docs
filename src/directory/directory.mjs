@@ -1523,6 +1523,9 @@ export const directory = {
                   children: [
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/troubleshooting/upgrade-amplify-packages/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/troubleshooting/strict-mode/index.mdx'
                     }
                   ]
                 }
