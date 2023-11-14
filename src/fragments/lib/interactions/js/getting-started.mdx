@@ -137,14 +137,16 @@ Amplify.configure({
 
 ## Configure frontend
 
+<Callout>
+
+Make sure that the `@aws-amplify/interactions` package has the same version number as the `aws-amplify` package in your `package.json` file.
+
+</Callout>
+
 import js0 from '/src/fragments/lib/interactions/js/frontend.mdx';
 
 <Fragments fragments={{  javascript: js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
 
-import reactnative1 from '/src/fragments/lib/react-native-polyfills.mdx';
+import reactnative1 from '/src/fragments/lib/interactions/react-native/frontend.mdx';
 
 <Fragments fragments={{ 'react-native': reactnative1 }} />
-
-import reactnative2 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/configure-amplify.mdx';
-
-<Fragments fragments={{ 'react-native': reactnative2 }} />
