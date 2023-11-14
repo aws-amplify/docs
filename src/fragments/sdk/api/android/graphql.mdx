@@ -163,20 +163,19 @@ Do not skip this step! Run `gradlew build`, or build your application via Androi
 Inside your application code, such as the `onCreate()` lifecycle method of your activity class, you can initialize the AppSync client using an instance of `AWSConfiguration()` in the `AWSAppSyncClient` builder like the following:
 
 ```java
+private AWSAppSyncClient mAWSAppSyncClient;
 
-    private AWSAppSyncClient mAWSAppSyncClient;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mAWSAppSyncClient = AWSAppSyncClient.builder()
-                .context(getApplicationContext())
-                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
-                // If you are using complex objects (S3) then uncomment
-                //.s3ObjectManager(new S3ObjectManagerImplementation(new AmazonS3Client(AWSMobileClient.getInstance())))
-                .build();
-    }
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    mAWSAppSyncClient = AWSAppSyncClient.builder()
+            .context(getApplicationContext())
+            .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+            // If you are using complex objects (S3) then uncomment
+            //.s3ObjectManager(new S3ObjectManagerImplementation(new AmazonS3Client(AWSMobileClient.getInstance())))
+            .build();
+}
 ```
 
 `AWSConfiguration()` reads configuration information in the `awsconfiguration.json` file. By default, the information in the `Default` section of the json file is used.
@@ -186,23 +185,23 @@ Inside your application code, such as the `onCreate()` lifecycle method of your 
 Now that the client is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME}Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after you ran a Gradle build. You invoke this from an instance of the AppSync client with a similar syntax of `.query({NAME}Query.builder().build())`. For example, if you have a `ListTodos` query, your code will look like the following:
 
 ```java
-    public void query(){
-        mAWSAppSyncClient.query(ListTodosQuery.builder().build())
-                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
-                .enqueue(todosCallback);
+public void query(){
+    mAWSAppSyncClient.query(ListTodosQuery.builder().build())
+            .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
+            .enqueue(todosCallback);
+}
+
+private GraphQLCall.Callback<ListTodosQuery.Data> todosCallback = new GraphQLCall.Callback<ListTodosQuery.Data>() {
+    @Override
+    public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
+        Log.i("Results", response.data().listTodos().items().toString());
     }
 
-    private GraphQLCall.Callback<ListTodosQuery.Data> todosCallback = new GraphQLCall.Callback<ListTodosQuery.Data>() {
-        @Override
-        public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
-            Log.i("Results", response.data().listTodos().items().toString());
-        }
-
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("ERROR", e.toString());
-        }
-    };
+    @Override
+    public void onFailure(@Nonnull ApolloException e) {
+        Log.e("ERROR", e.toString());
+    }
+};
 ```
 
 Optionally, you can change the cache policy on `AppSyncResponseFetchers`, but we recommend leaving `CACHE_AND_NETWORK` because it pulls results from the local cache first before retrieving data over the network. This gives a snappy UX and offline support.
@@ -212,27 +211,27 @@ Optionally, you can change the cache policy on `AppSyncResponseFetchers`, but we
 To add data you need to run a GraphQL mutation. The syntax of the callback is `GraphQLCall.Callback<{NAME}Mutation.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after a Gradle build. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the Amplify CLI does as well. Therefore you'll pass this as a parameter called `input` created with a second builder. You invoke this from an instance of the AppSync client with a similar syntax of `.mutate({NAME}Mutation.builder().input({Name}Input).build())` like the following:
 
 ```java
-    public void mutation(){
-        CreateTodoInput createTodoInput = CreateTodoInput.builder()
-            .name("Use AppSync")
-            .description("Realtime and Offline")
-            .build();
+public void mutation(){
+    CreateTodoInput createTodoInput = CreateTodoInput.builder()
+        .name("Use AppSync")
+        .description("Realtime and Offline")
+        .build();
 
-        mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
-            .enqueue(mutationCallback);
+    mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
+        .enqueue(mutationCallback);
+}
+
+private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
+    @Override
+    public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
+        Log.i("Results", "Added Todo");
     }
 
-    private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
-        @Override
-        public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
-            Log.i("Results", "Added Todo");
-        }
-
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("Error", e.toString());
-        }
-    };
+    @Override
+    public void onFailure(@Nonnull ApolloException e) {
+        Log.e("Error", e.toString());
+    }
+};
 ```
 
 ### Subscribe to Data
@@ -240,30 +239,30 @@ To add data you need to run a GraphQL mutation. The syntax of the callback is `G
 Finally, it's time to set up a subscription to real-time data. The callback is just `AppSyncSubscriptionCall.Callback` and you invoke it with a client `.subscribe()` call and pass in a builder with syntax of `{NAME}Subscription.builder()` where `{NAME}` comes from the GraphQL statements that `amplify codegen` and Gradle build created. Note that the AppSync console and Amplify GraphQL transformer have a common nomenclature that puts the word `On` in front of a subscription as in the following example:
 
 ```java
-    private AppSyncSubscriptionCall<OnCreateTodoSubscription.Data> subscriptionWatcher;
+private AppSyncSubscriptionCall<OnCreateTodoSubscription.Data> subscriptionWatcher;
 
-    private void subscribe() {
-        OnCreateTodoSubscription subscription = OnCreateTodoSubscription.builder().build();
-        subscriptionWatcher = mAWSAppSyncClient.subscribe(subscription);
-        subscriptionWatcher.execute(subCallback);
+private void subscribe() {
+    OnCreateTodoSubscription subscription = OnCreateTodoSubscription.builder().build();
+    subscriptionWatcher = mAWSAppSyncClient.subscribe(subscription);
+    subscriptionWatcher.execute(subCallback);
+}
+
+private AppSyncSubscriptionCall.Callback<OnCreateTodoSubscription.Data> subCallback = new AppSyncSubscriptionCall.Callback<OnCreateTodoSubscription.Data>() {
+    @Override
+    public void onResponse(@Nonnull Response<OnCreateTodoSubscription.Data> response) {
+        Log.i("Subscription", response.data().toString());
     }
 
-    private AppSyncSubscriptionCall.Callback<OnCreateTodoSubscription.Data> subCallback = new AppSyncSubscriptionCall.Callback<OnCreateTodoSubscription.Data>() {
-        @Override
-        public void onResponse(@Nonnull Response<OnCreateTodoSubscription.Data> response) {
-            Log.i("Subscription", response.data().toString());
-        }
+    @Override
+    public void onFailure(@Nonnull ApolloException e) {
+        Log.e("Subscription", e.toString());
+    }
 
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("Subscription", e.toString());
-        }
-
-        @Override
-        public void onCompleted() {
-            Log.i("Subscription", "Subscription completed");
-        }
-    };
+    @Override
+    public void onCompleted() {
+        Log.i("Subscription", "Subscription completed");
+    }
+};
 ```
 
 Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input.
@@ -374,46 +373,46 @@ As outlined in the architecture section, all query results are automatically per
 For example, the below code shows how you would update the `CreateTodoMutation` mutation from earlier by creating a `optimisticWrite(CreateTodoInput createTodoInput)` helper method that has the same input. This adds an item to the cache by first adding query results to a local array with `items.addAll(response.data().listTodos().items())` followed by the individual update using `items.add()`. You commit the record with `client.getStore().write()`. This example uses a locally generated unique identifier which might be enough for your app, however if the AppSync response returns a different value for `ID` (which many times is the case as best practice is generation of IDs at the service layer) then you will need to replace the value locally when a response is received. This can be done in the `onResponse()` method of the top level mutation callback by again querying the store, removing the item and calling `client.getStore().write()`.
 
 ```java
-    private void optimisticWrite(CreateTodoInput CreateTodoInput){
-        final CreateTodoMutation.CreateTodo expected =
-                new CreateTodoMutation.CreateTodo(
-                        "Pet",                          //GraphQL Type name
-                        UUID.randomUUID().toString(),
-                        createTodoInput.name(),
-                        createTodoInput.description());
+private void optimisticWrite(CreateTodoInput CreateTodoInput){
+    final CreateTodoMutation.CreateTodo expected =
+            new CreateTodoMutation.CreateTodo(
+                    "Pet",                          //GraphQL Type name
+                    UUID.randomUUID().toString(),
+                    createTodoInput.name(),
+                    createTodoInput.description());
 
-        final AWSAppSyncClient client = ClientFactory.appSyncClient();
-        final ListTodosQuery listTodosQuery = ListTodosQuery.builder().build();
+    final AWSAppSyncClient client = ClientFactory.appSyncClient();
+    final ListTodosQuery listTodosQuery = ListTodosQuery.builder().build();
 
-        client.query(listTodosQuery).responseFetcher(AppSyncResponseFetchers.CACHE_ONLY)
-                .enqueue(new GraphQLCall.Callback<ListTodosQuery.Data>() {
-                    @Override
-                    public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
-                        //Populate a copy of the query in the cache
-                        List<ListTodosQuery.Item> items = new ArrayList<>();
-                        if(response.data() != null){
-                            items.addAll(response.data().listTodos().items());
-                        }
-
-                        //Add the newly created item to the cache copy
-                        items.add(new ListTodosQuery.Item(expected.__typename(),
-                                expected.id(), expected.name(), expected.description()));
-
-                        //Overwrite the cache with the new results
-                        ListTodosQuery.Data data = new ListTodosQuery.Data(new ListTodosQuery.ListTodos(
-                                "ModelPetConnection", items, null
-                        ));
-
-                            client.getStore().write(listTodosQuery, data).enqueue(null);
-                            Log.i(TAG, "Successfully added item to local store");
+    client.query(listTodosQuery).responseFetcher(AppSyncResponseFetchers.CACHE_ONLY)
+            .enqueue(new GraphQLCall.Callback<ListTodosQuery.Data>() {
+                @Override
+                public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
+                    //Populate a copy of the query in the cache
+                    List<ListTodosQuery.Item> items = new ArrayList<>();
+                    if(response.data() != null){
+                        items.addAll(response.data().listTodos().items());
                     }
 
-                    @Override
-                    public void onFailure(@Nonnull ApolloException e) {
-                        Log.e(TAG, "Failed to add item ", e);
-                    }
-                });
-    }
+                    //Add the newly created item to the cache copy
+                    items.add(new ListTodosQuery.Item(expected.__typename(),
+                            expected.id(), expected.name(), expected.description()));
+
+                    //Overwrite the cache with the new results
+                    ListTodosQuery.Data data = new ListTodosQuery.Data(new ListTodosQuery.ListTodos(
+                            "ModelPetConnection", items, null
+                    ));
+
+                        client.getStore().write(listTodosQuery, data).enqueue(null);
+                        Log.i(TAG, "Successfully added item to local store");
+                }
+
+                @Override
+                public void onFailure(@Nonnull ApolloException e) {
+                    Log.e(TAG, "Failed to add item ", e);
+                }
+            });
+}
 ```
 
 Usage in your application would be like the following:
@@ -435,27 +434,23 @@ You might add similar code in your app for updating or deleting items using an o
 Offline mutations work by default and are available in memory, as well as through app restarts. The `onResponse` callback in mutations is received when the network is available and will be executed as long as the app wasn't closed. However if the app was closed or crashed, the `persistentMutationsCallback` will be called in the `AWSAppSyncClient` builder which has information about the mutation type and identifier. You should use this in your client initialization routine to protect against any unknown app behaviors such as application errors or user interference:
 
 ```java
+private AWSAppSyncClient mAWSAppSyncClient = AWSAppSyncClient.builder()
+    .context(getApplicationContext())
+    .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+    .persistentMutationsCallback(new PersistentMutationsCallback() {
+        @Override
+        public void onResponse(PersistentMutationsResponse response) {
+        if (response.getMutationClassName().equals("AddPostMutation")) {
+            // perform action here add post mutation
+        }
+        }
 
-    private AWSAppSyncClient mAWSAppSyncClient;
-
-    mAWSAppSyncClient = AWSAppSyncClient.builder()
-      .context(getApplicationContext())
-      .awsConfiguration(new AWSConfiguration(getApplicationContext()))
-        .persistentMutationsCallback(new PersistentMutationsCallback() {
-          @Override
-          public void onResponse(PersistentMutationsResponse response) {
-            if (response.getMutationClassName().equals("AddPostMutation")) {
-              // perform action here add post mutation
-            }
-          }
-
-          @Override
-          public void onFailure(PersistentMutationsError error) {
-            // handle error feedback here
-          }
-        })
-      .build();
-
+        @Override
+        public void onFailure(PersistentMutationsError error) {
+        // handle error feedback here
+        }
+    })
+    .build();
 ```
 
 ### Authorization Modes
@@ -482,9 +477,7 @@ API Key is the easiest way to setup and prototype your application with AppSync.
 Add the following code to your app:
 
 ```java
-private AWSAppSyncClient mAWSAppSyncClient;
-
-mAWSAppSyncClient = AWSAppSyncClient.builder()
+private AWSAppSyncClient mAWSAppSyncClient = AWSAppSyncClient.builder()
     .context(getApplicationContext())
     .awsConfiguration(new AWSConfiguration(getApplicationContext()))
     .build();
@@ -516,9 +509,7 @@ Amazon Cognito User Pools is the most common service to use with AppSync when ad
 Add the following code to your app passing tokens from the `AWSMobileClient` to `cognitoUserPoolsAuthProvider()` like so:
 
 ```java
-private AWSAppSyncClient mAWSAppSyncClient;
-
-mAWSAppSyncClient = AWSAppSyncClient.builder()
+private AWSAppSyncClient mAWSAppSyncClient = AWSAppSyncClient.builder()
     .context(getApplicationContext())
     .awsConfiguration(new AWSConfiguration(getApplicationContext()))
     .cognitoUserPoolsAuthProvider(new CognitoUserPoolsAuthProvider() {
@@ -561,9 +552,7 @@ When using AWS IAM in a mobile application you should leverage Amazon Cognito Id
 Then pass the `AWSMobileClient` to `credentialsProvider()` like so:
 
 ```java
-private AWSAppSyncClient mAWSAppSyncClient;
-
-mAWSAppSyncClient = AWSAppSyncClient.builder()
+private AWSAppSyncClient mAWSAppSyncClient = AWSAppSyncClient.builder()
     .context(context)
     .awsConfiguration(new AWSConfiguration(getApplicationContext()))
     .credentialsProvider(AWSMobileClient.getInstance())
@@ -589,9 +578,7 @@ If you are using a 3rd party OIDC provider you will need to configure it and man
 Add the following code to your app (`MyOIDCAuthProvider` is just for example purposes):
 
 ```java
-private AWSAppSyncClient mAWSAppSyncClient;
-
-mAWSAppSyncClient = AWSAppSyncClient.builder()
+private AWSAppSyncClient mAWSAppSyncClient = AWSAppSyncClient.builder()
     .context(context)
     .awsConfiguration(new AWSConfiguration(getApplicationContext()))
     .oidcAuthProvider(new OidcAuthProvider() {
@@ -660,10 +647,10 @@ The `useClientDatabasePrefix` is added on the client builder which signals to th
 
 ```java
 AWSAppSyncClient client = AWSAppSyncClient.builder()
-                               .context(getApplicationContext())
-                               .awsConfiguration(new AWSConfiguration(getApplicationContext()))
-                               .useClientDatabasePrefix(true)
-                               .build();
+    .context(getApplicationContext())
+    .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+    .useClientDatabasePrefix(true)
+    .build();
 ```
 
 The following code creates a client factory to retrieve the client based on the authorization mode: public (API Key) or private (AWS IAM).
@@ -795,24 +782,24 @@ public class ClientFactory {
                               .build();
 
         CLIENTS[PRIVATE] = AWSAppSyncClient.builder()
-                               .context(context)
-                               .serverUrl(serverUrl)
-                               .region(region)
-                               .clientDatabasePrefix("AMAZON_COGNITO_USER_POOLS")
-                               .useClientDatabasePrefix(true)
-                               .cognitoUserPoolsAuthProvider(new CognitoUserPoolsAuthProvider() {
-								            @Override
-								            public String getLatestAuthToken() {
-								                try {
-								                    String idToken = AWSMobileClient.getInstance().getTokens().getIdToken().getTokenString();
-								                    return idToken;
-								                } catch (Exception e) {
-								                    e.printStackTrace();
-								                    return null;
-								                }
-								            }
-								        })
-                               .build();
+                            .context(context)
+                            .serverUrl(serverUrl)
+                            .region(region)
+                            .clientDatabasePrefix("AMAZON_COGNITO_USER_POOLS")
+                            .useClientDatabasePrefix(true)
+                            .cognitoUserPoolsAuthProvider(new CognitoUserPoolsAuthProvider() {
+                                        @Override
+                                        public String getLatestAuthToken() {
+                                            try {
+                                                String idToken = AWSMobileClient.getInstance().getTokens().getIdToken().getTokenString();
+                                                return idToken;
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                                return null;
+                                            }
+                                        }
+                                    })
+                            .build();
     }
 }
 ```
@@ -868,7 +855,7 @@ Finally, you might have other queries which you wish to represent in your applic
 Cancelable handle = client.sync(baseQuery, baseQueryCallback,
 			  subscription, subscriptionCallback,
 			  deltaQuery, deltaQueryCallback,
-			  20 * 60 );
+			  20 * 60);
 
 //Stop DeltaSync
 handle.cancel();
@@ -952,8 +939,7 @@ GraphQLCall.Callback listPostsQueryCallback = new GraphQLCall.Callback<ListPosts
 ```java
   //Setup Delta Post Subscription to get notified when a change
   //(add, update, delete) happens on a Post
-  OnDeltaPostSubscription onDeltaPostSubscription =
-      OnDeltaPostSubscription.builder().build();
+  OnDeltaPostSubscription onDeltaPostSubscription = OnDeltaPostSubscription.builder().build();
 ```
 
 In the subscription callback, you will handle the change by adding, deleting or updating the allPosts Map object and trigger the RecyclerView to refresh the contents of the view. You will also add the logic to update the query cache for the `listPosts` query.
