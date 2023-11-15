@@ -35,7 +35,7 @@ export const GEN2BANNER_URLS = [
   '/javascript/build-a-backend/graphqlapi/query-data/',
   '/javascript/build-a-backend/graphqlapi/subscribe-data/',
   '/javascript/tools/cli/graphqlapi/data-modeling/',
-  '/javascript/build-a-backend/graphqlapi/customize-authz/',
+  '/javascript/build-a-backend/graphqlapi/customize-authorization-rules/',
   '/javascript/tools/cli/graphqlapi/custom-business-logic/',
   '/javascript/tools/cli/graphqlapi/override-appsync/',
   '/javascript/build-a-backend/graphqlapi/customize-client-libraries/',
