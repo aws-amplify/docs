@@ -639,7 +639,25 @@ subscription OnCreatePost {
 }
 ```
 
-Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](/[platform]/build-a-backend/auth/manage-user-session/#retrieve-a-user-session) in JavaScript, [AWSMobileClient.default().username](/[platform]/sdk/auth/working-with-api/#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](/[platform]/sdk/auth/working-with-api/#utility-properties) in Android.
+Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you.
+
+<InlineFilter filters={["javascript", "nextjs", "react", "react-native", "vue", "angular"]}>
+
+Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](/[platform]/build-a-backend/auth/manage-user-session/#retrieve-a-user-session) in JavaScript.
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+Passing in the current user can be done dynamically in your code by using [AWSMobileClient.getInstance().getUsername()](/[platform]/sdk/auth/working-with-api/#utility-properties) in Android.
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+Passing in the current user can be done dynamically in your code by using [AWSMobileClient.default().username](/[platform]/sdk/auth/working-with-api/#utility-properties) in iOS.
+
+</InlineFilter>
 
 In the case of groups if you define the following:
 
