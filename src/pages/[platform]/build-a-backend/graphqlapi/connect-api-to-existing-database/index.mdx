@@ -250,35 +250,34 @@ In the main stack class, add the following code to define a new GraphQL API. Rep
 ```ts
 new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
   apiName: 'MySqlBoundApi',
-  definition: AmplifyGraphqlDefinition.fromFilesAndDefinition(
+  definition: AmplifyGraphqlDefinition.fromFilesAndStrategy(
     [path.join(__dirname, 'schema.sql.graphql')],
     {
-      strategy: {
-        dbType: 'MYSQL',
-        vpcConfiguration: {
-          vpcId: 'vpc-123456',
-          securityGroupIds: ['sg-123', 'sg-456'],
-          subnetAvailabilityZoneConfig: [
-            { subnetId: 'sn-123456', availabilityZone: 'us-east-1a' },
-            { subnetId: 'sn-987654', availabilityZone: 'us-east-1b' }
-          ]
-        },
-        dbConnectionConfig: {
-          hostnameSsmPath:
-            '/path/to/ssm/SecretString/containing/value/of/hostname',
-          portSsmPath: '/path/to/ssm/SecretString/containing/value/of/port',
-          usernameSsmPath:
-            '/path/to/ssm/SecretString/containing/value/of/username',
-          passwordSsmPath:
-            '/path/to/ssm/SecretString/containing/value/of/password',
-          databaseNameSsmPath:
-            '/path/to/ssm/SecretString/containing/value/of/databaseName'
-        }
+      name: 'MyBlogSiteDatabase',
+      dbType: 'MYSQL',
+      vpcConfiguration: {
+        vpcId: 'vpc-123456',
+        securityGroupIds: ['sg-123', 'sg-456'],
+        subnetAvailabilityZoneConfig: [
+          { subnetId: 'sn-123456', availabilityZone: 'us-east-1a' },
+          { subnetId: 'sn-987654', availabilityZone: 'us-east-1b' }
+        ]
+      },
+      dbConnectionConfig: {
+        hostnameSsmPath:
+          '/path/to/ssm/SecretString/containing/value/of/hostname',
+        portSsmPath: '/path/to/ssm/SecretString/containing/value/of/port',
+        usernameSsmPath:
+          '/path/to/ssm/SecretString/containing/value/of/username',
+        passwordSsmPath:
+          '/path/to/ssm/SecretString/containing/value/of/password',
+        databaseNameSsmPath:
+          '/path/to/ssm/SecretString/containing/value/of/databaseName'
       }
     }
   ),
   authorizationModes: {
-    apiKeyConfig: { expires: Duration.days(7) }
+    apiKeyConfig: { expires: cdk.Duration.days(7) }
   },
   translationBehavior: {
     sandboxModeEnabled: true
@@ -290,11 +289,13 @@ The API will have an API key enabled for authorization. Sandbox mode is enabled 
 
 Before deploying, make sure to:
 
-- Change the `dbType` to match your database engine of either MySQL or PostgreSQL.
+- Set a value for `name`. This will be used to name the AppSync DataSource itself, plus any associated resources like resolver Lambdas. This name must be unique across all schema definitions in a GraphQL API.
 
-- Update the `vpcId`, `securityGroupIds`, and `subnetAvailabilityZoneConfig` with your vpc details.
+- Change the `dbType` to match your database engine. This is the type of the SQL database used to process model operations for this definition.Supported engines are `"MYSQL"`, `"POSTGRES"`, or `"DYNAMODB"`.
 
-- Update the SSM parameter paths within `dbConnectionConfig` to point to those existing in your AWS account.
+- Update the `vpcId`, `securityGroupIds`, and `subnetAvailabilityZoneConfig` with your vpc details. This is the configuration of the VPC into which to install the SQL Lambda.
+
+- Update the SSM parameter paths within `dbConnectionConfig` to point to those existing in your AWS account. These are the parameters the SQL Lambda will use to connect to the database.
 
 </Block>
 </BlockSwitcher>
