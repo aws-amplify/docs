@@ -867,7 +867,7 @@ export const directory = {
                     }
                   ]
                 },
-                {path: 'src/pages/[platform]/tools/cli/commands.tsx'},
+                { path: 'src/pages/[platform]/tools/cli/commands.tsx' },
                 {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/index.mdx',
                   children: [
@@ -877,11 +877,17 @@ export const directory = {
                   ]
                 },
                 { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
-                { path: 'src/pages/[platform]/tools/cli/custom/index.mdx',
-              children: [
-                { path: 'src/pages/[platform]/tools/cli/custom/cdk/index.mdx'},
-                { path: 'src/pages/[platform]/tools/cli/custom/cloudformation/index.mdx'},
-              ] },
+                {
+                  path: 'src/pages/[platform]/tools/cli/custom/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/tools/cli/custom/cdk/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/custom/cloudformation/index.mdx'
+                    }
+                  ]
+                },
                 {
                   path: 'src/pages/[platform]/tools/cli/project/index.mdx',
                   children: [
@@ -1341,14 +1347,15 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/prev/build-a-backend/sever-side-rendering/index.mdx',
+                  path: 'src/pages/[platform]/prev/build-a-backend/sever-side-rendering/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/prev/build-a-backend/utilities/index.mdx',
                   children: [
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/utilities/cache/index.mdx'
-                    },                    {
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/utilities/console-logger/index.mdx'
                     },
                     {
@@ -1799,7 +1806,7 @@ export const directory = {
           path: 'src/pages/gen2/start/index.mdx',
           children: [
             {
-              path: 'src/pages/gen2/start/getting-started/index.mdx'
+              path: 'src/pages/gen2/start/quickstart/index.mdx'
             },
             {
               path: 'src/pages/gen2/start/account-setup/index.mdx'
@@ -1953,19 +1960,19 @@ export const directory = {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/branch-deployments/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/pr-previews/index.mdx'
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/secrets-and-vars/index.mdx'
                 },
                 {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/cross-account-deployments/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/secrets-and-vars/index.mdx'
                 },
                 {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/mono-and-multi-repos/index.mdx'
                 },
                 {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/share-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/pr-previews/index.mdx'
                 }
               ]
             }
