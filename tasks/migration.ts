@@ -1340,10 +1340,6 @@ const checkForBrokenLinks = function () {
   });
 };
 
-const populateRedirects = function () {
-
-};
-
 // STEPS
 // checkout next-release/main and pull most recent changes from remote
 // create a branch for migration from next-release/main
@@ -1368,5 +1364,4 @@ const populateRedirects = function () {
 // addAddtlJSPlatformsToMeta();
 // addAddtlJSPlatformsToFragmentsInlineFilters();
 // replaceOldLinks();
-// checkForBrokenLinks();
-populateRedirects();
+checkForBrokenLinks();
