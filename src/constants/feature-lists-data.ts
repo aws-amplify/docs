@@ -21,7 +21,7 @@ const featureListData = {
             content:
               'Manage and maintain full control of your user base in Amplify Studio, without writing code.',
             linkText: 'User management',
-            link: '/tools/console/auth/user-management/'
+            link: 'tools/console/auth/user-management/'
           }
         ],
         heading: 'Auth'
@@ -756,13 +756,6 @@ const featureListData = {
               'Manage content through APIs for listing, accessing, and manipulating files. Set file permission levels, configure automatic events and triggers, and more.',
             linkText: 'Advanced file operations and access control',
             link: 'build-a-backend/storage/configure-access/'
-          },
-          {
-            content:
-              'Integrate pre-built UI components to upload, display, and manage cloud-stored content with minimal coding. Focus on building your app instead of writing boilerplate UI code ',
-            linkText: 'Cloud-connected UI components',
-            link: 'https://ui.docs.amplify.aws/react/connected-components/storage',
-            isExternal: true
           }
         ],
         heading: 'Storage'

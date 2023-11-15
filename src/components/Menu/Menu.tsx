@@ -10,7 +10,7 @@ type MenuProps = {
   path: string;
 };
 
-const invalidChildren = ['/[platform]/prev'];
+const invalidChildren = ['/[platform]/prev', '/[platform]/tools/cli-legacy', '/[platform]/sdk'];
 
 export function Menu({
   currentPlatform,
