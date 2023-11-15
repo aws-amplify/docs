@@ -1,19 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Files and folders',
-  description: 'Learn more about the files and folders Amplify uses to maintain project state.',
+  description:
+    'Learn more about the files and folders Amplify uses to maintain project state.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,7 +29,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
 ## Folders
 
@@ -262,7 +262,7 @@ These files are stored outside of the Amplify project directory and are used by 
 
 ### ~/.amplify/amplify-configuration.json
 
-If you have opted in to [Usage Data](./usage-data) this file contains an installation UUID used to correlate data from your machine.
+If you have opted in to [Usage Data]([platform]/tools/cli/reference/usage-data) this file contains an installation UUID used to correlate data from your machine.
 
 ### ~/.amplify/plugins.json
 
