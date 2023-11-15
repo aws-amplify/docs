@@ -1126,8 +1126,7 @@ export const directory = {
           isExternal: true,
           route: 'https://aws-amplify.github.io/amplify-js/api/',
           title: 'Reference',
-          description:
-            'Reference',
+          description: 'Reference',
           platforms: [
             'javascript',
             'nextjs',
@@ -1136,37 +1135,29 @@ export const directory = {
             'angular',
             'vue'
           ]
-        }, 
-        { 
+        },
+        {
           isExternal: true,
           route: 'https://aws-amplify.github.io/amplify-swift/docs/',
           title: 'Reference',
-          description:
-            'Reference',
-          platforms: [
-            'swift'
-          ]
+          description: 'Reference',
+          platforms: ['swift']
         },
-        { 
+        {
           isExternal: true,
-          route: 'https://aws-amplify.github.io/aws-sdk-android/docs/reference/',
+          route:
+            'https://aws-amplify.github.io/aws-sdk-android/docs/reference/',
           title: 'Reference',
-          description:
-            'Reference',
-          platforms: [
-            'android'
-          ]
+          description: 'Reference',
+          platforms: ['android']
         },
-        { 
+        {
           route: '/[platform]/reference/flutter-api/',
           title: 'Reference',
-          description:
-            'Reference',
-          platforms: [
-            'flutter'
-          ]
+          description: 'Reference',
+          platforms: ['flutter']
         },
-        
+
         {
           path: 'src/pages/[platform]/prev/index.mdx',
           children: [
@@ -1555,6 +1546,9 @@ export const directory = {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/set-up-geo/index.mdx'
                         },
                         {
+                          path: 'src/pages/[platform]/build-a-backend/more-features/geo/configure-maps/index.mdx'
+                        },
+                        {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/maps/index.mdx'
                         },
                         {
@@ -1562,6 +1556,9 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/geofences/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/configure-geofencing/index.mdx'
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/existing-resources/index.mdx'
