@@ -103,13 +103,13 @@ const Gen2Overview = () => {
             size="large"
             as="a"
             variation="primary"
-            href="/gen2/start"
+            href="/gen2/start/quickstart/"
             gap="small"
           >
             Get started{' '}
             <IconChevron fontSize=".875em" className="icon-rotate-90-reverse" />
           </Button>
-          <Button size="large" as="a" href="/gen2/how-amplify-works">
+          <Button size="large" as="a" href="/gen2/how-amplify-works/concepts/">
             How it works
           </Button>
         </Flex>
@@ -229,13 +229,16 @@ export default defineData ({
         />
 
         <FeatureList heading="Deploy" level={2}>
-          <FeatureItem linkText="SSR/SSG/ISR hosting support" href="/gen2">
+          <FeatureItem
+            linkText="SSR/SSG/ISR hosting support"
+            href="/gen2/deploy-and-host/hosting/"
+          >
             Deploy Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and more) apps
             by simply connecting your Git repository.
           </FeatureItem>
           <FeatureItem
             linkText="Faster iterations with per-developer sandboxes"
-            href="/gen2"
+            href="/gen2/deploy-and-host/sandbox-environments/setup/"
           >
             Per-developer cloud sandboxes provide high fidelity and faster
             deployment times to make local iteration quick.
