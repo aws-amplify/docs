@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Manage user session and credentials',
   description: 'Learn how to manage user sessions and credentials.',
-  platforms: ['javascript', 'react-native','angular','nextjs','react','vue'] 
+  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
 };
 
 export const getStaticPaths = async () => {
@@ -167,15 +167,11 @@ const authConfig: ResourcesConfig['Auth'] = {
   }
 };
 
-cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
+Amplify.configure({
+  Auth: authConfig
+});
 
-Amplify.configure(
-  {
-    Auth: authConfig
-  },
-  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
-);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
 ```
 
 </Block>
@@ -193,15 +189,11 @@ const authConfig = {
   }
 };
 
-cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
+Amplify.configure({
+  Auth: authConfig
+});
 
-Amplify.configure(
-  {
-    Auth: authConfig
-  },
-  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
-);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
 ```
 
 </Block>
@@ -226,15 +218,14 @@ const authConfig: ResourcesConfig['Auth'] = {
   }
 };
 
-cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
-
 Amplify.configure(
   {
     Auth: authConfig
   },
   { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
 ```
 
 </Block>
@@ -252,15 +243,11 @@ const authConfig = {
   }
 };
 
-cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
+Amplify.configure({
+  Auth: authConfig
+});
 
-Amplify.configure(
-  {
-    Auth: authConfig
-  },
-  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
-);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
 ```
 
 </Block>
@@ -301,15 +288,14 @@ class MyCustomStorage implements KeyValueStorageInterface {
   }
 }
 
-cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-cognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
-
 Amplify.configure(
   {
     Auth: authConfig
   },
   { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
 );
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
 ```
 
 </Block>
@@ -342,15 +328,11 @@ class MyCustomStorage {
   }
 }
 
-cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
-cognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
+Amplify.configure({
+  Auth: authConfig
+});
 
-Amplify.configure(
-  {
-    Auth: authConfig
-  },
-  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
-);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
 ```
 
 </Block>
