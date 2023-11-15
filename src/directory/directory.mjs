@@ -1272,7 +1272,7 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/working-with-files/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/optomistic-ui/index.mdx'
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/optimistic-ui/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/connect-from-server-runtime/index.mdx'
