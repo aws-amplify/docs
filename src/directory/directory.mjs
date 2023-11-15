@@ -262,6 +262,10 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/upgrade-guide/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/troubleshooting/index.mdx'
+                },
+
+                {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/index.mdx',
                   children: [
                     {
@@ -867,7 +871,7 @@ export const directory = {
                     }
                   ]
                 },
-                {path: 'src/pages/[platform]/tools/cli/commands.tsx'},
+                { path: 'src/pages/[platform]/tools/cli/commands.tsx' },
                 {
                   path: 'src/pages/[platform]/tools/cli/graphqlapi/index.mdx',
                   children: [
@@ -877,11 +881,17 @@ export const directory = {
                   ]
                 },
                 { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
-                { path: 'src/pages/[platform]/tools/cli/custom/index.mdx',
-              children: [
-                { path: 'src/pages/[platform]/tools/cli/custom/cdk/index.mdx'},
-                { path: 'src/pages/[platform]/tools/cli/custom/cloudformation/index.mdx'},
-              ] },
+                {
+                  path: 'src/pages/[platform]/tools/cli/custom/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/tools/cli/custom/cdk/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/custom/cloudformation/index.mdx'
+                    }
+                  ]
+                },
                 {
                   path: 'src/pages/[platform]/tools/cli/project/index.mdx',
                   children: [
@@ -1102,10 +1112,12 @@ export const directory = {
                 }
               ]
             },
-            { 
+            {
               path: 'src/pages/[platform]/tools/libraries/index.mdx',
-              children:  [
-                { path:  'src/pages/[platform]/tools/libraries/configure-categories/index.mdx' }
+              children: [
+                {
+                  path: 'src/pages/[platform]/tools/libraries/configure-categories/index.mdx'
+                }
               ]
             }
           ]
@@ -1346,14 +1358,15 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/prev/build-a-backend/sever-side-rendering/index.mdx',
+                  path: 'src/pages/[platform]/prev/build-a-backend/sever-side-rendering/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/prev/build-a-backend/utilities/index.mdx',
                   children: [
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/utilities/cache/index.mdx'
-                    },                    {
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/utilities/console-logger/index.mdx'
                     },
                     {
