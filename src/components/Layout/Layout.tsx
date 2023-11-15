@@ -233,7 +233,7 @@ export const Layout = ({
                     Menu
                   </Button>
 
-                  {/* <View
+                  <View
                     className={classNames(
                       'layout-search__search',
                       `layout-search__search--${pageType}`,
@@ -254,7 +254,7 @@ export const Layout = ({
                         }}
                       />
                     </View>
-                  </View> */}
+                  </View>
                 </Flex>
                 <View
                   className={classNames('layout-sidebar', {
