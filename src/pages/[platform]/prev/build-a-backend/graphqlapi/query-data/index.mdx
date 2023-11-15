@@ -30,25 +30,14 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
+<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue"]}>
 
 You can read application data using the Amplify GraphQL client. In this guide, we will review the difference between reading data and getting data, how to filter query results to get just the data you need, and how to paginate results to make your data more manageable. We will also show you how to cancel these requests when needed.
 
 Before you begin, you will need:
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
-- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/connect-to-api/)
+- An [application connected to the API](/[platform]/prev/build-a-backend/graphqlapi/connect-to-api/)
 - Data already created to view
-
-</InlineFilter>
-
-<InlineFilter filters={["react-native"]}>
-
-- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/connect-to-api/)
-- Data already created to view
-
-</InlineFilter>
 
 ## List and get your data
 
@@ -140,8 +129,6 @@ In the previous example, everyone (`public`) can read every Todo, but the `owner
 To learn more, see [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/) for the GraphQL API.
 
 </Accordion>
-
-<br />
 
 <Accordion title='Custom authorization mode to query data' headingLevel='4' eyebrow='Learn more'>
 
@@ -551,8 +538,6 @@ async function fetchTodos() {
 
 </Accordion>
 
-<br />
-
 <InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 <Callout>
@@ -627,23 +612,10 @@ Congratulations! You have finished the **Read application data** guide. In this 
 
 Our recommended next steps include subscribing to real-time events to look for mutations in your data and continuing to build out and customize your information architecture for your data. Some resources that will help with this work include:
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 - [Subscribe to real-time events](/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/)
 - [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/)
 - [Data modeling](/[platform]/build-a-backend/graphqlapi/data-modeling/)
 - [Custom business logic](/[platform]/build-a-backend/graphqlapi/custom-business-logic/)
-
-</InlineFilter>
-
-<InlineFilter filters={["react-native"]}>
-
-- [Subscribe to real-time events](/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/)
-- [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/)
-- [Data modeling](/[platform]/build-a-backend/graphqlapi/data-modeling/)
-- [Custom business logic](/[platform]/build-a-backend/graphqlapi/custom-business-logic/)
-
-</InlineFilter>
 
 </InlineFilter>
 
