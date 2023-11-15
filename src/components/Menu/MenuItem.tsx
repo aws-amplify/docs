@@ -130,7 +130,7 @@ export function MenuItem({
   }
 
   if (hideAPIResources) {
-    //do nothing
+    return <></>;
   } else if (pageNode.isExternal &&((currentPlatform && pageNode?.platforms?.includes(currentPlatform)) ||
   !pageNode.platforms)) {
     return (
