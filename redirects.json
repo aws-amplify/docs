@@ -2304,12 +2304,6 @@
     "condition":null
   },
   {
-    "source":"/lib-v1/graphqlapi/offline/q/platform/js/",
-    "target":"/javascript/build-a-backend/graphqlapi/offline/",
-    "status":"301",
-    "condition":null
-  },
-  {
     "source":"/lib-v1/graphqlapi/offline/q/platform/react-native/",
     "target":"/react-native/prev/build-a-backend/graphqlapi/offline/",
     "status":"301",
@@ -3362,12 +3356,6 @@
   {
     "source":"/lib-v1/auth/access_credentials/q/platform/ios/",
     "target":"/swift/prev/build-a-backend/auth/accessing-credentials/",
-    "status":"301",
-    "condition":null
-  },
-  {
-    "source":"/lib-v1/auth/advanced/q/platform/ios/",
-    "target":"/swift/prev/build-a-backend/auth/advanced-workflows/",
     "status":"301",
     "condition":null
   },
@@ -7627,13 +7615,13 @@
   },
   {
     "source":"/sdk/push-notifications/setup-push-service/q/platform/android/",
-    "target":"/android/sdk/push-notifications/set-up-push-service/",
+    "target":"/android/sdk/push-notifications/setup-push-service/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/sdk/push-notifications/setup-push-service/q/platform/ios/",
-    "target":"/swift/sdk/push-notifications/set-up-push-service/",
+    "target":"/swift/sdk/push-notifications/setup-push-service/",
     "status":"301",
     "condition":null
   },
