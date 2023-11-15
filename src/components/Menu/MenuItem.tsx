@@ -97,6 +97,18 @@ export function MenuItem({
 
   const currentStyle = current ? 'menu__list-item__link--current' : '';
 
+  let hideAPIResources = false; 
+
+  if ((currentPlatform == 'javascript' || 
+      currentPlatform == 'android' || 
+      currentPlatform == 'nextjs' ||
+      currentPlatform == 'react' ||
+      currentPlatform == 'vue') 
+      && !usePathWithoutHash().includes('/prev/') 
+      && pageNode.route == 'https://aws-amplify.github.io/amplify-js/api/') {
+        hideAPIResources = true
+    }
+
   let listItemStyle = '';
   let listItemLinkStyle = '';
   let listItemLinkInnerStyle = '';
@@ -121,7 +133,10 @@ export function MenuItem({
     return <></>;
   }
 
-  if (pageNode.isExternal) {
+  if (hideAPIResources) {
+    //do nothing
+  } else if (pageNode.isExternal &&((currentPlatform && pageNode?.platforms?.includes(currentPlatform)) ||
+  !pageNode.platforms)) {
     return (
       <li key={pageNode.route} className="menu__list-item">
         <AmplifyUILink

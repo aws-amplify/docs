@@ -1104,20 +1104,50 @@ export const directory = {
         },
         {
           isExternal: true,
-              route: 'https://aws-amplify.github.io/amplify-js/api/',
-              title: 'API Reference',
-              description:
-                'API Reference',
-              platforms: [
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'angular',
-                'vue'
-              ]
-
+          route: 'https://aws-amplify.github.io/amplify-js/api/',
+          title: 'API Reference',
+          description:
+            'API Reference',
+          platforms: [
+            'javascript',
+            'nextjs',
+            'react',
+            'react-native',
+            'angular',
+            'vue'
+          ]
+        }, 
+        { 
+          isExternal: true,
+          route: 'https://aws-amplify.github.io/amplify-swift/docs/',
+          title: 'API Reference',
+          description:
+            'API Reference',
+          platforms: [
+            'swift'
+          ]
         },
+        { 
+          isExternal: true,
+          route: 'https://aws-amplify.github.io/aws-sdk-android/docs/reference/',
+          title: 'API Reference',
+          description:
+            'API Reference',
+          platforms: [
+            'android'
+          ]
+        },
+        { 
+          isExternal: false,
+          route: '/src/pages/[platform]/reference/flutter-api/index.mdx',
+          title: 'API Reference',
+          description:
+            'API Reference',
+          platforms: [
+            'flutter'
+          ]
+        },
+        
         {
           path: 'src/pages/[platform]/prev/index.mdx',
           children: [
