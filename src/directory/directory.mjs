@@ -1388,7 +1388,7 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/prev/build-a-backend/sever-side-rendering/index.mdx'
+                  path: 'src/pages/[platform]/prev/build-a-backend/server-side-rendering/index.mdx',
                 },
                 {
                   path: 'src/pages/[platform]/prev/build-a-backend/utilities/index.mdx',
@@ -1646,14 +1646,6 @@ export const directory = {
                 }
               ]
             },
-            {
-              path: 'src/pages/[platform]/prev/tools/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/prev/tools/libraries/index.mdx'
-                }
-              ]
-            }
           ]
         },
         {

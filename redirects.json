@@ -1,7 +1,7 @@
 [
   {
     "source":"/lib/ssr/ssr/q/platform/js/",
-    "target":"/javascript/prev/build-a-backend/sever-side-rendering/",
+    "target":"/javascript/prev/build-a-backend/server-side-rendering/",
     "status":"301",
     "condition":null
   },
@@ -13,7 +13,7 @@
   },
   {
     "source":"/lib/ssr/ssr/",
-    "target":"/javascript/prev/build-a-backend/sever-side-rendering/",
+    "target":"/javascript/prev/build-a-backend/server-side-rendering/",
     "status":"301",
     "condition":null
   },
@@ -85,7 +85,7 @@
   },
   {
     "source":"/cli/graphql-transformer/<*>",
-    "target":"/javascript/tools/cli-legacy/auth-directive/<*>",
+    "target":"/javascript/tools/cli-legacy/auth-directive/",
     "status":"301",
     "condition":null
   },
@@ -103,7 +103,7 @@
   },
   {
     "source":"/ui-legacy/interactions/chatbot/<*>",
-    "target":"https://ui.docs.amplify.aws/components/chatbot",
+    "target":"https://ui.docs.amplify.aws/angular/getting-started/migration#update-and-usage-1",
     "status":"301",
     "condition":null
   },
@@ -121,7 +121,7 @@
   },
   {
     "source":"/ui/storage/s3-image-picker/q/framework/<platform>/",
-    "target":"https://ui.docs.amplify.aws/components/storage?platform=<platform>#s3-image-picker",
+    "target":"https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager",
     "status":"302",
     "condition":null
   },
@@ -175,7 +175,7 @@
   },
   {
     "source":"/lib/auth/social_signin_web_ui/q/platform/flutter/",
-    "target":"/flutter/build-a-backend/auth/add-social-providers/",
+    "target":"/flutter/build-a-backend/auth/add-social-provider/",
     "status":"301",
     "condition":null
   },
@@ -241,7 +241,7 @@
   },
   {
     "source":"/lib/graphqlapi/create-or-re-use-existing-backend/q/platform/js",
-    "target":"/javascript/build-a-backend/graphqlapi/existing-resources/",
+    "target":"/javascript/prev/build-a-backend/graphqlapi/existing-resources/",
     "status":"301",
     "condition":null
   },
@@ -295,7 +295,7 @@
   },
   {
     "source":"/lib/graphqlapi/create-or-re-use-existing-backend/q/platform/js/",
-    "target":"/javascript/build-a-backend/graphqlapi/existing-resources/",
+    "target":"/javascript/prev/build-a-backend/graphqlapi/existing-resources/",
     "status":"301",
     "condition":null
   },
@@ -775,205 +775,205 @@
   },
   {
     "source":"/cli/commands/add/",
-    "target":"/javascript/tools/cli/commands/add/",
+    "target":"/javascript/tools/cli/commands/#add",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/analytics/",
-    "target":"/javascript/tools/cli/commands/analytics/",
+    "target":"/javascript/tools/cli/commands/#analytics",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/api/",
-    "target":"/javascript/tools/cli/commands/api/",
+    "target":"/javascript/tools/cli/commands/#api",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/auth/",
-    "target":"/javascript/tools/cli/commands/auth/",
+    "target":"/javascript/tools/cli/commands/#auth",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/build/",
-    "target":"/javascript/tools/cli/commands/build/",
+    "target":"/javascript/tools/cli/commands/#build",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/codegen/",
-    "target":"/javascript/tools/cli/commands/codegen/",
+    "target":"/javascript/tools/cli/commands/#codegen",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/configure/",
-    "target":"/javascript/tools/cli/commands/configure/",
+    "target":"/javascript/tools/cli/commands/#configure",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/console/",
-    "target":"/javascript/tools/cli/commands/console/",
+    "target":"/javascript/tools/cli/commands/#console",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/delete/",
-    "target":"/javascript/tools/cli/commands/delete/",
+    "target":"/javascript/tools/cli/commands/#delete",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/diagnose/",
-    "target":"/javascript/tools/cli/commands/diagnose/",
+    "target":"/javascript/tools/cli/commands/#diagnose",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/env/",
-    "target":"/javascript/tools/cli/commands/env/",
+    "target":"/javascript/tools/cli/commands/#env",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/export/",
-    "target":"/javascript/tools/cli/commands/export/",
+    "target":"/javascript/tools/cli/commands/#export",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/function/",
-    "target":"/javascript/tools/cli/commands/function/",
+    "target":"/javascript/tools/cli/commands/#function",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/geo/",
-    "target":"/javascript/tools/cli/commands/geo/",
+    "target":"/javascript/tools/cli/commands/#geo",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/hosting/",
-    "target":"/javascript/tools/cli/commands/hosting/",
+    "target":"/javascript/tools/cli/commands/#hosting",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/import/",
-    "target":"/javascript/tools/cli/commands/import/",
+    "target":"/javascript/tools/cli/commands/#import",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/init/",
-    "target":"/javascript/tools/cli/commands/init/",
+    "target":"/javascript/tools/cli/commands/#init",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/interactions/",
-    "target":"/javascript/tools/cli/commands/interactions/",
+    "target":"/javascript/tools/cli/commands/#interactions",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/logout/",
-    "target":"/javascript/tools/cli/commands/logout/",
+    "target":"/javascript/tools/cli/commands/#logout",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/mock/",
-    "target":"/javascript/tools/cli/commands/mock/",
+    "target":"/javascript/tools/cli/commands/#mock",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/notifications/",
-    "target":"/javascript/tools/cli/commands/notifications/",
+    "target":"/javascript/tools/cli/commands/#notifications",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/override/",
-    "target":"/javascript/tools/cli/commands/override/",
+    "target":"/javascript/tools/cli/commands/#override",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/plugin/",
-    "target":"/javascript/tools/cli/commands/plugin/",
+    "target":"/javascript/tools/cli/commands/#plugin",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/predictions/",
-    "target":"/javascript/tools/cli/commands/predictions/",
+    "target":"/javascript/tools/cli/commands/#predictions",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/publish/",
-    "target":"/javascript/tools/cli/commands/publish/",
+    "target":"/javascript/tools/cli/commands/#publish",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/pull/",
-    "target":"/javascript/tools/cli/commands/pull/",
+    "target":"/javascript/tools/cli/commands/#pull",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/push/",
-    "target":"/javascript/tools/cli/commands/push/",
+    "target":"/javascript/tools/cli/commands/#push",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/remove/",
-    "target":"/javascript/tools/cli/commands/remove/",
+    "target":"/javascript/tools/cli/commands/#remove",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/serve/",
-    "target":"/javascript/tools/cli/commands/serve/",
+    "target":"/javascript/tools/cli/commands/#serve",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/status/",
-    "target":"/javascript/tools/cli/commands/status/",
+    "target":"/javascript/tools/cli/commands/#status",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/storage/",
-    "target":"/javascript/tools/cli/commands/storage/",
+    "target":"/javascript/tools/cli/commands/#storage",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/uninstall/",
-    "target":"/javascript/tools/cli/commands/uninstall/",
+    "target":"/javascript/tools/cli/commands/#uninstall",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/update/",
-    "target":"/javascript/tools/cli/commands/update/",
+    "target":"/javascript/tools/cli/commands/#update",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli/commands/upgrade/",
-    "target":"/javascript/tools/cli/commands/upgrade/",
+    "target":"/javascript/tools/cli/commands/#upgrade",
     "status":"301",
     "condition":null
   },
@@ -1045,7 +1045,7 @@
   },
   {
     "source":"/cli/graphql/custom-business-logic/",
-    "target":"/javascript/build-a-backend/graphqlapi/custom-buisness-logic/",
+    "target":"/javascript/build-a-backend/graphqlapi/custom-business-logic/",
     "status":"301",
     "condition":null
   },
@@ -1261,7 +1261,7 @@
   },
   {
     "source":"/cli/restapi/testing/",
-    "target":"/javascriptbuild-a-backend/restapi/test-api/",
+    "target":"/javascript/build-a-backend/restapi/test-api/",
     "status":"301",
     "condition":null
   },
@@ -1482,20 +1482,8 @@
     "condition":null
   },
   {
-    "source":"/contribute/",
-    "target":"/javascript/contribute/",
-    "status":"301",
-    "condition":null
-  },
-  {
-    "source":"/contribute/getting-started/",
-    "target":"/javascript/contribute/getting-started/",
-    "status":"301",
-    "condition":null
-  },
-  {
     "source":"/flutter-references/",
-    "target":"/flutter/reference/api-references/",
+    "target":"/flutter/reference/flutter-api/",
     "status":"301",
     "condition":null
   },
@@ -1969,7 +1957,7 @@
   },
   {
     "source":"/lib-v1/analytics/personalize/q/platform/js/",
-    "target":"/javascript/prev/build-a-backend/more-features/analytics/personlize-redommendations/",
+    "target":"/javascript/prev/build-a-backend/more-features/analytics/personalize-recommendations/",
     "status":"301",
     "condition":null
   },
@@ -2042,12 +2030,6 @@
   {
     "source":"/lib-v1/auth/manageusers/q/platform/react-native/#managing-user-attributes",
     "target":"/react-native/prev/build-a-backend/auth/manage-user-profile/",
-    "status":"301",
-    "condition":null
-  },
-  {
-    "source":"/lib-v1/auth/mfa/q/platform/flutter/",
-    "target":"/flutter/prev/build-a-backend/auth/manage-mfa/",
     "status":"301",
     "condition":null
   },
@@ -2245,7 +2227,7 @@
   },
   {
     "source":"/lib-v1/geo/geofences/q/platform/js/",
-    "target":"/javascript/prev/build-a-backend/more-features/geo/manage-geofences/",
+    "target":"/javascript/prev/build-a-backend/more-features/geo/geofences/",
     "status":"301",
     "condition":null
   },
@@ -2322,12 +2304,6 @@
     "condition":null
   },
   {
-    "source":"/lib-v1/graphqlapi/offline/q/platform/js/",
-    "target":"/javascript/build-a-backend/graphqlapi/offline/",
-    "status":"301",
-    "condition":null
-  },
-  {
     "source":"/lib-v1/graphqlapi/offline/q/platform/react-native/",
     "target":"/react-native/prev/build-a-backend/graphqlapi/offline/",
     "status":"301",
@@ -2383,13 +2359,13 @@
   },
   {
     "source":"/lib-v1/in-app-messaging/display-message/q/platform/js/",
-    "target":"/javascript/prev/build-a-backend/more-features/in-app-messaging/display-message/",
+    "target":"/javascript/prev/build-a-backend/more-features/in-app-messaging/display-messages/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/in-app-messaging/display-message/q/platform/react-native/",
-    "target":"/react-native/prev/build-a-backend/more-features/in-app-messaging/display-message/",
+    "target":"/react-native/prev/build-a-backend/more-features/in-app-messaging/display-messages/",
     "status":"301",
     "condition":null
   },
@@ -2755,13 +2731,13 @@
   },
   {
     "source":"/lib-v1/push-notifications/app-badge-count/q/platform/react-native/",
-    "target":"/react-native/prev/build-a-backend/app-badge-count/",
+    "target":"/react-native/prev/build-a-backend/push-notifications/app-badge-count/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/push-notifications/enable-rich-notifications/q/platform/react-native/",
-    "target":"/react-native/prev/build-a-backend/enable-rich-notifications/",
+    "target":"/react-native/prev/build-a-backend/push-notifications/enable-rich-notifications/",
     "status":"301",
     "condition":null
   },
@@ -2773,55 +2749,55 @@
   },
   {
     "source":"/lib-v1/push-notifications/identify-user/q/platform/react-native/",
-    "target":"/react-native/prev/build-a-backend/identify-user/",
+    "target":"/react-native/prev/build-a-backend/push-notifications/identify-user/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/push-notifications/interact-with-notifications/q/platform/react-native/",
-    "target":"/react-native/prev/build-a-backend/interact-with-notificiations/",
+    "target":"/react-native/prev/build-a-backend/push-notifications/interact-with-notifications/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/push-notifications/receive-device-token/q/platform/react-native/",
-    "target":"/react-native/prev/build-a-backend/receive-device-token/",
+    "target":"/react-native/prev/build-a-backend/push-notifications/receive-device-token/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/push-notifications/request-permissions/q/platform/react-native/",
-    "target":"/react-native/prev/build-a-backend/request-permissions/",
+    "target":"/react-native/prev/build-a-backend/push-notifications/request-permissions/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/push-notifications/setup-push-service/q/platform/react-native/",
-    "target":"/react-native/prev/build-a-backend/set-up-push-services/",
+    "target":"/react-native/prev/build-a-backend/push-notifications/set-up-push-service/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/push-notifications/testing/q/platform/react-native/",
-    "target":"/react-native/prev/build-a-backend/push-ntifications/test-notifications/",
+    "target":"/react-native/prev/build-a-backend/push-notifications/test-notifications/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/q/platform/android/",
-    "target":"/android/prev/tools/libraries/",
+    "target":"/android/prev/build-a-backend/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/q/platform/flutter/",
-    "target":"/flutter/prev/tools/libraries/",
+    "target":"/flutter/prev/build-a-backend/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/q/platform/ios/",
-    "target":"/swift/prev/tools/libraries/",
+    "target":"/swift/prev/build-a-backend/",
     "status":"301",
     "condition":null
   },
@@ -2869,13 +2845,13 @@
   },
   {
     "source":"/lib-v1/restapi/existing-resources/q/platform/js/",
-    "target":"/javascript/prev/build-a-backend/restapi/existing-resources/",
+    "target":"/javascript/build-a-backend/restapi/existing-resources/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/restapi/existing-resources/q/platform/react-native/",
-    "target":"/react-native/prev/build-a-backend/restapi/existing-resources/",
+    "target":"/react-native/build-a-backend/restapi/existing-resources/",
     "status":"301",
     "condition":null
   },
@@ -2917,7 +2893,7 @@
   },
   {
     "source":"/lib-v1/ssr/nextjs/q/platform/js/",
-    "target":"/javascript/prev/build-a-backend/server-side-redering/set-up-ssr/",
+    "target":"/javascript/prev/build-a-backend/server-side-rendering/",
     "status":"301",
     "condition":null
   },
@@ -2990,12 +2966,6 @@
   {
     "source":"/lib-v1/storage/remove/q/platform/react-native/",
     "target":"/react-native/prev/build-a-backend/storage/remove/",
-    "status":"301",
-    "condition":null
-  },
-  {
-    "source":"/lib-v1/storage/transfer-acceleration/q/platform/android/",
-    "target":"/android/prev/build-a-backend/storage/transfer-acceleration/",
     "status":"301",
     "condition":null
   },
@@ -3121,13 +3091,13 @@
   },
   {
     "source":"/lib/analytics/update-endpoint/q/platform/js/",
-    "target":"/javascript/build-a-backend/more-features/analytics/update-endpoint/",
+    "target":"/javascript/prev/build-a-backend/more-features/analytics/update-endpoint/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/analytics/update-endpoint/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/more-features/analytics/update-endpoint/",
+    "target":"/react-native/prev/build-a-backend/more-features/analytics/update-endpoint/",
     "status":"301",
     "condition":null
   },
@@ -3283,13 +3253,13 @@
   },
   {
     "source":"/lib/client-configuration/configuring-amplify-categories/q/platform/js/",
-    "target":"/javascript/prev/tools/libraries/configure-categories/",
+    "target":"/javascript/tools/libraries/configure-categories/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/client-configuration/configuring-amplify-categories/q/platform/react-native/",
-    "target":"/react-native/tools/libraries/configure-categories/",
+    "target":"react-native/tools/libraries/configure-categories/",
     "status":"301",
     "condition":null
   },
@@ -3390,24 +3360,6 @@
     "condition":null
   },
   {
-    "source":"/lib-v1/auth/advanced/q/platform/android/",
-    "target":"/android/prev/build-a-backend/auth/advanced-workflows/",
-    "status":"301",
-    "condition":null
-  },
-  {
-    "source":"/lib-v1/auth/advanced/q/platform/flutter/",
-    "target":"/flutter/prev/build-a-backend/auth/advanced-workflows/",
-    "status":"301",
-    "condition":null
-  },
-  {
-    "source":"/lib-v1/auth/advanced/q/platform/ios/",
-    "target":"/swift/prev/build-a-backend/auth/advanced-workflows/",
-    "status":"301",
-    "condition":null
-  },
-  {
     "source":"/lib-v1/auth/advanced/q/platform/js/",
     "target":"/javascript/prev/build-a-backend/auth/advanced-workflows/",
     "status":"301",
@@ -3499,7 +3451,7 @@
   },
   {
     "source":"/lib-v1/auth/existing-resources/q/platform/flutter/",
-    "target":"/flutter/prev/build-a-backend/auth/using-existing-resources/",
+    "target":"/flutter/prev/build-a-backend/auth/existing-resources/",
     "status":"301",
     "condition":null
   },
@@ -3553,7 +3505,7 @@
   },
   {
     "source":"/lib-v1/auth/manageusers/q/platform/js/",
-    "target":"/javascript/prev/build-a-backend/auth/password-management/",
+    "target":"/javascript/prev/build-a-backend/auth/manage-passwords/",
     "status":"301",
     "condition":null
   },
@@ -3625,19 +3577,19 @@
   },
   {
     "source":"/lib-v1/auth/signin_web_ui/q/platform/android/",
-    "target":"/android/prev/build-a-backend/auth/sign-in-web-ui/",
+    "target":"/android/prev/build-a-backend/auth/sign-in-with-web-ui/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/auth/signin_web_ui/q/platform/flutter/",
-    "target":"/flutter/prev/build-a-backend/auth/enable-sign-in-with-web-ui/",
+    "target":"/flutter/prev/build-a-backend/auth/sign-in-with-web-ui/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/auth/signin_web_ui/q/platform/ios/",
-    "target":"/swift/prev/build-a-backend/auth/sign-in-web-ui/",
+    "target":"/swift/prev/build-a-backend/auth/sign-in-with-web-ui/",
     "status":"301",
     "condition":null
   },
@@ -3703,7 +3655,7 @@
   },
   {
     "source":"/lib-v1/auth/social/q/platform/flutter/",
-    "target":"/flutter/prev/build-a-backend/auth/add-social-providers/",
+    "target":"/flutter/prev/build-a-backend/auth/add-social-provider/",
     "status":"301",
     "condition":null
   },
@@ -3823,7 +3775,7 @@
   },
   {
     "source":"/lib-v1/datastore/how-it-works/q/platform/android/",
-    "target":"/android/prev/build-a-backend/more-features/datastore/overview/",
+    "target":"/android/prev/build-a-backend/more-features/datastore/",
     "status":"301",
     "condition":null
   },
@@ -4039,19 +3991,19 @@
   },
   {
     "source":"/lib-v1/graphqlapi/authz/q/platform/android/",
-    "target":"/android/prev/build-a-backend/graphqlapi/configure-authz-modes/",
+    "target":"/android/prev/build-a-backend/graphqlapi/customize-authz-modes/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/graphqlapi/authz/q/platform/flutter/",
-    "target":"/flutter/prev/build-a-backend/graphqlapi/customize-authorization-rules/",
+    "target":"/flutter/prev/build-a-backend/graphqlapi/customize-authz-modes/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/graphqlapi/authz/q/platform/ios/",
-    "target":"/swift/prev/build-a-backend/graphqlapi/configure-authz-modes/",
+    "target":"/swift/prev/build-a-backend/graphqlapi/customize-authz-modes/",
     "status":"301",
     "condition":null
   },
@@ -4063,7 +4015,7 @@
   },
   {
     "source":"/lib-v1/graphqlapi/concepts/q/platform/flutter/",
-    "target":"/flutter/prev/build-a-backend/graphqlapi/appsync-concepts/",
+    "target":"/flutter/prev/build-a-backend/graphqlapi/api-graphql-concepts/",
     "status":"301",
     "condition":null
   },
@@ -4189,13 +4141,13 @@
   },
   {
     "source":"/lib-v1/predictions/escapehatch/q/platform/android/",
-    "target":"/android/prev/build-a-backend/more-features/predictions/android-sdk/",
+    "target":"/android/prev/build-a-backend/more-features/predictions/sdk/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/predictions/escapehatch/q/platform/ios/",
-    "target":"/swift/prev/build-a-backend/more-features/predictions/android-sdk/",
+    "target":"/swift/prev/build-a-backend/more-features/predictions/sdk/",
     "status":"301",
     "condition":null
   },
@@ -4273,7 +4225,7 @@
   },
   {
     "source":"/lib-v1/predictions/transcribe/q/platform/ios/",
-    "target":"/swift/prev/build-a-backend/more-features/predictions/transcribe/",
+    "target":"/swift/prev/build-a-backend/more-features/predictions/transcribe-audio/",
     "status":"301",
     "condition":null
   },
@@ -4327,19 +4279,19 @@
   },
   {
     "source":"/lib-v1/restapi/existing-resources/q/platform/android/",
-    "target":"/android/prev/build-a-backend/restapi/existing-resources/",
+    "target":"/android/build-a-backend/restapi/existing-resources/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/restapi/existing-resources/q/platform/flutter/",
-    "target":"/flutter/prev/build-a-backend/restapi/existing-resources/",
+    "target":"/flutter/build-a-backend/restapi/existing-resources/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/restapi/existing-resources/q/platform/ios/",
-    "target":"/swift/prev/build-a-backend/restapi/existing-resources/",
+    "target":"/swift/build-a-backend/restapi/existing-resources/",
     "status":"301",
     "condition":null
   },
@@ -4459,13 +4411,13 @@
   },
   {
     "source":"/lib/graphqlapi/existing-resources/q/platform/js/",
-    "target":"/javascript/build-a-backend/graphqlapi/existing-resources/",
+    "target":"/javascript/prev/build-a-backend/graphqlapi/existing-resources/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/graphqlapi/existing-resources/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/graphqlapi/existing-resources/",
+    "target":"/react-native/prev/build-a-backend/graphqlapi/existing-resources/",
     "status":"301",
     "condition":null
   },
@@ -4627,7 +4579,7 @@
   },
   {
     "source":"/lib/graphqlapi/offline/q/platform/js/",
-    "target":"/javascript/build-a-backend/graphqlapi/offline/",
+    "target":"/javascript/prev/build-a-backend/graphqlapi/offline/",
     "status":"301",
     "condition":null
   },
@@ -4711,7 +4663,7 @@
   },
   {
     "source":"/lib/analytics/personalize/q/platform/js/",
-    "target":"/javascript/build-a-backend/more-features/analytics/personlize-redommendations/",
+    "target":"/javascript/prev/build-a-backend/more-features/analytics/personalize-recommendations/",
     "status":"301",
     "condition":null
   },
@@ -4927,7 +4879,7 @@
   },
   {
     "source":"/lib/auth/existing-resources/q/platform/flutter/",
-    "target":"/flutter/build-a-backend/auth/using-existing-resources/",
+    "target":"/flutter/build-a-backend/auth/existing-resources/",
     "status":"301",
     "condition":null
   },
@@ -4987,7 +4939,7 @@
   },
   {
     "source":"/lib/auth/manageusers/q/platform/js/",
-    "target":"/javascript/build-a-backend/auth/password-management/",
+    "target":"/javascript/prev/build-a-backend/auth/manage-passwords/",
     "status":"301",
     "condition":null
   },
@@ -5101,19 +5053,19 @@
   },
   {
     "source":"/lib/auth/signin_web_ui/q/platform/android/",
-    "target":"/android/build-a-backend/auth/sign-in-web-ui/",
+    "target":"/android/build-a-backend/auth/sign-in-with-web-ui/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/auth/signin_web_ui/q/platform/flutter/",
-    "target":"/flutter/build-a-backend/auth/enable-sign-in-with-web-ui/",
+    "target":"/flutter/build-a-backend/auth/sign-in-with-web-ui/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/auth/signin_web_ui/q/platform/ios/",
-    "target":"/swift/build-a-backend/auth/sign-in-web-ui/",
+    "target":"/swift/build-a-backend/auth/sign-in-with-web-ui/",
     "status":"301",
     "condition":null
   },
@@ -5197,7 +5149,7 @@
   },
   {
     "source":"/lib/auth/social/q/platform/flutter/",
-    "target":"/flutter/build-a-backend/auth/add-social-providers/",
+    "target":"/flutter/build-a-backend/auth/add-social-provider/",
     "status":"301",
     "condition":null
   },
@@ -5425,7 +5377,7 @@
   },
   {
     "source":"/lib/datastore/how-it-works/q/platform/android/",
-    "target":"/android/build-a-backend/more-features/datastore/overview/",
+    "target":"/android/build-a-backend/more-features/datastore/",
     "status":"301",
     "condition":null
   },
@@ -5593,13 +5545,13 @@
   },
   {
     "source":"/lib/datastore/setup-auth-rules/q/platform/js/",
-    "target":"/javascript/build-a-backend/more-features/datastore/auth-rules-setup/",
+    "target":"/javascript/build-a-backend/more-features/datastore/authz-rules-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/datastore/setup-auth-rules/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/more-features/datastore/auth-rules-setup/",
+    "target":"/react-native/build-a-backend/more-features/datastore/authz-rules-setup/",
     "status":"301",
     "condition":null
   },
@@ -5683,7 +5635,7 @@
   },
   {
     "source":"/lib/geo/geofences/q/platform/js/",
-    "target":"/javascript/build-a-backend/more-features/geo/manage-geofences/",
+    "target":"/javascript/build-a-backend/more-features/geo/geofences/",
     "status":"301",
     "condition":null
   },
@@ -5779,13 +5731,13 @@
   },
   {
     "source":"/lib/graphqlapi/authz/q/platform/js/",
-    "target":"/javascript/build-a-backend/graphqlapi/customize-authz-modes/",
+    "target":"/javascript/build-a-backend/graphqlapi/customize-authorization-rules/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/graphqlapi/authz/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/graphqlapi/customize-authz-modes/",
+    "target":"/react-native/build-a-backend/graphqlapi/customize-authorization-rules/",
     "status":"301",
     "condition":null
   },
@@ -6163,13 +6115,13 @@
   },
   {
     "source":"/lib/in-app-messaging/display-message/q/platform/js/",
-    "target":"/javascript/build-a-backend/more-features/in-app-messaging/display-message/",
+    "target":"/javascript/build-a-backend/more-features/in-app-messaging/display-messages/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/in-app-messaging/display-message/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/more-features/in-app-messaging/display-message/",
+    "target":"/react-native/build-a-backend/more-features/in-app-messaging/display-messages/",
     "status":"301",
     "condition":null
   },
@@ -6421,7 +6373,7 @@
   },
   {
     "source":"/lib/q/platform/js/",
-    "target":"/javascript/prev/tools/libraries/",
+    "target":"/javascript/prev/build-a-backend/",
     "status":"301",
     "condition":null
   },
@@ -6463,13 +6415,13 @@
   },
   {
     "source":"/lib/predictions/escapehatch/q/platform/android/",
-    "target":"/android/build-a-backend/more-features/predictions/android-sdk/",
+    "target":"/android/build-a-backend/more-features/predictions/sdk/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/predictions/escapehatch/q/platform/ios/",
-    "target":"/swift/build-a-backend/more-features/predictions/android-sdk/",
+    "target":"/swift/build-a-backend/more-features/predictions/sdk/",
     "status":"301",
     "condition":null
   },
@@ -6493,13 +6445,13 @@
   },
   {
     "source":"/lib/restapi/cancel/q/platform/js/",
-    "target":"/javascript/build-a-backend/restapi/cancel-api-requests/",
+    "target":"/javascript/prev/build-a-backend/restapi/cancel-api-requests/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/restapi/cancel/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/restapi/cancel-api-requests/",
+    "target":"/react-native/prev/build-a-backend/restapi/cancel-api-requests/",
     "status":"301",
     "condition":null
   },
@@ -6655,7 +6607,7 @@
   },
   {
     "source":"/lib/predictions/transcribe/q/platform/ios/",
-    "target":"/swift/build-a-backend/more-features/predictions/transcribe/",
+    "target":"/swift/build-a-backend/more-features/predictions/transcribe-audio/",
     "status":"301",
     "condition":null
   },
@@ -6739,7 +6691,7 @@
   },
   {
     "source":"/lib/push-notifications/app-badge-count/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/app-badge-count/",
+    "target":"/react-native/build-a-backend/push-notifications/app-badge-count/",
     "status":"301",
     "condition":null
   },
@@ -6751,7 +6703,7 @@
   },
   {
     "source":"/lib/push-notifications/enable-rich-notifications/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/enable-rich-notifications/",
+    "target":"/react-native/build-a-backend/push-notifications/enable-rich-notifications/",
     "status":"301",
     "condition":null
   },
@@ -6799,19 +6751,19 @@
   },
   {
     "source":"/lib/push-notifications/identify-user/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/identify-user/",
+    "target":"/react-native/build-a-backend/push-notifications/identify-user/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/storage/cancel-requests/q/platform/js/",
-    "target":"/javascript/build-a-backend/storage/cancel-requests/",
+    "target":"/javascript/prev/build-a-backend/storage/cancel-requests/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/storage/cancel-requests/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/storage/cancel-requests/",
+    "target":"/react-native/prev/build-a-backend/storage/cancel-requests/",
     "status":"301",
     "condition":null
   },
@@ -6823,13 +6775,13 @@
   },
   {
     "source":"/lib/push-notifications/interact-with-notifications/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/interact-with-notificiations/",
+    "target":"/react-native/build-a-backend/push-notifications/interact-with-notifications/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/push-notifications/migrate-from-previous-version/q/platform/react-native/",
-    "target":"/react-native/prev/build-a-backend/migrate-from-previous-version/",
+    "target":"/react-native/prev/build-a-backend/push-notifications/migrate-from-previous-version/",
     "status":"301",
     "condition":null
   },
@@ -6841,7 +6793,7 @@
   },
   {
     "source":"/lib/push-notifications/receive-device-token/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/receive-device-token/",
+    "target":"/react-native/build-a-backend/push-notifications/receive-device-token/",
     "status":"301",
     "condition":null
   },
@@ -6865,13 +6817,13 @@
   },
   {
     "source":"/lib/storage/custom-plugin/q/platform/js/",
-    "target":"/javascript/build-a-backend/storage/custom-plugin/",
+    "target":"/javascript/prev/build-a-backend/storage/custom-plugin/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/storage/custom-plugin/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/storage/custom-plugin/",
+    "target":"/react-native/prev/build-a-backend/storage/custom-plugin/",
     "status":"301",
     "condition":null
   },
@@ -6883,7 +6835,7 @@
   },
   {
     "source":"/lib/push-notifications/request-permissions/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/request-permissions/",
+    "target":"/react-native/build-a-backend/push-notifications/request-permissions/",
     "status":"301",
     "condition":null
   },
@@ -6895,7 +6847,7 @@
   },
   {
     "source":"/lib/push-notifications/setup-push-service/q/platform/flutter/",
-    "target":"/flutter/build-a-backend/push-notifications/setup-push-service/",
+    "target":"/flutter/build-a-backend/push-notifications/set-up-push-service/",
     "status":"301",
     "condition":null
   },
@@ -6907,7 +6859,7 @@
   },
   {
     "source":"/lib/push-notifications/setup-push-service/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/set-up-push-services/",
+    "target":"/react-native/build-a-backend/push-notifications/set-up-push-service/",
     "status":"301",
     "condition":null
   },
@@ -6931,7 +6883,7 @@
   },
   {
     "source":"/lib/push-notifications/testing/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/push-ntifications/test-notifications/",
+    "target":"/react-native/build-a-backend/push-notifications/test-notifications/",
     "status":"301",
     "condition":null
   },
@@ -7105,7 +7057,7 @@
   },
   {
     "source":"/lib/storage/autotrack/q/platform/js/",
-    "target":"/javascript/build-a-backend/storage/autotrack/",
+    "target":"/javascript/prev/build-a-backend/storage/autotrack/",
     "status":"301",
     "condition":null
   },
@@ -7237,13 +7189,13 @@
   },
   {
     "source":"/lib/troubleshooting/strict-mode/q/platform/js/",
-    "target":"/javascript/build-a-backend/troubleshooting/strict-mode/",
+    "target":"/javascript/prev/build-a-backend/troubleshooting/strict-mode/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib/troubleshooting/strict-mode/q/platform/react-native/",
-    "target":"/react-native/build-a-backend/troubleshooting/strict-mode/",
+    "target":"/react-native/prev/build-a-backend/troubleshooting/strict-mode/",
     "status":"301",
     "condition":null
   },
@@ -7561,13 +7513,13 @@
   },
   {
     "source":"/sdk/auth/how-it-works/q/platform/android/",
-    "target":"/android/sdk/auth/overview/",
+    "target":"/android/sdk/auth/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/sdk/auth/how-it-works/q/platform/ios/",
-    "target":"/swift/sdk/auth/overview/",
+    "target":"/swift/sdk/auth/",
     "status":"301",
     "condition":null
   },
@@ -7585,13 +7537,13 @@
   },
   {
     "source":"/sdk/configuration/setup-options/q/platform/android/",
-    "target":"/android/sdk/configuration/overview/",
+    "target":"/android/sdk/configuration/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/sdk/configuration/setup-options/q/platform/ios/",
-    "target":"/swift/sdk/configuration/overview/",
+    "target":"/swift/sdk/configuration/",
     "status":"301",
     "condition":null
   },
@@ -7675,19 +7627,13 @@
   },
   {
     "source":"/sdk/q/platform/android/",
-    "target":"/android/sdk/overview/",
+    "target":"/android/sdk/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/sdk/q/platform/ios/",
-    "target":"/swift/sdk/overview/",
-    "status":"301",
-    "condition":null
-  },
-  {
-    "source":"/sdk/storage/configure-access/q/platform/android/",
-    "target":"/android/sdk/storage/configure-access/",
+    "target":"/swift/sdk/",
     "status":"301",
     "condition":null
   },
@@ -7741,7 +7687,7 @@
   },
   {
     "source":"/start/getting-started/add-api/q/integration/ios/",
-    "target":"/ios/start/getting-started/add-api/",
+    "target":"/swift/start/getting-started/add-api/",
     "status":"301",
     "condition":null
   },
@@ -7819,7 +7765,7 @@
   },
   {
     "source":"/start/getting-started/generate-model/q/integration/ios/",
-    "target":"/ios/start/getting-started/generate-model/",
+    "target":"/swift/start/getting-started/generate-model/",
     "status":"301",
     "condition":null
   },
@@ -7873,7 +7819,7 @@
   },
   {
     "source":"/start/getting-started/installation/q/integration/ios/",
-    "target":"/ios/start/getting-started/installation/",
+    "target":"/swift/start/getting-started/installation/",
     "status":"301",
     "condition":null
   },
@@ -7921,7 +7867,7 @@
   },
   {
     "source":"/start/getting-started/integrate/q/integration/ios/",
-    "target":"/ios/start/getting-started/integrate/",
+    "target":"/swift/start/getting-started/integrate/",
     "status":"301",
     "condition":null
   },
@@ -7945,7 +7891,7 @@
   },
   {
     "source":"/start/getting-started/nextsteps/q/integration/ios/",
-    "target":"/ios/start/getting-started/nextsteps/",
+    "target":"/swift/start/getting-started/nextsteps/",
     "status":"301",
     "condition":null
   },
@@ -7999,7 +7945,7 @@
   },
   {
     "source":"/start/getting-started/setup/q/integration/ios/",
-    "target":"/ios/start/getting-started/setup/",
+    "target":"/swift/start/getting-started/setup/",
     "status":"301",
     "condition":null
   },
@@ -8053,7 +7999,7 @@
   },
   {
     "source":"/start/q/integration/ios/",
-    "target":"/ios/start/getting-started/introduction/",
+    "target":"/swift/start/getting-started/introduction/",
     "status":"301",
     "condition":null
   },
