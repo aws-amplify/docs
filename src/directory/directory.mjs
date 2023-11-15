@@ -1098,7 +1098,12 @@ export const directory = {
                 }
               ]
             },
-            { path: 'src/pages/[platform]/tools/libraries/index.mdx' }
+            { 
+              path: 'src/pages/[platform]/tools/libraries/index.mdx',
+              children:  [
+                { path:  'src/pages/[platform]/tools/libraries/configure-categories/index.mdx' }
+              ]
+            }
           ]
         },
         {
