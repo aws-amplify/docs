@@ -1123,11 +1123,50 @@ export const directory = {
           ]
         },
         {
-          path: 'src/pages/[platform]/reference/index.mdx',
-          children: [
-            { path: 'src/pages/[platform]/reference/flutter-api/index.mdx' }
+          isExternal: true,
+          route: 'https://aws-amplify.github.io/amplify-js/api/',
+          title: 'Reference',
+          description:
+            'Reference',
+          platforms: [
+            'javascript',
+            'nextjs',
+            'react',
+            'react-native',
+            'angular',
+            'vue'
+          ]
+        }, 
+        { 
+          isExternal: true,
+          route: 'https://aws-amplify.github.io/amplify-swift/docs/',
+          title: 'Reference',
+          description:
+            'Reference',
+          platforms: [
+            'swift'
           ]
         },
+        { 
+          isExternal: true,
+          route: 'https://aws-amplify.github.io/aws-sdk-android/docs/reference/',
+          title: 'Reference',
+          description:
+            'Reference',
+          platforms: [
+            'android'
+          ]
+        },
+        { 
+          route: '/[platform]/reference/flutter-api/',
+          title: 'Reference',
+          description:
+            'Reference',
+          platforms: [
+            'flutter'
+          ]
+        },
+        
         {
           path: 'src/pages/[platform]/prev/index.mdx',
           children: [
