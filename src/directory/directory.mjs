@@ -1251,6 +1251,9 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/set-up-graphql-api/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/connect-to-api/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/api-graphql-concepts/index.mdx'
                     },
                     {
@@ -1266,6 +1269,15 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/working-with-files/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/optomistic-ui/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/connect-from-server-runtime/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/offline/index.mdx'
                     },
                     {
@@ -1273,6 +1285,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/existing-resources/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/upgrade-guide/index.mdx'
                     }
                   ]
                 },
