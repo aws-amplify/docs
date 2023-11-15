@@ -1645,14 +1645,6 @@ export const directory = {
                   ]
                 }
               ]
-            },
-            {
-              path: 'src/pages/[platform]/prev/tools/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/prev/tools/libraries/index.mdx'
-                }
-              ]
             }
           ]
         },
