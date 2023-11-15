@@ -1,5 +1,11 @@
 [
   {
+    "source":"/lib/ssr/ssr/q/platform/js/",
+    "target":"/javascript/prev/build-a-backend/sever-side-rendering/",
+    "status":"301",
+    "condition":null
+  },
+  {
     "source":"/cli/function/function/",
     "target":"/javascript/build-a-backend/functions/set-up-function/",
     "status":"301",
@@ -79,7 +85,7 @@
   },
   {
     "source":"/cli/graphql-transformer/<*>",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/auth-directive/<*>",
+    "target":"/javascript/tools/cli-legacy/auth-directive/<*>",
     "status":"301",
     "condition":null
   },
@@ -625,109 +631,109 @@
   },
   {
     "source":"/cli-legacy/graphql-transformer/auth/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/auth-directive/",
+    "target":"/javascript/tools/cli-legacy/auth-directive/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/codegen/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/client-codegen/",
+    "target":"/javascript/tools/cli-legacy/client-codegen/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/config-params/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/config-params/",
+    "target":"/javascript/tools/cli-legacy/config-params/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/connection/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/connection-directive/",
+    "target":"/javascript/tools/cli-legacy/connection-directive/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/dataaccess/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/data-access-patterns/",
+    "target":"/javascript/tools/cli-legacy/data-access-patterns/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/directives/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/directives/",
+    "target":"/javascript/tools/cli-legacy/directives/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/examples/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/examples/",
+    "target":"/javascript/tools/cli-legacy/examples/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/function/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/function-directive/",
+    "target":"/javascript/tools/cli-legacy/function-directive/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/http/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/http-directive/",
+    "target":"/javascript/tools/cli-legacy/http-directive/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/key/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/key-directive/",
+    "target":"/javascript/tools/cli-legacy/key-directive/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/model/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/model-directive/",
+    "target":"/javascript/tools/cli-legacy/model-directive/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/overview/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/overview/",
+    "target":"/javascript/tools/cli-legacy/overview/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/predictions/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/predictions-directive/",
+    "target":"/javascript/tools/cli-legacy/predictions-directive/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/relational/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/relational-databases/",
+    "target":"/javascript/tools/cli-legacy/relational-databases/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/resolvers/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/overwrite-customize-resolvers/",
+    "target":"/javascript/tools/cli-legacy/overwrite-customize-resolvers/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/searchable/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/searchable-directive/",
+    "target":"/javascript/tools/cli-legacy/searchable-directive/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/storage/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/storage/",
+    "target":"/javascript/tools/cli-legacy/storage/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/cli-legacy/graphql-transformer/versioned/",
-    "target":"/javascript/tools/cli-legacy/graphql-transformer/versioned-directive/",
+    "target":"/javascript/tools/cli-legacy/versioned-directive/",
     "status":"301",
     "condition":null
   },
