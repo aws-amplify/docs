@@ -10,25 +10,31 @@ Below is an example of how you would have previously in v5 interacted with the A
 import { CognitoUser } from '@aws-amplify/auth';
 import { Auth } from 'aws-amplify';
 
-const handleSignIn = async ({username, password}: {
-    username: string,
-    password: string
+const handleSignIn = async ({
+  username,
+  password
+}: {
+  username: string;
+  password: string;
 }) => {
-    const user: CognitoUser = Auth.signIn(username, password);
-}
+  const user: CognitoUser = Auth.signIn(username, password);
+};
 ```
 
 The following is an example of how you would accomplish the same functionality with v6, using our new imports and API surface.
 
 ```ts
-import { signIn, SignInInput, SignInOutput } from 'aws-amplify/auth';
+import { signIn } from 'aws-amplify/auth';
 
-const handleSignIn = async({username, password}: {
-    username: string,
-    password: string
+const handleSignIn = async ({
+  username,
+  password
+}: {
+  username: string;
+  password: string;
 }) => {
-    const { isSignUpComplete, userId, nextStep } = signIn({username, password});
-}
+  const { isSignUpComplete, userId, nextStep } = signIn({ username, password });
+};
 ```
 
 ## Steps to Upgrade
@@ -37,12 +43,15 @@ const handleSignIn = async({username, password}: {
 
 In order to use Amplify JavaScript V6, you will need to make sure you are using the following versions in your development environment:
 
-* [Node.js](https://nodejs.org/) v16.x or later
-* [npm](https://www.npmjs.com/) v9.7.1 or later
+- [Node.js](https://nodejs.org/) v16.x or later
+- [npm](https://www.npmjs.com/) v9.7.1 or later
 
 ### 2. Update your Amplify project dependencies
 
-<Callout>Make sure to delete your package-lock.json and node_modules folder before running `npm install`</Callout>
+<Callout>
+  Make sure to delete your package-lock.json and node_modules folder before
+  running `npm install`
+</Callout>
 
 <BlockSwitcher>
 
@@ -56,12 +65,12 @@ npm install aws-amplify
 
 The `aws-amplify` package in v6 includes the categories below:
 
-* Auth
-* API
-* Storage
-* Analytics
-* DataStore
-* In-App Messaging
+- Auth
+- API
+- Storage
+- Analytics
+- DataStore
+- In-App Messaging
 
 If you would like to use Geo, Predictions, PubSub, or Interactions you will need to install those packages separately. (see [category-specific migration instructions](/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/#4-upgrade-category-usage))
 
@@ -101,7 +110,10 @@ The `@aws-amplify/adapter-nextjs` provides adapter functions to enable use of Am
 
 Note that v6 supports NextJS v13.5.0 through 14. We recommend upgrading if you are using a version less than 13.5.0.
 
-<Callout>NextJS v13.5.0 requires Node v16.14.0 or later and NextJS v14+ requires Node v18.17.0 or later</Callout>
+<Callout>
+  NextJS v13.5.0 requires Node v16.14.0 or later and NextJS v14+ requires Node
+  v18.17.0 or later
+</Callout>
 
 </Block>
 
@@ -118,7 +130,7 @@ amplify push
 
 This will generate a new configuration file called `amplifyconfiguration.json`
 
-Wherever you called `Amplify.configure({aws-exports});` previously (usually in the root of your project) update your code as shown below
+Wherever you called `Amplify.configure({ aws-exports });` previously (usually in the root of your project) update your code as shown below
 
 <Columns columns={2}>
   <div>
@@ -128,6 +140,7 @@ Wherever you called `Amplify.configure({aws-exports});` previously (usually in t
 
     Amplify.configure(awsconfig);
     ```
+
   </div>
   <div>
     **V6**
@@ -136,6 +149,7 @@ Wherever you called `Amplify.configure({aws-exports});` previously (usually in t
 
     Amplify.configure(amplifyconfig);
     ```
+
   </div>
 </Columns>
 
@@ -147,17 +161,16 @@ Wherever you called `Amplify.configure({aws-exports});` previously (usually in t
 
 If you have previously configured Amplify by passing the configuration object literal when calling the `Amplify.configure()` function, you can now configure Amplify manually with type safety. Please refer to the documentation of each category that you are using for migration.
 
-* [Authentication - Set up and configure Amplify Auth](/[platform]/build-a-backend/auth/set-up-auth/#set-up-and-configure-amplify-auth) - see **Existing Resources** tab
-* [API (GraphQL) - Configure the Amplify Library](/[platform]/build-a-backend/graphqlapi/connect-to-api/#configure-the-default-authorization-mode) - see **Existing AppSync GraphQL API** tab
-* [API (REST) - Use existing AWS resources](/[platform]/build-a-backend/restapi/existing-resources/)
-* [API (REST) - Define authorization rules](/[platform]/build-a-backend/restapi/customize-authz/)
-* [Storage - Use existing AWS resources](/[platform]/build-a-backend/storage/existing-resources/)
-* [Analytics - Use existing AWS resources](/[platform]/build-a-backend/more-features/analytics/existing-resources/)
-* [Analytics - Streaming analytics data (Kinesis)](/[platform]/build-a-backend/more-features/analytics/streaming-data/#installation-and-configuration)
-* [Analytics - Storing analytics data (Kinesis Firehose)](/[platform]/build-a-backend/more-features/analytics/storing-data/#installation-and-configuration)
-* [Analytics - Personalized recommendations](/[platform]/build-a-backend/more-features/analytics/personalize-recommendations/#installation-and-configuration)
-* [Interactions - Set up Amplify Interactions](/[platform]/build-a-backend/more-features/interactions/set-up-interactions/)
-
+- [Authentication - Set up and configure Amplify Auth](/[platform]/build-a-backend/auth/set-up-auth/#set-up-and-configure-amplify-auth) - see **Existing Resources** tab
+- [API (GraphQL) - Configure the Amplify Library](/[platform]/build-a-backend/graphqlapi/connect-to-api/#configure-the-default-authorization-mode) - see **Existing AppSync GraphQL API** tab
+- [API (REST) - Use existing AWS resources](/[platform]/build-a-backend/restapi/existing-resources/)
+- [API (REST) - Define authorization rules](/[platform]/build-a-backend/restapi/customize-authz/)
+- [Storage - Use existing AWS resources](/[platform]/build-a-backend/storage/existing-resources/)
+- [Analytics - Use existing AWS resources](/[platform]/build-a-backend/more-features/analytics/existing-resources/)
+- [Analytics - Streaming analytics data (Kinesis)](/[platform]/build-a-backend/more-features/analytics/streaming-data/#installation-and-configuration)
+- [Analytics - Storing analytics data (Kinesis Firehose)](/[platform]/build-a-backend/more-features/analytics/storing-data/#installation-and-configuration)
+- [Analytics - Personalized recommendations](/[platform]/build-a-backend/more-features/analytics/personalize-recommendations/#installation-and-configuration)
+- [Interactions - Set up Amplify Interactions](/[platform]/build-a-backend/more-features/interactions/set-up-interactions/)
 
 **Running Amplify on the server with NextJS**
 
@@ -179,7 +192,7 @@ DataStore is no longer supported in an SSR context: if you are using DataStore w
 
 <Accordion title='Auth' headingLevel='4'>
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/auth` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/auth` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
 <BlockSwitcher>
 
@@ -232,19 +245,19 @@ async function handleSignOut() {
 
 </BlockSwitcher>
 
-For a deeper look at v6 Auth functionality, check out our [Authentication category documentation](/[platform]/build-a-backend/auth/). 
+For a deeper look at v6 Auth functionality, check out our [Authentication category documentation](/[platform]/build-a-backend/auth/).
 
 </Accordion>
 
 <Accordion title='Analytics' headingLevel='4'>
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/analytics` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/analytics` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
 <BlockSwitcher>
 <Block name="V5">
 
 ```ts
-import { Analytics} from 'aws-amplify';
+import { Analytics } from 'aws-amplify';
 
 Analytics.record({
   name: 'albumVisit',
@@ -253,15 +266,15 @@ Analytics.record({
 });
 
 Analytics.autoTrack('session', {
-    // REQUIRED, turn on/off the auto tracking
-    enable: true,
-    // OPTIONAL, the attributes of the event, you can either pass an object or a function
-    // which allows you to define dynamic attributes
-    attributes: {
-        attr: 'attr'
-    },
-    // OPTIONAL, the service provider, by default is the Amazon Pinpoint
-    provider: 'AWSPinpoint'
+  // REQUIRED, turn on/off the auto tracking
+  enable: true,
+  // OPTIONAL, the attributes of the event, you can either pass an object or a function
+  // which allows you to define dynamic attributes
+  attributes: {
+    attr: 'attr'
+  },
+  // OPTIONAL, the service provider, by default is the Amazon Pinpoint
+  provider: 'AWSPinpoint'
 });
 ```
 
@@ -269,7 +282,7 @@ Analytics.autoTrack('session', {
 <Block name="V6">
 
 ```ts
-import { record, `configureAutoTrack` } from 'aws-amplify/analytics';
+import { record, configureAutoTrack } from 'aws-amplify/analytics';
 
 record({
   event: {
@@ -302,7 +315,7 @@ For a deeper look at V6 Analytics functionality, check out our [Analytics catego
 
 <Accordion title='API (GraphQL)' headingLevel='4'>
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/api` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/api` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
 <BlockSwitcher>
 
@@ -312,16 +325,20 @@ As of v6 of Amplify, you will now import the functional API’s directly from th
 import { API, graphqlOperation } from 'aws-amplify';
 import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
 
-const todo = { name: "My first todo", description: "Hello world!" };
+const todo = { name: 'My first todo', description: 'Hello world!' };
 
 /* create a todo */
-await API.graphql(graphqlOperation(createTodo, {input: todo}));
+await API.graphql(graphqlOperation(createTodo, { input: todo }));
 
 /* update a todo */
-await API.graphql(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
+await API.graphql(
+  graphqlOperation(updateTodo, {
+    input: { id: todoId, name: 'Updated todo info' }
+  })
+);
 
 /* delete a todo */
-await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
+await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId } }));
 ```
 
 </Block>
@@ -330,9 +347,9 @@ await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
 
 ```ts
 import { generateClient } from 'aws-amplify/api';
-import * as mutations from './graphql/mutations';
+import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
 
-const client = generateClient()
+const client = generateClient();
 
 const todoDetails = {
   name: 'Todo 1',
@@ -340,20 +357,20 @@ const todoDetails = {
 };
 
 /* create a todo */
-const newTodo = await client.graphql({ 
-  query: mutations.createTodo, 
+const newTodo = await client.graphql({
+  query: createTodo,
   variables: { input: todoDetails }
 });
 
 /* update a todo */
-const updatedTodo = await client.graphql({ 
-  query: mutations.updateTodo, 
+const updatedTodo = await client.graphql({
+  query: updateTodo,
   variables: { input: todoDetails }
 });
 
 /* delete a todo */
-const deletedTodo = await client.graphql({ 
-  query: mutations.deleteTodo, 
+const deletedTodo = await client.graphql({
+  query: deleteTodo,
   variables: { input: todoDetails }
 });
 ```
@@ -368,7 +385,7 @@ For a deeper look at how the GraphQL API functionality in V6, check out our [API
 
 <Accordion title='API (Rest)' headingLevel='4'>
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/api` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/api` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
 <BlockSwitcher>
 
@@ -388,17 +405,16 @@ function getData() {
   return API.get(apiName, path, myInit);
 }
 
-(async function() {
+(async function () {
   const response = await getData();
 })();
-
 
 /* update data */
 async function postData() {
   const apiName = 'MyApiName';
   const path = '/path';
   const myInit = {
-  body: {}, // replace this with attributes you need
+    body: {}, // replace this with attributes you need
     headers: {} // OPTIONAL
   };
 
@@ -430,9 +446,9 @@ import { get, put, del } from 'aws-amplify/api';
 /* fetch data */
 async function getTodo() {
   try {
-    const restOperation = get({ 
+    const restOperation = get({
       apiName: 'todo-api',
-      path: '/todo' 
+      path: '/todo'
     });
     const response = await restOperation.response;
     console.log('GET call succeeded: ', response);
@@ -484,7 +500,7 @@ For a deeper look at how the REST API functionality in V6, check out our [API (R
 
 <Accordion title='In App Messaging' headingLevel='4'>
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/in-app-messaging` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/in-app-messaging` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
 <BlockSwitcher>
 
@@ -496,8 +512,8 @@ import { Notifications } from 'aws-amplify';
 const { InAppMessaging } = Notifications;
 InAppMessaging.syncMessages();
 
-const sendEvent = (eventName: string) => { 
-  InAppMessaging.dispatchEvent({name: eventName});
+const sendEvent = (eventName: string) => {
+  InAppMessaging.dispatchEvent({ name: eventName });
 }
 ```
 
@@ -515,8 +531,8 @@ import {
 initializeInAppMessaging();
 syncMessages();
 
-const sendEvent = (eventName: string) => { 
-  dispatchEvent({name: eventName});
+const sendEvent = (eventName: string) => {
+  dispatchEvent({ name: eventName });
 }
 ```
 
@@ -524,7 +540,7 @@ const sendEvent = (eventName: string) => {
 
 </BlockSwitcher>
 
-For a deeper look at In App Messaging functionality in v6, check out our [In App Messaging category documentation](/[platform]/build-a-backend/more-features/in-app-messaging/). 
+For a deeper look at In App Messaging functionality in v6, check out our [In App Messaging category documentation](/[platform]/build-a-backend/more-features/in-app-messaging/).
 
 </Accordion>
 
@@ -621,7 +637,7 @@ Make sure that the `@aws-amplify/predictions` package has the same version numbe
 
 </Callout>
 
-In v6, the provider will be included by default and you are no longer required to call `Predictions.addPluggable` to use this category. Otherwise, Predictions operates in the same way as before. Use the switcher below to see the differences between v5 and v6: 
+In v6, the provider will be included by default and you are no longer required to call `Predictions.addPluggable` to use this category. Otherwise, Predictions operates in the same way as before. Use the switcher below to see the differences between v5 and v6:
 
 <BlockSwitcher>
 
@@ -638,7 +654,7 @@ import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 Predictions.addPluggable(new AmazonAIPredictionsProvider());
 
-const translateText = async ({textToTranslate}) => {
+const translateText = async ({ textToTranslate }) => {
     const result = await Predictions.convert({
       translateText: {
         source: {
@@ -660,7 +676,7 @@ import amplifyconfig from './amplifyconfiguration.json';
 
 Amplify.configure(amplifyConfig);
 
-const translateText = async ({textToTranslate}) => {
+const translateText = async ({ textToTranslate }) => {
     const result = await Predictions.convert({
       translateText: {
         source: {
@@ -670,23 +686,24 @@ const translateText = async ({textToTranslate}) => {
     });
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
-For a deeper look at Predictions functionality in v6, check out our [Predictions category documentation](/[platform]/build-a-backend/more-features/predictions/). 
+For a deeper look at Predictions functionality in v6, check out our [Predictions category documentation](/[platform]/build-a-backend/more-features/predictions/).
 
 </Accordion>
 
 <Accordion title='PubSub' headingLevel='4'>
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/pubsub` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/pubsub` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
 <BlockSwitcher>
 
 <Block name="V5">
 
 ```
-import { Amplify, PubSub } from 'aws-amplify'; 
+import { Amplify, PubSub } from 'aws-amplify';
 import { AWSIoTProvider } from '@aws-amplify/pubsub';
 
 // Apply plugin with configuration
@@ -698,7 +715,7 @@ Amplify.addPluggable(
   })
 );
 
-// Step 1 - Create IAM policies for AWS IoT (see v5 docs) 
+// Step 1 - Create IAM policies for AWS IoT (see v5 docs)
 
 // Step 2 - Attach your policy to your Amazon Cognito Identity ID
 
@@ -717,7 +734,7 @@ aws iot attach-policy --policy-name 'myIoTPolicy' --target '<YOUR_COGNITO_IDENTI
 <Block name="V6">
 
 ```
-import { Amplify} from 'aws-amplify'; 
+import { Amplify } from 'aws-amplify';
 import { PubSub } from '@aws-amplify/pubsub';
 
 // Apply plugin with configuration
@@ -727,7 +744,7 @@ const pubsub = new PubSub({
     'wss://xxxxxxxxxxxxx.iot.<YOUR-IOT-REGION>.amazonaws.com/mqtt'
 });
 
-// Step 1 - Create IAM policies for AWS IoT (see v5 docs) 
+// Step 1 - Create IAM policies for AWS IoT (see v5 docs)
 
 // Step 2 - Attach your policy to your Amazon Cognito Identity ID
 
@@ -751,37 +768,24 @@ For a deeper look at how the PubSub functionality in V6, check out our [PubSub c
 
 <Accordion title='Storage' headingLevel='4'>
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/storage` path as shown below.  Use the switcher below to see the differences between v5 and v6: 
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/storage` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
 <BlockSwitcher>
 
 <Block name="V5">
 
 ```
-import { Amplify, Auth, Storage } from 'aws-amplify';
+import { Storage } from 'aws-amplify';
 
-// Set up Amplify Storage with Manual configuration
-Amplify.configure({
-  Auth: {
-    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab', //REQUIRED - Amazon Cognito Identity Pool ID
-    region: 'XX-XXXX-X', // REQUIRED - Amazon Cognito Region
-    userPoolId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito User Pool ID
-    userPoolWebClientId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito Web Client ID
-  },
-  Storage: {
-    AWSS3: {
-      bucket: '', //REQUIRED -  Amazon S3 bucket name
-      region: 'XX-XXXX-X', //OPTIONAL -  Amazon service region
-      isObjectLockEnabled: true //OPTIONAl - Object Lock parameter
-    }
-  }
+// Upload a file with access level `public`
+const result = await Storage.put("test.txt", "Hello", {
+  level: 'public',
 });
 
-// Upload files 
-const result = await Storage.put("test.txt", "Hello");
-
-// Download files 
-await Storage.get('filename.txt', { validateObjectExistence: true });
+// Generate a file download url with check if the file exists in the S3 bucket
+const url = await Storage.get('filename.txt', {
+  validateObjectExistence: true
+});
 
 ```
 
@@ -792,32 +796,24 @@ await Storage.get('filename.txt', { validateObjectExistence: true });
 ```
 import { uploadData, downloadData } from 'aws-amplify/storage';
 
-// Upload files to s3 bucket
-try {
-  const result = await uploadData({
-    key: filename,
-    data: file,
-    options: {
-      accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
-      onProgress // Optional progress callback.
-    }
-  }).result;
-  console.log('Succeeded: ', result);
-} catch (error) {
-  console.log('Error : ', error);
-}
-
-// Download a file from s3 bucket
-const { body, eTag } = await downloadData({
-  key,
-  data: file,
+// Upload a file with access level `guest` as  the equivalent of `public` in v5
+const result = await uploadData({
+  key: 'test.txt',
+  data: 'Hello',
   options: {
-    accessLevel: 'guest', // can be 'private' | 'protected' | 'guest'
-    targetIdentityId: 'xxxxxxx', // id of another user, if `level: protected`
-    onProgress, // Optional progress callback.
-  },
+    accessLevel: 'guest'
+  }
 }).result;
+
+// Generate a file download url with check if the file exists in the S3 bucket
+const url = await getUrl({
+  key: 'filename.txt',
+  options: {
+    validateObjectExistence: true
+  },
+});
 ```
+
 </Block>
 
 </BlockSwitcher>
@@ -828,7 +824,7 @@ For a deeper look at how the Storage functionality in V6, check out our [Storage
 
 <Accordion title='Utilities' headingLevel='4'>
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/utils` path as shown below.  Use the switcher below to see the differences between v5 and v6:
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/utils` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
 <BlockSwitcher>
 
@@ -836,83 +832,60 @@ As of v6 of Amplify, you will now import the functional API’s directly from th
 ```
 import { ServiceWorker, Cache, Hub, I18n, Logger } from 'aws-amplify';
 
-// Service Worker
-const serviceWorker = new ServiceWorker();
+// Service Worker const serviceWorker = new ServiceWorker();
 
-// Cache
-Cache.setItem(key, value, [options]);
+// Cache Cache.setItem(key, value, [options]);
 
-// Hub (Listening for messages)
-class MyClass {
-    constructor() {
-        Hub.listen('auth', (data) => {
-            const { payload } = data;
-            this.onAuthEvent(payload);           
-            console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
-        })
-    }
+// Hub (Listening for messages) class MyClass { constructor() { Hub.listen('auth', (data) => { const { payload } = data; this.onAuthEvent(payload);  
+ console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); }) }
 
     onAuthEvent(payload) {
         // ... your implementation
     }
+
 }
 
-// Internationalization
-I18n.setLanguage('fr');
+// Internationalization I18n.setLanguage('fr');
 
-// Logger 
-const logger = new Logger('foo');
+// Logger const logger = new Logger('foo');
 
-logger.info('info bar');
-logger.debug('debug bar');
-logger.warn('warn bar');
-logger.error('error bar');
+logger.info('info bar'); logger.debug('debug bar'); logger.warn('warn bar'); logger.error('error bar');
 
 ```
 </Block>
 
 <Block name="V6">
 ```
-import { ServiceWorker, Cache, Hub, I18n, ConsoleLogger } from 'aws-amplify/utils'; 
 
-// Service Worker
-const serviceWorker = new ServiceWorker();
+import {
+  ServiceWorker,
+  Cache,
+  Hub,
+  I18n,
+  ConsoleLogger
+} from 'aws-amplify/utils';
 
-// Cache
-Cache.setItem(key, value, [options]);
+// Service Worker const serviceWorker = new ServiceWorker();
 
-// Hub (Listening for messages)
-class MyClass {
-  constructor() {
-    Hub.listen('auth', (data) => {
-      const { payload } = data;
-      this.onAuthEvent(payload);           
-      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
-    })
-  }
+// Cache Cache.setItem(key, value, [options]);
 
-  onAuthEvent(payload) {
-    // ... your implementation
-  }
-}
+// Hub (Listening for messages) class MyClass { constructor() { Hub.listen('auth', (data) => { const { payload } = data; this.onAuthEvent(payload);  
+ console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); }) }
 
-// Internationalization
-I18n.setLanguage('fr');
+onAuthEvent(payload) { // ... your implementation } }
 
-// Console Logger
-const logger = new ConsoleLogger('foo');
+// Internationalization I18n.setLanguage('fr');
 
-logger.info('info bar');
-logger.debug('debug bar');
-logger.warn('warn bar');
-logger.error('error bar');
+// Console Logger const logger = new ConsoleLogger('foo');
 
-```
+logger.info('info bar'); logger.debug('debug bar'); logger.warn('warn bar'); logger.error('error bar');
+
+````
 </Block>
 
 </BlockSwitcher>
 
-For a deeper look at v6 Utilities, check out our [Utilities documentation](/[platform]/build-a-backend/utilities/).  
+For a deeper look at v6 Utilities, check out our [Utilities documentation](/[platform]/build-a-backend/utilities/).
 
 </Accordion>
 
@@ -941,7 +914,7 @@ const getServerSideProps = async ({ req }) => {
     }
   };
 };
-```
+````
 
 </Block>
 
@@ -968,7 +941,7 @@ const getServerSideProps = async ({ req, res }) => {
       try {
         const { data } = await reqResBasedClient.graphql(contextSpec, {
           query: listTodos
-        })
+        });
 
         return data;
       } catch (error) {
@@ -990,6 +963,6 @@ const getServerSideProps = async ({ req, res }) => {
 
 </BlockSwitcher>
 
-Please review the [Server-Side Rendering with Amplify JavaScript v6](/[platform]/build-a-backend/server-side-rendering/), as we've changed the developer experience to allow working with cookies and middleware in NextJS. 
+Please review the [Server-Side Rendering with Amplify JavaScript v6](/[platform]/build-a-backend/server-side-rendering/), as we've changed the developer experience to allow working with cookies and middleware in NextJS.
 
 </Accordion>
