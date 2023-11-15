@@ -1138,8 +1138,7 @@ export const directory = {
           ]
         },
         { 
-          isExternal: false,
-          route: '/src/pages/[platform]/reference/flutter-api/index.mdx',
+          route: '/[platform]/reference/flutter-api/',
           title: 'Reference',
           description:
             'Reference',

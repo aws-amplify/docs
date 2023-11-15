@@ -100,9 +100,10 @@ export function MenuItem({
   let hideAPIResources = false; 
 
   if ((currentPlatform == 'javascript' || 
-      currentPlatform == 'android' || 
+      currentPlatform == 'angular' || 
       currentPlatform == 'nextjs' ||
       currentPlatform == 'react' ||
+      currentPlatform == 'react-native' ||
       currentPlatform == 'vue') 
       && !usePathWithoutHash().includes('/prev/') 
       && pageNode.route == 'https://aws-amplify.github.io/amplify-js/api/') {
