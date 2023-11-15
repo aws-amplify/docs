@@ -63,7 +63,7 @@ export const CANONICAL_URLS = [
   '/[platform]/tools/cli/start/key-workflows/',
   '/[platform]/tools/cli/graphqlapi/',
   '/[platform]/tools/cli/graphqlapi/data-modeling/',
-  '/[platform]/build-a-backend/graphqlapi/customize-auth/',
+  '/[platform]/build-a-backend/graphqlapi/customize-authorization-rules',
   '/[platform]/tools/cli/graphqlapi/custom-buisness-logic/',
   '/[platform]/tools/cli/graphqlapi/search-and-result-aggregations/',
   '/[platform]/tools/cli/graphqlapi/connect-machine-learning-services/',
