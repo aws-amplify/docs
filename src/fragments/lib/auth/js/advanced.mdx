@@ -370,6 +370,39 @@ Note: To work with Service Interface Objects, your Amazon Cognito users' [IAM ro
 
 </Callout>
 
+## Custom Token providers
+
+You can use your own token provider across the library, for example, to use it with AppSync when OIDC is the Auth mode. You must supply the token provider to Amplify via the `Amplify.configure` method call. Below, you can see sample code of how such a custom provider can be built to achieve the use case.
+
+```javascript
+import { Amplify } from 'aws-amplify';
+import { TokenProvider, decodeJWT } from 'aws-amplify/auth';
+
+// ...
+
+const myTokenProvider: TokenProvider = {
+  async getTokens({ forceRefresh } = {}) {
+    if (forceRefresh) {
+      // try to obtain new tokens if possible
+    }
+
+    const accessTokenString = '<insert JWT from provider>';
+    const idTokenString = '<insert JWT from provider>';
+    
+    return {
+      accessToken: decodeJWT(accessTokenString),
+      idToken: decodeJWT(idTokenString),
+    };
+  },
+};
+
+Amplify.configure(awsconfig, {
+  Auth: {
+    tokenProvider: myTokenProvider
+  }
+});
+
+```
 ## API reference
 
 For the complete API documentation for Authentication module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)
