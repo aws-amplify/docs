@@ -3,7 +3,7 @@ import { ReactElement, useContext, useEffect, useState } from 'react';
 import { Link as AmplifyUILink, Flex } from '@aws-amplify/ui-react';
 import { IconExternalLink, IconChevron } from '@/components/Icons';
 import Link from 'next/link';
-import { Platform } from '@/data/platforms';
+import { JS_PLATFORMS, Platform } from '@/data/platforms';
 import { LayoutContext } from '@/components/Layout';
 import { PageNode } from 'src/directory/directory';
 
@@ -99,12 +99,7 @@ export function MenuItem({
 
   let hideAPIResources = false; 
 
-  if ((currentPlatform == 'javascript' || 
-      currentPlatform == 'angular' || 
-      currentPlatform == 'nextjs' ||
-      currentPlatform == 'react' ||
-      currentPlatform == 'react-native' ||
-      currentPlatform == 'vue') 
+  if ((JS_PLATFORMS.includes(currentPlatform)) 
       && !usePathWithoutHash().includes('/prev/') 
       && pageNode.route == 'https://aws-amplify.github.io/amplify-js/api/') {
         hideAPIResources = true
