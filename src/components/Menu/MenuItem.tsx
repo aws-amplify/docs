@@ -97,13 +97,24 @@ export function MenuItem({
 
   const currentStyle = current ? 'menu__list-item__link--current' : '';
 
-  let hideAPIResources = false; 
+  let hideAPIResources = false;
+  let hasVisibleChildren = false;
 
-  if (JS_PLATFORMS.includes(currentPlatform) 
-      && !usePathWithoutHash().includes('/prev/') 
-      && pageNode.route == 'https://aws-amplify.github.io/amplify-js/api/') {
-        hideAPIResources = true
+  if (
+    JS_PLATFORMS.includes(currentPlatform) &&
+    !usePathWithoutHash().includes('/prev/') &&
+    pageNode.route == 'https://aws-amplify.github.io/amplify-js/api/'
+  ) {
+    hideAPIResources = true;
   }
+
+  children?.forEach((child) => {
+    if (child.platforms.includes(currentPlatform)) {
+      hasVisibleChildren = true;
+    }
+  });
+
+  // console.log(hasVisibleChildren, pathname);
 
   let listItemStyle = '';
   let listItemLinkStyle = '';
@@ -131,8 +142,11 @@ export function MenuItem({
 
   if (hideAPIResources) {
     return <></>;
-  } else if (pageNode.isExternal &&((currentPlatform && pageNode?.platforms?.includes(currentPlatform)) ||
-  !pageNode.platforms)) {
+  } else if (
+    pageNode.isExternal &&
+    ((currentPlatform && pageNode?.platforms?.includes(currentPlatform)) ||
+      !pageNode.platforms)
+  ) {
     return (
       <li key={pageNode.route} className="menu__list-item">
         <AmplifyUILink
@@ -181,15 +195,16 @@ export function MenuItem({
             className={`menu__list-item__link__inner ${listItemLinkInnerStyle}`}
           >
             {pageNode.title}
-            {children && level !== Levels.Category && (
+            {children && hasVisibleChildren && level !== Levels.Category && (
               <IconChevron className={open ? '' : 'icon-rotate-90-reverse'} />
             )}
           </Flex>
         </Link>
         {children && (
           <ul
-            className={`menu__list ${!open && level > Levels.Category ? 'menu__list--hide' : ''
-              }`}
+            className={`menu__list ${
+              !open && level > Levels.Category ? 'menu__list--hide' : ''
+            }`}
           >
             {children.map((child, index) => (
               <MenuItem
