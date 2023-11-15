@@ -452,7 +452,14 @@ Project information
 | Default editor: Visual Studio Code
 | App type: javascript
 | Javascript framework: react
-| Source Directory Path: src
+```
+Make sure to set the source directory path to "."
+
+```console
+| Source Directory Path: .
+```
+
+```console
 | Distribution Directory Path: build
 | Build Command: npm run-script build
 | Start Command: npm run-script start
@@ -465,7 +472,6 @@ For more information on AWS Profiles, see:
 https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
 
 ? Please choose the profile you want to use: default
-
 ```
 
 > Where possible the CLI will infer the proper configuration based on the type of project Amplify is being initialized in. In this case it knew you are using Create Next App and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
@@ -631,15 +637,11 @@ Next, configure Amplify so it can interact with backend services.
         Open **main.ts** and add the following code below the last import:
     </InlineFilter>
 
-    <InlineFilter filters={['nextjs']}>
-        Open **pages/_app.js** and add the following code below the last import:
-    </InlineFilter>
-
     <InlineFilter filters={['vue']}>
         Open **src/main.js** and add the following code below the last import:
     </InlineFilter>
 
-    <InlineFilter filters={["angular", "nextjs", "react", "vue"]}>
+    <InlineFilter filters={["angular", "react", "vue"]}>
 
     ```javascript
     import { Amplify } from 'aws-amplify';
@@ -707,8 +709,6 @@ In order to import `amplifyconfiguration.json` files in Typescript, you may need
 ```
 
 </InlineFilter>
-
-And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in **amplifyconfiguration.json** will update automatically.
 
 Now that your app is set up and Amplify is initialized, you can add an API in the next step.
 
