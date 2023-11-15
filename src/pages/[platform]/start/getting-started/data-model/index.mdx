@@ -613,7 +613,7 @@ export class TodosComponent implements OnInit {
 
     /* subscribe to new todos being created */
     this.subscription = this.client.graphql({
-      query: subs.onCreateTodo
+      query: subscriptions.onCreateTodo
     }).subscribe({
       next: (event: any) => {
         const newTodo = event.data.onCreateTodo;
