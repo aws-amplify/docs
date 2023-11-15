@@ -190,7 +190,7 @@ export const Layout = ({
         <meta property="og:url" content={metaUrl} key="og:url" />
         <meta
           property="og:image"
-          content="https://docs.amplify.aws/assets/ogp.jpg"
+          content={`https://docs.amplify.aws/assets/${isGen2 ? 'gen2' : 'classic'}-og.png`}
           key="og:image"
         />
         <meta property="description" content={description} key="description" />
@@ -203,7 +203,7 @@ export const Layout = ({
         />
         <meta
           property="twitter:image"
-          content="https://docs.amplify.aws/assets/ogp.jpg"
+          content={`https://docs.amplify.aws/assets/${isGen2 ? 'gen2' : 'classic'}-og.png`}
           key="twitter:image"
         />
       </Head>
@@ -233,7 +233,7 @@ export const Layout = ({
                     Menu
                   </Button>
 
-                  <View
+                  {/* <View
                     className={classNames(
                       'layout-search__search',
                       `layout-search__search--${pageType}`,
@@ -254,7 +254,7 @@ export const Layout = ({
                         }}
                       />
                     </View>
-                  </View>
+                  </View> */}
                 </Flex>
                 <View
                   className={classNames('layout-sidebar', {

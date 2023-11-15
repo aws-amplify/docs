@@ -58,7 +58,7 @@ type Query {
    - [HTTP resolver](#http-resolver): call an HTTP endpoint upon a query or mutation
    - [VTL resolver](#vtl-resolver) (most advanced): use VTL mapping templates to customize the query and mutation logic
 
-3. Secure your custom query or mutation with [field-level authorization rules](/[platform]/build-a-backend/graphqlapi/customize-auth/)
+3. Secure your custom query or mutation with [field-level authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/)
    - Note: Dynamic authorization rules are not supported on a custom query or mutation.
 
 ## Lambda function resolver
@@ -766,7 +766,7 @@ responseMappingTemplate: appsync.MappingTemplate.fromFile(path.join(__dirname, "
 
 ## Add authorization rules to custom queries and mutations
 
-Authorization rules can be applied with the `@auth` directive in the same way as field-level authorization rules. See [Field-level authorization rules](/[platform]/build-a-backend/graphqlapi/customize-auth/#field-level-authorization-rules) for details.
+Authorization rules can be applied with the `@auth` directive in the same way as field-level authorization rules. See [Field-level authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#field-level-authorization-rules) for details.
 
 In the example below, `myCustomMutation` can only be executed by signed-in customers who are authenticated with IAM:
 

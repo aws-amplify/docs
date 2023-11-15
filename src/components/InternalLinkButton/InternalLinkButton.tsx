@@ -1,6 +1,5 @@
 import Link, { LinkProps } from 'next/link';
 import { Button, ButtonProps } from '@aws-amplify/ui-react';
-import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 
 interface InternalLinkButtonProps extends LinkProps {
   variation?: ButtonProps['variation'];
@@ -16,15 +15,8 @@ export const InternalLinkButton = ({
   children,
   className
 }: InternalLinkButtonProps) => {
-  const platform = useCurrentPlatform();
-
   return (
-    <Link
-      href={{
-        pathname: decodeURI(href),
-        ...(platform && { query: { platform: useCurrentPlatform() } }),
-      }}
->
+    <Link href={href} legacyBehavior={true} passHref={true}>
       <Button
         variation={variation}
         gap="small"

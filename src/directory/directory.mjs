@@ -296,6 +296,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/restapi/test-api/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/restapi/gen-ai/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/restapi/existing-resources/index.mdx'
                 },
                 {
@@ -866,7 +869,7 @@ export const directory = {
                 },
                 {path: 'src/pages/[platform]/tools/cli/commands.tsx'},
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/index.mdx',
+                  path: 'src/pages/[platform]/tools/cli/graphqlapi/index.mdx',
                   children: [
                     {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
@@ -989,25 +992,25 @@ export const directory = {
                   path: 'src/pages/[platform]/tools/cli/reference/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/cli/reference/diagnose/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/reference/feature-flags/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/reference/files/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/tools/cli/reference/iam/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli/reference/iam-roles-mfa/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/reference/ssm-parameter-store/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/reference/files/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli/reference/usage-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/reference/diagnose/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/reference/feature-flags/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/reference/ssm-parameter-store/index.mdx'
                     }
                   ]
                 }
@@ -1099,7 +1102,12 @@ export const directory = {
                 }
               ]
             },
-            { path: 'src/pages/[platform]/tools/libraries/index.mdx' }
+            { 
+              path: 'src/pages/[platform]/tools/libraries/index.mdx',
+              children:  [
+                { path:  'src/pages/[platform]/tools/libraries/configure-categories/index.mdx' }
+              ]
+            }
           ]
         },
         {

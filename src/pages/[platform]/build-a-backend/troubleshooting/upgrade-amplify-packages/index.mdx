@@ -3,7 +3,15 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Upgrading Amplify packages',
   description: 'Upgrading Amplify packages ',
-  platforms: ['javascript', 'react-native', 'flutter','angular','nextjs','react','vue'] 
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -86,29 +94,5 @@ npm ls -all 2>$null |
 </Block>
 
 </BlockSwitcher>
-
----
-
-## Upgrading Amplify packages to the v6 Developer Preview
-
-If you want to update all Amplify packages to the v6 developer preview versions from npm, run the following command. It will also make sure that only one version of every Amplify package is installed.
-
-```sh
-# Using YARN
-yarn add aws-amplify@next
-```
-
-```sh
-# Using NPM
-npm install aws-amplify@next
-```
-
-The v6 Developer Preview doesn't support all categories yet. If your application uses any of the unsupported categories, you will need to remove this usage to test out the developer preview changes with your existing application.
-
-The categories that are currently supported include:
-
-- Authentication
-- Analytics
-- Storage
 
 </InlineFilter>
