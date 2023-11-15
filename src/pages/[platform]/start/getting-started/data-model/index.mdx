@@ -547,7 +547,7 @@ export class TodosComponent implements OnInit {
       const response = await this.client.graphql({
         query: queries.listTodos
       });
-      this.todos = response.data.listTodos;
+      this.todos = response.data.listTodos.items;
     } catch (e) {
       console.log('error fetching todos', e);
     }
@@ -574,7 +574,7 @@ Add the following to your `src/app/todos/todos.component.html` to display any of
 
 ```html
 <div>
-  @for (todo of todos?.items; track todo?.id) {
+  @for (todo of todos; track todo?.id) {
   <div>{{ todo?.name }}</div>
   <div>{{ todo?.description }}</div>
   } @empty {
@@ -606,7 +606,7 @@ export class TodosComponent implements OnInit {
       })
       console.log(res)
 
-      this.todos = res.data.listTodos;
+      this.todos = res.data.listTodos.items;
     } catch(e) {
       console.log(e)
     };
@@ -614,11 +614,13 @@ export class TodosComponent implements OnInit {
     /* subscribe to new todos being created */
     this.subscription = this.client.graphql({
       query: subs.onCreateTodo
-    }).subscribe((event: any) => {
+    }).subscribe({
+      next: (event: any) => {
         const newTodo = event.data.onCreateTodo;
-        if(this.todos){
-          this.todos.items = [newTodo, ...this.todos.items];
+        if(this.todos) {
+          this.todos = [newTodo, ...this.todos];
         }
+      }
     });
   }
 }
@@ -690,7 +692,7 @@ export class TodosComponent implements OnInit, OnDestroy {
       const response = await this.client.graphql({
         query: queries.listTodos
       });
-      this.todos = response.data.listTodos;
+      this.todos = response.data.listTodos.items;
     } catch (e) {
       console.log('error fetching todos', e);
     }
@@ -699,12 +701,14 @@ export class TodosComponent implements OnInit, OnDestroy {
       .graphql({
         query: subscriptions.onCreateTodo
       })
-      .subscribe((event: any) => {
+      .subscribe({
+        next: (event: any) => {
         const newTodo: Todo = event.data.onCreateTodo;
         if (this.todos) {
-          this.todos.items = [newTodo, ...this.todos.items];
+          this.todos.items = [newTodo, ...this.todos];
         }
-      });
+      }
+    });
   }
 
   ngOnDestroy(): void {
