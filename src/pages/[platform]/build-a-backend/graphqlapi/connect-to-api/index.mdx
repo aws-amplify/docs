@@ -25,7 +25,7 @@ In this guide, you will connect your application code to the backend API using t
 
 Before you begin, you will need:
 
-- An GraphQL API already set up either via the [Amplify CLI](/[platform]/build-a-backend/graphqlapi/set-up-data/), or directly via the underlying [AWS AppSync service](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html).
+- An GraphQL API already set up either via the [Amplify CLI](/[platform]/tools/cli/), or directly via the underlying [AWS AppSync service](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html).
 - A frontend application set up. For instructions on setting up an app, see [Project Setup: Create your application](/[platform]/build-a-backend/storage/configure-access/)
 - [npm installed](https://docs.npmjs.com/getting-started)
 
@@ -330,7 +330,7 @@ const client = generateClient();
 const todos = await client.graphql({ query: listTodos });
 ```
 
-To learn more about queries, mutations, and subscriptions in more detail, see the guides to [_Create, update, and delete application data_](/[platform]/build-a-backend/graphqlapi/mutate-data//) and [_Read application data_](/[platform]/build-a-backend/graphqlapi/query-data/).
+To learn more about queries, mutations, and subscriptions in more detail, see the guides to [_Create, update, and delete application data_](/[platform]/build-a-backend/graphqlapi/mutate-data/) and [_Read application data_](/[platform]/build-a-backend/graphqlapi/query-data/).
 
 ## Conclusion
 

@@ -28,6 +28,7 @@ public void logSession() {
     pinpointManager.getAnalyticsClient().submitEvents();
 }
 ```
+
 </div>
 
 ## Custom events
@@ -85,30 +86,32 @@ public void logMonetizationEvent() {
 ```
 
 ## Authentication events
+
 Indicate how frequently users authenticate with your application.
 
 On the Analytics page, the Users tab displays charts for Sign-ins, Sign-ups, and Authentication failures.
 
 To learn how frequently users authenticate with your app, update your application code so that Amazon Pinpoint receives the following standard event types for authentication:
 
-* `_userauth.sign_in`
-* `_userauth.sign_up`
-* `_userauth.auth_fail`
+- `_userauth.sign_in`
+- `_userauth.sign_up`
+- `_userauth.auth_fail`
 
 You can report authentication events by doing either of the following:
 
 **Managing user sign-up and sign-in with Amazon Cognito user pools**
 
 Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update awsconfiguration.json by adding the `pinpoint appid` under CognitoUserPool.
+
 ```json
-	"CognitoUserPool": {
-        "Default": {
-            "PoolId": "<poolid>",
-            "AppClientId": "<appclientid>",
-            "Region": "<region>",
-            "PinpointAppId": "<pinpointappid>"
-        }
+"CognitoUserPool": {
+    "Default": {
+        "PoolId": "<poolid>",
+        "AppClientId": "<appclientid>",
+        "Region": "<region>",
+        "PinpointAppId": "<pinpointappid>"
     }
+}
 ```
 
 **Reporting authentication events by using the Amazon Pinpoint client that’s provided by the AWS Mobile SDK for Android.**
@@ -131,7 +134,7 @@ public void logAuthenticationEvent() {
 
 ## Custom App events
 
-Instrument your code to capture app usage event information, including attributes you define.  Use graphs of your custom usage event data  in the Amazon Pinpoint console. Visualize how your users' behavior aligns with a model you design using [Amazon Pinpoint Funnel Analytics](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-funnels.html), or use [stream the data](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-streaming.html) for deeper analysis.
+Instrument your code to capture app usage event information, including attributes you define. Use graphs of your custom usage event data in the Amazon Pinpoint console. Visualize how your users' behavior aligns with a model you design using [Amazon Pinpoint Funnel Analytics](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-funnels.html), or use [stream the data](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-streaming.html) for deeper analysis.
 
 Use the following steps to implement Amazon Pinpoint custom analytics for your app.
 
@@ -156,8 +159,7 @@ Build, run, and use your app. Then, view your custom events on the `Events` tab 
 
 ## Enable Revenue Analytics
 
-Amazon Pinpoint supports the collection of monetization event data. Use the following steps to place
-and design analytics related to purchases through your app.
+Amazon Pinpoint supports the collection of monetization event data. Use the following steps to place and design analytics related to purchases through your app.
 
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.monetization.AmazonMonetizationEventBuilder;
@@ -179,8 +181,7 @@ public void logMonetizationEvent() {
 
 ## Event Ingestion Limits
 
-The limits applicable to the ingestion of events using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Events API
-can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-events).
+The limits applicable to the ingestion of events using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Events API can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-events).
 
 ## Managing Sessions in Your Application
 
@@ -347,7 +348,7 @@ After you include the `AbstractApplicationLifeCycleHelper` class, implement the 
 
 3. The events that occur during the app session, such as monetization events. This information is reported when the app enters the background.
 
-The following example shows how to implement `applicationEnteredForeground` and `applicationEnteredBackground`. It also shows how to call `handleOnTrimMemory` from inside the `onTrimMemory` function of the `Application` class: 
+The following example shows how to implement `applicationEnteredForeground` and `applicationEnteredBackground`. It also shows how to call `handleOnTrimMemory` from inside the `onTrimMemory` function of the `Application` class:
 
 <div id="java" class="tab-content current">
 
@@ -364,7 +365,7 @@ public class Application extends MultiDexApplication {
         super.onCreate();
 
         // . . .
-           
+
         // The Helper registers itself to receive application lifecycle events when it is constructed.
         // A reference is kept here in order to pass through the onTrimMemory() call from
         // the Application class to properly track when the application enters the background.
@@ -406,6 +407,7 @@ public class Application extends MultiDexApplication {
 
 }
 ```
+
 </div>
 
-You've updated your Android app to report session information. Now, when users open and close your app, you can see session metrics in the Amazon Pinpoint console, including those shown by the *Sessions* and *Session heat map* charts. 
+You've updated your Android app to report session information. Now, when users open and close your app, you can see session metrics in the Amazon Pinpoint console, including those shown by the _Sessions_ and _Session heat map_ charts.

@@ -2,7 +2,7 @@ The Storage and GraphQL API categories can be used together to associate a file,
 
 <Callout>
 
-For more on the Amplify GraphQL API, see the [API documentation](/[platform]/prev/build-a-backend/graphqlapi/set-up-data/). For Storage, see [Storage documentation](/[platform]/build-a-backend/storage/set-up-storage/). For Auth, see [Auth documentation](/[platform]/build-a-backend/auth/set-up-auth/)
+For more on the Amplify GraphQL API, see the [API documentation](/[platform]/prev/build-a-backend/graphqlapi/set-up-graphql-api/). For Storage, see [Storage documentation](/[platform]/build-a-backend/storage/set-up-storage/). For Auth, see [Auth documentation](/[platform]/build-a-backend/auth/set-up-auth/)
 
 </Callout>
 
@@ -78,7 +78,7 @@ When you run `amplify add storage`, the CLI will configure appropriate IAM polic
 
 The ability to independently configure authorization rules for each category allows for more granular control over data access, and adds greater flexibility. For scenarios where authorization patterns must be mixed and matched, configure the access level on individual Storage method calls. For example, you may want to use `private` CRUD access on an individual Storage method call for files that should only be accessible by the owner (such as personal files), `protected` read access to allow all logged in users to view common files (such as images in a shared photo album), and `public` read access to allow all users to view a file (such as a public profile picture).
 
-For more details on how to configure Storage authorization levels, see the [Storage documentation](/[platform]/build-a-backend/storage/configure-access/). For more on configuring GraphQL API authorization, see the [API documentation](/[platform]/build-a-backend/graphqlapi/customize-authz//q/platform/ios/).
+For more details on how to configure Storage authorization levels, see the [Storage documentation](/[platform]/build-a-backend/storage/configure-access/). For more on configuring GraphQL API authorization, see the [API documentation](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules).
 
 ## Create a record with an associated file
 

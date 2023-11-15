@@ -33,7 +33,7 @@ Before you begin, you will need:
 
 ### Step 1 - Choose the correct GraphQL API client for Next.js server runtimes
 
-Amplify offers two specialized GraphQL API clients for Next.js server runtimes that you should use depending whether you retrieve the user tokens using [`cookies`](https://nextjs.org/docs/app/api-reference/functions/cookies) or [`NextRequest` and `NextResponse`](https://nextjs.org/docs/app/api-reference/functions/next-request):
+Amplify offers two specialized GraphQL API clients for Next.js server runtimes (from `@aws-amplify/adapter-nextjs/api`) that you should use depending whether you retrieve the user tokens using [`cookies`](https://nextjs.org/docs/app/api-reference/functions/cookies) or [`NextRequest` and `NextResponse`](https://nextjs.org/docs/app/api-reference/functions/next-request):
 
 - `generateServerClientUsingCookies()` 🍪 generates an API client with the Next.js' `cookies` function from `next/headers`. Each API request dynamically refetches the cookies at runtime.
 - `generateServerClientUsingReqRes()` 🌐 generates an API client requiring `NextRequest` and `NextResponse` to provided to an `runWithAmplifyServerContext` function to prevent token contamination.
@@ -76,6 +76,7 @@ Choose the correct GraphQL API client based on your Next.js Router (App or Pages
 To generate a GraphQL API client for the Next.js server runtime using cookies, you need to provide both your Amplify configuration and the cookies function from Next.js.
 
 ```ts
+import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
 import amplifyConfig from '@/amplifyconfiguration.json';
 import { cookies } from 'next/headers';
 
@@ -98,8 +99,9 @@ We recommend to generate the server API client in a utility file. Then, import t
 To generate a GraphQL API client for the Next.js server runtime using `NextRequest` and `NextResponse`, you need to only provide your Amplify configuration. When making the individual API requests, you'll need to pass it into an [`runWithAmplifyServerContext`](/[platform]/build-a-backend/server-side-rendering) function to pass in the cookies from request and response variables.
 
 ```ts
-import amplifyConfig from '@/amplifyconfiguration.json';
 import { createServerRunner } from '@aws-amplify/adapter-nextjs';
+import { generateServerClientUsingReqRes } from '@aws-amplify/adapter-nextjs/api';
+import amplifyConfig from '@/amplifyconfiguration.json';
 
 export const { runWithAmplifyServerContext } = createServerRunner({
   config: amplifyConfig
@@ -131,6 +133,7 @@ With the generated server API clients, you can make any GraphQL query or mutatio
 Import the cookie-based GraphQL API's server client in your Next.js React Server Component code and make your GraphQL.
 
 ```ts
+import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
 import amplifyConfig from '@/amplifyconfiguration.json'
 import { cookies } from 'next/headers'
 import { listTodos } from '@/graphql/queries'

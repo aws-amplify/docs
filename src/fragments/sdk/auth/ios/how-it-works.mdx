@@ -1,4 +1,5 @@
-The `AWSMobileClient` provides APIs and building blocks for developers who want to create user authentication experiences. This includes: 
+The `AWSMobileClient` provides APIs and building blocks for developers who want to create user authentication experiences. This includes:
+
 - Declarative methods for performing authentication actions
 - A "Drop-in" UI for performing common tasks
 - Automatic token and credential management
@@ -29,21 +30,21 @@ This allows you to manage workflows in your application based on the state of th
 
 ```swift
 AWSMobileClient.default().addUserStateListener(self) { (userState, info) in
-            switch (userState) {
-            case .guest:
-                print("user is in guest mode.")
-            case .signedOut:
-                print("user signed out")
-            case .signedIn:
-                print("user is signed in.")
-            case .signedOutUserPoolsTokenInvalid:
-                print("need to login again.")
-            case .signedOutFederatedTokensInvalid:
-                print("user logged in via federation, but currently needs new tokens")
-            default:
-                print("unsupported")
-            }
-        }
+    switch (userState) {
+    case .guest:
+        print("user is in guest mode.")
+    case .signedOut:
+        print("user signed out")
+    case .signedIn:
+        print("user is signed in.")
+    case .signedOutUserPoolsTokenInvalid:
+        print("need to login again.")
+    case .signedOutFederatedTokensInvalid:
+        print("user logged in via federation, but currently needs new tokens")
+    default:
+        print("unsupported")
+    }
+}
 ```
 
 More detailed explanation of different states are given below:
@@ -54,7 +55,7 @@ More detailed explanation of different states are given below:
 
 #### signedIn
 
-You can invoke different `AWSMobileClient` methods like `signIn`, `showSignIn`, `federatedSignIn`, etc.,  which will sign in a user as either a Cognito User Pool user, or federate them to a Cognito Identity Pool. If user has successfully signed in using any of these apis, `AWSMobileClient` will move to `signedIn` state. The available tokens/credentials depend on the signed in method and configuration. 
+You can invoke different `AWSMobileClient` methods like `signIn`, `showSignIn`, `federatedSignIn`, etc., which will sign in a user as either a Cognito User Pool user, or federate them to a Cognito Identity Pool. If user has successfully signed in using any of these apis, `AWSMobileClient` will move to `signedIn` state. The available tokens/credentials depend on the signed in method and configuration.
 
 If the user is signed in to Cognito User Pool (i.e., using `signIn` or `showSignIn` with hostedUI), `getToken` will return Cognito User Pool tokens. If your Cognito User Pool is configured to federate into a Cognito Identity Pool, you will also have access to `identityId`, and AWS credentials for the authenticated role. If no Identity Pool is configured, both `identityId` and `getCredentials` will return `AWSMobileClientError.cognitoIdentityPoolNotConfigured` error.
 
@@ -79,26 +80,26 @@ It is unlikely you will see the `unknown` state as it is the initial state set w
 ### Token Fetch and Refresh
 
 #### Cognito User Pools Tokens
+
 AWSMobileClient will return valid JWT tokens from the cache immediately if they have not expired. If they have expired, it will look for a **Refresh** token in the cache. If it is available, and not expired, the token will be used to fetch valid **IdToken** and **AccessTokens** and store them in the cache.
 
 If the refresh tokens have expired and you try to make a call to an AWS resource, such as an AppSync GraphQL request or S3 upload, AWSMobileClient will dispatch a state notification that authentication is required. At this point you can choose to present the user with a login screen, by calling `AWSMobileClient.default().signIn()`, or perform custom business logic. For example:
 
 ```swift
 AWSMobileClient.default().addUserStateListener(self) { (userState, info) in
-            
-            switch (userState) {
-            case .signedOut:
-                // user clicked signout button and signedout
-                print("user signed out")
-            case .signedOutUserPoolsTokenInvalid:
-                print("need to login again.")
-                AWSMobileClient.default().signIn(username: "username", password: "password", completionHandler: { (res, err) in
-                    //...
-                });
-                //Alternatively call .showSignIn()
-            default:
-                print("unsupported")
-            }
+    switch (userState) {
+        case .signedOut:
+            // user clicked signout button and signedout
+            print("user signed out")
+        case .signedOutUserPoolsTokenInvalid:
+            print("need to login again.")
+            AWSMobileClient.default().signIn(username: "username", password: "password", completionHandler: { (res, err) in
+                //...
+            });
+            //Alternatively call .showSignIn()
+        default:
+            print("unsupported")
+    }
 }
 ```
 
@@ -106,11 +107,11 @@ You can register to listen for state changes anywhere in your application with `
 
 #### AWS Credentials
 
-AWS credentials are used for signing requests to services that use AWS IAM, and for mobile clients they are provided by Amazon Cognito Federated Identity Pools. Similar to JWT tokens, AWSMobileClient will return valid AWS credentials from the cache immediately if they have not expired. If they are expired, and the session is authenticated, the credentials will be refreshed using the refresh token. For unauthenticated sessions, the temporary guest credentials will be automatically refreshed in the background. 
+AWS credentials are used for signing requests to services that use AWS IAM, and for mobile clients they are provided by Amazon Cognito Federated Identity Pools. Similar to JWT tokens, AWSMobileClient will return valid AWS credentials from the cache immediately if they have not expired. If they are expired, and the session is authenticated, the credentials will be refreshed using the refresh token. For unauthenticated sessions, the temporary guest credentials will be automatically refreshed in the background.
 
 ### Offline Support
 
-AWSMobileClient is optimized to account for applications transitioning from offline to online connectivity. It will refresh credentials at the appropriate time so that errors do not occur when offline. In no cases will AWSMobileClient automatically sign out a user if connectivity is not available. You must always make an explicit `signOut()` call for a user to be signed out of a session. 
+AWSMobileClient is optimized to account for applications transitioning from offline to online connectivity. It will refresh credentials at the appropriate time so that errors do not occur when offline. In no cases will AWSMobileClient automatically sign out a user if connectivity is not available. You must always make an explicit `signOut()` call for a user to be signed out of a session.
 
 > **Note**: Credentials are stored in the Xcode keychain. This is an encrypted container. This also means that even after an uninstall/re-install of the app, if a session is authenticated and credentials are present in the keychain, the user will then be automatically logged in (if they have not signed out).
 

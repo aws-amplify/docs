@@ -262,6 +262,10 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/upgrade-guide/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/troubleshooting/index.mdx'
+                },
+
+                {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/index.mdx',
                   children: [
                     {
@@ -294,6 +298,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/restapi/test-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/restapi/gen-ai/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/restapi/existing-resources/index.mdx'
@@ -712,6 +719,9 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/upgrade-amplify-packages/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/index.mdx'
                 }
               ]
             }
@@ -861,8 +871,9 @@ export const directory = {
                     }
                   ]
                 },
+                { path: 'src/pages/[platform]/tools/cli/commands.tsx' },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/index.mdx',
+                  path: 'src/pages/[platform]/tools/cli/graphqlapi/index.mdx',
                   children: [
                     {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
@@ -870,7 +881,17 @@ export const directory = {
                   ]
                 },
                 { path: 'src/pages/[platform]/tools/cli/hosting/index.mdx' },
-                { path: 'src/pages/[platform]/tools/cli/custom/index.mdx' },
+                {
+                  path: 'src/pages/[platform]/tools/cli/custom/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/tools/cli/custom/cdk/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/custom/cloudformation/index.mdx'
+                    }
+                  ]
+                },
                 {
                   path: 'src/pages/[platform]/tools/cli/project/index.mdx',
                   children: [
@@ -981,25 +1002,25 @@ export const directory = {
                   path: 'src/pages/[platform]/tools/cli/reference/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/cli/reference/diagnose/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/reference/feature-flags/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/reference/files/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/tools/cli/reference/iam/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli/reference/iam-roles-mfa/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/reference/ssm-parameter-store/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/reference/files/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli/reference/usage-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/reference/diagnose/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/reference/feature-flags/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/reference/ssm-parameter-store/index.mdx'
                     }
                   ]
                 }
@@ -1091,15 +1112,52 @@ export const directory = {
                 }
               ]
             },
-            { path: 'src/pages/[platform]/tools/libraries/index.mdx' }
+            {
+              path: 'src/pages/[platform]/tools/libraries/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/tools/libraries/configure-categories/index.mdx'
+                }
+              ]
+            }
           ]
         },
         {
-          path: 'src/pages/[platform]/reference/index.mdx',
-          children: [
-            { path: 'src/pages/[platform]/reference/flutter-api/index.mdx' }
+          isExternal: true,
+          route: 'https://aws-amplify.github.io/amplify-js/api/',
+          title: 'Reference',
+          description: 'Reference',
+          platforms: [
+            'javascript',
+            'nextjs',
+            'react',
+            'react-native',
+            'angular',
+            'vue'
           ]
         },
+        {
+          isExternal: true,
+          route: 'https://aws-amplify.github.io/amplify-swift/docs/',
+          title: 'Reference',
+          description: 'Reference',
+          platforms: ['swift']
+        },
+        {
+          isExternal: true,
+          route:
+            'https://aws-amplify.github.io/aws-sdk-android/docs/reference/',
+          title: 'Reference',
+          description: 'Reference',
+          platforms: ['android']
+        },
+        {
+          route: '/[platform]/reference/flutter-api/',
+          title: 'Reference',
+          description: 'Reference',
+          platforms: ['flutter']
+        },
+
         {
           path: 'src/pages/[platform]/prev/index.mdx',
           children: [
@@ -1337,7 +1395,8 @@ export const directory = {
                   children: [
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/utilities/cache/index.mdx'
-                    },                    {
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/utilities/console-logger/index.mdx'
                     },
                     {
@@ -1487,6 +1546,9 @@ export const directory = {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/set-up-geo/index.mdx'
                         },
                         {
+                          path: 'src/pages/[platform]/build-a-backend/more-features/geo/configure-maps/index.mdx'
+                        },
+                        {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/maps/index.mdx'
                         },
                         {
@@ -1494,6 +1556,9 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/geofences/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/configure-geofencing/index.mdx'
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/existing-resources/index.mdx'
@@ -1646,57 +1711,6 @@ export const directory = {
           path: 'src/pages/[platform]/sdk/index.mdx',
           children: [
             {
-              path: 'src/pages/[platform]/sdk/analytics/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/sdk/analytics/endpoints/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/analytics/events/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/analytics/getting-started/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/analytics/kinesis/index.mdx'
-                }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/sdk/api/index.mdx',
-              children: [
-                { path: 'src/pages/[platform]/sdk/api/graphql/index.mdx' },
-                { path: 'src/pages/[platform]/sdk/api/rest/index.mdx' }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/sdk/auth/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/sdk/auth/custom-auth-flow/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/auth/device-features/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/auth/drop-in-auth/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/auth/federated-identities/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/auth/getting-started/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/auth/guest-access/index.mdx'
-                },
-                { path: 'src/pages/[platform]/sdk/auth/hosted-ui/index.mdx' },
-                {
-                  path: 'src/pages/[platform]/sdk/auth/working-with-api/index.mdx'
-                }
-              ]
-            },
-            {
               path: 'src/pages/[platform]/sdk/configuration/index.mdx',
               children: [
                 {
@@ -1714,16 +1728,67 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/sdk/pubsub/index.mdx',
+              path: 'src/pages/[platform]/sdk/analytics/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/sdk/pubsub/aws-iot-and-amplify/index.mdx'
+                  path: 'src/pages/[platform]/sdk/analytics/getting-started/index.mdx'
                 },
+                {
+                  path: 'src/pages/[platform]/sdk/analytics/events/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/analytics/endpoints/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/analytics/kinesis/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/sdk/api/index.mdx',
+              children: [
+                { path: 'src/pages/[platform]/sdk/api/graphql/index.mdx' },
+                { path: 'src/pages/[platform]/sdk/api/rest/index.mdx' }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/sdk/auth/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/sdk/auth/getting-started/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/auth/guest-access/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/auth/drop-in-auth/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/auth/working-with-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/auth/federated-identities/index.mdx'
+                },
+                { path: 'src/pages/[platform]/sdk/auth/hosted-ui/index.mdx' },
+                {
+                  path: 'src/pages/[platform]/sdk/auth/custom-auth-flow/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/auth/device-features/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/sdk/pubsub/index.mdx',
+              children: [
                 {
                   path: 'src/pages/[platform]/sdk/pubsub/getting-started/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/sdk/pubsub/working-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/pubsub/aws-iot-and-amplify/index.mdx'
                 }
               ]
             },
@@ -1745,16 +1810,16 @@ export const directory = {
               path: 'src/pages/[platform]/sdk/storage/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/sdk/storage/configure-access/index.mdx'
+                  path: 'src/pages/[platform]/sdk/storage/getting-started/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/sdk/storage/getting-started/index.mdx'
+                  path: 'src/pages/[platform]/sdk/storage/transfer-utility/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/sdk/storage/graphql-api/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/sdk/storage/transfer-utility/index.mdx'
+                  path: 'src/pages/[platform]/sdk/storage/configure-access/index.mdx'
                 }
               ]
             }

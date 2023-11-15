@@ -6,7 +6,7 @@
 
 ## Provisioning geofence resources
 
-First, make sure you've provisioned a geofence collection resource and configured your app using the instructions in either [Configure a geofence collection](../configure-geofencing) or [Use existing Amazon Location Service resources](../existing-resources) and you have already setup [displaying a map](../maps) in your application.
+First, make sure you've provisioned a geofence collection resource and configured your app using the instructions in either [Configure a geofence collection](/[platform]/build-a-backend/more-features/geo/configure-geofencing/) or [Use existing Amazon Location Service resources](/[platform]/build-a-backend/more-features/geo/existing-resources/) and you have already setup [displaying a map](/[platform]/build-a-backend/more-features/geo/maps) in your application.
 
 ## Manage Geofences in Your Application
 
@@ -20,7 +20,7 @@ npm install aws-amplify @aws-amplify/geo @aws-amplify/ui-react @aws-amplify/ui-r
 
 > **Note:** Make sure that `maplibre-gl-js-amplify` version `4.0.0` or above and `aws-amplify @aws-amplify/geo` version `6.0.0` or above are installed.
 
-First, create a map onto which you want to add the geofence management component. See the guide on [creating and displaying maps](../maps).
+First, create a map onto which you want to add the geofence management component. See the guide on [creating and displaying maps](/[platform]/build-a-backend/more-features/geo/maps).
 
 Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/geo/API.md#amplifygeofencecontrol) from "maplibre-gl-js-amplify", create a new instance of this control and add it to your MapLibre map instance.
 
@@ -28,7 +28,7 @@ Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl
 
   <Block name="Javascript">
 
-**Note:** When using the existing [maps implementation](../maps) you can add the Geofence control to an existing map
+**Note:** When using the existing [maps implementation](/[platform]/build-a-backend/more-features/geo/maps) you can add the Geofence control to an existing map
 
 ```diff
 import { useEffect, useRef } from "react";

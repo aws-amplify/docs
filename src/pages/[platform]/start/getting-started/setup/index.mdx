@@ -186,10 +186,16 @@ Use the [Angular CLI](https://angular.dev/tools/cli) to bootstrap a new Angular 
 
 ```bash
 npx -p @angular/cli ng new amplify-app
+```
 
-? Would you like to add Angular routing? Y
-? Which stylesheet format would you like to use? (your preferred stylesheet provider)
+```console
+? Which stylesheet format would you like to use? CSS
+? Do you want to enable Server-Side Rendering (SSR) and Static Site Generation (SSG/Pre-rendering)? No
+```
 
+This is create your angular app in a folder `amplify-app`. Use the following command to switch into that folder:
+
+```bash
 cd amplify-app
 ```
 
@@ -213,6 +219,7 @@ cd next-amplified
 ```
 
 This command will bootstrap the project with the following options:
+
 - App Router
 - TypeScript
 - No ESLint
@@ -379,7 +386,7 @@ The following configuration will be applied:
 
 <Callout>
 
-Make sure to set **dist** as the *Distribution Directory Path*.
+Make sure to set **dist** as the _Distribution Directory Path_.
 
 </Callout>
 
@@ -528,7 +535,7 @@ Next, you will need to select the authentication method you want to use to work 
   AWS access keys
 ```
 
-Select AWS profile and then choose the profile you configured in the [Prerequisites](/start/getting-started/installation/q/integration/vue/#configure-the-amplify-cli).
+Select AWS profile and then choose the profile you configured in the [Prerequisites](/[platform]/start/getting-started/installation/).
 
 </InlineFilter>
 
@@ -626,7 +633,7 @@ Next, configure Amplify so it can interact with backend services.
     </InlineFilter>
 
     <InlineFilter filters={["angular", "nextjs", "react", "vue"]}>
-    
+
     ```javascript
     import { Amplify } from 'aws-amplify';
     import amplifyconfig from './amplifyconfiguration.json';
@@ -636,7 +643,7 @@ Next, configure Amplify so it can interact with backend services.
     </InlineFilter>
 
     <InlineFilter filters={["javascript"]}>
-    
+
     ```javascript
     import './style.css'
     import { Amplify } from 'aws-amplify';
@@ -645,7 +652,6 @@ Next, configure Amplify so it can interact with backend services.
     ```
 
     </InlineFilter>
-
 
 </InlineFilter>
 
@@ -675,6 +681,23 @@ Amplify.configure(amplifyconfig);
 
 </Block>
 </BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={['angular']}>
+
+In order to import `amplifyconfiguration.json` files in Typescript, you may need to modify your tsconfig.json and enable `resolveJsonModule` and `allowSyntheticDefaultImports` in the case that `strict` mode is enabled.
+
+```json
+{
+  ...
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    ...
+  }
+}
+```
 
 </InlineFilter>
 
