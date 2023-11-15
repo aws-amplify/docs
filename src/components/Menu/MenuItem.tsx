@@ -99,11 +99,11 @@ export function MenuItem({
 
   let hideAPIResources = false; 
 
-  if ((JS_PLATFORMS.includes(currentPlatform)) 
+  if (JS_PLATFORMS.includes(currentPlatform) 
       && !usePathWithoutHash().includes('/prev/') 
       && pageNode.route == 'https://aws-amplify.github.io/amplify-js/api/') {
         hideAPIResources = true
-    }
+  }
 
   let listItemStyle = '';
   let listItemLinkStyle = '';
