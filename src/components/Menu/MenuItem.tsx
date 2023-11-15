@@ -98,7 +98,6 @@ export function MenuItem({
   const currentStyle = current ? 'menu__list-item__link--current' : '';
 
   let hideAPIResources = false;
-  let hasVisibleChildren = false;
 
   if (
     JS_PLATFORMS.includes(currentPlatform) &&
@@ -108,13 +107,13 @@ export function MenuItem({
     hideAPIResources = true;
   }
 
+  let hasVisibleChildren = currentPlatform ? false : true;
+
   children?.forEach((child) => {
-    if (child.platforms.includes(currentPlatform)) {
+    if (child.platforms?.includes(currentPlatform)) {
       hasVisibleChildren = true;
     }
   });
-
-  // console.log(hasVisibleChildren, pathname);
 
   let listItemStyle = '';
   let listItemLinkStyle = '';
