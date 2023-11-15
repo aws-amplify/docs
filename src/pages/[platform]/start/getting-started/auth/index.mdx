@@ -94,9 +94,16 @@ npm install @aws-amplify/ui-react-native react-native-get-random-values react-na
 npm install @aws-amplify/ui-react-native react-native-safe-area-context react-native-get-random-values react-native-url-polyfill
 ```
 
+`@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0`, open the _Podfile_ located in the _ios_ directory and update the `target` value:
+
+```diff
+- platform :ios, min_ios_version_supported
++ platform :ios, 13.0
+```
+
 You will also need to install the pod dependencies for iOS:
 
-```sh
+```bash
 npx pod-install
 ```
 
