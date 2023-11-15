@@ -296,6 +296,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/restapi/test-api/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/restapi/gen-ai/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/restapi/existing-resources/index.mdx'
                 },
                 {
