@@ -485,53 +485,56 @@ Replace `<database-name>` with the name of your database/schema.
 <BlockSwitcher>
 <Block name="MySQL">
 ```sql
-SELECT information_schema.columns.*,
-       information_schema.statistics.index_name,
-       information_schema.statistics.non_unique,
-       information_schema.statistics.seq_in_index,
-       information_schema.statistics.nullable
-FROM   information_schema.columns
-       LEFT JOIN information_schema.statistics
-              ON information_schema.columns.table_name =
-                 information_schema.statistics.table_name
-                 AND information_schema.columns.column_name =
-                     information_schema.statistics.column_name
-WHERE  information_schema.columns.table_schema = '<database-name>'
+SELECT
+  INFORMATION_SCHEMA.COLUMNS.TABLE_NAME,
+  INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME,
+  INFORMATION_SCHEMA.COLUMNS.COLUMN_DEFAULT,
+  INFORMATION_SCHEMA.COLUMNS.ORDINAL_POSITION,
+  INFORMATION_SCHEMA.COLUMNS.DATA_TYPE,
+  INFORMATION_SCHEMA.COLUMNS.COLUMN_TYPE,
+  INFORMATION_SCHEMA.COLUMNS.IS_NULLABLE,
+  INFORMATION_SCHEMA.COLUMNS.CHARACTER_MAXIMUM_LENGTH,
+  INFORMATION_SCHEMA.STATISTICS.INDEX_NAME,
+  INFORMATION_SCHEMA.STATISTICS.NON_UNIQUE,
+  INFORMATION_SCHEMA.STATISTICS.SEQ_IN_INDEX,
+  INFORMATION_SCHEMA.STATISTICS.NULLABLE
+      FROM INFORMATION_SCHEMA.COLUMNS
+      LEFT JOIN INFORMATION_SCHEMA.STATISTICS ON INFORMATION_SCHEMA.COLUMNS.TABLE_NAME=INFORMATION_SCHEMA.STATISTICS.TABLE_NAME AND INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME=INFORMATION_SCHEMA.STATISTICS.COLUMN_NAME
+      WHERE INFORMATION_SCHEMA.COLUMNS.TABLE_SCHEMA = '<database-name>';
 ```
 </Block>
 <Block name="PostgreSQL">
 ```sql
-SELECT enum_name,
-       enum_values,
-       table_name,
-       column_name,
-       column_default,
-       ordinal_position,
-       data_type,
-       udt_name,
-       is_nullable,
-       character_maximum_length,
-       indexname,
-       REPLACE(Substring(indexdef FROM '\((.*)\)'), '"', '') AS index_columns
-FROM   information_schema.columns
-       LEFT JOIN pg_indexes
-              ON information_schema.columns.table_name = pg_indexes.tablename
-                 AND information_schema.columns.column_name = any (
-                     String_to_array(
-                     REPLACE(Substring
-                     (indexdef FROM '\((.*)\)'), '"', ''), ', ') )
-       LEFT JOIN (SELECT t.typname              AS enum_name,
-                         Array_agg(e.enumlabel) AS enum_values
-                  FROM   pg_type t
-                         JOIN pg_enum e
-                           ON t.oid = e.enumtypid
-                         JOIN pg_catalog.pg_namespace n
-                           ON n.oid = t.typnamespace
-                  WHERE  n.nspname = 'public'
-                  GROUP  BY enum_name) enums
-              ON enums.enum_name = information_schema.columns.udt_name
-WHERE  table_schema = 'public'
-       AND table_catalog = '<database-name>'
+SELECT
+  enum_name,
+  enum_values,
+  table_name,
+  column_name,
+  column_default,
+  ordinal_position,
+  data_type,
+  udt_name,
+  is_nullable,
+  character_maximum_length,
+  indexname,
+      REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', '') as index_columns
+    FROM INFORMATION_SCHEMA.COLUMNS
+    LEFT JOIN pg_indexes
+    ON
+      INFORMATION_SCHEMA.COLUMNS.table_name = pg_indexes.tablename
+      AND INFORMATION_SCHEMA.COLUMNS.column_name = ANY(STRING_TO_ARRAY(REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', ''), ', '))
+      LEFT JOIN (
+        SELECT
+          t.typname AS enum_name,
+          ARRAY_AGG(e.enumlabel) as enum_values
+        FROM    pg_type t JOIN
+          pg_enum e ON t.oid = e.enumtypid JOIN
+          pg_catalog.pg_namespace n ON n.oid = t.typnamespace
+        WHERE   n.nspname = 'public'
+    	GROUP BY enum_name
+      ) enums
+      ON enums.enum_name = INFORMATION_SCHEMA.COLUMNS.udt_name
+    WHERE table_schema = 'public' AND TABLE_CATALOG = '<database-name>';
 ```
 </Block>
 </BlockSwitcher>
