@@ -46,7 +46,7 @@ If you already have relational models in your project, you must re-run `amplify 
 
 ## Create a GraphQL schema with relationships between models
 
-For the following example, let's add a Post and Comment model to the [schema](/[platform]/build-a-backend/graphqlapi/set-up-data/#configure-api):
+For the following example, let's add a Post and Comment model to the [schema](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/#creating-your-first-api-and-database-table):
 
 ```graphql
 type Post @model {
@@ -63,7 +63,7 @@ type Comment @model {
 }
 ```
 
-Generate the models for the updated schema using the [Amplify CLI](/[platform]/build-a-backend/graphqlapi/set-up-data/#generate-todo-model-class).
+Generate the models for the updated schema using the [Amplify CLI](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/).
 
 ```bash
 amplify codegen models

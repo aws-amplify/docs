@@ -866,7 +866,7 @@ export const directory = {
                 },
                 {path: 'src/pages/[platform]/tools/cli/commands.tsx'},
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/index.mdx',
+                  path: 'src/pages/[platform]/tools/cli/graphqlapi/index.mdx',
                   children: [
                     {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
