@@ -616,7 +616,9 @@ export class TodosComponent implements OnInit {
       query: subs.onCreateTodo
     }).subscribe((event: any) => {
         const newTodo = event.data.onCreateTodo;
-        this.todos.items = [newTodo, ...this.todos.items];
+        if(this.todos){
+          this.todos.items = [newTodo, ...this.todos.items];
+        }
     });
   }
 }
