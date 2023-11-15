@@ -51,7 +51,9 @@ The CLI should open this GraphQL schema in your text editor.
 ```graphql
 # This "input" configures a global authorization rule to enable public access to
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
 type Todo @model {
   id: ID!
   name: String!
@@ -73,6 +75,17 @@ To deploy this backend, run the `push` command:
 
 ```bash
 amplify push
+```
+
+Choose the following values for each prompt:
+
+```console
+? Do you want to generate code for your newly created GraphQL API Yes
+? Choose the code generation language target typescript
+? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.ts
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested] 2
+? Enter the file name for the generated code src/API.ts
 ```
 
 Now the API is live and you can start interacting with it! The API you have deployed includes operations for creating, reading, updating, deleting, and listing posts.
@@ -97,6 +110,7 @@ This will give us the current status of the Amplify project, including the curre
 │ Api      │ your-api-name         │ No Change │ awscloudformation │
 └──────────┴───────────────────────┴───────────┴───────────────────┘
 ```
+
 </Accordion>
 <Accordion title="Review deployed API in AWS console">
 
@@ -178,7 +192,7 @@ query ListTodos {
 Update your `main.js` file to setup your app to add data to your database with a mutation by using `client.graphql()`:
 
 ```javascript
-import './style.css'
+import './style.css';
 import { Amplify } from 'aws-amplify';
 import amplifyconfig from './src/amplifyconfiguration.json';
 
@@ -383,50 +397,30 @@ export default App;
 
 <InlineFilter filters={['angular']}>
 
-In order to import `amplifyconfiguration.json` files in Typescript, you may need to modify your tsconfig.json and enable `resolveJsonModule` and `allowSyntheticDefaultImports` in the case that `strict` mode is enabled.
+First, create a `todos` Angular component:
 
-```json
-{
-  ...
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    ...
-  }
-}
+```bash
+npx ng generate component --standalone todos
 ```
 
-First, enable the Angular forms modules in `src/app/app.module.ts`:
+In `src/app/app.component.ts` update it to import `TodosComponent` and add it to the Component imports:
 
-```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-/* new form imports */
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { AppComponent } from './app.component';
+```ts
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 import { TodosComponent } from './todos/todos.component';
 
-@NgModule({
-  declarations: [AppComponent, TodosComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    /* configuring form modules */
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, TodosComponent],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
-export class AppModule {}
-```
-
-Next, create an `todos` Angular component:
-
-```
-npx ng generate component todos
+export class AppComponent {
+  title = 'amplify-app';
+}
 ```
 
 Open `src/app/app.component.html`, and replace the default content with the Angular component you created:
@@ -435,24 +429,30 @@ Open `src/app/app.component.html`, and replace the default content with the Angu
 <app-todos></app-todos>
 ```
 
-In your `src/app/todos/todos.component.ts` file, add data to your database with a mutation by using the `API.ts` file which was generated when you ran `amplify add api`:
+In your `src/app/todos/todos.component.ts` file, add data to your database with a mutation by using the `API.ts` file which was generated when you ran `amplify add api`. Additionally, make sure to import the needed form helpers as well as adding `ReactiveFormsModule` to your Component imports:
 
 ```typescript
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { generateClient } from 'aws-amplify/api';
-import { Todo, ListTodosQuery } from '../API';
+import { Todo, ListTodosQuery } from '../../API';
 import * as mutations from '../../graphql/mutations';
 
 @Component({
+  standalone: true,
+  imports: [ReactiveFormsModule],
   selector: 'app-todos',
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.css']
 })
 export class TodosComponent {
   public createForm: FormGroup;
-  public client: ReturnType<typeof generateClient>;
+  public client: any;
 
   constructor(private fb: FormBuilder) {
     this.createForm = this.fb.group({
@@ -506,21 +506,28 @@ Next, update your `TodosComponent` class so that it will list all todos in the d
 
 ```typescript
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 
 import { generateClient } from 'aws-amplify/api';
-import { ListTodosQuery, Todo } from '../API';
+import { ListTodosQuery, Todo } from '../../API';
 import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
 
 @Component({
+  standalone: true,
   selector: 'app-todos',
+  imports: [ReactiveFormsModule],
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.css']
 })
 export class TodosComponent implements OnInit {
   public createForm: FormGroup;
-  public client: ReturnType<typeof generateClient>;
+  public client: any;
 
   /* declare todos variable */
   public todos: ListTodosQuery['listTodos'];
@@ -540,7 +547,7 @@ export class TodosComponent implements OnInit {
       const response = await this.client.graphql({
         query: queries.listTodos
       });
-      this.todos = response.data.listTodos;
+      this.todos = response.data.listTodos.items;
     } catch (e) {
       console.log('error fetching todos', e);
     }
@@ -566,9 +573,13 @@ export class TodosComponent implements OnInit {
 Add the following to your `src/app/todos/todos.component.html` to display any of the todos you have added:
 
 ```html
-<div *ngFor="let todo of todos?.items">
+<div>
+  @for (todo of todos; track todo?.id) {
   <div>{{ todo?.name }}</div>
   <div>{{ todo?.description }}</div>
+  } @empty {
+  <div>There are no items.</div>
+  }
 </div>
 ```
 
@@ -577,30 +588,41 @@ To subscribe to realtime data, declare a subscription class variable and update 
 ```typescript
 ...
 
-private subscription: any = null;
+import * as subscriptions from '../../graphql/subscriptions'
 
-async ngOnInit() {
+export class TodosComponent implements OnInit {
+
+  private subscription: any = null;
 
   ...
 
-  try {
-    const res = await this.client.graphql({
-      query: queries.listTodos
-    })
-    console.log(res)
+  async ngOnInit() {
 
-    this.todos = res.data.listTodos;
-  } catch(e) {
-    console.log(e)
-  };
+    ...
 
-  /* subscribe to new todos being created */
-  this.subscription = this.client.graphql({
-    query: subs.onCreateTodo
-  }).subscribe((event: any) => {
-      const newTodo = event.data.onCreateTodo;
-      this.todos.items = [newTodo, ...this.todos.items];
-  });
+    try {
+      const res = await this.client.graphql({
+        query: queries.listTodos
+      })
+      console.log(res)
+
+      this.todos = res.data.listTodos.items;
+    } catch(e) {
+      console.log(e)
+    };
+
+    /* subscribe to new todos being created */
+    this.subscription = this.client.graphql({
+      query: subscriptions.onCreateTodo
+    }).subscribe({
+      next: (event: any) => {
+        const newTodo = event.data.onCreateTodo;
+        if(this.todos) {
+          this.todos = [newTodo, ...this.todos];
+        }
+      }
+    });
+  }
 }
 ```
 
@@ -611,7 +633,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 ...
 
-export class AppComponent implements OnInit, OnDestroy {
+export class TodosComponent implements OnInit, OnDestroy {
 
   ...
 
@@ -628,23 +650,31 @@ The final `todos.component.ts` file should look like the following:
 
 ```typescript
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 
 import { generateClient } from 'aws-amplify/api';
 import { Todo, ListTodosQuery } from '../../API';
-import * as queries from '../../graphql/queries';
 import * as mutations from '../../graphql/mutations';
+import * as queries from '../../graphql/queries';
 import * as subscriptions from '../../graphql/subscriptions';
 
 @Component({
+  standalone: true,
   selector: 'app-todos',
+  imports: [ReactiveFormsModule],
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.css']
 })
 export class TodosComponent implements OnInit, OnDestroy {
-  public createForm: FormGroup;
-  public client: ReturnType<typeof generateClient>;
   public todos: ListTodosQuery['listTodos'];
+  public createForm: FormGroup;
+  public client: any;
+
   private subscription: any = null;
 
   constructor(private fb: FormBuilder) {
@@ -657,28 +687,31 @@ export class TodosComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    /* fetch todos when app loads */
     try {
-      const res = await this.client.graphql({
+      const response = await this.client.graphql({
         query: queries.listTodos
       });
-      console.log(res);
-      this.todos = res.data.listTodos;
+      this.todos = response.data.listTodos.items;
     } catch (e) {
-      console.log(e);
+      console.log('error fetching todos', e);
     }
 
     this.subscription = this.client
       .graphql({
-        query: subs.onCreateTodo
+        query: subscriptions.onCreateTodo
       })
-      .subscribe((event: any) => {
-        console.log(event);
-        const newTodo = event.data.onCreateTodo;
-        this.todos.items = [newTodo, ...this.todos.items];
-      });
+      .subscribe({
+        next: (event: any) => {
+        const newTodo: Todo = event.data.onCreateTodo;
+        if (this.todos) {
+          this.todos.items = [newTodo, ...this.todos];
+        }
+      }
+    });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -687,13 +720,13 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   public async onCreate(todo: Todo) {
     try {
-      const res = await this.client.graphql({
+      const response = await this.client.graphql({
         query: mutations.createTodo,
         variables: {
           input: todo
         }
       });
-      console.log('item created!', res);
+      console.log('item created!', response);
       this.createForm.reset();
     } catch (e) {
       console.log('error creating todo...', e);
