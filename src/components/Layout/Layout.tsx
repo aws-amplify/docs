@@ -53,6 +53,8 @@ import {
   NEXT_PREVIOUS_SECTIONS
 } from '@/components/NextPrevious';
 
+const testId = process.env.ALGOLIA_APP_ID;
+
 export const Layout = ({
   children,
   hasTOC = true,
@@ -233,7 +235,7 @@ export const Layout = ({
                     Menu
                   </Button>
 
-                  {/* <View
+                  <View
                     className={classNames(
                       'layout-search__search',
                       `layout-search__search--${pageType}`,
@@ -241,6 +243,8 @@ export const Layout = ({
                     )}
                   >
                     <View className="layout-search__search__container">
+                      TEST: {testId}
+                      ENV: {process.env.ALGOLIA_APP_ID}
                       <DocSearch
                         appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
                         indexName={
@@ -254,7 +258,7 @@ export const Layout = ({
                         }}
                       />
                     </View>
-                  </View> */}
+                  </View>
                 </Flex>
                 <View
                   className={classNames('layout-sidebar', {
