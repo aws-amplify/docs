@@ -29,6 +29,7 @@ export function SubCommandHeading({
   return (
     <Heading
       className="commands-list__command__subcommands__heading"
+      marginTop="medium"
       id={value}
       level={3}
     >

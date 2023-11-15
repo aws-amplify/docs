@@ -27,7 +27,7 @@ import {
   ALGOLIA_INDEX_NAME,
   ALGOLIA_APP_ID
 } from '../../constants/algolia';
-import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
+// import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
 import { SpaceShip } from '@/components/SpaceShip';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
@@ -118,11 +118,9 @@ export const Layout = ({
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
-  const shouldShowGen2Banner = GEN2BANNER_URLS.includes(asPathWithNoHash);
-
-  let currentPlatform = DEFAULT_PLATFORM;
-
+  const shouldShowGen2Banner = false; // GEN2BANNER_URLS.includes(asPathWithNoHash);
   const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
+  let currentPlatform = isGen2 ? undefined : DEFAULT_PLATFORM;
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
@@ -192,7 +190,7 @@ export const Layout = ({
         <meta property="og:url" content={metaUrl} key="og:url" />
         <meta
           property="og:image"
-          content="https://docs.amplify.aws/assets/ogp.jpg"
+          content={`https://docs.amplify.aws/assets/${isGen2 ? 'gen2' : 'classic'}-og.png`}
           key="og:image"
         />
         <meta property="description" content={description} key="description" />
@@ -205,7 +203,7 @@ export const Layout = ({
         />
         <meta
           property="twitter:image"
-          content="https://docs.amplify.aws/assets/ogp.jpg"
+          content={`https://docs.amplify.aws/assets/${isGen2 ? 'gen2' : 'classic'}-og.png`}
           key="twitter:image"
         />
       </Head>
@@ -235,7 +233,7 @@ export const Layout = ({
                     Menu
                   </Button>
 
-                  <View
+                  {/* <View
                     className={classNames(
                       'layout-search__search',
                       `layout-search__search--${pageType}`,
@@ -256,7 +254,7 @@ export const Layout = ({
                         }}
                       />
                     </View>
-                  </View>
+                  </View> */}
                 </Flex>
                 <View
                   className={classNames('layout-sidebar', {

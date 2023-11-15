@@ -1,0 +1,24 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Add app badge count',
+  description: 'Get and set the application badge count.',
+  platforms: ['react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import appBadgeCount from '/src/fragments/lib-v1/push-notifications/react-native/app_badge_count/app-badge-count.mdx';
+
+<Fragments fragments={{ 'react-native': appBadgeCount }} />
