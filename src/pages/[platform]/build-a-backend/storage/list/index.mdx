@@ -129,7 +129,7 @@ To list other user's objects:
 import { list } from 'aws-amplify/storage';
 
 try {
-  const response = list({ prefix: 'photos/', options:  {
+  const response = await list({ prefix: 'photos/', options:  {
     accessLevel: 'protected',
     targetIdentityId: 'xxxxxxx' // the identityId of that user
   }});
@@ -145,7 +145,7 @@ try {
 import { list } from 'aws-amplify/storage';
 
 try {
-  const response = list({ prefix: 'photos/', options:  {
+  const response = await list({ prefix: 'photos/', options:  {
     accessLevel: 'private',
   }})
   console.log('Listed Items:', response.items);
