@@ -38,7 +38,6 @@ export function getStaticProps(context) {
 function CommandsPage({ sortedCommands }) {
   return (
     <>
-      <Heading level={1}>Commands</Heading>
       <Flex className="commands-list">
         {sortedCommands.map((command) => (
           <Command key={command.name} {...command} />

@@ -22,8 +22,7 @@ The API calls to get AWS credentials will be asynchronously blocked until you fe
 
 #### SAML with Cognito Identity
 
-To federate your SAML sign-in provider as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.getInstance().federatedSignIn()`.
-You must first register your SAML application with AWS IAM by using the following [instructions](https://docs.aws.amazon.com/cognito/latest/developerguide/saml-identity-provider.html).
+To federate your SAML sign-in provider as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.getInstance().federatedSignIn()`. You must first register your SAML application with AWS IAM by using the following [instructions](https://docs.aws.amazon.com/cognito/latest/developerguide/saml-identity-provider.html).
 
 Once you retrieve the SAML tokens from your sign-in, you can call the `federatedSignIn` API in `AWSMobileClient`:
 
@@ -73,12 +72,12 @@ If you already have a Facebook app ID, you can copy and paste it into the `Faceb
 
 Set up your app in Facebook by following Facebook's [App Development](https://developers.facebook.com/docs/apps) guide. Sign in to the [Facebook Developers portal](https://developers.facebook.com/):
 
- - Choose **Add a New App** (or choose a previously created app from **My Apps**).
-    - If asked, choose the platform of your app that will use Facebook Login and choose **basic setup**.
- - Type a display name for your app, select a category for your app from the **Category** drop-down list, then choose **Create App ID**; take note of the **App ID**.
- - In the Facebook Developer portal's left hand navigation list, choose **Settings**, **Basic**, then press the **+Add Platform** button.
- - Choose **Android** and add your app's **Google Play Package Name** (for example, com.example.YourProjectName) and **Class Name**.
- - Choose **Save changes**
+- Choose **Add a New App** (or choose a previously created app from **My Apps**).
+  - If asked, choose the platform of your app that will use Facebook Login and choose **basic setup**.
+- Type a display name for your app, select a category for your app from the **Category** drop-down list, then choose **Create App ID**; take note of the **App ID**.
+- In the Facebook Developer portal's left hand navigation list, choose **Settings**, **Basic**, then press the **+Add Platform** button.
+- Choose **Android** and add your app's **Google Play Package Name** (for example, com.example.YourProjectName) and **Class Name**.
+- Choose **Save changes**
 
 Only users with roles assigned in the Facebook portal will be able to authenticate through your app while it is in development (not yet published). To authorize users, in the Facebook Developer portal's left hand navigation list, choose **Roles**, then **Add Testers** and provide valid Facebook IDs.
 
@@ -89,7 +88,7 @@ Only users with roles assigned in the Facebook portal will be able to authentica
 In a terminal window, navigate to the root of your app files and add the auth category to your app. The CLI prompts you for configuration parameters. Choose **I will setup my own configuration** and **AWS IAM controls** when prompted.
 
 ```bash
-cd ./YOUR_PROJECT_FOLDER
+cd YOUR_PROJECT_FOLDER
 amplify add auth              ##"amplify update auth" if already configured
 ```
 
@@ -136,7 +135,7 @@ Next, obtain your **OAuth Web Client ID** by navigating to the [Credentials sect
 In a terminal window, navigate to the root of your app files and add auth. The CLI prompts you for configuration parameters. Choose **I will setup my own configuration** and **AWS IAM controls** when prompted.
 
 ```bash
-cd ./YOUR_PROJECT_FOLDER
+cd YOUR_PROJECT_FOLDER
 amplify add auth # or `amplify update auth`
 ```
 
@@ -163,40 +162,40 @@ To federate Sign in with Apple as a user sign-in provider for AWS services calle
 
 1. **Implementing Sign in with Apple in your app**
 
-    Since we don’t have an SDK that supports Sign in with Apple for Android, you need to use the web flow in a web view. To configure Sign in with Apple in your application, follow [Configuring Your Webpage for Sign In with Apple](https://developer.apple.com/documentation/signinwithapplejs/configuring_your_webpage_for_sign_in_with_apple) in the Apple documentation. To add a Sign in with Apple button to your Android user interface, follow [Displaying and Configuring Sign In with Apple Buttons](https://developer.apple.com/documentation/signinwithapplejs/displaying_and_configuring_sign_in_with_apple_buttons) in the Apple documentation. To securely authenticate users using Sign in with Apple, follow [Configuring Your Webpage for Sign In with Apple](https://developer.apple.com/documentation/signinwithapplerestapi/authenticating_users_with_sign_in_with_apple) in the Apple documentation.
+   Since we don’t have an SDK that supports Sign in with Apple for Android, you need to use the web flow in a web view. To configure Sign in with Apple in your application, follow [Configuring Your Webpage for Sign In with Apple](https://developer.apple.com/documentation/signinwithapplejs/configuring_your_webpage_for_sign_in_with_apple) in the Apple documentation. To add a Sign in with Apple button to your Android user interface, follow [Displaying and Configuring Sign In with Apple Buttons](https://developer.apple.com/documentation/signinwithapplejs/displaying_and_configuring_sign_in_with_apple_buttons) in the Apple documentation. To securely authenticate users using Sign in with Apple, follow [Configuring Your Webpage for Sign In with Apple](https://developer.apple.com/documentation/signinwithapplerestapi/authenticating_users_with_sign_in_with_apple) in the Apple documentation.
 
 2. **Configuring Sign in with Apple as an authentication provider in your Amazon Cognito Identity Pool**
 
-    Once you have configured your application to use Sign in with Apple, paste your app's **Service Identifier** into the **Apple Services ID** field of your [Amazon Cognito Identity Pool](https://console.aws.amazon.com/cognito/home). The Service Identifier can be found in the [**Certificates, IDs & Profiles** section](https://developer.apple.com/account/resources/identifiers/list) of your Apple Developer Account.
+   Once you have configured your application to use Sign in with Apple, paste your app's **Service Identifier** into the **Apple Services ID** field of your [Amazon Cognito Identity Pool](https://console.aws.amazon.com/cognito/home). The Service Identifier can be found in the [**Certificates, IDs & Profiles** section](https://developer.apple.com/account/resources/identifiers/list) of your Apple Developer Account.
 
 3. **Passing the Sign in with Apple token to AWSMobileClient via `federatedSignIn`**
 
-    Sign in with Apple uses a session object to track its state. Amazon Cognito uses the id token from this session object to authenticate the user, generate the unique identifier, and, if needed, grant the user access to other AWS resources.
+   Sign in with Apple uses a session object to track its state. Amazon Cognito uses the id token from this session object to authenticate the user, generate the unique identifier, and, if needed, grant the user access to other AWS resources.
 
-    Once you have configured Sign in with Apple as an authentication provider for your Amazon Cognito Identity Pool, and your app implements authentication with Sign in with Apple, you can retrieve the `id_token` value of the Sign in with Apple authentication response to use as the token for the `federatedSignIn` method:
+   Once you have configured Sign in with Apple as an authentication provider for your Amazon Cognito Identity Pool, and your app implements authentication with Sign in with Apple, you can retrieve the `id_token` value of the Sign in with Apple authentication response to use as the token for the `federatedSignIn` method:
 
-    ```java
-    // The onSuccess method of your app's Sign in with Apple flow
+   ```java
+   // The onSuccess method of your app's Sign in with Apple flow
 
-    @Override
-    public void onSuccess(Bundle response) {
-        String token = response.getString("id_token");
+   @Override
+   public void onSuccess(Bundle response) {
+       String token = response.getString("id_token");
 
-        AWSMobileClient.getInstance().federatedSignIn("appleid.apple.com", token, new Callback<UserStateDetails>() {
-            @Override
-            public void onResult(final UserStateDetails userStateDetails) {
-                //Handle the result
-            }
+       AWSMobileClient.getInstance().federatedSignIn("appleid.apple.com", token, new Callback<UserStateDetails>() {
+           @Override
+           public void onResult(final UserStateDetails userStateDetails) {
+               //Handle the result
+           }
 
-            @Override
-            public void onError(Exception e) {
-                Log.e(TAG, "sign-in error", e);
-            }
-        });
-    }
-    ```
+           @Override
+           public void onError(Exception e) {
+               Log.e(TAG, "sign-in error", e);
+           }
+       });
+   }
+   ```
 
-    After the `federatedSignIn` method successfully completes, `AWSMobileClient` will automatically use the federated identity to obtain credentials to make AWS service calls.
+   After the `federatedSignIn` method successfully completes, `AWSMobileClient` will automatically use the federated identity to obtain credentials to make AWS service calls.
 
 ### Facebook Login in Your Mobile App
 

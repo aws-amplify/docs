@@ -116,7 +116,7 @@ amplify console
 
 <Accordion title="Test API with local mocking">
 
-To test this out locally, you can run the `mock` command. Note: Refer to the [instructions to setup mocking](https://docs.amplify.aws/cli/usage/mock/).
+To test this out locally, you can run the `mock` command. Note: Refer to the [instructions to setup mocking](/[platform]/tools/cli/usage/mock/).
 
 > If you'd like to go ahead and connect the front end, you can [jump to the next step](#connect-frontend-to-api).
 
@@ -960,135 +960,162 @@ Next, open **App.vue**.
 To create a new todo in the database, create a `client` by using the `generateClient()` operation, then pass the `createTodo` mutation into `client.graphql()` along with the data you'd like to write.
 
 ```html
+<script setup>
+import * as mutations from './graphql/mutations'
+import { generateClient } from 'aws-amplify/api';
+import { onMounted, ref } from 'vue';
+
+const name = ref('')
+const description = ref('')
+
+const client = generateClient()
+
+async function addTodo() {
+    if (!name.value || !description.value) return;
+    const todo = { name: name.value, description: description.value };
+    await client.graphql({
+      query: mutations.createTodo,
+      variables: { input: todo }
+    });
+    name.value = '';
+    description.value = '';
+}
+
+</script>
 <template>
-  <div id="app">
+    <div id="app">
     <h1>Todo App</h1>
     <input type="text" v-model="name" placeholder="Todo name" />
     <input type="text" v-model="description" placeholder="Todo description" />
-    <button v-on:click="createTodo">Create Todo</button>
+    <button v-on:click="addTodo">Create Todo</button>
   </div>
 </template>
-
-<script>
-  import { generateClient } from 'aws-amplify/api';
-  import { createTodo } from './graphql/mutations';
-
-  const client = generateClient();
-
-  export default {
-    name: 'app',
-    data() {
-      return {
-        name: '',
-        description: ''
-      };
-    },
-    methods: {
-      async createTodo() {
-        const { name, description } = this;
-        if (!name || !description) return;
-        const todo = { name, description };
-        await client.graphql({
-          query: createTodo,
-          variables: { input: todo }
-        });
-        this.name = '';
-        this.description = '';
-      }
-    }
-  };
-</script>
 ```
 
 ### Reading data with GraphQL queries
 
-To display the data, update `App.vue` to list all the items in the database by importing `listTodos` and then using the `created()` Vue lifecycle method to update the page when a query runs on page load:
+To display the data, update `App.vue` to list all the items in the database by importing `queries` and then using the `onMounted()` Vue lifecycle hook to update the page when a query runs on page load:
 
 ```html
+<script setup>
+import * as mutations from './graphql/mutations'
+import * as queries from './graphql/queries'
+import { generateClient } from 'aws-amplify/api';
+import { onMounted, ref } from 'vue';
+
+const name = ref('')
+const description = ref('')
+const todos = ref([])
+
+const client = generateClient()
+
+async function addTodo() {
+    if (!name.value || !description.value) return;
+    const todo = { name: name.value, description: description.value };
+    await client.graphql({
+      query: mutations.createTodo,
+      variables: { input: todo }
+    });
+    name.value = '';
+    description.value = '';
+}
+
+async function fetchTodos() {
+  const fetchedTodos = await client.graphql({
+    query: queries.listTodos
+  })
+
+  todos.value = fetchedTodos.data.listTodos.items
+}
+
+onMounted(() => {
+  fetchTodos()
+})
+
+</script>
 <template>
-  <div id="app">
+    <div id="app">
     <h1>Todo App</h1>
     <input type="text" v-model="name" placeholder="Todo name" />
     <input type="text" v-model="description" placeholder="Todo description" />
-    <button v-on:click="createTodo">Create Todo</button>
+    <button v-on:click="addTodo">Create Todo</button>
+
     <div v-for="item in todos" :key="item.id">
       <h3>{{ item.name }}</h3>
       <p>{{ item.description }}</p>
     </div>
+
   </div>
 </template>
-
-<script>
-  import { generateClient } from 'aws-amplify/api';
-  import { createTodo } from './graphql/mutations';
-  import { listTodos } from './graphql/queries';
-
-  const client = generateClient();
-
-  export default {
-    name: 'App',
-    async created() {
-      this.getTodos();
-    },
-    data() {
-      return {
-        name: '',
-        description: '',
-        todos: []
-      };
-    },
-    methods: {
-      async createTodo() {
-        const { name, description } = this;
-        if (!name || !description) return;
-        const todo = { name, description };
-        await client.graphql({
-          query: createTodo,
-          variables: { input: todo }
-        });
-        this.name = '';
-        this.description = '';
-      },
-      async getTodos() {
-        const todos = await client.graphql({
-          query: listTodos
-        });
-        this.todos = todos.data.listTodos.items;
-      }
-    }
-  };
-</script>
 ```
 
 ### Real-time data with GraphQL subscriptions
 
-Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
+Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by passing the `onCreateTodo` subscription on `client.graphql()` like so:
 
-```javascript
-<script>
-  // other imports
-  import { onCreateTodo } from './graphql/subscriptions';
+```html
+<script setup>
+import * as mutations from './graphql/mutations'
+import * as queries from './graphql/queries'
+import * as subscriptions from './graphql/subscriptions'
+import { generateClient } from 'aws-amplify/api';
+import { onMounted, ref } from 'vue';
 
-  export default {
-    // other functions and properties
-    async created() {
-      this.getTodos();
-      this.subscribe();
-    },
-    methods: {
-      // other methods
-      subscribe() {
-        client.graphql({ query: onCreateTodo }).subscribe({
-          next: ({ data }) => {
-            let todo = data.onCreateTodo;
-            if (this.todos.some((item) => item.id === todo.id)) return; // remove duplications
-            this.todos = [...this.todos, todo];
-          }
-        });
-      }
+const name = ref('')
+const description = ref('')
+const todos = ref([])
+
+const client = generateClient()
+
+async function addTodo() {
+    if (!name.value || !description.value) return;
+    const todo = { name: name.value, description: description.value };
+    await client.graphql({
+      query: mutations.createTodo,
+      variables: { input: todo }
+    });
+    name.value = '';
+    description.value = '';
+}
+
+async function fetchTodos() {
+  const fetchedTodos = await client.graphql({
+    query: queries.listTodos
+  })
+
+  todos.value = fetchedTodos.data.listTodos.items
+}
+
+function subscribeToNewTodos() {
+  client.graphql({
+    query: subscriptions.onCreateTodo,
+  }).subscribe({
+    next: ({ data }) => {
+      todos.value = [...todos.value, data.onCreateTodo]
     }
-  };
+  })
+}
+
+onMounted(() => {
+  fetchTodos()
+  subscribeToNewTodos()
+})
+
 </script>
+<template>
+    <div id="app">
+    <h1>Todo App</h1>
+    <input type="text" v-model="name" placeholder="Todo name" />
+    <input type="text" v-model="description" placeholder="Todo description" />
+    <button v-on:click="addTodo">Create Todo</button>
+
+    <div v-for="item in todos" :key="item.id">
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.description }}</p>
+    </div>
+
+  </div>
+</template>
 ```
 
 </InlineFilter>
