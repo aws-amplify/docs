@@ -126,7 +126,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { TodosComponent } from './todos/todos.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 @Component({
@@ -135,8 +134,6 @@ import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
   imports: [
     CommonModule,
     RouterOutlet,
-    FormsModule,
-    ReactiveFormsModule,
     TodosComponent,
     AmplifyAuthenticatorModule
   ],
@@ -170,6 +167,12 @@ Navigate to `src/app/app.component.html`, and wrap `app-todos` with `<amplify-au
     <button (click)="signOut()">Sign Out</button>
   </ng-template>
 </amplify-authenticator>
+```
+
+Finally run your app or restart it for the styling to take effect:
+
+```bash
+npm start
 ```
 
 </InlineFilter>
