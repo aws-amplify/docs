@@ -13,7 +13,7 @@ export function getStaticProps(context) {
 
 <Callout info>
 
-<b>Coming soon: </b>The Storage Gen 2 experience is still under development. You can add Amazon S3 to your Amplify Gen 2 project with AWS CDK. 
+<b>Coming soon: </b>The Storage Gen 2 experience is still under development. You can add Amazon S3 to your Amplify Gen 2 project with AWS CDK.
 </Callout>
 
 To use Storage today you must use the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/). To get started, install the CDK library package:
@@ -51,7 +51,7 @@ const backend = defineBackend({
 });
 
 // create the bucket and its stack
-const bucketStack = backend.getStack('BucketStack');
+const bucketStack = backend.createStack('BucketStack');
 const bucket = new s3.Bucket(bucketStack, 'Bucket', {
   blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL
 });
