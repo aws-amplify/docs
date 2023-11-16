@@ -44,7 +44,7 @@ Secrets are stored in AWS Parameter Store under the following naming convention:
 
 <Callout info>
   Secrets set in sandbox do not show up in the Amplify Console. You can view
-  them in the AWS Paramter Store console.
+  them in the AWS Parameter Store console.
 </Callout>
 
 When testing features locally, you might want to test with real secrets. You can add secrets while running the cloud sandbox with the following command:
@@ -61,7 +61,7 @@ Done!
 
 ## Accessing secrets
 
-Once you have set a secret set up, you can access the values in code by calling the `secret()` function. The example below shows how to set up social sign-in with authentication in your app. Depending on your environment, Amplify will automatically load the correct secret value with no extra configration.
+Once you have set a secret set up, you can access the values in code by calling the `secret()` function. The example below shows how to set up social sign-in with authentication in your app. Depending on your environment, Amplify will automatically load the correct secret value with no extra configuration.
 
 ```ts
 import { defineAuth, secret } from '@aws-amplify/backend';
@@ -109,7 +109,7 @@ Environment Variables function as key-value pairs intended to facilitate the man
 
 1. First create an environment variable in the Amplify console and name it REACT_APP_TEST_VARIABLE.
 
-1. Next, navigate to the build settings (`amplify.yml`) and update the buildspec to pipe the environment variable into a `.env` file. For example:
+1. Next, navigate to the build settings (`amplify.yml`) and update the build settings to pipe the environment variable into a `.env` file. For example:
 
 ```yml
 build:

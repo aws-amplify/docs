@@ -21,7 +21,7 @@ Before you get started, make sure you have the following installed:
 - [npm v9](https://www.npmjs.com/) or later
 - [git](https://git-scm.com/) v2.14.1 or later
 - You will also need to [create an AWS Account](https://portal.aws.amazon.com/billing/signup). Note that AWS Amplify is part of the [AWS Free Tier](https://aws.amazon.com/amplify/pricing/).
-- Configure your AWS account to use with Amplify [instructions](../account-setup/).
+- Configure your AWS account to use with Amplify [instructions](/gen2/start/account-setup/).
 
 ## Create a project
 
@@ -58,19 +58,19 @@ Running this command will scaffold a lightweight Amplify project in your current
 
 ## Start local dev server
 
-Let's start a local dev server for your app development. For the frontend, run `npm run dev` that will spin up a `localhost` dev server with the default Next.js template. For the backend, we are going to start a cloud sandbox environment. Amplify gives every developer a personal cloud sandbox environment that provide isolated development spaces for to rapidly build, test, and iterate. When you're working with a team, each developer will have their own personal cloud sandbox.
+Let's start a local dev server for your app development. For the frontend, run `npm run dev` that will spin up a `localhost` dev server with the default Next.js template.
 
 ```bash
 npm run dev
 ```
+
+For the backend, we are going to start a cloud sandbox environment. Amplify gives every developer a personal cloud sandbox environment that provide isolated development spaces for to rapidly build, test, and iterate. When you're working with a team, each developer will have their own personal cloud sandbox.
 
 ```bash
 npx amplify sandbox
 ```
 
 > Do not use sandbox environments in production.
-
-When you're done with your development session, you can shut down your sandbox (Ctrl+C) and it will prompt you to tear down the resources you were using.
 
 ## Build a backend
 
@@ -269,9 +269,13 @@ Let's update the return of the above component to also have a button for creatin
 }
 ```
 
+### Terminate dev server
+
+Go to `localhost` in the browser to make sure you can now login, create, and list todos. You can end your development session by shutting down the frontend dev server and cloud sandbox. The sandbox prompts you to delete your backend resources - while you can retain your backend, we recommend deleting all resources so you can start clean again next time.
+
 ## Deploy and host fullstack branch
 
-Amplify offers a fully managed hosting service with CI/CD built-in, making it easy to set up production and staging environments with Git branches. In Gen 2, every Git branch in your repository maps 1:1 to a fullstack branch in Amplify.
+Now that your app is working, let's deploy it to a shared fullstack branch so the project is shareable with your team. Amplify offers a fully managed hosting service with CI/CD built-in, making it easy to set up production and staging environments with Git branches. In Gen 2, every Git branch in your repository maps 1:1 to a fullstack branch in Amplify.
 
 ### Create a remote git repository
 
