@@ -60,14 +60,15 @@ The `@aws-amplify/backend` library offers a TypeScript-first `Data` library for 
 </Callout>
 
 A data model for a chat app may look something like this, for example:
+
 ```ts
 const schema = a.schema({
-   Chat: a.model({
+  Chat: a.model({
     name: a.string(),
     message: a.hasMany('Message')
   }),
   Message: a.model({
-    text: a.string(),
+    text: a.string()
   })
 });
 ```
@@ -75,8 +76,8 @@ const schema = a.schema({
 On your app's frontend, you can use the `generateClient` function, which provides a typed client instance, making it easy to integrate CRUD (create, read, update, delete) operations for your models in your application code.
 
 <Callout>
-  Gen 2 automatically generates your types without the explicit codegen step that
-  was part of Gen 1.
+  Gen 2 automatically generates your types without the explicit codegen step
+  that was part of Gen 1.
 </Callout>
 
 ```ts
@@ -88,13 +89,13 @@ const { data } = await client.models.Message.list();
 
 // create a new message
 const { errors, data: newMessage } = await client.models.Message.create({
-  text: "My message text"
-})
+  text: 'My message text'
+});
 ```
 
 ### Auth
 
-Auth works similarly to data. You can configure the authentication settings you want for your app in `amplify/auth/resource.ts`. If you want to change the verification email's subject line, you can change out the default generated code with the following: 
+Auth works similarly to data. You can configure the authentication settings you want for your app in `amplify/auth/resource.ts`. If you want to change the verification email's subject line, you can change out the default generated code with the following:
 
 ```ts title="amplify/auth/resource.ts"
 export const auth = defineAuth({
@@ -191,4 +192,4 @@ Amplify's libraries provide an interface to leverage your existing AWS services 
 
 ## Next steps
 
-Now that you have a conceptual understanding of AWS Amplify's code-first (Gen 2) capabilities, complete the [quickstart tutorial](/start/quickstart/) to put it into action in an app.
+Now that you have a conceptual understanding of AWS Amplify's code-first (Gen 2) capabilities, complete the [quickstart tutorial](/gen2/start/quickstart/) to put it into action in an app.
