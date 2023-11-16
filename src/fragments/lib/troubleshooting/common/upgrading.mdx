@@ -88,6 +88,13 @@ npm install aws-amplify @aws-amplify/react-native @react-native-community/netinf
 
 Note that v6 supports react-native v0.70+, so if you prefer manually upgrading dependencies double-check the version of react-native in your package.json file.
 
+`@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0`, if has not already been set to `13.01 or above, open the _Podfile_ located in the _ios_ directory and update the `target` value:
+
+```diff
+- platform :ios, min_ios_version_supported
++ platform :ios, 13.0
+```
+
 <Callout>
 
 If you are using `signInWithRedirect` (previously `Auth.federatedSignIn`) you will need to install the `@aws-amplify/rtn-web-browser` native module.
@@ -187,7 +194,6 @@ If you have previously configured Amplify by passing the configuration object li
 - [Interactions - Set up Amplify Interactions](/[platform]/build-a-backend/more-features/interactions/set-up-interactions/)
 
 </InlineFilter>
-
 
 **Running Amplify on the server with NextJS**
 
@@ -849,24 +855,37 @@ As of v6 of Amplify, you will now import the functional API’s directly from th
 ```
 import { ServiceWorker, Cache, Hub, I18n, Logger } from 'aws-amplify';
 
-// Service Worker const serviceWorker = new ServiceWorker();
+// Service Worker 
+const serviceWorker = new ServiceWorker();
 
-// Cache Cache.setItem(key, value, [options]);
+// Cache 
+Cache.setItem(key, value, [options]);
 
-// Hub (Listening for messages) class MyClass { constructor() { Hub.listen('auth', (data) => { const { payload } = data; this.onAuthEvent(payload);  
- console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); }) }
+// Hub (Listening for messages) 
+class MyClass { 
+  constructor() { 
+    Hub.listen('auth', (data) => { 
+      const { payload } = data; 
+      this.onAuthEvent(payload);  
+      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
+    }) 
+  }
 
-    onAuthEvent(payload) {
-        // ... your implementation
-    }
-
+  onAuthEvent(payload) {
+      // ... your implementation
+  }
 }
 
-// Internationalization I18n.setLanguage('fr');
+// Internationalization 
+I18n.setLanguage('fr');
 
-// Logger const logger = new Logger('foo');
+// Logger 
+const logger = new Logger('foo');
 
-logger.info('info bar'); logger.debug('debug bar'); logger.warn('warn bar'); logger.error('error bar');
+logger.info('info bar'); 
+logger.debug('debug bar'); 
+logger.warn('warn bar'); 
+logger.error('error bar');
 
 ```
 </Block>
@@ -882,20 +901,37 @@ import {
   ConsoleLogger
 } from 'aws-amplify/utils';
 
-// Service Worker const serviceWorker = new ServiceWorker();
+// Service Worker 
+const serviceWorker = new ServiceWorker();
 
-// Cache Cache.setItem(key, value, [options]);
+// Cache 
+Cache.setItem(key, value, [options]);
 
-// Hub (Listening for messages) class MyClass { constructor() { Hub.listen('auth', (data) => { const { payload } = data; this.onAuthEvent(payload);  
- console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); }) }
+// Hub (Listening for messages) 
+class MyClass { 
+  constructor() { 
+    Hub.listen('auth', (data) => { 
+      const { payload } = data; 
+      this.onAuthEvent(payload);  
+      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
+    }) 
+  }
 
-onAuthEvent(payload) { // ... your implementation } }
+  onAuthEvent(payload) { 
+    // ... your implementation 
+  } 
+}
 
-// Internationalization I18n.setLanguage('fr');
+// Internationalization 
+I18n.setLanguage('fr');
 
-// Console Logger const logger = new ConsoleLogger('foo');
+// Console Logger 
+const logger = new ConsoleLogger('foo');
 
-logger.info('info bar'); logger.debug('debug bar'); logger.warn('warn bar'); logger.error('error bar');
+logger.info('info bar'); 
+logger.debug('debug bar'); 
+logger.warn('warn bar'); 
+logger.error('error bar');
 
 ````
 </Block>

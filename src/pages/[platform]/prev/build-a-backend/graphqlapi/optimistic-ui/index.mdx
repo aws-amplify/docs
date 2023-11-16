@@ -1,9 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Example application',
-  description: 'Sample code for using the Predictions category in Amplify.',
-  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue']
+  title: 'Optimistic UI',
+  description:
+    'Learn more about implementing optimistic UI with Amplify GraphQL API.',
+  platforms: ['javascript', 'swift', 'angular', 'nextjs', 'react', 'vue']
 };
 
 export const getStaticPaths = async () => {
@@ -19,14 +20,14 @@ export function getStaticProps(context) {
   };
 }
 
-import sampleJs from '/src/fragments/lib/predictions/js/sample.mdx';
+import js0 from '/src/fragments/lib-v1/graphqlapi/js/optimistic-ui.mdx';
 
 <Fragments
   fragments={{
-    javascript: sampleJs,
-    angular: sampleJs,
-    nextjs: sampleJs,
-    react: sampleJs,
-    vue: sampleJs
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
   }}
 />
