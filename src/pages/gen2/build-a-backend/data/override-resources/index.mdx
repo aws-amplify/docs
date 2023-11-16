@@ -12,3 +12,31 @@ export function getStaticProps(context) {
   };
 
 }
+
+Amplify GraphQL API uses a variety of auto-generated, underlying AWS services and resources. You can customize these underlying resources to optimize the deployed stack for your specific use case.
+
+
+In your Amplify app, you can access every underlying resource using CDK ["L2"](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html#constructs_using) or ["L1" construct](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html#constructs_l1_using). Access the generated resources as L2 constructs via the `.resources` property on the returned stack or access the generated resources as L1 constructs using the `.resources.cfnResources` property.
+
+```ts
+import { defineBackend } from "@aws-amplify/backend";
+import { data } from "./data/resource.js";
+
+const backend = defineBackend({
+  data,
+});
+
+const dataResources = backend.resources.data.resources;
+
+// Access L2 resources under `.resources`
+dataResources.tables["Todo"].tableArn;
+
+// Access L1 resources under `.resources.cfnResources`
+dataResources.cfnResources.cfnGraphqlApi.xrayEnabled = true;
+Object.values(dataResources.cfnResources.cfnTables).forEach((table) => {
+  table.pointInTimeRecoverySpecification = {
+    pointInTimeRecoveryEnabled: false,
+  };
+});
+```
+
