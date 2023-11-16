@@ -1869,10 +1869,6 @@ export const directory = {
                 {
                   path: 'src/pages/gen2/build-a-backend/data/set-up-data/index.mdx'
                 },
-                // Uncommented because this feature won't be ready for re:invent
-                // {
-                //   path: 'src/pages/gen2/build-a-backend/data/connect-existing-data/index.mdx'
-                // },
                 {
                   path: 'src/pages/gen2/build-a-backend/data/connect-to-API/index.mdx'
                 },
