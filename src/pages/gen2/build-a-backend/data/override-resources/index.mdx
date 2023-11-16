@@ -90,7 +90,7 @@ const backend = defineBackend({
 backend.resources.data.resources.cfnResources.cfnTables['Todo'].billingMode = 'PAY_PER_REQUEST';
 ```
 
-### Example - Configure provisioned throughput for DynamoDB table or Global Secondary Index
+### Example - Configure provisioned throughput for DynamoDB table
 
 Override the default [ProvisionedThroughput](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-provisionedthroughput) provisioned for each model table and its Global Secondary Indexes (GSI).
 
@@ -107,5 +107,23 @@ const backend = defineBackend({
 backend.resources.data.resources.cfnResources.cfnTables["Todo"].provisionedThroughput = {
   readCapacityUnits: 5,
   writeCapacityUnits: 5,
+};
+```
+
+### Example - Enable point-in-time recovery for DynamoDB table
+
+Enable/disable [DynamoDB point-in-time recovery](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-table-pointintimerecoveryspecification.html) for each model table.
+
+
+```ts
+import { defineBackend } from "@aws-amplify/backend";
+import { data } from "./data/resource.js";
+
+const backend = defineBackend({
+  data,
+});
+
+backend.resources.data.resources.cfnResources.cfnTables["Todo"].pointInTimeRecoverySpecification = {
+  pointInTimeRecoveryEnabled: true,
 };
 ```
