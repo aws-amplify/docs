@@ -1904,13 +1904,6 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/data/override-resources/index.mdx'
-                },
-                // Uncommented because this feature won't be ready for re:invent
-                // {
-                //   path: 'src/pages/gen2/build-a-backend/data/offline/index.mdx'
-                // },
-                {
-                  path: 'src/pages/gen2/build-a-backend/data/migration/index.mdx'
                 }
               ]
             },
