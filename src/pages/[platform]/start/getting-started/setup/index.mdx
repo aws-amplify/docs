@@ -632,7 +632,7 @@ Next, configure Amplify so it can interact with backend services.
     </InlineFilter>
 
     <InlineFilter filters={['nextjs']}>
-        Open **pages/_app.js** and add the following code below the last import:
+        If you are using Next.js Pages Router, open **pages/_app.js** and add the following code below the last import:
     </InlineFilter>
 
     <InlineFilter filters={['vue']}>
@@ -647,6 +647,10 @@ Next, configure Amplify so it can interact with backend services.
     Amplify.configure(amplifyconfig);
     ```
 
+    </InlineFilter>
+
+    <InlineFilter filters={["nextjs"]}>
+        If you are using Next.js App Router, refer to the [Server Side Rendering](/[platform]/build-a-backend/server-side-rendering/) document for details on configuring Amplify on both the server and client sides.
     </InlineFilter>
 
     <InlineFilter filters={["javascript"]}>
