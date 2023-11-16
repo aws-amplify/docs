@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Delete user account',
-  description: 'Learn how to delete a user account.',
+  description: 'Enable users to delete their account.',
 };
 
 
@@ -14,10 +14,7 @@ export function getStaticProps(context) {
   };
 }
 
-
-<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
-
-Empowering users to delete their account can improve trust and transparency. You can programmatically enable self-service account deletion with Amplify Auth. In this guide, we will review how you can enable this feature for your users.
+Empowering users to delete their account can improve trust and transparency. You can programmatically enable self-service account deletion with Amplify Auth.
 
 Before you begin, you will need:
 
@@ -55,36 +52,11 @@ We recommend you update your UI to let your users know that their account is del
 
 ## Conclusion
 
-Congratulations! You finished the **Delete user account** guide. In this guide, you learned how to enable account deletion for your users.
+Congratulations! You finished the **Delete user account** guide and learned how to enable account deletion for your users.
 
-## Next steps
+### Next steps
 
 Now that you enabled account deletion you may also want to add some additional features. We recommend you learn more about:
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 - [Manage user profile](/gen2/build-a-backend/auth/manage-user-profile/)
 - [Set up password change and recovery](/gen2/build-a-backend/auth/password-management/)
-
-</InlineFilter>
-
-<InlineFilter filters={["react-native"]}>
-
-- [Manage user profile](/gen2/build-a-backend/auth/manage-user-profile/)
-- [Set up password change and recovery](/gen2/build-a-backend/auth/password-management/)
-
-</InlineFilter>
-
-</InlineFilter>
-
-import ios0 from '/src/fragments/lib/auth/native_common/delete_user/common.mdx';
-
-<Fragments fragments={{ swift: ios0 }} />
-
-import flutter1 from '/src/fragments/lib/auth/native_common/delete_user/common.mdx';
-
-<Fragments fragments={{ flutter: flutter1 }} />
-
-import android3 from '/src/fragments/lib/auth/native_common/delete_user/common.mdx';
-
-<Fragments fragments={{ android: android3 }} />
