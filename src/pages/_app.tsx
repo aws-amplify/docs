@@ -20,6 +20,8 @@ function MyApp({ Component, pageProps }) {
     useCustomTitle
   } = pageProps;
 
+  console.log(`APP ID IN _APP: ${process.env.ALGOLIA_APP_ID}`);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -174,6 +176,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
         <link rel="canonical" href={canonicalUrl} />
       </Head>
+      _APP:{process.env.ALGOLIA_APP_ID}
 
       <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>
 

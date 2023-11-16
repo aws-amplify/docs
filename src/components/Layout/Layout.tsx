@@ -54,6 +54,7 @@ import {
 } from '@/components/NextPrevious';
 
 const testId = process.env.ALGOLIA_APP_ID;
+console.log(`TESTID: ${testId}`);
 
 export const Layout = ({
   children,
@@ -82,6 +83,8 @@ export const Layout = ({
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
+
+  console.log(`APP ID IN LAYOUT: ${process.env.ALGOLIA_APP_ID}`);
 
   useEffect(() => {
     const headings: HeadingInterface[] = [];
@@ -243,7 +246,7 @@ export const Layout = ({
                     )}
                   >
                     <View className="layout-search__search__container">
-                      TEST: {testId}
+                      LAYOUT TEST: {testId}
                       ENV: {process.env.ALGOLIA_APP_ID}
                       PUBLIC: {process.env.NEXT_PUBLIC_APP_ID}
                       <DocSearch

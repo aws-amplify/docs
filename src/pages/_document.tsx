@@ -65,20 +65,20 @@ const getCspContent = (context) => {
       style-src 'self' 'unsafe-inline' ${ANALYTICS_CSP.all.style.join(' ')};
       font-src 'self' data:;
       frame-src 'self' https://www.youtube-nocookie.com ${ANALYTICS_CSP.all.frame.join(
-        ' '
-      )};
+      ' '
+    )};
       connect-src 'self' ${ANALYTICS_CSP.all.connect.join(
-        ' '
-      )} ${ANALYTICS_CSP.alpha.connect.join(
-        ' '
-      )} https://*.algolia.net https://*.algolianet.com *.amazonaws.com;
+      ' '
+    )} ${ANALYTICS_CSP.alpha.connect.join(
+      ' '
+    )} https://*.algolia.net https://*.algolianet.com *.amazonaws.com;
       img-src 'self' https://img.shields.io data: ${ANALYTICS_CSP.all.img.join(
-        ' '
-      )} ${ANALYTICS_CSP.alpha.img.join(' ')}; 
+      ' '
+    )} ${ANALYTICS_CSP.alpha.img.join(' ')}; 
       media-src 'self';
       script-src 'unsafe-eval' 'self' ${cspInlineScriptHash} ${ANALYTICS_CSP.alpha.script.join(
-        ' '
-      )} ${ANALYTICS_CSP.all.script.join(' ')};`;
+      ' '
+    )} ${ANALYTICS_CSP.all.script.join(' ')};`;
   }
 
   // Prod environment
@@ -88,25 +88,26 @@ const getCspContent = (context) => {
     style-src 'self' 'unsafe-inline' ${ANALYTICS_CSP.all.style.join(' ')};
     font-src 'self';
     frame-src 'self' https://www.youtube-nocookie.com ${ANALYTICS_CSP.all.frame.join(
-      ' '
-    )};
+    ' '
+  )};
     connect-src 'self' ${ANALYTICS_CSP.all.connect.join(
-      ' '
-    )} ${ANALYTICS_CSP.prod.connect.join(
-      ' '
-    )} https://*.algolia.net https://*.algolianet.com *.amazonaws.com;
+    ' '
+  )} ${ANALYTICS_CSP.prod.connect.join(
+    ' '
+  )} https://*.algolia.net https://*.algolianet.com *.amazonaws.com;
     img-src 'self' https://img.shields.io ${ANALYTICS_CSP.all.img.join(
-      ' '
-    )} ${ANALYTICS_CSP.prod.img.join(' ')};
+    ' '
+  )} ${ANALYTICS_CSP.prod.img.join(' ')};
     media-src 'self';
     script-src 'self' ${cspInlineScriptHash} ${ANALYTICS_CSP.prod.script.join(
-      ' '
-    )} ${ANALYTICS_CSP.all.script.join(' ')};
+    ' '
+  )} ${ANALYTICS_CSP.all.script.join(' ')};
   `;
 };
 
 export default class MyDocument extends Document {
   render() {
+    console.log(`APP ID IN DOCUMENT: ${process.env.ALGOLIA_APP_ID}`);
     return (
       <Html lang="en">
         <Head>
@@ -135,6 +136,7 @@ export default class MyDocument extends Document {
           ></link>
         </Head>
         <body>
+          DOCUMENT:{process.env.ALGOLIA_APP_ID}
           <Main />
           <NextScript />
         </body>
