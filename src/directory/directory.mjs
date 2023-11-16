@@ -1981,6 +1981,9 @@ export const directory = {
             },
             {
               path: 'src/pages/gen2/reference/cli-commands/index.mdx'
+            },
+            {
+              path: 'src/pages/gen2/reference/iam-policy/index.mdx'
             }
           ]
         }
