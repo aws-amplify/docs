@@ -245,6 +245,7 @@ export const Layout = ({
                     <View className="layout-search__search__container">
                       TEST: {testId}
                       ENV: {process.env.ALGOLIA_APP_ID}
+                      PUBLIC: {process.env.NEXT_PUBLIC_APP_ID}
                       <DocSearch
                         appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
                         indexName={
