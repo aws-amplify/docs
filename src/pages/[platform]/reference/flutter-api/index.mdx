@@ -3,17 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Flutter API references',
   description: 'A list of Amplify Libraries for Flutter API reference docs.',
-  platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+  platforms: ['flutter']
 };
 
 export const getStaticPaths = async () => {
@@ -24,6 +14,7 @@ export function getStaticProps(context) {
   return {
     props: {
       platform: context.params.platform,
+      showBreadcrumbs: false,
       meta
     }
   };
