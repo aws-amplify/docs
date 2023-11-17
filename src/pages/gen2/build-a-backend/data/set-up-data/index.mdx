@@ -1,7 +1,7 @@
 export const meta = {
   title: 'Set up Amplify Data',
   description:
-    'Learn how to create a new cloud API that connects your app with new or existing data sources.'
+    'Create a new cloud API that connects your app with new or existing data sources.'
 };
 
 export function getStaticProps(context) {
@@ -13,7 +13,7 @@ export function getStaticProps(context) {
 
 }
 
-Amplify Data allows you to build a secure, real-time API backed by a database in minutes. Define your data model with TypeScript and Amplify will deploy a real-time API powered by AWS AppSync connected to an Amazon DynamoDB database on your behalf. You can secure your API with authorization rules and scale to custom use cases with AWS Lambda.
+With Amplify Data, you can build a secure, real-time API backed by a database in minutes. Define your data model using TypeScript, then Amplify will deploy a real-time API for you. This API is powered by AWS AppSync and connected to an Amazon DynamoDB database. You can secure your API with authorization rules and scale to custom use cases with AWS Lambda.
 
 ```mermaid
 graph LR
@@ -80,7 +80,7 @@ Every `a.model()` automatically creates the following resources in the cloud:
 
 The `a.allow.public()` rule designates that anyone authenticated using an API key can create, read, update, and delete todos.
 
-To deploy these resources to your cloud sandbox, run the following CLI command in your Terminal:
+To deploy these resources to your cloud sandbox, run the following CLI command in your terminal:
 
 ```bash
 npx amplify sandbox
@@ -88,7 +88,7 @@ npx amplify sandbox
 
 ## Connect your application code to the data backend
 
-Once the cloud sandbox is up and running, it'll also create a `amplifyconfiguration.json` file which includes the relevant connection information to your data backend like your API endpoint URL and API key.
+Once the cloud sandbox is up and running, it will also create an `amplifyconfiguration.json` file, which includes the relevant connection information to your data backend, like your API endpoint URL and API key.
 
 ```mermaid
 graph LR
@@ -116,7 +116,7 @@ graph LR
 
 To connect your frontend code to your backend, you need to:
 
-1. configure Amplify library with the Amplify client configuration file
+1. configure the Amplify library with the Amplify client configuration file
 2. generate a new API client from the Amplify library
 3. make an API request with end-to-end type-safety
 
@@ -131,7 +131,7 @@ Amplify.configure(config);
 
 ## Write data to your backend
 
-Let's first add a button to create a new todo item. To make a "create Todo" API request, generate the data client using `generateClient()` in your frontend code, and then call `.create()` operation for the Todo model. The Data client is a fully typed client, that gives you in-IDE code completion. To enable this in-IDE code completion capability, pass in the `Schema` type to the `generateClient` function.
+Let's first add a button to create a new todo item. To make a "create Todo" API request, generate the data client using `generateClient()` in your frontend code, and then call `.create()` operation for the Todo model. The Data client is a fully typed client that gives you in-IDE code completion. To enable this in-IDE code completion capability, pass in the `Schema` type to the `generateClient` function.
 
 ```tsx title="TodoList.tsx"
 "use client"
@@ -155,7 +155,7 @@ export default function TodoList() {
 }
 ```
 
-Run the application in local development mode and check your network tab after creating a Todo. You should see a successful request to a `/graphql` endpoint.
+Run the application in local development mode and check your network tab after creating a todo. You should see a successful request to a `/graphql` endpoint.
 
 <Callout>
 
@@ -165,7 +165,7 @@ Try playing around with the code completion of `.update(...)` and `.delete(...)`
 
 ## Read data from your backend
 
-Next, list all your todos as well as refetch the todos after a todo has been added:
+Next, list all your todos and then refetch the todos after a todo has been added:
 
 ```tsx title="TodoList.tsx"
 "use client"
@@ -250,7 +250,7 @@ export default function TodoList() {
 }
 ```
 
-Now try to open your app in two browser windows and see how creating a Todo in one window automatically adds the todo in the second window as well.
+Now try to open your app in two browser windows and see how creating a todo in one window automatically adds the todo in the second window as well.
 
 <Callout>
 
@@ -258,9 +258,11 @@ You can also use `.onCreate`, `.onUpdate`, or `.onDelete` to subscribe to specif
 
 </Callout>
 
-## Next steps
+## Conclusion
 
 Success! You've learned how to create your first real-time API and database with Amplify Data.
+
+## Next steps 
 
 There's so much more to discover with Amplify Data. Learn more about:
 
