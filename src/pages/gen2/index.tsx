@@ -112,7 +112,10 @@ const Gen2Overview = () => {
         <Grid as="ul" className="framework-grid">
           {supportedFrameworks.map((framework, index) => {
             return (
-              <li key={`framework-${index}`} className="framework-grid__item">
+              <li
+                key={`framework-${index}`}
+                className="framework-grid__item framework-grid__item--text"
+              >
                 <View className="framework-grid__icon">{framework.icon}</View>
                 {framework.title}
               </li>
