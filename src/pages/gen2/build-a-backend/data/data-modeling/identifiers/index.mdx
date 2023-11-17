@@ -12,7 +12,7 @@ export function getStaticProps(context) {
   };
 }
 
-Identifiers are defined using the `.identifier()` method on a model definition. Usage of the `.identifier()` method is optional; when it's not present, the model will automatically have a field called `id` of type `ID` that is autofilled.
+Identifiers are defined using the `.identifier()` method on a model definition. Usage of the `.identifier()` method is optional; when it's not present, the model will automatically have a field called `id` of type `ID` that is automatically generated unless manually specified.
 
 ```typescript
 const schema = a.schema({

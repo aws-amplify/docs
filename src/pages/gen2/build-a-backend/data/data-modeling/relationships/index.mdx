@@ -29,7 +29,7 @@ Sometimes when retrieving data for a given entity, retrieving its relationships 
 
 Create a bi-directional one-to-many relationship between two models using the `hasMany()` method.
 
-In the example below, a Team has many CoMembersmments.
+In the example below, a Team has many Members, and from a given member, the parent Team may be looked up.
 
 ```typescript
 const schema = a.schema({
