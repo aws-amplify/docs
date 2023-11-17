@@ -10,10 +10,11 @@ import {
 import ExportedImage from 'next-image-export-optimizer';
 import { MDXCode } from '@/components/MDXComponents/';
 import {
-  IconKotlin,
+  IconAngular,
+  IconJS,
   IconNext,
-  IconNuxt,
   IconReact,
+  IconTS,
   IconVue,
   IconChevron
 } from '@/components/Icons';
@@ -38,24 +39,32 @@ export function getStaticProps() {
 
 const supportedFrameworks = [
   {
-    title: 'Next',
-    icon: <IconNext />
+    title: 'JavaScript',
+    icon: <IconJS />
+  },
+  {
+    title: 'TypeScript',
+    icon: <IconTS />
   },
   {
     title: 'React',
     icon: <IconReact />
   },
   {
-    title: 'Nuxt',
-    icon: <IconNuxt />
+    title: 'Next',
+    icon: <IconNext />
   },
   {
     title: 'Vue',
     icon: <IconVue />
   },
   {
-    title: 'Kotlin',
-    icon: <IconKotlin />
+    title: 'Angular',
+    icon: <IconAngular />
+  },
+  {
+    title: 'React Native',
+    icon: <IconReact />
   }
 ];
 
@@ -103,7 +112,10 @@ const Gen2Overview = () => {
         <Grid as="ul" className="framework-grid">
           {supportedFrameworks.map((framework, index) => {
             return (
-              <li key={`framework-${index}`} className="framework-grid__item">
+              <li
+                key={`framework-${index}`}
+                className="framework-grid__item framework-grid__item--text"
+              >
                 <View className="framework-grid__icon">{framework.icon}</View>
                 {framework.title}
               </li>
