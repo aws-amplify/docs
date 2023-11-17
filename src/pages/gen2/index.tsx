@@ -17,9 +17,7 @@ import {
   IconReact,
   IconTS,
   IconVue,
-  IconChevron,
-  IconAngular,
-  IconJS
+  IconChevron
 } from '@/components/Icons';
 import { ClassicBanner } from '@/components/Banner';
 import { Columns } from '@/components/Columns';
