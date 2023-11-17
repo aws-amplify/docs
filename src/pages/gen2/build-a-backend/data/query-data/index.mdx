@@ -1,6 +1,6 @@
 export const meta = {
   title: 'Read application data',
-  description: 'Learn how to query application data.'
+  description: 'Read application data using list and get queries. You can filter query results, paginate list queries, specify only the data fields needed, and cancel requests. This guide covers how to perform these tasks to optimize data access in your application.'
 };
 
 export function getStaticProps(context) {
@@ -16,7 +16,7 @@ You can read application data using the Amplify Data client. In this guide, we w
 
 Before you begin, you will need:
 
-- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/connect-to-api/)
+- An [application connected to the API](/[platform]/gen2/build-a-backend/data/connect-to-API/)
 - Data already created to view
 
 ## List and get your data
@@ -49,7 +49,7 @@ const { data: inventory, errors } = await client.models.Inventory.get({
 
 <Accordion title='Troubleshoot unauthorized errors' headingLevel='4' eyebrow='Troubleshooting'>
 
-Each API request uses a authorization mode. If you get unauthorized errors, you may need to update your authorization mode. To override the default authorization mode defined in your **amplify/data/resource.ts** file, pass an `authMode` property to the request or the client. The following examples show how you can mutate data with a custom authorization mode:
+Each API request uses an authorization mode. If you get unauthorized errors, you may need to update your authorization mode. To override the default authorization mode defined in your **amplify/data/resource.ts** file, pass an `authMode` property to the request or the client. The following examples show how you can mutate data with a custom authorization mode:
 
 ```ts
 import { generateClient } from 'aws-amplify/api';
@@ -129,7 +129,7 @@ const {
 });
 ```
 
-If you're building a React application, you can use Amplify UI's `usePagination` hook to help with managing the pagination user experience.
+If you're building a React application, you can use the `usePagination` hook in Amplify UI to help with managing the pagination user experience.
 
 ```js
 import * as React from 'react';
@@ -180,9 +180,9 @@ export const PaginationHasMorePagesExample = () => {
 
 ## Fetch only the data you need with custom selection set
 
-While a modeled business domain may contain a lot of models with a lot of fields, its usage in apps typically requires only subsets of data or fields to fulfill the data requirements of the different components or screens. It is necessary to offer a mechanism to retrieve subsets of models and its relationships. Having such a mechanism would help with the data requirements of screens/components in an optimal way (only used data will be transferred), improving the app's data usage, the latency and its end-user's perceived performance.
+A business domain model may contain many models with numerous fields. However, apps typically only need subsets of the data or fields to meet the requirements of different components or screens. It is necessary to have a mechanism to retrieve subsets of models and their relationships. This mechanism would help optimize data usage for screens and components by only transferring needed data. Having this capability would improve the app's data efficiency, latency, and the end user's perceived performance.
 
-A **custom selection set** allows consumers to specify on a per-call basis the fields the consumer wishes to retrieve, this is possible for all operations that return data (CRUDL + observeQuery). The desired fields are specified in a strongly-typed way (discoverable via intellisense) with a "dot notation".
+A **custom selection set** allows consumers to specify, on a per-call basis, the fields the consumer wants to retrieve; this is possible for all operations that return data (CRUDL + `observeQuery`). The desired fields are specified in a strongly typed way (discoverable through IntelliSense) with a "dot notation".
 
 ```ts
 // same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
@@ -200,7 +200,7 @@ const { data: blogWithSubsetOfData, errors } = await client.models.Blog.get(
 
 ## TypeScript type helpers for Amplify Data
 
-When working with TypeScript you often need to specify the type of your data models for type generics. For example, when working with `useState` from React, you need to provide a type in TypeScript to ensure type-safety for the rest of your component code that uses the returned state. Use the `Schema["MODEL_NAME"]` pattern to get consumable TypeScript types for the shapes of the data model return values coming from the backend API.
+When using TypeScript, you frequently need to specify data model types for type generics. For instance, with React's `useState`, you provide a type in TypeScript to ensure type-safety in your component code using the state. Use the `Schema["MODEL_NAME"]` pattern to get TypeScript types for the shapes of data models returned from the backend API. This allows you to get consumable TypeScript types for the shapes of the data model return values coming from the backend API.
 
 ```ts
 import { type Schema } from '@/backend/data/resource';
@@ -274,7 +274,7 @@ Congratulations! You have finished the **Read application data** guide. In this 
 
 Our recommended next steps include subscribing to real-time events to look for mutations in your data and continuing to build out and customize your information architecture for your data. Some resources that will help with this work include:
 
-- [Subscribe to real-time events](/[platform]/build-a-backend/graphqlapi/subscribe-data/)
+- [Subscribe to real-time events](/gen2/build-a-backend/data/subscribe-data/)
 - [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-auth/)
 - [Data modeling](/[platform]/build-a-backend/graphqlapi/data-modeling/)
 - [Custom business logic](/[platform]/build-a-backend/graphqlapi/custom-business-logic/)
