@@ -156,9 +156,6 @@ On the client side, make sure to always authenticate with the corresponding auth
 import { generateClient } from 'aws-amplify/api'
 import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
 
-import * as mutations from '@/graphql/mutations'
-import * as queries from '@/graphql/queries'
-
 const client = generateClient<Schema>()
 
 // Creating a post is restricted to Cognito User Pools

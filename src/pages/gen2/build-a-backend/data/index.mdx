@@ -10,11 +10,10 @@ export function getStaticProps(context) {
   const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      meta
+      meta,
       childPageNodes
     }
   };
-
 }
 
 <Overview childPageNodes={props.childPageNodes} />

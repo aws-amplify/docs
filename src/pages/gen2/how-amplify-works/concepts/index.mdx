@@ -51,10 +51,10 @@ All branches can be managed in the new Amplify console. The Gen-2 Amplify consol
 
 ### Data
 
-The `@aws-amplify/backend` library offers a TypeScript-first `Data` library for setting up GraphQL APIs (powered by AWS AppSync) and NoSQL databases (powered by Amazon DynamoDB). After you generate an Amplify backend, you will have an `amplify/data/resource.ts` file, which will contain your app's data schema. The `defineData` function turns the schema into a fully functioning data backend with all the boilerplate handled automatically.
+The `@aws-amplify/backend` library offers a TypeScript-first `Data` library for setting up fully-typed real-time APIs (powered by AWS AppSync GraphQL APIs) and NoSQL databases (powered by Amazon DynamoDB tables). After you generate an Amplify backend, you will have an `amplify/data/resource.ts` file, which will contain your app's data schema. The `defineData` function turns the schema into a fully functioning data backend with all the boilerplate handled automatically.
 
 <Callout>
-  The schema-based approach is an evolution of the GraphQL Transformer in Gen 1.
+  The schema-based approach is an evolution of the Amplify GraphQL API in Gen 1.
   It offers several benefits, including dot completion, IntelliSense, and type
   validation.
 </Callout>
