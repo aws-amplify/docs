@@ -13,27 +13,24 @@ export function getStaticProps(context) {
 
 }
 
-
 Tapping into auth events allows you to react to user flows in real time and trigger custom business logic. For example, you may want to capture data, synchronize your app's state, and personalize the user's experience. You can listen to and respond to events across the Auth lifecycle such as sign-in and sign-out. In this guide we will describe how you can listen to these auth events.
 
 Before you begin, you will need:
 
-- An Amplify project with the Auth category configured
+- An Amplify app set up (see the [Quickstart](../../../start/quickstart/) if you need to set up an app)
 - The Amplify libraries installed and configured
 
 ## Expose hub events triggered in response to auth actions
 
 You can use Amplify Hub with its built in Amplify Auth events to subscribe a listener using a publish-subscribe pattern and capture events between different parts of your application. The Amplify Auth category publishes in the `auth` channel when auth events such as `signedIn` or `signedOut` happen independent from your app code.
 
-
-You can review the Amplify Hub guide to [learn more](/[platform]/build-a-backend/utilities/hub/).
+You can review the Amplify Hub guide to [learn more]([platform]/build-a-backend/utilities/hub/).
 
 <Callout warning>
 
 Channels are logical group names that help you organize dispatching and listening. However, some channels are protected and cannot be used to publish custom events, and `auth` is one of these channels. Sending unexpected payloads to protected channels can have undesirable side effects such as impacting authentication flows. See the [Amplify Hub](/[platform]/build-a-backend/utilities/hub/) guide for more protected channels.
 
 </Callout>
-
 
 Here is a basic example of setting up a listener that logs an event emitted through the `auth` channel:
 
@@ -107,14 +104,9 @@ You now have a few use cases and examples for listening to and responding to aut
 
 Congratulations! You finished the **Listen to auth events** guide. In this guide, you learned how to listen for auth events across workflows.
 
-## Next steps
+### Next steps
 
 Now that you can listen to auth events you may also want to add some additional features. We recommend you learn more about:
 
-
-- [Manage user profile](/[platform]/build-a-backend/auth/manage-user-profile/)
-- [Set up password change and recovery](/[platform]/build-a-backend/auth/manage-passwords/)
-
-
-
-
+- [Manage user profiles](../manage-user-profile/)
+- [Set up password change and recovery](../manage-passwords/)
