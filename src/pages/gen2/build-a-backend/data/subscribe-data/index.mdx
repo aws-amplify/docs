@@ -43,7 +43,7 @@ function MyComponent() {
         }
       })
     return () => sub.unsubscribe()
-  })
+  }, [])
 
   return <ul>
     {todos.map(todo => <li key={todo.id}>{todo.content}</li>)}
