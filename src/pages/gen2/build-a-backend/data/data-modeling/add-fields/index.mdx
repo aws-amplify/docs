@@ -73,7 +73,7 @@ a.schema({
 To set or read the location field on the client side, you can expand a nested object and the type system will auto-infer the allowed values.
 
 ```ts
-const newPost = await client.Post.create({
+const newPost = await client.models.Post.create({
   location: {
     lat: 48.837006,
     long: 8.282450
@@ -114,20 +114,9 @@ a.schema({
 })
 ```
 
-To retrieve all available dropdown options:
-
-```ts
-function PostConfig() {
-  const enums = await client.enums.PrivacySetting.values()
-  return <select>
-    {enums.map(enum => <option value={enum}>{enum}</option>)}
-  </select>
-}
-```
-
 When creating a new item client-side, the enums are also type-enforced:
 ```ts
-client.Post.create({
+client.models.Post.create({
   content: "hello",
   // WORKS - value auto-completed
   privacySetting: "PRIVATE"

@@ -27,18 +27,18 @@ Sometimes when retrieving data for a given entity, retrieving its relationships 
 
 ## Model a "Has Many" relationship
 
-Create a one-directional one-to-many relationship between two models using the `hasMany()` method.
+Create a bi-directional one-to-many relationship between two models using the `hasMany()` method.
 
-In the example below, a Post has many Comments.
+In the example below, a Team has many CoMembersmments.
 
 ```typescript
 const schema = a.schema({
-  Post: a.model({
-    title: a.string(),
-    comments: a.hasMany('Comment')
+  Team: a.model({
+    mantra: a.string().required(),
+    members: a.hasMany('Member'),
   }),
-  Comment: a.model({
-    content: a.string(),
+  Member: a.model({
+    team: a.belongsTo('Team'),
   }),
 });
 ```
@@ -87,11 +87,10 @@ members.forEach(member => console.log(member.id))
 ### Eagerly load a "Has Many" relationships
 
 ```ts
-const { data: teamWithMembers } = await client.models.Team.get({
-  id: "MY_TEAM_ID"
-  }, {
-  selectionSet: ["id", "members.*"]
-})
+const { data: teamWithMembers } = await client.models.Team.get(
+  { id: "MY_TEAM_ID" },
+  { selectionSet: ["id", "members.*"] },
+)
 
 teamWithMembers.members.forEach(member => console.log(member.id))
 ```
@@ -137,7 +136,14 @@ By using `hasOne` this way, it will automatically generate a field to hold the i
 To create a "has one" relationship between records, first create the parent item then create the child item and assign the parent. 
 
 ```ts
-TK
+const { data: team } = await client.models.Team.create({
+  name: 'My Team',
+});
+
+const { data: project } = await client.models.Project.create({
+  name: 'My Project',
+  team,
+});
 ```
 
 ### Update a "Has One" relationship between records
@@ -145,16 +151,42 @@ TK
 To update a "Has One" relationship between records, you first have to get the child item, then set the reference to the parent to another parent.
 
 ```ts
-TK
+const { data: newTeam } = await client.models.Team.create({
+  name: 'New Team',
+});
+
+await client.models.Project.update({
+  id: project.id,
+  team: newTeam,
+});
 ```
 
 ### Delete a "Has One" relationship between records
 
-To delete a "Has One" relationship between records, you first have to unlink 
+To delete a "Has One" relationship between records, you may update the relationship field.
+
+```ts
+await client.models.Project.update({
+  id: project.id,
+  team: undefined,
+});
+```
 
 ### Lazy load a "Has One" relationships
 
+```ts
+const { data: project } = await client.models.Project.get({ id: "MY_PROJECT_ID"})
+const { data: team } = await project.team();
+```
+
 ### Eagerly load a "Has One" relationships
+
+```ts
+const { data: project } = await client.models.Project.get(
+  { id: "MY_PROJECT_ID" },
+  { selectionSet: ['id', 'team.*'] },
+);
+```
 
 ### Model multiple relationships between two models
 
@@ -175,12 +207,11 @@ const schema = a.schema({
 ```ts
 const client = generateClient<Schema>();
 
-const { data: org } = await client.models.Organization.get('AE6191BF-FEB4-4D8B-867D-898A7DA33101');
+const { data: org } = await client.models.Organization.get({ id: 'AE6191BF-FEB4-4D8B-867D-898A7DA33101' });
 
 const { data: ics } = await org.individualContributors();
 const { data: managers } = await org.managers();
 ```
-
 
 ## Model a bi-directional relationship
 
@@ -206,11 +237,11 @@ const schema = a.schema({
 ```ts
 const client = generateClient<Schema>();
 
-const { data: team } = await client.models.Team.get('FABF27EE-25D2-4851-AE1C-09BCA1604C77');
+const { data: team } = await client.models.Team.get({ id: 'FABF27EE-25D2-4851-AE1C-09BCA1604C77' });
 
-console.log((await team.project()).name); // There is a 'project' field in the team
+console.log((await team.project()).data?.name); // There is a 'project' field in the team
 
-(await team.project()).team === team; // Navigating back to the team from the project
+(await ((await team.project()).data?.team()))?.data === team; // Navigating back to the team from the project
 ```
 
 "Belongs to"-relationships **does not** allow you to update both sides of a "has one" and "belongs to" relationship in a transactional nature.
@@ -233,27 +264,9 @@ const schema = a.schema({
 ```ts
 const client = generateClient<Schema>();
 
-const { data: post } = await client.models.Post.get('FABF27EE-25D2-4851-AE1C-09BCA1604C77');
+const { data: post } = await client.models.Post.get({ id: 'FABF27EE-25D2-4851-AE1C-09BCA1604C77' });
 
-(await post.comments())[0].post === post; // Navigating back to the post from the comment
-```
-
-### Relationships to a model with a composite identifier
-
-TK: stored in a single field with a separator? e.g. `manger.branch = 'TENANT123>Downtown'`
-
-```typescript
-const schema = a.schema({
-  StoreBranch: a.model({
-    tenantId: a.string(),
-    name: a.string(),
-    country: a.string(),
-    state: a.string(),
-    city: a.string(),
-    zipCode: a.string(),
-    streetAddress: a.string(),
-  }).identifier(['tenantId', 'name'])
-});
+(await (await post.comments()).data[0].post()).data === post; // Navigating back to the post from the comment
 ```
 
 ## Retrieving related models
@@ -271,20 +284,10 @@ const schema = a.schema({
 
 const client = generateClient<Schema>();
 
-const { data: project } = await client.models.Project.get('1234');
-project.name;
-(await project.team).name // project.team is typed as `Lazy<Team>` and can be awaited
+const { data: project } = await client.models.Project.get({ id: '1234' });
+const projectName = project.name;
+const lazyTeamName = (await project.team()).data?.name // project.team is typed as `Lazy<Team>` and can be awaited
 
-const projectWithTeam = await client.models.Project.get('1234', ['team.*']);
-project.team.name // All team attributes were requested, so no need to await, it was eagerly loaded
-```
-
-## Manipulating relationships
-
-NO CASCADING BEHAVIOR
-- Save in the right order (e.g. parent before children)
-- What about bi-directionality then? chicken and egg situation
-
-```typescript
-client.Models.Project
+const projectWithTeam = await client.models.Project.get({ id: '1234' }, { selectionSet: ['team.*'] });
+const eagerTeamName = project.team.name // All team attributes were requested, so no need to await, it was eagerly loaded
 ```
