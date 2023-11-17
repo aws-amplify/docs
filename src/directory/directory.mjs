@@ -1967,10 +1967,9 @@ export const directory = {
                     {
                       path: 'src/pages/gen2/build-a-backend/data/customize-authz/user-group-based-data-access/index.mdx'
                     },
-                    // Will bring back once I verify the code snippets
-                    // {
-                    //   path: 'src/pages/gen2/build-a-backend/data/customize-authz/custom-data-access-patterns/index.mdx'
-                    // },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/customize-authz/custom-data-access-patterns/index.mdx'
+                    },
                     {
                       path: 'src/pages/gen2/build-a-backend/data/customize-authz/using-oidc-authorization-provider/index.mdx'
                     },
