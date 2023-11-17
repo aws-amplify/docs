@@ -68,7 +68,7 @@ When you use the Amplify library on the client-side of your Next.js app, you wil
 
 <Callout>
 
-**NOTE:** To use the Amplify library on the client side in a Next.js app, you will need to set `ssr` to `true` when calling `Amplify.configure`.
+**NOTE:** To use the Amplify library on the client side in a Next.js app, you will need to set `ssr` to `true` when calling `Amplify.configure`. This instructs the Amplify library to store tokens in the cookie store of a browser. Cookies will be sent along with requests to your Next.js server for authentication.
 
 </Callout>
 
