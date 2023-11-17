@@ -10,29 +10,30 @@ The CLI configures three different access levels on the storage bucket: public, 
 
 If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
 
-* Public: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
-* Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
-* Private: Only accessible for the individual user. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
+- Public: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
+- Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
+- Private: Only accessible for the individual user. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 
-See [Authentication](/sdk/auth/getting-started) for more information on how to get the `user_identity_id` for a signed in user.
+See [Authentication](/[platform]/sdk/auth/getting-started/) for more information on how to get the `user_identity_id` for a signed in user.
+
 ## Set Up Your Backend
 
-1. Complete the [Get Started](/start) steps before you proceed.
+1. Complete the [Get Started](/[platform]/start/getting-started/introduction/) steps before you proceed.
 
 2. Use the CLI to add storage to your cloud-enabled backend and app.
 
-    In a terminal window, navigate to your project folder (the folder that typically contains your project level build.gradle), and add the SDK to your app.
+   In a terminal window, navigate to your project folder (the folder that typically contains your project level build.gradle), and add the SDK to your app.
 
-    ```bash
-    cd ./YOUR_PROJECT_FOLDER
-    amplify add storage
-    ```
+   ```bash
+   cd YOUR_PROJECT_FOLDER
+   amplify add storage
+   ```
 
 3. Choose `Content` as your storage service.
 
-    ```console
-    ❯ Content (Images, audio, video, etc.)
-    ```
+   ```console
+   ❯ Content (Images, audio, video, etc.)
+   ```
 
 4. The combination of friendly name and bucket name must be globally unique. If another S3 user has specified the same values for both of these as you, the amplify push step below will fail.
 
@@ -40,23 +41,25 @@ See [Authentication](/sdk/auth/getting-started) for more information on how to g
 
 6. Confirm that you have Storage and Auth set up.
 
-    ```console
-      $ amplify status
-      | Category  | Resource name   | Operation | Provider plugin   |
-      | --------- | --------------- | --------- | ----------------- |
-      | Auth      | cognito2e202b09 | Create    | awscloudformation |
-      | Storage   | sabc0123de      | Create    | awscloudformation |
-      ```
+   ```console
+     $ amplify status
+     | Category  | Resource name   | Operation | Provider plugin   |
+     | --------- | --------------- | --------- | ----------------- |
+     | Auth      | cognito2e202b09 | Create    | awscloudformation |
+     | Storage   | sabc0123de      | Create    | awscloudformation |
+   ```
+
 7. To create your backend run:
 
-    ```bash
-    amplify push
-    ```
+   ```bash
+   amplify push
+   ```
 
-    The CLI will create the awsconfiguration.json file in your project's `res/raw` directory.
+   The CLI will create the awsconfiguration.json file in your project's `res/raw` directory.
 
 ### Lambda Triggers
-If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More](/cli/usage/lambda-triggers#s3-lambda-triggers)
+
+If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More](/[platform]/tools/cli/usage/lambda-triggers/#s3-lambda-triggers)
 
 ## Connect to Your Backend
 
@@ -64,50 +67,51 @@ Use the following steps to connect add file storage backend services to your app
 
 1. Add the following to `app/build.gradle` (Module:app):
 
-	```groovy
-	dependencies {
-	  implementation 'com.amazonaws:aws-android-sdk-s3:ANDROID_SDK_VERSION'
-	  implementation 'com.amazonaws:aws-android-sdk-mobile-client:ANDROID_SDK_VERSION'
-	  implementation 'com.amazonaws:aws-android-sdk-auth-userpools:ANDROID_SDK_VERSION'
-	}
-	```
-	Perform a `Gradle Sync` to download the AWS Mobile SDK components into your app.
+   ```groovy
+   dependencies {
+     implementation 'com.amazonaws:aws-android-sdk-s3:ANDROID_SDK_VERSION'
+     implementation 'com.amazonaws:aws-android-sdk-mobile-client:ANDROID_SDK_VERSION'
+     implementation 'com.amazonaws:aws-android-sdk-auth-userpools:ANDROID_SDK_VERSION'
+   }
+   ```
+
+   Perform a `Gradle Sync` to download the AWS Mobile SDK components into your app.
 
 2. Add the following to `AndroidManifest.xml`:
 
-	```xml
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
-	```
+   ```xml
+   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+   <service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
+   ```
 
 3. **For Android Q (API 29)**: API 29 enforces scoped storage access for Android apps. To gain access to legacy external storage, enable the following application property inside `AndroidManifest.xml`:
 
-	```xml
-	<manifest ...>
-	  <application android:requestLegacyExternalStorage="true" ...>
-	    ...
-	  </application>
-	</manifest>
-	```
+   ```xml
+   <manifest ...>
+     <application android:requestLegacyExternalStorage="true" ...>
+       ...
+     </application>
+   </manifest>
+   ```
 
 ## Mocking and Local Testing
 
-Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](/cli/usage/mock) for more details.
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](/[platform]/tools/cli/usage/mock/) for more details.
 
 ## Note on Transfer Utility and Amazon Cognito
 
 Transfer Utility generates Amazon S3 pre-signed URLs and uses them to enable background transferring. Using Amazon Cognito Identity, you receive AWS temporary credentials that are valid for up to 60 minutes. It is not possible to generate S3 pre-signed URLs that last longer than 60 minutes. Due to this limitation, the Transfer Utility enforces 50-minute transfer timeouts (10-minute buffer for reducing AWS temporary credential regenerations). After 50 minutes, you receive a transfer failure.
 
-If you expect your app to perform transfers that take longer than 50 minutes, use [AmazonS3Client](http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html) instead of [TransferUtility](https://docs.amplify.aws/sdk/storage/transfer-utility/q/platform/android/).
+If you expect your app to perform transfers that take longer than 50 minutes, use [AmazonS3Client](http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html) instead of [TransferUtility](/[platform]/sdk/storage/transfer-utility/).
 
 ## Additional Resources
 
-* [Amazon S3 Getting Started Guide](http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html)
-* [Amazon S3 API Reference](http://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html)
-* [Amazon S3 Developer Guide](http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html)
-* [Identity and Access Management Console](https://console.aws.amazon.com/iam/home)
-* [Granting Access to an Amazon S3 Bucket](http://blogs.aws.amazon.com/security/post/Tx3VRSWZ6B3SHAV/Writing-IAM-Policies-How-to-grant-access-to-an-Amazon-S3-bucket)
-* [Protecting data using customer provided encryption keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html)
+- [Amazon S3 Getting Started Guide](http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html)
+- [Amazon S3 API Reference](http://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html)
+- [Amazon S3 Developer Guide](http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html)
+- [Identity and Access Management Console](https://console.aws.amazon.com/iam/home)
+- [Granting Access to an Amazon S3 Bucket](http://blogs.aws.amazon.com/security/post/Tx3VRSWZ6B3SHAV/Writing-IAM-Policies-How-to-grant-access-to-an-Amazon-S3-bucket)
+- [Protecting data using customer provided encryption keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html)
 
 ## Sample app
 

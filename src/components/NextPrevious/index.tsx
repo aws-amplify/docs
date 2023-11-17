@@ -22,11 +22,10 @@ export const NextPrevious = () => {
         let res = findDirectoryNodes(route, child, platform, children[i - 1], children[i + 1]);
         if (res) return res;
       }
-      return {};
     }
   }
 
-  const { previous, next } = findDirectoryNodes(pathname, directory, platform, null, null);
+  const { previous, next } = findDirectoryNodes(pathname, directory, platform, null, null) || {};
   let nextHref, prevHref;
   if (next) {
     nextHref = {
@@ -76,5 +75,31 @@ export const NextPrevious = () => {
 }
 
 export const NEXT_PREVIOUS_SECTIONS = [
-  '/start/getting-started/'
+  '/start/getting-started/',
+  '/start/project-setup/',
+  '/build-ui/formbuilder/',
+  '/build-ui/uibuilder/',
+  '/build-a-backend/auth/',
+  '/build-a-backend/functions/',
+  '/build-a-backend/graphqlapi/',
+  '/build-a-backend/more-features/',
+  '/build-a-backend/push-notifications/',
+  '/build-a-backend/restapi/',
+  '/build-a-backend/storage/',
+  '/build-a-backend/utilities/',
+  '/tools/cli/auth/',
+  '/tools/cli/custom/',
+  '/tools/cli/migration/',
+  '/tools/cli/plugins/',
+  '/tools/cli/project/',
+  '/tools/cli/reference/',
+  '/tools/cli/restapi/',
+  '/tools/cli/start/',
+  '/tools/cli/teams/',
+  '/tools/cli/usage/',
+  '/tools/console/adminui/',
+  '/tools/console/auth/',
+  '/tools/console/data/',
+  '/tools/console/storage/',
+  '/tools/console/tutorial/'
 ]

@@ -1536,7 +1536,9 @@
     "autobranch",
     "gitflow",
     "SIWA",
-    "hotswap"
+    "hotswap",
+    "clijson",
+    "parametersjson"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [

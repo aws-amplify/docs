@@ -1,4 +1,3 @@
-
 👋 Welcome! In this tutorial, you will:
 
 - Set up an Android application configured with Amplify
@@ -9,30 +8,30 @@
 
 - [Android Studio](https://developer.android.com/studio/index.html#downloads) version 4.0 or higher
 - [Android SDK](https://developer.android.com/studio/releases/platforms) API level 24 (Android 7.0) or higher
-- [Amplify CLI](/cli) version 4.21.0 or later. Install by running:
+- [Amplify CLI](/[platform]/tools/cli) version 4.21.0 or later. Install by running:
 
-import all0 from "/src/fragments/cli-install-block.mdx";
+import all0 from '/src/fragments/cli-install-block.mdx';
 
-<Fragments fragments={{all: all0}} />
+<Fragments fragments={{ all: all0 }} />
 
 ## Create a new Android application
 
 1. Open **Android Studio**. Select **New Project**.
 
-    ![Shows the Android studio welcome window](/images/lib/getting-started/android/set-up-android-studio-welcome.png)
+   ![Shows the Android studio welcome window](/images/lib/getting-started/android/set-up-android-studio-welcome.png)
 
 2. Select **Empty Activity**. Press **Next**.
 
-    ![Shows Android studio select project template window](/images/lib/getting-started/android/set-up-android-studio-select-project-template.png)
+   ![Shows Android studio select project template window](/images/lib/getting-started/android/set-up-android-studio-select-project-template.png)
 
 3. Fill in the following for your project:
 
-    - Name: **Todo**
-    - Language: **Kotlin** or **Java**
-    - Minimum SDK: **API 24: Android 7.0 (Nougat)**
-    - Press **Finish**
+   - Name: **Todo**
+   - Language: **Kotlin** or **Java**
+   - Minimum SDK: **API 24: Android 7.0 (Nougat)**
+   - Press **Finish**
 
-  ![Shows android studio configure project window](/images/lib/getting-started/android/set-up-android-studio-configure-your-project-todo.png)
+![Shows android studio configure project window](/images/lib/getting-started/android/set-up-android-studio-configure-your-project-todo.png)
 
 You should now have an empty Android project without Amplify.
 
@@ -40,47 +39,48 @@ You should now have an empty Android project without Amplify.
 
   <Callout>
 
-  If you prefer, you can create the Amplify project with [Amplify Studio](https://sandbox.amplifyapp.com/) instead!
+If you prefer, you can create the Amplify project with [Amplify Studio](https://sandbox.amplifyapp.com/) instead!
 
   </Callout>
 
 **Amplify Library for Android** is distributed as an Apache Maven package. In this section, you'll add the packages and other required directives to your build configuration.
 
-
 1. **Open a terminal window** and **change to the directory for your application project**. For example, if you created the previous Todo project in the folder `~/Developer`, you can type the following:
-  ```bash
-  cd ~/Developer/Todo
-  ```
+
+```bash
+cd ~/Developer/Todo
+```
 
 2. To create the Amplify project, first you will need to use the `amplify` CLI you previously installed. **Run the command**:
-  ```bash
-  amplify init
-  ```
 
-  Enter the following when prompted:
+```bash
+amplify init
+```
 
-  ```console
-  ? Enter a name for the project
-      `Todo`
-  ? Initialize the project with the above configuration?
-      `No`
-  ? Enter a name for the environment
-      `dev`
-  ? Choose your default editor:
-      `Android Studio`
-  ? Choose the type of app that you're building
-      `android`
-  ? Where is your Res directory:
-      `app/src/main/res`
-  ? Select the authentication method you want to use:
-      `AWS profile`
-  ? Please choose the profile you want to use
-      `default`
-  ```
+Enter the following when prompted:
 
-  Upon successfully running `amplify init`, you will see a configuration file created in `./app/src/main/res/raw/` called `amplifyconfiguration.json`.
+```console
+? Enter a name for the project
+    `Todo`
+? Initialize the project with the above configuration?
+    `No`
+? Enter a name for the environment
+    `dev`
+? Choose your default editor:
+    `Android Studio`
+? Choose the type of app that you're building
+    `android`
+? Where is your Res directory:
+    `app/src/main/res`
+? Select the authentication method you want to use:
+    `AWS profile`
+? Please choose the profile you want to use
+    `default`
+```
 
-  This file will be bundled into your application so that the Amplify libraries know how to reach your provisioned backend resources at runtime.
+Upon successfully running `amplify init`, you will see a configuration file created in `./app/src/main/res/raw/` called `amplifyconfiguration.json`.
+
+This file will be bundled into your application so that the Amplify libraries know how to reach your provisioned backend resources at runtime.
 
 3. Under **Gradle Scripts**, open **build.gradle (Module :app)**.
 
@@ -111,12 +111,12 @@ dependencies {
 
 4. Run **Gradle Sync**
 
-    Android Studio requires you to sync your project with your new configuration. To do this, click **Sync Now** in the notification bar above the file editor.
+   Android Studio requires you to sync your project with your new configuration. To do this, click **Sync Now** in the notification bar above the file editor.
 
-    ![Screenshot with an arrow pointing to the Sync Now button in the file's notification bar](/images/lib/getting-started/android/set-up-android-studio-sync-gradle.png)
+   ![Screenshot with an arrow pointing to the Sync Now button in the file's notification bar](/images/lib/getting-started/android/set-up-android-studio-sync-gradle.png)
 
-    When complete, you will see *BUILD SUCCESSFUL* in the output in the *Build* tab at the bottom of your screen.
+   When complete, you will see _BUILD SUCCESSFUL_ in the output in the _Build_ tab at the bottom of your screen.
 
-    ![Shows configuration successful in Android Studio](/images/lib/getting-started/android/set-up-android-studio-configure-successful.png)
+   ![Shows configuration successful in Android Studio](/images/lib/getting-started/android/set-up-android-studio-configure-successful.png)
 
 You are ready to start building with Amplify! 🎉

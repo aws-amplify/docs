@@ -1,28 +1,27 @@
-Enable your users to receive mobile push messages sent from the Apple (APNs) and Google (FCM/GCM) platforms. The CLI deploys your push notification backend using [Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/).
-You can also create Amazon Pinpoint campaigns that tie user behavior to push or other forms of messaging.
+Enable your users to receive mobile push messages sent from the Apple (APNs) and Google (FCM/GCM) platforms. The CLI deploys your push notification backend using [Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/). You can also create Amazon Pinpoint campaigns that tie user behavior to push or other forms of messaging.
 
 ## Set Up Your Backend
 
-1. Complete the [Get Started](/start) steps before you proceed.
+1. Complete the [Get Started](/[platform]/start/getting-started/introduction/) steps before you proceed.
 
 1. Use the CLI to add storage to your cloud-enabled backend and app.
 
-    In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
+   In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
 
-    ```bash
-    cd ./YOUR_PROJECT_FOLDER
-    amplify add notifications
-    ```
+   ```bash
+   cd YOUR_PROJECT_FOLDER
+   amplify add notifications
+   ```
 
 1. Set up your backend to support receiving push notifications:
 
-    - Choose Firebase Cloud Messaging (FCM).
+   - Choose Firebase Cloud Messaging (FCM).
 
-        ```console
-        > FCM
-        ```
+     ```console
+     > FCM
+     ```
 
-    - Provide your `Server Key`. For information on getting an FCM `Server Key`, see the section [Setting Up FCM/GCM Guide](/sdk/push-notifications/setup-push-service). Use the steps in the next section to connect your app to your backend.
+   - Provide your `Server Key`. For information on getting an FCM `Server Key`, see the section [Setting Up FCM/GCM Guide](/[platform]/sdk/push-notifications/setup-push-service/). Use the steps in the next section to connect your app to your backend.
 
 ## Connect to Your Backend
 
@@ -30,133 +29,134 @@ Use the following steps to connect your app to the push notification backend ser
 
 1. Add the following dependencies and plugin to your `app/build.gradle`:
 
-    ```groovy
-    dependencies {
-        // Overrides an auth dependency to ensure correct behavior
-        implementation 'com.google.android.gms:play-services-auth:19.2.0'
+   ```groovy
+   dependencies {
+       // Overrides an auth dependency to ensure correct behavior
+       implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
-        // Import the BoM for the Firebase platform
-        implementation platform('com.google.firebase:firebase-bom:28.2.1')
-        implementation 'com.google.firebase:firebase-messaging'
+       // Import the BoM for the Firebase platform
+       implementation platform('com.google.firebase:firebase-bom:28.2.1')
+       implementation 'com.google.firebase:firebase-messaging'
 
-        implementation 'com.amazonaws:aws-android-sdk-pinpoint:ANDROID_SDK_VERSION'
-        implementation 'com.amazonaws:aws-android-sdk-mobile-client:ANDROID_SDK_VERSION'
-    }
+       implementation 'com.amazonaws:aws-android-sdk-pinpoint:ANDROID_SDK_VERSION'
+       implementation 'com.amazonaws:aws-android-sdk-mobile-client:ANDROID_SDK_VERSION'
+   }
 
-    apply plugin: 'com.google.gms.google-services'
-    ```
+   apply plugin: 'com.google.gms.google-services'
+   ```
 
 1. Add the following to your project level `build.gradle`. Make sure that you specify the `google` repository:
 
-    ```groovy
-    buildscript {
-        dependencies {
-            classpath 'com.google.gms:google-services:4.0.1'
-        }
-    }
+   ```groovy
+   buildscript {
+       dependencies {
+           classpath 'com.google.gms:google-services:4.0.1'
+       }
+   }
 
-    allprojects {
-        repositories {
-            google()
-        }
-    }
-    ```
+   allprojects {
+       repositories {
+           google()
+       }
+   }
+   ```
 
 1. `AndroidManifest.xml` must contain the definition of the following service for `PushListenerService` in the application tag:
 
-    ```xml
-    <service
-        android:name=".PushListenerService">
-        <intent-filter>
-            <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-        </intent-filter>
-    </service>
-    ```
+   ```xml
+   <service
+       android:name=".PushListenerService">
+       <intent-filter>
+           <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+       </intent-filter>
+   </service>
+   ```
 
 1. Create the Amazon Pinpoint client in your custom `Application class`. This is necessary to ensure Pinpoint is initialized before the push notification Intent is handled.
 
-    ```java
-    import android.app.Application;
-    import android.content.Context;
-    import android.util.Log;
-    import android.support.annotation.NonNull;
+   ```java
+   import android.app.Application;
+   import android.content.Context;
+   import android.util.Log;
+   import android.support.annotation.NonNull;
 
-    import com.amazonaws.mobile.client.AWSMobileClient;
-    import com.amazonaws.mobile.client.Callback;
-    import com.amazonaws.mobile.client.UserStateDetails;
-    import com.amazonaws.mobile.config.AWSConfiguration;
-    import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
-    import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
-    import com.google.android.gms.tasks.OnCompleteListener;
-    import com.google.android.gms.tasks.Task;
-    import com.google.firebase.messaging.FirebaseMessaging;
+   import com.amazonaws.mobile.client.AWSMobileClient;
+   import com.amazonaws.mobile.client.Callback;
+   import com.amazonaws.mobile.client.UserStateDetails;
+   import com.amazonaws.mobile.config.AWSConfiguration;
+   import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
+   import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
+   import com.google.android.gms.tasks.OnCompleteListener;
+   import com.google.android.gms.tasks.Task;
+   import com.google.firebase.messaging.FirebaseMessaging;
 
-    public class MyPinpointApp extends Application {
-        public static final String TAG = MyPinpointApp.class.getSimpleName();
+   public class MyPinpointApp extends Application {
+       public static final String TAG = MyPinpointApp.class.getSimpleName();
 
-        private static PinpointManager pinpointManager;
+       private static PinpointManager pinpointManager;
 
-        @Override
-        public void onCreate() {
-            super.onCreate();
+       @Override
+       public void onCreate() {
+           super.onCreate();
 
-            // Initialize PinpointManager
-            getPinpointManager(getApplicationContext());
-        }
+           // Initialize PinpointManager
+           getPinpointManager(getApplicationContext());
+       }
 
-        public static PinpointManager getPinpointManager(final Context applicationContext) {
-            if (pinpointManager == null) {
-                final AWSConfiguration awsConfig = new AWSConfiguration(applicationContext);
-                AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
-                    @Override
-                    public void onResult(UserStateDetails userStateDetails) {
-                        Log.i("INIT", "User State: " + userStateDetails.getUserState());
-                    }
+       public static PinpointManager getPinpointManager(final Context applicationContext) {
+           if (pinpointManager == null) {
+               final AWSConfiguration awsConfig = new AWSConfiguration(applicationContext);
+               AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
+                   @Override
+                   public void onResult(UserStateDetails userStateDetails) {
+                       Log.i("INIT", "User State: " + userStateDetails.getUserState());
+                   }
 
-                    @Override
-                    public void onError(Exception e) {
-                        Log.e("INIT", "Initialization error.", e);
-                    }
-                });
+                   @Override
+                   public void onError(Exception e) {
+                       Log.e("INIT", "Initialization error.", e);
+                   }
+               });
 
-                PinpointConfiguration pinpointConfig = new PinpointConfiguration(
-                        applicationContext,
-                        AWSMobileClient.getInstance(),
-                        awsConfig);
+               PinpointConfiguration pinpointConfig = new PinpointConfiguration(
+                       applicationContext,
+                       AWSMobileClient.getInstance(),
+                       awsConfig);
 
-                pinpointManager = new PinpointManager(pinpointConfig);
+               pinpointManager = new PinpointManager(pinpointConfig);
 
-                FirebaseMessaging.getInstance().getToken()
-                        .addOnCompleteListener(new OnCompleteListener<String>() {
-                            @Override
-                            public void onComplete(@NonNull Task<String> task) {
-                                if (!task.isSuccessful()) {
-                                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                                    return;
-                                }
-                                final String token = task.getResult();
-                                Log.d(TAG, "Registering push notifications token: " + token);
-                                pinpointManager.getNotificationClient().registerDeviceToken(token);
-                            }
-                        });
-            }
-            return pinpointManager;
-        }
-    }
-    ```
+               FirebaseMessaging.getInstance().getToken()
+                       .addOnCompleteListener(new OnCompleteListener<String>() {
+                           @Override
+                           public void onComplete(@NonNull Task<String> task) {
+                               if (!task.isSuccessful()) {
+                                   Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                                   return;
+                               }
+                               final String token = task.getResult();
+                               Log.d(TAG, "Registering push notifications token: " + token);
+                               pinpointManager.getNotificationClient().registerDeviceToken(token);
+                           }
+                       });
+           }
+           return pinpointManager;
+       }
+   }
+   ```
 
 1. Next, configure your application to use your custom `Application class`. Open the `AndroidManifest.xml` file located in your project directory at `app/src/main/AndroidManifest.xml`.
 
-    Add the `android:name` attribute to the application node. For example, if the application name is  *MyPinpointApp* and the new class is named *MyPinpointApplication*, the update to the `AndroidManifest.xml` file looks as follows:
-    ```xml
-    <?xml version="1.0" encoding="utf-8"?>
-    <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.example.MyPinpointApp">
+   Add the `android:name` attribute to the application node. For example, if the application name is _MyPinpointApp_ and the new class is named _MyPinpointApplication_, the update to the `AndroidManifest.xml` file looks as follows:
 
-        <!-- Add the android:name attribute to the application node -->
-        <application
-            android:name=".MyPinpointApplication"
-            ...
-        </application>
-    </manifest>
-    ```
+   ```xml
+   <?xml version="1.0" encoding="utf-8"?>
+   <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+       package="com.example.MyPinpointApp">
+
+       <!-- Add the android:name attribute to the application node -->
+       <application
+           android:name=".MyPinpointApplication"
+           ...
+       </application>
+   </manifest>
+   ```

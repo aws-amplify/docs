@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Download files',
   description:
-    'Learn more about how to download / retrieve files using the Storage category of Amplify',
+    'Learn more about how to download and retrieve files using the Storage category of Amplify',
   platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native','angular','nextjs','react','vue'] 
 };
 
@@ -32,13 +32,13 @@ import ios_download from '/src/fragments/lib/storage/ios/download.mdx';
   }}
 />
 
-<InlineFilter filters={['javascript',  'react-native', "angular", "nextjs", "react", "vue"]}>
+<InlineFilter filters={['javascript',  'react-native', 'angular', 'nextjs', 'react', 'vue']}>
 
 The following options are available for retrieving previously uploaded data:
 
 ## Generate a download URL
 
-Get a presigned URL of a stored file and expiration of URL. You can specify [access `level`](https://docs.amplify.aws/lib-v1/storage/configureaccess/q/platform/js) of file
+Get a presigned URL of a stored file and expiration of URL. You can specify [access `level`](/[platform]/prev/build-a-backend/storage/configure-access/) of file
 
 ```typescript
 import { getUrl } from 'aws-amplify/storage';
@@ -180,7 +180,7 @@ try {
 <Callout>
 To get the metadata in result for all APIs you have to configure user defined metadata in CORS.
 
-Learn more about how to setup an appropriate [CORS Policy](https://docs.amplify.aws/lib-v1/storage/getting-started/q/platform/js/#amazon-s3-bucket-cors-policy-setup).
+Learn more about how to setup an appropriate [CORS Policy](/[platform]/prev/build-a-backend/storage/set-up-storage/#amazon-s3-bucket-cors-policy-setup).
 
 </Callout>
 

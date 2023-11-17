@@ -1,19 +1,19 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Extend with the Amplify CLI',
   description: 'Install the Amplify CLI and use the CLI without an AWS account',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,7 +28,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
 Amplify Studio allows you to use all the Amplify CLI's features without the need to configure it with AWS Identity and Access Management (IAM). Changes made in Amplify Studio can be made available in the CLI by running the `amplify pull` command. Similarly, CLI changes to the data model or auth will be visible in Amplify Studio. For all other categories, Studio provides links to the relevant service consoles in AWS.
 
@@ -85,8 +84,8 @@ All backend infrastructure-as-code definitions can be added to your project with
 
 Amplify Studio does not support building certain Amplify CLI added resources such as:
 
-1. [Lambda functions](/cli/function/)
-2. [Resource overrides](/cli/commands/override/)
+1. [Lambda functions](/[platform]/build-a-backend/functions/set-up-function/)
+2. [Resource overrides](/[platform]/tools/cli/commands/#override)
 
 ## Troubleshooting
 
@@ -104,12 +103,11 @@ To resolve this issue,
 
 When using Amplify CLI, you may encounter the following error message:
 
-
 ```console
 Failed to receive expected authentication tokens. Error: [Error: 'jsonString' argument missing or empty]
 ```
 
-This message occurs when running a Amplify CLI `amplify pull --appId <appID> --envName <envName>` command in the terminal and allowing access permission to the CLI. 
+This message occurs when running a Amplify CLI `amplify pull --appId <appID> --envName <envName>` command in the terminal and allowing access permission to the CLI.
 
 To resolve this issue,
 
@@ -119,7 +117,7 @@ To resolve this issue,
 
 <Callout>
 
-Note, the content of `~/.amplify/admin/config.json` is utilized to store JWTs to vend temporary AWS credentials and should **NOT be shared.
+Note, the content of `~/.amplify/admin/config.json` is utilized to store JWTs to vend temporary AWS credentials and should \*\*NOT be shared.
 
 </Callout>
 
@@ -128,11 +126,12 @@ Note, the content of `~/.amplify/admin/config.json` is utilized to store JWTs to
 ```console
 A flag to disable overrides has been detected, please deploy from a different environment. at buildOverrideDir
 ```
+
 ```console
 A flag to disable custom resources has been detected, please deploy from a different environment. at buildResource
 ```
 
-The errors mentioned above occur during deployment if your Amplify project contains an `override.ts` file or [custom resources](https://docs.amplify.aws/cli/custom/cdk/) are deployed. Amplify Studio does not support deploying projects with override files or custom resources.
+The errors mentioned above occur during deployment if your Amplify project contains an `override.ts` file or [custom resources](/[platform]/tools/cli/custom/cdk/) are deployed. Amplify Studio does not support deploying projects with override files or custom resources.
 
 To resolve this error, remove the `override.ts` file and any custom resources from your project, then run `amplify push`. Alternatively, you can use Amplify CLI to build and push your resources; however, deploying with Amplify Studio will not be possible.
 

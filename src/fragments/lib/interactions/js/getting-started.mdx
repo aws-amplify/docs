@@ -57,7 +57,7 @@ Amplify.configure({
 
 ### Create new LexV1 chatbot with Amplify CLI
 
-> Prerequisite: [Install and configure the Amplify CLI](/cli/start/install)
+> Prerequisite: [Install and configure the Amplify CLI](/[platform]/tools/cli/start/set-up-cli/)
 
 Run the following command in your project's root folder:
 
@@ -90,7 +90,7 @@ amplify push
 
 Upon successful execution of the push command, a configuration file called `amplifyconfiguration.json` will be copied to your configured source directory, for example `./src`.
 
-> If your Interactions resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/cli/function/configure-options)
+> If your Interactions resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/[platform]/build-a-backend/functions/configure-options/)
 
 ### Manual setup
 
@@ -137,14 +137,16 @@ Amplify.configure({
 
 ## Configure frontend
 
+<Callout>
+
+Make sure that the `@aws-amplify/interactions` package has the same version number as the `aws-amplify` package in your `package.json` file.
+
+</Callout>
+
 import js0 from '/src/fragments/lib/interactions/js/frontend.mdx';
 
 <Fragments fragments={{  javascript: js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
 
-import reactnative1 from '/src/fragments/lib/react-native-polyfills.mdx';
+import reactnative1 from '/src/fragments/lib/interactions/react-native/frontend.mdx';
 
 <Fragments fragments={{ 'react-native': reactnative1 }} />
-
-import reactnative2 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/configure-amplify.mdx';
-
-<Fragments fragments={{ 'react-native': reactnative2 }} />

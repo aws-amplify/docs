@@ -4,14 +4,14 @@ The Amplify CLI deploys REST APIs and handlers using [Amazon API Gateway](http:/
 
 The API category will perform SDK code generation which, when used with the `AWSMobileClient` can be used for creating signed requests for Amazon API Gateway when the service Authorization is set to `AWS_IAM` or when using a [Cognito User Pools Authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html).
 
-See [the authentication section for more details](/sdk/auth/getting-started) for using the `AWSMobileClient` in your application.
+See [the authentication section for more details](/[platform]/sdk/auth/getting-started/) for using the `AWSMobileClient` in your application.
 
 ## Set Up Your Backend
 
 In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
 
 ```bash
-cd ./YOUR_PROJECT_FOLDER
+cd YOUR_PROJECT_FOLDER
 amplify add api
 ```
 
@@ -38,11 +38,11 @@ Once the deployment completes a folder with the name of your API's resource name
 Add the following to your `app/build.gradle`:
 
 ```groovy
-	dependencies {
-		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:ANDROID_SDK_VERSION'
-		implementation 'com.amazonaws:aws-android-sdk-mobile-client:ANDROID_SDK_VERSION'
-		implementation 'com.amazonaws:aws-android-sdk-auth-userpools:ANDROID_SDK_VERSION'
-	}
+dependencies {
+    implementation 'com.amazonaws:aws-android-sdk-apigateway-core:ANDROID_SDK_VERSION'
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:ANDROID_SDK_VERSION'
+    implementation 'com.amazonaws:aws-android-sdk-auth-userpools:ANDROID_SDK_VERSION'
+}
 ```
 
 Build your project. Next, you will need to import the client that was generated in `./src/main/java` when you ran `amplify push`. For example, an app named `useamplify` with an API resource named `xyz123`, the path of the code file will be `./src/main/java/xyz123/useamplifyabcdClient.java`. The API client name will be `useamplifyabcdClient`. You would have the following entries in your code:
@@ -50,9 +50,7 @@ Build your project. Next, you will need to import the client that was generated 
 ```java
 import YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient;
 
-private YOUR_APP_NAME_XXXXClient apiClient;
-
-apiClient = new ApiClientFactory()
+private YOUR_APP_NAME_XXXXClient apiClient = new ApiClientFactory()
     .credentialsProvider(AWSMobileClient.getInstance())
     .build(YOUR_API_CLIENT_NAME.class);
 ```
@@ -61,117 +59,117 @@ Find the resource name of your API by running `amplify status`. Copy your API cl
 
 ### IAM authorization
 
-To invoke an API Gateway endpoint from your application, import the generated client as outlined in the last section and use the generated client class, model, and resource paths as in the below example with `YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient`, `YOUR_APP_NAME_XXXXClient`, and `YOUR_API_CLIENT_NAME` replaced appropriately. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](/sdk/auth/getting-started).
+To invoke an API Gateway endpoint from your application, import the generated client as outlined in the last section and use the generated client class, model, and resource paths as in the below example with `YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient`, `YOUR_APP_NAME_XXXXClient`, and `YOUR_API_CLIENT_NAME` replaced appropriately. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](/[platform]/sdk/auth/getting-started/).
 
 ```java
-    import android.support.v7.app.AppCompatActivity;
-    import android.os.Bundle;
-    import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
 
-    import com.amazonaws.http.HttpMethodName;
-    import com.amazonaws.mobile.client.AWSMobileClient;
-    import com.amazonaws.mobile.client.AWSStartupHandler;
-    import com.amazonaws.mobile.client.AWSStartupResult;
-    import com.amazonaws.mobileconnectors.apigateway.ApiClientFactory;
-    import com.amazonaws.mobileconnectors.apigateway.ApiRequest;
-    import com.amazonaws.mobileconnectors.apigateway.ApiResponse;
-    import com.amazonaws.util.IOUtils;
-    import com.amazonaws.util.StringUtils;
+import com.amazonaws.http.HttpMethodName;
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.AWSStartupHandler;
+import com.amazonaws.mobile.client.AWSStartupResult;
+import com.amazonaws.mobileconnectors.apigateway.ApiClientFactory;
+import com.amazonaws.mobileconnectors.apigateway.ApiRequest;
+import com.amazonaws.mobileconnectors.apigateway.ApiResponse;
+import com.amazonaws.util.IOUtils;
+import com.amazonaws.util.StringUtils;
 
-    import java.io.InputStream;
-    import java.util.HashMap;
-    import java.util.Map;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
-    // TODO Replace this with your api friendly name and client class name
-    import YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient;
+// TODO Replace this with your api friendly name and client class name
+import YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient;
 
-    public class MainActivity extends AppCompatActivity {
-        private static final String TAG = MainActivity.class.getSimpleName();
+public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
-        // TODO Replace this with your client class name
-        private YOUR_APP_NAME_XXXXClient apiClient;
+    // TODO Replace this with your client class name
+    private YOUR_APP_NAME_XXXXClient apiClient;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-            // Initialize the AWS Mobile Client
-            AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
-                @Override
-                public void onComplete(AWSStartupResult awsStartupResult) {
-                    Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!");
-                }
-            }).execute();
-
-            // Create the client
-            apiClient = new ApiClientFactory()
-                    .credentialsProvider(AWSMobileClient.getInstance())
-                    .build(YOUR_API_CLIENT_NAME.class);
-
-            doInvokeAPI();
-        }
-
-        public void doInvokeAPI() {
-            // Create components of api request
-            final String method = "GET";
-            final String path = "/items";
-
-            final String body = "";
-            final byte[] content = body.getBytes(StringUtils.UTF8);
-
-            final Map parameters = new HashMap<>();
-            parameters.put("lang", "en_US");
-
-            final Map headers = new HashMap<>();
-
-            // Use components to create the api request
-            ApiRequest localRequest =
-                    new ApiRequest(apiClient.getClass().getSimpleName())
-                            .withPath(path)
-                            .withHttpMethod(HttpMethodName.valueOf(method))
-                            .withHeaders(headers)
-                            .addHeader("Content-Type", "application/json")
-                            .withParameters(parameters);
-
-            // Only set body if it has content.
-            if (body.length() > 0) {
-                localRequest = localRequest
-                        .addHeader("Content-Length", String.valueOf(content.length))
-                        .withBody(content);
+        // Initialize the AWS Mobile Client
+        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
+            @Override
+            public void onComplete(AWSStartupResult awsStartupResult) {
+                Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!");
             }
+        }).execute();
 
-            final ApiRequest request = localRequest;
+        // Create the client
+        apiClient = new ApiClientFactory()
+                .credentialsProvider(AWSMobileClient.getInstance())
+                .build(YOUR_API_CLIENT_NAME.class);
 
-            // Make network call on background thread
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Log.d(TAG,
-                                "Invoking API w/ Request : " +
-                                        request.getHttpMethod() + ":" +
-                                        request.getPath());
+        doInvokeAPI();
+    }
 
-                        final ApiResponse response = apiClient.execute(request);
+    public void doInvokeAPI() {
+        // Create components of api request
+        final String method = "GET";
+        final String path = "/items";
 
-                        final InputStream responseContentStream = response.getContent();
+        final String body = "";
+        final byte[] content = body.getBytes(StringUtils.UTF8);
 
-                        if (responseContentStream != null) {
-                            final String responseData = IOUtils.toString(responseContentStream);
-                            Log.d(TAG, "Response : " + responseData);
-                        }
+        final Map parameters = new HashMap<>();
+        parameters.put("lang", "en_US");
 
-                        Log.d(TAG, response.getStatusCode() + " " + response.getStatusText());
+        final Map headers = new HashMap<>();
 
-                    } catch (final Exception exception) {
-                        Log.e(TAG, exception.getMessage(), exception);
-                        exception.printStackTrace();
-                    }
-                }
-            }).start();
+        // Use components to create the api request
+        ApiRequest localRequest =
+                new ApiRequest(apiClient.getClass().getSimpleName())
+                        .withPath(path)
+                        .withHttpMethod(HttpMethodName.valueOf(method))
+                        .withHeaders(headers)
+                        .addHeader("Content-Type", "application/json")
+                        .withParameters(parameters);
+
+        // Only set body if it has content.
+        if (body.length() > 0) {
+            localRequest = localRequest
+                    .addHeader("Content-Length", String.valueOf(content.length))
+                    .withBody(content);
         }
-      }
+
+        final ApiRequest request = localRequest;
+
+        // Make network call on background thread
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Log.d(TAG,
+                            "Invoking API w/ Request : " +
+                                    request.getHttpMethod() + ":" +
+                                    request.getPath());
+
+                    final ApiResponse response = apiClient.execute(request);
+
+                    final InputStream responseContentStream = response.getContent();
+
+                    if (responseContentStream != null) {
+                        final String responseData = IOUtils.toString(responseContentStream);
+                        Log.d(TAG, "Response : " + responseData);
+                    }
+
+                    Log.d(TAG, response.getStatusCode() + " " + response.getStatusText());
+
+                } catch (final Exception exception) {
+                    Log.e(TAG, exception.getMessage(), exception);
+                    exception.printStackTrace();
+                }
+            }
+        }).start();
+    }
+}
 ```
 
 ### Cognito User Pools authorization
@@ -201,16 +199,13 @@ public void doInvokeAPI(){
 
 //Updated function with arguments and code updates
 public void doInvokeAPI(String token) {
-
-ApiRequest localRequest =
-    new ApiRequest(apiClient.getClass().getSimpleName())
-        .withPath(path)
-        .withHttpMethod(HttpMethodName.valueOf(method))
-        .withHeaders(headers)
-        .addHeader("Content-Type", "application/json")
-        .addHeader("Authorization", token)              //Use JWT token
-        .withParameters(parameters);
-
+    ApiRequest localRequest = new ApiRequest(apiClient.getClass().getSimpleName())
+            .withPath(path)
+            .withHttpMethod(HttpMethodName.valueOf(method))
+            .withHeaders(headers)
+            .addHeader("Content-Type", "application/json")
+            .addHeader("Authorization", token)              //Use JWT token
+            .withParameters(parameters);
 }
 ```
 

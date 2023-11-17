@@ -4,14 +4,14 @@ The Amplify CLI deploys REST APIs and handlers using [Amazon API Gateway](http:/
 
 The API category will perform SDK code generation which, when used with the `AWSMobileClient` can be used for creating signed requests for Amazon API Gateway when the service Authorization is set to `AWS_IAM` or when using a [Cognito User Pools Authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html).
 
-See [the authentication section for more details](/sdk/auth/how-it-works) for using the `AWSMobileClient` in your application.
+See [the authentication section for more details](/[platform]/sdk/auth/) for using the `AWSMobileClient` in your application.
 
 ## Set Up Your Backend
 
 In a terminal window, navigate to your project folder (the folder that contains your app `.Xcodeproj` file), and add the SDK to your app.
 
 ```bash
-cd ./YOUR_PROJECT_FOLDER
+cd YOUR_PROJECT_FOLDER
 amplify add api
 ```
 
@@ -38,23 +38,22 @@ Once the deployment completes a folder called `generated-src` will be added in t
 Add `AWSAPIGateway` to your Podfile:
 
 ```ruby
+target :'YOUR-APP-NAME' do
+    use_frameworks!
 
-	target :'YOUR-APP-NAME' do
-	  use_frameworks!
-
-	     # For API
-	     pod 'AWSAPIGateway'
-	     # other pods
-	end
+        # For API
+        pod 'AWSAPIGateway'
+        # other pods
+end
 ```
 
 Run `pod install --repo-update` and then add the `generated-src` folder and `awsconfiguration.json` file to your project **(File->Add Files to ..->Add)** and then build your project, ensuring there are no issues.
 
-Next, set the bridging header for Swift in your project settings. Double-click your project name in the Xcode Project Navigator, choose the Build Settings tab and search for  `Objective-C Bridging Header`. Enter `generated-src/Bridging_Header.h`
+Next, set the bridging header for Swift in your project settings. Double-click your project name in the Xcode Project Navigator, choose the Build Settings tab and search for `Objective-C Bridging Header`. Enter `generated-src/Bridging_Header.h`
 
 This is needed because the AWS generated code has some Objective-C code which requires bridging to be used for Swift. If you already have a bridging header in your app, you can just append an extra line to it: `#import "AWSApiGatewayBridge.h"` instead of above step.
 
-The generated files determine the name of your client when making API calls. In the `generated-src` folder, files ending with name `*Client.swift` are the names of your client (without .swift extension). The path of the client code file is: 
+The generated files determine the name of your client when making API calls. In the `generated-src` folder, files ending with name `*Client.swift` are the names of your client (without .swift extension). The path of the client code file is:
 
 **./generated-src/YOUR_API_RESOURCE_NAME+YOUR_APP_NAME+Client.swift**
 
@@ -64,7 +63,7 @@ Find the resource name of your API by running `amplify status`. Copy your API cl
 
 ### IAM authorization
 
-To invoke an API Gateway endpoint from your application, import `AWSAPIGateway` and use the generated client class, model, and resource paths as in the below example with `YOUR_API_CLIENT_NAME` replaced from the previous section. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](/sdk/auth/how-it-works).
+To invoke an API Gateway endpoint from your application, import `AWSAPIGateway` and use the generated client class, model, and resource paths as in the below example with `YOUR_API_CLIENT_NAME` replaced from the previous section. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](/[platform]/sdk/auth/).
 
 ```swift
 import AWSAPIGateway
@@ -72,56 +71,56 @@ import AWSMobileClient
 
   // ViewController or application context . . .
 
-    func doInvokeAPI() {
-         // change the method name, or path or the query string parameters here as desired
-         let httpMethodName = "POST"
-         // change to any valid path you configured in the API
-         let URLString = "/items"
-         let queryStringParameters = ["key1":"{value1}"]
-         let headerParameters = [
-             "Content-Type": "application/json",
-             "Accept": "application/json"
-         ]
+func doInvokeAPI() {
+    // change the method name, or path or the query string parameters here as desired
+    let httpMethodName = "POST"
+    // change to any valid path you configured in the API
+    let URLString = "/items"
+    let queryStringParameters = ["key1":"{value1}"]
+    let headerParameters = [
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    ]
 
-         let httpBody = "{ \n  " +
-                 "\"key1\":\"value1\", \n  " +
-                 "\"key2\":\"value2\", \n  " +
-                 "\"key3\":\"value3\"\n}"
+    let httpBody = "{ \n  " +
+            "\"key1\":\"value1\", \n  " +
+            "\"key2\":\"value2\", \n  " +
+            "\"key3\":\"value3\"\n}"
 
-         // Construct the request object
-         let apiRequest = AWSAPIGatewayRequest(httpMethod: httpMethodName,
-                 urlString: URLString,
-                 queryParameters: queryStringParameters,
-                 headerParameters: headerParameters,
-                 httpBody: httpBody)
+    // Construct the request object
+    let apiRequest = AWSAPIGatewayRequest(httpMethod: httpMethodName,
+            urlString: URLString,
+            queryParameters: queryStringParameters,
+            headerParameters: headerParameters,
+            httpBody: httpBody)
 
-        // Create a service configuration
-        let serviceConfiguration = AWSServiceConfiguration(region: AWSRegionType.USEast1,
-              credentialsProvider: AWSMobileClient.default())
+    // Create a service configuration
+    let serviceConfiguration = AWSServiceConfiguration(region: AWSRegionType.USEast1,
+            credentialsProvider: AWSMobileClient.default())
 
-        // Initialize the API client using the service configuration
-        xyz123useamplifyabcdClient.registerClient(withConfiguration: serviceConfiguration!, forKey: "CloudLogicAPIKey")
+    // Initialize the API client using the service configuration
+    xyz123useamplifyabcdClient.registerClient(withConfiguration: serviceConfiguration!, forKey: "CloudLogicAPIKey")
 
-        // Fetch the Cloud Logic client to be used for invocation
-        let invocationClient = xyz123useamplifyabcdClient.client(forKey: "CloudLogicAPIKey")
+    // Fetch the Cloud Logic client to be used for invocation
+    let invocationClient = xyz123useamplifyabcdClient.client(forKey: "CloudLogicAPIKey")
 
-        invocationClient.invoke(apiRequest).continueWith { (task: AWSTask) -> Any? in
-                 if let error = task.error {
-                     print("Error occurred: \(error)")
-                     // Handle error here
-                     return nil
-                 }
+    invocationClient.invoke(apiRequest).continueWith { (task: AWSTask) -> Any? in
+        if let error = task.error {
+            print("Error occurred: \(error)")
+            // Handle error here
+            return nil
+        }
 
-                 // Handle successful result here
-                 let result = task.result!
-                 let responseString = String(data: result.responseData!, encoding: .utf8)
+        // Handle successful result here
+        let result = task.result!
+        let responseString = String(data: result.responseData!, encoding: .utf8)
 
-                 print(responseString)
-                 print(result.statusCode)
+        print(responseString)
+        print(result.statusCode)
 
-                 return nil
-             }
-         }
+        return nil
+    }
+}
 ```
 
 You can then invoke this method with `self.doInvokeAPI()` from your application code.

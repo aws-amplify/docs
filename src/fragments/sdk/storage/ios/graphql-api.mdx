@@ -1,6 +1,6 @@
-**Note:** Please review the documentation for [API](/sdk/api/graphql) before you proceed with the rest of this section.
+**Note:** Please review the documentation for [API](/[platform]/sdk/api/graphql/) before you proceed with the rest of this section.
 
-You can upload and download Amazon S3 Objects using AWS AppSync, a GraphQL based solution to build data-driven apps with real-time and offline capabilities. Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure.  _For example, you might create a Person type with a profile picture or a Post type that has an associated image_. You can use AWS AppSync to model these as GraphQL types. If any of your mutations have a variable with `bucket`, `key`, `region`, `mimeType`, and `localUri` fields, the SDK uploads the file to S3 for you.
+You can upload and download Amazon S3 Objects using AWS AppSync, a GraphQL based solution to build data-driven apps with real-time and offline capabilities. Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure. _For example, you might create a Person type with a profile picture or a Post type that has an associated image_. You can use AWS AppSync to model these as GraphQL types. If any of your mutations have a variable with `bucket`, `key`, `region`, `mimeType`, and `localUri` fields, the SDK uploads the file to S3 for you.
 
 Update file `amplify/backend/api/yourAppName/schema.graphql` using the following schema which has a `S3Object` type:
 
@@ -33,11 +33,11 @@ and run `amplify push` to update the AppSync backend resource, remember to choos
 The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for S3, but takes in `AWSS3TransferUtility`. You will also need to take a dependency on the `AWSS3` SDK. You can do that by updating your Podfile:
 
 ```ruby
-  target: 'PostsApp' do
+target: 'PostsApp' do
     use_frameworks!
     pod 'AWSAppSync'
     pod 'AWSS3'
-  end
+end
 ```
 
 Then run `pod install` to fetch the new dependencies.
@@ -106,6 +106,7 @@ func uploadImage() {
     }
 }
 ```
+
 Note: Remember to replace the `bucket` and `region` with what you find in `awsconfiguration.json`
 
 The mutation operation doesn't require any specific changes in method signature. It requires only an `S3Object` with `bucket`, `key`, `region`, `localUri`, and `mimeType`. Now when you do a mutation, it automatically uploads the specified file to Amazon S3 using the `AWSS3TransferUtility` client internally.

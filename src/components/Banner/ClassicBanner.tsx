@@ -3,21 +3,18 @@ import { Message, Text, Flex, Link } from '@aws-amplify/ui-react';
 export const ClassicBanner = () => {
   return (
     <Message
-      heading="Welcome to the preview documentation of Amplify's code-first DX (Gen 2)!"
+      heading="Looking for the Amplify tooling-first (Gen 1) docs?"
       colorTheme="info"
       className="classic-banner"
     >
       <Flex direction="column" gap="xs">
         <Text>
-          Amplify Gen 2 has a new a toolkit that offers an
-          infrastructure-from-code (IC) experience, allowing you to focus on
-          your business logic instead of configuring cloud infrastructure.
-        </Text>
-        <Text>
-          Looking for the existing Amplify documentation?{' '}
+          You are currently viewing the preview code-first DX (Gen 2) docs.
+          Visit the{' '}
           <Link href="/" isExternal>
-            Visit the Amplify tooling-first (Gen 1) Docs
-          </Link>
+            tooling-first (Gen 1) docs
+          </Link>{' '}
+          .
         </Text>
       </Flex>
     </Message>

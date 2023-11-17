@@ -22,9 +22,9 @@ export function Overview({ childPageNodes }: OverviewProps) {
       {childPageNodes
         .filter((node) => {
           if (currentPlatform) {
-            return node?.platforms?.includes(currentPlatform)
+            return node?.platforms?.includes(currentPlatform);
           } else {
-            return true
+            return true;
           }
         })
         .map((node) => (
@@ -33,7 +33,7 @@ export function Overview({ childPageNodes }: OverviewProps) {
             className="overview__link"
             href={{
               pathname: node.route,
-              query: { platform: currentPlatform }
+              ...(currentPlatform && { query: { platform: currentPlatform } })
             }}
           >
             <Card className="overview__link__card" variation="outlined">

@@ -29,55 +29,6 @@ export function getStaticProps(context) {
   };
 }
 
-import angular0 from '/src/fragments/start/getting-started/common/nextsteps-header.mdx';
-
-<Fragments fragments={{ angular: angular0 }} />
-
-import js1 from '/src/fragments/start/getting-started/common/nextsteps-header.mdx';
-
-<Fragments fragments={{ javascript: js1 }} />
-
-import vue2 from '/src/fragments/start/getting-started/common/nextsteps-header.mdx';
-
-<Fragments fragments={{ vue: vue2 }} />
-
-import next3 from '/src/fragments/start/getting-started/common/nextsteps-header.mdx';
-
-<Fragments fragments={{ nextjs: next3 }} />
-
-import react4 from '/src/fragments/start/getting-started/common/nextsteps-header.mdx';
-
-<Fragments fragments={{ react: react4 }} />
-
-import react_native5 from '/src/fragments/start/getting-started/common/nextsteps-header.mdx';
-
-<Fragments fragments={{ 'react-native': react_native5 }} />
-
-import angular7 from '/src/fragments/start/getting-started/angular/nextsteps.mdx';
-
-<Fragments fragments={{ angular: angular7 }} />
-
-import js8 from '/src/fragments/start/getting-started/vanillajs/nextsteps.mdx';
-
-<Fragments fragments={{ javascript: js8 }} />
-
-import vue9 from '/src/fragments/start/getting-started/vue/nextsteps.mdx';
-
-<Fragments fragments={{ vue: vue9 }} />
-
-import next10 from '/src/fragments/start/getting-started/react/nextsteps.mdx';
-
-<Fragments fragments={{ nextjs: next10 }} />
-
-import react11 from '/src/fragments/start/getting-started/react/nextsteps.mdx';
-
-<Fragments fragments={{ react: react11 }} />
-
-import react_native12 from '/src/fragments/start/getting-started/reactnative/nextsteps.mdx';
-
-{' '}
-
-<Fragments fragments={{ 'react-native': react_native12 }} />
 
 import ios14 from '/src/fragments/start/getting-started/ios/nextsteps.mdx';
 
@@ -90,3 +41,34 @@ import android15 from '/src/fragments/start/getting-started/android/nextsteps.md
 import flutter16 from '/src/fragments/start/getting-started/flutter/nextsteps.mdx';
 
 <Fragments fragments={{ flutter: flutter16 }} />
+
+<InlineFilter filters={['javascript','react','angular','react-native','vue', 'nextjs']}>
+
+🎉 Congratulations! Your app is built, with a realtime backend.
+
+What next? Here are some things to add to your app:
+
+</InlineFilter>
+
+<InlineFilter filters={['javascript','react','angular','vue', 'nextjs']}>
+
+- [Authentication](/[platform]/build-a-backend/auth/set-up-auth/)
+- [User File Storage](/[platform]/build-a-backend/storage/set-up-storage/)
+- [Serverless APIs](/[platform]/build-a-backend/storage/set-up-storage/)
+- [Analytics](/[platform]/build-a-backend/more-features/analytics/set-up-analytics/)
+- [AI/ML](/[platform]/build-a-backend/more-features/predictions/set-up-predictions/)
+- [PubSub](/[platform]/build-a-backend/more-features/pubsub/set-up-pubsub/)
+
+</InlineFilter>
+<InlineFilter filters={['react-native']}>
+
+- [Authentication](/[platform]/build-a-backend/auth/set-up-auth/)
+- [User File Storage](/[platform]/build-a-backend/storage/set-up-storage/)
+- [Serverless APIs](/[platform]/build-a-backend/storage/set-up-storage/)
+- [Analytics](/[platform]/build-a-backend/more-features/analytics/set-up-analytics/)
+- [AI/ML](/[platform]/build-a-backend/more-features/predictions/set-up-predictions/)
+- [In-App Messaging](/[platform]/build-a-backend/more-features/in-app-messaging/)
+- [Push Notifications](/[platform]/build-a-backend/push-notifications/set-up-push-notifications/)
+- [PubSub](/[platform]/build-a-backend/more-features/pubsub/set-up-pubsub/)
+
+</InlineFilter>

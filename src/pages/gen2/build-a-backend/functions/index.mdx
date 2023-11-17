@@ -1,5 +1,5 @@
 export const meta = {
-  title: 'Functions overview',
+  title: 'Functions',
   description:
     'Learn how AWS Lambda functions can be used to perform tasks and customize workflows.'
 };
@@ -14,11 +14,10 @@ export function getStaticProps(context) {
 
 <Callout info>
 
-Coming soon!
-
+<b>Coming soon: </b>The Functions Gen 2 experience is still under development. You can add functions to your Amplify Gen 2 project with AWS CDK. 
 </Callout>
 
-To use Storage today you must use the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/). To get started, install the CDK library package:
+To use Functions today you must use the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/). To get started, install the CDK library package:
 
 ```bash
 npm add --save-dev aws-cdk-lib
@@ -26,7 +25,7 @@ npm add --save-dev aws-cdk-lib
 
 <Callout warning>
 
-Depending on the Node.js package manager you are using, you may encounter warnings where it is now unable the peer dependency version `@aws-amplify/backend` has on `aws-cdk-lib`. If you encounter a warning similar to the following, re-install the version specified in the warning text:
+Depending on the Node.js package manager you are using, you may encounter warnings where it is now unable to resolve the peer dependency version `@aws-amplify/backend` has on `aws-cdk-lib`. If you encounter a warning similar to the following, re-install the version specified in the warning text:
 
 ```
 npm WARN Could not resolve dependency:
@@ -39,7 +38,7 @@ Using the sample warning text above, you would need to install `aws-cdk-lib@"~2.
 
 </Callout>
 
-## Creating an Amazon Cognito Trigger manually
+## Example: Create a Function Trigger for Auth
 
 You can use CDK's [`NodejsFunction` construct](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda_nodejs.NodejsFunction.html) to create the Function definition, and apply to the Amplify-generated Amazon Cognito resource as a Cognito Trigger. This is made possible via the L2 [`UserPool` construct and its provided `.addTrigger()` method](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cognito.UserPool.html#addwbrtriggeroperation-fn).
 

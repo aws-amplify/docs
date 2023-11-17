@@ -2,7 +2,7 @@ import * as React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Prism, Highlight } from 'prism-react-renderer';
 import { theme } from './code-theme';
-import { View, Button } from '@aws-amplify/ui-react';
+import { Button, Flex, View } from '@aws-amplify/ui-react';
 import { versions } from '@/constants/versions';
 import { trackCopyClicks } from '@/utils/track';
 (typeof global !== 'undefined' ? global : window).Prism = Prism;
@@ -40,6 +40,7 @@ export const MDXCode = (props) => {
   const [copied, setCopied] = React.useState(false);
   const [code, setCode] = React.useState(codeString);
   const shouldShowCopy = language !== 'console';
+  const shouldShowHeader = shouldShowCopy || fileName;
 
   const copy = () => {
     trackCopyClicks(codeString);
@@ -63,10 +64,30 @@ export const MDXCode = (props) => {
           </div>
           <View className="pre-wrapper">
             <View className="pre-wrapper__inner">
-              {fileName ? (
-                <View className="pre-filename">{fileName}</View>
+              {shouldShowHeader ? (
+                <Flex className="pre-header">
+                  {fileName ? (
+                    <View className="pre-filename">{fileName}</View>
+                  ) : null}
+                  {shouldShowCopy ? (
+                    <CopyToClipboard text={codeString} onCopy={copy}>
+                      <Button
+                        size="small"
+                        variation="link"
+                        disabled={copied}
+                        className="code-copy"
+                      >
+                        {copied ? 'Copied!' : 'Copy'}
+                      </Button>
+                    </CopyToClipboard>
+                  ) : null}
+                </Flex>
               ) : null}
-              <pre style={style} className="pre">
+
+              <pre
+                style={style}
+                className={`pre${shouldShowHeader ? ' pre--header' : ''}`}
+              >
                 <code className="pre-code">
                   {tokens.map((line, i) => (
                     <div key={i} {...getLineProps({ line })}>
@@ -80,21 +101,6 @@ export const MDXCode = (props) => {
                   ))}
                 </code>
               </pre>
-              {shouldShowCopy ? (
-                <CopyToClipboard text={codeString} onCopy={copy}>
-                  <Button
-                    size="small"
-                    variation="link"
-                    disabled={copied}
-                    className="code-copy"
-                    position="absolute"
-                    right="xxxs"
-                    top="xxxs"
-                  >
-                    {copied ? 'Copied!' : 'Copy'}
-                  </Button>
-                </CopyToClipboard>
-              ) : null}
             </View>
           </View>
         </View>

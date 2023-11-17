@@ -1,0 +1,48 @@
+export const meta = {
+  title: 'CLI commands',
+  description: 'Reference for CLI commands'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+This page serves as a reference for commands found in the [`@aws-amplify/backend-cli`](https://www.npmjs.com/package/@aws-amplify/backend-cli) package.
+
+## `amplify sandbox`
+
+Sandbox enables you to develop your backend alongside your frontend's development server. Run `npx amplify sandbox` to deploy to your personal cloud sandbox.
+
+{/* @TODO usage */}
+
+{/* @TODO examples? */}
+
+{/* @TODO options table */}
+
+### `amplify sandbox delete`
+
+Delete your personal cloud sandbox. This should only be used if you have an active cloud sandbox that you opted to _not_ delete when exiting `npx amplify sandbox`.
+
+### `amplify sandbox secret`
+
+Set, list, and manage backend secrets used with your personal cloud sandbox.
+
+## `amplify generate`
+
+Generate is not intended to be used standalone, however offers a few subcommands to generate information or code that is supplemental to your frontend development.
+
+### `amplify generate config`
+
+Generate the client configuration file (e.g. `amplifyconfiguration.json`) for your frontend application to consume.
+
+### `amplify generate graphql-client-code`
+
+Generate GraphQL statements for your frontend application to consume.
+
+### `amplify generate form`
+
+Generate React form components derived from your backend data models for your frontend application to consume.-

@@ -1,7 +1,6 @@
 export const meta = {
   title: 'Connect your app code to API',
-  description:
-    'Learn how to connect your app code to an API.'
+  description: 'Learn how to connect your app code to an API.'
 };
 
 export function getStaticProps(context) {
@@ -16,8 +15,9 @@ export function getStaticProps(context) {
 In this guide, you will connect your application code to the backend API using the Amplify Libraries. We will review how to install and configure Amplify Libraries.
 
 Before you begin, you will need:
+
 - your cloud sandbox with an Amplify Data resource up and running (`npx amplify sandbox`)
-- A frontend application set up. For instructions on setting up an app, see [Project Setup: Create your application](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/js/)
+- A frontend application set up. For instructions on setting up an app, see [Project Setup: Create your application](/[platform]/start/project-setup/create-application/)
 - [npm installed](https://docs.npmjs.com/getting-started)
 
 ## Install the Amplify Library
@@ -35,10 +35,10 @@ You will then configure the library to connect with your Amplify Data's backend 
 When you deploy you're iterating on your backend (`npx amplify sandbox`), an `amplifyconfiguration.json` file is generated for you. This file contains your API's endpoint information and auth configurations. Add the following code to your app's entrypoint to initialize and configure the Amplify client library:
 
 ```ts
-import { Amplify } from 'aws-amplify'
-import config from './amplifyconfiguration.json'
+import { Amplify } from 'aws-amplify';
+import config from './amplifyconfiguration.json';
 
-Amplify.configure(config)
+Amplify.configure(config);
 ```
 
 ## Generate the Amplify Data client
@@ -46,15 +46,15 @@ Amplify.configure(config)
 Once the Amplify library is configured, you can generate a "Data client" for your frontend code to make fully-typed API requests to your backend. To generate a new Data client, use the following code:
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
+import { generateClient } from 'aws-amplify/api';
+import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
 
-const client = generateClient<Schema>()
+const client = generateClient<Schema>();
 
-// Now you should be able to make CRUDL operations with the 
+// Now you should be able to make CRUDL operations with the
 // Data client
 async function fetchTodos() {
-  const { data: todos, errors } = await client.models.Todo.list()
+  const { data: todos, errors } = await client.models.Todo.list();
 }
 ```
 
@@ -73,46 +73,48 @@ To apply the same authorization mode on all requests from a Data client, specify
 <Block name="API Key">
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
+import { generateClient } from 'aws-amplify/api';
+import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
   authMode: 'apiKey'
-})
+});
 ```
 
 </Block>
 <Block name="Amazon Cognito user pool">
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
+import { generateClient } from 'aws-amplify/api';
+import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
   authMode: 'userPool'
-})
+});
 ```
+
 </Block>
 <Block name="AWS IAM">
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
+import { generateClient } from 'aws-amplify/api';
+import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
   authMode: 'iam'
-})
+});
 ```
+
 </Block>
 <Block name="OpenID Connect (OIDC)">
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
+import { generateClient } from 'aws-amplify/api';
+import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
   authMode: 'oidc'
-})
+});
 ```
 
 </Block>
@@ -121,8 +123,8 @@ const client = generateClient<Schema>({
 You can implement your own custom API authorization logic using a AWS Lambda function. Review [Custom Authorization Rule](TK) to learn more about how to implement your authorization protocol with AWS Lambda.
 
 ```ts
-import { generateClient } from 'aws-amplify/api'
-import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
+import { generateClient } from 'aws-amplify/api';
+import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
 
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
@@ -130,7 +132,7 @@ const lambdaAuthToken = getAuthToken();
 const client = generateClient<Schema>({
   authMode: 'lambda',
   authToken: lambdaAuthToken
-})
+});
 ```
 
 </Block>
@@ -147,7 +149,7 @@ You can also specify the authorization mode on each individual API request. This
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
   authMode: 'apiKey'
-})
+});
 ```
 
 </Block>
@@ -156,23 +158,25 @@ const { data: todos, errors } = await client.models.Todo.list({
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
   authMode: 'userPool'
-})
+});
 ```
+
 </Block>
 <Block name="AWS IAM">
 
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
   authMode: 'iam'
-})
+});
 ```
+
 </Block>
 <Block name="OpenID Connect (OIDC)">
 
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
   authMode: 'oidc'
-})
+});
 ```
 
 </Block>
@@ -195,21 +199,21 @@ const { data: todos, errors } = await client.models.Todo.list({
 
 ## Set custom request headers for GraphQL APIs
 
-When working with a GraphQL endpoint, you may need to set request headers for authorization purposes or to pass additional metadata from your frontend to the  backend API. This is done by specifying a `headers` parameter into the configuration. You can define headers either on a per Data client-level or on a per-request level:
+When working with a GraphQL endpoint, you may need to set request headers for authorization purposes or to pass additional metadata from your frontend to the backend API. This is done by specifying a `headers` parameter into the configuration. You can define headers either on a per Data client-level or on a per-request level:
 
 <BlockSwitcher>
 
 <Block name="Custom headers per Data client">
 
 ```ts
-import type { Schema } from '@/backend/schema'
-import { generateClient } from 'aws-amplify/data'
+import type { Schema } from '@/backend/schema';
+import { generateClient } from 'aws-amplify/data';
 
 const client = generateClient<Schema>({
   headers: {
     'My-Custom-Header': 'my value'
   }
-})
+});
 ```
 
 </Block>
@@ -218,14 +222,11 @@ const client = generateClient<Schema>({
 
 ```ts
 // same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
-const res = await client.models.Blog.get(
-    'myBlogId',
-    {
-      headers: {
-        'My-Custom-Header': 'my value'
-      }
-    },
-);
+const res = await client.models.Blog.get('myBlogId', {
+  headers: {
+    'My-Custom-Header': 'my value'
+  }
+});
 ```
 
 </Block>
@@ -239,12 +240,12 @@ The examples above show you how to set static headers but you can also programma
 <Block name="Custom headers per Data client">
 
 ```ts
-import type { Schema } from '@/backend/schema'
-import { generateClient } from 'aws-amplify/data'
+import type { Schema } from '@/backend/schema';
+import { generateClient } from 'aws-amplify/data';
 
 const client = generateClient<Schema>({
   headers: async (requestOptions) => {
-    console.log(requestOptions)
+    console.log(requestOptions);
     /* The request options allow you to customize your headers based on the request options such
        as http method, headers, request URI, and query string. These options are typically used
        to create a request signature.
@@ -257,9 +258,9 @@ const client = generateClient<Schema>({
     */
     return {
       'My-Custom-Header': 'my value'
-    }
+    };
   }
-})
+});
 ```
 
 </Block>
@@ -268,12 +269,10 @@ const client = generateClient<Schema>({
 
 ```ts
 // same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
-const res = await client.models.Blog.get(
-  'myBlogId',
-  {
-    headers: async (requestOptions) => {
-      console.log(requestOptions)
-      /* The request options allow you to customize your headers based on the request options such
+const res = await client.models.Blog.get('myBlogId', {
+  headers: async (requestOptions) => {
+    console.log(requestOptions);
+    /* The request options allow you to customize your headers based on the request options such
         as http method, headers, request URI, and query string. These options are typically used
         to create a request signature.
       {
@@ -283,12 +282,11 @@ const res = await client.models.Blog.get(
         queryString: ""
       }
       */
-      return {
-        'My-Custom-Header': 'my value'
-      }
-    }
+    return {
+      'My-Custom-Header': 'my value'
+    };
   }
-);
+});
 ```
 
 </Block>
@@ -302,6 +300,7 @@ Congratulations! You have finished the **Connect your app code to the API** guid
 ## Next steps
 
 Our recommended next steps include using the API to mutate and query data. You can also review how to subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
-- [Create, update, and delete application data](/lib/graphqlapi/mutate-data/q/platform/js/)
-- [Read application data](/lib/graphqlapi/query-data/q/platform/js/)
-- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/js/)
+
+- [Create, update, and delete application data](/[platform]/build-a-backend/graphqlapi/mutate-data/)
+- [Read application data](/[platform]/build-a-backend/graphqlapi/query-data/)
+- [Subscribe to real-time events](/[platform]/build-a-backend/graphqlapi/subscribe-data/)

@@ -118,7 +118,7 @@ However, you can choose if the current geofence collection should be the default
 ```
 Answering `No` will retain the previously set default.
 
-That's it! You can now create virtual perimeters around points of interest in your application. Follow the library documentation as listed [here](/lib/geo/geofences).
+That's it! You can now create virtual perimeters around points of interest in your application. Follow the library documentation as listed [here](/[platform]/build-a-backend/more-features/geo/geofences/).
 
 ## Granting Maps and Search permissions to a group of users
 If you want to grant permissions to render a Map or Search for places to the users of a Cognito group,
@@ -162,7 +162,7 @@ Select `Authorized and Guest users` if both authenticated and unauthenticated us
 For more information, refer [link to location service page](https://docs.aws.amazon.com/location/latest/developerguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-get-map-tiles).
 
 #### Individual Group access
-Select `Individual Groups` to scope access permissions based on [Cognito User Groups](/cli/auth/groups)
+Select `Individual Groups` to scope access permissions based on [Cognito User Groups](/[platform]/cli/tools/auth/admin-actions/)
 
 ```console
 ? Select one or more cognito groups to give access:
@@ -240,6 +240,6 @@ A validation of the GeoJSON file will be executed afterwards. The upload of geof
 <Callout>
 
 **Note:** After you have provisioned the Geofence Collection using Amplify CLI, depending on your application's use-case, you can also add Geofences to
-the provisioned Geofence Collection programmatically. Refer this [API documentation](/lib/geo/geofences#savegeofences) for more information.
+the provisioned Geofence Collection programmatically. Refer this [API documentation](/[platform]/build-a-backend/more-features/geo/geofences/#savegeofences) for more information.
 
 </Callout>

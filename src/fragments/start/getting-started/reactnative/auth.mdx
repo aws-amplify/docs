@@ -35,7 +35,7 @@ amplify console
 
 ## Create login UI
 
-Creating a login flow can be quite difficult and time consuming to get right. Luckily, Amplify UI has an [`Authenticator`](https://ui.docs.amplify.aws/react-native/connected-components/authenticator) component that provides an entire authentication flow for you, using the configuration you specified in **aws-exports.js.**
+Creating a login flow can be quite difficult and time consuming to get right. Luckily, Amplify UI has an [`Authenticator`](https://ui.docs.amplify.aws/react-native/connected-components/authenticator) component that provides an entire authentication flow for you, using the configuration you specified in **amplifyconfiguration.json.**
 
 ### Install Amplify UI
 
@@ -139,7 +139,7 @@ import {
   Pressable,
   SafeAreaView,
 } from 'react-native';
-import {API, graphqlOperation} from 'aws-amplify';
+import {generateClient} from 'aws-amplify/api';
 import {createTodo} from './src/graphql/mutations';
 import {listTodos} from './src/graphql/queries';
 import {
@@ -148,7 +148,7 @@ import {
 } from '@aws-amplify/ui-react-native';
 
 import { Amplify } from 'aws-amplify';
-import awsExports from './src/aws-exports';
+import amplifyconfig from './src/amplifyconfiguration.json';
 Amplify.configure(awsExports);
 
 // retrieves only the current value of 'user' from 'useAuthenticator'
@@ -166,6 +166,7 @@ const SignOutButton = () => {
 };
 
 const initialFormState = {name: '', description: ''};
+const client = generateClient();
 
 const App = () => {
   const [formState, setFormState] = useState(initialFormState);
@@ -181,7 +182,9 @@ const App = () => {
 
   async function fetchTodos() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos));
+      const todoData = await client.graphql({
+        query: listTodos
+      });
       const todos = todoData.data.listTodos.items;
       setTodos(todos);
     } catch (err) {
@@ -195,7 +198,10 @@ const App = () => {
       const todo = {...formState};
       setTodos([...todos, todo]);
       setFormState(initialFormState);
-      await API.graphql(graphqlOperation(createTodo, {input: todo}));
+      await client.graphql({
+        query: createTodo,
+        variables: { input: todo }
+      });
     } catch (err) {
       console.log('error creating todo:', err);
     }
@@ -260,7 +266,7 @@ import {
   Pressable,
   SafeAreaView,
 } from 'react-native';
-import {API, graphqlOperation} from 'aws-amplify';
+import {generateClient} from 'aws-amplify/api';
 import {createTodo} from './src/graphql/mutations';
 import {listTodos} from './src/graphql/queries';
 import {
@@ -283,7 +289,8 @@ const SignOutButton = () => {
 };
 
 const initialFormState = {name: '', description: ''};
-
+const client = generateClient();
+  
 const App = () => {
   const [formState, setFormState] = useState(initialFormState);
   const [todos, setTodos] = useState([]);
@@ -298,7 +305,9 @@ const App = () => {
 
   async function fetchTodos() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos));
+      const todoData = await client.graphql({
+        query: listTodos
+      });
       const todos = todoData.data.listTodos.items;
       setTodos(todos);
     } catch (err) {
@@ -312,7 +321,10 @@ const App = () => {
       const todo = {...formState};
       setTodos([...todos, todo]);
       setFormState(initialFormState);
-      await API.graphql(graphqlOperation(createTodo, {input: todo}));
+      await client.graphql({
+        query: createTodo,
+        variables: {input: todo}
+      });
     } catch (err) {
       console.log('error creating todo:', err);
     }
@@ -374,4 +386,4 @@ In this example, you used the Amplify React UI library and the `withAuthenticato
 
 You can also [customize this component](https://ui.docs.amplify.aws/react-native/connected-components/authenticator/customization) to add or remove fields, update styling, or other configurations. You can even [override function calls](https://ui.docs.amplify.aws/react-native/connected-components/authenticator/customization#override-function-calls) if needed.
 
-In addition to `withAuthenticator`, you can build [custom authentication flows with the Amplify Library for JS](/lib/auth/getting-started). Amplify's `Auth` class has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
+In addition to `withAuthenticator`, you can build [custom authentication flows with the Amplify Library for JS](/[platform]/build-a-backend/auth/set-up-auth/). Amplify's `Auth` class has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).

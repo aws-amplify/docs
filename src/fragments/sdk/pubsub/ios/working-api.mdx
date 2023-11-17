@@ -11,10 +11,12 @@ func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
     print("connection status = \(status.rawValue)")
 }
 
-iotDataManager.connect(withClientId: "<YOUR_CLIENT_ID>",
-                       cleanSession: true,
-                       certificateId: "<YOUR_CERTIFICATE_ID>",
-                       statusCallback: mqttEventCallback)
+iotDataManager.connect(
+    withClientId: "<YOUR_CLIENT_ID>",
+    cleanSession: true,
+    certificateId: "<YOUR_CERTIFICATE_ID>",
+    statusCallback: mqttEventCallback
+)
 ```
 
 The AWS IoT Core service also allows you to connect devices using MQTT with certificate based mutual authentication on port 443. You can do this using the `connectUsingALPN` API as shown below. See [MQTT with TLS client authentication on port 443](https://aws.amazon.com/blogs/iot/mqtt-with-tls-client-authentication-on-port-443-why-it-is-useful-and-how-it-works/) for more information.
@@ -24,13 +26,15 @@ func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
     print("connection status = \(status.rawValue)")
 }
 
-iotDataManager.connectUsingALPN(withClientId: "<YOUR_CLIENT_ID>",
-                       cleanSession: true,
-                       certificateId: "<YOUR_CERTIFICATE_ID>",
-                       statusCallback: mqttEventCallback)
+iotDataManager.connectUsingALPN(
+    withClientId: "<YOUR_CLIENT_ID>",
+    cleanSession: true,
+    certificateId: "<YOUR_CERTIFICATE_ID>",
+    statusCallback: mqttEventCallback
+)
 ```
 
-You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSIoT/Classes/AWSIoTDataManager.html#/c:objc(cs)AWSIoTDataManager(im)connectUsingALPNWithClientId:cleanSession:certificateId:statusCallback:) to get more information.
+You can take a look at the [API Reference](<https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSIoT/Classes/AWSIoTDataManager.html#/c:objc(cs)AWSIoTDataManager(im)connectUsingALPNWithClientId:cleanSession:certificateId:statusCallback:>) to get more information.
 
 ### AWS Credentials based Authentication
 
@@ -41,12 +45,14 @@ func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
     print("connection status = \(status.rawValue)")
 }
 
-iotDataManager.connectUsingWebSocket(withClientId: "<YOUR_CLIENT_ID>",
-                                     cleanSession: true,
-                                     statusCallback: mqttEventCallback)
+iotDataManager.connectUsingWebSocket(
+    withClientId: "<YOUR_CLIENT_ID>",
+    cleanSession: true,
+    statusCallback: mqttEventCallback
+)
 ```
 
-You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSIoT/Classes/AWSIoTDataManager.html#/c:objc(cs)AWSIoTDataManager(im)connectUsingWebSocketWithClientId:cleanSession:statusCallback:) to know more information.
+You can take a look at the [API Reference](<https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSIoT/Classes/AWSIoTDataManager.html#/c:objc(cs)AWSIoTDataManager(im)connectUsingWebSocketWithClientId:cleanSession:statusCallback:>) to know more information.
 
 ### Custom Authentication
 
@@ -61,16 +67,18 @@ func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
     print("connection status = \(status.rawValue)")
 }
 
-iotDataManager.connectUsingWebSocket(withClientId: uuid,
-                                     cleanSession: true,
-                                     customAuthorizerName: "<name-of-the-custom-authorizer>",
-                                     tokenKeyName: "<key-name-for-the-token>",
-                                     tokenValue: "<token>",
-                                     tokenSignature: "<signature-of-the-token>",
-                                     statusCallback: mqttEventCallback)
+iotDataManager.connectUsingWebSocket(
+    withClientId: uuid,
+    cleanSession: true,
+    customAuthorizerName: "<name-of-the-custom-authorizer>",
+    tokenKeyName: "<key-name-for-the-token>",
+    tokenValue: "<token>",
+    tokenSignature: "<signature-of-the-token>",
+    statusCallback: mqttEventCallback
+)
 ```
 
-You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSIoT/Classes/AWSIoTDataManager.html#/c:objc(cs)AWSIoTDataManager(im)connectUsingWebSocketWithClientId:cleanSession:customAuthorizerName:tokenKeyName:tokenValue:tokenSignature:statusCallback:) to know more information. This feature is available in the AWS SDK for iOS starting from `2.8.4` version. See [AWSIoT - 2.8.4](https://github.com/aws-amplify/aws-sdk-ios/blob/main/CHANGELOG.md#284) for more details.
+You can take a look at the [API Reference](<https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSIoT/Classes/AWSIoTDataManager.html#/c:objc(cs)AWSIoTDataManager(im)connectUsingWebSocketWithClientId:cleanSession:customAuthorizerName:tokenKeyName:tokenValue:tokenSignature:statusCallback:>) to know more information. This feature is available in the AWS SDK for iOS starting from `2.8.4` version. See [AWSIoT - 2.8.4](https://github.com/aws-amplify/aws-sdk-ios/blob/main/CHANGELOG.md#284) for more details.
 
 ## Subscribe to a topic
 
@@ -85,12 +93,13 @@ iotDataManager.subscribe(
         let stringValue = NSString(data: payload, encoding: String.Encoding.utf8.rawValue)!
 
         print("Message received: \(stringValue)")
-} )
+    }
+)
 ```
 
 ## Subscribe to multiple topics
 
-To subscribe for multiple topics, just call `subscribe()` for each topic you wish to subscribe. 
+To subscribe for multiple topics, just call `subscribe()` for each topic you wish to subscribe.
 
 ## Publish to a topic
 
@@ -99,8 +108,9 @@ To send a message to a topic, use `publishString()` method with your topic name 
 ```swift
 iotDataManager.publishString(
     "Hello to all subscribers!",
-    onTopic: "myTopic", 
-    qoS:.messageDeliveryAttemptedAtMostOnce)
+    onTopic: "myTopic",
+    qoS:.messageDeliveryAttemptedAtMostOnce
+)
 ```
 
 ## Unsubscribe from a topic

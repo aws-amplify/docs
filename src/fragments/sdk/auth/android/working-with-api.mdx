@@ -68,9 +68,9 @@ AWSMobileClient.getInstance().confirmSignUp(username, code, new Callback<SignUpR
 AWSMobileClient.getInstance().resendSignUp("your_username", new Callback<SignUpResult>() {
     @Override
     public void onResult(SignUpResult signUpResult) {
-        Log.i(TAG, "A verification code has been sent via" + 
-            signUpResult.getUserCodeDeliveryDetails().getDeliveryMedium() 
-            + " at " + 
+        Log.i(TAG, "A verification code has been sent via" +
+            signUpResult.getUserCodeDeliveryDetails().getDeliveryMedium()
+            + " at " +
             signUpResult.getUserCodeDeliveryDetails().getDestination());
     }
 
@@ -124,14 +124,14 @@ In order to setup multifactor authentication, choose `Manual configuration` whil
 
 ```console
  Multifactor authentication (MFA) user login options: ON (Required for all logins, can not be enabled later)
- For user login, select the MFA types: SMS Text Message
- Please specify an SMS authentication message: Your authentication code is {####}
- Email based user registration/forgot password: Enabled (Requires per-user email entry at registration)
- Please specify an email verification subject: Your verification code
- Please specify an email verification message: Your verification code is {####}
- Do you want to override the default password policy for this User Pool? No
- Warning: you will not be able to edit these selections. 
- What attributes are required for signing up? Email, Phone Number (This attribute is not supported by Facebook, Login With Amazon.)
+For user login, select the MFA types: SMS Text Message
+Please specify an SMS authentication message: Your authentication code is {####}
+Email based user registration/forgot password: Enabled (Requires per-user email entry at registration)
+Please specify an email verification subject: Your verification code
+Please specify an email verification message: Your verification code is {####}
+Do you want to override the default password policy for this User Pool? No
+Warning: you will not be able to edit these selections.
+What attributes are required for signing up? Email, Phone Number (This attribute is not supported by Facebook, Login With Amazon.)
 ```
 
 Note in the example above that for the `What attributes are required for signing up?` prompt, you need to use the arrow keys to scroll down in the list and select `Phone Number`. Otherwise you will not be able to add a phone number to the user and thus will not be able to sign in since SMS MFA is required.
@@ -170,8 +170,8 @@ AWSMobileClient.getInstance().confirmSignIn(signInChallengeResponse, new Callbac
 
 ## Force Change Password
 
- If a user is required to change their password on first login, there is a `NEW_PASSWORD_REQUIRED` state returned when `signIn` is called. You need to provide a new password given by the user in that case. It can be done using `confirmSignIn` with the new password.
- 
+If a user is required to change their password on first login, there is a `NEW_PASSWORD_REQUIRED` state returned when `signIn` is called. You need to provide a new password given by the user in that case. It can be done using `confirmSignIn` with the new password.
+
 ```java
 AWSMobileClient.getInstance().signIn("username", "password", null, new Callback<SignInResult>() {
     @Override

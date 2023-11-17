@@ -30,7 +30,7 @@ export function getStaticProps(context) {
   };
 }
 
-<MigrationAlert url={'/[platform]/cli-legacy/graphql-transformer/searchable'} />
+<MigrationAlert url={'/[platform]/cli-legacy/searchable'} />
 
 Add the `@searchable` directive to an `@model` type to enable OpenSearch-based data search and result aggregations. This gives you the ability to:
 
@@ -48,7 +48,7 @@ type Student @model @searchable {
 }
 ```
 
-> Once the `@searchable` directive is added, all new records added to the model are streamed to OpenSearch. To backfill existing data, see [Backfill OpenSearch index from DynamoDB table](/cli/graphql/troubleshooting#backfill-opensearch-index-from-dynamodb-table).
+> Once the `@searchable` directive is added, all new records added to the model are streamed to OpenSearch. To backfill existing data, see [Backfill OpenSearch index from DynamoDB table](/[platform]/build-a-backend/graphqlapi/troubleshooting/#backfill-opensearch-index-from-dynamodb-table).
 
 ## Search and filter data
 
