@@ -197,9 +197,9 @@ const { data: todos, errors } = await client.models.Todo.list({
 </Block>
 </BlockSwitcher>
 
-## Set custom request headers for GraphQL APIs
+## Set custom request headers
 
-When working with a GraphQL endpoint, you may need to set request headers for authorization purposes or to pass additional metadata from your frontend to the backend API. This is done by specifying a `headers` parameter into the configuration. You can define headers either on a per Data client-level or on a per-request level:
+When working with the Amplify Data endpoint, you may need to set request headers for authorization purposes or to pass additional metadata from your frontend to the backend API. This is done by specifying a `headers` parameter into the configuration. You can define headers either on a per Data client-level or on a per-request level:
 
 <BlockSwitcher>
 
@@ -301,6 +301,6 @@ Congratulations! You have finished the **Connect your app code to the API** guid
 
 Our recommended next steps include using the API to mutate and query data. You can also review how to subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
 
-- [Create, update, and delete application data](/[platform]/build-a-backend/graphqlapi/mutate-data/)
-- [Read application data](/[platform]/build-a-backend/graphqlapi/query-data/)
-- [Subscribe to real-time events](/[platform]/build-a-backend/graphqlapi/subscribe-data/)
+- [Create, update, and delete application data](/gen2/build-a-backend/data/mutate-data/)
+- [Read application data](/gen2/build-a-backend/data/query-data/)
+- [Subscribe to real-time events](/gen2/build-a-backend/data/subscribe-data/)

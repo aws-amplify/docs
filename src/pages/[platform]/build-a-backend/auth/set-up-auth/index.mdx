@@ -145,9 +145,9 @@ amplify console
 In your app's entry point (specifically, **App.js**, **index.js**, **\_app.js**, or **main.js**), import and load the configuration file:
 
 ```javascript
-import { Amplify, Auth } from 'aws-amplify';
-import config '';
-Amplify.configure(awsconfig);
+import { Amplify } from 'aws-amplify';
+import config from './amplifyconfiguration.json';
+Amplify.configure(config);
 ```
 
 </Block>
@@ -218,7 +218,7 @@ Amplify Studio allows you to create auth resources, set up authorization rules, 
 7. In the **Configure sign-up** section, expand **Password protection settings** and customize the password policy settings to enforce. Choose **Save and Deploy**. This starts a CloudFormation deployment with the progress displayed in the upper right corner of the page.
 8. After creating and configuring your auth resources, you will need to pull them down from Amplify Studio. To do so, simply select "Local setup instructions" in the upper right-hand corner of the Studio console and run the CLI command it provides at the root directory of your app.
 
-> You can also [import](/[platform]/tools/console/auth/import/) existing Amazon Cognito resources and [manage users and groups](/[platform]/tools/console/auth/user-management//) through the Amplify Studio UI.
+> You can also [import](/[platform]/tools/console/auth/import/) existing Amazon Cognito resources and [manage users and groups](/[platform]/tools/console/auth/user-management/) through the Amplify Studio UI.
 
 </Block>
 
@@ -344,7 +344,7 @@ import { Amplify } from 'aws-amplify';
 import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import config './amplifyconfiguration.json';
+import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 
 export function App({ signOut, user }: WithAuthenticatorProps) {
@@ -367,7 +367,7 @@ import { Amplify } from 'aws-amplify';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import config './amplifyconfiguration.json';
+import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 
 function App({ signOut, user }) {
@@ -406,9 +406,8 @@ The `Authenticator` component offers a simple way to add authentication flows in
   import "@aws-amplify/ui-vue/styles.css";
 
   import { Amplify } from 'aws-amplify';
-  import config './amplifyconfiguration';
-
-  Amplify.configure(awsconfig);
+  import config from './amplifyconfiguration.json';
+  Amplify.configure(config);
 </script>
 
 <template>

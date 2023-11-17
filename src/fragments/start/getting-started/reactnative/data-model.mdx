@@ -26,15 +26,15 @@ The CLI should open this GraphQL schema in your text editor.
 
 ```graphql
 # This "input" configures a global authorization rule to enable public access to
-# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
-
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/react/build-a-backend/graphqlapi/customize-authorization-rules/
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
 type Todo @model {
   id: ID!
   name: String!
   description: String
 }
-
 ```
 
 The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](/[platform]/build-a-backend/graphqlapi/data-modeling/) library of Amplify.
@@ -165,15 +165,15 @@ import {
   Pressable,
   SafeAreaView
 } from 'react-native';
-import {generateClient} from 'aws-amplify/api';
-import {createTodo} from './src/graphql/mutations';
-import {listTodos} from './src/graphql/queries';
+import { generateClient } from 'aws-amplify/api';
+import { createTodo } from './src/graphql/mutations';
+import { listTodos } from './src/graphql/queries';
 
 import { Amplify } from 'aws-amplify';
 import amplifyconfig from './src/amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
-const initialState = {name: '', description: ''};
+const initialState = { name: '', description: '' };
 const client = generateClient();
 
 const App = () => {
@@ -191,7 +191,7 @@ const App = () => {
   async function fetchTodos() {
     try {
       const todoData = await client.graphql({
-        query:listTodos
+        query: listTodos
       });
       const todos = todoData.data.listTodos.items;
       setTodos(todos);
@@ -283,10 +283,10 @@ import {
   SafeAreaView
 } from 'react-native';
 import { generateClient } from 'aws-amplify/api';
-import {createTodo} from './src/graphql/mutations';
-import {listTodos} from './src/graphql/queries';
+import { createTodo } from './src/graphql/mutations';
+import { listTodos } from './src/graphql/queries';
 
-const initialState = {name: '', description: ''};
+const initialState = { name: '', description: '' };
 const client = generateClient();
 
 const App = () => {
@@ -387,9 +387,9 @@ Let's walk through some of the functions:
 
 **useEffect** - After the component renders, the `useEffect` hook is called and it invokes the `fetchTodos` function.
 
-__fetchTodos__ - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
+**fetchTodos** - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
 
-__addTodo__ - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `createTodo` mutation. A difference between the `listTodos` query and the `createTodo` mutation is that `createTodo` accepts an argument containing the variables needed for the mutation.
+**addTodo** - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `createTodo` mutation. A difference between the `listTodos` query and the `createTodo` mutation is that `createTodo` accepts an argument containing the variables needed for the mutation.
 
 ## Run locally
 

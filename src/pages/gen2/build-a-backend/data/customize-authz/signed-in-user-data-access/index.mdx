@@ -1,0 +1,42 @@
+export const meta = {
+  title: 'Signed-in user data access',
+  description: "The `private` authorization strategy restricts record access to only signed-in users authenticated through IAM, Cognito, or OpenID Connect, applying the authorization rule to all users. It provides a simple way to make data private to all authenticated users."
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+To restrict a record's access to every signed-in user, use the `private` authorization strategy.
+
+> If you want to restrict a record's access to a specific user, see [Per-user / owner-based data access](#per-user--owner-based-data-access). `private` authorization applies the authorization rule to **every** signed-in user access.
+
+```ts
+export const schema = a.schema({
+  Todo: a.model({
+    content: a.string()
+  }).authorization([
+    a.allow.private()
+  ])
+})
+```
+
+In the example above, anyone with a valid JWT token from Cognito user pool are allowed to access all Todos.
+
+You can also override the authorization provider. In the example below, `iam` is specified as the provider which allows you to use an "Authenticated Role" from the Cognito identity pool for public access instead of an API Key. When you run `amplify add auth`, the  Amplify CLI generates scoped down IAM policies for the "Authenticated role" in Cognito identity pool automatically.
+
+```ts
+export const schema = a.schema({
+  Todo: a.model({
+    content: a.string()
+  }).authorization([
+    a.allow.private("iam")
+  ])
+})
+```
+
+In addition, you can also use OpenID Connect with `private` authorization. See [OpenID Connect as an authorization provider](#using-oidc-authorization-provider).

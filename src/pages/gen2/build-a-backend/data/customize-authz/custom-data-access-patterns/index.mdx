@@ -1,0 +1,13 @@
+export const meta = {
+  title: 'Custom data access using Lambda functions',
+  description: "The multipleOwners rule allows granting a set of users access to a record by automatically creating an 'owners' field to store the allowed record owners. You can override the default owners field name by specifying inField with the desired field name to store the owner information. This allows dynamically managing which users can access a record by updating the owner field."
+};
+
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}

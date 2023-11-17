@@ -23,40 +23,6 @@ Before you begin, you will need:
 
 With Amplify Data, you can build a secure, real-time API backed by a database in minutes. After you define your data model using TypeScript, Amplify will deploy a real-time API for you. This API is powered by AWS AppSync and connected to an Amazon DynamoDB database. You can secure your API with authorization rules and scale to custom use cases with AWS Lambda.
 
-```mermaid
-graph LR
-  Z["amplifyconfiguration.ts\n(API endpoint URL and API key)"] --> Y["Amplify library\nAmplify.configure(...)"]
-  X[UI / component code] --> A
-  A["Amplify API client\nconst client = generateClient()"] --> B{API}
-  Y --> A
-  B --> C[DynamoDB tables]
-  B --> D[MySQL database]
-  B --> E[Postgres database]
-  B --> F[Lambda function]
-
-  style A fill:#9CF,stroke:#333
-  style B fill:#9CF,stroke:#333
-  style C fill:#9CF,stroke:#333
-  style D fill:#9CF,stroke:#333
-  style E fill:#9CF,stroke:#333
-  style F fill:#9CF,stroke:#333
-
-  subgraph "Frontend (Next.js/React, Vue, Angular, App)"
-    Z
-    Y
-    A
-    X
-  end
-
-  subgraph "Backend (data.ts)"
-    B
-    C
-    D
-    E
-    F
-  end
-```
-
 ## Building your data backend
 
 If you've run `npm create amplify` already, you should see an `amplify/data/resource.ts` file, which is the central location to configure your data backend. The most important element is the `schema` object, which defines your backend data models (`a.model()`) and custom queries (`a.query()`), mutations (`a.mutation()`), and subscriptions (`a.subscription()`).
@@ -97,30 +63,6 @@ npx amplify sandbox
 ## Connect your application code to the data backend
 
 Once the cloud sandbox is up and running, it will also create an `amplifyconfiguration.json` file, which includes the relevant connection information to your data backend, like your API endpoint URL and API key.
-
-```mermaid
-graph LR
-  Z["amplifyconfiguration.json\n(API endpoint URL and API key)"] --> Y["Amplify library\nAmplify.configure(...)"]
-  X[UI / component code] --> A
-  A["Amplify API client\nconst client = generateClient()"] -->|CRUDL operations| B{API}
-  Y --> A
-  B --> C[...]
-
-  style A fill:#9CF,stroke:#333
-  style Y fill:#9CF,stroke:#333
-
-  subgraph "Frontend (Next.js/React, Vue, Angular, App)"
-    Z
-    Y
-    A
-    X
-  end
-
-  subgraph "Backend (data.ts)"
-    B
-    C
-  end
-```
 
 To connect your frontend code to your backend, you need to:
 
@@ -275,9 +217,6 @@ Success! You've learned how to create your first real-time API and database with
 There's so much more to discover with Amplify Data. Learn more about:
 
 - [How to model your database table and their access patterns](/gen2/build-a-backend/data/data-modeling)
-- [Secure your API with fine-grained authorization rules](/gen2/build-a-backend/data/authorization-rules)
-- [Create relationships between different database model](/gen2/build-a-backend/data/data-modeling/#setup-relationships-between-models)
-- [Add custom business logic to the GraphQL API](/gen2/build-a-backend/data/custom-business-logic)
-- [Run search and result aggregation queries](/gen2/build-a-backend/data/search-and-result-aggregations/)
-- [Connect to machine learning services](/gen2/build-a-backend/data/connect-to-machine-learning-services/)
-- [Examples and solutions](/gen2/build-a-backend/data/examples-and-solutions/)
+- [Secure your API with fine-grained authorization rules](/gen2/build-a-backend/data/customize-authz)
+- [Create relationships between different database model](/gen2/build-a-backend/data/data-modeling/relationships)
+- [Add custom business logic](/gen2/build-a-backend/data/custom-business-logic)

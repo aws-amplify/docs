@@ -30,7 +30,7 @@ export function getStaticProps(context) {
   };
 }
 
-<MigrationAlert url={'/cli-legacy/auth'} />
+<MigrationAlert url={'/[platform]/tools/cli-legacy/auth-directive/'} />
 
 Use the `@auth` directive to configure authorization rules for public, sign-in user, per user, and per user group data access. **Authorization rules operate on the deny-by-default principle**. Meaning that if an authorization rule is not specifically configured, it is denied.
 
@@ -490,7 +490,7 @@ Your Lambda authorization function needs to return the following JSON:
 }
 ```
 
-Review the Amplify Library documentation to set the custom authorization token for [GraphQL API](/[platform]/build-a-backend/graphqlapi/customize-authz/#aws-lambda) and [DataStore](/[platform]/build-a-backend/more-features/datastore/authz-rules-setup/#configure-custom-authorization-logic-with-aws-lambda).
+Review the Amplify Library documentation to set the custom authorization token for [GraphQL API](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules#aws-lambda) and [DataStore](/[platform]/build-a-backend/more-features/datastore/authz-rules-setup/#configure-custom-authorization-logic-with-aws-lambda).
 
 ## Configure multiple authorization rules
 
@@ -798,7 +798,11 @@ These "Admin Roles" have special access privileges that are scoped based on thei
 
 </BlockSwitcher>
 
-Refer to the [sample code](/[platform]/build-a-backend/graphqlapi/graphql-from-nodejs/#iam-authorization) to learn how to sign the request to call the GraphQL API using IAM authorization.
+<InlineFilter filters={["javascript", "vue", "angular", "react", "nextjs", "react-native"]}>
+
+Refer to the [sample code](/[platform]/build-a-backend/graphqlapi/connect-from-server-runtime/#iam-authorization) to learn how to sign the request to call the GraphQL API using IAM authorization.
+
+</InlineFilter>
 
 ### How it works
 
