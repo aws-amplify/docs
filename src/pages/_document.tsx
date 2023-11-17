@@ -124,6 +124,23 @@ export default class MyDocument extends Document {
           <Main />
           <NextScript />
           <script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+          {process.env.BUILD_ENV !== 'production' ? (
+            <>
+              <script src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
+              <script
+                src="https://alpha.d2c.marketing.aws.dev/client/loader/v1/d2c-load.js"
+                defer
+              ></script>
+            </>
+          ) : (
+            <>
+              <script src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
+              <script
+                src="https://d2c.aws.amazon.com/client/loader/v1/d2c-load.js"
+                defer
+              ></script>
+            </>
+          )}
         </body>
       </Html>
     );
