@@ -1896,7 +1896,40 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/data/customize-authz/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/data/customize-authz/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/customize-authz/public-data-access/index.mdx',
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/customize-authz/per-user-per-owner-data-access/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/customize-authz/multi-user-data-access/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/customize-authz/signed-in-user-data-access/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/customize-authz/user-group-based-data-access/index.mdx'
+                    },
+                    // Will bring back once I verify the code snippets
+                    // {
+                    //   path: 'src/pages/gen2/build-a-backend/data/customize-authz/custom-data-access-patterns/index.mdx'
+                    // },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/customize-authz/using-oidc-authorization-provider/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/customize-authz/configure-custom-identity-and-group-claim/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/customize-authz/use-iam-authz-within-appsync-console/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/data/customize-authz/grant-lambda-function-access-to-api/index.mdx'
+                    },
+                  ]
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/data/override-resources/index.mdx'

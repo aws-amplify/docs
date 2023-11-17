@@ -1,0 +1,40 @@
+export const meta = {
+  title: 'Grant Lambda function access to API & Data',
+  description: "Amplify Data uses a \"deny-by-default\" authorization model. To allow access for Lambda functions or other services authenticated via IAM, their IAM role names must be explicitly listed in the `allowListedRoleNames` property when defining the Data resource. This grants privileged access based on their IAM policy rather than their `.authorization()` rules."
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Lambda functions' IAM execution role do not immediately grant access to Amplify's GraphQL API because the API operates on a "deny-by-default"-basis. Access need to be explicitly granted.
+
+To grant an external AWS Resource or an IAM role access to this GraphQL API, you need to explicitly list the IAM role by adding them to `adminRoles` property.
+
+```ts title="amplify/data/resource.ts"
+// amplify/data/resource.ts
+import { a, defineData, type ClientSchema } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  Todo: a.model({
+    name: a.string(),
+    description: a.string(),
+  }),
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    // Pass in the Lambda IAM Role to grant full read/write access to queries, mutations, and subscriptions the API for models via IAM authorization.
+    allowListedRoleNames: ["lambdaRole"],
+  },
+});
+```
+
+These "Admin Roles" have special access privileges that are scoped based on their [IAM policy](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html#aws-iam-authorization) instead of any particular `@auth` rule.
