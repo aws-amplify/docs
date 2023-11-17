@@ -82,7 +82,7 @@ query byUser($user: String!) {
 }
 ```
 
-Learn more about [configuring the `@index` directive here](/[platform]/build-a-backend/graphqlapi/data-modeling//#configure-a-secondary-index).
+Learn more about [configuring the `@index` directive here](/[platform]/build-a-backend/graphqlapi/data-modeling/#configure-a-secondary-index).
 
 There are no other breaking changes to your GraphQL API when using the new default identity claim. The resolvers will store these values in your DynamoDB tables in the format of `<sub>::<username>`, and return `username` to the client code by default.
 
@@ -104,7 +104,7 @@ query MyQuery {
 }
 ```
 
-Another example of changing your queries is if you are using OpenSearch for a custom query like the one below, you will need your queries to account for the format of the stored owner field with a matching operation (https://docs.amplify.aws/cli/graphql/search-and-result-aggregations/#supported-search-operations). Here's an example of using the `match` operation:
+Another example of changing your queries is if you are using OpenSearch for a custom query like the one below, you will need your queries to account for the format of the stored owner field with a matching operation. See [supported search operations](/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/). Here's an example of using the `match` operation:
 
 ```graphql
 query SearchAndSort {

@@ -262,6 +262,10 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/upgrade-guide/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/troubleshooting/index.mdx'
+                },
+
+                {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/index.mdx',
                   children: [
                     {
@@ -869,7 +873,7 @@ export const directory = {
                 },
                 { path: 'src/pages/[platform]/tools/cli/commands.tsx' },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/index.mdx',
+                  path: 'src/pages/[platform]/tools/cli/graphqlapi/index.mdx',
                   children: [
                     {
                       path: 'src/pages/[platform]/tools/cli/graphqlapi/directives-reference/index.mdx'
@@ -998,25 +1002,25 @@ export const directory = {
                   path: 'src/pages/[platform]/tools/cli/reference/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/tools/cli/reference/diagnose/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/reference/feature-flags/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/tools/cli/reference/files/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/tools/cli/reference/iam/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli/reference/iam-roles-mfa/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/tools/cli/reference/ssm-parameter-store/index.mdx'
+                      path: 'src/pages/[platform]/tools/cli/reference/files/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli/reference/usage-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/reference/diagnose/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/reference/feature-flags/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/reference/ssm-parameter-store/index.mdx'
                     }
                   ]
                 }
@@ -1108,15 +1112,52 @@ export const directory = {
                 }
               ]
             },
-            { path: 'src/pages/[platform]/tools/libraries/index.mdx' }
+            {
+              path: 'src/pages/[platform]/tools/libraries/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/tools/libraries/configure-categories/index.mdx'
+                }
+              ]
+            }
           ]
         },
         {
-          path: 'src/pages/[platform]/reference/index.mdx',
-          children: [
-            { path: 'src/pages/[platform]/reference/flutter-api/index.mdx' }
+          isExternal: true,
+          route: 'https://aws-amplify.github.io/amplify-js/api/',
+          title: 'Reference',
+          description: 'Reference',
+          platforms: [
+            'javascript',
+            'nextjs',
+            'react',
+            'react-native',
+            'angular',
+            'vue'
           ]
         },
+        {
+          isExternal: true,
+          route: 'https://aws-amplify.github.io/amplify-swift/docs/',
+          title: 'Reference',
+          description: 'Reference',
+          platforms: ['swift']
+        },
+        {
+          isExternal: true,
+          route:
+            'https://aws-amplify.github.io/aws-sdk-android/docs/reference/',
+          title: 'Reference',
+          description: 'Reference',
+          platforms: ['android']
+        },
+        {
+          route: '/[platform]/reference/flutter-api/',
+          title: 'Reference',
+          description: 'Reference',
+          platforms: ['flutter']
+        },
+
         {
           path: 'src/pages/[platform]/prev/index.mdx',
           children: [
@@ -1210,6 +1251,9 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/set-up-graphql-api/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/connect-to-api/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/api-graphql-concepts/index.mdx'
                     },
                     {
@@ -1225,6 +1269,15 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/working-with-files/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/optimistic-ui/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/connect-from-server-runtime/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/offline/index.mdx'
                     },
                     {
@@ -1232,6 +1285,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/existing-resources/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/graphqlapi/upgrade-guide/index.mdx'
                     }
                   ]
                 },
@@ -1347,7 +1403,6 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/prev/build-a-backend/sever-side-rendering/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/prev/build-a-backend/utilities/index.mdx',
@@ -1505,6 +1560,9 @@ export const directory = {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/set-up-geo/index.mdx'
                         },
                         {
+                          path: 'src/pages/[platform]/build-a-backend/more-features/geo/configure-maps/index.mdx'
+                        },
+                        {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/maps/index.mdx'
                         },
                         {
@@ -1512,6 +1570,9 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/geofences/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/configure-geofencing/index.mdx'
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/existing-resources/index.mdx'
@@ -1599,14 +1660,6 @@ export const directory = {
                 }
               ]
             },
-            {
-              path: 'src/pages/[platform]/prev/tools/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/prev/tools/libraries/index.mdx'
-                }
-              ]
-            }
           ]
         },
         {

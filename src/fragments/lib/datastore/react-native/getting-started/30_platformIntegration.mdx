@@ -9,6 +9,13 @@ cd AmplifyDataStoreRN
 npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
 ```
 
+`@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0`, open the _Podfile_ located in the _ios_ directory and update the `target` value:
+
+```diff
+- platform :ios, min_ios_version_supported
++ platform :ios, 13.0
+```
+
 You will also need to install the pod dependencies for iOS:
 
 ```sh
@@ -41,8 +48,7 @@ DataStore.configure({
 
 <Callout>
 
-The SQLite storage adapter does not currently support custom primary keys.
-Disable custom primary key in `amplify/cli.json` by setting `graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField` to `false`.
+The SQLite storage adapter does not currently support custom primary keys. Disable custom primary key in `amplify/cli.json` by setting `graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField` to `false`.
 
 </Callout>
 </Block>
@@ -81,9 +87,8 @@ DataStore.configure({
 
 <Callout>
 
-The SQLite storage adapter does not currently support custom primary keys.
-Disable custom primary key in `amplify/cli.json` by setting `graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField` to `false`.
+The SQLite storage adapter does not currently support custom primary keys. Disable custom primary key in `amplify/cli.json` by setting `graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField` to `false`.
 
 </Callout>
 </Block>
-</BlockSwitcher> 
+</BlockSwitcher>

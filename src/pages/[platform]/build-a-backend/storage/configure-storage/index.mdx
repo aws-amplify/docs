@@ -1,19 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-                  
+
 export const meta = {
   title: 'Configure Storage',
-  description: 'Use Amplify CLI to create and manage cloud-connected file and data storage for your app.',
+  description:
+    'Use Amplify CLI to create and manage cloud-connected file and data storage for your app.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -28,7 +29,6 @@ export function getStaticProps(context) {
     }
   };
 }
-          
 
 Amplify CLI's `storage` category enables you to create and manage cloud-connected file & data storage. Use the `storage` category when you need to store:
 
@@ -112,7 +112,7 @@ Granting access to guest users will allow the specified CRUD operations on objec
 
 #### Individual Group access
 
-Select `Individual Groups` to scope access permissions based on [Cognito User Groups](/[platform]/cli/tools/auth/admin-actions/)
+Select `Individual Groups` to scope access permissions based on [Cognito User Groups](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/)
 
 ```console
 ? Select groups:
