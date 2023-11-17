@@ -1984,6 +1984,9 @@ export const directory = {
             },
             {
               path: 'src/pages/gen2/reference/iam-policy/index.mdx'
+            },
+            {
+              path: 'src/pages/gen2/reference/telemetry/index.mdx'
             }
           ]
         }
