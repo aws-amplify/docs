@@ -1986,6 +1986,9 @@ export const directory = {
                   ]
                 },
                 {
+                  path: 'src/pages/gen2/build-a-backend/data/connect-from-server-runtime/index.mdx'
+                },
+                {
                   path: 'src/pages/gen2/build-a-backend/data/override-resources/index.mdx'
                 }
               ]
@@ -1995,6 +1998,9 @@ export const directory = {
             },
             {
               path: 'src/pages/gen2/build-a-backend/functions/index.mdx'
+            },
+            {
+              path: 'src/pages/gen2/build-a-backend/server-side-rendering/index.mdx'
             },
             {
               path: 'src/pages/gen2/build-a-backend/add-aws-services/index.mdx',
