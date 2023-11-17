@@ -1,6 +1,6 @@
 export const meta = {
   title: 'Create, update, and delete application data',
-  description: 'Learn how to mutate application data.'
+  description: 'Mutate application data in an API by generating the client, adding items, updating existing items, deleting items, troubleshooting unauthorized errors, and canceling requests.'
 };
 
 export function getStaticProps(context) {
@@ -86,13 +86,13 @@ const { data: deletedTodo, errors } = await client.models.Todo.delete(toBeDelete
 
 <Callout>
 
-**Note:** When deleting items in many-to-many relationships, the join table records must be deleted before deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record before deleting a Post or Tag. Review [Many-to-many relationships](TK) for more details.
+**Note:** When deleting items in many-to-many relationships, the join table records must be deleted before deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record before deleting a Post or Tag. Review [Many-to-many relationships](/gen2/build-a-backend/data/data-modeling/relationships/) for more details.
 
 </Callout>
 
 <Accordion title='Troubleshooting unauthorized errors' headingLevel='4' eyebrow='Learn more'>
 
-Each API request uses a authorization mode. If you get unauthorized errors, you may need to update your authorization mode. To override the default authorization mode defined in your **amplify/data/resource.ts** file, pass an `authMode` property to the request or the client. The following examples show how you can mutate data with a custom authorization mode:
+Each API request uses an authorization mode. If you get unauthorized errors, you may need to update your authorization mode. To override the default authorization mode defined in your **amplify/data/resource.ts** file, pass an `authMode` property to the request or the client. The following examples show how you can mutate data with a custom authorization mode:
 
 ```ts
 import { generateClient } from 'aws-amplify/api';
