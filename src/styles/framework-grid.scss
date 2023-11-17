@@ -19,11 +19,16 @@
   }
   &__item {
     text-align: center;
+    font-size: var(--amplify-font-sizes-small);
+    &--text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--amplify-space-xs);
+    }
   }
   &__link {
     display: flex;
     flex-direction: column;
-    font-size: var(--amplify-font-sizes-small);
     gap: var(--amplify-space-xs);
     color: var(--amplify-colors-font-primary);
     text-decoration: none;

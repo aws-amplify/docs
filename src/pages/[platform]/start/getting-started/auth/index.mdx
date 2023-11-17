@@ -94,9 +94,16 @@ npm install @aws-amplify/ui-react-native react-native-get-random-values react-na
 npm install @aws-amplify/ui-react-native react-native-safe-area-context react-native-get-random-values react-native-url-polyfill
 ```
 
+`@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0`, open the _Podfile_ located in the _ios_ directory and update the `target` value:
+
+```diff
+- platform :ios, min_ios_version_supported
++ platform :ios, 13.0
+```
+
 You will also need to install the pod dependencies for iOS:
 
-```sh
+```bash
 npx pod-install
 ```
 
@@ -119,35 +126,39 @@ npm install @aws-amplify/ui-vue
 
 <InlineFilter filters={['angular']}>
 
-Add the **Amplify Authenticator UI Module** to `src/app/app.module.ts`:
+Add the **Amplify Authenticator UI Module** to `src/app/app.component.ts`:
 
 ```ts
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { TodosComponent } from './todos/todos.component';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-
-@NgModule({
-  declarations: [AppComponent],
+@Component({
+  selector: 'app-root',
+  standalone: true,
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    /* configure App with AmplifyAuthenticatorModule */
+    CommonModule,
+    RouterOutlet,
+    TodosComponent,
     AmplifyAuthenticatorModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
-export class AppModule {}
+export class AppComponent {
+  title = 'amplifyapp';
+}
 ```
 
-First, import Authenticator style inside your stylesheet (e.g. `src/style.css`):
+Open your angular.json file, and add `node_modules/@aws-amplify/ui-angular/theme.css` to styles array in your angular.json. This array is located in `projects.<project-name>.architect.build.options`.
 
-```css
-@import '~@aws-amplify/ui-angular/theme.css';
+```json
+"styles": [
+  "node_modules/@aws-amplify/ui-angular/theme.css",
+  "src/styles.css"
+],
 ```
 
 Navigate to `src/app/app.component.html`, and wrap `app-todos` with `<amplify-authenticator>` to enable authentication:
@@ -165,14 +176,10 @@ Navigate to `src/app/app.component.html`, and wrap `app-todos` with `<amplify-au
 </amplify-authenticator>
 ```
 
-#### Unhandled Promise Console Warnings
+Finally run your app or restart it for the styling to take effect:
 
-If you see `Unhandled Promise rejection: [message] ; zone: <root> ; ...` errors on console, you can add the following code after you import zone.js inside `src/polyfills.ts` file:
-
-```ts
-import 'zone.js/dist/zone'; // Included with Angular CLI.
-
-(window as any).Zone['__zone_symbol__ignoreConsoleErrorUncaughtError'] = true;
+```bash
+npm start
 ```
 
 </InlineFilter>

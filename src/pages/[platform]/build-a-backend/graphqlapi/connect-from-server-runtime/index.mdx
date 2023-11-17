@@ -5,7 +5,7 @@ export const meta = {
   title: 'Connect to data from server-side runtimes',
   description:
     'Learn more about how to call an AppSync GraphQL API from a NodeJS app or a Lambda function',
-  platforms: ['javascript', 'nextjs', 'vue', 'angular', 'react', 'react-native']
+  platforms: ['javascript', 'nextjs', 'vue', 'angular', 'react', 'react-native', 'android', 'swift']
 };
 
 export const getStaticPaths = async () => {
@@ -21,14 +21,14 @@ export function getStaticProps(context) {
   };
 }
 
-This guide walks through how you can connect to the Amplify GraphQL API from any server-side runtimes using the GraphQL Protocol. For Next.js applications, Amplify provides first-class support for [App Router (React Server Components, Route Handlers, and Server Actions)](https://nextjs.org/docs/app) and [Pages Router (Components, API Routes)](https://nextjs.org/docs/pages), and [Middleware](https://nextjs.org/docs/app/building-your-application/routing/middleware). Review [Connect to GraphQL API from AWS Lambda](#connect-to-graphql-api-from-aws-lambda) if need to call the Amplify GraphQL API from a Node.js AWS Lambda function.
+This guide walks through how you can connect to the Amplify GraphQL API from any server-side runtimes. For Next.js applications, Amplify provides first-class support for [App Router (React Server Components, Route Handlers, and Server Actions)](https://nextjs.org/docs/app) and [Pages Router (Components, API Routes)](https://nextjs.org/docs/pages), and [Middleware](https://nextjs.org/docs/app/building-your-application/routing/middleware). Review [Connect to GraphQL API from AWS Lambda](#connect-to-graphql-api-from-aws-lambda) if need to call the Amplify GraphQL API from a Node.js AWS Lambda function.
 
 ## Connect to GraphQL API from a Next.js server runtime
 
 Before you begin, you will need:
 
-- [A Next.js application created](/[platform]/start/project-setup/create-application/)
-- [Installed and configured Amplify libraries for Next.js](/[platform]/build-a-backend/server-side-rendering/)
+- [A Next.js application created](/nextjs/start/project-setup/create-application/)
+- [Installed and configured Amplify libraries for Next.js](/nextjs/build-a-backend/server-side-rendering/)
 - [Deployed a GraphQL API via the Amplify CLI, AWS CDK](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/), or directly using [AWS AppSync](https://aws.amazon.com/appsync/)
 
 ### Step 1 - Choose the correct GraphQL API client for Next.js server runtimes
