@@ -145,9 +145,9 @@ amplify console
 In your app's entry point (specifically, **App.js**, **index.js**, **\_app.js**, or **main.js**), import and load the configuration file:
 
 ```javascript
-import { Amplify, Auth } from 'aws-amplify';
-import config '';
-Amplify.configure(awsconfig);
+import { Amplify } from 'aws-amplify';
+import config from './amplifyconfiguration.json';
+Amplify.configure(config);
 ```
 
 </Block>
@@ -344,7 +344,7 @@ import { Amplify } from 'aws-amplify';
 import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import config './amplifyconfiguration.json';
+import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 
 export function App({ signOut, user }: WithAuthenticatorProps) {
@@ -367,7 +367,7 @@ import { Amplify } from 'aws-amplify';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import config './amplifyconfiguration.json';
+import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 
 function App({ signOut, user }) {
@@ -406,9 +406,8 @@ The `Authenticator` component offers a simple way to add authentication flows in
   import "@aws-amplify/ui-vue/styles.css";
 
   import { Amplify } from 'aws-amplify';
-  import config './amplifyconfiguration';
-
-  Amplify.configure(awsconfig);
+  import config from './amplifyconfiguration.json';
+  Amplify.configure(config);
 </script>
 
 <template>
