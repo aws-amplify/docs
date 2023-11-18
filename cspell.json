@@ -1539,7 +1539,8 @@
     "SIWA",
     "hotswap",
     "clijson",
-    "parametersjson"
+    "parametersjson",
+    "nextamplifygen"
   ],
   "flagWords": [
     "hte",
