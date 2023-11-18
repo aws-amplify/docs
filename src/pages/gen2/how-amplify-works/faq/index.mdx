@@ -16,6 +16,10 @@ export function getStaticProps(context) {
 
 In the launch of public preview, Amplify code-first (Gen 2) supports Auth and Data. Other use cases can be implemented using AWS Cloud Development Kit (AWS CDK) constructs.
 
+**Does Amplify Gen 2 support DataStore?**
+
+No, in public preview, Amplify code-first (Gen 2) supports GraphQL APIs without DataStore.
+
 **What if we want to add a feature like AI/ML or Amazon Location Service to our application in Gen 2?**
 
 Because Amplify builds on the AWS CDK, any of the 175+ AWS services can can be added to the project using [custom resources](../../build-a-backend/add-aws-services/custom-resources/) and L2/L1 AWS CDK Constructs.
@@ -25,6 +29,7 @@ Because Amplify builds on the AWS CDK, any of the 175+ AWS services can can be a
 Amplify’s Data and Auth CDK constructs are generally available. We recommend using these with Amplify’s tooling-first (Gen 1) developer experience. This will help you seamlessly transition to Amplify code-first (Gen 2) when it is no longer in preview.
 
 **Is Amplify Gen 2 backward compatible with existing Amplify projects on Gen 1?**
+
 No.
 
 **Is there a way to upgrade an existing Amplify project from Gen 1 to Gen 2?**
@@ -42,3 +47,7 @@ Amplify Gen 2 offers support for all web frameworks that are supported in the Am
 **Does Amplify Gen 2 support mobile development?**
 
 You can use a Gen 2 backend with a Swift, Kotlin, or Flutter app; however, in public preview, Amplify only supports TypeScript for writing backend logic.
+
+**What if I'm already building with AWS CDK? How should I proceed?**
+
+If you already have an AWS CDK project, you can use the L3 constructs that Amplify provides. If you're starting a new project with auth and data, then start with Amplify because you can always use AWS CDK with it.
