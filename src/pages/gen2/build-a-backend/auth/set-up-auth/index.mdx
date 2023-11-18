@@ -30,7 +30,7 @@ First you will need to set up your Amplify app before defining your Amplify Auth
 You can create a new Amplify app by running the command below in your terminal.
 
 ```bash title=Terminal
-npm create amplify
+npm create amplify@latest
 ```
 
 Once your Amplify app is created, you will see a `backend` folder that is created in your app project. If you navigate to your backend folder, you will see an `amplify/auth/resource.ts` file that contains the definition of your Amplify Auth resources.
@@ -70,8 +70,8 @@ import { defineAuth } from '@aws-amplify/backend';
 
 export const auth = defineAuth({
   loginWith: {
-    email: true,
-  },
+    email: true
+  }
 });
 ```
 
@@ -182,8 +182,6 @@ Now that you completed setting up Amplify Auth with username and password, you m
 
 - [Add social provider sign-in](../add-social-provider/)
 - [Manage MFA settings](../manage-mfa/)
-
-
 
 TODO Review
 

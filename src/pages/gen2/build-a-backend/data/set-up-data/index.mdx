@@ -13,7 +13,7 @@ export function getStaticProps(context) {
 
 }
 
-In this guide, you will learn how to set up Amplify Data. This includes building a real-time API and database using TypeScript to define your data model, and securing your API with authorization rules. We will also explore using AWS Lambda to scale to custom use cases. 
+In this guide, you will learn how to set up Amplify Data. This includes building a real-time API and database using TypeScript to define your data model, and securing your API with authorization rules. We will also explore using AWS Lambda to scale to custom use cases.
 
 Before you begin, you will need:
 
@@ -25,7 +25,7 @@ With Amplify Data, you can build a secure, real-time API backed by a database in
 
 ## Building your data backend
 
-If you've run `npm create amplify` already, you should see an `amplify/data/resource.ts` file, which is the central location to configure your data backend. The most important element is the `schema` object, which defines your backend data models (`a.model()`) and custom queries (`a.query()`), mutations (`a.mutation()`), and subscriptions (`a.subscription()`).
+If you've run `npm create amplify@latest` already, you should see an `amplify/data/resource.ts` file, which is the central location to configure your data backend. The most important element is the `schema` object, which defines your backend data models (`a.model()`) and custom queries (`a.query()`), mutations (`a.mutation()`), and subscriptions (`a.subscription()`).
 
 ```ts title="backend/data/resource.ts"
 import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
@@ -212,7 +212,7 @@ You can also use `.onCreate`, `.onUpdate`, or `.onDelete` to subscribe to specif
 
 Success! You've learned how to create your first real-time API and database with Amplify Data.
 
-## Next steps 
+## Next steps
 
 There's so much more to discover with Amplify Data. Learn more about:
 
