@@ -78,7 +78,8 @@ npx amplify sandbox
 
 Each of the `resource.ts` files is where you _define_ the corresponding backend resource. If you open up the `/amplify/data/resource.ts` file in your text editor, you'll see some generated code already there:
 
-```ts {6} showLineNumbers
+```ts {6} showLineNumbers title="amplify/data/resource.ts"
+// amplify/data/resource.ts
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 const schema = a.schema({
@@ -105,7 +106,8 @@ export const data = defineData({ schema });
 
 Let's make a quick change to our data model and add a `done` field which will be a `boolean` which can be set to `true` or `false` depending if our Todo list item is complete. Let's also add a priority field, which will be an enum. This field type will allow for just a few options to be stored - low, medium, or high.
 
-```diff
+```diff title="amplify/data/resource.ts"
+// amplify/data/resource.ts
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 const schema = a.schema({
@@ -129,6 +131,7 @@ Once you save your change to the data model, your changes will be deployed in se
 The definitions are imported and set in the `backend` file. We won't need to change anything in this file right now, but you can see its contents which define a backend with our data and auth configurations from their respective files.
 
 ```ts title="amplify/backend.ts"
+// amplify/backend.ts
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource.js';
 import { data } from './data/resource.js';
@@ -144,18 +147,54 @@ defineBackend({
 Now let's work on our authentication configuration. Similar to the `data/resource.ts` we just worked on, the `auth/resource.ts` file has code to define our authentication configuration. In this case, setting the authentication method to login with email.
 
 ```ts title="amplify/auth/resource.ts"
+// amplify/auth/resource.ts
 import { defineAuth } from '@aws-amplify/backend';
 
+/**
+ * Define and configure your auth resource
+ * When used alongside data, it is automatically configured as an auth provider for data
+ * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ */
 export const auth = defineAuth({
   loginWith: {
-    email: true
+    email: true,
+    // add social providers
+    externalProviders: {
+      /**
+       * first, create your secrets using `amplify sandbox secret`
+       * then, import `secret` from `@aws-amplify/backend`
+       * @see https://docs.amplify.aws/gen2/deploy-and-host/sandbox-environments/features/#setting-secrets
+       */
+      // loginWithAmazon: {
+      //   clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
+      //   clientSecret: secret('LOGINWITHAMAZON_CLIENT_SECRET'),
+      // }
+    }
+  },
+  /**
+   * enable multifactor authentication
+   * @see https://docs.amplify.aws/gen2/build-a-backend/auth/manage-mfa
+   */
+  // multifactor: {
+  //   mode: 'OPTIONAL',
+  //   sms: {
+  //     smsMessage: (code) => `Your verification code is ${code}`,
+  //   },
+  // },
+  userAttributes: {
+    /** request additional attributes for your app's users */
+    // profilePicture: {
+    //   mutable: true,
+    //   required: false,
+    // },
   }
 });
 ```
 
 Let's customize this a bit for our app. We can add a subject line to the email that our users get when they are asked to verify their account by adding an object to define more properties about our email authentication.
 
-```ts
+```ts title="amplify/auth/resource.ts"
+// amplify/auth/resource.ts
 import { defineAuth } from '@aws-amplify/backend-auth';
 
 export const auth = defineAuth({
@@ -179,9 +218,10 @@ First, install the Amplify UI component library:
 npm add @aws-amplify/ui-react
 ```
 
-Next, in your app's `pages/_app.ts` add the following imports and wrap your App in the `withAuthenticator` function:
+Next, in your app's `pages/_app.tsx` add the following imports and wrap your App in the `withAuthenticator` function:
 
-```ts title="pages/_app.ts"
+```ts title="pages/_app.tsx"
+// pages/_app.tsx
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
 import config from '@/amplifyconfiguration.json';
@@ -205,7 +245,8 @@ Run your application with `npm run dev` and navigate to `http://localhost:3000`.
 
 Now, let's display data on our app's frontend. Modify your app's home page file, `pages/index.tsx`, with the following contents:
 
-```ts title="pages/index.tsx"
+```tsx title="pages/index.tsx"
+// pages/index.tsx
 import { useState, useEffect } from 'react';
 import { generateClient } from 'aws-amplify/data';
 import { Schema } from '@/amplify/data/resource';
@@ -243,9 +284,11 @@ Once you save the file and navigate back to `http://localhost:3000` you should s
 
 ### Create a new To Do item
 
-Let's update the return of the above component to also have a button for creating a new to do list item, prompting the user to add the title and description. In a production app you would want to create a full form and run the create method on form submission.
+Let's update the return statement of the above component to also have a button for creating a new to do list item, prompting the user to add the title and description. In a production app you would want to create a full form and run the create method on form submission.
 
-```ts title="pages/index.tsx"
+```tsx title="pages/index.tsx"
+// pages/index.tsx
+// ...
   return (
     <main>
       <h1>Hello, Amplify 👋</h1>
@@ -283,8 +326,7 @@ If you already have your project remotely hosted in a Git repository, you can sk
 
 ### Connect branch in Amplify console
 
-1. To get started with Gen 2, log in to [AWS console](console.aws.amazon.com/console/home?#amplify) and navigate to your preferred region. (the Amplify console is available in [19 regions](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplify_region)).
-
+1. To get started with Gen 2, log in to [AWS console](https://console.aws.amazon.com/console/home?#amplify) and navigate to your preferred region. (the Amplify console is available in [19 regions](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplify_region)).
 2. Choose the new _Build an app_ Gen 2 option. If you've never created apps with Amplify before, choose _Build an app_ from the purple banner (top screenshot). If you have Amplify apps, you can find the option under _New app > Build an app (Gen 2)_.
 
 ![gen2](/images/gen2/getting-started/console1.png)
