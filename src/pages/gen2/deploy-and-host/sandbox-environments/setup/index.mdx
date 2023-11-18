@@ -9,55 +9,47 @@ export function getStaticProps(context) {
       meta
     }
   };
-
 }
 
 Amplify gives every developer a personal cloud sandbox environment that provides isolated development spaces to rapidly build, test, and iterate on a fullstack app. You and each developer on your team gets their own disposable sandbox environment connected to cloud resources.
 
-![How cloud sandbox environments work.](/images/gen2/how-amplify-works/sandbox.png)
+![How cloud sandbox environments work](/images/gen2/how-amplify-works/sandbox.png)
 
 ## Create a new sandbox environment
 
-You can set up a new sandbox environment on your machine once you have an Amplify app set up.  
+You can set up a new sandbox environment on your machine once you have an Amplify app set up. If you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
 
-Before you begin, you will need:
-
-- An Amplify app set up using the [Quickstart](../../../start/quickstart/) instructions
-- `@aws-amplify/backend-cli` installed in your `package.json > devDependencies`. If not, run `npm install @aws-amplify/backend-cli`
-- Your local machine configured to deploy to AWS
-
-Open the terminal and run the following command:
+First, open the terminal and run the following command:
 
 ```bash
-cd myapp
 npx amplify sandbox
 ```
 
-When you deploy a cloud sandbox, Amplify creates an AWS CloudFormation stack `amplify-{appName}-{$whoami}-sandbox` in your AWS account with the resources configured in your `amplify` folder.
+When you deploy a cloud sandbox, Amplify creates an AWS CloudFormation stack `amplify-<app-name>-<$(whoami)>-sandbox` in your AWS account with the resources configured in your `amplify/` folder.
 
-![sandbox](/images/gen2/sandbox/sandbox1.png)
+![terminal output of a successful cloud sandbox deployment](/images/gen2/sandbox/sandbox1.png)
 
 After the successful deployment of the CloudFormation stack, the sandbox tracks and monitors for file changes in your `amplify` folder and performs real-time updates to the CloudFormation stack. This functionality is built leveraging the hotswap capability of the AWS CDK.
 
-![sandbox](/images/gen2/sandbox/sandbox2.png)
+![terminal output of a successful cloud sandbox deployments with hot-swapped resources](/images/gen2/sandbox/sandbox2.png)
 
 ### Terminating a sandbox environment
 
-After testing all the changes associated to the backend, you can terminate the sandbox session via `Ctrl+C` and can then choose whether you want to keep or delete all the resources in the sandbox environment.
+After testing all the changes associated to the backend, you can terminate the sandbox session via <kbd>Ctrl</kbd>+<kbd>c</kbd> and can then choose whether you want to keep or delete all the resources in the sandbox environment.
 
-![sandbox](/images/gen2/sandbox/sandbox3.png)
+![terminal output after exiting sandbox with ctrl+c and prompt for resource deletion](/images/gen2/sandbox/sandbox3.png)
 
 ## Manage sandbox environments
 
-You can view and manage all the sandbox environments for your team in the new [Amplify console](https://us-east-1.console.aws.amazon.com/amplify/apps/sandboxes). This is useful for a team leader to audit all the Amplify sandbox environments deployed within an account. 
+You can view and manage all the sandbox environments for your team in the new [Amplify console](https://us-east-1.console.aws.amazon.com/amplify/apps/sandboxes). This is useful for a team leader to audit all of the Amplify sandbox environments deployed within an account.
 
 Choose **Manage Sandboxes** to get started:
 
-![sandbox](/images/gen2/sandbox/sandbox4.png)
+![Amplify console view with a deployed Amplify app and navigation for "Manage sandboxes"](/images/gen2/sandbox/sandbox4.png)
 
 You can then check the number, status, and last updates for sandbox environments across your team. You can also use the console to delete sandbox environments when no longer needed.
 
-![sandbox](/images/gen2/sandbox/sandbox5.png)
+![Amplify console view for "Manage sandbox" showing one active cloud sandbox](/images/gen2/sandbox/sandbox5.png)
 
 ## Best Practices
 

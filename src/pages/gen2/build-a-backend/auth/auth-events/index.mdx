@@ -1,7 +1,6 @@
 export const meta = {
   title: 'Listen to auth events',
-  description:
-    'Learn how to listen to auth events.'
+  description: 'Learn how to listen to auth events.'
 };
 
 export function getStaticProps(context) {
@@ -15,10 +14,7 @@ export function getStaticProps(context) {
 
 Tapping into auth events allows you to react to user flows in real time and trigger custom business logic. For example, you may want to capture data, synchronize your app's state, and personalize the user's experience. You can listen to and respond to events across the Auth lifecycle such as sign-in and sign-out. In this guide we will describe how you can listen to these auth events.
 
-Before you begin, you will need:
-
-- An Amplify app set up (see the [Quickstart](../../../start/quickstart/) if you need to set up an app)
-- The Amplify libraries installed and configured
+If you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
 
 ## Expose hub events triggered in response to auth actions
 
@@ -34,7 +30,7 @@ Channels are logical group names that help you organize dispatching and listenin
 
 Here is a basic example of setting up a listener that logs an event emitted through the `auth` channel:
 
-```javascript
+```js
 import { Hub } from 'aws-amplify/utils';
 
 const listener = (data) => {
@@ -88,7 +84,7 @@ You can also stop listening for messages by calling the result of the `Hub.liste
 
 To stop listening to a certain event, you need to wrap the listener function with a variable and call it once you no longer need it:
 
-```javascript
+```js
 /* start listening for messages */
 const hubListenerCancelToken = Hub.listen('auth', (data) => {
   console.log('Listening for all auth events: ', data.payload.data);

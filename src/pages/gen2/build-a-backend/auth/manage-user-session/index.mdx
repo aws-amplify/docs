@@ -1,7 +1,6 @@
 export const meta = {
   title: 'Manage user session and credentials',
-  description:
-    'Learn how to manage your user sessions and credentials.'
+  description: 'Learn how to manage your user sessions and credentials.'
 };
 
 export function getStaticProps(context) {
@@ -10,15 +9,11 @@ export function getStaticProps(context) {
       meta
     }
   };
-
 }
 
-Amplify Auth provides access to current user sessions and tokens to help you retrieve your user's information to determine if they are signed in with a valid session and control their access to your app. You can manage tokens and expiration times and revoke sessions. In this guide we will review how to retrieve your user’s session and understand what token management options are available.
+Amplify Auth provides access to current user sessions and tokens to help you retrieve your user's information to determine if they are signed in with a valid session and control their access to your app. You can manage tokens and expiration times and revoke sessions. In this guide we will review how to retrieve your user's session and understand what token management options are available.
 
-Before you begin, you will need:
-
-- An Amplify project with the Auth category configured
-- A test user signed in
+If you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
 
 ## Retrieve your current authenticated user
 
@@ -114,7 +109,7 @@ async function currentSession() {
 </Block>
 <Block name="JavaScript">
 
-```javascript
+```js
 import { fetchAuthSession } from 'aws-amplify/auth';
 
 async function currentSession() {
@@ -231,7 +226,7 @@ Amplify.configure(
 </Block>
 <Block name="JavaScript">
 
-```javascript
+```js
 import { Amplify } from 'aws-amplify';
 import { sessionStorage } from 'aws-amplify/utils';
 import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
@@ -306,7 +301,7 @@ Amplify.configure(
 </Block>
 <Block name="JavaScript">
 
-```javascript
+```js
 import { Amplify } from 'aws-amplify';
 import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
@@ -348,12 +343,6 @@ Amplify.configure(
 </BlockSwitcher>
 
 When you get the current user session, the tokens will be saved in your custom location.
-
-<Callout>
-
-**Note:** You can also update token expiration times depending on how you configured your Amazon Cognito User Pool. If you used the Amplify CLI, you can run `amplify update auth` to do so. If not, you can also go through the Amazon Cognito User Pool console under _App integration_ > _App client_ settings or update the appropriate parameters via the AWS CLI or CDK.
-
-</Callout>
 
 ### Revoke tokens
 

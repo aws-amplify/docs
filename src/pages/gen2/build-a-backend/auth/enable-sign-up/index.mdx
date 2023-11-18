@@ -10,7 +10,6 @@ export function getStaticProps(context) {
       meta
     }
   };
-
 }
 
 In this guide, you will set up sign-up, sign-in, and sign-out using the Amplify Libraries and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out. Once set up, you can connect this functionality to your frontend UI.
@@ -41,24 +40,28 @@ Below is a high-level overview of the workflows for sign-up, sign-in, and sign-o
 
 ### Which Amazon Cognito attributes will you pass for sign-up?
 
-User attributes (such as username and email) are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are added. You can use the Amplify CLI to add user attributes or visit the Amazon Cognito console. To add user attributes with the CLI, you can run the command `amplify add auth` for a new project, or use `amplify update auth` if you already have existing resources set up. Then, you can select `manual configuration` when prompted by the Amplify CLI.
+User attributes such as `email` are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are added. You can modify your backend authentication resource to include additional User attributes.
 
-```sh
-? amplify update auth
-? What do you want to do?
-  'Walkthrough all the auth configurations'
-# Accept defaults for everything else
+```diff title="amplify/auth/resource.ts"
+// amplify/auth/resource.ts
+import { defineAuth } from '@aws-amplify/backend';
 
-# Select the attributes you want users to read/write
-? Specify read attributes:
-  'Birthdate, Email, Given Name'
-? Specify write attributes:
-  'Locale, Given Name'
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
++ userAttributes: {
++   birthdate: {
++     required: false,
++     immutable: true,
++   },
++ },
+});
 ```
 
 <Callout>
 
-User attributes are not required by default. You can make user attributes required but it cannot be changed back to not required once configured.
+User attributes such as `email` and `phoneNumber` are required and automatically configured if you specify `email` or `phone` as how you would like your user's to `loginWith`. Additional user attributes are not required, however you can specify additional, required user attributes.
 
 </Callout>
 
@@ -72,7 +75,7 @@ Once you have these decisions in mind, you are ready to enable sign-up, sign-in,
 
 You can add the functionality to enable sign-up, sign-in, and sign-out with the Amplify Libraries. You can connect this to an existing UI or create your own.
 
-For many apps, user sign-up and sign-in with a username and password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. This is the method we illustrated in the [*Set up Amplify Auth*](../set-up-auth/) guide.
+For many apps, user sign-up and sign-in with a username and password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. This is the method we illustrated in the [_Set up Amplify Auth_](../set-up-auth/) guide.
 
 We will use the username and password authentication flow to get started. Both [third-party social provider federation](../add-social-provider/) and [Multi-factor authentication](../manage-mfa/) can be added after this initial setup.
 
@@ -123,7 +126,7 @@ async function handleSignUp({
 </Block>
 <Block name="JavaScript">
 
-```javascript
+```js
 import { signUp } from 'aws-amplify/auth';
 
 async function handleSignUp({ username, password, email, phone_number }) {
@@ -167,29 +170,21 @@ Using password policy in your `amplify/auth/resource.ts` file, you can customize
 - `requireDigits`: true
 - `tempPasswordValidity`: 3 days
 
-```ts title="amplify/auth/resource.ts"
-//TODO: Maybe we should just remove this from the CDK props and TS layer. Need to discuss this more.
-// TODO: this does not work
-import { defineAuth } from '@aws-amplify/backend';
-import { Duration } from 'aws-cdk-lib';
+```ts title="amplify/backend.ts"
+// amplify/backend.ts
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource.js';
+import { data } from './data/resource.js';
 
-export const auth = defineAuth({
-  loginWith: {
-    email: true,
-  },
-  // override: {
-  //   userPool: {
-  //     passwordPolicy: {
-  //       minLength: 8,
-  //       requireLowercase: true,
-  //       requireUppercase: true,
-  //       requireDigits: true,
-  //       requireSymbols: true,
-  //       adminCreatedPasswordValidity: Duration.days(3),
-  //     },
-  //   },
-  // },
+const backend = defineBackend({
+  auth,
+  data
 });
+
+// extract L1 UserPool construct
+const { cfnUserPool } = backend.resources.auth.resources.cfnResources;
+// use CDK's `addPropertyOverride` to modify properties directly
+cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.MinimumLength', 32);
 ```
 
 ### Confirm sign-up
@@ -319,20 +314,23 @@ For more information on handling the TOTP and MFA steps that may be returned, pl
 
 ### Guest access
 
-Guest access is enabled by default for your Amplify Auth resources. You can change this default behavior by using the following example.
+Guest access is enabled by default for your Amplify Auth resources. You can override this default behavior by using CDK as follows:
 
 ```ts title="amplify/backend.ts"
-import { Backend } from '@aws-amplify/backend';
-import { auth } from './auth/resource';
-import { data } from './data/resource';
+// amplify/backend.ts
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource.js';
+import { data } from './data/resource.js';
 
-const backend = new Backend({
+const backend = defineBackend({
   auth,
-  data,
+  data
 });
 
-backend.resources.auth.resources.cfnResources.identityPool.allowUnauthenticatedIdentities =
-  false;
+// extract the L1 IdentityPool construct
+const { cfnIdentityPool } = backend.resources.auth.resources.cfnResources;
+// use CDK's `addPropertyOverride` to modify properties directly
+cfnIdentityPool.addPropertyOverride('AllowUnauthenticatedIdentities', false);
 ```
 
 ### Sign-out
@@ -425,25 +423,3 @@ Now that you completed setting up Amplify Auth with username and password, you m
 
 - [Add social provider sign-in](../add-social-provider/)
 - [Multi-factor authentication](../manage-mfa/)
-
-TODO Review below as part of updates to above
-
-## Custom code
-
-As part of the example in this guide, we have defined our Auth resource to enable the use of `email` for login.
-
-Enabling a sign up of a user would be possible with using a `username` and `password` attributes on the `signIn` API.
-
-```ts title="amplify/auth/resource.ts"
-//need to provide v6 code snippets
-import { Auth } from 'aws-amplify';
-
-try {
-  const { user } = await Auth.signUp({
-    username,
-    password,
-  });
-} catch (error) {
-  console.log('error signing up:', error);
-}
-```
