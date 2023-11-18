@@ -1,6 +1,6 @@
 export const meta = {
   title: 'Secrets and environment vars',
-  description: 'Learn about secrets and environment variables.'
+  description: 'Manage secrets and environment variables across your fullstack branch and local dev environments.'
 };
 
 export function getStaticProps(context) {
@@ -14,26 +14,23 @@ export function getStaticProps(context) {
 
 In Gen 2, Amplify offers centralized secret and environment variable management for all fullstack branches.Secrets allow you to securely configure environment-specific values like social sign-in keys, function environment variables, function secrets, and other sensitive data needed by your application across environments.
 
-<Accordion title="Gen 1 customer?">
-  Gen 1 required defining environment variables and secrets using the CLI and
-  stored keys in both parameter store and a local `team-provider.json` file. We
-  have streamlined this workflow in Gen 2 by centralizing the management of
-  secrets and environment variables in the Amplify console.
+<Accordion title="How is this different from Gen 1?" eyebrow='FAQ'>
+  Gen 1 required defining environment variables and secrets using the CLI and stored keys in both parameter store and a local `team-provider.json` file. We have streamlined this workflow in Gen 2 by centralizing the management of secrets and environment variables in the Amplify console.
 </Accordion>
 
-## Setting secrets
+## Set secrets
 
 You can set secrets for your fullstack branch deployments or your local dev server.
 
 ### Branch environment
 
-Secrets for branch deployments can be added in the Amplify console. From the App home page, navigate to _Hosting > Secrets > Manage secrets_. You can add a secret key/value that applies to all deployed branches or just to specific branches.
+Secrets for branch deployments can be added in the Amplify console. From the App home page, navigate to *Hosting > Secrets > Manage secrets*. You can add a secret key or value that applies to all deployed branches or just to specific branches.
 
 <video autoPlay={true} muted={true} loop={true} width="100%">
   <source src="/images/gen2/secrets-and-vars/secrets.mp4" />
 </video>
 
-Secrets are stored in AWS Parameter Store under the following naming convention:
+Secrets are stored in AWS Parameter Store under the following naming conventions:
 
 - Secrets that apply to all branches: `/amplify/shared/<app-id>/<secret-key>`
 - Secrets that apply to a specific branch: `/amplify/<app-id>/<branchname>/<secret-key>`
@@ -43,8 +40,7 @@ Secrets are stored in AWS Parameter Store under the following naming convention:
 [comment]: <> (When editing this section, also update /gen2/deploy-and-host/sandbox-environments/features/index.md -)
 
 <Callout info>
-  Secrets set in sandbox do not show up in the Amplify Console. You can view
-  them in the AWS Parameter Store console.
+  Secrets set in a sandbox do not show up in the Amplify Console. You can view them in the AWS Parameter Store console.
 </Callout>
 
 When testing features locally, you might want to test with real secrets. You can add secrets while running the cloud sandbox with the following command:
@@ -59,9 +55,9 @@ Done!
 Done!
 ```
 
-## Accessing secrets
+## Access secrets
 
-Once you have set a secret set up, you can access the values in code by calling the `secret()` function. The example below shows how to set up social sign-in with authentication in your app. Depending on your environment, Amplify will automatically load the correct secret value with no extra configuration.
+Once you have set a secret, you can access the values in code by calling the `secret()` function. The example below shows how to set up social sign-in with authentication in your app. Depending on your environment, Amplify will automatically load the correct secret value with no extra configuration.
 
 ```ts
 import { defineAuth, secret } from '@aws-amplify/backend';
@@ -79,9 +75,11 @@ export const auth = defineAuth({
 });
 ```
 
-## Removing secrets
+## Remove secrets
 
-> When deleting branch environments or sandbox environments, you need to manually delete the secrets as well.
+<Callout warning>
+When deleting branch environments or sandbox environments, you need to manually delete the secrets as well.
+</Callout>
 
 ### Branch environment
 
@@ -97,15 +95,19 @@ To remove a secret, run the following command in your terminal.
 npx amplify sandbox secret remove foo
 ```
 
-## Setting environment variables
+## Set environment variables
 
-Environment Variables function as key-value pairs intended to facilitate the management of configurable parameters across various deployment environments, including development, staging, and production. Unlike secrets, which store sensitive data, environment variables are generally non-confidential and are used for controlling application behavior in different environments. Environment variables (unlike secrets), are stored and managed by the Amplify managed service. You can set environment variables in the Amplify console (view the [official docs](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#setting-env-vars)).
+Environment variables function as key-value pairs intended to facilitate the management of configurable parameters across various deployment environments, including development, staging, and production. Unlike secrets, which store sensitive data, environment variables are generally non-confidential and are used for controlling application behavior in different environments. Environment variables (unlike secrets), are stored and managed by the Amplify managed service. You can set environment variables in the Amplify console (view the [*AWS Amplify Hosting User Guide*](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#setting-env-vars) to learn more).
 
 ![env-vars](/images/gen2/secrets-and-vars/env-vars.png)
 
-## Accessing environment variables
+## Access environment variables
+
+You can enable access to environment variables for your fullstack branch deployments or your local dev server.
 
 ### Branch environment
+
+You can manage your branch environment access through the Amplify console.
 
 1. First create an environment variable in the Amplify console and name it REACT_APP_TEST_VARIABLE.
 
@@ -126,4 +128,4 @@ console.log('REACT_APP_TEST_VARIABLE', process.env.REACT_APP_TEST_VARIABLE);
 
 ### Local environment
 
-The same workflow applies when you're working on your local machine. First, add the environment variable in your `.env.local` file and then reference the environment variable with `process.env`.
+The same workflow applies when you're working on your local machine. First, add the environment variable in your `.env.local` file, and then reference the environment variable with `process.env`.
