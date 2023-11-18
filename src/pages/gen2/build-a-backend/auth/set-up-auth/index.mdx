@@ -123,13 +123,13 @@ Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift
 <BlockSwitcher>
 <Block name="React">
 
-First, install the `@aws-amplify/ui-react` library as well as `aws-amplify` if you have not already:
+First, install the `@aws-amplify/ui-react` library:
 
 ```sh
-npm add aws-amplify @aws-amplify/ui-react
+npm add @aws-amplify/ui-react
 ```
 
-Next, open **src/App.js** and add the `withAuthenticator` component.
+Next, open **pages/\_app.ts** and add the `withAuthenticator` component.
 
 **withAuthenticator**
 
@@ -140,19 +140,22 @@ The `withAuthenticator` is a higher-order component (HoC) that wraps `Authentica
 <BlockSwitcher>
 <Block name="TypeScript">
 
-```ts
-import { Amplify } from 'aws-amplify';
-import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
+```ts title="pages/_app.tsx"
+// pages/_app.tsx
 import { withAuthenticator } from '@aws-amplify/ui-react';
+import { Amplify } from 'aws-amplify';
+import config from '@/amplifyconfiguration.json';
 import '@aws-amplify/ui-react/styles.css';
-import config './amplifyconfiguration.json';
+import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
+
 Amplify.configure(config);
 
-function App({ signOut, user }: WithAuthenticatorProps) {
+function App({ Component, pageProps, signOut, user }: WithAuthenticatorProps) {
   return (
     <>
       <h1>Hello {user?.username}</h1>
       <button onClick={signOut}>Sign out</button>
+      <Component {...pageProps} />
     </>
   );
 }
@@ -164,11 +167,12 @@ export default withAuthenticator(App);
 <Block name="JavaScript">
 
 ```js
-import { Amplify } from 'aws-amplify';
-
+// pages/_app.js
 import { withAuthenticator } from '@aws-amplify/ui-react';
+import { Amplify } from 'aws-amplify';
+import config from '@/amplifyconfiguration.json';
 import '@aws-amplify/ui-react/styles.css';
-import config './amplifyconfiguration.json';
+
 Amplify.configure(config);
 
 function App({ signOut, user }) {
@@ -189,10 +193,10 @@ export default withAuthenticator(App);
 
 <Block name="Vue 3">
 
-First, install the `@aws-amplify/ui-vue` library as well as `aws-amplify` if you have not already:
+First, install the `@aws-amplify/ui-vue`:
 
 ```bash
-npm add aws-amplify @aws-amplify/ui-vue
+npm add @aws-amplify/ui-vue
 ```
 
 Next, open **src/App.js** and add the `Authenticator` component.
@@ -225,10 +229,10 @@ The `Authenticator` component offers a simple way to add authentication flows in
 </Block>
 <Block name="Vue 2">
 
-First, install the `@aws-amplify/ui-components` library as well as `aws-amplify` if you have not already:
+First, install the `@aws-amplify/ui-components`:
 
 ```bash
-npm add aws-amplify @aws-amplify/ui-components
+npm add @aws-amplify/ui-components
 ```
 
 Now open **src/main.js** and add the following below your last import:
@@ -268,10 +272,10 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </Block>
 <Block name="Angular">
 
-First, install the `@aws-amplify/ui-angular` library as well as `aws-amplify` if you have not already:
+First, install the `@aws-amplify/ui-angular`:
 
 ```bash
-npm add aws-amplify @aws-amplify/ui-angular
+npm add @aws-amplify/ui-angular
 ```
 
 Now open **app.module.ts** and add the Amplify imports and configuration:
@@ -328,7 +332,7 @@ Creating the sign-in flow can be quite difficult and time-consuming to get right
 You can add the Authenticator connected UI component by wrapping it in your app's entry point.
 
 ```ts title="pages/_app.ts"
-// pages/_app.ts
+// pages/_app.tsx
 import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import config from '@/amplifyconfiguration';
