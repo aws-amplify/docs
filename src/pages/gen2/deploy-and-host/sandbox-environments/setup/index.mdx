@@ -13,6 +13,12 @@ export function getStaticProps(context) {
 
 Amplify gives every developer a personal cloud sandbox environment that provides isolated development spaces to rapidly build, test, and iterate on a fullstack app. You and each developer on your team gets their own disposable sandbox environment connected to cloud resources.
 
+<Callout>
+
+Cloud sandbox environments are not intended for production workloads.
+
+</Callout>
+
 ![How cloud sandbox environments work](/images/gen2/how-amplify-works/sandbox.png)
 
 ## Create a new sandbox environment
@@ -25,11 +31,11 @@ First, open the terminal and run the following command:
 npx amplify sandbox
 ```
 
-When you deploy a cloud sandbox, Amplify creates an AWS CloudFormation stack `amplify-<app-name>-<$(whoami)>-sandbox` in your AWS account with the resources configured in your `amplify/` folder.
+When you deploy a cloud sandbox, Amplify creates an [AWS CloudFormation](https://aws.amazon.com/cloudformation/) stack following the naming convention of `amplify-<app-name>-<$(whoami)>-sandbox` in your AWS account with the resources configured in your `amplify/` folder.
 
 ![terminal output of a successful cloud sandbox deployment](/images/gen2/sandbox/sandbox1.png)
 
-After the successful deployment of the CloudFormation stack, the sandbox tracks and monitors for file changes in your `amplify` folder and performs real-time updates to the CloudFormation stack. This functionality is built leveraging the hotswap capability of the AWS CDK.
+After a successful deployment, `sandbox` watches for file changes in your `amplify/` folder and performs real-time updates to the associated CloudFormation stack. This functionality is built leveraging the [hot swap capability of the AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/v2/guide/cli.html#cli-deploy-hotswap).
 
 ![terminal output of a successful cloud sandbox deployments with hot-swapped resources](/images/gen2/sandbox/sandbox2.png)
 
