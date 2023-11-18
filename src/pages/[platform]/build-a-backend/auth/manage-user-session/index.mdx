@@ -228,6 +228,12 @@ Amplify.configure(
 cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
 ```
 
+<Callout>
+
+**Note:** `Amplify.configure()` takes in two parameters - `BackendResources` and `LibraryConfiguration`. Be sure to pass `cognitoUserPoolsTokenProvider` into the second parameter.
+
+</Callout>
+
 </Block>
 <Block name="JavaScript">
 

@@ -268,13 +268,9 @@ const currentConfig = Amplify.getConfig();
 ```
 
 <Callout warning={true}>
-  If your existing user pool client has a required attribute that is *not* set
-  to mutable, you may face login issues when using social sign-in. To resolve
-  this, you will need to
-  <ExternalLink href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html">
-    create a new user pool client
-  </ExternalLink>
-  and mark the required attribute as mutable.
+
+If your existing user pool client has a required attribute that is _not_ set to mutable, you may face login issues when using social sign-in. To resolve this, you will need to <ExternalLink href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html">create a new user pool client</ExternalLink> and mark the required attribute as mutable.
+
 </Callout>
 
 #### OAuth configuration parameters:
@@ -402,8 +398,8 @@ The `Authenticator` component offers a simple way to add authentication flows in
 
 ```html
 <script setup>
-  import { Authenticator } from "@aws-amplify/ui-vue";
-  import "@aws-amplify/ui-vue/styles.css";
+  import { Authenticator } from '@aws-amplify/ui-vue';
+  import '@aws-amplify/ui-vue/styles.css';
 
   import { Amplify } from 'aws-amplify';
   import config from './amplifyconfiguration.json';
