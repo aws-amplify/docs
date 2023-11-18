@@ -12,10 +12,10 @@ export function getStaticProps(context) {
 
 }
 
-In Gen 2, Amplify offers centralized secret and environment variable management for all fullstack branches.Secrets allow you to securely configure environment-specific values like social sign-in keys, function environment variables, function secrets, and other sensitive data needed by your application across environments.
+In Gen 2, Amplify offers centralized secret and environment variable management for all fullstack branches. Secrets allow you to securely configure environment-specific values like social sign-in keys, function environment variables, function secrets, and other sensitive data needed by your application across environments.
 
 <Accordion title="How is this different from Gen 1?" eyebrow='FAQ'>
-  Gen 1 required defining environment variables and secrets using the CLI and stored keys in both parameter store and a local `team-provider.json` file. We have streamlined this workflow in Gen 2 by centralizing the management of secrets and environment variables in the Amplify console.
+  Gen 1 required defining environment variables and secrets using the CLI and stored keys in both AWS Parameter Store and a local `team-provider.json` file. We have streamlined this workflow in Gen 2 by centralizing the management of secrets and environment variables in the Amplify console.
 </Accordion>
 
 ## Set secrets
@@ -83,13 +83,13 @@ When deleting branch environments or sandbox environments, you need to manually 
 
 ### Branch environment
 
-Secrets that are used in branch deployments can be managed directly in the Amplify console.
+Secrets that are used in branch deployments can be managed directly in the Amplify console. You can remove them under *Secret management* by selecting *Remove*.
 
 ![secret-management](/images/gen2/secrets-and-vars/secret-management.jpg)
 
 ### Local environment
 
-To remove a secret, run the following command in your terminal.
+To remove a secret in your local environment, run the following command in your terminal:
 
 ```bash
 npx amplify sandbox secret remove foo
@@ -97,7 +97,7 @@ npx amplify sandbox secret remove foo
 
 ## Set environment variables
 
-Environment variables function as key-value pairs intended to facilitate the management of configurable parameters across various deployment environments, including development, staging, and production. Unlike secrets, which store sensitive data, environment variables are generally non-confidential and are used for controlling application behavior in different environments. Environment variables (unlike secrets), are stored and managed by the Amplify managed service. You can set environment variables in the Amplify console (view the [*AWS Amplify Hosting User Guide*](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#setting-env-vars) to learn more).
+Environment variables function as key-value pairs intended to facilitate the management of configurable parameters across various deployment environments, including development, staging, and production. Unlike secrets, which store sensitive data, environment variables are generally non-confidential and are used for controlling application behavior in different environments. Environment variables (unlike secrets), are stored and managed by the Amplify managed service. You can set environment variables in the Amplify console (view the [*AWS Amplify Hosting User Guide*](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#setting-env-vars) for detailed instructions).
 
 ![env-vars](/images/gen2/secrets-and-vars/env-vars.png)
 
@@ -111,7 +111,7 @@ You can manage your branch environment access through the Amplify console.
 
 1. First create an environment variable in the Amplify console and name it REACT_APP_TEST_VARIABLE.
 
-1. Next, navigate to the build settings (`amplify.yml`) and update the build settings to pipe the environment variable into a `.env` file. For example:
+1. Next, navigate to the build settings (`amplify.yml`) and update the build settings to pipe the environment variable into an `.env` file. For example:
 
 ```yml
 build:
