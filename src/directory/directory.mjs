@@ -1985,6 +1985,9 @@ export const directory = {
                   ]
                 },
                 {
+                  path: 'src/pages/gen2/build-a-backend/data/custom-business-logic/index.mdx'
+                },
+                {
                   path: 'src/pages/gen2/build-a-backend/data/connect-from-server-runtime/index.mdx'
                 },
                 {
