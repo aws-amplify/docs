@@ -1403,7 +1403,7 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/prev/build-a-backend/server-side-rendering/index.mdx',
+                  path: 'src/pages/[platform]/prev/build-a-backend/server-side-rendering/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/prev/build-a-backend/utilities/index.mdx',
@@ -1660,7 +1660,7 @@ export const directory = {
                   ]
                 }
               ]
-            },
+            }
           ]
         },
         {
@@ -1953,7 +1953,7 @@ export const directory = {
                   path: 'src/pages/gen2/build-a-backend/data/customize-authz/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/gen2/build-a-backend/data/customize-authz/public-data-access/index.mdx',
+                      path: 'src/pages/gen2/build-a-backend/data/customize-authz/public-data-access/index.mdx'
                     },
                     {
                       path: 'src/pages/gen2/build-a-backend/data/customize-authz/per-user-per-owner-data-access/index.mdx'
@@ -1981,7 +1981,7 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/gen2/build-a-backend/data/customize-authz/grant-lambda-function-access-to-api/index.mdx'
-                    },
+                    }
                   ]
                 },
                 {
@@ -2048,6 +2048,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/mono-and-multi-repos/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/monorepos/index.mdx'
                 },
                 {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/share-resources/index.mdx'
