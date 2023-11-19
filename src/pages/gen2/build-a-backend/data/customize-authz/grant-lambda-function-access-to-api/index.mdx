@@ -1,6 +1,6 @@
 export const meta = {
-  title: 'Grant Lambda function access to API & Data',
-  description: "Amplify Data uses a \"deny-by-default\" authorization model. To allow access for Lambda functions or other services authenticated via IAM, their IAM role names must be explicitly listed in the `allowListedRoleNames` property when defining the Data resource. This grants privileged access based on their IAM policy rather than their `.authorization()` rules."
+  title: 'Grant Lambda function access to API and Data',
+  description: "Amplify Data uses a 'deny-by-default' authorization model. To allow access for Lambda functions or other services authenticated via IAM, their IAM role names must be explicitly listed in the `allowListedRoleNames` property when defining the Data resource. This grants privileged access based on their IAM policy rather than their `.authorization()` rules."
 };
 
 export function getStaticProps(context) {
@@ -11,9 +11,9 @@ export function getStaticProps(context) {
   };
 }
 
-Lambda functions' IAM execution role do not immediately grant access to Amplify Data's API because the API operates on a "deny-by-default"-basis. Access need to be explicitly granted.
+The IAM execution role for Lambda functions does not automatically grant access to the Amplify Data API. This is because the API operates on a "deny-by-default" permission model. Access must be explicitly granted.
 
-To grant an external AWS Resource or an IAM role access to Amplify Data's API, you need to explicitly list the IAM role by adding them to `allowListedRoleNames` property.
+To grant an external AWS resource or an IAM role access to the Amplify Data API, you need to explicitly list the IAM roles by adding them to `allowListedRoleNames` property.
 
 ```ts title="amplify/data/resource.ts"
 // amplify/data/resource.ts

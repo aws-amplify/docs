@@ -1,7 +1,7 @@
 export const meta = {
   title: 'Per-user/per-owner data access',
   description:
-    "The owner authorization strategy restricts operations on a record to only the record's owner. When configured, the owner field (default 'owner') will automatically be added and populated with the identity of the creating user. The API will authorize against the owner field to allow or deny operations."
+    "The owner authorization strategy restricts operations on a record to only the record's owner. When configured, the owner field (default `owner`) will automatically be added and populated with the identity of the created user. The API will authorize against the owner field to allow or deny operations."
 };
 
 export function getStaticProps(context) {
@@ -12,7 +12,7 @@ export function getStaticProps(context) {
   };
 }
 
-To restrict a record's access to a specific user, use the `owner` authorization strategy. When `owner` authorization is configured, only the record's `owner` is allowed the specified operations.
+You can use the `owner` authorization strategy to restrict a record's access to a specific user. When `owner` authorization is configured, only the record's `owner` is allowed the specified operations.
 
 ```ts
 // The "owner" of a Todo is allowed to create, read, update, and delete their own todos
@@ -58,7 +58,7 @@ export const schema = a.schema({
 
     **By default, owners can reassign the owner of their existing record to another user.**
 
-To prevent an owner from reassigning their record to another user, protect the owner field (by default `owner: String`) with a [field-level authorization rule](/gen2/build-a-backend/data/customize-authz#configure-field-level-authorization-rules). For example, in a social media app, you would want to prevent Alice from being able to reassign Alice's Post to Bob.
+To prevent an owner from reassigning their record to another user, protect the owner field (by default `owner: String`) with a [field-level authorization rule](/gen2/build-a-backend/data/customize-authz/#field-level-authorization-rules). For example, in a social media app, you would want to prevent Alice from being able to reassign Alice's Post to Bob.
 
 ```ts
 export const schema = a.schema({
