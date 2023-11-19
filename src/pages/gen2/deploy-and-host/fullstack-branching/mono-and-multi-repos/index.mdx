@@ -112,10 +112,51 @@ frontend:
 
 ## Trigger a frontend build on backend updates
 
-Add the following code to your backend app's `postBuild` build settings:
+What you ideally want is for the frontend to pick up the latest backend updates every time there is a modification.
+
+1. Use the AWS CLI to create an [incoming webhook](https://docs.aws.amazon.com/amplify/latest/userguide/webhooks.html). If the command executes successfully, you should see a response printed out like below:
 
 ```
-aws amplify start-job --app-id FRONTEND-APPID --branch-name BRANCH-NAME --job-type RELEASE_WEB_HOOK
+aws amplify create-webhook --app-id FRONTEND-APPID --branch-name main  --region REGION
+{
+    "webhook": {
+        "webhookArn": "arn:aws:amplify:REGION:ACCOUNT-ID:apps/APPID/webhooks/WEBHOOK-ID",
+        "webhookId": "WEBHOOK-ID",
+        "webhookUrl": "https://webhooks.amplify.ca-central-1.amazonaws.com/prod/webhooks?id=WEBHOOK-ID&token=TOKEN",
+        "branchName": "main",
+        "createTime": "2023-11-19T19:09:42.461000-08:00",
+        "updateTime": "2023-11-19T19:09:42.461000-08:00"
+    }
+}
 ```
 
-This will trigger a build for frontend projects anytime there's an update to the backend.
+1. Construct a `curl` command with the `webhookUrl`: `curl -X POST -d {} "https://webhooks.amplify.ca-central-1.amazonaws.com/prod/webhooks?id=WEBHOOK-ID&token=TOKEN&operation=startbuild" -H "Content-Type:application/json`
+
+1. Now update the `backend-app`'s build settings to include the `curl` command to trigger a frontend build any time there are changes to the backend.
+
+```
+version: 1
+backend:
+  phases:
+    build:
+      commands:
+        - nvm use 18
+        - npm ci
+        - npx amplify pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - mkdir ./dist && touch ./dist/index.html
+        - curl -X POST -d {} "https://webhooks.amplify.ca-central-1.amazonaws.com/prod/webhooks?id=1f32966d-c49f-4ab8-916f-4a3d21793c5e&token=PjMRC0kC6Hy6MoOpgKamXojEmRJxmn6uezfQ6grJDv8&operation=startbuild" -H "Content-Type:application/json"
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+```

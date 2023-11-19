@@ -43,7 +43,7 @@ Monorepos require a slightly different setup. We are going to deploy 3 Amplify a
 - App 2 - `admin-dashboard`
 - App 3 - `marketing-site`
 
-## Deploy baackend app
+## Deploy backend app
 
 App 1 will be the only app that updates changes to the backend. The other apps will only run frontend builds that point to the shared-backend.
 
@@ -64,13 +64,3 @@ npx amplify generate config --branch main --app-id BACKEND-APPID
 ```
 
 - `BACKEND-APP` is the `app-id` for your backend app. You can find this by going to the Amplify console and navigating to _backend-app > App settings > App ARN_ and copying the ID located at the end of the string `arn:aws:amplify:<region>:<account-id>:apps/app-id`.
-
-## Trigger a frontend build on backend updates
-
-Add the following code to your backend app's `postBuild` build settings:
-
-```
-aws amplify start-job --app-id FRONTEND-APPID --branch-name BRANCH-NAME --job-type RELEASE_WEB_HOOK
-```
-
-This will trigger a build for frontend projects anytime there's an update to the backend.
