@@ -11,9 +11,7 @@ export function getStaticProps(context) {
   };
 }
 
-Private, owner, and group authorization can be configured with an OpenID Connect (OIDC) authorization mode. Add `"oidc"` to the authorization rule as the provider.
-
-Use the `oidcAuthorizationMode` property to configure the *OpenID Connect provider name*, *OpenID Connect provider domain*, *Client ID*, *Issued at TTL*, and *Auth Time TTL*.
+Private, owner, and group authorization can be configured with an OpenID Connect (OIDC) authorization mode. Add `"oidc"` to the authorization rule as the provider. Use the `oidcAuthorizationMode` property to configure the *OpenID Connect provider name*, *OpenID Connect provider domain*, *Client ID*, *Issued at TTL*, and *Auth Time TTL*.
 
 The example below highlights the supported authorization strategies with a `oidc` authorization provider. For owner and group-based authorization, you also will need to [specify a custom identity and group claim](/gen2/build-a-backend/data/customize-authz/configure-custom-identity-and-group-claim).
 
