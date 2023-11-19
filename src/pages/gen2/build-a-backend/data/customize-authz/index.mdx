@@ -32,9 +32,7 @@ export const schema = a.schema({
   ])
 })
 ```
-
-In the example above, everyone (`public`) can read every Post but `owner` (authenticated users) can create, read, update, and delete their own posts. Amplify also allows you to restrict the allowed operations, combine multiple authorization rules, and apply fine-grained field-level authorization.
-
+In the example above, everyone (`public`) can read every Post but authenticated users (`owner`) can create, read, update, and delete their own posts. Amplify also allows you to restrict the allowed operations, combine multiple authorization rules, and apply fine-grained field-level authorization.
 
 ## Available authorization strategies
 
@@ -46,18 +44,18 @@ Use the guide below to select the correct authorization strategy for your use ca
 | [Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls.](/gen2/build-a-backend/data/customize-authz/public-data-access) | `public` | `iam` |
 | [Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify/auth/resource.ts` Cognito user pool by default.](/gen2/build-a-backend/data/customize-authz/per-user-per-owner-data-access) | `owner` | `userPools` / `oidc` |
 | [Any signed-in data access. Unlike owner-based access, **any** signed-in user has access.](/gen2/build-a-backend/data/customize-authz/signed-in-user-data-access) | `private` | `userPools` / `oidc` / `iam` |
-| [Per user group data access. A specific or dynamically configured group of users have access](/gen2/build-a-backend/data/customize-authz/user-group-based-data-access) | `group` | `userPools` / `oidc` |
-| [Define your own custom authorization rule within a serverless function](/gen2/build-a-backend/data/customize-authz/custom-data-access-patterns) | `custom` | `function` |
+| [Per user group data access. A specific or dynamically configured group of users have access.](/gen2/build-a-backend/data/customize-authz/user-group-based-data-access) | `group` | `userPools` / `oidc` |
+| [Define your own custom authorization rule within a serverless function.](/gen2/build-a-backend/data/customize-authz/custom-data-access-patterns) | `custom` | `function` |
 
 ## Understand how authorization rules are applied
 
 Authorization rules can be applied globally across all data models in a schema, onto specific data models, and onto specific fields.
 
-Amplify will always use the most specific authorization rule that's available. For example, if there's an authorization rule for a field and an authorization rule for the model that the field belongs to, Amplify will evaluate against the field-level authorization rule. Review [Field-level authorization rules](#field-level-authorization-rules) to learn more.
+Amplify will always use the most specific authorization rule that is available. For example, if there is an authorization rule for a field and an authorization rule for the model that the field belongs to, Amplify will evaluate against the field-level authorization rule. Review [Field-level authorization rules](#field-level-authorization-rules) to learn more.
 
-If there are multiple authorization rules present, they'll be logically OR'ed. Review [Configure multiple authorization rules](#configure-multiple-authorization-rules) to learn more.
+If there are multiple authorization rules present, they will be logically OR'ed. Review [Configure multiple authorization rules](#configure-multiple-authorization-rules) to learn more.
 
-Finally, there are special "Admin IAM Roles" that allow you to overrule any authorization logic applied on the API determine the API access completely via its IAM policy.  
+Finally, there are special "Admin IAM Roles" that allow you to overrule any authorization logic applied on the API and determine the API access completely via its IAM policy.  
 
 ### Global authorization rule (only for getting started)
 

@@ -90,7 +90,7 @@ const { data: deletedTodo, errors } = await client.models.Todo.delete(toBeDelete
 
 </Callout>
 
-<Accordion title='Troubleshooting unauthorized errors' headingLevel='4' eyebrow='Learn more'>
+<Accordion title='Troubleshoot unauthorized errors' headingLevel='4' eyebrow='Troubleshooting'>
 
 Each API request uses an authorization mode. If you get unauthorized errors, you may need to update your authorization mode. To override the default authorization mode defined in your **amplify/data/resource.ts** file, pass an `authMode` property to the request or the client. The following examples show how you can mutate data with a custom authorization mode:
 
@@ -154,7 +154,7 @@ client.cancel(promise, 'my error message');
 
 Congratulations! You have finished the **Create, update, and delete application data** guide. In this guide, you created, updated, and deleted your app data.
 
-## Next steps
+### Next steps
 
 Our recommended next steps include using the API to query data and subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
 
