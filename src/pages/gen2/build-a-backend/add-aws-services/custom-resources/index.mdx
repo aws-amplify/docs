@@ -188,7 +188,7 @@ export const handler: Handler<Message, void> = async (event) => {
 The Lambda function code for the `Emailer` is:
 
 ```ts title="amplify/custom/CustomNotifications/emailer.ts"
-// emailer Lambda
+// amplify/custom/CustomNotifications/emailer.ts
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import type { SNSHandler } from 'aws-lambda';
 import type { Message } from './resource';
