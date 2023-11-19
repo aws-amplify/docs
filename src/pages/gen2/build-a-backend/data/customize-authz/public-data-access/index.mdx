@@ -11,9 +11,11 @@ export function getStaticProps(context) {
   };
 }
 
-## Add public authorization rule using API Key-based authentication
+The public authorization strategy grants everyone access to the API, which is protected behind the scenes with an API key. You can also override the authorization provider to use an unauthenticated IAM role from Cognito instead of an API key for public access.
 
-To grant everyone access, use the `.public()` authorization strategy. Behind the scenes, the API will be protected with an API Key.
+## Add public authorization rule using API key-based authentication
+
+To grant everyone access, use the `.public()` authorization strategy. Behind the scenes, the API will be protected with an API key.
 
 ```ts
 export const schema = a.schema({
@@ -27,7 +29,7 @@ export const schema = a.schema({
 
 ## Add public authorization rule using IAM authentication
 
-You can also override the authorization provider. In the example below, `iam` is specified as the provider which allows you to use an "Unauthenticated Role" from the Cognito identity pool for public access instead of an API Key. Your Auth resources defined in `amplify/auth/resource.ts` generates scoped down IAM policies for the "Unauthenticated role" in Cognito identity pool automatically.
+You can also override the authorization provider. In the example below, `iam` is specified as the provider which allows you to use an "Unauthenticated Role" from the Cognito identity pool for public access instead of an API key. Your Auth resources defined in `amplify/auth/resource.ts` generates scoped down IAM policies for the "Unauthenticated role" in the Cognito identity pool automatically.
 
 ```ts
 export const schema = a.schema({

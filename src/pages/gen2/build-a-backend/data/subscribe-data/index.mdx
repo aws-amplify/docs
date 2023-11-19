@@ -151,7 +151,7 @@ Hub.listen('api', (data: any) => {
 - **`ConnectionDisruptedPendingNetwork`** - The connection is disrupted and the network connection is unavailable.
 - **`Disconnected`** - Connection has no active subscriptions and is disconnecting.
 
-<Accordion title='Troubleshooting connection issues and automated reconnection' headingLevel='4' eyebrow='Troubleshooting'>
+<Accordion title='Troubleshoot connection issues and automated reconnection' headingLevel='4' eyebrow='Troubleshooting'>
 
 Connections between your application and backend subscriptions can be interrupted for various reasons, including network outages or the device entering sleep mode. Your subscriptions will automatically reconnect when it becomes possible to do so.
 
@@ -203,8 +203,6 @@ const cleanupSubscriptions = () => {
 
 </Accordion>
 
-<br />
-
 ## Unsubscribe from a subscription
 
 You can also unsubscribe from events by using subscriptions by implementing the following:
@@ -218,10 +216,10 @@ sub.unsubscribe();
 
 Congratulations! You have finished the **Subscribe to real-time events** guide. In this guide, you set up subscriptions for real-time events and learned how to filter and cancel these subscriptions when needed.
 
-## Next steps
+### Next steps
 
 Our recommended next steps include continuing to build out and customize your information architecture for your data. Some resources that will help with this work include:
 
-- [Authorization rules](/gen2/build-a-backend/data/customize-authz/)
-- [Data modeling](/gen2/build-a-backend/data/data-modeling/)
-- [Custom business logic](/gen2/build-a-backend/data/custom-business-logic/)
+- [Customize your auth rules](/gen2/build-a-backend/data/customize-authz/)
+- [Customize your data model](/gen2/build-a-backend/data/data-modeling/)
+- [Add custom business logic](/gen2/build-a-backend/data/custom-business-logic/)

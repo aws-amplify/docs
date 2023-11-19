@@ -13,7 +13,7 @@ export function getStaticProps(context) {
 
 IAM-based `.authorization()` rules are scoped down to only work with Amplify-generated IAM roles from `amplify/auth/resource.ts`. To access the Amplify Data-generated API with IAM authorization within your AppSync console, you need to explicitly allow list the IAM user's name.
 
-To grant an external AWS Resource or an IAM role access to Amplify Data's API, you need to explicitly list the IAM role by adding them to `allowListedRoleNames` property.
+To grant an external AWS Resource or an IAM role access to Amplify Data's API, you will need to explicitly list the IAM roles by adding them to the `allowListedRoleNames` property.
 
 ```ts title="amplify/data/resource.ts"
 // amplify/data/resource.ts
