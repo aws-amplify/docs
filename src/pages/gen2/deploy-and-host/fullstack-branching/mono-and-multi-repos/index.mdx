@@ -21,7 +21,7 @@ You might have a different frontend and backend team that maintains their own re
 
 1. Connect the `backend-app` in the new console. Navigate to the Amplify console and select _New app > Build an app (Gen 2)_.
 
-1. When you connect the repository, notice the only autodetected framework is Amplify.
+1. When you connect the repository, notice the only auto-detected framework is Amplify.
 
 ![multirepo](/images/gen2/fullstack-branching/multirepo1.png)
 
@@ -43,7 +43,7 @@ cd multi-repo-example
 npm install @aws-amplify/backend-cli aws-amplify @aws-amplify/ui-rect
 ```
 
-3. To connect to the deployed backend run the following command. The `app-id` to reference is the `APPID` for your backend app. You can find this by going to the Amplify console and navigating to _backend-app > App settings > App ARN_ and copying the ID located at the end of the string `arn:aws:amplify:<region>:<accountid>:apps/app-id`.
+3. To connect to the deployed backend run the following command. The `app-id` to reference is the `APPID` for your backend app. You can find this by going to the Amplify console and navigating to _backend-app > App settings > App ARN_ and copying the ID located at the end of the string `arn:aws:amplify:<region>:<account-id>:apps/app-id`.
 
 ```
 npx amplify generate config --branch main --app-id BACKEND-APPID
@@ -78,7 +78,7 @@ function App({ Component, pageProps }: AppProps) {
 export default withAuthenticator(App);
 ```
 
-4. Let's also add an `amplify.yml` buildspec to our repository.
+4. Let's also add an `amplify.yml` build-spec to our repository.
 
 ```yaml
 version: 1

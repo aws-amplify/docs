@@ -12,8 +12,6 @@ export function getStaticProps(context) {
 
 }
 
-## Monorepo setup
-
 Some teams choose a monorepo approach, or single repositories that contain multiple packages or components to simplify the deployment process for shared libraries and components. Without a monorepo, you have to deploy each package individually, keep track of package versions and dependencies across packages, and ensure version compatibility. This can become exponentially more complex as the number of packages grows. With a monorepo, all packages and dependencies are contained within a single repository.
 
 Amplify Gen 2 supports monorepo workflows for fullstack builds with monorepo tools such as Nx and yarn workspaces. When building with Amplify Gen 2, we recommend creating the `amplify` folder in a shared workspace. We will use the following example for this guide:
@@ -45,6 +43,8 @@ Monorepos require a slightly different setup. We are going to deploy 3 Amplify a
 - App 2 - `admin-dashboard`
 - App 3 - `marketing-site`
 
+## Deploy baackend app
+
 App 1 will be the only app that updates changes to the backend. The other apps will only run frontend builds that point to the shared-backend.
 
 1. To get started, lets deploy App 1 that will contain the Amplify backend. With Gen 2, customers can now setup backend-only CI/CD apps. Navigate to the console and select _New app > Build an app (Gen 2)_.
@@ -53,4 +53,24 @@ App 1 will be the only app that updates changes to the backend. The other apps w
 
 ![monorepo](/images/gen2/fullstack-branching/monorepo.png)
 
-1. Your build settings should be automatically detected.
+1. Your build settings should be automatically detected. Save and deploy
+
+## Deploy frontend apps
+
+1. For the frontend apps, connect the frontend projects separately, and update the build commands to include:
+
+```
+npx amplify generate config --branch main --app-id BACKEND-APPID
+```
+
+- `BACKEND-APP` is the `app-id` for your backend app. You can find this by going to the Amplify console and navigating to _backend-app > App settings > App ARN_ and copying the ID located at the end of the string `arn:aws:amplify:<region>:<account-id>:apps/app-id`.
+
+## Trigger a frontend build on backend updates
+
+Add the following code to your backend app's `postBuild` build settings:
+
+```
+aws amplify start-job --app-id FRONTEND-APPID --branch-name BRANCH-NAME --job-type RELEASE_WEB_HOOK
+```
+
+This will trigger a build for frontend projects anytime there's an update to the backend.
