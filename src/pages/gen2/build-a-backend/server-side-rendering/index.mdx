@@ -1,12 +1,12 @@
 export const meta = {
   title: 'Server-Side Rendering',
-  description: 'Use Amplify categories APIs from Next.js server-side runtimes.',
+  description: 'Use Amplify categories APIs from Next.js server-side runtimes.'
 };
 
 export function getStaticProps(context) {
   return {
     props: {
-      meta,
+      meta
     }
   };
 }
@@ -14,6 +14,7 @@ export function getStaticProps(context) {
 This guide walks through how to use Amplify Auth and Data APIs from Next.js server-side runtimes.
 
 Before you begin, you will need:
+
 - [A Next.js application created](/gen2/start/quickstart/)
 
 ## Install Amplify Library's Next.js adapter
@@ -21,9 +22,8 @@ Before you begin, you will need:
 To use Amplify APIs server-side, you need to install the Amplify Next.js adapter in addition to the Amplify libraries:
 
 ```bash
-npm install aws-amplify @aws-amplify/adapter-nextjs
+npm add aws-amplify @aws-amplify/adapter-nextjs
 ```
-
 
 ## Configure Amplify Library for server-side usage
 
