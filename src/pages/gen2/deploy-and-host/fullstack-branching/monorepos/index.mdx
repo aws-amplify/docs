@@ -59,17 +59,7 @@ The first app, `my-shared-backend`, will be the only app that updates changes to
 1. For the frontend apps, connect the frontend projects in the Amplify console separately, and update the build commands to include:
 
 ```
-npx amplify generate config --branch main --app-id <shared-backend-app-id>
+npx amplify generate config --branch main --app-id BACKEND-APP
 ```
 
-`<shared-backend-app-id>` is the `app-id` for your backend app. You can find this by going to the Amplify console and navigating to _my-shared-backend > App settings > App ARN_ and copying the ID located at the end of the string `arn:aws:amplify:<region>:<account-id>:apps/<app-id>`.
-
-## Trigger a frontend build on backend updates
-
-Add the following code to your backend app's `postBuild` build settings:
-
-```
-aws amplify start-job --app-id <frontend-app-id> --branch-name <git-branch-name> --job-type RELEASE_WEB_HOOK
-```
-
-This will trigger a build for frontend projects anytime there is an update to the backend.
+- `BACKEND-APP` is the `app-id` for your backend app. You can find this by going to the Amplify console and navigating to _backend-app > App settings > App ARN_ and copying the ID located at the end of the string `arn:aws:amplify:<region>:<account-id>:apps/app-id`.
