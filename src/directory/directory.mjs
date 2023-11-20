@@ -2047,9 +2047,6 @@ export const directory = {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/secrets-and-vars/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/cross-account-deployments/index.mdx'
-                },
-                {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/mono-and-multi-repos/index.mdx'
                 },
                 {
@@ -2060,6 +2057,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/pr-previews/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/custom-pipelines/index.mdx'
                 }
               ]
             }

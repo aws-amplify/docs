@@ -134,7 +134,7 @@ aws amplify create-webhook --app-id FRONTEND-APPID --branch-name main  --region 
 
 1. Now update the `backend-app`'s build settings to include the `curl` command to trigger a frontend build any time there are changes to the backend.
 
-```
+``` yaml
 version: 1
 backend:
   phases:
@@ -151,7 +151,7 @@ frontend:
     build:
       commands:
         - mkdir ./dist && touch ./dist/index.html
-        - curl -X POST -d {} "https://webhooks.amplify.ca-central-1.amazonaws.com/prod/webhooks?id=1f32966d-c49f-4ab8-916f-4a3d21793c5e&token=PjMRC0kC6Hy6MoOpgKamXojEmRJxmn6uezfQ6grJDv8&operation=startbuild" -H "Content-Type:application/json"
+        - curl -X POST -d {} "https://webhooks.amplify.ca-central-1.amazonaws.com/prod/webhooks?id=WEBHOOK-ID&token=TOKEN&operation=startbuild" -H "Content-Type:application/json"
   artifacts:
     baseDirectory: dist
     files:
