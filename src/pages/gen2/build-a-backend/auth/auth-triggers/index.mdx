@@ -1,6 +1,6 @@
 export const meta = {
-  title: 'Cognito Triggers',
-  description: 'Learn how to create Cognito Triggers with Amplify (Gen 2) Auth'
+  title: 'Auth Triggers',
+  description: 'Learn how to create pre-sign up, or post-sign up handlers with Amplify (Gen 2) Auth'
 };
 
 export function getStaticProps(context) {
@@ -13,7 +13,7 @@ export function getStaticProps(context) {
 
 <Callout info>
 
-**Coming soon:** The Functions experience in Amplify (Gen 2) is still under development. Expect the API surface to change dramatically during the Gen 2 preview period. If you have any feedback on the desired developer experience, please [file a GitHub issue](https://github.com/aws-amplify/amplify-backend).
+**Coming soon:** The Functions experience in Amplify (Gen 2) is still under development. Expect the API surface to change dramatically during the Gen 2 preview period. If you have any feedback on the desired developer experience, please [file a GitHub issue](https://github.com/aws-amplify/amplify-backend/issues).
 
 </Callout>
 
@@ -21,9 +21,9 @@ export function getStaticProps(context) {
 
 If you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
 
-## Creating your first Cognito Trigger
+## Creating your first trigger
 
-To get started with your first Cognito Trigger, create a file at `amplify/auth/pre-signup/index.js` with the following contents:
+To get started with your first trigger, create a file at `amplify/auth/pre-signup/index.js` with the following contents:
 
 ```js title="amplify/auth/pre-signup/index.js"
 // amplify/auth/pre-signup/index.js

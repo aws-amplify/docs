@@ -1907,10 +1907,10 @@ export const directory = {
                   path: 'src/pages/gen2/build-a-backend/auth/auth-events/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/auth/admin-actions/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/auth/auth-triggers/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/auth/cognito-triggers/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/auth/admin-actions/index.mdx'
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/auth/override-cognito/index.mdx'
