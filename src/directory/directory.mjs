@@ -1904,9 +1904,6 @@ export const directory = {
                   path: 'src/pages/gen2/build-a-backend/auth/delete-user-account/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/auth/server-side-rendering/index.mdx'
-                },
-                {
                   path: 'src/pages/gen2/build-a-backend/auth/auth-events/index.mdx'
                 },
                 {
