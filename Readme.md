@@ -41,11 +41,45 @@ Our docs are generated using [Next.js](https://nextjs.org/). Refer to their docs
 
 The pages' source are in **src**. This folder is the only directory you need to touch to edit or create pages.
 
-Within this folder exists a **pages/index.tsx** file. This will be rendered as a page at the route **/**. Within the **pages/lib/q/platform/** folder is a **[platform].mdx** file, which will be rendered as a page at the route **/lib**.
+Within this folder exists a **pages/index.tsx** file. This will be rendered as a page at the route **/**. Within the **pages/**/index.mdx** file, which will be rendered as a page at the route **/[platform]\*\*.
 
-To have the page render properly and display in the sidebar, place your page and its route in **src/directory/directory.js**.
+To have the page render properly and display in the sidebar, place your page and its route in **src/directory/directory.mjs**.
 
-IMPORTANT: Every page has to have a `title` and `description` meta field.
+IMPORTANT: Every page has to have a `title`, `description`, and `platforms` meta field and must import the `getCustomStaticPaths` util and export `getStaticPaths` and `getStaticProps` as showin in the example below:
+
+```
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Add social provider sign-in',
+  description:
+    'Learn how to setup social sign-in providers like Facebook, Google, Amazon, or Sign in with Apple.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+```
 
 The markdown body is parsed as [MDX](https://mdxjs.com/) and can include any valid HTML or JSX.
 
@@ -58,19 +92,21 @@ When editing content that hasn't been migrated, you may see the following patter
 ```jsx
 import js from '/src/fragments/lib/datastore/js/conflict.mdx';
 
-<Fragments fragments={{ javascript: js }} />;
+<Fragments
+  fragments={{ javascript: js, angular: js, nextjs: js, react: js, vue: js }}
+/>;
 ```
 
 This pattern incorporates fragment files into a page and conditionally renders content based off selected platform added as a condition to the `Fragments` tag.
 
-This fragment would exist in: `pages/src/fragments/lib/datastore/js/conflict.mdx`
+This fragment would exist in: `src/fragments/lib/datastore/js/conflict.mdx`
 
 ### Inline Filters
 
 We are incorporating the use of `<InlineFilters>` to add platform-specific content within the context of one page rather than in fragments. These filters allow you to still specify content by platform and they reference platforms using the same naming convention as our fragments. You can enclose your platform-specific content by updating the opening tag:
 
 ```md
-<InlineFilter filters={["javascript", "react-native", "android", "swift", "flutter"]}>
+<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue"]}>
 
 </InlineFilter>
 ```
