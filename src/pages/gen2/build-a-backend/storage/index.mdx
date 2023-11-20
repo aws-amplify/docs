@@ -41,6 +41,7 @@ Using the sample warning text above, you would need to install `aws-cdk-lib@2.10
 Next, modify your project's `backend.ts` file to create an Amazon S3 bucket and grant Amplify-generated resources access to read and write:
 
 ```ts title="amplify/backend.ts"
+// amplify/backend.ts
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource.js';
