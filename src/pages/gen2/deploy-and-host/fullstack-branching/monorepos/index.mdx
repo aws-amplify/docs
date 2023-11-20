@@ -59,7 +59,7 @@ The first app, `my-shared-backend`, will be the only app that updates changes to
 1. For the frontend apps, connect the frontend projects in the Amplify console separately, and update the build commands to include:
 
 ```
-npx amplify generate config --branch main --app-id <shared-backend-app-id>
+npx amplify generate config --branch main --app-id BACKEND-APP
 ```
 
 - `BACKEND-APP` is the `app-id` for your backend app. You can find this by going to the Amplify console and navigating to _backend-app > App settings > App ARN_ and copying the ID located at the end of the string `arn:aws:amplify:<region>:<account-id>:apps/app-id`.
