@@ -4,7 +4,17 @@ export const meta = {
   title: 'Use existing AWS resources',
   description:
     'Configure the Amplify Libraries to use an existing Amazon S3 bucket by referencing it in your configuration.',
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native','angular','nextjs','react','vue'] 
+  platforms: [
+    'javascript',
+    'flutter',
+    'swift',
+    'android',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -83,5 +93,11 @@ Amplify.configure(existingConfig, {
   }
 });
 ```
+
+<Callout>
+
+**Note:** `Amplify.configure()` takes in two parameters - `BackendResources` and `LibraryConfiguration`. Be sure to set the object lock setting through the second parameter.
+
+</Callout>
 
 </InlineFilter>

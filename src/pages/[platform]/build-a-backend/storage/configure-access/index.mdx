@@ -4,7 +4,17 @@ export const meta = {
   title: 'File access levels',
   description:
     'Learn about configuring different access levels in Amplify Storage. Objects can be public, protected, or private.',
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native','angular','nextjs','react','vue'] 
+  platforms: [
+    'javascript',
+    'flutter',
+    'swift',
+    'android',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -87,6 +97,12 @@ Amplify.configure(amplifyconfig, {
   }
 });
 ```
+
+<Callout>
+
+**Note:** `Amplify.configure()` takes in two parameters - `BackendResources` and `LibraryConfiguration`. Be sure to pass the `prefixResolver` into the second parameter.
+
+</Callout>
 
 For example, if you want to enable read, write and delete operation for all the objects under path _myPublicPrefix/_, declare it in your IAM policy:
 
