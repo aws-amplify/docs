@@ -4,7 +4,17 @@ export const meta = {
   title: 'Add social provider sign-in',
   description:
     'Learn how to setup social sign-in providers like Facebook, Google, Amazon, or Sign in with Apple.',
-  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android','angular','nextjs','react','vue'] 
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -378,6 +388,16 @@ After configuring the OAuth endpoints (with Cognito Hosted UI), you can integrat
 <Callout>
 
 **Note:** You can also use the [Authenticator UI component](https://ui.docs.amplify.aws/react/components/authenticator) to add social sign in flow to your application. Visit [Social Provider](https://ui.docs.amplify.aws/react/components/authenticator/configuration#social-providers) section to learn more.
+
+</Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+<Callout>
+
+**Note:** You can also use the [Authenticator UI component](https://ui.docs.amplify.aws/react-native/connected-components/authenticator) to add social sign in flow to your application. The Authenticator reads directly from your Amplify configured `socialProviders`. Visit [Social Provider](https://ui.docs.amplify.aws/react-native/connected-components/authenticator/configuration#social-providers) section to learn more.
 
 </Callout>
 
