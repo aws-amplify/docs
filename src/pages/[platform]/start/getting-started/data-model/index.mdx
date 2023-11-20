@@ -1168,13 +1168,13 @@ Amplify offers two API clients for Next.js server-side runtimes. Use `generateSe
 
 </Callout>
 
-Open **app/page.tsx** and replace it with the following code:
+Open **src/app/page.tsx** and replace it with the following code:
 
 ```tsx
 import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
 import { cookies } from 'next/headers';
 
-import config from '@/src/amplifyconfiguration.json';
+import config from '@/amplifyconfiguration.json';
 
 export const cookiesClient = generateServerClientUsingCookies({
   config,
@@ -1204,16 +1204,16 @@ export default async function Home() {
 
 In Next.js you can use a [Server Action](https://nextjs.org/docs/app/api-reference/functions/server-actions) to handle form submission server-side. Let's add a Server Action which submits its data to the `createTodo` function. When called, `createTodo` should send a GraphQL mutation via `cookiesClient.graphql(...)` to the GraphQL API, then call `revalidatePath` from the Next.js cache to invalidate the page cache and fetch the latest todos.
 
-Update the **app/page.tsx** with the following code:
+Update the **src/app/page.tsx** with the following code:
 
 ```tsx
 import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
 import { cookies } from 'next/headers';
 // 1. Add the following two imports
 import { revalidatePath } from 'next/cache';
-import * as mutations from '@/src/graphql/mutations';
+import * as mutations from '@/graphql/mutations';
 
-import config from '@/src/amplifyconfiguration.json';
+import config from '@/amplifyconfiguration.json';
 
 export const cookiesClient = generateServerClientUsingCookies({
   config,
@@ -1262,17 +1262,17 @@ export default async function Home() {
 
 Using `cookiesClient.graphql(...)` we make GraphQL queries as well. Pass in the `listTodos` query and assign the items returned to `todos` then iterate over them to display in a `<ul>` tag. If there are no todos, we display the message "No todos, please add one".
 
-Update the **app/page.tsx** with the following code:
+Update the **src/app/page.tsx** with the following code:
 
 ```tsx
 import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
 import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
-import * as mutations from '@/src/graphql/mutations';
+import * as mutations from '@/graphql/mutations';
 // 1. Add the queries as an import
-import * as queries from '@/src/graphql/queries';
+import * as queries from '@/graphql/queries';
 
-import config from '@/src/amplifyconfiguration.json';
+import config from '@/amplifyconfiguration.json';
 
 export const cookiesClient = generateServerClientUsingCookies({
   config,
