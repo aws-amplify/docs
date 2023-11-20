@@ -17,7 +17,7 @@ export function getStaticProps(context) {
 }
 
 
-Use the `.authorization()` modifier to configure authorization rules for public, sign-in user, per user, and per user group data access. **Authorization rules operate on the deny-by-default principle**. Meaning that if an authorization rule is not specifically configured, it is denied.
+Use the `.authorization()` modifier to configure authorization rules for public, signed-in user, per user, and per user group data access. **Authorization rules operate on the deny-by-default principle**. Meaning that if an authorization rule is not specifically configured, it is denied.
 
 ```ts
 export const schema = a.schema({
@@ -32,9 +32,7 @@ export const schema = a.schema({
   ])
 })
 ```
-
-In the example above, everyone (`public`) can read every Post but `owner` (authenticated users) can create, read, update, and delete their own posts. Amplify also allows you to restrict the allowed operations, combine multiple authorization rules, and apply fine-grained field-level authorization.
-
+In the example above, everyone (`public`) can read every Post but authenticated users (`owner`) can create, read, update, and delete their own posts. Amplify also allows you to restrict the allowed operations, combine multiple authorization rules, and apply fine-grained field-level authorization.
 
 ## Available authorization strategies
 
@@ -43,25 +41,27 @@ Use the guide below to select the correct authorization strategy for your use ca
 | **Recommended use case** | **Strategy** | **Provider** |
 |---|---|---|
 | [Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access.](/gen2/build-a-backend/data/customize-authz/public-data-access) | `public` | `apiKey` |
-| [Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls.](/gen2/build-a-backend/data/customize-authz/public-data-access) | `public` | `iam` |
+| [Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls.](/gen2/build-a-backend/data/customize-authz/public-data-access/#add-public-authorization-rule-using-iam-authentication) | `public` | `iam` |
 | [Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify/auth/resource.ts` Cognito user pool by default.](/gen2/build-a-backend/data/customize-authz/per-user-per-owner-data-access) | `owner` | `userPools` / `oidc` |
 | [Any signed-in data access. Unlike owner-based access, **any** signed-in user has access.](/gen2/build-a-backend/data/customize-authz/signed-in-user-data-access) | `private` | `userPools` / `oidc` / `iam` |
-| [Per user group data access. A specific or dynamically configured group of users have access](/gen2/build-a-backend/data/customize-authz/user-group-based-data-access) | `group` | `userPools` / `oidc` |
-| [Define your own custom authorization rule within a serverless function](/gen2/build-a-backend/data/customize-authz/custom-data-access-patterns) | `custom` | `function` |
+| [Per user group data access. A specific or dynamically configured group of users has access.](/gen2/build-a-backend/data/customize-authz/user-group-based-data-access) | `group` | `userPools` / `oidc` |
+| [Define your own custom authorization rule within a serverless function.](/gen2/build-a-backend/data/customize-authz/custom-data-access-patterns) | `custom` | `function` |
 
 ## Understand how authorization rules are applied
 
 Authorization rules can be applied globally across all data models in a schema, onto specific data models, and onto specific fields.
 
-Amplify will always use the most specific authorization rule that's available. For example, if there's an authorization rule for a field and an authorization rule for the model that the field belongs to, Amplify will evaluate against the field-level authorization rule. Review [Field-level authorization rules](#field-level-authorization-rules) to learn more.
+Amplify will always use the most specific authorization rule that is available. For example, if there is an authorization rule for a field and an authorization rule for the model that the field belongs to, Amplify will evaluate against the field-level authorization rule. Review [Field-level authorization rules](#field-level-authorization-rules) to learn more.
 
-If there are multiple authorization rules present, they'll be logically OR'ed. Review [Configure multiple authorization rules](#configure-multiple-authorization-rules) to learn more.
+If there are multiple authorization rules present, they will be logically OR'ed. Review [Configure multiple authorization rules](#configure-multiple-authorization-rules) to learn more.
 
-Finally, there are special "Admin IAM Roles" that allow you to overrule any authorization logic applied on the API determine the API access completely via its IAM policy.  
+Finally, there are special "Admin IAM Roles" that allow you to overrule any authorization logic applied on the API and determine the API access completely via its IAM policy.  
 
 ### Global authorization rule (only for getting started)
 
-To help you get started, you can define an authorization rule on the data schema that'll be applied to all data models that **don't** have a model-level authorization rule. For production environments, we recommend to remove the global authorization rule and apply specific rules for each model, and if necessary, fields instead.
+To help you get started, you can define an authorization rule on the data schema that will be applied to all data models that **do not** have a model-level authorization rule. Instead of having a global authorization rule for all production environments, we recommend creating specific authorization rules for each model or field.
+
+The global authorization rule below uses `a.allow.public()`. This example allows anyone to create, read, update, and delete and is applied to every data model.
 
 ```ts
 export const schema = a.schema({
@@ -82,8 +82,6 @@ export const schema = a.schema({
   a.allow.public()
 ])
 ```
-
-The global authorization rule (in this case `a.allow.public()` - allows anyone to create, read, update, and delete) is applied to every data model.
 
 ### Model-level authorization rules
 
@@ -106,7 +104,12 @@ export const schema = a.schema({
 
 ### Field-level authorization rules
 
-When an authorization rule is added to a field, it'll strictly define the authorization rules applied on the field. Field-level authorization rules **do not** inherit model-level authorization rules. Meaning, only the specified field-level authorization rule is applied.
+When an authorization rule is added to a field, it will strictly define the authorization rules applied on the field. Field-level authorization rules **do not** inherit model-level authorization rules. Meaning, only the specified field-level authorization rule is applied.
+
+In the example below:
+- Owners are allowed to create, read, update, and delete Employee records they own
+- Any signed in user has read access and can read data with the exception of the `ssn` field
+- Only the `ssn` field has `owner` auth applied and this field-level auth rule means that model-level auth rules are not applied
 
 ```ts
 export const schema = a.schema({
@@ -127,16 +130,11 @@ export const schema = a.schema({
 });
 ```
 
-In the example above:
-- Owners are allowed to create, read, update, and delete Employee records they own
-- Any signed in user has read access
-- Any signed in user can read data with the exception of the `ssn` field. This field only has owner auth applied, the field-level auth rule means that model-level auth rules are not applied
-
 ### Configure multiple authorization rules
 
 When combining multiple authorization rules, they are "logically OR"-ed. In the following example:
 - Any user (signed in or not, verified by IAM) is allowed to read all posts
-- Owners are allowed to create, read, update, and delete their own posts.
+- Owners are allowed to create, read, update, and delete their own posts
 
 ```ts
 export const schema = a.schema({
@@ -171,6 +169,8 @@ const { data: listPostsResult , errors } = await client.models.Post.list({
 	authMode: 'iam',
 });
 ```
+
+## Learn more about specific authorization strategies
 
 <Overview childPageNodes={props.childPageNodes} />
 

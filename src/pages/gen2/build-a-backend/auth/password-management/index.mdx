@@ -10,14 +10,11 @@ export function getStaticProps(context) {
       meta
     }
   };
-
 }
 
-Amplify Auth provides a secure way for your users to change their password or recover a forgotten password. This securely reduces friction for your users and improves their experience accessing your application.
+Amplify Auth provides a secure way for your users to change their password or recover a forgotten password. 
 
-Before you begin, you will need:
-
-- An Amplify app with the Auth category configured (see our [Quickstart](../../../start/quickstart/) to set this up)
+If you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
 
 ## Understand password default settings
 
@@ -36,7 +33,7 @@ To reset a user's password, use the `resetPassword` API which will send a reset 
 <BlockSwitcher>
 <Block name="TypeScript">
 
-```typescript
+```ts
 import { resetPassword, type ResetPasswordOutput } from 'aws-amplify/auth';
 
 async function handleResetPassword(username: string) {
@@ -68,7 +65,7 @@ function handleResetPasswordNextSteps(output: ResetPasswordOutput) {
 </Block>
 <Block name="JavaScript">
 
-```javascript
+```js
 import { resetPassword } from 'aws-amplify/auth';
 
 async function handleResetPassword(username) {
@@ -105,7 +102,7 @@ To complete the password reset process, invoke the `confirmResetPassword` API wi
 <BlockSwitcher>
 <Block name="TypeScript">
 
-```typescript
+```ts
 import {
   confirmResetPassword,
   type ConfirmResetPasswordInput
@@ -127,7 +124,7 @@ async function handleConfirmResetPassword({
 </Block>
 <Block name="JavaScript">
 
-```javascript
+```js
 import { confirmResetPassword } from 'aws-amplify/auth';
 
 async function handleConfirmResetPassword({
@@ -150,19 +147,16 @@ async function handleConfirmResetPassword({
 
 You can always change the channel used by your authentication resources by overriding the following setting.
 
-```ts title="amplify/backend.ts"
-import { Backend } from '@aws-amplify/backend';
-import { AccountRecovery } from 'aws-cdk-lib/aws-cognito';
-import { auth } from './auth';
-import { data } from './data';
+```diff title="amplify/auth/resource.ts"
+// amplify/auth/resource.ts
+import { defineAuth } from '@aws-amplify/backend';
 
-const backend = new Backend({
-  auth,
-  data,
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  },
++ accountRecovery: 'EMAIL_ONLY'
 });
-
-backend.resources.auth.resources.userPool.accountRecovery =
-  AccountRecovery.EMAIL_ONLY;
 ```
 
 ## Update password
@@ -172,7 +166,7 @@ You can update a signed in user's password using the `updatePassword` API.
 <BlockSwitcher>
 <Block name="TypeScript">
 
-```typescript
+```ts
 import { updatePassword, type UpdatePasswordInput } from 'aws-amplify/auth';
 
 async function handleUpdatePassword({
@@ -190,7 +184,7 @@ async function handleUpdatePassword({
 </Block>
 <Block name="JavaScript">
 
-```javascript
+```js
 import { updatePassword } from 'aws-amplify/auth';
 
 async function handleUpdatePassword(oldPassword, newPassword) {
@@ -213,5 +207,5 @@ Congratulations! You finished the **Set up user password change and recovery** g
 
 Now that you enabled password management you may also want to add some additional features. We recommend you learn more about:
 
-- [Add social provider sign-in](../add-social-provider/)
-- [Multi-factor authentication](../manage-mfa/)
+- [Add social provider sign-in](/gen2/build-a-backend/auth/add-social-provider/)
+- [Multi-factor authentication](/gen2/build-a-backend/auth/manage-mfa/)
