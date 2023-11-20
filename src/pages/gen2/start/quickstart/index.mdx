@@ -401,7 +401,7 @@ useEffect(() => {
   const sub = client.models.Todo.observeQuery()
     .subscribe({
       next: ({ items, isSynced }) => {
-        setTodos(items)
+        setTodos([...items])
       }
     })
   return () => sub.unsubscribe()  
