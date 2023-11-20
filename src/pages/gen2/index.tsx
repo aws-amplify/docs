@@ -269,7 +269,7 @@ export default defineData ({
           </FeatureItem>
           <FeatureItem
             linkText="Bring your your own pipelines"
-            href="/gen2/deploy-and-host/fullstack-branching/cross-account-deployments/"
+            href="/gen2/deploy-and-host/fullstack-branching/custom-pipelines/"
           >
             Use your own pipelines to set up cross-account or multi-region
             stage-based deployments.
