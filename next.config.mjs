@@ -13,7 +13,7 @@ export default () => {
     extension: /\.mdx$/,
     options: {
       remarkPlugins: [remarkGfm],
-      rehypePlugins: [rehypeMdxCodeProps, [rehypeImgSize, { dir: 'public' }]]
+      rehypePlugins: [[rehypeImgSize, { dir: 'public' }], rehypeMdxCodeProps]
     }
   });
 

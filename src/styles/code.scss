@@ -16,7 +16,8 @@ code:not([class]) {
 
 .pre-header {
   align-items: center;
-  padding: var(--amplify-space-xs) 0;
+  padding: 0 0 var(--amplify-space-xs) 0;
+  margin-inline: var(--amplify-space-small);
   border-bottom: 1px solid var(--amplify-colors-neutral-90);
 }
 .pre-filename {
@@ -26,7 +27,7 @@ code:not([class]) {
 }
 
 .pre-wrapper {
-  padding: 1px;
+  padding: var(--amplify-space-xs) var(--amplify-space-small);
   border-radius: var(--amplify-radii-small);
   background: var(--amplify-colors-neutral-100);
   overflow: hidden;
@@ -45,13 +46,12 @@ code:not([class]) {
 }
 
 .pre {
-  margin: 0;
+  margin: var(--amplify-space-xs);
   overflow: auto;
-  padding-block-start: var(--amplify-space-medium);
-  padding-block-end: var(--amplify-space-large);
+  padding-block: var(--amplify-space-xs);
   font-size: var(--amplify-font-sizes-medium);
-  &--header {
-    padding-block: var(--amplify-space-large);
+  &:focus-visible {
+    outline: 2px solid var(--amplify-colors-neutral-10);
   }
 }
 

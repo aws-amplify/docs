@@ -1,8 +1,8 @@
-import * as React from 'react';
+import { useId, useState, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Prism, Highlight } from 'prism-react-renderer';
 import { theme } from './code-theme';
-import { Button, Flex, View } from '@aws-amplify/ui-react';
+import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
 import { versions } from '@/constants/versions';
 import { trackCopyClicks } from '@/utils/track';
 (typeof global !== 'undefined' ? global : window).Prism = Prism;
@@ -37,10 +37,12 @@ export const MDXCode = (props) => {
     showLineNumbers = true
   } = props;
 
-  const [copied, setCopied] = React.useState(false);
-  const [code, setCode] = React.useState(codeString);
+  const [copied, setCopied] = useState(false);
+  const [code, setCode] = useState(codeString);
   const shouldShowCopy = language !== 'console';
   const shouldShowHeader = shouldShowCopy || fileName;
+  const fileNameId = useId();
+  const codeId = useId();
 
   const copy = () => {
     trackCopyClicks(codeString);
@@ -50,7 +52,7 @@ export const MDXCode = (props) => {
     }, 2000);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     setCode(addVersions(codeString));
   }, []);
 
@@ -63,45 +65,48 @@ export const MDXCode = (props) => {
             {codeString}
           </div>
           <View className="pre-wrapper">
-            <View className="pre-wrapper__inner">
-              {shouldShowHeader ? (
-                <Flex className="pre-header">
-                  {fileName ? (
-                    <View className="pre-filename">{fileName}</View>
-                  ) : null}
-                  {shouldShowCopy ? (
-                    <CopyToClipboard text={codeString} onCopy={copy}>
-                      <Button
-                        size="small"
-                        variation="link"
-                        disabled={copied}
-                        className="code-copy"
-                      >
-                        {copied ? 'Copied!' : 'Copy'}
-                      </Button>
-                    </CopyToClipboard>
-                  ) : null}
-                </Flex>
-              ) : null}
+            {shouldShowHeader ? (
+              <Flex className="pre-header">
+                {fileName ? (
+                  <View className="pre-filename" id={fileNameId}>
+                    {fileName}
+                  </View>
+                ) : null}
+                {shouldShowCopy ? (
+                  <CopyToClipboard text={codeString} onCopy={copy}>
+                    <Button
+                      size="small"
+                      variation="link"
+                      disabled={copied}
+                      className="code-copy"
+                    >
+                      <VisuallyHidden>Copy example code</VisuallyHidden>
+                      {copied ? 'Copied!' : 'Copy'}
+                    </Button>
+                  </CopyToClipboard>
+                ) : null}
+              </Flex>
+            ) : null}
 
-              <pre
-                style={style}
-                className={`pre${shouldShowHeader ? ' pre--header' : ''}`}
-              >
-                <code className="pre-code">
-                  {tokens.map((line, i) => (
-                    <div key={i} {...getLineProps({ line })}>
-                      {showLineNumbers && (
-                        <span className="line-number">{i + 1}</span>
-                      )}
-                      {line.map((token, key) => (
-                        <span key={key} {...getTokenProps({ token })} />
-                      ))}
-                    </div>
-                  ))}
-                </code>
-              </pre>
-            </View>
+            <pre
+              style={style}
+              tabIndex={0}
+              aria-labelledby={`${fileName ? fileNameId : null} ${codeId}`}
+              className={`pre${shouldShowHeader ? ' pre--header' : ''}`}
+            >
+              <code className="pre-code" id={codeId}>
+                {tokens.map((line, i) => (
+                  <div key={i} {...getLineProps({ line })}>
+                    {showLineNumbers && (
+                      <span className="line-number">{i + 1}</span>
+                    )}
+                    {line.map((token, key) => (
+                      <span key={key} {...getTokenProps({ token })} />
+                    ))}
+                  </div>
+                ))}
+              </code>
+            </pre>
           </View>
         </View>
       )}
