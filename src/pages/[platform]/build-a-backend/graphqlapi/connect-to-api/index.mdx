@@ -223,6 +223,12 @@ Amplify.configure(config, {
 });
 ```
 
+<Callout>
+
+**Note:** `Amplify.configure()` takes in two parameters - `BackendResources` and `LibraryConfiguration`. Be sure to pass your custom headers into the second parameter.
+
+</Callout>
+
 ## Generate GraphQL client code and typings
 
 You can generate common GraphQL queries, mutations, and subscriptions directly from your backend GraphQL schema. This allows you to avoid hand-authoring GraphQL documents from scratch when developing your API quickly and also provides you end-to-end typing.
