@@ -137,10 +137,10 @@ const Gen2Overview = () => {
           <Card variation="outlined">
             <Flex direction="column">
               <Heading level={3} fontSize="medium">
-                Infrastructure-from-code
+                Code-first DX
               </Heading>
               <Text>
-                Infrastructure-from-code is a new approach that lets your focus
+                The code-first developer experience is a new approach that lets your focus
                 on your app code instead of infrastructure.
               </Text>
             </Flex>
@@ -173,7 +173,7 @@ const Gen2Overview = () => {
         <FeatureList heading="Develop" level={2}>
           <FeatureItem
             linkText="A TypeScript-first fullstack experience"
-            href="/gen2/how-amplify-works/concepts/#typescript-for-the-fullstack"
+            href="/gen2/how-amplify-works/concepts/#build-fullstack-apps-with-typescript"
           >
             Write TypeScript across the frontend and the backend to give you
             features like schema validation, dot completion, and end-to-end
