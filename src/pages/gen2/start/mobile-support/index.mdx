@@ -76,6 +76,64 @@ Running this command will scaffold a lightweight Amplify project in your current
 
 ### Running Local Development Environment
 
+Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
+
+```bash
+amplify sandbox --config-format=json-mobile --config-out-dir=app/src/main/res
+```
+
+### Adding Authentication
+
+After the Amplify creation process, you can see a resource.ts file in the amplify/auth folder. This file contains the configuration for the authentication resource. The base code will enable the authentication with the default configuration. You can change the configuration based on your needs. For more information about the configuration, you can check the [documentation](/gen2/build-a-backend/auth/enable-sign-up/).
+
+```typescript
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  }
+});
+```
+
+After you have configured the authentication resource, you can use the Amplify UI libraries to run your authentication flow. Amplify UI is a collection of accessible, themeable, performant ui components that can connect directly to the Amplify resources.
+
+To use the Amplify UI libraries, you need to add the following dependencies to your app/build.gradle file:
+
+### Adding GraphQL API
+
+After the Amplify creation process, you can see a resource.ts file in the amplify/data folder. This file contains the configuration for the GraphQL API resource.
+
+The default code will create a Todo model with content and isDone property. The authorization rules below specify that owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
+
+```typescript
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      isDone: a.boolean()
+    })
+    .authorization([a.allow.owner()])
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'userPool'
+  }
+});
+```
+
+You can terminate the sandbox environment now to clean up the project.
+
+### Publishing changes to cloud
+
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/gen2/start/quickstart/#create-remote-git-repository).
+
 </Block>
 
 <Block name="Flutter">
