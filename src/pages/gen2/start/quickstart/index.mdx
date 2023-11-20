@@ -36,6 +36,8 @@ The easiest way to get started with AWS Amplify is through npm with `create-ampl
 
 ```bash
 npm create amplify@latest
+```
+```console
 ? Where should we create your project? (.) # press enter
 ```
 
@@ -70,7 +72,7 @@ For the backend, we are going to start a cloud sandbox environment. Amplify give
 npx amplify sandbox
 ```
 <Callout warning>
-Do not use sandbox environments in production.
+Do not use cloud sandbox environments in production.
 </Callout>
 
 You should have these two commands running concurrently in different terminal windows. 
@@ -107,7 +109,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'API_KEY',
+    defaultAuthorizationMode: 'apiKey',
     // API Key is used for a.allow.public() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30
@@ -151,7 +153,7 @@ Fetch records from the database and use them in your frontend component.
 
 Let's make a quick change to our data model and add a `done` field which will be a `boolean` which can be set to `true` or `false` depending if our Todo list item is complete. Let's also add a priority field, which will be an enum. This field type will allow for just a few options to be stored - low, medium, or high.
 
-We've removed the to shorten the code below; however, you can chose to keep them for assistance building your app's connection to frontend resources.
+We've removed the default comments to shorten the code below; however, you can chose to keep them for assistance building your app's connection to frontend resources.
 
 ```diff title="amplify/data/resource.ts"
 // amplify/data/resource.ts
@@ -174,7 +176,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'API_KEY',
+    defaultAuthorizationMode: 'apiKey',
     // API Key is used for a.allow.public() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30,
@@ -195,7 +197,7 @@ Let's remove public access.
 .authorization([a.allow.owner()]),
 ```
 
-Then, you'll see the `defineData` function, which has our schema and authorization configuration passed in as arguments. We have an `API_KEY` set up in order to enable public access. Let's change our `defaultAuthorizationMode` to `userPool` instead so that the default is to use user authentication.
+Then, you'll see the `defineData` function, which has our schema and authorization configuration passed in as arguments. We have an `apiKey` set up in order to enable public access. Let's change our `defaultAuthorizationMode` to `userPool` instead so that the default is to use user authentication.
 
 ```js
 export const data = defineData({
@@ -394,17 +396,14 @@ Let's update the return statement of the above component to also have a button f
 }
 ```
 
-Create a couple to dos, then refresh the page to see them. You can also subscribe to new todos in your `useEffect` to have them live reload on the page.
+Create a couple todos, then refresh the page to see them. You can also subscribe to new todos in your `useEffect` to have them live reload on the page.
 
 ```js
 useEffect(() => {
   const sub = client.models.Todo.observeQuery()
-    .subscribe({
-      next: ({ items, isSynced }) => {
-        setTodos(items)
-      }
-    })
-  return () => sub.unsubscribe()  
+    .subscribe(({ items }) => setTodos([...items]))
+
+  return () => sub.unsubscribe()
 }, []);
 ```
 
@@ -422,7 +421,7 @@ If you already have your project remotely hosted in a Git repository, you can sk
 
 ### Connect branch in the Amplify console
 
-1. To get started with Gen 2, log in to [AWS console](https://console.aws.amazon.com/console/home?#amplify) and navigate to your preferred region. (the Amplify console is available in [19 regions](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplify_region)).
+1. To get started with Gen 2, log in to [AWS console](https://console.aws.amazon.com/console/home?#amplify) and navigate to your preferred region. (The Amplify console is available in [19 regions](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplify_region)).
 2. Choose the new *Create an app* Gen 2 option. If you have never created apps with Amplify before, choose *Create an app* from the purple banner (top screenshot). If you have Amplify apps, you can find the option under *New app > Build an app (Gen 2)*.
 
 ![gen2](/images/gen2/getting-started/console1.png)
