@@ -2015,7 +2015,15 @@ export const directory = {
           ]
         },
         {
-          path: 'src/pages/gen2/build-ui/index.mdx'
+          path: 'src/pages/gen2/build-ui/index.mdx',
+          children: [
+            {
+              path: 'src/pages/gen2/build-ui/forms/index.mdx'
+            },
+            {
+              path: 'src/pages/gen2/build-ui/figma-to-code/index.mdx'
+            }
+          ]
         },
         {
           path: 'src/pages/gen2/deploy-and-host/index.mdx',
