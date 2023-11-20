@@ -27,7 +27,7 @@ import styles from '../../components/GlobalNav/GlobalNav.module.scss';
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
   description:
-    'This is a description for the overview page for the new Amplify code-first DX (Gen 2).'
+    'Build apps with the Amplify code-first developer experience (Gen 2) using TypeScript-based development and an infrastructure-as-code approach.'
 };
 
 export function getStaticProps() {
