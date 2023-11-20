@@ -440,7 +440,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { generateClient } from 'aws-amplify/api';
+import { generateClient, type Client } from 'aws-amplify/api';
 import { Todo, ListTodosQuery } from '../../API';
 import * as mutations from '../../graphql/mutations';
 
@@ -453,7 +453,7 @@ import * as mutations from '../../graphql/mutations';
 })
 export class TodosComponent {
   public createForm: FormGroup;
-  public client: any;
+  public client: Client;
 
   constructor(private fb: FormBuilder) {
     this.createForm = this.fb.group({
@@ -514,7 +514,7 @@ import {
   Validators
 } from '@angular/forms';
 
-import { generateClient } from 'aws-amplify/api';
+import { generateClient, type Client } from 'aws-amplify/api';
 import { ListTodosQuery, Todo } from '../../API';
 import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
@@ -528,7 +528,7 @@ import * as queries from '../../graphql/queries';
 })
 export class TodosComponent implements OnInit {
   public createForm: FormGroup;
-  public client: any;
+  public client: Client;
 
   /* declare todos variable */
   public todos: ListTodosQuery['listTodos'];
@@ -658,7 +658,7 @@ import {
   Validators
 } from '@angular/forms';
 
-import { generateClient } from 'aws-amplify/api';
+import { generateClient, type Client } from 'aws-amplify/api';
 import { Todo, ListTodosQuery } from '../../API';
 import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
@@ -674,7 +674,7 @@ import * as subscriptions from '../../graphql/subscriptions';
 export class TodosComponent implements OnInit, OnDestroy {
   public todos: ListTodosQuery['listTodos'];
   public createForm: FormGroup;
-  public client: any;
+  public client: Client;
 
   private subscription: any = null;
 
@@ -704,12 +704,12 @@ export class TodosComponent implements OnInit, OnDestroy {
       })
       .subscribe({
         next: (event: any) => {
-        const newTodo: Todo = event.data.onCreateTodo;
-        if (this.todos) {
-          this.todos.items = [newTodo, ...this.todos];
+          const newTodo: Todo = event.data.onCreateTodo;
+          if (this.todos) {
+            this.todos.items = [newTodo, ...this.todos];
+          }
         }
-      }
-    });
+      });
   }
 
   ngOnDestroy(): void {
