@@ -10,5 +10,23 @@ export function getStaticProps(context) {
       meta
     }
   };
-
 }
+
+In Amplify (Gen 2) we generate the configuration file and supporting GraphQL client code in the current working directory, which is typically the root of your project. To change this behavior you must use the `--config-out-dir` and `--config-format` options of [`amplify sandbox`](/gen2/reference/cli-commands#amplify-sandbox):
+
+```bash
+# for Android
+amplify sandbox --config-format json-mobile --config-out-dir app/src/main/res
+```
+
+```bash
+# for Swift/iOS
+amplify sandbox --config-format json-mobile
+```
+
+```bash
+# for Flutter
+amplify sandbox --config-format dart --config-out-dir lib
+```
+
+{/* @TODO video for adding config files to XCode project */}

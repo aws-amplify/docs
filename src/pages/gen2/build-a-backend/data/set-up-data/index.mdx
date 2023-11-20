@@ -28,6 +28,8 @@ With Amplify Data, you can build a secure, real-time API backed by a database in
 If you've run `npm create amplify@latest` already, you should see an `amplify/data/resource.ts` file, which is the central location to configure your data backend. The most important element is the `schema` object, which defines your backend data models (`a.model()`) and custom queries (`a.query()`), mutations (`a.mutation()`), and subscriptions (`a.subscription()`).
 
 ```ts title="backend/data/resource.ts"
+// backend/data/resource.ts
+
 import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
 
 const schema = a.schema({
@@ -73,6 +75,8 @@ To connect your frontend code to your backend, you need to:
 In your app's entry point, typically **main.tsx** for React apps created using Vite, make the following edits:
 
 ```tsx
+// main.tsx
+
 import { Amplify } from 'aws-amplify';
 import { amplifyconfiguration } from '@/amplifyconfiguration.json';
 
@@ -84,6 +88,8 @@ Amplify.configure(config);
 Let's first add a button to create a new todo item. To make a "create Todo" API request, generate the data client using `generateClient()` in your frontend code, and then call `.create()` operation for the Todo model. The Data client is a fully typed client that gives you in-IDE code completion. To enable this in-IDE code completion capability, pass in the `Schema` type to the `generateClient` function.
 
 ```tsx title="TodoList.tsx"
+// TodoList.tsx
+
 "use client"
 import type { Schema } from '@/amplify/data/resource'
 import { generateClient } from 'aws-amplify/api'
@@ -118,6 +124,8 @@ Try playing around with the code completion of `.update(...)` and `.delete(...)`
 Next, list all your todos and then refetch the todos after a todo has been added:
 
 ```tsx title="TodoList.tsx"
+// TodoList.tsx
+
 "use client"
 import type { Schema } from '@/amplify/data/resource'
 import { useState, useEffect } from 'react'
@@ -160,6 +168,8 @@ export default function TodoList() {
 You can also use `observeQuery` to subscribe to a live feed of your backend data. Let's refactor the code to use a real-time observeQuery instead.
 
 ```tsx title="App.tsx"
+// App.tsx
+
 "use client"
 import type { Schema } from '@/amplify/data/resource'
 import { useState, useEffect } from 'react'
@@ -212,7 +222,7 @@ You can also use `.onCreate`, `.onUpdate`, or `.onDelete` to subscribe to specif
 
 Success! You've learned how to create your first real-time API and database with Amplify Data.
 
-## Next steps
+### Next steps
 
 There's so much more to discover with Amplify Data. Learn more about:
 
