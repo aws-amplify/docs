@@ -48,9 +48,7 @@ When you deploy your backend (`amplify push`), an `aws-exports.js` file is gener
 
 ```ts
 import { Amplify } from 'aws-amplify'
-
 import awsconfig from './aws-exports'
-
 
 Amplify.configure(awsconfig)
 ```
@@ -73,10 +71,8 @@ When working with existing GraphQL APIs, you must manually provide your API endp
 import { Amplify } from 'aws-amplify'
 
 Amplify.configure({
-  
   aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
   aws_appsync_region: 'us-east-1',
-  
 })
 ```
 
@@ -96,10 +92,8 @@ Amplify.configure({
   aws_appsync_region: 'us-east-1',
 
   // Set the auth type as "API_KEY" and pass in the API key value
-  
   aws_appsync_authenticationType: 'API_KEY',
   aws_appsync_apiKey: 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx'
-  
 })
 ```
 
@@ -114,9 +108,7 @@ Amplify.configure({
   aws_appsync_region: 'us-east-1',
 
   // Set the auth type as "AMAZON_COGNITO_USER_POOLS"
-  
   aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
-  
 })
 ```
 </Block>
@@ -130,9 +122,7 @@ Amplify.configure({
   aws_appsync_region: 'us-east-1',
 
   // Set the auth type as "AWS_IAM"
-  
   aws_appsync_authenticationType: 'AWS_IAM',
-  
 })
 ```
 </Block>
@@ -146,9 +136,7 @@ Amplify.configure({
   aws_appsync_region: 'us-east-1',
 
   // Set the auth type as "OPENID_CONNECT"
-  
   aws_appsync_authenticationType: 'OPENID_CONNECT',
-  
 })
 ```
 
@@ -167,9 +155,7 @@ Amplify.configure({
   aws_appsync_region: 'us-east-1',
 
   // Set the auth type as "AWS_LAMBDA"
-  
   aws_appsync_authenticationType: 'AWS_LAMBDA',
-  
 })
 ```
 
@@ -181,7 +167,6 @@ const lambdaAuthToken = getAuthToken();
 
 const createdTodo = await client.graphql({
   query: queries.listTodos,
-  
   authToken: lambdaAuthToken
 });
 ```
