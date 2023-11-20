@@ -214,7 +214,7 @@ To set up the project, you'll first create a new Next.js app with [Create Next A
 From your projects directory, run the following commands:
 
 ```bash
-npm create next-app@14 -- next-amplified --ts --no-eslint --no-src-dir --import-alias '@/*' --no-tailwind --app
+npm create next-app@14 -- next-amplified --ts --no-eslint --src-dir --import-alias '@/*' --no-tailwind --app
 cd next-amplified
 ```
 
@@ -223,7 +223,7 @@ This command will bootstrap the project with the following options:
 - App Router
 - TypeScript
 - No ESLint
-- No `src` directory
+- With the `src` directory
 - No Tailwind CSS
 - imports aliased to `@/` (the default)
 
@@ -465,10 +465,7 @@ For more information on AWS Profiles, see:
 https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
 
 ? Please choose the profile you want to use: default
-
 ```
-
-> Where possible the CLI will infer the proper configuration based on the type of project Amplify is being initialized in. In this case it knew you are using Create Next App and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
 
 </InlineFilter>
 
@@ -542,9 +539,8 @@ Select AWS profile and then choose the profile you configured in the [Prerequisi
 When you initialize a new Amplify project, a few things happen:
 
 - It creates a top level directory called `amplify` that stores your backend definition. During the tutorial you'll add cloud capabilities, such as GraphQL API and web hosting. As you add these features, the `amplify` folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
-- It creates a file called `aws-exports.js` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify JavaScript client library is able to get the necessary information to connect to your backend services.
+- It creates a file called `amplifyconfiguration.json` in your designated **Source Directory Path** that holds all the configuration for the services you create with Amplify. This is how the Amplify JavaScript client library is able to get the necessary information to connect to your backend services.
 - It modifies the `.gitignore` file, adding some generated files to the ignore list
-- An Amplify project is created for you that can be accessed within the AWS Console by running `amplify console`. The AWS Amplify console provides a list of backend environments, deep links to provisioned resources per Amplify category, deployment statuses, and instructions on how to promote, clone, pull, and delete backend resources.
 
 ## Install Amplify Libraries
 
@@ -613,11 +609,11 @@ Angular CLI output warnings: if you see CommonJS or AMD dependencies optimizatio
 
 </InlineFilter>
 
+<InlineFilter filters={['react','javascript','angular','vue']}>
 ## Set up frontend
 
-Next, configure Amplify so it can interact with backend services.
+Next, configure the Amplify libraries client-side so it can interact with backend services.
 
-<InlineFilter filters={['react','javascript','angular','nextjs','vue']}>
 
     <InlineFilter filters={['react']}>
         Open **src/main.jsx** and add the following code below the last import:
@@ -639,7 +635,7 @@ Next, configure Amplify so it can interact with backend services.
         Open **src/main.js** and add the following code below the last import:
     </InlineFilter>
 
-    <InlineFilter filters={["angular", "nextjs", "react", "vue"]}>
+    <InlineFilter filters={["angular", "react", "vue"]}>
 
     ```javascript
     import { Amplify } from 'aws-amplify';
@@ -649,9 +645,6 @@ Next, configure Amplify so it can interact with backend services.
 
     </InlineFilter>
 
-    <InlineFilter filters={["nextjs"]}>
-        If you are using Next.js App Router, refer to the [Server Side Rendering](/[platform]/build-a-backend/server-side-rendering/) document for details on configuring Amplify on both the server and client sides.
-    </InlineFilter>
 
     <InlineFilter filters={["javascript"]}>
 
@@ -712,8 +705,18 @@ In order to import `amplifyconfiguration.json` files in Typescript, you may need
 
 </InlineFilter>
 
+<InlineFilter filters={["javascript", "react", "angular", "react-native", "vue"]}>
+
 And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in **amplifyconfiguration.json** will update automatically.
 
 Now that your app is set up and Amplify is initialized, you can add an API in the next step.
+
+</InlineFilter>
+
+<InlineFilter filters={["nextjs"]}>
+
+That's all it takes to install Amplify libraries with your Next.js application. Next, we'll create a new backend API and database tables. Then, we'll use the Amplify library's Next.js adapter to make API requests to your new backend.
+
+</InlineFilter>
 
 </InlineFilter>

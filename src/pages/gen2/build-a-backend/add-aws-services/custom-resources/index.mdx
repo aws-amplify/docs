@@ -12,34 +12,52 @@ export function getStaticProps(context) {
 
 }
 
-Amplify Gen2 provides the ability to add custom AWS resources to an Amplify project using the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html). The CDK is an open source software development framework to define your cloud application resources using familiar programming languages, such as Typescript.
+Amplify (Gen 2) provides the ability to add custom AWS resources to an Amplify project using the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html). The CDK is an open source software development framework to define your cloud application resources using familiar programming languages, such as TypeScript.
 
 CDK can be used within an Amplify project to add custom resources and configurations beyond what Amplify supports out of the box. For example, a developer could use CDK to hook up a Redis cache, add a Lambda function that runs on a schedule, or implement custom security rules.
 
 The infrastructure defined via CDK code is deployed along with the Amplify project. This gives developers the simplicity of Amplify, combined with the flexibility of CDK for situations where they need more customization.
 
 <Callout>
-  AWS CDK apps are composed of building blocks known as
-  [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html), which
-  are composed together to form
-  [stacks](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Stack.html)
-  and [apps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.App.html).
-  You can learn more in the [Concepts - AWS Cloud Development Kit (AWS CDK)
-  v2](https://docs.aws.amazon.com/cdk/v2/guide/core_concepts.html)
-  documentation.
+
+AWS CDK apps are composed of building blocks known as [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html), which are composed together to form [stacks](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Stack.html) and [apps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.App.html). You can learn more in the [Concepts - AWS Cloud Development Kit (AWS CDK) v2](https://docs.aws.amazon.com/cdk/v2/guide/core_concepts.html) documentation.
+
 </Callout>
 
 With the Amplify Code-first DX, you can add existing or custom CDK [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) to the [backend](https://next-docs.amplify.aws/gen2/how-amplify-works/concepts/#backend) of your Amplify project.
 
 ## Adding an existing CDK Construct
 
-The CDK comes with [many existing Constructs](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-construct-library.html) that can be directly added to your Amplify backend. For example, to add an SQS queue and SNS topic to your backend, you can add the following to your `amplify/backend.ts` file.
+The CDK comes with [many existing Constructs](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-construct-library.html) that can be directly added to your Amplify backend. To get started, install the CDK library:
+
+```bash
+npm add --save-dev aws-cdk-lib constructs
+```
+
+<Callout warning>
+
+Depending on the Node.js package manager you are using, you may encounter warnings where it is now unable to resolve the peer dependency version `@aws-amplify/backend` has on `aws-cdk-lib`. If you encounter a warning similar to the following, re-install the version specified in the warning text:
+
+```
+npm WARN Could not resolve dependency:
+npm WARN peer aws-cdk-lib@"~2.103.0" from @aws-amplify/backend@0.4.0
+npm WARN node_modules/@aws-amplify/backend
+npm WARN   dev @aws-amplify/backend@"^0.4.0" from the root project
+```
+
+Using the sample warning text above, you would need to install `aws-cdk-lib@2.103.0`.
+
+</Callout>
+
+For example, to add an [Amazon Simple Queue Service (SQS)](https://aws.amazon.com/sqs/) queue and an [Amazon Simple Notification Service (SNS)](https://aws.amazon.com/sns/) topic to your backend, you can add the following to your `amplify/backend.ts` file.
 
 ```ts title="amplify/backend.ts"
+// amplify/backend.ts
+import * as sns from 'aws-cdk-lib/aws-sns';
+import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource.js';
 import { data } from './data/resource.js';
-import { aws_sns, aws_sqs } from 'aws-cdk-lib';
 
 const backend = defineBackend({
   auth,
@@ -48,8 +66,8 @@ const backend = defineBackend({
 
 const customResourceStack = backend.createStack('MyCustomResources');
 
-new aws_sqs.Queue(customResourceStack, 'customQueue');
-new aws_sns.Topic(customResourceStack, 'customTopic');
+new sqs.Queue(customResourceStack, 'CustomQueue');
+new sns.Topic(customResourceStack, 'CustomTopic');
 ```
 
 Note the use of `backend.createStack()`. This method instructs the backend to create a new CloudFormation Stack for your custom resources to live in. You can create multiple custom stacks and you can place multiple resources in any given stack.
@@ -57,10 +75,9 @@ Note the use of `backend.createStack()`. This method instructs the backend to cr
 ## Defining a CDK Construct
 
 <Callout>
-  Constructs are the basic building blocks of AWS CDK apps. A construct
-  represents a "cloud component" and encapsulates everything AWS CloudFormation
-  needs to create the component. [Read
-  more](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html)
+
+Constructs are the basic building blocks of AWS CDK apps. A construct represents a "cloud component" and encapsulates everything AWS CloudFormation needs to create the component. [Read more](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html)
+
 </Callout>
 
 As shown above, you can use the existing CDK Constructs directly in an Amplify backend. However, you may find yourself repeating some patterns of common constructs. Custom constructs allow you to encapsulate common patterns into reusable components. This helps you implement best practices, accelerate development, and maintain consistency across applications.
@@ -71,7 +88,7 @@ This AWS CDK construct implements a decoupled notification system using Amazon S
 
 The key components are:
 
-- An Amazon SNS topic to receive notification messages
+- An SNS topic to receive notification messages
 - A Lambda function to publish messages to the SNS topic
 - A second Lambda subscribed to the topic that processes the messages and sends emails via Amazon SES
 
@@ -80,28 +97,26 @@ The publisher Lambda allows publishing a message containing the email subject, b
 The `CustomNotifications` custom CDK construct can be defined as follows:
 
 ```ts title="amplify/custom/CustomNotifications/resource.ts"
+import * as url from 'node:url';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
-import {
-  NodejsFunction,
-  NodejsFunctionProps
-} from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as lambda from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as sns from 'aws-cdk-lib/aws-sns';
-import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
+import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 import { Construct } from 'constructs';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
+// message to publish
 export type Message = {
   subject: string;
   body: string;
   recipient: string;
 };
-interface CustomNotificationsProps {
+
+type CustomNotificationsProps = {
+  /**
+   * The source email address to use for sending emails
+   */
   sourceAddress: string;
-}
+};
 
 export class CustomNotifications extends Construct {
   constructor(scope: Construct, id: string, props: CustomNotificationsProps) {
@@ -112,36 +127,26 @@ export class CustomNotifications extends Construct {
     // Create SNS topic
     const topic = new sns.Topic(this, 'NotificationTopic');
 
-    const nodeJsFunctionProps: NodejsFunctionProps = {
-      bundling: {
-        externalModules: [
-          '@aws-sdk' // Use the '@aws-sdk' available in the Lambda runtime
-        ]
-      },
-      runtime: Runtime.NODEJS_18_X,
-      handler: 'index.handler'
-    };
-
-    // Lambda to publish messages
-    const publisher = new NodejsFunction(this, 'Publisher', {
-      entry: join(__dirname, 'publisher.ts'),
+    // Create Lambda to publish messages to SNS topic
+    const publisher = new lambda.NodejsFunction(this, 'Publisher', {
+      entry: url.fileURLToPath(new URL('publisher.ts', import.meta.url)),
       environment: {
-        topicArn: topic.topicArn
+        SNS_TOPIC_ARN: topic.topicArn
       },
-      ...nodeJsFunctionProps
+      runtime: Runtime.NODEJS_18_X
     });
 
-    // Lambda to process messages
-    const emailer = new NodejsFunction(this, 'Emailer', {
-      entry: join(__dirname, 'emailer.ts'),
+    // Create Lambda to process messages from SNS topic
+    const emailer = new lambda.NodejsFunction(this, 'Emailer', {
+      entry: url.fileURLToPath(new URL('emailer.ts', import.meta.url)),
       environment: {
-        sourceAddress
+        SOURCE_ADDRESS: sourceAddress
       },
-      ...nodeJsFunctionProps
+      runtime: Runtime.NODEJS_18_X
     });
 
-    // Subscribe emailer lambda to SNS topic
-    topic.addSubscription(new subs.LambdaSubscription(emailer));
+    // Subscribe emailer Lambda to SNS topic
+    topic.addSubscription(new subscriptions.LambdaSubscription(emailer));
 
     // Allow publisher to publish to SNS topic
     topic.grantPublish(publisher);
@@ -152,29 +157,30 @@ export class CustomNotifications extends Construct {
 The Lambda function code for the `Publisher` is:
 
 ```ts title="amplify/custom/CustomNotifications/publisher.ts"
-// publisher Lambda
+// amplify/custom/CustomNotifications/publisher.ts
 import { PublishCommand, SNSClient } from '@aws-sdk/client-sns';
+import type { Handler } from 'aws-lambda';
+import type { Message } from './resource.js';
 
 const client = new SNSClient({ region: process.env.AWS_REGION });
 
-export const handler = async (event: any) => {
+// define the handler that will publish messages to the SNS Topic
+export const handler: Handler<Message, void> = async (event) => {
+  const { subject, body, recipient } = event;
+  const command = new PublishCommand({
+    TopicArn: process.env.TOPIC_ARN,
+    Message: JSON.stringify({
+      subject,
+      body,
+      recipient
+    })
+  });
   try {
-    const { subject, body, recipient } = event;
-
-    const params = {
-      TopicArn: process.env.topicArn,
-      Message: JSON.stringify({
-        subject,
-        body,
-        recipient
-      })
-    };
-
-    const command = new PublishCommand(params);
-    await client.send(command);
-  } catch (err) {
-    console.error(err);
-    throw err;
+    const response = await client.send(command);
+    console.log('published', response);
+  } catch (error) {
+    console.log('failed to publish message', error);
+    throw new Error('Failed to publish message', { cause: error });
   }
 };
 ```
@@ -182,30 +188,28 @@ export const handler = async (event: any) => {
 The Lambda function code for the `Emailer` is:
 
 ```ts title="amplify/custom/CustomNotifications/emailer.ts"
-// emailer Lambda
+// amplify/custom/CustomNotifications/emailer.ts
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
-import { DeleteMessageCommand, SNSClient } from '@aws-sdk/client-sns';
-import type { SNSEvent } from 'aws-lambda';
-import { Message } from './resource';
+import type { SNSHandler } from 'aws-lambda';
+import type { Message } from './resource';
 
 const sesClient = new SESClient({ region: process.env.AWS_REGION });
-const snsClient = new SNSClient({ region: process.env.AWS_REGION });
 
-export const handler = async (event: SNSEvent) => {
+// define the handler to process messages from the SNS topic and send via SES
+export const handler: SNSHandler = async (event) => {
   for (const record of event.Records) {
-    const message = JSON.parse(record.Sns.Message);
+    const message: Message = JSON.parse(record.Sns.Message);
 
+    // send the message via email
     await sendEmail(message);
-
-    await deleteMsg(record.Sns.ReceiptHandle, record.Sns.TopicArn);
   }
 };
 
-const sendEmail = async (msg: Message) => {
-  const { recipient, subject, body } = msg;
+const sendEmail = async (message: Message) => {
+  const { recipient, subject, body } = message;
 
-  const params = {
-    Source: process.env.sourceAddress,
+  const command = new SendEmailCommand({
+    Source: process.env.SOURCE_ADDRESS,
     Destination: {
       ToAddresses: [recipient]
     },
@@ -215,28 +219,14 @@ const sendEmail = async (msg: Message) => {
       },
       Subject: { Data: subject }
     }
-  };
-
-  try {
-    const command = new SendEmailCommand(params);
-    const result = await sesClient.send(command);
-    console.log(`Email sent to ${recipient}: ${result.MessageId}`);
-  } catch (err) {
-    console.error(`Error sending email to ${recipient}: ${err}`);
-    throw err;
-  }
-};
-
-const deleteMsg = async (receiptHandle: string, topicArn: string) => {
-  const command = new DeleteMessageCommand({
-    ReceiptHandle: receiptHandle,
-    TopicArn: topicArn
   });
 
   try {
-    await snsClient.send(command);
-  } catch (err) {
-    console.error('Error deleting message', err);
+    const result = await sesClient.send(command);
+    console.log(`Email sent to ${recipient}: ${result.MessageId}`);
+  } catch (error) {
+    console.error(`Error sending email to ${recipient}: ${error}`);
+    throw new Error(`Failed to send email to ${recipient}`, { cause: error });
   }
 };
 ```
@@ -244,11 +234,14 @@ const deleteMsg = async (receiptHandle: string, topicArn: string) => {
 The `CustomNotifications` CDK construct can then be added to the Amplify `backend` one or more times, with different props for each instance.
 
 ```ts title="amplify/backend.ts"
+// amplify/backend.ts
 import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource.js';
+import { data } from './data/resource.js';
 import { CustomNotifications } from './custom/CustomNotifications/resource';
-import { data } from './data/resource';
 
-const backend = new defineBackend({
+const backend = defineBackend({
+  auth,
   data
 });
 

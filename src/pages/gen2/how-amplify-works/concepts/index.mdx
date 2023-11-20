@@ -13,9 +13,7 @@ export function getStaticProps(context) {
 
 }
 
-## Overview
-
-AWS Amplify (Gen 2) introduces a TypeScript-based, code-first developer experience (DX) for defining backends. The Gen 2 DX offers a unified Amplify developer experience with the same hosting, backend, and UI-building capabilities previously available in CLI/Studio, but with an infrastructure-from-code (IfC) approach. Amplify empowers frontend developers to deploy cloud infrastructure by simply expressing their app’s data model, business logic, authentication, and authorization rules completely in TypeScript. Amplify automatically configures the correct cloud resources and removes the requirement to stitch together underlying AWS services.
+AWS Amplify (Gen 2) introduces a TypeScript-based, code-first developer experience (DX) for defining backends. The Gen-2 DX offers a unified Amplify developer experience with the same hosting, backend, and UI-building capabilities previously available in CLI and Studio, but with an infrastructure-from-code (IfC) approach. Amplify empowers frontend developers to deploy cloud infrastructure by simply expressing their app’s data model, business logic, authentication, and authorization rules completely in TypeScript. Amplify automatically configures the correct cloud resources and removes the requirement to stitch together underlying AWS services.
 
 ## Capabilities
 
@@ -164,7 +162,7 @@ export class LocationMapStack extends Stack {
 }
 ```
 
-This is then included in the `amplify/backend.ts` file so it gets deployed as part of your Amplify project.
+This is then included in the `amplify/backend.ts` file so it gets deployed as part of your Amplify app.
 
 ```ts
 import { Backend } from '@aws-amplify/backend';
