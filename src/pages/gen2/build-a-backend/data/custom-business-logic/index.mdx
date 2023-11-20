@@ -173,7 +173,7 @@ export const data = defineData({
 
 <Callout info>
 
-**Coming soon:** The following example requires you to manually generate GraphQL client code as an escape hatch to invoke the custom query or mutation. Amplify Data is built with GraphQL under the hood. While you're not expected to know GraphQL or have to interface with GraphQL directly when Amplify Gen 2 becomes generally available, it is helpful to understand the [underlying GraphQL concepts](https://graphql.org) that enable Amplify Data's functionality.
+**Coming soon:** The following example requires you to manually generate GraphQL client code as an escape hatch to invoke the custom query or mutation. Amplify Data is built with GraphQL under the hood. While you're not expected to know GraphQL or have to interface with GraphQL directly when Amplify (Gen 2) becomes generally available, it is helpful to understand the [underlying GraphQL concepts](https://graphql.org) that enable Amplify Data's functionality.
 
 For Gen 2's general availability, we plan on integrating this first class into the Data client, allowing you to call a custom query or mutations via an experience such as:
 
@@ -183,7 +183,7 @@ const response = await client.queries.echo({ content: 'hello' })
 
 </Callout>
 
-In the current Amplify Gen 2 preview, you must first generate GraphQL client code for your custom queries and mutations and then pass them into the `client.graphql(...)` operation. In your Terminal, run the following command:
+In the current Amplify (Gen 2) preview, you must first generate GraphQL client code for your custom queries and mutations and then pass them into the `client.graphql(...)` operation. In your Terminal, run the following command:
 
 ```bash
 npx amplify generate graphql-client-code \
