@@ -1,0 +1,49 @@
+export const meta = {
+  title: 'Use OpenID Connect as an authorization provider',
+  description: "Use OpenID Connect with `private`, `owner`, and `group` authorization strategies."
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Private, owner, and group authorization can be configured with an OpenID Connect (OIDC) authorization mode. Add `"oidc"` to the authorization rule as the provider. Use the `oidcAuthorizationMode` property to configure the *OpenID Connect provider name*, *OpenID Connect provider domain*, *Client ID*, *Issued at TTL*, and *Auth Time TTL*.
+
+The example below highlights the supported authorization strategies with a `oidc` authorization provider. For owner and group-based authorization, you also will need to [specify a custom identity and group claim](/gen2/build-a-backend/data/customize-authz/configure-custom-identity-and-group-claim).
+
+```ts title="amplify/data/resource.ts"
+// amplify/data/resource.ts
+import { a, defineData, type ClientSchema } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  Todo: a.model({
+    content: a.string(),
+  })
+  .authorization([
+    a.allow.owner("oidc").identityClaim("user_id"),
+    a.allow.private("oidc"),
+    a.allow
+      .specificGroups(["testGroupName"], "oidc")
+      .withClaimIn("user_groups"),
+  ]),
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    oidcAuthorizationMode: {
+      oidcProviderName: "oidc-provider-name",
+      oidcIssuerUrl: "https://example.com",
+      clientId: "client-id",
+      tokenExpiryFromAuthInSeconds: 300,
+      tokenExpireFromIssueInSeconds: 600,
+    },
+  },
+});
+```
