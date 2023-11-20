@@ -1,6 +1,7 @@
 export const meta = {
-  title: 'Fullstack pull requests',
-  description: 'Learn about PR previews.'
+  title: 'Fullstack previews (Coming soon)',
+  description:
+    'Set up ephemeral fullstack environments with pull request previews.'
 };
 
 export function getStaticProps(context) {
@@ -13,16 +14,15 @@ export function getStaticProps(context) {
 }
 
 <Callout info={true}>
-  <b>Coming soon: </b>The fullstack previews is still under development and not
-  yet available.
+  <b>Coming soon: </b>Fullstack previews is still under development.
 </Callout>
 
-Fullstack previews give you the ability to set up ephemeral fullstack environments on every pull request. This allows you to test features in isolation from production. A normal workflow would look like the diagram below:
+Fullstack previews give you the ability to set up ephemeral fullstack environments on every pull request. This allows you to test features in isolation from production. Once available, a normal workflow will look like the diagram below:
 
 ![previews](/images/gen2/fullstack-branching/previews.png)
 
-1. `main` (production branch) and `featureA` branch is deployed on Amplify
-1. The Dev team works on `featureA` until it's ready
-1. `featureA` branch updated to `main` HEAD and then a pull request to `main` is opened
+1. Your `main` (production branch) and `featureA` branch is deployed on Amplify
+1. You and your team work on `featureA` until it's ready
+1. `featureA` branch is updated to `main` HEAD and then a pull request to `main` is opened
 1. The pull request preview is deployed on Amplify and available at `pr-1.appid.amplifyapp.com`
 1. Once the pull request is merged to `main`, the request is closed and the fullstack environment is also automatically torn down
