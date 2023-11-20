@@ -247,7 +247,7 @@ export default defineData ({
           </FeatureItem>
           <FeatureItem
             linkText="Zero-config fullstack branches"
-            href="/gen2/deploy-and-host/deploy-and-host/fullstack-branching/branch-deployments/"
+            href="/gen2/deploy-and-host/fullstack-branching/branch-deployments/"
           >
             Full-stack deployments from your Git branch. Autodeploy git branches
             to set up staging, development and production environments
