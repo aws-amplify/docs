@@ -1158,15 +1158,118 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
 
 In this section you will create a way to list and create todos from the Next.js application. To do this, you will fetch & render the latest todos from the server as well as create a new todo.
 
+### Generate the Amplify GraphQL API client
+
+To make any GraphQL API requests service-side, we need to first generate an API client that we can use on server-side. To generate a new API client, import `generateServerClientUsingCookies` from `@aws-amplify/adapter-nextjs/api` and use it to generate a cookiesClient using the **amplifyconfiguration.json** in our project as `config` and `cookies` from `next/headers`.
+
+<Callout info>
+
+Amplify offers two API clients for Next.js server-side runtimes. Use `generateServerClientUsingCookies` primarily for use cases where `cookies` from `next/headers` is available, such as in App Router's React Server Components, Server Actions. Use `generateServerClientUsingReqRes` for use cases where a `NextRequest`/`NextResponse` are available, such as in the Pages Router or middleware. Review [Connect to data from server-side runtimes](/[platform]/build-a-backend/graphqlapi/connect-from-server-runtime/) to in-depth about which API client to use for which use cases.
+
+</Callout>
+
 Open **app/page.tsx** and replace it with the following code:
 
-```jsx
-// app/page.tsx
+```tsx
 import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
-import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 
+import config from '@/src/amplifyconfiguration.json';
+
+export const cookiesClient = generateServerClientUsingCookies({
+  config,
+  cookies
+});
+
+export default async function Home() {
+  return (
+    <div
+      style={{
+        maxWidth: '500px',
+        margin: '0 auto',
+        textAlign: 'center',
+        marginTop: '100px'
+      }}
+    >
+      <form>
+        <input name="name" placeholder="Add a todo" />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+  );
+}
+```
+
+### Create a form for submitting the todos
+
+In Next.js you can use a [Server Action](https://nextjs.org/docs/app/api-reference/functions/server-actions) to handle form submission server-side. Let's add a Server Action which submits its data to the `createTodo` function. When called, `createTodo` should send a GraphQL mutation via `cookiesClient.graphql(...)` to the GraphQL API, then call `revalidatePath` from the Next.js cache to invalidate the page cache and fetch the latest todos.
+
+Update the **app/page.tsx** with the following code:
+
+```tsx
+import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
+import { cookies } from 'next/headers';
+// 1. Add the following two imports
+import { revalidatePath } from 'next/cache';
 import * as mutations from '@/src/graphql/mutations';
+
+import config from '@/src/amplifyconfiguration.json';
+
+export const cookiesClient = generateServerClientUsingCookies({
+  config,
+  cookies
+});
+
+// 2. Create a new Server Action
+async function createTodo(formData: FormData) {
+  "use server"
+  const { data } = await cookiesClient.graphql({
+    query: mutations.createTodo,
+    variables: {
+      input: {
+        name: formData.get('name')?.toString() ?? ''
+      }
+    }
+  });
+
+  console.log("Created Todo: ", data?.createTodo )
+
+  revalidatePath('/');
+}
+
+export default async function Home() {
+  return (
+    <div
+      style={{
+        maxWidth: '500px',
+        margin: '0 auto',
+        textAlign: 'center',
+        marginTop: '100px'
+      }}
+    >
+      {/* 3. Update the form's action to use the
+          new create Todo Server Action*/}
+      <form action={createTodo}>
+        <input name="name" placeholder="Add a todo" />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+  );
+}
+```
+
+### List todos
+
+Using `cookiesClient.graphql(...)` we make GraphQL queries as well. Pass in the `listTodos` query and assign the items returned to `todos` then iterate over them to display in a `<ul>` tag. If there are no todos, we display the message "No todos, please add one".
+
+Update the **app/page.tsx** with the following code:
+
+```tsx
+import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
+import { cookies } from 'next/headers';
+import { revalidatePath } from 'next/cache';
+import * as mutations from '@/src/graphql/mutations';
+// 1. Add the queries as an import
 import * as queries from '@/src/graphql/queries';
 
 import config from '@/src/amplifyconfiguration.json';
@@ -1177,9 +1280,8 @@ export const cookiesClient = generateServerClientUsingCookies({
 });
 
 async function createTodo(formData: FormData) {
-  'use server';
-
-  await cookiesClient.graphql({
+  "use server"
+  const { data } = await cookiesClient.graphql({
     query: mutations.createTodo,
     variables: {
       input: {
@@ -1188,10 +1290,13 @@ async function createTodo(formData: FormData) {
     }
   });
 
+  console.log("Created Todo: ", data?.createTodo )
+
   revalidatePath('/');
 }
 
 export default async function Home() {
+  // 2. Fetch additional todos
   const { data, errors } = await cookiesClient.graphql({
     query: queries.listTodos
   });
@@ -1212,12 +1317,14 @@ export default async function Home() {
         <button type="submit">Add</button>
       </form>
 
+      {/* 3. Handle edge cases & zero state & error states*/}
       {(!todos || todos.length === 0 || errors) && (
         <div>
           <p>No todos, please add one.</p>
         </div>
       )}
 
+      {/* 4. Display todos*/}
       <ul>
         {todos.map((todo) => {
           return <li style={{ listStyle: 'none' }}>{todo.name}</li>;
@@ -1227,14 +1334,6 @@ export default async function Home() {
   );
 }
 ```
-
-Let's walk through some of this file:
-
-- First we import `generateServerClientUsingCookies` from `@aws-amplify/adapter-nextjs/api` and use it to generate a `cookiesClient` using the `amplifyconfiguration.json` in our project as `config` and `cookies` from `@next/headers`.
-
-- Using `cookiesClient.graphql` we call `queries.listTodos` and await the response and assign the items returned to `todos` then iterate over them to display. If there are no todos, display the message "No todos, please add one".
-
-- The form above the list of todos is a [Server-only form in Next.js](https://nextjs.org/docs/app/building-your-application/data-fetching/forms-and-mutations#server-only-forms) which submits it's data to the `createTodo` async function. When called, `createTodo` sends a mutation via `cookiesClient.graphql` to the GraphQL API, then calls `revalidatePath` from the Next.js cache to invalidate the page cache and fetch the latest todos.
 
 </InlineFilter>
 
