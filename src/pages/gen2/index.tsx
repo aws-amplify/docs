@@ -140,7 +140,7 @@ const Gen2Overview = () => {
                 Code-first DX
               </Heading>
               <Text>
-                The code-first developer experience is a new approach that lets your focus
+                The code-first developer experience is a new approach that lets you focus
                 on your app code instead of infrastructure.
               </Text>
             </Flex>
