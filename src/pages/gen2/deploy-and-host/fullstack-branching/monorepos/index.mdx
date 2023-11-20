@@ -1,6 +1,6 @@
 export const meta = {
   title: 'Monorepo setup',
-  description: 'Learn how to set up monorepos the Amplify CI/CD pipeline.'
+  description: 'Set up monorepos with the Amplify CI/CD pipeline.'
 };
 
 export function getStaticProps(context) {
@@ -13,7 +13,7 @@ export function getStaticProps(context) {
 
 Some teams choose a monorepo approach, or single repositories that contain multiple packages or components to simplify the deployment process for shared libraries and components. Without a monorepo, you have to deploy each package individually, keep track of package versions and dependencies across packages, and ensure version compatibility. This can become exponentially more complex as the number of packages grows. With a monorepo, all packages and dependencies are contained within a single repository.
 
-Amplify Gen 2 supports monorepo workflows for fullstack builds with monorepo tools such as Nx and yarn workspaces. When building with Amplify Gen 2, we recommend creating the `amplify/` folder in a shared workspace. We will use the following example for this guide:
+Amplify (Gen 2) supports monorepo workflows for fullstack builds with monorepo tools such as Nx and yarn workspaces. When building with Gen 2, we recommend creating the `amplify/` folder in a shared workspace. We will use the following example for this guide:
 
 ```text
 ├── apps/
