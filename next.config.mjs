@@ -1,6 +1,7 @@
 import { createRequire } from 'module';
 import dotenv from 'dotenv';
 import createMDX from '@next/mdx';
+import rehypeMdxCodeProps from 'rehype-mdx-code-props'
 
 const require = createRequire(import.meta.url);
 import rehypeImgSize from 'rehype-img-size';
@@ -12,7 +13,7 @@ export default () => {
     extension: /\.mdx$/,
     options: {
       remarkPlugins: [remarkGfm],
-      rehypePlugins: [[rehypeImgSize, { dir: 'public' }]]
+      rehypePlugins: [rehypeMdxCodeProps, [rehypeImgSize, { dir: 'public' }]]
     }
   });
 

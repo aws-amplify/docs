@@ -26,6 +26,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
+    "rehype-mdx-code-props": "^2.0.0",
     "unified": "^10.1.2"
   },
   "devDependencies": {
