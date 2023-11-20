@@ -36,6 +36,8 @@ The easiest way to get started with AWS Amplify is through npm with `create-ampl
 
 ```bash
 npm create amplify@latest
+```
+```console
 ? Where should we create your project? (.) # press enter
 ```
 
@@ -70,7 +72,7 @@ For the backend, we are going to start a cloud sandbox environment. Amplify give
 npx amplify sandbox
 ```
 <Callout warning>
-Do not use sandbox environments in production.
+Do not use cloud sandbox environments in production.
 </Callout>
 
 You should have these two commands running concurrently in different terminal windows. 
@@ -107,7 +109,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'API_KEY',
+    defaultAuthorizationMode: 'apiKey',
     // API Key is used for a.allow.public() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30
@@ -174,7 +176,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'API_KEY',
+    defaultAuthorizationMode: 'apiKey',
     // API Key is used for a.allow.public() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30,
@@ -399,12 +401,9 @@ Create a couple todos, then refresh the page to see them. You can also subscribe
 ```js
 useEffect(() => {
   const sub = client.models.Todo.observeQuery()
-    .subscribe({
-      next: ({ items, isSynced }) => {
-        setTodos([...items])
-      }
-    })
-  return () => sub.unsubscribe()  
+    .subscribe(({ items }) => setTodos([...items]))
+
+  return () => sub.unsubscribe()
 }, []);
 ```
 
@@ -422,7 +421,7 @@ If you already have your project remotely hosted in a Git repository, you can sk
 
 ### Connect branch in the Amplify console
 
-1. To get started with Gen 2, log in to [AWS console](https://console.aws.amazon.com/console/home?#amplify) and navigate to your preferred region. (the Amplify console is available in [19 regions](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplify_region)).
+1. To get started with Gen 2, log in to [AWS console](https://console.aws.amazon.com/console/home?#amplify) and navigate to your preferred region. (The Amplify console is available in [19 regions](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplify_region)).
 2. Choose the new *Create an app* Gen 2 option. If you have never created apps with Amplify before, choose *Create an app* from the purple banner (top screenshot). If you have Amplify apps, you can find the option under *New app > Build an app (Gen 2)*.
 
 ![gen2](/images/gen2/getting-started/console1.png)
