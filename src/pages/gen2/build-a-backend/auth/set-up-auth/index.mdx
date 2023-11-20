@@ -16,9 +16,11 @@ In this guide, you will learn how to set up authentication in your Amplify (Gen 
 
 If you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
 
-## Decide how to manage authentication
+## Building your auth backend
 
-You can set up either sign in mechanisms that work with an email/phone and password, or use social provider sign-in.
+### Configure auth resource
+
+To configure your auth backend, edit the `amplify/auth/resource.ts` file. You can set up either sign in mechanisms that work with an email/phone and password, or use social provider sign-in.
 
 <Accordion title='Understanding Auth high-level concepts' headingLevel='4' eyebrow='Learn more'>
 
@@ -106,7 +108,7 @@ See the [Amazon Cognito documentation](https://docs.aws.amazon.com/cognito/lates
 
 </Accordion>
 
-## Create your first authentication resource
+### Deploy auth resource
 
 After you have chosen and set up your authentication resource, run the following command to create your first authentication resource in your personal cloud sandbox.
 
@@ -116,8 +118,9 @@ npx amplify sandbox
 
 After the deployment completes successfully, this command will also generate a configuration file (`amplifyconfiguration.json`) to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated configuration file to automatically configure the frontend [`Authenticator connected component`](https://ui.docs.amplify.aws/react/connected-components/authenticator).
 
-## Build with Authenticator
+## Connect your application code to the auth backend
 
+Creating the sign-in flow can be quite difficult and time-consuming to get right. However, Amplify has the Authenticator UI component which you can use to quickly build the entire authentication flow for your app. The Authenticator works seamlessly with configuration in `amplify/auth/resource.ts` to automatically work with your backend.
 Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter. In this guide, we are focusing on those for web applications.
 
 <BlockSwitcher>
@@ -327,67 +330,15 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </Block>
 </BlockSwitcher>
 
-Creating the sign-in flow can be quite difficult and time-consuming to get right. However, Amplify has the Authenticator UI component which you can use to quickly build the entire authentication flow for your app. The Authenticator works seamlessly with configuration in `amplify/auth/resource.ts` to automatically work with your backend.
-
-You can add the Authenticator connected UI component by wrapping it in your app's entry point.
-
-```ts title="pages/_app.ts"
-// pages/_app.tsx
-import { Amplify } from 'aws-amplify';
-import { Authenticator } from '@aws-amplify/ui-react';
-import config from '@/amplifyconfiguration';
-import '@aws-amplify/ui-react/styles.css';
-
-Amplify.configure(config);
-
-export default function App() {
-  return (
-    <Authenticator>
-      {({ signOut, user }) => (
-        <main>
-          <h1>Hello {user.username}</h1>
-          <button onClick={signOut}>Sign out</button>
-        </main>
-      )}
-    </Authenticator>
-  );
-}
-```
-
-You can then check if the user is authenticated before allowing access to your app. Here is an example using middleware in a Next.js application.
-
-```ts
-// in Next.js middleware with the App Router
-import { runInMiddleware, runInServerComponent, runInServerAction, runInServiceRoute } from "@aws-amplify/adapter-nextjs";
-import { fetchAuthSession } from "aws-amplify/auth/server";
-import { NextRequest, NextResponse } from "next/server";
-
-export async function middleware(request: NextRequest) {
-  const response = NextResponse.next();
-
-  const authenticated = await runWithAmplifyServerContext({
-    nextServerContext: { request, response },
-    operation: async (contextSpec) => {
-      try {
-        const session = await fetchAuthSession(contextSpec);
-        return session.tokens !== undefined;
-      } catch (error) {
-        console.log(error);
-        return false;
-      }
-    }
-  });
-
-  const authentication = await runInMiddleware(async (contextSpec) => {
-    const session = await fetchAuthSession(contextSpec)
-    const url = await getUrl(contextSpec, {
-      accessLevel: // ...
-    })
-  })
-}
-```
-
 Once you add the Authenticator component to your app, you can test the sign-up, sign-in, and sign-out functionality. You can also [customize the Authenticator connected component](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization) to adjust colors and styling as needed.
+
+## Manage users in the Amplify console
+
+Once you deploy your code to Git, you can manage users and groups for the branch environment in the Amplify console.
+
+<video autoPlay={true} muted={true} loop={true} width="100%">
+  <source src="/images/gen2/authentication/user-manage.mp4" />
+</video>
 
 ## Conclusion
 

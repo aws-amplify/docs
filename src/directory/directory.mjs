@@ -1886,10 +1886,10 @@ export const directory = {
                   path: 'src/pages/gen2/build-a-backend/auth/enable-sign-up/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/auth/manage-user-session/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/auth/add-social-provider/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/auth/add-social-provider/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/auth/manage-user-session/index.mdx'
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/auth/manage-user-profile/index.mdx'

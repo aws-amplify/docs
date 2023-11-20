@@ -26,6 +26,23 @@ By default, your users can retrieve access to their accounts if they forgot thei
 | `email`             | Email                             |
 | `email` and `phone` | Email                             |
 
+
+### Override the default user account verification channel
+
+You can always change the channel used by your authentication resources by overriding the following setting.
+
+```diff title="amplify/auth/resource.ts"
+// amplify/auth/resource.ts
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  },
++ accountRecovery: 'EMAIL_ONLY'
+});
+```
+
 ## Reset Password
 
 To reset a user's password, use the `resetPassword` API which will send a reset code to the destination (e.g. email or SMS) based on the user's settings.
@@ -143,21 +160,6 @@ async function handleConfirmResetPassword({
 </Block>
 </BlockSwitcher>
 
-## Override the default user account verification channel
-
-You can always change the channel used by your authentication resources by overriding the following setting.
-
-```diff title="amplify/auth/resource.ts"
-// amplify/auth/resource.ts
-import { defineAuth } from '@aws-amplify/backend';
-
-export const auth = defineAuth({
-  loginWith: {
-    email: true
-  },
-+ accountRecovery: 'EMAIL_ONLY'
-});
-```
 
 ## Update password
 

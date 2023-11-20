@@ -99,7 +99,7 @@ Before you configure social sign-in with Amplify Auth you will need to set up yo
 
 Your developer accounts with the social providers are now set up and you can return to the Amplify specific configuration.
 
-## Configure Amplify Auth
+## Configure social sign-in backend
 
 In `amplify/auth/resource.ts` the social providers need to be added.
 
@@ -210,7 +210,7 @@ You need to now inform your social provider of the newly configured authenticati
 </Block>
 </BlockSwitcher>
 
-## Customizing scopes for retrieving user data from social providers
+### Customizing scopes for retrieving user data from social providers
 
 You can determine the pieces of data you want to retrieve from each social provider when setting them up in the `amplify/auth/resource.ts` file using `scopes`.
 
@@ -237,7 +237,7 @@ export const auth = defineAuth({
 });
 ```
 
-## Attribute mapping
+### Attribute mapping
 
 You can map which attributes are mapped between your social login provider and your users created in Cognito. We will be able to have the best level of protection for developers if we ensure that attribute mappings that would not work are called out by the type system.
 
@@ -275,7 +275,11 @@ export const auth = defineAuth({
 
 [Learn more about configuring the React Authenticator component for social providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#social-providers)
 
-## Custom code
+## Set up your frontend
+
+<Callout info>
+If you are using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#social-providers) with Amplify (Gen 2), this feature works without any additional code. The guide below is for writing your own implementation.
+</Callout>
 
 Enabling a signing in of a user with a social provider can be done as shown in the following code snippet.
 
