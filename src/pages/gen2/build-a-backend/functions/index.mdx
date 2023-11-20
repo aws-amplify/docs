@@ -39,7 +39,7 @@ Using the sample warning text above, you would need to install `aws-cdk-lib@2.10
 
 </Callout>
 
-## Example: Create a Function Trigger for Auth
+## Example - Create a Function Trigger for Auth
 
 You can use CDK's [`NodejsFunction` construct](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda_nodejs.NodejsFunction.html) to create the Function definition, and apply to the Amplify-generated Amazon Cognito resource as a Cognito Trigger. This is made possible via the L2 [`UserPool` construct and its provided `.addTrigger()` method](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cognito.UserPool.html#addwbrtriggeroperation-fn).
 
