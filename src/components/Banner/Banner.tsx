@@ -19,12 +19,11 @@ export const Banner: React.FC<BannerProps> = ({ url = '/gen2' }) => {
         <Flex className="message-banner__inner">
           <Flex direction="column" gap="xxs">
             <Text as="span" className="message-banner__heading">
-              Public Preview: AWS Amplify's code-first developer experience (Gen
-              2) for building backends
+              Preview: AWS Amplify's new code-first DX (Gen 2)
             </Text>
             <Text className="message-banner__content">
-              A new TypeScript based developer experience for building fullstack
-              apps with AWS Amplify.
+              The next generation of Amplify's backend building experience with
+              a TypeScript-first DX.
             </Text>
           </Flex>
 
@@ -37,7 +36,7 @@ export const Banner: React.FC<BannerProps> = ({ url = '/gen2' }) => {
             rel="noopener noreferrer"
             className="message-banner__button"
           >
-            Go to Amplify Gen 2 docs
+            Get started
             <IconChevron className="icon-rotate-270" fontSize=".875em" />
           </Button>
         </Flex>

@@ -5,7 +5,8 @@ import {
   Button,
   Grid,
   Card,
-  View
+  View,
+  Badge
 } from '@aws-amplify/ui-react';
 import ExportedImage from 'next-image-export-optimizer';
 import { MDXCode } from '@/components/MDXComponents/';
@@ -21,10 +22,12 @@ import {
 import { ClassicBanner } from '@/components/Banner';
 import { Columns } from '@/components/Columns';
 import { FeatureList, FeatureItem } from '@/components/FeatureLists';
+import styles from '../../components/GlobalNav/GlobalNav.module.scss';
 
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
-  description: 'This is a description for the overview page.'
+  description:
+    'This is a description for the overview page for the new Amplify code-first DX (Gen 2).'
 };
 
 export function getStaticProps() {
@@ -71,44 +74,47 @@ const supportedFrameworks = [
 const Gen2Overview = () => {
   return (
     <Flex className="home-content">
-      <ClassicBanner />
       <Flex className="home-section">
         <Heading level={1}>
           Amplify Docs{' '}
           <Text as="span" fontWeight="300">
             (Gen 2)
           </Text>
+          <sup>
+            {' '}
+            <Badge size="small" className={styles['navbar-badge']}>
+              Preview
+            </Badge>
+          </sup>
         </Heading>
         <Heading level={2} fontSize="xl" className="max-headline-content">
-          Now in preview: Infrastructure from code capabilities in a powerful
-          new fullstack app building experience
+          Preview: A new code-first DX (Gen 2) for building backends
         </Heading>
         <Text className="max-inline-content">
           Amplify has reimagined the way frontend developers build fullstack
           applications on AWS. This next generation of Amplify’s backend
-          building tooling lets you author your frontend and backend definition
-          completely with TypeScript, a file convention, and Git branch-based
-          environments.
+          building experience lets you author your frontend and backend
+          definition completely with TypeScript, a file convention, and Git
+          branch-based environments.
         </Text>
-
         <Flex className="home-cta">
           <Button
             size="large"
             as="a"
             variation="primary"
-            href="/gen2/start"
+            href="/gen2/start/quickstart/"
             gap="small"
           >
             Get started{' '}
             <IconChevron fontSize=".875em" className="icon-rotate-90-reverse" />
           </Button>
-          <Button size="large" as="a" href="/gen2/how-amplify-works">
+          <Button size="large" as="a" href="/gen2/how-amplify-works/concepts/">
             How it works
           </Button>
         </Flex>
       </Flex>
       <Flex className="home-section">
-        <Heading level={2}>Works with popular frameworks</Heading>
+        <Heading level={2}>Works with popular languages and frameworks</Heading>
         <Grid as="ul" className="framework-grid">
           {supportedFrameworks.map((framework, index) => {
             return (
@@ -122,6 +128,8 @@ const Gen2Overview = () => {
             );
           })}
         </Grid>
+
+        <ClassicBanner />
       </Flex>
       <Flex className="home-section">
         <Heading level={2}>Features</Heading>
@@ -140,7 +148,7 @@ const Gen2Overview = () => {
           <Card variation="outlined">
             <Flex direction="column">
               <Heading level={3} fontSize="medium">
-                Zero-config, fullstack deployments
+                Fullstack Git deployments
               </Heading>
               <Text>
                 Full-stack deployments from your Git branch. Deploy your
@@ -165,23 +173,29 @@ const Gen2Overview = () => {
         <FeatureList heading="Develop" level={2}>
           <FeatureItem
             linkText="A TypeScript-first fullstack experience"
-            href="/gen2"
+            href="/gen2/how-amplify-works/concepts/#typescript-for-the-fullstack"
           >
             Write TypeScript across the frontend and the backend to give you
             features like schema validation, dot completion, and end-to-end
             typings while you code.
           </FeatureItem>
-          <FeatureItem linkText="Real-time data for modern apps" href="/gen2">
+          <FeatureItem
+            linkText="Real-time data for modern apps"
+            href="/gen2/build-a-backend/data/set-up-data/"
+          >
             Sync frontend state to realtime backend updates. No websocket
             configuration required. Just write TypeScript.
           </FeatureItem>
-          <FeatureItem linkText="Authn and authz for secure apps" href="/gen2">
+          <FeatureItem
+            linkText="Authn and authz for secure apps"
+            href="/gen2/build-a-backend/auth/set-up-auth/"
+          >
             Choose the auth strategy (e.g. passwords, social, email links) and
             control data access based on users/groups.
           </FeatureItem>
           <FeatureItem
             linkText="Auto-generate CRUD forms wired to data"
-            href="/gen2"
+            href="/gen2/build-ui/"
           >
             CRUD forms that map to your data model with form-level validations
             and error states built-in.
@@ -217,35 +231,53 @@ export default defineData ({
         />
 
         <FeatureList heading="Deploy" level={2}>
-          <FeatureItem linkText="SSR/SSG/ISR hosting support" href="/gen2">
+          <FeatureItem
+            linkText="SSR/SSG/ISR hosting support"
+            href="/gen2/deploy-and-host/hosting/"
+          >
             Deploy Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and more) apps
             by simply connecting your Git repository.
           </FeatureItem>
           <FeatureItem
             linkText="Faster iterations with per-developer sandboxes"
-            href="/gen2"
+            href="/gen2/deploy-and-host/sandbox-environments/setup/"
           >
             Per-developer cloud sandboxes provide high fidelity and faster
             deployment times to make local iteration quick.
           </FeatureItem>
-          <FeatureItem linkText="Zero-config fullstack branches" href="/gen2">
+          <FeatureItem
+            linkText="Zero-config fullstack branches"
+            href="/gen2/deploy-and-host/fullstack-branching/branch-deployments/"
+          >
             Full-stack deployments from your Git branch. Autodeploy git branches
             to set up staging, development and production environments
           </FeatureItem>
-          <FeatureItem linkText="GUI to manage your data" href="/gen2">
+          <FeatureItem
+            linkText="GUI to manage your data"
+            href="/gen2/how-amplify-works/concepts/#unified-management-console"
+          >
             Console to manage your app data, users/groups, and files.
           </FeatureItem>
         </FeatureList>
 
         <FeatureList heading="Customize" level={2}>
-          <FeatureItem linkText="Add any AWS service with CDK" href="/gen2">
+          <FeatureItem
+            linkText="Add any AWS service with CDK"
+            href="/gen2/build-a-backend/add-aws-services/"
+          >
             Extend or customize with AWS CDK to access 200+ AWS services.
           </FeatureItem>
-          <FeatureItem linkText="Bring your your own pipelines" href="/gen2">
+          <FeatureItem
+            linkText="Bring your your own pipelines"
+            href="/gen2/deploy-and-host/fullstack-branching/custom-pipelines/"
+          >
             Use your own pipelines to set up cross-account or multi-region
             stage-based deployments.
           </FeatureItem>
-          <FeatureItem linkText="Monorepo and multi-repo support" href="/gen2">
+          <FeatureItem
+            linkText="Monorepo and multi-repo support"
+            href="/gen2/deploy-and-host/fullstack-branching/mono-and-multi-repos/"
+          >
             Support for all types of fullstack team workflows - monorepos,
             microfrontends, multi-repos and more.
           </FeatureItem>
