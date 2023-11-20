@@ -78,8 +78,13 @@ Running this command will scaffold a lightweight Amplify project in your current
 
 Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
 
+<Callout warning>
+  Be sure to add a "raw" folder under app/src/main/res directory if it doesn't
+  exist.
+</Callout>
+
 ```bash
-amplify sandbox --config-format=json-mobile --config-out-dir=app/src/main/res
+amplify sandbox --config-format=json-mobile --config-out-dir=app/src/main/res/raw
 ```
 
 ### Adding Authentication
@@ -99,6 +104,99 @@ export const auth = defineAuth({
 After you have configured the authentication resource, you can use the Amplify UI libraries to run your authentication flow. Amplify UI is a collection of accessible, themeable, performant ui components that can connect directly to the Amplify resources.
 
 To use the Amplify UI libraries, you need to add the following dependencies to your app/build.gradle file:
+
+<Callout warning>Be sure to have compileSdk version as 34 or higher.</Callout>
+
+```kotlin
+dependencies {
+    implementation("androidx.compose.material3:material3:1.1.0")
+    implementation("com.amplifyframework.ui:authenticator:1.0.1")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+
+```
+
+Afterwards create a `MyAmplifyApp` class that extends `Application` and add the following code:
+
+```kotlin
+import android.app.Application
+import android.util.Log
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+
+class MyAmplifyApp: Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        try {
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.configure(applicationContext)
+            Log.i("MyAmplifyApp", "Initialized Amplify")
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+        }
+    }
+}
+```
+
+Next call this class in your `AndroidManifest.xml` file:
+
+```xml
+<application
+    android:name=".MyAmplifyApp"
+    ...
+</application>
+```
+
+Lastly update your MainActivity.kt file to use the Amplify UI components:
+
+```kotlin
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.ui.authenticator.ui.Authenticator
+import <your-package-name>.ui.theme.MyAmplifyAppTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyAmplifyAppTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Authenticator { state ->
+                        Column {
+                            Text(
+                                text = "Hello ${state.user.username}!",
+                            )
+                            Button(onClick = {
+                                Amplify.Auth.signOut {  }
+                            }) {
+                                Text(text = "Sign Out")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+Now if you run the application on the Android emulator, you should see the authentication flow working.
 
 ### Adding GraphQL API
 
@@ -126,6 +224,12 @@ export const data = defineData({
     defaultAuthorizationMode: 'userPool'
   }
 });
+```
+
+To generate the model classes out of GraphQL schema, you can run the following command:
+
+```bash
+amplify generate graphql-client-code --format=modelgen --model-target=java
 ```
 
 You can terminate the sandbox environment now to clean up the project.
