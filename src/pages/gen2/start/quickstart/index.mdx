@@ -195,7 +195,7 @@ Let's remove public access.
 .authorization([a.allow.owner()]),
 ```
 
-Then, you'll see the `defineData` function, which has our schema and authorization configuration passed in as arguments. We have an `API_KEY` set up in order to enable public access. Let's change our `defaultAuthorizationMode` to `userPool` instead so that the default is to use user authentication.
+Then, you'll see the `defineData` function, which has our schema and authorization configuration passed in as arguments. We have an `apiKey` set up in order to enable public access. Let's change our `defaultAuthorizationMode` to `userPool` instead so that the default is to use user authentication.
 
 ```js
 export const data = defineData({
