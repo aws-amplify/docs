@@ -187,7 +187,7 @@ export const data = defineData({
 
 Once you save your changes to the data model, your changes will be deployed in seconds within your cloud sandbox.
 
-Our Todo data model also has authorization set up. Our model has the `authorization` method chained to it, which you can add rules to. In our example, we are allowing an owner, or the person who creates the to do instance, to perform all actions on the data they own. We are also allowing all page viewers, including unauthenticated users,to read data. These can be modified, for example we could remove the `.to(['read'])` and allow all visitors to perform all actions on data. We could also add permissions for signed in users or users who belong to user groups such as `Admin`. You can learn more about all options for authorization in the [customize your auth rules](/build-a-backend/data/customize-authz/) section of the docs.
+Our Todo data model also has authorization set up. Our model has the `authorization` method chained to it, which you can add rules to. In our example, we are allowing an owner, or the person who creates the Todo instance, to perform all actions on the data they own. We are also allowing all page viewers, including unauthenticated users, to read data. These can be modified, for example we could remove the `.to(['read'])` and allow all visitors to perform all actions on data. We could also add permissions for signed in users or users who belong to user groups such as `Admin`. You can learn more about all options for authorization in the [customize your auth rules](/build-a-backend/data/customize-authz/) section of the docs.
 
 Let's remove public access.
 
