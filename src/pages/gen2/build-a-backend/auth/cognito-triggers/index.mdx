@@ -1,0 +1,73 @@
+export const meta = {
+  title: 'Cognito Triggers',
+  description: 'Learn how to create Cognito Triggers with Amplify (Gen 2) Auth'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+<Callout info>
+
+**Coming soon:** The Functions Gen 2 experience is still under development. You can add functions to your Amplify Gen 2 project with AWS CDK.
+
+</Callout>
+
+[Amazon Cognito Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) enable you to customize authentication flows using [AWS Lambda](https://aws.amazon.com/lambda/) functions. Customizations such as allowlisting email domains or creating a `UserProfile` model after sign-up can be written to fit your needs.
+
+If you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
+
+## Creating your first Cognito Trigger
+
+You can use CDK's [`NodejsFunction` construct](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda_nodejs.NodejsFunction.html) to create the Function definition, and apply to the Amplify-generated Amazon Cognito resource as a Cognito Trigger. This is made possible via the L2 [`UserPool` construct and its provided `.addTrigger()` method](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cognito.UserPool.html#addwbrtriggeroperation-fn).
+
+First, create the trigger's shell of a Function handler by creating a file at `amplify/custom/post-confirmation.ts` with the following contents:
+
+```ts title="amplify/custom/post-confirmation.ts"
+import type { PostConfirmationTriggerHandler } from 'aws-lambda';
+
+export const handler: PostConfirmationTriggerHandler = async (event) => {
+  console.log('event: ', JSON.stringify(event));
+};
+```
+
+Next, create the instance of `NodejsFunction` using the scaffolding below, and use the `.addTrigger()` method to set the Function on your Amazon Cognito resource.
+
+```ts title="amplify/backend.ts"
+import * as url from 'node:url';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
+import * as lambda from 'aws-cdk-lib/aws-lambda-nodejs';
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource.js';
+import { data } from './data/resource.js';
+
+const backend = defineBackend({
+  auth,
+  data
+});
+
+// create function stack for the auth triggers
+const authTriggerStack = backend.getStack('AuthTriggerStack');
+
+// create the PostConfirmation trigger
+const postConfirmationTrigger = new lambda.NodejsFunction(
+  authTriggerStack,
+  'PostConfirmation',
+  {
+    entry: url.fileURLToPath(
+      new URL('./custom/post-confirmation.ts', import.meta.url)
+    )
+  }
+);
+
+// add the newly-created trigger to the auth resource
+const userPool = backend.resources.auth.resources.userPool as cognito.UserPool;
+userPool.addTrigger(
+  cognito.UserPoolOperation.POST_CONFIRMATION,
+  postConfirmationTrigger
+);
+```
