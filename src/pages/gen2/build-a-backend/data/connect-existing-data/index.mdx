@@ -54,7 +54,7 @@ Next, import the schema into your data resource file to deploy to the cloud.
 
 ```ts title="amplify/data/resource.ts"
 import { a, defineData } from '@aws-amplify/backend';
-// highlight-next-line
+
 import { schema as rdsSchema } from './schema.rds.ts';
 
 // Relational database sources can coexist with DynamoDB tables managed by Amplify.
@@ -67,13 +67,13 @@ const schema = a.schema({
 
 // Use the `.combine()` operator to stitch together the models backed by DynamoDB
 // and the models backed by Postgres or MySQL databases.
-// highlight-start
+
 const combinedSchema = a.schema.combine([schema, rdsSchema]);
-// highlight-end
+
 
 export type Schema = typeof schema;
 export const data = defineData({
-  // highlight-next-line
+  
   schema: combinedSchema,
 });
 ```
@@ -91,7 +91,7 @@ import { a, defineData } from '@aws-amplify/backend'
 import { schema as rdsSchema } from './schema.rds.ts'
 
 // Add an authorization rule to the schema
-// highlight-next-line
+
 rdsSchema.models.Todo.authorization([a.allow.public()])
 
 const schema = a.schema({
@@ -119,10 +119,10 @@ import { a, defineData } from '@aws-amplify/backend'
 import { schema as rdsSchema } from './schema.rds.ts'
 
 // Rename models or fields to be more idiomatic for frontend code
-// highlight-start
+
 rdsSchema.models.todos.renameTo("Todo")
 rdsSchema.models.todos.fields.title.renameTo("content")
-// highlight-end
+
 
 const schema = a.schema({
   Todo: a.model({
@@ -149,7 +149,7 @@ import { a, defineData } from '@aws-amplify/backend'
 import { schema as rdsSchema } from './schema.rds.ts'
 
 // Add custom mutations or queries that execute SQL statements
-// highlight-start
+
 rdsSchema.addQueries({
   searchTodoBasedOnGeolocation: a.query()
     .arguments({
@@ -168,7 +168,7 @@ rdsSchema.addQueries({
     `)
     .authorization([a.allow.public()])
 })
-// highlight-end
+
 
 const schema = a.schema({
   Todo: a.model({

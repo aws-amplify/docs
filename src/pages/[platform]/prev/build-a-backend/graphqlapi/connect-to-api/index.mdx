@@ -48,10 +48,10 @@ When you deploy your backend (`amplify push`), an `aws-exports.js` file is gener
 
 ```ts
 import { Amplify } from 'aws-amplify'
-// highlight-next-line
+
 import awsconfig from './aws-exports'
 
-// highlight-next-line
+
 Amplify.configure(awsconfig)
 ```
 
@@ -73,10 +73,10 @@ When working with existing GraphQL APIs, you must manually provide your API endp
 import { Amplify } from 'aws-amplify'
 
 Amplify.configure({
-  // highlight-start
+  
   aws_appsync_graphqlEndpoint: 'https://abcxyz.appsync-api.us-east-1.amazonaws.com/graphql',
   aws_appsync_region: 'us-east-1',
-  // highlight-end
+  
 })
 ```
 
@@ -96,10 +96,10 @@ Amplify.configure({
   aws_appsync_region: 'us-east-1',
 
   // Set the auth type as "API_KEY" and pass in the API key value
-  // highlight-start
+  
   aws_appsync_authenticationType: 'API_KEY',
   aws_appsync_apiKey: 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx'
-  // highlight-end
+  
 })
 ```
 
@@ -114,9 +114,9 @@ Amplify.configure({
   aws_appsync_region: 'us-east-1',
 
   // Set the auth type as "AMAZON_COGNITO_USER_POOLS"
-  // highlight-start
+  
   aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
-  // highlight-end
+  
 })
 ```
 </Block>
@@ -130,9 +130,9 @@ Amplify.configure({
   aws_appsync_region: 'us-east-1',
 
   // Set the auth type as "AWS_IAM"
-  // highlight-start
+  
   aws_appsync_authenticationType: 'AWS_IAM',
-  // highlight-end
+  
 })
 ```
 </Block>
@@ -146,9 +146,9 @@ Amplify.configure({
   aws_appsync_region: 'us-east-1',
 
   // Set the auth type as "OPENID_CONNECT"
-  // highlight-start
+  
   aws_appsync_authenticationType: 'OPENID_CONNECT',
-  // highlight-end
+  
 })
 ```
 
@@ -167,9 +167,9 @@ Amplify.configure({
   aws_appsync_region: 'us-east-1',
 
   // Set the auth type as "AWS_LAMBDA"
-  // highlight-start
+  
   aws_appsync_authenticationType: 'AWS_LAMBDA',
-  // highlight-end
+  
 })
 ```
 
@@ -181,7 +181,7 @@ const lambdaAuthToken = getAuthToken();
 
 const createdTodo = await client.graphql({
   query: queries.listTodos,
-  // highlight-next-line
+  
   authToken: lambdaAuthToken
 });
 ```
