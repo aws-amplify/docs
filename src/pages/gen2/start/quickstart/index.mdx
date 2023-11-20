@@ -17,7 +17,7 @@ This Quickstart guide will walk you through how to build a Task list application
 
 Before you get started, make sure you have the following installed:
 
-- [Node.js](https://nodejs.org/) v18.x or later
+- [Node.js](https://nodejs.org/) v18.17 or later
 - [npm](https://www.npmjs.com/) v9 or later
 - [git](https://git-scm.com/) v2.14.1 or later
 - You will also need to [create an AWS Account](https://portal.aws.amazon.com/billing/signup). Note that AWS Amplify is part of the [AWS Free Tier](https://aws.amazon.com/amplify/pricing/).
@@ -192,10 +192,10 @@ Once you save your change to the data model, your changes will be deployed in se
 
 Our Todo data model also has authorization set up. Our model has the `authorization` method chained to it, which you can add rules to. In our example, we are allowing an owner, or the person who creates the to do instance, to perform all actions on the data they own. We are also allowing all page viewers, including unauthenticated users,to read data. These can be modified, for example we could remove the `.to(['read'])` and allow all visitors to perform all actions on data. We could also add permissions for signed in users or users who belong to user groups such as `Admin`. You can learn more about all options for authorization in the [customize your auth rules](/build-a-backend/data/customize-authz/) section of the docs.
 
-Let's add an authorization rule so that signed in users can create new to dos.
+Let's remove public access.
 
 ```js
-.authorization([a.allow.owner(), a.allow.private().to(['create'])]),
+.authorization([a.allow.owner()]),
 ```
 
 Then, you'll see the `defineData` function, which has our schema and authorization configuration passed in as arguments. We have an `API_KEY` set up in order to enable public access. Let's change our `defaultAuthorizationMode` to `userPool` instead so that the default is to use user authentication.
