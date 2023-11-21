@@ -170,8 +170,15 @@ const Gen2Overview = () => {
         </Columns>
       </Flex>
       <FeatureList heading="Develop" level={2}>
-        <video src="/videos/typed-api.mp4" style={{ width: '100%', borderRadius: 'var(--amplify-radii-small)' }} autoPlay muted loop />
-        <Columns columns={4}>
+        <video
+          src="/videos/typed-api.mp4"
+          style={{
+            width: '100%',
+            borderRadius: 'var(--amplify-radii-large)',
+            marginBottom: 'var(--amplify-space-small)',
+            boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
+          }} autoPlay muted loop />
+        <Columns columns={2}>
           <FeatureItem
             linkText="TypeScript-first fullstack experience"
             href="/gen2/how-amplify-works/concepts/#build-fullstack-apps-with-typescript"
@@ -208,7 +215,12 @@ const Gen2Overview = () => {
           alt="Flowchart describing..."
           width="450"
           height="412"
-          style={{ margin: 'auto', height: 'auto' }}
+          style={{
+            margin: 'auto',
+            height: 'auto',
+            borderRadius: 'var(--amplify-radii-large)',
+            boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
+          }}
         />
 
         <FeatureList heading="Deploy" level={2}>
