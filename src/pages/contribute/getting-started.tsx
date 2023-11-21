@@ -256,9 +256,7 @@ export default function GettingStarted() {
         </Text>
 
         <Heading level={4}>
-          <Link href="/">
-            Amplify Documentation <IconExternalLink />
-          </Link>
+          <Link href="/">Amplify Documentation</Link>
         </Heading>
         <Text>Learn more about the AWS Amplify JS library.</Text>
 
