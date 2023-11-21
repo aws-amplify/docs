@@ -27,7 +27,7 @@ import styles from '../../components/GlobalNav/GlobalNav.module.scss';
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
   description:
-    'This is a description for the overview page for the new Amplify code-first DX (Gen 2).'
+    'Build apps with the Amplify code-first developer experience (Gen 2) using TypeScript-based development.'
 };
 
 export function getStaticProps() {
@@ -137,10 +137,10 @@ const Gen2Overview = () => {
           <Card variation="outlined">
             <Flex direction="column">
               <Heading level={3} fontSize="medium">
-                Infrastructure-from-code
+                Code-first DX
               </Heading>
               <Text>
-                Infrastructure-from-code is a new approach that lets your focus
+                The code-first developer experience is a new approach that lets you focus
                 on your app code instead of infrastructure.
               </Text>
             </Flex>
@@ -169,22 +169,27 @@ const Gen2Overview = () => {
           </Card>
         </Columns>
       </Flex>
-      <Columns columns={2}>
-        <FeatureList heading="Develop" level={2}>
+      <FeatureList heading="Develop" level={2}>
+        <video
+          src="/videos/typed-api.mp4"
+          style={{
+            width: '100%',
+            borderRadius: 'var(--amplify-radii-large)',
+            marginBottom: 'var(--amplify-space-small)',
+            boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
+          }} autoPlay muted loop />
+        <Columns columns={2}>
           <FeatureItem
-            linkText="A TypeScript-first fullstack experience"
-            href="/gen2/how-amplify-works/concepts/#typescript-for-the-fullstack"
+            linkText="TypeScript-first fullstack experience"
+            href="/gen2/how-amplify-works/concepts/#build-fullstack-apps-with-typescript"
           >
-            Write TypeScript across the frontend and the backend to give you
-            features like schema validation, dot completion, and end-to-end
-            typings while you code.
+            Write TypeScript across frontend and backend. Get schema validation, dot completion, and end-to-end types while you code.
           </FeatureItem>
           <FeatureItem
             linkText="Real-time data for modern apps"
             href="/gen2/build-a-backend/data/set-up-data/"
           >
-            Sync frontend state to realtime backend updates. No websocket
-            configuration required. Just write TypeScript.
+            Sync frontend state to realtime backend updates. Just write TypeScript without thinking about WebSockets.
           </FeatureItem>
           <FeatureItem
             linkText="Authn and authz for secure apps"
@@ -200,34 +205,22 @@ const Gen2Overview = () => {
             CRUD forms that map to your data model with form-level validations
             and error states built-in.
           </FeatureItem>
-        </FeatureList>
+        </Columns>
+      </FeatureList>
 
-        <MDXCode
-          fileName="amplify/data/resource.ts"
-          language="typescript"
-          codeString={`import { a, defineData } from 'aws-amplify-backend';
 
-const schema = a.schema({
-  Todo: a.model({
-    title: a.string(), 
-    description: a.string().optional(), 
-    priority: a.enum(['low','medium', 'high']),
-  }),
-});
-
-export type Schema = typeof schema;
-
-export default defineData ({
-  schema, 
-});`}
-        ></MDXCode>
-
+      <Columns columns={2}>
         <ExportedImage
           src="/images/gen2/deploy-cycle.png"
           alt="Flowchart describing..."
           width="450"
           height="412"
-          style={{ margin: 'auto', height: 'auto' }}
+          style={{
+            margin: 'auto',
+            height: 'auto',
+            borderRadius: 'var(--amplify-radii-large)',
+            boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
+          }}
         />
 
         <FeatureList heading="Deploy" level={2}>
