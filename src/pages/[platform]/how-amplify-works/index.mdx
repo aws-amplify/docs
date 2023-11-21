@@ -59,7 +59,7 @@ amplify add api
 
 The CLI will display prompts to configure your schema and choose either GraphQL or REST. Answer these prompts in the terminal to set up your API. Amplify will handle the backend setup, including provisioning an API backed by AWS AppSync or Amazon API Gateway and an Amazon DynamoDB database.
 
-<InlineFilters filters={['angular','javascript','nextjs','react','react-native','vue']}>
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 
 Then access your API from your frontend code, for example, in a to-do list app that uses GraphQL:
 
@@ -75,7 +75,7 @@ const result = await client.graphql({
 console.log(result);
 ```
 
-</InlineFilters>
+</InlineFilter>
 
 Learn more about [Amplify Data.](/[platform]/build-a-backend/graphqlapi/)
 
@@ -91,7 +91,7 @@ amplify add auth
 
 You can customize your authentication flow with customized sign-in and registration flows, multi-factor authentication (MFA), and third-party social providers. Amplify deploys an Amazon Cognito instance in your AWS account when you add auth to your app.
 
-<InlineFilters filters={['react']}>
+<InlineFilter filters={['react']}>
 
 Then, you could use the Amplify `Authenticator` component or the client libraries to add user flows.
 
@@ -110,7 +110,7 @@ function App({ signOut, user }) {
 export default withAuthenticator(App);
 ```
 
-</InlineFilters>
+</InlineFilter>
 
 Learn more about [Amplify Auth](/[platform]/build-a-backend/auth/).
 
@@ -126,7 +126,7 @@ amplify add storage
 
 Amplify adds an Amazon S3 bucket or Amazon DynamoDB database to your AWS account to store your content.
 
-<InlineFilters filters={['angular','javascript','nextjs','react','react-native','vue']}>
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 
 In your app’s frontend, you can upload files:
 
@@ -149,7 +149,7 @@ const image = await getUrl({
 });
 ```
 
-</InlineFilters>
+</InlineFilter>
 
 Learn more about [Amplify Storage](/[platform]/build-a-backend/storage/set-up-storage/).
 
