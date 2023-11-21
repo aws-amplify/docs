@@ -1,0 +1,38 @@
+export const meta = {
+  title: 'Configure custom identity and group claims',
+  description: "Amplify Data allows you to configure custom identity and group claims instead of using the default Cognito claims, which can be useful if you want to populate claims from an external source like a database or 3rd party auth provider. The example shows how to check the `user_id` identity claim and the `user_groups` group claim that could come from a custom pre token generation Lambda trigger. Defining these custom claims provides more flexibility in authorization rules."
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify Data supports using custom identity and group claims if you do not wish to use the default Amazon Cognito-provided `cognito:groups` or the double-colon-delimited claims, `sub::username`, from your JWT token. This can be helpful if you are using tokens from a 3rd party OIDC system or if you wish to populate a claim with a list of groups from an external system, such as when using a [Pre Token Generation Lambda Trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) which reads from a database.
+
+To use custom claims specify `identityClaim` or `groupClaim` as appropriate. In the example below, the `identityClaim` is specified and the record owner will check against this `user_id` claim. Similarly, if the `user_groups` claim contains a "Moderator" string then access will be granted.
+
+```ts
+import { a, defineData, type ClientSchema } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  Post: a
+    .model({
+      id: a.id(),
+      owner: a.string(),
+      postname: a.string(),
+      content: a.string(),
+    })
+    .authorization([
+      a.allow.owner().identityClaim("user_id"),
+      a.allow.specificGroups(["Moderator"]).withClaimIn("user_groups"),
+    ]),
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({ schema });
+```

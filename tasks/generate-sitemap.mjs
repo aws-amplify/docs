@@ -88,13 +88,6 @@ const createRoutePathList = (directory) => {
 
 const writeSitemap = async () => {
   const sitemapPath = './public/sitemap.xml';
-
-  // remove gen2 from being generated in the sitemap
-  const GEN2_ROUTE = "/gen2";
-  directory.children = directory.children.filter((node) => {
-    return node.route !== GEN2_ROUTE;
-  });
-  
   const pathMap = createRoutePathList(directory);
   let xmlUrlNodes = '';
   pathMap.forEach((routePath) => {

@@ -12,11 +12,11 @@ export function getStaticProps(context) {
   };
 }
 
-The easiest way to get started with AWS Amplify is through [npm](https://npmjs.com) with [`create-amplify`](https://www.npmjs.com/package/create-amplify), however it may be preferable to start from scratch, either with an existing frontend app or a brand new directory.
+The easiest way to get started with AWS Amplify is through [npm](https://npmjs.com) with [`create-amplify`](https://www.npmjs.com/package/create-amplify), which is the workflow our [quickstart](/gen2/start/quickstart) recommends. However, for some use cases, it may be preferable to start from scratch, either with a brand new directory or an existing frontend app. This guide will walk you through how to initialize your project, install dependencies, and author your first backend.
 
-To get started, we will walk you through how to initialize your project, install dependencies, and author your first backend.
+## Manual setup
 
-First, create your project's `package.json` with `npm init -y`. Then, install the required dependencies for building a backend:
+First, if your frontend framework of choice doesn't have it already, create your project's `package.json` with `npm init -y`. Then, install the Amplify dependencies for building a backend:
 
 ```bash
 npm add --save-dev @aws-amplify/backend @aws-amplify/backend-cli typescript
@@ -46,7 +46,7 @@ Amplify (Gen 2) requires your backend to be configured for use with [ECMAScript 
 The current file is a CommonJS module whose imports will produce 'require' calls; however, the referenced file is an ECMAScript module and cannot be imported with 'require'. Consider writing a dynamic 'import("@aws-amplify/backend")' call instead.
 ```
 
-Or, you can create a file local to the Amplify backend directory, `amplify/package.json`:
+Or, you can create a file local in the Amplify backend directory, `amplify/package.json`:
 
 ```json
 {
@@ -56,7 +56,7 @@ Or, you can create a file local to the Amplify backend directory, `amplify/packa
 
 </Callout>
 
-Moving forward, you can use other `define*` functions to _define_ additional resources. For example, you can define authentication:
+You can use `define*` functions to _define_ your resources. For example, you can define authentication:
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
@@ -68,7 +68,7 @@ export const auth = defineAuth({
 });
 ```
 
-And then define your data resource:
+Or define your data resource:
 
 ```ts title="amplify/data/resource.ts"
 import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
@@ -85,8 +85,8 @@ Each of these newly-defined resources are then imported and set in the backend d
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './resource/auth/resource.js';
-import { data } from './resource/data/resource.js';
+import { auth } from './auth/resource.js';
+import { data } from './data/resource.js';
 
 defineBackend({
   auth,
@@ -94,7 +94,17 @@ defineBackend({
 });
 ```
 
+## Upgrade existing projects
+
+You can also update an existing frontend app. To upgrade existing Amplify Code-first DX (Gen 2) apps, use your Node.js package manager (for example, `npm`) to update relevant backend packages:
+
+```bash
+npm update @aws-amplify/backend @aws-amplify/backend-cli
+```
+
 ## Next Steps
+
+We recommend the following next steps:
 
 - [Learn more about defining authentication](/gen2/build-a-backend/auth)
 - [Learn more about defining data](/gen2/build-a-backend/data)
