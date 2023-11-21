@@ -229,7 +229,7 @@ export const data = defineData({
 To generate the model classes out of GraphQL schema, you can run the following command:
 
 ```bash
-npx amplify generate graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java
+amplify generate graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java
 ```
 
 Now you can see that the model classes are generated under app/src/main/java/com/amplifyframework/datastore/generated/model folder.
@@ -270,45 +270,45 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Scaffold(
-                        floatingActionButton = {
-                            FloatingActionButton(
-                                onClick = {
-                                    val date = Date()
-                                    val offsetMillis = TimeZone.getDefault().getOffset(date.time).toLong()
-                                    val offsetSeconds = TimeUnit.MILLISECONDS.toSeconds(offsetMillis).toInt()
-                                    val temporalDateTime = Temporal.DateTime(date, offsetSeconds)
-                                    val todo = Todo.builder()
-                                        .createdAt(temporalDateTime)
-                                        .updatedAt(temporalDateTime)
-                                        .content("My random todo ${System.currentTimeMillis()}")
-                                        .isDone(false)
-                                        .build()
+                    Authenticator { _ ->
+                      Scaffold(
+                          floatingActionButton = {
+                              FloatingActionButton(
+                                  onClick = {
+                                      val date = Date()
+                                      val offsetMillis = TimeZone.getDefault().getOffset(date.time).toLong()
+                                      val offsetSeconds = TimeUnit.MILLISECONDS.toSeconds(offsetMillis).toInt()
+                                      val temporalDateTime = Temporal.DateTime(date, offsetSeconds)
+                                      val todo = Todo.builder()
+                                          .createdAt(temporalDateTime)
+                                          .updatedAt(temporalDateTime)
+                                          .content("My random todo ${System.currentTimeMillis()}")
+                                          .isDone(false)
+                                          .build()
 
-                                    Amplify.API.mutate(
-                                        ModelMutation.create(todo),
-                                        {
-                                          Log.i("MyAmplifyApp", "Added Todo with id: ${it.data.id}")
-                                          todoList.add(todo)
-                                        },
-                                        { Log.e("MyAmplifyApp", "Create failed", it) }
-                                    )
-                                },
-                            ) {
-                                Icon(Icons.Filled.Add, "Add a random todo.")
-                            }
-                        }
-                    ) {
-                        Authenticator(modifier = Modifier.padding(it)) { _ ->
-                            Column {
-                                Button(onClick = {
-                                    Amplify.Auth.signOut {  }
-                                }) {
-                                    Text(text = "Sign Out")
-                                }
-                                Text(text = "The list of items will come here.")
-                            }
-                        }
+                                      Amplify.API.mutate(
+                                          ModelMutation.create(todo),
+                                          {
+                                            Log.i("MyAmplifyApp", "Added Todo with id: ${it.data.id}")
+                                            todoList.add(todo)
+                                          },
+                                          { Log.e("MyAmplifyApp", "Create failed", it) }
+                                      )
+                                  },
+                              ) {
+                                  Icon(Icons.Filled.Add, "Add a random todo.")
+                              }
+                          }
+                      ) {
+                          Column(modifier = Modifier.padding(it)) {
+                              Button(onClick = {
+                                  Amplify.Auth.signOut {  }
+                              }) {
+                                  Text(text = "Sign Out")
+                              }
+                              Text(text = "The list of items will come here.")
+                          }
+                      }
                     }
                 }
             }
@@ -919,8 +919,284 @@ Open your project in Xcode and select **File > Add Packages...** and add the fol
 
 ![Shows the Amplify library for Swift](/images/lib/getting-started/ios/set-up-swift-7.png)
 
+Now update the `MyAmplifyAppApp` class with the following code:
+
+```swift
+import Amplify
+import Authenticator
+import AWSCognitoAuthPlugin
+import SwiftUI
+
+@main
+struct MyApp: App {
+    init() {
+        do {
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.configure()
+        } catch {
+            print("Unable to configure Amplify \(error)")
+        }
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            Authenticator { state in
+                VStack {
+                    Button("Sign out") {
+                        Task {
+                            await state.signOut()
+                        }
+                    }
+                    Spacer()
+                    Button(action: {
+                        Task {
+                            await createTodo()
+                            await listTodos()
+                        }
+                    }) {
+                        HStack {
+                            Text("Add a New Todo")
+                            Image(systemName: "plus")
+                        }
+                    }
+                    .accessibilityLabel("New Todo")
+                }
+            }
+        }
+    }
+}
+```
+
+This will add the authentication flow by using the Authenticator component and add a sign out button with a create todo button.
+
 If you run the application now, you can see that the authentication flow is working.
+
+### Adding GraphQL API
+
+After the Amplify creation process, you can see a resource.ts file in the amplify/data folder. This file contains the configuration for the GraphQL API resource.
+
+The default code will create a Todo model with content and isDone property. The authorization rules below specify that owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
+
+```typescript
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      isDone: a.boolean()
+    })
+    .authorization([a.allow.owner()])
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'userPool'
+  }
+});
+```
+
+To generate the model classes out of GraphQL schema, you can run the following command:
+
+```bash
+amplify generate graphql-client-code --format=modelgen
+```
+
+Move the generated files to your project. You can do this by dragging and dropping the files to your project.
+
+Once you are done, add the API dependencies to your project. Select **File > Add Package Dependencies...** and add the `AWSAPIPlugin`.
+
+Next, update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+init() {
+    do {
+        try Amplify.add(plugin: AWSCognitoAuthPlugin())
+        try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
+        try Amplify.configure()
+    } catch {
+        print("Unable to configure Amplify \(error)")
+    }
+}
+```
+
+Now it is time to update the UI code a bit. Create a `createTodo` function in the `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+func createTodo() async {
+    let creationTime = Temporal.DateTime.now()
+    let todo = Todo(
+        content: "Random Todo \(creationTime)",
+        isDone: false,
+        createdAt: creationTime,
+        updatedAt: creationTime
+    )
+    do {
+        let result = try await Amplify.API.mutate(request: .create(todo))
+        switch result {
+        case .success(let todo):
+            print("Successfully created todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to create todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+The code above will create a random todo with the current time.
+
+Next create a `listTodos` function in the `MyAmplifyAppApp.swift` file with the following code to have the logic of listing the items:
+
+```swift
+func listTodos() async {
+    let request = GraphQLRequest<Todo>.list(Todo.self)
+    do {
+        let result = try await Amplify.API.query(request: request)
+        switch result {
+        case .success(let todos):
+            self.todos = todos.elements
+            print("Successfully retrieved list of todos: \(todos)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to query list of todos: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+This will assign the value of the fetched todos into a State object. Be sure to create it before the `body` property:
+
+```swift
+@State var todos: [Todo] = []
+```
+
+Now let's update the UI code to show the todos. Update the `VStack` in the `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+VStack {
+  Button("Sign out") {
+      Task {
+          await state.signOut()
+      }
+  }
+  List(todos, id: \.id) { todo in
+     Text(todo.content!)
+  }
+  Button(action: {
+      Task {
+          await createTodo()
+          await listTodos()
+      }
+  }) {
+      HStack {
+          Text("Add a New Todo")
+          Image(systemName: "plus")
+      }
+  }
+  .accessibilityLabel("New Todo")
+}.task {
+  await listTodos()
+}
+```
+
+<Callout info>
+  Throughout the Swift implementation, the async/await pattern has been used and
+  for using it easily, we take advantage of the Task structure. For more
+  information about the Task structure, you can check the
+  [documentation](https://developer.apple.com/documentation/swift/task).
+</Callout>
+
+The code above will fetch the todos once the VStack is shown. It will also create a todo and update the todo list each time a todo is created.
+
+Next step is to update and delete the todos. For that, create `updateTodo` and `deleteTodo` functions in the `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+func deleteTodo(todo: Todo) async {
+    do {
+        let result = try await Amplify.API.mutate(request: .delete(todo))
+        switch result {
+        case .success(let todo):
+            print("Successfully deleted todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to deleted todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+func updateTodo(todo: Todo) async {
+    do {
+        let result = try await Amplify.API.mutate(request: .update(todo))
+        switch result {
+        case .success(let todo):
+            print("Successfully updated todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to updated todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+Lastly, update the `List` in the `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+List(todos, id: \.id) { todo in
+    @State var isToggled = todo.isDone!
+    Toggle(isOn: $isToggled
+    ) {
+        Text(todo.content!)
+    }.onTapGesture {
+        var updatedTodo = todos.first {$0.id == todo.id}!
+        updatedTodo.isDone = !todo.isDone!
+        Task {
+            await updateTodo(todo: updatedTodo)
+            await listTodos()
+        }
+    }
+    .onChange(of: isToggled) { oldValue, newValue in
+        var updatedTodo = todos.first {$0.id == todo.id}!
+        updatedTodo.isDone = newValue
+        Task {
+            await updateTodo(todo: updatedTodo)
+            await listTodos()
+        }
+    }
+    .toggleStyle(.switch)
+    .onLongPressGesture {
+        Task {
+            await deleteTodo(todo: todo)
+            await listTodos()
+        }
+    }
+}
+```
+
+This will update the UI to show a toggle to update the todo and a long press gesture to delete the todo. Now if you run the application you should see the following flow.
+
+You can terminate the sandbox environment now to clean up the project.
+
+### Publishing changes to cloud
+
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/gen2/start/quickstart/#create-remote-git-repository).
 
 </Block>
 
 </BlockSwitcher>
+```
