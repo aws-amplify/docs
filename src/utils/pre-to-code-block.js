@@ -4,10 +4,11 @@ module.exports = function preToCodeBlock(preProps) {
     preProps.children.props &&
     preProps.children.type === 'code'
   ) {
-    const { title } = preProps;
+    const { title, highlight } = preProps;
     const { children, className } = preProps.children.props;
     return {
       fileName: title,
+      highlight,
       codeString: children.trim(),
       language: className && className.split('-')[1]
     };

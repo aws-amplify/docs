@@ -17,7 +17,7 @@ export function getStaticProps(context) {
 
 To create a new Amplify project, you can run the below command in your terminal
 
-```bash title="Terminal"
+```bash
 npm create amplify
 ```
 
@@ -43,7 +43,7 @@ export const auth = defineAuth({
 
 In order to test your newly created Auth resource, you can run the below command.
 
-```bash title=Terminal
+```bash title="Terminal"
 npx amplify sandbox
 ```
 
@@ -57,7 +57,7 @@ Authenticator component adds complete authentication flows to your application w
 
 You can add the Authenticator connected UI component by wrapping it in your app's entry point.
 
-```ts title="pages/_app.ts"
+```ts title="pages/_app.ts" highlight="1,9-12"
 import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import config from '../amplifyconfiguration';
@@ -79,8 +79,7 @@ export default function App() {
 }
 ```
 
-```ts
-// in Next.js middleware with the App Router
+```ts title="Next.js middleware with the App Router"
 import { runInMiddleware, runInServerComponent, runInServerAction, runInServiceRoute } from "@aws-amplify/adapter-nextjs";
 import { fetchAuthSession } from "aws-amplify/auth/server";
 import { NextRequest, NextResponse } from "next/server";

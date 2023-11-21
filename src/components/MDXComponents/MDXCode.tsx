@@ -9,7 +9,6 @@ import { trackCopyClicks } from '@/utils/track';
 require('prismjs/components/prism-java');
 require('prismjs/components/prism-dart');
 require('prismjs/components/prism-diff');
-
 require('./cli-error-language.js');
 
 const addVersions = (code: string) => {
@@ -34,6 +33,7 @@ export const MDXCode = (props) => {
     codeString,
     language = 'js',
     fileName,
+    highlight,
     showLineNumbers = true
   } = props;
 
@@ -51,6 +51,30 @@ export const MDXCode = (props) => {
       setCopied(false);
     }, 2000);
   };
+
+  let lineHighlightArray: number[] = [];
+  if (highlight) {
+    const highlightArray: string[] = highlight.split(',');
+    highlightArray.forEach((highlightFragment) => {
+      if (highlightFragment.includes('-')) {
+        const fragmentBoundsArray = highlightFragment.split('-');
+        const fragmentBounds: number[] = [];
+        fragmentBoundsArray.forEach((fragment, index) => {
+          fragmentBounds[index] = parseInt(fragment);
+        });
+        for (
+          let fragmentIndex = fragmentBounds[0];
+          fragmentIndex <= fragmentBounds[1];
+          fragmentIndex++
+        ) {
+          lineHighlightArray.push(fragmentIndex);
+        }
+      } else {
+        lineHighlightArray.push(parseInt(highlightFragment));
+      }
+    });
+  }
+  console.log('lineHighlightArray: ', lineHighlightArray);
 
   useEffect(() => {
     setCode(addVersions(codeString));
@@ -96,7 +120,15 @@ export const MDXCode = (props) => {
             >
               <code className="pre-code" id={codeId}>
                 {tokens.map((line, i) => (
-                  <div key={i} {...getLineProps({ line })}>
+                  <div
+                    key={i}
+                    {...getLineProps({ line })}
+                    className={`token-line${
+                      lineHighlightArray.includes(i + 1)
+                        ? ' line-highlight'
+                        : ''
+                    }`}
+                  >
                     {showLineNumbers && (
                       <span className="line-number">{i + 1}</span>
                     )}
