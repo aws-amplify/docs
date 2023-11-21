@@ -12,14 +12,22 @@ export function getStaticProps(context) {
   };
 }
 
-Amplify Gen2 does not support Android, iOS, Flutter and React Native apps at the moment. However you can still use the new Amplify tooling to generate your backend and use it in your mobile apps. It will require some manual work to integrate the generated backend with your mobile app.
+Amplify Gen 2 enables backend code sharing between web and mobile apps. The initial focus is on a TypeScript-first experience optimized for web developers. Mobile developers can also leverage the Gen 2 capabilities to build a unified backend for Android, iOS, Flutter and React Native apps. Expect ongoing improvements to streamline mobile workflows as we gather feedback from developers.
 
-Here is how you can run a TODO application on each platform with CRUD operations:
+## Prerequisites
 
-<Callout warning>
-  Before moving forward be sure to install the new CLI and configure it with
-  your AWS account.
-</Callout>
+Before you get started, make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) v18.17 or later
+- [npm](https://www.npmjs.com/) v9 or later
+- [git](https://git-scm.com/) v2.14.1 or later
+- You will also need to [create an AWS Account](https://portal.aws.amazon.com/billing/signup). Note that AWS Amplify is part of the [AWS Free Tier](https://aws.amazon.com/amplify/pricing/).
+- Configure your AWS account to use with Amplify [instructions](/gen2/start/account-setup/).
+
+## Build a mobile app
+
+Here is how you can build a To Do application on each platform with CRUD operations:
+
 
 <BlockSwitcher>
   <Block name="Android">
@@ -615,7 +623,7 @@ The **Authenticator** widget provides an authentication flow according to the re
   <source src="/images/gen2/getting-started/flutter/flutter-getting-started-1.mp4" />
 </video>
 
-### Adding GraphQL API
+### Adding Data
 
 After the Amplify creation process, you can see a resource.ts file in the amplify/data folder. This file contains the configuration for the GraphQL API resource.
 
@@ -995,7 +1003,7 @@ If you run the application now, you can see that the authentication flow is work
   <source src="/images/gen2/getting-started/ios/ios-getting-started-1.mp4" />
 </video>
 
-### Adding GraphQL API
+### Adding Data
 
 After the Amplify creation process, you can see a resource.ts file in the amplify/data folder. This file contains the configuration for the GraphQL API resource.
 
