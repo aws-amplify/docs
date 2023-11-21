@@ -1,6 +1,8 @@
 const puppeteer = require('puppeteer');
 const { getSitemapUrls } = require('./get-sitemap-links');
+const { LOCALHOST } = require('../src/constants/tasks');
 
+// Here we are excluding shortbread errors because these are domain specific and are expected to fail in a local environment
 const excludedErrors = [
   {
     type: 'Shortbread',
@@ -17,13 +19,13 @@ const excludedScripts = [
 
 const checkPage = async (url) => {
   const errorsFound = [];
-  let browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await puppeteer.launch({ headless: 'new' });
 
   const page = await browser.newPage();
 
   page
     .on('pageerror', (message) => {
-      let errorText = message.message;
+      const errorText = message.message;
       const excluded = excludedErrors.some((excludedError) => {
         return errorText.includes(excludedError.errorText);
       });
@@ -37,8 +39,8 @@ const checkPage = async (url) => {
     })
     .on('console', (message) => {
       if (message.type().toLowerCase() === 'error') {
-        let errorText = message.text();
-        let callingScript = message.location().url;
+        const errorText = message.text();
+        const callingScript = message.location().url;
         const excludedFromError = excludedErrors.some((excludedError) => {
           return errorText.includes(excludedError.errorText);
         });
@@ -64,12 +66,12 @@ const checkPage = async (url) => {
 };
 
 const consoleErrors = async (domain) => {
-  let pagesToCheck = await getSitemapUrls(domain);
-  let errorMessage = '';
+  const pagesToCheck = await getSitemapUrls(domain);
+  const errorMessage = '';
   for (let i = 0; i < pagesToCheck.length; i++) {
-    let url = pagesToCheck[i];
+    const url = pagesToCheck[i];
     console.log(`checking page ${url}`);
-    let errorsFound = await checkPage(url);
+    const errorsFound = await checkPage(url);
     errorsFound.forEach((error) => {
       errorMessage += `${error.message} found on ${error.page}\n`;
     });
@@ -79,7 +81,7 @@ const consoleErrors = async (domain) => {
 };
 
 module.exports = {
-  consoleErrors: async (domain = 'http://localhost:3000') => {
+  consoleErrors: async (domain = LOCALHOST) => {
     return await consoleErrors(domain);
   }
 };
