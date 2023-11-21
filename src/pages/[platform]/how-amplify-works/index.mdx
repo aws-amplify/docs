@@ -53,23 +53,29 @@ With Amplify, you can quickly set up a GraphQL or REST API connected to a databa
 
 To add an API to your app’s backend, you can run the following CLI command:
 
-```javascript
+```bash
 amplify add api
 ```
 
 The CLI will display prompts to configure your schema and choose either GraphQL or REST. Answer these prompts in the terminal to set up your API. Amplify will handle the backend setup, including provisioning an API backed by AWS AppSync or Amazon API Gateway and an Amazon DynamoDB database.
 
+<InlineFilters filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
 Then access your API from your frontend code, for example, in a to-do list app that uses GraphQL:
 
 ```javascript
-import { API } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { listTodos } from './graphql/queries';
 
-const result = await API.graphql({
+const client = generateClient();
+
+const result = await client.graphql({
   query: listTodos
 });
 console.log(result);
 ```
+
+</InlineFilters>
 
 Learn more about [Amplify Data.](/[platform]/build-a-backend/graphqlapi/)
 
@@ -79,11 +85,13 @@ Amplify Auth makes it easy to add full user authentication flows to your applica
 
 To add backend authentication, you can run the following command:
 
-```javascript
+```bash
 amplify add auth
 ```
 
 You can customize your authentication flow with customized sign-in and registration flows, multi-factor authentication (MFA), and third-party social providers. Amplify deploys an Amazon Cognito instance in your AWS account when you add auth to your app.
+
+<InlineFilters filters={['react']}>
 
 Then, you could use the Amplify `Authenticator` component or the client libraries to add user flows.
 
@@ -102,6 +110,8 @@ function App({ signOut, user }) {
 export default withAuthenticator(App);
 ```
 
+</InlineFilters>
+
 Learn more about [Amplify Auth](/[platform]/build-a-backend/auth/).
 
 ### Storage
@@ -110,25 +120,36 @@ Amplify Storage provides a simple mechanism for managing file and data storage l
 
 To add a storage bucket to your app on the backend, run the command:
 
-```javascript
+```bash
 amplify add storage
 ```
 
 Amplify adds an Amazon S3 bucket or Amazon DynamoDB database to your AWS account to store your content.
 
+<InlineFilters filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
 In your app’s frontend, you can upload files:
 
 ```javascript
-import { Storage } from 'aws-amplify';
+import { uploadData } from 'aws-amplify/storage';
 
-const result = await Storage.put('example.png', file);
+const result = await uploadData({
+  key: 'example.png',
+  data: file
+});
 ```
 
 Or retrieve content to display to users:
 
 ```javascript
-const image = await Storage.get('example.png');
+import { getUrl } from 'aws-amplify/storage';
+
+const image = await getUrl({
+  key: 'example.png'
+});
 ```
+
+</InlineFilters>
 
 Learn more about [Amplify Storage](/[platform]/build-a-backend/storage/set-up-storage/).
 
