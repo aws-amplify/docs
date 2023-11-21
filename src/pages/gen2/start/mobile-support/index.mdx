@@ -112,7 +112,7 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.1.0")
     implementation("com.amplifyframework.ui:authenticator:1.0.1")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
-
+}
 ```
 
 Afterwards create a `MyAmplifyApp` class that extends `Application` and add the following code:
@@ -229,8 +229,234 @@ export const data = defineData({
 To generate the model classes out of GraphQL schema, you can run the following command:
 
 ```bash
-amplify generate graphql-client-code --format=modelgen --model-target=java
+npx amplify generate graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java
 ```
+
+Now you can see that the model classes are generated under app/src/main/java/com/amplifyframework/datastore/generated/model folder.
+
+<Callout info>
+  The generated models are in Java but do not worry Java and Kotlin are
+  interoperable. You can use the generated models in your Kotlin code.
+</Callout>
+
+For using GraphQL API, you need to add the following dependencies to your app/build.gradle file:
+
+```kotlin
+dependencies {
+  implementation("com.amplifyframework:core:2.14.4")
+  implementation("com.amplifyframework:aws-api:2.14.4")
+}
+```
+
+Afterwards open the `MyAmplifyApp` class and add the following line before the `configure` call:
+
+```kotlin
+Amplify.addPlugin(AWSApiPlugin())
+```
+
+Now it is time to update the UI code a bit. Update the `MainActivity` class with the following code:
+
+```kotlin
+
+class MainActivity : ComponentActivity() {
+
+    private val todoList = mutableStateListOf<Todo>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyApplicationTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Scaffold(
+                        floatingActionButton = {
+                            FloatingActionButton(
+                                onClick = {
+                                    val date = Date()
+                                    val offsetMillis = TimeZone.getDefault().getOffset(date.time).toLong()
+                                    val offsetSeconds = TimeUnit.MILLISECONDS.toSeconds(offsetMillis).toInt()
+                                    val temporalDateTime = Temporal.DateTime(date, offsetSeconds)
+                                    val todo = Todo.builder()
+                                        .createdAt(temporalDateTime)
+                                        .updatedAt(temporalDateTime)
+                                        .content("My random todo ${System.currentTimeMillis()}")
+                                        .isDone(false)
+                                        .build()
+
+                                    Amplify.API.mutate(
+                                        ModelMutation.create(todo),
+                                        {
+                                          Log.i("MyAmplifyApp", "Added Todo with id: ${it.data.id}")
+                                          todoList.add(todo)
+                                        },
+                                        { Log.e("MyAmplifyApp", "Create failed", it) }
+                                    )
+                                },
+                            ) {
+                                Icon(Icons.Filled.Add, "Add a random todo.")
+                            }
+                        }
+                    ) {
+                        Authenticator(modifier = Modifier.padding(it)) { _ ->
+                            Column {
+                                Button(onClick = {
+                                    Amplify.Auth.signOut {  }
+                                }) {
+                                    Text(text = "Sign Out")
+                                }
+                                Text(text = "The list of items will come here.")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+The `onClick` function of the `FloatingActionButton` will create a random Todo item. Now it is time to add a logic to see the added items.
+
+First let's add a `TodoScreen` composable function:
+
+```kotlin
+@Composable
+fun TodoScreen(
+  todoList: SnapshotStateList<Todo>,
+  onItemUpdated: (Todo) -> Unit,
+  onItemDeleted: (Todo) -> Unit,
+) {
+    LazyColumn {
+        todoList.forEach { todo ->
+            item {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = todo.isDone,
+                        onCheckedChange = { }
+                    )
+                    Text(todo.content)
+                }
+            }
+        }
+    }
+}
+```
+
+Next let's update the `MainActivity` class to use the `TodoScreen` composable function. Update the `Authenticator` usage with the following code:
+
+```kotlin
+Authenticator(modifier = Modifier.padding(it)) { _ ->
+    Column {
+            Button(onClick = {
+                Amplify.Auth.signOut { }
+            }) {
+                Text(text = "Sign Out")
+            }
+        if (todoList.isEmpty())
+            Text(text = "The list is empty.\nAdd some items by clicking the Floating Action Button.")
+        else
+            TodoScreen(
+                todoList,
+                onItemUpdated = { todo ->
+                    val foundItem =
+                        todoList.firstOrNull { it.id == todo.id }
+                    if (foundItem != null) {
+                        val index = todoList.indexOf(foundItem)
+                        todoList.removeAt(index)
+                        Log.i("updated", todo.toString())
+                        todoList.add(index, todo)
+                    }
+                },
+            ) { todo -> todoList.remove(todo) }
+    }
+}
+```
+
+Now add a `todoList` variable to the `MainActivity` class before the `onCreate` call and call the `refreshItems` function before the `setContent` call:
+
+```kotlin
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    refreshItems()
+...
+}
+```
+
+Lastly create a function to fetch the items. Add the following code to the `MainActivity` class:
+
+```kotlin
+private fun refreshItems() {
+    Amplify.API.query(
+        ModelQuery.list(Todo::class.java),
+        { response ->
+            val items = response.data
+            items.forEach { todo ->
+                val foundItem = todoList.firstOrNull { it.id == todo.id }
+                if (foundItem != null) {
+                    val index = todoList.indexOf(foundItem)
+                    todoList.removeAt(index)
+                    todoList.add(index, todo)
+                } else {
+                    todoList.add(todo)
+                }
+            }
+            Log.i("MyAmplifyApp", "Queried items: $items")
+        },
+        { Log.e("MyAmplifyApp", "Query failure", it) }
+    )
+}
+```
+
+Now if you run the application on the Android emulator, you should see the following flow.
+
+Now let's update and delete the items. For update, add the following code to the `onCheckedChange` method of the `Checkbox` widget:
+
+```kotlin
+val newTodo = todo.copyOfBuilder().isDone(it).build()
+Amplify.API.mutate(
+    ModelMutation.update(newTodo),
+    {
+        Log.i("MyAmplifyApp", "Updated Todo with id: ${todo.id}")
+        onItemUpdated(newTodo)
+    },
+    { Log.e("MyAmplifyApp", "Update failed") }
+)
+```
+
+For deleting add a long click behavior with the `Modifier.combinedClickable` modifier. To add it, update the Row composable call in the `TodoScreen` composable function with the following code:
+
+```kotlin
+Row(
+    verticalAlignment = Alignment.CenterVertically,
+    modifier = Modifier.combinedClickable(
+        onClick = {
+            val newTodo = todo.copyOfBuilder().isDone(!todo.isDone).build()
+            Amplify.API.mutate(
+                ModelMutation.update(newTodo),
+                {
+                    Log.i("MyAmplifyApp", "Updated Todo with id: ${todo.id}")
+                    onItemUpdated(newTodo)
+                },
+                { Log.e("MyAmplifyApp", "Update failed") }
+            )
+        },
+        onLongClick = {
+            Amplify.API.mutate(
+                ModelMutation.delete(todo),
+                {
+                    Log.i("MyAmplifyApp", "Deleted Todo with id: ${todo.id}")
+                    onItemDeleted(todo)
+                },
+                { Log.e("MyAmplifyApp", "Delete failed") }
+            )
+        },
+    )
+)
+```
+
+With the click, we update the checkbox but with the long click we remove it. Now if you run the application you should see the following flow.
 
 You can terminate the sandbox environment now to clean up the project.
 
