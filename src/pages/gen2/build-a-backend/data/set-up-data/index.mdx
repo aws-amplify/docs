@@ -92,7 +92,7 @@ Let's first add a button to create a new todo item. To make a "create Todo" API 
 
 "use client"
 import type { Schema } from '@/amplify/data/resource'
-import { generateClient } from 'aws-amplify/api'
+import { generateClient } from 'aws-amplify/data'
 import { client } from '@/utils/data'
 
 const client = generateClient<Schema>()
@@ -129,7 +129,7 @@ Next, list all your todos and then refetch the todos after a todo has been added
 "use client"
 import type { Schema } from '@/amplify/data/resource'
 import { useState, useEffect } from 'react'
-import { generateClient } from 'aws-amplify/api'
+import { generateClient } from 'aws-amplify/data'
 
 const client = generateClient<Schema>()
 
@@ -173,7 +173,7 @@ You can also use `observeQuery` to subscribe to a live feed of your backend data
 "use client"
 import type { Schema } from '@/amplify/data/resource'
 import { useState, useEffect } from 'react'
-import { generateClient } from 'aws-amplify/api'
+import { generateClient } from 'aws-amplify/data'
 
 const client = generateClient<Schema>()
 
