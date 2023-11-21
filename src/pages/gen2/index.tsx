@@ -170,6 +170,7 @@ const Gen2Overview = () => {
         </Columns>
       </Flex>
       <FeatureList heading="Develop" level={2}>
+        <video src="/videos/typed-api.mp4" style={{ width: '100%', borderRadius: 'var(--amplify-radii-small)' }} autoPlay muted loop />
         <Columns columns={4}>
           <FeatureItem
             linkText="TypeScript-first fullstack experience"
@@ -200,7 +201,6 @@ const Gen2Overview = () => {
         </Columns>
       </FeatureList>
 
-      <video src="/videos/typed-api.mp4" autoPlay muted loop />
 
       <Columns columns={2}>
         <ExportedImage
