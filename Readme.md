@@ -39,7 +39,7 @@ We welcome contributions to the documentation site! Here's how to do it:
 
 Our docs are generated using [Next.js](https://nextjs.org/). Refer to their docs on [how to create pages](https://nextjs.org/docs/basic-features/pages) as a primer.
 
-The source for each pages is in **src**. This folder is the only directory you need to touch to edit or create pages.
+The source for each page is in **src**. This folder is the only directory you need to touch to edit or create pages.
 
 The **pages/index.tsx** file located inside this folder will be rendered as a page at the route **/**. The **pages/**/index.mdx** file will be rendered as a page at the route **/[platform]\*\*.
 
