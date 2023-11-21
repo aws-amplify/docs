@@ -407,7 +407,7 @@ After configuring the OAuth endpoints (with Cognito Hosted UI), you can integrat
 
 A custom state is not required, but if you are looking to add one, you are able to do so by passing a string value (e.g. `signInWithRedirect({ customState: 'xyz' })`) and listening for the custom state via [Hub](/[platform]/build-a-backend/utilities/hub/). You can also use the Hub eventing system to catch errors using `signInWithRedirect()` to listen for the `signInWithRedirect_failure` event.
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["react"]}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -423,7 +423,7 @@ import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 
 function App() {
-  const [user, setUser] = useState<CognitoAuthUser | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [customState, setCustomState] = useState<string | null>(null);
 
@@ -570,7 +570,7 @@ import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 
 function App() {
-  const [user, setUser] = useState<CognitoAuthUser | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [customState, setCustomState] = useState<string | null>(null);
 
@@ -766,7 +766,7 @@ Amplify.configure({
 });
 
 function App() {
-  const [user, setUser] = useState<CognitoAuthUser | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [customState, setCustomState] = useState<string | null>(null);
 
