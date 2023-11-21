@@ -1,7 +1,7 @@
 export const meta = {
   title: 'Separate frontend and backend teams',
   description:
-    'Learn how to setup multiple repositories with the Amplify CI/CD pipeline.'
+    'Set up multiple repositories with the Amplify CI/CD pipeline.'
 };
 
 export function getStaticProps(context) {
@@ -13,7 +13,7 @@ export function getStaticProps(context) {
 
 }
 
-You might have a different frontend and backend team that maintains their own repositories. Amplify Gen 2 now offers the ability of deploying repositories that have backend-only code. So frontend and backend teams can operate independently of each other.
+You might have a different frontend and backend team that maintains their own repositories. Amplify (Gen 2) now offers the ability of deploying repositories that have backend-only code. So frontend and backend teams can operate independently of each other.
 
 ## Deploy the backend app
 
@@ -106,7 +106,7 @@ frontend:
       - node_modules/**/*
 ```
 
-4. Now lets deploy the app in the Amplify Console, choose _New app > Build an app (Gen 2)_. Connect the repository and leave the default settings. You should see the build generates the config and does not deploy a frontend. Validate that your app is working fine.
+4. Now let's deploy the app in the Amplify Console, choose _New app > Build an app (Gen 2)_. Connect the repository and leave the default settings. You should see the build generates the config and does not deploy a frontend. Validate that your app is working fine.
 
 ![multi-repo](/images/gen2/fullstack-branching/multirepo4.png)
 
@@ -132,7 +132,7 @@ aws amplify create-webhook --app-id FRONTEND-APPID --branch-name main  --region 
 
 1. Construct a `curl` command with the `webhookUrl`: `curl -X POST -d {} "https://webhooks.amplify.ca-central-1.amazonaws.com/prod/webhooks?id=WEBHOOK-ID&token=TOKEN&operation=startbuild" -H "Content-Type:application/json`
 
-1. Now update the `backend-app`'s build settings to include the `curl` command to trigger a frontend build any time there are changes to the backend.
+1. Now update the build settings for the `backend-app` to include the `curl` command to trigger a frontend build any time there are changes to the backend.
 
 ``` yaml
 version: 1
