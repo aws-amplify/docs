@@ -192,6 +192,7 @@ cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.MinimumLength', 32);
 You can change the verification email by overriding the `verificationEmailStyle` and the `verificationEmailBody`.
 
 ```ts title="amplify/auth/resource.ts"
+// amplify/auth/resource.ts
 import { defineAuth } from "@aws-amplify/backend";
 
 export const auth = defineAuth({
