@@ -1,32 +1,37 @@
 <Callout>
-Currently, the federation feature in the AWSMobileClient supports Cognito Identity Pools only.
+  Currently, the federation feature in the AWSMobileClient supports Cognito
+  Identity Pools only.
 </Callout>
 
 ## Federated Sign In
 
 ```swift
-AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.facebook.rawValue, token: "FACEBOOK_TOKEN_HERE") { (userState, error)  in
+AWSMobileClient.default().federatedSignIn(
+    providerName: IdentityProvider.facebook.rawValue,
+    token: "FACEBOOK_TOKEN_HERE"
+) { (userState, error)  in
     if let error = error {
         print("Federated Sign In failed: \(error.localizedDescription)")
     }
 }
 ```
 
-`federatedSignIn()` can be used to obtain federated "Identity ID" using external providers like Google, Facebook or Twitter. If the tokens are expired and new tokens are needed, a notification will be dispatched on the `AWSMobileClient` listener with the user state `signedOutFederationTokensInvalid`. You can give the updated tokens via the same `federatedSignIn()` method. 
+`federatedSignIn()` can be used to obtain federated "Identity ID" using external providers like Google, Facebook or Twitter. If the tokens are expired and new tokens are needed, a notification will be dispatched on the `AWSMobileClient` listener with the user state `signedOutFederationTokensInvalid`. You can give the updated tokens via the same `federatedSignIn()` method.
 
 The API calls to get AWS credentials will be asynchronously blocked until you fetch the social provider's token and give it to `AWSMobileClient`. Once you pass the tokens, the `AWSMobileClient` will fetch AWS Credentials using the new tokens and unblock all waiting calls. It will then use the new credentials.
 
 ### SAML with Cognito Identity
 
-To federate your SAML sign-in provider as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.default().federatedSignIn()`. 
-You must first register your SAML application with AWS IAM by using the following [instructions](https://docs.aws.amazon.com/cognito/latest/developerguide/saml-identity-provider.html). 
+To federate your SAML sign-in provider as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.default().federatedSignIn()`. You must first register your SAML application with AWS IAM by using the following [instructions](https://docs.aws.amazon.com/cognito/latest/developerguide/saml-identity-provider.html).
 
 Once you retrieve the SAML tokens from your login, you can call the `federatedSignIn` API in `AWSMobileClient`:
 
 ```swift
 // Perform SAML token federation
-AWSMobileClient.default().federatedSignIn(providerName: "YOUR_SAML_PROVIDER_NAME",
-                                          token: "YOUR_SAML_TOKEN") { (userState, error) in
+AWSMobileClient.default().federatedSignIn(
+    providerName: "YOUR_SAML_PROVIDER_NAME",
+    token: "YOUR_SAML_TOKEN"
+) { (userState, error) in
     if let error = error as? AWSMobileClientError {
         print(error.localizedDescription)
     }
@@ -44,9 +49,11 @@ AWSMobileClient.default().federatedSignIn(providerName: "YOUR_SAML_PROVIDER_NAME
 val options = FederatedSignInOptions(customRoleARN: "choose-one")
 
 // Perform SAML token federation
-AWSMobileClient.default().federatedSignIn(providerName: "YOUR_SAML_PROVIDER_NAME",
-                                          token: "YOUR_SAML_TOKEN"
-                                          federatedSignInOptions: options) { (userState, error) in
+AWSMobileClient.default().federatedSignIn(
+    providerName: "YOUR_SAML_PROVIDER_NAME",
+    token: "YOUR_SAML_TOKEN"
+    federatedSignInOptions: options
+) { (userState, error) in
     if let error = error as? AWSMobileClientError {
         print(error.localizedDescription)
     }
@@ -62,19 +69,18 @@ To federate Facebook as a user sign-in provider for AWS services called in your 
 
 AWS Amplify helps set this up for you but first this topic explains how to set up Facebook as an identity provider for your app.
 
-If you already have a Facebook app ID, you can copy and paste it into the `Facebook App ID` field
-when configuring authentication using the AWS Amplify CLI.
+If you already have a Facebook app ID, you can copy and paste it into the `Facebook App ID` field when configuring authentication using the AWS Amplify CLI.
 
 **To get a Facebook app ID**
 
 Set up your app in Facebook by following Facebook's [App Development](https://developers.facebook.com/docs/apps) guide. Sign in to the [Facebook Developers portal](https://developers.facebook.com/):
 
- - Choose **Add a New App** (or choose a previously created app from **My Apps**).
-    - If asked, choose the platform of your app that will use Facebook Login and choose **basic setup**.
- - Type a display name for your app, select a category for your app from the **Category** drop-down list, then choose **Create App ID**; take note of the **App ID**.
- - In the Facebook Developer portal's left hand navigation list, choose **Settings**, then choose **+ Add Platform**.
- - Choose **iOS** and add your app's Bundle ID (for example, com.amazon.YourProjectName)
- - Choose **Save changes**
+- Choose **Add a New App** (or choose a previously created app from **My Apps**).
+  - If asked, choose the platform of your app that will use Facebook Login and choose **basic setup**.
+- Type a display name for your app, select a category for your app from the **Category** drop-down list, then choose **Create App ID**; take note of the **App ID**.
+- In the Facebook Developer portal's left hand navigation list, choose **Settings**, then choose **+ Add Platform**.
+- Choose **iOS** and add your app's Bundle ID (for example, com.amazon.YourProjectName)
+- Choose **Save changes**
 
 Only users with roles assigned in the Facebook portal will be able to authenticate through your app while it is in development (not yet published). To authorize users, in the Facebook Developer portal's left hand navigation list, choose **Roles**, then **Add Testers** and provide valid Facebook IDs.
 
@@ -85,7 +91,7 @@ Only users with roles assigned in the Facebook portal will be able to authentica
 In a terminal window, navigate to the root of your app files and add the auth category to your app. The CLI prompts you for configuration parameters. Choose **I will setup my own configuration** and **AWS IAM controls** when prompted.
 
 ```bash
-cd ./YOUR_PROJECT_FOLDER
+cd YOUR_PROJECT_FOLDER
 amplify add auth              ##"amplify update auth" if already configured
 ```
 
@@ -112,9 +118,9 @@ Note that the CLI allows you to select more than one identity provider for your 
 
 To federate Google as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.default().federatedSignIn()`. You must first register your application with Google Sign-In in the Google Developers Console, and then configure this with Amazon Cognito Identity Pools.
 
-To implement Google Sign-in into your iOS app, you need two things: 
+To implement Google Sign-in into your iOS app, you need two things:
 
-1. OAuth Web Client ID 
+1. OAuth Web Client ID
 2. iOS Client ID
 
 These Client IDs are part of your Google Developers project. The Web Client ID will be used by Cognito Identity Pools to manage the OAuth flow between Cognito and Google on the server side. The iOS Client ID will be used in your iOS app to authorize the OAuth flow directly with Google, allowing your users to authenticate with using their Google account.
@@ -132,12 +138,12 @@ Next, obtain your **OAuth Web Client ID** by navigating to the [Credentials sect
 In a terminal window, navigate to the root of your app files and add auth. The CLI prompts you for configuration parameters. Choose **I will setup my own configuration** and **AWS IAM controls** when prompted.
 
 ```bash
-cd ./YOUR_PROJECT_FOLDER
+cd YOUR_PROJECT_FOLDER
 amplify add auth # or `amplify update auth`
 ```
 
 ```console
-❯ Manual Configuration  
+❯ Manual Configuration
 ❯ User Sign-Up, Sign-In, connected with AWS IAM controls
 ```
 
@@ -159,50 +165,50 @@ To federate Sign in with Apple as a user sign-in provider for AWS services calle
 
 1. **Implementing Sign in with Apple in your app**
 
-    On iOS devices, Sign in with Apple can be implemented using native controls and system-provided APIs. See [Apple's documentation and sample app](https://developer.apple.com/documentation/authenticationservices/implementing_user_authentication_with_sign_in_with_apple) for more details on setting up Sign in with Apple in your application.
+   On iOS devices, Sign in with Apple can be implemented using native controls and system-provided APIs. See [Apple's documentation and sample app](https://developer.apple.com/documentation/authenticationservices/implementing_user_authentication_with_sign_in_with_apple) for more details on setting up Sign in with Apple in your application.
 
 2. **Configuring Sign in with Apple as an authentication provider in your Amazon Cognito Identity Pool**
 
-    Once you have configured your application to use Sign in with Apple, paste your app's **Bundle Identifier** into the **Apple Services ID** field of your [Amazon Cognito Identity Pool](https://console.aws.amazon.com/cognito/home). The Bundle Identifier can be found in the [**Certificates, IDs & Profiles** section](https://developer.apple.com/account/resources/identifiers/list) of your Apple Developer Account.
+   Once you have configured your application to use Sign in with Apple, paste your app's **Bundle Identifier** into the **Apple Services ID** field of your [Amazon Cognito Identity Pool](https://console.aws.amazon.com/cognito/home). The Bundle Identifier can be found in the [**Certificates, IDs & Profiles** section](https://developer.apple.com/account/resources/identifiers/list) of your Apple Developer Account.
 
-    > **Note:** If you have set up Sign in with Apple for use on websites, or using Cognito HostedUI, you may have set up an Apple Services ID, but that is not the correct value to use for configuring Sign in with Apple as an authentication provider for your Amazon Cognito Identity Pool.
+   > **Note:** If you have set up Sign in with Apple for use on websites, or using Cognito HostedUI, you may have set up an Apple Services ID, but that is not the correct value to use for configuring Sign in with Apple as an authentication provider for your Amazon Cognito Identity Pool.
 
 3. **Passing the Sign in with Apple token to AWSMobileClient via `federatedSignIn`**
 
-    Once you have configured Sign in with Apple as an authentication provider for your Amazon Cognito Identity Pool, and your app implements authentication with Sign in with Apple, you can use the authentication tokens provided by Sign in with Apple to obtain credentials to authorize calls to AWS services in your app. When your app's [`authorizationController(controller:didCompleteWithAuthorization:)`](https://developer.apple.com/documentation/authenticationservices/asauthorizationcontrollerdelegate/3153050-authorizationcontroller) delegate method receives an `ASAuthorizationCredential` of type `ASAuthorizationAppleIDCredential`, you can use the credential's `identityToken` to federate into your Amazon Cognito Identity Pool, as in the following sample code:
+   Once you have configured Sign in with Apple as an authentication provider for your Amazon Cognito Identity Pool, and your app implements authentication with Sign in with Apple, you can use the authentication tokens provided by Sign in with Apple to obtain credentials to authorize calls to AWS services in your app. When your app's [`authorizationController(controller:didCompleteWithAuthorization:)`](https://developer.apple.com/documentation/authenticationservices/asauthorizationcontrollerdelegate/3153050-authorizationcontroller) delegate method receives an `ASAuthorizationCredential` of type `ASAuthorizationAppleIDCredential`, you can use the credential's `identityToken` to federate into your Amazon Cognito Identity Pool, as in the following sample code:
 
-    ```swift
-    func authorizationController(controller: ASAuthorizationController,
-                                 didCompleteWithAuthorization authorization: ASAuthorization) {
-        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
-            let identityTokenData = appleIDCredential.identityToken else {
-                print("No token available")
-                return
-        }
-        
-        guard let identityToken = String(data: identityTokenData, encoding: .utf8) else {
-            print("Can't convert identity token data to string")
-            return
-        }
+   ```swift
+   func authorizationController(controller: ASAuthorizationController,
+                                didCompleteWithAuthorization authorization: ASAuthorization) {
+       guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
+           let identityTokenData = appleIDCredential.identityToken else {
+               print("No token available")
+               return
+       }
 
-        AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.apple.rawValue,
-                                                  token: identityToken) { userState, error in
-            if let error = error {
-                print("Error in federatedSignIn: \(error)")
-                return
-            }
-            
-            guard let userState = userState else {
-                print("userState unexpectedly nil")
-                return
-            }
-            
-            print("federatedSignIn successful: \(userState)")
-        }
-    }
-    ```
+       guard let identityToken = String(data: identityTokenData, encoding: .utf8) else {
+           print("Can't convert identity token data to string")
+           return
+       }
 
-    After the `federatedSignIn` method successfully completes, `AWSMobileClient` will automatically use the federated identity to obtain credentials to make AWS service calls.
+       AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.apple.rawValue,
+                                                 token: identityToken) { userState, error in
+           if let error = error {
+               print("Error in federatedSignIn: \(error)")
+               return
+           }
+
+           guard let userState = userState else {
+               print("userState unexpectedly nil")
+               return
+           }
+
+           print("federatedSignIn successful: \(userState)")
+       }
+   }
+   ```
+
+   After the `federatedSignIn` method successfully completes, `AWSMobileClient` will automatically use the federated identity to obtain credentials to make AWS service calls.
 
 ### Developer Authenticated Identities with Cognito Identity
 
@@ -231,30 +237,30 @@ AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.develop
 
 1. Add the following dependencies in your project's `Podfile`.
 
-	```ruby
-	platform :ios, '9.0'
-	  target 'YOUR-APP-NAME' do
-	    use_frameworks!
+   ```ruby
+   platform :ios, '9.0'
+     target 'YOUR-APP-NAME' do
+       use_frameworks!
 
-	    pod 'AWSFacebookSignIn'     # Add this new dependency
-	    pod 'AWSAuthUI'             # Add this dependency if you have not already added
-	    
-	    # Other Pod entries
-	    pod 'AWSMobileClient'
-	    pod 'AWSUserPoolsSignIn'
-	    
-	  end
-	```
+       pod 'AWSFacebookSignIn'     # Add this new dependency
+       pod 'AWSAuthUI'             # Add this dependency if you have not already added
+
+       # Other Pod entries
+       pod 'AWSMobileClient'
+       pod 'AWSUserPoolsSignIn'
+
+     end
+   ```
 
 Run `pod install --repo-update`.
 
-> **Note:** `AWSFacebookSignIn` is only needed for using Facebook in your app and  `AWSAuthUI` is only necessary if using the "Drop-In UI".
+> **Note:** `AWSFacebookSignIn` is only needed for using Facebook in your app and `AWSAuthUI` is only necessary if using the "Drop-In UI".
 
 1. Add Facebook meta data to `Info.plist`.
 
-	To configure your Xcode project to use Facebook Login, right-choose `Info.plist` and then choose `Open As > Source Code`.
+   To configure your Xcode project to use Facebook Login, right-choose `Info.plist` and then choose `Open As > Source Code`.
 
-	Add the following entry, using your project name, Facebook ID and login scheme ID.
+   Add the following entry, using your project name, Facebook ID and login scheme ID.
 
 ```xml
   <plist version="1.0">
@@ -299,20 +305,20 @@ The drop-in UI will show a Facebook sign in button which will use the `federated
 
 Add the following dependencies in the Podfile.
 
-	```ruby
-	platform :ios, '9.0'
-	target :'YOUR-APP-NAME' do
-	  use_frameworks!
-	  pod 'AWSGoogleSignIn'                 # Add this new dependency
-	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
-	  pod 'AWSAuthUI'                       # Add this dependency if you have not already added
-	    
-	  # Other Pod entries
-	  pod 'AWSMobileClient'
-	  pod 'AWSUserPoolsSignIn'
-	  
-	end
-	```
+    ```ruby
+    platform :ios, '9.0'
+    target :'YOUR-APP-NAME' do
+      use_frameworks!
+      pod 'AWSGoogleSignIn'                 # Add this new dependency
+      pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
+      pod 'AWSAuthUI'                       # Add this dependency if you have not already added
+
+      # Other Pod entries
+      pod 'AWSMobileClient'
+      pod 'AWSUserPoolsSignIn'
+
+    end
+    ```
 
 Run `pod install --repo-update`.
 
@@ -322,24 +328,24 @@ Add Google metadata to `Info.plist`.
 
 To configure your Xcode project to use Google Login, open the `Info.plist` file using **Right-click > Open As > Source Code** and add the following entry. Substitute your project name for the placeholder string.
 
-	```xml
+```xml
 
-	<plist version="1.0">
-	<!-- YOUR OTHER PLIST ENTRIES HERE -->
+<plist version="1.0">
+<!-- YOUR OTHER PLIST ENTRIES HERE -->
 
-	<!-- ADD AN ENTRY TO CFBundleURLTypes for Google -->
-	<!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
-	<key>CFBundleURLTypes</key>
-	<array>
-	    <dict>
-	    <key>CFBundleURLSchemes</key>
-	    <array>
-	        <string>com.googleusercontent.apps.xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</string>
-	    </array>
-	    </dict>
-	</array>
+<!-- ADD AN ENTRY TO CFBundleURLTypes for Google -->
+<!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+        <string>com.googleusercontent.apps.xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</string>
+    </array>
+    </dict>
+</array>
 
-	<!-- ... -->
-	```
+<!-- ... -->
+```
 
 The drop-in UI will show a Google sign in button which will use the `federatedSignIn()` flow.

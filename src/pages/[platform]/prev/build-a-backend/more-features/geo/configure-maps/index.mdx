@@ -1,0 +1,152 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Configure maps',
+  description: 'Use Amplify CLI to create and manage maps to visualize geospatial data in your app.',
+  platforms: [
+                'android',
+                'angular',
+                'javascript',
+                'nextjs',
+                'react',
+                'swift',
+                'vue'
+              ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      showBreadcrumbs: false,
+      meta
+    }
+  };
+}
+          
+
+Amplify's `geo` category enables you to create and manage map resources used to visualize geospatial data in your application.
+
+<Callout>
+
+**Note:** Please reach out to us for any feedback and/or issues [here](https://github.com/aws-amplify/amplify-cli/issues)
+
+</Callout>
+
+## Setup a new Map
+
+You can add a new map by running the following command from your project's root folder:
+
+```bash
+amplify add geo
+```
+```console
+? Select which capability you want to add:
+> Map (visualize the geospatial data)
+  Location search (search by places, addresses, coordinates)
+```
+If you haven't set up the `auth` category already, the Amplify CLI will guide you to enable the auth category.
+The `auth` category is required in your application so that the appropriate permissions to render the map can be given to Authorized and/or Guest users as described below.
+
+Next, set a name for the map:
+
+```console
+? Provide a name for the Map:
+> StreetsMap
+```
+
+## Map Access permissions
+
+Next, configure the access permissions for your Map resource and authorize users to render the map.
+You can scope permissions based on an individual user's authentication status.
+
+```console
+? Who can access this Map?
+❯ Authorized users only
+  Authorized and Guest users
+```
+
+Select `Authorized users only` if only authenticated users are allowed to render the map.
+
+Select `Authorized and Guest users` if both authenticated and unauthenticated users are allowed to render the map.
+
+For more information, refer [link to location service page](https://docs.aws.amazon.com/location/latest/developerguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-get-map-tiles).
+
+## Map Pricing Plan
+The pricing plan for Map will be set to `RequestBasedUsage`.
+We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.
+
+### Update Map pricing plan to `RequestBasedUsage`
+You can check the pricing plan for your Map from `geo/<mapID>/pricingPlan` attribute in your project metadata file located at `amplify/backend/amplify-meta.json` in your project.
+```bash
+"geo": {
+    "StreetsMap": {
+      "isDefault": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Map",
+      "mapStyle": "VectorEsriStreets",
+      "pricingPlan": "MobileAssetManagement",
+      "accessType": "AuthorizedUsers"
+    }
+}
+```
+
+You can check your Amplify CLI version using `amplify -v`.
+
+<Callout>
+
+**Note:**
+If you are using Amplify CLI version `7.6.8` or older and have a Map added to your application with the pricing plan set to `MobileAssetTracking` or `MobileAssetManagement`,
+please follow these instructions to update the pricing plan:
+1. Upgrade the Amplify CLI to version `7.6.9` or later using `npm i -g @aws-amplify/cli`.
+2. Run `amplify update geo` and select the Map with Asset based pricing plan. Choose the same configuration for the Map that you already have.
+3. Run `amplify push` to update the backend resource.
+
+</Callout>
+
+## Advanced Settings
+You can optionally configure the style and data provider for the map.
+
+### Map style & Map data provider
+You can pick a style for the map resource. The available map styles along with the data provider of geospatial data are shown. To learn more about each of these map styles, please refer this [location service doc](https://docs.aws.amazon.com/location-maps/latest/APIReference/API_MapConfiguration.html).
+
+<Callout>
+
+**Note:** If your application is tracking or routing assets you use in your business (such as delivery vehicles or employees), you may only use `HERE` as your geolocation provider.
+See section 82 of the [AWS service terms](https://aws.amazon.com/service-terms/) for more details.
+
+</Callout>
+
+```console
+? Specify the map style:
+❯ Streets (data provided by Esri)
+  Berlin (data provided by HERE)
+  Explore (data provided by HERE)
+  ExploreTruck (data provided by HERE)
+  RasterSatellite (data provided by HERE)
+  HybridSatellite (data provided by HERE)
+  Topographic (data provided by Esri)
+  Navigation (data provided by Esri)
+  LightGrayCanvas (data provided by Esri)
+  DarkGrayCanvas (data provided by Esri)
+  Imagery (data provided by Esri)
+  StandardLight (data provided by OpenStreetMap)
+```
+
+`Streets (data provided by Esri) ` will be the default option that will be used to set Map style, if you do not want to explicitly set this property.
+
+### Set a default Map
+If you added more than one map via `amplify add geo`, the map that was added last will be the default.
+However, you can choose if the current Map should be the default for your application:
+
+```console
+? Set this Map as the default? It will be used in Amplify Map API calls if no explicit reference is provided.
+> No
+```
+Answering `No` will retain the previously set default.
+
+That's it! You can now render maps in your application. Follow the documentation for working with maps as listed [here](/[platform]/prev/build-a-backend/more-features/geo/maps).

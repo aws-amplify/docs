@@ -466,6 +466,7 @@
     "CSRF",
     "css",
     "Ctrl-c",
+    "customauth",
     "CUSTOM_AUTH",
     "customerEmail",
     "customizable",
@@ -1555,7 +1556,11 @@
     "autobranch",
     "gitflow",
     "SIWA",
-    "hotswap"
+    "hotswap",
+    "clijson",
+    "parametersjson",
+    "nextamplifygen",
+    "multirepo"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [

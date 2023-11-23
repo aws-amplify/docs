@@ -1,0 +1,50 @@
+export const meta = {
+  title: 'Signed-in user data access',
+  description: "The `private` authorization strategy restricts record access to only signed-in users authenticated through IAM, Cognito, or OpenID Connect, applying the authorization rule to all users. It provides a simple way to make data private to all authenticated users."
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+The `private` authorization strategy restricts record access to only signed-in users authenticated through IAM, Cognito, or OpenID Connect, applying the authorization rule to all users. It provides a simple way to make data private to all authenticated users.
+
+## Add signed-in user authorization rule
+
+You can use the `private` authorization strategy to restrict a record's access to every signed-in user. 
+
+<Callout>
+**Note:** If you want to restrict a record's access to a specific user, see [Per-user/per-owner data access](/gen2/build-a-backend/data/customize-authz/per-user-per-owner-data-access/). The `private` authorization strategy detailed on this page applies the authorization rule for data access to **every** signed-in user.
+</Callout>
+
+In the example below, anyone with a valid JWT token from the Cognito user pool is allowed access to all Todos.
+
+```ts
+export const schema = a.schema({
+  Todo: a.model({
+    content: a.string()
+  }).authorization([
+    a.allow.private()
+  ])
+})
+```
+
+## Override the authentication provider
+
+You can also override the authorization provider. In the example below, `iam` is specified as the provider which allows you to use an "Unauthenticated Role" from the Cognito identity pool for public access instead of an API key. Your Auth resources defined in `amplify/auth/resource.ts` generates scoped down IAM policies for the "Unauthenticated role" in the Cognito identity pool automatically.
+
+```ts
+export const schema = a.schema({
+  Todo: a.model({
+    content: a.string()
+  }).authorization([
+    a.allow.private("iam")
+  ])
+})
+```
+
+In addition, you can also use OpenID Connect with `private` authorization. See [OpenID Connect as an authorization provider](/gen2/build-a-backend/data/customize-authz/using-oidc-authorization-provider/).

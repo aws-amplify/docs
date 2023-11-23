@@ -1,0 +1,24 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Set up Amplify Push Notifications',
+  description: 'Use of Amplify Push Notifications',
+  platforms: ['react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import gettingStarted from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/getting-started.mdx';
+
+<Fragments fragments={{ 'react-native': gettingStarted }} />

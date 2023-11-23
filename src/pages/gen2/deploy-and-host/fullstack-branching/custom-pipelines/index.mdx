@@ -1,0 +1,100 @@
+export const meta = {
+  title: 'Custom pipelines',
+  description: 'Set up fullstack CI/CD in a custom pipeline.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+While building with Amplify CI/CD offers benefits such as zero-config setup, fullstack previews, centralized secrets management, Amplify (Gen 2) makes it easy to integrate fullstack CI/CD into your custom pipelines (for example, AWS CodePipeline, Amazon CodeCatalyst, GitHub Actions, and more).
+
+## Set up backend deployments
+
+You can set up your backend deployments using the following steps:
+
+1.  Create an Amplify app by connecting a fullstack Gen-2 branch from your Git repository. This is a one time setup as for subsequent deployments, we will be using a custom pipeline.
+
+2.  Disable Auto-build for your branch. This will ensure code commits to your branch will not trigger a build.
+
+<video autoPlay={true} muted={true} loop={true} width="70%">
+  <source src="/images/gen2/fullstack-branching/auto-build.mp4" />
+</video>
+
+3. Update the Amplify build-spec to add `npx amplify generate config --branch $AWS_BRANCH --app-id $AWS_APP_ID` and comment out the `pipeline-deploy` script. `amplify pipeline-deploy` runs a script to deploy backend updates, while `amplify generate config` fetches the latest `amplifyconfiguration.json` for the specified environment.
+
+![custom-ci](/images/gen2/fullstack-branching/custom-ci.png)
+
+4. Now go to your pipeline provider and update the build settings to include the following:
+    * Run `npm ci`.
+    * Run `export CI=1` to tell the deployment script that is a CI environment.
+    * Run `npx amplify pipeline-deploy --branch BRANCH_NAME --app-id AMPLIFY_APP_ID`. `BRANCH_NAME` refers to the branch you're deploying. `AMPLIFY_APP_ID` is the Amplify project ID. You can find this by going to the Amplify console and navigating to _backend-app > App settings > App ARN_ and copying the ID located at the end of the string `arn:aws:amplify:<region>:<account-id>:apps/*app-id*`.
+
+The example below demonstrates how you would set up the build-spec when using Amazon CodeCatalyst.
+
+```yaml
+Actions:
+  Build_82:
+    # Identifies the action. Do not modify this value.
+    Identifier: aws/build@v1.0.0
+    # Specifies the source and/or artifacts to pass to the action as input.
+    Inputs:
+      # Optional
+      Sources:
+        - WorkflowSource # This specifies that the action requires this Workflow as a source
+      Variables:
+        - Name: BRANCH_NAME
+          Value: main
+        - Name: AMPLIFY_APP_ID
+          Value: #####
+    Configuration:
+      # Required - Steps are sequential instructions that run shell commands
+      Steps:
+        - Run: export CI=1
+        - Run: npm ci
+        - Run: npx amplify pipeline-deploy --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID
+```
+5. Trigger a `git push` to your branch. Your build logs should show that there is an AWS CloudFormation deployment underway.
+
+## Set up frontend deployments
+
+If you want to complete the fullstack CI/CD setup, we have to build, deploy, and host the frontend in addition to the backend.
+
+1. Use the AWS CLI to create an [incoming webhook](https://docs.aws.amazon.com/amplify/latest/userguide/webhooks.html) for your Amplify app. If the command executes successfully, you should see a response printed out like below:
+
+```
+aws amplify create-webhook --app-id AMPLIFY-APPID --branch-name main  --region REGION
+{
+    "webhook": {
+        "webhookArn": "arn:aws:amplify:REGION:ACCOUNT-ID:apps/APPID/webhooks/WEBHOOK-ID",
+        "webhookId": "WEBHOOK-ID",
+        "webhookUrl": "https://webhooks.amplify.ca-central-1.amazonaws.com/prod/webhooks?id=WEBHOOK-ID&token=TOKEN",
+        "branchName": "main",
+        "createTime": "2023-11-19T19:09:42.461000-08:00",
+        "updateTime": "2023-11-19T19:09:42.461000-08:00"
+    }
+}
+```
+
+2. Construct a `curl` command with the `webhookUrl`: `curl -X POST -d {} "https://webhooks.amplify.ca-central-1.amazonaws.com/prod/webhooks?id=WEBHOOK-ID&token=TOKEN&operation=startbuild" -H "Content-Type:application/json`
+
+3. Now update your custom-pipeline build settings to include the `curl` command to trigger a frontend build after the `pipeline-deploy` succeeds. Using the same Amazon CodeCatalyst example above, this step includes:
+
+``` yaml
+    Configuration:
+      # Required - Steps are sequential instructions that run shell commands
+      Steps:
+        - Run: export CI=1
+        - Run: npm ci
+        - Run: npx amplify pipeline-deploy --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID
+        - Run: if [ $BRANCH_NAME = "main" ]; then curl -X POST -d {}
+            "https://webhooks.amplify.us-west-2.amazonaws.com/prod/webhooks?id=WEBHOOK-ID&token=TOKEN&operation=startbuild"
+            -H "Content-Type:application/json"; fi
+```
+
+4. This should trigger a build in your Amplify app. Amplify CI will build and first generate the `amplifyconfiguration.json` for the branch and then build, deploy, and host the frontend.

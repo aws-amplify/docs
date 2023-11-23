@@ -1,0 +1,24 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Interact with notifications',
+  description: 'Interact with push notifications through various events.',
+  platforms: ['react-native', 'flutter']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import commonRoute from '/src/fragments/lib/push-notifications/common/interact_with_notifications/interact-with-notifications.mdx';
+
+<Fragments fragments={{ flutter: commonRoute, 'react-native': commonRoute }} />

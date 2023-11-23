@@ -1,7 +1,6 @@
 export const meta = {
   title: 'CDK constructs',
-  description:
-    'Reference for CDK constructs'
+  description: 'Reference for CDK constructs'
 };
 
 export function getStaticProps(context) {
@@ -10,5 +9,20 @@ export function getStaticProps(context) {
       meta
     }
   };
-
 }
+
+Here you will find a collection of backend components known as "constructs" for use with [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/).
+
+## Amplify Data
+
+The official `AmplifyData` construct can be found on [Construct Hub](https://constructs.dev/packages/@aws-amplify/data-construct/?lang=typescript).
+
+<Callout>
+This package vends an L3 CDK Construct wrapping the behavior of the Amplify GraphQL API. This enables quick development and iteration of AppSync APIs which support the Amplify GraphQL directives.
+</Callout>
+
+For more information on data modeling [visit the data modeling documentation](/gen2/build-a-backend/data/data-modeling).
+
+## Amplify Auth (alpha)
+
+The official `AmplifyAuth` construct is currently in alpha and is not yet suitable for production use in your CDK applications. It can be found on the [npm registry](https://www.npmjs.com/package/@aws-amplify/auth-construct-alpha).
