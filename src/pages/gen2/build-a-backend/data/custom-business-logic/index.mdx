@@ -32,7 +32,7 @@ In this section you'll learn how to create a custom mutation and query in three 
 | Query        | When the request is read-only and it doesn't intend to modify any backend data |
 | Mutation     | When the request is intended to modify the backend data                        |
 
-Every custom query or mutation requires you to set a return type and, optionally, arguments. Use `a.query()` or `a.mutation()` to define your custom query or mutation:
+Every custom query or mutation requires you to set a return type and, optionally, arguments. Use `a.query()` or `a.mutation()` to define your custom query or mutation in your **amplify/data/resource.ts** file:
 
 <BlockSwitcher>
 
@@ -208,7 +208,7 @@ To call the `echo` query from step 1, we need to import the `echo` function from
 ```ts
 import { generateClient } from 'aws-amplify/data'
 import { type Schema } from '@/amplify/data/resource'
-import queries as * from '@/graphql/queries'
+import * as queries from '@/graphql/queries'
 
 const client = generateClient<Schema>()
 

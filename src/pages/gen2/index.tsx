@@ -276,23 +276,23 @@ const Gen2Overview = () => {
           </FeatureItem>
         </FeatureList>
         <MDXCode
-          fileName="amplify/custom/Backup.ts"
+          fileName="amplify/backend.ts"
           language="typescript"
-          codeString={`import { Construct } from 'constructs';
-import * as cdk from 'aws-cdk-lib';
-import * as backup from 'aws-cdk-lib/aws-backup'; 
-import * as events from 'aws-cdk-lib/aws-events';
-import * as rds from 'aws-cdk-lib/aws-rds';
+          codeString={`import * as sns from 'aws-cdk-lib/aws-sns';
+import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource.js';
+import { data } from './data/resource.js';
 
-/**
- * Define the stack's props
- */
-export type BackupStackProps = {
-  /**
-   * Database instance to back up
-   */
-  database: rds.DatabaseInstance; 
-}`}
+const backend = defineBackend({
+  auth,
+  data
+});
+
+const customResourceStack = backend.createStack('MyCustomResources');
+
+new sqs.Queue(customResourceStack, 'CustomQueue');
+new sns.Topic(customResourceStack, 'CustomTopic');`}
         ></MDXCode>
       </Columns>
     </Flex>
