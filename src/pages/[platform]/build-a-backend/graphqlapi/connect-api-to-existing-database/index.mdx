@@ -26,99 +26,17 @@ export function getStaticProps(context) {
 In this section, you'll learn how to:
 
 - Connect to an existing MySQL or PostgreSQL database
-- Generate and make preserved changes to the generated GraphQL schema
 - Execute SQL statements with custom GraphQL queries and mutations using the new `@sql` directive
 - Deploy an AWS AppSync GraphQL API.
 
 ## Connect your API with an existing MySQL or PostgreSQL database
 
+<Callout>
+  **NOTE:** This feature and workflow is currently only supported with the AWS
+  CDK.
+</Callout>
+
 <BlockSwitcher>
-<Block name="Amplify CLI">
-
-Pre-requisites:
-
-- Have an existing MySQL or PostgreSQL database deployed
-- The [Amplify CLI is installed and configured](/cli/start/install/)
-- Have an Amplify [project already initialized](/cli/start/workflows/#initialize-new-project)
-
-Amplify CLI supports connecting to any existing MySQL or PostgreSQL database.
-
-<Accordion title="Configure VPC settings for your database" headingLevel="3" eyebrow="Learn more">
-
-If your database exists within a VPC, the RDS instance must be configured to be `Publicly accessible`. This does not mean the instance needs to accessible from the internet.
-
-When importing a database schema, the Amplify CLI will automatically discover that the RDS instance is in a VPC and install a Lambda function into that VPC, subnets, and security groups.
-
-The target security group(s) must have two inbound rules set up:
-
-- A rule allowing traffic on port 443 from the security group.
-
-- An inbound rule allowing traffic on the database port from the security group. (Default: 3306 for MySQL. 5432 for PostgreSQL.)
-
-<Callout>
-  **NOTE:** Make sure to limit the type of inbound traffic your security group
-  allows according to your security needs and/or use cases. For information on
-  security group rules, please refer to the Amazon EC2 documentation:
-  https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-rules-reference.html?icmpid=docs_ec2_console
-</Callout>
-
-</Accordion>
-
-First, set up your GraphQL API by running:
-
-```sh
-amplify import api
-```
-
-Answer the prompts with your database connection details:
-
-```console
-? Here is the GraphQL API that we will create. Select a setting to edit or continue:
-  > Continue
-? Select the database type:
-  > MySQL // or PostgreSQL
-Please provide the following database connection information:
-? Enter the database url or host name:
-  > <host>
-? Enter the port number:
-  > 3306
-? Enter the username:
-  > <username>
-? Enter the password:
-  > <password>
-? Enter the database name:
-  > <database>
-```
-
-Upon successfully connecting, the Amplify CLI will fetch the database schema and import it by generating an Amplify GraphQL schema from it into `/amplify/backend/api/<api-name>/schema.sql.graphql`.
-
-<Callout>
-  **NOTE:** Only tables that have a primary key will be imported into the
-  generated schema.
-</Callout>
-
-<Accordion title="Update Secrets" headingLevel="3" eyebrow="Learn more">
-
-If you need to update the credentials used to connect to the database, run the following command:
-
-```sh
-amplify api update-secrets
-```
-
-This will prompt you to re-enter the database connection details. Once completed, the Amplify CLI will store the updated values in the SSM parameters that the SQL Lambda retrieves to connect to the SQL database.
-
-Test the connection by running:
-
-```sh
-amplify api generate-schema
-```
-
-The Amplify CLI will attempt to fetch the database schema and regenerate the GraphQL schema in `/amplify/backend/api/<api-name>/schema.sql.graphql`.
-
-</Accordion>
-
-</Block>
-
 <Block name="AWS CDK">
 
 Pre-requisites:
@@ -127,34 +45,53 @@ Pre-requisites:
 - The [AWS CDK CLI is installed](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install)
 - Have an [AWS CDK application initialized](https://docs.aws.amazon.com/cdk/v2/guide/hello_world.html)
 
-<Accordion title="Configure VPC settings for your database" headingLevel="3" eyebrow="Learn more">
+First, place your database connection information (hostname, username, password, port, and database name) into Systems Manager, each as a `SecureString`.
 
-If your database exists within a VPC, the RDS instance must be configured to be `Publicly accessible`. This does not mean the instance needs to accessible from the internet.
+Go to the Systems Manager console, navigate to Parameter Store, and click "Create Parameter". Create five different SecureStrings: one each for the hostname of your database server, the username and password to connect, the database port, and the database name.
 
-When importing a database schema, the Amplify CLI will automatically discover that the RDS instance is in a VPC and install a Lambda function into that VPC, subnets, and security groups.
+Your Systems Manager configuration should look something like this:
 
-The target security group(s) must have two inbound rules set up:
+![Storing Database Credentials in SSM](/images/storing-db-creds-in-ssm.png)
 
-- A rule allowing traffic on port 443 from the security group.
-
-- An inbound rule allowing traffic on the database port from the security group. (Default: 3306 for MySQL. 5432 for PostgreSQL.)
-
-<Callout>
-  **NOTE:** Make sure to limit the type of inbound traffic your security group
-  allows according to your security needs and/or use cases. For information on
-  security group rules, please refer to the Amazon EC2 documentation:
-  https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-rules-reference.html?icmpid=docs_ec2_console
-</Callout>
-
-</Accordion>
-
-First, install required packages:
+Install the following package to add the Amplify GraphQL API construct to your dependencies:
 
 ```sh
 npm install @aws-amplify/graphql-api-construct
 ```
 
-Open the main stack file in your CDK project (usually located in `lib/<your-project-name>-stack.ts`). Import the necessary constructs at the top of the file:
+Create a new `schema.graphql` file within your CDK app’s `lib/` folder that includes the APIs you want to expose. Define your GraphQL object types, queries, and mutations to match the APIs you wish to expose. For example, define object types for database tables, queries to fetch data from those tables, and mutations to modify those tables.
+
+```graphql
+type Blog @refersTo(name: "blogs") {
+  id: Int!
+  title: String!
+}
+
+type Query {
+  listBlogs(contains: String!): [Blog]
+    @sql(
+      statement: "SELECT * FROM blogs WHERE title LIKE CONCAT('%', :contains, '%');"
+    )
+    @auth(rules: [{ allow: public }])
+}
+
+type Mutation {
+  createBlog(title: String!): AWSJSON
+    @sql(statement: "INSERT INTO blogs (title) VALUES (:title);")
+    @auth(rules: [{ allow: public }])
+}
+```
+
+You can use the `:variable` notation to reference input variables from the query request.
+
+<Accordion title="Authorization rules" headingLevel="3" eyebrow="Learn more" >
+Amplify’s GraphQL API operates on a deny-by-default basis. The `{ allow: public }` auth rule in the example schema above designates that anyone using an API Key is authorized to execute the query.
+
+Review [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/) to limit access to these queries and mutations based on API Key, Amazon Cognito User Pool, OpenID Connect, AWS Identity and Access Management (IAM), or a custom Lambda function.
+
+</Accordion>
+
+Next, open the main stack file in your CDK project (usually located in `lib/<your-project-name>-stack.ts`). Import the necessary constructs at the top of the file:
 
 ```ts
 import {
@@ -163,94 +100,13 @@ import {
 } from '@aws-amplify/graphql-api-construct';
 ```
 
-Create a `blogs` table in your database:
-
-```sql
-CREATE TABLE blogs (
-  id      varchar(255)  NOT NULL PRIMARY KEY,
-  title   varchar(255)  NOT NULL,
-);
-```
-
-Execute the following SQL statement on your database using a MySQL, PostgreSQL Client or CLI tool similar to `psql` and export the output to a CSV file:
-
-<Callout>
-  **NOTE:** Make sure to include column headers when exporting the output to a
-  CSV file.
-</Callout>
-
-Replace `<database-name>` with the name of your database/schema.
-
-<BlockSwitcher>
-<Block name="MySQL">
-```sql
-SELECT
-  INFORMATION_SCHEMA.COLUMNS.TABLE_NAME,
-  INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME,
-  INFORMATION_SCHEMA.COLUMNS.COLUMN_DEFAULT,
-  INFORMATION_SCHEMA.COLUMNS.ORDINAL_POSITION,
-  INFORMATION_SCHEMA.COLUMNS.DATA_TYPE,
-  INFORMATION_SCHEMA.COLUMNS.COLUMN_TYPE,
-  INFORMATION_SCHEMA.COLUMNS.IS_NULLABLE,
-  INFORMATION_SCHEMA.COLUMNS.CHARACTER_MAXIMUM_LENGTH,
-  INFORMATION_SCHEMA.STATISTICS.INDEX_NAME,
-  INFORMATION_SCHEMA.STATISTICS.NON_UNIQUE,
-  INFORMATION_SCHEMA.STATISTICS.SEQ_IN_INDEX,
-  INFORMATION_SCHEMA.STATISTICS.NULLABLE
-      FROM INFORMATION_SCHEMA.COLUMNS
-      LEFT JOIN INFORMATION_SCHEMA.STATISTICS ON INFORMATION_SCHEMA.COLUMNS.TABLE_NAME=INFORMATION_SCHEMA.STATISTICS.TABLE_NAME AND INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME=INFORMATION_SCHEMA.STATISTICS.COLUMN_NAME
-      WHERE INFORMATION_SCHEMA.COLUMNS.TABLE_SCHEMA = '<database-name>';
-```
-</Block>
-<Block name="PostgreSQL">
-```sql
-SELECT
-  enum_name,
-  enum_values,
-  table_name,
-  column_name,
-  column_default,
-  ordinal_position,
-  data_type,
-  udt_name,
-  is_nullable,
-  character_maximum_length,
-  indexname,
-      REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', '') as index_columns
-    FROM INFORMATION_SCHEMA.COLUMNS
-    LEFT JOIN pg_indexes
-    ON
-      INFORMATION_SCHEMA.COLUMNS.table_name = pg_indexes.tablename
-      AND INFORMATION_SCHEMA.COLUMNS.column_name = ANY(STRING_TO_ARRAY(REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', ''), ', '))
-      LEFT JOIN (
-        SELECT
-          t.typname AS enum_name,
-          ARRAY_AGG(e.enumlabel) as enum_values
-        FROM    pg_type t JOIN
-          pg_enum e ON t.oid = e.enumtypid JOIN
-          pg_catalog.pg_namespace n ON n.oid = t.typnamespace
-        WHERE   n.nspname = 'public'
-    	GROUP BY enum_name
-      ) enums
-      ON enums.enum_name = INFORMATION_SCHEMA.COLUMNS.udt_name
-    WHERE table_schema = 'public' AND TABLE_CATALOG = '<database-name>';
-```
-</Block>
-</BlockSwitcher>
-
-Generate an Amplify GraphQL API schema by running the following command, replacing the `--sql-schema` value with the path to the CSV file created in the previous step:
-
-```sh
-npx @aws-amplify/cli api generate-schema --sql-schema <path-to-schema.csv> --engine-type mysql --out schema.sql.graphql
-```
-
-In the main stack class, add the following code to define a new GraphQL API. Replace `stack` with the name of your stack instance and update the path to the `schema.sql.graphql` file generated in the previous step:
+In the main stack class, add the following code to define a new GraphQL API. Replace `stack` with the name of your stack instance:
 
 ```ts
 new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
   apiName: 'MySqlBoundApi',
   definition: AmplifyGraphqlDefinition.fromFilesAndStrategy(
-    [path.join(__dirname, 'schema.sql.graphql')],
+    [path.join(__dirname, 'schema.graphql')],
     {
       name: 'MyBlogSiteDatabase',
       dbType: 'MYSQL',
@@ -264,14 +120,14 @@ new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
       },
       dbConnectionConfig: {
         hostnameSsmPath:
-          '/path/to/ssm/SecretString/containing/value/of/hostname',
-        portSsmPath: '/path/to/ssm/SecretString/containing/value/of/port',
+          '/path/to/ssm/SecureString/containing/value/of/hostname',
+        portSsmPath: '/path/to/ssm/SecureString/containing/value/of/port',
         usernameSsmPath:
-          '/path/to/ssm/SecretString/containing/value/of/username',
+          '/path/to/ssm/SecureString/containing/value/of/username',
         passwordSsmPath:
-          '/path/to/ssm/SecretString/containing/value/of/password',
+          '/path/to/ssm/SecureString/containing/value/of/password',
         databaseNameSsmPath:
-          '/path/to/ssm/SecretString/containing/value/of/databaseName'
+          '/path/to/ssm/SecureString/containing/value/of/databaseName'
       }
     }
   ),
@@ -292,9 +148,29 @@ Before deploying, make sure to:
 
 - Change the `dbType` to match your database engine. This is the type of the SQL database used to process model operations for this definition.Supported engines are `"MYSQL"`, `"POSTGRES"`, or `"DYNAMODB"`.
 
-- Update the `vpcId`, `securityGroupIds`, and `subnetAvailabilityZoneConfig` with your vpc details. This is the configuration of the VPC into which to install the SQL Lambda.
-
 - Update the SSM parameter paths within `dbConnectionConfig` to point to those existing in your AWS account. These are the parameters the SQL Lambda will use to connect to the database.
+
+- If your database instance exists within a VPC, update the `vpcConfiguration` properties - `vpcId`, `securityGroupIds`, and `subnetAvailabilityZoneConfig` with your vpc details. This is the configuration of the VPC into which to install the SQL Lambda.
+
+<Accordion title="Configure VPC settings for your database" headingLevel="3" eyebrow="Learn more">
+
+If your database exists within a VPC, the RDS instance must be configured to be `Publicly accessible`. This does not mean the instance needs to accessible from the internet.
+
+When importing a database schema, the Amplify CLI will automatically discover that the RDS instance is in a VPC and install a Lambda function into that VPC, subnets, and security groups.
+
+The target security group(s) must have two inbound rules set up:
+
+- A rule allowing traffic on port 443 from the security group.
+
+- An inbound rule allowing traffic on the database port from the security group. (Default: 3306 for MySQL. 5432 for PostgreSQL.)
+
+<Callout>
+  **NOTE:** Make sure to limit the type of inbound traffic your security group
+  allows according to your security needs and/or use cases. For information on
+  security group rules, please refer to the Amazon EC2 documentation:
+  https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-rules-reference.html?icmpid=docs_ec2_console
+</Callout>
+</Accordion>
 
 </Block>
 </BlockSwitcher>
@@ -312,6 +188,200 @@ The RDS Proxy acts as an intermediary sitting in front of your database. Instead
 However, there is a tradeoff of increased latency - queries may take slightly longer as they wait for an available connection from the Proxy pool. There are also additional costs associated with using RDS Proxy. Please refer to the [pricing page for RDS Proxy](https://aws.amazon.com/rds/proxy/pricing/) to learn more.
 
 </Accordion>
+
+## Create custom queries and mutations
+
+Amplify GraphQL API for SQL databases introduces the `@sql` directive, which allows you to define SQL statements in custom GraphQL queries and mutations. This provides more flexibility when the default, auto-generated GraphQL queries and mutations are not sufficient.
+
+There are two ways to specify the SQL statement - inline or by referencing a `.sql` file.
+
+### Inline SQL Statement
+
+You can embed the SQL statement directly in the schema using the `statement` argument.
+
+The SQL statement can use parameters in the format `:variable`, which will be bound to the input variables passed when executing a custom GraphQL query or mutation.
+
+In the example below, a SQL statement is defined, accepting a `searchTerm` input variable.
+
+```graphql
+type Query {
+  searchPosts(searchTerm: String): [Post]
+    @sql(statement: "SELECT * FROM posts WHERE title LIKE :searchTerm;")
+}
+```
+
+{/* TODO: Add a NOTE: about proxy/connection pinning here. */}
+
+### SQL File Reference
+
+For longer, more complex SQL queries, you can specify the statement in separate `.sql` files rather than inline. Referencing a file keeps your schema clean and allows reuse of SQL statements across fields.
+
+<BlockSwitcher>
+  <Block name="AWS CDK">
+
+First, create a new `lib/sql-statements` folder and add any SQL queries or statements to custom `.sql` files within that folder.
+
+For example, you could create several files:
+
+```sql
+-- getBlogById.sql
+SELECT * FROM blogs WHERE id = :id;
+```
+
+```sql
+-- getPublishedPostsByRange.sql
+SELECT p.id, p.title, p.content, p.published_date
+FROM posts p
+WHERE p.published = 1
+  AND p.published_date > :startDate
+  AND p.published_date < :endDate
+ORDER BY p.published_date DESC
+LIMIT 10
+```
+
+Then you can import the `SQLLambdaModelDataSourceStrategyFactory` which helps define the datasource strategy from the custom `.sql` files you've created.
+
+```js
+import { SQLLambdaModelDataSourceStrategyFactory } from '@aws-amplify/graphql-api-construct';
+```
+
+In your `lib/<your-project-name>-stack.ts` file, read from the `sql-statements/` folder and add them as custom SQL statements to your Amplify GraphQL API:
+
+```js
+// Define custom SQL statements folder path
+const sqlStatementsPath = path.join(__dirname, 'sql-statements');
+
+// Use the Factory to define the SQL data source strategy
+const sqlStrategy = SQLLambdaModelDataSourceStrategyFactory.fromCustomSqlFiles(
+  // File paths to all SQL statements
+  fs
+    .readdirSync(sqlStatementsPath)
+    .map((file) => path.join(sqlStatementsPath, file)),
+  // Move your connection information and VPC config into here
+  {
+    dbType: 'MYSQL',
+    name: 'MySQLSchemaDefinition',
+    dbConnectionConfig: {
+      //...
+    },
+    vpcConfiguration: {
+      //...
+    }
+  }
+);
+
+const amplifyApi = new AmplifyGraphqlApi(this, 'AmplifyApi', {
+  definition: AmplifyGraphqlDefinition.fromFilesAndStrategy(
+    path.join(__dirname, 'schema.graphql'),
+    sqlStrategy
+  ),
+  authorizationModes: {
+    defaultAuthorizationMode: 'API_KEY',
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30)
+    }
+  }
+});
+```
+
+The SQL statements defined in the `.sql` files will be executed as if they were defined inline in the schema. The same rules apply in terms of using parameters, ensuring valid SQL syntax, and matching the return type to row data.
+
+</Block>
+
+</BlockSwitcher>
+
+### Custom Query
+
+```graphql
+type Query {
+  searchPostsByTitle(title: String): [Post]
+    @sql(
+      statement: "SELECT * FROM Post WHERE title LIKE CONCAT('%', :title, '%');"
+    )
+}
+```
+
+### Custom Mutation
+
+```graphql
+type Mutation {
+  publishPostById(id: ID!): AWSJSON
+    @sql(statement: "UPDATE posts SET published = :published WHERE id = :id;")
+}
+```
+
+### Returning row data from custom mutations
+
+SQL statements such as `INSERT`, `UPDATE` and `DELETE` return the number of rows affected.
+
+If you want to return the result of the SQL statement, you can use `AWSJSON` as the return type.
+
+```graphql
+type Mutation {
+  publishPosts: AWSJSON @sql(statement: "UPDATE Post SET published = 1;")
+}
+```
+
+This will return a JSON response similar to this:
+
+```json
+{
+  "data": {
+    "publishPosts": "{\"fieldCount\":0,\"affectedRows\":7,\"insertId\":0,\"info\":\"Rows matched: 7  Changed: 7  Warnings: 0\",\"serverStatus\":34,\"warningStatus\":0,\"changedRows\":7}"
+  }
+}
+```
+
+However, you might want to return the actual row data instead.
+
+<BlockSwitcher>
+<Block name="MySQL">
+
+In MySQL, you can create and call a stored procedure that performs both an UPDATE statement and SELECT query to return a single post.
+
+Create a stored procedure:
+
+```sql
+CREATE PROCEDURE publish_post (IN postId VARCHAR(255))
+
+BEGIN
+UPDATE posts SET published = 1 WHERE id = postId;
+
+SELECT * FROM posts WHERE id = postId LIMIT 1;
+END
+```
+
+Call the stored procedure from the custom mutation:
+
+```graphql
+type Mutation {
+  publishPostById(id: String!): [Post]
+    @sql(statement: "CALL publish_post(:id);")
+}
+```
+
+<Callout>
+  **NOTE:** Unlike the Amplify CLI-generated mutations that return a single
+  item, the return type for custom queries and mutations expecting row data must
+  be an array of the corresponding model.
+</Callout>
+
+</Block>
+<Block name="PostgreSQL">
+
+In PostgreSQL, you can add a `RETURNING` clause to an `INSERT`, `UPDATE`, or `DELETE` statement and get the actual modified row data.
+
+Example:
+
+```graphql
+type Mutation {
+  publishPostById(id: String!): [Post]
+    @sql(statement: "UPDATE posts SET price = :id RETURNING *;")
+}
+```
+
+</Block>
+</BlockSwitcher>
 
 ## Apply authorization rules on the models
 
@@ -339,23 +409,6 @@ For more information on each rule please refer to our documentation on [Authoriz
 ## Deploy your API
 
 <BlockSwitcher>
-<Block name="Amplify CLI">
-To deploy the API, you can use the `amplify push` command:
-
-```sh
-amplify push
-```
-
-```console
-? Are you sure you want to continue? Y
-? Do you want to generate code for your newly created GraphQL API? Y
-? Choose the code generation language target: javascript (or your preferred language target)
-? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.js
-? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? Y
-? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
-```
-
-</Block>
 <Block name="AWS CDK">
 To deploy the API, you can use the `cdk deploy` command:
 
@@ -433,39 +486,7 @@ Unlike MySQL, PostgreSQL does support date time or timestamp values with an offs
 </Accordion>
 
 <BlockSwitcher>
-  <Block name="Amplify CLI">
-
-1. Make any adjustments to your SQL statements such as:
-
-```sql
-CREATE TABLE posts (
-  id              varchar(255)           NOT NULL PRIMARY KEY,
-  title           varchar(255)           NOT NULL,
-  content         varchar(255)           NOT NULL,
-  published       tinyint(1)  DEFAULT 0  NOT NULL
-  published_date  date                       NULL
-);
-```
-
-2. Generate an updated schema:
-
-```sh
-amplify api generate-schema
-```
-
-<Callout>
-  **NOTE:** If the connection to the database fails, the CLI will prompt you to
-  retry using a VPC endpoint.
-</Callout>
-
-3. Deploy your changes to the cloud:
-
-```sh
-amplify push -y
-```
-
-</Block>
-  <Block name="AWS CDK">
+<Block name="AWS CDK">
   1. Make any adjustments to your SQL statements such as:
 
 ```sql
@@ -590,150 +611,6 @@ type Post @refersTo(name: "posts") @model {
 }
 ```
 
-## Create custom queries and mutations
-
-Amplify GraphQL API for SQL databases introduces the `@sql` directive, which allows you to define SQL statements in custom GraphQL queries and mutations. This provides more flexibility when the default, auto-generated GraphQL queries and mutations are not sufficient.
-
-There are two ways to specify the SQL statement - inline or by referencing a `.sql` file.
-
-**Inline SQL Statement**
-
-You can embed the SQL statement directly in the schema using the `statement` argument.
-
-The SQL statement can use parameters in the format `:variable`, which will be bound to the input variables passed when executing a custom GraphQL query or mutation.
-
-In the example below, a SQL statement is defined, accepting a `searchTerm` input variable.
-
-```graphql
-type Query {
-  searchPosts(searchTerm: String): [Post]
-    @sql(statement: "SELECT * FROM posts WHERE title LIKE :searchTerm;")
-}
-```
-
-{/* TODO: Add a NOTE: about proxy/connection pinning here. */}
-
-**SQL File Reference**
-
-For longer, more complex SQL queries, you can specify the statement in a separate `.sql` file rather than inline. Referencing a file keeps your schema clean and allows reuse of SQL statements across fields.
-
-The reference value must match the name of a `.sql` file located in the `amplify/backend/api/<api-name>/sql-statements` folder.
-
-In the example below, a `getPublishedPostsByDateRange.sql` file containing a SQL statement is being referenced.
-
-```sql
--- getPublishedPostsByRange.sql
-SELECT p.id, p.title, p.content, p.published_date
-FROM posts p
-WHERE p.published = 1
-  AND p.published_date > :startDate
-  AND p.published_date < :endDate
-ORDER BY p.published_date DESC
-LIMIT 10
-```
-
-```graphql
-type Query {
-  getPublishedPostsByDateRange(startDate: AWSDate, endDate: AWSDate): [Post]
-    @sql(reference: "getPublishedPostsByDateRange")
-}
-```
-
-The SQL statement will be executed as if it were defined inline in the schema. The same rules apply in terms of using parameters, ensuring valid SQL syntax, and matching the return type to row data.
-
-### Custom Query
-
-```graphql
-type Query {
-  searchPostsByTitle(title: String): [Post]
-    @sql(
-      statement: "SELECT * FROM Post WHERE title LIKE CONCAT('%', :title, '%');"
-    )
-}
-```
-
-### Custom Mutation
-
-```graphql
-type Mutation {
-  publishPostById(id: ID!): AWSJSON
-    @sql(statement: "UPDATE posts SET published = :published WHERE id = :id;")
-}
-```
-
-### Returning row data from custom mutations
-
-SQL statements such as `INSERT`, `UPDATE` and `DELETE` return the number of rows affected.
-
-If you want to return the result of the SQL statement, you can use `AWSJSON` as the return type.
-
-```graphql
-type Mutation {
-  publishPosts: AWSJSON @sql(statement: "UPDATE Post SET published = 1;")
-}
-```
-
-This will return a JSON response similar to this:
-
-```json
-{
-  "data": {
-    "publishPosts": "{\"fieldCount\":0,\"affectedRows\":7,\"insertId\":0,\"info\":\"Rows matched: 7  Changed: 7  Warnings: 0\",\"serverStatus\":34,\"warningStatus\":0,\"changedRows\":7}"
-  }
-}
-```
-
-However, you might want to return the actual row data instead.
-
-<BlockSwitcher>
-<Block name="MySQL">
-
-In MySQL, you can create and call a stored procedure that performs both an UPDATE statement and SELECT query to return a single post.
-
-Create a stored procedure:
-
-```sql
-CREATE PROCEDURE publish_post (IN postId VARCHAR(255))
-
-BEGIN
-UPDATE posts SET published = 1 WHERE id = postId;
-
-SELECT * FROM posts WHERE id = postId LIMIT 1;
-END
-```
-
-Call the stored procedure from the custom mutation:
-
-```graphql
-type Mutation {
-  publishPostById(id: String!): [Post]
-    @sql(statement: "CALL publish_post(:id);")
-}
-```
-
-<Callout>
-  **NOTE:** Unlike the Amplify CLI-generated mutations that return a single
-  item, the return type for custom queries and mutations expecting row data must
-  be an array of the corresponding model.
-</Callout>
-
-</Block>
-<Block name="PostgreSQL">
-
-In PostgreSQL, you can add a `RETURNING` clause to an `INSERT`, `UPDATE`, or `DELETE` statement and get the actual modified row data.
-
-Example:
-
-```graphql
-type Mutation {
-  publishPostById(id: String!): [Post]
-    @sql(statement: "UPDATE posts SET price = :id RETURNING *;")
-}
-```
-
-</Block>
-</BlockSwitcher>
-
 ## Create relationships between models
 
 You can use the `@hasOne`, `@hasMany`, and `@belongsTo` relational directives to create relationships between models. The field named in the `references` parameter of the relational directives must exist on the child model.
@@ -792,6 +669,109 @@ type Post @model {
 }
 ```
 
+## Auto-generate CRUDL operations for existing tables
+
+<Callout>
+  **NOTE:** This feature is experimental and is subject to change.
+</Callout>
+
+You can use the Amplify CLI to generate common CRUDL operations for your database schema, saving time from having to author them by hand.
+
+Create a `blogs` table in your database:
+
+```sql
+CREATE TABLE blogs (
+  id      varchar(255)  NOT NULL PRIMARY KEY,
+  title   varchar(255)  NOT NULL,
+);
+```
+
+Execute the following SQL statement on your database using a MySQL, PostgreSQL Client or CLI tool similar to `psql` and export the output to a CSV file:
+
+<Callout>
+  **NOTE:** Make sure to include column headers when exporting the output to a
+  CSV file.
+</Callout>
+
+Replace `<database-name>` with the name of your database/schema.
+
+<BlockSwitcher>
+<Block name="MySQL">
+```sql
+SELECT
+  INFORMATION_SCHEMA.COLUMNS.TABLE_NAME,
+  INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME,
+  INFORMATION_SCHEMA.COLUMNS.COLUMN_DEFAULT,
+  INFORMATION_SCHEMA.COLUMNS.ORDINAL_POSITION,
+  INFORMATION_SCHEMA.COLUMNS.DATA_TYPE,
+  INFORMATION_SCHEMA.COLUMNS.COLUMN_TYPE,
+  INFORMATION_SCHEMA.COLUMNS.IS_NULLABLE,
+  INFORMATION_SCHEMA.COLUMNS.CHARACTER_MAXIMUM_LENGTH,
+  INFORMATION_SCHEMA.STATISTICS.INDEX_NAME,
+  INFORMATION_SCHEMA.STATISTICS.NON_UNIQUE,
+  INFORMATION_SCHEMA.STATISTICS.SEQ_IN_INDEX,
+  INFORMATION_SCHEMA.STATISTICS.NULLABLE
+      FROM INFORMATION_SCHEMA.COLUMNS
+      LEFT JOIN INFORMATION_SCHEMA.STATISTICS ON INFORMATION_SCHEMA.COLUMNS.TABLE_NAME=INFORMATION_SCHEMA.STATISTICS.TABLE_NAME AND INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME=INFORMATION_SCHEMA.STATISTICS.COLUMN_NAME
+      WHERE INFORMATION_SCHEMA.COLUMNS.TABLE_SCHEMA = '<database-name>';
+```
+</Block>
+<Block name="PostgreSQL">
+```sql
+SELECT
+  enum_name,
+  enum_values,
+  table_name,
+  column_name,
+  column_default,
+  ordinal_position,
+  data_type,
+  udt_name,
+  is_nullable,
+  character_maximum_length,
+  indexname,
+      REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', '') as index_columns
+    FROM INFORMATION_SCHEMA.COLUMNS
+    LEFT JOIN pg_indexes
+    ON
+      INFORMATION_SCHEMA.COLUMNS.table_name = pg_indexes.tablename
+      AND INFORMATION_SCHEMA.COLUMNS.column_name = ANY(STRING_TO_ARRAY(REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', ''), ', '))
+      LEFT JOIN (
+        SELECT
+          t.typname AS enum_name,
+          ARRAY_AGG(e.enumlabel) as enum_values
+        FROM    pg_type t JOIN
+          pg_enum e ON t.oid = e.enumtypid JOIN
+          pg_catalog.pg_namespace n ON n.oid = t.typnamespace
+        WHERE   n.nspname = 'public'
+    	GROUP BY enum_name
+      ) enums
+      ON enums.enum_name = INFORMATION_SCHEMA.COLUMNS.udt_name
+    WHERE table_schema = 'public' AND TABLE_CATALOG = '<database-name>';
+```
+</Block>
+</BlockSwitcher>
+
+Generate an Amplify GraphQL API schema by running the following command, replacing the `--sql-schema` value with the path to the CSV file created in the previous step:
+
+```sh
+npx @aws-amplify/cli api generate-schema --sql-schema <path-to-schema.csv> --engine-type mysql --out schema.sql.graphql
+```
+
+Finally, update the first argument of `AmplifyGraphqlDefinition.fromFilesAndStrategy` to include the `schema.sql.graphql` file generated in the previous step:
+
+```ts
+new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
+  apiName: 'MySqlBoundApi',
+  definition: AmplifyGraphqlDefinition.fromFilesAndStrategy(
+    [path.join(__dirname, 'schema.sql.graphql')], // file path
+    {
+      // ...strategy options
+    }
+  )
+});
+```
+
 ## How does it work?
 
 The Amplify CLI uses AWS Lambda functions to enable features like querying data from your database. To work properly, these Lambda functions need access to common logic and dependencies.
@@ -825,7 +805,7 @@ This allows the Amplify team to maintain and enhance the SQL Layer without needi
 
 ### Debug Mode
 
-To return the actual SQL error instead of a generic error from AppSync responses, an environment variable `DEBUG_MODE` can be set to `true` on the Amplify CLI-generated `RDSLambdaLogicalID` lambda function.
+To return the actual SQL error instead of a generic error from AppSync responses, an environment variable `DEBUG_MODE` can be set to `true` on the Amplify CLI-generated SQL Lambda function.
 
 ## Conclusion
 
