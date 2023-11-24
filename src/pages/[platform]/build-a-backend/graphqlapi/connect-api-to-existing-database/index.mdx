@@ -423,7 +423,87 @@ Now the API has been deployed and you can start using it!
 
 You can start querying from the AWS AppSync console or integrate it into your application using the AWS Amplify libraries!
 
+### Rename & map models to tables
+
+To rename models and fields, you can use the `@refersTo` directive to map the models in the GraphQL schema to the corresponding table or field by name.
+
+By default, the Amplify CLI singularizes each model name using PascalCase and field names that are either snake_case or kebab-case will be converted to camelCase.
+
+In the example below, the Post model in the GraphQL schema is now mapped to the posts table in the database schema. Also, the isPublished is now mapped to the published column on the posts table.
+
+```graphql
+type Post @refersTo(name: "posts") @model {
+  id: String! @primaryKey
+  title: String!
+  content: String!
+  isPublished: Boolean @refersTo(name: "is-published")
+  publishedDate: AWSDate @refersTo(name: "published_date")
+}
+```
+
+## Create relationships between models
+
+You can use the `@hasOne`, `@hasMany`, and `@belongsTo` relational directives to create relationships between models. The field named in the `references` parameter of the relational directives must exist on the child model.
+
+### Has One relationship
+
+Create a one-directional one-to-one relationship between two models using the `@hasOne` directive.
+
+In the example below, a User has a single Profile.
+
+```graphql
+type User
+  @refersTo(name: "users")
+  @model
+  @auth(rules: [{ allow: owner }, { allow: groups, groups: ["Admin"] }]) {
+  id: String! @primaryKey
+  name: String!
+  owner: String
+  profile: Profile @hasOne(references: ["userId"])
+}
+```
+
+### Has Many relationship
+
+Create a one-directional one-to-many relationship between two models using the `@hasMany` directive.
+
+In the example below, a Blog has many Posts.
+
+```graphql
+type Blog @model {
+  id: String! @primaryKey
+  title: String!
+  posts: [Post] @hasMany(references: ["blogId"])
+}
+
+type Post @model {
+  id: String! @primaryKey
+  title: String!
+  content: String!
+}
+```
+
+### Belongs To relationship
+
+Make a "has one" or "has many" relationship bi-directional with the `@belongsTo` directive.
+
+In the example below, a Post belongs to a Blog.
+
+```graphql
+type Post @model {
+  id: String! @primaryKey
+  title: String!
+  content: String!
+  blogId: String! @refersTo(name: "blog_id")
+  blog: Blog @belongsTo(references: ["blogId"])
+}
+```
+
 ## Apply iterative changes from the database definition
+
+<Callout>
+  **NOTE:** This feature is experimental and is subject to change.
+</Callout>
 
 <Accordion
   title="Mapping of SQL Data Types to GraphQL Types"
@@ -592,82 +672,6 @@ cdk deploy
 | `@sql`       | ✅        | ❌          | ✅          | ✅        | Accepts an inline SQL statement or reference to a .sql file to be executed to resolve a Custom Query or Mutation. |
 
 </Accordion>
-
-### Rename & map models to tables
-
-To rename models and fields, you can use the `@refersTo` directive to map the models in the GraphQL schema to the corresponding table or field by name.
-
-By default, the Amplify CLI singularizes each model name using PascalCase and field names that are either snake_case or kebab-case will be converted to camelCase.
-
-In the example below, the Post model in the GraphQL schema is now mapped to the posts table in the database schema. Also, the isPublished is now mapped to the published column on the posts table.
-
-```graphql
-type Post @refersTo(name: "posts") @model {
-  id: String! @primaryKey
-  title: String!
-  content: String!
-  isPublished: Boolean @refersTo(name: "is-published")
-  publishedDate: AWSDate @refersTo(name: "published_date")
-}
-```
-
-## Create relationships between models
-
-You can use the `@hasOne`, `@hasMany`, and `@belongsTo` relational directives to create relationships between models. The field named in the `references` parameter of the relational directives must exist on the child model.
-
-### Has One relationship
-
-Create a one-directional one-to-one relationship between two models using the `@hasOne` directive.
-
-In the example below, a User has a single Profile.
-
-```graphql
-type User
-  @refersTo(name: "users")
-  @model
-  @auth(rules: [{ allow: owner }, { allow: groups, groups: ["Admin"] }]) {
-  id: String! @primaryKey
-  name: String!
-  owner: String
-  profile: Profile @hasOne(references: ["userId"])
-}
-```
-
-### Has Many relationship
-
-Create a one-directional one-to-many relationship between two models using the `@hasMany` directive.
-
-In the example below, a Blog has many Posts.
-
-```graphql
-type Blog @model {
-  id: String! @primaryKey
-  title: String!
-  posts: [Post] @hasMany(references: ["blogId"])
-}
-
-type Post @model {
-  id: String! @primaryKey
-  title: String!
-  content: String!
-}
-```
-
-### Belongs To relationship
-
-Make a "has one" or "has many" relationship bi-directional with the `@belongsTo` directive.
-
-In the example below, a Post belongs to a Blog.
-
-```graphql
-type Post @model {
-  id: String! @primaryKey
-  title: String!
-  content: String!
-  blogId: String! @refersTo(name: "blog_id")
-  blog: Blog @belongsTo(references: ["blogId"])
-}
-```
 
 ## Auto-generate CRUDL operations for existing tables
 
