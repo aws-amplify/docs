@@ -17,7 +17,7 @@ code:not([class]) {
 .pre-header {
   align-items: center;
   padding: var(--amplify-space-xs) 0;
-  margin-inline: var(--amplify-space-small);
+  margin-inline: var(--amplify-space-medium);
   border-bottom: 1px solid var(--amplify-colors-neutral-90);
 }
 .pre-filename {
@@ -26,8 +26,7 @@ code:not([class]) {
   line-height: var(--amplify-line-heights-small);
 }
 
-.pre-wrapper {
-  padding: 0 var(--amplify-space-xs);
+.pre-container {
   border-radius: var(--amplify-radii-small);
   background: var(--amplify-colors-neutral-100);
   overflow: hidden;
@@ -36,6 +35,10 @@ code:not([class]) {
   li & {
     margin-block: var(--amplify-space-small);
   }
+}
+
+.pre-wrapper {
+  padding: 0 var(--amplify-space-large) 0 var(--amplify-space-xs);
 }
 
 .pre {

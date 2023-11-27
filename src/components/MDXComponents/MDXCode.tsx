@@ -88,7 +88,7 @@ export const MDXCode = (props) => {
             {/* searchable code \ */}
             {codeString}
           </div>
-          <View className="pre-wrapper">
+          <View className="pre-container">
             {shouldShowHeader ? (
               <Flex className="pre-header">
                 {fileName ? (
@@ -111,34 +111,35 @@ export const MDXCode = (props) => {
                 ) : null}
               </Flex>
             ) : null}
-
-            <pre
-              style={style}
-              tabIndex={0}
-              aria-labelledby={`${fileName ? fileNameId : null} ${codeId}`}
-              className={`pre${shouldShowHeader ? ' pre--header' : ''}`}
-            >
-              <code className="pre-code" id={codeId}>
-                {tokens.map((line, i) => (
-                  <div
-                    key={i}
-                    {...getLineProps({ line })}
-                    className={`token-line${
-                      lineHighlightArray.includes(i + 1)
-                        ? ' line-highlight'
-                        : ''
-                    }`}
-                  >
-                    {showLineNumbers && (
-                      <span className="line-number">{i + 1}</span>
-                    )}
-                    {line.map((token, key) => (
-                      <span key={key} {...getTokenProps({ token })} />
-                    ))}
-                  </div>
-                ))}
-              </code>
-            </pre>
+            <View className="pre-wrapper">
+              <pre
+                style={style}
+                tabIndex={0}
+                aria-labelledby={`${fileName ? fileNameId : null} ${codeId}`}
+                className={`pre${shouldShowHeader ? ' pre--header' : ''}`}
+              >
+                <code className="pre-code" id={codeId}>
+                  {tokens.map((line, i) => (
+                    <div
+                      key={i}
+                      {...getLineProps({ line })}
+                      className={`token-line${
+                        lineHighlightArray.includes(i + 1)
+                          ? ' line-highlight'
+                          : ''
+                      }`}
+                    >
+                      {showLineNumbers && (
+                        <span className="line-number">{i + 1}</span>
+                      )}
+                      {line.map((token, key) => (
+                        <span key={key} {...getTokenProps({ token })} />
+                      ))}
+                    </div>
+                  ))}
+                </code>
+              </pre>
+            </View>
           </View>
         </View>
       )}
