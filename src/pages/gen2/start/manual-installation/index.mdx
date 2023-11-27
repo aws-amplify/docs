@@ -28,7 +28,7 @@ npm add --save-dev @aws-amplify/backend @aws-amplify/backend-cli typescript
 
 </Callout>
 
-Next, create the entrypoint for your backend, `amplify/backend.ts`, with the following contents:
+Next, create the entry point for your backend, `amplify/backend.ts`, with the following code:
 
 ```ts
 import { defineBackend } from '@aws-amplify/backend';
@@ -40,13 +40,13 @@ Now you can run `npx amplify sandbox` to create your first backend!
 
 <Callout warning>
 
-Amplify (Gen 2) requires your backend to be configured for use with [ECMAScript Modules (ESM)](https://nodejs.org/api/esm.html). If you encounter the following error during `amplify sandbox`, consider modifying your `package.json` with `"type": "module"`:
+Amplify (Gen 2) requires your backend to be configured for use with [ECMAScript modules (ESM)](https://nodejs.org/api/esm.html). If you encounter the following error during `amplify sandbox`, consider modifying your `package.json` with `"type": "module"`:
 
 ```text
 The current file is a CommonJS module whose imports will produce 'require' calls; however, the referenced file is an ECMAScript module and cannot be imported with 'require'. Consider writing a dynamic 'import("@aws-amplify/backend")' call instead.
 ```
 
-Or, you can create a file local in the Amplify backend directory, `amplify/package.json`:
+Or, you can create a local file in the Amplify backend directory, `amplify/package.json`:
 
 ```json
 {
@@ -81,7 +81,7 @@ export const data = defineData({
 });
 ```
 
-Each of these newly-defined resources are then imported and set in the backend definition:
+Each of these newly defined resources are then imported and set in the backend definition:
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
@@ -96,13 +96,13 @@ defineBackend({
 
 ## Upgrade existing projects
 
-You can also update an existing frontend app. To upgrade existing Amplify Code-first DX (Gen 2) apps, use your Node.js package manager (for example, `npm`) to update relevant backend packages:
+You can also update an existing frontend app. To upgrade existing Amplify code-first DX (Gen 2) apps, use your Node.js package manager (for example, `npm`) to update relevant backend packages:
 
 ```bash
 npm update @aws-amplify/backend @aws-amplify/backend-cli
 ```
 
-## Next Steps
+## Next steps
 
 We recommend the following next steps:
 
