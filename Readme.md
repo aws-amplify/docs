@@ -165,6 +165,10 @@ let mut a = String::from("a");
 </BlockSwitcher>
 ````
 
+### Internal links
+
+When linking to other pages within the docs.amplify.aws site, please do not use relative links. For example, instead of `[here is my link](../manage-mfa/)`, please use `[here is my link](/[platform]/build-a-backend/auth/manage-mfa/)`.
+
 ## Debug client-side code with browser developer tools
 
 ### Prerequisites
