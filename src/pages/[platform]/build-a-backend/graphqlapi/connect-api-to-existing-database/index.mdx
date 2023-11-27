@@ -396,7 +396,7 @@ type Mutation {
 </Callout>
 
 
-## Apply authorization rules on the models
+## Apply authorization rules
 
 The `@auth` directive can be used to restrict access to data and operations by specifying authorization rules. It allows granular access control over the GraphQL API based on the user's identity and attributes. You can for example, limit a query or mutation to only logged-in users via an `@auth(rules: [{ allow: private }])` rule or limit access to only users of the "Admin" group via an `@auth(rules: [{ allow: groups, groups: ["Admin"] }])` rule.
 
