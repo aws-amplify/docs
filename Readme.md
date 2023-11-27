@@ -85,7 +85,7 @@ The markdown body is parsed as [MDX](https://mdxjs.com/) and can include any val
 
 ### Internal links
 
-When linking to other pages within the docs.amplify.aws site, do not use relative links. For example, instead of `[here is my link](../manage-mfa/)`, use `[here is my link](/[platform]/build-a-backend/auth/manage-mfa/)`. Please note that when linking to a page with a pathname beginning with a platform, [platform] in the link, the URL will render conditionally based off the users' selected platform as a condition of the MDXLink component.
+When linking to other pages within the docs.amplify.aws site, do not use relative links. For example, instead of `[here is my link](../manage-mfa/)`, use `[here is my link](/[platform]/build-a-backend/auth/manage-mfa/)`. Please note that when linking to a page with a pathname beginning with a platform—[platform] in the link—the URL will render conditionally based off the user's selected platform as a condition of the MDXLink component.
 
 ### Fragments
 
