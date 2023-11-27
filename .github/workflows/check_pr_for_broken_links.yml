@@ -21,7 +21,7 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Run Server
         run: |
-          python -m http.server 3000 -d ${{ vars.BUILD_DIR }} &
+          node ./node_modules/.bin/serve client/www/next-build --no-request-logging &
           sleep 5
       - name: Run Link Checker
         id: checkLinks
