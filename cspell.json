@@ -1560,7 +1560,8 @@
     "clijson",
     "parametersjson",
     "nextamplifygen",
-    "multirepo"
+    "multirepo",
+    "startbuild"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
