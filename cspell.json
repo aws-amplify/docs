@@ -1534,27 +1534,40 @@
     "autoKsuid",
     "astro",
     "disambiguator",
+    "tinyint",
+    "tinytext",
+    "mediumtext",
+    "longtext",
+    "linestring",
+    "smallint",
+    "mediumint",
+    "varbinary",
+    "tinyblob",
+    "mediumblob",
+    "longblob",
+    "psql",
+    "indexname",
+    "indexdef",
+    "typname",
+    "enumlabel",
+    "enumtypid",
+    "typnamespace",
+    "nspname",
     "autobranch",
     "gitflow",
     "SIWA",
     "hotswap",
     "clijson",
-    "parametersjson"
+    "parametersjson",
+    "nextamplifygen",
+    "multirepo"
   ],
-  "flagWords": [
-    "hte",
-    "full-stack",
-    "Full-stack",
-    "Full-Stack",
-    "sudo"
-  ],
+  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
     {
       "name": "youtube-embed-ids",
       "pattern": "/embedId=\".*\" /"
     }
   ],
-  "ignoreRegExpList": [
-    "youtube-embed-ids"
-  ]
+  "ignoreRegExpList": ["youtube-embed-ids"]
 }
