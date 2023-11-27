@@ -176,8 +176,8 @@ export default async function handler(
 ) {
   const todos = await runWithAmplifyServerContext({
     nextServerContext: { req, res}
-    operation: async () => {
-      const request = await reqResBasedClient.graphql({
+    operation: async (contextSpec) => {
+      const request = await reqResBasedClient.graphql(contextSpec, {
         query: listTodos
       })
 
