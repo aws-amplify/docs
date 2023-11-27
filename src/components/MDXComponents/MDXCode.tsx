@@ -28,11 +28,31 @@ const addVersions = (code: string) => {
   return code;
 };
 
-export const MDXCode = (props) => {
+interface MDXCodeProps {
+  /**
+   * @desc string of code to show in the code block
+   */
+  codeString: string;
+
+  /**
+   * @desc language of code
+   */
+  language?: string;
+
+  /**
+   * @desc shows as a title above the code. markdown users can
+   * use ```js title="some title" to add a fileName
+   */
+  title?: string;
+  highlight?: string;
+  showLineNumbers?: boolean;
+}
+
+export const MDXCode = (props: MDXCodeProps) => {
   const {
     codeString,
     language = 'js',
-    fileName,
+    title,
     highlight,
     showLineNumbers = true
   } = props;
@@ -40,8 +60,8 @@ export const MDXCode = (props) => {
   const [copied, setCopied] = useState(false);
   const [code, setCode] = useState(codeString);
   const shouldShowCopy = language !== 'console';
-  const shouldShowHeader = shouldShowCopy || fileName;
-  const fileNameId = useId();
+  const shouldShowHeader = shouldShowCopy || title;
+  const titleId = useId();
   const codeId = useId();
 
   const copy = () => {
@@ -74,7 +94,6 @@ export const MDXCode = (props) => {
       }
     });
   }
-  console.log('lineHighlightArray: ', lineHighlightArray);
 
   useEffect(() => {
     setCode(addVersions(codeString));
@@ -91,9 +110,9 @@ export const MDXCode = (props) => {
           <View className="pre-container">
             {shouldShowHeader ? (
               <Flex className="pre-header">
-                {fileName ? (
-                  <View className="pre-filename" id={fileNameId}>
-                    {fileName}
+                {title ? (
+                  <View className="pre-title" id={titleId}>
+                    {title}
                   </View>
                 ) : null}
                 {shouldShowCopy ? (
@@ -115,7 +134,7 @@ export const MDXCode = (props) => {
               <pre
                 style={style}
                 tabIndex={0}
-                aria-labelledby={`${fileName ? fileNameId : null} ${codeId}`}
+                aria-labelledby={`${title ? titleId : null} ${codeId}`}
                 className={`pre${shouldShowHeader ? ' pre--header' : ''}`}
               >
                 <code className="pre-code" id={codeId}>

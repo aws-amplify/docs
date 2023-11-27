@@ -140,8 +140,8 @@ const Gen2Overview = () => {
                 Code-first DX
               </Heading>
               <Text>
-                The code-first developer experience is a new approach that lets you focus
-                on your app code instead of infrastructure.
+                The code-first developer experience is a new approach that lets
+                you focus on your app code instead of infrastructure.
               </Text>
             </Flex>
           </Card>
@@ -177,19 +177,25 @@ const Gen2Overview = () => {
             borderRadius: 'var(--amplify-radii-large)',
             marginBottom: 'var(--amplify-space-small)',
             boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
-          }} autoPlay muted loop />
+          }}
+          autoPlay
+          muted
+          loop
+        />
         <Columns columns={2}>
           <FeatureItem
             linkText="TypeScript-first fullstack experience"
             href="/gen2/how-amplify-works/concepts/#build-fullstack-apps-with-typescript"
           >
-            Write TypeScript across frontend and backend. Get schema validation, dot completion, and end-to-end types while you code.
+            Write TypeScript across frontend and backend. Get schema validation,
+            dot completion, and end-to-end types while you code.
           </FeatureItem>
           <FeatureItem
             linkText="Real-time data for modern apps"
             href="/gen2/build-a-backend/data/set-up-data/"
           >
-            Sync frontend state to realtime backend updates. Just write TypeScript without thinking about WebSockets.
+            Sync frontend state to realtime backend updates. Just write
+            TypeScript without thinking about WebSockets.
           </FeatureItem>
           <FeatureItem
             linkText="Authn and authz for secure apps"
@@ -207,7 +213,6 @@ const Gen2Overview = () => {
           </FeatureItem>
         </Columns>
       </FeatureList>
-
 
       <Columns columns={2}>
         <ExportedImage
@@ -276,7 +281,7 @@ const Gen2Overview = () => {
           </FeatureItem>
         </FeatureList>
         <MDXCode
-          fileName="amplify/custom/Backup.ts"
+          title="amplify/custom/Backup.ts"
           language="typescript"
           codeString={`import { Construct } from 'constructs';
 import * as cdk from 'aws-cdk-lib';
