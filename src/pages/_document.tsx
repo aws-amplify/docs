@@ -121,13 +121,6 @@ export default class MyDocument extends Document {
             type="font/woff2"
             crossOrigin="anonymous"
           />
-          <link
-            rel="preload"
-            href="/fonts/AmazonEmber_W_Lt.woff2"
-            as="font"
-            type="font/woff2"
-            crossOrigin="anonymous"
-          />
           <script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
           <link
             href="https://prod.assets.shortbread.aws.dev/shortbread.css"
