@@ -202,6 +202,7 @@ In the example below, a SQL statement is defined, accepting a `searchTerm` input
 type Query {
   searchPosts(searchTerm: String): [Post]
     @sql(statement: "SELECT * FROM posts WHERE title LIKE :searchTerm;")
+    @auth(rules: [{ allow: public }])
 }
 ```
 
@@ -220,6 +221,7 @@ First, update your GraphQL schema file to reference a SQL file name without the 
 type Query {
   getPublishedPosts(start: AWSDate, end: AWSDate): [Post]
     @sql(reference: "getPublishedPostsByRange")
+    @auth(rules: [{ allow: public }])
 }
 ```
 
@@ -302,6 +304,7 @@ type Query {
     @sql(
       statement: "SELECT * FROM Post WHERE title LIKE CONCAT('%', :title, '%');"
     )
+    @auth(rules: [{ allow: public }])
 }
 ```
 
@@ -313,6 +316,7 @@ For reference, you define a GraphQL mutation by adding a new field under a `type
 type Mutation {
   publishPostById(id: ID!): AWSJSON
     @sql(statement: "UPDATE posts SET published = :published WHERE id = :id;")
+    @auth(rules: [{ allow: public }])
 }
 ```
 
@@ -325,6 +329,7 @@ If you want to return the result of the SQL statement, you can use `AWSJSON` as 
 ```graphql
 type Mutation {
   publishPosts: AWSJSON @sql(statement: "UPDATE Post SET published = 1;")
+    @auth(rules: [{ allow: public }])
 }
 ```
 
@@ -363,6 +368,7 @@ Call the stored procedure from the custom mutation:
 type Mutation {
   publishPostById(id: String!): [Post]
     @sql(statement: "CALL publish_post(:id);")
+    @auth(rules: [{ allow: public }])
 }
 ```
 
@@ -377,6 +383,7 @@ Example:
 type Mutation {
   publishPostById(id: String!): [Post]
     @sql(statement: "UPDATE posts SET price = :id RETURNING *;")
+    @auth(rules: [{ allow: public }])
 }
 ```
 
@@ -391,9 +398,9 @@ type Mutation {
 
 ## Apply authorization rules on the models
 
-The `@auth` directive can be used to restrict access to data and operations by specifying authorization rules. It allows granular access control over the GraphQL API based on the user's identity and attributes.
+The `@auth` directive can be used to restrict access to data and operations by specifying authorization rules. It allows granular access control over the GraphQL API based on the user's identity and attributes. You can for example, limit a query or mutation to only logged-in users via an `@auth(rules: [{ allow: private }])` rule or limit access to only users of the "Admin" group via an `@auth(rules: [{ allow: groups, groups: ["Admin"] }])` rule.
 
-All model-level authorization rules are supported for Amplify GraphQL schemas generated from MySQL and PostgreSQL databases.
+{/* All model-level authorization rules are supported for Amplify GraphQL schemas generated from MySQL and PostgreSQL databases.
 
 <Callout warning>**Known limitation:** Field level auth rules are not supported.</Callout>
 
@@ -406,9 +413,9 @@ type Blog @model @refersTo(name: "blogs") @auth(rules: [{ allow: public }]) {
   id: String! @primaryKey
   title: String!
 }
-```
+``` */}
 
-In a real world scenario, you can instead define auth rules that only allow public users to read posts, and authenticated users the ability to update or delete their posts.
+{/* In a real world scenario, you can instead define auth rules that only allow public users to read posts, and authenticated users the ability to update or delete their posts. */}
 
 For more information on each rule please refer to our documentation on [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/).
 
