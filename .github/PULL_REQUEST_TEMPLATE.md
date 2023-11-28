@@ -15,7 +15,7 @@ Which product(s) are affected by this PR (if applicable)?
 
 Which platform(s) are affected by this PR (if applicable)?
 - [ ] JS
-- [ ] iOS
+- [ ] Swift
 - [ ] Android
 - [ ] Flutter
 - [ ] React Native
