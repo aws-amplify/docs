@@ -16,12 +16,16 @@ The Amplify Auth features have default configurations for its features when you 
 
 ```ts title="amplify/auth/resource.ts"
 // amplify/auth/resource.ts
+// highlight-next-line
 import { defineAuth } from '@aws-amplify/backend';
 
+// highlight-next-line
 export const auth = defineAuth({
+  // highlight-start
   loginWith: {
     email: true
   }
+  // highlight-end
 });
 ```
 
