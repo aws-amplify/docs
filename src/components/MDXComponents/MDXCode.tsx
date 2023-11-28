@@ -31,9 +31,13 @@ const addVersions = (code: string) => {
   return code;
 };
 
-export const MDXCode = (props: MDXCodeProps) => {
-  const { codeString, language = 'js', title, showLineNumbers = true } = props;
-
+export const MDXCode = ({
+  codeString,
+  language = 'js',
+  showLineNumbers = true,
+  testId,
+  title
+}: MDXCodeProps) => {
   const [copied, setCopied] = useState(false);
   const [code, setCode] = useState(codeString);
   const shouldShowCopy = language !== 'console';
@@ -54,7 +58,12 @@ export const MDXCode = (props: MDXCodeProps) => {
   }, []);
 
   return (
-    <Highlight theme={theme} code={code} language={language}>
+    <Highlight
+      theme={theme}
+      code={code}
+      language={language}
+      data-testId={testId}
+    >
       {({ style, tokens, getLineProps, getTokenProps }) => (
         <View>
           <div style={{ display: 'none' }}>
