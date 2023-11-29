@@ -14,7 +14,7 @@ export const MDXLink = (props) => {
     href = href.slice(0, href.indexOf('#'));
   }
 
-  if(!href.includes('/') && href.startsWith('#')) {
+  if (!href.includes('/') && href.startsWith('#')) {
     hash = href;
     href = baseURI.replace(platform, '[platform]');
   }
@@ -23,7 +23,7 @@ export const MDXLink = (props) => {
     <Link
       href={{
         pathname: decodeURI(href),
-        ...(platform && { query: { platform: useCurrentPlatform() } }),
+        ...(platform && { query: { platform } }),
         hash: hash
       }}
     >
