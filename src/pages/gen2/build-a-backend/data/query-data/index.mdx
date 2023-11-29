@@ -32,7 +32,7 @@ Queries are used to read data through the API and include the `list` and `get` o
 You can list items by first generating the Data client with your backend Data schema. Then you can list items of your desired model:
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
@@ -52,7 +52,7 @@ const { data: inventory, errors } = await client.models.Inventory.get({
 Each API request uses an authorization mode. If you get unauthorized errors, you may need to update your authorization mode. To override the default authorization mode defined in your **amplify/data/resource.ts** file, pass an `authMode` property to the request or the client. The following examples show how you can mutate data with a custom authorization mode:
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
@@ -69,7 +69,7 @@ const { errors, data: newTodo } = await client.models.Todo.list({
 As your data grows, you will need to paginate your list queries. Fortunately, this is already built in to Amplify Data.
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
@@ -88,7 +88,7 @@ const { data: todos, errors } = await client.models.Todo.list({
 You can combine filters with `and`, `or`, and `not` Boolean logic. Observe that `filter` is recursive in respect to those fields. So if, for example, you wanted to filter for `priority` values of 1 _or_ 2, you would do this:
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
@@ -114,7 +114,7 @@ Note that querying for `priority` of 1 and 2 would return no results, because th
 To paginate your list query results, make a subsequent list query request with the `nextToken` and `limit` input variable set. The `limit` variable limits how many results are returned. The response will include a `nextToken` you can use to request the next page of data. A `nextToken` is a very long string that represents the cursor to the starting item of the next query made with these filters.
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
