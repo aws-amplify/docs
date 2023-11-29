@@ -46,7 +46,7 @@ Amplify.configure(config);
 Once the Amplify library is configured, you can generate a "Data client" for your frontend code to make fully-typed API requests to your backend. To generate a new Data client, use the following code:
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>();
@@ -73,7 +73,7 @@ To apply the same authorization mode on all requests from a Data client, specify
 <Block name="API Key">
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
@@ -85,7 +85,7 @@ const client = generateClient<Schema>({
 <Block name="Amazon Cognito user pool">
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
@@ -97,7 +97,7 @@ const client = generateClient<Schema>({
 <Block name="AWS IAM">
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
@@ -109,7 +109,7 @@ const client = generateClient<Schema>({
 <Block name="OpenID Connect (OIDC)">
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
@@ -123,7 +123,7 @@ const client = generateClient<Schema>({
 You can implement your own custom API authorization logic using a AWS Lambda function. Review [Customize your auth rules](/gen2/build-a-backend/data/customize-authz) to learn more about how to implement your authorization protocol with AWS Lambda.
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
 
 const getAuthToken = () => 'myAuthToken';
