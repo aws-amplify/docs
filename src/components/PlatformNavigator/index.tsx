@@ -48,7 +48,7 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
     if (isOpen) {
       contentRef?.current?.focus();
     }
-  }, [isOpen]);
+  }, [isOpen, contentRef]);
 
   const platformItem = frameworks.filter((platform) => {
     return platform.title === platformTitle;
@@ -77,7 +77,10 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
               {platformItem.icon}
               {platformTitle}
             </Flex>
-            <IconChevron fontSize="xs" className={isOpen ? '' : 'icon-rotate-90-reverse'} />
+            <IconChevron
+              fontSize="xs"
+              className={isOpen ? '' : 'icon-rotate-90-reverse'}
+            />
           </Button>
           {PLATFORM_VERSIONS[currentPlatform] && (
             <VersionSwitcher
