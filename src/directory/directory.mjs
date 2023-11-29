@@ -196,6 +196,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect-api-to-existing-database/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/connect-to-api/index.mdx'
                 },
                 {
@@ -269,7 +272,13 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/index.mdx',
                   children: [
                     {
+                      path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/batch-put-custom-resolver/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/query-with-sorting/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/graphqlapi/best-practice/warehouse-management/index.mdx'
                     }
                   ]
                 }

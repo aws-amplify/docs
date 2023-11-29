@@ -71,7 +71,7 @@ const backend = defineBackend({
 });
 
 // create function stack for the auth triggers
-const authTriggerStack = backend.getStack('AuthTriggerStack');
+const authTriggerStack = backend.createStack('AuthTriggerStack');
 
 // create the PostConfirmation trigger
 const postConfirmationTrigger = new lambda.NodejsFunction(
