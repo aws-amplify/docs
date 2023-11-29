@@ -128,7 +128,10 @@ export default class MyDocument extends Document {
             type="font/woff2"
             crossOrigin="anonymous"
           />
-          <script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+          <script
+            src="https://prod.assets.shortbread.aws.dev/shortbread.js"
+            async
+          ></script>
           <link
             href="https://prod.assets.shortbread.aws.dev/shortbread.css"
             rel="stylesheet"
