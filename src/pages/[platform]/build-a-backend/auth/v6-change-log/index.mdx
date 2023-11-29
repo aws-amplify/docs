@@ -1,0 +1,147 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Changes from v5 to v6',
+  description: '',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+```
+-    Auth.signUp: (params: string | SignUpParams,  ...restOfAttrs: string[]) => Promise<ISignUpResult>;
++    signUp: (input: SignUpInput) => Promise<SignUpOutput>;
+
+-    Auth.confirmSignUp: (username: string, code: string, options?: ConfirmSignUpOptions) => Promise<any>;
++    signUp: (input: SignUpInput) => Promise<SignUpOutput>;
+
+-    Auth.resendSignUp: (username: string, clientMetadata?: ClientMetaData) => Promise<any>;
++    resendSignUpCode: (input: ResendSignUpCodeInput) => Promise<ResendSignUpCodeOutput>;
+
+-    Auth.signIn: (usernameOrSignInOpts: string | SignInOpts, pw?: string, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
++    signIn: (input: SignInInput) => Promise<SignInOutput>;
+
+// Deprecated: use fetchMFAPreference => output.enabled instead 
+-    Auth.getMFAOptions: (user: CognitoUser | any) => Promise<MFAOption[]>;
+
+-    Auth.getPreferredMFA: (user: CognitoUser | any, params?: GetPreferredMFAOpts) => Promise<string>;
++    fetchMFAPreference: () => Promise<FetchMFAPreferenceOutput>;
+
+-    Auth.setPreferredMFA: (user: CognitoUser | any, mfaMethod: 'TOTP' | 'SMS' | 'NOMFA' | 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA') => Promise<string>;
++    updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
+
+// Deprecated: use updateMFAPreference({sms: 'DISABLED'})
+-    Auth.disableSMS: (user: CognitoUser) => Promise<string>;
+     
+// Deprecated: use updateMFAPreference({sms: 'ENABLED'})
+-    Auth.enableSMS: (user: CognitoUser) => Promise<string>;
+
+-    Auth.setupTOTP: (user: CognitoUser | any) => Promise<string>;
++    setUpTOTP: () => Promise<SetUpTOTPOutput>;
+
+-    Auth.verifyTotpToken(user: CognitoUser | any, challengeAnswer: string) => Promise<CognitoUserSession>;
++    verifyTOTPSetup: (input: VerifyTOTPSetupInput) => Promise<void>;
+
+-    Auth.confirmSignIn: (user: CognitoUser | any, code: string, mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA' | null, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
++    confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
+
+// Deprecated: use confirmSignIn({challengeResponse: 'newPassword'})
+-    Auth.completeNewPassword: (user: CognitoUser | any, password: string, requiredAttributes: any = {}, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
+
+// Deprecated: use confirmSignIn({challengeResponse: 'answer'})
+-    Auth.sendCustomChallengeAnswer: (user: CognitoUser | any, challengeResponses: string, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
+
+
+-    Auth.deleteUserAttributes: (user: CognitoUser | any, attributeNames: string[]) => Promise<any>;
++    deleteUserAttributes: (input: DeleteUserAttributesInput) => Promise<void>;
+
+-    Auth.deleteUser: () => Promise<string | void>;
++    deleteUser: () => Promise<void>;
+
+-    Auth.updateUserAttributes: (user: CognitoUser | any, attributes: object, clientMetadata?: ClientMetaData) => Promise<string>;
++    updateUserAttributes: (input: UpdateUserAttributesInput) => Promise<UpdateUserAttributesOutput>;
+
+-    Auth.userAttributes: (user: CognitoUser | any) => Promise<CognitoUserAttribute[]>;
++    fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
+
+// Deprecated: use fetchUserAttributes() output.email_verified and output.phone_number_verified
+-    Auth.verifiedContact: (user: CognitoUser | any) => Promise<any>;
+     
+-    Auth.currentUserPoolUser: (params?: CurrentUserOpts) => Promise<CognitoUser | any>;
++    getCurrentUser: () => Promise<GetCurrentUserOutput>;
+
+-    Auth.currentAuthenticatedUser: (params?: CurrentUserOpts) => Promise<CognitoUser | any>;
++    getCurrentUser: () => Promise<GetCurrentUserOutput>;
+
+-    Auth.currentSession: () => Promise<CognitoUserSession>;
++    fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
+
+// Deprecated: use fetchAuthSession()
+-    Auth.userSession: (user) => Promise<CognitoUserSession>;
+
+// Deprecated: use fetchAuthSession() output.credentials    
+-    Auth.currentUserCredentials: () => Promise<ICredentials>;
+
+// Deprecated: use fetchAuthSession() output.credentials
+-    Auth.currentCredentials: () => Promise<ICredentials>;
+
+-    Auth.verifyUserAttribute: (user: CognitoUser | any, attr: string, clientMetadata?: ClientMetaData) => Promise<void>;
++    sendUserAttributeVerificationCode: (input: SendUserAttributeVerificationCodeInput) => Promise<SendUserAttributeVerificationCodeOutput>;
+
+-    Auth.verifyUserAttributeSubmit: (user: CognitoUser | any, attr: string, code: string) => Promise<string>;
++    confirmUserAttribute: (input: ConfirmUserAttributeInput) => Promise<void>;
+
+-    Auth.verifyCurrentUserAttribute: (attr: string) => Promise<void>;
++    sendUserAttributeVerificationCode: (input: SendUserAttributeVerificationCodeInput) => Promise<SendUserAttributeVerificationCodeOutput>;
+
+-    Auth.verifyCurrentUserAttributeSubmit(attr: string, code: string) => Promise<string>;
++    confirmUserAttribute: (input: ConfirmUserAttributeInput) => Promise<void>;
+
+-    Auth.signOut: (opts?: SignOutOpts) => Promise<any>;
++    signOut: (input?: SignOutInput) => Promise<void>;
+
+-    Auth.changePassword: (user: CognitoUser | any, oldPassword: string, newPassword: string, clientMetadata?: ClientMetaData) => Promise<'SUCCESS'>;
++    updatePassword: (input: UpdatePasswordInput) => Promise<void>;
+
+-    Auth.forgotPassword: (username: string, clientMetadata?: ClientMetaData) => Promise<any>;
++    resetPassword: (input: ResetPasswordInput) => Promise<ResetPasswordOutput>;
+
+-    Auth.forgotPasswordSubmit: (username: string, code: string, password: string, clientMetadata?: ClientMetaData) => Promise<string>;
++    confirmResetPassword: (input: ConfirmResetPasswordInput) => Promise<void>;
+
+// Deprecated: use getCurrentUser and fetchUserAttributes
+-    Auth.currentUserInfo: () => Promise<any>;
+
+-    Auth.federatedSignIn: (providerOrOptions: LegacyProvider | FederatedSignInOptions | FederatedSignInOptionsCustom, response?: FederatedResponse, user?: FederatedUser) => Promise<ICredentials>;
++    signInWithRedirect: (input?: SignInWithRedirectInput) => Promise<void>;
+
+// Deprecated: use fetchAuthSession()
+-    Auth.essentialCredentials: (credentials) => ICredentials;
+
+-    Auth.rememberDevice: () => Promise<string | AuthError>;
++    rememberDevice: () => Promise<void>;
+
+-    Auth.forgetDevice: () => Promise<void>;
++    forgetDevice: (input?: ForgetDeviceInput) => Promise<void>;
+```
