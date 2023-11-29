@@ -130,7 +130,7 @@ export default class MyDocument extends Document {
           />
           <script
             src="https://prod.assets.shortbread.aws.dev/shortbread.js"
-            async
+            defer
           ></script>
           <link
             href="https://prod.assets.shortbread.aws.dev/shortbread.css"
