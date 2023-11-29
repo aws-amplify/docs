@@ -115,7 +115,7 @@ export const GetStartedPopover = (platform) => {
     if (expanded) {
       contentRef?.current?.focus();
     }
-  }, [expanded]);
+  }, [expanded, contentRef]);
 
   const handleBlur = (e) => {
     // Use relatedTarget to see if the target receiving focus is outside of the popover
