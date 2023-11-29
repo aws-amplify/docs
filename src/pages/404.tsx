@@ -19,7 +19,7 @@ export function getStaticProps() {
 
 export default function Custom404() {
   const basePath = 'https://docs.amplify.aws';
-  let [href, setHref] = useState(basePath);
+  const [href, setHref] = useState(basePath);
   const path = useRouter().asPath;
   useEffect(() => {
     setHref(basePath + path);

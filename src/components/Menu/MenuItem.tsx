@@ -68,7 +68,7 @@ export function MenuItem({
     }
   };
 
-  let pathname = getPathname(pageNode.route, currentPlatform);
+  const pathname = getPathname(pageNode.route, currentPlatform);
 
   const current = asPathWithoutHash === pathname;
 

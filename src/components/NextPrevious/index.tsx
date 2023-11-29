@@ -24,8 +24,8 @@ export const NextPrevious = () => {
       return { previous, next };
     } else if (children && children.length) {
       for (let i = 0; i < children.length; i++) {
-        let child = children[i];
-        let res = findDirectoryNodes(
+        const child = children[i];
+        const res = findDirectoryNodes(
           route,
           child,
           platform,
