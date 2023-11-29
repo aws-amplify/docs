@@ -1,6 +1,7 @@
 export const meta = {
   title: 'Auth Triggers (Experimental)',
-  description: 'Learn how to create pre-sign up, or post-sign up handlers with Amplify (Gen 2) Auth'
+  description:
+    'Learn how to create pre-sign up, or post-sign up handlers with Amplify (Gen 2) Auth'
 };
 
 export function getStaticProps(context) {
@@ -32,9 +33,9 @@ To get started with your first trigger, create a file at `amplify/auth/pre-signu
  * @type {import('aws-lambda').PreSignUpTriggerHandler}
  */
 exports.handler = async (event) => {
-  console.log('event: ', JSON.stringify(event))
-  return event
-}
+  console.log('event: ', JSON.stringify(event));
+  return event;
+};
 ```
 
 <Callout info>
@@ -51,40 +52,18 @@ Then, using the experimental `Func` module, configure your authentication resour
 
 ```ts title="amplify/auth/resource.ts"
 // amplify/auth/resource.ts
-import { defineAuth, Func } from '@aws-amplify/backend'
+import { defineAuth, Func } from '@aws-amplify/backend';
 
 export const auth = defineAuth({
   loginWith: {
-    email: true,
+    email: true
   },
   triggers: {
     // use `Func.fromDir` to use the relative directory of the created trigger
     preSignUp: Func.fromDir({
       name: 'pre-signup',
-      codePath: './pre-signup',
-    }),
-  },
-})
-```
-
-`Func.fromDir` enables you to author Functions in any runtime by specifying an optional `runtime` property. For example, if you have a Python function specify the Python runtime from the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/):
-
-```diff title="amplify/auth/resource.ts"
-// amplify/auth/resource.ts
-+import { Runtime } from 'aws-cdk-lib/aws-lambda'
-import { defineAuth, Func } from '@aws-amplify/backend'
-
-export const auth = defineAuth({
-  loginWith: {
-    email: true,
-  },
-  triggers: {
-    // use `Func.fromDir` to use the relative directory of the created trigger
-    preSignUp: Func.fromDir({
-      name: 'pre-signup',
-      codePath: './pre-signup',
-+     runtime: Runtime.PYTHON_3_9,
-    }),
-  },
-})
+      codePath: './pre-signup'
+    })
+  }
+});
 ```

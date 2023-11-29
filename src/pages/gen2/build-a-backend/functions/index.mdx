@@ -99,3 +99,27 @@ userPool.addTrigger(
 {/* ## Creating a scheduled job */}
 
 {/* @TODO - create a scheduled job that reads from Data */}
+
+## Customizing runtime
+
+`Func.fromDir` enables you to author Functions in any runtime by specifying an optional `runtime` property. For example, if you have a Python function specify the Python runtime from the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/):
+
+```diff title="amplify/auth/resource.ts"
+// amplify/auth/resource.ts
++import { Runtime } from 'aws-cdk-lib/aws-lambda'
+import { defineAuth, Func } from '@aws-amplify/backend'
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  triggers: {
+    // use `Func.fromDir` to use the relative directory of the created trigger
+    preSignUp: Func.fromDir({
+      name: 'pre-signup',
+      codePath: './pre-signup',
++     runtime: Runtime.PYTHON_3_9,
+    }),
+  },
+})
+```
