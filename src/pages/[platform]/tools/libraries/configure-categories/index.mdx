@@ -97,8 +97,8 @@ Amplify.configure({
 Amplify.configure({
   Storage: {
     S3: {
-      bucket: 'your-bucket-name',
-      region: 'us-east-1'
+      bucket: 'your-bucket-name', // Optional
+      region: 'us-east-1' // Optional
     }
   }
 });
@@ -211,10 +211,38 @@ Amplify.configure({
 ```js
 Amplify.configure({
   Interactions: {
-    bots: {
-      BookTrip: {
-        name: 'BookTrip',
-        alias: '$LATEST',
+    LexV1: {
+      MyV1Bot: {
+        alias: 'BotAlias',
+        region: 'us-east-1'
+      }
+    },
+    LexV2: {
+      MyV2Bot: {
+        botId: 'ABCDE12345',
+        aliasId: 'BotAlias',
+        localeId: 'localId',
+        region: 'us-east-1'
+      }
+    }
+  }
+});
+```
+
+## Notifications
+
+```js
+Amplify.configure({
+  Notifications: {
+    InAppMessaging: {
+      Pinpoint: {
+        appId: 'abcdefgh12345678',
+        region: 'us-east-1'
+      }
+    },
+    PushNotification: {
+      Pinpoint: {
+        appId: 'abcdefgh12345678',
         region: 'us-east-1'
       }
     }
