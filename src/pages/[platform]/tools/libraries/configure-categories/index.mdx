@@ -21,7 +21,7 @@ export function getStaticProps(context) {
 
 <InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'vue','react']}>
 
-When using the Amplify CLI, the **aws-exports.js** file gets created and updated automatically for you based upon the resources you have added and configured.
+When using the Amplify CLI, the **amplifyconfiguration.json** file gets created and updated automatically for you based upon the resources you have added and configured.
 
 If you are not using the Amplify CLI or need to override these settings, this documentation shows the available configuration properties for each category.
 
@@ -30,10 +30,7 @@ If you are not using the Amplify CLI or need to override these settings, this do
 The `Amplify.configure()` configuration can generally be included in your project _entrypoint_ file (i.e. _/src/main.js_). It takes in two parameters - `ResourcesConfig` and `LibraryOptions`.
 
 ```ts
-Amplify.configure(
-  {}: ResourcesConfig;
-  {}?: LibraryOptions;
-);
+Amplify.configure({ ...resourcesConfig }, { ...libraryOptions });
 ```
 
 ## Authentication (Amazon Cognito)
@@ -42,17 +39,54 @@ Amplify.configure(
 Amplify.configure({
   Auth: {
     Cognito: {
-      userPoolClientId: string;
-      userPoolId: string;
-      userPoolEndpoint?: string;
-      signUpVerificationMethod?: 'code' | 'link';
-      loginWith?: {
-        oauth?: OAuthConfig;
-        username?: boolean;
-        email?: boolean;
-        phone?: boolean;
-      };
+      userPoolClientId: 'abcdefghij1234567890',
+      userPoolId: 'us-east-1_abcd1234',
+      loginWith: { // Optional
+        oauth: {
+          domain: 'abcdefghij1234567890-29051e27.auth.us-east-1.amazoncognito.com',
+          scopes: ['openid email phone profile aws.cognito.signin.user.admin '],
+          redirectSignIn: ['http://localhost:3000/','https://example.com/'],
+          redirectSignOut: ['http://localhost:3000/','https://example.com/'],
+          responseType: 'code',
+        }
+        username: 'true',
+        email: 'false', // Optional
+        phone: 'false', // Optional
+      }
     }
+  }
+});
+```
+
+## API GraphQL (AWS AppSync)
+
+```js
+Amplify.configure({
+  API: {
+    GraphQL: {
+      endpoint:
+        'https://abcdefghij1234567890.appsync-api.us-east-1.amazonaws.com/graphql',
+      defaultAuthMode: 'apiKey',
+      apiKey: 'da-abcdefghij1234567890', // Optional
+      region: 'us-east-1', // Optional
+      customEndpoint: 'https://example.com/graphql', // Optional
+      customEndpointRegion: 'us-east-1' // Optional
+    }
+  }
+});
+```
+
+## API Rest (Amazon API Gateway)
+
+```js
+Amplify.configure({
+  API: {
+    REST: [
+      'YourAPIName':{
+        endpoint: 'https://abcdefghij1234567890.execute-api.us-east-1.amazonaws.com/stageName',
+        region: 'us-east-1', // Optional
+      }
+    ]
   }
 });
 ```
@@ -63,43 +97,43 @@ Amplify.configure({
 Amplify.configure({
   Storage: {
     S3: {
-      bucket?: string;
-      region?: string;
+      bucket: 'your-bucket-name',
+      region: 'us-east-1'
     }
   }
 });
 ```
 
-## GraphQL API (AWS AppSync)
+## Analytics (Amazon Pinpoint)
 
 ```js
 Amplify.configure({
-  API: {
-    GraphQL: {
-      endpoint: string;
-      region?: string;
-      apiKey?: string;
-      customEndpoint?: string;
-      customEndpointRegion?: string;
-      defaultAuthMode: GraphQLAuthMode;
-      modelIntrospection?: ModelIntrospectionSchema;
+  Analytics: {
+    Personalize: {
+      trackingId: 'abcd1234',
+      region: 'us-east-1',
+      flushInterval: 0, // Optional
+      flushSize: 0 // Optional
+    },
+    Pinpoint: {
+      appId: 'abcdefghij1234567890',
+      region: 'us-east-1',
+      flushInterval: 0, // Optional
+      flushSize: 0, // Optional
+      bufferSize: 0 // Optional
+    },
+    Kinesis: {
+      region: 'us-east-1',
+      flushInterval: 0, // Optional
+      flushSize: 0, // Optional
+      bufferSize: 0 // Optional
+    },
+    KinesisFirehose: {
+      region: 'us-east-1',
+      flushInterval: 0, // Optional
+      flushSize: 0, // Optional
+      bufferSize: 0 // Optional
     }
-  }
-});
-```
-
-## REST API (Amazon API Gateway)
-
-```js
-Amplify.configure({
-  API: {
-    REST: [
-      'your-api-name':{
-        endpoint: string;
-        region?: string;
-        service?: string; //Optional service name string to sign the request with IAM credentials. Default 'execute-api'
-      }
-    ]
   }
 });
 ```
@@ -147,7 +181,7 @@ Amplify.configure({
         region: 'us-east-1',
         celebrityDetectionEnabled: true,
         defaults: {
-          collectionId: 'identifyEntities8b89c648-test',
+          collectionId: 'identifyEntities8b89c648',
           maxEntities: 50
         }
       },
@@ -172,15 +206,17 @@ Amplify.configure({
 });
 ```
 
-## Analytics (Amazon Pinpoint)
+## Interactions
 
 ```js
 Amplify.configure({
-  Analytics: {
-    Pinpoint: {
-      appId: 'XXXXXXXXXXabcdefghij1234567890ab',
-      region: 'XX-XXXX-X',
-      endpointId: 'XXXXXXXXXXXX'
+  Interactions: {
+    bots: {
+      BookTrip: {
+        name: 'BookTrip',
+        alias: '$LATEST',
+        region: 'us-east-1'
+      }
     }
   }
 });
@@ -192,30 +228,21 @@ Amplify.configure({
 Amplify.configure({
   Geo: {
     LocationService: {
-      region: 'XX-XXXX-X', // REQUIRED - Amazon Location Service Region
-      maps?: {},
-      searchIndices?: {}
-    }
-  }
-});
-```
-
-## Interactions
-
-### Top level configuration
-
-```js
-Amplify.configure({
-  Auth: {
-    identityPoolId: 'us-east-1:xxx-xxx-xxx-xxx-xxx', // (required) Identity Pool ID
-    region: 'us-east-1' // (required) Identity Pool region
-  },
-  Interactions: {
-    bots: {
-      BookTrip: {
-        name: 'BookTrip',
-        alias: '$LATEST',
-        region: 'us-east-1'
+      region: 'us-east-1',
+      maps: {
+        // Optional
+        items: {},
+        default: ''
+      },
+      searchIndices: {
+        // Optional
+        items: [''],
+        default: ''
+      },
+      geofenceCollections: {
+        // Optional
+        items: [''],
+        default: ''
       }
     }
   }
