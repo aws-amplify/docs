@@ -48,6 +48,7 @@ You can use the [`NodejsFunction` construct](https://docs.aws.amazon.com/cdk/api
 First, create the trigger's shell of a Function handler by creating a file at `amplify/custom/post-confirmation.ts` with the following contents:
 
 ```ts title="amplify/custom/post-confirmation.ts"
+// amplify/custom/post-confirmation.ts
 import type { PostConfirmationTriggerHandler } from 'aws-lambda';
 
 export const handler: PostConfirmationTriggerHandler = async (event) => {
@@ -57,9 +58,8 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
 
 Next, create the instance of `NodejsFunction` using the scaffolding below, and use the `.addTrigger()` method to set the Function on your Amazon Cognito resource.
 
-{/* @TODO, remove type casting to cognito.UserPool once the interface -> class type is addressed */}
-
 ```ts title="amplify/backend.ts"
+// amplify/backend.ts
 import * as url from 'node:url';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as lambda from 'aws-cdk-lib/aws-lambda-nodejs';
