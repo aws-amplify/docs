@@ -29,7 +29,7 @@ export function getStaticProps(context) {
   };
 }
 
-```
+```diff
 -    Auth.signUp: (params: string | SignUpParams,  ...restOfAttrs: string[]) => Promise<ISignUpResult>;
 +    signUp: (input: SignUpInput) => Promise<SignUpOutput>;
 
