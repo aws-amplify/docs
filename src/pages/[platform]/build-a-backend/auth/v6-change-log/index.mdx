@@ -25,119 +25,399 @@ export function getStaticProps(context) {
   };
 }
 
+## Auth.signUp
+
 ```diff
--    Auth.signUp: (params: string | SignUpParams,  ...restOfAttrs: string[]) => Promise<ISignUpResult>;
-+    signUp: (input: SignUpInput) => Promise<SignUpOutput>;
+-  import { Auth } from 'aws-amplify';
++  import { signUp } from 'aws-amplify/auth';
 
--    Auth.confirmSignUp: (username: string, code: string, options?: ConfirmSignUpOptions) => Promise<any>;
-+    signUp: (input: SignUpInput) => Promise<SignUpOutput>;
+-  Auth.signUp: (params: string | SignUpParams,  ...restOfAttrs: string[]) => Promise<ISignUpResult>;
++  signUp: (input: SignUpInput) => Promise<SignUpOutput>;
+```
 
--    Auth.resendSignUp: (username: string, clientMetadata?: ClientMetaData) => Promise<any>;
-+    resendSignUpCode: (input: ResendSignUpCodeInput) => Promise<ResendSignUpCodeOutput>;
+## Auth.confirmSignUp
 
--    Auth.signIn: (usernameOrSignInOpts: string | SignInOpts, pw?: string, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
-+    signIn: (input: SignInInput) => Promise<SignInOutput>;
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { confirmSignUp } from 'aws-amplify/auth';
 
-// Deprecated: use fetchMFAPreference => output.enabled instead 
--    Auth.getMFAOptions: (user: CognitoUser | any) => Promise<MFAOption[]>;
+-  Auth.confirmSignUp: (username: string, code: string, options?: ConfirmSignUpOptions) => Promise<any>;
++  signUp: (input: SignUpInput) => Promise<SignUpOutput>;
+```
 
--    Auth.getPreferredMFA: (user: CognitoUser | any, params?: GetPreferredMFAOpts) => Promise<string>;
-+    fetchMFAPreference: () => Promise<FetchMFAPreferenceOutput>;
+## Auth.resendSignUp
 
--    Auth.setPreferredMFA: (user: CognitoUser | any, mfaMethod: 'TOTP' | 'SMS' | 'NOMFA' | 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA') => Promise<string>;
-+    updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { resendSignUpCode } from 'aws-amplify/auth';
 
-// Deprecated: use updateMFAPreference({sms: 'DISABLED'})
--    Auth.disableSMS: (user: CognitoUser) => Promise<string>;
-     
-// Deprecated: use updateMFAPreference({sms: 'ENABLED'})
--    Auth.enableSMS: (user: CognitoUser) => Promise<string>;
+-  Auth.resendSignUp: (username: string, clientMetadata?: ClientMetaData) => Promise<any>;
++  resendSignUpCode: (input: ResendSignUpCodeInput) => Promise<ResendSignUpCodeOutput>;
+```
 
--    Auth.setupTOTP: (user: CognitoUser | any) => Promise<string>;
-+    setUpTOTP: () => Promise<SetUpTOTPOutput>;
+## Auth.signIn
 
--    Auth.verifyTotpToken(user: CognitoUser | any, challengeAnswer: string) => Promise<CognitoUserSession>;
-+    verifyTOTPSetup: (input: VerifyTOTPSetupInput) => Promise<void>;
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { signIn } from 'aws-amplify/auth';
 
--    Auth.confirmSignIn: (user: CognitoUser | any, code: string, mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA' | null, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
-+    confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
+-  Auth.signIn: (usernameOrSignInOpts: string | SignInOpts, pw?: string, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
++  signIn: (input: SignInInput) => Promise<SignInOutput>;
+```
 
-// Deprecated: use confirmSignIn({challengeResponse: 'newPassword'})
--    Auth.completeNewPassword: (user: CognitoUser | any, password: string, requiredAttributes: any = {}, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
+## Auth.getMFAOptions (DEPRECATED)
 
-// Deprecated: use confirmSignIn({challengeResponse: 'answer'})
--    Auth.sendCustomChallengeAnswer: (user: CognitoUser | any, challengeResponses: string, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
+This API has been deprecated and results apply only to SMS MFA configurations: existing use cases can be migrated to `fetchMFAPreference`, which will apply to both SMS and TOTP configurations
 
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { fetchMFAPreference } from 'aws-amplify/auth';
 
--    Auth.deleteUserAttributes: (user: CognitoUser | any, attributeNames: string[]) => Promise<any>;
-+    deleteUserAttributes: (input: DeleteUserAttributesInput) => Promise<void>;
+-  Auth.getMFAOptions: (user: CognitoUser | any) => Promise<MFAOption[]>;
++  fetchMFAPreference: () => Promise<FetchMFAPreferenceOutput>
+```
 
--    Auth.deleteUser: () => Promise<string | void>;
-+    deleteUser: () => Promise<void>;
+## Auth.getPreferredMFA
 
--    Auth.updateUserAttributes: (user: CognitoUser | any, attributes: object, clientMetadata?: ClientMetaData) => Promise<string>;
-+    updateUserAttributes: (input: UpdateUserAttributesInput) => Promise<UpdateUserAttributesOutput>;
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { fetchMFAPreference } from 'aws-amplify/auth';
 
--    Auth.userAttributes: (user: CognitoUser | any) => Promise<CognitoUserAttribute[]>;
-+    fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
+-  Auth.getPreferredMFA: (user: CognitoUser | any, params?: GetPreferredMFAOpts) => Promise<string>;
++  fetchMFAPreference: () => Promise<FetchMFAPreferenceOutput>;
+```
 
-// Deprecated: use fetchUserAttributes() output.email_verified and output.phone_number_verified
--    Auth.verifiedContact: (user: CognitoUser | any) => Promise<any>;
-     
--    Auth.currentUserPoolUser: (params?: CurrentUserOpts) => Promise<CognitoUser | any>;
-+    getCurrentUser: () => Promise<GetCurrentUserOutput>;
+## Auth.setPreferredMFA
 
--    Auth.currentAuthenticatedUser: (params?: CurrentUserOpts) => Promise<CognitoUser | any>;
-+    getCurrentUser: () => Promise<GetCurrentUserOutput>;
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { updateMFAPreference } from 'aws-amplify/auth';
 
--    Auth.currentSession: () => Promise<CognitoUserSession>;
-+    fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
+-  Auth.setPreferredMFA: (user: CognitoUser | any, mfaMethod: 'TOTP' | 'SMS' | 'NOMFA' | 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA') => Promise<string>;
++  updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
+```
 
-// Deprecated: use fetchAuthSession()
--    Auth.userSession: (user) => Promise<CognitoUserSession>;
+## Auth.disableSMS (DEPRECATED)
 
-// Deprecated: use fetchAuthSession() output.credentials    
--    Auth.currentUserCredentials: () => Promise<ICredentials>;
+This API has been deprecated: existing use cases can be migrated to the `updateMFAPreference` API
 
-// Deprecated: use fetchAuthSession() output.credentials
--    Auth.currentCredentials: () => Promise<ICredentials>;
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { updateMFAPreference } from 'aws-amplify/auth';
 
--    Auth.verifyUserAttribute: (user: CognitoUser | any, attr: string, clientMetadata?: ClientMetaData) => Promise<void>;
-+    sendUserAttributeVerificationCode: (input: SendUserAttributeVerificationCodeInput) => Promise<SendUserAttributeVerificationCodeOutput>;
+-  Auth.disableSMS: (user: CognitoUser) => Promise<string>;
++  updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
+```
 
--    Auth.verifyUserAttributeSubmit: (user: CognitoUser | any, attr: string, code: string) => Promise<string>;
-+    confirmUserAttribute: (input: ConfirmUserAttributeInput) => Promise<void>;
+## Auth.enableSMS
 
--    Auth.verifyCurrentUserAttribute: (attr: string) => Promise<void>;
-+    sendUserAttributeVerificationCode: (input: SendUserAttributeVerificationCodeInput) => Promise<SendUserAttributeVerificationCodeOutput>;
+This API has been deprecated: existing use cases can be migrated to the `updateMFAPreference` API
 
--    Auth.verifyCurrentUserAttributeSubmit(attr: string, code: string) => Promise<string>;
-+    confirmUserAttribute: (input: ConfirmUserAttributeInput) => Promise<void>;
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { updateMFAPreference } from 'aws-amplify/auth';
 
--    Auth.signOut: (opts?: SignOutOpts) => Promise<any>;
-+    signOut: (input?: SignOutInput) => Promise<void>;
+-  Auth.enableSMS: (user: CognitoUser) => Promise<string>;
++  updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
+```
 
--    Auth.changePassword: (user: CognitoUser | any, oldPassword: string, newPassword: string, clientMetadata?: ClientMetaData) => Promise<'SUCCESS'>;
-+    updatePassword: (input: UpdatePasswordInput) => Promise<void>;
+## Auth.setupTOTP
 
--    Auth.forgotPassword: (username: string, clientMetadata?: ClientMetaData) => Promise<any>;
-+    resetPassword: (input: ResetPasswordInput) => Promise<ResetPasswordOutput>;
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { setUpTOTP } from 'aws-amplify/auth';
 
--    Auth.forgotPasswordSubmit: (username: string, code: string, password: string, clientMetadata?: ClientMetaData) => Promise<string>;
-+    confirmResetPassword: (input: ConfirmResetPasswordInput) => Promise<void>;
+-  Auth.setupTOTP: (user: CognitoUser | any) => Promise<string>;
++  setUpTOTP: () => Promise<SetUpTOTPOutput>;
+```
 
-// Deprecated: use getCurrentUser and fetchUserAttributes
--    Auth.currentUserInfo: () => Promise<any>;
+## Auth.verifyTotpToken
 
--    Auth.federatedSignIn: (providerOrOptions: LegacyProvider | FederatedSignInOptions | FederatedSignInOptionsCustom, response?: FederatedResponse, user?: FederatedUser) => Promise<ICredentials>;
-+    signInWithRedirect: (input?: SignInWithRedirectInput) => Promise<void>;
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { verifyTOTPSetup } from 'aws-amplify/auth';
 
-// Deprecated: use fetchAuthSession()
--    Auth.essentialCredentials: (credentials) => ICredentials;
+-  Auth.verifyTotpToken(user: CognitoUser | any, challengeAnswer: string) => Promise<CognitoUserSession>;
++  verifyTOTPSetup: (input: VerifyTOTPSetupInput) => Promise<void>;
+```
 
--    Auth.rememberDevice: () => Promise<string | AuthError>;
-+    rememberDevice: () => Promise<void>;
+## Auth.confirmSignIn
 
--    Auth.forgetDevice: () => Promise<void>;
-+    forgetDevice: (input?: ForgetDeviceInput) => Promise<void>;
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { confirmSignIn } from 'aws-amplify/auth';
+
+-  Auth.confirmSignIn: (user: CognitoUser | any, code: string, mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA' | null, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
++  confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
+```
+
+## Auth.completeNewPassword (DEPRECATED)
+
+This API has been deprecated: existing use cases can be migrated to the `confirmSignIn` API
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { confirmSignIn } from 'aws-amplify/auth';
+
+-  Auth.completeNewPassword: (user: CognitoUser | any, password: string, requiredAttributes: any = {}, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
++  confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
+```
+
+## Auth.sendCustomChallengeAnswer (DEPRECATED)
+
+This API has been deprecated: existing use cases can be migrated to the `confirmSignIn` API
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { confirmSignIn } from 'aws-amplify/auth';
+
+-  Auth.sendCustomChallengeAnswer: (user: CognitoUser | any, challengeResponses: string, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
++  confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
+```
+
+## Auth.deleteUserAttributes
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { deleteUserAttributes } from 'aws-amplify/auth';
+
+-  Auth.deleteUserAttributes: (user: CognitoUser | any, attributeNames: string[]) => Promise<any>;
++  deleteUserAttributes: (input: DeleteUserAttributesInput) => Promise<void>;
+```
+
+## Auth.deleteUser
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { deleteUser } from 'aws-amplify/auth';
+
+-  Auth.deleteUser: () => Promise<string | void>;
++  deleteUser: () => Promise<void>;
+```
+
+## Auth.updateUserAttributes
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { updateUserAttributes } from 'aws-amplify/auth';
+
+-  Auth.updateUserAttributes: (user: CognitoUser | any, attributes: object, clientMetadata?: ClientMetaData) => Promise<string>;
++  updateUserAttributes: (input: UpdateUserAttributesInput) => Promise<UpdateUserAttributesOutput>;
+```
+
+## Auth.userAttributes
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { fetchUserAttributes } from 'aws-amplify/auth';
+
+-  Auth.userAttributes: (user: CognitoUser | any) => Promise<CognitoUserAttribute[]>;
++  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
+```
+
+## Auth.verifiedContact (DEPRECATED)
+
+This API has been deprecated: existing use cases can be migrated to the `fetchUserAttributes` API using `output.email_verified` and `output.phone_number_verified` attributes.
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { fetchUserAttributes } from 'aws-amplify/auth';
+
+-  Auth.verifiedContact: (user: CognitoUser | any) => Promise<any>;
++  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
+```
+
+## Auth.currentUserPoolUser
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { getCurrentUser } from 'aws-amplify/auth';
+
+-  Auth.currentUserPoolUser: (params?: CurrentUserOpts) => Promise<CognitoUser | any>;
++  getCurrentUser: () => Promise<GetCurrentUserOutput>;
+```
+
+## Auth.currentAuthenticatedUser
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { getCurrentUser } from 'aws-amplify/auth';
+
+-  Auth.currentAuthenticatedUser: (params?: CurrentUserOpts) => Promise<CognitoUser | any>;
++  getCurrentUser: () => Promise<GetCurrentUserOutput>;
+```
+
+## Auth.currentSession
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { fetchAuthSession } from 'aws-amplify/auth';
+
+-  Auth.currentSession: () => Promise<CognitoUserSession>;
++  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
+```
+
+## Auth.userSession
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { fetchAuthSession } from 'aws-amplify/auth';
+
+-  Auth.userSession: (user) => Promise<CognitoUserSession>;
++  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
+```
+
+## Auth.currentUserCredentials
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { fetchAuthSession } from 'aws-amplify/auth';
+
+-  Auth.currentUserCredentials: () => Promise<ICredentials>;
++  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
+```
+
+## Auth.currentCredentials
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { fetchAuthSession } from 'aws-amplify/auth';
+
+-  Auth.currentCredentials: () => Promise<ICredentials>;
++  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
+```
+
+## Auth.verifyUserAttribute
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { sendUserAttributeVerificationCode } from 'aws-amplify/auth';
+
+-  Auth.verifyUserAttribute: (user: CognitoUser | any, attr: string, clientMetadata?: ClientMetaData) => Promise<void>;
++  sendUserAttributeVerificationCode: (input: SendUserAttributeVerificationCodeInput) => Promise<SendUserAttributeVerificationCodeOutput>;
+```
+
+## Auth.verifyUserAttributeSubmit
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { confirmUserAttribute } from 'aws-amplify/auth';
+
+-  Auth.verifyUserAttributeSubmit: (user: CognitoUser | any, attr: string, code: string) => Promise<string>;
++  confirmUserAttribute: (input: ConfirmUserAttributeInput) => Promise<void>;
+```
+
+## Auth.verifyCurrentUserAttribute
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { sendUserAttributeVerificationCode } from 'aws-amplify/auth';
+
+-  Auth.verifyCurrentUserAttribute: (attr: string) => Promise<void>;
++  sendUserAttributeVerificationCode: (input: SendUserAttributeVerificationCodeInput) => Promise<SendUserAttributeVerificationCodeOutput>;
+```
+
+## Auth.verifyCurrentUserAttributeSubmit
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { confirmUserAttribute } from 'aws-amplify/auth';
+
+-  Auth.verifyCurrentUserAttributeSubmit(attr: string, code: string) => Promise<string>;
++  confirmUserAttribute: (input: ConfirmUserAttributeInput) => Promise<void>;
+```
+
+## Auth.signOut
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { signOut } from 'aws-amplify/auth';
+
+-  Auth.signOut: (opts?: SignOutOpts) => Promise<any>;
++  signOut: (input?: SignOutInput) => Promise<void>;
+```
+
+## Auth.changePassword
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { updatePassword } from 'aws-amplify/auth';
+
+-  Auth.changePassword: (user: CognitoUser | any, oldPassword: string, newPassword: string, clientMetadata?: ClientMetaData) => Promise<'SUCCESS'>;
++  updatePassword: (input: UpdatePasswordInput) => Promise<void>;
+```
+
+## Auth.forgotPassword
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { resetPassword } from 'aws-amplify/auth';
+
+-  Auth.forgotPassword: (username: string, clientMetadata?: ClientMetaData) => Promise<any>;
++  resetPassword: (input: ResetPasswordInput) => Promise<ResetPasswordOutput>;
+```
+
+## Auth.forgotPasswordSubmit
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { confirmResetPassword } from 'aws-amplify/auth';
+
+-  Auth.forgotPasswordSubmit: (username: string, code: string, password: string, clientMetadata?: ClientMetaData) => Promise<string>;
++  confirmResetPassword: (input: ConfirmResetPasswordInput) => Promise<void>;
+```
+
+## Auth.currentUserInfo (DEPRECATED)
+
+This API has been deprecated: existing use cases can be migrated by using a combination of `getCurrentUser` and `fetchUserAttributes` APIs.
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { fetchUserAttributes, getCurrentUser } from 'aws-amplify/auth';
+
+-  Auth.currentUserInfo: () => Promise<any>;
++  getCurrentUser: () => Promise<GetCurrentUserOutput>;
++  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
+```
+
+## Auth.federatedSignIn
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { signInWithRedirect } from 'aws-amplify/auth';
+
+-  Auth.federatedSignIn: (providerOrOptions: LegacyProvider | FederatedSignInOptions | FederatedSignInOptionsCustom, response?: FederatedResponse, user?: FederatedUser) => Promise<ICredentials>;
++  signInWithRedirect: (input?: SignInWithRedirectInput) => Promise<void>;
+```
+
+## Auth.essentialCredentials (DEPRECATED)
+
+This API has been deprecated: existing use cases can be migrated to the `fetchAuthSession` API
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { fetchAuthSession } from 'aws-amplify/auth';
+
+-  Auth.essentialCredentials: (credentials) => ICredentials;
++  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
+```
+
+## Auth.rememberDevice
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { rememberDevice } from 'aws-amplify/auth';
+
+-  Auth.rememberDevice: () => Promise<string | AuthError>;
++  rememberDevice: () => Promise<void>;
+```
+
+## Auth.forgetDevice
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { forgetDevice } from 'aws-amplify/auth';
+
+-  Auth.forgetDevice: () => Promise<void>;
++  forgetDevice: (input?: ForgetDeviceInput) => Promise<void>;
 ```
