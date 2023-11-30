@@ -274,63 +274,109 @@ For a deeper look at v6 Auth functionality, check out our [Authentication catego
 
 <Accordion title='Analytics' headingLevel='4'>
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/analytics` path as shown below. Use the switcher below to see the differences between v5 and v6:
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/analytics` path as shown below. Red lines of code are v5 and Green ones are v6:
 
-<BlockSwitcher>
-<Block name="V5">
 
-```ts
-import { Analytics } from 'aws-amplify';
+```diff
+- import { Analytics } from 'aws-amplify';
++ import { enable, disable, record, configureAutoTrack } from 'aws-amplify/analytics';
 
-Analytics.record({
-  name: 'albumVisit',
-  attributes: {},
-  metrics: { minutesListened: 30 }
-});
+- Analytics.disable();
++ disable();
 
-Analytics.autoTrack('session', {
-  // REQUIRED, turn on/off the auto tracking
-  enable: true,
-  // OPTIONAL, the attributes of the event, you can either pass an object or a function
-  // which allows you to define dynamic attributes
-  attributes: {
-    attr: 'attr'
-  },
-  // OPTIONAL, the service provider, by default is the Amazon Pinpoint
-  provider: 'AWSPinpoint'
-});
+- Analytics.enable();
++ enable();
+
+- Analytics.record({
+-   name: 'albumVisit',
+-   attributes: {},
+-   metrics: { minutesListened: 30 }
+- });
+
++ record({
++   event: {
++     name: 'albumVisit',
++     attributes: { genre: '', artist: '' }
++   }
++ });
+
+- Analytics.autoTrack('session', {
+-   // REQUIRED, turn on/off the auto tracking
+-   enable: true,
+-   // OPTIONAL, the attributes of the event, you can either pass an object or a function
+-   // which allows you to define dynamic attributes
+-   attributes: {
+-     attr: 'attr'
+-   },
+-   // OPTIONAL, the service provider, by default is the Amazon Pinpoint
+-   provider: 'AWSPinpoint'
+- });
+
++ configureAutoTrack({
++   // REQUIRED, turn on/off the auto tracking
++   enable: true,
++   // REQUIRED, the event type, it's one of 'event', 'pageView' or 'session'
++   type: 'session',
++   // OPTIONAL, additional options for the tracked event.
++   options: {
++     // OPTIONAL, the attributes of the event
++     attributes: {
++       customizableField: 'attr'
++     }
++   }
++ });
 ```
-
-</Block>
-<Block name="V6">
+Additionally, you can identify an user with Analytics with this API, 
 
 ```ts
-import { record, configureAutoTrack } from 'aws-amplify/analytics';
+import { identifyUser } from 'aws-amplify/analytics';
+
+identifyUser({
+  userId: "<user-id>", // If the user was signed in through Amplify Auth's signIn method you can retrieve the current user's ID from there.
+  userProfile
+});
+
+```
+Further, you can stream analytics data to kinesis. To configure Kinesis with Amplify, refer to the [Installation and Cofiguration](https://docs.amplify.aws/react/build-a-backend/more-features/analytics/streaming-data/#installation-and-configuration) section of the docmentation. This is an example on how to stream and flush as needed, 
+
+```ts
+import { record, flushEvents } from 'aws-amplify/analytics/kinesis';
 
 record({
-  event: {
-    name: 'albumVisit',
-    attributes: { genre: '', artist: '' }
-  }
+  data: {
+    // The data blob to put into the record
+  },
+  partitionKey: 'myPartitionKey',
+  streamName: 'myKinesisStream'
 });
 
-configureAutoTrack({
-  // REQUIRED, turn on/off the auto tracking
-  enable: true,
-  // REQUIRED, the event type, it's one of 'event', 'pageView' or 'session'
-  type: 'session',
-  // OPTIONAL, additional options for the tracked event.
-  options: {
-    // OPTIONAL, the attributes of the event
-    attributes: {
-      customizableField: 'attr'
-    }
-  }
-});
+flushEvents();
 ```
+Finally, let's look at the difference in how to personlaize recomendations,
 
-</Block>
-</BlockSwitcher>
+```diff
+- import { Analytics, AmazonPersonalizeProvider } from 'aws-amplify';
+- Analytics.addPluggable(new AmazonPersonalizeProvider());
+
++ import { record } from 'aws-amplify/analytics/personalize';
+
+
+- Analytics.record({
+-     eventType: "Identify",
+-     properties: {
+-         "userId": "<USER_ID>"
+-     }
+- }, 'AmazonPersonalize');
+
++ record({
++   eventType: "Identify",
++   properties: {
++      userId: "<USER_ID>"
++   }
++ });
+
+```
+Notice that in v5, the `Analytics.record` API takes in a second parameter with the string value `AmazonPersonalize` whereas in v6, the `record` function is imported from the `aws-amplify/analytics/personalize` subpath and takes only one parameter. 
 
 For a deeper look at V6 Analytics functionality, check out our [Analytics category documentation](/[platform]/build-a-backend/more-features/analytics/).
 
@@ -523,45 +569,122 @@ For a deeper look at how the REST API functionality in V6, check out our [API (R
 
 <Accordion title='In App Messaging' headingLevel='4'>
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/in-app-messaging` path as shown below. Use the switcher below to see the differences between v5 and v6:
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/in-app-messaging` path as shown below. Red lines of code are v5 and Green ones are v6:
 
-<BlockSwitcher>
 
-<Block name="V5">
+```diff
+- import { Notifications } from 'aws-amplify';
 
-```
-import { Notifications } from 'aws-amplify';
++ import {
++   dispatchEvent,
++   initializeInAppMessaging,
++   syncMessages,
++   clearMessages,
++   setConflictHandler
++ } from 'aws-amplify/in-app-messaging';
 
-const { InAppMessaging } = Notifications;
-InAppMessaging.syncMessages();
+- const { InAppMessaging } = Notifications;
+- InAppMessaging.syncMessages();
+- InAppMessaging.setConflictHandler(myConflictHandler);
 
-const sendEvent = (eventName: string) => {
-  InAppMessaging.dispatchEvent({ name: eventName });
-}
-```
++ initializeInAppMessaging();
++ syncMessages();
++ setConflictHandler(myConflictHandler);
 
-</Block>
-
-<Block name="V6">
-
-```
-import {
-  dispatchEvent,
-  initializeInAppMessaging,
-  syncMessages
-} from 'aws-amplify/in-app-messaging';
-
-initializeInAppMessaging();
-syncMessages();
 
 const sendEvent = (eventName: string) => {
-  dispatchEvent({ name: eventName });
+-   InAppMessaging.dispatchEvent({ name: eventName });
++   dispatchEvent({ name: eventName });
 }
+
+- await InAppMessaging.clearMessages();
++ await clearMessages();
+
+```
+The input format of the `identifyUser` has slightly changed. The below table shows the differences in the input type.
+
+| Difference | v5 | v6 |
+| ---- | ---- | ----------- |
+| API input | userId, userInfo | userId, userProfile, options |
+| `attributes` property | `attributes` under `userInfo` | `customProperties` under `userProfile` |
+| `userAttributes` property | NA | `userAttributes` under `options` |
+| convenience properties | NA | `name`, `email`, `plan` under `userProfile` |
+
+```diff
+import { identifyUser } from 'aws-amplify/in-app-messaging';
+
+- const userInfo = {
+-   address: '' // E.g. A device token or email address
+-   optOut: ''  // Either ALL or NONE
+- };
+
++ const identifyUserInput = {
++   userId: '', // E.g. user-id
++   userProfile: {
++     email: '', // E.g. example@service.com
++     name: '', // E.g. name-of-the-user
++     plan: '' // E.g. plan-they-subscribe-to
++     customProperties: {
++       // E.g. hobbies: ['cooking', 'knitting'],
++     },
++   },
++   options: {
++     address: '' // E.g. A device token or email address
++     optOut: ''  // Either ALL or NONE
++     userAttributes: {
++       // E.g. interests: ['soccer', 'shoes'],
++     }
++   },
++ };
+
+- await InAppMessaging.identifyUser('some-user-id', userInfo);
++ await identifyUser(identifyUserInput);
+
+```
+Finally we look at the differences in responding to interactions events. 
+
+```diff
+- import { Notifications } from 'aws-amplify';
+
++ import {
++   initializeInAppMessaging,
++   onMessageReceived,
++   onMessageDisplayed,
++   onMessageDismissed,
++   onMessageActionTaken,
++ } from 'aws-amplify/in-app-messaging';
+
+- const { InAppMessaging } = Notifications;
+- InAppMessaging.syncMessages();
+
++ initializeInAppMessaging();
+
+const myMessageReceivedHandler = (message) => {
+  // Do something with the received message
+};
+const myMessageDisplayedHandler = (message) => {
+  // Do something with the displayed message
+};
+const myMessageDismissedHandler = (message) => {
+  // Do something with the dismissed message
+};
+const myMessageActionTakenHandler = (message) => {
+  // Do something with the message action was taken against
+};
+
+- InAppMessaging.onMessageReceived(myMessageReceivedHandler);
++ onMessageReceived(myMessageReceivedHandler);
+
+- InAppMessaging.onMessageDisplayed(myMessageDisplayedHandler);
++ onMessageDisplayed(myMessageDisplayedHandler);
+
+- InAppMessaging.onMessageDismissed(myMessageDismissedHandler);
++ onMessageDismissed(myMessageDismissedHandler);
+
+- InAppMessaging.onMessageActionTaken(myMessageActionTakenHandler);
++ onMessageActionTaken(myMessageActionTakenHandler);
 ```
 
-</Block>
-
-</BlockSwitcher>
 
 For a deeper look at In App Messaging functionality in v6, check out our [In App Messaging category documentation](/[platform]/build-a-backend/more-features/in-app-messaging/).
 
