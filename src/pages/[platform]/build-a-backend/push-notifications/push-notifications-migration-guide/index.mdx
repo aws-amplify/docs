@@ -1,0 +1,160 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate from v5 to v6',
+  description: '',
+  platforms: ['react-native', 'flutter', 'swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## Initialize, request permissions, and receive device tokens
+
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/push-notifications` path as shown in the code block. You can also see the differences in APIs for initializing push notifications, asking for the permission or it's status and finally how to obtain the device token. 
+
+Note: Red lines of code are v5 and Green lines are v6.
+
+```diff
+
+- import { Notifications } from 'aws-amplify';
+
++ import {
++   initializePushNotifications,
++   getPermissionStatus,
++   requestPermissions,
++   onTokenReceived,
++ } from 'aws-amplify/push-notifications';
+
+import { Amplify } from 'aws-amplify';
+import awsconfig from './src/aws-exports';
+
+Amplify.configure(awsconfig);
+
+- Notifications.Push.enable();
++ initializePushNotifications();
+
+- const status = await Notifications.Push.getPermissionStatus();
++ const status = await getPermissionStatus();
+
+const permissions = {
+  // permissions are true by default
+  // alert: true
+  sound: false,
+  badge: false
+};
+
+- const result = await Notifications.Push.requestPermissions(permissions);
++ const arePermissionsGranted = await requestPermissions(permissions);
+
+const myTokenReceivedHandler = (token) => {
+  // Do something with the received token
+};
+
+- Notifications.Push.onTokenReceived(myTokenReceivedHandler);
++ onTokenReceived(myTokenReceivedHandler);
+
+```
+
+## Interaction with notifications
+APIs related to interaction with notifications remains largely the same expect the functional approach in using them.
+
+```diff
+- import { Notifications } from 'aws-amplify';
+
++ import {
++   initializePushNotifications,
++   onNotificationReceivedInBackground,
++   onNotificationReceivedInForeground,
++   onNotificationOpened,
++   getLaunchNotification,
++ } from 'aws-amplify/push-notifications';
+
+Amplify.configure(config);
+
+- Notifications.Push.enable();
++ initializePushNotifications();
+
+// Note: This handler does not *need* to be async, but it can be!
+const myAsyncNotificationReceivedHandler = async (notification) => {
+  // Process the received push notification message in the background
+};
+
+// It is recommended that you add this before registering your app component.
+// You also shouldn't need to remove this listener if it is added here.
+- Notifications.Push.onNotificationReceivedInBackground(myAsyncNotificationReceivedHandler);
++ onNotificationReceivedInBackground(myAsyncNotificationReceivedHandler);
+
+AppRegistry.registerComponent(appName, () => App);
+
+const myNotificationReceivedHandler = (notification) => {
+  // Respond to the received push notification message in realtime
+};
+
+- const listener = Notifications.Push.onNotificationReceivedInForeground(
+-   myNotificationReceivedHandler
+- );
+
++ const listener = onNotificationReceivedInForeground(
++   myNotificationReceivedHandler
++ );
+
+const myNotificationOpenedHandler = (notification) => {
+  // Take further action with the opened push notification message
+};
+
+- const listener = Notifications.Push.onNotificationOpened(
+-   myNotificationOpenedHandler
+- );
+
++ const listener = onNotificationOpened(
++   myNotificationOpenedHandler
++ );
+
+- await Notifications.Push.getLaunchNotification();
++ const launchNotification = await getLaunchNotification();
+
+```
+## IdentityUser
+
+Differences in identifying a user is as shown below. The input type change is identical to the changes made for the `identifyUser` of the In App Messaging category mentioned in its section.
+
+```diff
+- import { Notifications } from 'aws-amplify';
++ import { identifyUser } from 'aws-amplify/push-notifications';
+
+- await Notifications.Push.identifyUser(userId, userInfo);
++ await identifyUser(identifyUserInput);
+```
+
+## Badge count customization
+Badge count management on iOS has the following changes, 
+```diff
+- import { Notifications } from 'aws-amplify';
+
++ import {
++   getBadgeCount,
++   GetBadgeCountOutput,
++   setBadgeCount,
++   SetBadgeCountInput
++ } from 'aws-amplify/push-notifications';
+
+- const count = await Notifications.Push.getBadgeCount();
++ const count: GetBadgeCountOutput = await getBadgeCount();
+
+const count: SetBadgeCountInput = 42;
+
+- Notifications.Push.setBadgeCount(count);
++ setBadgeCount(count);
+
+```

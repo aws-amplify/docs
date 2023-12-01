@@ -436,7 +436,10 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/set-up-push-service/index.mdx'
-                }
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/push-notifications/push-notifications-migration-guide/index.mdx'
+                },
               ]
             },
             {
@@ -532,6 +535,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/analytics/sdk/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/analytics/analytics-migration-guide/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
@@ -652,7 +658,10 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/resolve-conflicts/index.mdx'
-                    }
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/in-app-messaging-migration-guide/index.mdx'
+                    },
                   ]
                 },
                 {
