@@ -35,6 +35,7 @@ export const MDXCode = ({
   codeString,
   language = 'js',
   showLineNumbers = true,
+  testHeaderId,
   testId,
   title
 }: MDXCodeProps) => {
@@ -67,7 +68,7 @@ export const MDXCode = ({
           </div>
           <View className="pre-container">
             {shouldShowHeader ? (
-              <Flex className="pre-header">
+              <Flex className="pre-header" data-testid={testHeaderId}>
                 {title ? (
                   <View className="pre-title" id={titleId}>
                     {title}
@@ -81,8 +82,8 @@ export const MDXCode = ({
                       disabled={copied}
                       className="code-copy"
                     >
-                      <VisuallyHidden>Copy example code</VisuallyHidden>
                       {copied ? 'Copied!' : 'Copy'}
+                      <VisuallyHidden>code {title} example</VisuallyHidden>
                     </Button>
                   </CopyToClipboard>
                 ) : null}

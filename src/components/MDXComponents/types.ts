@@ -29,6 +29,11 @@ export interface MDXCodeProps {
   showLineNumbers?: boolean;
 
   /**
+   * @desc header id for testing
+   */
+  testHeaderId?: string;
+
+  /**
    * @desc id for testing
    */
   testId?: string;
