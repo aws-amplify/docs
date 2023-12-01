@@ -42,7 +42,7 @@ export function getStaticProps(context) {
 +  import { confirmSignUp } from 'aws-amplify/auth';
 
 -  Auth.confirmSignUp: (username: string, code: string, options?: ConfirmSignUpOptions) => Promise<any>;
-+  signUp: (input: SignUpInput) => Promise<SignUpOutput>;
++  confirmSignUp: (input: SignUpInput) => Promise<SignUpOutput>;
 ```
 
 ## Auth.resendSignUp
@@ -66,6 +66,8 @@ export function getStaticProps(context) {
 ```
 
 ## Auth.federatedSignIn
+
+**NOTE:** The usage of `federatedSignIn` with Identity Pools is deprecated. If you are using an Identity Pool for authentication, please follow [this guide](/[platform]/build-a-backend/auth/advanced-workflows/#identity-pool-federation).
 
 ```diff
 -  import { Auth } from 'aws-amplify';
@@ -247,7 +249,6 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 -  Auth.currentSession: () => Promise<CognitoUserSession>;
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
-
 
 ## Auth.userSession
 
