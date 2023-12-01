@@ -407,7 +407,7 @@ After configuring the OAuth endpoints (with Cognito Hosted UI), you can integrat
 
 A custom state is not required, but if you are looking to add one, you are able to do so by passing a string value (e.g. `signInWithRedirect({ customState: 'xyz' })`) and listening for the custom state via [Hub](/[platform]/build-a-backend/utilities/hub/). You can also use the Hub eventing system to catch errors using `signInWithRedirect()` to listen for the `signInWithRedirect_failure` event.
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["react"]}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -904,6 +904,20 @@ function App() {
 </Accordion>
 
 </InlineFilter>
+
+### Custom Providers
+
+When using custom providers that are not provided by default in Cognito, you can pass an object to the `provider` object with the name of your custom provider.
+
+```javascript
+import { signInWithRedirect } from 'aws-amplify/auth';
+
+const provider = {
+  custom: 'MyCustomOIDCProvider'
+}
+
+<button onClick={() => signInWithRedirect({ provider })}> MyCustomOIDCProvider</button>
+```
 
 ### Deploy your backend environment with auth parameters for social sign-in
 
