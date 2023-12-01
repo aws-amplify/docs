@@ -186,6 +186,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/under-the-hood/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/auth-migration-guide/index.mdx'
                 }
               ]
             },
