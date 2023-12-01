@@ -239,17 +239,20 @@ This API has been deprecated: existing use cases can be migrated to the `fetchUs
 
 ## Auth.currentAuthenticatedUser (DEPRECATED)
 
-This API has been deprecated: existing use cases can be migrated to the `getCurrentUser` API
+This API has been deprecated: existing use cases can be migrated to a combination of the `getCurrentUser` and `fetchAuthSession` API's.
 
 ```diff
 -  import { Auth } from 'aws-amplify';
-+  import { getCurrentUser } from 'aws-amplify/auth';
++  import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
 
 -  Auth.currentAuthenticatedUser: (params?: CurrentUserOpts) => Promise<CognitoUser | any>;
 +  getCurrentUser: () => Promise<GetCurrentUserOutput>;
++  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
 ## Auth.currentUserPoolUser (DEPRECATED)
+
+This API has been deprecated: existing use cases can be migrated to a combination of the `getCurrentUser` and `fetchAuthSession` API's.
 
 ```diff
 -  import { Auth } from 'aws-amplify';
@@ -280,7 +283,9 @@ This API has been deprecated: existing use cases can be migrated to the `getCurr
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-## Auth.currentUserCredentials
+## Auth.currentUserCredentials (DEPRECATED)
+
+This API has been deprecated: existing use cases can be migrated to the `fetchAuthSession` API. You can find expiration under `output.credentials`. `fetchAuthSession` will throw an error if there is no authenticated user.
 
 ```diff
 -  import { Auth } from 'aws-amplify';
@@ -290,7 +295,10 @@ This API has been deprecated: existing use cases can be migrated to the `getCurr
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-## Auth.currentCredentials
+
+## Auth.currentCredentials  (DEPRECATED)
+
+This API has been deprecated: existing use cases can be migrated to the `fetchAuthSession` API. You can find expiration under `output.credentials`. `fetchAuthSession` will throw an error if there is no authenticated user.
 
 ```diff
 -  import { Auth } from 'aws-amplify';
