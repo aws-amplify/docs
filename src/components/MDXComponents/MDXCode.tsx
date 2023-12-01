@@ -58,14 +58,9 @@ export const MDXCode = ({
   }, []);
 
   return (
-    <Highlight
-      theme={theme}
-      code={code}
-      language={language}
-      data-testId={testId}
-    >
+    <Highlight theme={theme} code={code} language={language}>
       {({ style, tokens, getLineProps, getTokenProps }) => (
-        <View>
+        <View data-testid={testId}>
           <div style={{ display: 'none' }}>
             {/* searchable code \ */}
             {codeString}

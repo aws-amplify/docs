@@ -97,34 +97,6 @@
     "aws-cdk-lib": "2.80.0",
     "prismjs": "^1.27.0"
   },
-  "jest": {
-    "preset": "./preset.js",
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "transform": {
-      "^.+\\.(ts|tsx|js|mjs)$": [
-        "babel-jest",
-        {
-          "presets": [
-            "next/babel"
-          ]
-        }
-      ]
-    },
-    "testPathIgnorePatterns": [
-      "capi",
-      ".next",
-      "client"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/jest.setup.js"
-    ],
-    "moduleNameMapper": {
-      "\\.(css|less|scss)$": "<rootDir>/src/__mocks__/styleMock.js"
-    },
-    "transformIgnorePatterns": []
-  },
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
     "refresh": "yarn clean && yarn",

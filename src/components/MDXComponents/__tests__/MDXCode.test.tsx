@@ -27,9 +27,22 @@ describe('MDXCode', () => {
         <MDXCode testId="mdxCode" codeString={codeString}></MDXCode>
       </div>
     );
-
     const codeBlock = await screen.findByTestId('mdxCode');
+    expect(codeBlock).toBeInTheDocument();
+  });
 
+  it('can render MDXCode with a title', async () => {
+    const title = 'src/app.tsx';
+    render(
+      <div>
+        <MDXCode
+          testId="mdxCode"
+          title={title}
+          codeString={codeString}
+        ></MDXCode>
+      </div>
+    );
+    const codeBlock = await screen.findByTestId('mdxCode');
     expect(codeBlock).toBeInTheDocument();
   });
 });
