@@ -65,6 +65,16 @@ export function getStaticProps(context) {
 +  signIn: (input: SignInInput) => Promise<SignInOutput>;
 ```
 
+## Auth.federatedSignIn
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { signInWithRedirect } from 'aws-amplify/auth';
+
+-  Auth.federatedSignIn: (providerOrOptions: LegacyProvider | FederatedSignInOptions | FederatedSignInOptionsCustom, response?: FederatedResponse, user?: FederatedUser) => Promise<ICredentials>;
++  signInWithRedirect: (input?: SignInWithRedirectInput) => Promise<void>;
+```
+
 ## Auth.getMFAOptions (DEPRECATED)
 
 This API has been deprecated and results apply only to SMS MFA configurations: existing use cases can be migrated to `fetchMFAPreference`, which will apply to both SMS and TOTP configurations
@@ -227,23 +237,25 @@ This API has been deprecated: existing use cases can be migrated to the `fetchUs
 +  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
 ```
 
-## Auth.currentUserPoolUser
+## Auth.currentAuthenticatedUser (DEPRECATED)
 
-```diff
--  import { Auth } from 'aws-amplify';
-+  import { getCurrentUser } from 'aws-amplify/auth';
-
--  Auth.currentUserPoolUser: (params?: CurrentUserOpts) => Promise<CognitoUser | any>;
-+  getCurrentUser: () => Promise<GetCurrentUserOutput>;
-```
-
-## Auth.currentAuthenticatedUser
+This API has been deprecated: existing use cases can be migrated to the `getCurrentUser` API
 
 ```diff
 -  import { Auth } from 'aws-amplify';
 +  import { getCurrentUser } from 'aws-amplify/auth';
 
 -  Auth.currentAuthenticatedUser: (params?: CurrentUserOpts) => Promise<CognitoUser | any>;
++  getCurrentUser: () => Promise<GetCurrentUserOutput>;
+```
+
+## Auth.currentUserPoolUser (DEPRECATED)
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { getCurrentUser } from 'aws-amplify/auth';
+
+-  Auth.currentUserPoolUser: (params?: CurrentUserOpts) => Promise<CognitoUser | any>;
 +  getCurrentUser: () => Promise<GetCurrentUserOutput>;
 ```
 
@@ -256,6 +268,7 @@ This API has been deprecated: existing use cases can be migrated to the `fetchUs
 -  Auth.currentSession: () => Promise<CognitoUserSession>;
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
+
 
 ## Auth.userSession
 
@@ -378,16 +391,6 @@ This API has been deprecated: existing use cases can be migrated by using a comb
 -  Auth.currentUserInfo: () => Promise<any>;
 +  getCurrentUser: () => Promise<GetCurrentUserOutput>;
 +  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
-```
-
-## Auth.federatedSignIn
-
-```diff
--  import { Auth } from 'aws-amplify';
-+  import { signInWithRedirect } from 'aws-amplify/auth';
-
--  Auth.federatedSignIn: (providerOrOptions: LegacyProvider | FederatedSignInOptions | FederatedSignInOptionsCustom, response?: FederatedResponse, user?: FederatedUser) => Promise<ICredentials>;
-+  signInWithRedirect: (input?: SignInWithRedirectInput) => Promise<void>;
 ```
 
 ## Auth.essentialCredentials (DEPRECATED)
