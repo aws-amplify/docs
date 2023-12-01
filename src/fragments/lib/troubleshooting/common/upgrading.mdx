@@ -274,8 +274,9 @@ For a deeper look at v6 Auth functionality, check out our [Authentication catego
 
 <Accordion title='Analytics' headingLevel='4'>
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/analytics` path as shown below. Red lines of code are v5 and Green ones are v6:
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/analytics` path as shown below. 
 
+Note: Red lines of code are v5 and Green lines are v6.
 
 ```diff
 - import { Analytics } from 'aws-amplify';
@@ -326,7 +327,7 @@ As of v6 of Amplify, you will now import the functional API’s directly from th
 +   }
 + });
 ```
-Additionally, you can identify an user with Analytics with this API, 
+Additionally, you can identify an user with Analytics with `identifyUser` API, 
 
 ```ts
 import { identifyUser } from 'aws-amplify/analytics';
@@ -337,7 +338,7 @@ identifyUser({
 });
 
 ```
-Further, you can stream analytics data to kinesis. To configure Kinesis with Amplify, refer to the [Installation and Cofiguration](https://docs.amplify.aws/react/build-a-backend/more-features/analytics/streaming-data/#installation-and-configuration) section of the docmentation. This is an example on how to stream and flush as needed, 
+Further, you can stream analytics data to Kinesis. To configure Kinesis with Amplify, refer to the [Installation and Configuration](https://docs.amplify.aws/react/build-a-backend/more-features/analytics/streaming-data/#installation-and-configuration) section of the documentation. This is an example on how to stream data and flush events as needed, 
 
 ```ts
 import { record, flushEvents } from 'aws-amplify/analytics/kinesis';
@@ -352,7 +353,7 @@ record({
 
 flushEvents();
 ```
-Finally, let's look at the difference in how to personlaize recomendations,
+Finally, let's look at the difference in how to personalize recommendations,
 
 ```diff
 - import { Analytics, AmazonPersonalizeProvider } from 'aws-amplify';
@@ -569,8 +570,9 @@ For a deeper look at how the REST API functionality in V6, check out our [API (R
 
 <Accordion title='In App Messaging' headingLevel='4'>
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/in-app-messaging` path as shown below. Red lines of code are v5 and Green ones are v6:
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/in-app-messaging` path as shown below. 
 
+Note: Red lines of code are v5 and Green lines are v6.
 
 ```diff
 - import { Notifications } from 'aws-amplify';
@@ -605,8 +607,8 @@ The input format of the `identifyUser` has slightly changed. The below table sho
 
 | Difference | v5 | v6 |
 | ---- | ---- | ----------- |
-| API input | userId, userInfo | userId, userProfile, options |
-| `attributes` property | `attributes` under `userInfo` | `customProperties` under `userProfile` |
+| API input | Two separate parameters -- `userId`, `userInfo` | Single object containing `userId`, `userProfile`, `options` |
+| `attributes` property | `attributes` under `userInfo` | changed to `customProperties` under `userProfile` |
 | `userAttributes` property | NA | `userAttributes` under `options` |
 | convenience properties | NA | `name`, `email`, `plan` under `userProfile` |
 
@@ -687,6 +689,152 @@ const myMessageActionTakenHandler = (message) => {
 
 
 For a deeper look at In App Messaging functionality in v6, check out our [In App Messaging category documentation](/[platform]/build-a-backend/more-features/in-app-messaging/).
+
+</Accordion>
+
+<Accordion title='Push Notifications' headingLevel='4'>
+As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/push-notifications` path as shown in the code block. You can also see the differences in APIs for initializing push notifications, asking for the permission or it's status and finally how to obtain the device token. 
+
+Note: Red lines of code are v5 and Green lines are v6.
+
+```diff
+
+- import { Notifications } from 'aws-amplify';
+
++ import {
++   initializePushNotifications,
++   getPermissionStatus,
++   GetPermissionStatusOutput,
++   requestPermissions,
++   RequestPermissionsInput,
++   onTokenReceived,
++   OnTokenReceivedInput,
++   OnTokenReceivedOutput
++ } from 'aws-amplify/push-notifications';
+
+import { Amplify } from 'aws-amplify';
+import awsconfig from './src/aws-exports';
+
+Amplify.configure(awsconfig);
+
+- Notifications.Push.enable();
++ initializePushNotifications();
+
+- const status = await Notifications.Push.getPermissionStatus();
++ const status: GetPermissionStatusOutput = await getPermissionStatus();
+
+const permissions: RequestPermissionsInput = {
+  // permissions are true by default
+  // alert: true
+  sound: false,
+  badge: false
+};
+
+- const result = await Notifications.Push.requestPermissions(permissions);
++ const arePermissionsGranted = await requestPermissions(permissions);
+
+const myTokenReceivedHandler: OnTokenReceivedInput = (token) => {
+  // Do something with the received token
+};
+
+- Notifications.Push.onTokenReceived(myTokenReceivedHandler);
++ onTokenReceived(myTokenReceivedHandler);
+
+```
+
+APIs related to interaction with notifications remains largely the same expect the functional approach in using them.
+
+```diff
+- import { Notifications } from 'aws-amplify';
+
++ import {
++   initializePushNotifications,
++   onNotificationReceivedInBackground,
++   onNotificationReceivedInForeground,
++   OnNotificationReceivedInForegroundOutput,
++   onNotificationOpened,
++   OnNotificationOpenedInput,
++   OnNotificationOpenedOutput,
++   getLaunchNotification,
++   GetLaunchNotificationOutput
++ } from 'aws-amplify/push-notifications';
+
+Amplify.configure(config);
+
+- Notifications.Push.enable();
++ initializePushNotifications();
+
+// Note: This handler does not *need* to be async, but it can be!
+const myAsyncNotificationReceivedHandler = async (notification) => {
+  // Process the received push notification message in the background
+};
+
+// It is recommended that you add this before registering your app component.
+// You also shouldn't need to remove this listener if it is added here.
+- Notifications.Push.onNotificationReceivedInBackground(myAsyncNotificationReceivedHandler);
++ onNotificationReceivedInBackground(myAsyncNotificationReceivedHandler);
+
+AppRegistry.registerComponent(appName, () => App);
+
+const myNotificationReceivedHandler = (notification) => {
+  // Respond to the received push notification message in realtime
+};
+
+- const listener = Notifications.Push.onNotificationReceivedInForeground(
+-   myNotificationReceivedHandler
+- );
+
++ const listener: OnNotificationReceivedInForegroundOutput = onNotificationReceivedInForeground(
++   myNotificationReceivedHandler
++ );
+
+const myNotificationOpenedHandler = (notification) => {
+  // Take further action with the opened push notification message
+};
+
+- const listener = Notifications.Push.onNotificationOpened(
+-   myNotificationOpenedHandler
+- );
+
++ const listener: OnNotificationOpenedOutput = onNotificationOpened(
++   myNotificationOpenedHandler
++ );
+
+- await Notifications.Push.getLaunchNotification();
++ const launchNotification: GetLaunchNotificationOutput = await getLaunchNotification();
+
+```
+Differences in identifying a user is as shown below. The input type change is identical to the changes made for the `identifyUser` of the In App Messaging category mentioned in its section.
+
+```diff
+- import { Notifications } from 'aws-amplify';
++ import { identifyUser } from 'aws-amplify/push-notifications';
+
+- await Notifications.Push.identifyUser(userId, userInfo);
++ await identifyUser(identifyUserInput);
+```
+Badge count management on iOS has the following changes, 
+```diff
+- import { Notifications } from 'aws-amplify';
+
++ import {
++   getBadgeCount,
++   GetBadgeCountOutput,
++   setBadgeCount,
++   SetBadgeCountInput
++ } from 'aws-amplify/push-notifications';
+
+- const count = await Notifications.Push.getBadgeCount();
++ const count: GetBadgeCountOutput = await getBadgeCount();
+
+const count: SetBadgeCountInput = 42;
+
+- Notifications.Push.setBadgeCount(count);
++ setBadgeCount(count);
+
+```
+
+For a deeper look at Push Notifications functionality in v6, check out our [Push Notifications category documentation](/[platform]/build-a-backend/push-notifications/).
 
 </Accordion>
 
