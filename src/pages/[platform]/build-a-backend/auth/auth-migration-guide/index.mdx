@@ -163,16 +163,6 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 +  fetchMFAPreference: () => Promise<FetchMFAPreferenceOutput>
 ```
 
-## Auth.deleteUserAttributes
-
-```diff
--  import { Auth } from 'aws-amplify';
-+  import { deleteUserAttributes } from 'aws-amplify/auth';
-
--  Auth.deleteUserAttributes: (user: CognitoUser | any, attributeNames: string[]) => Promise<any>;
-+  deleteUserAttributes: (input: DeleteUserAttributesInput) => Promise<void>;
-```
-
 ## Auth.deleteUser
 
 ```diff
@@ -181,6 +171,16 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
 -  Auth.deleteUser: () => Promise<string | void>;
 +  deleteUser: () => Promise<void>;
+```
+
+## Auth.deleteUserAttributes
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { deleteUserAttributes } from 'aws-amplify/auth';
+
+-  Auth.deleteUserAttributes: (user: CognitoUser | any, attributeNames: string[]) => Promise<any>;
++  deleteUserAttributes: (input: DeleteUserAttributesInput) => Promise<void>;
 ```
 
 ## Auth.updateUserAttributes
