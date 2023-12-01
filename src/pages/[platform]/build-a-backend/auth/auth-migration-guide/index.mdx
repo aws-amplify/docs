@@ -238,6 +238,7 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 -  Auth.currentUserPoolUser: (params?: CurrentUserOpts) => Promise<CognitoUser | any>;
 +  getCurrentUser: () => Promise<GetCurrentUserOutput>;
++  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
 ## Auth.currentSession
