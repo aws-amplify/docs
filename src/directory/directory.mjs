@@ -459,6 +459,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nuxt/index.mdx'
                 }
               ]
             },
