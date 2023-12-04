@@ -3,13 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Migrate from v5 to v6',
   description: '',
-  platforms: [
-    'angular',
-    'javascript',
-    'nextjs',
-    'react',
-    'vue'
-  ]
+  platforms: ['angular', 'javascript', 'nextjs', 'react', 'vue']
 };
 
 export const getStaticPaths = async () => {
@@ -35,6 +29,320 @@ export function getStaticProps(context) {
 +  signUp: (input: SignUpInput) => Promise<SignUpOutput>;
 ```
 
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    // Standard
+    params: SignUpParams {
+      username: string;
+      password: string;
+      attributes?: object;
+      validationData?: { [key: string]: any };
+      clientMetadata?: { [key: string]: string; };
+      autoSignIn?: {
+        enabled: boolean;
+        clientMetaData?: { [key: string]: string; };
+        validationData?: { [key: string]: any };
+      };
+    }
+
+    // Legacy
+    username: string
+    password: string
+    email: string
+    phone_number: string
+    ```
+
+  </div>
+  <div>
+    ```
+    input: SignUpInput {
+      username: string;
+      password: string;
+      options?: {
+        userAttributes?: { [key: string]?: string; }
+        validationData?: { [key: string]: string; };
+        clientMetadata?: { [key: string]: string; };
+        autoSignIn?: boolean | {
+          authFlowType?:
+            | 'USER_SRP_AUTH'
+            | 'CUSTOM_WITH_SRP'
+            | 'CUSTOM_WITHOUT_SRP'
+            | 'USER_PASSWORD_AUTH';
+          clientMetadata?: { [key: string]: string; };
+        };
+      };
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    ISignUpResult {
+      user: CognitoUser;
+      userConfirmed: boolean;
+      userSub: string;
+      codeDeliveryDetails: {
+        AttributeName: string;
+        DeliveryMedium: string;
+        Destination: string;
+      };
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    SignUpOutput {
+      isSignUpComplete: boolean;
+      userId?: string;
+      nextStep: {
+        signUpStep:
+          | 'DONE'
+          | 'CONFIRM_SIGN_UP'
+          | 'COMPLETE_AUTO_SIGN_IN',
+        codeDeliveryDetails: { // Not included when signUpStep is 'DONE'
+          `destination``?:`` ``string``;`
+          `deliveryMedium``?:`` 'EMAIL' | 'SMS' | 'PHONE' | 'UNKNOWN'``;`
+          `attributeName``?:`` ``UserAttributeKey``;`
+    `    ``}`
+      };
+    }
+    ```
+  
+  </div>
+</Columns>
+
+### Example 1 (Standard)
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleSignUp = async ({
+      username,
+      password,
+      email,
+      phone_number,
+      validationData
+    }) => {
+        const { user } = await Auth.signUp({
+          username,
+          password,
+          attributes: {
+            email,
+            phone_number
+          },
+          validationData
+        });
+    }
+    ```
+
+    </div>
+    <div>
+      ```
+      import { signUp } from 'aws-amplify/auth';
+
+      const handleSignUp = async ({
+        username,
+        password,
+        email,
+        phone_number,
+        validationData
+      }) => {
+        const {
+          isSignUpComplete,
+          userId,
+          nextStep
+        } = await signUp({
+          username,
+          password,
+          options: {
+            userAttributes: {
+              email,
+              phone_number
+            },
+            validationData
+          }
+        });
+      }
+      ```
+
+    </div>
+
+</Columns>
+
+### Example 2 (Auto Sign-in)
+
+NOTE: autoSignIn is no longer triggered automatically in v6
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth, Hub } from 'aws-amplify';
+
+    // 1. Add listener for autoSignIn event
+    Hub.listen('auth', ({ payload }) => {
+      const { event } = payload;
+      if (event === 'autoSignIn') {
+        const confirmedUser = payload.data;
+      } else if (event === 'autoSignIn_failure') {
+        // redirect to sign in page
+      }
+    });
+
+    // 2. Sign Up with autoSignIn enabled
+    const handleSignUp = async ({
+      username,
+      password,
+      email,
+      phone_number,
+      validationData
+    }) => {
+      const { user } = await Auth.signUp({
+        username,
+        password,
+        attributes: {
+          email,
+          phone_number
+        },
+        validationData,
+        autoSignIn: {
+          enabled: true
+        }
+      });
+    }
+
+    // 3. Confirm Sign Up - this will trigger autoSignIn
+    const handleConfirmSignUp = async ({
+      username,
+      confirmationCode
+    }) {
+      await Auth.confirmSignUp(username, confirmationCode);
+    }
+
+    ```
+
+  </div>
+  <div>
+    ```
+    import {
+      autoSignIn,
+      confirmSignUp,
+      signUp
+    } from 'aws-amplify/auth';
+
+    // 1. Sign Up with autoSignIn enabled
+    const handleSignUp = async ({
+      username,
+      password,
+      email,
+      phone_number,
+      validationData
+    }) => {
+      const {
+        isSignUpComplete,
+        userId,
+        nextStep
+      } = await signUp({
+        username,
+        password,
+        options: {
+          userAttributes: {
+            email,
+            phone_number
+          },
+          validationData
+        },
+        autoSignIn: true
+      });
+    }
+
+    // 2. Confirm Sign Up
+    const handleConfirmSignUp = async ({
+      username,
+      confirmationCode
+    }) => {
+      const {
+        isSignUpComplete,
+        userId,
+        nextStep
+      } = await confirmSignUp({
+        username,
+        confirmationCode
+      });
+
+      // 3. Trigger autoSignIn event - will not be triggered automatically
+      const { isSignedIn } = await autoSignIn();
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example 3 (Legacy)
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleSignUp = async ({
+      username,
+      password,
+      email,
+      phone_number,
+      validationData
+    }) => {
+      const { user } = await Auth.signUp(
+        username,
+        password,
+        email,
+        phone_number
+      );
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { signUp } from 'aws-amplify/auth';
+
+    const handleSignUp = async ({
+      username,
+      password,
+      email,
+      phone_number,
+      validationData
+    }) => {
+      const {
+        isSignUpComplete,
+        userId,
+        nextStep
+      } = await signUp({
+        username,
+        password,
+        options: {
+          userAttributes: {
+            email,
+            phone_number
+          }
+        }
+      });
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.confirmSignUp
 
 ```diff
@@ -42,8 +350,161 @@ export function getStaticProps(context) {
 +  import { confirmSignUp } from 'aws-amplify/auth';
 
 -  Auth.confirmSignUp: (username: string, code: string, options?: ConfirmSignUpOptions) => Promise<any>;
-+  confirmSignUp: (input: SignUpInput) => Promise<SignUpOutput>;
++  confirmSignUp: (input: ConfirmSignUpInput) => Promise<ConfirmSignUpOutput>;
 ```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    username: string
+    code: string
+    options?: ConfirmSignUpOptions {
+        forceAliasCreation?: boolean;
+        clientMetadata?: { [key: string]: string; };
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    input: ConfirmSignUpInput = {
+        username: string;
+        confirmationCode: string;
+        options?: {
+            clientMetadata?: { [key: string]: string; };
+            forceAliasCreation?: boolean;
+        };
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    `'SUCCESS'
+    `
+    ```
+
+  </div>
+  <div>
+    ```
+    type ConfirmSignUpOutput = {
+        isSignUpComplete: boolean;
+        userId?: string | undefined;
+        nextStep: {
+            signUpStep:
+                | 'DONE'
+                | 'CONFIRM_SIGN_UP'
+                | 'COMPLETE_AUTO_SIGN_IN',
+            codeDeliveryDetails: { // Not included when signUpStep is 'DONE'
+                destination?: string;
+                deliveryMedium?: 'EMAIL' | 'SMS' | 'PHONE' | 'UNKNOWN';
+                attributeName?: UserAttributeKey;
+            }
+        };
+    }
+    ```
+  
+  </div>
+</Columns>
+
+### Example 1 (Standard)
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleConfirmSignUp = async ({
+      username,
+      confirmationCode
+    }) {
+      await Auth.confirmSignUp(
+        username,
+        confirmationCode
+      );
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { confirmSignUp } from 'aws-amplify/auth';
+
+    const handleConfirmSignUp = async ({
+      username,
+      confirmationCode
+    }) {
+      const {
+        isSignUpComplete,
+        userId,
+        nextStep
+      } = await confirmSignUp({
+        username,
+        confirmationCode
+      });
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example 2 (Force Alias Creation - defaults to true)
+
+Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` by default in v6
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleConfirmSignUp = async ({
+      username,
+      confirmationCode
+    }) {
+      await Auth.confirmSignUp(
+        username,
+        confirmationCode,
+        options: {
+          // default true
+          forceAliasCreation: false
+        }
+      );
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { confirmSignUp } from 'aws-amplify/auth';
+
+    const handleConfirmSignUp = async ({
+      username,
+      confirmationCode
+    }) {
+      const {
+        isSignUpComplete,
+        userId,
+        nextStep
+      } = await confirmSignUp({
+        username,
+        confirmationCode,
+        options: {
+          // default falsy (undefined)
+          forceAliasCreation: true
+        }
+      });
+    }
+    ```
+
+  </div>
+</Columns>
 
 ## Auth.resendSignUp
 
@@ -55,6 +516,81 @@ export function getStaticProps(context) {
 +  resendSignUpCode: (input: ResendSignUpCodeInput) => Promise<ResendSignUpCodeOutput>;
 ```
 
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    username: string
+    clientMetadata?: ClientMetaData {
+      [key: string]: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    input: ResendSignUpCodeInput {
+        username: string;
+        options?: {
+            clientMetadata?: { [key: string]: string; };
+        };
+    }
+    ```
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    {
+      CodeDeliveryDetails: {
+          AttributeName: string,
+          DeliveryMedium: string,
+          Destination: string
+      }
+    }
+    ```
+  
+  </div>
+  <div>
+    ```
+    ResendSignUpCodeOutput {
+        destination?: string;
+        deliveryMedium?: 'EMAIL' | 'SMS' | 'PHONE' | 'UNKNOWN';
+        attributeName?: AuthVerifiableAttributeKey;
+    }
+    ```
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleResendCode = async ({ username }) => {
+      await Auth.resendSignUp(username);
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { resendSignUpCode } from 'aws-amplify/auth';
+
+    const handleResendCode = async ({ username }) => {
+      await resendSignUpCode({ username });
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.signIn
 
 ```diff
@@ -64,6 +600,333 @@ export function getStaticProps(context) {
 -  Auth.signIn: (usernameOrSignInOpts: string | SignInOpts, pw?: string, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
 +  signIn: (input: SignInInput) => Promise<SignInOutput>;
 ```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    // Standard
+    usernameOrSignInOpts: SignInOpts {
+      username: string;
+      password: string;
+      validationData?: {
+        [key: string]: any;
+      };
+    }
+    pw?: undefined
+    clientMetadata?: ClientMetaData {
+      [key: string]: string;
+    }
+
+    // Legacy
+    usernameOrSignInOpts: string
+    pw?: string
+    clientMetadata?: ClientMetaData {
+      [key: string]: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    input: SignInInput {
+      username: string;
+      password?: string;
+      options?: {
+        authFlowType?:
+          | 'USER_SRP_AUTH'
+          | 'CUSTOM_WITH_SRP'
+          | 'CUSTOM_WITHOUT_SRP'
+          | 'USER_PASSWORD_AUTH';
+        clientMetadata?: { [key: string]: string; };
+      };
+    }
+    ```
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    CognitoUser {
+      challengeName?: string;
+      challengeParam?: string;
+      username: string;
+      signInUserSession: {
+        idToken: string;
+        refreshToken: string;
+        accessToken: string;
+        clockDrift: number;
+      } | null;
+      authenticationFlowType: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    type SignInOutput = {
+      isSignedIn: boolean;
+      nextStep: // See Example 2 for more details on nextStep types
+        | ContinueSignInWithMFASelection
+        | ContinueSignInWithTOTPSetup
+        | ConfirmSignInWithSMSCode
+        | ConfirmSignInWithTOTPCode
+        | ConfirmSignInWithCustomChallenge
+        | ConfirmSignInWithNewPasswordRequired<UserAttributeKey>
+        | ConfirmSignUpStep
+        | ResetPasswordStep
+        | DoneSignInStep;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example 1 (Standard)
+
+Note that signIn no longer accepts validationData in v6
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleSignIn = async ({
+      username,
+      password,
+      validationData
+    }) => {
+      const user = await Auth.signIn({
+        username,
+        password,
+        validationData
+      });
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { signIn } from 'aws-amplify/auth';
+
+    const handleSignIn = async ({
+      username,
+      password
+    }) => {
+      const {
+        isSignIn,
+        nextStep
+      } = await signIn({ username, password });
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example 2 (Confirmation Required)
+
+NOTE: signIn no longer accepts validationData in v6
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleSignIn = async ({
+      username,
+      password,
+      validationData
+    }) => {
+      const user = await Auth.signIn({
+        username,
+        password
+      });
+
+      if (user.challengeName) {
+        switch(user.challengeName) {
+          case 'SMS_MFA':
+          case 'SOFTWARE_TOKEN':
+            const confirmedUser = await Auth.confirmSignIn(
+              user,
+              'code',
+              user.challengeName
+            );
+            break;
+          case 'CUSTOM_CHALLENGE':
+            const confirmedUser = await Auth.confirmSignIn(
+              user,
+              'answer',
+              user.challengeName
+            );
+            break;
+          case 'MFA_SETUP':
+            const secretCode = await Auth.setupTOTP(user);
+            // Proceed to Auth.confirmSignIn
+            break;
+          case 'SELECT_MFA_TYPE':
+          const mfaType = 'SMS_MFA' // or 'SOFTWARE_TOKEN_MFA'
+          // user returned from signIn
+          user.sendMFASelectionAnswer(mfaType, {
+            onFailure: (err) => {
+              console.log(err);
+            },
+            mfaRequired: (challengeName, parameters)=>{
+              // call confirmSignIn with OTP code sent to your cellphone
+            },
+            totpRequired: (challengeName, parameters)=>{
+              // call confirmSignIn with OTP code retrieved from your authenticator App
+            }
+          });
+            break;
+          case 'NEW_PASSWORD_REQUIRED':
+            const {
+              userAttributes,
+              requiredAttributes
+            } = user.challengeParams;
+            const attributes = { ... };
+
+            const confirmedUser = await Auth.completeNewPassword(
+              user,
+              'newPassword',
+              attributes
+            );
+            break;
+        }
+      }
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import {
+      confirmSignIn,
+      signIn
+    } from 'aws-amplify/auth';
+
+    const handleSignIn = async ({
+      username,
+      password
+    }) => {
+      const {
+        isSignIn,
+        nextStep
+      } = await signIn({ username, password });
+
+      if(nextStep) {
+        switch (nextStep.signInStep) {
+          case 'CONFIRM_SIGN_IN_WITH_TOTP_CODE':
+          case 'CONFIRM_SIGN_IN_WITH_SMS_CODE':
+            // nextStep will contain codeDeliveryDetails when step is CONFIRM_SIGN_IN_WITH_SMS_CODE
+            const {
+              isSignedIn,
+              nextStep
+            } = await confirmSignIn({ challengeResponse: 'code' });
+            break;
+          case 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE':
+            const { additionalInfo } = nextStep;
+            const {
+              isSignedIn,
+              nextStep
+            } = await confirmSignIn({ challengeResponse: 'answer' });
+            break;
+          case 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP':
+            // Note that calling setupTOTP is unnecessary in this scenario
+            // totpSetupDetails are already returned with nextStep
+            const { totpSetupDetails } = nextStep;
+            const appName = 'my_app_name';
+            const setupUri = totpSetupDetails.getSetupUri(appName);
+            // Open setupUri with an authenticator APP to retrieve an OTP code
+            // Retrieve code from authenticator App
+            const {
+              isSignedIn,
+              nextStep
+            } = await confirmSignIn({ challengeResponse: 'code' });
+            break;
+          case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
+
+          const mfaType = 'SMS' // or TOTP
+          const {
+              isSignedIn,
+              nextStep
+            } = await confirmSignIn({ challengeResponse: mfaType});
+
+            // if confirmSignIn was called with 'SMS', then the next
+            // step will be 'CONFIRM_SIGN_IN_WITH_SMS_CODE'.
+            // However if 'TOTP' was used as input then 'CONFIRM_SIGN_IN_WITH_TOTP_CODE'
+            // will be returned.
+
+            const otpCode = '123456' // code retrieved from authenticator App or cellphone
+            const {
+              isSignedIn,
+              nextStep
+            } = await confirmSignIn({ challengeResponse: otpCode});
+            break;
+          case 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED':
+            const { missingAttributes } = nextStep;
+            const userAttributes = { ... };
+
+            const {
+              isSignedIn,
+              nextStep
+            } = await confirmSignIn({
+              challengeResponse: 'newPassword',
+              options: {
+                userAttributes
+              }
+            });
+            break;
+        }
+      }
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example 3 (Legacy)
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleSignIn = async ({
+      username,
+      password
+    }) => {
+      const user = await Auth.resendSignUp(
+        username,
+        password
+      );
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { signIn } from 'aws-amplify/auth';
+
+    const username = 'username';
+    const password = 'password';
+
+    const handleSignIn = async ({
+      username,
+      password
+    }) => {
+      const {
+        isSignIn,
+        nextStep
+      } = await signIn({ username, password });
+    }
+    ```
+
+  </div>
+</Columns>
 
 ## Auth.federatedSignIn
 
@@ -77,7 +940,215 @@ export function getStaticProps(context) {
 +  signInWithRedirect: (input?: SignInWithRedirectInput) => Promise<void>;
 ```
 
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    // Standard
+    options?: FederatedSignInOptions {
+      provider: { // enum
+        Cognito = 'COGNITO',
+        Google = 'Google',
+        Facebook = 'Facebook',
+        Amazon = 'LoginWithAmazon',
+        Apple = 'SignInWithApple',
+      };
+      customState?: string;
+    }
+
+    // Custom Provider
+    options?: FederatedSignInOptionsCustom {
+      customProvider: string;
+      customState?: string;
+    }
+
+    // Legacy
+    provider:
+      | 'google'
+      | 'facebook'
+      | 'amazon'
+      | 'developer'
+      | string
+    response: FederatedResponse {
+      token: string;
+      identity_id?: string;
+      expires_at: number;
+    }
+    user: FederatedUser {
+      name: string;
+      email?: string;
+      picture?: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    input?: SignInWithRedirectInput {
+      provider?:
+        | 'Amazon'
+        | 'Apple'
+        | 'Facebook'
+        | 'Google'
+        | { custom: string; };
+      customState?: string;
+      options?: {
+        preferPrivateSession?: boolean;
+      };
+    }
+    ```
+  
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    ICredentials {
+      accessKeyId: string;
+      sessionToken: string;
+      secretAccessKey: string;
+      identityId: string;
+      authenticated: boolean;
+      expiration?: Date;
+    }
+    ```
+  
+  </div>
+</Columns>
+
+### Example 1 (Standard)
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleSocialSignIn = async () => {
+      const credentials = await Auth.federatedSignIn({
+        provider: CognitoHostedUIIdentityProvider.Google
+      });
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import {
+      fetchAuthSession,
+      signInWithRedirect
+    } from 'aws-amplify/auth';
+
+    const handleSocialSignIn = async () => {
+      await signInWithRedirect({
+        provider: 'Google'
+      });
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example 2 (Custom Provider)
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleSocialSignIn = () => {
+      Auth.federatedSignIn({
+        customProvider: 'SocialProvider'
+      });
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { signInWithRedirect } from 'aws-amplify/auth';
+
+    const handleSocialSignIn = () => {
+      signInWithRedirect({
+        provider: {
+          custom: 'SocialProvider'
+        }
+      });
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example 3 (Defaults)
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleSocialSignIn = () => {
+      Auth.federatedSignIn();
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { signInWithRedirect } from 'aws-amplify/auth';
+
+    const handleSocialSignIn = () => {
+      signInWithRedirect();
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example 4 (Legacy - DEPRECATED)
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleSocialSignIn = async ({
+      token,
+      identityId?,
+      expires_at,
+      name,
+      email?,
+      picture?
+    }) => {
+      const credentials = await Auth.federatedSignIn(
+        'google',
+        {
+          token,
+          identity_id?,
+          expires_at
+        },
+        {
+          name,
+          email?,
+          picture?
+        }
+      );
+    }
+    ```
+
+  </div>
+  <div>
+    `signInWithRedirect` does not allow you to pass a pre-authorized user and tokens for Amplify to consume. Follow [this guide](http://localhost:3000/react/build-a-backend/auth/advanced-workflows/#identity-pool-federation) as an example of how to accomplish this in v6..
+
+  </div>
+</Columns>
+
 ## Auth.confirmSignIn
+
+**NOTE:** For more details on possible `output.nextStep` details compared with v5's `user.challengeName` and `user.challengeParams`, see [Auth.signIn Example 2](/[platform]/build-a-backend/auth/auth-migration-guide/#example-2-confirmation-required)
 
 ```diff
 -  import { Auth } from 'aws-amplify';
@@ -86,6 +1157,110 @@ export function getStaticProps(context) {
 -  Auth.confirmSignIn: (user: CognitoUser | any, code: string, mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA' | null, clientMetadata?: ClientMetaData) => Promise<CognitoUser | any>;
 +  confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
 ```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    code: string
+    mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA' | null
+    clientMetadata?: ClientMetaData {
+      [key: string]: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    input: ConfirmSignInInput {
+      challengeResponse: string;
+      options?: {
+        userAttributes?: AuthUserAttributes;
+        clientMetadata?: { [key: string]: string; };
+        friendlyDeviceName?: string;
+      };
+    }
+    ```
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    CognitoUser {
+      challengeName?: string;
+      challengeParam?: string;
+      username: string;
+      signInUserSession: {
+        idToken: string;
+        refreshToken: string;
+        accessToken: string;
+        clockDrift: number;
+      } | null;
+      authenticationFlowType: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    ConfirmSignInOutput {
+      isSignedIn: boolean;
+      nextStep:
+        | ContinueSignInWithMFASelection
+        | ContinueSignInWithTOTPSetup
+        | ConfirmSignInWithSMSCode
+        | ConfirmSignInWithTOTPCode
+        | ConfirmSignInWithCustomChallenge
+        | ConfirmSignInWithNewPasswordRequired<UserAttributeKey>
+        | ConfirmSignUpStep
+        | ResetPasswordStep
+        | DoneSignInStep;
+    }
+    ```
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleConfirmSignIn = async ({
+      user,
+      code,
+      mfaType
+    }) => {
+      const user = await Auth.confirmSignIn(
+        user,
+        code,
+        mfaType
+      );
+    }
+
+    ```
+
+  </div>
+  <div>
+    ```
+    import { confirmSignIn } from 'aws-amplify/auth';
+
+    const handleConfirmSignIn = async ({ challengeResponse }) => {
+      const {
+        isSignedIn,
+        nextStep
+      } = await confirmSignIn({ challengeResponse });
+    }
+    ```
+
+  </div>
+</Columns>
 
 ## Auth.setupTOTP
 
@@ -97,6 +1272,58 @@ export function getStaticProps(context) {
 +  setUpTOTP: () => Promise<SetUpTOTPOutput>;
 ```
 
+### Input
+
+<Columns columns={2}>
+  <div>``` user: CognitoUser ```</div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    string // secretCode
+    ```
+
+    ```
+    SetUpTOTPOutput {
+      sharedSecret: string;
+      getSetupUri: (appName: string, accountName?: string | undefined) => URL;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleSetupTOTP = async ({ user }) => {
+      const secretCode = await Auth.setupTOTP(user);
+      const setupUri = `otpauth://totp/AWSCognito:${user}?secret=${secretCode}&issuer=sample-app`;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { setUpTOTP } from 'aws-amplify/auth';
+
+    const handleSetupTOTP = async () => {
+      const output = await setUpTOTP();
+      const secretCode = output.sharedSecret;
+      const setupUri = output.getSetupUri('sample-app');
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.verifyTotpToken
 
 ```diff
@@ -106,6 +1333,71 @@ export function getStaticProps(context) {
 -  Auth.verifyTotpToken(user: CognitoUser | any, challengeAnswer: string) => Promise<CognitoUserSession>;
 +  verifyTOTPSetup: (input: VerifyTOTPSetupInput) => Promise<void>;
 ```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    challengeAnswer: string
+    ```
+
+  </div>
+  <div>
+    ```
+    input: VerifyTOTPSetupInput {
+      code: string;
+      options?: {
+        friendlyDeviceName?: string;
+      }
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    CognitoUserSession {
+      idToken: string;
+      refreshToken: string;
+      accessToken: string;
+      clockDrift: number;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleVerifyTOTP = async ({ user, code }) => {
+      const userSession = await Auth.verifyTotpToken(user, code);
+    }
+
+    ```
+
+  </div>
+  <div>
+    ```
+    import { verifyTOTPSetup } from 'aws-amplify/auth';
+
+    const handleVerifyTOTP = async ({ code }) => {
+      await verifyTOTPSetup({ code , options });
+    }
+    ```
+
+  </div>
+</Columns>
 
 ## Auth.completeNewPassword (DEPRECATED)
 
@@ -119,6 +1411,111 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 +  confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
 ```
 
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    password: string
+    requiredAttributes?: any
+    clientMetadata?: ClientMetaData {
+      [key: string]: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    input: ConfirmSignInInput {
+      challengeResponse: string;
+      options?: {
+        userAttributes?: AuthUserAttributes;
+        clientMetadata?: { [key: string]: string; };
+        friendlyDeviceName?: string;
+      };
+    }
+    ```
+  
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    CognitoUser {
+      challengeName?: string;
+      challengeParam?: string;
+      username: string;
+      signInUserSession: {
+        idToken: string;
+        refreshToken: string;
+        accessToken: string;
+        clockDrift: number;
+      } | null;
+      authenticationFlowType: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    ConfirmSignInOutput {
+      isSignedIn: boolean;
+      nextStep: // See Auth.signIn Example 2 for more details on nextStep types
+        | ContinueSignInWithMFASelection
+        | ContinueSignInWithTOTPSetup
+        | ConfirmSignInWithSMSCode
+        | ConfirmSignInWithTOTPCode
+        | ConfirmSignInWithCustomChallenge
+        | ConfirmSignInWithNewPasswordRequired<UserAttributeKey>
+        | ConfirmSignUpStep
+        | ResetPasswordStep
+        | DoneSignInStep;
+    }
+    ```
+  
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleUpdatePassword = async ({
+      user,
+      newPassword,
+      attributes
+    }) => {
+      const user = await Auth.completeNewPassword(
+        user,
+        newPassword,
+        attributes
+      );
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { confirmSignIn } from 'aws-amplify/auth';
+
+    const handleUpdatePassword = async ({ newPassword }) => {
+      const {
+        isSignedIn,
+        nextStep
+      } = await confirmSignIn({ challengeResponse: newPassword });
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.sendCustomChallengeAnswer (DEPRECATED)
 
 This API has been deprecated: existing use cases can be migrated to the `confirmSignIn` API
@@ -131,6 +1528,108 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 +  confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
 ```
 
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    challengeResponses: string
+    clientMetadata?: ClientMetaData {
+      [key: string]: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    input: ConfirmSignInInput {
+      challengeResponse: string;
+      options?: {
+        userAttributes?: AuthUserAttributes;
+        clientMetadata?: { [key: string]: string; };
+        friendlyDeviceName?: string;
+      };
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    CognitoUser {
+      challengeName?: string;
+      challengeParam?: string;
+      username: string;
+      signInUserSession: {
+        idToken: string;
+        refreshToken: string;
+        accessToken: string;
+        clockDrift: number;
+      } | null;
+      authenticationFlowType: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    ConfirmSignInOutput {
+      isSignedIn: boolean;
+      nextStep: // See Auth.signIn Example 2 for more details on nextStep types
+        | ContinueSignInWithMFASelection
+        | ContinueSignInWithTOTPSetup
+        | ConfirmSignInWithSMSCode
+        | ConfirmSignInWithTOTPCode
+        | ConfirmSignInWithCustomChallenge
+        | ConfirmSignInWithNewPasswordRequired<UserAttributeKey>
+        | ConfirmSignUpStep
+        | ResetPasswordStep
+        | DoneSignInStep;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleConfirmSignIn = async ({
+      user,
+      code
+    }) => {
+      const user = await Auth.confirmSignIn(
+        user,
+        code
+      );
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { confirmSignIn } from 'aws-amplify/auth';
+
+    const handleConfirmSignIn = async ({ challengeResponse }) => {
+      const {
+        isSignedIn,
+        nextStep
+      } = await confirmSignIn({ challengeResponse });
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.getPreferredMFA
 
 ```diff
@@ -141,6 +1640,66 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 +  fetchMFAPreference: () => Promise<FetchMFAPreferenceOutput>;
 ```
 
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    params?: GetPreferredMFAOpts {
+      bypassCache: boolean;
+    }
+    ```
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    'SMS' | 'TOTP'
+    ```
+
+  </div>
+  <div>
+    ```
+    FetchMFAPreferenceOutput: {
+      enabled?: ('SMS' | 'TOTP')[];
+      preferred?: 'SMS' | 'TOTP';
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const getPreferredMFA = async ({ user }) => {
+      const preferredMFA = await Auth.getPreferredMFA(user);
+      return preferredMFA;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { fetchMFAPreference } from 'aws-amplify/auth';
+
+    const getPreferredMFA = async () => {
+      const { preferred } = await fetchMFAPreference();
+      return preferred;
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.setPreferredMFA
 
 ```diff
@@ -150,6 +1709,65 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 -  Auth.setPreferredMFA: (user: CognitoUser | any, mfaMethod: 'TOTP' | 'SMS' | 'NOMFA' | 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA') => Promise<string>;
 +  updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
 ```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    mfaMethod: 'TOTP' | 'SMS' | 'NOMFA' | 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA'
+    ```
+
+  </div>
+  <div>
+    ```
+    input: UpdateMFAPreferenceInput {
+      sms?:
+        | 'ENABLED'
+        | 'DISABLED'
+        | 'PREFERRED'
+        | 'NOT_PREFERRED'
+      mfa?:
+        | 'ENABLED'
+        | 'DISABLED'
+        | 'PREFERRED'
+        | 'NOT_PREFERRED'
+    }
+    ```
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>``` 'No change for mfa type' | 'SUCCESS' ```</div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleSetPreferredMFA = async ({ user }) => {
+      await Auth.setPreferredMFA(user, 'TOTP');
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { updateMFAPreference } from 'aws-amplify/auth';
+
+    const handleSetPreferredMFA = async ({ user }) => {
+      await updateMFAPreference({ mfa: 'PREFERRED' });
+    }
+    ```
+
+  </div>
+</Columns>
 
 ## Auth.getMFAOptions (DEPRECATED)
 
@@ -163,6 +1781,295 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 +  fetchMFAPreference: () => Promise<FetchMFAPreferenceOutput>
 ```
 
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    MFAOption[]: {
+      DeliveryMedium: 'SMS' | ~~'EMAIL'~~;
+      AttributeName: string;
+    }[]
+    ```
+
+  </div>
+  <div>
+    ```
+    FetchMFAPreferenceOutput: {
+      enabled?: ('SMS' | 'TOTP')[];
+      preferred?: 'SMS' | 'TOTP';
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const getEnabledMFAOptions = async ({ user }) => {
+      const mfaOptions = await Auth.getMFAOptions(user);
+      const enabled: string[] = [];
+      for(let option of mfaOptions) {
+        enabled.push(option.DeliverMedium);
+      }
+      return enabled;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { fetchMFAPreference } from 'aws-amplify/auth';
+
+    const getEnabledMFAOptions = async () => {
+      const { enabled } = await fetchMFAPreference();
+      return enabled;
+    }
+    ```
+
+  </div>
+</Columns>
+
+## Auth.signOut
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { signOut } from 'aws-amplify/auth';
+
+-  Auth.signOut: (opts?: SignOutOpts) => Promise<any>; // Does not return
++  signOut: (input?: SignOutInput) => Promise<void>;
+```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    opts?: SignOutOpts {
+      global?: boolean;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    input?: SignOutInput {
+      global: boolean;
+    }
+    ```
+  
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleSignOut = async () => {
+      await Auth.signOut();
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { signOut } from 'aws-amplify/auth';
+
+    const handleSignOut = async () => {
+      await signOut();
+    }
+    ```
+
+  </div>
+</Columns>
+
+## Auth.changePassword
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { updatePassword } from 'aws-amplify/auth';
+
+-  Auth.changePassword: (user: CognitoUser | any, oldPassword: string, newPassword: string, clientMetadata?: ClientMetaData) => Promise<'SUCCESS'>;
++  updatePassword: (input: UpdatePasswordInput) => Promise<void>;
+```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    oldPassword: string
+    newPassword: string
+    clientMetadata?: ClientMetaData {
+      [key: string]: string
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    input: UpdatePasswordInput {
+      oldPassword: string;
+      newPassword: string;
+    }
+    ```
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>``` 'SUCCESS' ```</div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleChangePassword = async ({
+      user,
+      oldPassword,
+      newPassword
+    }) => {
+      await Auth.changePassword(
+        user,
+        oldPassword,
+        newPassword
+      );
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { updatePassword } from 'aws-amplify/auth';
+
+    const handleChangePassword = async ({
+      oldPassword,
+      newPassword
+    }) => {
+      await updatePassword({
+        oldPassword,
+        newPassword
+      });
+    }
+    ```
+
+  </div>
+</Columns>
+
+## Auth.forgotPassword
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { resetPassword } from 'aws-amplify/auth';
+
+-  Auth.forgotPassword: (username: string, clientMetadata?: ClientMetaData) => Promise<any>;
++  resetPassword: (input: ResetPasswordInput) => Promise<ResetPasswordOutput>;
+```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    username: string
+    clientMetadata?: ClientMetaData {
+      [key: string]: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    input: ResetPasswordInput {
+      username: string;
+      options?: {
+        clientMetadata?: {
+          [key: string]: string;
+        };
+      };
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    {
+      CodeDeliveryDetails: {
+        AttributeName: string;
+        DeliveryMedium: string;
+        Destination: string;
+      }
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    ResetPasswordOutput {
+      isPasswordReset: boolean;
+      nextStep: {
+        resetPasswordStep: 
+          | 'CONFIRM_RESET_PASSWORD_WITH_CODE'
+          | 'DONE';
+        additionalInfo?: { 
+          [key: string]: string;
+        };
+        codeDeliveryDetails: {
+          destination?: string;
+          deliveryMedium?: 
+            | 'EMAIL'
+            | 'SMS'
+            | 'PHONE'
+            | 'UNKNOWN';
+          attributeName?: 'email' | 'phone_number';
+        };
+      };
+    }
+    ```
+  
+  </div>
+</Columns>
+
+## Auth.forgotPasswordSubmit
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { confirmResetPassword } from 'aws-amplify/auth';
+
+-  Auth.forgotPasswordSubmit: (username: string, code: string, password: string, clientMetadata?: ClientMetaData) => Promise<string>;
++  confirmResetPassword: (input: ConfirmResetPasswordInput) => Promise<void>;
+```
+
 ## Auth.deleteUser
 
 ```diff
@@ -173,51 +2080,36 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 +  deleteUser: () => Promise<void>;
 ```
 
-## Auth.deleteUserAttributes
+### Example
 
-```diff
--  import { Auth } from 'aws-amplify';
-+  import { deleteUserAttributes } from 'aws-amplify/auth';
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
 
--  Auth.deleteUserAttributes: (user: CognitoUser | any, attributeNames: string[]) => Promise<any>;
-+  deleteUserAttributes: (input: DeleteUserAttributesInput) => Promise<void>;
-```
+    const handleDeleteUser = async () => {
+      await Auth.deleteUser();
+    }
+    ```
 
-## Auth.updateUserAttributes
+  </div>
+  <div>
+    ```
+    import { deleteUser } from 'aws-amplify/auth';
 
-```diff
--  import { Auth } from 'aws-amplify';
-+  import { updateUserAttributes } from 'aws-amplify/auth';
+    const handleDeleteAttributes = async ({ attributes }) => {
+      await deleteUser();
+    }
+    ```
 
--  Auth.updateUserAttributes: (user: CognitoUser | any, attributes: object, clientMetadata?: ClientMetaData) => Promise<string>;
-+  updateUserAttributes: (input: UpdateUserAttributesInput) => Promise<UpdateUserAttributesOutput>;
-```
-
-## Auth.userAttributes
-
-```diff
--  import { Auth } from 'aws-amplify';
-+  import { fetchUserAttributes } from 'aws-amplify/auth';
-
--  Auth.userAttributes: (user: CognitoUser | any) => Promise<CognitoUserAttribute[]>;
-+  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
-```
-
-## Auth.verifiedContact (DEPRECATED)
-
-This API has been deprecated: existing use cases can be migrated to the `fetchUserAttributes` API using `output.email_verified` and `output.phone_number_verified` attributes.
-
-```diff
--  import { Auth } from 'aws-amplify';
-+  import { fetchUserAttributes } from 'aws-amplify/auth';
-
--  Auth.verifiedContact: (user: CognitoUser | any) => Promise<any>;
-+  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
-```
+  </div>
+</Columns>
 
 ## Auth.currentAuthenticatedUser (DEPRECATED)
 
 This API has been deprecated: existing use cases can be migrated to a combination of the `getCurrentUser` and `fetchAuthSession` API's.
+
+**Note:** we no longer return `refreshToken` or `clockDrift` with the `AuthSession`. These values are used under the hood to refresh/validate the user session
 
 ```diff
 -  import { Auth } from 'aws-amplify';
@@ -227,6 +2119,134 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  getCurrentUser: () => Promise<GetCurrentUserOutput>;
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    params?: CurrentUserOpts {
+      bypassCache: boolean;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    // fetchAuthSession
+    options?: FetchAuthSessionOptions {
+      forceRefresh?: boolean;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    CognitoUser {
+      username: string;
+      signInUserSession: {
+        idToken: string;
+        refreshToken: string;
+        accessToken: string;
+        clockDrift: number;
+      } | null;
+      authenticationFlowType: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    // getCurrentUser
+    GetCurrentUserOutput: {
+      username: string;
+      userId: string;
+      signInDetails?: {
+        loginId?: string;
+        authFlowType?: 
+          | 'USER_SRP_AUTH'
+          | 'CUSTOM_WITH_SRP'
+          | 'CUSTOM_WITHOUT_SRP'
+          | 'USER_PASSWORD_AUTH';;
+      };
+    }
+
+    // fetchAuthSession
+    AuthSession {
+      tokens?: {
+        idToken?: JWT;
+        accessToken: JWT;
+      };
+      credentials?: {
+        accessKeyId: string;
+        secretAccessKey: string;
+        sessionToken?: string;
+        expiration?: Date;
+      };
+      identityId?: string;
+      userSub?: string;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const getAuthenticatedUser = async () => {
+      const {
+        username,
+        signInUserSession: session,
+        authenticationFlowType
+      } = await Auth.currentAuthenticatedUser();
+
+      return {
+        username,
+        session,
+        authenticationFlowType
+      };
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import {
+      fetchAuthSession,
+      getCurrentUser
+    } from 'aws-amplify/auth';
+
+    const getAuthenticatedUser = async () => {
+      const {
+        username,
+        authFlowType: authenticationFlowType
+      } = await getCurrentUser();
+
+      const {
+        tokens: session
+      } = await fetchAuthSession();
+
+      // Note that session will no longer contain refreshToken and clockDrift
+      return {
+        username,
+        session,
+        authenticationFlowType
+      };
+    }
+    ```
+
+  </div>
+</Columns>
 
 ## Auth.currentUserPoolUser (DEPRECATED)
 
@@ -241,7 +2261,125 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    params?: CurrentUserOpts {
+      bypassCache: boolean;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    // fetchAuthSession
+    options?: FetchAuthSessionOptions {
+      forceRefresh?: boolean;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    CognitoUser {
+      username: string;
+      signInUserSession: {
+        idToken: string;
+        refreshToken: string;
+        accessToken: string;
+        clockDrift: number;
+      } | null;
+      authenticationFlowType: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    // getCurrentUser
+    GetCurrentUserOutput: {
+      username: string;
+      userId: string;
+      signInDetails?: {
+        loginId?: string;
+        authFlowType?: 
+          | 'USER_SRP_AUTH'
+          | 'CUSTOM_WITH_SRP'
+          | 'CUSTOM_WITHOUT_SRP'
+          | 'USER_PASSWORD_AUTH';;
+      };
+    }
+
+    // fetchAuthSession
+    AuthSession {
+      tokens?: {
+        idToken?: JWT;
+        accessToken: JWT;
+      };
+      credentials?: {
+        accessKeyId: string;
+        secretAccessKey: string;
+        sessionToken?: string;
+        expiration?: Date;
+      };
+      identityId?: string;
+      userSub?: string;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const getAuthenticatedUser = async () => {
+      const {
+        username,
+        signInUserSession: session,
+        authenticationFlowType
+      } = await Auth.currentUserPoolUser();
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import {
+      fetchAuthSession,
+      getCurrentUser
+    } from 'aws-amplify/auth';
+
+    const getAuthenticatedUser = async () => {
+      const {
+        username,
+        authFlowType: authenticationFlowType
+      } = await getCurrentUser();
+
+      // Note that session will no longer contain refreshToken and clockDrift
+      const {
+        tokens: session
+      } = await fetchAuthSession();
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.currentSession
+
+**Note:** we no longer return `refreshToken` or `clockDrift` with the `AuthSession`. These values are used under the hood to refresh/validate the user session
 
 ```diff
 -  import { Auth } from 'aws-amplify';
@@ -251,40 +2389,441 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    options?: FetchAuthSessionOptions {
+      forceRefresh?: boolean;
+    }
+    ```
+  
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    CognitoUserSession {
+      idToken: string;
+      refreshToken: string;
+      accessToken: string;
+      clockDrift: number;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    AuthSession {
+      tokens?: {
+        idToken?: JWT;
+        accessToken: JWT;
+      };
+      credentials?: {
+        accessKeyId: string;
+        secretAccessKey: string;
+        sessionToken?: string;
+        expiration?: Date;
+      };
+      identityId?: string;
+      userSub?: string;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const getSession = async () => {
+      const {
+        idToken,
+        refreshToken,
+        accessToken,
+        clockDrift
+      } = await Auth.currentSession();
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { fetchAuthSession } from 'aws-amplify/auth';
+
+    const getSession = async () => {
+      const {
+        tokens,
+        credentials,
+        identityId,
+        userSub
+      } = await fetchAuthSession();
+
+      const {
+        idToken,
+        accessToken
+      } = tokens;
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.userSession
 
-```diff
--  import { Auth } from 'aws-amplify';
-+  import { fetchAuthSession } from 'aws-amplify/auth';
-
--  Auth.userSession: (user) => Promise<CognitoUserSession>;
-+  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
-```
-
-## Auth.currentUserCredentials (DEPRECATED)
-
-This API has been deprecated: existing use cases can be migrated to the `fetchAuthSession` API. You can find expiration under `output.credentials`. `fetchAuthSession` will throw an error if there is no authenticated user.
+**Note:** we no longer return `refreshToken` or `clockDrift` with the `AuthSession`. These values are used under the hood to refresh/validate the user session
 
 ```diff
 -  import { Auth } from 'aws-amplify';
 +  import { fetchAuthSession } from 'aws-amplify/auth';
 
--  Auth.currentUserCredentials: () => Promise<ICredentials>;
+-  Auth.userSession: (user: CognitoUser) => Promise<CognitoUserSession>;
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
+### Input
 
-## Auth.currentCredentials  (DEPRECATED)
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    ```
 
-This API has been deprecated: existing use cases can be migrated to the `fetchAuthSession` API. You can find expiration under `output.credentials`. `fetchAuthSession` will throw an error if there is no authenticated user.
+  </div>
+  <div>
+    ```
+    options?: FetchAuthSessionOptions {
+      forceRefresh?: boolean;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    CognitoUserSession {
+      idToken: string;
+      refreshToken: string;
+      accessToken: string;
+      clockDrift: number;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    AuthSession {
+      tokens?: {
+        idToken?: JWT;
+        accessToken: JWT;
+      };
+      credentials?: {
+        accessKeyId: string;
+        secretAccessKey: string;
+        sessionToken?: string;
+        expiration?: Date;
+      };
+      identityId?: string;
+      userSub?: string;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const getSession = async ({ user }) => {
+      const {
+        idToken,
+        refreshToken,
+        accessToken,
+        clockDrift
+      } = await Auth.userSession(user);
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { fetchAuthSession } from 'aws-amplify/auth';
+
+    const getSession = async () => {
+      const {
+        tokens,
+        credentials,
+        identityId,
+        userSub
+      } = await fetchAuthSession();
+
+      const {
+        idToken,
+        accessToken
+      } = tokens;
+    }
+    ```
+
+  </div>
+</Columns>
+
+## Auth.userAttributes
 
 ```diff
 -  import { Auth } from 'aws-amplify';
-+  import { fetchAuthSession } from 'aws-amplify/auth';
++  import { fetchUserAttributes } from 'aws-amplify/auth';
 
--  Auth.currentCredentials: () => Promise<ICredentials>;
-+  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
+-  Auth.userAttributes: (user: CognitoUser | any) => Promise<CognitoUserAttribute[]>;
++  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
 ```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    CognitoUserAttribute[]: {
+      Name: string;
+      Value: string;
+    }[]
+    ```
+
+  </div>
+  <div>
+    ```
+    FetchUserAttributesOutput {
+      [key: string]?: string;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const getUserAttributes = async ({
+      user
+    }) => {
+      // Note that return type has changed from array to object
+      const attributes = await Auth.userAttributes(user);
+      return attributes;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { fetchUserAttributes } from 'aws-amplify/auth';
+
+    const getUserAttributes = async ({ userAttributes }) => {
+      // Note that return type has changed from array to object
+      const attributes = await fetchUserAttributes();
+    }
+    ```
+
+  </div>
+</Columns>
+
+## Auth.updateUserAttributes
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { updateUserAttributes } from 'aws-amplify/auth';
+
+-  Auth.updateUserAttributes: (user: CognitoUser | any, attributes: object, clientMetadata?: ClientMetaData) => Promise<string>;
++  updateUserAttributes: (input: UpdateUserAttributesInput) => Promise<UpdateUserAttributesOutput>;
+```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    attributes: object
+    clientMetadata?: ClientMetaData {
+      [key: string]: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    input: UpdateUserAttributesInput {
+      userAttributes: {
+        [key: string]?: string;
+      };
+      options?: {
+        clientMetadata?: { [key: string]: string; };
+      };
+    }
+    ```
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    'SUCCESS'
+    ```
+
+  </div>
+  <div>
+    ```
+    UpdateUserAttributesOutput {
+      [authKey in UserAttributeKey]: {
+        isUpdated: boolean;
+        nextStep: {
+          updateAttributeStep: 
+            | 'CONFIRM_ATTRIBUTE_WITH_CODE'
+            | 'DONE';
+          codeDeliveryDetails?: {
+            destination?: string;
+            deliveryMedium?: 'EMAIL' | 'SMS' | 'PHONE' | 'UNKNOWN';
+            attributeName?: UserAttributeKey;
+          };
+        };
+      };
+    }
+    ```
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleUpdateProfile = async ({
+      user,
+      attributes
+    }) => {
+      await Auth.updateUserAttributes(user, attributes);
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { updateUserAttributes } from 'aws-amplify/auth';
+
+    const handleUpdateProfile = async ({ userAttributes }) => {
+      // Results will now contain next steps for updated attributes
+      const updateResults = await updateUserAttributes({
+        userAttributes
+      });
+    }
+    ```
+
+  </div>
+</Columns>
+
+## Auth.deleteUserAttributes
+
+```diff
+-  import { Auth } from 'aws-amplify';
++  import { deleteUserAttributes } from 'aws-amplify/auth';
+
+-  Auth.deleteUserAttributes: (user: CognitoUser | any, attributeNames: string[]) => Promise<any>;
++  deleteUserAttributes: (input: DeleteUserAttributesInput) => Promise<void>;
+```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    attributeNames: string[]
+    ```
+
+  </div>
+  <div>
+    ```
+    input: DeleteUserAttributesInput {
+      userAttributeKeys: [UserAttributeKey, ...UserAttributeKey[]];
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    'SUCCESS'
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleDeleteAttributes = async ({ user, attributes }) => {
+      await Auth.deleteUserAttributes(
+        user,
+        attributes
+      );
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { deleteUserAttributes } from 'aws-amplify/auth';
+
+    const handleDeleteAttributes = async ({ attributes }) => {
+      await deleteUserAttributes({
+        userAttributeKeys: attributes
+      });
+    }
+    ```
+
+  </div>
+</Columns>
 
 ## Auth.verifyUserAttribute
 
@@ -296,6 +2835,95 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 +  sendUserAttributeVerificationCode: (input: SendUserAttributeVerificationCodeInput) => Promise<SendUserAttributeVerificationCodeOutput>;
 ```
 
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    attr: string
+    clientMetadata?: ClientMetadata {
+      [key: string]: string;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    input: SendUserAttributeVerificationCodeInput {
+      userAttributeKey: 'email' | 'phone_number';
+      options?: {
+        clientMetadata?: {
+          [key: string]: string;
+        };
+      };
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div></div>
+  <div>
+    ```
+    SendUserAttributeVerificationCodeOutput {
+      destination?: string;
+      deliveryMedium?:
+        | 'EMAIL'
+        | 'SMS'
+        | 'PHONE'
+        | 'UNKNOWN';
+      attributeName?: 'email' | 'phone_number';
+    }
+    ```
+  
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleVerifyAttribute = async ({
+      user,
+      attr,
+      clientMetadata
+    }) => {
+      await Auth.verifyUserAttribute(
+        user,
+        attr,
+        clientMetadata
+      );
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { sendUserAttributeVerificationCode } from 'aws-amplify/auth';
+
+    const handleVerifyAttribute = async ({
+      userAttributeKey,
+      clientMetadata
+    }) => {
+      const result = await sendUserAttributeVerificationCode({
+        userAttributeKey,
+        options: {
+          clientMetadata
+        }
+      });
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.verifyUserAttributeSubmit
 
 ```diff
@@ -305,6 +2933,73 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 -  Auth.verifyUserAttributeSubmit: (user: CognitoUser | any, attr: string, code: string) => Promise<string>;
 +  confirmUserAttribute: (input: ConfirmUserAttributeInput) => Promise<void>;
 ```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    attr: string
+    code: string
+    ```
+
+  </div>
+  <div>
+    ```
+    input: ConfirmUserAttributeInput {
+      userAttributeKey: 'email' | 'phone_number';
+      confirmationCode: string;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>``` 'SUCCESS' ```</div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleConfirmAttribute = async ({
+      user,
+      attr,
+      code
+    }) => {
+      await Auth.verifyUserAttributeSubmit(
+        user,
+        attr,
+        code
+      );
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { confirmUserAttribute } from 'aws-amplify/auth';
+
+    const handleConfirmAttribute = async ({
+      userAttributeKey,
+      confirmationCode
+    }) => {
+      await Auth.verifyUserAttributeSubmit(
+        userAttributeKey,
+        confirmationCode
+      );
+    }
+    ```
+
+  </div>
+</Columns>
 
 ## Auth.verifyCurrentUserAttribute
 
@@ -316,6 +3011,80 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 +  sendUserAttributeVerificationCode: (input: SendUserAttributeVerificationCodeInput) => Promise<SendUserAttributeVerificationCodeOutput>;
 ```
 
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    attr: string
+    ```
+
+  </div>
+  <div>
+    ```
+    input: SendUserAttributeVerificationCodeInput {
+      userAttributeKey: 'email' | 'phone_number';
+      options?: {
+        clientMetadata?: {
+          [key: string]: string;
+        };
+      };
+    }
+    ```
+  
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div></div>
+  <div>
+    ```
+    SendUserAttributeVerificationCodeOutput {
+      destination?: string;
+      deliveryMedium?:
+        | 'EMAIL'
+        | 'SMS'
+        | 'PHONE'
+        | 'UNKNOWN';
+      attributeName?: 'email' | 'phone_number';
+    }
+    ```
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleVerifyAttribute = async ({
+      attr
+    }) => {
+      await Auth.verifyCurrentUserAttribute(attr);
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { sendUserAttributeVerificationCode } from 'aws-amplify/auth';
+
+    const handleVerifyAttribute = async ({
+      userAttributeKey
+    }) => {
+      const result = await sendUserAttributeVerificationCode({
+        userAttributeKey
+      });
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.verifyCurrentUserAttributeSubmit
 
 ```diff
@@ -326,45 +3095,315 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 +  confirmUserAttribute: (input: ConfirmUserAttributeInput) => Promise<void>;
 ```
 
-## Auth.signOut
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    attr: string
+    code: string
+    ```
+
+  </div>
+  <div>
+    ```
+    input: ConfirmUserAttributeInput {
+      userAttributeKey: 'email' | 'phone_number';
+      confirmationCode: string;
+    }
+    ```
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>``` 'SUCCESS' ```</div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleConfirmAttribute = async ({
+      attr,
+      code
+    }) => {
+      await Auth.verifyCurrentUserAttributeSubmit(
+        attr,
+        code
+      );
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { confirmUserAttribute } from 'aws-amplify/auth';
+
+    const handleConfirmAttribute = async ({
+      userAttributeKey,
+      confirmationCode
+    }) => {
+      await Auth.verifyUserAttributeSubmit(
+        userAttributeKey,
+        confirmationCode
+      );
+    }
+    ```
+
+  </div>
+</Columns>
+
+## Auth.rememberDevice
 
 ```diff
 -  import { Auth } from 'aws-amplify';
-+  import { signOut } from 'aws-amplify/auth';
++  import { rememberDevice } from 'aws-amplify/auth';
 
--  Auth.signOut: (opts?: SignOutOpts) => Promise<any>;
-+  signOut: (input?: SignOutInput) => Promise<void>;
+-  Auth.rememberDevice: () => Promise<string | AuthError>;
++  rememberDevice: () => Promise<void>;
 ```
 
-## Auth.changePassword
+## Auth.forgetDevice
 
 ```diff
 -  import { Auth } from 'aws-amplify';
-+  import { updatePassword } from 'aws-amplify/auth';
++  import { forgetDevice } from 'aws-amplify/auth';
 
--  Auth.changePassword: (user: CognitoUser | any, oldPassword: string, newPassword: string, clientMetadata?: ClientMetaData) => Promise<'SUCCESS'>;
-+  updatePassword: (input: UpdatePasswordInput) => Promise<void>;
+-  Auth.forgetDevice: () => Promise<void>;
++  forgetDevice: (input?: ForgetDeviceInput) => Promise<void>;
 ```
 
-## Auth.forgotPassword
+## Auth.currentCredentials (DEPRECATED)
+
+This API has been deprecated: existing use cases can be migrated to the `fetchAuthSession` API. Note that `fetchAuthSession` will throw an error if there is no authenticated user.
 
 ```diff
 -  import { Auth } from 'aws-amplify';
-+  import { resetPassword } from 'aws-amplify/auth';
++  import { fetchAuthSession } from 'aws-amplify/auth';
 
--  Auth.forgotPassword: (username: string, clientMetadata?: ClientMetaData) => Promise<any>;
-+  resetPassword: (input: ResetPasswordInput) => Promise<ResetPasswordOutput>;
+-  Auth.currentCredentials: () => Promise<ICredentials>;
++  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-## Auth.forgotPasswordSubmit
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    options?: FetchAuthSessionOptions {
+      forceRefresh?: boolean;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    ICredentials {
+      accessKeyId: string;
+      sessionToken: string;
+      secretAccessKey: string;
+      identityId: string;
+      authenticated: boolean;
+      expiration?: Date;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    AuthSession {
+      tokens?: {
+        idToken?: JWT;
+        accessToken: JWT;
+      };
+      credentials?: {
+        accessKeyId: string;
+        secretAccessKey: string;
+        sessionToken?: string;
+        expiration?: Date;
+      };
+      identityId?: string;
+      userSub?: string;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const getSession = async () => {
+      const {
+        accessKeyId,
+        sessionToken,
+        secretAccessKey,
+        identityId,
+        authenticated,
+        expiration
+      } = await Auth.currentCredentials();
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { fetchAuthSession } from 'aws-amplify/auth';
+
+    const getSession = async () => {
+      try {
+        const {
+            tokens,
+            credentials,
+            identityId,
+            userSub
+        } = await fetchAuthSession();
+
+        const {
+            accessKeyId,
+            sessionToken,
+            secretAccessKey,
+            expiration
+        } = credentials;
+
+        const authenticated = true;
+      } catch(e) {
+        if (e.name === 'UserUnAuthenticatedException') {
+          const authenticated = false;
+        }
+      }
+    }
+    ```
+
+  </div>
+</Columns>
+
+## Auth.currentUserCredentials (DEPRECATED)
+
+This API has been deprecated: existing use cases can be migrated to the `fetchAuthSession` API. Note that `fetchAuthSession` will throw an error if there is no authenticated user.
 
 ```diff
 -  import { Auth } from 'aws-amplify';
-+  import { confirmResetPassword } from 'aws-amplify/auth';
++  import { fetchAuthSession } from 'aws-amplify/auth';
 
--  Auth.forgotPasswordSubmit: (username: string, code: string, password: string, clientMetadata?: ClientMetaData) => Promise<string>;
-+  confirmResetPassword: (input: ConfirmResetPasswordInput) => Promise<void>;
+-  Auth.currentUserCredentials: () => Promise<ICredentials>;
++  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
+
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    options?: FetchAuthSessionOptions {
+      forceRefresh?: boolean;
+    }
+    ```
+  
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    ICredentials {
+      accessKeyId: string;
+      sessionToken: string;
+      secretAccessKey: string;
+      identityId: string;
+      authenticated: boolean;
+      expiration?: Date;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    AuthSession {
+      tokens?: {
+        idToken?: JWT;
+        accessToken: JWT;
+      };
+      credentials?: {
+        accessKeyId: string;
+        secretAccessKey: string;
+        sessionToken?: string;
+        expiration?: Date;
+      };
+      identityId?: string;
+      userSub?: string;
+    }
+    ```
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const getSession = async () => {
+      const {
+        accessKeyId,
+        sessionToken,
+        secretAccessKey,
+        identityId,
+        authenticated,
+        expiration
+      } = await Auth.currentUserCredentials();
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { fetchAuthSession } from 'aws-amplify/auth';
+
+    const getSession = async () => {
+      try {
+        const {
+            tokens,
+            credentials,
+            identityId,
+            userSub
+        } = await fetchAuthSession();
+
+        const {
+            accessKeyId,
+            sessionToken,
+            secretAccessKey,
+            expiration
+        } = credentials;
+
+        const authenticated = true;
+      } catch(e) {
+        if (e.name === 'UserUnAuthenticatedException') {
+          const authenticated = false;
+        }
+      }
+    }
+    ```
+
+  </div>
+</Columns>
 
 ## Auth.currentUserInfo (DEPRECATED)
 
@@ -391,25 +3430,88 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-## Auth.rememberDevice
+## Auth.verifiedContact (DEPRECATED)
+
+This API has been deprecated: existing use cases can be migrated to the `fetchUserAttributes` API using `output.email_verified` and `output.phone_number_verified` attributes.
 
 ```diff
 -  import { Auth } from 'aws-amplify';
-+  import { rememberDevice } from 'aws-amplify/auth';
++  import { fetchUserAttributes } from 'aws-amplify/auth';
 
--  Auth.rememberDevice: () => Promise<string | AuthError>;
-+  rememberDevice: () => Promise<void>;
+-  Auth.verifiedContact: (user: CognitoUser | any) => Promise<any>;
++  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
 ```
 
-## Auth.forgetDevice
+### Input
 
-```diff
--  import { Auth } from 'aws-amplify';
-+  import { forgetDevice } from 'aws-amplify/auth';
+<Columns columns={2}>
+  <div>``` user: CognitoUser ```</div>
+</Columns>
 
--  Auth.forgetDevice: () => Promise<void>;
-+  forgetDevice: (input?: ForgetDeviceInput) => Promise<void>;
-```
+### Output
+
+<Columns columns={2}>
+  <div>
+    ```
+    {
+      verified: {
+        email?: boolean;
+        phone_number?: boolean;
+      },
+      unverified: {
+        email?: boolean;
+        phone_number?: boolean;
+      }
+    }
+    ```
+
+  </div>
+  <div>  
+    ```
+    FetchUserAttributesOutput {
+      [key: string]?: string;
+    }
+    ```
+  
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const checkAttributeVerification = await ({ user }) => {
+      const {
+        verified,
+        unverified
+      } = await Auth.verifiedContact(user);
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { fetchUserAttributes } from 'aws-amplify/auth';
+
+    const checkAttributeVerification = await () => {
+      const attributes = await fetchUserAttributes();
+
+      const emailVerified = isTruthyString(attributes.email_verified);
+      const phoneVerified = isTruthyString(attributes.phone_number_verified);
+    }
+
+    const isTruthyString = (value) => {
+      return (
+        value && typeof value.toLowerCase === 'function' && value.toLowerCase() === 'true'
+      );
+    }
+    ```
+
+  </div>
+</Columns>
 
 ## Auth.disableSMS (DEPRECATED)
 
@@ -423,6 +3525,65 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 +  updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
 ```
 
+### Input
+
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    ```
+
+  </div>
+  <div>
+    ```
+    input: UpdateMFAPreferenceInput {
+      sms?:
+        | 'ENABLED'
+        | 'DISABLED'
+        | 'PREFERRED'
+        | 'NOT_PREFERRED'
+      mfa?:
+        | 'ENABLED'
+        | 'DISABLED'
+        | 'PREFERRED'
+        | 'NOT_PREFERRED'
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>``` 'SUCCESS' ```</div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleDisableSMS = async ({ user }) => {
+      await Auth.disableSMS(user);
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { updateMFAPreference } from 'aws-amplify/auth';
+
+    const handleDisableSMS = async () => {
+      await updateMFAPreference({ sms: 'DISABLED' });
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.enableSMS (DEPRECATED)
 
 This API has been deprecated: existing use cases can be migrated to the `updateMFAPreference` API
@@ -435,4 +3596,61 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 +  updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
 ```
 
+### Input
 
+<Columns columns={2}>
+  <div>
+    ```
+    user: CognitoUser
+    ```
+
+  </div>
+  <div>
+    ```
+    input: UpdateMFAPreferenceInput {
+      sms?:
+        | 'ENABLED'
+        | 'DISABLED'
+        | 'PREFERRED'
+        | 'NOT_PREFERRED'
+      mfa?:
+        | 'ENABLED'
+        | 'DISABLED'
+        | 'PREFERRED'
+        | 'NOT_PREFERRED'
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns={2}>
+  <div>``` 'SUCCESS' ```</div>
+</Columns>
+
+### Example
+
+<Columns columns={2}>
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleEnableSMS = async ({ user }) => {
+      const result = await Auth.enableSMS(user);
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { updateMFAPreference } from 'aws-amplify/auth';
+
+    const handleEnableSMS = async () => {
+      await updateMFAPreference({sms: 'ENABLED'});
+    }
+    ```
+
+  </div>
+</Columns>
