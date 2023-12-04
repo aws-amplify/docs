@@ -21,7 +21,7 @@ export function getStaticProps(context) {
 
 ## Initialize, request permissions, and receive device tokens
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/push-notifications` path as shown in the code block. You can also see the differences in APIs for initializing push notifications, asking for the permission or it's status and finally how to obtain the device token. 
+As of v6 of Amplify JavaScript, you will now import the functional API’s directly from the `aws-amplify/push-notifications` path as shown in the code block. You can also see the differences in APIs for initializing push notifications, asking for the permission or its status and finally how to obtain the device token. 
 
 Note: Red lines of code are v5 and Green lines are v6.
 
@@ -127,7 +127,7 @@ const myNotificationOpenedHandler = (notification) => {
 ```
 ## IdentityUser
 
-Differences in identifying a user is as shown below. The input type change is identical to the changes made for the `identifyUser` of the In App Messaging category mentioned in its section.
+Differences in identifying a user is as shown below. The input type change is identical to the changes made for the `identifyUser` of the In App Messaging category mentioned above.
 
 ```diff
 - import { Notifications } from 'aws-amplify';

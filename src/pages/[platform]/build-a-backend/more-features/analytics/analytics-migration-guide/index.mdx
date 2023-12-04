@@ -28,7 +28,7 @@ export function getStaticProps(context) {
 
 ## Record and Configuration APIs
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/analytics` path as shown below. 
+As of v6 of Amplify JavaScript, you will now import the functional API’s directly from the `aws-amplify/analytics` path as shown below. 
 
 Note: Red lines of code are v5 and Green lines are v6.
 
@@ -83,7 +83,7 @@ Note: Red lines of code are v5 and Green lines are v6.
 ```
 ## Analytics.identifyUser
 
-You can identify an user with Analytics with `identifyUser` API, 
+You can identify an Analytics user with the `identifyUser` API, 
 
 ```ts
 import { identifyUser } from 'aws-amplify/analytics';
@@ -95,7 +95,7 @@ identifyUser({
 
 ```
 ## Streaming data
-You can stream analytics data to Kinesis. To configure Kinesis with Amplify, reference the [Installation and Configuration](https://docs.amplify.aws/react/build-a-backend/more-features/analytics/streaming-data/#installation-and-configuration) section of the documentation. Below is an example on how to stream data and flush events as needed, 
+You can stream analytics data to Kinesis. To configure Kinesis with Amplify, reference the [Installation and Configuration](https://docs.amplify.aws/react/build-a-backend/more-features/analytics/streaming-data/#installation-and-configuration) section of the documentation. Below is an example on how to stream data and flush events,
 
 ```ts
 import { record, flushEvents } from 'aws-amplify/analytics/kinesis';
