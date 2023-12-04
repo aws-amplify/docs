@@ -186,6 +186,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/under-the-hood/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/auth-migration-guide/index.mdx'
                 }
               ]
             },
@@ -2074,6 +2077,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/custom-pipelines/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/cross-account-deployments/index.mdx'
                 }
               ]
             }
