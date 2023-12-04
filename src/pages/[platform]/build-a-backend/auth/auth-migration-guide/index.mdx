@@ -3624,6 +3624,82 @@ This API has been deprecated: existing use cases can be migrated by using a comb
 +  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
 ```
 
+### Output
+
+<Columns columns="2">
+  <div>
+    ```
+    {
+      id?: string;
+      username: string;
+      attributes: {
+        [key: string]: string;
+      };
+    }
+    ```
+  
+  </div>
+  <div>
+    ```
+    // getCurrentUser
+    GetCurrentUserOutput: {
+      username: string;
+      userId: string;
+      signInDetails?: {
+        loginId?: string;
+        authFlowType?: 
+          | 'USER_SRP_AUTH'
+          | 'CUSTOM_WITH_SRP'
+          | 'CUSTOM_WITHOUT_SRP'
+          | 'USER_PASSWORD_AUTH';;
+      };
+    }
+
+    // fetchUserAttributes
+    FetchUserAttributesOutput {
+      [key: string]?: string;
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns="2">
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const getCurrentUserInfo = async () => {
+      return await Auth.currentUserInfo();
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { getCurrentUser, fetchUserAttributes } from 'aws-amplify';
+
+    const getCurrentUserInfo = async () => {
+      const {
+        username,
+        userId: id
+      } = await getCurrentUser();
+
+      const attributes = fetchUserAttributes();
+
+      return {
+        id,
+        username,
+        attributes
+      };
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.essentialCredentials (DEPRECATED)
 
 This API has been deprecated: existing use cases can be migrated to the `fetchAuthSession` API
