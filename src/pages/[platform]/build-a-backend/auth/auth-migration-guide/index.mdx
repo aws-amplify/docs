@@ -2267,7 +2267,6 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
   </div>
   <div>
     ```
-    // fetchAuthSession
     options?: FetchAuthSessionOptions {
       forceRefresh?: boolean;
     }
@@ -2408,7 +2407,6 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
   </div>
   <div>
     ```
-    // fetchAuthSession
     options?: FetchAuthSessionOptions {
       forceRefresh?: boolean;
     }
@@ -2526,6 +2524,7 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 ### Input
 
 <Columns columns={2}>
+  <div></div>
   <div>
     ```
     options?: FetchAuthSessionOptions {
@@ -3399,6 +3398,7 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 ### Input
 
 <Columns columns={2}>
+  <div></div>
   <div>
     ```
     options?: FetchAuthSessionOptions {
@@ -3513,6 +3513,7 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 ### Input
 
 <Columns columns={2}>
+  <div></div>
   <div>
     ```
     options?: FetchAuthSessionOptions {
@@ -3702,15 +3703,7 @@ This API has been deprecated: existing use cases can be migrated by using a comb
 
 ## Auth.essentialCredentials (DEPRECATED)
 
-This API has been deprecated: existing use cases can be migrated to the `fetchAuthSession` API
-
-```diff
--  import { Auth } from 'aws-amplify';
-+  import { fetchAuthSession } from 'aws-amplify/auth';
-
--  Auth.essentialCredentials: (credentials) => ICredentials;
-+  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
-```
+This API has been deprecated and there is no parallel method for `essentialCredentials` in v6.
 
 ## Auth.verifiedContact (DEPRECATED)
 
