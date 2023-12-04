@@ -1,7 +1,7 @@
 export const meta = {
   title: 'Add custom business logic (Experimental)',
   description:
-    'Learn how to customize your business logic for queries, mutations, and subscriptions.'
+    'Customize your business logic for queries, mutations, and subscriptions.'
 };
 
 export function getStaticProps(context) {
@@ -15,11 +15,13 @@ export function getStaticProps(context) {
 
 <Callout info>
 
-**Coming soon:** The custom business logic experience in Amplify (Gen 2) is still under development. Expect the API surface to change dramatically during the Gen 2 preview period. If you have any feedback on the desired developer experience, please [file a GitHub issue](https://github.com/aws-amplify/amplify-backend).
+**Coming soon:** The custom business logic experience in Amplify (Gen 2) is still under development. Expect the API surface to change dramatically during the Gen-2 preview period. If you have any feedback on the desired developer experience, please [file a GitHub issue](https://github.com/aws-amplify/amplify-backend).
 
 </Callout>
 
-In this section you'll learn how to create a custom mutation and query in three steps
+The default GraphQL API provides a solid foundation for querying, mutating, and fetching data. Even so, you may need additional customization to tailor it to your app's specific requirements around data handling, response formatting, and more. 
+
+In the following sections, we walk through the three steps to create a custom mutation or query:
 
 1. Define a custom query or mutation
 2. Configure custom business logic handler code
@@ -29,10 +31,10 @@ In this section you'll learn how to create a custom mutation and query in three 
 
 | Type         | When to choose                                                                 |
 | ------------ | ------------------------------------------------------------------------------ |
-| Query        | When the request is read-only and it doesn't intend to modify any backend data |
-| Mutation     | When the request is intended to modify the backend data                        |
+| Query        | When the request only needs to read data and will not modify any backend data  |
+| Mutation     | When the request will modify backend data                                      |
 
-Every custom query or mutation requires you to set a return type and, optionally, arguments. Use `a.query()` or `a.mutation()` to define your custom query or mutation in your **amplify/data/resource.ts** file:
+For every custom query or mutation, you need to set a return type and, optionally, arguments. Use `a.query()` or `a.mutation()` to define your custom query or mutation in your **amplify/data/resource.ts** file:
 
 <BlockSwitcher>
 
@@ -56,7 +58,7 @@ const schema = a.schema({
     }) 
     // return type of the query
     .returns(a.ref('EchoResponse'))
-    // only allow signed in users to call this API
+    // only allow signed-in users to call this API
     .authorization([a.allow.private()])
 })
 
@@ -90,7 +92,7 @@ const schema = a.schema({
     }) 
     // return type of the query
     .returns(a.ref('Post'))
-    // only allow signed in users to call this API
+    // only allow signed-in users to call this API
     .authorization([a.allow.private()])
 })
 
@@ -136,7 +138,7 @@ import {
   type ClientSchema,
   a,
   defineData,
-  Func // Step 1 - import "Func" to create new functions
+  Func // Step 1 - Import "Func" to create new functions
 } from '@aws-amplify/backend';
 
 const schema = a.schema({
@@ -159,7 +161,7 @@ export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
   schema,
-  // Step 3 - map the function key to the newly created function
+  // Step 3 - Map the function key to the newly created function
   functions: {
     'echoHandler': Func.fromDir({
       codePath: './echo',
@@ -174,8 +176,8 @@ export const data = defineData({
 <Callout info>
 
 **Coming soon:** The following example requires you to manually generate GraphQL client code as an escape hatch to invoke the custom query or mutation. Amplify Data is built with GraphQL under the hood. While you're not expected to know GraphQL or have to interface with GraphQL directly when Amplify (Gen 2) becomes generally available, it is helpful to understand the [underlying GraphQL concepts](https://graphql.org) that enable Amplify Data's functionality.
-
-For Gen 2's general availability, we plan on integrating this first class into the Data client, allowing you to call a custom query or mutations via an experience such as:
+<br />
+For Gen 2's general availability, we plan on integrating this first class into the Data client, so you can call a custom query or mutation with code, such as:
 
 ```ts
 const response = await client.queries.echo({ content: 'hello' })
@@ -183,7 +185,7 @@ const response = await client.queries.echo({ content: 'hello' })
 
 </Callout>
 
-In the current Amplify (Gen 2) preview, you must first generate GraphQL client code for your custom queries and mutations and then pass them into the `client.graphql(...)` operation. In your Terminal, run the following command:
+In the preview of Amplify (Gen 2), you must first generate GraphQL client code for your custom queries and mutations and then pass them into the `client.graphql(...)` operation. In your terminal, run the following command:
 
 ```bash
 npx amplify generate graphql-client-code \
@@ -192,16 +194,16 @@ npx amplify generate graphql-client-code \
 --type-target typescript \
 --out ./graphql \
 --stack <YOUR_STACK_NAME_HERE> 
-# you can find your stack name in your "npx amplify sandbox"
+# You can find your stack name in your "npx amplify sandbox"
 # console logs. It has the following format:
 # amplify-<app-name>-<user-name>-sandbox-<unique-id>
 ```
 
-This should create a the following set of GraphQL client helper code for you under **graphql/**:
-- **API.ts** includes all the type definitions for queries, mutations, and subscriptions
-- **mutations.ts** includes all GraphQL mutations from your API
-- **queries.ts** includes all GraphQL queries from your API
-- **subscriptions.ts** includes all GraphQL subscriptions from your API
+This should create the following set of GraphQL client helper code for you under **graphql/**:
+- **API.ts** – All the type definitions for queries, mutations, and subscriptions
+- **mutations.ts** – The GraphQL mutations from your API
+- **queries.ts** – The GraphQL queries from your API
+- **subscriptions.ts** – The GraphQL subscriptions from your API
 
 To call the `echo` query from step 1, we need to import the `echo` function from **queries.ts** and pass it as a query to `client.graphql(...)`.
 
