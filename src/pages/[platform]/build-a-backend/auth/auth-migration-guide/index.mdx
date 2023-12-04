@@ -817,70 +817,70 @@ NOTE: signIn no longer accepts validationData in v6
         nextStep
       } = await signIn({ username, password });
 
-      if(nextStep) {
-        switch (nextStep.signInStep) {
-          case 'CONFIRM_SIGN_IN_WITH_TOTP_CODE':
-          case 'CONFIRM_SIGN_IN_WITH_SMS_CODE':
-            // nextStep will contain codeDeliveryDetails when step is CONFIRM_SIGN_IN_WITH_SMS_CODE
-            const {
-              isSignedIn,
-              nextStep
-            } = await confirmSignIn({ challengeResponse: 'code' });
-            break;
-          case 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE':
-            const { additionalInfo } = nextStep;
-            const {
-              isSignedIn,
-              nextStep
-            } = await confirmSignIn({ challengeResponse: 'answer' });
-            break;
-          case 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP':
-            // Note that calling setupTOTP is unnecessary in this scenario
-            // totpSetupDetails are already returned with nextStep
-            const { totpSetupDetails } = nextStep;
-            const appName = 'my_app_name';
-            const setupUri = totpSetupDetails.getSetupUri(appName);
-            // Open setupUri with an authenticator APP to retrieve an OTP code
-            // Retrieve code from authenticator App
-            const {
-              isSignedIn,
-              nextStep
-            } = await confirmSignIn({ challengeResponse: 'code' });
-            break;
-          case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
-
-          const mfaType = 'SMS' // or TOTP
+      switch (nextStep.signInStep) {
+        case 'CONFIRM_SIGN_IN_WITH_TOTP_CODE':
+        case 'CONFIRM_SIGN_IN_WITH_SMS_CODE':
+          // nextStep will contain codeDeliveryDetails when step is CONFIRM_SIGN_IN_WITH_SMS_CODE
           const {
-              isSignedIn,
-              nextStep
-            } = await confirmSignIn({ challengeResponse: mfaType});
+            isSignedIn,
+            nextStep
+          } = await confirmSignIn({ challengeResponse: 'code' });
+          break;
+        case 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE':
+          const { additionalInfo } = nextStep;
+          const {
+            isSignedIn,
+            nextStep
+          } = await confirmSignIn({ challengeResponse: 'answer' });
+          break;
+        case 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP':
+          // Note that calling setupTOTP is unnecessary in this scenario
+          // totpSetupDetails are already returned with nextStep
+          const { totpSetupDetails } = nextStep;
+          const appName = 'my_app_name';
+          const setupUri = totpSetupDetails.getSetupUri(appName);
+          // Open setupUri with an authenticator APP to retrieve an OTP code
+          // Retrieve code from authenticator App
+          const {
+            isSignedIn,
+            nextStep
+          } = await confirmSignIn({ challengeResponse: 'code' });
+          break;
+        case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
 
-            // if confirmSignIn was called with 'SMS', then the next
-            // step will be 'CONFIRM_SIGN_IN_WITH_SMS_CODE'.
-            // However if 'TOTP' was used as input then 'CONFIRM_SIGN_IN_WITH_TOTP_CODE'
-            // will be returned.
+        const mfaType = 'SMS' // or TOTP
+        const {
+            isSignedIn,
+            nextStep
+          } = await confirmSignIn({ challengeResponse: mfaType});
 
-            const otpCode = '123456' // code retrieved from authenticator App or cellphone
-            const {
-              isSignedIn,
-              nextStep
-            } = await confirmSignIn({ challengeResponse: otpCode});
-            break;
-          case 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED':
-            const { missingAttributes } = nextStep;
-            const userAttributes = { ... };
+          // if confirmSignIn was called with 'SMS', then the next
+          // step will be 'CONFIRM_SIGN_IN_WITH_SMS_CODE'.
+          // However if 'TOTP' was used as input then 'CONFIRM_SIGN_IN_WITH_TOTP_CODE'
+          // will be returned.
 
-            const {
-              isSignedIn,
-              nextStep
-            } = await confirmSignIn({
-              challengeResponse: 'newPassword',
-              options: {
-                userAttributes
-              }
-            });
-            break;
-        }
+          const otpCode = '123456' // code retrieved from authenticator App or cellphone
+          const {
+            isSignedIn,
+            nextStep
+          } = await confirmSignIn({ challengeResponse: otpCode});
+          break;
+        case 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED':
+          const { missingAttributes } = nextStep;
+          const userAttributes = { ... };
+
+          const {
+            isSignedIn,
+            nextStep
+          } = await confirmSignIn({
+            challengeResponse: 'newPassword',
+            options: {
+              userAttributes
+            }
+          });
+          break;
+        case 'DONE':
+          break;
       }
     }
     ```
@@ -2060,6 +2060,56 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
   </div>
 </Columns>
 
+### Example
+
+<Columns columns="2">
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleResetPassword = async ({
+      username,
+      clientMetadata
+    }) => {
+      const result = await Auth.forgotPassword(
+        username,
+        clientMetadata
+      );
+
+      const {
+        AttributeName,
+        DeliveryMedium,
+        Destination
+      } = result.CodeDeliveryDetails;
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { resetPassword } from 'aws-amplify/auth';
+
+    const handleResetPassword = async ({
+      username,
+      clientMetadata
+    }) => {
+      const result = await resetPassword({
+        username,
+        options: {
+          clientMetadata
+        }
+      });
+      const {
+        attributeName,
+        deliveryMedium,
+        destination
+      } = result.nextStep.codeDeliveryDetails;
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.forgotPasswordSubmit
 
 ```diff
@@ -2069,6 +2119,90 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 -  Auth.forgotPasswordSubmit: (username: string, code: string, password: string, clientMetadata?: ClientMetaData) => Promise<string>;
 +  confirmResetPassword: (input: ConfirmResetPasswordInput) => Promise<void>;
 ```
+
+### Input
+
+<Columns columns="2">
+  <div>
+    ```
+    username: string
+    code: string
+    password: string
+    clientMetadata?: ClientMetaData {
+      [key: string]: string;
+    };
+    ```
+  
+  </div>
+  <div>
+    ```
+    input: ConfirmResetPasswordInput {
+      username: string;
+      newPassword: string;
+      confirmationCode: string;
+      options?: {
+        clientMetadata?: {
+          [key: string]: string;
+        };
+      };
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Output
+
+<Columns columns="2">
+  <div>``` 'SUCCESS' ```</div>
+</Columns>
+
+### Example
+
+<Columns columns="2">
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleConfirmResetPassword = async ({
+      username,
+      newPassword,
+      confirmationCode,
+      clientMetadata
+    }) => {
+      await Auth.forgotPasswordSubmit(
+        username,
+        confirmationCode,
+        newPassword,
+        clientMetadata
+      );
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { confirmResetPassword } from 'aws-amplify/auth';
+
+    const handleConfirmResetPassword = async ({
+      username,
+      newPassword,
+      confirmationCode,
+      clientMetadata
+    }) => {
+      await confirmResetPassword: ({
+        username,
+        newPassword,
+        confirmationCode,
+        options: {
+          clientMetadata
+        }
+      });
+    }
+    ```
+
+  </div>
+</Columns>
 
 ## Auth.deleteUser
 
