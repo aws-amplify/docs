@@ -85,7 +85,8 @@ Next, enter the credentials of the existing IAM user (this is their access key a
 ![](/images/gen2/account-setup/profile2.png)
 
 <Accordion title='Single Sign On (SSO) support' eyebrow='Learn more'>
-  AWS Amplify (Gen 2) enhances your user experience with Single Sign-On (SSO) authentication powered by AWS IAM Identity Center. AWS Amplify (Gen 2) now adheres to and works out of the box with the default [credential provider chain](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/setting-credentials-node.html#credchain).
+
+AWS Amplify (Gen 2) enhances your user experience with Single Sign-On (SSO) authentication powered by AWS IAM Identity Center. AWS Amplify (Gen 2) now adheres to and works out of the box with the default [credential provider chain](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/setting-credentials-node.html#credchain).
 
 You can get started with implementing SSO with the AWS CLI for your teams or organizations by referring to the [AWS IAM Identity Center documentation](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html).
 
@@ -96,15 +97,9 @@ You can get started with implementing SSO with the AWS CLI for your teams or org
 Before you can start creating the cloud sandbox environment, Amplify will need to complete a one-time bootstrap setup for the account and region before it can start deploying resources in your AWS account.
 
 <Accordion title="What is bootstrapping?" eyebrow="Learn more">
-  Bootstrapping is the process of provisioning resources for the AWS CDK before
-  you can deploy AWS CDK apps into an AWS environment. These resources include
-  an Amazon S3 bucket for storing files and IAM roles that grant permissions
-  needed to perform deployments. The required resources are defined in an AWS
-  CloudFormation stack, called the bootstrap stack, which is usually named
-  `CDKToolkit`. Like any AWS CloudFormation stack, it appears in the AWS
-  CloudFormation console once it is deployed. You can learn more about this
-  process in the [CDK
-  documentation](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html).
+
+Bootstrapping is the process of provisioning resources for the AWS CDK before you can deploy AWS CDK apps into an AWS environment. These resources include an Amazon S3 bucket for storing files and IAM roles that grant permissions needed to perform deployments. The required resources are defined in an AWS CloudFormation stack, called the bootstrap stack, which is usually named `CDKToolkit`. Like any AWS CloudFormation stack, it appears in the AWS CloudFormation console once it is deployed. You can learn more about this process in the [CDK documentation](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html).
+
 </Accordion>
 
 You can setup a distinct profile for each developer on your team and they can now start developing their fullstack applications locally by creating an isolated sandbox environment as follows:
