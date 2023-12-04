@@ -3302,6 +3302,37 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  rememberDevice: () => Promise<void>;
 ```
 
+### Output
+
+<Columns columns="2">
+  <div>``` 'SUCCESS' ```</div>
+</Columns>
+
+### Example
+
+<Columns columns="2">
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleRememberDevice = async () => {
+      await Auth.rememberDevice();
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { rememberDevice } from 'aws-amplify/auth';
+
+    const handleRememberDevice = async () => {
+      await rememberDevice();
+    }
+    ```
+
+  </div>
+</Columns>
+
 ## Auth.forgetDevice
 
 ```diff
@@ -3311,6 +3342,47 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 -  Auth.forgetDevice: () => Promise<void>;
 +  forgetDevice: (input?: ForgetDeviceInput) => Promise<void>;
 ```
+
+### Input
+
+<Columns columns="2">
+  <div></div>
+  <div>
+    ```
+    input?: ForgetDeviceInput {
+      device?: {
+        id: string;
+      }
+    }
+    ```
+
+  </div>
+</Columns>
+
+### Example
+
+<Columns columns="2">
+  <div>
+    ```
+    import { Auth } from 'aws-amplify';
+
+    const handleForgetDevice = async () => {
+      await Auth.forgetDevice();
+    }
+    ```
+
+  </div>
+  <div>
+    ```
+    import { forgetDevice } from 'aws-amplify/auth';
+
+    const handleForgetDevice = async () => {
+      await forgetDevice();
+    }
+    ```
+
+  </div>
+</Columns>
 
 ## Auth.currentCredentials (DEPRECATED)
 
