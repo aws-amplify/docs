@@ -33,18 +33,24 @@ export function getStaticProps(context) {
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     // Standard
     params: SignUpParams {
       username: string;
       password: string;
       attributes?: object;
-      validationData?: { [key: string]: any };
+      validationData?: {
+        [key: string]: string;
+      }
       clientMetadata?: { [key: string]: string; };
       autoSignIn?: {
         enabled: boolean;
         clientMetaData?: { [key: string]: string; };
-        validationData?: { [key: string]: any };
+        validationData?: {
+          [key: string]: string;
+        }
       };
     }
 
@@ -57,6 +63,8 @@ export function getStaticProps(context) {
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: SignUpInput {
       username: string;
@@ -84,6 +92,8 @@ export function getStaticProps(context) {
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     ISignUpResult {
       user: CognitoUser;
@@ -99,6 +109,8 @@ export function getStaticProps(context) {
 
   </div>
   <div>
+    **V6**
+    
     ```
     SignUpOutput {
       isSignUpComplete: boolean;
@@ -109,10 +121,14 @@ export function getStaticProps(context) {
           | 'CONFIRM_SIGN_UP'
           | 'COMPLETE_AUTO_SIGN_IN',
         codeDeliveryDetails: { // Not included when signUpStep is 'DONE'
-          `destination``?:`` ``string``;`
-          `deliveryMedium``?:`` 'EMAIL' | 'SMS' | 'PHONE' | 'UNKNOWN'``;`
-          `attributeName``?:`` ``UserAttributeKey``;`
-    `    ``}`
+          destination?: string;
+          deliveryMedium?: 
+            | 'EMAIL'
+            | 'SMS'
+            | 'PHONE'
+            | 'UNKNOWN';
+          attributeName?: UserAttributeKey;
+        }
       };
     }
     ```
@@ -124,6 +140,8 @@ export function getStaticProps(context) {
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -148,6 +166,8 @@ export function getStaticProps(context) {
 
     </div>
     <div>
+      **V6**
+
       ```
       import { signUp } from 'aws-amplify/auth';
 
@@ -186,6 +206,8 @@ NOTE: autoSignIn is no longer triggered automatically in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth, Hub } from 'aws-amplify';
 
@@ -233,6 +255,8 @@ NOTE: autoSignIn is no longer triggered automatically in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     import {
       autoSignIn,
@@ -292,6 +316,8 @@ NOTE: autoSignIn is no longer triggered automatically in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -313,6 +339,8 @@ NOTE: autoSignIn is no longer triggered automatically in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { signUp } from 'aws-amplify/auth';
 
@@ -357,6 +385,8 @@ NOTE: autoSignIn is no longer triggered automatically in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     username: string
     code: string
@@ -368,6 +398,8 @@ NOTE: autoSignIn is no longer triggered automatically in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: ConfirmSignUpInput = {
         username: string;
@@ -386,13 +418,16 @@ NOTE: autoSignIn is no longer triggered automatically in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
-    `'SUCCESS'
-    `
+    'SUCCESS'
     ```
 
   </div>
   <div>
+    **V6**
+    
     ```
     type ConfirmSignUpOutput = {
         isSignUpComplete: boolean;
@@ -404,7 +439,11 @@ NOTE: autoSignIn is no longer triggered automatically in v6
                 | 'COMPLETE_AUTO_SIGN_IN',
             codeDeliveryDetails: { // Not included when signUpStep is 'DONE'
                 destination?: string;
-                deliveryMedium?: 'EMAIL' | 'SMS' | 'PHONE' | 'UNKNOWN';
+                deliveryMedium?: 
+                  | 'EMAIL'
+                  | 'SMS'
+                  | 'PHONE'
+                  | 'UNKNOWN';
                 attributeName?: UserAttributeKey;
             }
         };
@@ -418,6 +457,8 @@ NOTE: autoSignIn is no longer triggered automatically in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -434,6 +475,8 @@ NOTE: autoSignIn is no longer triggered automatically in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { confirmSignUp } from 'aws-amplify/auth';
 
@@ -461,6 +504,8 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -481,6 +526,8 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { confirmSignUp } from 'aws-amplify/auth';
 
@@ -520,6 +567,8 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     username: string
     clientMetadata?: ClientMetaData {
@@ -529,6 +578,8 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: ResendSignUpCodeInput {
         username: string;
@@ -544,6 +595,8 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     {
       CodeDeliveryDetails: {
@@ -556,10 +609,16 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
   
   </div>
   <div>
+    **V6**
+    
     ```
     ResendSignUpCodeOutput {
         destination?: string;
-        deliveryMedium?: 'EMAIL' | 'SMS' | 'PHONE' | 'UNKNOWN';
+        deliveryMedium?: 
+          | 'EMAIL'
+          | 'SMS'
+          | 'PHONE'
+          | 'UNKNOWN';
         attributeName?: AuthVerifiableAttributeKey;
     }
     ```
@@ -570,6 +629,8 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -580,6 +641,8 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { resendSignUpCode } from 'aws-amplify/auth';
 
@@ -605,6 +668,8 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     // Standard
     usernameOrSignInOpts: SignInOpts {
@@ -629,6 +694,8 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: SignInInput {
       username: string;
@@ -639,7 +706,9 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
           | 'CUSTOM_WITH_SRP'
           | 'CUSTOM_WITHOUT_SRP'
           | 'USER_PASSWORD_AUTH';
-        clientMetadata?: { [key: string]: string; };
+        clientMetadata?: ClientMetaData {
+          [key: string]: string;
+        }
       };
     }
     ```
@@ -650,6 +719,8 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     CognitoUser {
       challengeName?: string;
@@ -667,6 +738,8 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 
   </div>
   <div>
+    **V6**
+    
     ```
     type SignInOutput = {
       isSignedIn: boolean;
@@ -692,6 +765,8 @@ Note that signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -710,6 +785,8 @@ Note that signIn no longer accepts validationData in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { signIn } from 'aws-amplify/auth';
 
@@ -733,6 +810,8 @@ NOTE: signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -802,6 +881,8 @@ NOTE: signIn no longer accepts validationData in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     import {
       confirmSignIn,
@@ -892,6 +973,8 @@ NOTE: signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -908,6 +991,8 @@ NOTE: signIn no longer accepts validationData in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { signIn } from 'aws-amplify/auth';
 
@@ -944,6 +1029,8 @@ NOTE: signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     // Standard
     options?: FederatedSignInOptions {
@@ -984,6 +1071,8 @@ NOTE: signIn no longer accepts validationData in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     input?: SignInWithRedirectInput {
       provider?:
@@ -1006,6 +1095,8 @@ NOTE: signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     ICredentials {
       accessKeyId: string;
@@ -1018,12 +1109,20 @@ NOTE: signIn no longer accepts validationData in v6
     ```
   
   </div>
+  <div>
+    **V6**
+
+    No output in v6
+
+  </div>
 </Columns>
 
 ### Example 1 (Standard)
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1036,6 +1135,8 @@ NOTE: signIn no longer accepts validationData in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     import {
       fetchAuthSession,
@@ -1056,6 +1157,8 @@ NOTE: signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1068,6 +1171,8 @@ NOTE: signIn no longer accepts validationData in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { signInWithRedirect } from 'aws-amplify/auth';
 
@@ -1087,6 +1192,8 @@ NOTE: signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1097,6 +1204,8 @@ NOTE: signIn no longer accepts validationData in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { signInWithRedirect } from 'aws-amplify/auth';
 
@@ -1112,6 +1221,8 @@ NOTE: signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1141,7 +1252,9 @@ NOTE: signIn no longer accepts validationData in v6
 
   </div>
   <div>
-    `signInWithRedirect` does not allow you to pass a pre-authorized user and tokens for Amplify to consume. Follow [this guide](http://localhost:3000/react/build-a-backend/auth/advanced-workflows/#identity-pool-federation) as an example of how to accomplish this in v6..
+    **V6**
+    
+    `signInWithRedirect` does not allow you to pass a pre-authorized user and tokens for Amplify to consume. Follow [this guide](http://localhost:3000/react/build-a-backend/auth/advanced-workflows/#identity-pool-federation) as an example of how to accomplish this in v6.
 
   </div>
 </Columns>
@@ -1162,6 +1275,8 @@ NOTE: signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     code: string
@@ -1173,12 +1288,16 @@ NOTE: signIn no longer accepts validationData in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: ConfirmSignInInput {
       challengeResponse: string;
       options?: {
         userAttributes?: AuthUserAttributes;
-        clientMetadata?: { [key: string]: string; };
+        clientMetadata?: ClientMetaData {
+          [key: string]: string;
+        }
         friendlyDeviceName?: string;
       };
     }
@@ -1190,6 +1309,8 @@ NOTE: signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     CognitoUser {
       challengeName?: string;
@@ -1207,6 +1328,8 @@ NOTE: signIn no longer accepts validationData in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     ConfirmSignInOutput {
       isSignedIn: boolean;
@@ -1229,6 +1352,8 @@ NOTE: signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1248,6 +1373,8 @@ NOTE: signIn no longer accepts validationData in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { confirmSignIn } from 'aws-amplify/auth';
 
@@ -1275,16 +1402,35 @@ NOTE: signIn no longer accepts validationData in v6
 ### Input
 
 <Columns columns={2}>
-  <div>``` user: CognitoUser ```</div>
+  <div>
+    **V5**
+
+    ```
+    user: CognitoUser
+    ```
+
+  </div>
+  <div>
+    **V6**
+
+    No input in v6
+
+  </div>
 </Columns>
 
 ### Output
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     string // secretCode
     ```
+
+  </div>
+  <div>
+    **V6**
 
     ```
     SetUpTOTPOutput {
@@ -1300,6 +1446,8 @@ NOTE: signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1311,6 +1459,8 @@ NOTE: signIn no longer accepts validationData in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { setUpTOTP } from 'aws-amplify/auth';
 
@@ -1338,6 +1488,8 @@ NOTE: signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     challengeAnswer: string
@@ -1345,6 +1497,8 @@ NOTE: signIn no longer accepts validationData in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: VerifyTOTPSetupInput {
       code: string;
@@ -1361,6 +1515,8 @@ NOTE: signIn no longer accepts validationData in v6
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     CognitoUserSession {
       idToken: string;
@@ -1371,12 +1527,20 @@ NOTE: signIn no longer accepts validationData in v6
     ```
 
   </div>
+  <div>
+    **V6**
+
+    No output in v6
+
+  </div>
 </Columns>
 
 ### Example
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1388,6 +1552,8 @@ NOTE: signIn no longer accepts validationData in v6
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { verifyTOTPSetup } from 'aws-amplify/auth';
 
@@ -1415,6 +1581,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     password: string
@@ -1426,12 +1594,16 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: ConfirmSignInInput {
       challengeResponse: string;
       options?: {
         userAttributes?: AuthUserAttributes;
-        clientMetadata?: { [key: string]: string; };
+        clientMetadata?: ClientMetaData {
+          [key: string]: string;
+        }
         friendlyDeviceName?: string;
       };
     }
@@ -1444,6 +1616,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     CognitoUser {
       challengeName?: string;
@@ -1461,6 +1635,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
   </div>
   <div>
+    **V6**
+    
     ```
     ConfirmSignInOutput {
       isSignedIn: boolean;
@@ -1484,6 +1660,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1502,6 +1680,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { confirmSignIn } from 'aws-amplify/auth';
 
@@ -1532,6 +1712,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     challengeResponses: string
@@ -1542,12 +1724,16 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: ConfirmSignInInput {
       challengeResponse: string;
       options?: {
         userAttributes?: AuthUserAttributes;
-        clientMetadata?: { [key: string]: string; };
+        clientMetadata?: ClientMetaData {
+          [key: string]: string;
+        }
         friendlyDeviceName?: string;
       };
     }
@@ -1560,6 +1746,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     CognitoUser {
       challengeName?: string;
@@ -1577,6 +1765,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
   </div>
   <div>
+    **V6**
+    
     ```
     ConfirmSignInOutput {
       isSignedIn: boolean;
@@ -1600,6 +1790,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1616,6 +1808,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { confirmSignIn } from 'aws-amplify/auth';
 
@@ -1644,6 +1838,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     params?: GetPreferredMFAOpts {
@@ -1651,18 +1847,28 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
     }
     ```
   </div>
+  <div>
+    **V6**
+
+    No input in v6
+
+  </div>
 </Columns>
 
 ### Output
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     'SMS' | 'TOTP'
     ```
 
   </div>
   <div>
+    **V6**
+    
     ```
     FetchMFAPreferenceOutput: {
       enabled?: ('SMS' | 'TOTP')[];
@@ -1677,6 +1883,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1688,6 +1896,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { fetchMFAPreference } from 'aws-amplify/auth';
 
@@ -1714,13 +1924,22 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
-    mfaMethod: 'TOTP' | 'SMS' | 'NOMFA' | 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA'
+    mfaMethod: 
+      | 'TOTP'
+      | 'SMS'
+      | 'NOMFA'
+      | 'SMS_MFA'
+      | 'SOFTWARE_TOKEN_MFA'
     ```
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: UpdateMFAPreferenceInput {
       sms?:
@@ -1741,13 +1960,28 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 ### Output
 
 <Columns columns={2}>
-  <div>``` 'No change for mfa type' | 'SUCCESS' ```</div>
+  <div>
+    **V5**
+
+    ```
+    'No change for mfa type' | 'SUCCESS'
+    ```
+
+  </div>
+  <div>
+    **V6**
+
+    No output in v6
+
+  </div>
 </Columns>
 
 ### Example
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1758,6 +1992,8 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { updateMFAPreference } from 'aws-amplify/auth';
 
@@ -1785,9 +2021,17 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     ```
+
+  </div>
+  <div>
+    **V6**
+
+    No input in v6
 
   </div>
 </Columns>
@@ -1796,6 +2040,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     MFAOption[]: {
       DeliveryMedium: 'SMS' | ~~'EMAIL'~~;
@@ -1805,6 +2051,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
   </div>
   <div>
+    **V6**
+    
     ```
     FetchMFAPreferenceOutput: {
       enabled?: ('SMS' | 'TOTP')[];
@@ -1819,6 +2067,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1834,6 +2084,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { fetchMFAPreference } from 'aws-amplify/auth';
 
@@ -1860,6 +2112,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     opts?: SignOutOpts {
       global?: boolean;
@@ -1868,6 +2122,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
   </div>
   <div>
+    **V6**
+    
     ```
     input?: SignOutInput {
       global: boolean;
@@ -1881,6 +2137,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1891,6 +2149,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { signOut } from 'aws-amplify/auth';
 
@@ -1916,6 +2176,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     oldPassword: string
@@ -1927,6 +2189,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: UpdatePasswordInput {
       oldPassword: string;
@@ -1939,13 +2203,28 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 ### Output
 
 <Columns columns={2}>
-  <div>``` 'SUCCESS' ```</div>
+  <div>
+    **V5**
+    
+    ```
+    'SUCCESS'
+    ```
+    
+  </div>
+  <div>
+    **V6**
+
+    No output in v6
+
+  </div>
 </Columns>
 
 ### Example
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -1964,6 +2243,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { updatePassword } from 'aws-amplify/auth';
 
@@ -1995,6 +2276,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     username: string
     clientMetadata?: ClientMetaData {
@@ -2004,6 +2287,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: ResetPasswordInput {
       username: string;
@@ -2022,6 +2307,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     {
       CodeDeliveryDetails: {
@@ -2034,6 +2321,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
   </div>
   <div>
+    **V6**
+    
     ```
     ResetPasswordOutput {
       isPasswordReset: boolean;
@@ -2064,6 +2353,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
 <Columns columns="2">
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -2086,6 +2377,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { resetPassword } from 'aws-amplify/auth';
 
@@ -2124,6 +2417,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
 <Columns columns="2">
   <div>
+    **V5**
+    
     ```
     username: string
     code: string
@@ -2135,6 +2430,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
   
   </div>
   <div>
+    **V6**
+    
     ```
     input: ConfirmResetPasswordInput {
       username: string;
@@ -2154,13 +2451,27 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 ### Output
 
 <Columns columns="2">
-  <div>``` 'SUCCESS' ```</div>
+  <div>
+    **V5**
+    ```
+    'SUCCESS'
+    ```
+    
+  </div>
+  <div>
+    **V6**
+
+    No output in v6
+
+  </div>
 </Columns>
 
 ### Example
 
 <Columns columns="2">
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -2181,6 +2492,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { confirmResetPassword } from 'aws-amplify/auth';
 
@@ -2218,6 +2531,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -2228,6 +2543,8 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { deleteUser } from 'aws-amplify/auth';
 
@@ -2258,6 +2575,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     params?: CurrentUserOpts {
       bypassCache: boolean;
@@ -2266,7 +2585,10 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
+    // fetchAuthSession
     options?: FetchAuthSessionOptions {
       forceRefresh?: boolean;
     }
@@ -2279,6 +2601,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     CognitoUser {
       username: string;
@@ -2294,6 +2618,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     // getCurrentUser
     GetCurrentUserOutput: {
@@ -2333,6 +2659,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -2353,6 +2681,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     import {
       fetchAuthSession,
@@ -2398,6 +2728,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     params?: CurrentUserOpts {
       bypassCache: boolean;
@@ -2406,7 +2738,10 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
+    // fetchAuthSession
     options?: FetchAuthSessionOptions {
       forceRefresh?: boolean;
     }
@@ -2419,6 +2754,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     CognitoUser {
       username: string;
@@ -2434,6 +2771,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     // getCurrentUser
     GetCurrentUserOutput: {
@@ -2473,6 +2812,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -2487,6 +2828,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     import {
       fetchAuthSession,
@@ -2524,8 +2867,15 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 ### Input
 
 <Columns columns={2}>
-  <div></div>
   <div>
+    **V5**
+
+    No input in v5
+
+  </div>
+  <div>
+    **V6**
+    
     ```
     options?: FetchAuthSessionOptions {
       forceRefresh?: boolean;
@@ -2539,6 +2889,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     CognitoUserSession {
       idToken: string;
@@ -2550,6 +2902,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     AuthSession {
       tokens?: {
@@ -2574,6 +2928,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -2589,6 +2945,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { fetchAuthSession } from 'aws-amplify/auth';
 
@@ -2626,12 +2984,16 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     ```
 
   </div>
   <div>
+    **V6**
+    
     ```
     options?: FetchAuthSessionOptions {
       forceRefresh?: boolean;
@@ -2645,6 +3007,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     CognitoUserSession {
       idToken: string;
@@ -2656,6 +3020,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     AuthSession {
       tokens?: {
@@ -2680,6 +3046,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -2695,6 +3063,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { fetchAuthSession } from 'aws-amplify/auth';
 
@@ -2730,9 +3100,17 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     ```
+
+  </div>
+  <div>
+    **V6**
+
+    No input in v6
 
   </div>
 </Columns>
@@ -2741,6 +3119,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     CognitoUserAttribute[]: {
       Name: string;
@@ -2750,6 +3130,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     FetchUserAttributesOutput {
       [key: string]?: string;
@@ -2763,6 +3145,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -2777,6 +3161,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { fetchUserAttributes } from 'aws-amplify/auth';
 
@@ -2803,6 +3189,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     attributes: object
@@ -2813,13 +3201,17 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: UpdateUserAttributesInput {
       userAttributes: {
         [key: string]?: string;
       };
       options?: {
-        clientMetadata?: { [key: string]: string; };
+        clientMetadata?: ClientMetaData {
+          [key: string]: string;
+        }
       };
     }
     ```
@@ -2830,12 +3222,16 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     'SUCCESS'
     ```
 
   </div>
   <div>
+    **V6**
+    
     ```
     UpdateUserAttributesOutput {
       [authKey in UserAttributeKey]: {
@@ -2846,7 +3242,11 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
             | 'DONE';
           codeDeliveryDetails?: {
             destination?: string;
-            deliveryMedium?: 'EMAIL' | 'SMS' | 'PHONE' | 'UNKNOWN';
+            deliveryMedium?: 
+              | 'EMAIL'
+              | 'SMS'
+              | 'PHONE'
+              | 'UNKNOWN';
             attributeName?: UserAttributeKey;
           };
         };
@@ -2860,6 +3260,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -2873,6 +3275,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { updateUserAttributes } from 'aws-amplify/auth';
 
@@ -2901,6 +3305,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     attributeNames: string[]
@@ -2908,6 +3314,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: DeleteUserAttributesInput {
       userAttributeKeys: [UserAttributeKey, ...UserAttributeKey[]];
@@ -2921,9 +3329,17 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     'SUCCESS'
     ```
+
+  </div>
+  <div>
+    **V6**
+
+    No output in v6
 
   </div>
 </Columns>
@@ -2932,6 +3348,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -2945,6 +3363,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { deleteUserAttributes } from 'aws-amplify/auth';
 
@@ -2972,6 +3392,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     attr: string
@@ -2982,6 +3404,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: SendUserAttributeVerificationCodeInput {
       userAttributeKey: 'email' | 'phone_number';
@@ -2999,8 +3423,15 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 ### Output
 
 <Columns columns={2}>
-  <div></div>
   <div>
+    **V5**
+
+    No output in v5
+
+  </div>
+  <div>
+    **V6**
+    
     ```
     SendUserAttributeVerificationCodeOutput {
       destination?: string;
@@ -3020,6 +3451,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -3038,6 +3471,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { sendUserAttributeVerificationCode } from 'aws-amplify/auth';
 
@@ -3071,6 +3506,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     attr: string
@@ -3079,6 +3516,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: ConfirmUserAttributeInput {
       userAttributeKey: 'email' | 'phone_number';
@@ -3092,13 +3531,28 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 ### Output
 
 <Columns columns={2}>
-  <div>``` 'SUCCESS' ```</div>
+  <div>
+    **V5**
+
+    ```
+    'SUCCESS'
+    ```
+
+  </div>
+  <div>
+    **V6**
+
+    No output in v6
+
+  </div>
 </Columns>
 
 ### Example
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -3117,6 +3571,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { confirmUserAttribute } from 'aws-amplify/auth';
 
@@ -3148,12 +3604,16 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     attr: string
     ```
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: SendUserAttributeVerificationCodeInput {
       userAttributeKey: 'email' | 'phone_number';
@@ -3171,8 +3631,15 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 ### Output
 
 <Columns columns={2}>
-  <div></div>
   <div>
+    **V5**
+
+    No output in v5
+
+  </div>
+  <div>
+    **V6**
+    
     ```
     SendUserAttributeVerificationCodeOutput {
       destination?: string;
@@ -3191,6 +3658,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -3203,6 +3672,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { sendUserAttributeVerificationCode } from 'aws-amplify/auth';
 
@@ -3232,6 +3703,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     attr: string
     code: string
@@ -3239,6 +3712,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: ConfirmUserAttributeInput {
       userAttributeKey: 'email' | 'phone_number';
@@ -3251,13 +3726,28 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 ### Output
 
 <Columns columns={2}>
-  <div>``` 'SUCCESS' ```</div>
+  <div>
+    **V5**
+    
+    ```
+    'SUCCESS'
+    ```
+    
+  </div>
+  <div>
+    **V6**
+
+    No output in v6
+
+  </div>
 </Columns>
 
 ### Example
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -3274,6 +3764,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { confirmUserAttribute } from 'aws-amplify/auth';
 
@@ -3304,13 +3796,28 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 ### Output
 
 <Columns columns="2">
-  <div>``` 'SUCCESS' ```</div>
+  <div>
+    **V5**
+    
+    ```
+    'SUCCESS'
+    ```
+    
+  </div>
+  <div>
+    **V6**
+
+    No output in v6
+
+  </div>
 </Columns>
 
 ### Example
 
 <Columns columns="2">
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -3321,6 +3828,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { rememberDevice } from 'aws-amplify/auth';
 
@@ -3345,8 +3854,15 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 ### Input
 
 <Columns columns="2">
-  <div></div>
   <div>
+    **V5**
+
+    No input in v5
+
+  </div>
+  <div>
+    **V6**
+    
     ```
     input?: ForgetDeviceInput {
       device?: {
@@ -3362,6 +3878,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
 <Columns columns="2">
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -3372,6 +3890,8 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { forgetDevice } from 'aws-amplify/auth';
 
@@ -3398,8 +3918,15 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 ### Input
 
 <Columns columns={2}>
-  <div></div>
   <div>
+    **V5**
+
+    No input in v5
+
+  </div>
+  <div>
+    **V6**
+    
     ```
     options?: FetchAuthSessionOptions {
       forceRefresh?: boolean;
@@ -3413,6 +3940,8 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     ICredentials {
       accessKeyId: string;
@@ -3426,6 +3955,8 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 
   </div>
   <div>
+    **V6**
+    
     ```
     AuthSession {
       tokens?: {
@@ -3450,6 +3981,8 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -3467,6 +4000,8 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { fetchAuthSession } from 'aws-amplify/auth';
 
@@ -3513,8 +4048,15 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 ### Input
 
 <Columns columns={2}>
-  <div></div>
   <div>
+    **V5**
+
+    No input in v5
+
+  </div>
+  <div>
+    **V6**
+    
     ```
     options?: FetchAuthSessionOptions {
       forceRefresh?: boolean;
@@ -3528,6 +4070,8 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     ICredentials {
       accessKeyId: string;
@@ -3541,6 +4085,8 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 
   </div>
   <div>
+    **V6**
+    
     ```
     AuthSession {
       tokens?: {
@@ -3564,6 +4110,8 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -3581,6 +4129,8 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { fetchAuthSession } from 'aws-amplify/auth';
 
@@ -3629,6 +4179,8 @@ This API has been deprecated: existing use cases can be migrated by using a comb
 
 <Columns columns="2">
   <div>
+    **V5**
+    
     ```
     {
       id?: string;
@@ -3641,6 +4193,8 @@ This API has been deprecated: existing use cases can be migrated by using a comb
   
   </div>
   <div>
+    **V6**
+    
     ```
     // getCurrentUser
     GetCurrentUserOutput: {
@@ -3669,6 +4223,8 @@ This API has been deprecated: existing use cases can be migrated by using a comb
 
 <Columns columns="2">
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -3679,6 +4235,8 @@ This API has been deprecated: existing use cases can be migrated by using a comb
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { getCurrentUser, fetchUserAttributes } from 'aws-amplify';
 
@@ -3720,13 +4278,28 @@ This API has been deprecated: existing use cases can be migrated to the `fetchUs
 ### Input
 
 <Columns columns={2}>
-  <div>``` user: CognitoUser ```</div>
+  <div>
+    **V5**
+    
+    ```
+    user: CognitoUser
+    ```
+    
+  </div>
+  <div>
+    **V6**
+
+    No input in v6
+
+  </div>
 </Columns>
 
 ### Output
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     {
       verified: {
@@ -3741,13 +4314,15 @@ This API has been deprecated: existing use cases can be migrated to the `fetchUs
     ```
 
   </div>
-  <div>  
+  <div>
+    **V6**
+
     ```
     FetchUserAttributesOutput {
       [key: string]?: string;
     }
     ```
-  
+
   </div>
 </Columns>
 
@@ -3755,6 +4330,8 @@ This API has been deprecated: existing use cases can be migrated to the `fetchUs
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -3768,6 +4345,8 @@ This API has been deprecated: existing use cases can be migrated to the `fetchUs
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { fetchUserAttributes } from 'aws-amplify/auth';
 
@@ -3804,12 +4383,16 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     ```
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: UpdateMFAPreferenceInput {
       sms?:
@@ -3831,13 +4414,28 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 ### Output
 
 <Columns columns={2}>
-  <div>``` 'SUCCESS' ```</div>
+  <div>
+    **V5**
+    
+    ```
+    'SUCCESS'
+    ```
+  
+  </div>
+  <div>
+    **V6**
+
+    No output in v6
+
+  </div>
 </Columns>
 
 ### Example
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -3848,6 +4446,8 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { updateMFAPreference } from 'aws-amplify/auth';
 
@@ -3875,12 +4475,16 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     user: CognitoUser
     ```
 
   </div>
   <div>
+    **V6**
+    
     ```
     input: UpdateMFAPreferenceInput {
       sms?:
@@ -3902,13 +4506,28 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 ### Output
 
 <Columns columns={2}>
-  <div>``` 'SUCCESS' ```</div>
+  <div>
+    **V5**
+    
+    ```
+    'SUCCESS'
+    ```
+
+  </div>
+  <div>
+    **V6**
+
+    No output in v6
+
+  </div>
 </Columns>
 
 ### Example
 
 <Columns columns={2}>
   <div>
+    **V5**
+    
     ```
     import { Auth } from 'aws-amplify';
 
@@ -3919,6 +4538,8 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 
   </div>
   <div>
+    **V6**
+    
     ```
     import { updateMFAPreference } from 'aws-amplify/auth';
 
