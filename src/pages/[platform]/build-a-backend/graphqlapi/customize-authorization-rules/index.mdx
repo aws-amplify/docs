@@ -518,13 +518,13 @@ import { listPosts } from './graphql/queries';
 const newPostResult = await client.graphql({
   query: queries.createPost,
   variables: { input: { title: 'Hello World' } },
-  authMode: 'AMAZON_COGNITO_USER_POOLS'
+  authMode: 'userPool'
 });
 
 // Listing posts is available to all users (verified by IAM)
 const listPostsResult = await client.graphql({
   query: queries.listPosts,
-  authMode: 'AWS_IAM'
+  authMode: 'iam'
 });
 ```
 
