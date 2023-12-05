@@ -56,7 +56,7 @@ export const MDXCode = ({
 
   useEffect(() => {
     setCode(addVersions(codeString));
-  }, []);
+  }, [codeString]);
 
   return (
     <Highlight theme={theme} code={code} language={language}>

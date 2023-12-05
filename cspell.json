@@ -165,6 +165,7 @@
     "Auth.currentAuthenticatedUser",
     "Auth.federatedSignIn",
     "Auth0",
+    "authcurrentusercredentials",
     "authData",
     "Authenticator's",
     "Authenticator",
