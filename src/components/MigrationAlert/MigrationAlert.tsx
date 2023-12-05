@@ -1,8 +1,6 @@
-import { useState } from 'react';
 import { Callout } from '../Callout';
 import Link from 'next/link';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
-import { Platform } from '@/data/platforms';
 
 type MigrationAlert = {
   isLegacy: boolean;

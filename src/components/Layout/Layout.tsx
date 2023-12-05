@@ -36,9 +36,7 @@ import { LayoutProvider } from '@/components/Layout';
 import { TableOfContents } from '@/components/TableOfContents';
 import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
-import directory from 'src/directory/directory.json';
 import flatDirectory from 'src/directory/flatDirectory.json';
-import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import { DocSearch } from '@docsearch/react';
@@ -65,7 +63,7 @@ export const Layout = ({
   url,
   useCustomTitle = false
 }: {
-  children: any;
+  children: React.ReactNode;
   hasTOC?: boolean;
   pageDescription?: string;
   pageTitle?: string;

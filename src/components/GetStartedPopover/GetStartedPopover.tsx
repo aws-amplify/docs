@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { Button, Flex, VisuallyHidden, View } from '@aws-amplify/ui-react';
 import Link from 'next/link';
@@ -15,7 +15,6 @@ import {
   IconVue
 } from '@/components/Icons';
 import { useClickOutside } from '@/utils/useClickOutside';
-import { DEFAULT_PLATFORM } from '@/data/platforms';
 import { useTabKeyDetection } from '@/utils/useTabKeyDetection';
 
 const getStartedHref = '/[platform]/start/getting-started/introduction/';
