@@ -873,11 +873,11 @@ class MyClass {
     Hub.listen('auth', (data) => { 
       const { payload } = data; 
       this.onAuthEvent(payload);  
-      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
+ console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
     }) 
   }
 
-  onAuthEvent(payload) {
+onAuthEvent(payload) {
       // ... your implementation
   }
 }
@@ -919,11 +919,11 @@ class MyClass {
     Hub.listen('auth', (data) => { 
       const { payload } = data; 
       this.onAuthEvent(payload);  
-      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
+ console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
     }) 
   }
 
-  onAuthEvent(payload) { 
+onAuthEvent(payload) { 
     // ... your implementation 
   } 
 }
@@ -982,7 +982,7 @@ const getServerSideProps = async ({ req }) => {
 ```js
 import { createServerRunner } from '@aws-amplify/adapter-nextjs';
 import { generateServerClientUsingReqRes } from '@aws-amplify/adapter-nextjs/api';
-import { listTodos } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
 import amplifyConfig from './amplifyconfiguration.json';
 
 const { runWithAmplifyServerContext } = createServerRunner({
