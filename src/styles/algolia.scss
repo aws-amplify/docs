@@ -6,7 +6,7 @@
     box-sizing: border-box;
     font-weight: 500;
     transition: all var(--amplify-components-button-transition-duration);
-    background-color: inherit;
+    background-color: var(--amplify-colors-background-primary);
     border-width: var(--amplify-components-button-border-width);
     border-style: var(--amplify-components-button-border-style);
     border-color: var(--amplify-colors-border-primary);
