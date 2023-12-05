@@ -166,7 +166,7 @@ export const Layout = ({
       }
     });
     setTocHeadings(headings);
-  }, [children, pageType]);
+  });
 
   useEffect(() => {
     if (pageType === 'home') {
