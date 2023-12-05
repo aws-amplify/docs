@@ -1,13 +1,4 @@
-export type Platform =
-  | 'android'
-  | 'angular'
-  | 'flutter'
-  | 'javascript'
-  | 'nextjs'
-  | 'react'
-  | 'react-native'
-  | 'swift'
-  | 'vue';
+export type Platform = 'android' | 'flutter' | 'swift' | JSPlatform;
 
 export type JSPlatform =
   | 'angular'
