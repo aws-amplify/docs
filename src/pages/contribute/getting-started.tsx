@@ -65,8 +65,8 @@ export default function GettingStarted() {
       <Text>
         The steps below will help you get set up to open a pull request in the
         Amplify JS project. Check out the <code>CONTRIBUTING.md</code> in each
-        project's repository for instructions on how to get started with local
-        environment set up.
+        project&apos;s repository for instructions on how to get started with
+        local environment set up.
       </Text>
       <Text>
         The Amplify Contributor Program is an open invitation for you to
@@ -74,7 +74,7 @@ export default function GettingStarted() {
         great way to learn more about the Amplify ecosystem and make
         constructive, helpful pull requests. It builds your resume by
         demonstrating that you can collaborate with others on code, and it feels
-        good to give back to a project you use! We're looking forward to
+        good to give back to a project you use! We&apos;re looking forward to
         developing with you!
       </Text>
 
@@ -224,7 +224,7 @@ export default function GettingStarted() {
           />
         </li>
       </ol>
-      <Text>That's it!</Text>
+      <Text>That&apos;s it!</Text>
       <Text>
         The Amplify team will review your PR and provide feedback if needed. The
         review process might require API design & security reviews. For such
@@ -235,12 +235,13 @@ export default function GettingStarted() {
       </Text>
 
       <Text>
-        Well done and congrats! We're very excited about your contribution!
+        Well done and congrats! We&apos;re very excited about your contribution!
       </Text>
 
       <Heading level={2}>Resources</Heading>
       <Text>
-        We've put together a few resources that can help you create quality PRs.
+        We&apos;ve put together a few resources that can help you create quality
+        PRs.
       </Text>
       <Flex direction="column">
         <Heading level={4}>
@@ -256,9 +257,7 @@ export default function GettingStarted() {
         </Text>
 
         <Heading level={4}>
-          <Link href="/">
-            Amplify Documentation <IconExternalLink />
-          </Link>
+          <Link href="/">Amplify Documentation</Link>
         </Heading>
         <Text>Learn more about the AWS Amplify JS library.</Text>
 
@@ -269,7 +268,7 @@ export default function GettingStarted() {
         </Heading>
         <Text>
           This is a great place to meet other developers using Amplify, ask
-          questions, and share what you're building with Amplify.
+          questions, and share what you&apos;re building with Amplify.
         </Text>
 
         <Heading level={4}>
@@ -289,7 +288,7 @@ export default function GettingStarted() {
 
         <Text>
           Join the weekly office hour in the Discord Voice channel where you can
-          ask questions, share what you're working on and get feedback.
+          ask questions, share what you&apos;re working on and get feedback.
         </Text>
       </Flex>
     </>

@@ -188,21 +188,19 @@ export default withAuthenticator(App);
 
 </Block>
 
-<Block name="iOS">
+<Block name="Swift">
 
-1. Initialize Amplify API. Refer to [Getting Started with Amplify.API for REST](/lib/restapi/getting-started) for more details. 
+1. Initialize Amplify API. Refer to [Set up Amplify REST API](/[platform]/build-a-backend/restapi/set-up-rest-api/) for more details.
 
 You should have the initialization code including the imports:
 
 ```swift
 import Amplify
-// If you are using Swift Package Manager
+import AWSCognitoAuthPlugin
 import AWSAPIPlugin
-// or if you are using Cocoapods
-import AmplifyPlugins
 ```
 
-and code that adds `AWSCognitoAuthPlugin`, `AWSAPIPlugin`, and configures it.
+and code that adds `AWSCognitoAuthPlugin` and `AWSAPIPlugin` before configuring Amplify.
 
 ```swift
 try Amplify.add(plugin: AWSCognitoAuthPlugin())
@@ -210,61 +208,57 @@ try Amplify.add(plugin: AWSAPIPlugin())
 try Amplify.configure()
 ```
 
-2. Sign in using `Amplify.Auth`. See [Amplify.Auth](/lib/auth/getting-started) to learn more about signing up and signing in a user.
+2. Sign in using `Amplify.Auth`. See [Amplify.Auth](/[platform]/build-a-backend/auth/set-up-auth/) to learn more about signing up and signing in a user.
 
 3. Use the following in your app to add a user to the Group.
 
 ```swift
-func addToGroup(username: String, groupName: String) {
+func addToGroup(username: String, groupName: String) async {
     let path = "/addUserToGroup"
     let body = "{\"username\":\"\(username)\",\"groupname\":\"\(groupName)\"}".data(using: .utf8)
     let request = RESTRequest(path: path, body: body)
-    Amplify.API.post(request: request) { result in
-        switch result {
-        case .success(let data):
-            print("Response Body: \(String(decoding: data, as: UTF8.self))")
-        case .failure(let error):
-            if case let .httpStatusError(statusCode, response) = error,
-                let awsResponse = response as? AWSHTTPURLResponse,
-                let responseBody = awsResponse.body
-            {
-                print("StatusCode: \(statusCode) Response Body: \(String(decoding: responseBody, as: UTF8.self))")
-            }
+    do {
+        let data = try await Amplify.API.post(request: request)
+        print("Response Body: \(String(decoding: data, as: UTF8.self))")
+    } catch {
+        if case let .httpStatusError(statusCode, response) = error as? APIError,
+           let awsResponse = response as? AWSHTTPURLResponse,
+           let responseBody = awsResponse.body {
+            print("StatusCode: \(statusCode) Response Body: \(String(decoding: responseBody, as: UTF8.self))")
         }
     }
 }
 
-addToGroup(username: "richard", groupName:  "Editors")
+await addToGroup(username: "richard", groupName:  "Editors")
 ```
 
 4. Use the following to list the users in the Group.
 
 ```swift
-func listEditors(groupName: String, limit: Int, nextToken: String? = nil) {
+func listEditors(groupName: String, limit: Int, nextToken: String? = nil) async {
     let path = "/listUsersInGroup"
-    var query = ["groupname": groupName,
-                  "limit": String(limit)]
+    var query = [
+        "groupname": groupName,
+        "limit": String(limit)
+    ]
     if let nextToken = nextToken {
         query["token"] = nextToken
     }
-    
+
     let request = RESTRequest(path: path, queryParameters: query, body: nil)
-    Amplify.API.get(request: request) { result in
-        switch result {
-        case .success(let data):
-            print("Response Body: \(String(decoding: data, as: UTF8.self))")
-        case .failure(let error):
-            if case let .httpStatusError(statusCode, response) = error,
-                let awsResponse = response as? AWSHTTPURLResponse,
-                let responseBody = awsResponse.body
-            {
-                print("StatusCode: \(statusCode) Response Body: \(String(decoding: responseBody, as: UTF8.self))")
-            }
+    do {
+        let data = try await Amplify.API.get(request: request)
+        print("Response Body: \(String(decoding: data, as: UTF8.self))")
+    } catch {
+        if case let .httpStatusError(statusCode, response) = error as? APIError,
+           let awsResponse = response as? AWSHTTPURLResponse,
+           let responseBody = awsResponse.body {
+            print("StatusCode: \(statusCode) Response Body: \(String(decoding: responseBody, as: UTF8.self))")
         }
     }
 }
 
-listEditors(groupName: "Editors", limit: 10)
+await listEditors(groupName: "Editors", limit: 10)
 ```
 
 **Note: Cognito User Pool with HostedUI** 
@@ -298,42 +292,25 @@ try Amplify.API.add(interceptor: MyCustomInterceptor(), for: "[YOUR-RESTENDPOINT
 Set up the custom interceptor to return the ID token for the request.
 
 ```swift
-// `URLRequestInterceptor` comes from AWSAPIPlugin, add the following imports
 import Amplify
-// If you are using Swift Package Manager
-import AWSAPIPlugin
-// or if you are using Cocoapods
-import AmplifyPlugins
+import AWSPluginsCore
 
 class MyCustomInterceptor: URLRequestInterceptor {
-    func getLatestAuthToken() -> Result<String, Error> {
-        let semaphore = DispatchSemaphore(value: 0)
-        var result: Result<String, Error> = .failure(AuthError.unknown("Could not retrieve Cognito token"))
-        Amplify.Auth.fetchAuthSession { (event) in
-            do {
-                defer {
-                    semaphore.signal()
-                }
-                let session = try event.get()
-                if let tokens = try (session as? AuthCognitoTokensProvider)?.getCognitoTokens().get() {
-                    result = .success(tokens.idToken)
-                }
-            } catch {
-                result = .failure(error)
-            }
+    func latestAuthToken() async throws -> String {
+        guard let session = try await Amplify.Auth.fetchAuthSession() as? AuthCognitoTokensProvider else {
+            throw AuthError.unknown("Could not retrieve Cognito token")
         }
-        semaphore.wait()
-        return result
-    }
-    
-    func intercept(_ request: URLRequest) throws -> URLRequest {
-        var request = request
 
-        let tokenResult = getLatestAuthToken()
-        switch tokenResult {
-        case .success(let token):
+        let tokens = try session.getCognitoTokens().get()
+        return tokens.idToken
+    }
+
+    func intercept(_ request: URLRequest) async throws -> URLRequest {
+        var request = request
+        do {
+            let token = try await latestAuthToken()
             request.setValue(token, forHTTPHeaderField: "authorization")
-        case .failure(let error):
+        } catch {
             throw APIError.operationError("Failed to retrieve Cognito UserPool token.", "", error)
         }
         return request

@@ -1,4 +1,4 @@
-import { Heading, Text, Flex, Button, Grid } from '@aws-amplify/ui-react';
+import { Heading, Text, Flex } from '@aws-amplify/ui-react';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
@@ -28,7 +28,7 @@ export function getStaticProps() {
 
 export default function Page() {
   //Default platform is javascript
-  let defaultPlatform = DEFAULT_PLATFORM;
+  const defaultPlatform = DEFAULT_PLATFORM;
 
   return (
     <Flex className="home-content">

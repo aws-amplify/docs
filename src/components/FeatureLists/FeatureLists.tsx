@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Heading } from '@aws-amplify/ui-react';
+import { Heading } from '@aws-amplify/ui-react';
 import { Columns } from '@/components/Columns';
 
 interface FeatureListsProps {
