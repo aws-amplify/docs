@@ -186,6 +186,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/under-the-hood/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/auth-migration-guide/index.mdx'
                 }
               ]
             },
@@ -1735,20 +1738,10 @@ export const directory = {
           path: 'src/pages/[platform]/sdk/index.mdx',
           children: [
             {
-              path: 'src/pages/[platform]/sdk/configuration/index.mdx',
+              path: 'src/pages/[platform]/sdk/api/index.mdx',
               children: [
-                {
-                  path: 'src/pages/[platform]/sdk/configuration/setup-options/index.mdx'
-                }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/sdk/info/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/sdk/info/app-uninstall/index.mdx'
-                },
-                { path: 'src/pages/[platform]/sdk/info/overview/index.mdx' }
+                { path: 'src/pages/[platform]/sdk/api/graphql/index.mdx' },
+                { path: 'src/pages/[platform]/sdk/api/rest/index.mdx' }
               ]
             },
             {
@@ -1766,13 +1759,6 @@ export const directory = {
                 {
                   path: 'src/pages/[platform]/sdk/analytics/kinesis/index.mdx'
                 }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/sdk/api/index.mdx',
-              children: [
-                { path: 'src/pages/[platform]/sdk/api/graphql/index.mdx' },
-                { path: 'src/pages/[platform]/sdk/api/rest/index.mdx' }
               ]
             },
             {
@@ -1803,20 +1789,6 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/sdk/pubsub/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/sdk/pubsub/getting-started/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/pubsub/working-api/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/sdk/pubsub/aws-iot-and-amplify/index.mdx'
-                }
-              ]
-            },
-            {
               path: 'src/pages/[platform]/sdk/push-notifications/index.mdx',
               children: [
                 {
@@ -1827,6 +1799,20 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/sdk/push-notifications/setup-push-service/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/sdk/pubsub/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/sdk/pubsub/getting-started/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/pubsub/working-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/pubsub/aws-iot-and-amplify/index.mdx'
                 }
               ]
             },
@@ -1844,6 +1830,25 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/sdk/storage/configure-access/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/sdk/configuration/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/sdk/configuration/setup-options/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/sdk/info/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/sdk/info/overview/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/info/app-uninstall/index.mdx'
                 }
               ]
             }
@@ -2074,6 +2079,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/gen2/deploy-and-host/fullstack-branching/custom-pipelines/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/deploy-and-host/fullstack-branching/cross-account-deployments/index.mdx'
                 }
               ]
             }

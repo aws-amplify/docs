@@ -1176,7 +1176,7 @@ import { cookies } from 'next/headers';
 
 import config from '@/amplifyconfiguration.json';
 
-export const cookiesClient = generateServerClientUsingCookies({
+const cookiesClient = generateServerClientUsingCookies({
   config,
   cookies
 });
@@ -1215,7 +1215,7 @@ import * as mutations from '@/graphql/mutations';
 
 import config from '@/amplifyconfiguration.json';
 
-export const cookiesClient = generateServerClientUsingCookies({
+const cookiesClient = generateServerClientUsingCookies({
   config,
   cookies
 });
@@ -1274,7 +1274,7 @@ import * as queries from '@/graphql/queries';
 
 import config from '@/amplifyconfiguration.json';
 
-export const cookiesClient = generateServerClientUsingCookies({
+const cookiesClient = generateServerClientUsingCookies({
   config,
   cookies
 });
