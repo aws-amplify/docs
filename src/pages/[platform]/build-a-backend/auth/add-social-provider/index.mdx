@@ -414,84 +414,92 @@ A custom state is not required, but if you are looking to add one, you are able 
 
 ```ts
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from './amplifyconfiguration.json';
-
 import { Hub } from "aws-amplify/utils";
-
 import { signInWithRedirect, getCurrentUser, AuthUser } from "aws-amplify/auth";
+
+import amplifyconfig from "./amplifyconfiguration.json";
 
 Amplify.configure(amplifyconfig);
 
-Hub.listen("auth", async ({ payload }) => {
+Hub.listen("auth", ({ payload }) => {
   switch (payload.event) {
     case "signInWithRedirect":
-      const user = await getCurrentUser();
-      displayUser({ user, element: document.getElementById('usernameLabel')! })
+      displayUser();
       break;
     case "signInWithRedirect_failure":
+      // handle sign in failure
       break;
     case "customOAuthState":
-      handleState(payload.data); // this will be 'shopping-cart'
+      handleState(payload.data); // this will be customState provided on signInWithRedirect function
       break;
   }
 });
 
-function displayUser({ user, element }: { user: AuthUser, element: HTMLElement }) {
-  element.innerHTML = user.username
+async function displayUser() {
+    // show user information
+
+    const user = await getCurrentUser();
+    console.log(user.username);
 }
 
 function handleState(state: string) {
   // do something with the state
+
   console.log(state);
 }
 
-document.getElementById('signInButton')?.addEventListener('click', () => {
+function handleSignInClick(customState: string) {
   signInWithRedirect({
-    customState: 'shopping-cart'
+    provider: "Google",
+    customState
   });
-});
+}
 ```
 </Block>
 <Block name="JavaScript">
 
 ```javascript
-import { Amplify } from 'aws-amplify';
-import amplifyconfig from './amplifyconfiguration.json';
-
+import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
-
 import { signInWithRedirect, getCurrentUser } from "aws-amplify/auth";
+
+import amplifyconfig from "./amplifyconfiguration.json";
 
 Amplify.configure(amplifyconfig);
 
-Hub.listen("auth", async ({ payload }) => {
+Hub.listen("auth", ({ payload }) => {
   switch (payload.event) {
     case "signInWithRedirect":
-      const user = await getCurrentUser();
-      displayUser({ user, element: document.getElementById('usernameLabel') })
+      displayUser()
       break;
     case "signInWithRedirect_failure":
+      // handle sign in failure
       break;
     case "customOAuthState":
-      handleState(payload.data); // this will be 'shopping-cart'
+      handleState(payload.data); // this will be customState provided on signInWithRedirect function
       break;
   }
 });
 
-function displayUser({ user, element }) {
-  element.innerHTML = user.username
+async function displayUser() {
+    // show user information
+
+    const user = await getCurrentUser();
+    console.log(user.username);
 }
 
 function handleState(state) {
   // do something with the state
+
   console.log(state);
 }
 
-document.getElementById('signInButton')?.addEventListener('click', () => {
+function handleSignInClick(customState) {
   signInWithRedirect({
-    customState: 'shopping-cart'
+    provider: "Google",
+    customState
   });
-});
+}
 ```
 
 </Block>
@@ -509,7 +517,8 @@ import React, { useEffect, useState } from "react";
 import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect, signOut, getCurrentUser, AuthUser } from "aws-amplify/auth";
-import config from './amplifyconfiguration.json';
+
+import config from "./amplifyconfiguration.json";
 
 Amplify.configure(config);
 
@@ -525,10 +534,10 @@ function App() {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has ocurred during the Oauth flow.");
+          setError("An error has ocurred during the OAuth flow.");
           break;
         case "customOAuthState":
-          setCustomState(payload.data);
+          setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
           break;
       }
     });
@@ -550,17 +559,17 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={() => signInWithRedirect({ customState: 'shopping-cart'})}>Open Hosted UI</button>
-      <button onClick={() => signInWithRedirect({ provider: "Facebook", customState: 'shopping-cart' })}>
+      <button onClick={() => signInWithRedirect({ customState: "shopping-cart"})}>Open Hosted UI</button>
+      <button onClick={() => signInWithRedirect({ provider: "Facebook", customState: "shopping-cart" })}>
         Open Facebook
       </button>
-      <button onClick={() => signInWithRedirect({ provider: "Google", customState: 'shopping-cart' })}>
+      <button onClick={() => signInWithRedirect({ provider: "Google", customState: "shopping-cart" })}>
         Open Google
       </button>
-      <button onClick={() => signInWithRedirect({ provider: "Amazon", customState: 'shopping-cart' })}>
+      <button onClick={() => signInWithRedirect({ provider: "Amazon", customState: "shopping-cart" })}>
         Open Amazon
       </button>
-      <button onClick={() => signInWithRedirect({ provider: "Apple", customState: 'shopping-cart' })}>
+      <button onClick={() => signInWithRedirect({ provider: "Apple", customState: "shopping-cart" })}>
         Open Apple
       </button>
       <button onClick={() => signOut()}>Sign Out</button>
@@ -575,11 +584,12 @@ function App() {
 <Block name="JavaScript">
 
 ```javascript
-import React, { useEffect, useState } from 'react';
-import { Amplify } from 'aws-amplify';
-import { Hub } from 'aws-amplify/utils';
-import { signInWithRedirect, signOut, getCurrentUser } from 'aws-amplify/auth';
-import config from './amplifyconfiguration.json';
+import React, { useEffect, useState } from "react";
+import { Amplify } from "aws-amplify";
+import { Hub } from "aws-amplify/utils";
+import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
+
+import config from "./amplifyconfiguration.json";
 
 Amplify.configure(config);
 
@@ -589,16 +599,16 @@ function App() {
   const [customState, setCustomState] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = Hub.listen('auth', ({ payload }) => {
+    const unsubscribe = Hub.listen("auth", ({ payload }) => {
       switch (payload.event) {
-        case 'signInWithRedirect':
+        case "signInWithRedirect":
           getUser();
           break;
-        case 'signInWithRedirect_failure':
-          setError('An error has ocurred during the Oauth flow.');
+        case "signInWithRedirect_failure":
+          setError("An error has ocurred during the OAuth flow.");
           break;
-        case 'customOAuthState':
-          setCustomState(payload.data);
+        case "customOAuthState":
+          setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
           break;
       }
     });
@@ -614,23 +624,23 @@ function App() {
       setUser(currentUser);
     } catch (error) {
       console.error(error);
-      console.log('Not signed in');
+      console.log("Not signed in");
     }
   };
 
   return (
     <div className="App">
-      <button onClick={() => signInWithRedirect({ customState: 'shopping-cart'})}>Open Hosted UI</button>
-      <button onClick={() => signInWithRedirect({ provider: 'Facebook', customState: 'shopping-cart' })}>
+      <button onClick={() => signInWithRedirect({ customState: "shopping-cart"})}>Open Hosted UI</button>
+      <button onClick={() => signInWithRedirect({ provider: "Facebook", customState: "shopping-cart" })}>
         Open Facebook
       </button>
-      <button onClick={() => signInWithRedirect({ provider: 'Google', customState: 'shopping-cart' })}>
+      <button onClick={() => signInWithRedirect({ provider: "Google", customState: "shopping-cart" })}>
         Open Google
       </button>
-      <button onClick={() => signInWithRedirect({ provider: 'Amazon', customState: 'shopping-cart' })}>
+      <button onClick={() => signInWithRedirect({ provider: "Amazon", customState: "shopping-cart" })}>
         Open Amazon
       </button>
-      <button onClick={() => signInWithRedirect({ provider: 'Apple', customState: 'shopping-cart' })}>
+      <button onClick={() => signInWithRedirect({ provider: "Apple", customState: "shopping-cart" })}>
         Open Apple
       </button>
       <button onClick={() => signOut()}>Sign Out</button>
@@ -652,17 +662,18 @@ function App() {
 <Block name="TypeScript">
 
 ```ts
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Button,
   SafeAreaView,
   Text,
-} from 'react-native';
+} from "react-native";
 
-import { Amplify } from 'aws-amplify';
-import { AuthUser, getCurrentUser, signInWithRedirect, signOut } from 'aws-amplify/auth';
-import amplifyconfig from './amplifyconfiguration.json';
-import { Hub } from '@aws-amplify/core';
+import { Amplify } from "aws-amplify";
+import { AuthUser, getCurrentUser, signInWithRedirect, signOut } from "aws-amplify/auth";
+import { Hub } from "@aws-amplify/core";
+
+import amplifyconfig from "./amplifyconfiguration.json";
 
 Amplify.configure(amplifyconfig);
 
@@ -681,7 +692,7 @@ function App(): JSX.Element {
           setError("An error has ocurred during the Oauth flow.");
           break;
         case "customOAuthState":
-          setCustomState(payload.data);
+          setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
           break;
       }
     });
@@ -703,7 +714,7 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaView>
-      <Button title="Sign In" onPress={() => signInWithRedirect({ customState: 'shopping-cart'})}></Button>
+      <Button title="Sign In" onPress={() => signInWithRedirect({ customState: "shopping-cart"})}></Button>
       <Text>{user?.username}</Text>
       <Text>{customState}</Text>
       <Button title="Sign Out" onPress={() => signOut()}></Button>
@@ -716,17 +727,18 @@ function App(): JSX.Element {
 <Block name="JavaScript">
 
 ```javascript
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Button,
   SafeAreaView,
   Text,
-} from 'react-native';
+} from "react-native";
 
-import { Amplify } from 'aws-amplify';
-import { getCurrentUser, signInWithRedirect, signOut } from 'aws-amplify/auth';
-import amplifyconfig from './amplifyconfiguration.json';
-import { Hub } from '@aws-amplify/core';
+import { Amplify } from "aws-amplify";
+import { getCurrentUser, signInWithRedirect, signOut } from "aws-amplify/auth";
+import { Hub } from "@aws-amplify/core";
+
+import amplifyconfig from "./amplifyconfiguration.json";
 
 Amplify.configure(amplifyconfig);
 
@@ -767,7 +779,7 @@ function App() {
 
   return (
     <SafeAreaView>
-      <Button title="Sign In" onPress={() => signInWithRedirect({ customState: 'shopping-cart'})}></Button>
+      <Button title="Sign In" onPress={() => signInWithRedirect({ customState: "shopping-cart"})}></Button>
       <Text>{user?.username}</Text>
       <Text>{customState}</Text>
       <Button title="Sign Out" onPress={() => signOut()}></Button>
