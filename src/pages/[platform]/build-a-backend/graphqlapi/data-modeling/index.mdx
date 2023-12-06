@@ -1032,6 +1032,66 @@ type Customer @model {
 }
 ```
 
+### Split GraphQL files
+
+AWS Amplify supports splitting your GraphQL schema into separate `.graphql` files.
+
+You can start by creating a `amplify/backend/api/<api-name>/schema/` directory. As an example, you might split up the schema for a blog site by creating `Blog.graphql`, `Post.graphql`, and `Comment.graphql` files.
+
+You can then run `amplify api gql-compile` and the output build schema will include all the types declared across your schema files.
+
+As your project grows, you may want to organize your custom queries, mutations, and subscriptions depending on the size and maintenance requirements of your project. You can either consolidate  all of your custom queries, mutations, and subscriptions into one file or colocate them with their corresponding models.
+
+**Using a Single `Query.graphql` File**
+
+This method involves consolidating all queries into a single `Query.graphql` file. It is useful for smaller projects or when you want to keep all queries in one place.
+
+1. In the `amplify/backend/api/<api-name>/schema/` directory, create a file named `Query.graphql`.
+
+2. Copy all query type definitions from your multiple schema files into the `Query.graphql` file.
+
+3. Make sure all your queries are properly formatted and enclosed within a single `type Query { ... }` block.
+
+**Using the `extend` Keyword**
+
+Declaring a `Query` type in separate schema files will result in schema validation errors similar to the following when running `amplify api gql-compile`:
+
+```sh
+🛑 Schema validation failed.
+
+There can be only one type named "Query".
+```
+
+Amplify GraphQL schemas support the `extend` keyword, which allows you to extend types with additional fields. In this case, it also allows you to split your custom queries, mutations, and subscriptions into multiple files. This may be more ideal for larger, more complex projects.
+
+1. Organize your GraphQL schema into multiple files as per your project's architecture.
+
+2. In one of the files (e.g., `schema1.graphql`), declare your type normally:
+
+```graphql
+type Query {
+  # initial custom queries
+}
+```
+
+3. In other schema files (e.g., `schema2.graphql`), use the `extend` keyword to add to the type:
+
+```graphql
+extend type Query {
+  # additional custom queries
+}
+```
+<Callout info>
+The order in which the Query types are extended does not affect the compilation of separate schema files.
+</Callout>
+
+<Callout warning>
+Declaring custom Query, Mutation, and/or Subscription with the same field name in another schema file will result in schema validation errors similar to the following:
+
+`🛑 Object type extension 'Query' cannot redeclare field getBlogById`
+</Callout>
+
+
 ## How it works
 
 ### Model directive
