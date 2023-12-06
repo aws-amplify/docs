@@ -1034,6 +1034,12 @@ type Customer @model {
 
 ### Split GraphQL files
 
+<Callout info>
+Amplify Studio does not support splitting GraphQL schemas.
+
+If using Amplify Studio, please follow the [Limitations](https://docs.amplify.aws/javascript/tools/console/data/data-model/#split-graphql-files) section of the Data Modeling documentation for Amplify Studio.
+</Callout>
+
 AWS Amplify supports splitting your GraphQL schema into separate `.graphql` files.
 
 You can start by creating a `amplify/backend/api/<api-name>/schema/` directory. As an example, you might split up the schema for a blog site by creating `Blog.graphql`, `Post.graphql`, and `Comment.graphql` files.
@@ -1085,7 +1091,7 @@ extend type Query {
 The order in which the Query types are extended does not affect the compilation of separate schema files.
 </Callout>
 
-<Callout warning>
+<Callout info>
 Declaring custom Query, Mutation, and/or Subscription with the same field names in another schema file will result in schema validation errors similar to the following:
 
 `🛑 Object type extension 'Query' cannot redeclare field getBlogById`
