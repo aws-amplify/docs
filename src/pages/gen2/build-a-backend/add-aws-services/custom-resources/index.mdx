@@ -12,19 +12,25 @@ export function getStaticProps(context) {
 
 }
 
+<Callout warning>
+
+Custom resources allow you to integrate any AWS service into an Amplify backend. You are responsible for ensuring that your custom resources are secure, adhere to best practices and work with the resources that Amplify creates in your project.
+
+</Callout>
+
 Amplify (Gen 2) provides the ability to add custom AWS resources to an Amplify project using the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html). The CDK is an open source software development framework to define your cloud application resources using familiar programming languages, such as TypeScript.
 
-CDK can be used within an Amplify project to add custom resources and configurations beyond what Amplify supports out of the box. For example, a developer could use CDK to hook up a Redis cache, add a Lambda function that runs on a schedule, or implement custom security rules.
+CDK can be used within an Amplify project to add custom resources and configurations beyond what Amplify supports out of the box. For example, a developer could use CDK to hook up a Redis cache, implement custom security rules, deploy containers on Fargate or use any other AWS service.
 
-The infrastructure defined via CDK code is deployed along with the Amplify project. This gives developers the simplicity of Amplify, combined with the flexibility of CDK for situations where they need more customization.
+The infrastructure defined via CDK code is deployed along with the Amplify project backend. This gives developers the simplicity of Amplify, combined with the flexibility of CDK for situations where they need more customization.
 
-<Callout>
+<Callout info>
 
 AWS CDK apps are composed of building blocks known as [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html), which are composed together to form [stacks](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Stack.html) and [apps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.App.html). You can learn more in the [Concepts - AWS Cloud Development Kit (AWS CDK) v2](https://docs.aws.amazon.com/cdk/v2/guide/core_concepts.html) documentation.
 
 </Callout>
 
-With the Amplify Code-first DX, you can add existing or custom CDK [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) to the [backend](https://next-docs.amplify.aws/gen2/how-amplify-works/concepts/#backend) of your Amplify project.
+With the Amplify Code-first DX, you can add existing or custom CDK [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) to the [backend](/gen2/how-amplify-works/concepts/#backend) of your Amplify project.
 
 ## Adding an existing CDK Construct
 
@@ -231,7 +237,7 @@ const sendEmail = async (message: Message) => {
 };
 ```
 
-The `CustomNotifications` CDK construct can then be added to the Amplify `backend` one or more times, with different props for each instance.
+The `CustomNotifications` CDK construct can then be added to the Amplify `backend` one or more times, with different properties for each instance.
 
 ```ts title="amplify/backend.ts"
 // amplify/backend.ts
