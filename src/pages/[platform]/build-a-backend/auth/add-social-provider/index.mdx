@@ -413,40 +413,24 @@ A custom state is not required, but if you are looking to add one, you are able 
 <Block name="TypeScript">
 
 ```ts
-import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect, getCurrentUser, AuthUser } from "aws-amplify/auth";
-
-import amplifyconfig from "./amplifyconfiguration.json";
-
-Amplify.configure(amplifyconfig);
 
 Hub.listen("auth", ({ payload }) => {
   switch (payload.event) {
     case "signInWithRedirect":
-      displayUser();
+      const user = await getCurrentUser();
+      console.log(user.username);
       break;
     case "signInWithRedirect_failure":
       // handle sign in failure
       break;
     case "customOAuthState":
-      handleState(payload.data); // this will be customState provided on signInWithRedirect function
+      const state = payload.data; // this will be customState provided on signInWithRedirect function
+      console.log(state);
       break;
   }
 });
-
-async function displayUser() {
-    // show user information
-
-    const user = await getCurrentUser();
-    console.log(user.username);
-}
-
-function handleState(state: string) {
-  // do something with the state
-
-  console.log(state);
-}
 
 function handleSignInClick(customState: string) {
   signInWithRedirect({
@@ -459,40 +443,24 @@ function handleSignInClick(customState: string) {
 <Block name="JavaScript">
 
 ```javascript
-import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect, getCurrentUser } from "aws-amplify/auth";
-
-import amplifyconfig from "./amplifyconfiguration.json";
-
-Amplify.configure(amplifyconfig);
 
 Hub.listen("auth", ({ payload }) => {
   switch (payload.event) {
     case "signInWithRedirect":
-      displayUser()
+      const user = await getCurrentUser();
+      console.log(user.username);
       break;
     case "signInWithRedirect_failure":
       // handle sign in failure
       break;
     case "customOAuthState":
-      handleState(payload.data); // this will be customState provided on signInWithRedirect function
+      const state = payload.data; // this will be customState provided on signInWithRedirect function
+      console.log(state);
       break;
   }
 });
-
-async function displayUser() {
-    // show user information
-
-    const user = await getCurrentUser();
-    console.log(user.username);
-}
-
-function handleState(state) {
-  // do something with the state
-
-  console.log(state);
-}
 
 function handleSignInClick(customState) {
   signInWithRedirect({
@@ -514,13 +482,8 @@ function handleSignInClick(customState) {
 
 ```ts
 import React, { useEffect, useState } from "react";
-import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect, signOut, getCurrentUser, AuthUser } from "aws-amplify/auth";
-
-import config from "./amplifyconfiguration.json";
-
-Amplify.configure(config);
 
 function App() {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -585,13 +548,8 @@ function App() {
 
 ```javascript
 import React, { useEffect, useState } from "react";
-import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
-
-import config from "./amplifyconfiguration.json";
-
-Amplify.configure(config);
 
 function App() {
   const [user, setUser] = useState(null);
@@ -669,13 +627,9 @@ import {
   Text,
 } from "react-native";
 
-import { Amplify } from "aws-amplify";
 import { AuthUser, getCurrentUser, signInWithRedirect, signOut } from "aws-amplify/auth";
 import { Hub } from "@aws-amplify/core";
 
-import amplifyconfig from "./amplifyconfiguration.json";
-
-Amplify.configure(amplifyconfig);
 
 function App(): JSX.Element {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -734,13 +688,8 @@ import {
   Text,
 } from "react-native";
 
-import { Amplify } from "aws-amplify";
 import { getCurrentUser, signInWithRedirect, signOut } from "aws-amplify/auth";
 import { Hub } from "@aws-amplify/core";
-
-import amplifyconfig from "./amplifyconfiguration.json";
-
-Amplify.configure(amplifyconfig);
 
 function App() {
   const [user, setUser] = useState(null);
