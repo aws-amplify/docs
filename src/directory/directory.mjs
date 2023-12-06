@@ -442,11 +442,19 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/push-notifications-migration-guide/index.mdx'
-                },
+                }
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/use-amplify-in-nextjs/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs-migration-guide/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-a-backend/utilities/index.mdx',
@@ -664,7 +672,7 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/in-app-messaging-migration-guide/index.mdx'
-                    },
+                    }
                   ]
                 },
                 {
