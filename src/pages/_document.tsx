@@ -132,6 +132,10 @@ export default class MyDocument extends Document {
             src="https://prod.assets.shortbread.aws.dev/shortbread.js"
             defer
           ></script>
+          <link
+            href="https://prod.assets.shortbread.aws.dev/shortbread.css"
+            rel="stylesheet"
+          ></link>
         </Head>
         <body>
           <Main />

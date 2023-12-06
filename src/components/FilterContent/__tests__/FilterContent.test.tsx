@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import FilterContent from '../index';
 
-let routerMock = {
+const routerMock = {
   __esModule: true
 };
 
