@@ -61,7 +61,7 @@ Now when you run `npx amplify sandbox` or deploy your app on Amplify, it will in
 
 ## Example - Create a Function trigger for Auth
 
-Auth has several events that can trigger functions to perform custom signup/signin flows and other tasks. Here we're going to configure a "preSignUp" trigger, but configuring any trigger is the same process.
+Auth has several events that can trigger functions to perform custom sign up, sign in and other tasks. Here we're going to configure a "preSignUp" trigger, but configuring any trigger is the same process.
 
 In our auth definition we can add the following.
 
@@ -73,6 +73,7 @@ export const auth = defineAuth({
     email: true
   },
   triggers: {
+    // configure a trigger to point to a function definition
     preSignUp: defineFunction({
       entry: './pre-sign-up-handler.ts'
     });
@@ -86,7 +87,7 @@ Then create the function definition at `amplify/auth/pre-sign-up-handler.ts`.
 // amplify/auth/pre-sign-up-handler.ts
 import type { PreSignUpTriggerHandler } from 'aws-lambda';
 
-export const handler: PreSignUpTriggerHandler = async (event, context) => {
+export const handler: PreSignUpTriggerHandler = async (event) => {
   // your code here
 };
 ```
@@ -105,76 +106,11 @@ For more information on auth triggers see https://docs.aws.amazon.com/cognito/la
 
 ## Example - Use a function resolver in your data model
 
-Functions can be used in your data model to fetch data from sources not natively supported by the data experience or to compute values on the fly. To use a function in your data model, modify `amplify/data/resource.ts` with the following.
+See [Custom business logic](/gen2/build-a-backend/data/custom-business-logic/)
 
-```ts
-// amplify/data/resource.ts
-import {
-  type ClientSchema,
-  a,
-  defineData,
-  defineFunction
-} from '@aws-amplify/backend';
+## Example - Use a function as a custom authorizer in your data model
 
-const schema = a.schema({
-  EchoResponse: a.customType({
-    content: a.string()
-  }),
-
-  // defines a query with an input of { content: string} and an output of the same shape
-  echo: a
-    .query()
-    .arguments({ content: a.string() })
-    .returns(a.ref('EchoResponse'))
-    .authorization([a.allow.public()])
-    .function('echo') // this tells `defineData` to use the "echo" function (defined below) when resolving the value of this entity
-});
-
-export type Schema = ClientSchema<typeof schema>;
-
-export const data = defineData({
-  schema,
-  authorizationModes: {
-    defaultAuthorizationMode: 'apiKey',
-    apiKeyAuthorizationMode: {
-      expiresInDays: 30
-    }
-  },
-  functions: {
-    // each function that is used as a resolver must be included here
-    echo: defineFunction({
-      entry: './echo-resolver.ts'
-    })
-  }
-});
-```
-
-Now define the resolver handler.
-
-```
-// amplify/data/echo-resolver.ts
-
-import type { AppSyncResolverHandler } from "aws-lambda";
-
-type ResolverArgs = { content: string };
-
-type ResolverResult = { content: string };
-
-export const handler: AppSyncResolverHandler<
-  ResolverArgs,
-  ResolverResult
-> = async (event, context) => {
-  return {
-    content: `Echoing content: ${event.arguments.content}`,
-  };
-};
-```
-
-This function will echo back the content that it received in the request. You can now run `npx amplify sandbox` and try out the query in the AppSync console.
-
-For more information on custom data resolvers, see [Custom business logic](/gen2/build-a-backend/data/custom-business-logic/)
-
-## Coming soon
+See [Custom data access patterns](/gen2/build-a-backend/data/customize-authz/custom-data-access-patterns/)
 
 ### Scheduled jobs
 
