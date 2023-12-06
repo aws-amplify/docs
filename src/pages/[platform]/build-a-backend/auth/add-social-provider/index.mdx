@@ -643,7 +643,7 @@ function App(): JSX.Element {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has ocurred during the Oauth flow.");
+          setError("An error has ocurred during the OAuth flow.");
           break;
         case "customOAuthState":
           setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
