@@ -182,6 +182,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/sdk/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
                 },
                 {
@@ -375,6 +378,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/sdk/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
                 }
               ]
             },
@@ -442,7 +448,7 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/push-notifications/push-notifications-migration-guide/index.mdx'
-                },
+                }
               ]
             },
             {
@@ -503,6 +509,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/predictions/sdk/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
                     }
                   ]
                 },
@@ -541,6 +550,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/analytics/analytics-migration-guide/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
@@ -590,7 +602,7 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/more-features/datastore/customize-primary-keys/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/data-usage-policy/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
@@ -664,7 +676,7 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/in-app-messaging/in-app-messaging-migration-guide/index.mdx'
-                    },
+                    }
                   ]
                 },
                 {
@@ -1258,6 +1270,9 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/auth/sdk/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/data-usage-policy/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/auth/app-uninstall/index.mdx'
                     },
                     {
@@ -1385,6 +1400,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/sdk/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/data-usage-policy/index.mdx'
                     }
                   ]
                 },
@@ -1481,6 +1499,9 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/sdk/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/auth/data-usage-policy/index.mdx'
                         }
                       ]
                     },
@@ -1522,6 +1543,9 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/sdk/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/auth/data-usage-policy/index.mdx'
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/auth/app-uninstall/index.mdx'
@@ -1568,10 +1592,10 @@ export const directory = {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/customize-primary-keys/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/data-usage-policy/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/auth/data-usage-policy/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/app-uninstall/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/auth/app-uninstall/index.mdx'
                         }
                       ]
                     },
