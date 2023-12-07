@@ -19,6 +19,8 @@ jobs:
           node-version: 16.x
       - name: Install dependencies
         run: yarn
+      - name: Run prebuild
+        run: yarn prebuild
       - name: Run build and analyze base bundle sizes
         env:
           CURRENT_BRANCH: ${{ github.base_ref }}
@@ -43,6 +45,8 @@ jobs:
           node-version: 16.x
       - name: Install dependencies
         run: yarn
+      - name: Run prebuild
+        run: yarn prebuild
       - name: Run build and analyze head bundle sizes
         env:
           CURRENT_BRANCH: ${{ github.head_ref }}
