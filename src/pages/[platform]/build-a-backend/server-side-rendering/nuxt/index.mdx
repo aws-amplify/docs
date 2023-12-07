@@ -114,7 +114,7 @@ import {
   getCurrentUser
 } from 'aws-amplify/auth/server';
 import { list } from 'aws-amplify/storage/server';
-import { parseAWSExports } from '@aws-amplify/core/internals/utils';
+import { parseAmplifyConfig } from 'aws-amplify/utils';
 import type {
   LibraryOptions,
   FetchAuthSessionOptions
@@ -125,7 +125,7 @@ import config from '../amplifyconfiguration.json';
 type CookieRef = ReturnType<typeof useCookie<string | null | undefined>>;
 
 // parse the content of `amplifyconfiguration.json` into the shape of ResourceConfig
-const amplifyConfig = parseAWSExports(config);
+const amplifyConfig = parseAmplifyConfig(config);
 
 // create the Amplify used token cookies names array
 const userPoolClientId = amplifyConfig.Auth!.Cognito.userPoolClientId;
@@ -404,18 +404,16 @@ import {
   createKeyValueStorageFromCookieStorageAdapter,
   createUserPoolsTokenProvider,
   createAWSCredentialsAndIdentityIdProvider,
-  runWithAmplifyServerContext
-} from 'aws-amplify/adapter-core';
-import {
+  runWithAmplifyServerContext,
   AmplifyServer,
   CookieStorage
-} from '@aws-amplify/core/internals/adapter-core';
-import { parseAWSExports } from '@aws-amplify/core/internals/utils';
+} from 'aws-amplify/adapter-core';
+import { parseAmplifyConfig } from 'aws-amplify/utils';
 
 import type { LibraryOptions } from '@aws-amplify/core';
 import config from '~/amplifyconfiguration.json';
 
-const amplifyConfig = parseAWSExports(config);
+const amplifyConfig = parseAmplifyConfig(config);
 
 const createCookieStorageAdapter = (
   event: H3Event<EventHandlerRequest>
