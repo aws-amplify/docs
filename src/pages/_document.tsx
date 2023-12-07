@@ -115,13 +115,8 @@ export default class MyDocument extends Document {
             httpEquiv="Content-Security-Policy"
             content={getCspContent(this.props)}
           />
-        </Head>
-        <body>
-          <Main />
-          <NextScript />
           {process.env.BUILD_ENV !== 'production' ? (
             <>
-              {/* eslint-disable-next-line @next/next/no-sync-scripts */}
               <Script
                 src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
                 strategy="beforeInteractive"
@@ -129,13 +124,16 @@ export default class MyDocument extends Document {
             </>
           ) : (
             <>
-              {/* eslint-disable-next-line @next/next/no-sync-scripts */}
               <Script
                 src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
                 strategy="beforeInteractive"
               ></Script>
             </>
           )}
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
         </body>
       </Html>
     );
