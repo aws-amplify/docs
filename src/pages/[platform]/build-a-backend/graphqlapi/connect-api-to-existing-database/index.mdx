@@ -400,9 +400,9 @@ type Mutation {
 
 The `@auth` directive can be used to restrict access to data and operations by specifying authorization rules. It allows granular access control over the GraphQL API based on the user's identity and attributes. You can for example, limit a query or mutation to only logged-in users via an `@auth(rules: [{ allow: private }])` rule or limit access to only users of the "Admin" group via an `@auth(rules: [{ allow: groups, groups: ["Admin"] }])` rule.
 
-{/* All model-level authorization rules are supported for Amplify GraphQL schemas generated from MySQL and PostgreSQL databases.
+All model-level authorization rules are supported for Amplify GraphQL schemas generated from MySQL and PostgreSQL databases.
 
-<Callout warning>**Known limitation:** Field level auth rules are not supported.</Callout>
+<Callout warning>**Limitation:** Field level auth rules are not supported.</Callout>
 
 In the example below, public users authorized via API Key are granted unrestricted access to all posts.
 
@@ -413,9 +413,7 @@ type Blog @model @refersTo(name: "blogs") @auth(rules: [{ allow: public }]) {
   id: String! @primaryKey
   title: String!
 }
-``` */}
-
-{/* In a real world scenario, you can instead define auth rules that only allow public users to read posts, and authenticated users the ability to update or delete their posts. */}
+```
 
 For more information on each rule please refer to our documentation on [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/).
 
