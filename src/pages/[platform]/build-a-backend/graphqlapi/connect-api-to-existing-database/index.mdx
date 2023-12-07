@@ -436,7 +436,6 @@ Now the API has been deployed and you can start using it!
 
 You can start querying from the AWS AppSync console or integrate it into your application using the AWS Amplify libraries!
 
-
 ## (Experimental) Auto-generate CRUDL operations for existing tables
 
 <Callout>
@@ -466,7 +465,7 @@ Replace `<database-name>` with the name of your database/schema.
 <BlockSwitcher>
 <Block name="MySQL">
 ```sql
-SELECT
+SELECT DISTINCT
   INFORMATION_SCHEMA.COLUMNS.TABLE_NAME,
   INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME,
   INFORMATION_SCHEMA.COLUMNS.COLUMN_DEFAULT,
@@ -479,43 +478,37 @@ SELECT
   INFORMATION_SCHEMA.STATISTICS.NON_UNIQUE,
   INFORMATION_SCHEMA.STATISTICS.SEQ_IN_INDEX,
   INFORMATION_SCHEMA.STATISTICS.NULLABLE
-      FROM INFORMATION_SCHEMA.COLUMNS
-      LEFT JOIN INFORMATION_SCHEMA.STATISTICS ON INFORMATION_SCHEMA.COLUMNS.TABLE_NAME=INFORMATION_SCHEMA.STATISTICS.TABLE_NAME AND INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME=INFORMATION_SCHEMA.STATISTICS.COLUMN_NAME
-      WHERE INFORMATION_SCHEMA.COLUMNS.TABLE_SCHEMA = '<database-name>';
+FROM INFORMATION_SCHEMA.COLUMNS
+LEFT JOIN INFORMATION_SCHEMA.STATISTICS ON INFORMATION_SCHEMA.COLUMNS.TABLE_NAME=INFORMATION_SCHEMA.STATISTICS.TABLE_NAME AND INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME=INFORMATION_SCHEMA.STATISTICS.COLUMN_NAME
+WHERE INFORMATION_SCHEMA.COLUMNS.TABLE_SCHEMA = '<database-name>'
 ```
 </Block>
 <Block name="PostgreSQL">
 ```sql
-SELECT
-  enum_name,
-  enum_values,
-  table_name,
-  column_name,
-  column_default,
-  ordinal_position,
-  data_type,
-  udt_name,
-  is_nullable,
-  character_maximum_length,
-  indexname,
-      REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', '') as index_columns
-    FROM INFORMATION_SCHEMA.COLUMNS
-    LEFT JOIN pg_indexes
-    ON
-      INFORMATION_SCHEMA.COLUMNS.table_name = pg_indexes.tablename
-      AND INFORMATION_SCHEMA.COLUMNS.column_name = ANY(STRING_TO_ARRAY(REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', ''), ', '))
-      LEFT JOIN (
-        SELECT
-          t.typname AS enum_name,
-          ARRAY_AGG(e.enumlabel) as enum_values
-        FROM    pg_type t JOIN
-          pg_enum e ON t.oid = e.enumtypid JOIN
-          pg_catalog.pg_namespace n ON n.oid = t.typnamespace
-        WHERE   n.nspname = 'public'
-    	GROUP BY enum_name
-      ) enums
-      ON enums.enum_name = INFORMATION_SCHEMA.COLUMNS.udt_name
-    WHERE table_schema = 'public' AND TABLE_CATALOG = '<database-name>';
+SELECT DISTINCT
+  INFORMATION_SCHEMA.COLUMNS.table_name,
+  enum_name,enum_values,column_name,column_default,ordinal_position,data_type,udt_name,is_nullable,character_maximum_length,indexname,constraint_type,
+  REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', '') as index_columns
+FROM INFORMATION_SCHEMA.COLUMNS
+LEFT JOIN pg_indexes
+ON
+  INFORMATION_SCHEMA.COLUMNS.table_name = pg_indexes.tablename
+  AND INFORMATION_SCHEMA.COLUMNS.column_name = ANY(STRING_TO_ARRAY(REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', ''), ', '))
+  LEFT JOIN (
+    SELECT
+      t.typname AS enum_name,
+      ARRAY_AGG(e.enumlabel) as enum_values
+    FROM    pg_type t JOIN
+      pg_enum e ON t.oid = e.enumtypid JOIN
+      pg_catalog.pg_namespace n ON n.oid = t.typnamespace
+    WHERE   n.nspname = 'public'
+    GROUP BY enum_name
+  ) enums
+  ON enums.enum_name = INFORMATION_SCHEMA.COLUMNS.udt_name
+  LEFT JOIN information_schema.table_constraints
+  ON INFORMATION_SCHEMA.table_constraints.constraint_name = indexname
+  AND INFORMATION_SCHEMA.COLUMNS.table_name = INFORMATION_SCHEMA.table_constraints.table_name
+WHERE INFORMATION_SCHEMA.COLUMNS.table_schema = 'public' AND INFORMATION_SCHEMA.COLUMNS.TABLE_CATALOG = '<database-name>';
 ```
 </Block>
 </BlockSwitcher>
@@ -703,7 +696,7 @@ Replace `<database-name>` with the name of your database/schema.
 <BlockSwitcher>
 <Block name="MySQL">
 ```sql
-SELECT
+SELECT DISTINCT
   INFORMATION_SCHEMA.COLUMNS.TABLE_NAME,
   INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME,
   INFORMATION_SCHEMA.COLUMNS.COLUMN_DEFAULT,
@@ -716,43 +709,37 @@ SELECT
   INFORMATION_SCHEMA.STATISTICS.NON_UNIQUE,
   INFORMATION_SCHEMA.STATISTICS.SEQ_IN_INDEX,
   INFORMATION_SCHEMA.STATISTICS.NULLABLE
-      FROM INFORMATION_SCHEMA.COLUMNS
-      LEFT JOIN INFORMATION_SCHEMA.STATISTICS ON INFORMATION_SCHEMA.COLUMNS.TABLE_NAME=INFORMATION_SCHEMA.STATISTICS.TABLE_NAME AND INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME=INFORMATION_SCHEMA.STATISTICS.COLUMN_NAME
-      WHERE INFORMATION_SCHEMA.COLUMNS.TABLE_SCHEMA = '<database-name>';
+FROM INFORMATION_SCHEMA.COLUMNS
+LEFT JOIN INFORMATION_SCHEMA.STATISTICS ON INFORMATION_SCHEMA.COLUMNS.TABLE_NAME=INFORMATION_SCHEMA.STATISTICS.TABLE_NAME AND INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME=INFORMATION_SCHEMA.STATISTICS.COLUMN_NAME
+WHERE INFORMATION_SCHEMA.COLUMNS.TABLE_SCHEMA = '<database-name>'
 ```
 </Block>
 <Block name="PostgreSQL">
 ```sql
-SELECT
-  enum_name,
-  enum_values,
-  table_name,
-  column_name,
-  column_default,
-  ordinal_position,
-  data_type,
-  udt_name,
-  is_nullable,
-  character_maximum_length,
-  indexname,
-      REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', '') as index_columns
-    FROM INFORMATION_SCHEMA.COLUMNS
-    LEFT JOIN pg_indexes
-    ON
-      INFORMATION_SCHEMA.COLUMNS.table_name = pg_indexes.tablename
-      AND INFORMATION_SCHEMA.COLUMNS.column_name = ANY(STRING_TO_ARRAY(REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', ''), ', '))
-      LEFT JOIN (
-        SELECT
-          t.typname AS enum_name,
-          ARRAY_AGG(e.enumlabel) as enum_values
-        FROM    pg_type t JOIN
-          pg_enum e ON t.oid = e.enumtypid JOIN
-          pg_catalog.pg_namespace n ON n.oid = t.typnamespace
-        WHERE   n.nspname = 'public'
-    	GROUP BY enum_name
-      ) enums
-      ON enums.enum_name = INFORMATION_SCHEMA.COLUMNS.udt_name
-    WHERE table_schema = 'public' AND TABLE_CATALOG = '<database-name>';
+SELECT DISTINCT
+  INFORMATION_SCHEMA.COLUMNS.table_name,
+  enum_name,enum_values,column_name,column_default,ordinal_position,data_type,udt_name,is_nullable,character_maximum_length,indexname,constraint_type,
+  REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', '') as index_columns
+FROM INFORMATION_SCHEMA.COLUMNS
+LEFT JOIN pg_indexes
+ON
+  INFORMATION_SCHEMA.COLUMNS.table_name = pg_indexes.tablename
+  AND INFORMATION_SCHEMA.COLUMNS.column_name = ANY(STRING_TO_ARRAY(REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', ''), ', '))
+  LEFT JOIN (
+    SELECT
+      t.typname AS enum_name,
+      ARRAY_AGG(e.enumlabel) as enum_values
+    FROM    pg_type t JOIN
+      pg_enum e ON t.oid = e.enumtypid JOIN
+      pg_catalog.pg_namespace n ON n.oid = t.typnamespace
+    WHERE   n.nspname = 'public'
+    GROUP BY enum_name
+  ) enums
+  ON enums.enum_name = INFORMATION_SCHEMA.COLUMNS.udt_name
+  LEFT JOIN information_schema.table_constraints
+  ON INFORMATION_SCHEMA.table_constraints.constraint_name = indexname
+  AND INFORMATION_SCHEMA.COLUMNS.table_name = INFORMATION_SCHEMA.table_constraints.table_name
+WHERE INFORMATION_SCHEMA.COLUMNS.table_schema = 'public' AND INFORMATION_SCHEMA.COLUMNS.TABLE_CATALOG = '<database-name>';
 ```
 </Block>
 </BlockSwitcher>
