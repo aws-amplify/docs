@@ -19,9 +19,9 @@ export function getStaticProps(context) {
   };
 }
 
-This migration guide is to help customers who are currently using `withSSRContext` in v5 move to using the new NextJS adapter in v6.
+This guide will help you migrate v5 SSR implementations that use `withSSRContext` to the new `Next.js` adapter in v6.
 
-## 1. Install NextJS Adapter
+## 1. Install `Next.js` Adapter
 
 <Callout>You will need to upgrade your existing [environment](/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/#1-upgrade-your-dev-environment), [dependencies](/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/#2-update-your-amplify-project-dependencies) and [amplify cli](/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/#3-upgrade-amplify-cli-version-and-configuration-file) to `aws-amplify@6`-compatible versions</Callout>
 
@@ -37,7 +37,7 @@ You can create an `amplifyServerUtils.ts` file under a `utils` folder in your co
 
 For example, the `utils/amplifyServerUtils.ts` file may contain the following content:
 
-```
+```ts
 import { createServerRunner } from '@aws-amplify/adapter-nextjs';
 import config from '@/amplifyconfiguration.json';
 
@@ -54,7 +54,7 @@ export const { runWithAmplifyServerContext } = createServerRunner({
   <div>
     **V5**
 
-    ```
+    ```ts
     import { Amplify } from 'aws-amplify';
     import awsExports from '@/aws-exports';
 
@@ -68,7 +68,7 @@ export const { runWithAmplifyServerContext } = createServerRunner({
   <div>
     **V6**
 
-    ```
+    ```ts
     import { Amplify } from 'aws-amplify';
     import amplifyConfig from '@/amplifyconfiguration.json';
 
@@ -90,7 +90,7 @@ Make sure you are importing API’s from the `/server` subpath when in a server 
   <div>
     **V5**
 
-    ```
+    ```ts
     import {  withSSRContext } from 'aws-amplify';
     import { listTodos } from './graphql/queries';
 
@@ -106,7 +106,7 @@ Make sure you are importing API’s from the `/server` subpath when in a server 
   <div>
     **V6**
 
-    ```
+    ```ts
     import { getCurrentUser } from 'aws-amplify/auth/server';
     import { runWithAmplifyServerContext } from '@/utils/amplifyServerUtils';
 
@@ -131,7 +131,7 @@ Amplify v6 offers [two specialized GraphQL API clients](/[platform]/build-a-back
 
 First add server-side client generation to [your `amplifyServerUtils` file:](/[platform]/build-a-backend/server-side-rendering/nextjs-migration-guide/#2-server-side-configuration)
 
-```
+```ts
 import { createServerRunner } from '@aws-amplify/adapter-nextjs';
 import config from '@/amplifyconfiguration.json';
 
@@ -150,7 +150,7 @@ Now update the implementation in your server-side-rendered component:
   <div>
     **V5**
 
-    ```
+    ```ts
     import { withSSRContext } from 'aws-amplify';
     import { listTodos } from './graphql/queries';
 
@@ -170,7 +170,7 @@ Now update the implementation in your server-side-rendered component:
   <div>
     **V6**
 
-    ```
+    ```ts
     import { 
       reqResBasedClient,
       runWithAmplifyServerContext
@@ -223,7 +223,7 @@ First, follow the instructions for [Using the API category in v6](/[platform]/bu
   <div>
     **V5**
 
-    ```
+    ```ts
     import { serializeModel } from '@aws-amplify/datastore/ssr';
     import { Todo } from '@/src/models';
     import { withSSRContext } from 'aws-amplify';
@@ -243,7 +243,7 @@ First, follow the instructions for [Using the API category in v6](/[platform]/bu
   <div>
     **V6**
 
-    ```
+    ```ts
     import { 
       reqResBasedClient,
       runWithAmplifyServerContext
@@ -285,7 +285,7 @@ First, follow the instructions for [Using the API category in v6](/[platform]/bu
   <div>
     **V5**
 
-    ```
+    ```ts
     import { serializeModel } from '@aws-amplify/datastore/ssr';
     import { Todo } from '@/src/models';
     import { withSSRContext } from 'aws-amplify';
@@ -293,7 +293,7 @@ First, follow the instructions for [Using the API category in v6](/[platform]/bu
     export async function getServerSideProps({ req }) {
       const SSR = withSSRContext({ req });
       
-      `const`` original ``=`` ``await`` SSR``.``DataStore``.``query``(``Todo``,`` ``'123456'``);`
+      const original = await SSR.DataStore.query(Todo, '123456');
       const updatedTodo = await SSR.DataStore.save(
         Todo.copyOf(original, updated => {
         updated.lastViewed = new Date()
@@ -312,7 +312,7 @@ First, follow the instructions for [Using the API category in v6](/[platform]/bu
   <div>
     **V6**
 
-    ```
+    ```ts
     import { 
       reqResBasedClient,
       runWithAmplifyServerContext
