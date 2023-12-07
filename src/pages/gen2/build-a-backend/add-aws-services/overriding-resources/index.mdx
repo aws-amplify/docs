@@ -95,7 +95,7 @@ lambdaFunction.addEnvironment('USER_POOL_ID', userPool.userPoolId);
 
 ## Example - Mutate synthesized CloudFormation
 
-It's possible to reach all the way down to the raw CloudFormation to mutate properties using `addPropertyOverride` on a CDK Construct. To edit the password policies of the UserPool in `defineAuth`, you can use the following code.
+It's possible to reach all the way down to the raw CloudFormation to mutate properties using `addPropertyOverride` on a CDK Construct. To edit the password policies of the Cognito UserPool in `defineAuth`, you can use the following code.
 
 ```ts
 // amplify/backend.ts
@@ -121,6 +121,12 @@ backend.resources.auth.resources.cfnResources.cfnUserPool.addPropertyOverride(
   }
 );
 ```
+
+Note the usage of `auth.resources.cfnResources`. This property exposes [L1 CDK Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html#constructs_l1_using). These are constructs that map 1:1 with the underlying CloudFormation properties.
+
+The `auth.resources.cfnResources.cfnUserPool` property in the above example directly maps to the [AWS::Cognito::UserPool CloudFormation resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html).
+
+This is different than `auth.resources.userPool` in the first example which is an [L2 CDK Construct](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html#constructs_using). These are constructs that provide a convenient interface around several related L1 constructs.
 
 ## Example - Add tags to resources
 
