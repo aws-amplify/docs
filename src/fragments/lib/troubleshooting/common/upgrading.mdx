@@ -99,7 +99,8 @@ Note that v6 supports react-native v0.70+, so if you prefer manually upgrading d
 
 If you are using `signInWithRedirect` (previously `Auth.federatedSignIn`) you will need to install the `@aws-amplify/rtn-web-browser` native module.
 
-If you are using Push Notifications, you will need to upgrade the `@aws-amplify/rtn-push-notification` native module to v1.2+ (if you were using push notifications in v5, this dependency should already be added)
+If you are using Push Notifications, you will need to upgrade the `@aws-amplify/rtn-push-notification` native module to v1.2+ (if you were using push notifications in v5, this dependency should already be added). Find all Push Notifications API changes in its [migration guide](/[platform]/build-a-backend/push-notifications/push-notifications-migration-guide/)
+
 
 </Callout>
 
@@ -270,6 +271,8 @@ async function handleSignOut() {
 
 For a deeper look at v6 Auth functionality, check out our [Authentication category documentation](/[platform]/build-a-backend/auth/).
 
+Find all API changes in the Auth [migration guide](/[platform]/build-a-backend/auth/auth-migration-guide/)
+
 </Accordion>
 
 <Accordion title='Analytics' headingLevel='4'>
@@ -333,6 +336,8 @@ configureAutoTrack({
 </BlockSwitcher>
 
 For a deeper look at V6 Analytics functionality, check out our [Analytics category documentation](/[platform]/build-a-backend/more-features/analytics/).
+
+Find all API changes in the Analytics [migration guide](/[platform]/build-a-backend/more-features/analytics/analytics-migration-guide/)
 
 </Accordion>
 
@@ -564,6 +569,8 @@ const sendEvent = (eventName: string) => {
 </BlockSwitcher>
 
 For a deeper look at In App Messaging functionality in v6, check out our [In App Messaging category documentation](/[platform]/build-a-backend/more-features/in-app-messaging/).
+
+Find all API changes in the In App Messaging [migration guide](/[platform]/build-a-backend/more-features/in-app-messaging/in-app-messaging-migration-guide/)
 
 </Accordion>
 
@@ -871,11 +878,11 @@ class MyClass {
     Hub.listen('auth', (data) => { 
       const { payload } = data; 
       this.onAuthEvent(payload);  
-      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
+ console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
     }) 
   }
 
-  onAuthEvent(payload) {
+onAuthEvent(payload) {
       // ... your implementation
   }
 }
@@ -917,11 +924,11 @@ class MyClass {
     Hub.listen('auth', (data) => { 
       const { payload } = data; 
       this.onAuthEvent(payload);  
-      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
+ console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
     }) 
   }
 
-  onAuthEvent(payload) { 
+onAuthEvent(payload) { 
     // ... your implementation 
   } 
 }
@@ -967,7 +974,7 @@ const getServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      posts: data.listTodos.items
+      todos: data.listTodos.items
     }
   };
 };
@@ -980,7 +987,7 @@ const getServerSideProps = async ({ req }) => {
 ```js
 import { createServerRunner } from '@aws-amplify/adapter-nextjs';
 import { generateServerClientUsingReqRes } from '@aws-amplify/adapter-nextjs/api';
-import { listTodos } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
 import amplifyConfig from './amplifyconfiguration.json';
 
 const { runWithAmplifyServerContext } = createServerRunner({
@@ -1010,7 +1017,7 @@ const getServerSideProps = async ({ req, res }) => {
 
   return {
     props: {
-      posts: data.listTodos.items
+      todos: data.listTodos.items
     }
   };
 };
