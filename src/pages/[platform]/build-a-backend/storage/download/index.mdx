@@ -110,14 +110,20 @@ Download a file to in-memory buffer.
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
-// Download a file from s3 bucket
+// Downloads file content to memory
 const { body, eTag } = await downloadData({
   key,
   data: file,
   options: {
-    accessLevel: 'guest', // can be 'private' | 'protected' | 'guest'
-    targetIdentityId: 'xxxxxxx', // id of another user, if `level: protected`
-    onProgress // Optional progress callback.
+    accessLevel: 'guest', // access level of the file being downloaded
+    targetIdentityId: 'xxxxxxx', // the identity id of another user, required when setting accessLevel to 'protected'
+    onProgress: (event) => {
+      console.log(event.transferredBytes);
+    } // optional progress callback
+    bytesRange: {
+      start: 1024,
+      end: 2048
+    } // optional bytes range parameter to download a part of the file, the 2nd MB of the file in this example
   }
 }).result;
 ```
