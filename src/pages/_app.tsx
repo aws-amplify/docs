@@ -188,11 +188,6 @@ function MyApp({ Component, pageProps }) {
       ></Script>
       {process.env.BUILD_ENV !== 'production' ? (
         <>
-          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-          <Script
-            src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
-            strategy="beforeInteractive"
-          ></Script>
           <Script
             src="https://alpha.d2c.marketing.aws.dev/client/loader/v1/d2c-load.js"
             strategy="afterInteractive"
@@ -200,11 +195,6 @@ function MyApp({ Component, pageProps }) {
         </>
       ) : (
         <>
-          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-          <Script
-            src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
-            strategy="beforeInteractive"
-          ></Script>
           <Script
             src="https://d2c.aws.amazon.com/client/loader/v1/d2c-load.js"
             strategy="afterInteractive"
