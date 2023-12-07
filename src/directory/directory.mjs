@@ -449,7 +449,7 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/use-amplify-in-nextjs/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs-migration-guide/index.mdx'
