@@ -114,10 +114,6 @@ export default class MyDocument extends Document {
             httpEquiv="Content-Security-Policy"
             content={getCspContent(this.props)}
           />
-          <script
-            src="https://prod.assets.shortbread.aws.dev/shortbread.js"
-            defer
-          ></script>
         </Head>
         <body>
           <Main />
