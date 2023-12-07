@@ -516,7 +516,7 @@ WHERE INFORMATION_SCHEMA.COLUMNS.table_schema = 'public' AND INFORMATION_SCHEMA.
 Generate an Amplify GraphQL API schema by running the following command, replacing the `--engine-type` value with your database engine of `mysql` or `postgres`, and the `--sql-schema` value with the path to the CSV file created in the previous step:
 
 ```sh
-npx @aws-amplify/cli@sql-release api generate-schema --engine-type mysql --sql-schema schema.csv --out schema.graphql
+npx @aws-amplify/cli api generate-schema --engine-type mysql --sql-schema schema.csv --out schema.graphql
 ```
 
 Finally, update the first argument of `AmplifyGraphqlDefinition.fromFilesAndStrategy` to include the `schema.sql.graphql` file generated in the previous step:
@@ -747,7 +747,7 @@ WHERE INFORMATION_SCHEMA.COLUMNS.table_schema = 'public' AND INFORMATION_SCHEMA.
 3. Generate an updated schema by running the following command, replacing the `--engine-type` value with your database engine of `mysql` or `postgres`, and the `--sql-schema` value with the path to the CSV file created in the previous step::
 
 ```sh
-npx @aws-amplify/cli@sql-release api generate-schema --engine-type mysql --sql-schema schema.csv --out schema.graphql
+npx @aws-amplify/cli api generate-schema --engine-type mysql --sql-schema schema.csv --out schema.graphql
 ```
 
 4. Deploy your changes to the cloud:
