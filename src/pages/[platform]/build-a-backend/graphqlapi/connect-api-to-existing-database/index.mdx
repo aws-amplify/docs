@@ -436,7 +436,7 @@ Now the API has been deployed and you can start using it!
 
 You can start querying from the AWS AppSync console or integrate it into your application using the AWS Amplify libraries!
 
-{/* 
+
 ## (Experimental) Auto-generate CRUDL operations for existing tables
 
 <Callout>
@@ -523,7 +523,7 @@ SELECT
 Generate an Amplify GraphQL API schema by running the following command, replacing the `--sql-schema` value with the path to the CSV file created in the previous step:
 
 ```sh
-npx @aws-amplify/cli api generate-schema --sql-schema <path-to-schema.csv> --engine-type mysql --out schema.sql.graphql
+npx @aws-amplify/cli@sql-release api generate-schema --engine-type mysql --sql-schema schema.csv --out schema.graphql
 ```
 
 Finally, update the first argument of `AmplifyGraphqlDefinition.fromFilesAndStrategy` to include the `schema.sql.graphql` file generated in the previous step:
@@ -760,7 +760,7 @@ SELECT
 3. Generate an updated schema by running the following command, replacing the `--sql-schema` value with the path to the CSV file created in the previous step:
 
 ```sh
-npx @aws-amplify/cli api generate-schema --sql-schema <path-to-schema.csv> --engine-type mysql --out schema.sql.graphql
+npx @aws-amplify/cli@sql-release api generate-schema --engine-type mysql --sql-schema schema.csv --out schema.graphql
 ```
 
 4. Deploy your changes to the cloud:
@@ -788,7 +788,7 @@ cdk deploy
 | `@mapsTo`    | ❌        | ❌          | ❌          | ❌        | Maps a model to a DynamoDB table.        |
 | `@sql`       | ✅        | ❌          | ✅          | ✅        | Accepts an inline SQL statement or reference to a .sql file to be executed to resolve a Custom Query or Mutation. |
 
-</Accordion> */}
+</Accordion>
 
 ## How does it work?
 
