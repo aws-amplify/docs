@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer');
 const { getSitemapUrls } = require('./get-sitemap-links');
-const { LOCALHOST } = require('../src/constants/tasks');
 
 // Here we are excluding shortbread errors because these are domain specific and are expected to fail in a local environment
 const excludedErrors = [
@@ -16,6 +15,8 @@ const excludedScripts = [
   'prod.tools.shortbread.aws',
   'aa0.awsstatic.com'
 ];
+
+const LOCALHOST = 'http://localhost:3000';
 
 const checkPage = async (url) => {
   const errorsFound = [];
