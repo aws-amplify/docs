@@ -13,11 +13,11 @@ async function postTodo() {
       }
     });
 
-    const response = await restOperation.response;
-    const payload = await response.body.json();
+    const { body } = await restOperation.response;
+    const response = await body.json();
 
     console.log('POST call succeeded');
-    console.log(payload);
+    console.log(response);
   } catch (e) {
     console.log('POST call failed: ', e);
   }
