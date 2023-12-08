@@ -197,6 +197,10 @@ function MyApp({ Component, pageProps }) {
           ></script>
         </>
       )}
+      <link
+        href="https://prod.assets.shortbread.aws.dev/shortbread.css"
+        rel="stylesheet"
+      ></link>
     </>
   );
 }
