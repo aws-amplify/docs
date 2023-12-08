@@ -21,7 +21,7 @@ export function getStaticProps(context) {
 
 This guide will help you migrate v5 SSR implementations that use `withSSRContext` to the new `Next.js` adapter in v6.
 
-## 1. Install `Next.js` Adapter
+## Step 1: Install `Next.js` Adapter
 
 <Callout>You will need to upgrade your existing [environment](/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/#1-upgrade-your-dev-environment), [dependencies](/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/#2-update-your-amplify-project-dependencies) and [amplify cli](/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/#3-upgrade-amplify-cli-version-and-configuration-file) to `aws-amplify@6`-compatible versions</Callout>
 
@@ -29,7 +29,7 @@ This guide will help you migrate v5 SSR implementations that use `withSSRContext
 npm install @aws-amplify/adapter-nextjs
 ```
 
-## 2. Server-Side Configuration
+## Step 2: Server-Side Configuration
 
 The Amplify JS v5 `withSSRContext` utility is no longer available with Amplify JS v6. You will need to use the `createServerRunner` function exported from `@aws-amplify/adapter-nextjs` to create a `runWithAmplifyServerContext` function, and use this function to make Amplify API calls on the server side of your Next.js app.
 
@@ -46,7 +46,7 @@ export const { runWithAmplifyServerContext } = createServerRunner({
 });
 ```
 
-## 3. Client-Side Configuration
+## Step 3: Client-Side Configuration
 
 `Amplify.configure` now has two params: `resourcesConfig` and `libraryOptions`. `ssr.true` should now be sent in with `libraryOptions`.
 
@@ -82,7 +82,7 @@ export const { runWithAmplifyServerContext } = createServerRunner({
 
 > To avoid repetitive calls to `Amplify.configure`, you can call it once in a top-level client-side rendered layout component. See [Configure Amplify library for client-side usage](/[platform]/build-a-backend/server-side-rendering/#configure-amplify-library-for-client-side-usage) for additional details.
 
-## 4. Replace `withSSRContext` with `runWithAmplifyServerContext`
+## Step 4: Replace `withSSRContext` with `runWithAmplifyServerContext`
 
 Make sure you are importing API’s from the `/server` subpath when in a server context. See [the full list](/[platform]/build-a-backend/server-side-rendering/#supported-apis-for-nextjs-server-side-usage) of supported APIs on the server side.
 
@@ -206,18 +206,26 @@ For a successful transition to using the API category in the server context, you
 
 1. You will need to ignore deleted records by filtering on `_deleted: false` when querying data
 
-2. You will need to provide `_version` for update and delete mutations.
+2. You will need to ensure that `_version` is included in your graphql queries, mutations, and subscriptions (included by default in amplify generated statements).
 
-When updating operations from DataStore to GraphQL, you should also take into account that the return structure of a query is different between DataStore and GraphQL, so where DataStore would return `Todo[]`, a GraphQL query returns `{ data: { listTodos: { items: Todo[] } } }`
+When updating operations from DataStore to GraphQL, you should also take into account that the return structure of a query is different between DataStore and GraphQL, so where `DataStore.query` would return `Todo[]`, a GraphQL query returns `{ data: { listTodos: { items: Todo[] } } }`, and where `DataStore.save` returns a Todo, a graphql create/update will return `{ data.createTodo }` 
 
-If your project does not contain GraphQL mutations, queries, and subscriptions, you can use the amplify cli script `amplify codegen statements` to generate those files (See [the API (GraphQL) documentation](/[platform]/build-a-backend/graphqlapi/client-code-generation/#shared-schema-modified-elsewhere-eg-console-or-team-workflows) for more information)
+If your project does not contain GraphQL mutations, queries, subscriptions, and types, you can use the amplify cli scripts below to generate those files (See [the API (GraphQL) documentation](/[platform]/build-a-backend/graphqlapi/client-code-generation/#shared-schema-modified-elsewhere-eg-console-or-team-workflows) for more information)
 
-<Callout> Do not try to perform DataStore mutations directly on items returned by a graphql operation. The returned types are not compatible and should not be mixed and matched. If you need to update an item using DataStore, you should first query that item using DataStore, then perform the update.</Callout>
+```sh
+amplify codegen statements
+amplify codegen types
+```
 
+<Callout> Do not try to perform DataStore mutations directly on items returned by graphql operations. The returned types are not compatible and should not be mixed. If you need to update an item using DataStore, you should first query that item using DataStore, then perform the update.</Callout>
 
-First, follow the instructions for [Using the API category in v6](/[platform]/build-a-backend/server-side-rendering/nextjs-migration-guide/#using-the-api-category-in-v6) to set up the request/response-based server client, then update your server-side and client-side code to use the API category
+### Setup API Client
 
-### DataStore.query
+Follow the instructions for [Using the API category in v6](/[platform]/build-a-backend/server-side-rendering/nextjs-migration-guide/#using-the-api-category-in-v6) to set up the request/response-based server client.
+
+### Replace `DataStore.query` with `API.graphql`
+
+> Note: if you were using the `MULTI_AUTH` auth mode strategy in DataStore, you may need to send an authMode in your `API.graphql` call.
 
 <Columns columns="2">
   <div>
@@ -263,7 +271,8 @@ First, follow the instructions for [Using the API category in v6](/[platform]/bu
           
           return reqResBasedClient.graphql(contextSpec, {
             query: listTodos,
-            variables
+            variables,
+            authMode: 'apiKey'
           });
         }
       });
@@ -279,7 +288,9 @@ First, follow the instructions for [Using the API category in v6](/[platform]/bu
 
 </Columns>
 
-### DataStore.save
+### Replace `DataStore.save` with `API.graphql`
+
+> Note: if you were using the `MULTI_AUTH` auth mode strategy in DataStore, you may need to send an authMode in your `API.graphql` call.
 
 <Columns columns="2">
   <div>
@@ -318,6 +329,7 @@ First, follow the instructions for [Using the API category in v6](/[platform]/bu
       runWithAmplifyServerContext
     } from '@/utils/amplifyServerUtils';
     import { updateTodo } from '@/graphql/queries';
+    import { GRAPHQL_AUTH_MODE } from 
 
     // Server-Side
     const getServerSideProps = async ({ req, res }) => {
@@ -326,13 +338,13 @@ First, follow the instructions for [Using the API category in v6](/[platform]/bu
         operation: async (contextSpec) => {
           const todoDetails = {
             id: '123456',
-            _version: 2,
             lastViewed: new Date()
           };
           
           return reqResBasedClient.graphql(contextSpec, {
             query: updateTodo,
-            variables: { input: todoDetails }
+            variables: { input: todoDetails },
+            authMode: 'userPool'
           });
         }
       });
