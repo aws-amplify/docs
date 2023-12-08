@@ -108,18 +108,24 @@ import {
   createAWSCredentialsAndIdentityIdProvider,
   runWithAmplifyServerContext
 } from 'aws-amplify/adapter-core';
+import { parseAmplifyConfig } from 'aws-amplify/utils';
 import {
   fetchAuthSession,
   fetchUserAttributes,
   getCurrentUser
 } from 'aws-amplify/auth/server';
 import { list } from 'aws-amplify/storage/server';
-import { parseAmplifyConfig } from 'aws-amplify/utils';
+import { generateServerClient } from 'aws-amplify/api/server';
+import type { ListPaginateInput } from 'aws-amplify/storage';
 import type {
   LibraryOptions,
   FetchAuthSessionOptions
 } from '@aws-amplify/core';
-import type { ListPaginateInput } from 'aws-amplify/storage';
+import type {
+  GraphQLOptionsV6,
+  GraphQLResponseV6
+} from '@aws-amplify/api-graphql';
+
 import config from '../amplifyconfiguration.json';
 
 type CookieRef = ReturnType<typeof useCookie<string | null | undefined>>;
@@ -130,6 +136,10 @@ const amplifyConfig = parseAmplifyConfig(config);
 // create the Amplify used token cookies names array
 const userPoolClientId = amplifyConfig.Auth!.Cognito.userPoolClientId;
 const lastAuthUserCookieName = `CognitoIdentityServiceProvider.${userPoolClientId}.LastAuthUser`;
+
+// create a GraphQL client that can be used in a server context
+const gqlServerClient = generateServerClient({ config: amplifyConfig });
+
 const getAmplifyAuthKeys = (lastAuthUser: string) =>
   ['idToken', 'accessToken', 'refreshToken', 'clockDrift']
     .map(
@@ -218,8 +228,8 @@ export default defineNuxtPlugin({
       keyValueStorage
     );
 
-    // create the LibraryOptions object
-    const LibraryOptions: LibraryOptions = {
+    // create the libraryOptions object
+    const libraryOptions: LibraryOptions = {
       Auth: {
         tokenProvider,
         credentialsProvider
@@ -231,23 +241,21 @@ export default defineNuxtPlugin({
         Amplify: {
           Auth: {
             fetchAuthSession: (options: FetchAuthSessionOptions) =>
-              // run the `fetchAuthSession` API with in the server context
-              // by passing necessary parameters
               runWithAmplifyServerContext(
                 amplifyConfig,
-                LibraryOptions,
+                libraryOptions,
                 (contextSpec) => fetchAuthSession(contextSpec, options)
               ),
             fetchUserAttributes: () =>
               runWithAmplifyServerContext(
                 amplifyConfig,
-                LibraryOptions,
+                libraryOptions,
                 (contextSpec) => fetchUserAttributes(contextSpec)
               ),
             getCurrentUser: () =>
               runWithAmplifyServerContext(
                 amplifyConfig,
-                LibraryOptions,
+                libraryOptions,
                 (contextSpec) => getCurrentUser(contextSpec)
               )
           },
@@ -255,9 +263,29 @@ export default defineNuxtPlugin({
             list: (input: ListPaginateInput) =>
               runWithAmplifyServerContext(
                 amplifyConfig,
-                LibraryOptions,
+                libraryOptions,
                 (contextSpec) => list(contextSpec, input)
               )
+          },
+          GraphQL: {
+            client: {
+              graphql: <
+                FALLBACK_TYPES = unknown,
+                TYPED_GQL_STRING extends string = string
+              >(
+                options: GraphQLOptionsV6<FALLBACK_TYPES, TYPED_GQL_STRING>,
+                additionalHeaders?: Record<string, string>
+              ) =>
+                runWithAmplifyServerContext<
+                  GraphQLResponseV6<FALLBACK_TYPES, TYPED_GQL_STRING>
+                >(amplifyConfig, libraryOptions, (contextSpec) =>
+                  gqlServerClient.graphql(
+                    contextSpec,
+                    options,
+                    additionalHeaders
+                  )
+                )
+            }
           }
         }
       }
