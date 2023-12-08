@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }) {
     ));
 
   let canonicalUrl = 'https://docs.amplify.aws';
-  let canonicalPath = meta.canonicalUrl ? meta.canonicalUrl : router.pathname;
+  let canonicalPath = meta?.canonicalUrl ? meta.canonicalUrl : router.pathname;
   canonicalPath = CANONICAL_URLS.includes(canonicalPath)
     ? router.pathname.replace('[platform]', 'javascript')
     : router.asPath;
