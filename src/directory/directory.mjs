@@ -555,7 +555,7 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/more-features/analytics/data-usage-policy/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/analytics/app-uninstall/index.mdx'
                     }
                   ]
                 },
@@ -605,7 +605,7 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/more-features/datastore/data-usage-policy/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/app-uninstall/index.mdx'
                     }
                   ]
                 },
@@ -1548,7 +1548,7 @@ export const directory = {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/data-usage-policy/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/prev/build-a-backend/auth/app-uninstall/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/app-uninstall/index.mdx'
                         }
                       ]
                     },
@@ -1595,7 +1595,7 @@ export const directory = {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/data-usage-policy/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/prev/build-a-backend/auth/app-uninstall/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/datastore/app-uninstall/index.mdx'
                         }
                       ]
                     },
