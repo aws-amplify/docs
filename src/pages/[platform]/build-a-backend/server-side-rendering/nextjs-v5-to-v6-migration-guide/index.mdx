@@ -208,7 +208,7 @@ For a successful transition to using the API category in the server context, you
 
 2. You will need to ensure that `_version` is included in your graphql queries, mutations, and subscriptions (included by default in amplify generated statements).
 
-When updating operations from DataStore to GraphQL, you should also take into account that the return structure of a query is different between DataStore and GraphQL, so where `DataStore.query` would return `Todo[]`, a GraphQL query returns `{ data: { listTodos: { items: Todo[] } } }`, and where `DataStore.save` returns a Todo, a graphql create/update will return `{ data.createTodo }` 
+When migrating operations from DataStore to GraphQL, you should also take into account that the return structures are different: where `DataStore.query` returns `Todo[]`, an `API.graphql` list operation will return `{ data: { listTodos: { items: Todo[] } } }`, and where `DataStore.save` returns `Todo`, an `API.graphql` create/update operation will return `{ data: { createTodo: Todo } }` and `{ data: { updateTodo: Todo } }` respectively
 
 If your project does not contain GraphQL mutations, queries, subscriptions, and types, you can use the amplify cli scripts below to generate those files (See [the API (GraphQL) documentation](/[platform]/build-a-backend/graphqlapi/client-code-generation/#shared-schema-modified-elsewhere-eg-console-or-team-workflows) for more information)
 
