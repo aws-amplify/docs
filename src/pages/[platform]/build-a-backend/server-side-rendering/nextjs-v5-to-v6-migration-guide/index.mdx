@@ -129,7 +129,7 @@ Make sure you are importing API’s from the `/server` subpath when in a server 
 
 Amplify v6 offers [two specialized GraphQL API clients](/[platform]/build-a-backend/graphqlapi/connect-from-server-runtime/#step-1---choose-the-correct-graphql-api-client-for-nextjs-server-runtimes) for Next.js server runtimes (imported from `@aws-amplify/adapter-nextjs/api`) that you should use depending whether you retrieve the user tokens using [`cookies`](https://nextjs.org/docs/app/api-reference/functions/cookies) or [`NextRequest` and `NextResponse`](https://nextjs.org/docs/app/api-reference/functions/next-request). We will demonstrate the migration using the request/response-based server client to reflect what was previously available in v5.
 
-First add server-side client generation to [your `amplifyServerUtils` file:](/[platform]/build-a-backend/server-side-rendering/nextjs-migration-guide/#2-server-side-configuration)
+First add server-side client generation to [your `amplifyServerUtils` file:](/[platform]/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/#2-server-side-configuration)
 
 ```ts
 import { createServerRunner } from '@aws-amplify/adapter-nextjs';
@@ -221,7 +221,7 @@ amplify codegen types
 
 ### Setup API Client
 
-Follow the instructions for [Using the API category in v6](/[platform]/build-a-backend/server-side-rendering/nextjs-migration-guide/#using-the-api-category-in-v6) to set up the request/response-based server client.
+Follow the instructions for [Using the API category in v6](/[platform]/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/#using-the-api-category-in-v6) to set up the request/response-based server client.
 
 ### Replace `DataStore.query` with `API.graphql`
 
