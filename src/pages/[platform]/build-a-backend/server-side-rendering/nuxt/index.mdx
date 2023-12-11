@@ -30,7 +30,9 @@ export function getStaticProps(context) {
   };
 }
 
-Amplify JS v6 provides a generic adapter to enable Amplify APIs in SSR use cases. This documentation provides a get-started guide to using Amplify APIs in a Nuxt 3 project. The examples in this documentation may not present best practices for your Nuxt project. You are welcome to provide suggestions and contributions to improve this documentation or to create a Nuxt adapter package for Amplify and let others use it.
+If you have not already done so, please read the introduction documentation, [Use Amplify Categories APIs in Server Side Rendering](/[platform]/build-a-backend/server-side-rendering/), to learn about how to use Amplify categories APIs in server-side rendering.
+
+This documentation provides a getting-started guide to using the generic `runWithAmplifyServerContext` adapter (exported from `aws-amplify/adapter-core`) to enable Amplify in a Nuxt 3 project. The examples in this documentation may not present best practices for your Nuxt project. You are welcome to provide suggestions and contributions to improve this documentation or to create a Nuxt adapter package for Amplify and let others use it.
 
 <Callout>
 
@@ -40,14 +42,14 @@ Amplify JS v6 provides a generic adapter to enable Amplify APIs in SSR use cases
 
 ## Set Up the AmplifyAPIs Plugin
 
-Nuxt 3 offers universal rendering by default, where your data fetching logic may be executed on both the client and server sides. Amplify offers APIs that are capable of running within a server context to support use cases such as SSR, SSG, etc., though the client-side APIs and server-side APIs of Amplify are slightly different. You can set up an `AmplifyAPIs` plugin to make your data fetching logic run smoothly across the client and server.
+Nuxt 3 offers universal rendering by default, where your data fetching logic may be executed on both the client and server sides. Amplify offers APIs that are capable of running within a server context to support use cases such as server-side rendering (SSR) and static site generation (SSG), though Amplify's client-side APIs and server-side APIs of Amplify are slightly different. You can set up an `AmplifyAPIs` plugin to make your data fetching logic run smoothly across the client and server.
 
 1. If you haven’t already done so, create a `plugins` directory under the root of your Nuxt project
 2. Create two files `01.amplify-apis.client.ts` and `01.amplify-apis.server.ts` under the `plugins` directory
 
 <Callout>
 
-**NOTE:** the leading number in the files name indicate the plugin loading order, details see https://nuxt.com/docs/guide/directory-structure/plugins#registration-order. The `.client` and `.server` indicate the runtime that the logic contained in the file will run on, i.e. client vs server, details see: https://nuxt.com/docs/guide/directory-structure/plugins
+**NOTE:** the leading number in the files name indicate the plugin loading order, details see https://nuxt.com/docs/guide/directory-structure/plugins#registration-order. The `.client` and `.server` indicate the runtime that the logic contained in the file will run on, client or server. For details see: https://nuxt.com/docs/guide/directory-structure/plugins
 
 </Callout>
 
@@ -60,6 +62,7 @@ Example implementation:
 <Accordion title='Expand to view the example implementation' headingLevel='4' eyebrow='Learn more'>
 
 ```ts
+import { Amplify } from 'aws-amplify';
 import {
   fetchAuthSession,
   fetchUserAttributes,
@@ -67,15 +70,23 @@ import {
   signOut
 } from 'aws-amplify/auth';
 import { list } from 'aws-amplify/storage';
+import config from '../amplifyconfiguration.json';
 
 export default defineNuxtPlugin({
   name: 'AmplifyAPIs',
   enforce: 'pre',
+
   setup() {
+    // This configures Amplify on the client side of your Nuxt app
+    Amplify.configure(config, { ssr: true });
+
     return {
       provide: {
-        // You can more APIs here as needed
-        // and you don't need to follow the object shape
+        // You can add the Amplify APIs that you will use on the client side
+        // of your Nuxt app here.
+        //
+        // You can call the API by via the composable `useNuxtApp()`. For example:
+        // `useNuxtApp().$Amplify.Auth.fetchAuthSession()`
         Amplify: {
           Auth: {
             fetchAuthSession,
@@ -153,21 +164,24 @@ export default defineNuxtPlugin({
   name: 'AmplifyAPIs',
   enforce: 'pre',
   setup() {
-    // when setCookie is needed, set expirers as a year in this example
+    // When setCookie is needed, set expirers as a year in this example
     const expires = new Date();
     expires.setDate(expires.getDate() + 365);
 
-    // get the last auth user cookie value
+    // Get the last auth user cookie value
     const lastAuthUserCookie = useCookie(lastAuthUserCookieName, {
       sameSite: 'lax',
       expires,
       secure: true
     });
 
-    // get all Amplify auth token cookie names
+    // Get all Amplify auth token cookie names
     const authKeys = getAmplifyAuthKeys(lastAuthUserCookie.value!);
 
-    // create a key-value map of cookie name => cookie ref
+    // Create a key-value map of cookie name => cookie ref
+    //
+    // Using the composable `useCookie` here in the plugin setup prevents
+    // cross-request pollution.
     const amplifyCookies = authKeys
       .map((name) => ({
         name,
@@ -185,7 +199,14 @@ export default defineNuxtPlugin({
         {} as Record<string, CookieRef>
       );
 
-    // create a key value storage based on the cookies
+    // Create a key value storage based on the cookies
+    //
+    // This key value storage is responsible for providing Amplify Auth tokens to
+    // the APIs that you are calling.
+    //
+    // If you implement the `set` method, when Amplify needed to refresh the Auth
+    // tokens, the new tokens would be sent back to the client side via `SetCookie`
+    // header in the response.
     const keyValueStorage = createKeyValueStorageFromCookieStorageAdapter({
       get(name) {
         const cookieRef = amplifyCookies[name];
@@ -216,19 +237,19 @@ export default defineNuxtPlugin({
       }
     });
 
-    // create a token provider
+    // Create a token provider
     const tokenProvider = createUserPoolsTokenProvider(
       amplifyConfig.Auth!,
       keyValueStorage
     );
 
-    // create a credentials provider
+    // Create a credentials provider
     const credentialsProvider = createAWSCredentialsAndIdentityIdProvider(
       amplifyConfig.Auth!,
       keyValueStorage
     );
 
-    // create the libraryOptions object
+    // Create the libraryOptions object
     const libraryOptions: LibraryOptions = {
       Auth: {
         tokenProvider,
@@ -238,6 +259,16 @@ export default defineNuxtPlugin({
 
     return {
       provide: {
+        // You can add the Amplify APIs that you will use on the server side of
+        // your Nuxt app here. You will have to use the APIs exported from the
+        // `aws-amplify/<category>/server` subpaths.
+        //
+        // You can call the API by via the composable `useNuxtApp()`. For example:
+        // `useNuxtApp().$Amplify.Auth.fetchAuthSession()`
+        //
+        // Recall that Amplify server APIs are required to be called in a isolated
+        // server context that is created by the `runWithAmplifyServerContext`
+        // function.
         Amplify: {
           Auth: {
             fetchAuthSession: (options: FetchAuthSessionOptions) =>
@@ -269,6 +300,8 @@ export default defineNuxtPlugin({
           },
           GraphQL: {
             client: {
+              // Follow this typing to ensure the`graphql` API return type can
+              // be inferred correctly according to your queries and mutations
               graphql: <
                 FALLBACK_TYPES = unknown,
                 TYPED_GQL_STRING extends string = string
@@ -298,35 +331,13 @@ export default defineNuxtPlugin({
 
 #### Usage Example
 
-Configure Amplify in `./app.vue`:
-
-```ts
-
-<script setup>
-import { Amplify } from "aws-amplify";
-import config from "./src/amplifyconfiguration.json";
-
-// Amplify.configure() only needs to be called on the client side
-if (process.client) {
-  (function configureAmplifyForClient() {
-    console.log("Configuring Amplify on the client side");
-    Amplify.configure(config, { ssr: true });
-  })();
-}
-</script>
-
-<template>
-  <NuxtPage />
-</template>
-
-```
-
 Using the Storage `list` API in `~/pages/storage-list.vue`:
 
 ```ts
 
 // `useAsyncData` and `useNuxtApp` are Nuxt composables
-// `$Amplify` is generated by Nuxt according to the `provide` key in the plugins we've added above
+// `$Amplify` is generated by Nuxt according to the `provide` key in the plugins
+// we've added above
 <script setup lang="ts">
 const { data, error } = useAsyncData(async () => {
     const listResult = await useNuxtApp().$Amplify.Storage.list({
@@ -346,7 +357,7 @@ This page can be rendered on both the client side and server sides by default. `
 
 <Callout warning>
 
-Only a subset of Amplify APIs are usable on the server side; depending on your specific use case, `amplify-apis.client` and `amplify-apis.server` may grow out of sync due to API parity. In this case, you may need to guard your API calls to ensure an API is available. E.g., you can use `if (process.server)` to guard an API call that only happens on the server side.
+Only a subset of Amplify APIs are usable on the server side; depending on your specific use case, `amplify-apis.client` and `amplify-apis.server` may grow out of sync due to API parity. In this case, you may need to guard your API calls to ensure an API is available. E.g., you can use `if (process.client)` to ensure that a client-only API isn't executed on the server.
 
 </Callout>
 
@@ -427,7 +438,7 @@ Example implementation:
 <Accordion title='Expand to view the example implementation' headingLevel='4' eyebrow='Learn more'>
 
 ```ts
-import { H3Event, EventHandlerRequest } from 'h3';
+import type { H3Event, EventHandlerRequest } from 'h3';
 import {
   createKeyValueStorageFromCookieStorageAdapter,
   createUserPoolsTokenProvider,
