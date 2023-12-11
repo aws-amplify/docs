@@ -182,7 +182,7 @@ const backend = defineBackend({
 });
 
 // extract L1 UserPool construct
-const { cfnUserPool } = backend.resources.auth.resources.cfnResources;
+const { cfnUserPool } = backend.auth.cfnResources;
 // from the CDK use `addPropertyOverride` to modify properties directly
 cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.MinimumLength', 32);
 ```
@@ -328,7 +328,7 @@ const backend = defineBackend({
 });
 
 // extract the L1 IdentityPool construct
-const { cfnIdentityPool } = backend.resources.auth.resources.cfnResources;
+const { cfnIdentityPool } = backend.auth.cfnResources;
 // from the CDK use `addPropertyOverride` to modify properties directly
 cfnIdentityPool.addPropertyOverride('AllowUnauthenticatedIdentities', false);
 ```
