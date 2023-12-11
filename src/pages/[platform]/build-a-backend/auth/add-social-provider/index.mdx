@@ -957,7 +957,9 @@ const provider = {
   custom: 'MyCustomOIDCProvider'
 }
 
-<button onClick={() => signInWithRedirect({ provider })}> MyCustomOIDCProvider</button>
+function handleSignInClick() {
+    signInWithRedirect({ provider })
+}
 ```
 
 ### Deploy your backend environment with auth parameters for social sign-in
