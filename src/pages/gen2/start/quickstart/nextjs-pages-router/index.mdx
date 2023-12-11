@@ -1,5 +1,5 @@
 export const meta = {
-  title: 'Quickstart - Next.js Pages Router',
+  title: 'Next.js Pages Router',
   description: 'Get started with AWS Amplify (Gen 2).'
 };
 
@@ -11,7 +11,7 @@ export function getStaticProps(context) {
   };
 }
 
-This Quickstart guide will walk you through how to build a task list application with TypeScript, Next.js Pages Router, and React. If you are new to these technologies, we recommend you go through the official [React](https://react.dev/learn/tutorial-tic-tac-toe), [Next.js](https://nextjs.org/docs/getting-started/installation), and [TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html) tutorials first.
+This Quickstart guide will walk you through how to build a task list application with TypeScript, Next.js **Pages Router**, and React. If you are new to these technologies, we recommend you go through the official [React](https://react.dev/learn/tutorial-tic-tac-toe), [Next.js](https://nextjs.org/docs/getting-started/installation), and [TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html) tutorials first.
 
 ## Prerequisites
 
@@ -24,7 +24,7 @@ Before you get started, make sure you have the following installed:
 
 ## Create a project
 
-First, you will need to create a new Next.js app. The following command will create a Next.js app in a directory called `next-amplify-gen2` that uses the Pages Router.
+First, you will need to create a new Next.js app. The following command will create a Next.js app in a directory called `next-amplify-gen2` that uses the **Pages Router**.
 
 ```bash
 npm create next-app@14 -- next-amplify-gen2 --typescript --eslint --no-app --no-src-dir --no-tailwind --import-alias '@/*'
@@ -305,7 +305,7 @@ Let's add UI that connects to the backend data and auth resources.
 First, install the Amplify UI component library:
 
 ```bash
-npm add @aws-amplify/ui-react
+npm install @aws-amplify/ui-react
 ```
 
 Next, in your app's `pages/_app.tsx`, add the following imports and wrap your App in the `withAuthenticator` function:
