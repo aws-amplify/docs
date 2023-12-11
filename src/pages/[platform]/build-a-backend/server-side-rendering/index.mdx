@@ -146,7 +146,7 @@ All APIs that support use on the server are exported from the `aws-amplify/<cate
 | Auth          | `fetchAuthSession`    |
 | Auth          | `fetchUserAttributes` |
 | Auth          | `getCurrentUser`      |
-| API (GraphQL) | `generatedClient`     |
+| API (GraphQL) | `generateClient`      |
 | API (REST)    | `GET`                 |
 | API (REST)    | `POST`                |
 | API (REST)    | `PUT`                 |
@@ -161,7 +161,7 @@ All APIs that support use on the server are exported from the `aws-amplify/<cate
 
 ### More Examples
 
-Amplify JS v6 provides a pre-built adapter for Next.js based on the approach described above. You can explore the [source code](https://github.com/aws-amplify/amplify-js/blob/main/packages/adapter-nextjs/src/utils/createRunWithAmplifyServerContext.ts) of the `@aws-amplify/adapter-nextjs` package to learn more about how to use the Next.js provided cookie APIs to make the `runWithAmplifyServerContext` function work.
+Amplify JS v6 provides a pre-built adapter for Next.js based on the approach described above. You can explore the [source code](https://github.com/aws-amplify/amplify-js/blob/main/packages/adapter-nextjs) of the `@aws-amplify/adapter-nextjs` package to learn more about how to use the Next.js provided cookie APIs to make the `runWithAmplifyServerContext` function work.
 
 We also provide a getting-started guide to using the `runWithAmplifyServerContext` function to interact with Amplify categories APIs on the server side of a Nuxt 3 project. See [Use Amplify categories APIs from Nuxt 3](/[platform]/build-a-backend/server-side-rendering/nuxt) for details.
 
