@@ -29,10 +29,7 @@ export function getStaticProps(context) {
 +  signUp: (input: SignUpInput) => Promise<SignUpOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -89,9 +86,9 @@ export function getStaticProps(context) {
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -384,10 +381,7 @@ NOTE: autoSignIn is no longer triggered automatically in v6
 +  confirmSignUp: (input: ConfirmSignUpInput) => Promise<ConfirmSignUpOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -418,9 +412,9 @@ NOTE: autoSignIn is no longer triggered automatically in v6
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -569,10 +563,7 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 +  resendSignUpCode: (input: ResendSignUpCodeInput) => Promise<ResendSignUpCodeOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -598,9 +589,9 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
       ```
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -673,10 +664,7 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 +  signIn: (input: SignInInput) => Promise<SignInOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -725,9 +713,9 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
       ```
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1037,10 +1025,7 @@ NOTE: signIn no longer accepts validationData in v6
 +  signInWithRedirect: (input?: SignInWithRedirectInput) => Promise<void>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1104,9 +1089,9 @@ NOTE: signIn no longer accepts validationData in v6
     
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1286,10 +1271,7 @@ NOTE: signIn no longer accepts validationData in v6
 +  confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1321,9 +1303,9 @@ NOTE: signIn no longer accepts validationData in v6
       ```
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1417,10 +1399,7 @@ NOTE: signIn no longer accepts validationData in v6
 +  setUpTOTP: () => Promise<SetUpTOTPOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1437,9 +1416,9 @@ NOTE: signIn no longer accepts validationData in v6
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1505,10 +1484,7 @@ NOTE: signIn no longer accepts validationData in v6
 +  verifyTOTPSetup: (input: VerifyTOTPSetupInput) => Promise<void>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1533,9 +1509,9 @@ NOTE: signIn no longer accepts validationData in v6
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1601,10 +1577,7 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 +  confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1637,9 +1610,9 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
     
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1735,10 +1708,7 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 +  confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1770,9 +1740,9 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1864,10 +1834,7 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 +  fetchMFAPreference: () => Promise<FetchMFAPreferenceOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1886,9 +1853,9 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1953,10 +1920,7 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 +  updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -1991,9 +1955,9 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
       ```
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -2053,10 +2017,7 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 +  fetchMFAPreference: () => Promise<FetchMFAPreferenceOutput>
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -2073,9 +2034,9 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -2211,10 +2172,7 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 +  updatePassword: (input: UpdatePasswordInput) => Promise<void>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -2240,9 +2198,9 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
       ```
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -2314,10 +2272,7 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 +  resetPassword: (input: ResetPasswordInput) => Promise<ResetPasswordOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -2346,9 +2301,9 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -2458,10 +2413,7 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 +  confirmResetPassword: (input: ConfirmResetPasswordInput) => Promise<void>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns="2">
     <div>
       **V5**
@@ -2494,9 +2446,9 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns="2">
     <div>
       **V5**
@@ -2619,10 +2571,7 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -2646,9 +2595,9 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -2775,10 +2724,7 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -2802,9 +2748,9 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -2918,10 +2864,7 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -2940,9 +2883,9 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
     
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3037,10 +2980,7 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3061,9 +3001,9 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3156,10 +3096,7 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3176,9 +3113,9 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3248,10 +3185,7 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  updateUserAttributes: (input: UpdateUserAttributesInput) => Promise<UpdateUserAttributesOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3282,9 +3216,9 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
       ```
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3367,10 +3301,7 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  deleteUserAttributes: (input: DeleteUserAttributesInput) => Promise<void>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3392,9 +3323,9 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3457,10 +3388,7 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  sendUserAttributeVerificationCode: (input: SendUserAttributeVerificationCodeInput) => Promise<SendUserAttributeVerificationCodeOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3490,9 +3418,9 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3574,10 +3502,7 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  confirmUserAttribute: (input: ConfirmUserAttributeInput) => Promise<void>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3601,9 +3526,9 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3675,10 +3600,7 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  sendUserAttributeVerificationCode: (input: SendUserAttributeVerificationCodeInput) => Promise<SendUserAttributeVerificationCodeOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3704,9 +3626,9 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
     
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3777,10 +3699,7 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  confirmUserAttribute: (input: ConfirmUserAttributeInput) => Promise<void>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3802,9 +3721,9 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
       ```
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -3996,10 +3915,7 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -4018,9 +3934,9 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -4129,10 +4045,7 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -4151,9 +4064,9 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
     
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -4362,10 +4275,7 @@ This API has been deprecated: existing use cases can be migrated to the `fetchUs
 +  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -4382,9 +4292,9 @@ This API has been deprecated: existing use cases can be migrated to the `fetchUs
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -4469,10 +4379,7 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 +  updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -4502,9 +4409,9 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -4564,10 +4471,7 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 +  updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
 ```
 
-<Accordion title='Input / Output' headingLevel='3'>
-
-  #### Input
-
+<Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
@@ -4597,9 +4501,9 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 
     </div>
   </Columns>
+</Accordion>
 
-  #### Output
-
+<Accordion title='Output' headingLevel='3'>
   <Columns columns={2}>
     <div>
       **V5**
