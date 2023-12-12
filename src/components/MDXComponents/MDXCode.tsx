@@ -43,8 +43,8 @@ export const MDXCode = ({
   const [code, setCode] = useState(codeString);
   const shouldShowCopy = language !== 'console';
   const shouldShowHeader = shouldShowCopy || title;
-  const titleId = useId();
-  const codeId = useId();
+  const titleId = `${useId()}-titleID`;
+  const codeId = `${useId()}-codeID`;
 
   const copy = () => {
     trackCopyClicks(codeString);
@@ -81,9 +81,10 @@ export const MDXCode = ({
                       variation="link"
                       disabled={copied}
                       className="code-copy"
+                      aria-describedby={title ? undefined : codeId}
                     >
                       {copied ? 'Copied!' : 'Copy'}
-                      <VisuallyHidden>code {title} example</VisuallyHidden>
+                      <VisuallyHidden>{title} code example</VisuallyHidden>
                     </Button>
                   </CopyToClipboard>
                 ) : null}
@@ -93,7 +94,8 @@ export const MDXCode = ({
               <pre
                 style={style}
                 tabIndex={0}
-                aria-describedby={`${title ? titleId : null}`}
+                aria-label={`${title ? title : ''} code example`}
+                aria-describedby={codeId}
                 className={`pre${shouldShowHeader ? ' pre--header' : ''}`}
               >
                 <code className="pre-code" id={codeId}>
