@@ -10,19 +10,22 @@ type MenuProps = {
   path: string;
 };
 
-const invalidChildren = ['/[platform]/prev', '/[platform]/tools/cli-legacy', '/[platform]/sdk'];
+const invalidChildren = [
+  '/[platform]/prev',
+  '/[platform]/tools/cli-legacy',
+  '/[platform]/sdk'
+];
 
-export function Menu({
-  currentPlatform,
-  path,
-}: MenuProps): ReactElement {
+export function Menu({ currentPlatform, path }: MenuProps): ReactElement {
   const isGen2 = path.split('/')[1] === 'gen2';
   const isPrev = path.split('/')[2] === 'prev';
   const isLegacy = path.split('/')[3] === 'cli-legacy';
   const isSDK = path.split('/')[2] === 'sdk';
   let rootMenuNode, childrenNodes, baseMenu;
   if (isLegacy) {
-    rootMenuNode = { children: [findDirectoryNode('/[platform]/tools/cli-legacy')] };
+    rootMenuNode = {
+      children: [findDirectoryNode('/[platform]/tools/cli-legacy')]
+    };
     childrenNodes = rootMenuNode.children;
   } else if (isSDK) {
     rootMenuNode = { children: [findDirectoryNode('/[platform]/sdk')] };
@@ -34,7 +37,10 @@ export function Menu({
     baseMenu = true;
     rootMenuNode = findDirectoryNode('/[platform]');
     childrenNodes = rootMenuNode?.children?.filter((childNode) => {
-      return invalidChildren.indexOf(childNode.route) === -1 || childNode.isUnfilterable;
+      return (
+        invalidChildren.indexOf(childNode.route) === -1 ||
+        childNode.isUnfilterable
+      );
     });
   }
 
