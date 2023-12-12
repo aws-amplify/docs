@@ -27,45 +27,6 @@ export enum AnalyticsEventType {
   PAGE_DATA_FETCH_EXCEPTION = 'PAGE_DATA_FETCH_EXCEPTION'
 }
 
-interface AnalyticsEventPageVisit {
-  type: AnalyticsEventType.PAGE_VISIT;
-  attributes: {
-    url: string;
-    previousUrl: string;
-    referrer: string;
-  };
-}
-
-interface AnalyticsEventInternalLinkClick {
-  type: AnalyticsEventType.INTERNAL_LINK_CLICK;
-  attributes: {
-    from: string;
-    to: string;
-  };
-}
-
-interface AnalyticsEventExternalLinkClick {
-  type: AnalyticsEventType.EXTERNAL_LINK_CLICK;
-  attributes: {
-    from: string;
-    to: string;
-  };
-}
-
-interface AnalyticsEventPageDataFetchException {
-  type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION;
-  attributes: {
-    url: string;
-    exception: Error;
-  };
-}
-
-type AnalyticsEvent =
-  | AnalyticsEventPageVisit
-  | AnalyticsEventInternalLinkClick
-  | AnalyticsEventExternalLinkClick
-  | AnalyticsEventPageDataFetchException;
-
 export const trackPageVisit = (): void => {
   if (typeof window !== 'undefined' && typeof s != 'undefined') {
     s.pageName = window.location.href;
@@ -130,13 +91,7 @@ export const setSearchResultCount = (resultCount: number): void => {
   }
 };
 
-export const trackSearchQuery = (
-  _input,
-  _event,
-  suggestion,
-  _datasetNumber,
-  _context
-): void => {
+export const trackSearchQuery = (_input, _event, suggestion): void => {
   if (typeof window !== 'undefined' && typeof s != 'undefined') {
     s.linkTrackVars =
       'prop39,prop41,prop50,prop61,prop62,eVar26,eVar27,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events';

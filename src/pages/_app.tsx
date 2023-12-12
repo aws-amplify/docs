@@ -61,6 +61,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="msapplication-TileImage"
           content="/assets/icon/ms-icon-144x144.png"
@@ -196,6 +197,10 @@ function MyApp({ Component, pageProps }) {
           ></script>
         </>
       )}
+      <link
+        href="https://prod.assets.shortbread.aws.dev/shortbread.css"
+        rel="stylesheet"
+      ></link>
     </>
   );
 }

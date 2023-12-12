@@ -3,8 +3,13 @@ import ExternalLink from '@/components/ExternalLink';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 
-export const MDXLink = (props) => {
-  let { href, children, hash } = props;
+export const MDXLink = ({
+  href: hrefFromProps,
+  children,
+  hash: hashFromProps
+}) => {
+  let href = hrefFromProps;
+  let hash = hashFromProps;
   const isInternal = href && (href.startsWith('/') || href.startsWith('#'));
   const baseURI = usePathWithoutHash();
   const platform = useCurrentPlatform();

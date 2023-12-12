@@ -9,6 +9,7 @@
   &__inner {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
   }
   &__heading {
     font-weight: 700;
@@ -18,12 +19,10 @@
     color: var(--amplify-colors-purple-100);
   }
   &__button {
-    margin: 0 auto;
     background-color: var(--amplify-colors-purple-10);
     color: var(--amplify-colors-purple-80);
     border-color: var(--amplify-colors-purple-20);
     flex: 0 0 auto;
-    align-self: center;
   }
 }
 
@@ -31,16 +30,5 @@
   &.amplify-message--info {
     background-color: var(--amplify-colors-teal-10);
     border: 1px solid var(--amplify-colors-teal-40);
-  }
-}
-
-@container (min-width: 700px) {
-  .message-banner {
-    &__inner {
-      flex-direction: row;
-    }
-    &__button {
-      margin: auto 0;
-    }
   }
 }
