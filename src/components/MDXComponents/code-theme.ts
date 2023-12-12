@@ -15,7 +15,7 @@ export const theme: PrismTheme = {
     {
       types: ['deleted'],
       style: {
-        color: 'rgba(239, 83, 80, 0.56)',
+        color: 'var(--amplify-colors-red-40)',
         fontStyle: 'italic'
       }
     },
