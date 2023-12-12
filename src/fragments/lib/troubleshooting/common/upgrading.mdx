@@ -927,13 +927,13 @@ For a deeper look at v6 Utilities, check out our [Utilities documentation](/[pla
 
 ### Server-side Rendering
 
-<Callout>
+<Callout>Find a comprehensive summary of changes to Server-Side Rendering in the [NextJS migration guide](/[platform]/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/)</Callout>
 
-DataStore is no longer supported in an SSR context: if you are using DataStore within your SSR project, you will need to migrate to the API category.
+The Amplify JS v5 `withSSRContext` utility is no longer available with Amplify JS v6. You will need to use the `runWithAmplifyServerContext` function exported from `@aws-amplify/adapter-nextjs` to use Amplify categories on the server side of your Next.js app. 
 
-</Callout>
+> Note: DataStore is no longer supported in an SSR context: if you are using DataStore within your SSR project, you will need to migrate to the API category. For details on how to accomplish this, see the [NextJS migration guide: Migrating from DataStore to API in a server context](/[platform]/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/#migrating-from-datastore-to-graphql-api-client-in-a-server-context)
 
-The Amplify JS v5 withSSRContext utility is no longer available with Amplify JS v6. You will need to use the runWithAmplifyServerContext function exported from @aws-amplify/adapter-nextjs to make Amplify API calls on the server side of your Next.js app. Use the switcher below to see the differences between v5 and v6:
+Use the switcher below to see the differences between v5 and v6:
 
 <BlockSwitcher>
 
