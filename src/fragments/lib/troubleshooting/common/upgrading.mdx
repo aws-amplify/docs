@@ -4,7 +4,7 @@ This migration guide will help you upgrade your Amplify JavaScript project from 
 2. Most API’s now use named params instead of positional params, allowing for cleaner and more consistent typing.
 3. We have enabled typescript strict mode on all categories and have added typing to help make it easier to connect your backend resources if you have chosen not to use the Amplify CLI.
 
-Below is an example of how you would have previously in v5 interacted with the Amplify JavaScript library.
+Below is an example of how you would have previously interacted with the Amplify JavaScript library in v5.
 
 ```ts
 import { CognitoUser } from '@aws-amplify/auth';
@@ -37,16 +37,14 @@ const handleSignIn = async ({
 };
 ```
 
-## Steps to Upgrade
-
-### 1. Upgrade your dev environment
+## Step 1: Upgrade your dev environment
 
 In order to use Amplify JavaScript V6, you will need to make sure you are using the following versions in your development environment:
 
 - [Node.js](https://nodejs.org/) v16.x or later
 - [npm](https://www.npmjs.com/) v9.7.1 or later
 
-### 2. Update your Amplify project dependencies
+## Step 2: Upgrade your Amplify project dependencies
 
 <Callout>
   Make sure to delete your package-lock.json and node_modules folder before
@@ -127,7 +125,7 @@ Note that v6 supports NextJS v13.5.0 through 14. We recommend upgrading if you a
 
 </BlockSwitcher>
 
-### 3. Upgrade Amplify CLI version and configuration file
+## Step 3: Upgrade Amplify CLI version and configuration file
 
 If you created your project with Amplify CLI version < 12.5.1, upgrade your CLI version and regenerate your configuration file using the scripts below.
 
@@ -206,15 +204,11 @@ Amplify.configure(amplifyConfig, {
 });
 ```
 
-### 4. Upgrade category usage
+## Step 4: Update category usage
 
-<Callout>
+### Auth
 
-DataStore is no longer supported in an SSR context: if you are using DataStore within your SSR project, you will need to migrate to the API category.
-
-</Callout>
-
-<Accordion title='Auth' headingLevel='4'>
+<Callout>Find a comprehensive summary of changes to the Auth category in the [Auth migration guide](/[platform]/build-a-backend/auth/auth-migration-guide/)</Callout>
 
 As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/auth` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
@@ -271,11 +265,7 @@ async function handleSignOut() {
 
 For a deeper look at v6 Auth functionality, check out our [Authentication category documentation](/[platform]/build-a-backend/auth/).
 
-Find all API changes in the Auth [migration guide](/[platform]/build-a-backend/auth/auth-migration-guide/)
-
-</Accordion>
-
-<Accordion title='Analytics' headingLevel='4'>
+### Analytics
 
 As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/analytics` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
@@ -339,9 +329,7 @@ For a deeper look at V6 Analytics functionality, check out our [Analytics catego
 
 Find all API changes in the Analytics [migration guide](/[platform]/build-a-backend/more-features/analytics/analytics-migration-guide/)
 
-</Accordion>
-
-<Accordion title='API (GraphQL)' headingLevel='4'>
+### API (GraphQL)
 
 As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/api` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
@@ -409,9 +397,7 @@ const deletedTodo = await client.graphql({
 
 For a deeper look at how the GraphQL API functionality in V6, check out our [API (GraphQL) category documentation](/[platform]/build-a-backend/graphqlapi/).
 
-</Accordion>
-
-<Accordion title='API (Rest)' headingLevel='4'>
+### API (Rest)
 
 As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/api` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
@@ -524,9 +510,7 @@ async function deleteTodo() {
 
 For a deeper look at how the REST API functionality in V6, check out our [API (REST) category documentation](/[platform]/build-a-backend/restapi/).
 
-</Accordion>
-
-<Accordion title='In App Messaging' headingLevel='4'>
+### In App Messaging
 
 As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/in-app-messaging` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
@@ -572,9 +556,7 @@ For a deeper look at In App Messaging functionality in v6, check out our [In App
 
 Find all API changes in the In App Messaging [migration guide](/[platform]/build-a-backend/more-features/in-app-messaging/in-app-messaging-migration-guide/)
 
-</Accordion>
-
-<Accordion title='Interactions' headingLevel='4'>
+### Interactions
 
 To use Interactions in v6, you will first need to install the category as a separate dependency using the below command:
 
@@ -651,11 +633,9 @@ Amplify.configure({
 
 For a deeper look at Interactions functionality in v6, check out our [Interactions category documentation](/[platform]/build-a-backend/more-features/interactions/).
 
-</Accordion>
-
 <InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
-<Accordion title='Predictions' headingLevel='4'>
+### Predictions
 
 To use Predictions in v6, you will first need to install the category as a separate dependency using the below command:
 
@@ -724,11 +704,9 @@ const translateText = async ({ textToTranslate }) => {
 
 For a deeper look at Predictions functionality in v6, check out our [Predictions category documentation](/[platform]/build-a-backend/more-features/predictions/).
 
-</Accordion>
-
 </InlineFilter>
 
-<Accordion title='PubSub' headingLevel='4'>
+### PubSub
 
 As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/pubsub` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
@@ -798,9 +776,7 @@ aws iot attach-policy --policy-name 'myIoTPolicy' --target '<YOUR_COGNITO_IDENTI
 
 For a deeper look at how the PubSub functionality in V6, check out our [PubSub category documentation](/[platform]/build-a-backend/more-features/pubsub/).
 
-</Accordion>
-
-<Accordion title='Storage' headingLevel='4'>
+### Storage
 
 As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/storage` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
@@ -854,9 +830,7 @@ const url = await getUrl({
 
 For a deeper look at how the Storage functionality in V6, check out our [Storage category documentation](/[platform]/build-a-backend/storage/).
 
-</Accordion>
-
-<Accordion title='Utilities' headingLevel='4'>
+### Utilities
 
 As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/utils` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
@@ -878,11 +852,11 @@ class MyClass {
     Hub.listen('auth', (data) => { 
       const { payload } = data; 
       this.onAuthEvent(payload);  
-      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
+ console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
     }) 
   }
 
-  onAuthEvent(payload) {
+onAuthEvent(payload) {
       // ... your implementation
   }
 }
@@ -924,11 +898,11 @@ class MyClass {
     Hub.listen('auth', (data) => { 
       const { payload } = data; 
       this.onAuthEvent(payload);  
-      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
+ console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event); 
     }) 
   }
 
-  onAuthEvent(payload) { 
+onAuthEvent(payload) { 
     // ... your implementation 
   } 
 }
@@ -951,9 +925,13 @@ logger.error('error bar');
 
 For a deeper look at v6 Utilities, check out our [Utilities documentation](/[platform]/build-a-backend/utilities/).
 
-</Accordion>
+### Server-side Rendering
 
-<Accordion title='Server-side Rendering' headingLevel='4'>
+<Callout>
+
+DataStore is no longer supported in an SSR context: if you are using DataStore within your SSR project, you will need to migrate to the API category.
+
+</Callout>
 
 The Amplify JS v5 withSSRContext utility is no longer available with Amplify JS v6. You will need to use the runWithAmplifyServerContext function exported from @aws-amplify/adapter-nextjs to make Amplify API calls on the server side of your Next.js app. Use the switcher below to see the differences between v5 and v6:
 
@@ -974,7 +952,7 @@ const getServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      posts: data.listTodos.items
+      todos: data.listTodos.items
     }
   };
 };
@@ -987,7 +965,7 @@ const getServerSideProps = async ({ req }) => {
 ```js
 import { createServerRunner } from '@aws-amplify/adapter-nextjs';
 import { generateServerClientUsingReqRes } from '@aws-amplify/adapter-nextjs/api';
-import { listTodos } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
 import amplifyConfig from './amplifyconfiguration.json';
 
 const { runWithAmplifyServerContext } = createServerRunner({
@@ -1017,7 +995,7 @@ const getServerSideProps = async ({ req, res }) => {
 
   return {
     props: {
-      posts: data.listTodos.items
+      todos: data.listTodos.items
     }
   };
 };
@@ -1028,5 +1006,3 @@ const getServerSideProps = async ({ req, res }) => {
 </BlockSwitcher>
 
 Please review the [Server-Side Rendering with Amplify JavaScript v6](/[platform]/build-a-backend/server-side-rendering/), as we've changed the developer experience to allow working with cookies and middleware in NextJS.
-
-</Accordion>

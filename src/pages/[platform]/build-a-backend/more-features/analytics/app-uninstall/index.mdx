@@ -4,7 +4,8 @@ export const meta = {
   title: 'Uninstalling the app',
   description:
     'Understand how to handle persistent data on a device when a user uninstalls the app.',
-  platforms: ['swift']
+  platforms: ['swift', 'android'],
+  canonicalUrl: '/[platform]/build-a-backend/auth/app-uninstall'
 };
 
 export const getStaticPaths = async () => {
@@ -20,10 +21,10 @@ export function getStaticProps(context) {
   };
 }
 
-import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+import android0 from '/src/fragments/lib/info/native_common/app-uninstall/common.mdx';
 
-<Fragments fragments={{ swift: ios_maintenance }} />
+<Fragments fragments={{ android: android0 }} />
 
-import ios0 from '/src/fragments/lib-v1/info/native_common/app-uninstall/common.mdx';
+import ios0 from '/src/fragments/lib/info/native_common/app-uninstall/common.mdx';
 
 <Fragments fragments={{ swift: ios0 }} />
