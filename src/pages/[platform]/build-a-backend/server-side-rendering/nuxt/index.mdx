@@ -70,7 +70,10 @@ import {
   signOut
 } from 'aws-amplify/auth';
 import { list } from 'aws-amplify/storage';
+import { generateClient } from 'aws-amplify/api';
 import config from '../amplifyconfiguration.json';
+
+const client = generateClient();
 
 export default defineNuxtPlugin({
   name: 'AmplifyAPIs',
@@ -96,6 +99,9 @@ export default defineNuxtPlugin({
           },
           Storage: {
             list
+          },
+          GraphQL: {
+            client
           }
         }
       }
@@ -126,7 +132,7 @@ import {
   getCurrentUser
 } from 'aws-amplify/auth/server';
 import { list } from 'aws-amplify/storage/server';
-import { generateServerClient } from 'aws-amplify/api/server';
+import { generateClient } from 'aws-amplify/api/server';
 import type { ListPaginateInput } from 'aws-amplify/storage';
 import type {
   LibraryOptions,
@@ -340,20 +346,42 @@ Using the Storage `list` API in `~/pages/storage-list.vue`:
 // we've added above
 <script setup lang="ts">
 const { data, error } = useAsyncData(async () => {
-    const listResult = await useNuxtApp().$Amplify.Storage.list({
-      options: {accessLevel: 'guest'}
-    });
-    return listResult.items;
-})
+  const listResult = await useNuxtApp().$Amplify.Storage.list({
+    options: {accessLevel: 'guest'}
+  });
+  return listResult.items;
+});
 </script>
 
 <template>
-  <pre>{{ data }}<pre>
+  <h3>Files with access level: guest</h3>
+  <pre>{{ data }}</pre>
 </template>
 
 ```
 
-This page can be rendered on both the client side and server sides by default. `useNuxtApp().$Amplify` will pick up the correct implementation of `01.amplify-apis.client.ts` and `01.amplify-apis.server.ts` to use, depends on the runtime.
+Using the GraphQL API in `~/pages/todos-list.vue`:
+
+```ts
+<script setup lang="ts">
+// Amplify codegen generated code after you run `amplify push` or `amplify pull`
+import { listTodos } from '~/graphql/queries';
+
+const { data, error } = useAsyncData(async () => {
+  const result = await useNuxtApp().$Amplify.GraphQL.client.graphql({
+    query: listTodos,
+  });
+  return result.data.listTodos;
+});
+</script>
+
+<template>
+  <h3>Todos</h3>
+  <pre>{{ data }}</pre>
+</template>
+```
+
+The above two pages can be rendered on both the client and server sides by default. `useNuxtApp().$Amplify` will pick up the correct implementation of `01.amplify-apis.client.ts` and `01.amplify-apis.server.ts` to use, depending on the runtime.
 
 <Callout warning>
 
