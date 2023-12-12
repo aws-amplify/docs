@@ -29,112 +29,112 @@ export function getStaticProps(context) {
 +  signUp: (input: SignUpInput) => Promise<SignUpOutput>;
 ```
 
-### Input
-
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    // Standard
-    params: SignUpParams {
-      username: string;
-      password: string;
-      attributes?: object;
-      validationData?: {
-        [key: string]: string;
-      }
-      clientMetadata?: { [key: string]: string; };
-      autoSignIn?: {
-        enabled: boolean;
-        clientMetaData?: { [key: string]: string; };
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      // Standard
+      params: SignUpParams {
+        username: string;
+        password: string;
+        attributes?: object;
         validationData?: {
           [key: string]: string;
         }
-      };
-    }
-
-    // Legacy
-    username: string
-    password: string
-    email: string
-    phone_number: string
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: SignUpInput {
-      username: string;
-      password: string;
-      options?: {
-        userAttributes?: { [key: string]?: string; }
-        validationData?: { [key: string]: string; };
         clientMetadata?: { [key: string]: string; };
-        autoSignIn?: boolean | {
-          authFlowType?:
-            | 'USER_SRP_AUTH'
-            | 'CUSTOM_WITH_SRP'
-            | 'CUSTOM_WITHOUT_SRP'
-            | 'USER_PASSWORD_AUTH';
-          clientMetadata?: { [key: string]: string; };
+        autoSignIn?: {
+          enabled: boolean;
+          clientMetaData?: { [key: string]: string; };
+          validationData?: {
+            [key: string]: string;
+          }
         };
-      };
-    }
-    ```
+      }
 
-  </div>
-</Columns>
+      // Legacy
+      username: string
+      password: string
+      email: string
+      phone_number: string
+      ```
 
-### Output
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: SignUpInput {
+        username: string;
+        password: string;
+        options?: {
+          userAttributes?: { [key: string]?: string; }
+          validationData?: { [key: string]: string; };
+          clientMetadata?: { [key: string]: string; };
+          autoSignIn?: boolean | {
+            authFlowType?:
+              | 'USER_SRP_AUTH'
+              | 'CUSTOM_WITH_SRP'
+              | 'CUSTOM_WITHOUT_SRP'
+              | 'USER_PASSWORD_AUTH';
+            clientMetadata?: { [key: string]: string; };
+          };
+        };
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      ISignUpResult {
+        user: CognitoUser;
+        userConfirmed: boolean;
+        userSub: string;
+        codeDeliveryDetails: {
+          AttributeName: string;
+          DeliveryMedium: string;
+          Destination: string;
+        };
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      SignUpOutput {
+        isSignUpComplete: boolean;
+        userId?: string;
+        nextStep: {
+          signUpStep:
+            | 'DONE'
+            | 'CONFIRM_SIGN_UP'
+            | 'COMPLETE_AUTO_SIGN_IN',
+          codeDeliveryDetails: { // Not included when signUpStep is 'DONE'
+            destination?: string;
+            deliveryMedium?: 
+              | 'EMAIL'
+              | 'SMS'
+              | 'PHONE'
+              | 'UNKNOWN';
+            attributeName?: UserAttributeKey;
+          }
+        };
+      }
+      ```
     
-    ```
-    ISignUpResult {
-      user: CognitoUser;
-      userConfirmed: boolean;
-      userSub: string;
-      codeDeliveryDetails: {
-        AttributeName: string;
-        DeliveryMedium: string;
-        Destination: string;
-      };
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    SignUpOutput {
-      isSignUpComplete: boolean;
-      userId?: string;
-      nextStep: {
-        signUpStep:
-          | 'DONE'
-          | 'CONFIRM_SIGN_UP'
-          | 'COMPLETE_AUTO_SIGN_IN',
-        codeDeliveryDetails: { // Not included when signUpStep is 'DONE'
-          destination?: string;
-          deliveryMedium?: 
-            | 'EMAIL'
-            | 'SMS'
-            | 'PHONE'
-            | 'UNKNOWN';
-          attributeName?: UserAttributeKey;
-        }
-      };
-    }
-    ```
-  
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example 1 (Standard)
 
@@ -381,77 +381,77 @@ NOTE: autoSignIn is no longer triggered automatically in v6
 +  confirmSignUp: (input: ConfirmSignUpInput) => Promise<ConfirmSignUpOutput>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      username: string
+      code: string
+      options?: ConfirmSignUpOptions {
+          forceAliasCreation?: boolean;
+          clientMetadata?: { [key: string]: string; };
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: ConfirmSignUpInput = {
+          username: string;
+          confirmationCode: string;
+          options?: {
+              clientMetadata?: { [key: string]: string; };
+              forceAliasCreation?: boolean;
+          };
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      'SUCCESS'
+      ```
+
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      type ConfirmSignUpOutput = {
+          isSignUpComplete: boolean;
+          userId?: string | undefined;
+          nextStep: {
+              signUpStep:
+                  | 'DONE'
+                  | 'CONFIRM_SIGN_UP'
+                  | 'COMPLETE_AUTO_SIGN_IN',
+              codeDeliveryDetails: { // Not included when signUpStep is 'DONE'
+                  destination?: string;
+                  deliveryMedium?: 
+                    | 'EMAIL'
+                    | 'SMS'
+                    | 'PHONE'
+                    | 'UNKNOWN';
+                  attributeName?: UserAttributeKey;
+              }
+          };
+      }
+      ```
     
-    ```
-    username: string
-    code: string
-    options?: ConfirmSignUpOptions {
-        forceAliasCreation?: boolean;
-        clientMetadata?: { [key: string]: string; };
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: ConfirmSignUpInput = {
-        username: string;
-        confirmationCode: string;
-        options?: {
-            clientMetadata?: { [key: string]: string; };
-            forceAliasCreation?: boolean;
-        };
-    }
-    ```
-
-  </div>
-</Columns>
-
-### Output
-
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    'SUCCESS'
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    type ConfirmSignUpOutput = {
-        isSignUpComplete: boolean;
-        userId?: string | undefined;
-        nextStep: {
-            signUpStep:
-                | 'DONE'
-                | 'CONFIRM_SIGN_UP'
-                | 'COMPLETE_AUTO_SIGN_IN',
-            codeDeliveryDetails: { // Not included when signUpStep is 'DONE'
-                destination?: string;
-                deliveryMedium?: 
-                  | 'EMAIL'
-                  | 'SMS'
-                  | 'PHONE'
-                  | 'UNKNOWN';
-                attributeName?: UserAttributeKey;
-            }
-        };
-    }
-    ```
-  
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example 1 (Standard)
 
@@ -563,67 +563,67 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 +  resendSignUpCode: (input: ResendSignUpCodeInput) => Promise<ResendSignUpCodeOutput>;
 ```
 
-### Input
-
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    username: string
-    clientMetadata?: ClientMetaData {
-      [key: string]: string;
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: ResendSignUpCodeInput {
-        username: string;
-        options?: {
-            clientMetadata?: { [key: string]: string; };
-        };
-    }
-    ```
-  </div>
-</Columns>
-
-### Output
-
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    {
-      CodeDeliveryDetails: {
-          AttributeName: string,
-          DeliveryMedium: string,
-          Destination: string
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      username: string
+      clientMetadata?: ClientMetaData {
+        [key: string]: string;
       }
-    }
-    ```
-  
-  </div>
-  <div>
-    **V6**
+      ```
+
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: ResendSignUpCodeInput {
+          username: string;
+          options?: {
+              clientMetadata?: { [key: string]: string; };
+          };
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      {
+        CodeDeliveryDetails: {
+            AttributeName: string,
+            DeliveryMedium: string,
+            Destination: string
+        }
+      }
+      ```
     
-    ```
-    ResendSignUpCodeOutput {
-        destination?: string;
-        deliveryMedium?: 
-          | 'EMAIL'
-          | 'SMS'
-          | 'PHONE'
-          | 'UNKNOWN';
-        attributeName?: AuthVerifiableAttributeKey;
-    }
-    ```
-  </div>
-</Columns>
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      ResendSignUpCodeOutput {
+          destination?: string;
+          deliveryMedium?: 
+            | 'EMAIL'
+            | 'SMS'
+            | 'PHONE'
+            | 'UNKNOWN';
+          attributeName?: AuthVerifiableAttributeKey;
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -664,100 +664,100 @@ Note that forceAliasCreation defaulted to `true` in v5 but is left `undefined` b
 +  signIn: (input: SignInInput) => Promise<SignInOutput>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      // Standard
+      usernameOrSignInOpts: SignInOpts {
+        username: string;
+        password: string;
+        validationData?: {
+          [key: string]: any;
+        };
+      }
+      pw?: undefined
+      clientMetadata?: ClientMetaData {
+        [key: string]: string;
+      }
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    // Standard
-    usernameOrSignInOpts: SignInOpts {
-      username: string;
-      password: string;
-      validationData?: {
-        [key: string]: any;
-      };
-    }
-    pw?: undefined
-    clientMetadata?: ClientMetaData {
-      [key: string]: string;
-    }
+      // Legacy
+      usernameOrSignInOpts: string
+      pw?: string
+      clientMetadata?: ClientMetaData {
+        [key: string]: string;
+      }
+      ```
 
-    // Legacy
-    usernameOrSignInOpts: string
-    pw?: string
-    clientMetadata?: ClientMetaData {
-      [key: string]: string;
-    }
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: SignInInput {
+        username: string;
+        password?: string;
+        options?: {
+          authFlowType?:
+            | 'USER_SRP_AUTH'
+            | 'CUSTOM_WITH_SRP'
+            | 'CUSTOM_WITHOUT_SRP'
+            | 'USER_PASSWORD_AUTH';
+          clientMetadata?: ClientMetaData {
+            [key: string]: string;
+          }
+        };
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: SignInInput {
-      username: string;
-      password?: string;
-      options?: {
-        authFlowType?:
-          | 'USER_SRP_AUTH'
-          | 'CUSTOM_WITH_SRP'
-          | 'CUSTOM_WITHOUT_SRP'
-          | 'USER_PASSWORD_AUTH';
-        clientMetadata?: ClientMetaData {
-          [key: string]: string;
-        }
-      };
-    }
-    ```
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      CognitoUser {
+        challengeName?: string;
+        challengeParam?: string;
+        username: string;
+        signInUserSession: {
+          idToken: string;
+          refreshToken: string;
+          accessToken: string;
+          clockDrift: number;
+        } | null;
+        authenticationFlowType: string;
+      }
+      ```
 
-### Output
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      type SignInOutput = {
+        isSignedIn: boolean;
+        nextStep: // See Example 2 for more details on nextStep types
+          | ContinueSignInWithMFASelection
+          | ContinueSignInWithTOTPSetup
+          | ConfirmSignInWithSMSCode
+          | ConfirmSignInWithTOTPCode
+          | ConfirmSignInWithCustomChallenge
+          | ConfirmSignInWithNewPasswordRequired<UserAttributeKey>
+          | ConfirmSignUpStep
+          | ResetPasswordStep
+          | DoneSignInStep;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    CognitoUser {
-      challengeName?: string;
-      challengeParam?: string;
-      username: string;
-      signInUserSession: {
-        idToken: string;
-        refreshToken: string;
-        accessToken: string;
-        clockDrift: number;
-      } | null;
-      authenticationFlowType: string;
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    type SignInOutput = {
-      isSignedIn: boolean;
-      nextStep: // See Example 2 for more details on nextStep types
-        | ContinueSignInWithMFASelection
-        | ContinueSignInWithTOTPSetup
-        | ConfirmSignInWithSMSCode
-        | ConfirmSignInWithTOTPCode
-        | ConfirmSignInWithCustomChallenge
-        | ConfirmSignInWithNewPasswordRequired<UserAttributeKey>
-        | ConfirmSignUpStep
-        | ResetPasswordStep
-        | DoneSignInStep;
-    }
-    ```
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example 1 (Standard)
 
@@ -1025,97 +1025,97 @@ NOTE: signIn no longer accepts validationData in v6
 +  signInWithRedirect: (input?: SignInWithRedirectInput) => Promise<void>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      // Standard
+      options?: FederatedSignInOptions {
+        provider: { // enum
+          Cognito = 'COGNITO',
+          Google = 'Google',
+          Facebook = 'Facebook',
+          Amazon = 'LoginWithAmazon',
+          Apple = 'SignInWithApple',
+        };
+        customState?: string;
+      }
 
-<Columns columns={2}>
-  <div>
-    **V5**
+      // Custom Provider
+      options?: FederatedSignInOptionsCustom {
+        customProvider: string;
+        customState?: string;
+      }
+
+      // Legacy
+      provider:
+        | 'google'
+        | 'facebook'
+        | 'amazon'
+        | 'developer'
+        | string
+      response: FederatedResponse {
+        token: string;
+        identity_id?: string;
+        expires_at: number;
+      }
+      user: FederatedUser {
+        name: string;
+        email?: string;
+        picture?: string;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input?: SignInWithRedirectInput {
+        provider?:
+          | 'Amazon'
+          | 'Apple'
+          | 'Facebook'
+          | 'Google'
+          | { custom: string; };
+        customState?: string;
+        options?: {
+          preferPrivateSession?: boolean;
+        };
+      }
+      ```
     
-    ```
-    // Standard
-    options?: FederatedSignInOptions {
-      provider: { // enum
-        Cognito = 'COGNITO',
-        Google = 'Google',
-        Facebook = 'Facebook',
-        Amazon = 'LoginWithAmazon',
-        Apple = 'SignInWithApple',
-      };
-      customState?: string;
-    }
+    </div>
+  </Columns>
+</Accordion>
 
-    // Custom Provider
-    options?: FederatedSignInOptionsCustom {
-      customProvider: string;
-      customState?: string;
-    }
-
-    // Legacy
-    provider:
-      | 'google'
-      | 'facebook'
-      | 'amazon'
-      | 'developer'
-      | string
-    response: FederatedResponse {
-      token: string;
-      identity_id?: string;
-      expires_at: number;
-    }
-    user: FederatedUser {
-      name: string;
-      email?: string;
-      picture?: string;
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      ICredentials {
+        accessKeyId: string;
+        sessionToken: string;
+        secretAccessKey: string;
+        identityId: string;
+        authenticated: boolean;
+        expiration?: Date;
+      }
+      ```
     
-    ```
-    input?: SignInWithRedirectInput {
-      provider?:
-        | 'Amazon'
-        | 'Apple'
-        | 'Facebook'
-        | 'Google'
-        | { custom: string; };
-      customState?: string;
-      options?: {
-        preferPrivateSession?: boolean;
-      };
-    }
-    ```
-  
-  </div>
-</Columns>
+    </div>
+    <div>
+      **V6**
 
-### Output
+      No output in v6
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    ICredentials {
-      accessKeyId: string;
-      sessionToken: string;
-      secretAccessKey: string;
-      identityId: string;
-      authenticated: boolean;
-      expiration?: Date;
-    }
-    ```
-  
-  </div>
-  <div>
-    **V6**
-
-    No output in v6
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example 1 (Standard)
 
@@ -1271,82 +1271,82 @@ NOTE: signIn no longer accepts validationData in v6
 +  confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      code: string
+      mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA' | null
+      clientMetadata?: ClientMetaData {
+        [key: string]: string;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    code: string
-    mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA' | null
-    clientMetadata?: ClientMetaData {
-      [key: string]: string;
-    }
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: ConfirmSignInInput {
+        challengeResponse: string;
+        options?: {
+          userAttributes?: AuthUserAttributes;
+          clientMetadata?: ClientMetaData {
+            [key: string]: string;
+          }
+          friendlyDeviceName?: string;
+        };
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: ConfirmSignInInput {
-      challengeResponse: string;
-      options?: {
-        userAttributes?: AuthUserAttributes;
-        clientMetadata?: ClientMetaData {
-          [key: string]: string;
-        }
-        friendlyDeviceName?: string;
-      };
-    }
-    ```
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      CognitoUser {
+        challengeName?: string;
+        challengeParam?: string;
+        username: string;
+        signInUserSession: {
+          idToken: string;
+          refreshToken: string;
+          accessToken: string;
+          clockDrift: number;
+        } | null;
+        authenticationFlowType: string;
+      }
+      ```
 
-### Output
-
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    CognitoUser {
-      challengeName?: string;
-      challengeParam?: string;
-      username: string;
-      signInUserSession: {
-        idToken: string;
-        refreshToken: string;
-        accessToken: string;
-        clockDrift: number;
-      } | null;
-      authenticationFlowType: string;
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    ConfirmSignInOutput {
-      isSignedIn: boolean;
-      nextStep:
-        | ContinueSignInWithMFASelection
-        | ContinueSignInWithTOTPSetup
-        | ConfirmSignInWithSMSCode
-        | ConfirmSignInWithTOTPCode
-        | ConfirmSignInWithCustomChallenge
-        | ConfirmSignInWithNewPasswordRequired<UserAttributeKey>
-        | ConfirmSignUpStep
-        | ResetPasswordStep
-        | DoneSignInStep;
-    }
-    ```
-  </div>
-</Columns>
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      ConfirmSignInOutput {
+        isSignedIn: boolean;
+        nextStep:
+          | ContinueSignInWithMFASelection
+          | ContinueSignInWithTOTPSetup
+          | ConfirmSignInWithSMSCode
+          | ConfirmSignInWithTOTPCode
+          | ConfirmSignInWithCustomChallenge
+          | ConfirmSignInWithNewPasswordRequired<UserAttributeKey>
+          | ConfirmSignUpStep
+          | ResetPasswordStep
+          | DoneSignInStep;
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -1399,48 +1399,48 @@ NOTE: signIn no longer accepts validationData in v6
 +  setUpTOTP: () => Promise<SetUpTOTPOutput>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
 
-<Columns columns={2}>
-  <div>
-    **V5**
+      ```
+      user: CognitoUser
+      ```
 
-    ```
-    user: CognitoUser
-    ```
+    </div>
+    <div>
+      **V6**
 
-  </div>
-  <div>
-    **V6**
+      No input in v6
 
-    No input in v6
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      string // secretCode
+      ```
 
-### Output
+    </div>
+    <div>
+      **V6**
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    string // secretCode
-    ```
+      ```
+      SetUpTOTPOutput {
+        sharedSecret: string;
+        getSetupUri: (appName: string, accountName?: string | undefined) => URL;
+      }
+      ```
 
-  </div>
-  <div>
-    **V6**
-
-    ```
-    SetUpTOTPOutput {
-      sharedSecret: string;
-      getSetupUri: (appName: string, accountName?: string | undefined) => URL;
-    }
-    ```
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -1484,56 +1484,56 @@ NOTE: signIn no longer accepts validationData in v6
 +  verifyTOTPSetup: (input: VerifyTOTPSetupInput) => Promise<void>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      challengeAnswer: string
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    challengeAnswer: string
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: VerifyTOTPSetupInput {
-      code: string;
-      options?: {
-        friendlyDeviceName?: string;
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: VerifyTOTPSetupInput {
+        code: string;
+        options?: {
+          friendlyDeviceName?: string;
+        }
       }
-    }
-    ```
+      ```
 
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
-### Output
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      CognitoUserSession {
+        idToken: string;
+        refreshToken: string;
+        accessToken: string;
+        clockDrift: number;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    CognitoUserSession {
-      idToken: string;
-      refreshToken: string;
-      accessToken: string;
-      clockDrift: number;
-    }
-    ```
+    </div>
+    <div>
+      **V6**
 
-  </div>
-  <div>
-    **V6**
+      No output in v6
 
-    No output in v6
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -1577,84 +1577,84 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 +  confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      password: string
+      requiredAttributes?: any
+      clientMetadata?: ClientMetaData {
+        [key: string]: string;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: ConfirmSignInInput {
+        challengeResponse: string;
+        options?: {
+          userAttributes?: AuthUserAttributes;
+          clientMetadata?: ClientMetaData {
+            [key: string]: string;
+          }
+          friendlyDeviceName?: string;
+        };
+      }
+      ```
     
-    ```
-    user: CognitoUser
-    password: string
-    requiredAttributes?: any
-    clientMetadata?: ClientMetaData {
-      [key: string]: string;
-    }
-    ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-  <div>
-    **V6**
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      CognitoUser {
+        challengeName?: string;
+        challengeParam?: string;
+        username: string;
+        signInUserSession: {
+          idToken: string;
+          refreshToken: string;
+          accessToken: string;
+          clockDrift: number;
+        } | null;
+        authenticationFlowType: string;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      ConfirmSignInOutput {
+        isSignedIn: boolean;
+        nextStep: // See Auth.signIn Example 2 for more details on nextStep types
+          | ContinueSignInWithMFASelection
+          | ContinueSignInWithTOTPSetup
+          | ConfirmSignInWithSMSCode
+          | ConfirmSignInWithTOTPCode
+          | ConfirmSignInWithCustomChallenge
+          | ConfirmSignInWithNewPasswordRequired<UserAttributeKey>
+          | ConfirmSignUpStep
+          | ResetPasswordStep
+          | DoneSignInStep;
+      }
+      ```
     
-    ```
-    input: ConfirmSignInInput {
-      challengeResponse: string;
-      options?: {
-        userAttributes?: AuthUserAttributes;
-        clientMetadata?: ClientMetaData {
-          [key: string]: string;
-        }
-        friendlyDeviceName?: string;
-      };
-    }
-    ```
-  
-  </div>
-</Columns>
-
-### Output
-
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    CognitoUser {
-      challengeName?: string;
-      challengeParam?: string;
-      username: string;
-      signInUserSession: {
-        idToken: string;
-        refreshToken: string;
-        accessToken: string;
-        clockDrift: number;
-      } | null;
-      authenticationFlowType: string;
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    ConfirmSignInOutput {
-      isSignedIn: boolean;
-      nextStep: // See Auth.signIn Example 2 for more details on nextStep types
-        | ContinueSignInWithMFASelection
-        | ContinueSignInWithTOTPSetup
-        | ConfirmSignInWithSMSCode
-        | ConfirmSignInWithTOTPCode
-        | ConfirmSignInWithCustomChallenge
-        | ConfirmSignInWithNewPasswordRequired<UserAttributeKey>
-        | ConfirmSignUpStep
-        | ResetPasswordStep
-        | DoneSignInStep;
-    }
-    ```
-  
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -1708,83 +1708,83 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 +  confirmSignIn: (input: ConfirmSignInInput) => Promise<ConfirmSignInOutput>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      challengeResponses: string
+      clientMetadata?: ClientMetaData {
+        [key: string]: string;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    challengeResponses: string
-    clientMetadata?: ClientMetaData {
-      [key: string]: string;
-    }
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: ConfirmSignInInput {
+        challengeResponse: string;
+        options?: {
+          userAttributes?: AuthUserAttributes;
+          clientMetadata?: ClientMetaData {
+            [key: string]: string;
+          }
+          friendlyDeviceName?: string;
+        };
+      }
+      ```
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: ConfirmSignInInput {
-      challengeResponse: string;
-      options?: {
-        userAttributes?: AuthUserAttributes;
-        clientMetadata?: ClientMetaData {
-          [key: string]: string;
-        }
-        friendlyDeviceName?: string;
-      };
-    }
-    ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      CognitoUser {
+        challengeName?: string;
+        challengeParam?: string;
+        username: string;
+        signInUserSession: {
+          idToken: string;
+          refreshToken: string;
+          accessToken: string;
+          clockDrift: number;
+        } | null;
+        authenticationFlowType: string;
+      }
+      ```
 
-### Output
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      ConfirmSignInOutput {
+        isSignedIn: boolean;
+        nextStep: // See Auth.signIn Example 2 for more details on nextStep types
+          | ContinueSignInWithMFASelection
+          | ContinueSignInWithTOTPSetup
+          | ConfirmSignInWithSMSCode
+          | ConfirmSignInWithTOTPCode
+          | ConfirmSignInWithCustomChallenge
+          | ConfirmSignInWithNewPasswordRequired<UserAttributeKey>
+          | ConfirmSignUpStep
+          | ResetPasswordStep
+          | DoneSignInStep;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    CognitoUser {
-      challengeName?: string;
-      challengeParam?: string;
-      username: string;
-      signInUserSession: {
-        idToken: string;
-        refreshToken: string;
-        accessToken: string;
-        clockDrift: number;
-      } | null;
-      authenticationFlowType: string;
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    ConfirmSignInOutput {
-      isSignedIn: boolean;
-      nextStep: // See Auth.signIn Example 2 for more details on nextStep types
-        | ContinueSignInWithMFASelection
-        | ContinueSignInWithTOTPSetup
-        | ConfirmSignInWithSMSCode
-        | ConfirmSignInWithTOTPCode
-        | ConfirmSignInWithCustomChallenge
-        | ConfirmSignInWithNewPasswordRequired<UserAttributeKey>
-        | ConfirmSignUpStep
-        | ResetPasswordStep
-        | DoneSignInStep;
-    }
-    ```
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -1834,50 +1834,50 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 +  fetchMFAPreference: () => Promise<FetchMFAPreferenceOutput>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      params?: GetPreferredMFAOpts {
+        bypassCache: boolean;
+      }
+      ```
+    </div>
+    <div>
+      **V6**
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    params?: GetPreferredMFAOpts {
-      bypassCache: boolean;
-    }
-    ```
-  </div>
-  <div>
-    **V6**
+      No input in v6
 
-    No input in v6
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      'SMS' | 'TOTP'
+      ```
 
-### Output
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      FetchMFAPreferenceOutput: {
+        enabled?: ('SMS' | 'TOTP')[];
+        preferred?: 'SMS' | 'TOTP';
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    'SMS' | 'TOTP'
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    FetchMFAPreferenceOutput: {
-      enabled?: ('SMS' | 'TOTP')[];
-      preferred?: 'SMS' | 'TOTP';
-    }
-    ```
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -1920,61 +1920,61 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 +  updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      mfaMethod: 
+        | 'TOTP'
+        | 'SMS'
+        | 'NOMFA'
+        | 'SMS_MFA'
+        | 'SOFTWARE_TOKEN_MFA'
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    mfaMethod: 
-      | 'TOTP'
-      | 'SMS'
-      | 'NOMFA'
-      | 'SMS_MFA'
-      | 'SOFTWARE_TOKEN_MFA'
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: UpdateMFAPreferenceInput {
+        sms?:
+          | 'ENABLED'
+          | 'DISABLED'
+          | 'PREFERRED'
+          | 'NOT_PREFERRED'
+        mfa?:
+          | 'ENABLED'
+          | 'DISABLED'
+          | 'PREFERRED'
+          | 'NOT_PREFERRED'
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: UpdateMFAPreferenceInput {
-      sms?:
-        | 'ENABLED'
-        | 'DISABLED'
-        | 'PREFERRED'
-        | 'NOT_PREFERRED'
-      mfa?:
-        | 'ENABLED'
-        | 'DISABLED'
-        | 'PREFERRED'
-        | 'NOT_PREFERRED'
-    }
-    ```
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
 
-### Output
+      ```
+      'No change for mfa type' | 'SUCCESS'
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
+    </div>
+    <div>
+      **V6**
 
-    ```
-    'No change for mfa type' | 'SUCCESS'
-    ```
+      No output in v6
 
-  </div>
-  <div>
-    **V6**
-
-    No output in v6
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -2017,51 +2017,51 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 +  fetchMFAPreference: () => Promise<FetchMFAPreferenceOutput>
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    ```
+    </div>
+    <div>
+      **V6**
 
-  </div>
-  <div>
-    **V6**
+      No input in v6
 
-    No input in v6
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      MFAOption[]: {
+        DeliveryMedium: 'SMS' | ~~'EMAIL'~~;
+        AttributeName: string;
+      }[]
+      ```
 
-### Output
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      FetchMFAPreferenceOutput: {
+        enabled?: ('SMS' | 'TOTP')[];
+        preferred?: 'SMS' | 'TOTP';
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    MFAOption[]: {
-      DeliveryMedium: 'SMS' | ~~'EMAIL'~~;
-      AttributeName: string;
-    }[]
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    FetchMFAPreferenceOutput: {
-      enabled?: ('SMS' | 'TOTP')[];
-      preferred?: 'SMS' | 'TOTP';
-    }
-    ```
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -2108,30 +2108,30 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 +  signOut: (input?: SignOutInput) => Promise<void>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      opts?: SignOutOpts {
+        global?: boolean;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input?: SignOutInput {
+        global: boolean;
+      }
+      ```
     
-    ```
-    opts?: SignOutOpts {
-      global?: boolean;
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input?: SignOutInput {
-      global: boolean;
-    }
-    ```
-  
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -2172,52 +2172,52 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 +  updatePassword: (input: UpdatePasswordInput) => Promise<void>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      oldPassword: string
+      newPassword: string
+      clientMetadata?: ClientMetaData {
+        [key: string]: string
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    oldPassword: string
-    newPassword: string
-    clientMetadata?: ClientMetaData {
-      [key: string]: string
-    }
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: UpdatePasswordInput {
+        oldPassword: string;
+        newPassword: string;
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: UpdatePasswordInput {
-      oldPassword: string;
-      newPassword: string;
-    }
-    ```
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      'SUCCESS'
+      ```
+      
+    </div>
+    <div>
+      **V6**
 
-### Output
+      No output in v6
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    'SUCCESS'
-    ```
-    
-  </div>
-  <div>
-    **V6**
-
-    No output in v6
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -2272,82 +2272,82 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 +  resetPassword: (input: ResetPasswordInput) => Promise<ResetPasswordOutput>;
 ```
 
-### Input
-
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    username: string
-    clientMetadata?: ClientMetaData {
-      [key: string]: string;
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: ResetPasswordInput {
-      username: string;
-      options?: {
-        clientMetadata?: {
-          [key: string]: string;
-        };
-      };
-    }
-    ```
-
-  </div>
-</Columns>
-
-### Output
-
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    {
-      CodeDeliveryDetails: {
-        AttributeName: string;
-        DeliveryMedium: string;
-        Destination: string;
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      username: string
+      clientMetadata?: ClientMetaData {
+        [key: string]: string;
       }
-    }
-    ```
+      ```
 
-  </div>
-  <div>
-    **V6**
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: ResetPasswordInput {
+        username: string;
+        options?: {
+          clientMetadata?: {
+            [key: string]: string;
+          };
+        };
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      {
+        CodeDeliveryDetails: {
+          AttributeName: string;
+          DeliveryMedium: string;
+          Destination: string;
+        }
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      ResetPasswordOutput {
+        isPasswordReset: boolean;
+        nextStep: {
+          resetPasswordStep: 
+            | 'CONFIRM_RESET_PASSWORD_WITH_CODE'
+            | 'DONE';
+          additionalInfo?: { 
+            [key: string]: string;
+          };
+          codeDeliveryDetails: {
+            destination?: string;
+            deliveryMedium?: 
+              | 'EMAIL'
+              | 'SMS'
+              | 'PHONE'
+              | 'UNKNOWN';
+            attributeName?: 'email' | 'phone_number';
+          };
+        };
+      }
+      ```
     
-    ```
-    ResetPasswordOutput {
-      isPasswordReset: boolean;
-      nextStep: {
-        resetPasswordStep: 
-          | 'CONFIRM_RESET_PASSWORD_WITH_CODE'
-          | 'DONE';
-        additionalInfo?: { 
-          [key: string]: string;
-        };
-        codeDeliveryDetails: {
-          destination?: string;
-          deliveryMedium?: 
-            | 'EMAIL'
-            | 'SMS'
-            | 'PHONE'
-            | 'UNKNOWN';
-          attributeName?: 'email' | 'phone_number';
-        };
-      };
-    }
-    ```
-  
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -2413,58 +2413,58 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
 +  confirmResetPassword: (input: ConfirmResetPasswordInput) => Promise<void>;
 ```
 
-### Input
-
-<Columns columns="2">
-  <div>
-    **V5**
-    
-    ```
-    username: string
-    code: string
-    password: string
-    clientMetadata?: ClientMetaData {
-      [key: string]: string;
-    };
-    ```
-  
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: ConfirmResetPasswordInput {
-      username: string;
-      newPassword: string;
-      confirmationCode: string;
-      options?: {
-        clientMetadata?: {
-          [key: string]: string;
-        };
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns="2">
+    <div>
+      **V5**
+      
+      ```
+      username: string
+      code: string
+      password: string
+      clientMetadata?: ClientMetaData {
+        [key: string]: string;
       };
-    }
-    ```
-
-  </div>
-</Columns>
-
-### Output
-
-<Columns columns="2">
-  <div>
-    **V5**
-    ```
-    'SUCCESS'
-    ```
+      ```
     
-  </div>
-  <div>
-    **V6**
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: ConfirmResetPasswordInput {
+        username: string;
+        newPassword: string;
+        confirmationCode: string;
+        options?: {
+          clientMetadata?: {
+            [key: string]: string;
+          };
+        };
+      }
+      ```
 
-    No output in v6
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns="2">
+    <div>
+      **V5**
+      ```
+      'SUCCESS'
+      ```
+      
+    </div>
+    <div>
+      **V6**
+
+      No output in v6
+
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -2571,89 +2571,89 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      params?: CurrentUserOpts {
+        bypassCache: boolean;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    params?: CurrentUserOpts {
-      bypassCache: boolean;
-    }
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      // fetchAuthSession
+      options?: FetchAuthSessionOptions {
+        forceRefresh?: boolean;
+      }
+      ```
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    // fetchAuthSession
-    options?: FetchAuthSessionOptions {
-      forceRefresh?: boolean;
-    }
-    ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      CognitoUser {
+        username: string;
+        signInUserSession: {
+          idToken: string;
+          refreshToken: string;
+          accessToken: string;
+          clockDrift: number;
+        } | null;
+        authenticationFlowType: string;
+      }
+      ```
 
-### Output
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      // getCurrentUser
+      GetCurrentUserOutput: {
+        username: string;
+        userId: string;
+        signInDetails?: {
+          loginId?: string;
+          authFlowType?: 
+            | 'USER_SRP_AUTH'
+            | 'CUSTOM_WITH_SRP'
+            | 'CUSTOM_WITHOUT_SRP'
+            | 'USER_PASSWORD_AUTH';;
+        };
+      }
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    CognitoUser {
-      username: string;
-      signInUserSession: {
-        idToken: string;
-        refreshToken: string;
-        accessToken: string;
-        clockDrift: number;
-      } | null;
-      authenticationFlowType: string;
-    }
-    ```
+      // fetchAuthSession
+      AuthSession {
+        tokens?: {
+          idToken?: JWT;
+          accessToken: JWT;
+        };
+        credentials?: {
+          accessKeyId: string;
+          secretAccessKey: string;
+          sessionToken?: string;
+          expiration?: Date;
+        };
+        identityId?: string;
+        userSub?: string;
+      }
+      ```
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    // getCurrentUser
-    GetCurrentUserOutput: {
-      username: string;
-      userId: string;
-      signInDetails?: {
-        loginId?: string;
-        authFlowType?: 
-          | 'USER_SRP_AUTH'
-          | 'CUSTOM_WITH_SRP'
-          | 'CUSTOM_WITHOUT_SRP'
-          | 'USER_PASSWORD_AUTH';;
-      };
-    }
-
-    // fetchAuthSession
-    AuthSession {
-      tokens?: {
-        idToken?: JWT;
-        accessToken: JWT;
-      };
-      credentials?: {
-        accessKeyId: string;
-        secretAccessKey: string;
-        sessionToken?: string;
-        expiration?: Date;
-      };
-      identityId?: string;
-      userSub?: string;
-    }
-    ```
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -2724,89 +2724,89 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      params?: CurrentUserOpts {
+        bypassCache: boolean;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    params?: CurrentUserOpts {
-      bypassCache: boolean;
-    }
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      // fetchAuthSession
+      options?: FetchAuthSessionOptions {
+        forceRefresh?: boolean;
+      }
+      ```
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    // fetchAuthSession
-    options?: FetchAuthSessionOptions {
-      forceRefresh?: boolean;
-    }
-    ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      CognitoUser {
+        username: string;
+        signInUserSession: {
+          idToken: string;
+          refreshToken: string;
+          accessToken: string;
+          clockDrift: number;
+        } | null;
+        authenticationFlowType: string;
+      }
+      ```
 
-### Output
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      // getCurrentUser
+      GetCurrentUserOutput: {
+        username: string;
+        userId: string;
+        signInDetails?: {
+          loginId?: string;
+          authFlowType?: 
+            | 'USER_SRP_AUTH'
+            | 'CUSTOM_WITH_SRP'
+            | 'CUSTOM_WITHOUT_SRP'
+            | 'USER_PASSWORD_AUTH';;
+        };
+      }
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    CognitoUser {
-      username: string;
-      signInUserSession: {
-        idToken: string;
-        refreshToken: string;
-        accessToken: string;
-        clockDrift: number;
-      } | null;
-      authenticationFlowType: string;
-    }
-    ```
+      // fetchAuthSession
+      AuthSession {
+        tokens?: {
+          idToken?: JWT;
+          accessToken: JWT;
+        };
+        credentials?: {
+          accessKeyId: string;
+          secretAccessKey: string;
+          sessionToken?: string;
+          expiration?: Date;
+        };
+        identityId?: string;
+        userSub?: string;
+      }
+      ```
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    // getCurrentUser
-    GetCurrentUserOutput: {
-      username: string;
-      userId: string;
-      signInDetails?: {
-        loginId?: string;
-        authFlowType?: 
-          | 'USER_SRP_AUTH'
-          | 'CUSTOM_WITH_SRP'
-          | 'CUSTOM_WITHOUT_SRP'
-          | 'USER_PASSWORD_AUTH';;
-      };
-    }
-
-    // fetchAuthSession
-    AuthSession {
-      tokens?: {
-        idToken?: JWT;
-        accessToken: JWT;
-      };
-      credentials?: {
-        accessKeyId: string;
-        secretAccessKey: string;
-        sessionToken?: string;
-        expiration?: Date;
-      };
-      identityId?: string;
-      userSub?: string;
-    }
-    ```
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -2864,65 +2864,65 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
 
-<Columns columns={2}>
-  <div>
-    **V5**
+      No input in v5
 
-    No input in v5
-
-  </div>
-  <div>
-    **V6**
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      options?: FetchAuthSessionOptions {
+        forceRefresh?: boolean;
+      }
+      ```
     
-    ```
-    options?: FetchAuthSessionOptions {
-      forceRefresh?: boolean;
-    }
-    ```
-  
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
-### Output
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      CognitoUserSession {
+        idToken: string;
+        refreshToken: string;
+        accessToken: string;
+        clockDrift: number;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    CognitoUserSession {
-      idToken: string;
-      refreshToken: string;
-      accessToken: string;
-      clockDrift: number;
-    }
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      AuthSession {
+        tokens?: {
+          idToken?: JWT;
+          accessToken: JWT;
+        };
+        credentials?: {
+          accessKeyId: string;
+          secretAccessKey: string;
+          sessionToken?: string;
+          expiration?: Date;
+        };
+        identityId?: string;
+        userSub?: string;
+      }
+      ```
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    AuthSession {
-      tokens?: {
-        idToken?: JWT;
-        accessToken: JWT;
-      };
-      credentials?: {
-        accessKeyId: string;
-        secretAccessKey: string;
-        sessionToken?: string;
-        expiration?: Date;
-      };
-      identityId?: string;
-      userSub?: string;
-    }
-    ```
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -2980,67 +2980,67 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      options?: FetchAuthSessionOptions {
+        forceRefresh?: boolean;
+      }
+      ```
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    options?: FetchAuthSessionOptions {
-      forceRefresh?: boolean;
-    }
-    ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      CognitoUserSession {
+        idToken: string;
+        refreshToken: string;
+        accessToken: string;
+        clockDrift: number;
+      }
+      ```
 
-### Output
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      AuthSession {
+        tokens?: {
+          idToken?: JWT;
+          accessToken: JWT;
+        };
+        credentials?: {
+          accessKeyId: string;
+          secretAccessKey: string;
+          sessionToken?: string;
+          expiration?: Date;
+        };
+        identityId?: string;
+        userSub?: string;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    CognitoUserSession {
-      idToken: string;
-      refreshToken: string;
-      accessToken: string;
-      clockDrift: number;
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    AuthSession {
-      tokens?: {
-        idToken?: JWT;
-        accessToken: JWT;
-      };
-      credentials?: {
-        accessKeyId: string;
-        secretAccessKey: string;
-        sessionToken?: string;
-        expiration?: Date;
-      };
-      identityId?: string;
-      userSub?: string;
-    }
-    ```
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -3096,50 +3096,50 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    ```
+    </div>
+    <div>
+      **V6**
 
-  </div>
-  <div>
-    **V6**
+      No input in v6
 
-    No input in v6
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      CognitoUserAttribute[]: {
+        Name: string;
+        Value: string;
+      }[]
+      ```
 
-### Output
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      FetchUserAttributesOutput {
+        [key: string]?: string;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    CognitoUserAttribute[]: {
-      Name: string;
-      Value: string;
-    }[]
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    FetchUserAttributesOutput {
-      [key: string]?: string;
-    }
-    ```
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -3185,76 +3185,76 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  updateUserAttributes: (input: UpdateUserAttributesInput) => Promise<UpdateUserAttributesOutput>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      attributes: object
+      clientMetadata?: ClientMetaData {
+        [key: string]: string;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    attributes: object
-    clientMetadata?: ClientMetaData {
-      [key: string]: string;
-    }
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: UpdateUserAttributesInput {
+        userAttributes: {
+          [key: string]?: string;
+        };
+        options?: {
+          clientMetadata?: ClientMetaData {
+            [key: string]: string;
+          }
+        };
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: UpdateUserAttributesInput {
-      userAttributes: {
-        [key: string]?: string;
-      };
-      options?: {
-        clientMetadata?: ClientMetaData {
-          [key: string]: string;
-        }
-      };
-    }
-    ```
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      'SUCCESS'
+      ```
 
-### Output
-
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    'SUCCESS'
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    UpdateUserAttributesOutput {
-      [authKey in UserAttributeKey]: {
-        isUpdated: boolean;
-        nextStep: {
-          updateAttributeStep: 
-            | 'CONFIRM_ATTRIBUTE_WITH_CODE'
-            | 'DONE';
-          codeDeliveryDetails?: {
-            destination?: string;
-            deliveryMedium?: 
-              | 'EMAIL'
-              | 'SMS'
-              | 'PHONE'
-              | 'UNKNOWN';
-            attributeName?: UserAttributeKey;
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      UpdateUserAttributesOutput {
+        [authKey in UserAttributeKey]: {
+          isUpdated: boolean;
+          nextStep: {
+            updateAttributeStep: 
+              | 'CONFIRM_ATTRIBUTE_WITH_CODE'
+              | 'DONE';
+            codeDeliveryDetails?: {
+              destination?: string;
+              deliveryMedium?: 
+                | 'EMAIL'
+                | 'SMS'
+                | 'PHONE'
+                | 'UNKNOWN';
+              attributeName?: UserAttributeKey;
+            };
           };
         };
-      };
-    }
-    ```
-  </div>
-</Columns>
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -3301,48 +3301,48 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  deleteUserAttributes: (input: DeleteUserAttributesInput) => Promise<void>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      attributeNames: string[]
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    attributeNames: string[]
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: DeleteUserAttributesInput {
+        userAttributeKeys: [UserAttributeKey, ...UserAttributeKey[]];
+      }
+      ```
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: DeleteUserAttributesInput {
-      userAttributeKeys: [UserAttributeKey, ...UserAttributeKey[]];
-    }
-    ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      'SUCCESS'
+      ```
 
-### Output
+    </div>
+    <div>
+      **V6**
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    'SUCCESS'
-    ```
+      No output in v6
 
-  </div>
-  <div>
-    **V6**
-
-    No output in v6
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -3388,64 +3388,64 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  sendUserAttributeVerificationCode: (input: SendUserAttributeVerificationCodeInput) => Promise<SendUserAttributeVerificationCodeOutput>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      attr: string
+      clientMetadata?: ClientMetadata {
+        [key: string]: string;
+      }
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    attr: string
-    clientMetadata?: ClientMetadata {
-      [key: string]: string;
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: SendUserAttributeVerificationCodeInput {
-      userAttributeKey: 'email' | 'phone_number';
-      options?: {
-        clientMetadata?: {
-          [key: string]: string;
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: SendUserAttributeVerificationCodeInput {
+        userAttributeKey: 'email' | 'phone_number';
+        options?: {
+          clientMetadata?: {
+            [key: string]: string;
+          };
         };
-      };
-    }
-    ```
+      }
+      ```
 
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
-### Output
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
 
-<Columns columns={2}>
-  <div>
-    **V5**
+      No output in v5
 
-    No output in v5
-
-  </div>
-  <div>
-    **V6**
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      SendUserAttributeVerificationCodeOutput {
+        destination?: string;
+        deliveryMedium?:
+          | 'EMAIL'
+          | 'SMS'
+          | 'PHONE'
+          | 'UNKNOWN';
+        attributeName?: 'email' | 'phone_number';
+      }
+      ```
     
-    ```
-    SendUserAttributeVerificationCodeOutput {
-      destination?: string;
-      deliveryMedium?:
-        | 'EMAIL'
-        | 'SMS'
-        | 'PHONE'
-        | 'UNKNOWN';
-      attributeName?: 'email' | 'phone_number';
-    }
-    ```
-  
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -3502,50 +3502,50 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  confirmUserAttribute: (input: ConfirmUserAttributeInput) => Promise<void>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      attr: string
+      code: string
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    attr: string
-    code: string
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: ConfirmUserAttributeInput {
+        userAttributeKey: 'email' | 'phone_number';
+        confirmationCode: string;
+      }
+      ```
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: ConfirmUserAttributeInput {
-      userAttributeKey: 'email' | 'phone_number';
-      confirmationCode: string;
-    }
-    ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
 
-### Output
+      ```
+      'SUCCESS'
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
+    </div>
+    <div>
+      **V6**
 
-    ```
-    'SUCCESS'
-    ```
+      No output in v6
 
-  </div>
-  <div>
-    **V6**
-
-    No output in v6
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -3600,59 +3600,59 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  sendUserAttributeVerificationCode: (input: SendUserAttributeVerificationCodeInput) => Promise<SendUserAttributeVerificationCodeOutput>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      attr: string
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    attr: string
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: SendUserAttributeVerificationCodeInput {
-      userAttributeKey: 'email' | 'phone_number';
-      options?: {
-        clientMetadata?: {
-          [key: string]: string;
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: SendUserAttributeVerificationCodeInput {
+        userAttributeKey: 'email' | 'phone_number';
+        options?: {
+          clientMetadata?: {
+            [key: string]: string;
+          };
         };
-      };
-    }
-    ```
-  
-  </div>
-</Columns>
-
-### Output
-
-<Columns columns={2}>
-  <div>
-    **V5**
-
-    No output in v5
-
-  </div>
-  <div>
-    **V6**
+      }
+      ```
     
-    ```
-    SendUserAttributeVerificationCodeOutput {
-      destination?: string;
-      deliveryMedium?:
-        | 'EMAIL'
-        | 'SMS'
-        | 'PHONE'
-        | 'UNKNOWN';
-      attributeName?: 'email' | 'phone_number';
-    }
-    ```
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      No output in v5
+
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      SendUserAttributeVerificationCodeOutput {
+        destination?: string;
+        deliveryMedium?:
+          | 'EMAIL'
+          | 'SMS'
+          | 'PHONE'
+          | 'UNKNOWN';
+        attributeName?: 'email' | 'phone_number';
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -3699,48 +3699,48 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  confirmUserAttribute: (input: ConfirmUserAttributeInput) => Promise<void>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      attr: string
+      code: string
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    attr: string
-    code: string
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: ConfirmUserAttributeInput {
+        userAttributeKey: 'email' | 'phone_number';
+        confirmationCode: string;
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: ConfirmUserAttributeInput {
-      userAttributeKey: 'email' | 'phone_number';
-      confirmationCode: string;
-    }
-    ```
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      'SUCCESS'
+      ```
+      
+    </div>
+    <div>
+      **V6**
 
-### Output
+      No output in v6
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    'SUCCESS'
-    ```
-    
-  </div>
-  <div>
-    **V6**
-
-    No output in v6
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -3793,24 +3793,24 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  rememberDevice: () => Promise<void>;
 ```
 
-### Output
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns="2">
+    <div>
+      **V5**
+      
+      ```
+      'SUCCESS'
+      ```
+      
+    </div>
+    <div>
+      **V6**
 
-<Columns columns="2">
-  <div>
-    **V5**
-    
-    ```
-    'SUCCESS'
-    ```
-    
-  </div>
-  <div>
-    **V6**
+      No output in v6
 
-    No output in v6
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -3851,28 +3851,28 @@ This API has been deprecated: existing use cases can be migrated to a combinatio
 +  forgetDevice: (input?: ForgetDeviceInput) => Promise<void>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns="2">
+    <div>
+      **V5**
 
-<Columns columns="2">
-  <div>
-    **V5**
+      No input in v5
 
-    No input in v5
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input?: ForgetDeviceInput {
-      device?: {
-        id: string;
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input?: ForgetDeviceInput {
+        device?: {
+          id: string;
+        }
       }
-    }
-    ```
+      ```
 
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -3915,67 +3915,67 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
 
-<Columns columns={2}>
-  <div>
-    **V5**
+      No input in v5
 
-    No input in v5
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      options?: FetchAuthSessionOptions {
+        forceRefresh?: boolean;
+      }
+      ```
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    options?: FetchAuthSessionOptions {
-      forceRefresh?: boolean;
-    }
-    ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
-
-### Output
-
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    ICredentials {
-      accessKeyId: string;
-      sessionToken: string;
-      secretAccessKey: string;
-      identityId: string;
-      authenticated: boolean;
-      expiration?: Date;
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    AuthSession {
-      tokens?: {
-        idToken?: JWT;
-        accessToken: JWT;
-      };
-      credentials?: {
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      ICredentials {
         accessKeyId: string;
+        sessionToken: string;
         secretAccessKey: string;
-        sessionToken?: string;
+        identityId: string;
+        authenticated: boolean;
         expiration?: Date;
-      };
-      identityId?: string;
-      userSub?: string;
-    }
-    ```
+      }
+      ```
 
-  </div>
-</Columns>
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      AuthSession {
+        tokens?: {
+          idToken?: JWT;
+          accessToken: JWT;
+        };
+        credentials?: {
+          accessKeyId: string;
+          secretAccessKey: string;
+          sessionToken?: string;
+          expiration?: Date;
+        };
+        identityId?: string;
+        userSub?: string;
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -4045,66 +4045,66 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
 +  fetchAuthSession: (options?: FetchAuthSessionOptions) => Promise<AuthSession>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
 
-<Columns columns={2}>
-  <div>
-    **V5**
+      No input in v5
 
-    No input in v5
-
-  </div>
-  <div>
-    **V6**
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      options?: FetchAuthSessionOptions {
+        forceRefresh?: boolean;
+      }
+      ```
     
-    ```
-    options?: FetchAuthSessionOptions {
-      forceRefresh?: boolean;
-    }
-    ```
-  
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
-### Output
-
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    ICredentials {
-      accessKeyId: string;
-      sessionToken: string;
-      secretAccessKey: string;
-      identityId: string;
-      authenticated: boolean;
-      expiration?: Date;
-    }
-    ```
-
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    AuthSession {
-      tokens?: {
-        idToken?: JWT;
-        accessToken: JWT;
-      };
-      credentials?: {
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      ICredentials {
         accessKeyId: string;
+        sessionToken: string;
         secretAccessKey: string;
-        sessionToken?: string;
+        identityId: string;
+        authenticated: boolean;
         expiration?: Date;
-      };
-      identityId?: string;
-      userSub?: string;
-    }
-    ```
-  </div>
-</Columns>
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      AuthSession {
+        tokens?: {
+          idToken?: JWT;
+          accessToken: JWT;
+        };
+        credentials?: {
+          accessKeyId: string;
+          secretAccessKey: string;
+          sessionToken?: string;
+          expiration?: Date;
+        };
+        identityId?: string;
+        userSub?: string;
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -4175,49 +4175,49 @@ This API has been deprecated: existing use cases can be migrated by using a comb
 +  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
 ```
 
-### Output
-
-<Columns columns="2">
-  <div>
-    **V5**
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns="2">
+    <div>
+      **V5**
+      
+      ```
+      {
+        id?: string;
+        username: string;
+        attributes: {
+          [key: string]: string;
+        };
+      }
+      ```
     
-    ```
-    {
-      id?: string;
-      username: string;
-      attributes: {
-        [key: string]: string;
-      };
-    }
-    ```
-  
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    // getCurrentUser
-    GetCurrentUserOutput: {
-      username: string;
-      userId: string;
-      signInDetails?: {
-        loginId?: string;
-        authFlowType?: 
-          | 'USER_SRP_AUTH'
-          | 'CUSTOM_WITH_SRP'
-          | 'CUSTOM_WITHOUT_SRP'
-          | 'USER_PASSWORD_AUTH';;
-      };
-    }
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      // getCurrentUser
+      GetCurrentUserOutput: {
+        username: string;
+        userId: string;
+        signInDetails?: {
+          loginId?: string;
+          authFlowType?: 
+            | 'USER_SRP_AUTH'
+            | 'CUSTOM_WITH_SRP'
+            | 'CUSTOM_WITHOUT_SRP'
+            | 'USER_PASSWORD_AUTH';;
+        };
+      }
 
-    // fetchUserAttributes
-    FetchUserAttributesOutput {
-      [key: string]?: string;
-    }
-    ```
+      // fetchUserAttributes
+      FetchUserAttributesOutput {
+        [key: string]?: string;
+      }
+      ```
 
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -4275,56 +4275,56 @@ This API has been deprecated: existing use cases can be migrated to the `fetchUs
 +  fetchUserAttributes: () => Promise<FetchUserAttributesOutput>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      ```
+      
+    </div>
+    <div>
+      **V6**
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    ```
-    
-  </div>
-  <div>
-    **V6**
+      No input in v6
 
-    No input in v6
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
-
-### Output
-
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    {
-      verified: {
-        email?: boolean;
-        phone_number?: boolean;
-      },
-      unverified: {
-        email?: boolean;
-        phone_number?: boolean;
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      {
+        verified: {
+          email?: boolean;
+          phone_number?: boolean;
+        },
+        unverified: {
+          email?: boolean;
+          phone_number?: boolean;
+        }
       }
-    }
-    ```
+      ```
 
-  </div>
-  <div>
-    **V6**
+    </div>
+    <div>
+      **V6**
 
-    ```
-    FetchUserAttributesOutput {
-      [key: string]?: string;
-    }
-    ```
+      ```
+      FetchUserAttributesOutput {
+        [key: string]?: string;
+      }
+      ```
 
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -4379,56 +4379,56 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 +  updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: UpdateMFAPreferenceInput {
+        sms?:
+          | 'ENABLED'
+          | 'DISABLED'
+          | 'PREFERRED'
+          | 'NOT_PREFERRED'
+        mfa?:
+          | 'ENABLED'
+          | 'DISABLED'
+          | 'PREFERRED'
+          | 'NOT_PREFERRED'
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      'SUCCESS'
+      ```
     
-    ```
-    user: CognitoUser
-    ```
+    </div>
+    <div>
+      **V6**
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: UpdateMFAPreferenceInput {
-      sms?:
-        | 'ENABLED'
-        | 'DISABLED'
-        | 'PREFERRED'
-        | 'NOT_PREFERRED'
-      mfa?:
-        | 'ENABLED'
-        | 'DISABLED'
-        | 'PREFERRED'
-        | 'NOT_PREFERRED'
-    }
-    ```
+      No output in v6
 
-  </div>
-</Columns>
-
-### Output
-
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    'SUCCESS'
-    ```
-  
-  </div>
-  <div>
-    **V6**
-
-    No output in v6
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
@@ -4471,56 +4471,56 @@ This API has been deprecated: existing use cases can be migrated to the `updateM
 +  updateMFAPreference: (input: UpdateMFAPreferenceInput) => Promise<void>;
 ```
 
-### Input
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      user: CognitoUser
+      ```
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    user: CognitoUser
-    ```
+    </div>
+    <div>
+      **V6**
+      
+      ```
+      input: UpdateMFAPreferenceInput {
+        sms?:
+          | 'ENABLED'
+          | 'DISABLED'
+          | 'PREFERRED'
+          | 'NOT_PREFERRED'
+        mfa?:
+          | 'ENABLED'
+          | 'DISABLED'
+          | 'PREFERRED'
+          | 'NOT_PREFERRED'
+      }
+      ```
 
-  </div>
-  <div>
-    **V6**
-    
-    ```
-    input: UpdateMFAPreferenceInput {
-      sms?:
-        | 'ENABLED'
-        | 'DISABLED'
-        | 'PREFERRED'
-        | 'NOT_PREFERRED'
-      mfa?:
-        | 'ENABLED'
-        | 'DISABLED'
-        | 'PREFERRED'
-        | 'NOT_PREFERRED'
-    }
-    ```
+    </div>
+  </Columns>
+</Accordion>
 
-  </div>
-</Columns>
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+      
+      ```
+      'SUCCESS'
+      ```
 
-### Output
+    </div>
+    <div>
+      **V6**
 
-<Columns columns={2}>
-  <div>
-    **V5**
-    
-    ```
-    'SUCCESS'
-    ```
+      No output in v6
 
-  </div>
-  <div>
-    **V6**
-
-    No output in v6
-
-  </div>
-</Columns>
+    </div>
+  </Columns>
+</Accordion>
 
 ### Example
 
