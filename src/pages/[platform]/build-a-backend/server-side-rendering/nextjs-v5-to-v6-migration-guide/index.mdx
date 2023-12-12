@@ -123,7 +123,7 @@ Make sure you are importing API’s from the `/server` subpath when in a server 
   </div>
 </Columns>
 
-> Note: Next.js Middleware is now supported in v6. You can find instructions for implementation here: [Manage Auth session with Next.js Middleware](/[platform]/build-a-backend/server-side-rendering/#manage-auth-session-with-the-nextjs-middleware)
+> **Note:** Next.js Middleware is now supported in v6. You can find instructions for implementation here: [Manage Auth session with Next.js Middleware](/[platform]/build-a-backend/server-side-rendering/#manage-auth-session-with-the-nextjs-middleware)
 
 ## Using the API category in v6
 
@@ -198,17 +198,17 @@ Now update the implementation in your server-side-rendered component:
   </div>
 </Columns>
 
-## Migrating from DataStore to API in a server context
+## Migrating from DataStore to GraphQL API client in a server context
 
 DataStore is no longer supported within a server context in v6. You will need to use the GraphQL API client instead. 
 
-For a successful transition to using the API category in the server context, you will need to be aware of [how conflict resolution works](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html#conflict-detection-and-resolution), paying particular attention to `auto-merge`. This will require the following adjustments to standard GraphQL operations:
+For a successful transition to using the API category, you will need to be aware of [how conflict resolution works](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html#conflict-detection-and-resolution). DataStore API's use the `auto-merge` strategy as the default, which is assumed in the examples below. The `auth-merge` strategy requires the following adjustments to standard GraphQL operations:
 
 1. You will need to ignore deleted records by filtering on `_deleted: false` when querying data
 
-2. You will need to ensure that `_version` is included in your graphql queries, mutations, and subscriptions (included by default in amplify generated statements).
+2. You will need to ensure that `_version` is included in the selection sets of GraphQL queries, mutations, and subscriptions (included by default in amplify generated statements).
 
-When migrating operations from DataStore to GraphQL, you should also take into account that the return structures are different: where `DataStore.query` returns `Todo[]`, an `API.graphql` list operation will return `{ data: { listTodos: { items: Todo[] } } }`, and where `DataStore.save` returns `Todo`, an `API.graphql` create/update operation will return `{ data: { createTodo: Todo } }` and `{ data: { updateTodo: Todo } }` respectively
+When migrating operations from DataStore to GraphQL, you should also take into account that the return structures are different: where `DataStore.query` returns `Todo[]`, an `API.graphql` list operation will return `{ data: { listTodos: { items: Todo[] } } }`, and where `DataStore.save` returns `Todo`, an `API.graphql` create/update operation will return `{ data: { createTodo: Todo } }` and `{ data: { updateTodo: Todo } }` respectively.
 
 If your project does not contain GraphQL mutations, queries, subscriptions, and types, you can use the amplify cli scripts below to generate those files (See [the API (GraphQL) documentation](/[platform]/build-a-backend/graphqlapi/client-code-generation/#shared-schema-modified-elsewhere-eg-console-or-team-workflows) for more information)
 
@@ -217,7 +217,7 @@ amplify codegen statements
 amplify codegen types
 ```
 
-<Callout> Do not try to perform DataStore mutations directly on items returned by graphql operations. The returned types are not compatible and should not be mixed. If you need to update an item using DataStore, you should first query that item using DataStore, then perform the update.</Callout>
+<Callout> Do not try to perform DataStore mutations directly on items returned by GraphQL operations. The returned types are not compatible and should not be mixed. If you need to update an item using DataStore client-side, you should first query that item using DataStore, then perform the update.</Callout>
 
 ### Setup API Client
 
@@ -225,7 +225,7 @@ Follow the instructions for [Using the API category in v6](/[platform]/build-a-b
 
 ### Replace `DataStore.query` with `API.graphql`
 
-> Note: if you were using the `MULTI_AUTH` auth mode strategy in DataStore, you may need to send an authMode in your `API.graphql` call.
+> **Note:** if you were using the `MULTI_AUTH` auth mode strategy in DataStore, you may need to send an authMode in your `API.graphql` call.
 
 <Columns columns="2">
   <div>
@@ -272,7 +272,7 @@ Follow the instructions for [Using the API category in v6](/[platform]/build-a-b
           return reqResBasedClient.graphql(contextSpec, {
             query: listTodos,
             variables,
-            authMode: 'apiKey'
+            authMode: 'apiKey' // May be required when using multi-auth 
           });
         }
       });
@@ -290,7 +290,7 @@ Follow the instructions for [Using the API category in v6](/[platform]/build-a-b
 
 ### Replace `DataStore.save` with `API.graphql`
 
-> Note: if you were using the `MULTI_AUTH` auth mode strategy in DataStore, you may need to send an authMode in your `API.graphql` call.
+> **Note:** if you were using the `MULTI_AUTH` auth mode strategy in DataStore, you may need to send an authMode in your `API.graphql` call.
 
 <Columns columns="2">
   <div>
@@ -344,7 +344,7 @@ Follow the instructions for [Using the API category in v6](/[platform]/build-a-b
           return reqResBasedClient.graphql(contextSpec, {
             query: updateTodo,
             variables: { input: todoDetails },
-            authMode: 'userPool'
+            authMode: 'userPool' // May be required when using multi-auth 
           });
         }
       });
