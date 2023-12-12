@@ -2,7 +2,7 @@ import type { PrismTheme } from 'prism-react-renderer';
 export const theme: PrismTheme = {
   plain: {
     color: '#d6deeb',
-    backgroundColor: 'var(--amplify-colors-neutral-100)'
+    backgroundColor: 'var(--pre-wrapper-inner-background)'
   },
   styles: [
     {
@@ -15,7 +15,7 @@ export const theme: PrismTheme = {
     {
       types: ['deleted'],
       style: {
-        color: 'rgba(239, 83, 80, 0.56)',
+        color: 'hsl(0, 75%, 75%)',
         fontStyle: 'italic'
       }
     },
@@ -29,7 +29,7 @@ export const theme: PrismTheme = {
     {
       types: ['comment'],
       style: {
-        color: 'var(--code-theme-comment)',
+        color: 'hsl(210, 4%, 71%)',
         fontStyle: 'italic'
       }
     },
@@ -42,7 +42,7 @@ export const theme: PrismTheme = {
     {
       types: ['variable'],
       style: {
-        color: 'var(--amplify-colors-font-inverse)'
+        color: 'hsl(0,0%,100%)'
       }
     },
     {
@@ -79,13 +79,13 @@ export const theme: PrismTheme = {
     {
       types: ['tag', 'operator', 'keyword'],
       style: {
-        color: 'var(--amplify-colors-brand-primary-20)'
+        color: 'hsl(175, 57%, 80%)'
       }
     },
     {
       types: ['boolean'],
       style: {
-        color: 'var(--amplify-colors-red-40)'
+        color: 'hsl(0, 75%, 75%)'
       }
     },
     {
