@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
   Button,
+  ColorMode,
   Flex,
   Heading,
   IconsProvider,
@@ -75,6 +76,7 @@ export const Layout = ({
   useCustomTitle?: boolean;
 }) => {
   const [menuOpen, toggleMenuOpen] = useState(false);
+  const [colorMode, setColorMode] = useState<ColorMode>('system');
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
@@ -96,6 +98,15 @@ export const Layout = ({
       asPathWithNoHash.includes(section) && !asPathWithNoHash.endsWith(section)
     );
   });
+
+  const handleColorModeChange = (mode: ColorMode) => {
+    setColorMode(mode);
+    if (colorMode !== 'system') {
+      localStorage.setItem('colorMode', colorMode);
+    } else {
+      localStorage.removeItem('colorMode');
+    }
+  };
 
   if (!isGen2) {
     // [platform] will always be the very first subpath right?
@@ -174,6 +185,14 @@ export const Layout = ({
       };
     }
   });
+
+  useEffect(() => {
+    const colorModePreference = localStorage.getItem('colorMode') as ColorMode;
+    if (colorModePreference) {
+      setColorMode(colorModePreference);
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -209,8 +228,18 @@ export const Layout = ({
           key="twitter:image"
         />
       </Head>
-      <LayoutProvider value={{ menuOpen, toggleMenuOpen }}>
-        <ThemeProvider theme={isGen2 ? gen2Theme : defaultTheme}>
+      <LayoutProvider
+        value={{
+          colorMode,
+          menuOpen,
+          toggleMenuOpen,
+          handleColorModeChange
+        }}
+      >
+        <ThemeProvider
+          theme={isGen2 ? gen2Theme : defaultTheme}
+          colorMode={colorMode}
+        >
           <IconsProvider icons={defaultIcons}>
             <View className={`layout-wrapper layout-wrapper--${pageType}`}>
               {pageType === 'home' ? (
