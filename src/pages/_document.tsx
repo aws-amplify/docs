@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Script from 'next/script';
 
 const cspHashOf = (text) => {
   const hash = crypto.createHash('sha256');
@@ -114,21 +115,10 @@ export default class MyDocument extends Document {
             httpEquiv="Content-Security-Policy"
             content={getCspContent(this.props)}
           />
-          {/* {process.env.BUILD_ENV !== 'production' ? (
-            <>
-              <Script
-                src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
-                strategy="beforeInteractive"
-              ></Script>
-            </>
-          ) : (
-            <>
-              <Script
-                src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
-                strategy="beforeInteractive"
-              ></Script>
-            </>
-          )} */}
+          <Script
+            src="https://prod.assets.shortbread.aws.dev/shortbread.js"
+            strategy="beforeInteractive"
+          ></Script>
         </Head>
         <body>
           <Main />

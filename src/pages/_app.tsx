@@ -182,13 +182,9 @@ function MyApp({ Component, pageProps }) {
 
       <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>
 
-      <script
-        src="https://prod.assets.shortbread.aws.dev/shortbread.js"
-        defer
-      ></script>
       {process.env.BUILD_ENV !== 'production' ? (
         <>
-          {/* eslint-disable-next-line @next/next/no-sync-scripts */}{' '}
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
           <script src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
           <Script
             src="https://alpha.d2c.marketing.aws.dev/client/loader/v1/d2c-load.js"
