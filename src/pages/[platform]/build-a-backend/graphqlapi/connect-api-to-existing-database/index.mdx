@@ -716,7 +716,7 @@ CREATE TABLE posts (
 
 2. Regenerate the database schema as a CSV file by following the instructions in [Generate GraphQL schema from database schema](#step-2---generate-graphql-schema-from-database-schema).
 
-3. Generate an updated schema by running the following command, replacing the `--engine-type` value with your database engine of `mysql` or `postgres`, and the `--sql-schema` value with the path to the CSV file created in the previous step::
+3. Generate an updated schema by running the following command, replacing the `--engine-type` value with your database engine of `mysql` or `postgres`, and the `--sql-schema` value with the path to the CSV file created in the previous step:
 
 ```sh
 npx @aws-amplify/cli api generate-schema --engine-type mysql --sql-schema schema.csv --out schema.sql.graphql
