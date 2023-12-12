@@ -32,7 +32,7 @@ export function getStaticProps(context) {
 
 ## Use Amplify Categories APIs in Server Side Rendering
 
-Amplify JS v6 provides a set of APIs that can be called on the server side of a full stack Web app built with an SSR-enabled framework. These APIs are required to be called within an isolated server context to avoid cross-request state pollution. An isolated server context contains information used by the API calls, e.g., credentials extracted from the user session sent along with a request to the server.
+Amplify JS v6 provides a set of APIs that can be called on the server side of a full stack Web app built with an SSR-enabled framework. These APIs are required to be called within an isolated server context to avoid cross-request state pollution. An isolated server context contains information that is extracted from the incoming request and used by the API calls, e.g., the Amplify Auth tokens extracted from the request cookie header. To allow Amplify's APIs to retrieve the Auth tokens and further to retrieve credentials for making service calls, you will need to provide `tokenProvider` and `credentialsProvider` (details see the following sections).
 
 You will need to use the `runWithAmplifyServerContext` function (exported from `aws-amplify/adapter-core`) to create server contexts. It creates a server context based on the cookies sent along with a request to the server. Hence, if the SSR framework you are using provides APIs that allow you to interact with the cookies while receiving a request and sending a response for it, you should be able to use the `runWithAmplifyServerContext` function to call Amplify categories APIs on the server.
 
@@ -47,16 +47,16 @@ You will need to use the `runWithAmplifyServerContext` function (exported from `
 The `runWithAmplifyServerContext` function requires the following parameters to function:
 
 1. The Amplify configuration object
-2. The library options that contain the `tokenProvider` and `credentialsProvider`
-3. A callback function that contains your business logic to call Amplify categories APIs
+2. A `LibraryOptions` object with `tokenProvider` and `credentialsProvider` properties
+3. A callback function containing your business logic, including calls to Amplify categories APIs
 
 #### Amplify Configuration Object
 
-You can get the configuration object by passing the config object imported from the `amplifyconfiguration.json` file to the utility function `parseAmplifyConfig` (exported from `aws-amplify/utils`), or you can crate the object literal that conforms to the type `ResourceConfig` (exported from `aws-amplify`).
+You can get the configuration object by passing the config object imported from the `amplifyconfiguration.json` file to the utility function `parseAmplifyConfig` (exported from `aws-amplify/utils`), or you can create an object literal that conforms to the `ResourceConfig` type (exported from `aws-amplify`).
 
-#### Library Options with the `tokenProvider` and `credentialsProvider`
+#### The `LibraryOptions` Object with `tokenProvider` and `credentialsProvider` Properties
 
-We have mentioned above that an isolated server context may contain a user session. Amplify categories APIs will rely on the `tokenProvider` and `credentialsProvider` to function. Therefore, you will need to create and configure the providers using cookies, following the below steps.
+We have mentioned above that Amplify categories APIs will rely on the `tokenProvider` and `credentialsProvider` to retrieve Auth tokens and credentials. Therefore, you will need to create and configure the providers using cookies, following the below steps.
 
 **1. Create a key-value storage that operates on top of the cookie APIs provided by the framework.**
 
@@ -72,9 +72,13 @@ You can create a `credentialsProvider` using the utility function `createAWSCred
 
 #### Callback Function
 
-The callback function that contains your business logic will be called by the function `runWithAmplifyServerContext` within a context. The callback function will be passed a `contextSpec` parameter that you can use to call the Amplify categories APIs exported from the `aws-amplify/<category>/server` subpaths.
+The callback function that contains your business logic will be called by the function `runWithAmplifyServerContext` within a context. The callback function will be passed a `contextSpec` parameter that you can use to call the Amplify categories APIs exported from the `aws-amplify/<category>/server` subpaths. When the callback function completes, the corresponding server context will be destroyed, and the result returned by the callback function will be returned by the `runWithAmplifyServerContext` function.
 
-When the callback function completes, the corresponding server context will be destroyed.
+<Callout warning>
+
+You must **not** hoist any variables, object references created within the callback function (e.g., the `contextSpec` parameter), or your business logic to an outer scope, as it may lead to cross-request pollution.
+
+</Callout>
 
 Once you prepare the three required parameters you can perform calls of Amplify categories APIs on the server side. For example:
 
@@ -125,21 +129,26 @@ const credentialsProvider = createAWSCredentialsAndIdentityIdProvider(
   keyValueStorage
 );
 
-// Execute Amplify category APIs
-// For example, calling `fetchAuthSession` on the server
-const session = await runWithAmplifyServerContext(
+// Call Amplify APIs in the callback function
+//
+// For example, calling the `getCurrentUser` API on the server side
+const welcomeMessage = await runWithAmplifyServerContext(
   amplifyConfig,
   {
     Auth: { tokenProvider, credentialsProvider }
   },
   // The callback function that contains your business logic
-  (contextSpec) => fetchAuthSession(contextSpec),
+  async (contextSpec) => {
+    const { username } = await getCurrentUser();
+
+    return `Welcome ${username}!`;
+  },
 );
 ```
 
 ### Supported APIs for Server Side Usage
 
-All APIs that support use on the server are exported from the `aws-amplify/<category>/server` sub paths. You **must** use these APIs for any server side use cases.
+All APIs that support use on the server are exported from the `aws-amplify/<category>/server` sub paths. You must use these server API variations for any server-side use cases, and you must **not** use the client API variations in server-side use cases. Using a client-side API in a server context will generate a runtime error.
 
 | Category      | APIs                  |
 | ------------- | --------------------- |

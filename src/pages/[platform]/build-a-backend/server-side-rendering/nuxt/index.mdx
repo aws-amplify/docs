@@ -155,7 +155,7 @@ const userPoolClientId = amplifyConfig.Auth!.Cognito.userPoolClientId;
 const lastAuthUserCookieName = `CognitoIdentityServiceProvider.${userPoolClientId}.LastAuthUser`;
 
 // create a GraphQL client that can be used in a server context
-const gqlServerClient = generateServerClient({ config: amplifyConfig });
+const gqlServerClient = generateClient({ config: amplifyConfig });
 
 const getAmplifyAuthKeys = (lastAuthUser: string) =>
   ['idToken', 'accessToken', 'refreshToken', 'clockDrift']
@@ -170,11 +170,23 @@ export default defineNuxtPlugin({
   name: 'AmplifyAPIs',
   enforce: 'pre',
   setup() {
-    // When setCookie is needed, set expirers as a year in this example
+    // The Nuxt composable `useCookie` is capable of sending cookies to the
+    // client via the `SetCookie` header. If the `expires` option is left empty,
+    // it sets a cookie as a session cookie. If you need to persist the cookie
+    // on the client side after your end user closes your Web app, you need to
+    // specify an `expires` value.
+    //
+    // We use 30 days here as an example (the default Cognito refreshToken
+    // expiration time).
     const expires = new Date();
-    expires.setDate(expires.getDate() + 365);
+    expires.setDate(expires.getDate() + 30);
 
     // Get the last auth user cookie value
+    //
+    // We use `sameSite: 'lax'` in this example, which allows the cookie to be
+    // sent to your Nuxt server when your end user gets redirected to your Web
+    // app from a different domain. You should choose an appropriate value for
+    // your own use cases.
     const lastAuthUserCookie = useCookie(lastAuthUserCookieName, {
       sameSite: 'lax',
       expires,
@@ -182,7 +194,9 @@ export default defineNuxtPlugin({
     });
 
     // Get all Amplify auth token cookie names
-    const authKeys = getAmplifyAuthKeys(lastAuthUserCookie.value!);
+    const authKeys = lastAuthUserCookie.value
+      ? getAmplifyAuthKeys(lastAuthUserCookie.value)
+      : [];
 
     // Create a key-value map of cookie name => cookie ref
     //
@@ -211,8 +225,13 @@ export default defineNuxtPlugin({
     // the APIs that you are calling.
     //
     // If you implement the `set` method, when Amplify needed to refresh the Auth
-    // tokens, the new tokens would be sent back to the client side via `SetCookie`
-    // header in the response.
+    // tokens on the server side, the new tokens would be sent back to the client
+    // side via `SetCookie` header in the response. Otherwise the refresh tokens
+    // would not be propagate to the client side, and Amplify would refresh
+    // the tokens when needed on the client side.
+    //
+    // In addition, if you decide not to implement the `set` method, you don't
+    // need to pass any `CookieOptions` to the `useCookie` composable.
     const keyValueStorage = createKeyValueStorageFromCookieStorageAdapter({
       get(name) {
         const cookieRef = amplifyCookies[name];
@@ -266,7 +285,7 @@ export default defineNuxtPlugin({
     return {
       provide: {
         // You can add the Amplify APIs that you will use on the server side of
-        // your Nuxt app here. You will have to use the APIs exported from the
+        // your Nuxt app here. You must only use the APIs exported from the
         // `aws-amplify/<category>/server` subpaths.
         //
         // You can call the API by via the composable `useNuxtApp()`. For example:
@@ -385,7 +404,7 @@ The above two pages can be rendered on both the client and server sides by defau
 
 <Callout warning>
 
-Only a subset of Amplify APIs are usable on the server side; depending on your specific use case, `amplify-apis.client` and `amplify-apis.server` may grow out of sync due to API parity. In this case, you may need to guard your API calls to ensure an API is available. E.g., you can use `if (process.client)` to ensure that a client-only API isn't executed on the server.
+Only a subset of Amplify APIs are usable on the server side, and as the libraries evolve, `amplify-apis.client` and `amplify-apis.server` may diverge further. You can guard your API calls to ensure an API is available in the context where you use it. E.g., you can use `if (process.client)` to ensure that a client-only API isn't executed on the server.
 
 </Callout>
 
