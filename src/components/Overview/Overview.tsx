@@ -35,6 +35,8 @@ export function Overview({ childPageNodes }: OverviewProps) {
               pathname: node.route,
               ...(currentPlatform && { query: { platform: currentPlatform } })
             }}
+            target={node.isExternal ? '_blank' : '_self'}
+            rel={node.isExternal ? '"noopener noreferrer"' : undefined}
           >
             <Card className="overview__link__card" variation="outlined">
               <Flex direction="column" gap="xs">

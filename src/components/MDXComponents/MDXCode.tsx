@@ -52,7 +52,7 @@ export const MDXCode = (props) => {
 
   React.useEffect(() => {
     setCode(addVersions(codeString));
-  }, []);
+  }, [codeString]);
 
   return (
     <Highlight theme={theme} code={code} language={language}>
