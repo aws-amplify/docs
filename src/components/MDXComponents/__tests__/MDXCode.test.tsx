@@ -78,7 +78,6 @@ describe('MDXCode', () => {
   });
 
   it('should have highlighted line when //highlight-next-line is used', async () => {
-    const testId = 'testId';
     const codeString = `{
   "data": {
     // highlight-next-line
@@ -109,7 +108,6 @@ describe('MDXCode', () => {
     expect(highlightedLines[0]).toContainHTML('searchStudents');
   });
   it('should have highlighted lines when //highlight-start/end is used', async () => {
-    const testId = 'testId';
     const codeString = `{
   "data": {
     "searchStudents": {
