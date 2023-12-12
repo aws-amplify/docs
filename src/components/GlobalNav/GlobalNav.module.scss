@@ -28,6 +28,10 @@
   --navbar-mobile-nav-padding: 12px;
   --nav-links-spacing: var(--amplify-space-small);
 
+  [data-amplify-color-mode='dark'] & {
+    --navbar-background-color: var(--amplify-colors-neutral-20);
+  }
+
   background-color: var(--navbar-background-color);
   position: fixed;
   top: 0px;
