@@ -182,12 +182,14 @@ function MyApp({ Component, pageProps }) {
 
       <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>
 
-      <Script
+      <script
         src="https://prod.assets.shortbread.aws.dev/shortbread.js"
-        strategy="afterInteractive"
-      ></Script>
+        defer
+      ></script>
       {process.env.BUILD_ENV !== 'production' ? (
         <>
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}{' '}
+          <script src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
           <Script
             src="https://alpha.d2c.marketing.aws.dev/client/loader/v1/d2c-load.js"
             strategy="afterInteractive"
@@ -195,6 +197,8 @@ function MyApp({ Component, pageProps }) {
         </>
       ) : (
         <>
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+          <script src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
           <Script
             src="https://d2c.aws.amazon.com/client/loader/v1/d2c-load.js"
             strategy="afterInteractive"

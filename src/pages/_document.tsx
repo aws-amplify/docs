@@ -1,6 +1,5 @@
 import crypto from 'crypto';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import Script from 'next/script';
 
 const cspHashOf = (text) => {
   const hash = crypto.createHash('sha256');
@@ -115,7 +114,7 @@ export default class MyDocument extends Document {
             httpEquiv="Content-Security-Policy"
             content={getCspContent(this.props)}
           />
-          {process.env.BUILD_ENV !== 'production' ? (
+          {/* {process.env.BUILD_ENV !== 'production' ? (
             <>
               <Script
                 src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
@@ -129,7 +128,7 @@ export default class MyDocument extends Document {
                 strategy="beforeInteractive"
               ></Script>
             </>
-          )}
+          )} */}
         </Head>
         <body>
           <Main />
