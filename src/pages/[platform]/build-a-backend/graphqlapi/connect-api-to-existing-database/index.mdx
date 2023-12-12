@@ -638,6 +638,12 @@ type Post @refersTo(name: "posts") @model {
 
 You can use the `@hasOne`, `@hasMany`, and `@belongsTo` relational directives to create relationships between models. The field named in the `references` parameter of the relational directives must exist on the child model.
 
+<Callout warning>
+
+Relationships that query across DynamoDB and SQL data sources are currently not supported. However, you can create relationships across SQL data sources.
+
+</Callout>
+
 #### Has One relationship
 
 Create a one-directional one-to-one relationship between two models using the `@hasOne` directive.
