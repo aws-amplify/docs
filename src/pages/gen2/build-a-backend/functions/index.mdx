@@ -61,9 +61,9 @@ Now when you run `npx amplify sandbox` or deploy your app on Amplify, it will in
 
 ## Example - Create a Function trigger for Auth
 
-Auth has several events that can trigger functions to perform custom sign up, sign in and other tasks. Here we're going to configure a "preSignUp" trigger, but configuring any trigger is the same process.
+Auth has several events that can trigger functions to perform custom sign up, sign in and other tasks. In this example you will configure a "preSignUp" trigger.
 
-In our auth definition we can add the following.
+First, in your auth definition, add the following:
 
 ```ts
 // amplify/auth/resource.ts
@@ -94,13 +94,13 @@ export const handler: PreSignUpTriggerHandler = async (event) => {
 
 <Callout info>
 
-Note: The `PreSignUpTriggerHandler` type comes from the [@types/aws-lambda](https://www.npmjs.com/package/@types/aws-lambda) NPM package. This package has types for all kinds of lambda event payloads that are useful for writing lambda functions.
+**Note:** The `PreSignUpTriggerHandler` type comes from the [@types/aws-lambda](https://www.npmjs.com/package/@types/aws-lambda) NPM package. This package contains types for different kinds of Lambda handlers, events, and responses.
 
 </Callout>
 
 Assuming that your auth definition is already added to your backend, you don't need to explicitly add your preSignUp function to the `defineBackend` properties. Since the preSignUp function is attached to the auth definition, Amplify is able to figure out that the function should be included in the deployment.
 
-Now when you deploy your app and a user signs up, this lambda will fire before the signup.
+Now when you deploy your app and a user signs up, this Lambda will fire before the signup.
 
 For more information on auth triggers see https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html
 
