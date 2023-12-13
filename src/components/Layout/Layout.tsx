@@ -100,9 +100,10 @@ export const Layout = ({
   });
 
   const handleColorModeChange = (mode: ColorMode) => {
+    console.log('mode: ', mode);
     setColorMode(mode);
     if (colorMode !== 'system') {
-      localStorage.setItem('colorMode', colorMode);
+      localStorage.setItem('colorMode', mode);
     } else {
       localStorage.removeItem('colorMode');
     }

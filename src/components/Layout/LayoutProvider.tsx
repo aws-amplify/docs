@@ -10,7 +10,7 @@ type LayoutContextType = {
 
 export const LayoutContext = createContext<LayoutContextType>({
   colorMode: 'system',
-  handleColorModeChange: (value: ColorMode) => value,
+  handleColorModeChange: (value) => value,
   menuOpen: false,
   toggleMenuOpen: () => {}
 });
