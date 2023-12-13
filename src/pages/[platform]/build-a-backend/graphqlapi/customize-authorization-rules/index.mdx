@@ -754,6 +754,12 @@ If you grant a Lambda function in your Amplify project access to the GraphQL API
 
 Therefore, these functions have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
 
+<Callout>
+
+Once you grant a function access to the GraphQL API, it is required to redeploy the API to apply the permissions. To do so, run the command `amplify api gql-compile --force` before deployment via `amplify push`.
+
+</Callout>
+
 </Block>
 
 <Block name="AWS CDK">

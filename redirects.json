@@ -4135,7 +4135,13 @@
   },
   {
     "source":"/lib-v1/info/overview/q/platform/ios/",
-    "target":"/swift/prev/build-a-backend/more-features/datastore/data-usage-policy/",
+    "target":"/swift/prev/build-a-backend/auth/data-usage-policy/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/swift/prev/build-a-backend/more-features/datastore/data-usage-policy/",
+    "target":"/swift/prev/build-a-backend/auth/data-usage-policy/",
     "status":"301",
     "condition":null
   },
@@ -6235,7 +6241,13 @@
   },
   {
     "source":"/lib/info/overview/q/platform/ios/",
-    "target":"/swift/build-a-backend/more-features/datastore/data-usage-policy/",
+    "target":"/swift/build-a-backend/auth/data-usage-policy/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/swift/build-a-backend/more-features/datastore/data-usage-policy/",
+    "target":"/swift/build-a-backend/auth/data-usage-policy/",
     "status":"301",
     "condition":null
   },
