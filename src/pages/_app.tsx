@@ -177,6 +177,24 @@ function MyApp({ Component, pageProps }) {
 
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
         <link rel="canonical" href={canonicalUrl} />
+
+        {process.env.BUILD_ENV !== 'production' ? (
+          <>
+            <link
+              rel="preload"
+              as="script"
+              href="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
+            />
+          </>
+        ) : (
+          <>
+            <link
+              rel="preload"
+              as="script"
+              href="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
+            />
+          </>
+        )}
       </Head>
 
       <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>
