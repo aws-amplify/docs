@@ -300,15 +300,15 @@ In this section you will create a way to list and create todos from the React ap
 Open **src/App.tsx** and replace it with the following code:
 
 ```typescript
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { generateClient } from "aws-amplify/api";
+import { generateClient } from 'aws-amplify/api';
 
-import { createTodo } from "./graphql/mutations";
-import { listTodos } from "./graphql/queries";
-import { type CreateTodoInput, type Todo } from "./API";
+import { createTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
+import { type CreateTodoInput, type Todo } from './API';
 
-const initialState: CreateTodoInput = { name: "", description: "" };
+const initialState: CreateTodoInput = { name: '', description: '' };
 const client = generateClient();
 
 const App = () => {
