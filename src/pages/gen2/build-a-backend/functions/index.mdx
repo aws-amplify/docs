@@ -87,7 +87,7 @@ const postConfirmationTrigger = new lambda.NodejsFunction(
 );
 
 // add the newly created trigger to the auth resource
-const userPool = backend.resources.auth.resources.userPool as cognito.UserPool;
+const userPool = backend.auth.resources.userPool as cognito.UserPool;
 userPool.addTrigger(
   cognito.UserPoolOperation.POST_CONFIRMATION,
   postConfirmationTrigger
