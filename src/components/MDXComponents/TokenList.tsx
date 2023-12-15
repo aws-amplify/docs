@@ -19,8 +19,8 @@ export const TokenList = ({
     // have to build each token in the line array into a string because
     // some languages (like graphQl) split comment text into different tokens.
     let textLine = '';
-    for (let i = 0; i < line.length; i++) {
-      textLine += line[i].content;
+    for (let j = 0; j < line.length; j++) {
+      textLine += line[j].content;
     }
     // Remove white space for following string comparison
     textLine = textLine.replace(/\s/g, '');
