@@ -81,7 +81,11 @@ const Gen2Overview = () => {
           </Text>
           <sup>
             {' '}
-            <Badge size="small" backgroundColor="purple.60" color="white">
+            <Badge
+              size="small"
+              backgroundColor="purple.60"
+              color="font.inverse"
+            >
               Preview
             </Badge>
           </sup>
