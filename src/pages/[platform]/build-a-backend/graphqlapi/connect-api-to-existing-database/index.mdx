@@ -143,7 +143,7 @@ Before deploying, make sure to:
 
 - Set a value for `name`. This will be used to name the AppSync DataSource itself, plus any associated resources like resolver Lambdas. This name must be unique across all schema definitions in a GraphQL API.
 
-- Change the `dbType` to match your database engine. This is the type of the SQL database used to process model operations for this definition.Supported engines are `"MYSQL"`, `"POSTGRES"`, or `"DYNAMODB"`.
+- Change the `dbType` to match your database engine. This is the type of the SQL database used to process model operations for this definition.Supported engines are `"MYSQL"` or `"POSTGRES"`.
 
 - Update the SSM parameter paths within `dbConnectionConfig` to point to those existing in your AWS account. These are the parameters the SQL Lambda will use to connect to the database.
 
