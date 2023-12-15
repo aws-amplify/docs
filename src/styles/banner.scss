@@ -4,6 +4,9 @@
   &.amplify-message--info {
     border: 1px solid var(--amplify-colors-purple-20);
     background-color: var(--amplify-colors-purple-10);
+    // color: var(--amplify-colors-purple-80);
+  }
+  .amplify-message__icon {
     color: var(--amplify-colors-purple-80);
   }
   &__inner {
@@ -14,14 +17,10 @@
   &__heading {
     font-weight: 700;
   }
-  &__content,
-  &__heading {
-    color: var(--amplify-colors-purple-100);
-  }
   &__button {
     background-color: var(--amplify-colors-purple-10);
-    color: var(--amplify-colors-purple-80);
-    border-color: var(--amplify-colors-purple-20);
+    color: var(--amplify-colors-font-primary);
+    border-color: var(--amplify-colors-purple-40);
     flex: 0 0 auto;
   }
 }
