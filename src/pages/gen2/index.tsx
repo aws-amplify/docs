@@ -282,7 +282,7 @@ const Gen2Overview = () => {
           </FeatureItem>
         </FeatureList>
         <MDXCode
-          fileName="amplify/backend.ts"
+          title="amplify/backend.ts"
           language="typescript"
           codeString={`import * as sns from 'aws-cdk-lib/aws-sns';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
