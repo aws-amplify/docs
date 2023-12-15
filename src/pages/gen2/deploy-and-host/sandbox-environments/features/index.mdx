@@ -90,7 +90,7 @@ npx amplify sandbox secret set foo --profile work
 ## Multiple sandboxes per app
 
 <Callout info>
-  Provisioning multiple sandboxes per app is possible but not recommended—one ephemeral sandbox per app keeps things simple.
+  Provisioning multiple sandboxes per app is possible but not recommended because managing multiple ephemeral environments for a single app introduces complexity. With multiple sandboxes, it can be difficult to keep track of what code version or configuration is deployed where. Sticking to a single ephemeral sandbox per app keeps your workflows simple and straightforward.
 </Callout>
 
 You can create multiple cloud sandbox environments for each app if you want to keep persistent sandbox environments up and running to test against. First, run the following command in the terminal:
