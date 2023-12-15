@@ -1,5 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-import { Flex, Heading, View } from '@aws-amplify/ui-react';
+import { Flex } from '@aws-amplify/ui-react';
 import { commands } from '@/data/cli-commands.mjs';
 import { Command } from '@/components/CliCommands';
 

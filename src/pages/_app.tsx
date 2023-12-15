@@ -7,6 +7,7 @@ import { CANONICAL_URLS } from '@/data/canonical-urls';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { trackPageVisit } from '../utils/track';
+import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 
 function MyApp({ Component, pageProps }) {
   const {
@@ -53,14 +54,17 @@ function MyApp({ Component, pageProps }) {
     ));
 
   let canonicalUrl = 'https://docs.amplify.aws';
-  const canonicalPath = CANONICAL_URLS.includes(router.pathname)
+  let canonicalPath = meta?.canonicalUrl ? meta.canonicalUrl : router.pathname;
+  canonicalPath = CANONICAL_URLS.includes(canonicalPath)
     ? router.pathname.replace('[platform]', 'javascript')
-    : router.asPath;
+    : canonicalPath;
+  canonicalPath = canonicalPath.replace('[platform]', useCurrentPlatform());
   canonicalUrl += canonicalPath;
 
   return (
     <>
       <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="msapplication-TileImage"
           content="/assets/icon/ms-icon-144x144.png"
@@ -179,6 +183,7 @@ function MyApp({ Component, pageProps }) {
 
       {process.env.BUILD_ENV !== 'production' ? (
         <>
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
           <script src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
           <script
             src="https://alpha.d2c.marketing.aws.dev/client/loader/v1/d2c-load.js"
@@ -187,6 +192,7 @@ function MyApp({ Component, pageProps }) {
         </>
       ) : (
         <>
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
           <script src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
           <script
             src="https://d2c.aws.amazon.com/client/loader/v1/d2c-load.js"
@@ -194,6 +200,10 @@ function MyApp({ Component, pageProps }) {
           ></script>
         </>
       )}
+      <link
+        href="https://prod.assets.shortbread.aws.dev/shortbread.css"
+        rel="stylesheet"
+      ></link>
     </>
   );
 }

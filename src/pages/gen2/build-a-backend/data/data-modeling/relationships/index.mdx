@@ -12,22 +12,22 @@ export function getStaticProps(context) {
   };
 }
 
-Applications that work with data need to define the entities that represent said data. Entities are typically stored across different tables in a database, and items in a given table need a way to be **uniquely identified**. This is achieved by defining a field (or a combination of fields) that will hold a value (or values) to unambiguously refer to the item. When modeling applications, there is often the need to **establish relationships** between the entities. These relationships are achieved by having a field that holds the value of the unique identifier of the related entity.
+Applications that work with data need well-defined entities to represent that data. Typically, entities are stored across different tables in a database, and items in a given table need to be **uniquely identified**. This is achieved by defining a field (or a combination of fields) that will hold a value (or values) to unambiguously refer to the item. When modeling applications, you often need to **establish relationships** between entities. This is done by adding a field that holds the value of the unique identifier of the related entity.
 
-Sometimes when retrieving data for a given entity, retrieving its relationships at the same time can be an expensive operation; for this reason it is important to offer a mechanism for you to specify if relationships should be lazily or eagerly retrieved. Amplify Data provides this mechanism with a "custom selection set" feature.
+Retrieving an entity's related data can be expensive, so Amplify Data offers a way to specify lazy or eager loading of relationships. This is done through "custom selection sets." With eager loading, related data is retrieved immediately when the entity is loaded. With lazy loading, related data is only retrieved when explicitly requested. Custom selection sets give you control over when and how an entity's relationships are populated.
 
-## Types of relationships
+ ## Types of relationships
 
 |Relationship|Description|
 |------------|--------|
-|`a.hasMany()`|Create a one-directional one-to-many relationship between two models. For example, a Post has many comments. This allows you to query all the comments from the post record.|
-|`a.manyToMany()`| Creates a bi-directional relationship, it needs to be defined on both related models. For example, a Blog has many Tags and a Tag has many Blogs.|
-|`a.hasOne()`|Create a one-directional one-to-one relationship between two models. For example, a Project "has one" Team. This allows you to query the team from the project record.|
-|`a.belongsTo()`|Use a "belongs to" relationship to make a "has one" or "has many" relationship bi-directional. This bi-directionality only facilitates your ability to read from both sides of the relationship. For example, a Project has one Team and a Team belongs to a Project. This allows you to reference the team from the project record and vice versa.|
+|`a.hasMany()`|Creates a one-directional, one-to-many relationship between two models. For example, a **Post** has many **Comments**. This allows you to query all the comments from the post record.|
+|`a.manyToMany()`| Creates a bidirectional relationship. Must be defined on both related models. For example, a **Blog** has many **Tags** and a **Tag** has many **Blogs**.|
+|`a.hasOne()`|Creates a one-directional, one-to-one relationship between two models. For example, a **Project** has one **Team**. This allows you to query the team from the project record.|
+|`a.belongsTo()`|Makes a "has one" or "has many" relationship bidirectional so you can read from both sides of the relationship. For example, a **Project** has one **Team** and a Team belongs to a Project. This allows you to reference the team from the project record and the other way around.|
 
 ## Model a "Has Many" relationship
 
-Create a bi-directional one-to-many relationship between two models using the `hasMany()` method. In the example below, a Team has many Members and the parent Team may be looked up from a given member.
+Create a bidirectional, one-to-many relationship between two models using the `hasMany()` method. In the example below, a Team has many Members and the parent Team may be looked up from a given member.
 
 ```typescript
 const schema = a.schema({
@@ -72,7 +72,7 @@ await client.models.Member.update({
 })
 ```
 
-### Lazy load a "Has Many" relationships
+### Lazy load a "Has Many" relationship
 
 ```ts
 const { data: team } = await client.models.Team.get({ id: "MY_TEAM_ID"})
@@ -82,7 +82,7 @@ const { data: members } = await team.members()
 members.forEach(member => console.log(member.id))
 ```
 
-### Eagerly load a "Has Many" relationships
+### Eagerly load a "Has Many" relationship
 
 ```ts
 const { data: teamWithMembers } = await client.models.Team.get(
@@ -93,8 +93,8 @@ const { data: teamWithMembers } = await client.models.Team.get(
 teamWithMembers.members.forEach(member => console.log(member.id))
 ```
 
-## Model a "Many-to-many" relationship
-Create a many-to-many relationship between two models with the `manyToMany()` method. Provide a common `relationName` on both models to join them into a many-to-many relationship. 
+## Model a "many-to-many" relationship
+Create a many-to-many relationship between two models with the `manyToMany()` method. Provide a common `relationName` on both models to join them in a many-to-many relationship. 
 
 ```typescript
 const schema = a.schema({
@@ -112,7 +112,7 @@ const schema = a.schema({
 
 ## Model a "Has One" relationship
 
-Create a one-directional one-to-one relationship between two models using the `hasOne()` method. In the example below, a Project has a Team. By using `hasOne` this way, it will automatically generate a field to hold the identifier of the related model.
+Create a one-directional, one-to-one relationship between two models using the `hasOne()` method. In the example below, a Project has a Team. By using `hasOne` this way, it will automatically generate a field to hold the identifier of the related model.
 
 ```typescript
 const schema = a.schema({
@@ -143,7 +143,7 @@ const { data: project } = await client.models.Project.create({
 
 ### Update a "Has One" relationship between records
 
-To update a "Has One" relationship between records, you first have to get the child item and then update the reference to the parent to another parent.
+To update a "Has One" relationship between records, you first retrieve the child item and then update the reference to the parent to another parent. For example, to move a Project to a new Team:
 
 ```ts
 const { data: newTeam } = await client.models.Team.create({
@@ -167,14 +167,14 @@ await client.models.Project.update({
 });
 ```
 
-### Lazy load a "Has One" relationships
+### Lazy load a "Has One" relationship
 
 ```ts
 const { data: project } = await client.models.Project.get({ id: "MY_PROJECT_ID"})
 const { data: team } = await project.team();
 ```
 
-### Eagerly load a "Has One" relationships
+### Eagerly load a "Has One" relationship
 
 ```ts
 const { data: project } = await client.models.Project.get(
@@ -208,15 +208,15 @@ const { data: ics } = await org.individualContributors();
 const { data: managers } = await org.managers();
 ```
 
-## Model a bi-directional relationship
+## Model a bidirectional relationship
 
-You can make a "has one" or "has many" relationship bi-directional with the `belongsTo()` method. The bi-directionality of `belongsTo()` grants you the ability to query the related item from both sides of the relationship. 
+You can make a "has one" or "has many" relationship bidirectional with the `belongsTo()` method. Using the bidirectionality of `belongsTo()`, you can query the related item from both sides of the relationship. 
 
 <Callout>
 **Note:** The `belongsTo()` method requires that a `hasOne()` or `hasMany()` relationship already exists from parent to the related model.
 </Callout>
 
-### Bi-directional Has One relationship
+### Create a bidirectional "Has One" relationship
 
 ```typescript
 const schema = a.schema({
@@ -244,10 +244,10 @@ const { data: teamProjectRelatedTeam } = await teamProject.team();
 ```
 
 <Callout warning>
-"Belongs to"-relationships **do not** allow you to update both sides of a "has one" and "belongs to" relationship in a transactional nature.
+"Belongs to" relationships **do not** allow you to update both sides of a "has one" and "belongs to" relationship in a transactional manner.
 </Callout>
 
-### Bi-directional Has Many relationship
+### Create a bidirectional "Has Many" relationship
 
 ```typescript
 const schema = a.schema({

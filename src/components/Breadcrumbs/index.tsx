@@ -44,14 +44,14 @@ function generateBreadcrumbs(
   const breadcrumbs: BreadcrumbItem[] = [];
 
   const pieces = route.split('/').filter((str) => str);
-  let urls: string[] = [];
+  const urls: string[] = [];
   for (let i = 1; i <= pieces.length; i++) {
     urls.push(`/${pieces.slice(0, i).join('/')}`);
   }
 
   urls.forEach((url) => {
     const directoryEntry = findNode(url);
-    let href = {
+    const href = {
       pathname: url
     };
     if (url.includes('[platform]')) {
@@ -75,8 +75,8 @@ function generateBreadcrumbs(
   return breadcrumbs;
 }
 
-function BreadcrumbsComponent({ route, platform, isGen2 }: Props) {
-  const items = generateBreadcrumbs(route, platform, isGen2);
+function BreadcrumbsComponent({ route, platform }: Props) {
+  const items = generateBreadcrumbs(route, platform);
   return items.length > 1 ? (
     <div className={'breadcrumb__container'}>
       <Breadcrumbs.Container>

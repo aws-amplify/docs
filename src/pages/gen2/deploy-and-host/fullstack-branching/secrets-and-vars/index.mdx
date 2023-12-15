@@ -15,7 +15,7 @@ export function getStaticProps(context) {
 In Gen 2, Amplify offers centralized secret and environment variable management for all fullstack branches. Secrets allow you to securely configure environment-specific values like social sign-in keys, function environment variables, function secrets, and other sensitive data needed by your application across environments.
 
 <Accordion title="How is this different from Gen 1?" eyebrow='FAQ'>
-  Gen 1 required defining environment variables and secrets using the CLI and stored keys in both AWS Parameter Store and a local `team-provider.json` file. We have streamlined this workflow in Gen 2 by centralizing the management of secrets and environment variables in the Amplify console.
+  Gen 1 required defining environment variables and secrets using the CLI and stored keys in both AWS Systems Manager (SSM) Parameter Store and a local `team-provider.json` file. We have streamlined this workflow in Gen 2 by centralizing the management of secrets and environment variables in the Amplify console.
 </Accordion>
 
 ## Set secrets
@@ -30,7 +30,7 @@ Secrets for branch deployments can be added in the Amplify console. From the App
   <source src="/images/gen2/secrets-and-vars/secrets.mp4" />
 </video>
 
-Secrets are stored in AWS Parameter Store under the following naming conventions:
+Secrets are stored in AWS Systems Manager (SSM) Parameter Store under the following naming conventions:
 
 - Secrets that apply to all branches: `/amplify/shared/<app-id>/<secret-key>`
 - Secrets that apply to a specific branch: `/amplify/<app-id>/<branchname>/<secret-key>`
@@ -40,7 +40,7 @@ Secrets are stored in AWS Parameter Store under the following naming conventions
 [comment]: <> (When editing this section, also update /gen2/deploy-and-host/sandbox-environments/features/index.md -)
 
 <Callout info>
-  Secrets set in a sandbox do not show up in the Amplify Console. You can view them in the AWS Parameter Store console.
+  Secrets set in a sandbox do not show up in the Amplify Console. You can view them in the AWS Systems Manager (SSM) Parameter Store console.
 </Callout>
 
 When testing features locally, you might want to test with real secrets. You can add secrets while running the cloud sandbox with the following command:

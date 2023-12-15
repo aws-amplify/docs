@@ -69,7 +69,7 @@ Channels are logical group names that help you organize dispatching and listenin
 Here is a basic example of setting up a listener that logs an event emitted through the `auth` channel:
 
 ```javascript
-import { Hub } from 'aws-amplify';
+import { Hub } from 'aws-amplify/utils';
 
 const listener = (data) => {
   console.log(data);

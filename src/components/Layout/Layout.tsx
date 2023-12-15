@@ -27,7 +27,7 @@ import {
   ALGOLIA_INDEX_NAME,
   ALGOLIA_APP_ID
 } from '../../constants/algolia';
-// import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
+import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
 import { SpaceShip } from '@/components/SpaceShip';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
@@ -36,9 +36,7 @@ import { LayoutProvider } from '@/components/Layout';
 import { TableOfContents } from '@/components/TableOfContents';
 import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
-import directory from 'src/directory/directory.json';
 import flatDirectory from 'src/directory/flatDirectory.json';
-import { PageNode } from 'src/directory/directory';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import { DocSearch } from '@docsearch/react';
@@ -65,7 +63,7 @@ export const Layout = ({
   url,
   useCustomTitle = false
 }: {
-  children: any;
+  children: React.ReactNode;
   hasTOC?: boolean;
   pageDescription?: string;
   pageTitle?: string;
@@ -80,37 +78,6 @@ export const Layout = ({
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    const headings: HeadingInterface[] = [];
-
-    const defaultHeadings = '.main > h2, .main > h3';
-    const cliCommandHeadings =
-      '.commands-list__command > h2, .commands-list__command > .commands-list__command__subcommands > h3';
-    const headingSelectors = [defaultHeadings, cliCommandHeadings];
-
-    const pageHeadings = document.querySelectorAll(headingSelectors.join(', '));
-
-    pageHeadings.forEach((node) => {
-      const { innerText, id, localName } = node as HTMLElement;
-      if (innerText && id && (localName == 'h2' || localName == 'h3')) {
-        headings.push({
-          linkText: innerText,
-          hash: id,
-          level: localName
-        });
-      }
-    });
-    setTocHeadings(headings);
-
-    if (pageType === 'home') {
-      document.addEventListener('scroll', handleScroll);
-      return () => {
-        document.removeEventListener('scroll', handleScroll);
-      };
-    }
-  }, [children, pageType]);
-
   const mainId = 'pageMain';
   const showTOC = hasTOC && tocHeadings.length > 0;
   const router = useRouter();
@@ -118,7 +85,7 @@ export const Layout = ({
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
-  const shouldShowGen2Banner = false; // GEN2BANNER_URLS.includes(asPathWithNoHash);
+  const shouldShowGen2Banner = GEN2BANNER_URLS.includes(asPathWithNoHash);
   const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
   let currentPlatform = isGen2 ? undefined : DEFAULT_PLATFORM;
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
@@ -141,8 +108,8 @@ export const Layout = ({
     currentPlatform = platform
       ? platform
       : PLATFORMS.includes(asPathPlatform)
-        ? asPathPlatform
-        : DEFAULT_PLATFORM;
+      ? asPathPlatform
+      : DEFAULT_PLATFORM;
   }
 
   const title = [
@@ -154,15 +121,6 @@ export const Layout = ({
     .join(' - ');
 
   const description = `${pageDescription} AWS Amplify Documentation`;
-
-  const handleScroll = debounce((e) => {
-    const bodyScroll = e.target.documentElement.scrollTop;
-    if (bodyScroll > 20) {
-      document.body.classList.add('scrolled');
-    } else if (document.body.classList.contains('scrolled')) {
-      document.body.classList.remove('scrolled');
-    }
-  }, 20);
 
   const handleMenuToggle = () => {
     if (!menuOpen) {
@@ -176,6 +134,46 @@ export const Layout = ({
     }
   };
 
+  const handleScroll = debounce((e) => {
+    const bodyScroll = e.target.documentElement.scrollTop;
+    if (bodyScroll > 20) {
+      document.body.classList.add('scrolled');
+    } else if (document.body.classList.contains('scrolled')) {
+      document.body.classList.remove('scrolled');
+    }
+  }, 20);
+
+  useEffect(() => {
+    const headings: HeadingInterface[] = [];
+
+    const defaultHeadings = '.main > h2, .main > h3';
+    const cliCommandHeadings =
+      '.commands-list__command > h2, .commands-list__command > .commands-list__command__subcommands > h3';
+    const headingSelectors = [defaultHeadings, cliCommandHeadings];
+
+    const pageHeadings = document.querySelectorAll(headingSelectors.join(', '));
+
+    pageHeadings.forEach((node) => {
+      const { innerText, id, localName } = node as HTMLElement;
+      if (innerText && id && (localName == 'h2' || localName == 'h3')) {
+        headings.push({
+          linkText: innerText,
+          hash: id,
+          level: localName
+        });
+      }
+    });
+    setTocHeadings(headings);
+  }, [children, pageType]);
+
+  useEffect(() => {
+    if (pageType === 'home') {
+      document.addEventListener('scroll', handleScroll);
+      return () => {
+        document.removeEventListener('scroll', handleScroll);
+      };
+    }
+  });
   return (
     <>
       <Head>
@@ -190,7 +188,9 @@ export const Layout = ({
         <meta property="og:url" content={metaUrl} key="og:url" />
         <meta
           property="og:image"
-          content={`https://docs.amplify.aws/assets/${isGen2 ? 'gen2' : 'classic'}-og.png`}
+          content={`https://docs.amplify.aws/assets/${
+            isGen2 ? 'gen2' : 'classic'
+          }-og.png`}
           key="og:image"
         />
         <meta property="description" content={description} key="description" />
@@ -203,7 +203,9 @@ export const Layout = ({
         />
         <meta
           property="twitter:image"
-          content={`https://docs.amplify.aws/assets/${isGen2 ? 'gen2' : 'classic'}-og.png`}
+          content={`https://docs.amplify.aws/assets/${
+            isGen2 ? 'gen2' : 'classic'
+          }-og.png`}
           key="twitter:image"
         />
       </Head>
@@ -294,7 +296,10 @@ export const Layout = ({
                     )}
 
                     <div className="layout-sidebar-menu">
-                      <Menu currentPlatform={currentPlatform} path={asPathWithNoHash} />
+                      <Menu
+                        currentPlatform={currentPlatform}
+                        path={asPathWithNoHash}
+                      />
                       <div className="layout-sidebar-feedback">
                         <RepoActions router={router}></RepoActions>
                         <Feedback router={router}></Feedback>

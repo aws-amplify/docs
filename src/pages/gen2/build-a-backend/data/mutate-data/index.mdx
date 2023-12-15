@@ -23,7 +23,7 @@ Before you begin, you will need:
 You can create an item by first generating the Data client with your backend Data schema. Then you can add an item:
 
 ```js
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import { type Schema } from '@/amplify/data/resource'
 
 const client = generateClient<Schema>();
@@ -45,7 +45,7 @@ const { errors, data: newTodo } = await client.models.Todo.create({
 To update the item, use the `update` function:
 
 ```js
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import { type Schema } from '@/amplify/data/resource'
 
 const client = generateClient<Schema>();
@@ -72,7 +72,7 @@ const { data: updatedTodo, errors } = await client.models.Todo.update(todo)
 You can then delete the Todo by using the delete mutation. To specify which item to delete, you only need to provide the `id` of that item:
 
 ```js
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import { type Schema } from '@/amplify/data/resource'
 
 const client = generateClient<Schema>();
@@ -95,7 +95,7 @@ const { data: deletedTodo, errors } = await client.models.Todo.delete(toBeDelete
 Each API request uses an authorization mode. If you get unauthorized errors, you may need to update your authorization mode. To override the default authorization mode defined in your **amplify/data/resource.ts** file, pass an `authMode` property to the request or the client. The following examples show how you can mutate data with a custom authorization mode:
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/data';
 import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();

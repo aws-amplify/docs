@@ -32,7 +32,7 @@ export const ExternalLinkButton = ({
       as="a"
       align-items="center"
       className={className}
-      onClick={(e) => {
+      onClick={() => {
         trackLink(href);
       }}
     >

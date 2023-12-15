@@ -20,8 +20,11 @@
     min-width: 0;
   }
 
-  .pre-wrapper {
+  .pre-container {
     /* Class for code block */
     margin: var(--amplify-space-large) 0;
   }
+}
+.amplify-message__content p:not(:last-child) {
+  margin-bottom: var(--amplify-space-medium);
 }

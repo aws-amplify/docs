@@ -22,7 +22,6 @@ import {
 import { ClassicBanner } from '@/components/Banner';
 import { Columns } from '@/components/Columns';
 import { FeatureList, FeatureItem } from '@/components/FeatureLists';
-import styles from '../../components/GlobalNav/GlobalNav.module.scss';
 
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
@@ -82,7 +81,11 @@ const Gen2Overview = () => {
           </Text>
           <sup>
             {' '}
-            <Badge size="small" className={styles['navbar-badge']}>
+            <Badge
+              size="small"
+              backgroundColor="purple.60"
+              color="font.inverse"
+            >
               Preview
             </Badge>
           </sup>
@@ -92,8 +95,8 @@ const Gen2Overview = () => {
         </Heading>
         <Text className="max-inline-content">
           Amplify has reimagined the way frontend developers build fullstack
-          applications on AWS. This next generation of Amplify’s backend
-          building experience lets you author your frontend and backend
+          applications on AWS. With this next generation of Amplify’s
+          backend-building experience, you can author your frontend and backend
           definition completely with TypeScript, a file convention, and Git
           branch-based environments.
         </Text>
@@ -140,8 +143,8 @@ const Gen2Overview = () => {
                 Code-first DX
               </Heading>
               <Text>
-                The code-first developer experience is a new approach that lets you focus
-                on your app code instead of infrastructure.
+                The code-first developer experience is a new approach that lets
+                you focus on your app code instead of infrastructure.
               </Text>
             </Flex>
           </Card>
@@ -151,8 +154,8 @@ const Gen2Overview = () => {
                 Fullstack Git deployments
               </Heading>
               <Text>
-                Full-stack deployments from your Git branch. Deploy your
-                frontend and backend together on every code commit.
+                Fullstack deployments from your Git branch. Deploy your frontend
+                and backend together on every code commit.
               </Text>
             </Flex>
           </Card>
@@ -169,65 +172,63 @@ const Gen2Overview = () => {
           </Card>
         </Columns>
       </Flex>
-      <Columns columns={2}>
-        <FeatureList heading="Develop" level={2}>
+      <FeatureList heading="Develop" level={2}>
+        <video
+          src="/videos/typed-api.mp4"
+          style={{
+            width: '100%',
+            borderRadius: 'var(--amplify-radii-large)',
+            marginBottom: 'var(--amplify-space-small)',
+            boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
+          }}
+          autoPlay
+          muted
+          loop
+        />
+        <Columns columns={2}>
           <FeatureItem
-            linkText="A TypeScript-first fullstack experience"
+            linkText="TypeScript-first fullstack experience"
             href="/gen2/how-amplify-works/concepts/#build-fullstack-apps-with-typescript"
           >
-            Write TypeScript across the frontend and the backend to give you
-            features like schema validation, dot completion, and end-to-end
-            typings while you code.
+            Write TypeScript across frontend and backend. Get schema validation,
+            dot completion, and end-to-end types while you code.
           </FeatureItem>
           <FeatureItem
             linkText="Real-time data for modern apps"
             href="/gen2/build-a-backend/data/set-up-data/"
           >
-            Sync frontend state to realtime backend updates. No websocket
-            configuration required. Just write TypeScript.
+            Sync frontend state to real-time backend updates. Just write
+            TypeScript without thinking about WebSockets.
           </FeatureItem>
           <FeatureItem
             linkText="Authn and authz for secure apps"
             href="/gen2/build-a-backend/auth/set-up-auth/"
           >
-            Choose the auth strategy (e.g. passwords, social, email links) and
-            control data access based on users/groups.
+            Choose the auth strategy (such as passwords, social, email links)
+            and control data access based on users and groups.
           </FeatureItem>
           <FeatureItem
             linkText="Auto-generate CRUD forms wired to data"
             href="/gen2/build-ui/"
           >
-            CRUD forms that map to your data model with form-level validations
-            and error states built-in.
+            Map CRUD forms to your data model with form-level validations and
+            error states built in.
           </FeatureItem>
-        </FeatureList>
+        </Columns>
+      </FeatureList>
 
-        <MDXCode
-          fileName="amplify/data/resource.ts"
-          language="typescript"
-          codeString={`import { a, defineData } from 'aws-amplify-backend';
-
-const schema = a.schema({
-  Todo: a.model({
-    title: a.string(), 
-    description: a.string().optional(), 
-    priority: a.enum(['low','medium', 'high']),
-  }),
-});
-
-export type Schema = typeof schema;
-
-export default defineData ({
-  schema, 
-});`}
-        ></MDXCode>
-
+      <Columns columns={2}>
         <ExportedImage
           src="/images/gen2/deploy-cycle.png"
           alt="Flowchart describing..."
           width="450"
           height="412"
-          style={{ margin: 'auto', height: 'auto' }}
+          style={{
+            margin: 'auto',
+            height: 'auto',
+            borderRadius: 'var(--amplify-radii-large)',
+            boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
+          }}
         />
 
         <FeatureList heading="Deploy" level={2}>
@@ -235,8 +236,8 @@ export default defineData ({
             linkText="SSR/SSG/ISR hosting support"
             href="/gen2/deploy-and-host/hosting/"
           >
-            Deploy Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and more) apps
-            by simply connecting your Git repository.
+            Deploy apps in Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and
+            more) by simply connecting your Git repository.
           </FeatureItem>
           <FeatureItem
             linkText="Faster iterations with per-developer sandboxes"
@@ -249,14 +250,15 @@ export default defineData ({
             linkText="Zero-config fullstack branches"
             href="/gen2/deploy-and-host/fullstack-branching/branch-deployments/"
           >
-            Full-stack deployments from your Git branch. Autodeploy git branches
-            to set up staging, development and production environments
+            Fullstack deployments from your Git branch. Autodeploy Git branches
+            to set up staging, development, and production environments.
           </FeatureItem>
           <FeatureItem
             linkText="GUI to manage your data"
             href="/gen2/how-amplify-works/concepts/#unified-management-console"
           >
-            Console to manage your app data, users/groups, and files.
+            Manage your app data, users and groups, and files in a single
+            console.
           </FeatureItem>
         </FeatureList>
 
@@ -268,38 +270,38 @@ export default defineData ({
             Extend or customize with AWS CDK to access 200+ AWS services.
           </FeatureItem>
           <FeatureItem
-            linkText="Bring your your own pipelines"
+            linkText="Bring your own pipelines"
             href="/gen2/deploy-and-host/fullstack-branching/custom-pipelines/"
           >
-            Use your own pipelines to set up cross-account or multi-region
+            Use your own pipelines to set up cross-account or multi-region,
             stage-based deployments.
           </FeatureItem>
           <FeatureItem
             linkText="Monorepo and multi-repo support"
             href="/gen2/deploy-and-host/fullstack-branching/mono-and-multi-repos/"
           >
-            Support for all types of fullstack team workflows - monorepos,
-            microfrontends, multi-repos and more.
+            Enable support for all types of fullstack team workflows—monorepos,
+            micro frontends, multi-repos, and more.
           </FeatureItem>
         </FeatureList>
         <MDXCode
-          fileName="amplify/custom/Backup.ts"
+          title="amplify/backend.ts"
           language="typescript"
-          codeString={`import { Construct } from 'constructs';
-import * as cdk from 'aws-cdk-lib';
-import * as backup from 'aws-cdk-lib/aws-backup'; 
-import * as events from 'aws-cdk-lib/aws-events';
-import * as rds from 'aws-cdk-lib/aws-rds';
+          codeString={`import * as sns from 'aws-cdk-lib/aws-sns';
+import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource.js';
+import { data } from './data/resource.js';
 
-/**
- * Define the stack's props
- */
-export type BackupStackProps = {
-  /**
-   * Database instance to back up
-   */
-  database: rds.DatabaseInstance; 
-}`}
+const backend = defineBackend({
+  auth,
+  data
+});
+
+const customResourceStack = backend.createStack('MyCustomResources');
+
+new sqs.Queue(customResourceStack, 'CustomQueue');
+new sns.Topic(customResourceStack, 'CustomTopic');`}
         ></MDXCode>
       </Columns>
     </Flex>
