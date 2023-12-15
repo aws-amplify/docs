@@ -62,7 +62,7 @@ npm install @aws-amplify/graphql-api-construct
 Create a new `schema.graphql` file within your CDK app’s `lib/` folder that includes the APIs you want to expose. Define your GraphQL object types, queries, and mutations to match the APIs you wish to expose. For example, define object types for database tables, queries to fetch data from those tables, and mutations to modify those tables.
 
 ```graphql
-type Blog @refersTo(name: "blogs") {
+type Blog {
   id: Int!
   title: String!
 }
