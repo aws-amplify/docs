@@ -1,0 +1,137 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate from v5 to v6',
+  description: 'Learn more about the migration steps to upgrade Analytics APIs for Amplify JavaScript v5 to v6',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## Record and Configuration APIs
+
+As of v6 of Amplify JavaScript, you will now import the functional API’s directly from the `aws-amplify/analytics` path as shown below. 
+
+Note: Red lines of code are v5 and Green lines are v6.
+
+```diff
+- import { Analytics } from 'aws-amplify';
++ import { enable, disable, record, configureAutoTrack } from 'aws-amplify/analytics';
+
+- Analytics.disable();
++ disable();
+
+- Analytics.enable();
++ enable();
+
+- Analytics.record({
+-   name: 'albumVisit',
+-   attributes: {},
+-   metrics: { minutesListened: 30 }
+- });
+
++ record({
++   event: {
++     name: 'albumVisit',
++     attributes: { genre: '', artist: '' }
++   }
++ });
+
+- Analytics.autoTrack('session', {
+-   // REQUIRED, turn on/off the auto tracking
+-   enable: true,
+-   // OPTIONAL, the attributes of the event, you can either pass an object or a function
+-   // which allows you to define dynamic attributes
+-   attributes: {
+-     attr: 'attr'
+-   },
+-   // OPTIONAL, the service provider, by default is the Amazon Pinpoint
+-   provider: 'AWSPinpoint'
+- });
+
++ configureAutoTrack({
++   // REQUIRED, turn on/off the auto tracking
++   enable: true,
++   // REQUIRED, the event type, it's one of 'event', 'pageView' or 'session'
++   type: 'session',
++   // OPTIONAL, additional options for the tracked event.
++   options: {
++     // OPTIONAL, the attributes of the event
++     attributes: {
++       customizableField: 'attr'
++     }
++   }
++ });
+```
+## Analytics.identifyUser
+
+You can identify an Analytics user with the `identifyUser` API, 
+
+```ts
+import { identifyUser } from 'aws-amplify/analytics';
+
+identifyUser({
+  userId: "<user-id>", // If the user was signed in through Amplify Auth's signIn method you can retrieve the current user's ID from there.
+  userProfile
+});
+
+```
+## Streaming data
+You can stream analytics data to Kinesis. To configure Kinesis with Amplify, reference the [Installation and Configuration](https://docs.amplify.aws/react/build-a-backend/more-features/analytics/streaming-data/#installation-and-configuration) section of the documentation. Below is an example on how to stream data and flush events,
+
+```ts
+import { record, flushEvents } from 'aws-amplify/analytics/kinesis';
+
+record({
+  data: {
+    // The data blob to put into the record
+  },
+  partitionKey: 'myPartitionKey',
+  streamName: 'myKinesisStream'
+});
+
+flushEvents();
+```
+Finally, let's look at the difference in how to personalize recommendations,
+
+```diff
+- import { Analytics, AmazonPersonalizeProvider } from 'aws-amplify';
+- Analytics.addPluggable(new AmazonPersonalizeProvider());
+
++ import { record } from 'aws-amplify/analytics/personalize';
+
+
+- Analytics.record({
+-     eventType: "Identify",
+-     properties: {
+-         "userId": "<USER_ID>"
+-     }
+- }, 'AmazonPersonalize');
+
++ record({
++   eventType: "Identify",
++   properties: {
++      userId: "<USER_ID>"
++   }
++ });
+
+```
+Notice that in v5, the `Analytics.record` API takes in a second parameter with the string value `AmazonPersonalize` whereas in v6, the `record` function is imported from the `aws-amplify/analytics/personalize` subpath and takes only one parameter. 

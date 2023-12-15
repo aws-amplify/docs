@@ -32,6 +32,7 @@ In this section, you'll learn how to:
 
 - Connect Amplify GraphQL API to an existing MySQL or PostgreSQL database
 - Execute SQL statements with custom GraphQL queries and mutations using the new `@sql` directive
+- Generate create, read, update, and delete API operations based on your SQL database schema
 
 ## Connect your API with an existing MySQL or PostgreSQL database
 
@@ -151,8 +152,6 @@ Before deploying, make sure to:
 <Accordion title="Configure VPC settings for your database" headingLevel="3" eyebrow="Learn more">
 
 If your database exists within a VPC, the RDS instance must be configured to be `Publicly accessible`. This does not mean the instance needs to accessible from the internet.
-
-{/* When importing a database schema, the Amplify CLI will automatically discover that the RDS instance is in a VPC and install a Lambda function into that VPC, subnets, and security groups. */}
 
 The target security group(s) must have two inbound rules set up:
 
@@ -400,9 +399,9 @@ type Mutation {
 
 The `@auth` directive can be used to restrict access to data and operations by specifying authorization rules. It allows granular access control over the GraphQL API based on the user's identity and attributes. You can for example, limit a query or mutation to only logged-in users via an `@auth(rules: [{ allow: private }])` rule or limit access to only users of the "Admin" group via an `@auth(rules: [{ allow: groups, groups: ["Admin"] }])` rule.
 
-{/* All model-level authorization rules are supported for Amplify GraphQL schemas generated from MySQL and PostgreSQL databases.
+All model-level authorization rules are supported for Amplify GraphQL schemas generated from MySQL and PostgreSQL databases.
 
-<Callout warning>**Known limitation:** Field level auth rules are not supported.</Callout>
+<Callout warning>**Limitation:** Field level auth rules are not supported.</Callout>
 
 In the example below, public users authorized via API Key are granted unrestricted access to all posts.
 
@@ -413,9 +412,7 @@ type Blog @model @refersTo(name: "blogs") @auth(rules: [{ allow: public }]) {
   id: String! @primaryKey
   title: String!
 }
-``` */}
-
-{/* In a real world scenario, you can instead define auth rules that only allow public users to read posts, and authenticated users the ability to update or delete their posts. */}
+```
 
 For more information on each rule please refer to our documentation on [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/).
 
@@ -436,29 +433,28 @@ Now the API has been deployed and you can start using it!
 
 You can start querying from the AWS AppSync console or integrate it into your application using the AWS Amplify libraries!
 
-{/* 
-## (Experimental) Auto-generate CRUDL operations for existing tables
+{/* ## Auto-generate CRUDL operations for existing tables
 
-<Callout>
-  **NOTE:** This feature is experimental and is subject to change.
-</Callout>
+You can generate common CRUDL operations for your database tables based on your database schema. This saves time from hand-authoring the GraphQL types, queries, and mutations and SQL statements for common CRUDL use cases. After you generate the operations, you can annotate the `@model` types with authorization rules.
 
-You can use the Amplify CLI to generate common CRUDL operations for your database schema, saving time from having to author them by hand.
-
-Create a `blogs` table in your database:
+Create a `Ingredients` table in your database:
 
 ```sql
-CREATE TABLE blogs (
+CREATE TABLE Ingredients (
   id      varchar(255)  NOT NULL PRIMARY KEY,
-  title   varchar(255)  NOT NULL,
+  name    varchar(255)  NOT NULL,
+  unit_of_measurement varchar(255) NOT NULL,
+  price   decimal(10, 2) NOT NULL,
+  supplier_id int,
 );
 ```
 
-Execute the following SQL statement on your database using a MySQL, PostgreSQL Client or CLI tool similar to `psql` and export the output to a CSV file:
+### Step 1 - Export database schema as CSV
 
-<Callout>
-  **NOTE:** Make sure to include column headers when exporting the output to a
-  CSV file.
+Execute the following SQL statement on your database using a MySQL, PostgreSQL Client, or CLI tool similar to `psql` and export the output to a CSV file:
+
+<Callout warning>
+  You must include column headers when exporting the database schema output to a CSV file.
 </Callout>
 
 Replace `<database-name>` with the name of your database/schema.
@@ -466,7 +462,7 @@ Replace `<database-name>` with the name of your database/schema.
 <BlockSwitcher>
 <Block name="MySQL">
 ```sql
-SELECT
+SELECT DISTINCT
   INFORMATION_SCHEMA.COLUMNS.TABLE_NAME,
   INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME,
   INFORMATION_SCHEMA.COLUMNS.COLUMN_DEFAULT,
@@ -479,54 +475,79 @@ SELECT
   INFORMATION_SCHEMA.STATISTICS.NON_UNIQUE,
   INFORMATION_SCHEMA.STATISTICS.SEQ_IN_INDEX,
   INFORMATION_SCHEMA.STATISTICS.NULLABLE
-      FROM INFORMATION_SCHEMA.COLUMNS
-      LEFT JOIN INFORMATION_SCHEMA.STATISTICS ON INFORMATION_SCHEMA.COLUMNS.TABLE_NAME=INFORMATION_SCHEMA.STATISTICS.TABLE_NAME AND INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME=INFORMATION_SCHEMA.STATISTICS.COLUMN_NAME
-      WHERE INFORMATION_SCHEMA.COLUMNS.TABLE_SCHEMA = '<database-name>';
+FROM INFORMATION_SCHEMA.COLUMNS
+LEFT JOIN INFORMATION_SCHEMA.STATISTICS ON INFORMATION_SCHEMA.COLUMNS.TABLE_NAME=INFORMATION_SCHEMA.STATISTICS.TABLE_NAME AND INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME=INFORMATION_SCHEMA.STATISTICS.COLUMN_NAME
+WHERE INFORMATION_SCHEMA.COLUMNS.TABLE_SCHEMA = '<database-name>';
+--                    Replace database name here ^^^^^^^^^^^^^^^
 ```
+
+Your exported SQL schema should look something like this:
+
+```csv
+TABLE_NAME,COLUMN_NAME,COLUMN_DEFAULT,ORDINAL_POSITION,DATA_TYPE,COLUMN_TYPE,IS_NULLABLE,CHARACTER_MAXIMUM_LENGTH,INDEX_NAME,NON_UNIQUE,SEQ_IN_INDEX,NULLABLE
+Ingredients,id,,1,int,int,NO,,PRIMARY,0,1,""
+Ingredients,name,,2,varchar,varchar(100),NO,100,,,,
+Ingredients,unit_of_measurement,,3,varchar,varchar(50),NO,50,,,,
+Ingredients,price,,4,decimal,"decimal(10,2)",NO,,,,,
+Ingredients,supplier_id,,6,int,int,YES,,,,,
+Meals,id,,1,int,int,NO,,PRIMARY,0,1,""
+```
+
 </Block>
 <Block name="PostgreSQL">
 ```sql
-SELECT
-  enum_name,
-  enum_values,
-  table_name,
-  column_name,
-  column_default,
-  ordinal_position,
-  data_type,
-  udt_name,
-  is_nullable,
-  character_maximum_length,
-  indexname,
-      REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', '') as index_columns
-    FROM INFORMATION_SCHEMA.COLUMNS
-    LEFT JOIN pg_indexes
-    ON
-      INFORMATION_SCHEMA.COLUMNS.table_name = pg_indexes.tablename
-      AND INFORMATION_SCHEMA.COLUMNS.column_name = ANY(STRING_TO_ARRAY(REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', ''), ', '))
-      LEFT JOIN (
-        SELECT
-          t.typname AS enum_name,
-          ARRAY_AGG(e.enumlabel) as enum_values
-        FROM    pg_type t JOIN
-          pg_enum e ON t.oid = e.enumtypid JOIN
-          pg_catalog.pg_namespace n ON n.oid = t.typnamespace
-        WHERE   n.nspname = 'public'
-    	GROUP BY enum_name
-      ) enums
-      ON enums.enum_name = INFORMATION_SCHEMA.COLUMNS.udt_name
-    WHERE table_schema = 'public' AND TABLE_CATALOG = '<database-name>';
+SELECT DISTINCT
+  INFORMATION_SCHEMA.COLUMNS.table_name,
+  enum_name,enum_values,column_name,column_default,ordinal_position,data_type,udt_name,is_nullable,character_maximum_length,indexname,constraint_type,
+  REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', '') as index_columns
+FROM INFORMATION_SCHEMA.COLUMNS
+LEFT JOIN pg_indexes
+ON
+  INFORMATION_SCHEMA.COLUMNS.table_name = pg_indexes.tablename
+  AND INFORMATION_SCHEMA.COLUMNS.column_name = ANY(STRING_TO_ARRAY(REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', ''), ', '))
+  LEFT JOIN (
+    SELECT
+      t.typname AS enum_name,
+      ARRAY_AGG(e.enumlabel) as enum_values
+    FROM    pg_type t JOIN
+      pg_enum e ON t.oid = e.enumtypid JOIN
+      pg_catalog.pg_namespace n ON n.oid = t.typnamespace
+    WHERE   n.nspname = 'public'
+    GROUP BY enum_name
+  ) enums
+  ON enums.enum_name = INFORMATION_SCHEMA.COLUMNS.udt_name
+  LEFT JOIN information_schema.table_constraints
+  ON INFORMATION_SCHEMA.table_constraints.constraint_name = indexname
+  AND INFORMATION_SCHEMA.COLUMNS.table_name = INFORMATION_SCHEMA.table_constraints.table_name
+WHERE INFORMATION_SCHEMA.COLUMNS.table_schema = 'public'
+  AND INFORMATION_SCHEMA.COLUMNS.TABLE_CATALOG = '<database-name>';
+--                     Replace database name here ^^^^^^^^^^^^^^^
 ```
+
+Your exported SQL schema should look something like this:
+
+```csv
+"table_name","enum_name","enum_values","column_name","column_default","ordinal_position","data_type","udt_name","is_nullable","character_maximum_length","indexname","constraint_type","index_columns"
+"Ingredients","","","id","","1","bigint","int8","NO","","Ingredients_pkey","PRIMARY KEY","id"
+"Ingredients","","","name","","2","text","text","NO","","","",""
+"Ingredients","","","unit_of_measurement","","3","text","text","NO","","","",""
+"Ingredients","","","price","","4","text","text","NO","","","",""
+"Ingredients","","","supplier_id","","5","bigint","int8","NO","","","",""
+```
+
 </Block>
 </BlockSwitcher>
 
-Generate an Amplify GraphQL API schema by running the following command, replacing the `--sql-schema` value with the path to the CSV file created in the previous step:
+### Step 2 - Generate GraphQL schema from database schema
 
-```sh
-npx @aws-amplify/cli api generate-schema --sql-schema <path-to-schema.csv> --engine-type mysql --out schema.sql.graphql
+Next, generate an Amplify GraphQL API schema by running the following command, replacing the `--engine-type` value with your database engine of `mysql` or `postgres`, and the `--sql-schema` value with the path to the CSV file created in the previous step:
+
+```bash
+npx @aws-amplify/cli api generate-schema --engine-type mysql --sql-schema schema.csv --out schema.sql.graphql
 ```
 
-Finally, update the first argument of `AmplifyGraphqlDefinition.fromFilesAndStrategy` to include the `schema.sql.graphql` file generated in the previous step:
+
+Next, update the first argument of `AmplifyGraphqlDefinition.fromFilesAndStrategy` to include the `schema.sql.graphql` file generated in the previous step:
 
 ```ts
 new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
@@ -539,6 +560,61 @@ new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
   )
 });
 ```
+
+### Step 3 - Apply authorization rules for your generated GraphQL API
+
+Open your **schema.sql.graphql** file, you should see something like this. The auto-generated schema automatically changes the casing to better match common GraphQL conventions. Amplify's GraphQL API's operate on a **deny-by-default principle**, this means you must explicitly add `@auth` authorization rules in order to make this API accessible to your users. Currently only model-level authorization is supported.
+
+```graphql
+input AMPLIFY {
+ engine: String = "mysql"
+}
+
+
+type Ingredient @refersTo(name: "Ingredients") @model {
+  id: Int! @refersTo(name: "ingredient_id") @primaryKey
+  name: String!
+  unitOfMeasurement: String! @refersTo(name: "unit_of_measurement")
+  price: Float!
+  supplierId: Int @refersTo(name: "supplier_id")
+}
+```
+
+In our example, we'll add a public authorization rule, meaning anyone with an API key can create, read, update, and delete records from the database. Review [Customize authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/) to see the full scope of model-level authorization capabilities.
+
+```diff
+input AMPLIFY {
+ engine: String = "mysql"
+}
+
+
+- type Ingredient @refersTo(name: "Ingredients") @model {
++ type Ingredient
++   @refersTo(name: "Ingredients")
++   @model 
++   @auth(rules: [{ allow: public }]) {
+  id: Int! @refersTo(name: "ingredient_id") @primaryKey
+  name: String!
+  unitOfMeasurement: String! @refersTo(name: "unit_of_measurement")
+  price: Float!
+  supplierId: Int @refersTo(name: "supplier_id")
+}
+```
+
+Finally, remember to deploy your API to the cloud:
+
+<BlockSwitcher>
+<Block name="AWS CDK">
+To deploy the API, you can use the `cdk deploy` command:
+
+```sh
+cdk deploy
+```
+
+</Block>
+</BlockSwitcher>
+
+Now the API has been deployed and you can start using it!
 
 ### Rename & map models to tables
 
@@ -561,6 +637,12 @@ type Post @refersTo(name: "posts") @model {
 ### Create relationships between models
 
 You can use the `@hasOne`, `@hasMany`, and `@belongsTo` relational directives to create relationships between models. The field named in the `references` parameter of the relational directives must exist on the child model.
+
+<Callout warning>
+
+Relationships that query across DynamoDB and SQL data sources are currently not supported. However, you can create relationships across SQL data sources.
+
+</Callout>
 
 #### Has One relationship
 
@@ -618,70 +700,6 @@ type Post @model {
 
 ### Apply iterative changes from the database definition
 
-<Callout>
-  **NOTE:** This feature is experimental and is subject to change.
-</Callout>
-
-<Accordion
-  title="Mapping of SQL Data Types to GraphQL Types"
-  headingLevel="3"
-  eyebrow="Info"
->
-<Callout>
-
-**Note:** MySQL does not support time zone offsets in date time or timestamp fields. Instead, we will convert these values to `datetime`, without the offset.
-
-Unlike MySQL, PostgreSQL does support date time or timestamp values with an offset.
-
-</Callout>
-| SQL                | GraphQL      |
-|--------------------|--------------|
-| **String**         |              |
-| char               | <span style={{ color: "orange" }}>String</span>       |
-| varchar            | <span style={{ color: "orange" }}>String</span>       |
-| tinytext           | <span style={{ color: "orange" }}>String</span>       |
-| text               | <span style={{ color: "orange" }}>String</span>       |
-| mediumtext         | <span style={{ color: "orange" }}>String</span>       |
-| longtext           | <span style={{ color: "orange" }}>String</span>       |
-| **Geometry**       |              |
-| geometry           | <span style={{ color: "orange" }}>String</span>       |
-| point              | <span style={{ color: "orange" }}>String</span>       |
-| linestring         | <span style={{ color: "orange" }}>String</span>       |
-| geometryCollection | <span style={{ color: "orange" }}>String</span>       |
-| **Numeric**        |              |
-| smallint           | <span style={{ color: "skyblue" }}>Int</span>          |
-| mediumint          | <span style={{ color: "skyblue" }}>Int</span>          |
-| int                | <span style={{ color: "skyblue" }}>Int</span>          |
-| integer            | <span style={{ color: "skyblue" }}>Int</span>          |
-| bigint             | <span style={{ color: "skyblue" }}>Int</span>          |
-| tinyint            | <span style={{ color: "skyblue" }}>Int</span>          |
-| float              | <span style={{ color: "blue" }}>Float</span>        |
-| double             | <span style={{ color: "blue" }}>Float</span>        |
-| decimal            | <span style={{ color: "blue" }}>Float</span>        |
-| dec                | <span style={{ color: "blue" }}>Float</span>        |
-| numeric            | <span style={{ color: "blue" }}>Float</span>        |
-| **Date and Time**  |              |
-| date               | <span style={{ color: "firebrick" }}>AWSDate</span>      |
-| datetime           | <span style={{ color: "red" }}>AWSDateTime</span>   |
-| timestamp          | <span style={{ color: "red" }}>AWSDateTime</span>   |
-| time               | <span style={{ color: "deeppink" }}>AWSTime</span>       |
-| year               | <span style={{ color: "skyblue" }}>Int</span>          |
-| **Binary**         |              |
-| binary             | <span style={{ color: "orange" }}>String</span>        |
-| varbinary          | <span style={{ color: "orange" }}>String</span>        |
-| tinyblob           | <span style={{ color: "orange" }}>String</span>        |
-| blob               | <span style={{ color: "orange" }}>String</span>        |
-| mediumblob         | <span style={{ color: "orange" }}>String</span>        |
-| longblob           | <span style={{ color: "orange" }}>String</span>        |
-| **Others**         |              |
-| bool               | <span style={{ color: "green" }}>Boolean</span>       |
-| boolean            | <span style={{ color: "green" }}>Boolean</span>       |
-| bit                | <span style={{ color: "skyblue" }}>Int</span>          |
-| json               | <span style={{ color: "purple" }}>AWSJSON</span>       |
-| enum               | <span style={{ color: "violet" }}>ENUM</span>          |
-
-</Accordion>
-
 <BlockSwitcher>
 <Block name="AWS CDK">
   1. Make any adjustments to your SQL statements such as:
@@ -696,71 +714,12 @@ CREATE TABLE posts (
 );
 ```
 
-2. Run the following SQL statement on your database using a MySQL, PostgreSQL Client or CLI tool similar to `psql`. Export the output to a CSV file with column headers included.
+2. Regenerate the database schema as a CSV file by following the instructions in [Generate GraphQL schema from database schema](#step-2---generate-graphql-schema-from-database-schema).
 
-Replace `<database-name>` with the name of your database/schema.
-
-<BlockSwitcher>
-<Block name="MySQL">
-```sql
-SELECT
-  INFORMATION_SCHEMA.COLUMNS.TABLE_NAME,
-  INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME,
-  INFORMATION_SCHEMA.COLUMNS.COLUMN_DEFAULT,
-  INFORMATION_SCHEMA.COLUMNS.ORDINAL_POSITION,
-  INFORMATION_SCHEMA.COLUMNS.DATA_TYPE,
-  INFORMATION_SCHEMA.COLUMNS.COLUMN_TYPE,
-  INFORMATION_SCHEMA.COLUMNS.IS_NULLABLE,
-  INFORMATION_SCHEMA.COLUMNS.CHARACTER_MAXIMUM_LENGTH,
-  INFORMATION_SCHEMA.STATISTICS.INDEX_NAME,
-  INFORMATION_SCHEMA.STATISTICS.NON_UNIQUE,
-  INFORMATION_SCHEMA.STATISTICS.SEQ_IN_INDEX,
-  INFORMATION_SCHEMA.STATISTICS.NULLABLE
-      FROM INFORMATION_SCHEMA.COLUMNS
-      LEFT JOIN INFORMATION_SCHEMA.STATISTICS ON INFORMATION_SCHEMA.COLUMNS.TABLE_NAME=INFORMATION_SCHEMA.STATISTICS.TABLE_NAME AND INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME=INFORMATION_SCHEMA.STATISTICS.COLUMN_NAME
-      WHERE INFORMATION_SCHEMA.COLUMNS.TABLE_SCHEMA = '<database-name>';
-```
-</Block>
-<Block name="PostgreSQL">
-```sql
-SELECT
-  enum_name,
-  enum_values,
-  table_name,
-  column_name,
-  column_default,
-  ordinal_position,
-  data_type,
-  udt_name,
-  is_nullable,
-  character_maximum_length,
-  indexname,
-      REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', '') as index_columns
-    FROM INFORMATION_SCHEMA.COLUMNS
-    LEFT JOIN pg_indexes
-    ON
-      INFORMATION_SCHEMA.COLUMNS.table_name = pg_indexes.tablename
-      AND INFORMATION_SCHEMA.COLUMNS.column_name = ANY(STRING_TO_ARRAY(REPLACE(SUBSTRING(indexdef from '\((.*)\)'), '"', ''), ', '))
-      LEFT JOIN (
-        SELECT
-          t.typname AS enum_name,
-          ARRAY_AGG(e.enumlabel) as enum_values
-        FROM    pg_type t JOIN
-          pg_enum e ON t.oid = e.enumtypid JOIN
-          pg_catalog.pg_namespace n ON n.oid = t.typnamespace
-        WHERE   n.nspname = 'public'
-    	GROUP BY enum_name
-      ) enums
-      ON enums.enum_name = INFORMATION_SCHEMA.COLUMNS.udt_name
-    WHERE table_schema = 'public' AND TABLE_CATALOG = '<database-name>';
-```
-</Block>
-</BlockSwitcher>
-
-3. Generate an updated schema by running the following command, replacing the `--sql-schema` value with the path to the CSV file created in the previous step:
+3. Generate an updated schema by running the following command, replacing the `--engine-type` value with your database engine of `mysql` or `postgres`, and the `--sql-schema` value with the path to the CSV file created in the previous step:
 
 ```sh
-npx @aws-amplify/cli api generate-schema --sql-schema <path-to-schema.csv> --engine-type mysql --out schema.sql.graphql
+npx @aws-amplify/cli api generate-schema --engine-type mysql --sql-schema schema.csv --out schema.sql.graphql
 ```
 
 4. Deploy your changes to the cloud:
@@ -770,25 +729,7 @@ cdk deploy
 ```
 
 </Block>
-</BlockSwitcher>
-
-<Accordion title="Supported Directives" headingLevel="3" eyebrow="Info">
-| Name         | Supported | Model Level | Field Level | Preserved | Description |
-|--------------|:---------:|:-----------:|:-----------:|:---------:|-------------|
-| `@model`     | ✅        | ✅          | ❌          | ✅        | Creates a datasource and resolver for a table.            |
-| `@auth`      | ✅        | ✅          | ❌          | ✅        | Allows access to data based on a set of authorization methods and operations. |
-| `@primaryKey`| ✅        | ❌          | ✅          | ❌        | Sets a field to be the primary key. |
-| `@index`     | ✅        | ❌          | ✅          | ❌        | Defines an index on a table.         |
-| `@default`   | ✅        | ❌          | ✅          | ❌        | Sets the default value for a column.         |
-| `@hasOne`    | ✅        | ❌          | ✅          | ✅        | Defines a one-way 1:1 relationship from a parent to child model. |
-| `@hasMany`   | ✅        | ❌          | ✅          | ✅        | Defines a one-way 1:M relationship between two models, the reference being on the child. |
-| `@belongsTo` | ✅        | ❌          | ✅          | ✅        | Defines bi-directional relationship with the parent model. |
-| `@manyToMany`| ❌        | ❌          | ❌          | ❌        | Defines a M:N relationship between two models.       |
-| `@refersTo`  | ✅        | ✅          | ✅          | ✅        | Maps a model to a table, or a field to a column, by name. |
-| `@mapsTo`    | ❌        | ❌          | ❌          | ❌        | Maps a model to a DynamoDB table.        |
-| `@sql`       | ✅        | ❌          | ✅          | ✅        | Accepts an inline SQL statement or reference to a .sql file to be executed to resolve a Custom Query or Mutation. |
-
-</Accordion> */}
+</BlockSwitcher> */}
 
 ## How does it work?
 
@@ -818,6 +759,80 @@ This automatically keeps the SQL Lambda up-to-date by managing its Lambda Layers
 A Lambda layer that includes all the core SQL connection logic lives within the AWS Amplify service account but is executed within your AWS account, when invoked by the SQL Lambda. This allows the Amplify service team to own the ongoing maintenance and security enhancements of the SQL connection logic.
 
 This allows the Amplify team to maintain and enhance the SQL Layer without needing direct access to your Lambdas. If updates to the Layer are needed, the Updater Lambda will receive a signal from Amplify and automatically update the SQL Lambda with the latest Layer.
+
+### Mapping of SQL data types to GraphQL types when auto-generating GraphQL schema
+
+<Callout warning>
+
+**Note:** MySQL does not support time zone offsets in date time or timestamp fields. Instead, we will convert these values to `datetime`, without the offset.
+
+Unlike MySQL, PostgreSQL does support date time or timestamp values with an offset.
+
+</Callout>
+
+| SQL                | GraphQL      |
+|--------------------|--------------|
+| **String**         |              |
+| char               | String       |
+| varchar            | String       |
+| tinytext           | String       |
+| text               | String       |
+| mediumtext         | String       |
+| longtext           | String       |
+| **Geometry**       |              |
+| geometry           | String       |
+| point              | String       |
+| linestring         | String       |
+| geometryCollection | String       |
+| **Numeric**        |              |
+| smallint           | Int          |
+| mediumint          | Int          |
+| int                | Int          |
+| integer            | Int          |
+| bigint             | Int          |
+| tinyint            | Int          |
+| float              | Float        |
+| double             | Float        |
+| decimal            | Float        |
+| dec                | Float        |
+| numeric            | Float        |
+| **Date and Time**  |              |
+| date               | AWSDate      |
+| datetime           | AWSDateTime   |
+| timestamp          | AWSDateTime   |
+| time               | AWSTime       |
+| year               | Int          |
+| **Binary**         |              |
+| binary             | String        |
+| varbinary          | String        |
+| tinyblob           | String        |
+| blob               | String        |
+| mediumblob         | String        |
+| longblob           | String        |
+| **Others**         |              |
+| bool               | Boolean       |
+| boolean            | Boolean       |
+| bit                | Int          |
+| json               | AWSJSON       |
+| enum               | ENUM          |
+
+### Supported Amplify directives for auto-generated GraphQL schema
+
+| Name         | Supported | Model Level | Field Level | Description |
+|--------------|:---------:|:-----------:|:-----------:|-------------|
+| `@model`     | ✅        | ✅          | ❌          | Creates a datasource and resolver for a table.            |
+| `@auth`      | ✅        | ✅          | ❌          | Allows access to data based on a set of authorization methods and operations. |
+| `@primaryKey`| ✅        | ❌          | ✅          | Sets a field to be the primary key. |
+| `@index`     | ✅        | ❌          | ✅          | Defines an index on a table.         |
+| `@default`   | ✅        | ❌          | ✅          | Sets the default value for a column.         |
+| `@hasOne`    | ✅        | ❌          | ✅          | Defines a one-way 1:1 relationship from a parent to child model. |
+| `@hasMany`   | ✅        | ❌          | ✅          | Defines a one-way 1:M relationship between two models, the reference being on the child. |
+| `@belongsTo` | ✅        | ❌          | ✅          | Defines bi-directional relationship with the parent model. |
+| `@manyToMany`| ❌        | ❌          | ❌          | Defines a M:N relationship between two models.       |
+| `@refersTo`  | ✅        | ✅          | ✅          | Maps a model to a table, or a field to a column, by name. |
+| `@mapsTo`    | ❌        | ❌          | ❌          | Maps a model to a DynamoDB table.        |
+| `@sql`       | ✅        | ❌          | ✅          | Accepts an inline SQL statement or reference to a .sql file to be executed to resolve a Custom Query or Mutation. |
+
 
 ## Troubleshooting
 

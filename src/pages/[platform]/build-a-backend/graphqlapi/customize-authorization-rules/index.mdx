@@ -518,13 +518,13 @@ import { listPosts } from './graphql/queries';
 const newPostResult = await client.graphql({
   query: queries.createPost,
   variables: { input: { title: 'Hello World' } },
-  authMode: 'AMAZON_COGNITO_USER_POOLS'
+  authMode: 'userPool'
 });
 
 // Listing posts is available to all users (verified by IAM)
 const listPostsResult = await client.graphql({
   query: queries.listPosts,
-  authMode: 'AWS_IAM'
+  authMode: 'iam'
 });
 ```
 
@@ -753,6 +753,12 @@ Lambda functions' IAM execution role do not immediately grant access to Amplify'
 If you grant a Lambda function in your Amplify project access to the GraphQL API via `amplify update function`, then the Lambda function's IAM execution role is allow-listed to honor the permissions granted on the `Query`, `Mutation`, and `Subscription` types.
 
 Therefore, these functions have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
+
+<Callout>
+
+Once you grant a function access to the GraphQL API, it is required to redeploy the API to apply the permissions. To do so, run the command `amplify api gql-compile --force` before deployment via `amplify push`.
+
+</Callout>
 
 </Block>
 

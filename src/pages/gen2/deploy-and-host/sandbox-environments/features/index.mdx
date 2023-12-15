@@ -18,10 +18,10 @@ Sandbox environments include additional features for managing secrets, deploying
 ## Secure secrets in your sandbox
 
 <Callout info>
-  Secrets set in a sandbox do not show up in the Amplify Console. You can view them in the AWS Parameter Store console.
+  Secrets set in a sandbox do not show up in the Amplify Console. You can view them in the AWS Systems Manager (SSM) Parameter Store console.
 </Callout>
 
-Gen 2 offers secure secret storage to manage sensitive data like API keys and database credentials. Secrets are similar to environment variables, but they are encrypted AWS Systems Manager (SSM) Parameter Store key value pairs. Secrets are stored in AWS Parameter Store with the following naming convention: `/amplify/<package.json#name>/<sandbox-name>/<key-name>`.
+Gen 2 offers secure secret storage to manage sensitive data like API keys and database credentials. Secrets are similar to environment variables, but they are encrypted Parameter Store key value pairs. Secrets are stored in AWS Systems Manager (SSM) Parameter Store with the following naming convention: `/amplify/<package.json#name>/<sandbox-name>/<key-name>`.
 
 ### Set secrets
 
