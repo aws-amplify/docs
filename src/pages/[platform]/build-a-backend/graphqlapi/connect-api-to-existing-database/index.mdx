@@ -159,6 +159,12 @@ The target security group(s) must have two inbound rules set up:
 
 - An inbound rule allowing traffic on the database port from the security group. (Default: 3306 for MySQL. 5432 for PostgreSQL.)
 
+In addition, the target security group(s) must have two outbound rules set up:
+
+- An outbound rule allowing traffic on port 443 to the security group.
+
+- An outbound rule allowing traffic on the database port to the security group. (Default: 3306 for MySQL. 5432 for PostgreSQL.)
+
 <Callout>
   **NOTE:** Make sure to limit the type of inbound traffic your security group
   allows according to your security needs and/or use cases. For information on
