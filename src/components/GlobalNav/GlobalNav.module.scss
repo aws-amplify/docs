@@ -319,4 +319,7 @@
   .chevron-icon {
     fill: var(--amplify-colors-font-inverse);
   }
+  [data-amplify-color-mode='dark'] & {
+    --navbar-background-color: var(--amplify-colors-purple-80);
+  }
 }
