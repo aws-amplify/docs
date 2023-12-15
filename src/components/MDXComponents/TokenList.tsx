@@ -18,12 +18,10 @@ export const TokenList = ({
     // Test each line to see if it contains highlight comments. We
     // have to build each token in the line array into a string because
     // some languages (like graphQl) split comment text into different tokens.
-    let textLine = '';
-    for (let j = 0; j < line.length; j++) {
-      textLine += line[j].content;
-    }
-    // Remove white space for following string comparison
-    textLine = textLine.replace(/\s/g, '');
+    const textLine = line
+      .map((token) => token.content)
+      .join('')
+      .replace(/\s/g, '');
 
     // Test if the line contains code comment for highlight-start
     const isHighlightStart = textLine === '//highlight-start';
