@@ -56,7 +56,7 @@ export function Menu({ currentPlatform, path }: MenuProps): ReactElement {
   }
 
   return (
-    <nav className="menu">
+    <nav className="menu" aria-label="Main">
       <ul className="menu__list">
         {childrenNodes &&
           childrenNodes.map((child, index) => {

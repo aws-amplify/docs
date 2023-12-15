@@ -22,7 +22,6 @@ import {
 import { ClassicBanner } from '@/components/Banner';
 import { Columns } from '@/components/Columns';
 import { FeatureList, FeatureItem } from '@/components/FeatureLists';
-import styles from '../../components/GlobalNav/GlobalNav.module.scss';
 
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
@@ -82,7 +81,11 @@ const Gen2Overview = () => {
           </Text>
           <sup>
             {' '}
-            <Badge size="small" className={styles['navbar-badge']}>
+            <Badge
+              size="small"
+              backgroundColor="purple.60"
+              color="font.inverse"
+            >
               Preview
             </Badge>
           </sup>
@@ -282,7 +285,7 @@ const Gen2Overview = () => {
           </FeatureItem>
         </FeatureList>
         <MDXCode
-          fileName="amplify/backend.ts"
+          title="amplify/backend.ts"
           language="typescript"
           codeString={`import * as sns from 'aws-cdk-lib/aws-sns';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
