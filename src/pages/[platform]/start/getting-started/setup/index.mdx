@@ -161,12 +161,28 @@ To get started, first create a new React app, and then install and use the Ampli
 
 From your projects directory, run the following command and respond the prompts:
 
-```bash
-npm create vite@latest
-✔ Project name: react-amplified
-✔ Select a framework: › React
-✔ Select a variant: › JavaScript
-```
+<BlockSwitcher>
+  <Block name="TypeScript">
+
+    ```bash
+    npm create vite@latest
+    ✔ Project name: react-amplified
+    ✔ Select a framework: › React
+    ✔ Select a variant: › TypeScript
+    ```
+
+  </Block>
+  <Block name="JavaScript">
+
+    ```bash
+    npm create vite@latest
+    ✔ Project name: react-amplified
+    ✔ Select a framework: › React
+    ✔ Select a variant: › JavaScript
+    ```
+
+  </Block>
+</BlockSwitcher>
 
 This creates a new React app in a directory called **react-amplified**. You can then run the following commands to switch into the new **react-amplified** directory, install the project dependencies, and run the app:
 
@@ -621,7 +637,7 @@ Angular CLI output warnings: if you see CommonJS or AMD dependencies optimizatio
 Next, configure the Amplify libraries client-side so it can interact with backend services.
 
     <InlineFilter filters={['react']}>
-        Open **src/main.jsx** and add the following code below the last import:
+        Open **src/main.tsx** or **src/main.jsx** and add the following code below the last import:
     </InlineFilter>
 
     <InlineFilter filters={['javascript']}>

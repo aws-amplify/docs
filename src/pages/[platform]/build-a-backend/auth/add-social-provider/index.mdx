@@ -946,6 +946,22 @@ function App() {
 
 </InlineFilter>
 
+### Custom Providers
+
+When using custom providers that are not provided by default in Cognito, you can pass an object to the `provider` parameter with the name of your custom provider.
+
+```javascript
+import { signInWithRedirect } from 'aws-amplify/auth';
+
+const provider = {
+  custom: 'MyCustomOIDCProvider'
+}
+
+function handleSignInClick() {
+    signInWithRedirect({ provider })
+}
+```
+
 ### Deploy your backend environment with auth parameters for social sign-in
 
 When you create or update your authentication configuration, Amplify will setup the configuration locally, but it does not automatically deploy the changes to your backend environment. You will need to run `amplify push` to deploy the changes to your backed environment.
