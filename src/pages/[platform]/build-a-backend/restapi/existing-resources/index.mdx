@@ -42,18 +42,32 @@ import flutter2 from '/src/fragments/lib/restapi/existing-resources.mdx';
 
 <Fragments fragments={{ flutter: flutter2 }} />
 
-import js3 from '/src/fragments/lib/restapi/js/existing-resources.mdx';
+<InlineFilter filters={['javascript','angular','nextjs','react','vue','react-native']}>
+Existing Amazon API Gateway resources can be used with the Amplify Libraries by calling `Amplify.configure()` with the API Gateway API name and options. Note, you will need to supply the full resource configuration and library options objects when calling `Amplify.configure()`. The following example shows how to configure additional API Gateway resources to an existing Amplify application:
 
-<Fragments
-  fragments={{
-    javascript: js3,
-    angular: js3,
-    nextjs: js3,
-    react: js3,
-    vue: js3
-  }}
-/>
+```javascript
+const existingConfig = Amplify.getConfig();
 
-import rn4 from '/src/fragments/lib/restapi/js/existing-resources.mdx';
+Amplify.configure({
+  ...existingConfig,
+  API: {
+    ...existingConfig.API,
+    REST: {
+      ...existingConfig.API?.REST,
+      YourAPIName: {
+        endpoint:
+          'https://abcdefghij1234567890.execute-api.us-east-1.amazonaws.com/stageName',
+        region: 'us-east-1' // Optional
+      }
+    }
+  }
+});
+```
 
-<Fragments fragments={{ 'react-native': rn4 }} />
+- **YourAPIName**: Friendly name for the API (e.g., _UsersAPI_)
+  - **endpoint**: The HTTPS endpoint of the API (e.g. _https://abcdefghij1234567890.execute-api.us-east-1.amazonaws.com/stageName_)
+  - **region**: AWS Region where the resources are provisioned (e.g. _us-east-1_). If not specified, the region will be inferred from the endpoint.
+
+Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/[platform]/start/project-setup/create-application/#n2-install-amplify-libraries).
+
+</InlineFilter>
