@@ -12,6 +12,12 @@ code:not([class]) {
   h3 & {
     font-size: 0.75em;
   }
+  .amplify-message & {
+    background-color: var(--amplify-colors-overlay-5);
+    [data-amplify-color-mode='dark'] & {
+      background-color: var(--amplify-colors-overlay-10);
+    }
+  }
 }
 
 .pre-container {
@@ -25,7 +31,7 @@ code:not([class]) {
     margin-block: var(--amplify-space-small);
   }
   [data-amplify-color-mode='dark'] & {
-    --pre-container-background-color: var(--amplify-colors-neutral-10);
+    --pre-container-background-color: hsl(210, 50%, 13%);
     box-shadow: 0 0 0 2px var(--amplify-colors-neutral-20);
   }
 }

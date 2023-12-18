@@ -290,15 +290,16 @@
 
 .navbar-badge {
   background-color: var(--amplify-colors-purple-60);
-  color: var(--amplify-colors-font-inverse);
+  color: var(--amplify-colors-white);
 }
 
 .navbar--gen2 {
   --navbar-background-color: var(--amplify-colors-purple-80);
   --logo-color: var(--amplify-colors-font-inverse);
-  --nav-menu-item-color: var(--amplify-colors-purple-10);
+  --nav-menu-item-color: var(--amplify-colors-white);
   --navbar-border-color: var(--amplify-colors-purple-60);
   .nav-menu-item {
+    color: var(--amplify-colors-white);
     &:hover {
       color: var(--amplify-colors-purple-20);
     }
@@ -320,6 +321,19 @@
     fill: var(--amplify-colors-font-inverse);
   }
   [data-amplify-color-mode='dark'] & {
-    --navbar-background-color: var(--amplify-colors-purple-80);
+    --navbar-background-color: var(--amplify-colors-purple-40);
+    .nav-menu-item {
+      &:hover {
+        color: var(--amplify-colors-purple-90);
+      }
+    }
+    .dev-center-logo {
+      color: var(--amplify-colors-white);
+    }
+    .home {
+      svg {
+        fill: #fff;
+      }
+    }
   }
 }

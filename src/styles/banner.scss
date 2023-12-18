@@ -4,7 +4,9 @@
   &.amplify-message--info {
     border: 1px solid var(--amplify-colors-purple-20);
     background-color: var(--amplify-colors-purple-10);
-    // color: var(--amplify-colors-purple-80);
+    [data-amplify-color-mode='dark'] & {
+      background-color: var(--amplify-colors-purple-20);
+    }
   }
   .amplify-message__icon {
     color: var(--amplify-colors-purple-80);
