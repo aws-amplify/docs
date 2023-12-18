@@ -23,11 +23,11 @@ The `Auth` category has moved to a functional approach and named parameters in A
 
 ## Auth.signUp
 
-The overall input to `Auth.signUp` is largely unchanged, but how the object is structured is slightly different: `attributes` becomes `userAttributes` , and `userAttributes` and `validationData` are now under an `options` object. `autoSignIn` can also now be a simple boolean response. 
+The overall input to `Auth.signUp` is largely unchanged, but how the object is structured is slightly different: `attributes` becomes `userAttributes` , and `userAttributes` and `validationData` are now under an `options` object. `autoSignIn` can also now be a simple boolean value. 
 
 A major difference is that a `CognitoUser` is no longer returned from `signUp`. All Auth API’s now use the current signed in user information to perform operations, so sending and receiving `CognitoUser` through every API is no longer required.
 
-Also notice that `userConfirmed` is no longer returned, and instead we return `nextStep`. This follows a standardized format shared between the `signUp` and `signIn` flows, where additional authentication steps will be returned with any additional information included in the same object (in this case, `codeDeliveryDetails`)
+Also notice that `userConfirmed` is no longer returned, and instead we return `nextStep`. This follows a standardized format shared between the `signUp`, `signIn`, `resetPassword`, and `updateUserAttributes` flows, where additional authentication steps will be returned with any additional information included in the same object (in this case, `codeDeliveryDetails`)
 
 <Callout>`autoSignIn` is no longer triggered automatically in v6 and will need to be called manually through a separate API when the `nextStep.signUpStep` is `COMPLETE_AUTO_SIGN_IN`</Callout>
 
@@ -1051,6 +1051,7 @@ Also notice that `challengeName` and `challengeParam` (returned in v5 as additio
       **V5**
       
       ```
+      // Only returns when FederatedResponse from Identity Pools is provided
       ICredentials {
         accessKeyId: string;
         sessionToken: string;
@@ -1094,7 +1095,7 @@ Also notice that `challengeName` and `challengeParam` (returned in v5 as additio
     import { Auth } from 'aws-amplify';
 
     const handleSocialSignIn = async () => {
-      const credentials = await Auth.federatedSignIn({
+      await Auth.federatedSignIn({
         provider: CognitoHostedUIIdentityProvider.Google
       });
     }
@@ -1692,9 +1693,13 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
 
 ## Auth.getPreferredMFA
 
-In v6, `Auth.getPreferredMFA` has become the `fetchMFAPreference` API. This API no longer accepts a `CognitoUser`: all Auth API’s now use the current signed in user information to perform operations, so sending and receiving `CognitoUser` through every API is no longer required. There is also no longer a bypassCache option in v6, as `fetchMFAPreference` will always makes a call to the server.
+In v6, `Auth.getPreferredMFA` has become the `fetchMFAPreference` API. This API no longer accepts a `CognitoUser`: all Auth API’s now use the current signed in user information to perform operations, so sending and receiving `CognitoUser` through every API is no longer required. There is also no longer a bypassCache option in v6, as `fetchMFAPreference` will always make a call to the server.
 
 The return value in v6 is no longer just a string, but is now an object containing an `enabled` array and a `preferred` string.
+
+Cognito can have multiple `enabled` MFA options: as of now, it only supports `TOTP` and `SMS`. An MFA option is considered to be `enabled` when it was previously setup. For instance, the `TOTP` set up can be done during the sign-in process when the `signIn` API returns the `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` step. It can also be set up when the user is authenticated by calling `setupTOTP` and `verifyTOTPSetup`.
+
+In addition, Cognito only allows 1 option to be `preferred`. This can be achieved by calling the `updateMFAPreference` API.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
@@ -2447,7 +2452,7 @@ Also note that we no longer return `refreshToken` or `clockDrift` with the `Auth
     const getAuthenticatedUser = async () => {
       const {
         username,
-        authFlowType: authenticationFlowType
+        signInDetails
       } = await getCurrentUser();
 
       const {
@@ -2458,7 +2463,7 @@ Also note that we no longer return `refreshToken` or `clockDrift` with the `Auth
       return {
         username,
         session,
-        authenticationFlowType
+        authenticationFlowType: signInDetails.authFlowType
       };
     }
     ```
