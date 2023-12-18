@@ -102,6 +102,14 @@ code:not([class]) {
     z-index: 1;
     height: 100%;
   }
+  [data-amplify-color-mode='dark'] & {
+    &:before {
+      background: var(--amplify-colors-neutral-20);
+    }
+    &:after {
+      background-color: var(--amplify-colors-brand-primary-60);
+    }
+  }
 }
 
 .line-number {
