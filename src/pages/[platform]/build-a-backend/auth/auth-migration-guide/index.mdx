@@ -138,8 +138,6 @@ Also notice that `userConfirmed` is no longer returned, and instead we return `n
   </Columns>
 </Accordion>
 
-### Basic Use Case
-
 <BlockSwitcher>
   <Block name="V6">
       ```js
@@ -440,8 +438,6 @@ In v6, `confirmSignUp` now takes named parameters instead of positional paramete
   </Columns>
 </Accordion>
 
-### Basic Use Case
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -598,8 +594,6 @@ In v6, `resendSignUp` now takes named parameters instead of positional parameter
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -735,8 +729,6 @@ Also notice that `challengeName` and `challengeParam` (returned in v5 as additio
     </div>
   </Columns>
 </Accordion>
-
-### Basic Use Case
 
 <BlockSwitcher>
   <Block name="V6">
@@ -1072,8 +1064,6 @@ Also notice that `challengeName` and `challengeParam` (returned in v5 as additio
   </Columns>
 </Accordion>
 
-### Basic Use Case
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -1253,8 +1243,6 @@ Also notice that `challengeName` and `challengeParam` (returned in v5 as additio
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -1339,8 +1327,6 @@ The output is no longer just a string representing the secret code, but an objec
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -1421,8 +1407,6 @@ In v6, `Auth.verifyTotpToken` has become `verifyTOTPSetup`, and the input has ch
     </div>
   </Columns>
 </Accordion>
-
-### Example
 
 <BlockSwitcher>
   <Block name="V6">
@@ -1534,8 +1518,6 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
     </div>
   </Columns>
 </Accordion>
-
-### Example
 
 <BlockSwitcher>
   <Block name="V6">
@@ -1657,8 +1639,6 @@ This API has been deprecated: existing use cases can be migrated to the `confirm
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -1746,8 +1726,6 @@ In addition, Cognito only allows 1 option to be `preferred`. This can be achieve
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -1833,8 +1811,6 @@ In v6, `Auth.setPreferredMFA` has been replaced by `updateMFAPreference`, which 
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -1908,8 +1884,6 @@ This API has been deprecated and results apply only to SMS MFA configurations: e
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -1967,8 +1941,6 @@ The `signOut` API has not changed from v5 to v6 other than that it is now a func
     </div>
   </Columns>
 </Accordion>
-
-### Example
 
 <BlockSwitcher>
   <Block name="V6">
@@ -2045,8 +2017,6 @@ The `Auth.changePassword` API has become `updatePassword` in v6. It now accepts 
     </div>
   </Columns>
 </Accordion>
-
-### Example
 
 <BlockSwitcher>
   <Block name="V6">
@@ -2166,8 +2136,6 @@ In v6, the `Auth.forgotPassword` API has become `resetPassword`. It uses named p
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -2273,8 +2241,6 @@ In v6, the `Auth.forgotPassword` API has become `resetPassword`. It uses named p
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -2323,8 +2289,6 @@ In v6, the `Auth.forgotPassword` API has become `resetPassword`. It uses named p
 ## Auth.deleteUser
 
 The `deleteUser` API has not changed from v5 to v6 other than that it is now a functional API.
-
-### Example
 
 <BlockSwitcher>
   <Block name="V6">
@@ -2438,8 +2402,6 @@ Also note that we no longer return `refreshToken` or `clockDrift` with the `Auth
     </div>
   </Columns>
 </Accordion>
-
-### Example
 
 <BlockSwitcher>
   <Block name="V6">
@@ -2581,8 +2543,6 @@ Also note that we no longer return `refreshToken` or `clockDrift` with the `Auth
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -2686,8 +2646,6 @@ Note that we no longer return `refreshToken` or `clockDrift` with the `AuthSessi
     </div>
   </Columns>
 </Accordion>
-
-### Example
 
 <BlockSwitcher>
   <Block name="V6">
@@ -2795,8 +2753,6 @@ Note that we no longer return `refreshToken` or `clockDrift` with the `AuthSessi
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -2885,8 +2841,6 @@ The output has also changed: instead of an array of objects containing `Name` an
     </div>
   </Columns>
 </Accordion>
-
-### Example
 
 <BlockSwitcher>
   <Block name="V6">
@@ -2993,8 +2947,6 @@ Note that this API no longer accepts a `CognitoUser` as input. All Auth API’s 
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -3072,8 +3024,6 @@ Note that this API no longer accepts a `CognitoUser` as input. All Auth API’s 
     </div>
   </Columns>
 </Accordion>
-
-### Example
 
 <BlockSwitcher>
   <Block name="V6">
@@ -3163,8 +3113,6 @@ In v6, `Auth.verifyCurrentUserAttribute` becomes `sendUserAttributeVerificationC
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -3241,8 +3189,6 @@ In v6, `Auth.verifyCurrentUserAttributeSubmit` becomes `confirmUserAttribute`. T
     </div>
   </Columns>
 </Accordion>
-
-### Example
 
 <BlockSwitcher>
   <Block name="V6">
@@ -3342,8 +3288,6 @@ In v6, `Auth.verifyCurrentUserAttributeSubmit` becomes `confirmUserAttribute`. T
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -3432,8 +3376,6 @@ In v6, `Auth.verifyCurrentUserAttributeSubmit` becomes `confirmUserAttribute`. T
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -3494,8 +3436,6 @@ The `rememberDevice` API has not changed significantly from v5 to v6 other than 
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -3545,8 +3485,6 @@ The `forgetDevice` API has not changed significantly from v5 to v6 other than th
     </div>
   </Columns>
 </Accordion>
-
-### Example
 
 <BlockSwitcher>
   <Block name="V6">
@@ -3636,8 +3574,6 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
     </div>
   </Columns>
 </Accordion>
-
-### Example
 
 <BlockSwitcher>
   <Block name="V6">
@@ -3754,8 +3690,6 @@ This API has been deprecated: existing use cases can be migrated to the `fetchAu
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -3854,8 +3788,6 @@ This API has been deprecated: existing use cases can be migrated by using a comb
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -3949,8 +3881,6 @@ This API has been deprecated: existing use cases can be migrated to the `fetchUs
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -4043,8 +3973,6 @@ Note that this API does not accept a `CognitoUser` as input. All Auth API’s no
   </Columns>
 </Accordion>
 
-### Example
-
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -4124,8 +4052,6 @@ Note that this API does not accept a `CognitoUser` as input. All Auth API’s no
     </div>
   </Columns>
 </Accordion>
-
-### Example
 
 <BlockSwitcher>
   <Block name="V6">
