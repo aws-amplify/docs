@@ -109,3 +109,60 @@ import js1 from '/src/fragments/lib/project-setup/native_common/prereq/common_bo
 import reactnative1 from '/src/fragments/lib/project-setup/native_common/prereq/common_body.mdx';
 
 <Fragments fragments={{ 'react-native': reactnative1 }} />
+
+## Create your application
+
+import ios0create from '/src/fragments/lib-v1/project-setup/native_common/create-application/common.mdx';
+
+<Fragments fragments={{ swift: ios0create }} />
+
+import android1create from '/src/fragments/lib-v1/project-setup/native_common/create-application/common.mdx';
+
+<Fragments fragments={{ android: android1create }} />
+
+import flutter2create from '/src/fragments/lib-v1/project-setup/native_common/create-application/common.mdx';
+
+<Fragments fragments={{ flutter: flutter2create }} />
+
+import react_native2create from '/src/fragments/start/getting-started/reactnative/setup.mdx';
+
+<Fragments fragments={{ 'react-native': react_native2create }} />
+
+import js0create from '/src/fragments/lib-v1/project-setup/js/getting-started.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js0create,
+    angular: js0create,
+    nextjs: js0create,
+    react: js0create,
+    vue: js0create
+  }}
+/>
+
+<InlineFilter filters={["swift"]}>
+
+## Additional options
+
+## Use the Combine framework with Amplify
+
+import ios0combine from '/src/fragments/lib-v1/project-setup/ios/combine/combine.mdx';
+
+<Fragments fragments={{ swift: ios0combine }} />
+
+</InlineFilter>
+
+<InlineFilter filters={["swift", "android"]}>
+
+## Use existing AWS resources
+
+import ios0AWSresources from '/src/fragments/lib-v1/project-setup/ios/use-existing-resources/use-existing-resources.mdx';
+
+<Fragments fragments={{ swift: ios0AWSresources }} />
+
+import android1AWSresources from '/src/fragments/lib-v1/project-setup/android/use-existing-resources/use-existing-resources.mdx';
+
+<Fragments fragments={{ android: android1AWSresources }} />
+
+
+</InlineFilter>
