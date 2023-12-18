@@ -33,4 +33,8 @@ export function getStaticProps(context) {
   };
 }
 
+import version from '/src/fragments/common/version-selection.mdx';
+
+<Fragments fragments={{ all: version }} />
+
 <Overview childPageNodes={props.childPageNodes} />
