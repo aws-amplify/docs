@@ -72,7 +72,8 @@ export const darkModeOverride: ColorModeOverride = {
         primary: '{colors.white}',
         secondary: '{colors.neutral.100}',
         tertiary: '{colors.neutral.90}',
-        inverse: '{colors.neutral.10}'
+        inverse: '{colors.neutral.10}',
+        interactive: '{colors.brand.primary.90}'
       },
 
       background: {

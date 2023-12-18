@@ -18,7 +18,7 @@ export const blue = {
 export const purple = {
   10: { value: 'hsl(252, 100%, 98%)' },
   20: { value: 'hsl(258, 41%, 85%)' },
-  40: { value: 'hsl(258, 41%, 70%)' },
+  40: { value: 'hsl(258, 41%, 80%)' },
   60: { value: 'hsl(258, 41%, 50%)' },
   80: { value: 'hsl(258, 41%, 30%)' },
   90: { value: 'hsl(258, 41%, 24%)' },
