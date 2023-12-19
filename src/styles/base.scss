@@ -89,6 +89,19 @@ h3 {
   }
 }
 
+kbd {
+  display: inline-block;
+  background: var(--amplify-colors-neutral-20);
+  padding: var(--amplify-space-xxxs) var(--amplify-space-xs);
+  line-height: 1;
+  margin: 0 1px;
+  border-radius: var(--amplify-radii-small);
+  border: 1px solid var(--amplify-colors-neutral-40);
+  box-shadow:
+    0 1px 0 hsl(0, 0%, 100%) inset,
+    0 2px 0 hsla(0, 0%, 0%, 0.2);
+}
+
 .main {
   & > h2,
   & > h3 {
