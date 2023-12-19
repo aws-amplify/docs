@@ -59,11 +59,12 @@ code:not([class]) {
 .pre {
   overflow: auto;
   display: flex;
-  margin: 0;
-  padding-block: var(--amplify-space-medium);
+  margin: var(--amplify-space-xs) 0;
+  padding-block: var(--amplify-space-xs);
   font-size: var(--amplify-font-sizes-medium);
   &:focus-visible {
-    outline: 2px solid var(--amplify-colors-neutral-10);
+    outline: none;
+    box-shadow: 0 0 0 2px var(--amplify-colors-white) inset;
   }
 }
 
