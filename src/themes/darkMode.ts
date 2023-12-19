@@ -101,6 +101,9 @@ export const darkModeOverride: ColorModeOverride = {
       }
     },
     components: {
+      button: {
+        color: { value: '{colors.white}' }
+      },
       message: {
         filled: {
           info: {
