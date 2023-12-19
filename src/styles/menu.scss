@@ -74,6 +74,16 @@
 
       &--current {
         color: var(--amplify-colors-brand-primary-80);
+        position: relative;
+        &:before {
+          position: absolute;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: 4px;
+          background-color: var(--amplify-colors-brand-primary-80);
+          content: '';
+        }
       }
     }
   }
