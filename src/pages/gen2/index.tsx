@@ -172,7 +172,8 @@ const Gen2Overview = () => {
           </Card>
         </Columns>
       </Flex>
-      <FeatureList heading="Develop" level={2}>
+      <Flex className="home-section">
+        <Heading level={2}>Develop</Heading>
         <video
           src="/videos/typed-api.mp4"
           style={{
@@ -185,7 +186,8 @@ const Gen2Overview = () => {
           muted
           loop
         />
-        <Columns columns={2}>
+
+        <Columns columns={2} as="ul">
           <FeatureItem
             linkText="TypeScript-first fullstack experience"
             href="/gen2/how-amplify-works/concepts/#build-fullstack-apps-with-typescript"
@@ -215,7 +217,7 @@ const Gen2Overview = () => {
             error states built in.
           </FeatureItem>
         </Columns>
-      </FeatureList>
+      </Flex>
 
       <Columns columns={2}>
         <ExportedImage
