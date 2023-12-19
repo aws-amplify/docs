@@ -67,11 +67,18 @@ In order to use Amplify JavaScript V6, you will need to make sure you are using 
     - DataStore
     - In-App Messaging
 
+    If you previously listed `@aws-amplify` namespaced packages for the above categories as dependencies in your `package.json`, you will need to remove them to avoid dependency duplication.
+
     If you would like to use Geo, Predictions, PubSub, or Interactions you will need to install those packages separately. (see [category-specific migration instructions](/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/#4-upgrade-category-usage))
 
   </Block>
+
   <Block name="React Native">
-    In v6, you will no longer need the `amazon-cognito-identity-js` package, so that dependency should be removed from your package.json.
+
+    In v6, the following packages have been replaced with `@aws-amplify/react-native` and should be removed from your `package.json`.
+
+    * `amazon-cognito-identity-js`
+    * `aws-amplify-react-native`
 
     Then upgrade/install the necessary dependencies using the following command:
 
