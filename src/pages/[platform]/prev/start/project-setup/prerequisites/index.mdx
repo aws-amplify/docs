@@ -140,19 +140,9 @@ import js0create from '/src/fragments/lib-v1/project-setup/js/getting-started.md
   }}
 />
 
-<InlineFilter filters={["swift", "android"]}>
+<InlineFilter filters={["swift", "android", "flutter"]}>
 
-## Additional options
-
-</InlineFilter>
-
-<InlineFilter filters={["swift"]}>
-
-## Use the Combine framework with Amplify
-
-import ios0combine from '/src/fragments/lib-v1/project-setup/ios/combine/combine.mdx';
-
-<Fragments fragments={{ swift: ios0combine }} />
+## Further customization
 
 </InlineFilter>
 
@@ -186,6 +176,36 @@ import android0rxjava from '/src/fragments/lib-v1/project-setup/android/rxjava/r
 
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+
+## Platform setup
+
+import flutter0platforms from '/src/fragments/lib-v1/project-setup/flutter/platform-setup/platform-setup.mdx';
+
+<Fragments fragments={{ flutter: flutter0platforms }} />
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+## Escape hatch
+
+import flutter0escapehatch from '/src/fragments/lib-v1/project-setup/flutter/escape-hatch/escape-hatch.mdx';
+
+<Fragments fragments={{ flutter: flutter0escapehatch }} />
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+## Use the Combine framework with Amplify
+
+import ios0combine from '/src/fragments/lib-v1/project-setup/ios/combine/combine.mdx';
+
+<Fragments fragments={{ swift: ios0combine }} />
+
+</InlineFilter>
+
 <InlineFilter filters={["swift", "android"]}>
 
 ## Use existing AWS resources
@@ -197,6 +217,5 @@ import ios0AWSresources from '/src/fragments/lib-v1/project-setup/ios/use-existi
 import android1AWSresources from '/src/fragments/lib-v1/project-setup/android/use-existing-resources/use-existing-resources.mdx';
 
 <Fragments fragments={{ android: android1AWSresources }} />
-
 
 </InlineFilter>
