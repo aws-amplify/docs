@@ -140,15 +140,49 @@ import js0create from '/src/fragments/lib-v1/project-setup/js/getting-started.md
   }}
 />
 
-<InlineFilter filters={["swift"]}>
+<InlineFilter filters={["swift", "android"]}>
 
 ## Additional options
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
 
 ## Use the Combine framework with Amplify
 
 import ios0combine from '/src/fragments/lib-v1/project-setup/ios/combine/combine.mdx';
 
 <Fragments fragments={{ swift: ios0combine }} />
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+## Async Programming Model
+
+import android0async from '/src/fragments/lib-v1/project-setup/android/async/async.mdx';
+
+<Fragments fragments={{ android: android0async }} />
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+## Kotlin Coroutines support
+
+import android0 from '/src/fragments/lib-v1/project-setup/android/coroutines/coroutines.mdx';
+
+<Fragments fragments={{ android: android0 }} />
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+## Using RxJava with Amplify
+
+import android0rxjava from '/src/fragments/lib-v1/project-setup/android/rxjava/rxjava.mdx';
+
+<Fragments fragments={{ android: android0rxjava }} />
 
 </InlineFilter>
 
