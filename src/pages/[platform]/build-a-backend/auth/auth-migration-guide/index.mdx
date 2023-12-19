@@ -1557,7 +1557,7 @@ NOTE: signIn no longer accepts validationData in v6
     ```
     import { verifyTOTPSetup } from 'aws-amplify/auth';
 
-    const handleVerifyTOTP = async ({ code }) => {
+    const handleVerifyTOTP = async ({ code, options }) => {
       await verifyTOTPSetup({ code , options });
     }
     ```
