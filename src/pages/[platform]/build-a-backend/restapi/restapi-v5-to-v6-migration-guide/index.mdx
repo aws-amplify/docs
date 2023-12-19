@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Migrate from v5 to v6',
-  description: 'Learn more about the migration steps to upgrade API-Rest APIs from Amplify JavaScript v5 to v6',
+  description: 'Learn more about the migration steps to upgrade API(REST) APIs from Amplify JavaScript v5 to v6',
   platforms: ['angular', 'javascript', 'nextjs', 'react', 'vue', 'react-native']
 };
 
@@ -19,30 +19,34 @@ export function getStaticProps(context) {
   };
 }
 
-Like many of our categories in v6, API (REST) has moved to functional API's in an effort to conform to emerging web standards and maintain a smaller bundle size and better tree-shakability.
+Like many of our categories in v6, API (REST) has moved to a functional approach in an effort to maintain a smaller bundle size and better tree-shaking. We are also using named params and strict typing for clarity and consistency.
 
-Across the board in v6 REST APIs, the `withCredentials` option controls whether or not cross-site Access-Control requests should be made using credentials (such as cookies, authorization headers, or TLS client certificates). It has no effect on same-origin requests. If set to `false` or left `undefined`, the cross-site request will not include credentials, and the response cookies from a different domain will be ignored.
+For v6 REST APIs, all API's use the same underlying input/output types, although `delete` omits the `body` option.
 
-## API.get
-
-In v5, if you set `response` to `true`, the full `response` object will be returned, including headers. If `response` is set to `false` or left `undefined`, the library returns the parsed JS object from the JSON response. In v6, the return object structure is always the same. (expand **Output** for details)
+> **Note:** Setting `response` to `true` in v5 will result in the full response object being returned, including headers. If `response` is set to `false` or left `undefined`, the library returns the parsed JS object from the JSON response. In v6, the return object structure is always the same. (expand **Output** for details)
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
+      **V5**
+
       ```
       apiName: string
       path: string
       init: { // actually { [key: string]: any }, but the values below are expected
-        headers: { [key: string]: any };
-        response: boolean;
-        queryStringParameters: { [key: string]: any }
+        headers?: { [key: string]: any };
+        body?: any;
+        response?: boolean;
+        queryStringParameters?: { [key: string]: any };
+        withCredentials?: boolean; // allow cross-site Access-Control requests with credentials
       }
       ```
     </div>
     <div>
+      **V6**
+
       ```
-      GetInput = {
+      input: {
         apiName: string;
         path: string;
         options?: {
@@ -84,7 +88,7 @@ In v5, if you set `response` to `true`, the full `response` object will be retur
       **V6**
 
       ```
-      GetOperation {
+      {
         response: Promise<RestApiResponse>;
         cancel: (abortMessage?: string) => void;
       };
@@ -104,9 +108,11 @@ In v5, if you set `response` to `true`, the full `response` object will be retur
   </Columns>
 </Accordion>
 
+## API.get
+
 <BlockSwitcher>
   <Block name="V6">
-    ```
+    ```ts
     import { get } from 'aws-amplify/api';
 
     const handleGet = async ({
