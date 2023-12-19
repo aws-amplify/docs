@@ -71,7 +71,7 @@ In order to use Amplify JavaScript V6, you will need to make sure you are using 
 
   </Block>
   <Block name="React Native">
-    In v6, you will no longer need the `amazon-cognito-identity-js`, so that dependency should be removed from your package.json.
+    In v6, you will no longer need the `amazon-cognito-identity-js` package, so that dependency should be removed from your package.json.
 
     Then upgrade/install the necessary dependencies using the following command:
 
@@ -103,9 +103,9 @@ In order to use Amplify JavaScript V6, you will need to make sure you are using 
       npm install aws-amplify @aws-amplify/adapter-nextjs
       ```
 
-      The `@aws-amplify/adapter-nextjs` provides adapter functions to enable use of Amplify APIs on the server side of your Next.js app for use cases such as Server Side Rendering (SSR) by using the App Router.
+      The `@aws-amplify/adapter-nextjs` package provides adapter functions to enable use of Amplify APIs on the server side of your Next.js app for use cases such as Server Side Rendering (SSR) with the App Router.
 
-      Note that v6 supports NextJS v13.5.0 through 14. We recommend upgrading if you are using a version less than 13.5.0.
+      Note that v6 supports NextJS v13.5.0 through 14. We recommend upgrading if you are using a version below  13.5.0.
 
       <Callout>NextJS v13.5.0 requires Node v16.14.0 or later and NextJS v14+ requires Node v18.17.0 or later</Callout>
 
@@ -282,11 +282,9 @@ As of v6 of Amplify, you will now import the functional API’s directly from th
     import { record, configureAutoTrack } from 'aws-amplify/analytics';
 
     record({
-      event: {
-        name: 'albumVisit',
-        attributes: { genre: '', artist: '' },
-        metrics: { minutesListened: 30 }
-      }
+      name: 'albumVisit',
+      attributes: { genre: '', artist: '' },
+      metrics: { minutesListened: 30 }
     });
 
     configureAutoTrack({
