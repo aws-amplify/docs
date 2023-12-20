@@ -73,10 +73,9 @@ In order to use Amplify JavaScript V6, you will need to make sure you are using 
 
   </Block>
   <Block name="React Native">
-    In v6, the following packages have been replaced with `@aws-amplify/react-native` and should be removed from your `package.json`.
+    <Callout>The `aws-amplify-react-native` package has been deprecated in v6.</Callout>
 
-    * `amazon-cognito-identity-js`
-    * `aws-amplify-react-native`
+    To upgrade React Native projects that do not utilize `aws-amplify-react-native`, remove `amazon-cognito-identity-js` from the project _package.json_ and install `@aws-amplify/react-native`.
 
     Then upgrade/install the necessary dependencies using the following command:
 
