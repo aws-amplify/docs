@@ -1196,12 +1196,11 @@ export const directory = {
           platforms: ['android']
         },
         {
-          route: '/[platform]/reference/flutter-api/',
+          path: 'src/pages/[platform]/reference/flutter-api/index.mdx',
           title: 'Reference',
           description: 'Reference',
           platforms: ['flutter']
         },
-
         {
           path: 'src/pages/[platform]/prev/index.mdx',
           children: [
