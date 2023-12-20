@@ -31,13 +31,15 @@ A campaign is a messaging initiative that engages a specific audience [segment](
    - **Secondary button**: Allows the addition of an extra button for additional functionality.
    - **Custom Data**: Allows the in-app message to pass additional data to the frontend app once it is triggered by an event.
 
-import reactnative0 from '/src/fragments/lib/in-app-messaging/create-campaign/react-native/callout.mdx';
+<InlineFilter filters={['react-native']}>
+   <Callout informational>
+      As React Native does not support SVG rendering out of the box, Amplify cannot render SVG images by default. For SVG image support with In-App Messaging a custom UI implementation is required.
+   </Callout>
+</InlineFilter>
 
-<Fragments fragments={{ 'react-native': reactnative0 }} />
+For this tutorial you can create a simple message as shown below. Customers in your application will see the same message once the event is triggered.
 
-   For this tutorial you can create a simple message as shown below. Customers in your application will see the same message once the event is triggered.
-
-   ![In-App-Messaging](/images/lib/in-app-messaging/in-app-message-details.png)
+![In-App-Messaging](/images/lib/in-app-messaging/in-app-message-details.png)
 
 8. Once you have finished customizing your in-app message, click on **Next**.
 9. Under _Trigger events_, add the name of the analytics trigger that will be sent from your frontend app. 

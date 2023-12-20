@@ -2,13 +2,29 @@
 
 You can subscribe to changes on your Models. This reacts dynamically to updates of data to the underlying Storage Engine, which could be the result of GraphQL Subscriptions as well as Queries or Mutations that run against the backing AppSync API if you are synchronizing with the cloud.
 
-import ios1 from "/src/fragments/lib-v1/datastore/ios/real-time/observe-snippet.mdx";
+import js0 from '/src/fragments/lib-v1/datastore/js/real-time/observe-snippet.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
 
-import android2 from "/src/fragments/lib-v1/datastore/android/real-time/observe-snippet.mdx";
+import reactnative0 from '/src/fragments/lib-v1/datastore/js/real-time/observe-snippet.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ 'react-native': reactnative0 }} />
+
+import ios1 from '/src/fragments/lib-v1/datastore/ios/real-time/observe-snippet.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />
+
+import android2 from '/src/fragments/lib-v1/datastore/android/real-time/observe-snippet.mdx';
+
+<Fragments fragments={{ android: android2 }} />
 
 import flutter3 from '/src/fragments/lib-v1/datastore/flutter/real-time/observe-snippet.mdx';
 
@@ -20,19 +36,35 @@ import flutter3 from '/src/fragments/lib-v1/datastore/flutter/real-time/observe-
 
 The first snapshot returned from `observeQuery` will contain the same results as calling `query` directly on your Model - a collection of all the locally-available records. Subsequent snapshots will be emitted as updates to the dataset are received in the local store.
 
-While data is syncing from the cloud, snapshots will contain all of the items synced so far and an `isSynced` status of `false`. When the sync process is complete, a snapshot will be emitted with all the records in the local store and an `isSynced` status of `true`. 
+While data is syncing from the cloud, snapshots will contain all of the items synced so far and an `isSynced` status of `false`. When the sync process is complete, a snapshot will be emitted with all the records in the local store and an `isSynced` status of `true`.
 
 In addition to typical real-time use cases, `observeQuery` can be used on app launch to show your customers an initial data set from the local store while new data is being synced from cloud.
 
-`observeQuery` also accepts the same [predicates](/lib-v1/datastore/data-access#predicates) and [sorting](/lib-v1/datastore/data-access#sort) options as `query`.
+`observeQuery` also accepts the same [predicates](/[platform]/prev/build-a-backend/more-features/datastore/manipulate-data/#predicates) and [sorting](/[platform]/prev/build-a-backend/more-features/datastore/manipulate-data/#sort) options as `query`.
 
-import ios2 from "/src/fragments/lib-v1/datastore/ios/real-time/observe-query-snippet.mdx";
+import js1 from '/src/fragments/lib-v1/datastore/js/real-time/observe-query-snippet.mdx';
 
-<Fragments fragments={{ios: ios2}} />
+<Fragments
+  fragments={{
+    javascript: js1,
+    angular: js1,
+    nextjs: js1,
+    react: js1,
+    vue: js1
+  }}
+/>
 
-import android3 from "/src/fragments/lib-v1/datastore/android/real-time/observe-query-snippet.mdx";
+import reactnative1 from '/src/fragments/lib-v1/datastore/js/real-time/observe-query-snippet.mdx';
 
-<Fragments fragments={{android: android3}} />
+<Fragments fragments={{ 'react-native': reactnative1 }} />
+
+import ios2 from '/src/fragments/lib-v1/datastore/ios/real-time/observe-query-snippet.mdx';
+
+<Fragments fragments={{ swift: ios2 }} />
+
+import android3 from '/src/fragments/lib-v1/datastore/android/real-time/observe-query-snippet.mdx';
+
+<Fragments fragments={{ android: android3 }} />
 
 import flutter4 from '/src/fragments/lib-v1/datastore/flutter/real-time/observe-query-snippet.mdx';
 

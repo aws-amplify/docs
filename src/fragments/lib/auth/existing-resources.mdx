@@ -1,18 +1,17 @@
-
 If you are using the Amplify CLI, an existing Amazon Cognito User Pool and Identity Pool can be used with the Amplify Libraries by running:
 
 ```bash
 amplify import auth
 ```
 
-For more details, see how to [Use an existing Cognito User Pool and Identity Pool](/cli/auth/import).
+For more details, see how to [Use an existing Cognito User Pool and Identity Pool](/[platform]/tools/cli/commands/#auth-import).
 
-import nativeCommon0 from "/src/fragments/lib/auth/native_common/existing_resources/common.mdx";
-import flutter0 from "/src/fragments/lib/auth/flutter/existing_resources/10_existingResources.mdx";
+import nativeCommon0 from '/src/fragments/lib/auth/native_common/existing_resources/common.mdx';
+import flutter0 from '/src/fragments/lib/auth/flutter/existing_resources/10_existingResources.mdx';
 
-<Fragments fragments={{ios: nativeCommon0}} />
-<Fragments fragments={{android: nativeCommon0}} />
-<Fragments fragments={{flutter: flutter0}} />
+<Fragments fragments={{ swift: nativeCommon0 }} />
+<Fragments fragments={{ android: nativeCommon0 }} />
+<Fragments fragments={{ flutter: flutter0 }} />
 
 - **CredentialsProvider**:
   - **Cognito Identity**:
@@ -29,7 +28,7 @@ import flutter0 from "/src/fragments/lib/auth/flutter/existing_resources/10_exis
     - **authenticationFlowType**: The authentication flow type, takes values `USER_SRP_AUTH`, `CUSTOM_AUTH`, and `USER_PASSWORD_AUTH`. Default is `USER_SRP_AUTH`.
     - **OAuth**: Hosted UI Configuration (only include this if using the Hosted UI flow)
       - **Scopes:** Scopes should match the scopes enables in Cognito under "App client settings"
-    
-Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/lib/project-setup/create-application#n2-install-amplify-libraries). 
+
+Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/[platform]/start/project-setup/create-application/#n2-install-amplify-libraries).
 
 If you are using a Cognito User Pool without a Cognito Identity Pool, you can omit the **CredentialsProvider** section in the configuration.

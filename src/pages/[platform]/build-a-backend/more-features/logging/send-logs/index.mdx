@@ -1,0 +1,29 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Send logs',
+  description: 'Use of Amplify Logger to write and send logs',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import commonRoute from '/src/fragments/lib/logging/common/sending_logs/sending_logs.mdx';
+
+<Fragments
+  fragments={{
+    android: commonRoute,
+    swift: commonRoute
+  }}
+/>

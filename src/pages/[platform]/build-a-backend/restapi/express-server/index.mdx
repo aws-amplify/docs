@@ -1,0 +1,149 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Deploy an express server',
+  description: 'How to deploy an Express server to AWS using AWS Amplify',
+  platforms: [
+    'javascript',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      showBreadcrumbs: false,
+      meta
+    }
+  };
+}
+
+In this guide you'll learn how to deploy an [Express](https://expressjs.com/) web server complete with routing.
+
+### Initializing the Amplify project
+
+Initialize a new Amplify project:
+
+```sh
+amplify init
+
+# Follow the steps to give the project a name, environment name, and set the default text editor.
+# Accept defaults for everything else and choose your AWS Profile.
+```
+
+### Creating the API and function
+
+Next, create the API and web server. To do so, you can use the Amplify `add` command:
+
+```sh
+amplify add api
+
+? Please select from one of the below mentioned services: REST
+? Provide a friendly name for your resource to be used as a label for this category in the project: myapi
+? Provide a path (e.g., /items): /items (or whatever path you would like)
+? Choose a Lambda source: Create a new Lambda function
+? Provide a friendly name for your resource to be used as a label for this category in the project: mylambda
+? Provide the AWS Lambda function name: mylambda
+? Choose the function runtime that you want to use: NodeJS
+? Choose the function template that you want to use: Serverless express function
+? Do you want to access other resources created in this project from your Lambda function? N
+? Do you want to invoke this function on a recurring schedule? N
+? Do you want to edit the local lambda function now? N
+? Restrict API access: N
+? Do you want to add another path? N
+```
+
+The CLI has created a few things for you:
+
+- API endpoint
+- Lambda function
+- Web server using [Serverless Express](https://github.com/awslabs/aws-serverless-express) in the function
+- Some boilerplate code for different methods on the `/items` route
+
+### Updating the function code
+
+Let's open the code for the server.
+
+Open **amplify/backend/function/mylambda/src/index.js**.
+
+In this file you will see the main function handler with the `event` and `context` being proxied to an express server located at `./app.js` (do not make any changes to this file):
+
+```js
+const awsServerlessExpress = require('aws-serverless-express');
+const app = require('./app');
+
+const server = awsServerlessExpress.createServer(app);
+
+exports.handler = (event, context) => {
+  console.log(`EVENT: ${JSON.stringify(event)}`);
+  awsServerlessExpress.proxy(server, event, context);
+};
+```
+
+Next, open **amplify/backend/function/mylambda/src/app.js**.
+
+Here, you will see the code for the express server and some boilerplate for the different HTTP methods for the route you declared.
+
+Find the route for `app.get('/items')` and update it to the following:
+
+```js
+// amplify/backend/function/mylambda/src/app.js
+app.get('/items', function (req, res) {
+  const items = ['hello', 'world'];
+  res.json({ success: 'get call succeed!', items });
+});
+```
+
+### Deploying the service
+
+To deploy the API and function, you can run the `push` command:
+
+```sh
+amplify push
+```
+
+import js0 from '/src/fragments/guides/api-rest/js/express-api-call.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
+
+import ios1 from '/src/fragments/guides/api-rest/ios/express-api-call.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />
+
+import android2 from '/src/fragments/guides/api-rest/android/express-api-call.mdx';
+
+<Fragments fragments={{ android: android2 }} />
+
+From here, you may want to add additional path. To do so, run the update command:
+
+```sh
+amplify update api
+```
+
+From there, you can add, update, or remove paths. To learn more about interacting with REST APIs using Amplify, check out the complete documentation [here](/[platform]/build-a-backend/restapi/set-up-rest-api/).
+
+The API endpoint is located in the `aws-exports.js` folder.
+
+You can also interact directly with the API using this URL and the specified path:
+
+```sh
+curl https://<api-id>.execute-api.<api-region>.amazonaws.com/<your-env-name>/items
+```

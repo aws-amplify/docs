@@ -1,0 +1,29 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Change log levels',
+  description: 'Change log levels by categories and users',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import commonRoute from '/src/fragments/lib/logging/common/change_log_levels/change_log_levels.mdx';
+
+<Fragments
+  fragments={{
+    android: commonRoute,
+    swift: commonRoute
+  }}
+/>

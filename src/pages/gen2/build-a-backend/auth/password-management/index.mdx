@@ -1,0 +1,213 @@
+export const meta = {
+  title: 'Set up password change and recovery',
+  description:
+    'Learn how to set up password change and recovery for your users.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify Auth provides a secure way for your users to change their password or recover a forgotten password. 
+
+If you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
+
+## Understand password default settings
+
+By default, your users can retrieve access to their accounts if they forgot their password by using either their phone or email. The following are the default account recovery methods used when either `phone` or `email` are used as login options.
+
+| Login option        | User account verification channel |
+| ------------------- | --------------------------------- |
+| `phone`             | Phone Number                      |
+| `email`             | Email                             |
+| `email` and `phone` | Email                             |
+
+
+### Override the default user account verification channel
+
+You can always change the channel used by your authentication resources by overriding the following setting.
+
+```diff title="amplify/auth/resource.ts"
+// amplify/auth/resource.ts
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  },
++ accountRecovery: 'EMAIL_ONLY'
+});
+```
+
+## Reset Password
+
+To reset a user's password, use the `resetPassword` API which will send a reset code to the destination (e.g. email or SMS) based on the user's settings.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { resetPassword, type ResetPasswordOutput } from 'aws-amplify/auth';
+
+async function handleResetPassword(username: string) {
+  try {
+    const output = await resetPassword({ username });
+    handleResetPasswordNextSteps(output);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function handleResetPasswordNextSteps(output: ResetPasswordOutput) {
+  const { nextStep } = output;
+  switch (nextStep.resetPasswordStep) {
+    case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
+      const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+      console.log(
+        `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
+      );
+      // Collect the confirmation code from the user and pass to confirmResetPassword.
+      break;
+    case 'DONE':
+      console.log('Successfully reset password.');
+      break;
+  }
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { resetPassword } from 'aws-amplify/auth';
+
+async function handleResetPassword(username) {
+  try {
+    const output = await resetPassword({ username });
+    handleResetPasswordNextSteps(output);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function handleResetPasswordNextSteps(output) {
+  const { nextStep } = output;
+  switch (nextStep.resetPasswordStep) {
+    case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
+      const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+      console.log(
+        `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
+      );
+      // Collect the confirmation code from the user and pass to confirmResetPassword.
+      break;
+    case 'DONE':
+      console.log('Successfully reset password.');
+      break;
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+To complete the password reset process, invoke the `confirmResetPassword` API with the code your user received and the new password they want to set.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  confirmResetPassword,
+  type ConfirmResetPasswordInput
+} from 'aws-amplify/auth';
+
+async function handleConfirmResetPassword({
+  username,
+  confirmationCode,
+  newPassword
+}: ConfirmResetPasswordInput) {
+  try {
+    await confirmResetPassword({ username, confirmationCode, newPassword });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { confirmResetPassword } from 'aws-amplify/auth';
+
+async function handleConfirmResetPassword({
+  username,
+  confirmationCode,
+  newPassword
+}) {
+  try {
+    await confirmResetPassword({ username, confirmationCode, newPassword });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+
+## Update password
+
+You can update a signed in user's password using the `updatePassword` API.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { updatePassword, type UpdatePasswordInput } from 'aws-amplify/auth';
+
+async function handleUpdatePassword({
+  oldPassword,
+  newPassword
+}: UpdatePasswordInput) {
+  try {
+    await updatePassword({ oldPassword, newPassword });
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { updatePassword } from 'aws-amplify/auth';
+
+async function handleUpdatePassword(oldPassword, newPassword) {
+  try {
+    await updatePassword({ oldPassword, newPassword });
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+## Conclusion
+
+Congratulations! You finished the **Set up user password change and recovery** guide. In this guide, you learned how to enable password changes by your users and help them recover their account and replace their password using a registered email or phone number.
+
+### Next steps
+
+Now that you enabled password management you may also want to add some additional features. We recommend you learn more about:
+
+- [Add social provider sign-in](/gen2/build-a-backend/auth/add-social-provider/)
+- [Multi-factor authentication](/gen2/build-a-backend/auth/manage-mfa/)

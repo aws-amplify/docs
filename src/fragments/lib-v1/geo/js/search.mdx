@@ -1,0 +1,313 @@
+<Callout>
+
+**Note:** Please reach out to us for any feedback and/or issues [here](https://github.com/aws-amplify/amplify-js/issues)
+
+</Callout>
+
+## Add location search functionality on a map
+
+First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Configure Location Search](/[platform]/build-a-backend/more-features/geo/configure-location-search) or [Use existing Amazon Location Service resources](/[platform]/prev/build-a-backend/more-features/geo/existing-resources/) and you have already setup [displaying a map](/[platform]/prev/build-a-backend/more-features/geo/maps) in your application.
+
+<Callout>
+
+**Note:** For React, you can use the [Amplify UI Location Search component](https://ui.docs.amplify.aws/react/connected-components/geo#location-search) to generate and display the search results.
+
+</Callout>
+
+To add a location search UI component to your map, you can use the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) library. `maplibre-gl-js-amplify` package makes it easy to integrate `maplibre-gl-geocoder` with Amplify Geo by exporting a utility function `createAmplifyGeocoder()` that returns an instance of `maplibre-gl-geocoder` with some pre-defined settings and supports all the [options](https://github.com/maplibre/maplibre-gl-geocoder/blob/main/API.md#parameters) for customizing the UI component
+
+Install the necessary dependencies with the following command:
+
+```bash
+npm install @maplibre/maplibre-gl-geocoder maplibre-gl@1 maplibre-gl-js-amplify
+```
+
+> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.1.0` or above is installed.
+
+First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](/[platform]/prev/build-a-backend/more-features/geo/maps/).
+
+Then, use `createAmplifyGeocoder()` to get a new instance of `MaplibreGeocoder` and add the location search UI component to the map.
+
+> **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
+
+```javascript
+import { createMap, createAmplifyGeocoder } from 'maplibre-gl-js-amplify';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import '@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css';
+import 'maplibre-gl-js-amplify/dist/public/amplify-geocoder.css'; // Optional CSS for Amplify recommended styling
+
+async function initializeMap() {
+  const el = document.createElement('div');
+  el.setAttribute('id', 'map');
+  document.body.appendChild(el);
+
+  const map = await createMap({
+    container: 'map',
+    center: [-123.1187, 49.2819], // [Longitude, Latitude]
+    zoom: 11
+  });
+
+  map.addControl(createAmplifyGeocoder());
+}
+
+initializeMap();
+```
+
+![A search box on the top right corner of a map](/images/geocoder-search-box-map.png)
+
+### Display the location search box outside the map
+
+You can also use [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) to display the location search UI component anywhere in your application, even outside the map.
+
+To do so, extract the html element using function `onAdd()` and attach it anywhere in your DOM instead of adding it via the map's `addControl()` function.
+
+```javascript
+const geocoder = createAmplifyGeocoder();
+document.getElementById('search').appendChild(geocoder.onAdd());
+```
+
+![A search box](/images/geocoder-search-box.png)
+
+### Customize Search Icons
+
+You can customize the search icons used by the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) to use any image of your choosing. [MapLibre markers](https://maplibre.org/maplibre-gl-js-docs/api/markers/) require an [HTMLElement](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) when passing in custom images.
+
+The following example puts an existing SVG icon into an HTMLElement before being passed to `createAmplifyGeocoder` which creates a [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder).
+
+```javascript
+import myIcon from './myIcon.svg'; // relative path to your custom icon
+
+const icon = new Image(100, 100);
+icon.src = myIcon;
+
+const geocoder = createAmplifyGeocoder({
+  showResultMarkers: { element: icon }
+});
+map.addControl(geocoder);
+```
+
+![A search box](/images/geocoder-custom-images.png)
+
+## Location-based search capabilities
+
+Amplify Geo enables you to search for locations by text, addresses, or geo-coordinates.
+
+### Search by text, address, business name, city, and more
+
+The `Geo.searchByText()` API enables you to search for places or points of interest by free-form text, such as an address, name, city, or region.
+
+```javascript
+import { Geo } from 'aws-amplify';
+
+Geo.searchByText('Amazon Go Store');
+```
+
+Customize your search results further by providing:
+
+- `countries` - to limit the search results to given countries (specified in [ISO Alpha-3 country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3))
+- `maxResults` - to limit the maximum result set
+- `biasPosition` - to act as the search origination location
+- `searchAreaConstraints` - to limit the area to search inside of
+- `searchIndexName` - to use a different Location Service search index resource than the default
+
+  **Note:** Providing both `biasPosition` and `searchAreaConstraints` parameters simultaneously returns an error.
+
+```javascript
+const searchOptionsWithBiasPosition = {
+  countries: string[], // Alpha-3 country codes
+  maxResults: number, // 50 is the max and the default
+  biasPosition: [
+    longitude // number
+    latitude // number,
+  ], // Coordinates point to act as the center of the search
+  searchIndexName: string, // the string name of the search index
+}
+
+const searchOptionsWithSearchAreaConstraints = {
+  countries: ["USA"], // Alpha-3 country codes
+  maxResults: 25, // 50 is the max and the default
+  searchAreaConstraints: [SWLongitude, SWLatitude, NELongitude, NELatitude], // Bounding box to search inside of
+  searchIndexName: string, // the string name of the search index
+}
+
+Geo.searchByText('Amazon Go Stores', searchOptionsWithBiasPosition)
+```
+
+This returns places and their coordinates that match the search constraints. A place can also have additional metadata as shown in the example below.
+
+```javascript
+// returns
+[
+  {
+    geometry: {
+      point:
+        [
+          -122.34014899999994, // Longitude point
+          47.61609000000004 // Latitude point
+        ],
+    },
+    addressNumber: "2131" // optional string for the address number alone
+    country: "USA" // optional Alpha-3 country code
+    label: "Amazon Go, 2131 7th Ave, Seattle, WA, 98121, USA" // Optional string
+    municipality: "Seattle" // Optional string
+    neighborhood: undefined // Optional string
+    postalCode: "98121" // Optional string
+    region: "Washington" // Optional string
+    street: "7th Ave" // Optional string
+    subRegion: "King County" // Optional string
+  }
+]
+```
+
+### Search by coordinates
+
+The `Geo.searchByCoordinates()` API is a reverse Geocoder that takes a coordinate point and returns information about what it finds at that point on the map. The returned object is the same shape as `searchByText()` API above.
+
+```javascript
+import { Geo } from 'aws-amplify';
+
+Geo.searchByCoordinates([longitudePoint, latitudePoint]);
+```
+
+You can optionally limit your result set with the `maxResults` parameter or override the default search index with the `searchIndexName` parameter.
+
+```javascript
+const searchOptionsWithBiasPosition = {
+  maxResults: number, // 50 is the max and the default
+  searchIndexName: string // the string name of the search index
+};
+
+Geo.searchByCoordinates(
+  [-122.3399573, 47.616179],
+  searchOptionsWithBiasPosition
+);
+```
+
+### Search for suggestions
+
+The `Geo.searchForSuggestions()` API enables you to search for suggestions by free-form text, such as a place, address, city, or region.
+
+```javascript
+import { Geo } from 'aws-amplify';
+
+Geo.searchForSuggestions('Amazon Go Store');
+```
+
+Similar to `Geo.searchByText()` API, customize your search results further by providing:
+
+- `countries` - to limit the search results to given countries (specified in [ISO Alpha-3 country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3))
+- `maxResults` - to limit the maximum result set
+- `biasPosition` - to act as the search origination location
+- `searchAreaConstraints` - to limit the area to search inside of
+- `searchIndexName` - to use a different Location Service search index resource than the default
+
+  **Note:** Providing both `biasPosition` and `searchAreaConstraints` parameters simultaneously returns an error.
+
+```javascript
+const searchOptionsWithBiasPosition = {
+  countries: string[], // Alpha-3 country codes
+  maxResults: number, // 50 is the max and the default
+  biasPosition: [
+    longitude // number
+    latitude // number,
+  ], // Coordinates point to act as the center of the search
+  searchIndexName: string, // the string name of the search index
+}
+
+const searchOptionsWithSearchAreaConstraints = {
+  countries: ["USA"], // Alpha-3 country codes
+  maxResults: 25, // 50 is the max and the default
+  searchAreaConstraints: [SWLongitude, SWLatitude, NELongitude, NELatitude], // Bounding box to search inside of
+  searchIndexName: string, // the string name of the search index
+}
+
+Geo.searchForSuggestions('Amazon Go', searchOptionsWithBiasPosition)
+```
+
+This returns a list of suggestions (places and their respective `placeId` if available) that match the search constraints.
+
+```javascript
+// returns
+[
+  {
+    text: 'Amazon Go, 2131 7th Ave, Seattle, WA, 98121, USA',
+    placeId: '8fd9d4c6-2527-4190-a7df-0dae352c9dc6'
+  },
+  {
+    text: 'Amazon Go, 1906 Terry Ave, Seattle, WA, 98101, USA',
+    placeId: '5d04d071-dea2-4d86-bfce-86bd6a8f4787'
+  }
+];
+```
+
+In cases where `placeId` is not available on the list of suggestions as below, use `searchByText` to search for the selected place by text.
+
+```javascript
+Geo.searchForSuggestions('Amazon', { MaxResults: 5 })[
+  // returns
+  ({
+    text: 'Amazon Go'
+  },
+  {
+    text: 'Amazon 4-star'
+  })
+];
+
+Geo.searchByText('Amazon Go', { MaxResults: 5 });
+```
+
+This returns places and their coordinates that match the search text.
+
+### Search by PlaceId
+
+The `Geo.searchByPlaceId()` API enables you to search for a place by a `placeId`, which is a unique opaque token for a place returned by the provider.
+
+<Callout>
+
+**Note:** Upgrade to the latest Amplify CLI version (greater than version 10.4) and do an `amplify push` to update your IAM policies to allow for `getPlace` API.
+
+</Callout>
+
+```javascript
+import { Geo } from 'aws-amplify';
+
+Geo.searchByPlaceId(placeId);
+```
+
+You can optionally override the default search index with the `searchIndexName` parameter.
+
+```javascript
+const searchByPlaceIdOptions = {
+  searchIndexName: string // the string name of the search index
+};
+
+Geo.searchByPlaceId(
+  '8fd9d4c6-2527-4190-a7df-0dae352c9dc6',
+  searchByPlaceIdOptions
+);
+```
+
+This returns a place with metadata as shown in the example below.
+
+```javascript
+// returns
+{
+  geometry: {
+    point:
+      [
+        -122.34014899999994, // Longitude point
+        47.61609000000004 // Latitude point
+      ],
+  },
+  addressNumber: "2131" // optional string for the address number alone
+  country: "USA" // optional Alpha-3 country code
+  label: "Amazon Go, 2131 7th Ave, Seattle, WA, 98121, USA" // Optional string
+  municipality: "Seattle" // Optional string
+  neighborhood: undefined // Optional string
+  postalCode: "98121" // Optional string
+  region: "Washington" // Optional string
+  street: "7th Ave" // Optional string
+  subRegion: "King County" // Optional string
+}
+```

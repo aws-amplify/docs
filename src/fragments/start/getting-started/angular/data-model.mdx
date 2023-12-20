@@ -1,5 +1,3 @@
-### Model the data with GraphQL transform
-
 Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the following command from the root of your application directory:
 
 ```bash
@@ -9,30 +7,24 @@ amplify add api
 Accept the **default values** which are highlighted below:
 
 ```console
-? Select from one of the below mentioned services: 
-# GraphQL
-? Here is the GraphQL API that we will create. Select a setting to edit 
-or continue 
-# Continue
-? Choose a schema template:
-# Single object with fields (e.g., “Todo” with
- ID, name, description)
-✔ Do you want to edit the schema now? (Y/n) 
-# yes
+? Select from one of the below mentioned services: GraphQL
+? Here is the GraphQL API that we will create. Select a setting to edit or continue: Continue
+? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
+? Do you want to edit the schema now? (Y/n): yes
 ```
 
 The generated schema is for a Todo app. Replace the GraphQL schema at `amplify/backend/api/RestaurantAPI/schema.graphql` with the following:
 
 ```graphql
-type Restaurant @model  @auth(rules: [{ allow: public }]){
+type Restaurant @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
   description: String!
   city: String!
-} 
+}
 ```
 
-The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.  In the example schema above, the `@model` directive is part of Amplify's [GraphQL transformer](/cli/graphql/data-modeling) functionality and the `@auth` directive determines what [authorization rules](/cli/graphql/authorization-rules/) to apply. 
+The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more. In the example schema above, the `@model` directive is part of Amplify's [GraphQL transformer](/[platform]/build-a-backend/graphqlapi/data-modeling/) functionality and the `@auth` directive determines what [authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/) to apply.
 
 A type decorated with the `@model` directive will scaffold out the database table for the type (Restaurant table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 
@@ -46,14 +38,18 @@ Create required backend resources for your configured api with the following com
 amplify push
 
 ? Are you sure you want to continue? Y
-? Do you want to update code for your updated GraphQL API Yes
-? Do you want to generate GraphQL statements (queries, mutations and subscription) based on your schema types?
-This will overwrite your current graphql queries, mutations and subscriptions: Yes
+
+? Do you want to generate code for your newly created GraphQL API: Yes
+? Choose the code generation language target: typescript
+? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.ts
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
+? Enter the file name for the generated code: src/API.ts
 ```
 
 ### Code generation
 
-Once the deployment is complete, the CLI will create a new directory in `src/graphql` with all of the GraphQL operations you will need for your API. The CLI also created an `API.service.ts` file in the `app` directory that you will be using shortly.
+Once the deployment is complete, the CLI will create a new directory in `src/graphql` with all of the GraphQL operations you will need for your API. The CLI also created an `API.ts` file in the `src` directory that you will be using shortly.
 
 Next, run the following command to check Amplify's status:
 
@@ -87,31 +83,23 @@ Open `src/main.ts` and add the following code to configure the Angular project w
 
 ```typescript
 import { Amplify } from 'aws-amplify';
-import aws_exports from './aws-exports';
-Amplify.configure(aws_exports);
+import amplifyconfig from './amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
 ```
 
-<Callout warning={true}>
-
-  On Angular 12+, Typescript [strict mode](https://www.typescriptlang.org/tsconfig#strict) is enabled by default, which will introduce some type errors when you run the
-  application. Please see the TypeScript strict mode [troubleshooting guide](/lib/troubleshooting/strict-mode/q/platform/js/) to resolve them.
-
-</Callout>
-
-Update `tsconfig.app.json` to include the "node" compiler option in _types_:
+In order to import `amplifyconfiguration.json` files in Typescript, you may need to modify your tsconfig.json and enable `resolveJsonModule` and `allowSyntheticDefaultImports` in the case that `strict` mode is enabled.
 
 ```json
-"compilerOptions": {
-  "types" : ["node"]
+{
+  ...
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    ...
+  }
 }
 ```
-
-<Callout>
-
-  Depending on your TypeScript version you may need to rename `aws-exports.js`
-  to `aws-exports.ts` prior to importing, or enable the `allowJs` [compiler option](https://www.typescriptlang.org/docs/handbook/compiler-options.html) in your tsconfig.
-  
-</Callout>
 
 First, enable the Angular forms modules in `src/app/app.module.ts`:
 
@@ -155,12 +143,15 @@ Open `src/app/app.component.html`, and replace the default content with the Angu
 <app-restaurants></app-restaurants>
 ```
 
-In your `src/app/restaurants/restaurants.component.ts` file, add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
+In your `src/app/restaurants/restaurants.component.ts` file, add data to your database with a mutation by using the `API.ts` file which was generated when you ran `amplify add api`:
 
 ```typescript
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { APIService, Restaurant } from '../API.service';
+
+import { generateClient } from 'aws-amplify/api';
+import { Restaurant, ListRestaurantsQuery } from '../API';
+import * as mutations from '../../graphql/mutations';
 
 @Component({
   selector: 'app-restaurants',
@@ -169,25 +160,31 @@ import { APIService, Restaurant } from '../API.service';
 })
 export class RestaurantsComponent {
   public createForm: FormGroup;
+  public client: ReturnType<typeof generateClient>;
 
-  constructor(private api: APIService, private fb: FormBuilder) {
+  constructor(private fb: FormBuilder) {
     this.createForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       city: ['', Validators.required]
     });
+
+    this.client = generateClient();
   }
 
-  public onCreate(restaurant: Restaurant) {
-    this.api
-      .CreateRestaurant(restaurant)
-      .then(() => {
-        console.log('item created!');
-        this.createForm.reset();
-      })
-      .catch((e) => {
-        console.log('error creating restaurant...', e);
+  public async onCreate(restaurant: Restaurant) {
+    try {
+      const response = await this.client.graphql({
+        query: mutations.createRestaurant,
+        variables: {
+          input: restaurant
+        }
       });
+      console.log('item created!', response);
+      this.createForm.reset();
+    } catch (e) {
+      console.log('error creating restaurant...', e);
+    }
   }
 }
 ```
@@ -223,7 +220,11 @@ Next, update your `RestaurantsComponent` class so that it will list all restaura
 ```typescript
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { APIService, Restaurant } from '../API.service';
+
+import { generateClient } from 'aws-amplify/api';
+import { ListRestaurantsQuery, Restaurant } from '../API';
+import * as mutations from '../../graphql/mutations';
+import * as queries from '../../graphql/queries';
 
 @Component({
   selector: 'app-restaurants',
@@ -232,35 +233,46 @@ import { APIService, Restaurant } from '../API.service';
 })
 export class RestaurantsComponent implements OnInit {
   public createForm: FormGroup;
+  public client: ReturnType<typeof generateClient>;
 
   /* declare restaurants variable */
-  public restaurants: Array<Restaurant> = [];
+  public restaurants: ListRestaurantsQuery['listRestaurants'];
 
-  constructor(private api: APIService, private fb: FormBuilder) {
+  constructor(private fb: FormBuilder) {
     this.createForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       city: ['', Validators.required]
     });
+
+    this.client = generateClient();
   }
 
   async ngOnInit() {
     /* fetch restaurants when app loads */
-    this.api.ListRestaurants().then((event) => {
-      this.restaurants = event.items as Restaurant[];
-    });
+    try {
+      const response = await this.client.graphql({
+        query: queries.listTodos
+      });
+      this.restaurants = response.data.listTodos;
+    } catch (e) {
+      console.log('error fetching restaurants', e);
+    }
   }
 
-  public onCreate(restaurant: Restaurant) {
-    this.api
-      .CreateRestaurant(restaurant)
-      .then((event) => {
-        console.log('item created!');
-        this.createForm.reset();
-      })
-      .catch((e) => {
-        console.log('error creating restaurant...', e);
+  public async onCreate(restaurant: Restaurant) {
+    try {
+      const response = await this.client.graphql({
+        query: mutations.createRestaurant,
+        variables: {
+          input: restaurant
+        }
       });
+      console.log('item created!', response);
+      this.createForm.reset();
+    } catch (e) {
+      console.log('error creating restaurant...', e);
+    }
   }
 }
 ```
@@ -268,7 +280,7 @@ export class RestaurantsComponent implements OnInit {
 Add the following to your `src/app/restaurants/restaurants.component.html` to display any of the restaurants you have added:
 
 ```html
-<div *ngFor="let restaurant of restaurants">
+<div *ngFor="let restaurant of restaurants?.items">
   <div>{{ restaurant?.city }}</div>
   <div>{{ restaurant?.name }}</div>
   <div>{{ restaurant?.description }}</div>
@@ -278,26 +290,32 @@ Add the following to your `src/app/restaurants/restaurants.component.html` to di
 To subscribe to realtime data, declare a subscription class variable and update `ngOnInit` in `src/app/restaurants.component.ts`. When the app starts, this code will set up a subscription. The subscription will update the `restaurants` array when new events are received (when a new restaurant is created):
 
 ```typescript
-/** Subscription type will be inferred from this library */
-import { ZenObservable } from 'zen-observable-ts';
-// ...
+...
 
-/** Declare subscription variable */
-private subscription: ZenObservable.Subscription | null = null;
-// ...
+private subscription: any = null;
 
 async ngOnInit() {
-  this.api.ListRestaurants().then(event => {
-    this.restaurants = event.items as Restaurant[];
-  });
+
+  ...
+
+  try {
+    const res = await this.client.graphql({
+      query: queries.listRestaurants
+    })
+    console.log(res)
+
+    this.restaurants = res.data.listRestaurants;
+  } catch(e) {
+    console.log(e)
+  };
 
   /* subscribe to new restaurants being created */
-  this.subscription = this.api.OnCreateRestaurantListener().subscribe(
-    (event: any) => {
-      const newRestaurant = event.value.data.onCreateRestaurant;
-      this.restaurants = [newRestaurant, ...this.restaurants];
-    }
-  );
+  this.subscription = this.client.graphql({
+    query: subs.onCreateRestaurant
+  }).subscribe((event: any) => {
+      const newRestaurant = event.data.onCreateRestaurant;
+      this.restaurants.items = [newRestaurant, ...this.restaurants.items];
+  });
 }
 ```
 
@@ -306,24 +324,32 @@ Finally, unsubscribe from the subscription when the component is destroyed. Impo
 ```typescript
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
+...
+
 export class AppComponent implements OnInit, OnDestroy {
-  // ...
+
+  ...
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
     this.subscription = null;
   }
+}
 ```
-The final `restaurants.component.ts` file should look like the following: 
+
+The final `restaurants.component.ts` file should look like the following:
 
 ```typescript
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { APIService, Restaurant } from '../API.service';
 
-/** Subscription type will be inferred from this library */
-import { ZenObservable } from 'zen-observable-ts';
+import { generateClient } from 'aws-amplify/api';
+import { Restaurant, ListRestaurantsQuery } from '../../API';
+import * as queries from '../../graphql/queries';
+import * as mutations from '../../graphql/mutations';
+import * as subscriptions from '../../graphql/subscriptions';
 
 @Component({
   selector: 'app-restaurants',
@@ -332,32 +358,40 @@ import { ZenObservable } from 'zen-observable-ts';
 })
 export class RestaurantsComponent implements OnInit, OnDestroy {
   public createForm: FormGroup;
+  public client: ReturnType<typeof generateClient>;
+  public restaurants: ListRestaurantsQuery['listRestaurants'];
+  private subscription: any = null;
 
-  /* declare restaurants variable */
-  public restaurants: Array<Restaurant> = [];
-  /** Declare subscription variable */
-  private subscription: ZenObservable.Subscription | null = null; 
-
-  constructor(private api: APIService, private fb: FormBuilder) {
+  constructor(private fb: FormBuilder) {
     this.createForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       city: ['', Validators.required]
     });
+
+    this.client = generateClient();
   }
 
   async ngOnInit() {
-    this.api.ListRestaurants().then(event => {
-      this.restaurants = event.items as Restaurant[];
-    });
-  
-    /* subscribe to new restaurants being created */
-    this.subscription = this.api.OnCreateRestaurantListener().subscribe(
-      (event: any) => {
-        const newRestaurant = event.value.data.onCreateRestaurant;
-        this.restaurants = [newRestaurant, ...this.restaurants];
-      }
-    );
+    try {
+      const res = await this.client.graphql({
+        query: queries.listRestaurants
+      });
+      console.log(res);
+      this.restaurants = res.data.listRestaurants;
+    } catch (e) {
+      console.log(e);
+    }
+
+    this.subscription = this.client
+      .graphql({
+        query: subs.onCreateRestaurant
+      })
+      .subscribe((event: any) => {
+        console.log(event);
+        const newRestaurant = event.data.onCreateRestaurant;
+        this.restaurants.items = [newRestaurant, ...this.restaurants.items];
+      });
   }
 
   ngOnDestroy() {
@@ -367,24 +401,27 @@ export class RestaurantsComponent implements OnInit, OnDestroy {
     this.subscription = null;
   }
 
-  public onCreate(restaurant: Restaurant) {
-    this.api
-      .CreateRestaurant(restaurant)
-      .then((event) => {
-        console.log('item created!');
-        this.createForm.reset();
-      })
-      .catch((e) => {
-        console.log('error creating restaurant...', e);
+  public async onCreate(restaurant: Restaurant) {
+    try {
+      const res = await this.client.graphql({
+        query: mutations.createRestaurant,
+        variables: {
+          input: restaurant
+        }
       });
+      console.log('item created!', res);
+      this.createForm.reset();
+    } catch (e) {
+      console.log('error creating restaurant...', e);
+    }
   }
 }
 ```
 
 Next, run the app:
 
-```sh
+```bash
 npm start
 ```
 
-Now, open the app in 2 browser windows (both at <http://localhost:4200/>) so that you have your app running side by side. When creating a new item in one window, you should see it come through in the other window in real-time.
+Now, open the app in 2 browser windows (both at http://localhost:4200) so that you have your app running side by side. When creating a new item in one window, you should see it come through in the other window in real-time.

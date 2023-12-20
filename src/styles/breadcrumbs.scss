@@ -1,0 +1,10 @@
+.breadcrumb__container {
+  margin-left: calc(
+    var(--amplify-components-breadcrumbs-link-padding-inline) * -1
+  );
+  margin-bottom: var(--amplify-space-large);
+}
+
+.breadcrumb__item {
+  padding-block-start: var(--amplify-space-xxxs);
+}

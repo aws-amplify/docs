@@ -1,0 +1,47 @@
+.spaceship-inner {
+  container-type: inline-size;
+}
+
+.spaceship {
+  width: 400px;
+  position: absolute;
+  top: 200px;
+  right: 0;
+  display: block;
+  opacity: 0;
+  &--with-banner {
+    top: 340px;
+  }
+}
+
+@container (min-width: 947px) {
+  .spaceship {
+    opacity: 1;
+    width: 400px;
+    top: 160px;
+    &--with-banner {
+      top: 260px;
+    }
+  }
+}
+
+@container (min-width: 1040px) {
+  .spaceship {
+    width: 500px;
+    top: 90px;
+
+    &--with-banner {
+      top: 240px;
+    }
+  }
+}
+
+@media (min-width: 800px) {
+  .spaceship-wrapper {
+    padding-inline: calc(var(--layout-sidebar-width) + var(--amplify-space-xxl))
+      var(--amplify-space-xxl);
+  }
+  .spaceship {
+    right: calc(var(--amplify-space-xxl) * -1);
+  }
+}

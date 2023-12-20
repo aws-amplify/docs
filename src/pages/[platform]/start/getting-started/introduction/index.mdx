@@ -1,0 +1,106 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
+
+export const meta = {
+  title: 'Introduction',
+  description: 'Getting started with Amplify',
+  disableTOC: 'true',
+  platforms: [
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'swift',
+    'react',
+    'react-native',
+    'vue',
+    'android'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+AWS Amplify is a complete solution that lets frontend web and mobile developers easily build, connect, and host fullstack applications on AWS, with the flexibility to leverage the breadth of AWS services as your use cases evolve. Amplify provides the following products to build fullstack iOS, Android, Flutter, Web, and React Native apps. These products are all designed to work independently:
+
+- **Amplify [CLI](/[platform]/tools/cli)** - Configure all the services needed to power your backend through a simple command line interface.
+- **Amplify [Libraries](/[platform]/tools/libraries/)** - Client libraries to build common use cases such as Auth, data, and File Storage by connecting your frontend app to your backend resources.
+- **Amplify [Studio](/[platform]/tools/console)** - Build your fullstack web and mobile app using a simple and intuitive visual development environment.
+- **Amplify [UI Components](https://ui.docs.amplify.aws/)** - UI libraries to build your frontend app built for React, React Native, Angular, Vue and Flutter.
+- **Amplify [Hosting](https://aws.amazon.com/amplify/hosting/)** is an AWS service that provides a git-based workflow for continuous deployment & hosting of fullstack web apps.
+
+import ios0 from '/src/fragments/start/getting-started/ios/build.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android1 from '/src/fragments/start/getting-started/android/build.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import flutter2 from '/src/fragments/start/getting-started/flutter/build.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />
+
+import js3 from '/src/fragments/start/getting-started/vanillajs/build.mdx';
+
+<Fragments fragments={{ javascript: js3 }} />
+
+import next4 from '/src/fragments/start/getting-started/next/build.mdx';
+
+<Fragments fragments={{ nextjs: next4 }} />
+
+import react5 from '/src/fragments/start/getting-started/react/build.mdx';
+
+<Fragments fragments={{ react: react5 }} />
+
+import react_native6 from '/src/fragments/start/getting-started/reactnative/build.mdx';
+
+<Fragments fragments={{ 'react-native': react_native6 }} />
+
+import angular7 from '/src/fragments/start/getting-started/angular/build.mdx';
+
+<Fragments fragments={{ angular: angular7 }} />
+
+import vue9 from '/src/fragments/start/getting-started/vue/build.mdx';
+
+<Fragments fragments={{ vue: vue9 }} />
+
+import ios10 from '/src/fragments/start/getting-started/ios/build-footer.mdx';
+
+<Fragments fragments={{ swift: ios10 }} />
+
+import android11 from '/src/fragments/start/getting-started/android/build-footer.mdx';
+
+<Fragments fragments={{ android: android11 }} />
+
+<InlineFilter filters={["javascript", "nextjs", "react", "react-native", "angular", "vue", "flutter"]}>
+
+<br />
+<InternalLinkButton href={{
+  pathname: '/[platform]/start/getting-started/installation',
+  query: { platform: useCurrentPlatform() }
+}}>
+  <span slot="text">Start the Tutorial</span>
+</InternalLinkButton>
+
+Use Amplify Studio to get started with Amplify. [Get started](https://sandbox.amplifyapp.com/getting-started)
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+<small>
+Flutter and the related logo are trademarks of Google LLC. We are not endorsed by or affiliated with Google LLC.
+</small>
+
+</InlineFilter>

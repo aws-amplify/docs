@@ -4,9 +4,60 @@ AWS Amplify Interactions category enables AI-powered chatbots in your web or mob
 
 AWS Amplify implements [Amazon Lex](https://aws.amazon.com/lex) as the default chatbots service. Amazon Lex supports creating conversational bots with the same deep learning technologies that power Amazon Alexa.
 
-## Create new chatbot
+<Callout>
+  The recommended approach is to begin your new App integration with AWS LexV2,
+  as the default module exports are associated with AWS LexV2 APIs. Instructions
+  for AWS LexV1 setup can be found in the following section.
+</Callout>
 
-> Prerequisite: [Install and configure the Amplify CLI](/cli/start/install)
+## Setup AWS LexV2 bot
+
+You can create Amazon Lex V2 chatbot in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex V2 Developer Guide](https://docs.aws.amazon.com/lexv2/latest/dg/getting-started.html).
+
+![Interactions](/images/interactions_lex_v2_console_edit_bot.png)
+
+With manual setup, you also need to add AWS Lex V2 API permissions to IAM roles and bot details to configure your app.
+
+For adding IAM permissions, find you IAM role and attach the policy below (_remember to replace the template with real value_):
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["lex:RecognizeText", "lex:RecognizeUtterance"],
+      "Resource": "arn:aws:lex:<Region>:<Account>:bot-alias/<BotId>/<BotAliasId>"
+    }
+  ]
+}
+```
+
+```javascript
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from './amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
+Amplify.configure({
+  ...Amplify.getConfig(),
+  Interactions: {
+    LexV2: {
+      '<V2BotName>': {
+        aliasId: '<V2BotAliasId>',
+        botId: '<V2BotBotId>',
+        localeId: '<V2BotLocaleId>',
+        region: '<V2BotRegion>'
+      }
+    }
+  }
+});
+```
+
+## Setup AWS LexV1 bot
+
+### Create new LexV1 chatbot with Amplify CLI
+
+> Prerequisite: [Install and configure the Amplify CLI](/[platform]/tools/cli/start/set-up-cli/)
 
 Run the following command in your project's root folder:
 
@@ -16,7 +67,7 @@ amplify add interactions
 
 <Callout>
 
-Adding interactions from the CLI only allows you to create a Lex V1 bot. If you want to create a Lex V2 bot, you can do so following the [instructions here](#lex-v2-bot).
+Adding interactions from the CLI only allows you to create a Lex V1 bot. If you want to create a LexV2 bot, you can do so following the [instructions here](#lex-v2-bot).
 
 </Callout>
 
@@ -37,84 +88,65 @@ The `add` command automatically creates a backend configuration locally. To upda
 amplify push
 ```
 
-Upon successful execution of the push command, a configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
+Upon successful execution of the push command, a configuration file called `amplifyconfiguration.json` will be copied to your configured source directory, for example `./src`.
 
-> If your Interactions resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/cli/function/configure-options)
+> If your Interactions resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/[platform]/build-a-backend/functions/configure-options/)
 
-## Manual setup
-### Lex V1 bot
+### Manual setup
+
 You can create Amazon Lex V1 chatbot in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex V1 Developer Guide](https://docs.aws.amazon.com/lex/latest/dg/getting-started.html).
 
 ![Interactions](/images/interactions_lex_console_edit_bot.jpg)
 
-With manual setup, you need to provide your auth credentials and bot details to configure your app:
+With manual setup, you need to add AWS Lex API permissions to IAM roles and bot details to configure your app.
+
+For adding AWS Lex API permissions, find you IAM role and attach the policy below (_remember to replace the template with real value_):
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["lex:PostText", "lex:PostContent"],
+      "Resource": "arn:aws:lex:<Region>:<Account>:bot:<BotName>:<BotAlias>"
+    }
+  ]
+}
+```
+
+Configuring bot details in your web app like this:
 
 ```javascript
 import { Amplify } from 'aws-amplify';
+import amplifyconfig from './amplifyconfiguration.json';
 
+Amplify.configure(amplifyconfig);
 Amplify.configure({
-  Auth: {
-    identityPoolId: 'us-east-1:xxx-xxx-xxx-xxx-xxx',
-    region: 'us-east-1'
-  },
+  ...Amplify.getConfig(),
   Interactions: {
-    bots: {
-      BookTrip: {
-        name: 'BookTrip',
-        alias: '$LATEST',
-        region: 'us-east-1'
+    LexV1: {
+      '<V1BotName>': {
+        alias: '<V1BotAlias>',
+        region: '<V1BotRegion>'
       }
     }
   }
 });
 ```
 
-### Lex V2 bot
-You can create Amazon Lex V2 chatbot in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex V2 Developer Guide](https://docs.aws.amazon.com/lexv2/latest/dg/getting-started.html).
-
-![Interactions](/images/interactions_lex_v2_console_edit_bot.png)
-
-With manual setup, you need to provide your auth credentials and bot details to configure your app:
-
-```javascript
-import { Amplify } from 'aws-amplify';
-import { AWSLexV2Provider } from '@aws-amplify/interactions';
-
-Amplify.addPluggable(new AWSLexV2Provider());
-
-const interactionsConfig = {
-  Auth: {
-    identityPoolId: "<identityPoolId>",
-    region: "<region>"
-  },
-  Interactions: {
-    bots: {
-      // LexV2 Bot
-      <V2BotName>: {
-        name: "<V2BotName>",
-        aliasId: "<V2BotAliasId>",
-        botId: "<V2BotBotId>",
-        localeId: "<V2BotLocaleId>",
-        region: "<V2BotRegion>",
-        providerName: "AWSLexV2Provider",
-      },
-    }
-  }
-}
-
-Amplify.configure(interactionsConfig);
-```
-
 ## Configure frontend
+
+<Callout>
+
+Make sure that the `@aws-amplify/interactions` package has the same version number as the `aws-amplify` package in your `package.json` file.
+
+</Callout>
 
 import js0 from '/src/fragments/lib/interactions/js/frontend.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{  javascript: js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
 
-import reactnative1 from '/src/fragments/lib/react-native-polyfills.mdx';
+import reactnative1 from '/src/fragments/lib/interactions/react-native/frontend.mdx';
 
 <Fragments fragments={{ 'react-native': reactnative1 }} />
-
-import reactnative2 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/configure-amplify.mdx';
-
-<Fragments fragments={{ 'react-native': reactnative2 }} />

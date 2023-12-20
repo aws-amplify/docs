@@ -1,0 +1,55 @@
+In your application directory, you should first install the necessary dependencies for using In-App Messaging.
+
+import reactnative0 from '/src/fragments/lib-v1/in-app-messaging/integrate-your-application/react-native/install-dependencies.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
+
+import js0 from '/src/fragments/lib-v1/in-app-messaging/integrate-your-application/js/install-dependencies.mdx';
+
+<Fragments fragments={{  javascript: js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
+
+import reactnative1 from '/src/fragments/lib-v1/in-app-messaging/integrate-your-application/react-native/configure-amplify.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative1 }} />
+
+import js1 from '/src/fragments/lib-v1/in-app-messaging/integrate-your-application/js/configure-amplify.mdx';
+
+<Fragments fragments={{  javascript: js1 , angular: js1, nextjs: js1, react: js1, vue: js1 }} />
+
+### Integrate In-App Messaging
+
+Amplify UI provides a Higher-Order Component for ease of integrating the In-App Messaging UI with your application. Simply wrap your application root component in, for example, `App.js`.
+
+import reactnative2 from '/src/fragments/lib-v1/in-app-messaging/integrate-your-application/react-native/hoc-setup.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative2 }} />
+
+import js2 from '/src/fragments/lib-v1/in-app-messaging/integrate-your-application/js/hoc-setup.mdx';
+
+<Fragments fragments={{  javascript: js2 , angular: js2, nextjs: js2, react: js2, vue: js2 }} />
+
+Now your application is set up with Amplify In-App Messaging. To interact with Amplify In-App Messaging APIs, you will first need to import the `Notifications` category.
+
+```js
+import { Notifications } from 'aws-amplify';
+```
+
+The In-App Messaging feature is a subcategory of Notifications. To make it easier to access throughout your application, you can de-structure it.
+
+```js
+const { InAppMessaging } = Notifications;
+```
+
+Below is an example of what your entry file should look like:
+
+import reactnative3 from '/src/fragments/lib-v1/in-app-messaging/integrate-your-application/react-native/full-example.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative3 }} />
+
+import js3 from '/src/fragments/lib-v1/in-app-messaging/integrate-your-application/js/full-example.mdx';
+
+<Fragments fragments={{  javascript: js3 , angular: js3, nextjs: js3, react: js3, vue: js3 }} />
+
+{/* TODO What would happen for frameworks other than React? Would they NOT see this popup? what should we do for them? */}
+
+You can now build and run your app in your terminal. If you click on one of the buttons shown in the above example, the in-app message you defined in the Pinpoint console should be displayed in your app.

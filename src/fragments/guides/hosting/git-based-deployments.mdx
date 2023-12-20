@@ -1,14 +1,14 @@
 This guide will show you how to host a static site from a GitHub repository using Amplify hosting.
 
-In this example you will be deploying a __React__ app, but you can also also use any of the following types of projects or frameworks:
+In this example, you will be deploying a __React__ app, but you can also use any of the following types of projects or frameworks:
 
-1. Static HTML
-2. Vue
-3. Angular
-4. Solid
-5. Svelte
+- Static HTML
+- Vue
+- Angular
+- Solid
+- Svelte
 
-## 1. Create a new application
+## Create a new application
 
 ```sh
 npx create-react-app amplifyapp
@@ -16,15 +16,15 @@ cd amplifyapp
 npm start
 ```
 
-## 2. Initialize GitHub repository
+## Initialize GitHub repository
 
 In this step, you will create a GitHub repository and commit your code to the repository. You will need a GitHub account to complete this step – if you do not have an account, sign up [here](https://github.com/join).
 
 a. Create a new GitHub repo for your app ([link](https://github.com/new)).  
  
-![Create a new GitHub repo for your ap](/images/hosting/git/1.png)
+![Create a new GitHub repo for your app](/images/hosting/git/1.png)
 
-b. Initialize git and push the application to the new GitHub repo executing the following commands in your CLI:
+b. Initialize git and push the application to the new GitHub repo by executing the following commands in your CLI:
 
 ```sh
 git init
@@ -34,29 +34,29 @@ git commit -m ‘initial commit’
 git push origin main
 ```
 
-## 3. Deploy your app to AWS Amplify
+## Deploy your app to AWS Amplify
 
 In this step, you will connect the GitHub repository you just created to the AWS Amplify service. This will enable you to build, deploy, and host your app on AWS.
 
 a. Sign in to your [AWS account](https://console.aws.amazon.com/) and then visit the [Amplify Console](https://console.aws.amazon.com/amplify/home).
 
-b. Select Get Started under Deploy.
+b. Select **Get Started** under **Deploy**.
 
 ![Select Get Started](/images/hosting/git/3.png)
 
-c. Select GitHub as the repository service and select Next.
+c. Select GitHub as the repository service and select **Next**.
 
 ![Select GitHub](/images/hosting/git/4.png)
 
-d. Authenticate with GitHub and return to the Amplify Console. Choose the repository you created earlier and the main branch, then select Next.
+d. Authenticate with GitHub and return to the Amplify Console. Choose the repository you created earlier and the main branch, then select **Next**.
 
 ![Authenticate](/images/hosting/git/5.png)
 
-e. Accept the default build settings and select Next.
+e. Accept the default build settings and select **Next**.
 
 ![Build settings](/images/hosting/git/6.png)
 
-f. Review the final details and select Save and Deploy.
+f. Review the final details and select **Save and deploy**.
 
 ![Review details](/images/hosting/git/7.png)
 

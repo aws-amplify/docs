@@ -1,15 +1,16 @@
-import js0 from '/src/fragments/lib/common/js/import_configuration.mdx'
+import js0 from '/src/fragments/lib/common/js/import_configuration.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{  javascript: js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
 
-import rn1 from '/src/fragments/lib/common/react-native/import_configuration.mdx'
+import rn1 from '/src/fragments/lib/common/react-native/import_configuration.mdx';
 
 <Fragments fragments={{ 'react-native': rn1 }} />
 
 ```javascript
-import { Amplify, Analytics } from 'aws-amplify';
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
+import { record } from 'aws-amplify/analytics';
+import amplifyconfig from './amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
 ```
 
 User session data is automatically collected unless you disabled analytics. To see the results visit the [Amazon Pinpoint console](https://console.aws.amazon.com/pinpoint/home/).

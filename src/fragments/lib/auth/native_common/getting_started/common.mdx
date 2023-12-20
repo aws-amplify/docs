@@ -1,12 +1,12 @@
 The Amplify Auth category provides an interface for authenticating a user. Behind the scenes, it provides the necessary authorization to the other Amplify categories. It comes with default, built-in support for [Amazon Cognito](https://aws.amazon.com/cognito) User Pool and Identity Pool. The Amplify CLI helps you create and configure the auth category with an authentication provider.
 
-import ios1 from "/src/fragments/lib/auth/ios/getting_started/05_authenticator_callout.mdx";
+import ios1 from '/src/fragments/lib/auth/ios/getting_started/05_authenticator_callout.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ swift: ios1 }} />
 
-import androidAuthenticator from "/src/fragments/lib/auth/android/getting_started/05_authenticatorCallout.mdx";
+import androidAuthenticator from '/src/fragments/lib/auth/android/getting_started/05_authenticatorCallout.mdx';
 
-<Fragments fragments={{android: androidAuthenticator}} />
+<Fragments fragments={{ android: androidAuthenticator }} />
 
 ## Goal
 
@@ -14,101 +14,96 @@ To setup and configure your application with Amplify Auth and go through a simpl
 
 ## Prerequisites
 
-import ios0 from "/src/fragments/lib/auth/ios/getting_started/10_preReq.mdx";
+import ios0 from '/src/fragments/lib/auth/ios/getting_started/10_preReq.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
-import android1 from "/src/fragments/lib/auth/android/getting_started/10_preReq.mdx";
+import android1 from '/src/fragments/lib/auth/android/getting_started/10_preReq.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ android: android1 }} />
 
-import flutter2 from "/src/fragments/lib/auth/flutter/getting_started/10_preReq.mdx";
+import flutter2 from '/src/fragments/lib/auth/flutter/getting_started/10_preReq.mdx';
 
-<Fragments fragments={{flutter: flutter2}} />
-
+<Fragments fragments={{ flutter: flutter2 }} />
 
 ## Install Amplify Libraries
 
-import ios6 from "/src/fragments/lib/auth/ios/getting_started/20_installLib.mdx";
+import ios6 from '/src/fragments/lib/auth/ios/getting_started/20_installLib.mdx';
 
-<Fragments fragments={{ios: ios6}} />
+<Fragments fragments={{ swift: ios6 }} />
 
-import android7 from "/src/fragments/lib/auth/android/getting_started/20_installLib.mdx";
+import android7 from '/src/fragments/lib/auth/android/getting_started/20_installLib.mdx';
 
-<Fragments fragments={{android: android7}} />
+<Fragments fragments={{ android: android7 }} />
 
-import flutter8 from "/src/fragments/lib/auth/flutter/getting_started/20_installLib.mdx";
+import flutter8 from '/src/fragments/lib/auth/flutter/getting_started/20_installLib.mdx';
 
-<Fragments fragments={{flutter: flutter8}} />
-
-
+<Fragments fragments={{ flutter: flutter8 }} />
 
 ## Set Up Backend Resources
 
 The most common way to use Authentication with Amplify is via the Amplify CLI, which allows you to create new Amazon Cognito resources or import existing ones. However, you can also use the Amplify Studio console to configure authentication or use the `Amplify.configure()` method to set up authentication with existing resources.
 
-import ios50 from "/src/fragments/lib/auth/ios/getting_started/50_configureBackend.mdx";
+import ios50 from '/src/fragments/lib/auth/ios/getting_started/50_configureBackend.mdx';
 
-<Fragments fragments={{ios: ios50}} />
+<Fragments fragments={{ swift: ios50 }} />
 
-import android50 from "/src/fragments/lib/auth/android/getting_started/50_configureBackend.mdx";
+import android50 from '/src/fragments/lib/auth/android/getting_started/50_configureBackend.mdx';
 
-<Fragments fragments={{android: android50}} />
+<Fragments fragments={{ android: android50 }} />
 
-import flutter70 from "/src/fragments/lib/auth/flutter/getting_started/70_configureBackend.mdx";
+import flutter70 from '/src/fragments/lib/auth/flutter/getting_started/70_configureBackend.mdx';
 
-<Fragments fragments={{flutter: flutter70}} />
-
-
+<Fragments fragments={{ flutter: flutter70 }} />
 
 ## Initialize Amplify Auth
 
-import ios9 from "/src/fragments/lib/auth/ios/getting_started/30_initAuth.mdx";
+import ios9 from '/src/fragments/lib/auth/ios/getting_started/30_initAuth.mdx';
 
-<Fragments fragments={{ios: ios9}} />
+<Fragments fragments={{ swift: ios9 }} />
 
-import android10 from "/src/fragments/lib/auth/android/getting_started/30_initAuth.mdx";
+import android10 from '/src/fragments/lib/auth/android/getting_started/30_initAuth.mdx';
 
-<Fragments fragments={{android: android10}} />
+<Fragments fragments={{ android: android10 }} />
 
-import flutter11 from "/src/fragments/lib/auth/flutter/getting_started/30_initAuth.mdx";
+import flutter11 from '/src/fragments/lib/auth/flutter/getting_started/30_initAuth.mdx';
 
-<Fragments fragments={{flutter: flutter11}} />
+<Fragments fragments={{ flutter: flutter11 }} />
 
-import flutter12 from "/src/fragments/lib/auth/flutter/getting_started/40_authenticator.mdx";
+import flutter12 from '/src/fragments/lib/auth/flutter/getting_started/40_authenticator.mdx';
 
-<Fragments fragments={{flutter: flutter12}} />
+<Fragments fragments={{ flutter: flutter12 }} />
 
 ## Check the current auth session
 
 You can now check the current auth session.
 
-import ios12 from "/src/fragments/lib/auth/ios/getting_started/40_fetchSession.mdx";
+import ios12 from '/src/fragments/lib/auth/ios/getting_started/40_fetchSession.mdx';
 
-<Fragments fragments={{ios: ios12}} />
+<Fragments fragments={{ swift: ios12 }} />
 
-import android13 from "/src/fragments/lib/auth/android/getting_started/40_fetchSession.mdx";
+import android13 from '/src/fragments/lib/auth/android/getting_started/40_fetchSession.mdx';
 
-<Fragments fragments={{android: android13}} />
+<Fragments fragments={{ android: android13 }} />
 
-import flutter13 from "/src/fragments/lib/auth/flutter/getting_started/50_fetchSession.mdx";
+import flutter13 from '/src/fragments/lib/auth/flutter/getting_started/50_fetchSession.mdx';
 
-<Fragments fragments={{flutter: flutter13}} />
-
+<Fragments fragments={{ flutter: flutter13 }} />
 
 The `isSignedIn` property of the `authSession` will be false since you haven't signed in to the category yet.
 
-import ios13 from "/src/fragments/lib/auth/ios/getting_started/45_authenticator.mdx";
+import ios13 from '/src/fragments/lib/auth/ios/getting_started/45_authenticator.mdx';
 
-<Fragments fragments={{ios: ios13}} />
+<Fragments fragments={{ swift: ios13 }} />
 
-import android14 from "/src/fragments/lib/auth/android/getting_started/45_authenticator.mdx";
+import android14 from '/src/fragments/lib/auth/android/getting_started/45_authenticator.mdx';
 
-<Fragments fragments={{android: android14}} />
+<Fragments fragments={{ android: android14 }} />
 
 ## Next Steps
-Congratulations! You've successfully setup AWS Cognito Auth plugin.  Check out the following links to see other Amplify Auth use cases:
 
-* [Authenticate a user with username password](/lib/auth/signin)
-* [Authenticate a user using a web UI](/lib/auth/signin_web_ui)
-* [Authenticate a user with another auth provider](/lib/auth/social)
+Congratulations! You've successfully setup AWS Cognito Auth plugin. Check out the following links to see other Amplify Auth use cases:
+
+- [Authenticate a user with username password](/[platform]/build-a-backend/auth/enable-sign-in/)
+- [Authenticate a user using a web UI](/[platform]/build-a-backend/auth/sign-in-with-web-ui/)
+- [Authenticate a user with another auth provider](/[platform]/build-a-backend/auth/add-social-provider/)

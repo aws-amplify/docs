@@ -1,89 +1,25 @@
-To invoke an endpoint, you need to set `apiName`, `path` and `headers` parameters, and each method returns a Promise. Under the hood the API category utilizes [Axios](https://github.com/axios/axios) to execute the HTTP requests. API status code response > 299 are thrown as an exception. If you need to handle errors managed by your API, work with the `error.response` object.
+To invoke an endpoint, you need to set input object with required `apiName` 
+option and optional `headers`, `queryParams`, and `body` options. API status
+code response > 299 are thrown as an `RestApiError` instance. The error instance
+provides `name` and `message` properties parsed from the response.
 
 ## GET requests
 
 ```javascript
-const apiName = 'MyApiName';
-const path = '/path';
-const myInit = {
-  headers: {}, // OPTIONAL
-  response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
-  queryStringParameters: {
-    name: 'param' // OPTIONAL
+import { get } from 'aws-amplify/api';
+
+async function getTodo() {
+  try {
+    const restOperation = get({ 
+      apiName: 'todo-api',
+      path: '/todo' 
+    });
+    const response = await restOperation.response;
+    console.log('GET call succeeded: ', response);
+  } catch (error) {
+    console.log('GET call failed: ', error);
   }
-};
-
-API.get(apiName, path, myInit)
-  .then((response) => {
-    // Add your code here
-  })
-  .catch((error) => {
-    console.log(error.response);
-  });
-```
-
-Example with async/await
-
-```javascript
-function getData() {
-  const apiName = 'MyApiName';
-  const path = '/path';
-  const myInit = {
-    headers: {} // OPTIONAL
-  };
-
-  return API.get(apiName, path, myInit);
 }
-
-(async function() {
-  const response = await getData();
-})();
-```
-
-## GET requests with query parameters
-
-To use query parameters with `get` method, you can pass them in `queryStringParameters` parameter in your method call:
-
-```javascript
-const items = await API.get('myCloudApi', '/items', {
-  queryStringParameters: {
-    order: 'byPrice'
-  }
-});
-```
-
-## HEAD
-
-<!-- TODO Rewrite What is this for? -->
-
-```javascript
-const apiName = 'MyApiName'; // replace this with your api name.
-const path = '/path'; //replace this with the path you have configured on your API
-const myInit = {
-  headers: {} // OPTIONAL
-};
-
-API.head(apiName, path, myInit).then((response) => {
-  // Add your code here
-});
-```
-
-Example with async/await:
-
-```javascript
-function head() {
-  const apiName = 'MyApiName';
-  const path = '/path';
-  const myInit = {
-    headers: {} // OPTIONAL
-  };
-
-  return API.head(apiName, path, myInit);
-}
-
-(async function() {
-  const response = await head();
-})();
 ```
 
 ## Accessing query parameters & body in Lambda proxy function
@@ -125,17 +61,44 @@ app.get('/items', function(req, res) {
 Then you can use query parameters in your path as follows:
 
 ```javascript
-API.get('sampleCloudApi', '/items?q=test');
+async function getTodo() {
+  try {
+    const restOperation = get({
+      apiName: 'todo-api',
+      path: '/todo',
+      options: {
+        queryParams: {
+          id: '123'
+        }
+      }
+    });
+    const response = await restOperation.response;
+    console.log('GET call succeeded: ', response);
+  } catch (error) {
+    console.log('GET call failed: ', error);
+  }
+}
 ```
 
-## Custom response types
+## Accessing response payload
 
-By default, calling an API with AWS Amplify parses a JSON response. If you have a REST API endpoint which returns, for example, a file in Blob format, you can specify a custom response type using the `responseType` parameter in your method call:
+You can consume the response payload by accessing the `body` property of the response object.
+Depending on the use case and the content type of the body, you can consume they payload in string, blob or JSON.
 
 ```javascript
-let file = await API.get('myCloudApi', '/items', {
-  responseType: 'blob'
-});
+// ...
+const { body } = await restOperation.response;
+// consume as a string:
+const str = await body.text();
+// OR consume as a blob:
+const blob = await body.blob();
+// OR consume as a JSON:
+const json = await body.json();
 ```
 
-Allowed values for `responseType` are "arraybuffer", "blob", "document", "json" or "text"; and it defaults to "json" if not specified. See the [documentation](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType) for more information.
+<Callout>
+
+You can not consume the response payload more than once.
+
+</Callout>
+

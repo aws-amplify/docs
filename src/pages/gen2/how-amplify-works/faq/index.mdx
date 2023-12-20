@@ -1,0 +1,53 @@
+export const meta = {
+  title: 'FAQ',
+  description: 'Frequently asked questions about the code-first DX.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+**In Gen 1, Amplify offered a set of use case categories for building applications (for example, Authentication, Analytics, API, DataStore, Geo, and Predictions). Are those same categories available in Gen 2?**
+
+In the launch of public preview, Amplify code-first DX (Gen 2) supports Auth and Data. Other use cases can be implemented using AWS Cloud Development Kit (AWS CDK) constructs.
+
+**Does Amplify (Gen 2) support DataStore?**
+
+No, in public preview, Amplify code-first DX (Gen 2) supports GraphQL APIs without DataStore.
+
+**What if we want to add a feature like AI/ML or Amazon Location Service to our application in Gen 2?**
+
+Because Amplify builds on the AWS CDK, any of the 175+ AWS services can be added to your app using [custom resources](/gen2/build-a-backend/add-aws-services/custom-resources/) and L2/L1 AWS CDK constructs.
+
+**We are planning to build and release a new application before the code-first developer experience is generally available. Which version of Amplify should we use?**
+
+We recommend using Amplify’s tooling-first (Gen 1) developer experience with the CLI and Studio to get access to our complete feature set. If your primary use cases are configuring Auth or Data, we recommend starting with our [L3 CDK constructs](/gen2/reference/cdk-constructs/) that power the Gen-2 experience.
+
+**Is Gen 2 backward compatible with existing Amplify projects on Gen 1?**
+
+No. Gen-2 apps adopt a file-based convention with a much smaller footprint. You cannot use the Gen-1 CLI to update the `resource.ts` files in Gen 2.
+
+**Is there a way to upgrade an existing Amplify project from Gen 1 to Gen 2?**
+
+While Gen 2 is in public preview, we will provide migration guides that describe how to manually move from Gen 1 to Gen 2. When generally available, we will offer tooling that will help developers move projects from Gen 1 to Gen 2.
+
+**What platforms will Gen 2 support?** 
+
+While in public preview, Gen 2 supports a TypeScript-first developer experience for building backends. Teams that have built backends with Gen 2 can reuse that backend in mobile apps if desired.
+
+**Which web frameworks will have first-class support?** 
+
+Gen 2 offers support for all web frameworks that are supported in the Amplify libraries (currently Next.js, React, Vue, and Angular).
+
+**Does Gen 2 support mobile development?**
+
+You can use a Gen-2 backend with a Swift, Kotlin, or Flutter app; however, in public preview, Amplify only supports TypeScript.
+
+**What if I'm already building with AWS CDK? How should I proceed?**
+
+If you already have an AWS CDK project, you can use the L3 constructs that Amplify provides. If you're starting a new project with Auth and Data, then start with Amplify because you can always use AWS CDK with it.

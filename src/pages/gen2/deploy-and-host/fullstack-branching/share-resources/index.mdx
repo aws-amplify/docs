@@ -1,0 +1,56 @@
+export const meta = {
+  title: 'Share resources across branches',
+  description: 'Update app build settings to share resources across branches.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+In some instances, you may not want to deploy new resources for every branch. For example, you might want all your `feature` branches to point to the backend resources deployed by the `dev` branch so you can reuse seed data, users, and groups.
+
+![Main and dev environments, each with their own backend resources. In the dev environment, two feature branches are shown sharing the same backend resources. ](/images/gen2/fullstack-branching/share-resources.png)
+
+You can update your app build settings to share resources across branches. In the Amplify console, select your app on the **All apps** page. From the **App overview** page, select **Hosting > Build settings** to view your app's build specification YML file.
+
+![The build specification YML file on the Build settings page in Amplify console.](/images/gen2/fullstack-branching/build-settings.png)
+
+Update the build settings for the `backend` phase to run `npx amplify generate config --branch dev app-id $AWS_APP_ID` to generate the `amplifyconfiguration.json` file for all branches other than `main` or `dev`. After this update, any new deployed branches will not deploy backend resources as part of the build and instead will use the deployed backend resources from the `dev` branch.
+
+```yaml title="amplify.yml"
+version: 1
+backend:
+  phases:
+    build:
+      commands:
+        - nvm use 18
+        - npm ci
+        - |
+          // highlight-start
+          if [ "${AWS_BRANCH}" = "main" ] || [ "${AWS_BRANCH}" = "dev" ]; then 
+            npx amplify pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID 
+          else
+            npx amplify generate config  --branch dev --app-id $AWS_APP_ID 
+          fi
+          // highlight-end
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+```

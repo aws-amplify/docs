@@ -61,7 +61,7 @@ The examples on this page use [`node-fetch`](https://www.npmjs.com/package/node-
 
 Using an API Key for authenticating your requests, you can query the GraphQL API to get a list of all `Todo`s.
 
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 ```js
 import { default as fetch, Request } from 'node-fetch';
 
@@ -129,7 +129,7 @@ export const handler = async (event) => {
 
 In this example you create a mutation showing how to pass in variables as arguments to create a `Todo` record.
 
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 ```js
 import { default as fetch, Request } from 'node-fetch';
 
@@ -233,8 +233,7 @@ The CLI will automatically configure the Lambda execution IAM role to call the G
 
 Then, the following example will sign the request to call the GraphQL API using IAM authorization.
 
-<!-- due to placeholder text -->
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 ```js
 import crypto from '@aws-crypto/sha256-js';
 import { defaultProvider } from '@aws-sdk/credential-provider-node';

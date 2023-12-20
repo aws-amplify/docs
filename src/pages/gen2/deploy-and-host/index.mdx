@@ -1,0 +1,19 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Deploy & host',
+  description: 'Learn about the capabilities to deploy and host your app.',
+  route: '/gen2/deploy-and-host'
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

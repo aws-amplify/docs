@@ -1,0 +1,32 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Record notification events',
+  description: 'Record Notification events with the Amazon Pinpoint service.',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import android0 from '/src/fragments/lib/push-notifications/android//record_notifications/10_handle_notification_received.mdx';
+
+<Fragments fragments={{ android: android0 }} />
+
+import android3 from '/src/fragments/lib/push-notifications/common/record-notifications.mdx';
+
+<Fragments fragments={{ android: android3 }} />
+
+import ios1 from '/src/fragments/lib/push-notifications/common/record-notifications.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />

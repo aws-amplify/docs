@@ -8,56 +8,57 @@ The CLI configures three different access levels on the storage bucket: public, 
 
 If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` within Cognito Identity Pools which has scoped permissions to the objects in the S3 bucket prefixed by a user's Cognito Identity ID. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which will still have scoped permissions to owned objects.
 
-* **Public**: Accessible by all users of your app. Files are stored with the `public/` prefix in your S3 bucket.
-* **Protected**: Readable by all authenticated users, writable only by the owner. Files are stored with the `protected/{cognito_user_identity_id}/` prefix.
-* **Private**: Only accessible by the owner. Files are stored with the `private/{cognito_user_identity_id}/` prefix.
+- **Public**: Accessible by all users of your app. Files are stored with the `public/` prefix in your S3 bucket.
+- **Protected**: Readable by all authenticated users, writable only by the owner. Files are stored with the `protected/{cognito_user_identity_id}/` prefix.
+- **Private**: Only accessible by the owner. Files are stored with the `private/{cognito_user_identity_id}/` prefix.
 
-> The `cognito_user_identity_id` corresponds to the owner's unique Amazon Cognito Identity ID. See [Authentication](/sdk/auth/working-with-api#utility-properties) for more information on how to get the `cognito_user_identity_id` for a signed in user.
- 
+> The `cognito_user_identity_id` corresponds to the owner's unique Amazon Cognito Identity ID. See [Authentication](/[platform]/sdk/auth/working-with-api/#utility-properties) for more information on how to get the `cognito_user_identity_id` for a signed in user.
+
 ### Set Up Your Backend
 
-1. Complete the [Get Started](/start) steps before you proceed.
+1. Complete the [Get Started](/[platform]/start/getting-started/introduction/) steps before you proceed.
 
 2. Use the Amplify CLI to add storage to your app.
 
-    In a terminal window, navigate to your project root folder (the folder that contains your app's `.xcodeproj` file), and add the SDK to your app.
+   In a terminal window, navigate to your project root folder (the folder that contains your app's `.xcodeproj` file), and add the SDK to your app.
 
-    ```bash
-    cd ./YOUR_PROJECT_FOLDER
-    amplify add storage
-    ```
+   ```bash
+   cd YOUR_PROJECT_FOLDER
+   amplify add storage
+   ```
 
-3.  Choose `Content` as your storage service.
+3. Choose `Content` as your storage service.
 
-    ```console
-    ❯ Content (Images, audio, video, etc.)
-    ```
+   ```console
+   ❯ Content (Images, audio, video, etc.)
+   ```
 
 4. The CLI walks you through the options to enable Auth (if not enabled previously), in order to decide who should have access (select `Auth and guest users` and `read/write` for both auth and guest users).
 
 5. Confirm that you have storage and auth set up by running `amplify status`:
 
-    ```console
-    $ amplify status
-    | Category  | Resource name   | Operation | Provider plugin   |
-    | --------- | --------------- | --------- | ----------------- |
-    | Auth      | cognito2e202b09 | Create    | awscloudformation |
-    | Storage   | sabc0123de      | Create    | awscloudformation |
-    ```
+   ```console
+   $ amplify status
+   | Category  | Resource name   | Operation | Provider plugin   |
+   | --------- | --------------- | --------- | ----------------- |
+   | Auth      | cognito2e202b09 | Create    | awscloudformation |
+   | Storage   | sabc0123de      | Create    | awscloudformation |
+   ```
 
 6. To create your backend run:
 
-    ```bash
-    amplify push
-    ```
+   ```bash
+   amplify push
+   ```
 
-    The CLI will create the `awsconfiguration.json` file in your project directory. In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Navigator folder (the folder name should match your Xcode project name). When the `Options` dialog box appears, do the following:
+   The CLI will create the `awsconfiguration.json` file in your project directory. In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Navigator folder (the folder name should match your Xcode project name). When the `Options` dialog box appears, do the following:
 
-* Clear the `Copy items if needed` check box.
-* Choose `Create groups`, and then choose `Finish`.
+- Clear the `Copy items if needed` check box.
+- Choose `Create groups`, and then choose `Finish`.
 
 ##### Lambda Triggers
-The Amplify CLI supports associating Lambda triggers for Amazon S3 and DynamoDB events. This can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the CLI. [Read More](/cli/usage/lambda-triggers#s3-lambda-triggers)
+
+The Amplify CLI supports associating Lambda triggers for Amazon S3 and DynamoDB events. This can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the CLI. [Read More](/[platform]/tools/cli/usage/lambda-triggers/#s3-lambda-triggers)
 
 ### Connect to Your Backend
 
@@ -65,27 +66,27 @@ Use the following steps to add storage services to your app.
 
 1. Add the `AWSS3` dependency to the `Podfile` to install the AWS Mobile SDK:
 
-    ```ruby
-    platform :ios, '9.0'
+   ```ruby
+   platform :ios, '9.0'
 
-    target :'YOUR-APP-NAME' do
-        use_frameworks!
+   target :'YOUR-APP-NAME' do
+       use_frameworks!
 
-        pod 'AWSS3'
+       pod 'AWSS3'
 
-        # other pods . . .
-        pod 'AWSMobileClient'
-    end
-    ```
+       # other pods . . .
+       pod 'AWSMobileClient'
+   end
+   ```
 
 Run `pod install --repo-update` before you continue.
 
 2. Add the following import to the classes that perform user file storage operations:
 
-    ```swift
-    import AWSS3
-    ```
+   ```swift
+   import AWSS3
+   ```
 
 ### Mocking and Local Testing
 
-Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](/cli/usage/mock) for more details.
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](/[platform]/tools/cli/usage/mock/) for more details.

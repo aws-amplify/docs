@@ -40,6 +40,7 @@ amplify add auth
 If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. API category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration.
 
 The CLI prompts will help you to customize your auth flow for your app. With the provided options, you can:
+
 - Customize sign-in/registration flow
 - Customize email and SMS messages for Multi-Factor Authentication
 - Customize attributes for your users, e.g. name, email
@@ -55,11 +56,12 @@ A configuration file called `awsconfiguration.json` will be copied to your proje
 
 ### Lambda Triggers
 
-The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your Amazon Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more](/cli/usage/lambda-triggers)
+The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your Amazon Cognito User Pool. These enable you to add custom functionality to your registration and authentication flows.
 
 ## Manual Setup
 
 For manual configuration without the CLI, you must have an `awsconfiguration.json` file with the following:
+
 - Cognito User Pools: `CognitoUserPool : { Default: ...}`
 - Cognito Identity Pools: `IdentityManager` and `CredentialsProvider: {CognitoIdentity: ...}`
 
@@ -94,7 +96,6 @@ Go to your MainActivity and inside the `onCreate()` run the `initialize()` routi
 
 ```java
 AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-
         @Override
         public void onResult(UserStateDetails userStateDetails) {
             Log.i("INIT", "onResult: " + userStateDetails.getUserState());
@@ -112,7 +113,7 @@ Build and run your program to see the initialized client in LOGCAT messages. Sin
 
 ```java
 AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-     @Override
+    @Override
     public void onResult(UserStateDetails userStateDetails) {
         switch (userStateDetails.getUserState()){
             case SIGNED_IN:
@@ -146,4 +147,4 @@ AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<U
 });
 ```
 
-You might leverage the above workflow to perform other actions in the `SIGNED_IN` case, such as calling [GraphQL or REST APIs with AWS AppSync and Amazon API Gateway](/sdk/api/graphql) or uploading content with [Amazon S3](/sdk/storage/getting-started).
+You might leverage the above workflow to perform other actions in the `SIGNED_IN` case, such as calling [GraphQL or REST APIs with AWS AppSync or Amazon API Gateway](/[platform]/sdk/api/graphql/) or uploading content with [Amazon S3](/[platform]/sdk/storage/getting-started/).

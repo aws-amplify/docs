@@ -1,0 +1,15 @@
+code.language-error .token.error {
+  color: var(--amplify-colors-red-40);
+}
+
+code.language-amplify-cli-output .token.success {
+  color: var(--amplify-colors-green-60);
+}
+
+code.language-amplify-cli-output .token.warning {
+  color: var(--amplify-colors-orange-60);
+}
+
+code.language-amplify-cli-output .token.error {
+  color: var(--amplify-colors-red-40);
+}

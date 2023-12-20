@@ -1,0 +1,362 @@
+export const meta = {
+  title: 'Manage user session and credentials',
+  description: 'Learn how to manage your user sessions and credentials.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify Auth provides access to current user sessions and tokens to help you retrieve your user's information to determine if they are signed in with a valid session and control their access to your app. You can manage tokens and expiration times and revoke sessions. In this guide we will review how to retrieve your user's session and understand what token management options are available.
+
+If you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
+
+## Retrieve your current authenticated user
+
+You can use the `getCurrentUser` API to get information about the currently authenticated user including the `username`, `userId` and `signInDetails`.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { getCurrentUser } from 'aws-amplify/auth';
+
+async function currentAuthenticatedUser() {
+  try {
+    const { username, userId, signInDetails } = await getCurrentUser();
+    console.log(`The username: ${username}`);
+    console.log(`The userId: ${userId}`);
+    console.log(`The signInDetails: ${signInDetails}`);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { getCurrentUser } from 'aws-amplify/auth';
+
+async function currentAuthenticatedUser() {
+  try {
+    const { username, userId, signInDetails } = await getCurrentUser();
+    console.log(`The username: ${username}`);
+    console.log(`The userId: ${userId}`);
+    console.log(`The signInDetails: ${signInDetails}`);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+This method can be used to check if a user is signed in. It throws an error if the user is not authenticated.
+
+<Callout>
+
+The user's `signInDetails` are not supported when using the `Hosted UI` or the `signInWithRedirect` API.
+
+</Callout>
+
+## Retrieve a user session
+
+Your user's session is their signed-in state, which grants them access to your app. When your users sign in, their credentials are exchanged for temporary access tokens. You can get session details to access these tokens and use this information to validate user access or perform actions unique to that user.
+
+If you only need the session details, you can use the `fetchAuthSession` API which returns a `tokens` object containing the JWTs (JSON Web Tokens).
+
+<Accordion title='Review what the tokens object contains and how tokens work' headingLevel='4' eyebrow='Learn more'>
+
+This secure information in the `tokens` object includes:
+
+- `idToken` - A JWT that contains user identity information like username and email. It is used to authenticate the user.
+- `accessToken` - A JWT used to access protected AWS resources and APIs. It contains the authorized scope.
+
+Amazon Cognito tokens work by generating temporary access and ID tokens with an expiration time at user sign-in. The tokens are validated against the user pool to authorize access until they expire.
+
+</Accordion>
+
+<Callout>
+
+**Note:** The `fetchAuthSession` method will automatically refresh the `accessToken` and `idToken` if tokens are expired and a valid `refreshToken` presented. So you can use this method to refresh the session if needed.
+
+</Callout>
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+async function currentSession() {
+  try {
+    const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+async function currentSession() {
+  try {
+    const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+## Understand token management options
+
+Token keys are automatically rotated for you for added security but you can update how they are stored, customize the refresh rate and expiration times, and revoke tokens on sign-out.
+
+### Update your token-saving mechanism
+
+You can update the storage mechanism to choose where and how tokens are persisted in your application. The default option is `localStorage`. Additionally, you can import the `sessionStorage`, `sharedInMemoryStorage` or `CookieStorage` options as well.
+
+If you want to customize your own mechanism, you can import the `KeyValueStorageInterface` interface and implement it in your own class.
+
+#### Browser Local Storage
+
+In Amplify the `localStorage` is the default storage mechanism. It saves the tokens in the browser's `localStorage`. This local storage will persist across browser sessions and tabs. You can explicitly set to this storage by calling:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Amplify, ResourcesConfig } from 'aws-amplify';
+import { defaultStorage } from 'aws-amplify/utils';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+
+const authConfig: ResourcesConfig['Auth'] = {
+  Cognito: {
+    userPoolId: 'your_user_pool_id',
+    userPoolClientId: 'your_user_pool_client_id'
+  }
+};
+
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
+
+Amplify.configure(
+  {
+    Auth: authConfig
+  },
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
+);
+```
+
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { Amplify } from 'aws-amplify';
+import { defaultStorage } from 'aws-amplify/utils';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+
+const authConfig = {
+  Cognito: {
+    userPoolId: 'your_user_pool_id',
+    userPoolClientId: 'your_user_pool_client_id'
+  }
+};
+
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
+
+Amplify.configure(
+  {
+    Auth: authConfig
+  },
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+#### Browser Session Storage
+
+`sessionStorage` saves the tokens in the browser's `sessionStorage` and these tokens will clear when a tab is closed. The benefit to this storage mechanism is that the session only lasts as long as the browser is open and you can sign out users when they close the tab. You can update to this storage by calling:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Amplify, ResourcesConfig } from 'aws-amplify';
+import { sessionStorage } from 'aws-amplify/utils';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+
+const authConfig: ResourcesConfig['Auth'] = {
+  Cognito: {
+    userPoolId: 'your_user_pool_id',
+    userPoolClientId: 'your_user_pool_client_id'
+  }
+};
+
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
+
+Amplify.configure(
+  {
+    Auth: authConfig
+  },
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
+);
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Amplify } from 'aws-amplify';
+import { sessionStorage } from 'aws-amplify/utils';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+
+const authConfig = {
+  Cognito: {
+    userPoolId: 'your_user_pool_id',
+    userPoolClientId: 'your_user_pool_client_id'
+  }
+};
+
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
+
+Amplify.configure(
+  {
+    Auth: authConfig
+  },
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+#### Custom Storage
+
+You can implement your own custom storage mechanism by creating a class that implements the storage interface. Here is an example that uses memory storage:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Amplify, ResourcesConfig } from 'aws-amplify';
+import { KeyValueStorageInterface } from 'aws-amplify/utils';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+
+const authConfig: ResourcesConfig['Auth'] = {
+  Cognito: {
+    userPoolId: 'your_user_pool_id',
+    userPoolClientId: 'your_user_pool_client_id'
+  }
+};
+
+class MyCustomStorage implements KeyValueStorageInterface {
+  storageObject: Record<string, string> = {};
+  async setItem(key: string, value: string): Promise<void> {
+    this.storageObject[key] = value;
+  }
+  async getItem(key: string): Promise<string | null> {
+    return this.storageObject[key];
+  }
+  async removeItem(key: string): Promise<void> {
+    delete this.storageObject[key];
+  }
+  async clear(): Promise<void> {
+    this.storageObject = {};
+  }
+}
+
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
+
+Amplify.configure(
+  {
+    Auth: authConfig
+  },
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
+);
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Amplify } from 'aws-amplify';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+
+const authConfig = {
+  Cognito: {
+    userPoolId: 'your_user_pool_id',
+    userPoolClientId: 'your_user_pool_client_id'
+  }
+};
+
+class MyCustomStorage {
+  storageObject = {};
+  async setItem(key, value) {
+    this.storageObject[key] = value;
+  }
+  async getItem(key) {
+    return this.storageObject[key];
+  }
+  async removeItem(key) {
+    delete this.storageObject[key];
+  }
+  async clear() {
+    this.storageObject = {};
+  }
+}
+
+cognitoUserPoolsTokenProvider.setAuthConfig(authConfig);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
+
+Amplify.configure(
+  {
+    Auth: authConfig
+  },
+  { Auth: { tokenProvider: cognitoUserPoolsTokenProvider } }
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+When you get the current user session, the tokens will be saved in your custom location.
+
+### Revoke tokens
+
+Token revocation is enabled by default in new Cognito User Pool Clients, however, if you are using an existing client, you may need to enable it. This allows for all access tokens that were previously issued by that refresh token to become invalid.
+
+To revoke tokens you can set up global sign-out with `signOut({ global: true })` to globally sign out your user from all of their devices.
+
+You can now change the user experience for your app by updating how and where your tokens are saved and managed.
+
+## Conclusion
+
+Congratulations! You finished the **Manage user session and credentials** guide. In this guide, you learned how to retrieve you current authenticated user, the user's session details, and reviewed several ways you can manage these user credentials.
+
+### Next steps
+
+Now that you updated how your credentials are managed you may also want to further refine the sing-in and sign-out workflows as well as update how you listen for these Auth events. We recommend you learn more about:
+
+- [Enable sign-up, sign-in, and sign-out](/gen2/build-a-backend/auth/enable-sign-up/)
+- [Listen to auth events](/gen2/build-a-backend/auth/auth-events/)

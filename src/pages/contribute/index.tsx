@@ -1,128 +1,101 @@
-import NextLink from 'next/link';
-import {
-  Button,
-  Flex,
-  View,
-  Heading,
-  Text,
-  Link,
-  Card
-} from '@aws-amplify/ui-react';
-import { FiExternalLink } from 'react-icons/fi';
-import Layout from '../../components/contribute/Layout';
-import Issues from '../../components/contribute/CardIssues';
-import HowItWorks from '../../components/contribute/HowItWorks';
-import QuickstartResources from '../../components/contribute/QuickstartResources';
+import { Heading, Text, Flex, View } from '@aws-amplify/ui-react';
+import ExportedImage from 'next-image-export-optimizer';
+import { InternalLinkButton } from '@/components/InternalLinkButton';
+import HowItWorks from '@/components/contribute/HowItWorks';
+import { YoutubeEmbed } from '@/components/YoutubeEmbed';
+import { Columns } from '@/components/Columns';
+import * as img from '../../constants/img';
 
-import { Octokit } from '@octokit/rest';
-import { Endpoints } from '@octokit/types';
-import AmplifyBadges from '../../components/contribute/AmplifyBadges';
-
-// type listRepoIssuesResponse = Endpoints['GET /repos/{owner}/{repo}/issues']['response'];
+const meta = {
+  title: 'AWS Amplify Contributor Program',
+  description:
+    'Amplify documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.',
+  hideFromNav: true
+};
 
 export function getStaticProps() {
-  // if (process.env.PROD_ENV === 'production') {
-  //   const octokit = new Octokit({});
-  //   const {
-  //     data: JsIssues
-  //   }: {
-  //     data: listRepoIssuesResponse['data'];
-  //   } = await octokit.rest.issues.listForRepo({
-  //     owner: 'aws-amplify',
-  //     repo: 'amplify-js',
-  //     state: 'open',
-  //     labels: 'good first issue',
-  //     // eslint-disable-next-line @typescript-eslint/camelcase
-  //     per_page: 6
-  //   });
-  //   const {
-  //     data: CLIissues
-  //   }: {
-  //     data: listRepoIssuesResponse['data'];
-  //   } = await octokit.rest.issues.listForRepo({
-  //     owner: 'aws-amplify',
-  //     repo: 'amplify-cli',
-  //     state: 'open',
-  //     labels: 'good first issue',
-  //     // eslint-disable-next-line @typescript-eslint/camelcase
-  //     per_page: 6
-  //   });
-  //   return {
-  //     props: { JsIssues, CLIissues }
-  //   };
-  // }
-
   return {
-    props: {}
+    props: {
+      hasTOC: false,
+      showLastUpdatedDate: false,
+      useCustomTitle: true,
+      meta
+    }
   };
 }
 
-export default function ContributorPage() {
-  const meta = {
-    title: 'AWS Amplify Contributor Program',
-    description:
-      'The Amplify Contributor Program is an open invitation for you to participate in the Amplify open source development journey. Get involved with AWS Amplify by making open source contributions to the Amplify project!'
-  };
+export default function Contribute() {
   return (
-    <>
-      <Layout meta={meta}>
-        {/* Nav - need to put in matching nav */}
-        {/* <Nav /> */}
-        <View
-          width="100%"
-          backgroundColor="brand.paper"
-          marginTop="5em"
-          marginBottom="10em"
-        >
-          <Flex
-            direction="column"
-            gap="4rem"
-            maxWidth="1280px"
-            justifyContent="center"
-            margin="0 auto"
+    <Flex direction="column" gap="xl">
+      <Flex direction="column">
+        <Heading level={1} textAlign="center">
+          AWS Amplify
+          <View>Contributor Program</View>
+        </Heading>
+        <Text fontSize="xl" textAlign="center">
+          Get involved with AWS Amplify by making open source contributions to
+          the project.
+        </Text>
+
+        <Flex justifyContent="center" wrap="wrap">
+          <InternalLinkButton
+            href="/contribute/getting-started"
+            size="large"
+            variation="primary"
           >
-            <Flex
-              direction="column"
-              alignContent="center"
-              justifyContent="center"
-              gap="4rem"
-              maxWidth="800px"
-              margin="0 auto"
-            >
-              <Heading level={1} textAlign="center" color="brand.squidInk">
-                AWS Amplify
-                <br />
-                <View as="span" color="brand.smile">
-                  Contributor Program
-                </View>
-              </Heading>
-              <Text fontSize={'xl'} textAlign="center">
-                Get involved with AWS Amplify by making open source
-                contributions to the project.
-              </Text>
+            Get Started Contributing
+          </InternalLinkButton>
+        </Flex>
+      </Flex>
 
-              <Flex justifyContent="center" wrap="wrap">
-                <Link
-                  as={NextLink}
-                  href="/contribute/getting-started"
-                  isExternal={false}
-                >
-                  <Button size="large" variation="primary">
-                    Get Started Contributing
-                  </Button>
-                </Link>
-              </Flex>
-            </Flex>
+      <HowItWorks />
 
-            <HowItWorks />
+      <Heading level={2}>The Amplify Badge Program</Heading>
+      <Text fontSize="large" color="font.secondary">
+        The Amplify Badge Program celebrates your contributions by offering you
+        exclusive, eye-catching badges to display on your online profiles, such
+        as LinkedIn, GitHub, or your own website.
+      </Text>
+      <Flex
+        direction="row"
+        justifyContent="center"
+        alignItems="top"
+        gap="2em"
+        wrap={'wrap'}
+      >
+        <ExportedImage
+          alt={img.BADGE_FOUNDATIONAL.alt}
+          height={200}
+          width={200}
+          src={img.BADGE_FOUNDATIONAL.src}
+        />
 
-           
-            <AmplifyBadges />
-            <QuickstartResources />
-            {/* <Contributors /> */}
-          </Flex>
-        </View>
-      </Layout>
-    </>
+        <ExportedImage
+          alt={img.BADGE_ITERMEDIATE.alt}
+          height={200}
+          width={200}
+          src={img.BADGE_ITERMEDIATE.src}
+        />
+
+        <ExportedImage
+          alt={img.BADGE_ADVANCED.alt}
+          height={200}
+          width={200}
+          src={img.BADGE_ADVANCED.src}
+        />
+      </Flex>
+
+      <Heading level={2}>Quickstart videos</Heading>
+      <Text fontSize="large">
+        Follow along with these videos to learn how to set up your local
+        environment to get started making open source contributions to the
+        Amplify project.
+      </Text>
+
+      <Columns columns={2}>
+        <YoutubeEmbed embedId="8BUSqSkhqtw" width="600" height="350" />
+        <YoutubeEmbed embedId="WMKVE98hEzE" width="600" height="350" />
+      </Columns>
+    </Flex>
   );
 }

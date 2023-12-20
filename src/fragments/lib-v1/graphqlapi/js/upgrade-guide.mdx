@@ -1,0 +1,144 @@
+If you're using AWS AppSync SDK for JavaScript (Maintenance mode), we recommend that you upgrade to the [AWS Amplify API category](/[platform]/prev/build-a-backend/graphqlapi/set-up-graphql-api/) or use the [AWS AppSync Apollo links](https://github.com/awslabs/aws-mobile-appsync-sdk-js#aws-appsync-links-for-apollo-v3) with the Apollo GraphQL client.
+
+**What does "Maintenance" mean?** While in maintenance, the AWS AppSync SDK for JavaScript (V2) will continue to receive updates that ensure compatibility with backend services and security updates. No new features will be introduced in the AWS AppSync SDK for JavaScript (V2).
+
+**How long will Maintenance last?** AWS AppSync SDK for JavaScript (V2) will be in Maintenance for 12 months i.e until June 30, 2024, after which no new updates will be made. This may result in the APIs going out of sync with the services and result in breaking production apps.
+
+## Option 1: Upgrade to AWS Amplify (Recommended)
+
+AWS Amplify provides APIs for querying, mutating, and subscribing to data in AppSync with less configuration overhead. Here's an example of running a query in the AWS AppSync SDK for JavaScript (Maintenance mode) vs. AWS Amplify API category:
+
+**AWS AppSync SDK for JavaScript (Maintenance mode):**
+
+```js
+import { createtodo } from './graphql/queries';
+import awsconfig from './aws-exports';
+import AWSAppSyncClient from 'aws-appsync';
+
+const client = new AWSAppSyncClient({
+  url: awsconfig.aws_appsync_graphqlEndpoint,
+  region: awsconfig.aws_appsync_region,
+  auth: {
+    type: awsconfig.aws_appsync_authenticationType,
+    apiKey: awsconfig.aws_appsync_apiKey
+  }
+});
+
+const result = await client.mutate({
+  mutation: gql(createTodo),
+  variables: {
+    input: {
+      name: 'New Todo',
+      description: 'Description of my new todo'
+    }
+  }
+});
+```
+
+**AWS Amplify:**
+
+```js
+import { createtodo } from './graphql/queries';
+import awsconfig from './aws-exports';
+import { Amplify, API } from 'aws-appsync';
+
+Amplify.configure(awsconfig);
+
+API.graphql({
+  query: createTodo,
+  variables: {
+    input: {
+      name: 'New Todo',
+      description: 'Description of my new todo'
+    }
+  }
+});
+```
+
+### Optimistic UI and cached data revalidation
+
+If you've used the AWS AppSync SDK's caching capabilities for optimistic UI, then we recommend you to follow our [Optimistic UI](/[platform]/prev/build-a-backend/graphqlapi/optimistic-ui/) guide. In this guide, you'll learn how to use AWS Amplify's API category in conjunction with [TanStack Query](https://tanstack.com/query/latest) to achieve optimistic UI and cached data invalidation use cases.
+
+### Complex objects support
+
+If you were using complex objects in the AWS AppSync SDK for JavaScript (Maintenance mode), then we recommend you to follow our [Working with Files](/[platform]/prev/build-a-backend/graphqlapi/working-with-files/) guide. This guide details the recommended path to store file metadata in your GraphQL API records and use Amplify Storage to store blob data in Amazon S3.
+
+## Option 2: Upgrade to Apollo Client with AppSync Links
+
+Alternatively, you can upgrade to the Apollo GraphQL client and continue using the AppSync Apollo links to connect to your AppSync API. There are two supported Apollo links:
+
+1. [`aws-appsync-auth-link`](https://www.npmjs.com/package/aws-appsync-auth-link): Link to setup authorization modes with AWS AppSync
+2. [`aws-appsync-subscription-link`](https://www.npmjs.com/package/aws-appsync-subscription-link): Link to setup real-time subscriptions for AWS AppSync
+
+Here's an example on how to create your GraphQL client using AWS AppSync SDK for JavaScript (Maintenance mode) vs. using the Apollo GraphQL client and the AWS AppSync Apollo links (V3):
+
+**AWS AppSync SDK for JavaScript (Maintenance mode):**
+
+```js
+import AWSAppSyncClient from 'aws-appsync';
+import awsconfig from './aws-exports';
+import { createtodo } from './graphql/queries';
+
+const client = new AWSAppSyncClient({
+  url: awsconfig.aws_appsync_graphqlEndpoint,
+  region: awsconfig.aws_appsync_region,
+  auth: {
+    type: awsconfig.aws_appsync_authenticationType,
+    apiKey: awsconfig.aws_appsync_apiKey
+  }
+});
+
+const result = await client.mutate({
+  mutation: gql(createTodo),
+  variables: {
+    input: {
+      name: 'New Todo',
+      description: 'Description of my new todo'
+    }
+  }
+});
+```
+
+**Apollo GraphQL client using AWS AppSync Apollo links:**
+
+```js
+import { createAuthLink } from 'aws-appsync-auth-link';
+import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';
+import {
+  ApolloClient,
+  InMemoryCache,
+  HttpLink,
+  ApolloLink
+} from '@apollo/client';
+import awsconfig from './aws-exports';
+import { createtodo } from './graphql/queries';
+
+const url = awsconfig.aws_appsync_graphqlEndpoint;
+const region = awsconfig.aws_appsync_region;
+const auth = {
+  type: awsconfig.aws_appsync_authenticationType,
+  apiKey: awsconfig.aws_appsync_apiKey
+};
+
+const httpLink = new HttpLink({ uri: url });
+
+const link = ApolloLink.from([
+  createAuthLink({ url, region, auth }),
+  createSubscriptionHandshakeLink({ url, region, auth }, httpLink)
+]);
+
+const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache()
+});
+
+client.mutate({
+  mutation: gql(createTodo),
+  variables: {
+    input: {
+      name: 'New Todo',
+      description: 'Description of my new todo'
+    }
+  }
+});
+```

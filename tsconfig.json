@@ -11,7 +11,16 @@
     "noEmit": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["src/components/*"],
+      "@/constants/*": ["src/constants/*"],
+      "@/data/*": ["src/data/*"],
+      "@/plugins/*": ["src/plugins/*"],
+      "@/themes/*": ["src/themes/*"],
+      "@/utils/*": ["src/utils/*"]
+    }
   },
   "extends": "./tsconfig.base.json",
   "include": [
@@ -19,6 +28,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "tasks",
-    "adobe.d.ts"
+    "adobe.d.ts",
+    "jest.setup.ts"
   ]
 }

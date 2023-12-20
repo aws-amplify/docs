@@ -26,20 +26,20 @@ In the following procedure, you’ll connect your app to the Amazon Location Ser
 In your React App, open `src/App.js` file, and call the following function to initialize the Amazon Location Service client:
 
 ```javascript
-import { Amplify, Auth } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import { fetchAuthSession } from 'aws-amplify/auth';
 import {
   LocationClient,
   AssociateTrackerConsumerCommand
 } from '@aws-sdk/client-location';
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
 
 const createClient = async () => {
-  const credentials = await Auth.currentCredentials();
+  const session = await fetchAuthSession();
   const client = new LocationClient({
-    credentials,
-    region: awsconfig.aws_project_region
+    credentials: session.credentials,
+    region: amplifyconfig.aws_project_region
   });
   return client;
 };
@@ -49,7 +49,7 @@ You’ve now successfully connected your app to the Amazon Location Service.
 
 ## Using the Amazon Location Service APIs
 
-In order to access Amazon Location Service APIs, ensure you've provisioned resources and configured your app using the instructions in either [Amplify CLI Geo Maps docs](/cli/geo/maps) or the [Amazon Location Service console](https://console.aws.amazon.com/location/home#/create).
+In order to access Amazon Location Service APIs, ensure you've provisioned resources and configured your app using the instructions in either [Amplify CLI Geo Maps docs](/[platform]/build-a-backend/more-features/geo/configure-maps/) or the [Amazon Location Service console](https://console.aws.amazon.com/location/home#/create).
 
 You can check out the [Amazon Location API Reference documentation](https://docs.aws.amazon.com/location/index.html) for a complete list of supported features.
 

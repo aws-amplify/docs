@@ -1,22 +1,70 @@
-import '@algolia/autocomplete-theme-classic';
-import '../styles/styles.css';
-import '../styles/contribute-styles.css';
+import '@aws-amplify/ui-react/styles.css';
+import '../styles/styles.scss';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
-import ExportedImage from 'next-image-export-optimizer';
-
-const ResponsiveImage = (props) => (
-  <ExportedImage style={{ height: 'auto' }} {...props} />
-);
-
-const components = {
-  img: ResponsiveImage
-};
+import { Layout } from '@/components/Layout';
+import { CANONICAL_URLS } from '@/data/canonical-urls';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { trackPageVisit } from '../utils/track';
+import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 
 function MyApp({ Component, pageProps }) {
+  const {
+    meta,
+    platform,
+    url,
+    hasTOC,
+    pageType,
+    showBreadcrumbs,
+    showLastUpdatedDate,
+    useCustomTitle
+  } = pageProps;
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      trackPageVisit();
+    };
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router]);
+
+  const getLayout =
+    Component.getLayout ||
+    ((page) => (
+      <Layout
+        pageTitle={meta?.title ? meta.title : ''}
+        pageDescription={meta?.description ? meta.description : ''}
+        pageType={pageType}
+        url={url}
+        platform={platform ? platform : ''}
+        hasTOC={hasTOC}
+        useCustomTitle={useCustomTitle}
+        showBreadcrumbs={showBreadcrumbs}
+        showLastUpdatedDate={showLastUpdatedDate}
+      >
+        {page}
+      </Layout>
+    ));
+
+  let canonicalUrl = 'https://docs.amplify.aws';
+  let canonicalPath = meta?.canonicalUrl ? meta.canonicalUrl : router.pathname;
+  canonicalPath = CANONICAL_URLS.includes(canonicalPath)
+    ? router.pathname.replace('[platform]', 'javascript')
+    : canonicalPath;
+  canonicalPath = canonicalPath.replace('[platform]', useCurrentPlatform());
+  canonicalUrl += canonicalPath;
+
   return (
     <>
       <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="msapplication-TileImage"
           content="/assets/icon/ms-icon-144x144.png"
@@ -73,34 +121,69 @@ function MyApp({ Component, pageProps }) {
           sizes="192x192"
           href="/assets/icon/android-icon-192x192.png"
         />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/assets/icon/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="96x96"
-          href="/assets/icon/favicon-96x96.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/assets/icon/favicon-16x16.png"
-        />
+        {router.route.startsWith('/gen2') ? (
+          <>
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/assets/icon/favicon-purple-16x16.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/assets/icon/favicon-purple-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="96x96"
+              href="/assets/icon/favicon-purple-96x96.png"
+            />
+            <link
+              rel="icon"
+              type="image/x-icon"
+              href="/assets/icon/favicon-purple.ico"
+            />
+          </>
+        ) : (
+          <>
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/assets/icon/favicon-teal-16x16.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/assets/icon/favicon-teal-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="96x96"
+              href="/assets/icon/favicon-teal-96x96.png"
+            />
+            <link
+              rel="icon"
+              type="image/x-icon"
+              href="/assets/icon/favicon-teal.ico"
+            />
+          </>
+        )}
+
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
-        <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
+        <link rel="canonical" href={canonicalUrl} />
       </Head>
 
-      <MDXProvider components={components}>
-        <Component {...pageProps} />
-      </MDXProvider>
+      <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>
 
       {process.env.BUILD_ENV !== 'production' ? (
         <>
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
           <script src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
           <script
             src="https://alpha.d2c.marketing.aws.dev/client/loader/v1/d2c-load.js"
@@ -109,6 +192,7 @@ function MyApp({ Component, pageProps }) {
         </>
       ) : (
         <>
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
           <script src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
           <script
             src="https://d2c.aws.amazon.com/client/loader/v1/d2c-load.js"
@@ -116,6 +200,10 @@ function MyApp({ Component, pageProps }) {
           ></script>
         </>
       )}
+      <link
+        href="https://prod.assets.shortbread.aws.dev/shortbread.css"
+        rel="stylesheet"
+      ></link>
     </>
   );
 }

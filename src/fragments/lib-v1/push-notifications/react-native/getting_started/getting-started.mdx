@@ -1,0 +1,62 @@
+The Push Notifications category allows you to integrate push notifications in your app with Amazon Pinpoint targeting, campaign, and journey management support. You can segment your users, trigger push notifications to your app, and record metrics in Pinpoint when users receive or open notifications. Amazon Pinpoint helps you to create messaging campaigns and journeys targeted to specific user segments or demographics and collect interaction metrics with push notifications.
+
+import expoCallout from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/expo-callout.mdx';
+
+<Fragments fragments={{ 'react-native': expoCallout }} />
+
+## Prerequisites
+
+import crossPlatformPreReq from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/cross-platform-prereq.mdx';
+
+<Fragments fragments={{ 'react-native': crossPlatformPreReq }} />
+
+## Set up backend resources
+
+To use Push Notifications with Amplify, you have the option to either have the Amplify CLI setup resources for you, or you can use an existing Amazon Pinpoint resource in your AWS account.
+
+<BlockSwitcher>
+<Block name="Amplify CLI">
+
+> Prerequisite: [Install and configure the Amplify CLI](/[platform]/tools/cli/start/set-up-cli/)
+
+<Callout warning>
+
+Push Notifications requires version **10.8.0+** of the Amplify CLI. You can check your current version with `amplify -version` and upgrade to the latest version with `amplify upgrade`.
+
+</Callout>
+
+To start provisioning push notification resources in the backend, go to your project directory and execute the command:
+
+```sh
+amplify add notifications
+```
+
+import cliResources from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/20_cli_resources.mdx';
+
+<Fragments fragments={{ 'react-native': cliResources }} />
+
+</Block>
+<Block name="Existing resources">
+
+import existingResources from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/30_existing_resources.mdx';
+
+<Fragments fragments={{ 'react-native': existingResources }} />
+
+</Block>
+</BlockSwitcher>
+
+## Install Amplify Libraries
+
+import installLib from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/40_install_lib.mdx';
+
+<Fragments fragments={{ 'react-native': installLib }} />
+
+import integrateNativeModule from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/50_integrate_native_modules.mdx';
+
+<Fragments fragments={{ 'react-native': integrateNativeModule }} />
+
+## Initialize Amplify Push Notifications
+
+import initPN from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/60_init_push_notifications.mdx';
+
+<Fragments fragments={{ 'react-native': initPN }} />

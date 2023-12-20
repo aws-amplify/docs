@@ -1,0 +1,91 @@
+Amplify Geo provides solutions for common use cases with [Amazon Location Service](https://aws.amazon.com/location/) but for any functionality that is not currently supported by Amplify Geo you can access the [Amazon Location Service SDK](https://github.com/aws/aws-sdk-js-v3/tree/main/clients/client-location) directly.
+
+Follow this guide to get started with the `aws-sdk` for Amazon Location Service using Amplify Auth credentials.
+
+## Overview
+
+In this tutorial, we’ll go over the following:
+
+- Setting up the AWS SDK JavaScript v3 package for the Amazon Location Service SDK calls with Amplify auth.
+- Code examples using the Amazon Location Service SDK.
+
+## Installing SDK dependencies
+
+The first step to using the SDKs in the client is to install the necessary dependencies with the following command:
+
+```bash
+npm install @aws-sdk/client-location
+```
+
+## Connecting your app to Amazon Location Service
+
+In the following procedure, you’ll connect your app to the Amazon Location Service APIs.
+
+**To connect your app to the Amazon Location Service**
+
+In your React App, open `src/App.js` file, and call the following function to initialize the Amazon Location Service client:
+
+```javascript
+import { Amplify, Auth } from 'aws-amplify';
+import {
+  LocationClient,
+  AssociateTrackerConsumerCommand
+} from '@aws-sdk/client-location';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+
+const createClient = async () => {
+  const credentials = await Auth.currentCredentials();
+  const client = new LocationClient({
+    credentials,
+    region: awsconfig.aws_project_region
+  });
+  return client;
+};
+```
+
+You’ve now successfully connected your app to the Amazon Location Service.
+
+## Using the Amazon Location Service APIs
+
+In order to access Amazon Location Service APIs, ensure you've provisioned resources and configured your app using the instructions in either [Configuring Maps docs](/[platform]/build-a-backend/more-features/geo/maps) or the [Amazon Location Service console](https://console.aws.amazon.com/location/home#/create).
+
+You can check out the [Amazon Location API Reference documentation](https://docs.aws.amazon.com/location/index.html) for a complete list of supported features.
+
+### Example: Getting Device Position
+
+This example requires you to have first provisioned a Tracker resource using the [Amazon Location Service console](https://console.aws.amazon.com/location/tracking/home#/create).
+
+The following code details how to use the Amazon Location Service APIs to update a device position and get a device position using the tracker you just created:
+
+```javascript
+// UpdateDevicePosition API
+const params = {
+  TrackerName: 'trackerId',
+  Updates: [
+    {
+      DeviceId: 'deviceId',
+      Position: [-122.431297, 37.773972],
+      SampleTime: new Date()
+    }
+  ]
+};
+const command = new BatchUpdateDevicePositionCommand(params);
+client.send(command, (err, data) => {
+  if (err) console.error(err);
+  if (data) console.log(data);
+});
+
+// GetDevicePosition API
+const client = await createClient();
+const params = {
+  TrackerName: 'trackerId',
+  DeviceId: 'deviceId'
+};
+const command = new GetDevicePositionCommand(params);
+client.send(command, (err, data) => {
+  if (err) console.error(err);
+  if (data) console.log(data);
+});
+```

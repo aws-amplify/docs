@@ -1,8 +1,4 @@
-// Maybe put this somewhere else
-// At the moment Docs doesn't use Amplify UI anywhere else
-import '@aws-amplify/ui-react/styles.css';
 import React from 'react';
-
 import { View, Flex } from '@aws-amplify/ui-react';
 import { useState } from 'react';
 import styles from './GlobalNav.module.scss';
@@ -10,6 +6,7 @@ import { NavMenuIconType } from './components/icons/IconLink';
 import { RightNavLinks } from './components/RightNavLinks';
 import { AmplifyNavLink } from './components/AmplifyNavLink';
 import { LeftNavLinks } from './components/LeftNavLinks';
+import { SkipToMain } from '@/components/SkipToMain';
 
 export enum NavMenuItemType {
   DEFAULT = 'DEFAULT',
@@ -28,13 +25,17 @@ export interface NavMenuItem {
 export interface NavProps {
   leftLinks: NavMenuItem[];
   rightLinks: NavMenuItem[];
-  socialLinks: NavMenuItem[];
+  socialLinks?: NavMenuItem[];
   currentSite: string;
+  isGen2?: boolean;
+  mainId: string;
 }
 
 export function GlobalNav({
   currentSite,
+  isGen2,
   leftLinks,
+  mainId,
   rightLinks,
   socialLinks
 }: NavProps) {
@@ -51,22 +52,28 @@ export function GlobalNav({
   return (
     <View
       as="nav"
-      className={`${styles['navbar']} ${themeClass ? styles[themeClass] : ''}`}
+      className={`${styles['navbar']} ${isGen2 ? styles['navbar--gen2'] : ''} ${
+        themeClass ? styles[themeClass] : ''
+      }`}
       aria-label="Amplify Dev Center - External links to additional Amplify resources"
     >
+      <SkipToMain mainId={mainId} />
       <Flex className={styles['nav-links-container']}>
         <Flex height="100%" id="left-nav" className={styles['left-nav-links']}>
           <AmplifyNavLink
             currentSite={currentSite}
             isCollapsed={isCollapsed}
             setIsCollapsed={setIsCollapsed}
+            isGen2={isGen2}
           />
 
-          <LeftNavLinks
-            isCollapsed={isCollapsed}
-            leftLinks={leftLinks}
-            currentSite={currentSite}
-          />
+          {isGen2 ? null : (
+            <LeftNavLinks
+              isCollapsed={isCollapsed}
+              leftLinks={leftLinks}
+              currentSite={currentSite}
+            />
+          )}
         </Flex>
         <RightNavLinks
           rightLinks={rightLinks}

@@ -1,8 +1,4 @@
-The next feature you will be adding is authentication.
-
-## Authentication with Amplify
-
-Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery & other operations. In this tutorial, you'll learn how to add authentication to your application using Amazon Cognito and username/password login.
+The next feature you will be adding is authentication. Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery & other operations. In this tutorial, you'll learn how to add authentication to your application using Amazon Cognito and username/password login.
 
 ## Create authentication service
 
@@ -16,7 +12,7 @@ Select the defaults for the following prompts:
 
 ```console
 ? Do you want to use the default authentication and security configuration? Default configuration
-Warning: you will not be able to edit these selections. 
+Warning: you will not be able to edit these selections.
 ? How do you want users to be able to sign in? Username
 ? Do you want to configure advanced settings? No, I am done.
 ```
@@ -35,7 +31,7 @@ amplify console
 
 ## Create login UI
 
-Creating a login flow can be quite difficult and time consuming to get right. Luckily, Amplify UI has an [authentication](https://ui.docs.amplify.aws/react/components/authenticator) component that provides an entire authentication flow for you, using the configuration you specified in **aws-exports.js.**
+Creating a login flow can be quite difficult and time consuming to get right. Luckily, Amplify UI has an [authentication](https://ui.docs.amplify.aws/react/components/authenticator) component that provides an entire authentication flow for you, using the configuration you specified in **amplifyconfiguration.json**.
 
 ### Install Amplify UI
 
@@ -47,7 +43,7 @@ npm install @aws-amplify/ui-react
 
 ### Add the Amplify UI Authenticator component
 
-Open **src/App.js** and make the following changes:
+Open **src/App.jsx** and make the following changes:
 
 1. Import the `withAuthenticator` component:
 
@@ -56,25 +52,34 @@ import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 ```
 
-2. Pass `{signOut, user}` to the `App` component:
+2. Pass `{signOut, user}` to the `App` component. (For Vite's default React configuration, you'll also need to add "PropTypes" to validate the `signOut` and `user` props):
 
 ```javascript
-/* src/App.js */
-function App({ signOut, user }) { 
-  // ... 
+/* src/App.jsx */
+import PropTypes from 'prop-types'
+// ... other imports
+
+const App = ({ signOut, user }) => {
+  // ...
+}
+
+App.propTypes = {
+  signOut: PropTypes.func,
+  user: PropTypes.object
 }
 ```
 
 3. Add this heading and button block to the top of your `App` component:
 
 ```javascript
-// ...
 return (
   <div style={styles.container}>
     <Heading level={1}>Hello {user.username}</Heading>
     <Button onClick={signOut}>Sign out</Button>
     <h2>Amplify Todos</h2>
-//...
+    ...
+  </div>
+);
 ```
 
 4. Lastly, wrap your `App` export with the `withAuthenticator` Amplify UI component:
@@ -86,107 +91,158 @@ export default withAuthenticator(App);
 Run the app to see the new authentication flow protecting the app:
 
 ```bash
-npm start
+npm run dev
 ```
 
-Now you should see the app load with an authentication flow allowing users to sign up and sign in. Here's all the code below:
+Now you should see the app load with an authentication flow allowing users to sign up and sign in.
+
+<Accordion title="Review complete code example">
+
+Here's all the code below:
 
 ```javascript
 /* src/App.js */
-import React, { useEffect, useState } from 'react'
-import { Amplify, API, graphqlOperation } from 'aws-amplify'
-import { createTodo } from './graphql/mutations'
-import { listTodos } from './graphql/queries'
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types'
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+import { createTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
 import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
-import awsExports from "./aws-exports";
+import awsExports from './amplifyconfiguration.json';
 Amplify.configure(awsExports);
 
-const initialState = { name: '', description: '' }
+const initialState = { name: '', description: '' };
+const client = generateClient();
 
 const App = ({ signOut, user }) => {
-  const [formState, setFormState] = useState(initialState)
-  const [todos, setTodos] = useState([])
+  const [formState, setFormState] = useState(initialState);
+  const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    fetchTodos()
-  }, [])
+    fetchTodos();
+  }, []);
 
   function setInput(key, value) {
-    setFormState({ ...formState, [key]: value })
+    setFormState({ ...formState, [key]: value });
   }
 
   async function fetchTodos() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos))
-      const todos = todoData.data.listTodos.items
-      setTodos(todos)
-    } catch (err) { console.log('error fetching todos') }
+      const todoData = await client.graphql({
+        query: listTodos
+      });
+      const todos = todoData.data.listTodos.items;
+      setTodos(todos);
+    } catch (err) {
+      console.log('error fetching todos');
+    }
   }
 
   async function addTodo() {
     try {
-      if (!formState.name || !formState.description) return
-      const todo = { ...formState }
-      setTodos([...todos, todo])
-      setFormState(initialState)
-      await API.graphql(graphqlOperation(createTodo, {input: todo}))
+      if (!formState.name || !formState.description) return;
+      const todo = { ...formState };
+      setTodos([...todos, todo]);
+      setFormState(initialState);
+      await client.graphql({
+        query: createTodo,
+        variables: {
+          input: todo
+        }
+      });
     } catch (err) {
-      console.log('error creating todo:', err)
+      console.log('error creating todo:', err);
     }
   }
 
   return (
     <div style={styles.container}>
       <Heading level={1}>Hello {user.username}</Heading>
-      <Button onClick={signOut} style={styles.button}>Sign out</Button>
+      <Button onClick={signOut} style={styles.button}>
+        Sign out
+      </Button>
       <h2>Amplify Todos</h2>
       <input
-        onChange={event => setInput('name', event.target.value)}
+        onChange={(event) => setInput('name', event.target.value)}
         style={styles.input}
         value={formState.name}
         placeholder="Name"
       />
       <input
-        onChange={event => setInput('description', event.target.value)}
+        onChange={(event) => setInput('description', event.target.value)}
         style={styles.input}
         value={formState.description}
         placeholder="Description"
       />
-      <button style={styles.button} onClick={addTodo}>Create Todo</button>
-      {
-        todos.map((todo, index) => (
-          <div key={todo.id ? todo.id : index} style={styles.todo}>
-            <p style={styles.todoName}>{todo.name}</p>
-            <p style={styles.todoDescription}>{todo.description}</p>
-          </div>
-        ))
-      }
+      <button style={styles.button} onClick={addTodo}>
+        Create Todo
+      </button>
+      {todos.map((todo, index) => (
+        <div key={todo.id ? todo.id : index} style={styles.todo}>
+          <p style={styles.todoName}>{todo.name}</p>
+          <p style={styles.todoDescription}>{todo.description}</p>
+        </div>
+      ))}
     </div>
-  )
-}
+  );
+};
 
 const styles = {
-  container: { width: 400, margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20 },
-  todo: {  marginBottom: 15 },
-  input: { border: 'none', backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
+  container: {
+    width: 400,
+    margin: '0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 20
+  },
+  todo: { marginBottom: 15 },
+  input: {
+    border: 'none',
+    backgroundColor: '#ddd',
+    marginBottom: 10,
+    padding: 8,
+    fontSize: 18
+  },
   todoName: { fontSize: 20, fontWeight: 'bold' },
   todoDescription: { marginBottom: 0 },
-  button: { backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px' }
+  button: {
+    backgroundColor: 'black',
+    color: 'white',
+    outline: 'none',
+    fontSize: 18,
+    padding: '12px 0px'
+  }
+};
+
+App.propTypes = {
+  signOut: PropTypes.func,
+  user: PropTypes.object
 }
 
 export default withAuthenticator(App);
 ```
 
-### Bonus: Use Amplify UI Primitives
+</Accordion>
+
+<Accordion title="Bonus: Use Amplify UI Primitives">
 
 You used two Amplify UI components, `Heading` and `Button`. You could also convert the rest of the app to Amplify UI components by replacing the `p` tags with `Text`, the `input`s with `TextField`s and the `div`s with `View`s.
 
 1. Add the `Text`, `TextField`, `View` components to the imported components from Amplify UI:
 
 ```javascript
-import { withAuthenticator, Button, Heading, Text, TextField, View } from '@aws-amplify/ui-react';
+import {
+  withAuthenticator,
+  Button,
+  Heading,
+  Text,
+  TextField,
+  View
+} from '@aws-amplify/ui-react';
 ```
 
 2. Replace the `p` tags with `Text`, the `input`s with `TextField`s and the `div`s with `View`s in your `App` component:
@@ -194,31 +250,35 @@ import { withAuthenticator, Button, Heading, Text, TextField, View } from '@aws-
 ```javascript
 <View style={styles.container}>
   <Heading level={1}>Hello {user.username}</Heading>
-  <Button style={styles.button}onClick={signOut}>Sign out</Button>
+  <Button style={styles.button} onClick={signOut}>
+    Sign out
+  </Button>
   <Heading level={2}>Amplify Todos</Heading>
   <TextField
     placeholder="Name"
-    onChange={event => setInput('name', event.target.value)}
+    onChange={(event) => setInput('name', event.target.value)}
     style={styles.input}
     defaultValue={formState.name}
   />
   <TextField
     placeholder="Description"
-    onChange={event => setInput('description', event.target.value)}
+    onChange={(event) => setInput('description', event.target.value)}
     style={styles.input}
     defaultValue={formState.description}
   />
-  <Button style={styles.button} onClick={addTodo}>Create Todo</Button>
-  {
-    todos.map((todo, index) => (
-      <View key={todo.id ? todo.id : index} style={styles.todo}>
-        <Text style={styles.todoName}>{todo.name}</Text>
-        <Text style={styles.todoDescription}>{todo.description}</Text>
-      </View>
-    ))
-  }
+  <Button style={styles.button} onClick={addTodo}>
+    Create Todo
+  </Button>
+  {todos.map((todo, index) => (
+    <View key={todo.id ? todo.id : index} style={styles.todo}>
+      <Text style={styles.todoName}>{todo.name}</Text>
+      <Text style={styles.todoDescription}>{todo.description}</Text>
+    </View>
+  ))}
 </View>
 ```
+
+</Accordion>
 
 Using Amplify UI components together makes it easier to manage styling across your entire app.
 
@@ -226,6 +286,6 @@ In this example, you used the Amplify React UI library and the `withAuthenticato
 
 You can also [customize this component](https://ui.docs.amplify.aws/react/components/authenticator/customization) to add or remove fields, update styling, or other configurations. You can even [override function calls](https://ui.docs.amplify.aws/react/components/authenticator/customization#override-function-calls) if needed.
 
-In addition to the `withAuthenticator`, you can build [custom authentication flows Amplify Libraries for JS](/lib/auth/getting-started). Amplify's `Auth` class has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
+If you would like to build your own authentication flow instead, you can use the [Auth category in Amplify Libraries for JS](/[platform]/build-a-backend/auth/set-up-auth/). Amplify's Auth category class over 20 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
 
-In the next section, you'll host your app on the Amplify Console, a hosting service complete with a globally available CDN, atomic deployments, easy custom domains, and CI / CD.
+In the next section, you'll host your app on the Amplify Console, a hosting service complete with a globally available CDN, automatic deployments, easy custom domains, and CI / CD.

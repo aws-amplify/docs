@@ -1,0 +1,26 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Platform setup',
+  description: 'Instructions for platform-specific configurations needed for amplify-flutter',
+  platforms: ['flutter']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+
+import flutter0 from '/src/fragments/lib/project-setup/flutter/platform-setup/platform-setup.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />

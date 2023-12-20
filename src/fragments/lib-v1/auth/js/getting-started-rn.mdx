@@ -1,0 +1,272 @@
+## Authentication with Amplify
+
+Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery & other operations. In this tutorial, you'll learn how to add authentication to your application using Amazon Cognito and username/password login.
+
+## Install Amplify Libraries
+
+<BlockSwitcher>
+<Block name="React Native CLI">
+
+Install the necessary dependencies by running the following command:
+
+```sh
+npm install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage
+```
+
+You will also need to install the pod dependencies for iOS:
+
+```sh
+npx pod-install
+```
+
+</Block>
+<Block name="Expo CLI">
+
+Install the necessary dependencies by running the following command:
+
+```sh
+npm install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage
+```
+
+</Block>
+</BlockSwitcher>
+
+## Set Up Backend Resources
+
+The most common way to use Authentication with Amplify is via the Amplify CLI, which allows you to create new Amazon Cognito resources or import existing ones. However, you can also use the Amplify Studio console to configure authentication or use the `Amplify.configure()` method to set up authentication with existing resources.
+
+<BlockSwitcher>
+<Block name="Amplify CLI (Create)">
+
+> Prerequisites: [Install and configure](/[platform]/start/project-setup/prerequisites/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/[platform]/build-a-backend/auth/set-up-auth/#install-amplify-libraries).
+
+To start provisioning auth resources in the backend, go to your project directory and **execute the command**:
+
+```bash
+amplify add auth
+```
+
+```console
+? Do you want to use the default authentication and security configuration? Default configuration
+? How do you want users to be able to sign in? Username
+? Do you want to configure advanced settings?  No, I am done.
+```
+
+> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), you can run the `amplify update auth` command to edit your configuration if needed.
+
+The CLI prompts will help you to customize your auth flow for your app. With the provided options, you can:
+
+- Customize sign-in/registration flow
+- Customize email and SMS messages for Multi-Factor Authentication
+- Customize attributes for your users, e.g. name, email
+- Enable 3rd party social providers, e.g. Facebook, Twitter, Google and Amazon
+
+If you wish to federate with social providers [you will need to configure them first](/[platform]/build-a-backend/auth/add-social-provider/#social-providers-and-federation).
+
+After configuring your Authentication options, update your backend and deploy the service by running the `push` command:
+
+```bash
+amplify push
+```
+
+Now, the authentication service has been deployed and you can start using it. To view the deployed services in your project at any time, go to Amplify Console by running the following command:
+
+```bash
+amplify console
+```
+
+In your app's entry point (i.e. **App.js**, **index.js**, **\_app.js**, or **main.js**), import and load the configuration file:
+
+```javascript
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+</Block>
+
+<Block name="Amplify CLI (Import)">
+
+> Prerequisites: [Install and configure](/[platform]/start/project-setup/prerequisites/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/[platform]/build-a-backend/auth/set-up-auth/#install-amplify-libraries).
+
+To import existing Amazon Cognito resources into your Amplify project, **execute the command**:
+
+```bash
+amplify import auth
+```
+
+```console
+? What type of auth resource do you want to import?
+   Cognito User Pool and Identity Pool
+   Cognito User Pool only
+```
+
+Once you've selected an option, you'll be able to search for and import an existing Cognito User Pool and Identity Pool (or User Pool only) within your AWS account. The `amplify import auth` command will also do the following:
+
+- Automatically populate your Amplify Library configuration files (aws-exports.js, amplifyconfiguration.json) with your chosen Amazon Cognito resource information
+- Provide your designated existing Cognito resource as the authentication & authorization mechanism for all auth-dependent categories (API, Storage and more)
+- Enable Lambda functions to access the chosen Cognito resource if you permit it
+
+> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), you can run the `amplify update auth` command to edit your configuration if needed.
+
+After configuring your Authentication options, update your backend and deploy the service by running the `push` command:
+
+```bash
+amplify push
+```
+
+Now, the authentication service has been deployed and you can start using it. To view the deployed services in your project at any time, go to Amplify Console by running the following command:
+
+```bash
+amplify console
+```
+
+In your app's entry point (i.e. **App.js**, **index.js**, **\_app.js**, or **main.js**), import and load the configuration file:
+
+```javascript
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+</Block>
+
+<Block name="Amplify Studio">
+
+> Prerequisites: [Install and configure](/[platform]/start/project-setup/prerequisites/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/[platform]/build-a-backend/auth/set-up-auth/#install-amplify-libraries).
+
+Amplify Studio allows you create auth resources, set up authorization rules, implement Multi-factor authentication (MFA), and more via an intuitive UI. To set up Authentication through the Amplify Studio, take the following steps:
+
+1. **Sign in** to the [AWS Management Console](https://console.aws.amazon.com/console/home) and open AWS Amplify.
+2. In the navigation pane, **choose an application**.
+3. On the application information page, choose the **Backend environments** tab, then choose **Launch Studio**.
+4. On the **Set up** menu, choose **Authentication**.
+5. In the **Configure log in** section, choose a login mechanism to add from the **Add login mechanism** list. Valid options are _Username_, _Phone number_, _Facebook_, _Google_, _Amazon_, and _Sign in with Apple_. If you choose one of the social sign-in mechanisms (i.e. _Facebook_, _Google_, _Amazon_, or _Sign in with Apple_), you will also need to enter your _App ID_, _App Secret_, and redirect URLs.
+6. (Optional) Add multi-factor authentication (MFA). MFA is set to **Off** by default. To turn on MFA, do the following in the **Multi-factor authentication** section:
+
+- Choose **Enforced** to require MFA for all users or choose **Optional** to allow individual users to enable MFA.
+- (Optional) Choose **SMS**, and enter your SMS message.
+- (Optional) Choose **Authenticator Application** if you want your app to load with an authentication flow that includes sign up and sign in.
+
+7. In the **Configure sign up** section, expand **Password protection settings** and customize the password policy settings to enforce. u6. Choose **Save and Deploy**. This starts a CloudFormation deployment with the progress displayed in the upper right corner of the page.
+8. After creating and configuring your auth resources, you'll need to pull them down from Amplify Studio. To do so, simply click on "Local setup instructions" in the upper right hand corner of the Studio console and execute the CLI command it provides at the root directory of your app.
+
+> You can also [import](/[platform]/tools/console/auth/import/) existing Amazon Cognito resources and [manage users and groups](/[platform]/tools/console/auth/user-management/) through the Amplify Studio UI.
+
+</Block>
+
+<Block name="Existing Resources">
+
+Existing Authentication resources from AWS (e.g. Amazon Cognito UserPools or Identity Pools) can be used with the Amplify Libraries by calling the `Amplify.configure()` method.
+
+In your app's entry point (i.e. **App.js**, **index.js**, **\_app.js**, or **main.js**), import and load the configuration file:
+
+```javascript
+import { Amplify, Auth } from 'aws-amplify';
+
+Amplify.configure({
+  Auth: {
+    // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
+    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
+
+    // REQUIRED - Amazon Cognito Region
+    region: 'XX-XXXX-X',
+
+    // OPTIONAL - Amazon Cognito Federated Identity Pool Region
+    // Required only if it's different from Amazon Cognito Region
+    identityPoolRegion: 'XX-XXXX-X',
+
+    // OPTIONAL - Amazon Cognito User Pool ID
+    userPoolId: 'XX-XXXX-X_abcd1234',
+
+    // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+    userPoolWebClientId: 'a1b2c3d4e5f6g7h8i9j0k1l2m3',
+
+    // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
+    mandatorySignIn: false,
+
+    // OPTIONAL - This is used when autoSignIn is enabled for Auth.signUp
+    // 'code' is used for Auth.confirmSignUp, 'link' is used for email link verification
+    signUpVerificationMethod: 'code', // 'code' | 'link'
+
+    // OPTIONAL - Configuration for cookie storage
+    // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
+    cookieStorage: {
+      // REQUIRED - Cookie domain (only required if cookieStorage is provided)
+      domain: '.yourdomain.com',
+      // OPTIONAL - Cookie path
+      path: '/',
+      // OPTIONAL - Cookie expiration in days
+      expires: 365,
+      // OPTIONAL - See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite
+      sameSite: 'strict' | 'lax',
+      // OPTIONAL - Cookie secure flag
+      // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
+      secure: true
+    },
+
+    // OPTIONAL - customized storage object
+    storage: MyStorage,
+
+    // OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
+    authenticationFlowType: 'USER_PASSWORD_AUTH',
+
+    // OPTIONAL - Manually set key value pairs that can be passed to Cognito Lambda Triggers
+    clientMetadata: { myCustomKey: 'myCustomValue' },
+
+    // OPTIONAL - Hosted UI configuration
+    oauth: {
+      domain: 'your_cognito_domain',
+      scope: [
+        'phone',
+        'email',
+        'profile',
+        'openid',
+        'aws.cognito.signin.user.admin'
+      ],
+      redirectSignIn: 'http://localhost:3000/',
+      redirectSignOut: 'http://localhost:3000/',
+      responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+    }
+  }
+});
+
+// You can get the current config object
+const currentConfig = Auth.configure();
+```
+
+<Callout warning={true}>
+  If your existing UserPool client has a required attribute that is NOT set to
+  mutable, you may face login issues when using Social sign in. To resolve this,
+  you will need to
+  <ExternalLink href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html">
+    create a new UserPool client
+  </ExternalLink>
+  and mark the required attribute as mutable.
+</Callout>
+
+### OAuth configuration parameters:
+
+These settings can be found in the Cognito User Pools console under **App Integration** section
+
+- `domain`: This can be found in the **Domain name** sub section
+- `scope`: Remember to have the scope allowed on the Cognito App client, this can be found on **App client settings** sub section
+- `redirectSignIn`: URL must be present on **Callback URL(s)** , check on **App client settings** sub section
+- `redirectSignOut`: URL must be present on **Sign out URL(s)**, check on **App client settings** sub section
+- `responseType`: Option must be enabled on the App client, look for **Allowed OAuth Flows** on **App client settings** sub section. _Authorization code grant_ is for 'code' value and _Implicit grant_ is for 'token' value.
+
+</Block>
+
+</BlockSwitcher>
+
+## Enable sign-up, sign-in, and sign-out
+
+Follow the instructions in the [Sign in, Sign up and Sign out](/[platform]/build-a-backend/auth/enable-sign-up/) to learn about how to integrate these authentication flows in your application with the Auth APIs.
+
+## Summary
+
+To implement authentication flows using Amplify you can either use the Amplify UI libraries or call authentication methods directly on the `Auth` class.
+
+`Auth` has over 30 methods including [`signUp`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-up), [`signIn`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-in), [`forgotPassword`](/[platform]/build-a-backend/auth/manage-user-session/#forgot-password), and [`signOut`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-out) that allow you full control over all aspects of the user authentication flow.
+
+Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).

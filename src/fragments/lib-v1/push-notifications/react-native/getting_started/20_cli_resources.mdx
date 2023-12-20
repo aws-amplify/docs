@@ -1,0 +1,20 @@
+<BlockSwitcher>
+<Block name="iOS">
+
+import apnsCliResources from '/src/fragments/lib/push-notifications/ios/getting_started/apns-cli-resources.mdx';
+
+<Fragments fragments={{ 'react-native': apnsCliResources }} />
+
+Upon completion, `aws-exports.js` will be updated to reference the newly provisioned backend push notifications resources. Note that this file should already be generated for you by the Amplify CLI as a part of your project if you followed the [project setup walkthrough](/[platform]/prev/start/project-setup/prerequisites/).
+
+</Block>
+<Block name="Android">
+
+import fcmCliResources from '/src/fragments/lib/push-notifications/android/getting_started/fcm-cli-resources.mdx';
+
+<Fragments fragments={{ 'react-native': fcmCliResources }} />
+
+Upon completion, `aws-exports.js` will be updated to reference the newly provisioned backend push notifications resources. Note that this file should already be generated for you by the Amplify CLI as a part of your project if you followed the [project setup walkthrough](/[platform]/prev/start/project-setup/prerequisites/).
+
+</Block>
+</BlockSwitcher>

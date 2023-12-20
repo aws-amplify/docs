@@ -1,0 +1,24 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Request permissions',
+  description: 'Request permissions to display push notifications to users.',
+  platforms: ['react-native','flutter']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import commonRoute from '/src/fragments/lib/push-notifications/common/request-permissions.mdx';
+
+<Fragments fragments={{ flutter: commonRoute, 'react-native': commonRoute }} />

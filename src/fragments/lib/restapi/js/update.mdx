@@ -1,118 +1,24 @@
-## POST data
-
-Posts data to the API endpoint:
-
-```javascript
-const apiName = 'MyApiName'; // replace this with your api name.
-const path = '/path'; //replace this with the path you have configured on your API
-const myInit = {
-  body: {}, // replace this with attributes you need
-  headers: {} // OPTIONAL
-};
-
-API.post(apiName, path, myInit)
-  .then((response) => {
-    // Add your code here
-  })
-  .catch((error) => {
-    console.log(error.response);
-  });
-```
-
-Example with async/await
-
-```javascript
-async function postData() {
-  const apiName = 'MyApiName';
-  const path = '/path';
-  const myInit = {
-    body: {}, // replace this with attributes you need
-    headers: {} // OPTIONAL
-  };
-
-  return await API.post(apiName, path, myInit);
-}
-
-postData();
-```
-
 ## PUT data
 
-When used together with a REST API, `put()` method can be used to create or update records. It updates the record if a matching record is found. Otherwise, a new record is created.
+To create or update a todo item via the API endpoint:
 
 ```javascript
-const apiName = 'MyApiName'; // replace this with your api name.
-const path = '/path'; // replace this with the path you have configured on your API
-const myInit = {
-  body: {}, // replace this with attributes you need
-  headers: {} // OPTIONAL
-};
+import { put } from 'aws-amplify/api';
 
-API.put(apiName, path, myInit)
-  .then((response) => {
-    // Add your code here
-  })
-  .catch((error) => {
-    console.log(error.response);
-  });
-```
-
-Example with async/await:
-
-```javascript
-async function putData() {
-  const apiName = 'MyApiName';
-  const path = '/path';
-  const myInit = {
-    body: {}, // replace this with attributes you need
-    headers: {} // OPTIONAL
-  };
-
-  return await API.put(apiName, path, myInit);
-}
-
-putData();
-```
-
-Access body in the Lambda function
-
-```javascript
-// using a basic lambda handler
-exports.handler = (event, context) => {
-  console.log('body: ', event.body);
-};
-
-// using serverless express
-app.put('/myendpoint', function(req, res) {
-  console.log('body: ', req.body);
-});
-```
-
-Update a record:
-
-```javascript
-const params = {
-  body: {
-    itemId: '12345',
-    itemDesc: ' update description'
+async function updateTodo() {
+  try {
+    const todo = { name: 'My first todo', message: 'Hello world!' };
+    const restOperation = put({
+      apiName: 'todo-api',
+      path: 'todo/1',
+      options: {
+        body: todo
+      }
+    });
+    const response = await restOperation.response;
+    console.log('PUT call succeeded: ', response);
+  } catch (err) {
+    console.log('PUT call failed: ', err);
   }
-};
-
-const apiResponse = await API.put('MyTableCRUD', '/manage-items', params);
-```
-
-## Access body in Lambda proxy function
-
-<!-- TODO Rewrite need to add more information here, this is not clear -->
-
-```javascript
-// using a basic lambda handler
-exports.handler = (event, context) => {
-  console.log('body: ', event.body);
-};
-
-// using serverless express
-app.post('/myendpoint', function(req, res) {
-  console.log('body: ', req.body);
-});
+}
 ```

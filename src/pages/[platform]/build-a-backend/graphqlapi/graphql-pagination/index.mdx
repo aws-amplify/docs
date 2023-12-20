@@ -1,0 +1,127 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'GraphQL pagination',
+  description: 'How to implement pagination with GraphQL ',
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      showBreadcrumbs: false,
+      meta
+    }
+  };
+}
+
+In this guide you will learn how to implement pagination in your GraphQL API.
+
+When working with a large record set, you may want to only fetch the first **N** number of items. For example, let's start with a basic GraphQL schema for a Todo app:
+
+```graphql
+type Todo @model {
+  id: ID!
+  title: String!
+  description: String
+}
+```
+
+When the API is created with an `@model` directive, the following queries will automatically be created for you:
+
+```graphql
+type Query {
+  getTodo(id: ID!): Todo
+  listTodos(
+    filter: ModelTodoFilterInput
+    limit: Int
+    nextToken: String
+  ): ModelTodoConnection
+}
+```
+
+Next, take a look at the `ModelTodoConnection` type to get an idea of the data that will be returned when the `listTodos` query is run:
+
+```graphql
+type ModelTodoConnection {
+  items: [Todo]
+  nextToken: String
+}
+```
+
+When querying the API using the `listTodos` query, the return type will be of `ModelTodoConnection`, meaning you can return both an array of `Todos` and a `nextToken`.
+
+The `nextToken` is what is used to handle pagination. If the `nextToken` is `null`, that means that there is no more data to return from the API. If the `nextToken` is present, you can use the value as an argument to the next `listTodos` query to return the next selection set from the API.
+
+To test this out, try creating 5 todos using a mutation like this:
+
+```sh
+mutation createTodo {
+  createTodo(input: {
+    title: "Todo 1"
+    description: "My first todo"
+  }) {
+    id
+    title
+    description
+  }
+}
+```
+
+Next, you can set the limit of the number of todos in a query by passing in a `limit` argument. In this query, you'll set the limit to 2 items and request a `nextToken` as a return value:
+
+```graphql
+query listTodos {
+  listTodos(limit: 2) {
+    items {
+      id
+      title
+      description
+    }
+    nextToken
+  }
+}
+```
+
+Now, to query the next 2 items from the API, you can pass this `nextToken` as the argument:
+
+```graphql
+query listTodos {
+  listTodos(limit: 2, nextToken: <your_token>) {
+    items {
+      id
+      title
+      description
+    }
+    nextToken
+  }
+}
+```
+
+When there are no other items left to be returned, the `nextToken` in the response will be set to null.
+
+import js0 from '/src/fragments/guides/api-graphql/js/graphql-pagination.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>

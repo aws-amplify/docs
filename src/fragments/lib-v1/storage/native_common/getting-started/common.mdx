@@ -1,25 +1,26 @@
 The Amplify Storage category provides an interface for managing user content for your app in public, protected, or private storage buckets. The Storage category comes with default built-in support for Amazon Simple Storage Service (S3). The Amplify CLI helps you to create and configure the storage buckets for your app. The Amplify AWS S3 Storage plugin leverages [Amazon S3](https://aws.amazon.com/s3).
 
-import flutter0 from "/src/fragments/lib-v1/storage/flutter/getting-started/50_developerPreview.mdx";
+import flutter0 from '/src/fragments/lib-v1/storage/flutter/getting-started/50_developerPreview.mdx';
 
-<Fragments fragments={{flutter: flutter0}} />
+<Fragments fragments={{ flutter: flutter0 }} />
 
 ## Goal
+
 To setup and configure your application with Amplify Storage and go through a simple upload file example
 
 ## Prerequisites
 
-import ios0 from "/src/fragments/lib-v1/storage/ios/getting-started/10_preReq.mdx";
+import ios0 from '/src/fragments/lib-v1/storage/ios/getting-started/10_preReq.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
-import android1 from "/src/fragments/lib-v1/storage/android/getting-started/10_preReq.mdx";
+import android1 from '/src/fragments/lib-v1/storage/android/getting-started/10_preReq.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ android: android1 }} />
 
-import flutter2 from "/src/fragments/lib-v1/storage/flutter/getting-started/10_preReq.mdx";
+import flutter2 from '/src/fragments/lib-v1/storage/flutter/getting-started/10_preReq.mdx';
 
-<Fragments fragments={{flutter: flutter2}} />
+<Fragments fragments={{ flutter: flutter2 }} />
 
 ## Provision backend storage
 
@@ -30,6 +31,7 @@ amplify add storage
 ```
 
 Enter the following when prompted:
+
 ```console
 ? Please select from one of the below mentioned services:
     `Content (Images, audio, video, etc.)`
@@ -61,72 +63,75 @@ To push your changes to the cloud, **execute the command**:
 amplify push
 ```
 
-import ios3 from "/src/fragments/lib-v1/storage/ios/getting-started/12_amplifyConfig.mdx";
+import ios3 from '/src/fragments/lib-v1/storage/ios/getting-started/12_amplifyConfig.mdx';
 
-<Fragments fragments={{ios: ios3}} />
+<Fragments fragments={{ swift: ios3 }} />
 
-import android4 from "/src/fragments/lib-v1/storage/android/getting-started/12_amplifyConfig.mdx";
+import android4 from '/src/fragments/lib-v1/storage/android/getting-started/12_amplifyConfig.mdx';
 
-<Fragments fragments={{android: android4}} />
+<Fragments fragments={{ android: android4 }} />
 
-import flutter5 from "/src/fragments/lib-v1/storage/flutter/getting-started/12_amplifyConfig.mdx";
+import flutter5 from '/src/fragments/lib-v1/storage/flutter/getting-started/12_amplifyConfig.mdx';
 
-<Fragments fragments={{flutter: flutter5}} />
+<Fragments fragments={{ flutter: flutter5 }} />
 
 ## Install Amplify Libraries
 
-import ios6 from "/src/fragments/lib-v1/storage/ios/getting-started/20_installLib.mdx";
+import ios6 from '/src/fragments/lib-v1/storage/ios/getting-started/20_installLib.mdx';
 
-<Fragments fragments={{ios: ios6}} />
+<Fragments fragments={{ swift: ios6 }} />
 
-import android7 from "/src/fragments/lib-v1/storage/android/getting-started/20_installLib.mdx";
+import android7 from '/src/fragments/lib-v1/storage/android/getting-started/20_installLib.mdx';
 
-<Fragments fragments={{android: android7}} />
+<Fragments fragments={{ android: android7 }} />
 
-import flutter8 from "/src/fragments/lib-v1/storage/flutter/getting-started/20_installLib.mdx";
+import flutter8 from '/src/fragments/lib-v1/storage/flutter/getting-started/20_installLib.mdx';
 
-<Fragments fragments={{flutter: flutter8}} />
+<Fragments fragments={{ flutter: flutter8 }} />
 
 ## Initialize Amplify Storage
 
-import ios9 from "/src/fragments/lib-v1/storage/ios/getting-started/30_initStorage.mdx";
+import ios9 from '/src/fragments/lib-v1/storage/ios/getting-started/30_initStorage.mdx';
 
-<Fragments fragments={{ios: ios9}} />
+<Fragments fragments={{ swift: ios9 }} />
 
-import android10 from "/src/fragments/lib-v1/storage/android/getting-started/30_initStorage.mdx";
+import android10 from '/src/fragments/lib-v1/storage/android/getting-started/30_initStorage.mdx';
 
-<Fragments fragments={{android: android10}} />
+<Fragments fragments={{ android: android10 }} />
 
-import flutter11 from "/src/fragments/lib-v1/storage/flutter/getting-started/30_initStorage.mdx";
+import flutter11 from '/src/fragments/lib-v1/storage/flutter/getting-started/30_initStorage.mdx';
 
-<Fragments fragments={{flutter: flutter11}} />
+<Fragments fragments={{ flutter: flutter11 }} />
 
 ## Uploading data to your bucket
 
 To upload to S3 from a data object, specify the key and the data object to be uploaded.
 
-import ios12 from "/src/fragments/lib-v1/storage/ios/getting-started/40_upload.mdx";
+import ios12 from '/src/fragments/lib-v1/storage/ios/getting-started/40_upload.mdx';
 
-<Fragments fragments={{ios: ios12}} />
+<Fragments fragments={{ swift: ios12 }} />
 
-import android13 from "/src/fragments/lib-v1/storage/android/getting-started/40_upload.mdx";
+import android13 from '/src/fragments/lib-v1/storage/android/getting-started/40_upload.mdx';
 
-<Fragments fragments={{android: android13}} />
+<Fragments fragments={{ android: android13 }} />
 
-import flutter14 from "/src/fragments/lib-v1/storage/flutter/getting-started/40_upload.mdx";
+import flutter14 from '/src/fragments/lib-v1/storage/flutter/getting-started/40_upload.mdx';
 
-<Fragments fragments={{flutter: flutter14}} />
+<Fragments fragments={{ flutter: flutter14 }} />
 
 Upon successfully executing this code, you should see a new folder in your bucket, called `public`. It should contain a file called `ExampleKey`, whose contents is `Example file contents`.
 
 ## Next Steps
 
-Congratulations! You've uploaded a file to an s3 bucket.  Check out the following links to see other Amplify Storage use cases:
+Congratulations! You've uploaded a file to an s3 bucket. Check out the following links to see other Amplify Storage use cases:
 
-* [Concepts](/lib-v1/storage/overview)
-* [Download files](/lib-v1/storage/download)
-* [List Files](/lib-v1/storage/list)
-* [Remove files](/lib-v1/storage/remove)
-* [File access levels](/lib-v1/storage/configureaccess)
-* [Using Lambda Triggers](/lib-v1/storage/triggers)
-* [Escape Hatch](/lib-v1/storage/escapehatch)
+- [Concepts](/[platform]/prev/build-a-backend/storage/)
+- [Download Files](/[platform]/prev/build-a-backend/storage/download/)
+- [List Files](/[platform]/prev/build-a-backend/storage/list/)
+- [Remove Files](/[platform]/prev/build-a-backend/storage/remove/)
+- [File Access Levels](/[platform]/prev/build-a-backend/storage/configure-access/)
+- [Using Lambda Triggers](/[platform]/prev/build-a-backend/storage/lambda-triggers/)
+
+<InlineFilter filters={['android', 'swift']}>
+  - [Escape Hatch](/[platform]/prev/build-a-backend/storage/sdk/)
+</InlineFilter>

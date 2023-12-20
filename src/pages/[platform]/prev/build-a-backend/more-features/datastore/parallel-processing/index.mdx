@@ -1,0 +1,28 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Parallel processing',
+  description:
+    'How to multiple DataStore operations in parallel.',
+  platforms: [
+    'swift'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      showBreadcrumbs: false,
+      meta
+    }
+  };
+}
+
+import ios0 from '/src/fragments/guides/datastore/parallel-processing-ios.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />

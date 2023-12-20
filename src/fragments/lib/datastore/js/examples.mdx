@@ -8,12 +8,13 @@ import React, { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-import { Amplify, DataStore, Predicates } from "aws-amplify";
+import { Amplify } from 'aws-amplify'
+import { DataStore, Predicates } from "aws-amplify/datastore";
 import { Post, PostStatus } from "./models";
 
 // Use next two lines only if syncing with the cloud
-import awsconfig from "./aws-exports";
-Amplify.configure(awsconfig);
+import amplifyconfig from "./amplifyconfiguration";
+Amplify.configure(amplifyconfig);
 
 async function onCreate() {
   await DataStore.save(
@@ -77,7 +78,7 @@ export default App;
 
 ```ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DataStore, Predicates } from "aws-amplify";
+import { DataStore, Predicates } from "aws-amplify/datastore";
 import { Post, PostStatus } from "./models";
 
 @Component({
@@ -140,7 +141,7 @@ export class AppComponent implements OnInit, OnDestroy {
 </template>
 
 <script>
-import { DataStore, Predicates } from "aws-amplify";
+import { DataStore, Predicates } from "aws-amplify/datastore";
 import { Post, PostStatus } from "./models";
 
 export default {

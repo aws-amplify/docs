@@ -2,35 +2,36 @@ The AWS Amplify PubSub category provides connectivity with cloud-based message-o
 
 PubSub is available with **AWS IoT** and **Generic MQTT Over WebSocket Providers**.
 
-<!-- TODO Rewrite We do not show that there is a provider for Appsync - is that something we should be highlighting? -->
-<!-- Do we have CLI support for PubSub? -->
-
 <Callout>
   With AWS IoT, AWS Amplify's PubSub automatically signs your HTTP requests when sending your messages.
 </Callout>
 
 ## AWS IoT
 
-When used with `AWSIoTProvider`, PubSub is capable of signing request according to [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+The default export for PubSub will sign requests according to [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
 
-To use in your app, import `AWSIoTProvider`:
+<Callout>
+
+Make sure that the `@aws-amplify/pubsub` package has the same version number as the `aws-amplify` package in your `package.json` file. 
+
+</Callout>
+
+To use in your app, import `PubSub` from the root export path:
 
 ```javascript
-import { Amplify, PubSub } from 'aws-amplify';
-import { AWSIoTProvider } from '@aws-amplify/pubsub';
+import { Amplify} from 'aws-amplify';
+import { PubSub } from '@aws-amplify/pubsub';
 ```
 
-Define your endpoint and region in your configuration:
+Create a new instance for your endpoint and region in your configuration:
 
 ```javascript
 // Apply plugin with configuration
-Amplify.addPluggable(
-  new AWSIoTProvider({
-    aws_pubsub_region: '<YOUR-IOT-REGION>',
-    aws_pubsub_endpoint:
-      'wss://xxxxxxxxxxxxx.iot.<YOUR-IOT-REGION>.amazonaws.com/mqtt'
-  })
-);
+const pubsub = new PubSub({
+  region: '<YOUR-IOT-REGION>',
+  endpoint:
+    'wss://xxxxxxxxxxxxx.iot.<YOUR-IOT-REGION>.amazonaws.com/mqtt'
+});
 ```
 
 Find your `aws_pubsub_endpoint` by logging onto your **AWS Console**, choosing **IoT Core** from the list of services and then choosing _Settings_ from the left navigation pane.
@@ -50,7 +51,8 @@ The next step is attaching the policy to your _Cognito Identity_.
 You can retrieve the `Cognito Identity Id` of a logged in user with Auth Module:
 
 ```javascript
-Auth.currentCredentials().then((info) => {
+import { fetchAuthSession } from 'aws-amplify/auth';
+fetchAuthSession().then((info) => {
   const cognitoIdentityId = info.identityId;
 });
 ```
@@ -72,58 +74,61 @@ If you are using Cognito Groups, the IAM role associated with that group also ne
 
 > Failing to grant IoT related permissions to the Cognito Authenticated Role will result in errors similar to the following in your browser console: `errorCode: 8, errorMessage: AMQJS0008I Socket closed.`
 
-## Third Party MQTT Providers
+## Keeping track of your pubsub instances
 
-Import PubSub module and related service provider plugin to your app:
+In a real-world application, the code that sets up a pubsub instance (`const pubsub = new PubSub(...)`) will be used in multiple places. This means that the configuration will be separate from where your application publishes (`pubsub.publish(...)`) or subscribes (`pubsub.subscribe(...)`).
 
-```javascript
-import { PubSub } from 'aws-amplify';
-import { MqttOverWSProvider } from '@aws-amplify/pubsub/lib/Providers';
+If you already know all the connections when deploying your application, you can export singleton instances for other parts of your application to easily import and use.
+
+### Example
+**./src/utils/pubsub.ts**:
+```ts
+import { PubSub } from '@aws-amplify/pubsub';
+export const pubsub = new PubSub({...});
 ```
 
-To configure your service provider with a service endpoint, add following code:
+**./src/components/LatestMessage.tsx**:
+```ts
+import { useState, useEffect } from 'react';
+import { pubsub } from '../utils/pubsub';
+
+export function LatestMessage() {
+  const [message, setMessage] = useState<string>("");
+  useEffect(() => {
+    pubsub.subscribe({topics: ['messages']}).subscribe({
+        next: (data) => {
+          setMessage(data.msg);
+        }
+    });
+  }, [])
+  return <>{message}</>
+}
+```
+
+This means you will maintain a single connection to the target endpoint without needing to pass the `pubsub` instance as a property through layers of components.
+
+## Third Party MQTT Providers
+
+Import `PubSub` from the mqtt specific export path
+
+```javascript
+import { PubSub } from '@aws-amplify/pubsub/mqtt';
+```
+
+Create a new instance for your endpoint and region in your configuration:
 
 ```javascript
 // Apply plugin with configuration
-Amplify.addPluggable(
-  new MqttOverWSProvider({
-    aws_pubsub_endpoint: 'wss://iot.eclipse.org:443/mqtt'
-  })
-);
+const pubsub = new PubSub({
+  endpoint: 'wss://iot.eclipse.org:443/mqtt'
+});
 ```
 
 You can integrate any MQTT Over WebSocket provider with your app. Click [here](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt-ws) to learn more about MQTT Over WebSocket.
 
 <Callout>
-Only JSON serializable message payloads are currently supported for MQTT providers within PubSub.  If you are attempting to use message payloads that are non-JSON serializable, consider transforming the payload into a format that aligns with the input type expected by [MQTT](https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html).
+
+Only JSON serializable message payloads are currently supported for MQTT providers within PubSub.  If you are attempting to use message payloads that are non-JSON serializable, consider transforming the payload into a format that aligns with the input type expected by 
+[MQTT](https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html).
+
 </Callout>
-
-## How to reconfigure PubSub providers during runtime
-
-Sometimes you need to reconfigure your PubSub provider when working with multiple concurrent PubSub providers, reconfiguring authentication states, or changing the IoT connection region. To reconfigure the PubSub provider, remove the existing provider using `removePluggable` and add an updated PubSub provider using `addPluggable`.
-
-```javascript
-import { Amplify, PubSub } from 'aws-amplify';
-import { AWSIoTProvider } from '@aws-amplify/pubsub';
-
-// Apply plugin with configuration
-PubSub.addPluggable(
-  new AWSIoTProvider({
-    aws_pubsub_region: '<ORIGINAL-IOT-REGION>',
-    aws_pubsub_endpoint:
-      'wss://xxxxxxxxxxxxx.iot.<ORIGINAL-IOT-REGION>.amazonaws.com/mqtt'
-  })
-);
-
-// Remove plugin using the provider name
-PubSub.removePluggable('AWSIoTProvider');
-
-// Apply plugin with new configuration
-PubSub.addPluggable(
-  new AWSIoTProvider({
-    aws_pubsub_region: '<NEW-IOT-REGION>',
-    aws_pubsub_endpoint:
-      'wss://xxxxxxxxxxxxx.iot.<NEW-IOT-REGION>.amazonaws.com/mqtt'
-  })
-);
-```

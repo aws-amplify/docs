@@ -8,40 +8,40 @@ For instance, when updating or deleting data, one has to consider that the state
 
 For such scenarios both the `save()` and the `delete()` APIs support an optional predicate which will be sent to the backend and executed against the remote state.
 
-import js0 from "/src/fragments/lib/datastore/js/sync/20-savePredicate.mdx";
+import js0 from '/src/fragments/lib/datastore/js/sync/20-savePredicate.mdx';
 
-<Fragments fragments={{js: js0}} />
+<Fragments fragments={{  javascript: js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
 
-import ios1 from "/src/fragments/lib/datastore/ios/sync/20-savePredicate.mdx";
+import ios1 from '/src/fragments/lib/datastore/ios/sync/20-savePredicate.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ swift: ios1 }} />
 
-import android2 from "/src/fragments/lib/datastore/android/sync/20-savePredicate.mdx";
+import android2 from '/src/fragments/lib/datastore/android/sync/20-savePredicate.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ android: android2 }} />
 
-import flutterSavePredicateExample from "/src/fragments/lib/datastore/flutter/sync/20-savePredicate.mdx";
+import flutterSavePredicateExample from '/src/fragments/lib/datastore/flutter/sync/20-savePredicate.mdx';
 
-<Fragments fragments={{flutter: flutterSavePredicateExample}} />
+<Fragments fragments={{ flutter: flutterSavePredicateExample }} />
 
 There's a difference between the traditional local condition check using `if/else` constructs and the predicate in the `save()` and `delete()` APIs as you can see in the example below.
 
-import js3 from "/src/fragments/lib/datastore/js/sync/30-savePredicateComparison.mdx";
+import js3 from '/src/fragments/lib/datastore/js/sync/30-savePredicateComparison.mdx';
 
-<Fragments fragments={{js: js3}} />
+<Fragments fragments={{  javascript: js3 , angular: js3, nextjs: js3, react: js3, vue: js3 }} />
 
-import ios4 from "/src/fragments/lib/datastore/ios/sync/30-savePredicateComparison.mdx";
+import ios4 from '/src/fragments/lib/datastore/ios/sync/30-savePredicateComparison.mdx';
 
-<Fragments fragments={{ios: ios4}} />
+<Fragments fragments={{ swift: ios4 }} />
 
-import android5 from "/src/fragments/lib/datastore/android/sync/30-savePredicateComparison.mdx";
+import android5 from '/src/fragments/lib/datastore/android/sync/30-savePredicateComparison.mdx';
 
-<Fragments fragments={{android: android5}} />
+<Fragments fragments={{ android: android5 }} />
 
-import flutterSavePredicateComparisonExample from "/src/fragments/lib/datastore/flutter/sync/30-savePredicateComparison.mdx";
+import flutterSavePredicateComparisonExample from '/src/fragments/lib/datastore/flutter/sync/30-savePredicateComparison.mdx';
 
-<Fragments fragments={{flutter: flutterSavePredicateComparisonExample}} />
+<Fragments fragments={{ flutter: flutterSavePredicateComparisonExample }} />
 
 ### Conflict detection and resolution
 
-When concurrently updating the data in multiple places, it is likely that some conflict might happen. For most of the cases the default *Auto-merge* algorithm should be able to resolve conflicts. However, there are scenarios where the algorithm won't be able to be resolved, and in these cases, a more advanced option is available and will be described in detail in the [conflict resolution](https://docs.amplify.aws/lib/datastore/conflict) section.
+When concurrently updating the data in multiple places, it is likely that some conflict might happen. For most of the cases the default _Auto-merge_ algorithm should be able to resolve conflicts. However, there are scenarios where the algorithm won't be able to be resolved, and in these cases, a more advanced option is available and will be described in detail in the [conflict resolution](/[platform]/build-a-backend/more-features/datastore/conflict-resolution/) section.

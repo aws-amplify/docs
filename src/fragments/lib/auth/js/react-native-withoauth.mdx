@@ -37,9 +37,9 @@ import { withOAuth } from "aws-amplify-react-native";
 
 import type { GestureResponderEvent } from 'react-native';
 
-import awsconfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(awsconfig);
+Amplify.configure(amplifyconfig);
 
 type OnPressEventHandler = (e: GestureResponderEvent) => void;
 
@@ -101,9 +101,9 @@ import React from 'react';
 import { Button, Text, View } from 'react-native';
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { withOAuth } from "aws-amplify-react-native";
-import awsconfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(awsconfig);
+Amplify.configure(amplifyconfig);
 
 function App(props) {
   const {

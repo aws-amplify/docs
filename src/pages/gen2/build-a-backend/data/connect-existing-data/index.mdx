@@ -1,0 +1,189 @@
+export const meta = {
+  title: 'Connect your app to an existing data backend',
+  description:
+    'Learn how to connect your app to an existing data backend.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+# Connect API to existing data sources
+
+Amplify Data offers you the ability to connect the API with existing data sources, apply authorization rules, and expose create, update, read, and delete operations to application clients with end-to-end type-safety.
+
+You can connect Amplify to the following databases using a native integration:
+
+- MySQL databases
+- Postgres databases
+- DynamoDB tables
+
+Alternatively, you can use AWS Lambda functions or call HTTP functions to hand-author integrations with any other data source.
+
+## Connect your API to existing MySQL or Postgres databases
+
+Amplify's native integration supports any MySQL or Postgres database, no matter if they're hosted on AWS within a VPC or outside of AWS with a 3rd party hosted database provider.
+
+You must have these information handy for your database:
+
+- Database endpoint URL
+- Database port
+- Database username
+- Database user password
+
+Postgres
+
+```bash title="Terminal"
+npx amplify generate api-for-postgres
+```
+
+MySQL
+
+```bash title="Terminal"
+npx amplify generate api-for-mysql
+```
+
+You should see a read-only (TK) new schema.rds.tsx file in `amplify/data` now. This file contains a TypeScript representation of your relational database tables.
+
+Next, import the schema into your data resource file to deploy to the cloud.
+
+```ts title="amplify/data/resource.ts"
+import { a, defineData } from '@aws-amplify/backend';
+// highlight-next-line
+import { schema as rdsSchema } from './schema.rds.ts';
+
+// Relational database sources can coexist with DynamoDB tables managed by Amplify.
+const schema = a.schema({
+  Todo: a.model({
+    content: a.string(),
+    isDone: a.boolean(),
+  }),
+});
+
+// Use the `.combine()` operator to stitch together the models backed by DynamoDB
+// and the models backed by Postgres or MySQL databases.
+// highlight-start
+const combinedSchema = a.schema.combine([schema, rdsSchema]);
+// highlight-end
+
+export type Schema = typeof schema;
+export const data = defineData({
+  // highlight-next-line
+  schema: combinedSchema,
+});
+```
+
+Once your cloud sandbox has updated, you should be able to call any CRUDL operations for your relational database.
+
+```bash
+npx amplify sandbox
+```
+
+### Apply authorization rules
+
+```ts title="amplify/data/resource.ts"
+import { a, defineData } from '@aws-amplify/backend'
+import { schema as rdsSchema } from './schema.rds.ts'
+
+// Add an authorization rule to the schema
+// highlight-next-line
+rdsSchema.models.Todo.authorization([a.allow.public()])
+
+const schema = a.schema({
+  Todo: a.model({
+    content: a.string()
+    isDone: a.boolean()
+  })
+})
+
+const combinedSchema = a.schema.combine([
+  schema,
+  rdsSchema
+])
+
+export type Schema = typeof schema
+export const data = defineData({
+  schema: combinedSchema
+})
+```
+
+### Rename inferred model and field names
+
+```ts title="amplify/data/resource.ts"
+import { a, defineData } from '@aws-amplify/backend'
+import { schema as rdsSchema } from './schema.rds.ts'
+
+// Rename models or fields to be more idiomatic for frontend code
+// highlight-start
+rdsSchema.models.todos.renameTo("Todo")
+rdsSchema.models.todos.fields.title.renameTo("content")
+// highlight-end
+
+const schema = a.schema({
+  Todo: a.model({
+    content: a.string()
+    isDone: a.boolean()
+  })
+}).authorization([a.allow.public()])
+
+const combinedSchema = a.schema.combine([
+  schema,
+  rdsSchema
+])
+
+export type Schema = typeof schema
+export const data = defineData({
+  schema: combinedSchema
+})
+```
+
+### Invoke SQL statements with custom queries and mutations
+
+```ts title="amplify/data/resource.ts"
+import { a, defineData } from '@aws-amplify/backend'
+import { schema as rdsSchema } from './schema.rds.ts'
+
+// Add custom mutations or queries that execute SQL statements
+// highlight-start
+rdsSchema.addQueries({
+  searchTodoBasedOnGeolocation: a.query()
+    .arguments({
+      lat: a.float(),
+      long: a.float(),
+      radiusInMeters: a.float()
+    })
+    .returns(a.ref("Todo").array())
+    .handler(sql`
+      SELECT *
+      FROM todos
+      WHERE ST_DistanceSphere(
+        location,
+        ST_MakePoint(:lat, :long)
+      ) <= :radiusInMeters
+    `)
+    .authorization([a.allow.public()])
+})
+// highlight-end
+
+const schema = a.schema({
+  Todo: a.model({
+    content: a.string()
+    isDone: a.boolean()
+  })
+})
+
+const combinedSchema = a.schema.combine([
+  schema,
+  rdsSchema
+])
+
+export type Schema = typeof combinedSchema
+export const data = defineData({
+  schema: combinedSchema
+})
+```

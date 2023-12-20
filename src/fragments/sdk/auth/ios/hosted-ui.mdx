@@ -1,6 +1,6 @@
 ## Using Amazon Cognito Hosted UI
 
-Amazon Cognito User Pools provides a customizable user experience via a web "Hosted UI". The Hosted UI provides an OAuth 2.0 flow that allows you to launch a web view (without embedding an SDK for Cognito or a social provider) via your application. The Hosted UI allows end-users to login and register directly to your user pool, through Facebook, Amazon, and Google, as well as through OpenID Connect (OIDC) and SAML identity providers. The Amplify CLI will setup and configure a Hosted UI for you when adding Authentication to your app. [Learn More](/cli/auth/overview)
+Amazon Cognito User Pools provides a customizable user experience via a web "Hosted UI". The Hosted UI provides an OAuth 2.0 flow that allows you to launch a web view (without embedding an SDK for Cognito or a social provider) via your application. The Hosted UI allows end-users to login and register directly to your user pool, through Facebook, Amazon, and Google, as well as through OpenID Connect (OIDC) and SAML identity providers. The Amplify CLI will setup and configure a Hosted UI for you when adding Authentication to your app. [Learn More](/[platform]/build-a-backend/auth/set-up-auth/)
 
 ### Automated Setup with CLI
 
@@ -32,36 +32,36 @@ Set up your app in Facebook by following Facebook's [App Development](https://de
 When configuring your app, use the following settings (the domain will be generated in the next section):
 
 - When setting up scenarios, choose **Facebook Login**
-- Add your Cognito User Pools domain with the */oauth2/idpresponse*:
-    - `https://<your-user-pool-domain>/oauth2/idpresponse` to:
-        - **Facebook Login > Settings > Valid OAuth Redirect URIs**
-        - **Platforms > Website > Site URL**
+- Add your Cognito User Pools domain with the _/oauth2/idpresponse_:
+  - `https://<your-user-pool-domain>/oauth2/idpresponse` to:
+    - **Facebook Login > Settings > Valid OAuth Redirect URIs**
+    - **Platforms > Website > Site URL**
 
 </Block>
 <Block name="Google Sign-In">
 
-Set up and create a *Web application* in Google by following Google's [Setting up OAuth 2.0](https://support.google.com/googleapi/answer/6158849) doc. Google will provide you a a **Client ID** and **Client Secret** for your application; take note of these.
+Set up and create a _Web application_ in Google by following Google's [Setting up OAuth 2.0](https://support.google.com/googleapi/answer/6158849) doc. Google will provide you a a **Client ID** and **Client Secret** for your application; take note of these.
 
 - On the **OAuth consent screen**, under Authorized domains, add `amazoncognito.com`
 - When setting up the **Web application** add the following:
-    - **Name Field**: The name of your application
-    - **Authorized JavaScript origins**: `amazoncognito.com`
-    - **Authorized redirect URIs**: `https://<your-user-pool-domain>/oauth2/idpresponse`
+  - **Name Field**: The name of your application
+  - **Authorized JavaScript origins**: `amazoncognito.com`
+  - **Authorized redirect URIs**: `https://<your-user-pool-domain>/oauth2/idpresponse`
 
 </Block>
 <Block name="Login with Amazon">
 
 - Sign in to the Develop Portal at [Login with Amazon](http://login.amazon.com/), select **App Console** using your Amazon.com credentials.
 - Choose **Create a Security Profile** or choose an existing one that you have created.
-    - **Security Profile Name**: Your application name
-    - **Security Profile Description**: Your application description
-    - **Consent Privacy Notice URL**: A URL to your privacy notice
+  - **Security Profile Name**: Your application name
+  - **Security Profile Description**: Your application description
+  - **Consent Privacy Notice URL**: A URL to your privacy notice
 - Click **Show Client ID and Client Secret** and take note of these values.
 
 </Block>
 <Block name="Sign in with Apple">
 
-> The [Apple App Store Developer Guidelines](https://developer.apple.com/app-store/review/guidelines/#sign-in-with-apple) require that Sign in with Apple to be available in applications that ***exclusively*** use third-party sign-in options, such as Facebook or Google. If you are only or additionally using Cognito User Pools directly (Signing in with Email/Password), you are not required to include Sign in with Apple.
+> The [Apple App Store Developer Guidelines](https://developer.apple.com/app-store/review/guidelines/#sign-in-with-apple) require that Sign in with Apple to be available in applications that **_exclusively_** use third-party sign-in options, such as Facebook or Google. If you are only or additionally using Cognito User Pools directly (Signing in with Email/Password), you are not required to include Sign in with Apple.
 
 Before you add support for Signin with Apple you will need an Apple Developer account, which is a paid account with Apple.
 
@@ -75,13 +75,14 @@ After going through the flow, run the following command to deploy the configured
 ```bash
 amplify push
 ```
+
 You will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can also find that information anytime later using the `amplify status` command.
 
 > Your Cognito User Pool domain is structured like so: `<unique_domain_prefix>-<env-name>.auth.<region>.amazoncognito.com`. Use this domain in the above steps when setting up your social provider.
 
 ### Manual Setup
 
-To configure your application for hosted UI, you need to use *HostedUI* options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:
+To configure your application for hosted UI, you need to use _HostedUI_ options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:
 
     ```json
     {
@@ -114,31 +115,31 @@ To configure your application for hosted UI, you need to use *HostedUI* options.
 
 1. Add `myapp://` to your app's URL schemes:
 
-    Right-click Info.plist and then choose Open As > Source Code.
+   Right-click Info.plist and then choose Open As > Source Code.
 
-    Add the following entry in URL scheme:
+   Add the following entry in URL scheme:
 
-    ```xml
-        <plist version="1.0">
+   ```xml
+       <plist version="1.0">
 
-        <dict>
-        <!-- YOUR OTHER PLIST ENTRIES HERE -->
+       <dict>
+       <!-- YOUR OTHER PLIST ENTRIES HERE -->
 
-        <!-- ADD AN ENTRY TO CFBundleURLTypes for Cognito Auth -->
-        <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
-        <key>CFBundleURLTypes</key>
-        <array>
-            <dict>
-                <key>CFBundleURLSchemes</key>
-                <array>
-                    <string>myapp</string>
-                </array>
-            </dict>
-        </array>
+       <!-- ADD AN ENTRY TO CFBundleURLTypes for Cognito Auth -->
+       <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
+       <key>CFBundleURLTypes</key>
+       <array>
+           <dict>
+               <key>CFBundleURLSchemes</key>
+               <array>
+                   <string>myapp</string>
+               </array>
+           </dict>
+       </array>
 
-        <!-- ... -->
-        </dict>
-    ```
+       <!-- ... -->
+       </dict>
+   ```
 
 ### Launching the Hosted UI
 
@@ -149,7 +150,10 @@ To launch the Hosted UI from from your application, you can use the `showSignIn`
 let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"])
 
 // Present the Hosted UI sign in.
-AWSMobileClient.default().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
+AWSMobileClient.default().showSignIn(
+    navigationController: self.navigationController!,
+    hostedUIOptions: hostedUIOptions
+) { (userState, error) in
     if let error = error as? AWSMobileClientError {
         print(error.localizedDescription)
     }
@@ -182,7 +186,7 @@ func application(
 
 ## Directly Launching Facebook, Google, or SAML
 
-You can by-pass the Cognito Hosted UI screen and navigate directly to and from a third provider authentication page. This allows you to login with a social provider configured in Cognito User Pools while not displaying Cognito's Hosted UI (e.g. showing a *Login with Facebook* button in your application).
+You can by-pass the Cognito Hosted UI screen and navigate directly to and from a third provider authentication page. This allows you to login with a social provider configured in Cognito User Pools while not displaying Cognito's Hosted UI (e.g. showing a _Login with Facebook_ button in your application).
 
 ```swift
 // Option to launch Google sign in directly
@@ -212,7 +216,9 @@ AWSMobileClient.default().showSignIn(
 
 ```swift
 // Setting invalidateTokens: true will make sure the tokens are invalidated
-AWSMobileClient.default().signOut(options: SignOutOptions(invalidateTokens: true)) { (error) in
+AWSMobileClient.default().signOut(
+    options: SignOutOptions(invalidateTokens: true)
+) { (error) in
     print("Error: \(error.debugDescription)")
 }
 ```
@@ -225,71 +231,70 @@ AWSMobileClient.default().signOut()
 
 ## Set up Auth with Auth0
 
-You can use `AWSMobileClient` to use `Auth0` as an `OAuth 2.0` provider.
-You use `Auth0` as an identity provider for a Cognito Federated Identity Pool. This will allow users authenticated via Auth0 to have access to your AWS resources. Learn [how to integrate Auth0 with Cognito Federated Identity Pools](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
+You can use `AWSMobileClient` to use `Auth0` as an `OAuth 2.0` provider. You use `Auth0` as an identity provider for a Cognito Federated Identity Pool. This will allow users authenticated via Auth0 to have access to your AWS resources. Learn [how to integrate Auth0 with Cognito Federated Identity Pools](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
 
 ### Configure your iOS App
 
-1. To configure your application for hosted UI, you need to use *HostedUI* options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:
+1. To configure your application for hosted UI, you need to use _HostedUI_ options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:
 
-    ```json
-    {
-        "IdentityManager": {
-            ...
-        },
-        "CredentialsProvider": {
-            ...
-        },
-        "CognitoUserPool": {
-            ...
-        },
-        "Auth": {
-            "Default": {
-                "OAuth": {
-                    "AppClientId": "YOUR_AUTH0_APP_CLIENT_ID",
-                    "WebDomain": "YOUR_AUTH0_DOMAIN.auth0.com", // Do not include the https:// prefix
-                    "TokenURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/oauth/token",
-                    "SignInURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/authorize",
-                    "SignInRedirectURI": "com.your.bundle.configured.in.auth0://YOUR_AUTH0_DOMAIN.auth0.com/ios/com.your.bundle/callback",
-                    "SignOutURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/v2/logout",
-                    "SignOutURIQueryParameters": {
-                        "client_id" : "YOUR_AUTH0_APP_CLIENT_ID",
-                        "returnTo" : "com.your.bundle.configured.in.auth0://yourserver.auth0.com/ios/com.amazonaws.AWSAuthSDKTestApp/callback"
-                    },
-                    "Scopes": ["openid", "email"]
-                }
-            }
-        }
-    }
-    ```
+   ```json
+   {
+       "IdentityManager": {
+           ...
+       },
+       "CredentialsProvider": {
+           ...
+       },
+       "CognitoUserPool": {
+           ...
+       },
+       "Auth": {
+           "Default": {
+               "OAuth": {
+                   "AppClientId": "YOUR_AUTH0_APP_CLIENT_ID",
+                   "WebDomain": "YOUR_AUTH0_DOMAIN.auth0.com", // Do not include the https:// prefix
+                   "TokenURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/oauth/token",
+                   "SignInURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/authorize",
+                   "SignInRedirectURI": "com.your.bundle.configured.in.auth0://YOUR_AUTH0_DOMAIN.auth0.com/ios/com.your.bundle/callback",
+                   "SignOutURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/v2/logout",
+                   "SignOutURIQueryParameters": {
+                       "client_id" : "YOUR_AUTH0_APP_CLIENT_ID",
+                       "returnTo" : "com.your.bundle.configured.in.auth0://yourserver.auth0.com/ios/com.amazonaws.AWSAuthSDKTestApp/callback"
+                   },
+                   "Scopes": ["openid", "email"]
+               }
+           }
+       }
+   }
+   ```
 
 1. Add the signin and signout redirect URIs to your app's URL schemes:
 
-    Right-click Info.plist and then choose Open As > Source Code.
+   Right-click Info.plist and then choose Open As > Source Code.
 
-    Add the following entry in URL scheme:
+   Add the following entry in URL scheme:
 
-    ```xml
-        <plist version="1.0">
+   ```xml
+       <plist version="1.0">
 
-        <dict>
-        <!-- YOUR OTHER PLIST ENTRIES HERE -->
+       <dict>
+       <!-- YOUR OTHER PLIST ENTRIES HERE -->
 
-        <!-- ADD AN ENTRY TO CFBundleURLTypes for Auth0 -->
-        <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
-        <key>CFBundleURLTypes</key>
-        <array>
-            <dict>
-                <key>CFBundleURLSchemes</key>
-                <array>
-                    <string>com.your.bundle.configured.in.auth0://yourserver.auth0.com/ios/com.amazonaws.AWSAuthSDKTestApp/callback</string>
-                </array>
-            </dict>
-        </array>
+       <!-- ADD AN ENTRY TO CFBundleURLTypes for Auth0 -->
+       <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
+       <key>CFBundleURLTypes</key>
+       <array>
+           <dict>
+               <key>CFBundleURLSchemes</key>
+               <array>
+                   <string>com.your.bundle.configured.in.auth0://yourserver.auth0.com/ios/com.amazonaws.AWSAuthSDKTestApp/callback</string>
+               </array>
+           </dict>
+       </array>
 
-        <!-- ... -->
-        </dict>
-    ```
+       <!-- ... -->
+       </dict>
+   ```
 
 ### Launch the Hosted UI for Auth0
 
@@ -297,10 +302,16 @@ To launch the Hosted UI from from your application, you can use the `showSignIn`
 
 ```swift
 // Specify the scopes and federation provider name.
- let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"], federationProviderName: "YOUR_AUTH0_DOMAIN.auth0.com")
+ let hostedUIOptions = HostedUIOptions(
+    scopes: ["openid", "email"],
+    federationProviderName: "YOUR_AUTH0_DOMAIN.auth0.com"
+)
 
 // Present the Hosted UI sign in.
-AWSMobileClient.default().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
+AWSMobileClient.default().showSignIn(
+    navigationController: self.navigationController!,
+    hostedUIOptions: hostedUIOptions
+) { (userState, error) in
     if let error = error as? AWSMobileClientError {
         print(error.localizedDescription)
     }
@@ -310,7 +321,10 @@ AWSMobileClient.default().showSignIn(navigationController: self.navigationContro
 }
 
 // Present the Hosted UI sign in.
-AWSMobileClient.default().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
+AWSMobileClient.default().showSignIn(
+    navigationController: self.navigationController!,
+    hostedUIOptions: hostedUIOptions
+) { (userState, error) in
     if let error = error as? AWSMobileClientError {
         print(error.localizedDescription)
     }
@@ -342,7 +356,9 @@ func application(
 
 ```swift
 // Setting invalidateTokens: true will make sure the tokens are invalidated
-AWSMobileClient.default().signOut(options: SignOutOptions(invalidateTokens: true)) { (error) in
+AWSMobileClient.default().signOut(
+    options: SignOutOptions(invalidateTokens: true)
+) { (error) in
     print("Error: \(error.debugDescription)")
 }
 ```

@@ -1,56 +1,150 @@
-## Subscribing Events
+## Subscribing to Events
 
-You can take specific actions when users sign-in or sign-out by subscribing authentication events in your app. Please see our [Hub Module Developer Guide](/lib/utilities/hub) for more information.
+You can take specific actions when users sign-in or sign-out by subscribing to authentication events in your app. Please see our [Hub Module Developer Guide](/[platform]/build-a-backend/utilities/hub/) for more information.
 
 ## Identity Pool Federation
 
-You can alternatively use `Auth.federatedSignIn()` to get AWS credentials directly from Cognito Federated Identities and not use User Pool federation. If you have logged in with `Auth.signIn()` you **can not** call  `Auth.federatedSignIn()` as Amplify will perform this federation automatically for you in the background.
-
-In general, if you are using Cognito User Pools to manage user Sign-Up and Sign-In, you should only call `Auth.federatedSignIn()` when using OAuth flows or the Hosted UI.
+You can alternatively create your own custom credentials provider to get AWS credentials directly from Cognito Federated Identities and not use User Pool federation. You must supply the custom credentials provider to Amplify via the `Amplify.configure` method call. Below, you can see sample code of how such a custom provider can be built to achieve the use case.
 
 ```js
-import { Auth } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import {
+  fetchAuthSession,
+  CredentialsAndIdentityIdProvider,
+  CredentialsAndIdentityId,
+  GetCredentialsOptions,
+  AuthTokens,
+} from 'aws-amplify/auth';
 
-// To derive necessary data from the provider
-const {
-  token, // the token you get from the provider
-  domainOrProviderName, // Either the domain of the provider(e.g. accounts.your-openid-provider.com) or the provider name, for now the library only supports 'google', 'facebook', 'amazon', 'developer'
-  expiresIn, // the time in ms which describes how long the token could live
-  user,  // the user object you defined, e.g. { username, email, phone_number }
-  identity_id // Optional, the identity id specified by the provider
-} = getFromProvider(); // arbitrary function
+// Note: This example requires installing `@aws-sdk/client-cognito-identity` to obtain Cognito credentials
+// npm i @aws-sdk/client-cognito-identity
+import { CognitoIdentity } from '@aws-sdk/client-cognito-identity';
 
-async function getCognitoCredentials() {
-  try {
-    const cred = await Auth.federatedSignIn(
-      domainOrProviderName,
-      {
-        token,
-        identity_id, // Optional
-        expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
-      },
-      user
-    );
-    console.log(cred);
+// You can make use of the sdk to get identityId and credentials
+const cognitoidentity = new CognitoIdentity({
+  region: '<region-from-config>',
+});
 
-    const authenticatedUser = await Auth.currentAuthenticatedUser();
+// Note: The custom provider class must implement CredentialsAndIdentityIdProvider
+class CustomCredentialsProvider implements CredentialsAndIdentityIdProvider {
 
-    console.log(authenticatedUser);
-  } catch(err) {
-    console.log(err);
+  // Example class member that holds the login information
+  federatedLogin?: {
+    domain: string,
+    token: string
+  };
+
+  // Custom method to load the federated login information
+  loadFederatedLogin(login?: typeof this.federatedLogin) {
+    // You may also persist this by caching if needed
+    this.federatedLogin = login;
   }
+
+  async getCredentialsAndIdentityId(
+    getCredentialsOptions: GetCredentialsOptions
+  ): Promise<CredentialsAndIdentityId | undefined> {
+    try {
+
+      // You can add in some validation to check if the token is available before proceeding
+      // You can also refresh the token if it's expired before proceeding
+
+      const getIdResult = await cognitoidentity.getId({
+        // Get the identityPoolId from config
+        IdentityPoolId: '<identity-pool-id-from-config>',
+        Logins: { [this.federatedLogin.domain]: this.federatedLogin.token },
+      });
+
+      const cognitoCredentialsResult = await cognitoidentity.getCredentialsForIdentity({
+        IdentityId: getIdResult.IdentityId,
+        Logins: { [this.federatedLogin.domain]: this.federatedLogin.token },
+      });
+
+      const credentials: CredentialsAndIdentityId = {
+        credentials: {
+          accessKeyId: cognitoCredentialsResult.Credentials?.AccessKeyId,
+          secretAccessKey: cognitoCredentialsResult.Credentials?.SecretKey,
+          sessionToken: cognitoCredentialsResult.Credentials?.SessionToken,
+          expiration: cognitoCredentialsResult.Credentials?.Expiration,
+        },
+        identityId: getIdResult.IdentityId,
+      };
+      return credentials;
+    } catch (e) {
+      console.log('Error getting credentials: ', e);
+    }
+  }
+  // Implement this to clear any cached credentials and identityId. This can be called when signing out of the federation service.
+  clearCredentialsAndIdentityId(): void {}
+}
+
+// Create an instance of your custom provider
+const customCredentialsProvider = new CustomCredentialsProvider();
+Amplify.configure(awsconfig, {
+  Auth: {
+    // Supply the custom credentials provider to Amplify
+    credentialsProvider: customCredentialsProvider
+  },
+});
+
+```
+
+Now that the custom credentials provider is built and supplied to `Amplify.configure`, let's look at how you can use the custom credentials provider to finish federation into Cognito identity pool.
+
+<InlineFilter filters={['react-native']}>
+
+### Facebook Sign-in (React Native - Expo)
+
+```javascript
+import Expo from 'expo';
+import React from 'react';
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+const App = () => {
+  const signIn = async () => {
+    const { type, token, expires } =
+      await Expo.Facebook.logInWithReadPermissionsAsync(
+        'YOUR_FACEBOOK_APP_ID',
+        {
+          permissions: ['public_profile']
+        }
+      );
+    if (type === 'success') {
+      // sign in with federated identity
+      try {
+        customCredentialsProvider.loadFederatedLogin({
+          domain: 'graph.facebook.com',
+          token: token
+        });
+        const fetchSessionResult = await fetchAuthSession(); // will return the credentials
+        console.log('fetchSessionResult: ', fetchSessionResult);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  // ...
+
+  return (
+    <View style={styles.container}>
+      <Button title="FBSignIn" onPress={signIn} />
+    </View>
+  );
 };
 ```
 
-<Callout>
-Note that this isn't from a Cognito User Pool so the user you get after calling this method is not a *Cognito User*.
-</Callout>
+</InlineFilter>
+
+<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
 
 ### Facebook sign-in (React)
 
 ```js
 import React, { useEffect } from 'react';
-import { Auth } from 'aws-amplify';
+import {
+  fetchAuthSession,
+} from 'aws-amplify/auth';
+
 // To federated sign in from Facebook
 const SignInWithFacebook = () => {
 
@@ -69,7 +163,12 @@ const SignInWithFacebook = () => {
             if (!response || !response.authResponse) {
               return;
             }
-            getAWSCredentials(response.authResponse);
+            customCredentialsProvider.loadFederatedLogin({
+              domain: 'graph.facebook.com',
+              token: response.authResponse.accessToken,
+            });
+            const fetchSessionResult = await fetchAuthSession(); // will return the credentials
+            console.log('fetchSessionResult: ', fetchSessionResult);
           },
           {
             // the authorized scopes
@@ -79,34 +178,6 @@ const SignInWithFacebook = () => {
       }
     });
   }
-
-  const getAWSCredentials = (response) => {
-    const { accessToken, expiresIn } = response;
-    const date = new Date();
-    const expires_at = expiresIn * 1000 + date.getTime();
-    if (!accessToken) {
-      return;
-    }
-
-    const fb = window.FB;
-    fb.api('/me', { fields: 'name,email' }, response => {
-      const user = {
-        name: response.name,
-        email: response.email
-      };
-      
-      getCognitoCredentials('facebook', { token: accessToken, expires_at }, user);
-    });
-  }
-
-  const getCognitoCredentials = async (providerName, federateOptions, user) => {
-    try {
-      const credentials = await Auth.federatedSignIn(providerName, federateOptions, user);
-      console.log(credentials);
-    } catch(err) {
-      console.log(err);
-    }
-  };
 
   const createScript = () => {
     // load the sdk
@@ -133,7 +204,7 @@ const SignInWithFacebook = () => {
       version : 'v2.11'
     });
   }
-  
+
   return (
     <div>
       <button onClick={signIn}>Sign in with Facebook</button>
@@ -142,115 +213,19 @@ const SignInWithFacebook = () => {
 }
 ```
 
-### Facebook Sign-in (React Native - Expo)
-
-```javascript
-import Expo from 'expo';
-import React from 'react';
-import { Amplify, Auth } from 'aws-amplify';
-
-const App = () => {
-  const signIn = async () => {
-    const { type, token, expires } = await Expo.Facebook.logInWithReadPermissionsAsync('YOUR_FACEBOOK_APP_ID', {
-        permissions: ['public_profile'],
-      });
-    if (type === 'success') {
-      // sign in with federated identity
-      try {
-        const credentials = await Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: 'USER_NAME' })
-        console.log('get aws credentials', credentials);
-      } catch(err) {
-        console.log(err);
-      }
-    }
-  }
-
-  // ...
-
-  return (
-    <View style={styles.container}>
-      <Button title="FBSignIn" onPress={signIn} />
-    </View>
-  );
-
-}
-```
-
 ### Google sign-in (React)
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import React, { useEffect } from 'react';
-import jwt from 'jwt-decode';
-import { Auth } from 'aws-amplify';
-
-const SignInWithGoogle = () => {
-  useEffect(() => {
-  // Check for an existing Google client initialization
-    if (!window.google && !window.google?.accounts) createScript();
-  }, []);
-
-  // Load the Google client
-  const createScript = () => {
-    const script = document.createElement('script');
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.async = true;
-    script.defer = true;
-    script.onload = initGsi;
-    document.body.appendChild(script);
-  }
-
-  // Initialize Google client and render Google button
-  const initGsi = () => {
-    if (window.google && window.google?.accounts) {
-      window.google.accounts.id.initialize({
-        client_id: process.env.GOOGLE_CLIENT_ID,
-        callback: (response: any) => {
-          getAWSCredentials(response.credential)
-        },
-      });
-      window.google.accounts.id.renderButton(
-        document.getElementById("googleSignInButton"),
-        { theme: "outline", size: "large" }
-      );
-    }
-  }
-
-  // Exchange Google token for temporary AWS credentials
-  const getAWSCredentials = async (credential: string) => {
-    const token = jwt(credential) as any;
-    const user = {
-      email: token.email,
-      name: token.name
-    };      
-    await Auth.federatedSignIn(
-      'google',
-      { token: credential, expires_at: token.exp },
-      user
-    );
-  }
-
-  return (
-    <div>
-      <button id="googleSignInButton"/>
-    </div>
-  );
-}
-```
-</Block>
-<Block name="JavaScript">
 
 ```jsx
 import React, { useEffect } from 'react';
 import jwt from 'jwt-decode';
-import { Auth } from 'aws-amplify';
+import {
+  fetchAuthSession,
+} from 'aws-amplify/auth';
 
 const SignInWithGoogle = () => {
   useEffect(() => {
   // Check for an existing Google client initialization
-    if (!window.google && !window.google?.accounts) createScript();
+    if (!window.google?.accounts) createScript();
   }, []);
 
   // Load the Google client
@@ -265,100 +240,31 @@ const SignInWithGoogle = () => {
 
   // Initialize Google client and render Google button
   const initGsi = () => {
-    if (window.google && window.google?.accounts) {
+    if (window.google?.accounts) {
       window.google.accounts.id.initialize({
         client_id: process.env.GOOGLE_CLIENT_ID,
         callback: (response: any) => {
-          getAWSCredentials(response.credential)
+          customCredentialsProvider.loadFederatedLogin({
+            domain: 'accounts.google.com',
+            token: response.credential,
+          });
+          const fetchSessionResult = await fetchAuthSession(); // will return the credentials
+          console.log('fetchSessionResult: ', fetchSessionResult);
         },
       });
       window.google.accounts.id.renderButton(
-        document.getElementById("googleSignInButton"),
-        { theme: "outline", size: "large" }
+        document.getElementById('googleSignInButton'),
+        { theme: 'outline', size: 'large' }
       );
     }
   }
 
-  // Exchange Google token for temporary AWS credentials
-  const getAWSCredentials = async (credential) => {
-    const token = jwt(credential);
-    const user = {
-      email: token.email,
-      name: token.name
-    };      
-    await Auth.federatedSignIn(
-      'google',
-      { token: credential, expires_at: token.exp },
-      user
-    );
-  }
-
   return (
     <div>
-      <button id="googleSignInButton"/>
+      <button id='googleSignInButton'/>
     </div>
   );
 }
-```
-</Block>
-</BlockSwitcher>
-
-### Retrieve JWT Tokens
-
-After the federated login, you can retrieve related JWT tokens from the local cache using the *Cache* module:
-
-#### Browser sample
-
-```javascript
-import { Cache } from 'aws-amplify';
-
-// Run this after the sign-in
-const federatedInfo = Cache.getItem('federatedInfo');
-const { token } = federatedInfo;
-```
-
-### React Native sample 
-
-```javascript
-import { Cache } from 'aws-amplify';
-
-// inside an async function
-// Run this after the sign-in
-const federatedInfo = await Cache.getItem('federatedInfo');
-const { token } = federatedInfo;
-```
-
-### Token Refresh
-
-By default, Amplify will automatically refresh the tokens for Google and Facebook, so that your AWS credentials will be valid at all times. But if you are using another federated provider, you will need to provide your own token refresh method:
-
-<Callout>
-Note: Automatic token refresh for Google and Facebook is not supported in React Native. Automatic token refresh is supported when used with Cognito User pool.
-</Callout>
-
-#### JWT Token Refresh sample
-
-```javascript
-import { Auth } from 'aws-amplify';
-
-async function refreshToken() {
-  // refresh the token here and get the new token info
-  // ......
-
-  const data = {
-    token, // the token from the provider
-    expires_at, // the timestamp for the expiration
-    identity_id, // optional, the identityId for the credentials
-  }
-
-  return data;
-}
-
-Auth.configure({
-  refreshHandlers: {
-    'developer': refreshToken // the property could be 'google', 'facebook', 'amazon', 'developer', OpenId domain
-  }
-})
 ```
 
 ### Federate with Auth0
@@ -367,166 +273,96 @@ You can use `Auth0` as one of the providers of your Cognito Identity Pool. This 
 
 Step 1. [Follow Auth0 integration instructions for Cognito Federated Identity Pools](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
 
-Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from `Cognito Federated Identity Pools` using `Auth.federatedSignIn`:
+Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from `Cognito Federated Identity Pools` using custom credentials provider you created at the start:
 
 ```js
+import { fetchAuthSession } from 'aws-amplify/auth';
+
 const { idToken, domain, name, email, phoneNumber } = getFromAuth0(); // get the user credentials and info from auth0
-const { exp } = decodeJWTToken(idToken); // Please decode the id token in order to get the expiration time
 
-async function getCognitoCredentials () {
+async function getCognitoCredentials() {
   try {
-    const cred = await Auth.federatedSignIn(
-      domain, // The Auth0 Domain,
-      {
-        token: idToken, // The id token from Auth0
-        // expires_at means the timestamp when the token provided expires,
-        // here you can derive it from the expiresIn parameter provided,
-        // then convert its unit from second to millisecond, and add the current timestamp
-        expires_at: exp * 1000 // the expiration timestamp
-      },
-      { 
-        // the user object, you can put whatever property you get from the Auth0
-        // for example:
-        name, // the user name
-        email, // Optional, the email address
-        phoneNumber, // Optional, the phone number
-      } 
-    );
-
-    console.log(cred);
-  } catch(err) {
+    customCredentialsProvider.loadFederatedLogin({
+      domain,
+      token: idToken
+    });
+    const fetchSessionResult = await fetchAuthSession(); // will return the credentials
+    console.log('fetchSessionResult: ', fetchSessionResult);
+  } catch (err) {
     console.log(err);
   }
 }
 ```
 
-Step 3. Get the current user and current Credentials:
-
-```js
-const user = await Auth.currentAuthenticatedUser();
-console.log(user);
-const creds = await Auth.currentCredentials();
-console.log(creds);
-// await Auth.currentSession() does not currently support federated identities. Please store the auth0 session info manually(for example, store tokens into the local storage).
-```
-
-Step 4. You can pass a refresh handler to the Auth module to refresh the id token from `Auth0`:
-
-```js
-async function refreshToken() {
-  // refresh the token here and get the new token info
-  // ......
-
-  const data = {
-    token, // the token from the provider
-    expires_at, // the timestamp when the token expires (in milliseconds)
-    identity_id, // optional, the identityId for the credentials
-  };
-
-  return data;
-}
-
-Auth.configure({
-  refreshHandlers: {
-    'your_auth0_domain': refreshToken
-  }
-})
-```
+</InlineFilter>
 
 ## Lambda Triggers
 
-The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more](/cli/function/function)
+The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your Cognito User Pool. These enable you to add custom functionality to your registration and authentication flows. [Read more](/[platform]/build-a-backend/functions/set-up-function/)
 
 ### Pre Authentication and Pre Sign-up Lambda triggers
 
-If you have a Pre Sign-up or Pre Authentication Lambda trigger enabled, you can pass `validationData` as one the properties for `signUp` or `signIn`. This metadata can be used to implement additional validations around authentication, such as restricting the types of user accounts that can be registered.
+If you have a Pre Authentication Lambda trigger enabled, you can pass `clientMetadata` as an option for `signIn`. This metadata can be used to implement additional validations around authentication.
 
 ```ts
-import { Auth } from 'aws-amplify';
+import { signIn } from 'aws-amplify/auth';
 
-async function signIn() {
+async function handleSignIn(username: string, password: string) {
   try {
-    const user = await Auth.signIn({
-      username, // Required, the username
-      password, // Optional, the password
-      validationData, // Optional, an object of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
+    await signIn({
+      username,
+      password,
+      options: {
+        clientMetadata: {} // Optional, an object of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
+      }
     });
-    console.log(user);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 }
-```
-
-### Auto Sign-in Lambda triggers
-
-If you have `autoSignIn` enabled, you can pass `validationData` as property for `autoSignIn` parameter. It is used
- to implement additional validations for authentication. For example, you might choose to allow or disallow
-  user sign-up based on the user's domain. The Lambda trigger receives the validation data and 
-  uses it in the validation process.
-
-```js
-Auth.signUp({
-  username,
-  password,
-  attributes: {
-    email,          // optional
-    phone_number,   // optional - E.164 number convention
-    // other custom attributes 
-  },
-  autoSignIn: { // optional - enables auto sign in after user is confirmed
-    enabled: true,
-    validationData, // optional
-  }
-})
 ```
 
 ### Passing metadata to other Lambda triggers
 
-Many Cognito Lambda Triggers also accept unsanitized key/value pairs in the form of a `clientMetadata` attribute.  To configure a static set of key/value pairs, you can define a `clientMetadata` key in the `Auth.configure` function.  You can also pass a `clientMetadata` parameter to the various `Auth` functions which result in Cognito Lambda Trigger execution.
+Many Cognito Lambda Triggers also accept unsanitized key/value pairs in the form of a `clientMetadata` attribute. This attribute can be specified for various Auth APIs which result in Cognito Lambda Trigger execution.
 
-These functions include:
+These APIs include:
 
-- `Auth.changePassword`
-- `Auth.completeNewPassword`
-- `Auth.confirmSignIn`
-- `Auth.confirmSignUp`
-- `Auth.forgotPasswordSubmit`
-- `Auth.resendSignUp`
-- `Auth.sendCustomChallengeAnswer`
-- `Auth.signIn`
-- `Auth.signUp` (as a function parameter and part of `autoSignIn` parameter)
-- `Auth.updateUserAttributes`
-- `Auth.verifyUserAttribute`
+- `signIn`
+- `signUp`
+- `confirmSignIn`
+- `confirmSignUp`
+- `resetPassword`
+- `confirmResetPassword`
+- `resendSignUpCode`
+- `updateUserAttributes`
 
-Please note that some of triggers which accept a `validationData` attribute will use `clientMetadata` as the value for `validationData`.  Exercise caution with using `clientMetadata` when you are relying on `validationData`.
+Please note that some of triggers which accept a `validationData` attribute will use `clientMetadata` as the value for `validationData`. Exercise caution with using `clientMetadata` when you are relying on `validationData`.
 
 ## Working with AWS service objects
 
-You can use AWS *Service Interface Objects* to work AWS Services in authenticated State. You can call methods on any AWS Service interface object by passing your credentials from `Auth` object to the service call constructor:
+You can use AWS _Service Interface Objects_ to work with AWS Services in authenticated State. You can call methods on any AWS Service interface object by passing your credentials from Amplify `fetchAuthSession` to the service call constructor:
 
 ```javascript
-import { Auth } from 'aws-amplify';
+import { fetchAuthSession } from 'aws-amplify/auth';
 import Route53 from 'aws-sdk/clients/route53';
 
 async function changeResourceRecordSets() {
   try {
-    const credentials = await Auth.currentCredentials();
-  
+    const { credentials } = await fetchAuthSession();
+
     const route53 = new Route53({
       apiVersion: '2013-04-01',
-      credentials: Auth.essentialCredentials(credentials)
+      credentials
     });
-  
+
     // more code working with route53 object
     //route53.changeResourceRecordSets();
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
-
-Full API Documentation for Service Interface Objects is available [here](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/_index.html).
 
 <Callout warning>
 
@@ -534,6 +370,39 @@ Note: To work with Service Interface Objects, your Amazon Cognito users' [IAM ro
 
 </Callout>
 
+## Custom Token providers
+
+Create a custom Auth token provider for situations where you would like provide your own tokens for a service. For example, using OIDC Auth with AppSync.  You must supply the token provider to Amplify via the `Amplify.configure` method call. Below, you can see sample code of how such a custom provider can be built to achieve the use case.
+
+```javascript
+import { Amplify } from 'aws-amplify';
+import { TokenProvider, decodeJWT } from 'aws-amplify/auth';
+
+// ...
+
+const myTokenProvider: TokenProvider = {
+  async getTokens({ forceRefresh } = {}) {
+    if (forceRefresh) {
+      // try to obtain new tokens if possible
+    }
+
+    const accessTokenString = '<insert JWT from provider>';
+    const idTokenString = '<insert JWT from provider>';
+    
+    return {
+      accessToken: decodeJWT(accessTokenString),
+      idToken: decodeJWT(idTokenString),
+    };
+  },
+};
+
+Amplify.configure(awsconfig, {
+  Auth: {
+    tokenProvider: myTokenProvider
+  }
+});
+
+```
 ## API reference
 
 For the complete API documentation for Authentication module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)

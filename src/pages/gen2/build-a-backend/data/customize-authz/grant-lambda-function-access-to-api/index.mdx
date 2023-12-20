@@ -1,0 +1,41 @@
+export const meta = {
+  title: 'Grant Lambda function access to API and Data',
+  description: "Amplify Data uses a 'deny-by-default' authorization model. To allow access for Lambda functions or other services authenticated via IAM, their IAM role names must be explicitly listed in the `allowListedRoleNames` property when defining the Data resource. This grants privileged access based on their IAM policy rather than their `.authorization()` rules."
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+The IAM execution role for Lambda functions does not automatically grant access to the Amplify Data API. This is because the API operates on a "deny-by-default" permission model. Access must be explicitly granted.
+
+To grant an external AWS resource or an IAM role access to the Amplify Data API, you need to explicitly list the IAM roles by adding them to `allowListedRoleNames` property.
+
+```ts title="amplify/data/resource.ts"
+// amplify/data/resource.ts
+import { a, defineData, type ClientSchema } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  Todo: a.model({
+    name: a.string(),
+    description: a.string(),
+  }),
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    // Pass in the Lambda Execution Role names to grant full read/write access to the API
+    // if their IAM policies permit it.
+    allowListedRoleNames: ["lambdaRole"],
+  },
+});
+```
+
+These "Allow-listed Roles" have special access privileges that are scoped based on their [IAM policy](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html#aws-iam-authorization) instead of any particular `.authorization()` rule.

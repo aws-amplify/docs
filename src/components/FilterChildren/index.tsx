@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router';
 
-export default function FilterChildren({ children }) {
+export default function FilterChildren({ children, filterKey = '' }) {
   const router = useRouter();
 
-  let filterKey = '';
   if ('platform' in router.query) {
     filterKey = router.query.platform as string;
   } else if ('integration' in router.query) {

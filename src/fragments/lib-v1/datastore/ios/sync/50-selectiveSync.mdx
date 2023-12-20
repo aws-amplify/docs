@@ -1,16 +1,14 @@
 ## Selectively syncing a subset of your data
 
-By default, DataStore fetches all the records that you’re authorized to access from your cloud data source to your local device.
-The maximum number of records that will be stored locally is configurable [here](/lib/datastore/conflict).
+By default, DataStore fetches all the records that you’re authorized to access from your cloud data source to your local device. The maximum number of records that will be stored locally is configurable [here](/[platform]/prev/build-a-backend/more-features/datastore/conflict-resolution/).
 
-You can utilize selective sync to persist a subset of your data instead. 
+You can utilize selective sync to persist a subset of your data instead.
 
 Selective sync works by applying predicates to the base and delta sync queries, as well as to incoming subscriptions.
 
 <Callout>
 
-Note that selective sync is applied on top of authorization rules you’ve defined on your schema with the `@auth` directive. 
-For more information see the [Setup authorization rules](/lib/datastore/setup-auth-rules/) section.
+Note that selective sync is applied on top of authorization rules you’ve defined on your schema with the `@auth` directive. For more information see the [Setup authorization rules](/[platform]/prev/build-a-backend/more-features/datastore/authz-rules-setup/) section.
 
 </Callout>
 
@@ -35,8 +33,8 @@ Developers should only specify a single `syncExpression` per model. Any subseque
 </Callout>
 
 ### Re-evaluate expressions at runtime
-Sync expressions get evaluated whenever DataStore starts.
-In order to have your expressions re-evaluated, you can execute `Amplify.DataStore.clear()` or `Amplify.DataStore.stop()` followed by `Amplify.DataStore.start()`.
+
+Sync expressions get evaluated whenever DataStore starts. In order to have your expressions re-evaluated, you can execute `Amplify.DataStore.clear()` or `Amplify.DataStore.stop()` followed by `Amplify.DataStore.start()`.
 
 If you have the following expression and you want to change the filter that gets applied at runtime, you can do the following:
 
@@ -68,9 +66,10 @@ func changeSync() {
         case .failure(let error):
             print("Error stopping DataStore:\(error)")
         }
-    }      
+    }
 }
 ```
+
 Each time DataStore starts (via `start` or any other operation: `query`, `save`, `delete`, or `observe`), DataStore will re-evaluate the `syncExpressions`.
 
 In the above case, the predicate will contain the value `1`, so all Posts with `rating > 1` will get synced down.
@@ -100,7 +99,7 @@ func changeSync() {
         case .failure(let error):
             print("Error clearing DataStore:\(error)")
         }
-    }    
+    }
 ```
 
 This will clear the contents of your local store, re-evaluate your sync expressions and re-sync the data from the cloud, applying all of the specified predicates to the sync queries.
@@ -129,11 +128,13 @@ func initialize() {
 </Callout>
 
 ### Advanced use case - Query instead of Scan
-You can configure selective sync to retrieve items from DynamoDB with a [query operation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html) against a GSI. By default, the base sync will perform a [scan](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html). Query operations enable a highly efficient and cost-effective data retrieval for customers running DynamoDB at scale. Learn about creating GSIs with the `@index` directive [here](https://docs.amplify.aws/cli/graphql/data-modeling).
+
+You can configure selective sync to retrieve items from DynamoDB with a [query operation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html) against a GSI. By default, the base sync will perform a [scan](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html). Query operations enable a highly efficient and cost-effective data retrieval for customers running DynamoDB at scale. Learn about creating GSIs with the `@index` directive [here](/[platform]/build-a-backend/graphqlapi/data-modeling/).
 
 In order to do that, your `syncExpression` should return a predicate that maps to a query expression.
 
 For example, for the following schema:
+
 ```graphql
 type User @model {
   id: ID!
@@ -147,7 +148,7 @@ To construct a query expression, return a predicate with the primary key of the 
 
 For the schema defined above `User.keys.lastName.eq("Doe")` is a valid query expression.
 
-Optionally, you can also chain the sort key to this expression, using any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`. 
+Optionally, you can also chain the sort key to this expression, using any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`.
 
 E.g., `User.keys.lastName.eq("Doe").and(User.keys.createdAt.gt("2020-10-10")`.
 

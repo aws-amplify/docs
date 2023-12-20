@@ -1,18 +1,19 @@
 ## Create new authentication resource
 
-> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), you can run the `amplify update auth` command to edit your configuration if needed. 
+> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), you can run the `amplify update auth` command to edit your configuration if needed.
 
 ```bash
 amplify add auth
 ```
 
 The CLI prompts will help you to customize your auth flow for your app. With the provided options, you can:
-- Customize sign-in/registration flow 
+
+- Customize sign-in/registration flow
 - Customize email and SMS messages for Multi-Factor Authentication
 - Customize attributes for your users, e.g. name, email
 - Enable 3rd party social providers, e.g. Facebook, Twitter, Google and Amazon
 
-If you wish to federate with social providers [you will need to configure them first](/lib/auth/social#social-providers-and-federation).
+If you wish to federate with social providers [you will need to configure them first](/[platform]/build-a-backend/auth/add-social-provider/#social-providers-and-federation).
 
 After configuring your Authentication options, update your backend:
 
@@ -20,9 +21,9 @@ After configuring your Authentication options, update your backend:
 amplify push
 ```
 
-A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
+A configuration file called `amplifyconfiguration.json` will be copied to your configured source directory, for example `./src`.
 
-> If your Authentication resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/cli/function/configure-options)
+> If your Authentication resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/[platform]/build-a-backend/functions/configure-options/)
 
 ### Configure your application
 
@@ -51,8 +52,8 @@ In your app's entry point i.e. App.js, import and load the configuration file:
 
 ```javascript
 import { Amplify, Auth } from 'aws-amplify';
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
 ```
 
 ## Re-use existing authentication resource
@@ -66,11 +67,11 @@ Amplify.configure({
   Auth: {
     // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
     identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
-    
+
     // REQUIRED - Amazon Cognito Region
     region: 'XX-XXXX-X',
 
-    // OPTIONAL - Amazon Cognito Federated Identity Pool Region 
+    // OPTIONAL - Amazon Cognito Federated Identity Pool Region
     // Required only if it's different from Amazon Cognito Region
     identityPoolRegion: 'XX-XXXX-X',
 
@@ -82,10 +83,10 @@ Amplify.configure({
 
     // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
     mandatorySignIn: false,
-    
+
     // OPTIONAL - This is used when autoSignIn is enabled for Auth.signUp
     // 'code' is used for Auth.confirmSignUp, 'link' is used for email link verification
-    signUpVerificationMethod: 'code', // 'code' | 'link' 
+    signUpVerificationMethod: 'code', // 'code' | 'link'
 
     // OPTIONAL - Configuration for cookie storage
     // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
@@ -97,7 +98,7 @@ Amplify.configure({
       // OPTIONAL - Cookie expiration in days
       expires: 365,
       // OPTIONAL - See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite
-      sameSite: "strict" | "lax",
+      sameSite: 'strict' | 'lax',
       // OPTIONAL - Cookie secure flag
       // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
       secure: true
@@ -105,7 +106,7 @@ Amplify.configure({
 
     // OPTIONAL - customized storage object
     storage: MyStorage,
-    
+
     // OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
     authenticationFlowType: 'USER_PASSWORD_AUTH',
 
@@ -115,7 +116,13 @@ Amplify.configure({
     // OPTIONAL - Hosted UI configuration
     oauth: {
       domain: 'your_cognito_domain',
-      scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+      scope: [
+        'phone',
+        'email',
+        'profile',
+        'openid',
+        'aws.cognito.signin.user.admin'
+      ],
       redirectSignIn: 'http://localhost:3000/',
       redirectSignOut: 'http://localhost:3000/',
       responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
@@ -126,15 +133,17 @@ Amplify.configure({
 // You can get the current config object
 const currentConfig = Auth.configure();
 ```
-import attributesCallout from "/src/fragments/common/writable-vs-mutable-attributes.mdx";
 
-<Fragments fragments={{all: attributesCallout}} />
+import attributesCallout from '/src/fragments/common/writable-vs-mutable-attributes.mdx';
+
+<Fragments fragments={{ all: attributesCallout }} />
 
 ### Note about OAuth configuration parameters
+
 These settings can be found in the Cognito User Pools console under **App Integration** section
+
 - `domain`: This can be found in the **Domain name** sub section
 - `scope`: Remember to have the scope allowed on the Cognito App client, this can be found on **App client settings** sub section
 - `redirectSignIn`: URL must be present on **Callback URL(s)** , check on **App client settings** sub section
 - `redirectSignOut`: URL must be present on **Sign out URL(s)**, check on **App client settings** sub section
-- `responseType`: Option must be enabled on the App client, look for **Allowed OAuth Flows** on **App client settings** sub section. *Authorization code grant* is for 'code' value and *Implicit grant* is for 'token' value.
-
+- `responseType`: Option must be enabled on the App client, look for **Allowed OAuth Flows** on **App client settings** sub section. _Authorization code grant_ is for 'code' value and _Implicit grant_ is for 'token' value.

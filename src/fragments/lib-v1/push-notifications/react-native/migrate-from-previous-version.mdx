@@ -1,0 +1,176 @@
+If you were previously using the now deprecated version of Amplify Push Notifications for React Native (@aws-amplify/pushnotification), you will need to migrate to the new version by following the steps outlined here.
+
+## Update your configuration
+
+1. Make sure you are using the latest version of the Amplify CLI.
+
+```bash
+amplify upgrade
+```
+
+2. Pull your project (even if there are no changes) to update your configuration.
+
+```bash
+amplify pull
+```
+
+## Replace your dependency
+
+1. Remove the old dependency from your project.
+
+```bash
+npm uninstall @aws-amplify/pushnotification
+```
+
+<Callout>
+
+Please note that it's recommended to delete your `yarn.lock` file, `package-lock.json` file as well as the `/node_modules` folder before adding the new native module.
+
+</Callout>
+
+2. Add the new native module to your project.
+
+```bash
+npm install @aws-amplify/rtn-push-notification
+```
+
+## Update build configurations
+
+<BlockSwitcher>
+<Block name="iOS">
+
+### Update your `Podfile`
+
+Amplify Push Notifications now requires a minimum target of iOS 13.0.
+
+1. Open `Podfile` located inside the `/ios` folder of your React Native project with a text editor.
+
+2. Update `platform :ios` to at least `13.0`.
+
+```ruby
+platform :ios, '13.0'
+```
+
+3. Install the new pods by running the following command at the root of your React Native project.
+
+```bash
+npx pod-install
+```
+
+### Update your Application Delegate
+
+1. Reverse the steps previously taken to [augment your `AppDelegate`](https://github.com/react-native-push-notification/ios#augment-appdelegate)
+
+2. Locate and open your `AppDelegate.m` or `AppDelegate.mm` file in your text editor. You should find it in your React Native project under `/ios/<your-project-name>`
+
+3. At the top of your `AppDelegate`, import Amplify Push Notifications:
+
+```objective-c
+#import "AppDelegate.h"
+#import "AmplifyPushNotification.h"
+
+...
+```
+
+4. In the body of your `AppDelegate`, add the following two methods:
+
+```objective-c
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [AmplifyPushNotification didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
+  [AmplifyPushNotification didReceiveRemoteNotification:userInfo withCompletionHandler:completionHandler];
+}
+```
+
+</Block>
+<Block name="Android">
+
+### Update gradle scripts
+
+Amplify Push Notifications now requires a minimum target of Android SDK API level 24.
+
+1. Open `build.gradle` located inside the `/android` folder of your React Native project with a text editor.
+
+2. Update the `minSdkVersion` value in the `buildscript` block to at least `24`.
+
+```groovy
+buildscript {
+  ext {
+    ...
+    minSdkVersion = 24
+    ...
+  }
+}
+```
+
+3. Open the application `build.gradle` located inside the `/android/app` folder of your React Native project with a text editor.
+
+4. Remove firebase dependencies from the `dependencies` block.
+
+```diff
+dependencies {
+  ...
+-   implementation "com.google.firebase:firebase-core:15.0.2"
+-   implementation "com.google.firebase:firebase-messaging:15.0.2"
+  ...
+}
+```
+
+### Update the manifest
+
+5. Open `AndroidManifest.xml` located inside the `/android/app/src/main` folder.
+
+6. Remove the old service block from the `application`.
+
+```diff
+<application ... >
+  ...
+- <!--[START Push notification config -->
+- <service
+-   android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationMessagingService"
+-   android:exported="false">
+-   <intent-filter>
+-     <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+-   </intent-filter>
+- </service>
+- <!-- [END Push notification config -->
+  ...
+</application>
+```
+
+</Block>
+</BlockSwitcher>
+
+## Update your application code
+
+### Add required polyfills
+
+You need to add the crypto.getRandomValues and URL polyfills to your application's entry point file (in most React Native apps this will be the top level `index.js`).
+
+```js
+// Example index.js
+import 'react-native-get-random-values';
+import 'react-native-url-polyfill/auto';
+...
+```
+
+### Remove Analytics (Optional)
+
+If you **do not** use Amplify Analytics in your application but have previously imported it in your code just to implement Amplify Push Notifications, you should be able to remove it now. Analytics is no longer required to be configured in your frontend application to use Amplify Push Notifications.
+
+### Replace APIs
+
+Please refer to the [Getting started](/react-native/build-a-backend/push-notifications/) portion of this guide to start learning more about the new Amplify Push Notifications.
+
+A brief mapping of your APIs to their replacements is as follows:
+
+| Previous API | Replaced by |
+| :-: | :-: |
+| `onRegister` | `onTokenReceived` |
+| `onNotificationOpened` | `onNotificationOpened` |
+| `onNotification` | `onNotificationReceivedInForeground`<br />`onNotificationReceivedInBackground` |
+| `requestIOSPermissions` | `requestPermissions` |
+
+We _strongly_ recommend you take the time to explore all the ways the new version of Amplify Push Notifications are different and all the new features that have been added. This will help you to make the best decision about how to adopt these changes for your unique use cases.

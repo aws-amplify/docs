@@ -1,0 +1,116 @@
+## Subscribe
+
+### Subscribe to a topic
+
+In order to start receiving messages from your provider, you need to subscribe to a topic as follows;
+
+```javascript
+PubSub.subscribe('myTopic').subscribe({
+  next: (data) => console.log('Message received', data),
+  error: (error) => console.error(error),
+  complete: () => console.log('Done')
+});
+```
+
+If multiple providers are defined in your app you can include the specific provider you would like to subscribe to:
+
+```javascript
+PubSub.subscribe('myTopic', { provider: 'AWSIoTProvider' }).subscribe({
+  //...
+});
+
+PubSub.subscribe('myTopic', { provider: 'MqttOverWSProvider' }).subscribe({
+  //...
+});
+```
+
+<Callout>
+
+**Note:** If you do not include a specific provider it will subscribe to all of the configured PubSub providers in your app.
+
+</Callout>
+
+Following events will be triggered with `subscribe()`
+
+| Event | Description |
+| :-: | --- |
+| `next` | Triggered every time a message is successfully received for the topic |
+| `error` | Triggered when subscription attempt fails |
+| `complete` | Triggered when you unsubscribe from the topic |
+
+### Subscribe to multiple topics
+
+To subscribe for multiple topics, just pass a String array including the topic names:
+
+```javascript
+PubSub.subscribe(['myTopic1', 'myTopic1']).subscribe({
+  //...
+});
+```
+
+## Unsubscribe
+
+To stop receiving messages from a topic, you can use `unsubscribe()` method:
+
+```javascript
+const sub1 = PubSub.subscribe('myTopicA').subscribe({
+  next: (data) => console.log('Message received', data),
+  error: (error) => console.error(error),
+  complete: () => console.log('Done')
+});
+
+sub1.unsubscribe();
+// You will no longer get messages for 'myTopicA'
+```
+
+## Subscription connection status updates
+
+Now that your application is setup and using pubsub subscriptions, you may want to know when the subscription is finally established, or reflect to your users when the subscription isn't healthy. You can monitor the connection state for changes via Hub.
+
+```typescript
+import { CONNECTION_STATE_CHANGE, ConnectionState } from '@aws-amplify/pubsub';
+import { Hub } from 'aws-amplify';
+
+Hub.listen('pubsub', (data: any) => {
+  const { payload } = data;
+  if (payload.event === CONNECTION_STATE_CHANGE) {
+    const connectionState = payload.data.connectionState as ConnectionState;
+    console.log(connectionState);
+  }
+});
+```
+
+import jsConnectionStates from '/src/fragments/lib/pubsub/js/connection-states.mdx';
+
+<Fragments fragments={{  javascript: jsConnectionStates , angular: jsConnectionStates, nextjs: jsConnectionStates, react: jsConnectionStates, vue: jsConnectionStates }} />
+
+### Connection issues and automated reconnection
+
+import jsReconnectDescription from '/src/fragments/lib/pubsub/js/reconnect-description.mdx';
+
+<Fragments fragments={{  javascript: jsReconnectDescription , angular: jsReconnectDescription, nextjs: jsReconnectDescription, react: jsReconnectDescription, vue: jsReconnectDescription }} />
+
+```typescript
+const fetchRecentData = () => {
+  // Retrieve recent data from some sort of data storage service
+}
+
+let priorConnectionState: ConnectionState;
+
+Hub.listen("pubsub", (data: any) => {
+  const { payload } = data;
+  if (
+    payload.event === CONNECTION_STATE_CHANGE
+  ) {
+
+    if (priorConnectionState === ConnectionState.Connecting && payload.data.connectionState === ConnectionState.Connected) {
+      fetchRecentData();
+    }
+    priorConnectionState = payload.data.connectionState;
+  }
+});
+
+PubSub.subscribe('myTopic').subscribe({
+  next: data => // Process incoming messages
+})
+```

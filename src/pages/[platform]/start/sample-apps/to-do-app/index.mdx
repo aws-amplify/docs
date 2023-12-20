@@ -1,0 +1,26 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'To-do app',
+  description: 'Getting started with Amplify - Try Amplify on a sample to-do app',
+  platforms: ['android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+      
+
+import android1 from "/src/fragments/start/sample-apps/android/todo-app.mdx";
+
+<Fragments fragments={{android: android1}} />

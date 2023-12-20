@@ -1,0 +1,33 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'AppSync Concepts',
+  description:
+    "Learn more about the foundation concepts of Amplify's API category.",
+  platforms: ['swift', 'android', 'flutter']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import android1 from '/src/fragments/lib/graphqlapi/native_common/concepts.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import ios2 from '/src/fragments/lib/graphqlapi/native_common/concepts.mdx';
+
+<Fragments fragments={{ swift: ios2 }} />
+
+import flutter3 from '/src/fragments/lib/graphqlapi/native_common/concepts.mdx';
+
+<Fragments fragments={{ flutter: flutter3 }} />

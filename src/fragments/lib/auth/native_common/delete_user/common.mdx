@@ -4,20 +4,15 @@ If your application uses a Cognito User Pool, which is the default configuration
 
 <Callout warning>
 
-  Depending on your application, data associated with your user may be stored in
-  other resources such as Amazon DynamoDB or AWS S3. It is recommended that you
-  carefully evaluate this data and implement code to remove or otherwise
-  sanitize it, if necessary, prior to giving users the ability to delete their
-  own user record.
+Depending on your application, data associated with your user may be stored in other resources such as Amazon DynamoDB or AWS S3. It is recommended that you carefully evaluate this data and implement code to remove or otherwise sanitize it, if necessary, prior to giving users the ability to delete their own user record.
 
 </Callout>
 
-
 <Callout warning>
 
-  Before invoking the “delete user” API, you can first delete associated user data from the GraphQL API. For example, if you are using Amplify CLI's [GraphQL transformer](https://docs.amplify.aws/cli/graphql/overview/) to persist user data via [owner based access control](https://docs.amplify.aws/cli/graphql/authorization-rules/#per-user--owner-based-data-access), you could follow [these instructions](https://gist.github.com/aws-amplify-ops/27954c421bd72930874d48c15c284807) to delete associated user data.
+Before invoking the “delete user” API, you can first delete associated user data from the GraphQL API. For example, if you are using Amplify CLI's [GraphQL transformer](/[platform]/build-a-backend/graphqlapi/) to persist user data via [owner based access control](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#per-user--owner-based-data-access), you could follow [these instructions](https://gist.github.com/aws-amplify-ops/27954c421bd72930874d48c15c284807) to delete associated user data.
 
-  This allows you to address any guidelines that require your app to delete data associated with a user who deletes their account.
+This allows you to address any guidelines that require your app to delete data associated with a user who deletes their account.
 
 </Callout>
 
@@ -27,7 +22,7 @@ import flutter0 from '/src/fragments/lib/auth/flutter/delete_user/10_delete_user
 
 import ios1 from '/src/fragments/lib/auth/ios/delete_user/10_delete_user.mdx';
 
-<Fragments fragments={{ ios: ios1 }} />
+<Fragments fragments={{ swift: ios1 }} />
 
 import android2 from '/src/fragments/lib/auth/android/delete_user/10_delete_user.mdx';
 

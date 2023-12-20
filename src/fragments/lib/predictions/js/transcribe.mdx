@@ -1,6 +1,6 @@
 ## Set up the backend
 
-IIf you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the _default configuration_).
+If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the _default configuration_).
 
 Run `amplify add predictions` and select **Convert**. Then use the following answers:
 
@@ -13,7 +13,7 @@ Run `amplify add predictions` and select **Convert**. Then use the following ans
 ? Who should have access? Auth and Guest users
 ```
 
-Now run `amplify push` which will generate your `aws-exports.js` and create resources in the cloud. You can now either add this to your backend or skip and add more features to your app.
+Now run `amplify push` which will generate your `amplifyconfiguration.json` and create resources in the cloud. You can now either add this to your backend or skip and add more features to your app.
 
 Services used: Amazon Transcribe
 
@@ -22,6 +22,8 @@ Services used: Amazon Transcribe
 You can transcribe a PCM Audio byte buffer to Text, such as a recording from microphone.
 
 ```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
 Predictions.convert({
   transcription: {
     source: {

@@ -6,7 +6,7 @@
 
 ## Add location search functionality on a map
 
-First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Amplify CLI - Geo - Location Search](/cli/geo/search) or [Use existing Amazon Location Service resources](/lib/geo/existing-resources) and you have already setup [displaying a map](/lib/geo/maps) in your application.
+First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Configure Location Search](/[platform]/build-a-backend/more-features/geo/configure-location-search/) or [Use existing Amazon Location Service resources](/[platform]/build-a-backend/more-features/geo/existing-resources/) and you have already setup [displaying a map](/[platform]/build-a-backend/more-features/geo/maps) in your application.
 
 <Callout>
 
@@ -22,9 +22,9 @@ Install the necessary dependencies with the following command:
 npm install @maplibre/maplibre-gl-geocoder maplibre-gl@1 maplibre-gl-js-amplify
 ```
 
-> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.1.0` or above is installed.
+> **Note:** Make sure that `maplibre-gl-js-amplify` version `4.0.0` or above is installed.
 
-First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](https://docs.amplify.aws/lib/geo/maps/q/platform/js/).
+First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](/[platform]/build-a-backend/more-features/geo/maps).
 
 Then, use `createAmplifyGeocoder()` to get a new instance of `MaplibreGeocoder` and add the location search UI component to the map.
 
@@ -96,7 +96,7 @@ Amplify Geo enables you to search for locations by text, addresses, or geo-coord
 The `Geo.searchByText()` API enables you to search for places or points of interest by free-form text, such as an address, name, city, or region.
 
 ```javascript
-import { Geo } from "aws-amplify"
+import { Geo } from "@aws-amplify/geo"
 
 Geo.searchByText("Amazon Go Store")
 ```
@@ -162,7 +162,7 @@ This returns places and their coordinates that match the search constraints. A p
 The `Geo.searchByCoordinates()` API is a reverse Geocoder that takes a coordinate point and returns information about what it finds at that point on the map. The returned object is the same shape as `searchByText()` API above.
 
 ```javascript
-import { Geo } from "aws-amplify";
+import { Geo } from "@aws-amplify/geo";
 
 Geo.searchByCoordinates([longitudePoint, latitudePoint])
 ```
@@ -183,7 +183,7 @@ Geo.searchByCoordinates([-122.3399573, 47.616179], searchOptionsWithBiasPosition
 The `Geo.searchForSuggestions()` API enables you to search for suggestions by free-form text, such as a place, address, city, or region.
 
 ```javascript
-import { Geo } from "aws-amplify"
+import { Geo } from "@aws-amplify/geo";
 
 Geo.searchForSuggestions("Amazon Go Store")
 ```
@@ -260,12 +260,12 @@ The `Geo.searchByPlaceId()` API enables you to search for a place by a `placeId`
 
 <Callout>
 
-**Note:** Upgrade to the latest Amplify CLI version (greater than version 10.4) and do an ``amplify push`` to update your IAM policies to allow for ``getPlace`` API.
+**Note:** Upgrade to the latest Amplify CLI version (greater than version 12.5.1) and do an ``amplify push`` to update your IAM policies to allow for ``getPlace`` API.
 
 </Callout>
 
 ```javascript
-import { Geo } from "aws-amplify"
+import { Geo } from "@aws-amplify/geo";
 
 Geo.searchByPlaceId(placeId)
 ```

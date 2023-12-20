@@ -1,5 +1,5 @@
 - An Android application targeting at least Android SDK API level 24 with Amplify libraries integrated
-  - For a full example of creating an Android project, please follow the [project setup walkthrough](/lib/project-setup/create-application)
+  - For a full example of creating an Android project, please follow the [project setup walkthrough](/[platform]/start/project-setup/create-application/)
 
 import fcmPreReq from '/src/fragments/lib/push-notifications/android/getting_started/fcm-pre-req.mdx';
 
@@ -7,4 +7,6 @@ import fcmPreReq from '/src/fragments/lib/push-notifications/android/getting_sta
 
 ## Request Permissions
 
-Android 13 (API level 33) and higher supports a runtime permission for sending non-exempt (including Foreground Services (FGS)) notifications from an app. Follow these [instructions](https://developer.android.com/training/permissions/requesting) to enable your app to request permissions.
+Android 13 (API level 33) introduces a runtime permission for sending non-exempt notifications, including Foreground Services (FGS), from your app. To enable this permission, follow [these instructions](https://developer.android.com/training/permissions/requesting).
+
+For Android versions v12 or lower, permission modals will appear during channel creation and app startup by default. However, starting from Android v13 (API Level 33) and higher, you can control the timing of the permissions modal by using the `Notifications.Push.getPermissionStatus()` method. The appearance of the permissions modal will be [determined by your app's target SDK version](https://developer.android.com/develop/ui/views/notifications/notification-permission#new-apps).

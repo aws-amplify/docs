@@ -1,0 +1,32 @@
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+export async function rememberDevice() {
+  try {
+    const result = await Auth.rememberDevice();
+    console.log(result);
+  } catch (error) {
+    console.log('Error remembering device', error);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Auth } from 'aws-amplify';
+
+async function rememberDevice() {
+  try {
+    const result = await Auth.rememberDevice();
+    console.log(result);
+  } catch (error) {
+    console.log('Error remembering device', error);
+  }
+}
+```
+</Block>
+</BlockSwitcher>

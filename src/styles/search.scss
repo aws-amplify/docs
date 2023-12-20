@@ -1,0 +1,25 @@
+.layout-search__search {
+  margin-inline-start: auto;
+}
+
+@media (min-width: $mq-mobile) {
+  .layout-search__search {
+    width: 100%;
+    margin-inline-start: 0;
+    &__container {
+      max-width: var(--content-max-width);
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
+
+@media (min-width: $toc-min) {
+  .layout-search__search {
+    &--toc {
+      margin-inline-end: calc(
+        var(--layout-toc-width) + var(--amplify-space-xl)
+      );
+    }
+  }
+}

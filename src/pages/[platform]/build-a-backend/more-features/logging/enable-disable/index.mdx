@@ -1,0 +1,29 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Enable and disable logging',
+  description: 'Learn more about how you can enable or disable logging',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import commonRoute from '/src/fragments/lib/logging/common/enable_disable/enable_disable.mdx';
+
+<Fragments
+  fragments={{
+    android: commonRoute,
+    swift: commonRoute
+  }}
+/>

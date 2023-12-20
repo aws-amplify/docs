@@ -1,0 +1,31 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Kotlin Coroutines support',
+  description: 'Amplify Android includes first-class support for Kotlin Coroutines and Flows.',
+  platforms: ['android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      showBreadcrumbs: false,
+      meta
+    }
+  };
+}
+          
+
+
+import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+
+<Fragments fragments={{ android: android_maintenance }} />
+
+import android0 from '/src/fragments/lib-v1/project-setup/android/coroutines/coroutines.mdx';
+
+<Fragments fragments={{ android: android0 }} />

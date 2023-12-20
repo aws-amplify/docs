@@ -1,0 +1,34 @@
+## Send messages to bot
+
+You can send a text message to chatbot backend with `send()` command. The method returns a promise that includes the chatbot response.
+
+```javascript
+import { Interactions } from 'aws-amplify';
+
+let userInput = "I want to reserve a hotel for tonight";
+
+// Provide a bot name and user input
+const response = await Interactions.send("BookTrip", userInput);
+
+// Log chatbot response
+console.log(response.message);
+```
+
+## Display end of chat message
+
+You can use `onComplete()` method to register a function to catch errors or chatbot confirmations when the session successfully ends.
+
+```javascript
+
+const handleComplete = function (err, confirmation) {
+    if (err) {
+        alert('bot conversation failed');
+        return;
+    }
+    alert('done: ' + JSON.stringify(confirmation, null, 2));
+
+    return 'Trip booked. Thank you! What would you like to do next?';
+}
+
+Interactions.onComplete(botName, handleComplete );
+```

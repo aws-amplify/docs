@@ -1,6 +1,5 @@
-## Identify entities from images
+## Set up the backend
 
-Setup your backend with the following:
 If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
 
 Run `amplify add predictions` and select **Identify**. Then use the following answers:
@@ -17,7 +16,7 @@ Run `amplify add predictions` and select **Identify**. Then use the following an
 ? Who should have access? Auth and Guest users
 ```
 
-Now run `amplify push` which will generate your `aws-exports.js` and create resources in the cloud. You can now either add this to your backend or skip and add more features to your app.
+Now run `amplify push` which will generate your `amplifyconfiguration.json` and create resources in the cloud. You can now either add this to your backend or skip and add more features to your app.
 
 Services used: Amazon Rekognition
 
@@ -44,18 +43,7 @@ To add this functionality into your application choose **advanced** when prompte
 
 Note that if you already have an S3 bucket in your project from running `amplify add storage` it would be reused. To upload images from the CLI for administrator indexing, you can run `amplify predictions console` and select `Identify` which will open the S3 bucket location in the AWS console for you to upload your images.
 
-For application users, when they upload images with `Storage.put()` they will specify a prefix which the Lambda functions perform indexing like so:
-
-```javascript
-Storage.put('test.jpg', file, {
-  level: 'protected',
-  customPrefix: {
-    protected: 'protected/predictions/index-faces/',
-  },
-});
-```
-
-In the sample React application code ahead, you will see that to use this functionality you will need to set `collection:true` when calling `Predictions.identify()` and remove `celebrityDetection: true`. The flow is that you will first upload an image to S3 with the `PredictionsUpload` function (which is connected to a button in the app) and after a few seconds you can send this same image to `Predictions.identify()` and it will check if that image has been indexed in the Collection.
+In the sample React application code ahead, you will see that to use this functionality you will need to set collection:true when calling Predictions.identify() and remove celebrityDetection: true. To test this flow, first upload an image to your S3 bucket location protected/predictions/index-faces/admin, and after a few seconds you can send this same image to Predictions.identify() and it will check if that image has been indexed in the Collection.
 
 ## Working with the API
 
@@ -67,44 +55,47 @@ Input can be sent directly from the browser (using File object or ArrayBuffer ob
 Detect entities directly from image uploaded from the browser. (File object)
 
 ```javascript
-Predictions.identify({
+import { Predictions } from '@aws-amplify/predictions';
+
+const response = await Predictions.identify({
   entities: {
     source: {
       file,
     },
   }
-})
-.then((response) => console.log({ response }))
-.catch(err => console.log({ err }));
+});
+console.log({ response });
 ```
 
 Detect entities directly from image binary from the browser. (ArrayBuffer object)
 This technique is useful when you have base64 encoded binary image data, for example, from a webcam source.
 
 ```javascript
-Predictions.identify({
+import { Predictions } from '@aws-amplify/predictions';
+
+const response = await Predictions.identify({
   entities: {
     source: {
       bytes: imageArrayBuffer,
     },
   }
-})
-.then((response) => console.log({ response }))
-.catch(err => console.log({ err }));
+});
+console.log({ response });
 ```
 
 From Amazon S3 key
 ```javascript
-Predictions.identify({
+import { Predictions } from '@aws-amplify/predictions';
+
+const response = await Predictions.identify({
   entities: {
     source: {
       key: pathToPhoto,
-      level: 'public | private | protected', //optional, default is the configured on Storage category
+      level: 'guest' | 'private' | 'protected', //optional, default is the configured on Storage category
     },
   }
-})
-.then((response) => console.log({ response }))
-.catch(err => console.log({ err }));
+});
+console.log({ response });
 ```
 
 The following options are independent of which `source` is specified. For demonstration purposes it will be used `file` but it can be used S3 Key as well. 
@@ -112,37 +103,39 @@ The following options are independent of which `source` is specified. For demons
 Detecting bounding box of faces from an image with its landmarks (eyes, mouth, nose).
 
 ```javascript
-Predictions.identify({
+import { Predictions } from '@aws-amplify/predictions';
+
+const { entities } = await Predictions.identify({
   entities: {
     source: {
       file,
     },
   }
 })
-.then(({ entities }) => {
-  entities.forEach(({boundingBox, landmarks}) => {
-    const { 
-      width, // ratio of overall image width
-      height, // ratio of overall image height
-      left, // left coordinate as a ratio of overall image width
-      top // top coordinate as a ratio of overall image height
-    } = boundingBox;
-    landmarks.forEach(landmark => {
-      const {
-        type, // string "eyeLeft", "eyeRight", "mouthLeft", "mouthRight", "nose"
-        x, // ratio of overall image width
-        y // ratio of overall image height
-      } = landmark;
-    })
-  })
-})
-.catch(err => console.log({ err }));
+for (const { boundingBox, landmarks } of entities) {
+  const { 
+    width, // ratio of overall image width
+    height, // ratio of overall image height
+    left, // left coordinate as a ratio of overall image width
+    top // top coordinate as a ratio of overall image height
+  } = boundingBox;
+  
+  for(const landmark of landmarks) {
+    const {
+      type, // string "eyeLeft", "eyeRight", "mouthLeft", "mouthRight", "nose"
+      x, // ratio of overall image width
+      y // ratio of overall image height
+    } = landmark;
+  }
+}
 ```
 
 Detecting celebrities on an image. It will return only celebrities the name and urls with related information.
 
 ```javascript
-Predictions.identify({
+import { Predictions } from '@aws-amplify/predictions';
+
+const { entities } = await Predictions.identify({
   entities: {
     source: {
       file,
@@ -150,23 +143,24 @@ Predictions.identify({
     celebrityDetection: true // boolean. It will only show detected celebrities 
   }
 })
-.then(({ entities }) => {
-  entities.forEach(({ boundingBox, landmarks, metadata }) => {
-    const { 
-      name,
-      urls 
-    } = metadata; // celebrity info
-    
-    // ...
-  })
-})
+
+for(const { boundingBox, landmarks, metadata } of entities) {
+  const { 
+    name,
+    urls 
+  } = metadata; // celebrity info
+  
+  // ...
+}
 .catch(err => console.log({ err }));
 ```
 
 Detecting entities from previously uploaded images (e.g. Advanced Configuration for Identify Entities)
 
 ```javascript
-Predictions.identify({
+import { Predictions } from '@aws-amplify/predictions';
+
+const { entities } = await Predictions.identify({
   entities: {
     source: {
       file,
@@ -174,23 +168,14 @@ Predictions.identify({
     collection: true
   }
 })
-.then(({ entities }) => {
-  entities.forEach(({ boundingBox, metadata: { externalImageId } }) => {
-    const {
-      width, // ratio of overall image width
-      height, // ratio of overall image height
-      left, // left coordinate as a ratio of overall image width
-      top // top coordinate as a ratio of overall image height
-    } = boundingBox;
-    console.log({ externalImageId }); // this is the object key on S3 from the original image!
-    
-    Storage.get("", {
-      customPrefix: {
-      public: externalImageId
-      },
-      level: "public",
-    }).then(src => console.log({ src }));
-  })
-})
-.catch(err => console.log(err));
+
+for({ boundingBox, metadata } of entities) {
+  const {
+    width, // ratio of overall image width
+    height, // ratio of overall image height
+    left, // left coordinate as a ratio of overall image width
+    top // top coordinate as a ratio of overall image height
+  } = boundingBox;
+  const { externalImageId } = metadata; // this is the object key on S3 from the original image
+}
 ```

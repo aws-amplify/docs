@@ -4,6 +4,10 @@
 
 OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after a login. [OIDC](https://en.wikipedia.org/wiki/OpenID_Connect) tokens are available in the app after the application has completed this process.
 
+<Callout warning>
+ When configuring social sign-in through the Amplify CLI, it's important to exercise caution when designating attributes as "required." Different social identity providers have varied scopes in terms of the information they respond back to Cognito with.  User pool attributes that are initially set up as "required" cannot be changed later, and may require you to migrate the users or create a new user pool.  
+</Callout>
+
 import all0 from "/src/fragments/lib/auth/common/social_signin_web_ui/setup_auth_provider.mdx";
 
 <Fragments fragments={{all: all0}} />
@@ -60,9 +64,9 @@ After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate you
 import React, { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import awsConfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(awsConfig);
+Amplify.configure(amplifyconfig);
 
 function App() {
   const [user, setUser] = useState(null);
@@ -117,9 +121,9 @@ function App() {
 import React, { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import awsConfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(awsConfig);
+Amplify.configure(amplifyconfig);
 
 function App() {
   const [user, setUser] = useState(null);
@@ -179,7 +183,7 @@ For *Sign in Redirect URI(s)* inputs, you can put one URI for local development 
 **Note:** if you have multiple redirect URI inputs, you'll need to handle both of them where you configure your Amplify project. For example:
 
 ```javascript
-import awsConfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
@@ -195,17 +199,17 @@ const isLocalhost = Boolean(
 const [
   localRedirectSignIn,
   productionRedirectSignIn,
-] = awsConfig.oauth.redirectSignIn.split(",");
+] = amplifyconfig.oauth.redirectSignIn.split(",");
 
 const [
   localRedirectSignOut,
   productionRedirectSignOut,
-] = awsConfig.oauth.redirectSignOut.split(",");
+] = amplifyconfig.oauth.redirectSignOut.split(",");
 
 const updatedAwsConfig = {
-  ...awsConfig,
+  ...amplifyconfig,
   oauth: {
-    ...awsConfig.oauth,
+    ...amplifyconfig.oauth,
     redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
     redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
   }
@@ -222,7 +226,7 @@ Amplify.configure(updatedAwsConfig);
 ```ts
 import { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
-import awsConfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -238,17 +242,17 @@ const isLocalhost = Boolean(
 const [
   localRedirectSignIn,
   productionRedirectSignIn,
-] = awsConfig.oauth.redirectSignIn.split(',');
+] = amplifyconfig.oauth.redirectSignIn.split(',');
 
 const [
   localRedirectSignOut,
   productionRedirectSignOut,
-] = awsConfig.oauth.redirectSignOut.split(',');
+] = amplifyconfig.oauth.redirectSignOut.split(',');
 
 const updatedAwsConfig = {
-  ...awsConfig,
+  ...amplifyconfig,
   oauth: {
-    ...awsConfig.oauth,
+    ...amplifyconfig.oauth,
     redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
     redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
   }
@@ -309,7 +313,7 @@ export default App;
 ```js
 import { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
-import awsConfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -325,17 +329,17 @@ const isLocalhost = Boolean(
 const [
   localRedirectSignIn,
   productionRedirectSignIn,
-] = awsConfig.oauth.redirectSignIn.split(',');
+] = amplifyconfig.oauth.redirectSignIn.split(',');
 
 const [
   localRedirectSignOut,
   productionRedirectSignOut,
-] = awsConfig.oauth.redirectSignOut.split(',');
+] = amplifyconfig.oauth.redirectSignOut.split(',');
 
 const updatedAwsConfig = {
-  ...awsConfig,
+  ...amplifyconfig,
   oauth: {
-    ...awsConfig.oauth,
+    ...amplifyconfig.oauth,
     redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
     redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
   }
@@ -391,7 +395,7 @@ export default App;
 
 ### Catching Errors
 
-In order to catch errors when using `Auth.federatedSignIn()` you can use the [Hub](/lib/utilities/hub/q/platform/js/) eventing system provided by Amplify to listen for the `signIn_failure` event.
+In order to catch errors when using `Auth.federatedSignIn()` you can use the [Hub](/[platform]/build-a-backend/utilities/hub/) eventing system provided by Amplify to listen for the `signIn_failure` event.
 
 <BlockSwitcher>
 <Block name="TypeScript">

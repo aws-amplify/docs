@@ -6,7 +6,7 @@
 
 ## Display a map
 
-First, ensure you've provisioned an Amazon Location Service Map resource and configured your app using the instructions in either [Amplify CLI - Geo - Maps](/cli/geo/maps) or [Use existing resources](/lib/geo/existing-resources) guide.
+First, ensure you've provisioned an Amazon Location Service Map resource and configured your app using the instructions in either [Configure maps](/[platform]/build-a-backend/more-features/geo/configure-maps/) or [Use existing resources](/[platform]/build-a-backend/more-features/geo/existing-resources/) guide.
 
 <Callout>
 
@@ -25,7 +25,8 @@ npm install maplibre-gl maplibre-gl-js-amplify
 <Callout>
 
 Verify the following:
-- `maplibre-gl-js-amplify` version `2.0.0` or above is installed
+
+- `maplibre-gl-js-amplify` version `4.0.0` or above is installed
 - Any package bundlers (webpack, rollup, etc) are configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
 
 </Callout>
@@ -33,22 +34,21 @@ Verify the following:
 Import the library into your application:
 
 ```javascript
-import { createMap } from "maplibre-gl-js-amplify";
-import "maplibre-gl/dist/maplibre-gl.css";
+import { createMap } from 'maplibre-gl-js-amplify';
+import 'maplibre-gl/dist/maplibre-gl.css';
 ```
 
 Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [createMap](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#createmap).
-
 
 **Note:** There must be a `div` with an `id="map"` on the DOM before making the call to `createMap` in this way.
 
 ```javascript
 async function initializeMap() {
-    const map = await createMap({
-        container: "map", // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
-        center: [-123.1187, 49.2819], // [Longitude, Latitude]
-        zoom: 11,
-    })
+  const map = await createMap({
+    container: 'map', // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
+    center: [-123.1187, 49.2819], // [Longitude, Latitude]
+    zoom: 11
+  });
 }
 
 initializeMap();
@@ -69,8 +69,8 @@ const map = await createMap({
 
 The MapLibre canvas requires a defined height to display properly, otherwise you may end up with a blank screen where the map is supposed to be.
 
-The [amplify-map.css](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/src/public/amplify-map.css) file has a few commonly used methods for setting the height of the map component.
-You can add some of the examples listed to your own styles or directly import `amplify-map.css` like so:
+The [amplify-map.css](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/src/public/amplify-map.css) file has a few commonly used methods for setting the height of the map component. You can add some of the examples listed to your own styles or directly import `amplify-map.css` like so:
+
 ```
 import "maplibre-gl-js-amplify/dist/public/amplify-map.css";
 ```
@@ -80,7 +80,8 @@ To render a map using percentage based height you need to ensure that all ancest
 ```css
 html,
 body,
-#root { /* The ancestors of the map element */
+#root {
+  /* The ancestors of the map element */
   height: 100%;
 }
 
@@ -88,6 +89,7 @@ body,
   height: 50%;
 }
 ```
+
 </Callout>
 
 ![A map centered on Vancouver](/images/display-map.png)
@@ -103,7 +105,7 @@ To display markers on a map, use the `drawPoints` function. `drawPoints` expects
 First, import the `drawPoints` method in your app. Your import section should include look like this
 
 ```javascript
-import { drawPoints } from "maplibre-gl-js-amplify";
+import { drawPoints } from 'maplibre-gl-js-amplify';
 ```
 
 <Callout>
@@ -117,32 +119,33 @@ For more information about the parameters and options that can be used with `dra
 Next, use the following code snippet when you want to display the markers on the map. Add it to the `initializeMap()` function if you want the markers to show up on map load.
 
 ```javascript
-map.on("load", function () {
-    drawPoints("mySourceName", // Arbitrary source name
-        [
-            {
-              coordinates: [-122.483696, 37.833818], // [Longitude, Latitude]
-              title: "Golden Gate Bridge",
-              address: "A suspension bridge spanning the Golden Gate",
-            },
-            {
-              coordinates: [- 122.4770, 37.8105], // [Longitude, Latitude]
-            },
-        ], // An array of coordinate data, an array of Feature data, or an array of [NamedLocations](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/src/types.ts#L8)
-        map,
-        {
-            showCluster: true,
-            unclusteredOptions: {
-                showMarkerPopup: true,
-            },
-            clusterOptions: {
-                showCount: true,
-            },
-        }
-    );
+map.on('load', function () {
+  drawPoints(
+    'mySourceName', // Arbitrary source name
+    [
+      {
+        coordinates: [-122.483696, 37.833818], // [Longitude, Latitude]
+        title: 'Golden Gate Bridge',
+        address: 'A suspension bridge spanning the Golden Gate'
+      },
+      {
+        coordinates: [-122.477, 37.8105] // [Longitude, Latitude]
+      }
+    ], // An array of coordinate data, an array of Feature data, or an array of [NamedLocations](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/src/types.ts#L8)
+    map,
+    {
+      showCluster: true,
+      unclusteredOptions: {
+        showMarkerPopup: true
+      },
+      clusterOptions: {
+        showCount: true
+      }
+    }
+  );
 });
-
 ```
+
 ![A map with points](/images/display-map-with-points.png)
 
 ## Display different map styles
@@ -152,7 +155,7 @@ The `getAvailableMaps` API fetches information for all maps that are available t
 This is useful if you would like to give your users a variety of maps styles to choose from.
 
 ```javascript
-import { Geo } from "aws-amplify"
+import { Geo } from '@aws-amplify/geo';
 
 Geo.getAvailableMaps();
 ```
@@ -169,14 +172,14 @@ The available maps are returned as an array with the following contents:
   {
     mapName: 'myAmplifyGeoEsriTopographicMap',
     style: 'VectorEsriTopographic'
-  },
-]
+  }
+];
 ```
 
 You can resize and customize a map with the `resize` and `setStyle` functions:
 
 ```javascript
-map.setStyle("myAmplifyGeoEsriTopographicMap"); // map name received from getAvailableMaps()
+map.setStyle('myAmplifyGeoEsriTopographicMap'); // map name received from getAvailableMaps()
 map.resize(); // forces the map to re-render
 ```
 
@@ -215,24 +218,26 @@ To display a map on your html website, add the following scripts to your html we
 <script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.1.0/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-7/RxWonKW1nM9zCKiwU9x6bkQTjldosg0D1vZYm0Zj+K/vUSnA3sOMhlRRWAtHPi" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 ```
 
-Next, add a div element with id `map` anywhere in your webpage where you want to render the map. Include the following code snippet to configure Amplify (update the `aws_exports.js` file path accordingly) and instantiate the map.
+Next, add a div element with id `map` anywhere in your webpage where you want to render the map. Include the following code snippet to configure Amplify (update the `amplifyconfiguration.json` file path accordingly) and instantiate the map.
 
 ```html
 <script type="module">
-    import awsconfig from "./aws-exports.js";
-    const { Amplify } = aws_amplify_core;
-    const { createMap } = AmplifyMapLibre;
-    Amplify.configure(awsconfig);
-    createMap({
-        container: "map",
-        center: [-123.1187, 49.2819], // [Longitude, Latitude]
-        zoom: 13,
-    });
+  import amplifyconfig from './amplifyconfiguration.json' assert { type: 'json' };
+  const { Amplify } = aws_amplify_core;
+  const { createMap } = AmplifyMapLibre;
+  Amplify.configure(amplifyconfig);
+  createMap({
+    container: 'map',
+    center: [-123.1187, 49.2819], // [Longitude, Latitude]
+    zoom: 13
+  });
 </script>
 ```
 
-<!-- If you provisioned your location resources manually, you can use this [guide]() to configure Amplify.-->
+{/* If you provisioned your location resources manually, you can use this [guide]() to configure Amplify. */}
+
 ### Sample application
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -254,10 +259,10 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
     <body>
         <div id="map"></div>
         <script type="module">
-            import awsconfig from "./aws-exports.js";
+            import amplifyconfig from "./amplifyconfiguration.json" assert { type: "json" };
             const { Amplify } = aws_amplify_core;
             const { createMap } = AmplifyMapLibre;
-            Amplify.configure(awsconfig);
+            Amplify.configure(amplifyconfig);
             createMap({
                 container: "map",
                 center: [-123.1187, 49.2819], // [Longitude, Latitude]
@@ -272,12 +277,10 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
 
 If you want more information about the maps you currently have configured or want a way to switch between maps programmatically, the `@aws-amplify/geo` package provides API's that return more information about your currently provisioned maps.
 
-First, you need to import Geo from either the `@aws-amplify/geo` or `aws-amplify` packages.
+First, you need to import Geo from the `@aws-amplify/geo` package.
 
 ```javascript
-import { Geo } from "@aws-amplify/geo";
-// Or
-import { Geo } from "aws-amplify";
+import { Geo } from '@aws-amplify/geo';
 ```
 
 ### getAvailableMaps

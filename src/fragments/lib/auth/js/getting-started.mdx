@@ -6,7 +6,15 @@ Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authe
 
 import js0 from '/src/fragments/lib/auth/js/getting-started-steps-basic-auth.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
 
 import reactnative0 from '/src/fragments/lib/auth/js/getting-started-steps-basic-auth-react-native.mdx';
 
@@ -18,7 +26,15 @@ The most common way to use Authentication with Amplify is via the Amplify CLI, w
 
 import js10 from '/src/fragments/lib/auth/js/getting_started/10_setUpBackendResources.mdx';
 
-<Fragments fragments={{ js: js10 }} />
+<Fragments
+  fragments={{
+    javascript: js10,
+    angular: js10,
+    nextjs: js10,
+    react: js10,
+    vue: js10
+  }}
+/>
 
 import reactnative10 from '/src/fragments/lib/auth/js/getting-started-set-up-backend-resources-react-native.mdx';
 
@@ -28,14 +44,22 @@ import reactnative10 from '/src/fragments/lib/auth/js/getting-started-set-up-bac
 
 import js2 from '/src/fragments/lib/auth/js/enable_sign_in_sign_up.mdx';
 
-<Fragments fragments={{ js: js2 }} />
+<Fragments
+  fragments={{
+    javascript: js2,
+    angular: js2,
+    nextjs: js2,
+    react: js2,
+    vue: js2
+  }}
+/>
 
-Follow the instructions in the [Sign in, Sign up and Sign out](/lib/auth/emailpassword) to learn about how to integrate these authentication flows in your application with the Auth APIs.
+Follow the instructions in the [Sign in, Sign up and Sign out](/[platform]/build-a-backend/auth/enable-sign-up/) to learn about how to integrate these authentication flows in your application with the Auth APIs.
 
 ## Summary
 
 To implement authentication flows using Amplify you can either use the Amplify UI libraries or call authentication methods directly on the `Auth` class.
 
-`Auth` has over 30 methods including [`signUp`](/lib/auth/emailpassword#sign-up), [`signIn`](/lib/auth/emailpassword#sign-in), [`forgotPassword`](/lib/auth/manageusers#forgot-password), and [`signOut`](/lib/auth/emailpassword#sign-out) that allow you full control over all aspects of the user authentication flow.
+`Auth` has over 30 methods including [`signUp`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-up), [`signIn`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-in), [`forgotPassword`](/[platform]/build-a-backend/auth/manage-user-session/#forgot-password), and [`signOut`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-out) that allow you full control over all aspects of the user authentication flow.
 
 Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).

@@ -1,4 +1,29 @@
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  requestPermissions,
+  RequestPermissionsInput
+} from 'aws-amplify/push-notifications';
+
+const permissions: RequestPermissionsInput = {
+  // permissions are true by default
+  // alert: true
+  sound: false,
+  badge: false
+};
+
+const arePermissionsGranted = await requestPermissions(permissions);
+// true if granted (or already granted), false otherwise
+```
+
+</Block>
+<Block name="JavaScript">
+
 ```js
+import { requestPermissions } from 'aws-amplify/push-notifications';
+
 const permissions = {
   // permissions are true by default
   // alert: true
@@ -6,6 +31,9 @@ const permissions = {
   badge: false
 };
 
-const result = await Notifications.Push.requestPermissions(permissions);
+const arePermissionsGranted = await requestPermissions(permissions);
 // true if granted (or already granted), false otherwise
 ```
+
+</Block>
+</BlockSwitcher>

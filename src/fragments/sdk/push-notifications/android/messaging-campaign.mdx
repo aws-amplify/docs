@@ -1,104 +1,100 @@
-The [Amazon Pinpoint console](https://console.aws.amazon.com/pinpoint/) enables you to target your app users with push messaging. You can send individual messages or configure campaigns that target a group of users that match a profile that you define.
-For instance, you could email users that have not used the app in 30 days, or send an SMS to those that frequently use a given feature of your app.
+The [Amazon Pinpoint console](https://console.aws.amazon.com/pinpoint/) enables you to target your app users with push messaging. You can send individual messages or configure campaigns that target a group of users that match a profile that you define. For instance, you could email users that have not used the app in 30 days, or send an SMS to those that frequently use a given feature of your app.
 
 The following steps show how to receive push notifications targeted for your app.
 
 1. Add a push listener service to your app.
 
-    The name of the class must match the push listener service name used in the app manifest.
-    `pinpointManager` is a reference to the static `PinpointManager` variable declared in
-    the `MainActivity` shown in a previous step. Use the following steps to detect and display Push
-    Notification in your app.
+   The name of the class must match the push listener service name used in the app manifest. `pinpointManager` is a reference to the static `PinpointManager` variable declared in the `MainActivity` shown in a previous step. Use the following steps to detect and display Push Notification in your app.
 
 1. The following push listener code assumes that the app's `MainActivity` is configured using the manifest setup described in a previous section.
 
-    ```java
-    import android.content.Intent;
-    import android.os.Bundle;
-    import android.support.v4.content.LocalBroadcastManager;
-    import android.util.Log;
+   ```java
+   import android.content.Intent;
+   import android.os.Bundle;
+   import android.support.v4.content.LocalBroadcastManager;
+   import android.util.Log;
 
-    import com.amazonaws.mobileconnectors.pinpoint.targeting.notification.NotificationClient;
-    import com.amazonaws.mobileconnectors.pinpoint.targeting.notification.NotificationDetails;
-    import com.google.firebase.messaging.FirebaseMessagingService;
-    import com.google.firebase.messaging.RemoteMessage;
+   import com.amazonaws.mobileconnectors.pinpoint.targeting.notification.NotificationClient;
+   import com.amazonaws.mobileconnectors.pinpoint.targeting.notification.NotificationDetails;
+   import com.google.firebase.messaging.FirebaseMessagingService;
+   import com.google.firebase.messaging.RemoteMessage;
 
-    import java.util.HashMap;
+   import java.util.HashMap;
 
-    public class PushListenerService extends FirebaseMessagingService {
-        public static final String TAG = PushListenerService.class.getSimpleName();
+   public class PushListenerService extends FirebaseMessagingService {
+       public static final String TAG = PushListenerService.class.getSimpleName();
 
-        // Intent action used in local broadcast
-        public static final String ACTION_PUSH_NOTIFICATION = "push-notification";
-        // Intent keys
-        public static final String INTENT_SNS_NOTIFICATION_FROM = "from";
-        public static final String INTENT_SNS_NOTIFICATION_DATA = "data";
+       // Intent action used in local broadcast
+       public static final String ACTION_PUSH_NOTIFICATION = "push-notification";
+       // Intent keys
+       public static final String INTENT_SNS_NOTIFICATION_FROM = "from";
+       public static final String INTENT_SNS_NOTIFICATION_DATA = "data";
 
-        @Override
-        public void onNewToken(String token) {
-            super.onNewToken(token);
+       @Override
+       public void onNewToken(String token) {
+           super.onNewToken(token);
 
-            Log.d(TAG, "Registering push notifications token: " + token);
-            MainActivity.getPinpointManager(getApplicationContext()).getNotificationClient().registerDeviceToken(token);
-        }
+           Log.d(TAG, "Registering push notifications token: " + token);
+           MainActivity.getPinpointManager(getApplicationContext()).getNotificationClient().registerDeviceToken(token);
+       }
 
-        @Override
-        public void onMessageReceived(RemoteMessage remoteMessage) {
-            super.onMessageReceived(remoteMessage);
-            Log.d(TAG, "Message: " + remoteMessage.getData());
+       @Override
+       public void onMessageReceived(RemoteMessage remoteMessage) {
+           super.onMessageReceived(remoteMessage);
+           Log.d(TAG, "Message: " + remoteMessage.getData());
 
-            final NotificationClient notificationClient = MainActivity.getPinpointManager(getApplicationContext()).getNotificationClient();
+           final NotificationClient notificationClient = MainActivity.getPinpointManager(getApplicationContext()).getNotificationClient();
 
-            final NotificationDetails notificationDetails = NotificationDetails.builder()
-                    .from(remoteMessage.getFrom())
-                    .mapData(remoteMessage.getData())
-                    .intentAction(NotificationClient.FCM_INTENT_ACTION)
-                    .build();
+           final NotificationDetails notificationDetails = NotificationDetails.builder()
+                   .from(remoteMessage.getFrom())
+                   .mapData(remoteMessage.getData())
+                   .intentAction(NotificationClient.FCM_INTENT_ACTION)
+                   .build();
 
-            NotificationClient.CampaignPushResult pushResult = notificationClient.handleCampaignPush(notificationDetails);
+           NotificationClient.CampaignPushResult pushResult = notificationClient.handleCampaignPush(notificationDetails);
 
-            if (!NotificationClient.CampaignPushResult.NOT_HANDLED.equals(pushResult)) {
-                /**
-                   The push message was due to a Pinpoint campaign.
-                   If the app was in the background, a local notification was added
-                   in the notification center. If the app was in the foreground, an
-                   event was recorded indicating the app was in the foreground,
-                   for the demo, you will broadcast the notification to let the main
-                   activity display it in a dialog.
-                */
-                if (NotificationClient.CampaignPushResult.APP_IN_FOREGROUND.equals(pushResult)) {
-                    /* Create a message that will display the raw data of the campaign push in a dialog. */
-                    final HashMap<String, String> dataMap = new HashMap<>(remoteMessage.getData());
-                    broadcast(remoteMessage.getFrom(), dataMap);
-                }
-                return;
-            }
-        }
+           if (!NotificationClient.CampaignPushResult.NOT_HANDLED.equals(pushResult)) {
+               /**
+                  The push message was due to a Pinpoint campaign.
+                  If the app was in the background, a local notification was added
+                  in the notification center. If the app was in the foreground, an
+                  event was recorded indicating the app was in the foreground,
+                  for the demo, you will broadcast the notification to let the main
+                  activity display it in a dialog.
+               */
+               if (NotificationClient.CampaignPushResult.APP_IN_FOREGROUND.equals(pushResult)) {
+                   /* Create a message that will display the raw data of the campaign push in a dialog. */
+                   final HashMap<String, String> dataMap = new HashMap<>(remoteMessage.getData());
+                   broadcast(remoteMessage.getFrom(), dataMap);
+               }
+               return;
+           }
+       }
 
-        private void broadcast(final String from, final HashMap<String, String> dataMap) {
-            Intent intent = new Intent(ACTION_PUSH_NOTIFICATION);
-            intent.putExtra(INTENT_SNS_NOTIFICATION_FROM, from);
-            intent.putExtra(INTENT_SNS_NOTIFICATION_DATA, dataMap);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-        }
+       private void broadcast(final String from, final HashMap<String, String> dataMap) {
+           Intent intent = new Intent(ACTION_PUSH_NOTIFICATION);
+           intent.putExtra(INTENT_SNS_NOTIFICATION_FROM, from);
+           intent.putExtra(INTENT_SNS_NOTIFICATION_DATA, dataMap);
+           LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+       }
 
-        /**
-         * Helper method to extract push message from bundle.
-         *
-         * @param data bundle
-         * @return message string from push notification
-         */
-        public static String getMessage(Bundle data) {
-            return ((HashMap) data.get("data")).toString();
-        }
-    }
-    ```
+       /**
+        * Helper method to extract push message from bundle.
+        *
+        * @param data bundle
+        * @return message string from push notification
+        */
+       public static String getMessage(Bundle data) {
+           return ((HashMap) data.get("data")).toString();
+       }
+   }
+   ```
 
 1. To create a new campaign to send notifications to your app from the Amazon Pinpoint console run the following command from your app project folder.
 
-    ```bash
-    amplify notifications console
-    ```
+   ```bash
+   amplify notifications console
+   ```
 
 1. Provide a campaign name, choose `Next`, choose `Filter by standard attributes`, and then choose `android` as the platform.
 
@@ -114,8 +110,8 @@ The following steps show how to receive push notifications targeted for your app
 
 ## Next Steps
 
-* [Handling FCM / GCM Push Notifications](/sdk/push-notifications/setup-push-service#handling-fcmgcm-push-notifications)
+- [Handling FCM / GCM Push Notifications](/[platform]/sdk/push-notifications/setup-push-service/#setup-fcmgcm-in-firebase)
 
-* [Handling Amazon Device Messaging Push Notifications](/sdk/push-notifications/setup-push-service#handling-amazon-device-messaging-push-notifications)
+* [Handling Amazon Device Messaging Push Notifications](/[platform]/sdk/push-notifications/setup-push-service/#handling-amazon-device-messaging-push-notifications)
 
-* [Handling Baidu Push Notifications](/sdk/push-notifications/setup-push-service#handling-baidu-push-notifications)
+- [Handling Baidu Push Notifications](/[platform]/sdk/push-notifications/setup-push-service/#handling-baidu-push-notifications)

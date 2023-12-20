@@ -1,0 +1,18 @@
+```js
+// Tests only against the local state
+if (post.title.startsWith('[Amplify]')) {
+  await DataStore.save(
+    Post.copyOf(post, (updated) => {
+      updated.title = 'Updated Title';
+    })
+  );
+}
+
+// Only applies the update if the data in the remote backend satisfies the criteria
+await DataStore.save(
+  Post.copyOf(post, (updated) => {
+    updated.title = 'Updated title';
+  }),
+  (p) => p.title.beginsWith('[Amplify]')
+);
+```

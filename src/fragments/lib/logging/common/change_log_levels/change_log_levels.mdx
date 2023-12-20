@@ -1,6 +1,7 @@
 In this section, you will learn about how to configure the logging level in your application when using the Amplify logger. This is helpful to help you determine the logging level that works best for your use cases, and which levels of errors or warnings you want to capture in Amazon Cloudwatch.
 
 ## Change Default Log Level
+
 Below is an example of setting the default log level to `WARN`:
 
 import iosDefaultLogLevel from '/src/fragments/lib/logging/ios/change_log_levels/10_default_log_level.mdx';
@@ -8,20 +9,22 @@ import androidDefaultLogLevel from '/src/fragments/lib/logging/android/change_lo
 import commonDefaultLogLevel from '/src/fragments/lib/logging/common/change_log_levels/10_default_log_level.mdx';
 
 <BlockSwitcher>
-    <Block name="With Configuration File">
-        <Fragments fragments={{all: commonDefaultLogLevel}}/>
-    </Block>
-    <Block name="With Code">
-         <Fragments
-            fragments={{
-                ios: iosDefaultLogLevel,
-                android: androidDefaultLogLevel
-            }}/>
-    </Block>
+  <Block name="With Configuration File">
+    <Fragments fragments={{ all: commonDefaultLogLevel }} />
+  </Block>
+  <Block name="With Code">
+    <Fragments
+      fragments={{
+        swift: iosDefaultLogLevel,
+        android: androidDefaultLogLevel
+      }}
+    />
+  </Block>
 </BlockSwitcher>
 
 ## Configure Log Level by Category
-Each Amplify category can be configured to have its own logging level. 
+
+Each Amplify category can be configured to have its own logging level.
 
 Below is an example of setting different logging levels for the Storage and Auth categories.
 
@@ -30,17 +33,17 @@ import androidCategoryLogLevel from '/src/fragments/lib/logging/android/change_l
 import commonCategoryLogLevel from '/src/fragments/lib/logging/common/change_log_levels/20_category_log_level.mdx';
 
 <BlockSwitcher>
-    <Block name="With Configuration File">
-        <Fragments fragments={{all: commonCategoryLogLevel}}/>
-    </Block>      
-    <Block name="With Code">
-        <Fragments
-            fragments={{
-                ios: iosCategoryLogLevel,
-                android: androidCategoryLogLevel
-            }}
-        />  
-    </Block>
+  <Block name="With Configuration File">
+    <Fragments fragments={{ all: commonCategoryLogLevel }} />
+  </Block>
+  <Block name="With Code">
+    <Fragments
+      fragments={{
+        swift: iosCategoryLogLevel,
+        android: androidCategoryLogLevel
+      }}
+    />
+  </Block>
 </BlockSwitcher>
 
 import iOSCategories from '/src/fragments/lib/logging/ios/common/10_category_list.mdx';
@@ -48,7 +51,7 @@ import androidCategories from '/src/fragments/lib/logging/android/common/10_cate
 
 <Fragments
   fragments={{
-    ios: iOSCategories,
+    swift: iOSCategories,
     android: androidCategories
   }}
 />

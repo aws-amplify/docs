@@ -6,6 +6,8 @@ In the rare case where an event is sent and meets the criteria set forth by mult
 However, this may not be how you wish to resolve such conflicts so you may want to set your own conflict handler.
 
 ```js
+import { setConflictHandler } from 'aws-amplify/in-app-messaging';
+
 /**
  * Regardless of your conflict resolution strategy the handler must always accept
  * an array of in-app messages and return a single in-app message.
@@ -16,5 +18,5 @@ const myConflictHandler = (messages) => {
   return messages[randomIndex];
 };
 
-InAppMessaging.setConflictHandler(myConflictHandler);
+setConflictHandler(myConflictHandler);
 ```

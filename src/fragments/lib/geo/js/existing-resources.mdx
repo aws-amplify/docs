@@ -1,39 +1,37 @@
 ## In your application
 
-To configure Amplify Geo manually, you will have to configure Amplify Auth category as well. Instead of configuring Amplify by importing the CLI generated `aws-exports.js`, you will be calling `Amplify.configure` with your existing Amazon Cognito and Amazon Location Service information in your app like this:
+You can first import and configure the CLI generated `amplifyconfiguration.json`. You can then manually configure Amplify Geo like this:
 
 ```js
-import { Amplify, Auth, Geo } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from './amplifyconfiguration.json';
 
+Amplify.configure(amplifyconfig);
 Amplify.configure({
-  Auth: {
-    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab', // REQUIRED - Amazon Cognito Identity Pool ID
-    region: 'XX-XXXX-X', // REQUIRED - Amazon Cognito Region
-    userPoolId: 'XX-XXXX-X_abcd1234', // OPTIONAL - Amazon Cognito User Pool ID for authenticated user access
-    userPoolWebClientId: 'XX-XXXX-X_abcd1234', // OPTIONAL - Amazon Cognito Web Client ID for authenticated user access
-  },
-  geo: {
-    AmazonLocationService: {
+  ...Amplify.getConfig(),
+  Geo: {
+    LocationService: {
       maps: {
         items: {
-          "XXXXXXXXXXX": { // REQUIRED - Amazon Location Service Map resource name
-            style: "VectorEsriStreets", // REQUIRED - String representing the style of map resource
-          },
+          XXXXXXXXXXX: {
+            // REQUIRED - Amazon Location Service Map resource name
+            style: 'VectorEsriStreets' // REQUIRED - String representing the style of map resource
+          }
         },
-        default: "XXXXXXXXXXX", // REQUIRED - Amazon Location Service Map resource name to set as default
+        default: 'XXXXXXXXXXX' // REQUIRED - Amazon Location Service Map resource name to set as default
       },
       search_indices: {
-        items: ["XXXXXXXXX", "XXXXXXXXX"], // REQUIRED - Amazon Location Service Place Index name
-        default: "XXXXXXXXX", // REQUIRED - Amazon Location Service Place Index name to set as default
+        items: ['XXXXXXXXX', 'XXXXXXXXX'], // REQUIRED - Amazon Location Service Place Index name
+        default: 'XXXXXXXXX' // REQUIRED - Amazon Location Service Place Index name to set as default
       },
       geofenceCollections: {
-          items: ["XXXXXXXXX", "XXXXXXXXX"], // REQUIRED - Amazon Location Service Geofence Collection name
-          default: "XXXXXXXXX", // REQUIRED - Amazon Location Service Geofence Collection name to set as default
-      }
-      region: 'XX-XXXX-X', // REQUIRED - Amazon Location Service Region
-    },
-  },
-})
+        items: ['XXXXXXXXX', 'XXXXXXXXX'], // REQUIRED - Amazon Location Service Geofence Collection name
+        default: 'XXXXXXXXX' // REQUIRED - Amazon Location Service Geofence Collection name to set as default
+      },
+      region: 'XX-XXXX-X' // REQUIRED - Amazon Location Service Region
+    }
+  }
+});
 ```
 
-Now you can proceed to [displaying a map](/lib/geo/maps) or [adding location search](/lib/geo/search) to your app.
+Now you can proceed to [displaying a map](/[platform]/build-a-backend/more-features/geo/maps/) or [adding location search](/[platform]/build-a-backend/more-features/geo/location-search/) to your app.

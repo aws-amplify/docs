@@ -4,7 +4,7 @@ Amazon Cognito User Pools supports customizing the authentication flow to enable
 
 ## Custom Authentication in Amplify
 
-To enable a custom authentication flow update your `awsconfiguration.json` file and set `authenticationFlowType` to `CUSTOM_AUTH`. 
+To enable a custom authentication flow update your `awsconfiguration.json` file and set `authenticationFlowType` to `CUSTOM_AUTH`.
 
 ```json
 {
@@ -26,23 +26,24 @@ To enable a custom authentication flow update your `awsconfiguration.json` file 
 In your app code call `signIn` with a dummy password. Custom challenges need to be answered using the `confirmSignIn` method:
 
 ```swift
-AWSMobileClient.default().signIn(username: username, password: "dummyPassword") { (signInResult, error) in
-            
+AWSMobileClient.default().signIn(
+  username: username,
+  password: "dummyPassword"
+) { (signInResult, error) in
     if let signInResult = signInResult {
         if (signInResult.signInState == .customChallenge) {
             // Retrieve challenge details
         }
     }
-            
 }
-
 ```
 
 Get the challenge details from the user and then call `confirmSignIn`
 
 ```swift
-AWSMobileClient.default().confirmSignIn(challengeResponse: "<Challenge Response>",
-                                                completionHandler: { (signInResult, error) in
+AWSMobileClient.default().confirmSignIn(
+  challengeResponse: "<Challenge Response>",
+  completionHandler: { (signInResult, error) in
     if let error = error  {
         print("\(error.localizedDescription)")
     } else if let signInResult = signInResult {
@@ -53,13 +54,13 @@ AWSMobileClient.default().confirmSignIn(challengeResponse: "<Challenge Response>
             print("\(signInResult.signInState.rawValue)")
         }
     }
-                                                    
-})
+  }
+)
 ```
 
 ### Lambda Trigger Setup
 
-The Amplify CLI can be used to generate triggers required by a custom authentication flow. See the [CLI Documentation](/cli/usage/lambda-triggers) for details. The CLI will create a custom auth flow skeleton that you can manually edit. 
+The Amplify CLI can be used to generate triggers required by a custom authentication flow. See the [CLI Documentation](/[platform]/tools/cli/usage/lambda-triggers/) for details. The CLI will create a custom auth flow skeleton that you can manually edit.
 
 > More information on available triggers can be found in the [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
 
@@ -67,8 +68,10 @@ The Amplify CLI can be used to generate triggers required by a custom authentica
 
 ```javascript
 exports.handler = (event, context) => {
-  if (event.request.session.length === 1 && 
-    event.request.session[0].challengeName === 'SRP_A') {
+  if (
+    event.request.session.length === 1 &&
+    event.request.session[0].challengeName === 'SRP_A'
+  ) {
     event.response.issueTokens = false;
     event.response.failAuthentication = false;
     event.response.challengeName = 'CUSTOM_CHALLENGE';

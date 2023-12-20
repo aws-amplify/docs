@@ -1,0 +1,29 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Listen to log events',
+  description: 'Learn how to listen to Hub events for logging',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import commonRoute from '/src/fragments/lib/logging/common/hub_events/hub_events.mdx';
+
+<Fragments
+  fragments={{
+    android: commonRoute,
+    swift: commonRoute
+  }}
+/>

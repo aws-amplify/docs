@@ -1,0 +1,24 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Customize your data model',
+  description: 'Learn how to customize your data model.',
+  route: "/gen2/build-a-backend/data/data-modeling"
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+
+Every data model is defined as part of a data schema (`a.schema()`). Data models in Amplify Data are by-default backed by an Amazon DynamoDB table.
+
+You can enhance your data model with various fields, customize their identifiers, apply authorization rules, or model relationships. Every data model automatically provides create, read, update, and delete API operations as well as real-time subscription events.
+
+<Overview childPageNodes={props.childPageNodes} />

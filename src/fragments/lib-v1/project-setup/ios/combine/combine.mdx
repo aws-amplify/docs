@@ -1,4 +1,3 @@
-
 The default Amplify library for iOS supports iOS 11 and higher, and ships with APIs that return results on `Result` callbacks, as in:
 
 ```swift
@@ -83,17 +82,18 @@ Amplify strives to provide an intuitive interface for APIs that expose Combine f
 The way to get to a Combine publisher for a given API varies depending on whether the asynchronous work can be cancelled or not:
 
 - APIs that **do not** return an operation simply return an `AnyPublisher` directly from the API call:
-    ```swift
-    let publisher = Amplify.DataStore
-        .save(myPost)
-    ```
+
+  ```swift
+  let publisher = Amplify.DataStore
+      .save(myPost)
+  ```
 
 - Most APIs that **do** return an operation expose a `resultPublisher` property on the returned operation
-    ```swift
-    let publisher = Amplify.Predictions
-        .convert(textToSpeech: text, options: options)
-        .resultPublisher
-    ```
+  ```swift
+  let publisher = Amplify.Predictions
+      .convert(textToSpeech: text, options: options)
+      .resultPublisher
+  ```
 
 ### Special cases
 
@@ -107,7 +107,7 @@ The `API.subscribe()` method exposes a `subscriptionDataPublisher` for the strea
 
 #### `Hub.publisher(for:)`
 
-The Amplify Hub category exposes only one Combine-related API: `Hub.publisher(for:)`, which returns a publisher for all events on a given channel. You can then apply the standard Combine [`filter`](https://developer.apple.com/documentation/combine/anypublisher/filter(_:)) operator to inspect only those events you care about.
+The Amplify Hub category exposes only one Combine-related API: `Hub.publisher(for:)`, which returns a publisher for all events on a given channel. You can then apply the standard Combine [`filter`](<https://developer.apple.com/documentation/combine/anypublisher/filter(_:)>) operator to inspect only those events you care about.
 
 #### `Storage` upload & download operations
 

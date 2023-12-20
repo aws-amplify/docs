@@ -6,11 +6,12 @@
 import React, { Component } from 'react';
 import { Text, StyleSheet, ScrollView } from 'react-native';
 
-import { Amplify, DataStore, Predicates } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import { DataStore, Predicates } from 'aws-amplify/datastore';
 import { Post, PostStatus, Comment } from './src/models';
 
-import awsConfig from './aws-exports';
-Amplify.configure(awsConfig);
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
 let subscription;
 
 class App extends Component {

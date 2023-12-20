@@ -4,7 +4,9 @@ Use the Vue Vite powered `create-app` to bootstrap a new Vue 3 app (selecting th
 
 ```bash
 npm init vue@3
+```
 
+```console
 Need to install the following packages:
   create-vue@3
 Ok to proceed? (y) y
@@ -17,9 +19,10 @@ Ok to proceed? (y) y
 ✔ Add Vitest for Unit Testing? … No 
 ✔ Add Cypress for both Unit and End-to-End testing? … No 
 ✔ Add ESLint for code quality? … No 
+```
 
+```bash
 cd myamplifyproject
-
 ```
 
 Install required modules:
@@ -85,12 +88,12 @@ Next, you will need to select the authentication method you want to use to work 
 > AWS profile
   AWS access keys
 ```
-Select AWS profile and then choose the profile you configured in the [Prerequisites](/start/getting-started/installation/q/integration/vue/#configure-the-amplify-cli).
+Select AWS profile and then choose the profile you configured in the [Prerequisites](/[platform]/start/getting-started/installation/#configure-the-amplify-cli).
 
 When you initialize a new Amplify project, a few things happen:
 
 - It creates a top level directory called `amplify` that stores your backend definition. During the tutorial you'll add capabilities such as authentication, GraphQL API, storage, and set up authorization rules for the API. As you add features, the `amplify` folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
-- It creates a file called `aws-exports.js` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
+- It creates a file called `amplifyconfiguration.json` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
 - It modifies the `.gitignore` file, adding some generated files to the ignore list
 - A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources
 
@@ -122,34 +125,11 @@ Open __src/main.js__ and add the following code below the last import:
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-import awsExports from './aws-exports';
-Amplify.configure(awsExports);
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
 ```
 
-## Vue Vite Config
 
-When working with a Vue `create-app` that uses [Vite](https://vitejs.dev) you must make a few additional modifications. Please follow the steps below.
-
-**1.** Add the following script tag to the `index.html` file at the bottom of the `<body>` tag.
-
-```html
-...
-  <script>
-        window.global = window;
-        var exports = {};
-  </script>
-</body>
-```
-
-**2.** If you choose to add TypeScript, update the `tsconfig.json` file and add `skipLibCheck: true` under `compilerOptions`.
-
-```js
-...
-  "compilerOptions": {
-    "skipLibCheck": true,
-...
-```
-
-And that's all it takes to configure Amplify with Vue and `create-app`. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
+And that's all it takes to configure Amplify with Vue and `create-app`. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __amplifyconfiguration.json__ will update automatically.
 
 Now that your Vue app is set up and Amplify is initialized, you're ready to add an API in the next step.

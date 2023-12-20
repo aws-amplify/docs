@@ -1,0 +1,29 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Debugging',
+  description:
+    'Amplify developer menu helps you quickly file GitHub issues with critical information (environment and device information) automatically added to the issue description. Learn how to setup, activate, and use the developer menu.',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import ios0 from '/src/fragments/lib/debugging/native_common/dev-menu/common.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android1 from '/src/fragments/lib/debugging/native_common/dev-menu/common.mdx';
+
+<Fragments fragments={{ android: android1 }} />

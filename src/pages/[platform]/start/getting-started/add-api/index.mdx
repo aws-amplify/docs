@@ -1,0 +1,29 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Connect to the cloud',
+  description:
+    'Getting started with Amplify Libraries - How to add API and database to your app.',
+  platforms: ['android', 'swift']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import ios0 from '/src/fragments/start/getting-started/ios/add-api.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android1 from '/src/fragments/start/getting-started/android/add-api.mdx';
+
+<Fragments fragments={{ android: android1 }} />

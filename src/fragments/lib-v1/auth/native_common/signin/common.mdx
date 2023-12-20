@@ -1,49 +1,48 @@
-
 The Auth category can be used to register a user, confirm attributes like email/phone, and sign in with optional multi-factor authentication. It is set up to use Amazon Cognito User Pools which manages the users and their properties.
 
 ## Prerequisites
 
-import ios0 from "/src/fragments/lib-v1/auth/ios/getting_started/10_preReq.mdx";
+import ios0 from '/src/fragments/lib-v1/auth/ios/getting_started/10_preReq.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
-import android1 from "/src/fragments/lib-v1/auth/android/common_prereq.mdx";
+import android1 from '/src/fragments/lib-v1/auth/android/common_prereq.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ android: android1 }} />
 
-import flutter2 from "/src/fragments/lib-v1/auth/flutter/common_prereq.mdx";
+import flutter2 from '/src/fragments/lib-v1/auth/flutter/common_prereq.mdx';
 
-<Fragments fragments={{flutter: flutter2}} />
+<Fragments fragments={{ flutter: flutter2 }} />
 
 ## Register a user
 
-The default CLI flow as mentioned in the [getting started guide](/lib-v1/auth/getting-started) requires a username, password and a valid email id as parameters to register a user. Invoke the following api to initiate a sign up flow.
+The default CLI flow as mentioned in the [getting started guide](/[platform]/prev/build-a-backend/auth/set-up-auth/) requires a username, password and a valid email id as parameters to register a user. Invoke the following api to initiate a sign up flow.
 
-import ios3 from "/src/fragments/lib-v1/auth/ios/signin/10_signUp.mdx";
+import ios3 from '/src/fragments/lib-v1/auth/ios/signin/10_signUp.mdx';
 
-<Fragments fragments={{ios: ios3}} />
+<Fragments fragments={{ swift: ios3 }} />
 
-import android4 from "/src/fragments/lib-v1/auth/android/signin/10_signUp.mdx";
+import android4 from '/src/fragments/lib-v1/auth/android/signin/10_signUp.mdx';
 
-<Fragments fragments={{android: android4}} />
+<Fragments fragments={{ android: android4 }} />
 
-import flutter5 from "/src/fragments/lib-v1/auth/flutter/signin/10_signUp.mdx";
+import flutter5 from '/src/fragments/lib-v1/auth/flutter/signin/10_signUp.mdx';
 
-<Fragments fragments={{flutter: flutter5}} />
+<Fragments fragments={{ flutter: flutter5 }} />
 
 The next step in the sign up flow is to confirm the user. A confirmation code will be sent to the email id provided during sign up. Enter the confirmation code received via email in the `confirmSignUp` call.
 
-import ios6 from "/src/fragments/lib-v1/auth/ios/signin/20_confirmSignUp.mdx";
+import ios6 from '/src/fragments/lib-v1/auth/ios/signin/20_confirmSignUp.mdx';
 
-<Fragments fragments={{ios: ios6}} />
+<Fragments fragments={{ swift: ios6 }} />
 
-import android7 from "/src/fragments/lib-v1/auth/android/signin/20_confirmSignUp.mdx";
+import android7 from '/src/fragments/lib-v1/auth/android/signin/20_confirmSignUp.mdx';
 
-<Fragments fragments={{android: android7}} />
+<Fragments fragments={{ android: android7 }} />
 
-import flutter8 from "/src/fragments/lib-v1/auth/flutter/signin/20_confirmSignUp.mdx";
+import flutter8 from '/src/fragments/lib-v1/auth/flutter/signin/20_confirmSignUp.mdx';
 
-<Fragments fragments={{flutter: flutter8}} />
+<Fragments fragments={{ flutter: flutter8 }} />
 
 You will know the sign up flow is complete if you see the following in your console window:
 
@@ -55,17 +54,17 @@ Confirm signUp succeeded
 
 Implement a UI to get the username and password from the user. After the user enters the username and password you can start the sign in flow by calling the following method:
 
-import ios9 from "/src/fragments/lib-v1/auth/ios/signin/30_signIn.mdx";
+import ios9 from '/src/fragments/lib-v1/auth/ios/signin/30_signIn.mdx';
 
-<Fragments fragments={{ios: ios9}} />
+<Fragments fragments={{ swift: ios9 }} />
 
-import android10 from "/src/fragments/lib-v1/auth/android/signin/30_signIn.mdx";
+import android10 from '/src/fragments/lib-v1/auth/android/signin/30_signIn.mdx';
 
-<Fragments fragments={{android: android10}} />
+<Fragments fragments={{ android: android10 }} />
 
-import flutter11 from "/src/fragments/lib-v1/auth/flutter/signin/30_signIn.mdx";
+import flutter11 from '/src/fragments/lib-v1/auth/flutter/signin/30_signIn.mdx';
 
-<Fragments fragments={{flutter: flutter11}} />
+<Fragments fragments={{ flutter: flutter11 }} />
 
 You will know the sign in flow is complete if you see the following in your console window:
 
@@ -75,18 +74,18 @@ Sign in succeeded
 
 You have now successfully registered a user and authenticated with that user's username and password with Amplify. The Authentication category supports other mechanisms for authentication such as web UI based sign in, sign in using other providers etc that you can explore in the other sections.
 
-import flutter12 from "/src/fragments/lib-v1/auth/flutter/signin/60_runtime_auth_flow.mdx";
+import flutter12 from '/src/fragments/lib-v1/auth/flutter/signin/60_runtime_auth_flow.mdx';
 
-<Fragments fragments={{flutter: flutter12}} />
+<Fragments fragments={{ flutter: flutter12 }} />
 
 ## Multi-factor authentication
 
 <Callout>
-Note: If you create or update an SMS MFA configuration for your Cognito user pool, the Cognito service will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS. 
+Note: If you create or update an SMS MFA configuration for your Cognito user pool, the Cognito service will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS.
 
 For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aws.amazon.com/sns/sms-pricing/).
-</Callout>
 
+</Callout>
 
 Some steps in setting up multi-factor authentication can only be chosen during the initial setup of Auth. If you have already added Auth via the CLI, navigate to your project directory in Terminal, run `amplify auth remove` and when that completes, `amplify push` to remove it.
 
@@ -144,6 +143,7 @@ Warning: you will not be able to edit these selections.
 ```
 
 To push your changes to the cloud, **execute the command**:
+
 ```bash
 amplify push
 ```
@@ -152,34 +152,35 @@ In order to send SMS authentication codes, you must [request an origination numb
 
 When you sign up, be sure to include both email and phone attributes with the phone number formatted as follows:
 
-import ios12 from "/src/fragments/lib-v1/auth/ios/signin/40_multi_factor_signup.mdx";
+import ios12 from '/src/fragments/lib-v1/auth/ios/signin/40_multi_factor_signup.mdx';
 
-<Fragments fragments={{ios: ios12}} />
+<Fragments fragments={{ swift: ios12 }} />
 
-import android13 from "/src/fragments/lib-v1/auth/android/signin/40_multi_factor_signup.mdx";
+import android13 from '/src/fragments/lib-v1/auth/android/signin/40_multi_factor_signup.mdx';
 
-<Fragments fragments={{android: android13}} />
+<Fragments fragments={{ android: android13 }} />
 
-import flutter14 from "/src/fragments/lib-v1/auth/flutter/signin/40_multi_factor_signup.mdx";
+import flutter14 from '/src/fragments/lib-v1/auth/flutter/signin/40_multi_factor_signup.mdx';
 
-<Fragments fragments={{flutter: flutter14}} />
+<Fragments fragments={{ flutter: flutter14 }} />
 
-You'll then confirm signup, sign in, and get back a nextStep in the sign in result of type `CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE`.
-A confirmation code will also be texted to the phone number provided above. Pass the code you received to the confirmSignIn api:
+You'll then confirm signup, sign in, and get back a nextStep in the sign in result of type `CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE`. A confirmation code will also be texted to the phone number provided above. Pass the code you received to the confirmSignIn api:
 
 <Callout>
-Note that you must call confirmSignIn in the same app session as you call signIn. If you close the app, you'll need to call signIn again.
-As a result, for testing purposes, you'll at least need an input field where you can enter the code sent via SMS and feed it to confirmSignIn.
+  Note that you must call confirmSignIn in the same app session as you call
+  signIn. If you close the app, you'll need to call signIn again. As a result,
+  for testing purposes, you'll at least need an input field where you can enter
+  the code sent via SMS and feed it to confirmSignIn.
 </Callout>
 
-import ios15 from "/src/fragments/lib-v1/auth/ios/signin/50_multi_factor_confirm_signin.mdx";
+import ios15 from '/src/fragments/lib-v1/auth/ios/signin/50_multi_factor_confirm_signin.mdx';
 
-<Fragments fragments={{ios: ios15}} />
+<Fragments fragments={{ swift: ios15 }} />
 
-import android16 from "/src/fragments/lib-v1/auth/android/signin/50_multi_factor_confirm_signin.mdx";
+import android16 from '/src/fragments/lib-v1/auth/android/signin/50_multi_factor_confirm_signin.mdx';
 
-<Fragments fragments={{android: android16}} />
+<Fragments fragments={{ android: android16 }} />
 
-import flutter17 from "/src/fragments/lib-v1/auth/flutter/signin/50_multi_factor_confirm_signin.mdx";
+import flutter17 from '/src/fragments/lib-v1/auth/flutter/signin/50_multi_factor_confirm_signin.mdx';
 
-<Fragments fragments={{flutter: flutter17}} />
+<Fragments fragments={{ flutter: flutter17 }} />

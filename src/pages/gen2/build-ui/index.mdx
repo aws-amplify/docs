@@ -1,0 +1,21 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Build UI',
+  description: 'Learn how to build and customize your UI.',
+  route: '/gen2/build-ui'
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+Amplify makes it easy to quickly build web app user interfaces using the UI component library, Figma-to-code generation, and CRUD form-generation capabilities. Learn more in the [UI Library.](https://ui.docs.amplify.aws)
+
+<Overview childPageNodes={props.childPageNodes} />

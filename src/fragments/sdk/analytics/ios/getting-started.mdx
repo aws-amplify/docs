@@ -1,4 +1,4 @@
-Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis).
+Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](https://aws.amazon.com/pinpoint/) or [Amazon Kinesis](https://aws.amazon.com/kinesis/).
 
 Amazon Pinpoint is a fully managed AWS service that you can use to engage with your customers across multiple messaging channels using analytics captured from the device. You can send push notifications, emails, or text messages (SMS), depending on the purpose of your campaign. Features include:
 
@@ -12,7 +12,7 @@ Amazon Pinpoint is a fully managed AWS service that you can use to engage with y
 
 The Amplify CLI helps setup and configure Pinpoint within your application and connect with the AWS Mobile SDK.
 
-> **Prerequisite:** [Install and configure the Amplify CLI](/cli/start/install)
+> **Prerequisite:** [Install and configure the Amplify CLI](/[platform]/tools/cli/start/set-up-cli/)
 
 ## Set Up Your Backend
 
@@ -21,7 +21,7 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
    In a terminal window, navigate to your project folder (the folder contains your app `.xcodeproj` file), and add the SDK to your app.
 
    ```bash
-   cd ./YOUR_PROJECT_FOLDER
+   cd YOUR_PROJECT_FOLDER
    amplify add analytics
    ```
 
@@ -146,4 +146,4 @@ amplify console analytics
 
    ![getting-started-analytics](/images/getting-started-analytics.png)
 
-Analytic events can be grouped into segments, allowing you to engage your users more deeply by tying their app usage behavior to push notification, email, or SMS messaging campaigns. Read more about this in the [messaging section](/sdk/push-notifications/messaging-campaign) or [click here to learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
+Analytic events can be grouped into segments, allowing you to engage your users more deeply by tying their app usage behavior to push notification, email, or SMS messaging campaigns. Read more about this in the [messaging section](/[platform]/sdk/push-notifications/messaging-campaign/) or [click here to learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).

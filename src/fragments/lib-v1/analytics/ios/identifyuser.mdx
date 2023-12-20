@@ -1,4 +1,4 @@
-This call sends information that you have specified about the user to Amazon Pinpoint. This could be an authenticated user. If the user is signed in through [Amplify.Auth.signIn](/lib-v1/auth/signin), then you can retrieve the current user and use it with Analytics. You can also provide location information in `AnalyticsUserProfile.Location`.
+This call sends information that you have specified about the user to Amazon Pinpoint. This could be an authenticated user. If the user is signed in through [Amplify.Auth.signIn](/[platform]/prev/build-a-backend/auth/enable-sign-in/), then you can retrieve the current user and use it with Analytics. You can also provide location information in `AnalyticsUserProfile.Location`.
 
 ```swift
 func identifyUser() {
@@ -14,7 +14,7 @@ func identifyUser() {
                                                  city: "Seattle",
                                                  region: "WA",
                                                  country: "USA")
-                                                 
+
     let properties: AnalyticsProperties = ["phoneNumber": "+11234567890", "age": 25]
 
     let userProfile = AnalyticsUserProfile(name: username,

@@ -14,71 +14,72 @@ When your API is configured to use IAM as the authorization type, your requests 
 
 ```json
 {
-    "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME>": {
-            "endpointType": "REST",
-            "endpoint": "YOUR-REST-ENDPOINT",
-            "region": "us-west-2",
-            "authorizationType": "AWS_IAM"
-        }
+  "awsAPIPlugin": {
+    "<YOUR-RESTENDPOINT-NAME>": {
+      "endpointType": "REST",
+      "endpoint": "YOUR-REST-ENDPOINT",
+      "region": "us-west-2",
+      "authorizationType": "AWS_IAM"
     }
+  }
 }
 ```
 
 ## API Key
 
-If you want to configure a public REST API, you can set an API key in Amazon API Gateway. Then, update your `amplifyconfiguration.dart` to reference it.  The value associated to the `"authorizationType"` key should be `"API_KEY"`.  Also include an `"API_KEY"` as a key, and set its value to whatever your configured in API Gateway.
+If you want to configure a public REST API, you can set an API key in Amazon API Gateway. Then, update your `amplifyconfiguration.dart` to reference it. The value associated to the `"authorizationType"` key should be `"API_KEY"`. Also include an `"API_KEY"` as a key, and set its value to whatever your configured in API Gateway.
 
 ```json
 {
-    "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME>": {
-            "endpointType": "REST",
-            "endpoint": "YOUR-REST-ENDPOINT",
-            "region": "us-west-2",
-            "authorizationType": "API_KEY",
-            "apiKey": "YOUR_API_KEY"
-        }
+  "awsAPIPlugin": {
+    "<YOUR-RESTENDPOINT-NAME>": {
+      "endpointType": "REST",
+      "endpoint": "YOUR-REST-ENDPOINT",
+      "region": "us-west-2",
+      "authorizationType": "API_KEY",
+      "apiKey": "YOUR_API_KEY"
     }
+  }
 }
 ```
 
 ## Cognito User pool authorization
 
-If you set up the API Gateway with a custom authorization with a Cognito User pool, then you can set the `amplifyconfiguration.dart` to use `AMAZON_COGNITO_USER_POOLS `. 
+If you set up the API Gateway with a custom authorization with a Cognito User pool, then you can set the `amplifyconfiguration.dart` to use `AMAZON_COGNITO_USER_POOLS `.
 
 ```json
 {
-    "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME>": {
-            "endpointType": "REST",
-            "endpoint": "YOUR-REST-ENDPOINT",
-            "region": "us-west-2",
-            "authorizationType": "AMAZON_COGNITO_USER_POOLS"
-        }
+  "awsAPIPlugin": {
+    "<YOUR-RESTENDPOINT-NAME>": {
+      "endpointType": "REST",
+      "endpoint": "YOUR-REST-ENDPOINT",
+      "region": "us-west-2",
+      "authorizationType": "AMAZON_COGNITO_USER_POOLS"
     }
+  }
 }
 ```
 
 Your `amplifyconfiguration.dart` should contain Cognito configuration in the `awsCognitoAuthPlugin` block, including details about your Cognito user pool:
+
 ```json
 {
-    "CognitoUserPool": {
-        "Default": {
-            "PoolId": "YOUR-POOL-ID",
-            "AppClientId": "YOUR-APP-CLIENT-ID",
-            "AppClientSecret": "YOUR-APP-CLIENT-SECRET",
-            "Region": "us-east-1"
-        }
-    },
-    "CredentialsProvider": {
-        "CognitoIdentity": {
-            "Default": {
-                "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
-                "Region": "us-east-1"
-            }
-        }
+  "CognitoUserPool": {
+    "Default": {
+      "PoolId": "YOUR-POOL-ID",
+      "AppClientId": "YOUR-APP-CLIENT-ID",
+      "AppClientSecret": "YOUR-APP-CLIENT-SECRET",
+      "Region": "us-east-1"
     }
+  },
+  "CredentialsProvider": {
+    "CognitoIdentity": {
+      "Default": {
+        "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
+        "Region": "us-east-1"
+      }
+    }
+  }
 }
 ```
 
@@ -86,25 +87,19 @@ With this configuration, your access token will automatically be included in out
 
 ## OIDC
 
-<Callout>
+import flutter0 from '/src/fragments/lib/graphqlapi/flutter/authz/20_oidc.mdx';
 
-OIDC is not yet supported in REST on Android, but is available in GraphQL and DataStore. Please follow [the Github issue](https://github.com/aws-amplify/amplify-flutter/issues/978) for the latest updates.
-
-</Callout>
-
-import flutter0 from "/src/fragments/lib/graphqlapi/flutter/authz/20_oidc.mdx";
-
-<Fragments fragments={{flutter: flutter0}} />
+<Fragments fragments={{ flutter: flutter0 }} />
 
 ## Customizing HTTP request headers
 
 To use custom headers on your HTTP request, you need to add these to Amazon API Gateway first. For more info about configuring headers, please visit [Amazon API Gateway Developer Guide](http://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html)
 
-If you used the Amplify CLI to create your API, you can enable custom headers by following these steps:  
+If you used the Amplify CLI to create your API, you can enable custom headers by following these steps:
 
 1. Visit [Amazon API Gateway console](https://aws.amazon.com/api-gateway/).
-3. In the Amazon API Gateway console, click on the path you want to configure (e.g. /{proxy+})
-4. Click the *Actions* dropdown menu and select **Enable CORS**
-5. Add your custom header (e.g. my-custom-header) on the text field Access-Control-Allow-Headers, separated by commas, like: 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,my-custom-header'.
-6. Click on 'Enable CORS and replace existing CORS headers' and confirm.
-7. Finally, similar to step 3, click the Actions drop-down menu and then select **Deploy API**. Select **Development** on deployment stage and then **Deploy**. (Deployment could take a couple of minutes).
+2. In the Amazon API Gateway console, click on the path you want to configure (e.g. /\{proxy+})
+3. Click the _Actions_ dropdown menu and select **Enable CORS**
+4. Add your custom header (e.g. my-custom-header) on the text field Access-Control-Allow-Headers, separated by commas, like: 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,my-custom-header'.
+5. Click on 'Enable CORS and replace existing CORS headers' and confirm.
+6. Finally, similar to step 3, click the Actions drop-down menu and then select **Deploy API**. Select **Development** on deployment stage and then **Deploy**. (Deployment could take a couple of minutes).

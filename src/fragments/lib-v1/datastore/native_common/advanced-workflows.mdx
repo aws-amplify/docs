@@ -115,7 +115,7 @@ Explicit `@primaryKey` on `id` field
 <td>
 
 ```graphql
-type Customer@model {
+type Customer @model {
   id: ID! @primaryKey
   dob: AWSDateTime!
   firstName: String
@@ -136,8 +136,7 @@ Explicit `@primaryKey` on `id` field with sort key
 
 ```graphql
 type Customer @model {
-  id: ID! @primaryKey
-    (sortKeyFields: ["dob"])
+  id: ID! @primaryKey(sortKeyFields: ["dob"])
   dob: AWSDateTime!
   firstName: String
   lastName: String
@@ -156,9 +155,8 @@ Explicit `id` field in sort key
 <td>
 
 ```graphql
-type Customer@model {  
-  country: String! @primaryKey
-    (sortKeyFields: ["id"])
+type Customer @model {
+  country: String! @primaryKey(sortKeyFields: ["id"])
   id: ID!
   firstName: String
   lastName: String
@@ -178,8 +176,7 @@ type Customer@model {
 
 ```graphql
 type Customer @model {
-  zip: String! @primaryKey
-    (sortKeyFields: ["username"])
+  zip: String! @primaryKey(sortKeyFields: ["username"])
   username: String!
   firstName: String
   lastName: String
@@ -197,3 +194,11 @@ type Customer @model {
 import flutter0 from '/src/fragments/lib-v1/datastore/flutter/advanced-workflows/custom-primary-key/query-snippet.mdx';
 
 <Fragments fragments={{ flutter: flutter0 }} />
+
+import js1 from '/src/fragments/lib-v1/datastore/js/advanced-workflows/custom-primary-key/delete-snippet.mdx';
+
+<Fragments fragments={{  javascript: js1,  'react-native': js1 , angular: js1, nextjs: js1, react: js1, vue: js1 }} />
+
+import js2 from '/src/fragments/lib-v1/datastore/js/advanced-workflows/custom-primary-key/callout-snippet.mdx';
+
+<Fragments fragments={{  javascript: js2,  'react-native': js2 , angular: js2, nextjs: js2, react: js2, vue: js2 }} />

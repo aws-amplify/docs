@@ -14,71 +14,72 @@ When your API is configured to use IAM as the authorization type, your requests 
 
 ```json
 {
-    "awsAPIPlugin": {
-        "[YOUR-RESTENDPOINT-NAME]": {
-            "endpointType": "REST",
-            "endpoint": "YOUR-REST-ENDPOINT",
-            "region": "us-west-2",
-            "authorizationType": "AWS_IAM"
-        }
+  "awsAPIPlugin": {
+    "[YOUR-RESTENDPOINT-NAME]": {
+      "endpointType": "REST",
+      "endpoint": "YOUR-REST-ENDPOINT",
+      "region": "us-west-2",
+      "authorizationType": "AWS_IAM"
     }
+  }
 }
 ```
 
 ## API Key
 
-If you want to configure a public REST API, you can set an API key in Amazon API Gateway. Then, update your `amplifyconfiguration.json` to reference it.  The value associated to the `"authorizationType"` key should be `"API_KEY"`.  Also include a `"apiKey"` as a key, and set its value to whatever you configured in API Gateway.
+If you want to configure a public REST API, you can set an API key in Amazon API Gateway. Then, update your `amplifyconfiguration.json` to reference it. The value associated to the `"authorizationType"` key should be `"API_KEY"`. Also include a `"apiKey"` as a key, and set its value to whatever you configured in API Gateway.
 
 ```json
 {
-    "awsAPIPlugin": {
-        "[YOUR-RESTENDPOINT-NAME]": {
-            "endpointType": "REST",
-            "endpoint": "YOUR-REST-ENDPOINT",
-            "region": "us-west-2",
-            "authorizationType": "API_KEY",
-            "apiKey": "YOUR_API_KEY"
-        }
+  "awsAPIPlugin": {
+    "[YOUR-RESTENDPOINT-NAME]": {
+      "endpointType": "REST",
+      "endpoint": "YOUR-REST-ENDPOINT",
+      "region": "us-west-2",
+      "authorizationType": "API_KEY",
+      "apiKey": "YOUR_API_KEY"
     }
+  }
 }
 ```
 
 ## Cognito User pool authorization
 
-If you set up the API Gateway with a custom authorization with a Cognito User pool, then you can set the `amplifyconfiguration.json` to use `AMAZON_COGNITO_USER_POOLS `. 
+If you set up the API Gateway with a custom authorization with a Cognito User pool, then you can set the `amplifyconfiguration.json` to use `AMAZON_COGNITO_USER_POOLS `.
 
 ```json
 {
-    "awsAPIPlugin": {
-        "[YOUR-RESTENDPOINT-NAME]": {
-            "endpointType": "REST",
-            "endpoint": "YOUR-REST-ENDPOINT",
-            "region": "us-west-2",
-            "authorizationType": "AMAZON_COGNITO_USER_POOLS"
-        }
+  "awsAPIPlugin": {
+    "[YOUR-RESTENDPOINT-NAME]": {
+      "endpointType": "REST",
+      "endpoint": "YOUR-REST-ENDPOINT",
+      "region": "us-west-2",
+      "authorizationType": "AMAZON_COGNITO_USER_POOLS"
     }
+  }
 }
 ```
 
 Your `amplifyconfiguration.json` should contain Cognito configuration in the `awsCognitoAuthPlugin` block, including details about your Cognito user pool:
+
 ```json
 {
-    "CognitoUserPool": {
-        "Default": {
-            "PoolId": "YOUR-POOL-ID",
-            "AppClientId": "YOUR-APP-CLIENT-ID",
-            "AppClientSecret": "YOUR-APP-CLIENT-SECRET",
-            "Region": "us-east-1"
-        }
-    },
-    "CredentialsProvider": {
-        "CognitoIdentity": {
-            "Default": {
-                "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
-                "Region": "us-east-1"
-            }
-        }
+  "CognitoUserPool": {
+    "Default": {
+      "PoolId": "YOUR-POOL-ID",
+      "AppClientId": "YOUR-APP-CLIENT-ID",
+      "AppClientSecret": "YOUR-APP-CLIENT-SECRET",
+      "Region": "us-east-1"
     }
+  },
+  "CredentialsProvider": {
+    "CognitoIdentity": {
+      "Default": {
+        "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
+        "Region": "us-east-1"
+      }
+    }
+  }
 }
 ```
 
@@ -102,31 +103,32 @@ If you are using a 3rd party OIDC provider you will need to configure it and man
 }
 ```
 
-import ios0 from "/src/fragments/lib-v1/graphqlapi/ios/authz/20_oidc.mdx";
+import ios0 from '/src/fragments/lib-v1/graphqlapi/ios/authz/20_oidc.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
-import android1 from "/src/fragments/lib-v1/graphqlapi/android/authz/20_oidc.mdx";
+import android1 from '/src/fragments/lib-v1/graphqlapi/android/authz/20_oidc.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ android: android1 }} />
 
 ### Note related to use Access Token or ID Token
 
 The Access Token contains scopes and groups and is used to grant access to authorized resources. [This is a tutorial for enabling custom scopes.](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-custom-scopes-api-gateway/).
 
-The ID Token contains claims about the identity of the authenticated user such as name, email, and phone_number. It could have custom claims as well, for example using [Amplify CLI](https://docs.amplify.aws/cli/usage/lambda-triggers#override-id-token-claims).
+The ID Token contains claims about the identity of the authenticated user such as name, email, and phone_number. It could have custom claims as well, for example using [Amplify CLI](/[platform]/tools/cli/usage/lambda-triggers/#override-id-token-claims).
 
 If you are using Cognito's user pool as the authorization type, this will by default retrieve and use the Access Token for your requests. If you would like to override this behavior and use the ID Token instead, you can treat Cognito user pool as your OIDC provider, set the authorization type to `OPENID_CONNECT` and use `Amplify.Auth` to retrieve the ID Token for your requests.
 
-import ios2 from "/src/fragments/lib-v1/graphqlapi/ios/authz/21_oidc.mdx";
+import ios2 from '/src/fragments/lib-v1/graphqlapi/ios/authz/21_oidc.mdx';
 
-<Fragments fragments={{ios: ios2}} />
+<Fragments fragments={{ swift: ios2 }} />
 
-import android3 from "/src/fragments/lib-v1/graphqlapi/android/authz/21_oidc.mdx";
+import android3 from '/src/fragments/lib-v1/graphqlapi/android/authz/21_oidc.mdx';
 
-<Fragments fragments={{android: android3}} />
+<Fragments fragments={{ android: android3 }} />
 
 ## NONE
+
 You can also set authorization mode to `NONE` so that the library will not provide any request interception logic. You can use this when your API does not require any authorization or when you want to manipulate the request yourself, such as adding header values or authorization data.
 
 ```json
@@ -143,33 +145,33 @@ You can also set authorization mode to `NONE` so that the library will not provi
 }
 ```
 
-import ios4 from "/src/fragments/lib-v1/restapi/ios/authz/22_none_headers.mdx";
+import ios4 from '/src/fragments/lib-v1/restapi/ios/authz/22_none_headers.mdx';
 
-<Fragments fragments={{ios: ios4}} />
+<Fragments fragments={{ swift: ios4 }} />
 
-import android5 from "/src/fragments/lib-v1/restapi/android/authz/22_none_headers.mdx";
+import android5 from '/src/fragments/lib-v1/restapi/android/authz/22_none_headers.mdx';
 
-<Fragments fragments={{android: android5}} />
+<Fragments fragments={{ android: android5 }} />
 
-You can register your own request interceptor to intercept the request and perform an action or inject something into your request before it is performed. 
+You can register your own request interceptor to intercept the request and perform an action or inject something into your request before it is performed.
 
-import ios6 from "/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/50_interceptor.mdx";
+import ios6 from '/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/50_interceptor.mdx';
 
-<Fragments fragments={{ios: ios6}} />
+<Fragments fragments={{ swift: ios6 }} />
 
-import android7 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/50_interceptor.mdx";
+import android7 from '/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/50_interceptor.mdx';
 
-<Fragments fragments={{android: android7}} />
+<Fragments fragments={{ android: android7 }} />
 
 ## Customizing HTTP request headers
 
 To use custom headers on your HTTP request, you need to add these to Amazon API Gateway first. For more info about configuring headers, please visit [Amazon API Gateway Developer Guide](http://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html)
 
-If you used the Amplify CLI to create your API, you can enable custom headers by following these steps:  
+If you used the Amplify CLI to create your API, you can enable custom headers by following these steps:
 
 1. Visit [Amazon API Gateway console](https://aws.amazon.com/api-gateway/).
-3. On Amazon API Gateway console, click on the path you want to configure (e.g. /{proxy+})
-4. Then click the *Actions* dropdown menu and select **Enable CORS**
-5. Add your custom header (e.g. my-custom-header) on the text field Access-Control-Allow-Headers, separated by commas, like: 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,my-custom-header'.
-6. Click on 'Enable CORS and replace existing CORS headers' and confirm.
-7. Finally, similar to step 3, click the Actions drop-down menu and then select **Deploy API**. Select **Development** on deployment stage and then **Deploy**. (Deployment could take a couple of minutes).
+2. On Amazon API Gateway console, click on the path you want to configure (e.g. /\{proxy+})
+3. Then click the _Actions_ dropdown menu and select **Enable CORS**
+4. Add your custom header (e.g. my-custom-header) on the text field Access-Control-Allow-Headers, separated by commas, like: 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,my-custom-header'.
+5. Click on 'Enable CORS and replace existing CORS headers' and confirm.
+6. Finally, similar to step 3, click the Actions drop-down menu and then select **Deploy API**. Select **Development** on deployment stage and then **Deploy**. (Deployment could take a couple of minutes).

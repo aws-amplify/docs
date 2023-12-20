@@ -1,0 +1,186 @@
+## Selectively syncing a subset of your data
+
+By default, DataStore fetches all the records that you’re authorized to access from your cloud data source to your local device. The maximum number of records that will be stored locally is configurable [here](/[platform]/prev/build-a-backend/more-features/datastore/conflict-resolution/).
+
+You can utilize selective sync to persist a subset of your data instead.
+
+Selective sync works by applying predicates to the base and delta sync queries, as well as to incoming subscriptions.
+
+<Callout>
+
+Note that selective sync is applied on top of authorization rules you’ve defined on your schema with the `@auth` directive. For more information see the [Setup authorization rules](/[platform]/prev/build-a-backend/more-features/datastore/authz-rules-setup/) section.
+
+</Callout>
+
+```js
+import { DataStore, syncExpression } from 'aws-amplify';
+import { Post, Comment } from './models';
+
+DataStore.configure({
+  syncExpressions: [
+    syncExpression(Post, () => {
+      return (post) => post.rating.gt(5);
+    }),
+    syncExpression(Comment, () => {
+      return (comment) => comment.status.eq('active');
+    })
+  ]
+});
+```
+
+When DataStore starts syncing, only Posts with `rating > 5` and Comments with `status === 'active'` will be synced down to the user's local store.
+
+<Callout>
+
+Developers should only specify a single `syncExpression` per model. Any subsequent expressions for the same model will be ignored.
+
+</Callout>
+
+### Reevaluate expressions at runtime
+
+Sync expressions get evaluated whenever DataStore starts. In order to have your expressions reevaluated, you can execute `DataStore.clear()` or `DataStore.stop()` followed by `DataStore.start()`.
+
+If you have the following expression and you want to change the filter that gets applied at runtime, you can do the following:
+
+```js
+let rating = 5;
+
+DataStore.configure({
+  syncExpressions: [
+    syncExpression(Post, () => {
+      return (post) => post.rating.gt(rating);
+    })
+  ]
+});
+
+async function changeSync() {
+  rating = 1;
+  await DataStore.stop();
+  await DataStore.start();
+}
+```
+
+Calls to `start`, `query`, `save`, `delete`, `observe`, and `observeQuery` will only start DataStore and reevaluate sync expressions if DataStore is not already started.
+
+In the example above, `changeSync()` invokes `DataStore.start()` after `DataStore.stop()` has completely finished. This causes sync expressions to be reevaluated. Subsequently, when the sync expression is reevaluated, the `rating` variable has been changed to `1`, so all Posts with `rating > 1` will get synced down.
+
+Keep in mind: `DataStore.stop()` will retain the local store's existing content. Run `DataStore.clear()` to clear the locally-stored contents.
+
+<Callout>
+
+When applying a more restrictive filter, clear the local records first by running `DataStore.clear()` instead:
+
+</Callout>
+
+```js
+async function changeSync() {
+  rating = 8;
+  await DataStore.clear();
+  await DataStore.start();
+}
+```
+
+This will clear the contents of your local store, reevaluate your sync expressions and re-sync the data from the cloud, applying all of the specified predicates to the sync queries.
+
+You can also have your sync expression return `Predicates.ALL` in order to remove any filtering for that model. This will have the same effect as the default sync behavior.
+
+```js
+let rating = null;
+
+DataStore.configure({
+  syncExpressions: [
+    syncExpression(Post, () => {
+      if (rating) {
+        return (post) => post.rating.gt(rating);
+      }
+
+      return Predicates.ALL;
+    })
+  ]
+});
+```
+
+<Callout warning>
+
+`DataStore.configure()` should only by called once at the root of your file.
+
+</Callout>
+
+### Async expressions
+
+You can pass a Promise to `syncExpression`:
+
+```js
+DataStore.configure({
+  syncExpressions: [
+    syncExpression(Post, async () => {
+      const ratingValue = await getRatingValue();
+      return (post) => post.rating.gt(ratingValue);
+    })
+  ]
+});
+```
+
+DataStore will wait for the Promise to resolve before applying the expression to the sync. Async expressions can also be reevaluated at runtime, just like synchronous expressions (see previous section).
+
+### Shorthand
+
+If you don't need to add any logic to your `syncExpression`, you can use the following shorthand, returning the predicate directly:
+
+```js
+DataStore.configure({
+  syncExpressions: [syncExpression(Post, (post) => post.rating.gt(5))]
+});
+```
+
+### Advanced use case - Query instead of Scan
+
+You can configure selective sync to retrieve items from DynamoDB with a [query operation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html) against a GSI. By default, the base sync will perform a [scan](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html). Query operations enable a highly efficient and cost-effective data retrieval for customers running DynamoDB at scale. Learn about creating GSIs with the `@index` directive [here](/[platform]/build-a-backend/graphqlapi/data-modeling/).
+
+In order to do that, your `syncExpression` should return a predicate that maps to a query expression.
+
+For example, for the following schema:
+
+```graphql
+type User @model {
+  id: ID!
+  firstName: String!
+  lastName: String! @index(name: "byLastName", sortKeyFields: ["createdAt"])
+  createdAt: AWSDateTime!
+}
+```
+
+Both of these sync expressions will result in AWS AppSync retrieving records from Amazon DynamoDB via a query operation:
+
+```js
+DataStore.configure({
+  syncExpressions: [
+    syncExpression(User, () => {
+      const lastName = await getLastNameForSync();
+      return user => user.lastName.eq(lastName)
+    })
+  ]
+});
+
+// OR
+
+DataStore.configure({
+  syncExpressions: [
+    syncExpression(User, () => {
+      const lastName = await getLastNameForSync();
+      return user => user.and(user => [
+        user.lastName.eq(lastName),
+        user.createdAt.gt('2020-10-10')
+      ])
+    })
+  ]
+});
+```
+
+To construct a query expression, return a predicate with the primary key of the GSI. You can only use the `eq` operator with this predicate.
+
+For the schema defined above `user => user.lastName.eq('Bobby')` is a valid query expression.
+
+Optionally, you can also add the sort key to this expression with an `and` operator and any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`.
+
+E.g., `user => user.and(user => [user.lastName.eq('Bobby'), user.createdAt.gt('2020-10-10')])`.

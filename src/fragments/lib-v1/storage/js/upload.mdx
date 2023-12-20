@@ -1,34 +1,46 @@
-## Put
+## Upload Files
 
 The `Put` method uploads files into Amazon S3.
 
 It returns a `{key: S3 Object key}` object on success:
 
 ```javascript
-const result = await Storage.put("test.txt", "Hello");
+const result = await Storage.put('test.txt', 'Hello');
 ```
+
+{/* TODO Rewrite - which is this differently shown? is it just for grabbing pathImageFile? I am confused why this section exists when it is almost a duplicate of the above */}
+
+import js0 from '/src/fragments/lib-v1/storage/js/browser-uploads.mdx';
+
+<Fragments fragments={{  javascript: js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
+
+import reactnative0 from '/src/fragments/lib-v1/storage/js/react-native-uploads.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
+
+When a networking error happens during the upload, Storage module retries upload for a maximum of 4 attempts. If the upload fails after all retries, you will get an error.
 
 ### Public level
 
 ```javascript
-const result = await Storage.put("test.txt", "Hello");
+const result = await Storage.put('test.txt', 'Hello');
 ```
 
 ### Protected level
 
 ```javascript
-const result = await Storage.put("test.txt", "Protected Content", {
-  level: "protected",
-  contentType: "text/plain",
+const result = await Storage.put('test.txt', 'Protected Content', {
+  level: 'protected',
+  contentType: 'text/plain'
 });
 ```
 
 ### Private level
 
 ```javascript
-const result = await Storage.put("test.txt", "Private Content", {
-  level: "private",
-  contentType: "text/plain",
+const result = await Storage.put('test.txt', 'Private Content', {
+  level: 'private',
+  contentType: 'text/plain'
 });
 ```
 
@@ -37,10 +49,10 @@ const result = await Storage.put("test.txt", "Private Content", {
 To track the progress of your upload, you can use the `progressCallback`:
 
 ```javascript
-Storage.put("test.txt", "File content", {
+Storage.put('test.txt', 'File content', {
   progressCallback(progress) {
     console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-  },
+  }
 });
 ```
 
@@ -63,23 +75,23 @@ const result = await Storage.put('test.txt', 'File content', {
 Other options available are:
 
 ```javascript
-Storage.put("test.txt", "My Content", {
-  cacheControl: "no-cache", // (String) Specifies caching behavior along the request/reply chain
-  contentDisposition: "attachment", // (String) Specifies presentational information for the object
+Storage.put('test.txt', 'My Content', {
+  cacheControl: 'no-cache', // (String) Specifies caching behavior along the request/reply chain
+  contentDisposition: 'attachment', // (String) Specifies presentational information for the object
   expires: new Date().now() + 60 * 60 * 24 * 7, // (Date) The date and time at which the object is no longer cacheable. ISO-8601 string, or a UNIX timestamp in seconds
-  metadata: {key: "value"}, // (map<String>) A map of metadata to store with the object in S3.
+  metadata: { key: 'value' }, // (map<String>) A map of metadata to store with the object in S3.
   resumable: true, // (Boolean) Allows uploads to be paused and resumed
+  useAccelerateEndpoint: true // If enabled on the bucket, use accelerated S3 endpoint
 });
 ```
 
 ## Pause and resume uploads
 
-Passing the `resumable: true` option to the Put API returns an object with the following methods: `pause` , `resume`.
-The `Storage.cancel` API is also available if you are looking to cancel the upload at any point of the upload.
+Passing the `resumable: true` option to the Put API returns an object with the following methods: `pause` , `resume`. The `Storage.cancel` API is also available if you are looking to cancel the upload at any point of the upload.
 
 ```javascript
 const upload = Storage.put(file.name, file, {
-  resumable: true,
+  resumable: true
 });
 
 upload.pause();
@@ -89,19 +101,21 @@ upload.resume();
 Storage.cancel(upload);
 ```
 
+{/* TODO Rewrite why do we not have multi-part upload documented for JS? */}
+
 When a page refresh occurs during the upload, re-initializing the upload with the same file will continue from previous progress point.
 
 ```javascript
 const upload = Storage.put(file.name, file, {
-  resumable: true,
+  resumable: true
 });
-
 
 // This duplicate uploads will resume the original upload.
 const duplicateUpload = Storage.put(file.name, file, {
-  resumable: true,
+  resumable: true
 });
 ```
+
 <Callout>
 
 Uploads that were initiated over one hour ago will be cancelled automatically. There are instances (e.g device went offline, user logs out) where the incomplete file remains in your S3 account. It is recommended to [setup a s3 lifecycle rule](https://aws.amazon.com/blogs/aws-cloud-financial-management/discovering-and-deleting-incomplete-multipart-uploads-to-lower-amazon-s3-costs/) to automatically cleanup incomplete upload requests.
@@ -109,65 +123,26 @@ Uploads that were initiated over one hour ago will be cancelled automatically. T
 </Callout>
 
 ### Event handlers
+
 With the `resumable: true` flag, there are 3 callback functions available: `completeCallback`, `progressCallback` and `errorCallback`.
+
 ```javascript
 const upload = Storage.put(file.name, file, {
-		resumable: true,
-		completeCallback: (event) => {
-			console.log(`Successfully uploaded ${event.key}`);
-		},
-		progressCallback: (progress) => {
-			console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-		},
-		errorCallback: (err) => {
-			console.error('Unexpected error while uploading', err);
-		}
-})
-```
-
-## Browser uploads
-
-Upload an image in the browser:
-
-```javascript
-async function onChange(e) {
-  const file = e.target.files[0];
-  try {
-    await Storage.put(file.name, file, {
-      contentType: "image/png", // contentType is optional
-    });
-  } catch (error) {
-    console.log("Error uploading file: ", error);
+  resumable: true,
+  completeCallback: (event) => {
+    console.log(`Successfully uploaded ${event.key}`);
+  },
+  progressCallback: (progress) => {
+    console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+  },
+  errorCallback: (err) => {
+    console.error('Unexpected error while uploading', err);
   }
-}
-
-<input type="file" onChange={onChange} />;
+});
 ```
 
 <Callout>
 
-Note: 'contentType' is metadata (saved under the key 'Content-Type') for the S3 object and does not determine the 'Type' in the AWS S3 Console. If a file extension is not provided in the key of the uploaded object, the S3 console's 'Type' field will be omitted. Otherwise, the 'Type' will be populated to match the given extension of the key. The behavior of how the S3 object is treated will be based on 'contentType' in the metadata and not the 'Type'. 
-
-For example: uploading a file with the key "example.jpg" will result in the 'Type' being set as "jpg", but the 'contentType' in metadata will determine it's behavior so setting it as "text/html" will result in the file being treated as an HTML file regardless of displayed 'Type' in the S3 console.
+Currently, the `progressCallback` event is dependent and based on the number of parts that are sent to S3. Currently, the library uploads at about 5 MB per part. If you upload a file smaller than this, the event will not be fired.
 
 </Callout>
-
-## React Native uploads
-
-Upload an image in your React Native app:
-
-```javascript
-async function pathToImageFile() {
-  try {
-    const response = await fetch(pathToImageFile);
-    const blob = await response.blob();
-    await Storage.put("yourKeyHere", blob, {
-      contentType: "image/jpeg", // contentType is optional
-    });
-  } catch (err) {
-    console.log("Error uploading file:", err);
-  }
-}
-```
-
-When a networking error happens during the upload, Storage module retries upload for a maximum of 4 attempts. If the upload fails after all retries, you will get an error.

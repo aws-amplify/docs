@@ -1,29 +1,24 @@
-<Callout>
-  Remember, if you use TypeScript for your development, you can use the
-  PushNotificationPermissionStatus enum for comparison as well!
-</Callout>
-
 ```js
 async function handlePermissions() {
-  const status = await Notifications.Push.getPermissionStatus();
-  if (status === 'GRANTED') {
+  const status = await getPermissionStatus();
+  if (status === 'granted') {
     // no further action is required, user has already granted permissions
     return;
   }
-  if (status === 'DENIED') {
+  if (status === 'denied') {
     // further attempts to request permissions will no longer do anything
     myFunctionToGracefullyDegradeMyApp();
     return;
   }
-  if (status === 'SHOULD_REQUEST') {
+  if (status === 'shouldRequest') {
     // go ahead and request permissions from the user
-    await Notifications.Push.requestPermissions();
+    await requestPermissions();
   }
-  if (status === 'SHOULD_EXPLAIN_THEN_REQUEST') {
+  if (status === 'shouldExplainThenRequest') {
     // you should display some explanation to your user before requesting permissions
     await myFunctionExplainingPermissionsRequest();
     // then request permissions
-    await Notifications.Push.requestPermissions();
+    await requestPermissions();
   }
 }
 ```

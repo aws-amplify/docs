@@ -1,0 +1,32 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Advanced Workflows',
+  description: "Learn more about advanced workflows in Amplify's API category",
+  platforms: ['swift', 'android', 'flutter']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import ios2 from '/src/fragments/lib/graphqlapi/native_common/advanced-workflows/common.mdx';
+
+<Fragments fragments={{ swift: ios2 }} />
+
+import android3 from '/src/fragments/lib/graphqlapi/native_common/advanced-workflows/common.mdx';
+
+<Fragments fragments={{ android: android3 }} />
+
+import flutter3 from '/src/fragments/lib/graphqlapi/native_common/advanced-workflows/common.mdx';
+
+<Fragments fragments={{ flutter: flutter3 }} />

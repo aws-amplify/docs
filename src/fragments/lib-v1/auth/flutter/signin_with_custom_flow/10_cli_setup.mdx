@@ -108,7 +108,7 @@ exports.handler = async (event) => {
   to send the challenge code to the user.
 </Callout>
 
-Amazon Cognito invokes the Create Auth Challenge trigger after Define Auth Challenge to create a custom challenge. In this lambda trigger you define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user. Save and close the file. Now open the file under "<your_flutter_project>/amplify/backend/function/<project_code>CreateAuthChallenge/src/package.json" and add the following:
+Amazon Cognito invokes the Create Auth Challenge trigger after Define Auth Challenge to create a custom challenge. In this lambda trigger you define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user. Save and close the file. Now open the file under "\<your_flutter_project>/amplify/backend/function/\<project_code>CreateAuthChallenge/src/package.json" and add the following:
 
 ```js
 {
@@ -142,7 +142,7 @@ Save and close the file, then switch back to the terminal and follow the instruc
 The boilerplate for Define Auth Challenge opens in your favorite code editor. Enter the following code to this file:
 
 ```js
-exports.handler = async function(event) {
+exports.handler = async function (event) {
   if (
     event.request.session.length == 1 &&
     event.request.session[0].challengeName == 'SRP_A'
@@ -212,4 +212,4 @@ Once finished, run `amplify push` to publish your changes.
 
 The custom auth flow can be [configured manually](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
 
-If you have already configured custom auth without the aid of the Amplify CLI, you can use the custom auth flow by changing the `authenticationFlowType` value in your [Amplify configuration](/lib-v1/auth/existing-resources) to `CUSTOM_AUTH`.
+If you have already configured custom auth without the aid of the Amplify CLI, you can use the custom auth flow by changing the `authenticationFlowType` value in your [Amplify configuration](/[platform]/prev/build-a-backend/auth/existing-resources/) to `CUSTOM_AUTH`.

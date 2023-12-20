@@ -2,7 +2,7 @@ The Storage and GraphQL API categories can be used together to associate a file,
 
 <Callout>
 
-For more on the Amplify GraphQL API, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/ios/). For Storage, see [Storage documentation](). For Auth, see [Auth documentation]()
+For more on the Amplify GraphQL API, see the [API documentation](/[platform]/prev/build-a-backend/graphqlapi/set-up-graphql-api/). For Storage, see [Storage documentation](/[platform]/build-a-backend/storage/set-up-storage/). For Auth, see [Auth documentation](/[platform]/build-a-backend/auth/set-up-auth/)
 
 </Callout>
 
@@ -12,11 +12,11 @@ To get started, go to your project directory and run the command:
 amplify add api
 ```
 
-Choose the following when prompted: 
+Choose the following when prompted:
 
 ```bash
 ? Select from one of the below mentioned services: `GraphQL`
-? Choose the default authorization type for the API `Amazon Cognito User Pool` 
+? Choose the default authorization type for the API `Amazon Cognito User Pool`
  Do you want to use the default authentication and security configuration? `Default configuration`
  How do you want users to be able to sign in? `Username`
  Do you want to configure advanced settings? `No, I am done.`
@@ -27,7 +27,7 @@ Choose the following when prompted:
 When prompted, use the following schema, which can also be found under `amplify/backend/api/[name of project]/schema.graphql`:
 
 ```graphql
-type Song @model @auth(rules: [{ allow: public}]) {
+type Song @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
   coverArtKey: String # Set as optional to allow adding file after initial create
@@ -35,11 +35,13 @@ type Song @model @auth(rules: [{ allow: public}]) {
 ```
 
 Add Storage with the command:
+
 ```bash
 amplify add storage
 ```
 
 Choose the following when prompted:
+
 ```bash
 ? Select from one of the below mentioned services: `Content (Images, audio, video, etc.)`
 ✔ Who should have access: `Auth users only`
@@ -52,7 +54,8 @@ Run `amplify push` to deploy the changes.
 Once the backend has been provisioned, run `amplify codegen models` to generate the Swift model types for the app.
 
 Next, add the Amplify(`https://github.com/aws-amplify/amplify-swift.git`) package to your Xcode project and select the following modules to import when prompted:
-- AWSAPIPlugin 
+
+- AWSAPIPlugin
 - AWSCognitoAuthPlugin
 - AWSS3StoragePlugin
 - Amplify
@@ -69,13 +72,13 @@ For the complete working example, including required imports, obtaining the file
 
 Your application needs authorization credentials for reading and writing to both Storage and the GraphQL API, except in the case where all data and files are intended to be publicly accessible.
 
-The Storage and API categories govern data access based on their own authorization patterns, meaning that it's necessary to configure appropriate auth roles for each individual category. Although both categories share the same access credentials set up through the Auth category, they work independently from one another. For instance, adding an `@auth` directive to the API schema does not guard against file access in the Storage category. Likewise, adding authorization rules to the Storage category does not guard against data access in the API category. 
+The Storage and API categories govern data access based on their own authorization patterns, meaning that it's necessary to configure appropriate auth roles for each individual category. Although both categories share the same access credentials set up through the Auth category, they work independently from one another. For instance, adding an `@auth` directive to the API schema does not guard against file access in the Storage category. Likewise, adding authorization rules to the Storage category does not guard against data access in the API category.
 
-When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool role. You will then have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. **Even after adding this configuration via the CLI, all Storage access is still `public` by default.** To guard against accidental public access, the Storage access levels must either be configured globally in the configuration, or set within individual method calls. This guide uses the latter approach, setting Storage access to `private` per method call. 
+When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool role. You will then have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. **Even after adding this configuration via the CLI, all Storage access is still `public` by default.** To guard against accidental public access, the Storage access levels must either be configured globally in the configuration, or set within individual method calls. This guide uses the latter approach, setting Storage access to `private` per method call.
 
 The ability to independently configure authorization rules for each category allows for more granular control over data access, and adds greater flexibility. For scenarios where authorization patterns must be mixed and matched, configure the access level on individual Storage method calls. For example, you may want to use `private` CRUD access on an individual Storage method call for files that should only be accessible by the owner (such as personal files), `protected` read access to allow all logged in users to view common files (such as images in a shared photo album), and `public` read access to allow all users to view a file (such as a public profile picture).
 
-For more details on how to configure Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/ios/). For more on configuring GraphQL API authorization, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/ios/).
+For more details on how to configure Storage authorization levels, see the [Storage documentation](/[platform]/build-a-backend/storage/configure-access/). For more on configuring GraphQL API authorization, see the [API documentation](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules).
 
 ## Create a record with an associated file
 
@@ -117,7 +120,7 @@ guard case .success(let updatedSong) = updateResult else {
     print("Failed with error: ", updateResult)
     return
 }
-``` 
+```
 
 </Block>
 </BlockSwitcher>
@@ -142,7 +145,7 @@ guard case .success(let updatedSong) = result else {
     print("Failed with error: ", result)
     return
 }
-``` 
+```
 
 </Block>
 </BlockSwitcher>
@@ -175,17 +178,18 @@ guard let coverArtKey = song.coverArtKey else {
 let imageData = try await Amplify.Storage.downloadData(key: coverArtKey,
                                                        options: .init(accessLevel: .private)).value
 let image = UIImage(data: imageData)
-``` 
+```
 
 </Block>
 </BlockSwitcher>
 
 ## Delete and remove files associated with API records
+
 There are three common deletion workflows when working with Storage files and the GraphQL API:
 
 1. Remove the file association, continue to persist both file and record.
 2. Remove the file association and delete the file.
-2. Delete both file and record.
+3. Delete both file and record.
 
 ### Remove the file association, continue to persist both file and record
 
@@ -217,7 +221,7 @@ guard case .success(let updatedSong) = updateResult else {
     print("Failed with error: ", result)
     return
 }
-``` 
+```
 
 </Block>
 </BlockSwitcher>
@@ -256,7 +260,7 @@ guard case .success(let updatedSong) = updateResult else {
 // Remove the image
 try await Amplify.Storage.remove(key: coverArtKey,
                                  options: .init(accessLevel: .private))
-``` 
+```
 
 </Block>
 </BlockSwitcher>
@@ -292,15 +296,14 @@ guard case .success = deleteResult else {
     print("Failed with error: ", deleteResult)
     return
 }
-``` 
+```
 
 </Block>
 </BlockSwitcher>
 
 ## Working with multiple files
 
-You may want to add multiple files to a single record, such as a user profile with multiple images. 
-To do this, you can add a list of file keys to the record. The following example adds a list of file keys to a record:
+You may want to add multiple files to a single record, such as a user profile with multiple images. To do this, you can add a list of file keys to the record. The following example adds a list of file keys to a record:
 
 ### GraphQL schema to associate a data model with multiple files
 
@@ -348,7 +351,7 @@ let imageKeys = await withTaskGroup(of: String?.self) { group in
             }
         }
     }
-    
+
     var imageKeys: [String?] = []
     for await imageKey in group {
         imageKeys.append(imageKey)
@@ -363,7 +366,7 @@ guard case .success(let updatedAlbum) = updateResult else {
     print("Failed with error: ", updateResult)
     return
 }
-``` 
+```
 
 </Block>
 </BlockSwitcher>
@@ -397,7 +400,7 @@ guard case .success(let updatedAlbum) = updateResult else {
     print("Failed with error: ", updateResult)
     return
 }
-``` 
+```
 
 </Block>
 </BlockSwitcher>
@@ -442,7 +445,7 @@ guard case .success(let updatedAlbum) = updateResult else {
     print("Failed with error: ", updateResult)
     return
 }
-``` 
+```
 
 </Block>
 </BlockSwitcher>
@@ -475,7 +478,7 @@ guard case .success(let updatedAlbum) = updateResult else {
     print("Failed with error: ", updateResult)
     return
 }
-``` 
+```
 
 </Block>
 </BlockSwitcher>
@@ -519,14 +522,14 @@ let images = await withTaskGroup(of: UIImage?.self) { group in
             }
         }
     }
-    
+
     var images: [UIImage?] = []
     for await image in group {
         images.append(image)
     }
     return images.compactMap { $0 }
 }
-``` 
+```
 
 </Block>
 </BlockSwitcher>
@@ -563,7 +566,7 @@ guard case .success(let updatedAlbum) = updateResult else {
     print("Failed with error: ", result)
     return
 }
-``` 
+```
 
 </Block>
 </BlockSwitcher>
@@ -611,12 +614,12 @@ await withTaskGroup(of: Void.self) { group in
             }
         }
     }
-    
-    
+
+
     for await _ in group {
     }
 }
-``` 
+```
 
 </Block>
 </BlockSwitcher>
@@ -640,7 +643,7 @@ guard let album = queriedAlbum else {
 
 guard let imageKeysOptional = album.imageKeys else {
     print("Album does not contain images")
-  
+
     // Delete the album record
     let deleteResult = try await Amplify.API.mutate(request: .delete(album))
     guard case .success = deleteResult else {
@@ -663,11 +666,11 @@ await withTaskGroup(of: Void.self) { group in
             }
         }
     }
-    
-    
+
+
     for await _ in group {
     }
-    
+
 }
 
 // Delete the album record
@@ -676,16 +679,16 @@ guard case .success = deleteResult else {
     print("Failed with error: ", deleteResult)
     return
 }
-``` 
+```
 
 </Block>
 </BlockSwitcher>
 
 ## Data consistency when working with records and files
 
-The access patterns in this guide attempt to remove deleted files, but favor leaving orphans over leaving records that point to non-existent files. This optimizes for read latency by ensuring clients *rarely* attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records *on-device* to point to non-existent files.
+The access patterns in this guide attempt to remove deleted files, but favor leaving orphans over leaving records that point to non-existent files. This optimizes for read latency by ensuring clients _rarely_ attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records _on-device_ to point to non-existent files.
 
-One example is when we [create an API record, associate the Storage file with that record](#create-a-record-with-an-associated-file). "Device A" calls the GraphQL API to create `API_Record_1`, and then associates that record with `First_Photo`. Later, when "Device A" is about to retrieve the file, "Device B" might query `API_Record_1`, delete `First_Photo`, and update the record accordingly. However, "Device A" is still using the old `API_Record_1`, which is now out-of-date. Even though the shared global state is correctly in sync at every stage, the individual device ("Device A") has an out-of-date record that points to a non-existent file. Similar issues can conceivably occur for updates. Depending on your app, some of these mismatches can be minimized *even more* with [real-time data / GraphQL subscriptions](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/).
+One example is when we [create an API record, associate the Storage file with that record](#create-a-record-with-an-associated-file). "Device A" calls the GraphQL API to create `API_Record_1`, and then associates that record with `First_Photo`. Later, when "Device A" is about to retrieve the file, "Device B" might query `API_Record_1`, delete `First_Photo`, and update the record accordingly. However, "Device A" is still using the old `API_Record_1`, which is now out-of-date. Even though the shared global state is correctly in sync at every stage, the individual device ("Device A") has an out-of-date record that points to a non-existent file. Similar issues can conceivably occur for updates. Depending on your app, some of these mismatches can be minimized _even more_ with [real-time data / GraphQL subscriptions](/[platform]/build-a-backend/graphqlapi/subscribe-data/).
 
 It is important to understand when these mismatches can occur and to add meaningful error handling around these cases. This guide does not include exhaustive error handling, real-time subscriptions, re-querying of outdated records, or attempts to retry failed operations. However, these are all important considerations for a production-level application.
 
@@ -705,7 +708,7 @@ import PhotosUI
 
 @main
 struct WorkingWithFilesApp: App {
-    
+
     init() {
         do {
             Amplify.Logging.logLevel = .verbose
@@ -718,7 +721,7 @@ struct WorkingWithFilesApp: App {
             print("Failed to initialize Amplify with \(error)")
         }
     }
-    
+
     var body: some Scene {
         WindowGroup {
             Authenticator { state in
@@ -727,13 +730,13 @@ struct WorkingWithFilesApp: App {
                         .tabItem {
                             Label("Song", systemImage: "music.note")
                         }
-                    
+
                     PhotoAlbumView()
                         .tabItem {
                             Label("PhotoAlbum", systemImage: "photo")
                         }
                 }
-                
+
             }
         }
     }
@@ -855,7 +858,7 @@ struct MultiImagePicker: UIViewControllerRepresentable {
     }
 }
 
-``` 
+```
 
 </Block>
 <Block name="Song">
@@ -865,11 +868,11 @@ import SwiftUI
 import Amplify
 
 class SongViewModel: ObservableObject {
-    
+
     @Published var currentSong: Song? = nil
     @Published var currentImage: UIImage? = nil
     @Published var isLoading: Bool = false
-    
+
     // Create a song with an associated image
     func createSong(name: String, artCover: UIImage) async throws {
         await setIsLoading(true)
@@ -879,24 +882,24 @@ class SongViewModel: ObservableObject {
             }
         }
         let song = Song(name: name)
-        
+
         guard let imageData = artCover.pngData() else {
             print("Could not get data from image.")
             return
         }
-        
+
         // Create the song record
         let result = try await Amplify.API.mutate(request: .create(song))
         guard case .success(var createdSong) = result else {
             print("Failed with error: ", result)
             return
         }
-        
+
         // Upload the art cover image
         _ = try await Amplify.Storage.uploadData(key: createdSong.id,
                                                  data: imageData,
                                                  options: .init(accessLevel: .private)).value
-        
+
         // Update the song record with the image key
         createdSong.coverArtKey = createdSong.id
         let updateResult = try await Amplify.API.mutate(request: .update(createdSong))
@@ -904,10 +907,10 @@ class SongViewModel: ObservableObject {
             print("Failed with error: ", updateResult)
             return
         }
-        
+
         await setCurrentSong(updatedSong)
     }
-    
+
     // Add or update an image for an associated record
     func updateArtCover(artCover: UIImage) async throws {
         await setIsLoading(true)
@@ -916,7 +919,7 @@ class SongViewModel: ObservableObject {
                 await setIsLoading(false)
             }
         }
-        
+
         guard var currentSong = currentSong else {
             print("There is no song to associated the image with. Create a Song first.")
             return
@@ -925,12 +928,12 @@ class SongViewModel: ObservableObject {
             print("Could not get data from UIImage.")
             return
         }
-        
+
         // Upload the new art image
         _ = try await Amplify.Storage.uploadData(key: currentSong.id,
                                                  data: imageData,
                                                  options: .init(accessLevel: .private)).value
-        
+
         // Update the song record
         currentSong.coverArtKey = currentSong.id
         let result = try await Amplify.API.mutate(request: .update(currentSong))
@@ -938,10 +941,10 @@ class SongViewModel: ObservableObject {
             print("Failed with error: ", result)
             return
         }
-        
+
         await setCurrentSong(updatedSong)
     }
-    
+
     func refreshSongAndArtCover() async throws {
         await setIsLoading(true)
         defer {
@@ -955,7 +958,7 @@ class SongViewModel: ObservableObject {
         }
         await setCurrentSong(nil)
         await setCurrentImage(nil)
-        
+
         // Get the song record
         let result = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id))
         guard case .success(let queriedSong) = result else {
@@ -967,14 +970,14 @@ class SongViewModel: ObservableObject {
             await setCurrentSong(nil)
             return
         }
-        
+
         guard let coverArtKey = song.coverArtKey else {
             print("Song does not contain cover art")
             await setCurrentSong(song)
             await setCurrentImage(nil)
             return
         }
-        
+
         // Download the art cover
         let imageData = try await Amplify.Storage.downloadData(key: coverArtKey,
                                                                options: .init(accessLevel: .private)).value
@@ -982,7 +985,7 @@ class SongViewModel: ObservableObject {
         await setCurrentSong(song)
         await setCurrentImage(image)
     }
-    
+
     func removeImageAssociationFromSong() async throws {
         await setIsLoading(true)
         defer {
@@ -994,7 +997,7 @@ class SongViewModel: ObservableObject {
             print("There is no song to remove art cover from it. Create a song first.")
             return
         }
-        
+
         // Get the song record
         let result = try await Amplify.API.mutate(request: .get(Song.self, byIdentifier: currentSong.id))
         guard case .success(let queriedSong) = result else {
@@ -1010,7 +1013,7 @@ class SongViewModel: ObservableObject {
             print("There is no cover art key to remove image association")
             return
         }
-        
+
         // Set the association to nil and update it
         song.coverArtKey = nil
         let updateResult = try await Amplify.API.mutate(request: .update(song))
@@ -1018,10 +1021,10 @@ class SongViewModel: ObservableObject {
             print("Failed with error: ", result)
             return
         }
-        
+
         await setCurrentSong(updatedSong)
     }
-    
+
     func removeImageAssociationAndDeleteImage() async throws {
         await setIsLoading(true)
         defer {
@@ -1033,7 +1036,7 @@ class SongViewModel: ObservableObject {
             print("There is no song to remove art cover from it. Create a song first.")
             return
         }
-        
+
         // Get the song record
         let result = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id))
         guard case .success(let queriedSong) = result else {
@@ -1049,7 +1052,7 @@ class SongViewModel: ObservableObject {
             print("There is no cover art key to remove image association")
             return
         }
-        
+
         // Set the association to nil and update it
         song.coverArtKey = nil
         let updateResult = try await Amplify.API.mutate(request: .update(song))
@@ -1057,15 +1060,15 @@ class SongViewModel: ObservableObject {
             print("Failed with error: ", result)
             return
         }
-        
+
         // Remove the image
         try await Amplify.Storage.remove(key: coverArtKey,
                                          options: .init(accessLevel: .private))
-        
+
         await setCurrentSong(updatedSong)
         await setCurrentImage(nil)
     }
-    
+
     func deleteSongAndArtCover() async throws {
         await setIsLoading(true)
         defer {
@@ -1077,7 +1080,7 @@ class SongViewModel: ObservableObject {
             print("There is no song to delete. Create a song first.")
             return
         }
-        
+
         // Get the song record
         let result = try await Amplify.API.mutate(request: .get(Song.self, byIdentifier: currentSong.id))
         guard case .success(let queriedSong) = result else {
@@ -1089,13 +1092,13 @@ class SongViewModel: ObservableObject {
             await setCurrentSong(nil)
             return
         }
-        
+
         if let coverArt = song.coverArtKey {
             // Remove the image
             try await Amplify.Storage.remove(key: coverArt,
                                              options: .init(accessLevel: .private))
         }
-        
+
         // Delete the song record
         let deleteResult = try await Amplify.API.mutate(request: .delete(song))
         guard case .success = deleteResult else {
@@ -1105,12 +1108,12 @@ class SongViewModel: ObservableObject {
         await setCurrentSong(nil)
         await setCurrentImage(nil)
     }
-    
+
     @MainActor
     func setCurrentSong(_ song: Song?) {
         self.currentSong = song
     }
-    
+
     @MainActor
     func setCurrentImage(_ image: UIImage?) {
         self.currentImage = image
@@ -1123,12 +1126,12 @@ class SongViewModel: ObservableObject {
 }
 
 struct SongView: View {
-    
+
     @State private var isImagePickerPresented = false
     @State private var songName: String = ""
-    
+
     @StateObject var viewModel = SongViewModel()
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -1152,7 +1155,7 @@ struct SongView: View {
             .navigationBarItems(trailing: SignOutButton())
         }
     }
-    
+
     @ViewBuilder
     func SongInformation() -> some View {
         if let song = viewModel.currentSong {
@@ -1162,7 +1165,7 @@ struct SongView: View {
             }
         }
     }
-    
+
     @ViewBuilder
     func DisplayImage() -> some View {
         if let image = viewModel.currentImage {
@@ -1173,22 +1176,22 @@ struct SongView: View {
             Text("No Image Selected")
                 .foregroundColor(.gray)
         }
-        
+
     }
-    
+
     func OpenImagePickerButton() -> some View {
         Button("Select \(viewModel.currentImage != nil ? "a new ": "" )song album cover") {
             isImagePickerPresented.toggle()
         }.buttonStyle(TappedButtonStyle())
     }
-    
+
     @ViewBuilder
     func SongNameTextField() -> some View {
         TextField("\(viewModel.currentSong != nil ? "Update": "Enter") song name", text: $songName)
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .multilineTextAlignment(.center)
     }
-    
+
     @ViewBuilder
     func CreateOrUpdateSongButton() -> some View {
         if viewModel.currentSong == nil, let image = viewModel.currentImage {
@@ -1239,7 +1242,7 @@ struct SongView: View {
             }.disabled(viewModel.isLoading)
         }
     }
-    
+
     @ViewBuilder
     func IsLoadingView() -> some View {
         if viewModel.isLoading {
@@ -1271,7 +1274,7 @@ class PhotoAlbumViewModel: ObservableObject {
     @Published var currentImages: [UIImage] = []
     @Published var currentAlbum: PhotoAlbum? = nil
     @Published var isLoading: Bool = false
-    
+
     // Create a record with multiple associated files
     func createPhotoAlbum(name: String, photos: [UIImage]) async throws {
         await setIsLoading(true)
@@ -1280,13 +1283,13 @@ class PhotoAlbumViewModel: ObservableObject {
                 await setIsLoading(false)
             }
         }
-        
+
         let imagesData = photos.compactMap { $0.pngData() }
         guard !imagesData.isEmpty else {
             print("Could not get data from [UIImage]")
             return
         }
-        
+
         // Create the photo album record
         let album = PhotoAlbum(name: name)
         let result = try await Amplify.API.mutate(request: .create(album))
@@ -1294,7 +1297,7 @@ class PhotoAlbumViewModel: ObservableObject {
             print("Failed with error: ", result)
             return
         }
-        
+
         // Upload the photo album images
         let imageKeys = await withTaskGroup(of: String?.self) { group in
             for imageData in imagesData {
@@ -1311,14 +1314,14 @@ class PhotoAlbumViewModel: ObservableObject {
                     }
                 }
             }
-            
+
             var imageKeys: [String?] = []
             for await imageKey in group {
                 imageKeys.append(imageKey)
             }
             return imageKeys.compactMap { $0 }
         }
-        
+
         // Update the album with the image keys
         createdAlbum.imageKeys = imageKeys
         let updateResult = try await Amplify.API.mutate(request: .update(createdAlbum))
@@ -1326,10 +1329,10 @@ class PhotoAlbumViewModel: ObservableObject {
             print("Failed with error: ", updateResult)
             return
         }
-        
+
         await setCurrentAlbum(updatedAlbum)
     }
-    
+
     // Create a record with a single associated file
     func createPhotoAlbum(name: String, photo: UIImage) async throws {
         await setIsLoading(true)
@@ -1338,12 +1341,12 @@ class PhotoAlbumViewModel: ObservableObject {
                 await setIsLoading(false)
             }
         }
-        
+
         guard let imageData = photo.pngData() else {
             print("Could not get data from UIImage")
             return
         }
-        
+
         // Create the photo album record
         let album = PhotoAlbum(name: name)
         let result = try await Amplify.API.mutate(request: .create(album))
@@ -1351,13 +1354,13 @@ class PhotoAlbumViewModel: ObservableObject {
             print("Failed with error: ", result)
             return
         }
-        
+
         // Upload the photo album image
         let key = "\(album.id)-\(UUID().uuidString)"
         _ = try await Amplify.Storage.uploadData(key: key,
                                                  data: imageData,
                                                  options: .init(accessLevel: .private)).value
-        
+
         // Update the album with the image key
         createdAlbum.imageKeys = [key]
         let updateResult = try await Amplify.API.mutate(request: .update(createdAlbum))
@@ -1365,10 +1368,10 @@ class PhotoAlbumViewModel: ObservableObject {
             print("Failed with error: ", updateResult)
             return
         }
-        
+
         await setCurrentAlbum(updatedAlbum)
     }
-    
+
     // Add new file to an associated record
     func addAdditionalPhotos(_ photo: UIImage) async throws {
         await setIsLoading(true)
@@ -1377,23 +1380,23 @@ class PhotoAlbumViewModel: ObservableObject {
                 await setIsLoading(false)
             }
         }
-        
+
         guard let currentAlbum = currentAlbum else {
             print("There is no album to associated the images with. Create an Album first.")
             return
         }
-        
+
         guard let imageData = photo.pngData() else {
             print("Could not get data from UIImage.")
             return
         }
-        
+
         // Upload the new photo album image
         let key = "\(currentAlbum.id)-\(UUID().uuidString)"
         _ = try await Amplify.Storage.uploadData(key: key,
                                                  data: imageData,
                                                  options: .init(accessLevel: .private)).value
-        
+
         // Get the latest album
         let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
         guard case .success(let queriedAlbum) = result else {
@@ -1405,17 +1408,17 @@ class PhotoAlbumViewModel: ObservableObject {
             await setCurrentAlbum(nil)
             return
         }
-        
+
         guard var imageKeys = album.imageKeys else {
             print("Album does not contain images")
             await setCurrentAlbum(album)
             await setCurrentImages([])
             return
         }
-        
+
         // Add new to the existing keys
         imageKeys.append(key)
-        
+
         // Update the album with the image keys
         album.imageKeys = imageKeys
         let updateResult = try await Amplify.API.mutate(request: .update(album))
@@ -1423,10 +1426,10 @@ class PhotoAlbumViewModel: ObservableObject {
             print("Failed with error: ", updateResult)
             return
         }
-        
+
         await setCurrentAlbum(updatedAlbum)
     }
-    
+
     func replaceLastImage(_ photo: UIImage) async throws {
         await setIsLoading(true)
         defer {
@@ -1434,24 +1437,24 @@ class PhotoAlbumViewModel: ObservableObject {
                 await setIsLoading(false)
             }
         }
-        
+
         guard let currentAlbum = currentAlbum else {
             print("There is no album to associated the images with. Create an Album first.")
             return
         }
-        
+
         guard let imageData = photo.pngData() else {
             print("Could not get data from UIImage")
             return
         }
-        
-        
+
+
         // Upload the new photo album image
         let key = "\(currentAlbum.id)-\(UUID().uuidString)"
         _ = try await Amplify.Storage.uploadData(key: key,
                                                  data: imageData,
                                                  options: .init(accessLevel: .private)).value
-        
+
         // Update the album with the image keys
         var album = currentAlbum
         if var imageKeys = album.imageKeys {
@@ -1466,10 +1469,10 @@ class PhotoAlbumViewModel: ObservableObject {
             print("Failed with error: ", updateResult)
             return
         }
-        
+
         await setCurrentAlbum(updatedAlbum)
     }
-    
+
     // Query a record and retrieve the associated files
     func refreshAlbumAndPhotos() async throws {
         await setIsLoading(true)
@@ -1484,7 +1487,7 @@ class PhotoAlbumViewModel: ObservableObject {
         }
         await setCurrentAlbum(nil)
         await setCurrentImages([])
-        
+
         // Get the song record
         let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
         guard case .success(let queriedAlbum) = result else {
@@ -1496,7 +1499,7 @@ class PhotoAlbumViewModel: ObservableObject {
             await setCurrentAlbum(nil)
             return
         }
-        
+
         guard let imageKeysOptional = album.imageKeys else {
             print("Album does not contain images")
             await setCurrentAlbum(album)
@@ -1504,7 +1507,7 @@ class PhotoAlbumViewModel: ObservableObject {
             return
         }
         let imageKeys = imageKeysOptional.compactMap { $0 }
-        
+
         // Download the photos
         let images = await withTaskGroup(of: UIImage?.self) { group in
             for key in imageKeys {
@@ -1519,18 +1522,18 @@ class PhotoAlbumViewModel: ObservableObject {
                     }
                 }
             }
-            
+
             var images: [UIImage?] = []
             for await image in group {
                 images.append(image)
             }
             return images.compactMap { $0 }
         }
-        
+
         await setCurrentAlbum(album)
         await setCurrentImages(images)
     }
-    
+
     // Remove the file association
     func removeStorageAssociationsFromAlbum() async throws {
         await setIsLoading(true)
@@ -1543,7 +1546,7 @@ class PhotoAlbumViewModel: ObservableObject {
             print("There is no album to associated the images with. Create an Album first.")
             return
         }
-        
+
         // Get the album record
         let result = try await Amplify.API.mutate(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
         guard case .success(let queriedAlbum) = result else {
@@ -1559,7 +1562,7 @@ class PhotoAlbumViewModel: ObservableObject {
             print("There are no images to remove association")
             return
         }
-        
+
         // Set the association to nil and update it
         album.imageKeys = nil
         let updateResult = try await Amplify.API.mutate(request: .update(album))
@@ -1567,10 +1570,10 @@ class PhotoAlbumViewModel: ObservableObject {
             print("Failed with error: ", result)
             return
         }
-        
+
         await setCurrentAlbum(updatedAlbum)
     }
-    
+
     // Remove the record association and delete the files
     func removeStorageAssociationsAndDeletePhotos() async throws {
         await setIsLoading(true)
@@ -1579,12 +1582,12 @@ class PhotoAlbumViewModel: ObservableObject {
                 await setIsLoading(false)
             }
         }
-        
+
         guard let currentAlbum = currentAlbum else {
             print("There is no album to associated the images with. Create an Album first.")
             return
         }
-        
+
         // Get the album record
         let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
         guard case .success(let queriedAlbum) = result else {
@@ -1596,7 +1599,7 @@ class PhotoAlbumViewModel: ObservableObject {
             await setCurrentAlbum(nil)
             return
         }
-        
+
         guard let imageKeysOptional = album.imageKeys else {
             print("Album does not contain images")
             await setCurrentAlbum(album)
@@ -1604,7 +1607,7 @@ class PhotoAlbumViewModel: ObservableObject {
             return
         }
         let imageKeys = imageKeysOptional.compactMap { $0 }
-        
+
         // Set the associations to nil and update it
         album.imageKeys = nil
         let updateResult = try await Amplify.API.mutate(request: .update(album))
@@ -1612,7 +1615,7 @@ class PhotoAlbumViewModel: ObservableObject {
             print("Failed with error: ", result)
             return
         }
-        
+
         // Remove the photos
         await withTaskGroup(of: Void.self) { group in
             for key in imageKeys {
@@ -1625,15 +1628,15 @@ class PhotoAlbumViewModel: ObservableObject {
                     }
                 }
             }
-            
+
             for await _ in group {
             }
         }
-        
+
         await setCurrentAlbum(updatedAlbum)
         await setCurrentImages([])
     }
-    
+
     // Delete record and all associated files
     func deleteAlbumAndPhotos() async throws {
         await setIsLoading(true)
@@ -1642,12 +1645,12 @@ class PhotoAlbumViewModel: ObservableObject {
                 await setIsLoading(false)
             }
         }
-        
+
         guard let currentAlbum = currentAlbum else {
             print("There is no album to associated the images with. Create an Album first.")
             return
         }
-        
+
         // Get the album record
         let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
         guard case .success(let queriedAlbum) = result else {
@@ -1659,23 +1662,23 @@ class PhotoAlbumViewModel: ObservableObject {
             await setCurrentAlbum(nil)
             return
         }
-        
+
         guard let imageKeysOptional = album.imageKeys else {
             print("Album does not contain images")
-            
+
             // Delete the album record
             let deleteResult = try await Amplify.API.mutate(request: .delete(album))
             guard case .success = deleteResult else {
                 print("Failed with error: ", deleteResult)
                 return
             }
-            
+
             await setCurrentAlbum(nil)
             await setCurrentImages([])
             return
         }
         let imageKeys = imageKeysOptional.compactMap { $0 }
-        
+
         // Remove the photos
         await withTaskGroup(of: Void.self) { group in
             for key in imageKeys {
@@ -1688,32 +1691,32 @@ class PhotoAlbumViewModel: ObservableObject {
                     }
                 }
             }
-            
+
             for await _ in group {
             }
         }
-        
+
         // Delete the album record
         let deleteResult = try await Amplify.API.mutate(request: .delete(album))
         guard case .success = deleteResult else {
             print("Failed with error: ", deleteResult)
             return
         }
-        
+
         await setCurrentAlbum(nil)
         await setCurrentImages([])
     }
-    
+
     @MainActor
     func setCurrentAlbum(_ album: PhotoAlbum?) {
         self.currentAlbum = album
     }
-    
+
     @MainActor
     func setCurrentImages(_ images: [UIImage]) {
         self.currentImages = images
     }
-    
+
     @MainActor
     func setIsLoading(_ isLoading: Bool) {
         self.isLoading = isLoading
@@ -1726,7 +1729,7 @@ struct PhotoAlbumView: View {
     @State private var isLastImagePickerPresented = false
     @State private var lastImage: UIImage? = nil
     @StateObject var viewModel = PhotoAlbumViewModel()
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -1752,7 +1755,7 @@ struct PhotoAlbumView: View {
             .navigationBarItems(trailing: SignOutButton())
         }
     }
-    
+
     @ViewBuilder
     func AlbumInformation() -> some View {
         if let album = viewModel.currentAlbum {
@@ -1762,7 +1765,7 @@ struct PhotoAlbumView: View {
             }
         }
     }
-    
+
     @ViewBuilder
     func DisplayImages() -> some View {
         // Display selected images
@@ -1781,21 +1784,21 @@ struct PhotoAlbumView: View {
                 .foregroundColor(.gray)
         }
     }
-    
+
     func OpenImagePickerButton() -> some View {
         // Button to open the image picker
         Button("Select \(!viewModel.currentImages.isEmpty ? "new " : "")photo album images") {
             isImagePickerPresented.toggle()
         }.buttonStyle(TappedButtonStyle())
     }
-    
+
     @ViewBuilder
     func PhotoAlbumNameTextField() -> some View {
         TextField("\(viewModel.currentAlbum != nil ? "Update": "Enter") album name", text: $albumName)
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .multilineTextAlignment(.center)
     }
-    
+
     @ViewBuilder
     func CreateOrUpdateAlbumButton() -> some View {
         if viewModel.currentAlbum == nil, !viewModel.currentImages.isEmpty {
@@ -1813,7 +1816,7 @@ struct PhotoAlbumView: View {
             }
             .buttonStyle(TappedButtonStyle())
             .disabled(viewModel.isLoading)
-            
+
             if let lastImage = lastImage {
                 Image(uiImage: lastImage)
                     .resizable()
@@ -1839,7 +1842,7 @@ struct PhotoAlbumView: View {
             }
         }
     }
-    
+
     @ViewBuilder
     func AdditionalOperations() -> some View {
         if viewModel.currentAlbum != nil {
@@ -1870,7 +1873,7 @@ struct PhotoAlbumView: View {
             }.disabled(viewModel.isLoading)
         }
     }
-        
+
     @ViewBuilder
     func IsLoadingView() -> some View {
         if viewModel.isLoading {

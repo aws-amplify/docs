@@ -6,11 +6,11 @@ We have re-written our libraries in Dart. In some places, we have made breaking 
 
 - A Flutter application targeting Flutter SDK >= 3.3.0 with Amplify libraries integrated
 
-Amplify requires a minimum target platform for iOS (13.0), Android (API level 24), and macOS (10.15). Additional setup is required for some target platforms. Please see the [platform setup](/lib/project-setup/platform-setup) guide for more details on platform-specific setup.
+Amplify requires a minimum target platform for iOS (13.0), Android (API level 24), and macOS (10.15). Additional setup is required for some target platforms. Please see the [platform setup](/[platform]/start/project-setup/platform-setup/) guide for more details on platform-specific setup.
 
 ## Platform Setup
 
-The requirements for individual platforms have been modified in some cases. If you haven't done so already, go through the [project setup](/lib/project-setup/platform-setup/q/platform/flutter/) guide 
+The requirements for individual platforms have been modified in some cases. If you haven't done so already, go through the [project setup](/[platform]/start/project-setup/platform-setup/) guide 
 to make sure each platform has been configured correctly.
 
 ## Auth
@@ -275,7 +275,7 @@ In v1, these changes are no longer required and can be safely removed without an
 
 Web and Desktop platforms were not supported in v0.
 
-Follow the instructions [here](/lib/auth/social/q/platform/flutter/#platform-setup) to configure Web and Desktop platforms for social sign-in (Hosted UI) in v1.
+Follow the instructions [here](/[platform]/build-a-backend/auth/add-social-provider/#platform-setup) to configure Web and Desktop platforms for social sign-in (Hosted UI) in v1.
 
 </Block>
 
@@ -291,15 +291,15 @@ Follow the instructions [here](/lib/auth/social/q/platform/flutter/#platform-set
 - Automatic session reporting behavior has been aligned in v1. For all platforms, backgrounding and foregrounding the app will stop and start a new session. Previously on iOS, the session would pause and then resume.
 - You can now save to the `UserAttributes` field of a Pinpoint Endpoint by passing an `AWSPinpointUserProfile` to `identifyUser`.
 - Analytics cached event data is now stored differently. Existing cached analytics events will not be migrated.
-- There are now typed `AnalyticsException`s for specific exception cases. See [the documentation on Pub](https://pub.dev/documentation/amplify_analytics_pinpoint/latest/amplify_analytics_pinpoint/amplify_analytics_pinpoint-library.html) for a full list of exceptions.
+- There are now typed `AnalyticsException`s for specific exception cases.
 
 ## API
 
-- REST API methods have breaking changes. See [REST API docs](/lib/restapi/getting-started/q/platform/flutter/) for more details.
+- REST API methods have breaking changes. See [REST API docs](/[platform]/build-a-backend/restapi/set-up-rest-api/) for more details.
 - `RestException` has been replaced with `HttpStatusException`.
 - GraphQL model helpers have a few changes:
   - Updated codegen models are required. Please upgrade to the latest version of the Amplify CLI and run `amplify codegen models`.
-  - `ModelQueries.get()` and `ModelMutations.deleteById()` have a breaking change where the ID is no longer a `String` but a `ModelIdentifier` that supports custom primary keys. See [GraphQL docs](/lib/graphqlapi/query-data/q/platform/flutter/) for examples.
+  - `ModelQueries.get()` and `ModelMutations.deleteById()` have a breaking change where the ID is no longer a `String` but a `ModelIdentifier` that supports custom primary keys. See [GraphQL docs](/[platform]/build-a-backend/graphqlapi/query-data/) for examples.
   - `ModelSubscriptions` helpers now take a `where` clause so users can get server-side subscription filters without a custom request.
 - GraphQL subscriptions will attempt to automatically reconnect when the user's device loses and recovers internet access. Updates in connectivity status are available through new hub events on the channel `HubChannel.Api`.
 - Server-side GraphQL errors on iOS no longer throw an exception, but instead return a `GraphQLResponse` with the errors in the `.errors` field (as has always been the case in Android). This applies to all platforms but is only a change for iOS. Note this is only true for errors that come from the AppSync server as part of the server-side GraphQL response. The client will still throw exceptions for cases when a valid response could not be successfully returned.
@@ -325,4 +325,4 @@ final result = await Amplify.Storage.uploadFile(
 print('Uploaded file key: ${result.uploadedItem.key}');
 ```
 
-See [storage docs](/lib/storage/getting-started/q/platform/flutter/) for more detailed examples of other storage methods.
+See [storage docs](/[platform]/build-a-backend/storage/set-up-storage/) for more detailed examples of other storage methods.

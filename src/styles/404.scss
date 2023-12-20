@@ -1,0 +1,10 @@
+.four-oh-four {
+  flex-direction: column;
+  margin: var(--amplify-space-large) auto;
+  text-align: center;
+  max-width: 500px;
+}
+
+.four-oh-four__cta {
+  justify-content: center;
+}

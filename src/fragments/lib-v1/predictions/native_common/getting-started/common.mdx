@@ -1,8 +1,8 @@
 The Predictions category enables you to integrate machine learning into your application without any prior machine learning experience. It supports translating text from one language to another, converting text to speech, text recognition from an image, entities recognition, labeling real world objects, interpretation of text, and uploading images for automatic training. This functionality is powered by AWS services including: [Amazon Translate](https://docs.aws.amazon.com/translate/latest/dg/what-is.html), [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html), [Amazon Transcribe](https://docs.aws.amazon.com/transcribe/latest/dg/what-is-transcribe.html), [Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html), [Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/what-is.html), and [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/what-is.html).
 
-import ios0 from "/src/fragments/lib-v1/predictions/ios/getting-started/10_coreml.mdx";
+import ios0 from '/src/fragments/lib-v1/predictions/ios/getting-started/10_coreml.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
 ## Goal
 
@@ -10,17 +10,17 @@ To setup and configure your application with Amplify Predictions and go through 
 
 ## Prerequisites
 
-import ios1 from "/src/fragments/lib-v1/predictions/ios/getting-started/20_preReq.mdx";
+import ios1 from '/src/fragments/lib-v1/predictions/ios/getting-started/20_preReq.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ swift: ios1 }} />
 
-import android2 from "/src/fragments/lib-v1/predictions/android/getting-started/20_preReq.mdx";
+import android2 from '/src/fragments/lib-v1/predictions/android/getting-started/20_preReq.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ android: android2 }} />
 
 ## Provision Backend Services
 
-To use the predictions category you will need to setup the auth backend resources.  To provision auth resources in the backend, go to your project directory and **execute the command**:
+To use the predictions category you will need to setup the auth backend resources. To provision auth resources in the backend, go to your project directory and **execute the command**:
 
 ```bash
 amplify add predictions
@@ -31,7 +31,7 @@ Enter the following when prompted:
 ```console
 ? Please select from one of the categories below
     `Convert`
-? You need to add auth (Amazon Cognito) to your project in order to add storage for user files. Do you want to add auth now? (Y/n) 
+? You need to add auth (Amazon Cognito) to your project in order to add storage for user files. Do you want to add auth now? (Y/n)
     `Y`
 ? Do you want to use the default authentication and security configuration?
     `Default configuration`
@@ -63,35 +63,35 @@ Upon completion, `amplifyconfiguration.json` will be updated to reference the ne
 
 ## Install Amplify Libraries
 
-import ios3 from "/src/fragments/lib-v1/predictions/ios/getting-started/30_installLib.mdx";
+import ios3 from '/src/fragments/lib-v1/predictions/ios/getting-started/30_installLib.mdx';
 
-<Fragments fragments={{ios: ios3}} />
+<Fragments fragments={{ swift: ios3 }} />
 
-import android4 from "/src/fragments/lib-v1/predictions/android/getting-started/30_installLib.mdx";
+import android4 from '/src/fragments/lib-v1/predictions/android/getting-started/30_installLib.mdx';
 
-<Fragments fragments={{android: android4}} />
+<Fragments fragments={{ android: android4 }} />
 
 ## Initialize Amplify Predictions
 
-import ios5 from "/src/fragments/lib-v1/predictions/ios/getting-started/40_init.mdx";
+import ios5 from '/src/fragments/lib-v1/predictions/ios/getting-started/40_init.mdx';
 
-<Fragments fragments={{ios: ios5}} />
+<Fragments fragments={{ swift: ios5 }} />
 
-import android6 from "/src/fragments/lib-v1/predictions/android/getting-started/40_init.mdx";
+import android6 from '/src/fragments/lib-v1/predictions/android/getting-started/40_init.mdx';
 
-<Fragments fragments={{android: android6}} />
+<Fragments fragments={{ android: android6 }} />
 
 ## Translating text
 
 To translate text from one language to another, specify the text you want translated, a source language, and a target language. The source and target language parameters will override any choice you made while adding this resource using the Amplify CLI.
 
-import ios7 from "/src/fragments/lib-v1/predictions/ios/getting-started/50_translate.mdx";
+import ios7 from '/src/fragments/lib-v1/predictions/ios/getting-started/50_translate.mdx';
 
-<Fragments fragments={{ios: ios7}} />
+<Fragments fragments={{ swift: ios7 }} />
 
-import android8 from "/src/fragments/lib-v1/predictions/android/getting-started/50_translate.mdx";
+import android8 from '/src/fragments/lib-v1/predictions/android/getting-started/50_translate.mdx';
 
-<Fragments fragments={{android: android8}} />
+<Fragments fragments={{ android: android8 }} />
 
 As a result of executing this code, you will see the following printed to your console:
 
@@ -103,10 +103,10 @@ Me gusta comer espaguetis
 
 Congratulations! You've translated text from one language to another. Check out the following links to explore other Amplify Predictions use cases:
 
-import ios9 from "/src/fragments/lib-v1/predictions/ios/getting-started/60_nextSteps.mdx";
+import ios9 from '/src/fragments/lib-v1/predictions/ios/getting-started/60_nextSteps.mdx';
 
-<Fragments fragments={{ios: ios9}} />
+<Fragments fragments={{ swift: ios9 }} />
 
-import android10 from "/src/fragments/lib-v1/predictions/android/getting-started/60_nextSteps.mdx";
+import android10 from '/src/fragments/lib-v1/predictions/android/getting-started/60_nextSteps.mdx';
 
-<Fragments fragments={{android: android10}} />
+<Fragments fragments={{ android: android10 }} />

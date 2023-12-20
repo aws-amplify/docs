@@ -1,4 +1,3 @@
-
 ## DataStore with Amplify
 
 Amplify DataStore provides a programming model for leveraging shared and distributed data without writing additional code for offline and online scenarios, which makes working with distributed, cross-user data just as simple as working with local-only data.
@@ -10,63 +9,64 @@ Amplify DataStore provides a programming model for leveraging shared and distrib
 </Callout>
 
 ## Goal
+
 To setup and configure your application with Amplify DataStore and use it to persist data locally on a device.
 
 ## Prerequisites
 
-import js0 from "/src/fragments/lib/datastore/js/getting-started/10_preReq.mdx";
+import js0 from '/src/fragments/lib/datastore/js/getting-started/10_preReq.mdx';
 
-<Fragments fragments={{js: js0}} />
+<Fragments fragments={{  javascript: js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
 
-import reactnative0 from "/src/fragments/lib/datastore/js/getting-started/10_preReq.mdx";
+import reactnative0 from '/src/fragments/lib/datastore/js/getting-started/10_preReq.mdx';
 
-<Fragments fragments={{'react-native': reactnative0}} />
+<Fragments fragments={{ 'react-native': reactnative0 }} />
 
-import ios1 from "/src/fragments/lib/datastore/ios/getting-started/10_preReq.mdx";
+import ios1 from '/src/fragments/lib/datastore/ios/getting-started/10_preReq.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ swift: ios1 }} />
 
-import android2 from "/src/fragments/lib/datastore/android/getting-started/10_preReq.mdx";
+import android2 from '/src/fragments/lib/datastore/android/getting-started/10_preReq.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ android: android2 }} />
 
-import flutter3 from "/src/fragments/lib/datastore/flutter/getting-started/10_preReq.mdx";
+import flutter3 from '/src/fragments/lib/datastore/flutter/getting-started/10_preReq.mdx';
 
-<Fragments fragments={{flutter: flutter3}} />
+<Fragments fragments={{ flutter: flutter3 }} />
 
-import ios4 from "/src/fragments/lib/datastore/ios/getting-started/20_installLib.mdx";
+import ios4 from '/src/fragments/lib/datastore/ios/getting-started/20_installLib.mdx';
 
-<Fragments fragments={{ios: ios4}} />
+<Fragments fragments={{ swift: ios4 }} />
 
-import android5 from "/src/fragments/lib/datastore/android/getting-started/20_installLib.mdx";
+import android5 from '/src/fragments/lib/datastore/android/getting-started/20_installLib.mdx';
 
-<Fragments fragments={{android: android5}} />
+<Fragments fragments={{ android: android5 }} />
 
-import flutter6 from "/src/fragments/lib/datastore/flutter/getting-started/20_installLib.mdx";
+import flutter6 from '/src/fragments/lib/datastore/flutter/getting-started/20_installLib.mdx';
 
-<Fragments fragments={{flutter: flutter6}} />
+<Fragments fragments={{ flutter: flutter6 }} />
 
 ## Setup local development environment
 
-import js7 from "/src/fragments/lib/datastore/native_common/setup-env.mdx";
+import js7 from '/src/fragments/lib/datastore/native_common/setup-env.mdx';
 
-<Fragments fragments={{js: js7}} />
+<Fragments fragments={{  javascript: js7 , angular: js7, nextjs: js7, react: js7, vue: js7 }} />
 
-import reactnative1 from "/src/fragments/lib/datastore/native_common/setup-env.mdx";
+import reactnative1 from '/src/fragments/lib/datastore/native_common/setup-env.mdx';
 
-<Fragments fragments={{'react-native': reactnative1}} />
+<Fragments fragments={{ 'react-native': reactnative1 }} />
 
-import ios8 from "/src/fragments/lib/datastore/ios/getting-started/30_setupEnv.mdx";
+import ios8 from '/src/fragments/lib/datastore/ios/getting-started/30_setupEnv.mdx';
 
-<Fragments fragments={{ios: ios8}} />
+<Fragments fragments={{ swift: ios8 }} />
 
-import android9 from "/src/fragments/lib/datastore/native_common/setup-env-cli.mdx";
+import android9 from '/src/fragments/lib/datastore/native_common/setup-env-cli.mdx';
 
-<Fragments fragments={{android: android9}} />
+<Fragments fragments={{ android: android9 }} />
 
-import flutter10 from "/src/fragments/lib/datastore/native_common/setup-env-cli.mdx";
+import flutter10 from '/src/fragments/lib/datastore/native_common/setup-env-cli.mdx';
 
-<Fragments fragments={{flutter: flutter10}} />
+<Fragments fragments={{ flutter: flutter10 }} />
 
 ## Idiomatic persistence
 
@@ -99,56 +99,56 @@ enum PostStatus {
 
 Now you will to convert the platform-agnostic `schema.graphql` into platform-specific data structures. DataStore relies on code generation to guarantee schemas are correctly converted to platform code.
 
-import codegenPlatformIntegration from "/src/fragments/lib/datastore/native_common/codegen-platform-integration.mdx";
+import codegenPlatformIntegration from '/src/fragments/lib/datastore/native_common/codegen-platform-integration.mdx';
 
-<Fragments fragments={{js: codegenPlatformIntegration}} />
-<Fragments fragments={{'react-native': codegenPlatformIntegration}} />
-<Fragments fragments={{ios: codegenPlatformIntegration}} />
-<Fragments fragments={{android: codegenPlatformIntegration}} />
+<Fragments fragments={{  javascript: codegenPlatformIntegration , angular: codegenPlatformIntegration, nextjs: codegenPlatformIntegration, react: codegenPlatformIntegration, vue: codegenPlatformIntegration }} />
+<Fragments fragments={{ 'react-native': codegenPlatformIntegration }} />
+<Fragments fragments={{ swift: codegenPlatformIntegration }} />
+<Fragments fragments={{ android: codegenPlatformIntegration }} />
 
 ### Code generation: Amplify CLI
 
-import js15 from "/src/fragments/lib/datastore/native_common/codegen.mdx";
+import js15 from '/src/fragments/lib/datastore/native_common/codegen.mdx';
 
-<Fragments fragments={{js: js15}} />
+<Fragments fragments={{  javascript: js15 , angular: js15, nextjs: js15, react: js15, vue: js15 }} />
 
-import reactnative3 from "/src/fragments/lib/datastore/native_common/codegen.mdx";
+import reactnative3 from '/src/fragments/lib/datastore/native_common/codegen.mdx';
 
-<Fragments fragments={{'react-native': reactnative3}} />
+<Fragments fragments={{ 'react-native': reactnative3 }} />
 
-import ios16 from "/src/fragments/lib/datastore/native_common/codegen.mdx";
+import ios16 from '/src/fragments/lib/datastore/native_common/codegen.mdx';
 
-<Fragments fragments={{ios: ios16}} />
+<Fragments fragments={{ swift: ios16 }} />
 
-import android17 from "/src/fragments/lib/datastore/android/getting-started/50_codegenCli.mdx";
+import android17 from '/src/fragments/lib/datastore/android/getting-started/50_codegenCli.mdx';
 
-<Fragments fragments={{android: android17}} />
+<Fragments fragments={{ android: android17 }} />
 
-import flutter18 from "/src/fragments/lib/datastore/flutter/getting-started/50_codegenCli.mdx";
+import flutter18 from '/src/fragments/lib/datastore/flutter/getting-started/50_codegenCli.mdx';
 
-<Fragments fragments={{flutter: flutter18}} />
+<Fragments fragments={{ flutter: flutter18 }} />
 
 ## Initialize Amplify DataStore
 
-import js19 from "/src/fragments/lib/datastore/js/getting-started/50_initDataStore.mdx";
+import js19 from '/src/fragments/lib/datastore/js/getting-started/50_initDataStore.mdx';
 
-<Fragments fragments={{js: js19}} />
+<Fragments fragments={{  javascript: js19 , angular: js19, nextjs: js19, react: js19, vue: js19 }} />
 
-import reactnative4 from "/src/fragments/lib/datastore/js/getting-started/50_initDataStore.mdx";
+import reactnative4 from '/src/fragments/lib/datastore/js/getting-started/50_initDataStore.mdx';
 
-<Fragments fragments={{'react-native': reactnative4}} />
+<Fragments fragments={{ 'react-native': reactnative4 }} />
 
-import ios20 from "/src/fragments/lib/datastore/ios/getting-started/50_initDataStore.mdx";
+import ios20 from '/src/fragments/lib/datastore/ios/getting-started/50_initDataStore.mdx';
 
-<Fragments fragments={{ios: ios20}} />
+<Fragments fragments={{ swift: ios20 }} />
 
-import android21 from "/src/fragments/lib/datastore/android/getting-started/60_initDataStore.mdx";
+import android21 from '/src/fragments/lib/datastore/android/getting-started/60_initDataStore.mdx';
 
-<Fragments fragments={{android: android21}} />
+<Fragments fragments={{ android: android21 }} />
 
-import flutter22 from "/src/fragments/lib/datastore/flutter/getting-started/50_initDataStore.mdx";
+import flutter22 from '/src/fragments/lib/datastore/flutter/getting-started/50_initDataStore.mdx';
 
-<Fragments fragments={{flutter: flutter22}} />
+<Fragments fragments={{ flutter: flutter22 }} />
 
 ## Persistence operations
 
@@ -160,56 +160,56 @@ Even though a GraphQL API is already added to your project, the cloud synchroniz
 
 To write to the database, create an instance of the `Post` model and save it.
 
-import js23 from "/src/fragments/lib/datastore/js/getting-started/60_saveSnippet.mdx";
+import js23 from '/src/fragments/lib/datastore/js/getting-started/60_saveSnippet.mdx';
 
-<Fragments fragments={{js: js23}} />
+<Fragments fragments={{  javascript: js23 , angular: js23, nextjs: js23, react: js23, vue: js23 }} />
 
-import reactnative5 from "/src/fragments/lib/datastore/js/getting-started/60_saveSnippet.mdx";
+import reactnative5 from '/src/fragments/lib/datastore/js/getting-started/60_saveSnippet.mdx';
 
-<Fragments fragments={{'react-native': reactnative5}} />
+<Fragments fragments={{ 'react-native': reactnative5 }} />
 
-import ios24 from "/src/fragments/lib/datastore/ios/getting-started/60_saveSnippet.mdx";
+import ios24 from '/src/fragments/lib/datastore/ios/getting-started/60_saveSnippet.mdx';
 
-<Fragments fragments={{ios: ios24}} />
+<Fragments fragments={{ swift: ios24 }} />
 
-import android25 from "/src/fragments/lib/datastore/android/getting-started/70_saveSnippet.mdx";
+import android25 from '/src/fragments/lib/datastore/android/getting-started/70_saveSnippet.mdx';
 
-<Fragments fragments={{android: android25}} />
+<Fragments fragments={{ android: android25 }} />
 
-import flutter26 from "/src/fragments/lib/datastore/flutter/getting-started/60_saveSnippet.mdx";
+import flutter26 from '/src/fragments/lib/datastore/flutter/getting-started/60_saveSnippet.mdx';
 
-<Fragments fragments={{flutter: flutter26}} />
+<Fragments fragments={{ flutter: flutter26 }} />
 
 ### Reading from the database
 
 To read from the database, the simplest approach is to query for all records of a given model type.
 
-import js27 from "/src/fragments/lib/datastore/js/getting-started/70_querySnippet.mdx";
+import js27 from '/src/fragments/lib/datastore/js/getting-started/70_querySnippet.mdx';
 
-<Fragments fragments={{js: js27}} />
+<Fragments fragments={{  javascript: js27 , angular: js27, nextjs: js27, react: js27, vue: js27 }} />
 
-import reactnative6 from "/src/fragments/lib/datastore/js/getting-started/70_querySnippet.mdx";
+import reactnative6 from '/src/fragments/lib/datastore/js/getting-started/70_querySnippet.mdx';
 
-<Fragments fragments={{'react-native': reactnative6}} />
+<Fragments fragments={{ 'react-native': reactnative6 }} />
 
-import ios28 from "/src/fragments/lib/datastore/ios/getting-started/70_querySnippet.mdx";
+import ios28 from '/src/fragments/lib/datastore/ios/getting-started/70_querySnippet.mdx';
 
-<Fragments fragments={{ios: ios28}} />
+<Fragments fragments={{ swift: ios28 }} />
 
-import android29 from "/src/fragments/lib/datastore/android/getting-started/80_querySnippet.mdx";
+import android29 from '/src/fragments/lib/datastore/android/getting-started/80_querySnippet.mdx';
 
-<Fragments fragments={{android: android29}} />
+<Fragments fragments={{ android: android29 }} />
 
-import flutter30 from "/src/fragments/lib/datastore/flutter/getting-started/70_querySnippet.mdx";
+import flutter30 from '/src/fragments/lib/datastore/flutter/getting-started/70_querySnippet.mdx';
 
-<Fragments fragments={{flutter: flutter30}} />
+<Fragments fragments={{ flutter: flutter30 }} />
 
 ## Next steps
 
 Congratulations! You’ve created and retrieved data from the local database. Check out the following links to see other Amplify DataStore use cases and advanced concepts:
 
-- [Write data](/lib/datastore/data-access#create-and-update)
-- [Query data](/lib/datastore/data-access#query-data)
-- [Model associations](/lib/datastore/relational)
-- [Cloud synchronization](/lib/datastore/sync)
-- [Clear local data](/lib/datastore/sync#clear-local-data)
+- [Write data](/[platform]/build-a-backend/more-features/datastore/manipulate-data/#create-and-update)
+- [Query data](/[platform]/build-a-backend/more-features/datastore/manipulate-data/#query-data)
+- [Model associations](/[platform]/build-a-backend/more-features/datastore/relational-models/)
+- [Cloud synchronization](/[platform]/build-a-backend/more-features/datastore/sync-to-cloud/)
+- [Clear local data](/[platform]/build-a-backend/more-features/datastore/sync-to-cloud/#clear-local-data)

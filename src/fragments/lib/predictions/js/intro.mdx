@@ -1,26 +1,27 @@
 The Predictions category provides a solution for using AI and ML cloud services to enhance your application. Some supported use cases:
 
-- Translating text from one language to another
-- Converting text to speech
-- Text recognition from image
-- Entities recognition
-- Label real world objects
-- Interpretation of text
-- Uploading images for automatic training
-- Transcribing text
+- Convert text to speech
+- Transcribe audio to text
+- Translate text from one language to another
+- Identify text from an image
+- Identify entities from an image
+- Identify real world objects from an image
+- Interpret text
 
-<br />
-Predictions is broadly organized into 3 key use cases - Identify, Convert, and Interpret - which are available in the client API as well as CLI workflows.   
-<br /><br />
+Predictions is broadly organized into 3 key use cases - Identify, Convert, and Interpret - which are available in the client API as well as CLI workflows.
 
-- `Identify` will find text (words, tables, pages from a book), entities (faces and/or celebrities) from images. You can also identify real world objects such as chairs, desks, etc. which are referred to as “labels” from images.
+- `Identify` will find text (words, tables, pages from a book), entities (faces and/or celebrities) from images. You can also identify real world landmarks or objects such as chairs, desks, etc. which are referred to as “labels” from images.
 
 - `Convert` allows you to translate text from one source language to a target language. You can also generate speech audio from text input. Lastly, you can take an audio input and transcribe it using a websocket stream.
 
 - `Interpret` allows you to analyze text for language, entities (places, people), key phrases, sentiment (positive, neutral, negative), and syntax (pronouns, verbs, adjectives).
 
-Some common use cases are listed below, as well as an advanced workflow which allows you to perform dynamic image indexing from your client application.
+Some common use cases are listed below, as well as an advanced workflow which allows you to perform dynamic image indexing from a connected s3 bucket.
 
 Predictions comes with built-in support for [Amazon Translate](https://docs.aws.amazon.com/translate/latest/dg/what-is.html), [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html), [Amazon Transcribe](https://docs.aws.amazon.com/transcribe/latest/dg/what-is-transcribe.html), [Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html), [Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/what-is.html), and [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/what-is.html).
 
-Additionally Predictions supports generic invocation of SageMaker Inference API from a native (iOS/Android) application.
+<Callout>
+
+**Note:** Predictions also supports generic invocation of SageMaker Inference API from a native (iOS/Android) application.
+
+</Callout>

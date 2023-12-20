@@ -1,0 +1,112 @@
+export const meta = {
+  title: 'Manual installation',
+  description:
+    'Learn how to get started with AWS Amplify (Gen 2) by manually installing.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+The easiest way to get started with AWS Amplify is through [npm](https://npmjs.com) with [`create-amplify`](https://www.npmjs.com/package/create-amplify), which is the workflow our [quickstart](/gen2/start/quickstart) recommends. However, for some use cases, it may be preferable to start from scratch, either with a brand new directory or an existing frontend app. This guide will walk you through how to initialize your project, install dependencies, and author your first backend.
+
+## Manual setup
+
+First, if your frontend framework of choice doesn't have it already, create your project's `package.json` with `npm init -y`. Then, install the Amplify dependencies for building a backend:
+
+```bash
+npm add --save-dev @aws-amplify/backend @aws-amplify/backend-cli typescript
+```
+
+<Callout info>
+
+**Note**: TypeScript is not a requirement but is recommended for an optimal experience.
+
+</Callout>
+
+Next, create the entry point for your backend, `amplify/backend.ts`, with the following code:
+
+```ts
+import { defineBackend } from '@aws-amplify/backend';
+
+defineBackend({});
+```
+
+Now you can run `npx amplify sandbox` to create your first backend!
+
+<Callout warning>
+
+Amplify (Gen 2) requires your backend to be configured for use with [ECMAScript modules (ESM)](https://nodejs.org/api/esm.html). If you encounter the following error during `amplify sandbox`, consider modifying your `package.json` with `"type": "module"`:
+
+```text
+The current file is a CommonJS module whose imports will produce 'require' calls; however, the referenced file is an ECMAScript module and cannot be imported with 'require'. Consider writing a dynamic 'import("@aws-amplify/backend")' call instead.
+```
+
+Or, you can create a local file in the Amplify backend directory, `amplify/package.json`:
+
+```json
+{
+  "type": "module"
+}
+```
+
+</Callout>
+
+You can use `define*` functions to _define_ your resources. For example, you can define authentication:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  }
+});
+```
+
+Or define your data resource:
+
+```ts title="amplify/data/resource.ts"
+import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
+
+const schema = a.schema({});
+
+export type Schema = ClientSchema<typeof schema>;
+export const data = defineData({
+  schema
+});
+```
+
+Each of these newly defined resources are then imported and set in the backend definition:
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource.js';
+import { data } from './data/resource.js';
+
+defineBackend({
+  auth,
+  data
+});
+```
+
+## Upgrade existing projects
+
+You can also update an existing frontend app. To upgrade existing Amplify code-first DX (Gen 2) apps, use your Node.js package manager (for example, `npm`) to update relevant backend packages:
+
+```bash
+npm update @aws-amplify/backend @aws-amplify/backend-cli
+```
+
+## Next steps
+
+We recommend the following next steps:
+
+- [Learn more about defining authentication](/gen2/build-a-backend/auth)
+- [Learn more about defining data](/gen2/build-a-backend/data)
+- [Get started with cloud sandbox](/gen2/deploy-and-host/sandbox-environments)
+- [Deploy and host your first app](/gen2/deploy-and-host/fullstack-branching)

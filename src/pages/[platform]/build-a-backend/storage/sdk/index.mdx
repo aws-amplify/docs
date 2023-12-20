@@ -1,0 +1,29 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use AWS SDK',
+  description:
+    'For specialized use cases where Amplify does not provide the functionality, you can use the escape hatch to access an AWSS3 low-level client instance. The returned AWSS3 instance is already configured with your access credentials.',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import ios0 from '/src/fragments/lib/storage/ios/escapehatch.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android1 from '/src/fragments/lib/storage/android/escapehatch.mdx';
+
+<Fragments fragments={{ android: android1 }} />

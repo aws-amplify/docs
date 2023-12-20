@@ -1,35 +1,11 @@
-import styled from "@emotion/styled";
-
-export const TableContainer = styled.div`
-  overflow-x: auto;
-  margin-bottom: 1rem;
-`;
-
-export const Table = styled.table`
-  text-align: center;
-  width: 100%;
-
-  thead tr {
-    background-color: var(--bg-color-tertiary);
-  }
-  tbody tr th {
-    width: 5rem;
-  }
-`;
-
-export const Value = styled.th`
-  min-width: 9rem;
-  width: 9rem;
-`;
-
-export const Description = styled.th`
-  text-align: left;
-`;
-
-export const Project = styled.th`
-  min-width: 6rem;
-  width: 6rem;
-`;
+import {
+  Table,
+  TableCell,
+  TableBody,
+  TableHead,
+  TableRow,
+  View
+} from '@aws-amplify/ui-react';
 
 export type FeatureFlags = Record<string, Section>;
 
@@ -40,8 +16,8 @@ export type Section = {
 
 export type FeatureFlag = {
   description: string;
-  type: "Feature" | "Release" | "Experimental";
-  valueType: "Boolean" | "Number" | "String";
+  type: 'Feature' | 'Release' | 'Experimental';
+  valueType: 'Boolean' | 'Number' | 'String';
   versionAdded: string;
   versionDeprecated?: string;
   deprecationDate?: string;
@@ -57,41 +33,39 @@ export type Value = {
   defaultExistingProject: boolean;
 };
 
-export default function FeatureFlagValues({values}) {
+export default function FeatureFlagValues({ values }) {
   return (
-    <TableContainer>
-      <Table>
-        <thead>
-          <tr>
-            <Value>Value</Value>
-            <th>Description</th>
-            <Project>
-              Default for
-              <br />
-              existing projects
-            </Project>
-            <Project>
-              Default for
-              <br />
-              new projects
-            </Project>
-          </tr>
-        </thead>
-        <tbody>
-          {values.map((value) => {
+    <View className="table-wrapper">
+      <Table variation="bordered" className="ff-table">
+        <TableHead>
+          <TableRow>
+            <TableCell as="th">Value</TableCell>
+            <TableCell as="th">Description</TableCell>
+            <TableCell as="th">Default for existing projects</TableCell>
+            <TableCell as="th">Default for new projects</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {values.map((value, index) => {
             return (
-              <tr>
-                <td>
+              <TableRow key={`tr-${index}`}>
+                <TableCell className="ff-table__value">
                   <code>{value.value}</code>
-                </td>
-                <Description>{value.description}</Description>
-                <td>{value.defaultExistingProject ? "✅" : ""}</td>
-                <td>{value.defaultNewProject ? "✅" : ""}</td>
-              </tr>
+                </TableCell>
+                <TableCell className="ff-table__desc">
+                  {value.description}
+                </TableCell>
+                <TableCell className="ff-table__default">
+                  {value.defaultExistingProject ? '✅' : ''}
+                </TableCell>
+                <TableCell className="ff-table__default">
+                  {value.defaultNewProject ? '✅' : ''}
+                </TableCell>
+              </TableRow>
             );
           })}
-        </tbody>
+        </TableBody>
       </Table>
-    </TableContainer>
+    </View>
   );
 }

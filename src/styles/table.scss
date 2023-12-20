@@ -1,0 +1,49 @@
+/* Basic styling for generic markdown tables which don't currently
+ * use Amplify UI primitives/classNames */
+table:not([class]) {
+  border-collapse: collapse;
+  th {
+    border-top: 1px solid var(--amplify-colors-border-secondary);
+  }
+  td,
+  th {
+    border-bottom: 1px solid var(--amplify-colors-border-secondary);
+    padding: var(--amplify-space-xs) var(--amplify-space-small);
+    border-right: 1px solid var(--amplify-colors-border-secondary);
+    &:first-child {
+      border-left: 1px solid var(--amplify-colors-border-secondary);
+    }
+  }
+  tbody {
+    tr:hover {
+      background-color: var(--amplify-colors-neutral-10);
+    }
+  }
+}
+
+/* These styles are used in the FeatureFlags component */
+.amplify-table {
+  &__th {
+    background-color: var(--amplify-colors-neutral-90);
+    color: var(--amplify-colors-font-inverse);
+    border-color: var(--amplify-colors-neutral-80);
+  }
+}
+
+.ff-table {
+  &__value {
+    min-width: 4rem;
+  }
+  &__default {
+    min-width: 10rem;
+    text-align: center;
+  }
+  &__desc {
+    min-width: 20rem;
+  }
+}
+
+/* Wrapping class for scrollable tables */
+.table-wrapper {
+  overflow-x: auto;
+}

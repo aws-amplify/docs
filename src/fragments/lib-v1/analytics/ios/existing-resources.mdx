@@ -1,22 +1,22 @@
 Existing Amazon Pinpoint resources can be used with the Amplify Libraries by referencing your **Application ID** and **Region** in your `amplifyconfiguration.json` file.
 
-<!-- TODO rewrite Double check that the file is actually .json for manually updating resources. Check it for Android as well -->
+{/* TODO rewrite Double check that the file is actually .json for manually updating resources. Check it for Android as well */}
 
 ```json
 {
-    "analytics": {
-        "plugins": {
-            "awsPinpointAnalyticsPlugin": {
-                "pinpointAnalytics": {
-                    "appId": "[APP ID]",
-                    "region": "[REGION]"
-                },
-                "pinpointTargeting": {
-                    "region": "[REGION]"
-                }
-            }
+  "analytics": {
+    "plugins": {
+      "awsPinpointAnalyticsPlugin": {
+        "pinpointAnalytics": {
+          "appId": "[APP ID]",
+          "region": "[REGION]"
+        },
+        "pinpointTargeting": {
+          "region": "[REGION]"
         }
+      }
     }
+  }
 }
 ```
 
@@ -26,4 +26,4 @@ Existing Amazon Pinpoint resources can be used with the Amplify Libraries by ref
 - **pinpointTargeting**
   - **region**: AWS Region where the resources are provisioned (e.g. `us-east-1`)
 
-Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/lib-v1/project-setup/create-application#n2-install-amplify-libraries).
+Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/[platform]/prev/start/project-setup/create-application/#n2-install-amplify-libraries).

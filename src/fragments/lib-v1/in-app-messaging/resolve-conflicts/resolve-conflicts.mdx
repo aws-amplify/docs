@@ -1,0 +1,20 @@
+In the rare case where an event is sent and meets the criteria set forth by multiple in-app messages, the library needs to decide which message to return. If such a conflict should arise, In-App Messaging will choose a message by:
+
+1. Sorting the messages in order of campaign expiration
+2. Returning the top message sorted (the closest message to expiry)
+
+However, this may not be how you wish to resolve such conflicts so you may want to set your own conflict handler.
+
+```js
+/**
+ * Regardless of your conflict resolution strategy the handler must always accept
+ * an array of in-app messages and return a single in-app message.
+ */
+const myConflictHandler = (messages) => {
+  // Return a random message
+  const randomIndex = Math.floor(Math.random() * messages.length);
+  return messages[randomIndex];
+};
+
+InAppMessaging.setConflictHandler(myConflictHandler);
+```

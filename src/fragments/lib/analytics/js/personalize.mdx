@@ -1,4 +1,4 @@
-Amazon Personalize can create recommendations by using event data, historical data, or a combination of both. The event data can then be used to create recommendations. 
+Amazon Personalize can create recommendations by using event data, historical data, or a combination of both. The event data can then be used to create recommendations.
 
 To record event data, you need the following:
 
@@ -9,75 +9,101 @@ For more information, see [Record Events](https://docs.aws.amazon.com/personaliz
 
 ### Installation and Configuration
 
-Register the *AmazonPersonalizeProvider* with the Analytics category:
-You need the tracking ID of your event tracker. For more information, see [Get a Tracking ID](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html#event-get-tracker).
+After creating the Amazon Personalize dataset group, you need to add the `personalize:PutEvents` permission to your Amplify IAM user roles.
 
-```javascript
-import { Analytics, AmazonPersonalizeProvider } from 'aws-amplify';
-Analytics.addPluggable(new AmazonPersonalizeProvider());
+An example IAM policy:
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": "personalize:PutEvents",
+    "Resource": "*"
+  }]
+}
 ```
+
+You need the tracking ID of your event tracker. For more information, see [Get a Tracking ID](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html#event-get-tracker).
 
 Configure Amazon Personalize:
 
 ```javascript
-// Configure the plugin after adding it to the Analytics module
-Analytics.configure({
-    AmazonPersonalize: {
-    
-        // REQUIRED - The trackingId to track the events 
-        trackingId: '<TRACKING_ID>',
-        
-        // OPTIONAL -  Amazon Personalize service region
-        region: 'XX-XXXX-X',
+import { Amplify } from 'aws-amplify';
 
-        // OPTIONAL - The number of events to be deleted from the buffer when flushed.
-        flushSize: 10,
+Amplify.configure({
+  ...Amplify.getConfig(),
+  Analytics: {
+    Personalize: {
+      // REQUIRED - The trackingId to track the events
+      trackingId: '<TRACKING_ID>',
 
-        // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
-        flushInterval: 5000, // 5s
+      // REQUIRED -  Amazon Personalize service region
+      region: 'us-east-1',
+
+      // OPTIONAL - The number of events to be deleted from the buffer when flushed.
+      flushSize: 10,
+
+      // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
+      flushInterval: 5000 // 5s
     }
+  }
 });
 ```
 ### Working with the API
 
-You can use the `Identify` event type to track a user identity. This lets you connect a user to their actions and record traits about them. To identify a user, specify a unique identifier for the userId property. 
+You can use the `Identify` event type to track a user identity. This lets you connect a user to their actions and record traits about them. To identify a user, specify a unique identifier for the userId property.
  Consider the following user interactions when choosing when and how often to call record with the  Identify eventType:
 
 * After a user registers.
 * After a user logs in.
-* When a user updates their information (For example, changing or adding or adding a new address).
-* Upon loading any pages that are accessible by a logged in user (optional).
+* When a user updates their information (For example, changing or adding a new address).
+* Upon loading any pages that are accessible by a logged-in user (optional).
 
 ```javascript
-Analytics.record({
-        eventType: "Identify",
-        properties: {
-           "userId": "<USER_ID>"
-        }
-    }, 'AmazonPersonalize');
+import { record } from 'aws-amplify/analytics/personalize';
+
+record({
+  eventType: "Identify",
+  properties: {
+     userId: "<USER_ID>"
+  }
+});
 ```
-You can send events to Amazon personalize by calling the `record` operation. If you already use `Identify` tracking end-user data, you can skip the userId, the SDK will fetch the userId based on current browser session.
+You can send events to Amazon personalize by calling the `record` operation. If you already use `Identify` to track end-user data, you can skip the userId, the SDK will fetch the userId based on current browser session.
 For information about the properties field, see [Put Events](https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html).
 
 ```javascript
-Analytics.record({
-        eventType: "<EVENT_TYPE>",
-        userId: "<USER_ID>", (optional)
-        properties: {
-          "itemId": "<ITEM_ID>",
-          "eventValue": "<EVENT_VALUE>"}
-    },
-    "AmazonPersonalize");
+import { record } from 'aws-amplify/analytics/personalize';
+
+record({
+  eventType: "<EVENT_TYPE>",
+  userId: "<USER_ID>", // optional
+  properties: {
+    itemId: "<ITEM_ID>",
+    eventValue: "<EVENT_VALUE>"
+  }
+});
 ```
-You can track iframe and HTML5 media types by using the MediaAutoTrack event type. MediaAutoTrack tracks all media events of the media DOM element that you bind to. `MediaAutoTracker` will automatically track *Play*, *Pause*, *Ended*, *TimeWatched*, and *Resume* in eventType. The duration of the event compared to the total length of the media is stored as a percentage value in eventValue.
+You can track iframe and HTML5 media types by using the MediaAutoTrack event type. MediaAutoTrack tracks all media events of the media DOM element that you bind to. `MediaAutoTracker` will automatically track *Play*, *Pause*, *Ended*, *TimeWatched*, and *Resume* in `eventType`. The duration of the event compared to the total length of the media is stored as a percentage value in `eventValue`.
 
 ```javascript
-Analytics.record({
-    eventType: "MediaAutoTrack",
-    userId: "<USER_ID>", (optional)
-    properties: {
-        "domElementId": "MEDIA DOM ELEMENT ID",
-        "itemId": "<ITEM_ID>"
-    }
-}, "AmazonPersonalize");
+import { record } from 'aws-amplify/analytics/personalize';
+
+record({
+  eventType: "MediaAutoTrack",
+  userId: "<USER_ID>", // (optional)
+  properties: {
+    domElementId: "MEDIA DOM ELEMENT ID",
+    itemId: "<ITEM_ID>"
+  }
+});
+```
+
+## Flush events
+The recorded events are saved in a buffer and sent to the remote server periodically *(You can tune it with the `flushInterval` option)*. If needed, you have the option to manually clear all the events from the buffer by using the 'flushEvents' API.
+
+```javascript
+import { flushEvents } from 'aws-amplify/analytics/personalize';
+
+flushEvents();
 ```

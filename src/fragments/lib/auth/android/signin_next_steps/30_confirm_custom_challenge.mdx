@@ -1,4 +1,4 @@
-If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/lib/auth/signin_with_custom_flow). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
+If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/[platform]/build-a-backend/auth/sign-in-custom-flow/). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
 
 <BlockSwitcher>
 
@@ -24,6 +24,7 @@ try {
     Log.e("AuthQuickstart", "Unexpected error: " + error);
 }
 ```
+
 </Block>
 
 <Block name="Kotlin - Callbacks">
@@ -93,6 +94,7 @@ RxAmplify.Auth.confirmSignIn(
                 error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
         );
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -101,7 +103,9 @@ RxAmplify.Auth.confirmSignIn(
 <b>Special Handling on ConfirmSignIn</b>
 
 During a confirmSignIn call if `failAuthentication=true` is returned by the lambda the session of the request gets invalidated by cognito, a NotAuthorizedException is returned and a new signIn call is expected via Amplify.Auth.signIn
+
 ```java
 NotAuthorizedException{message=Failed since user is not authorized., cause=NotAuthorizedException(message=Invalid session for the user.), recoverySuggestion=Check whether the given values are correct and the user is authorized to perform the operation.}
 ```
+
 </Callout>

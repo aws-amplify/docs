@@ -1,0 +1,65 @@
+export const meta = {
+  title: 'Monorepo setup',
+  description: 'Set up monorepos with the Amplify CI/CD pipeline.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Some teams choose a monorepo approach, or single repositories that contain multiple packages or components to simplify the deployment process for shared libraries and components. Without a monorepo, you have to deploy each package individually, keep track of package versions and dependencies across packages, and ensure version compatibility. This can become exponentially more complex as the number of packages grows. With a monorepo, all packages and dependencies are contained within a single repository.
+
+Amplify (Gen 2) supports monorepo workflows for fullstack builds with monorepo tools such as Nx and yarn workspaces. When building with Gen 2, we recommend creating the `amplify/` folder in a shared workspace. We will use the following example for this guide:
+
+```text
+├── apps/
+│   ├── admin-dashboard/
+│   │   ├── next.config.mjs
+│   │   └── package.json
+│   └── marketing-site/
+│       ├── astro.config.mjs
+│       └── package.json
+├── packages/
+│   └── my-shared-backend/
+│       ├── amplify/
+│       │   ├── auth/
+│       │   │   └── resource.ts
+│       │   ├── data/
+│       │   │   └── resource.ts
+│       │   └── backend.ts
+│       |── package.json
+        └── tsconfig.json
+└── package.json
+```
+
+Monorepos require a slightly different setup. We are going to deploy 3 Amplify apps:
+
+1. `my-shared-backend`
+2. `admin-dashboard`
+3. `marketing-site`
+
+## Deploy backend app
+
+The first app, `my-shared-backend`, will be the only app that updates changes to the backend. The other apps will only run frontend builds that point to the shared backend.
+
+1. To get started, deploy the shared backend Amplify app. With Gen 2, you can now setup backend-only CI/CD apps. Navigate to the console and select _New app > Build an app (Gen 2)_.
+
+1. Once you connect your repository, select your monorepo project. Check the box that says _My app is a monorepo_ and enter the path to your amplify backend.
+
+![monorepo](/images/gen2/fullstack-branching/monorepo.png)
+
+1. Your build settings should be automatically detected. Save and deploy
+
+## Deploy frontend apps
+
+1. For the frontend apps, connect the frontend projects in the Amplify console separately, and update the build commands to include:
+
+```
+npx amplify generate config --branch main --app-id BACKEND-APP
+```
+
+- `BACKEND-APP` is the `app-id` for your backend app. You can find this by going to the Amplify console and navigating to _backend-app > App settings > App ARN_ and copying the ID located at the end of the string `arn:aws:amplify:<region>:<account-id>:apps/app-id`.

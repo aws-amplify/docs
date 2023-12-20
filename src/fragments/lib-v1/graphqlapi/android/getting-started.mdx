@@ -1,10 +1,11 @@
 > ### Prerequisites
-> * An [Android project](https://developer.android.com/training/basics/firstapp/creating-project) targeting Android API level 21 (Android 5.0) or above
-> * [Install and configure](/cli/start/install) the Amplify CLI
+>
+> - An [Android project](https://developer.android.com/training/basics/firstapp/creating-project) targeting Android API level 21 (Android 5.0) or above
+> - [Install and configure](/[platform]/tools/cli/start/set-up-cli/) the Amplify CLI
 
 ## GraphQL API with Amplify
 
-The Amplify API category provides a solution for making HTTP requests to REST and GraphQL endpoints.  For GraphQL, it supports [AWS AppSync](https://aws.amazon.com/appsync/).
+The Amplify API category provides a solution for making HTTP requests to REST and GraphQL endpoints. For GraphQL, it supports [AWS AppSync](https://aws.amazon.com/appsync/).
 
 ## Create GraphQL API service
 
@@ -27,6 +28,7 @@ amplify add api
 ```
 
 This will create the following schema for us to get started with:
+
 ```graphql
 type Blog @model {
   id: ID!
@@ -76,7 +78,7 @@ The following types do not have '@auth' enabled. Consider using @auth with @mode
      - Blog
      - Post
      - Comment
-Learn more about [@auth here](/cli/graphql/authorization-rules).
+Learn more about [@auth here](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/).
 
 GraphQL schema compiled successfully.
 ```
@@ -107,6 +109,7 @@ dependencies {
   coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
 ```
+
 Also in your **app** `build.gradle`, add this piece of code to support the Java 8 features Amplify uses:
 
 ```groovy

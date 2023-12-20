@@ -1,108 +1,148 @@
-<!-- TODO Rewrite this whole page can benefit from a refactor and breaking out some of the pieces into their own sub pages. -->
+{/* TODO Rewrite this whole page can benefit from a refactor and breaking out some of the pieces into their own sub pages. */}
 
-import js0 from "/src/fragments/lib/datastore/js/data-access/importing-datastore-snippet.mdx";
+import js0 from '/src/fragments/lib/datastore/js/data-access/importing-datastore-snippet.mdx';
 
-<Fragments fragments={{js: js0}} />
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
 
-import reactnative0 from "/src/fragments/lib/datastore/js/data-access/importing-datastore-snippet.mdx";
+import reactnative0 from '/src/fragments/lib/datastore/js/data-access/importing-datastore-snippet.mdx';
 
-<Fragments fragments={{'react-native': reactnative0}} />
+<Fragments fragments={{ 'react-native': reactnative0 }} />
 
 ## Create and update
 
 To write data to the DataStore, pass an instance of a model to `Amplify.DataStore.save()`:
 
-import js1 from "/src/fragments/lib/datastore/js/data-access/save-snippet.mdx";
+import js1 from '/src/fragments/lib/datastore/js/data-access/save-snippet.mdx';
 
-<Fragments fragments={{js: js1}} />
+<Fragments
+  fragments={{
+    javascript: js1,
+    angular: js1,
+    nextjs: js1,
+    react: js1,
+    vue: js1
+  }}
+/>
 
-import reactnative1 from "/src/fragments/lib/datastore/js/data-access/save-snippet.mdx";
+import reactnative1 from '/src/fragments/lib/datastore/js/data-access/save-snippet.mdx';
 
-<Fragments fragments={{'react-native': reactnative1}} />
+<Fragments fragments={{ 'react-native': reactnative1 }} />
 
-import ios2 from "/src/fragments/lib/datastore/ios/data-access/save-snippet.mdx";
+import ios2 from '/src/fragments/lib/datastore/ios/data-access/save-snippet.mdx';
 
-<Fragments fragments={{ios: ios2}} />
+<Fragments fragments={{ swift: ios2 }} />
 
-import android3 from "/src/fragments/lib/datastore/android/data-access/save-snippet.mdx";
+import android3 from '/src/fragments/lib/datastore/android/data-access/save-snippet.mdx';
 
-<Fragments fragments={{android: android3}} />
+<Fragments fragments={{ android: android3 }} />
 
-import flutter4 from "/src/fragments/lib/datastore/flutter/data-access/save-snippet.mdx";
+import flutter4 from '/src/fragments/lib/datastore/flutter/data-access/save-snippet.mdx';
 
-<Fragments fragments={{flutter: flutter4}} />
+<Fragments fragments={{ flutter: flutter4 }} />
 
 The `save` method creates a new record, or in the event that one already exists in the local store, it updates the record.
 
-import js5 from "/src/fragments/lib/datastore/js/data-access/update-snippet.mdx";
+import js5 from '/src/fragments/lib/datastore/js/data-access/update-snippet.mdx';
 
-<Fragments fragments={{js: js5}} />
+<Fragments
+  fragments={{
+    javascript: js5,
+    angular: js5,
+    nextjs: js5,
+    react: js5,
+    vue: js5
+  }}
+/>
 
-import ios6 from "/src/fragments/lib/datastore/ios/data-access/update-snippet.mdx";
+import ios6 from '/src/fragments/lib/datastore/ios/data-access/update-snippet.mdx';
 
-<Fragments fragments={{ios: ios6}} />
+<Fragments fragments={{ swift: ios6 }} />
 
-import android7 from "/src/fragments/lib/datastore/android/data-access/update-snippet.mdx";
+import android7 from '/src/fragments/lib/datastore/android/data-access/update-snippet.mdx';
 
-<Fragments fragments={{android: android7}} />
+<Fragments fragments={{ android: android7 }} />
 
-import flutter8 from "/src/fragments/lib/datastore/flutter/data-access/update-snippet.mdx";
+import flutter8 from '/src/fragments/lib/datastore/flutter/data-access/update-snippet.mdx';
 
-<Fragments fragments={{flutter: flutter8}} />
+<Fragments fragments={{ flutter: flutter8 }} />
 
-<!-- TODO Rewrite adding this callout in the middle of the first page after getting started is a bit jarring. We should find another home for this caveat. -->
+{/* TODO Rewrite adding this callout in the middle of the first page after getting started is a bit jarring. We should find another home for this caveat. */}
 
 <Callout warning>
 
-  **Avoid working with stale data!**
+**Avoid working with stale data!**
 
-  Model instances which store values, such as those from the results of a `DataStore.Query` operation, can become stale and outdated when their properties are updated. This can be the result of a manual change or even a side effect of [real time data](/lib/datastore/sync#distributed-data) being received by the application. In order to ensure you are performing mutations on the latest committed state to the system, either perform a query directly before the `DataStore.save()` operation or observe the model to keep the state updated at all times and perform mutations on that latest state referencing the model instance. The preceding example demonstrates one approach. The following example demonstrates the `observeQuery` approach.
+Model instances which store values, such as those from the results of a `DataStore.Query` operation, can become stale and outdated when their properties are updated. This can be the result of a manual change or even a side effect of [real time data](/[platform]/build-a-backend/more-features/datastore/sync-to-cloud/#distributed-data) being received by the application. In order to ensure you are performing mutations on the latest committed state to the system, either perform a query directly before the `DataStore.save()` operation or observe the model to keep the state updated at all times and perform mutations on that latest state referencing the model instance. The preceding example demonstrates one approach. The following example demonstrates the `observeQuery` approach.
 
 </Callout>
 
-import js_observe_update from "/src/fragments/lib/datastore/js/data-access/observe-update-snippet.mdx";
+import js_observe_update from '/src/fragments/lib/datastore/js/data-access/observe-update-snippet.mdx';
 
-<Fragments fragments={{js: js_observe_update}} />
+<Fragments
+  fragments={{
+    javascript: js_observe_update,
+    angular: js_observe_update,
+    nextjs: js_observe_update,
+    react: js_observe_update,
+    vue: js_observe_update
+  }}
+/>
 
-import reactnative2 from "/src/fragments/lib/datastore/react-native/data-access/observe-update-snippet.mdx";
+import reactnative2 from '/src/fragments/lib/datastore/react-native/data-access/observe-update-snippet.mdx';
 
-<Fragments fragments={{'react-native': reactnative2}} />
+<Fragments fragments={{ 'react-native': reactnative2 }} />
 
-import ios_observe_update from "/src/fragments/lib/datastore/ios/data-access/observe-update-snippet.mdx";
+import ios_observe_update from '/src/fragments/lib/datastore/ios/data-access/observe-update-snippet.mdx';
 
-<Fragments fragments={{ios: ios_observe_update}} />
+<Fragments fragments={{ swift: ios_observe_update }} />
 
-import android_observe_update from "/src/fragments/lib/datastore/android/data-access/observe-update-snippet.mdx";
+import android_observe_update from '/src/fragments/lib/datastore/android/data-access/observe-update-snippet.mdx';
 
-<Fragments fragments={{android: android_observe_update}} />
+<Fragments fragments={{ android: android_observe_update }} />
 
-import flutter_observe_update from "/src/fragments/lib/datastore/flutter/data-access/observe-update-snippet.mdx";
+import flutter_observe_update from '/src/fragments/lib/datastore/flutter/data-access/observe-update-snippet.mdx';
 
-<Fragments fragments={{flutter: flutter_observe_update}} />
+<Fragments fragments={{ flutter: flutter_observe_update }} />
 
 ## Delete
 
 To delete an item, simply pass in an instance.
 
-import js9 from "/src/fragments/lib/datastore/js/data-access/delete-snippet.mdx";
+import js9 from '/src/fragments/lib/datastore/js/data-access/delete-snippet.mdx';
 
-<Fragments fragments={{js: js9}} />
+<Fragments
+  fragments={{
+    javascript: js9,
+    angular: js9,
+    nextjs: js9,
+    react: js9,
+    vue: js9
+  }}
+/>
 
-import reactnative3 from "/src/fragments/lib/datastore/js/data-access/delete-snippet.mdx";
+import reactnative3 from '/src/fragments/lib/datastore/js/data-access/delete-snippet.mdx';
 
-<Fragments fragments={{'react-native': reactnative3}} />
+<Fragments fragments={{ 'react-native': reactnative3 }} />
 
-import ios10 from "/src/fragments/lib/datastore/ios/data-access/delete-snippet.mdx";
+import ios10 from '/src/fragments/lib/datastore/ios/data-access/delete-snippet.mdx';
 
-<Fragments fragments={{ios: ios10}} />
+<Fragments fragments={{ swift: ios10 }} />
 
-import android11 from "/src/fragments/lib/datastore/android/data-access/delete-snippet.mdx";
+import android11 from '/src/fragments/lib/datastore/android/data-access/delete-snippet.mdx';
 
-<Fragments fragments={{android: android11}} />
+<Fragments fragments={{ android: android11 }} />
 
-import flutter12 from "/src/fragments/lib/datastore/flutter/data-access/delete-snippet.mdx";
+import flutter12 from '/src/fragments/lib/datastore/flutter/data-access/delete-snippet.mdx';
 
-<Fragments fragments={{flutter: flutter12}} />
+<Fragments fragments={{ flutter: flutter12 }} />
 
 ## Query Data
 
@@ -110,161 +150,224 @@ Queries are performed against the _local store_. When cloud synchronization is e
 
 For more advanced filtering, such as matching arbitrary field values on an object, you can supply a query predicate.
 
-import js13 from "/src/fragments/lib/datastore/js/data-access/query-basic-snippet.mdx";
+import js13 from '/src/fragments/lib/datastore/js/data-access/query-basic-snippet.mdx';
 
-<Fragments fragments={{js: js13}} />
+<Fragments
+  fragments={{
+    javascript: js13,
+    angular: js13,
+    nextjs: js13,
+    react: js13,
+    vue: js13
+  }}
+/>
 
-import reactnative4 from "/src/fragments/lib/datastore/js/data-access/query-basic-snippet.mdx";
+import reactnative4 from '/src/fragments/lib/datastore/js/data-access/query-basic-snippet.mdx';
 
-<Fragments fragments={{'react-native': reactnative4}} />
+<Fragments fragments={{ 'react-native': reactnative4 }} />
 
-import ios14 from "/src/fragments/lib/datastore/ios/data-access/query-basic-snippet.mdx";
+import ios14 from '/src/fragments/lib/datastore/ios/data-access/query-basic-snippet.mdx';
 
-<Fragments fragments={{ios: ios14}} />
+<Fragments fragments={{ swift: ios14 }} />
 
-import android15 from "/src/fragments/lib/datastore/android/data-access/query-basic-snippet.mdx";
+import android15 from '/src/fragments/lib/datastore/android/data-access/query-basic-snippet.mdx';
 
-<Fragments fragments={{android: android15}} />
+<Fragments fragments={{ android: android15 }} />
 
-import flutter16 from "/src/fragments/lib/datastore/flutter/data-access/query-basic-snippet.mdx";
+import flutter16 from '/src/fragments/lib/datastore/flutter/data-access/query-basic-snippet.mdx';
 
-<Fragments fragments={{flutter: flutter16}} />
+<Fragments fragments={{ flutter: flutter16 }} />
 
-import js17 from "/src/fragments/lib/datastore/js/data-access/query-single-item-snippet.mdx";
+import js17 from '/src/fragments/lib/datastore/js/data-access/query-single-item-snippet.mdx';
 
-<Fragments fragments={{js: js17}} />
+<Fragments
+  fragments={{
+    javascript: js17,
+    angular: js17,
+    nextjs: js17,
+    react: js17,
+    vue: js17
+  }}
+/>
 
 ### Predicates
 
 Predicates are filters that can be used to match items in the DataStore. When applied to a query(), they constrain the returned results. When applied to a save(), they act as a pre-requisite for updating the data. You can match against fields in your schema by using the following predicates:
 
-import jsPredicates from "/src/fragments/lib/datastore/js/data-access/query-predicate-types.mdx";
+import jsPredicates from '/src/fragments/lib/datastore/js/data-access/query-predicate-types.mdx';
 
-<Fragments fragments={{js: jsPredicates}} />
+<Fragments
+  fragments={{
+    javascript: jsPredicates,
+    angular: jsPredicates,
+    nextjs: jsPredicates,
+    react: jsPredicates,
+    vue: jsPredicates
+  }}
+/>
 
-import iOSPredicates from "/src/fragments/lib/datastore/ios/data-access/query-predicate-types.mdx";
+import iOSPredicates from '/src/fragments/lib/datastore/ios/data-access/query-predicate-types.mdx';
 
-<Fragments fragments={{ios: iOSPredicates}} />
+<Fragments fragments={{ swift: iOSPredicates }} />
 
-import androidPredicates from "/src/fragments/lib/datastore/android/data-access/query-predicate-types.mdx";
+import androidPredicates from '/src/fragments/lib/datastore/android/data-access/query-predicate-types.mdx';
 
-<Fragments fragments={{android: androidPredicates}} />
+<Fragments fragments={{ android: androidPredicates }} />
 
-import flutterPredicates from "/src/fragments/lib/datastore/flutter/data-access/query-predicate-types.mdx";
+import flutterPredicates from '/src/fragments/lib/datastore/flutter/data-access/query-predicate-types.mdx';
 
-<Fragments fragments={{flutter: flutterPredicates}} />
+<Fragments fragments={{ flutter: flutterPredicates }} />
 
 For example if you wanted a list of all `Post` Models that have a `rating` greater than 4:
 
-import js18 from "/src/fragments/lib/datastore/js/data-access/query-predicate-snippet.mdx";
+import js18 from '/src/fragments/lib/datastore/js/data-access/query-predicate-snippet.mdx';
 
-<Fragments fragments={{js: js18}} />
+<Fragments
+  fragments={{
+    javascript: js18,
+    angular: js18,
+    nextjs: js18,
+    react: js18,
+    vue: js18
+  }}
+/>
 
-import reactnative5 from "/src/fragments/lib/datastore/js/data-access/query-predicate-snippet.mdx";
+import reactnative5 from '/src/fragments/lib/datastore/js/data-access/query-predicate-snippet.mdx';
 
-<Fragments fragments={{'react-native': reactnative5}} />
+<Fragments fragments={{ 'react-native': reactnative5 }} />
 
-import ios19 from "/src/fragments/lib/datastore/ios/data-access/query-predicate-snippet.mdx";
+import ios19 from '/src/fragments/lib/datastore/ios/data-access/query-predicate-snippet.mdx';
 
-<Fragments fragments={{ios: ios19}} />
+<Fragments fragments={{ swift: ios19 }} />
 
-import android20 from "/src/fragments/lib/datastore/android/data-access/query-predicate-snippet.mdx";
+import android20 from '/src/fragments/lib/datastore/android/data-access/query-predicate-snippet.mdx';
 
-<Fragments fragments={{android: android20}} />
+<Fragments fragments={{ android: android20 }} />
 
-import flutter21 from "/src/fragments/lib/datastore/flutter/data-access/query-predicate-snippet.mdx";
+import flutter21 from '/src/fragments/lib/datastore/flutter/data-access/query-predicate-snippet.mdx';
 
-<Fragments fragments={{flutter: flutter21}} />
+<Fragments fragments={{ flutter: flutter21 }} />
 
-Multiple conditions can also be used, like the ones defined in [GraphQL Transform condition statements](/cli/graphql/data-modeling). For example, fetch all posts that have a rating greater than `4` and are `ACTIVE`:
+Multiple conditions can also be used, like the ones defined in [GraphQL Transform condition statements](/[platform]/build-a-backend/graphqlapi/data-modeling/). For example, fetch all posts that have a rating greater than `4` and are `ACTIVE`:
 
-import js22 from "/src/fragments/lib/datastore/js/data-access/query-predicate-multiple-snippet.mdx";
+import js22 from '/src/fragments/lib/datastore/js/data-access/query-predicate-multiple-snippet.mdx';
 
-<Fragments fragments={{js: js22}} />
+<Fragments
+  fragments={{
+    javascript: js22,
+    angular: js22,
+    nextjs: js22,
+    react: js22,
+    vue: js22
+  }}
+/>
 
-import reactnative6 from "/src/fragments/lib/datastore/js/data-access/query-predicate-multiple-snippet.mdx";
+import reactnative6 from '/src/fragments/lib/datastore/js/data-access/query-predicate-multiple-snippet.mdx';
 
-<Fragments fragments={{'react-native': reactnative6}} />
+<Fragments fragments={{ 'react-native': reactnative6 }} />
 
-import ios23 from "/src/fragments/lib/datastore/ios/data-access/query-predicate-multiple-snippet.mdx";
+import ios23 from '/src/fragments/lib/datastore/ios/data-access/query-predicate-multiple-snippet.mdx';
 
-<Fragments fragments={{ios: ios23}} />
+<Fragments fragments={{ swift: ios23 }} />
 
-import android24 from "/src/fragments/lib/datastore/android/data-access/query-predicate-multiple-snippet.mdx";
+import android24 from '/src/fragments/lib/datastore/android/data-access/query-predicate-multiple-snippet.mdx';
 
-<Fragments fragments={{android: android24}} />
+<Fragments fragments={{ android: android24 }} />
 
-import flutter25 from "/src/fragments/lib/datastore/flutter/data-access/query-predicate-multiple-snippet.mdx";
+import flutter25 from '/src/fragments/lib/datastore/flutter/data-access/query-predicate-multiple-snippet.mdx';
 
-<Fragments fragments={{flutter: flutter25}} />
+<Fragments fragments={{ flutter: flutter25 }} />
 
 Alternatively, the `or` logical operator can also be used:
 
-import js26 from "/src/fragments/lib/datastore/js/data-access/query-predicate-or-snippet.mdx";
+import js26 from '/src/fragments/lib/datastore/js/data-access/query-predicate-or-snippet.mdx';
 
-<Fragments fragments={{js: js26}} />
+<Fragments
+  fragments={{
+    javascript: js26,
+    angular: js26,
+    nextjs: js26,
+    react: js26,
+    vue: js26
+  }}
+/>
 
-import reactnative7 from "/src/fragments/lib/datastore/js/data-access/query-predicate-or-snippet.mdx";
+import reactnative7 from '/src/fragments/lib/datastore/js/data-access/query-predicate-or-snippet.mdx';
 
-<Fragments fragments={{'react-native': reactnative7}} />
+<Fragments fragments={{ 'react-native': reactnative7 }} />
 
-import ios27 from "/src/fragments/lib/datastore/ios/data-access/query-predicate-or-snippet.mdx";
+import ios27 from '/src/fragments/lib/datastore/ios/data-access/query-predicate-or-snippet.mdx';
 
-<Fragments fragments={{ios: ios27}} />
+<Fragments fragments={{ swift: ios27 }} />
 
-import android28 from "/src/fragments/lib/datastore/android/data-access/query-predicate-or-snippet.mdx";
+import android28 from '/src/fragments/lib/datastore/android/data-access/query-predicate-or-snippet.mdx';
 
-<Fragments fragments={{android: android28}} />
+<Fragments fragments={{ android: android28 }} />
 
-import flutter29 from "/src/fragments/lib/datastore/flutter/data-access/query-predicate-or-snippet.mdx";
+import flutter29 from '/src/fragments/lib/datastore/flutter/data-access/query-predicate-or-snippet.mdx';
 
-<Fragments fragments={{flutter: flutter29}} />
+<Fragments fragments={{ flutter: flutter29 }} />
 
-import js30 from "/src/fragments/lib/datastore/native_common/sort.mdx";
+import js30 from '/src/fragments/lib/datastore/native_common/sort.mdx';
 
-<Fragments fragments={{js: js30}} />
+<Fragments
+  fragments={{
+    javascript: js30,
+    angular: js30,
+    nextjs: js30,
+    react: js30,
+    vue: js30
+  }}
+/>
 
-import ios31 from "/src/fragments/lib/datastore/native_common/sort.mdx";
+import ios31 from '/src/fragments/lib/datastore/native_common/sort.mdx';
 
-<Fragments fragments={{ios: ios31}} />
+<Fragments fragments={{ swift: ios31 }} />
 
-import android32 from "/src/fragments/lib/datastore/native_common/sort.mdx";
+import android32 from '/src/fragments/lib/datastore/native_common/sort.mdx';
 
-<Fragments fragments={{android: android32}} />
+<Fragments fragments={{ android: android32 }} />
 
-import flutter33 from "/src/fragments/lib/datastore/native_common/sort.mdx";
+import flutter33 from '/src/fragments/lib/datastore/native_common/sort.mdx';
 
-<Fragments fragments={{flutter: flutter33}} />
+<Fragments fragments={{ flutter: flutter33 }} />
 
 ### Pagination
 
 Query results can also be paginated by passing in a `page` number (starting at 0) and an optional `limit` (defaults to 100). This will return a list of the first 100 items:
 
-import js34 from "/src/fragments/lib/datastore/js/data-access/query-pagination-snippet.mdx";
+import js34 from '/src/fragments/lib/datastore/js/data-access/query-pagination-snippet.mdx';
 
-<Fragments fragments={{js: js34}} />
+<Fragments
+  fragments={{
+    javascript: js34,
+    angular: js34,
+    nextjs: js34,
+    react: js34,
+    vue: js34
+  }}
+/>
 
-import reactnative8 from "/src/fragments/lib/datastore/js/data-access/query-pagination-snippet.mdx";
+import reactnative8 from '/src/fragments/lib/datastore/js/data-access/query-pagination-snippet.mdx';
 
-<Fragments fragments={{'react-native': reactnative8}} />
+<Fragments fragments={{ 'react-native': reactnative8 }} />
 
-import ios35 from "/src/fragments/lib/datastore/ios/data-access/query-pagination-snippet.mdx";
+import ios35 from '/src/fragments/lib/datastore/ios/data-access/query-pagination-snippet.mdx';
 
-<Fragments fragments={{ios: ios35}} />
+<Fragments fragments={{ swift: ios35 }} />
 
-import android36 from "/src/fragments/lib/datastore/android/data-access/query-pagination-snippet.mdx";
+import android36 from '/src/fragments/lib/datastore/android/data-access/query-pagination-snippet.mdx';
 
-<Fragments fragments={{android: android36}} />
+<Fragments fragments={{ android: android36 }} />
 
-import flutter37 from "/src/fragments/lib/datastore/flutter/data-access/query-pagination-snippet.mdx";
+import flutter37 from '/src/fragments/lib/datastore/flutter/data-access/query-pagination-snippet.mdx';
 
-<Fragments fragments={{flutter: flutter37}} />
+<Fragments fragments={{ flutter: flutter37 }} />
 
 ### Query, then observe changes
 
 <Callout>
 
-  To both query _and_ observe subsequent changes to a Model, consider using
-  [`observeQuery`](/lib/datastore/real-time#displaying-data-during-the-sync-process-with-observequery).
+To both query _and_ observe subsequent changes to a Model, consider using [`observeQuery`](/[platform]/build-a-backend/more-features/datastore/real-time/#displaying-data-during-the-sync-process-with-observequery).
 
 </Callout>

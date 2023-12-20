@@ -1,0 +1,169 @@
+export const meta = {
+  title: 'Cross-account deployments',
+  description:
+    'Set up a cross-account deployment pipeline powered by Amazon CodeCatalyst and AWS Amplify Hosting.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+This guide walks you through how to create a trunk-based, multi-region deployment pipeline for applications built using AWS Amplify (Gen 2). We will be using Amazon CodeCatalyst and AWS Amplify Hosting in this guide, but you can choose any CI/CD provider.
+
+<Callout info>
+
+**Note**: You can deploy this custom pipeline either in the us-west-2 or eu-west-1 Regions, as Amazon CodeCatalyst is currently only available in those two [AWS Regions](https://docs.aws.amazon.com/general/latest/gr/codecatalyst.html).
+
+</Callout>
+
+### Step 1: Set up an Amazon CodeCatalyst space
+
+Please refer to this Amazon CodeCatalyst [guide](https://docs.aws.amazon.com/codecatalyst/latest/userguide/setting-up-topnode.html) for a detailed step-by-step walkthrough to set up your [space](https://docs.aws.amazon.com/codecatalyst/latest/userguide/spaces.html).
+
+### Step 2: Deploy an app using Amplify (Gen 2)
+
+- Sign in to the [AWS Management Console](https://console.aws.amazon.com/).
+- Navigate to the [app creation page](https://us-west-2.console.aws.amazon.com/amplify/create) for Amplify (Gen 2).
+- Select the **Next.js-Amplify starter** app, then select **Next**.
+- Review the details on the **Create Git Repository** page, then select **Save and deploy**.
+- Done! You have successfully deployed a Gen-2 app. You can review the status of the app deployment in the Amplify (Gen 2) console.
+
+![Screenshot of completed deployment in AWS Amplify (Gen 2) console](images/gen2/cross-account-deployments/pipeline1.png)
+
+### Step 3: Update build specification
+
+Add the `npx amplify generate config --branch $AWS_BRANCH --app-id $AWS_APP_ID` command to the build spec and comment out the `npx amplify pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID` command. `amplify pipeline-deploy` runs a script to deploy backend updates, while `amplify generate config` fetches the latest `amplifyconfiguration.json` for the specified environment.
+
+![Screenshot of Build image settings section in AWS Amplify (Gen 2) console, with details about the app build specification](images/gen2/cross-account-deployments/pipeline10.png)
+
+### Step 4: Disable automatic builds on the branch
+
+You can configure Amplify to disable automatic builds on every code commit. Navigate to the app in the Amplify (Gen 2) console. Under **App settings**, select **Repository settings**. From the **Branches** section, select the branch and then choose **Disable auto build** from the **Actions** dropdown menu.
+
+![Screenshot of the Repository settings section in the Amplify (Gen 2) console, highlighting the selection of Disable auto build in the Actions dropdown menu](images/gen2/cross-account-deployments/pipeline9.png)
+
+### Step 5: Create an incoming webhook
+
+You can set up an incoming webhook to trigger a build without committing code to your Git repository. Currently, the Amplify (Gen 2) console does not support creation of incoming webhooks. However, you can create a webhook for a Gen-2 app using the AWS CLI by running the [`create-webhook`](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/amplify/create-webhook.html) command:
+
+```bash
+aws amplify create-webhook --app-id <value> --branch-name <value> --region <value>
+```
+
+After running this command successfully, you should see a response similar to the following:
+
+```
+{
+    "webhook": {
+        "webhookArn": "arn:aws:amplify:REGION:ACCOUNT:apps/APP-ID/webhooks/webhookId",
+        "webhookId": "value",
+        "webhookUrl": "https://webhooks.amplify.us-west-2.amazonaws.com/prod/webhooks?id=webhookId&token=value",
+        "branchName": "main",
+        "createTime": "2023-11-18T10:16:18.880000-08:00",
+        "updateTime": "2023-11-18T10:16:18.880000-08:00"
+    }
+}
+```
+
+Next, you will need to construct a `curl` command that uses the `webhookId` to trigger a build:
+
+```
+curl -X POST -d {} "`webhookUrl`&operation=startbuild" -H "Content-Type:application/json"
+```
+
+### Step 6: Create a new Amazon CodeCatalyst project
+
+Please refer to this Amazon CodeCatalyst [guide](https://docs.aws.amazon.com/codecatalyst/latest/userguide/projects-create.html#projects-create-github) for a detailed step-by-step walkthrough to create a new [project](https://docs.aws.amazon.com/codecatalyst/latest/userguide/projects.html).
+
+<Callout info>
+
+**Note**: When creating your project, select the **amplify-nextjs-starter-app** GitHub repository, which we used to deploy the Gen-2 app in Step 2.
+
+</Callout>
+
+![Screenshot of CodeCatalyst console showing Source repositories section](images/gen2/cross-account-deployments/pipeline2.png)
+
+### Step 7: Set up the resources in a different or target AWS account
+
+To achieve a cross-account deployment, you will need to implement Steps 1 through 6 outlined previously in this guide in a different AWS account (for example, `production` account).
+
+### Step 8: Add the target AWS account to the CodeCatalyst space
+
+Navigate to the CodeCatalyst space created as part of Step 1, select **Settings**, and then select **AWS accounts**. Add the target **AWS account ID** (Step 7) to it and select **Associate AWS account**.
+
+![Screenshot of CodeCatalyst console showing details of the Associate AWS account section](images/gen2/cross-account-deployments/pipeline12.png)
+
+You will also need to create an IAM role in the target AWS account which will be assumed by the `staging` environment to perform actions and deploy resources in the `production` environment. As a best practice, we recommend attaching the [`AmplifyBackendDeployFullAccess`](https://docs.aws.amazon.com/amplify/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-AmplifyBackendDeployFullAccess) AWS managed policy to the IAM role as it contains all the required permissions to deploy Gen-2 resources in your account. You can learn more about adding IAM roles to account connections in the CodeCatalyst [documentation](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-connect-account-addroles.html).
+
+### Step 9: Create a workflow in the Amazon CodeCatalyst project
+
+A workflow is an automated procedure that describes how to build, test, and deploy your code as part of a continuous integration and continuous delivery (CI/CD) system. You can learn more about workflows in the [Amazon CodeCatalyst User Guide](https://docs.aws.amazon.com/codecatalyst/latest/userguide/flows.html).
+
+- Within the CodeCatalyst project, navigate to the **CI/CD** feature and select **Workflows**.
+- Select **Create workflow**.
+- Choose the **amplify-nextjs-starter-app** GitHub repository and the branch **main** from the dropdown menu.
+- Next, select **Create**.
+
+![Screenshot of the CodeCatalyst console showing details of the Create workflow dialog box](images/gen2/cross-account-deployments/pipeline3.png)
+
+Once you create the workflow, you should see a **yaml** editor in the CodeCatalyst console.
+
+![Screenshot of yaml editor in CodeCatalyst console](images/gen2/cross-account-deployments/pipeline4.png)
+
+Switch the experience in the console to the **Visual** editor. Select the **Actions** button to see a list of workflow actions that you can add to your workflow.
+
+![Screenshot of CodeCatalyst console showing the Workflows section with +Actions highlighted](images/gen2/cross-account-deployments/pipeline5.png)
+
+Add the **Build** action to the workflow and select the **Add variable** button in the **Inputs** section. Add the following environment variables to it:
+
+- AWS_APP_ID_STAGING: `amplify app id for staging app`
+- AWS_APP_ID_PRODUCTION: `amplify app id for production app`
+- AWS_BRANCH: `git branch name`
+
+![Screenshot of CodeCatalyst console showing the Workflows section, focusing on Inputs for the build](images/gen2/cross-account-deployments/pipeline13.png)
+
+Add another **Build** action to the workflow and select the **Depends on** button in the **Inputs** section. From the dropdown menu, select the name of the previous build action to set up the pipeline.
+
+![Screenshot of CodeCatalyst console showing the Workflows section, focusing on the visual workflow and the Inputs section](images/gen2/cross-account-deployments/pipeline14.png)
+
+Next, select the **Configuration** section and add the following information to each of the build actions:
+
+- Environment information (optional): `staging, production, etc.`
+- AWS account connection: `your account connection`
+- Role: `role setup with your account connection`
+
+![Screenshot of CodeCatalyst console showing the Workflows section, focusing on the Configuration section](images/gen2/cross-account-deployments/pipeline8.png)
+
+You will then need to add the following shell commands to each of the build actions:
+
+```bash
+// This environment variable is required to run the pipeline-deploy command in a non Amplify CI environment
+- Run: export CI=1
+
+// Perform a clean install of the dependencies
+- Run: npm ci
+
+// Deploy the backend for your Amplify Gen 2 app
+- Run: npx amplify pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+
+// Trigger frontend build using incoming webhooks
+- Run: if [ $AWS_BRANCH = "main" ]; then curl -X POST -d {} "`webhookUrl`&operation=startbuild" -H "Content-Type:application/json"; fi
+```
+
+You can now run **Validate** to ensure your workflow definition `yaml` file is valid. Lastly, select **Commit** to save your changes.
+
+<Callout info>
+
+**Note**: Since workflows are saved as commits, and this workflow has a code push trigger enabled, committing the workflow will automatically start a new workflow run.
+
+</Callout>
+
+Next, you can review the result of the workflow run from the **Runs** tab:
+
+![Screenshot of CodeCatalyst console showing the Workflows section, focusing on the Runs tab](images/gen2/cross-account-deployments/pipeline11.png)
+
+Done! You have successfully set up a custom cross-account pipeline to deploy your frontend and backend for apps built using Amplify (Gen 2). To summarize, this custom pipeline will enable you to deploy your backend initially with your `staging` environment using `amplify pipeline-deploy` in the CodeCatalyst workflow and `amplify generate config` will generate the `amplifyconfiguration.json` file for the `main` branch. Amplify Hosting will not deploy backend resources as part of the build and instead will use the deployed backend resources from the `main` branch. Once the staging environment deploys successfully, a similar process will be followed to deploy your `production` environment in a different AWS account.

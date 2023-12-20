@@ -1,12 +1,12 @@
- When adding the Storage category, you configure the level of access users have to your S3 bucket. You can configure separate rules for authenticated vs. guest users. When using the Storage category to upload files, you can also specify an access level for each individual file: guest, protected, or private.
+When adding the Storage category, you configure the level of access users have to your S3 bucket. You can configure separate rules for authenticated vs. guest users. When using the Storage category to upload files, you can also specify an access level for each individual file: guest, protected, or private.
 
 - **Guest** Accessible by all users of your application
 - **Protected** Readable by all users, but only writable by the creating user
 - **Private** Readable and writable only by the creating user
 
-Guest access does **not** mean that your files are totally public. A "guest" is a user of your application who has not yet signed in. To enable access at this level, you will still be required to configured [Authentication](/lib-v1/auth/getting-started) in your app. The user must be able to assume an unauthenticated role from your Cognito Identity Pool.
+Guest access does **not** mean that your files are totally public. A "guest" is a user of your application who has not yet signed in. To enable access at this level, you will still be required to configured [Authentication](/[platform]/prev/build-a-backend/auth/set-up-auth/) in your app. The user must be able to assume an unauthenticated role from your Cognito Identity Pool.
 
-For protected and private access, the `[IDENTITY_ID]` below corresponds to the unique ID of the user. Once the user has signed in, the `[IDENTITY_ID]` can be retrieved from the session by accessing the identity id. See [Accessing credentials](/lib-v1/auth/access_credentials) to retrieve the identity id, and use this as the unique ID of the authenticated user.
+For protected and private access, the `[IDENTITY_ID]` below corresponds to the unique ID of the user. Once the user has signed in, the `[IDENTITY_ID]` can be retrieved from the session by accessing the identity id. See [Accessing credentials](/[platform]/prev/build-a-backend/auth/accessing-credentials/) to retrieve the identity id, and use this as the unique ID of the authenticated user.
 
 <Callout>
 
@@ -18,70 +18,70 @@ The default access level for the Storage category is **guest**. Unless you speci
 
 After the user has signed in, create an options object specifying the `protected` access level to allow other users to read the object:
 
-import ios0 from "/src/fragments/lib-v1/storage/ios/configureaccess/10_protected_upload.mdx";
+import ios0 from '/src/fragments/lib-v1/storage/ios/configureaccess/10_protected_upload.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
-import android1 from "/src/fragments/lib-v1/storage/android/configureaccess/10_protected_upload.mdx";
+import android1 from '/src/fragments/lib-v1/storage/android/configureaccess/10_protected_upload.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ android: android1 }} />
 
-import flutter2 from "/src/fragments/lib-v1/storage/flutter/configureaccess/10_protected_upload.mdx";
+import flutter2 from '/src/fragments/lib-v1/storage/flutter/configureaccess/10_protected_upload.mdx';
 
-<Fragments fragments={{flutter: flutter2}} />
+<Fragments fragments={{ flutter: flutter2 }} />
 
 This will upload with the prefix `/protected/[IDENTITY_ID]/` followed by the key.
 
 For other users to read the file, you must specify the user ID of the creating user in the passed options.
 
-import ios3 from "/src/fragments/lib-v1/storage/ios/configureaccess/20_protected_download.mdx";
+import ios3 from '/src/fragments/lib-v1/storage/ios/configureaccess/20_protected_download.mdx';
 
-<Fragments fragments={{ios: ios3}} />
+<Fragments fragments={{ swift: ios3 }} />
 
-import android4 from "/src/fragments/lib-v1/storage/android/configureaccess/20_protected_download.mdx";
+import android4 from '/src/fragments/lib-v1/storage/android/configureaccess/20_protected_download.mdx';
 
-<Fragments fragments={{android: android4}} />
+<Fragments fragments={{ android: android4 }} />
 
-import flutter5 from "/src/fragments/lib-v1/storage/flutter/configureaccess/20_protected_download.mdx";
+import flutter5 from '/src/fragments/lib-v1/storage/flutter/configureaccess/20_protected_download.mdx';
 
-<Fragments fragments={{flutter: flutter5}} />
+<Fragments fragments={{ flutter: flutter5 }} />
 
 ## Private Access
 
 Create an options object specifying the private access level to only allow an object to be accessed by the creating user
 
-import ios6 from "/src/fragments/lib-v1/storage/ios/configureaccess/30_private_upload.mdx";
+import ios6 from '/src/fragments/lib-v1/storage/ios/configureaccess/30_private_upload.mdx';
 
-<Fragments fragments={{ios: ios6}} />
+<Fragments fragments={{ swift: ios6 }} />
 
-import android7 from "/src/fragments/lib-v1/storage/android/configureaccess/30_private_upload.mdx";
+import android7 from '/src/fragments/lib-v1/storage/android/configureaccess/30_private_upload.mdx';
 
-<Fragments fragments={{android: android7}} />
+<Fragments fragments={{ android: android7 }} />
 
-import flutter8 from "/src/fragments/lib-v1/storage/flutter/configureaccess/30_private_upload.mdx";
+import flutter8 from '/src/fragments/lib-v1/storage/flutter/configureaccess/30_private_upload.mdx';
 
-<Fragments fragments={{flutter: flutter8}} />
+<Fragments fragments={{ flutter: flutter8 }} />
 
 This will upload with the prefix `/private/[IDENTITY_ID]/`, followed by the key.
 
 For the user to read the file, specify the same access level (`private`) and key you used to upload:
 
-import ios9 from "/src/fragments/lib-v1/storage/ios/configureaccess/40_private_download.mdx";
+import ios9 from '/src/fragments/lib-v1/storage/ios/configureaccess/40_private_download.mdx';
 
-<Fragments fragments={{ios: ios9}} />
+<Fragments fragments={{ swift: ios9 }} />
 
-import android10 from "/src/fragments/lib-v1/storage/android/configureaccess/40_private_download.mdx";
+import android10 from '/src/fragments/lib-v1/storage/android/configureaccess/40_private_download.mdx';
 
-<Fragments fragments={{android: android10}} />
+<Fragments fragments={{ android: android10 }} />
 
-import flutter11 from "/src/fragments/lib-v1/storage/flutter/configureaccess/40_private_download.mdx";
+import flutter11 from '/src/fragments/lib-v1/storage/flutter/configureaccess/40_private_download.mdx';
 
-<Fragments fragments={{flutter: flutter11}} />
+<Fragments fragments={{ flutter: flutter11 }} />
 
-import ios10 from "/src/fragments/lib-v1/storage/ios/configureaccess/50_customization.mdx";
+import ios10 from '/src/fragments/lib-v1/storage/ios/configureaccess/50_customization.mdx';
 
-<Fragments fragments={{ios: ios10}} />
+<Fragments fragments={{ swift: ios10 }} />
 
-import android11 from "/src/fragments/lib-v1/storage/android/configureaccess/50_customization.mdx";
+import android11 from '/src/fragments/lib-v1/storage/android/configureaccess/50_customization.mdx';
 
-<Fragments fragments={{android: android11}} />
+<Fragments fragments={{ android: android11 }} />

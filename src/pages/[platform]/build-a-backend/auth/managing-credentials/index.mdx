@@ -1,0 +1,26 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Manage credentials',
+  description: 'Learn how to customize credential storage.',
+  platforms: ['flutter']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+
+import flutter0 from '/src/fragments/lib/auth/flutter/managing_credentials/10_managing_credentials.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />

@@ -115,7 +115,7 @@ Explicit `@primaryKey` on `id` field
 <td>
 
 ```graphql
-type Customer@model {
+type Customer @model {
   id: ID! @primaryKey
   dob: AWSDateTime!
   firstName: String
@@ -136,8 +136,7 @@ Explicit `@primaryKey` on `id` field with sort key
 
 ```graphql
 type Customer @model {
-  id: ID! @primaryKey
-    (sortKeyFields: ["dob"])
+  id: ID! @primaryKey(sortKeyFields: ["dob"])
   dob: AWSDateTime!
   firstName: String
   lastName: String
@@ -156,9 +155,8 @@ Explicit `id` field in sort key
 <td>
 
 ```graphql
-type Customer@model {  
-  country: String! @primaryKey
-    (sortKeyFields: ["id"])
+type Customer @model {
+  country: String! @primaryKey(sortKeyFields: ["id"])
   id: ID!
   firstName: String
   lastName: String
@@ -178,8 +176,7 @@ type Customer@model {
 
 ```graphql
 type Customer @model {
-  zip: String! @primaryKey
-    (sortKeyFields: ["username"])
+  zip: String! @primaryKey(sortKeyFields: ["username"])
   username: String!
   firstName: String
   lastName: String
@@ -204,11 +201,11 @@ import flutter0 from '/src/fragments/lib/datastore/flutter/advanced-workflows/cu
 
 import ios0 from '/src/fragments/lib/datastore/ios/advanced-workflows/custom-primary-key/query-snippet.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />
 
 import js0 from '/src/fragments/lib/datastore/js/advanced-workflows/custom-primary-key/query-snippet.mdx';
 
-<Fragments fragments={{ js: js0, 'react-native': js0 }} />
+<Fragments fragments={{  javascript: js0,  'react-native': js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
 
 import android1 from '/src/fragments/lib/datastore/android/advanced-workflows/custom-primary-key/delete-snippet.mdx';
 
@@ -216,12 +213,12 @@ import android1 from '/src/fragments/lib/datastore/android/advanced-workflows/cu
 
 import ios1 from '/src/fragments/lib/datastore/ios/advanced-workflows/custom-primary-key/delete-snippet.mdx';
 
-<Fragments fragments={{ ios: ios1 }} />
+<Fragments fragments={{ swift: ios1 }} />
 
 import js1 from '/src/fragments/lib/datastore/js/advanced-workflows/custom-primary-key/delete-snippet.mdx';
 
-<Fragments fragments={{ js: js1, 'react-native': js1 }} />
+<Fragments fragments={{  javascript: js1,  'react-native': js1 , angular: js1, nextjs: js1, react: js1, vue: js1 }} />
 
 import js2 from '/src/fragments/lib/datastore/js/advanced-workflows/custom-primary-key/callout-snippet.mdx';
 
-<Fragments fragments={{ js: js2, 'react-native': js2 }} />
+<Fragments fragments={{  javascript: js2,  'react-native': js2 , angular: js2, nextjs: js2, react: js2, vue: js2 }} />

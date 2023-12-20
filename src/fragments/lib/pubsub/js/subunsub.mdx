@@ -1,57 +1,44 @@
 ## Subscribe
+
 ### Subscribe to a topic
 
 In order to start receiving messages from your provider, you need to subscribe to a topic as follows;
+
 ```javascript
-PubSub.subscribe('myTopic').subscribe({
-    next: data => console.log('Message received', data),
-    error: error => console.error(error),
-    complete: () => console.log('Done'),
+pubsub.subscribe({ topics: 'myTopic' }).subscribe({
+  next: (data) => console.log('Message received', data),
+  error: (error) => console.error(error),
+  complete: () => console.log('Done')
 });
 ```
-
-If multiple providers are defined in your app you can include the specific provider you would like to subscribe to:
-```javascript
-PubSub.subscribe('myTopic', { provider: 'AWSIoTProvider' }).subscribe({
-    //...
-});
-
-PubSub.subscribe('myTopic', { provider: 'MqttOverWSProvider' }).subscribe({
-    //...
-});
-```
-
-<Callout>
-
-**Note:** If you do not include a specific provider it will subscribe to all of the configured PubSub providers in your app.
-
-</Callout>
 
 Following events will be triggered with `subscribe()`
 
-| Event      | Description                                                           | 
-| :--------: | --------------------------------------------------------------------- |
-| `next`     | Triggered every time a message is successfully received for the topic |
-| `error`    | Triggered when subscription attempt fails                             |
-| `complete` | Triggered when you unsubscribe from the topic                         |
+| Event | Description |
+| :-: | --- |
+| `next` | Triggered every time a message is successfully received for the topic |
+| `error` | Triggered when subscription attempt fails |
+| `complete` | Triggered when you unsubscribe from the topic |
 
 ### Subscribe to multiple topics
 
 To subscribe for multiple topics, just pass a String array including the topic names:
+
 ```javascript
-PubSub.subscribe(['myTopic1','myTopic1']).subscribe({
-    //...
+pubsub.subscribe({ topics: ['myTopic1', 'myTopic1'] }).subscribe({
+  //...
 });
 ```
 
 ## Unsubscribe
 
 To stop receiving messages from a topic, you can use `unsubscribe()` method:
+
 ```javascript
-const sub1 = PubSub.subscribe('myTopicA').subscribe({
-    next: data => console.log('Message received', data),
-    error: error => console.error(error),
-    complete: () => console.log('Done'),
+const sub1 = pubsub.subscribe({ topics: 'myTopicA' }).subscribe({
+  next: (data) => console.log('Message received', data),
+  error: (error) => console.error(error),
+  complete: () => console.log('Done')
 });
 
 sub1.unsubscribe();
@@ -64,7 +51,7 @@ Now that your application is setup and using pubsub subscriptions, you may want 
 
 ```typescript
 import { CONNECTION_STATE_CHANGE, ConnectionState } from '@aws-amplify/pubsub';
-import { Hub } from 'aws-amplify';
+import { Hub } from 'aws-amplify/utils';
 
 Hub.listen('pubsub', (data: any) => {
   const { payload } = data;
@@ -77,13 +64,13 @@ Hub.listen('pubsub', (data: any) => {
 
 import jsConnectionStates from '/src/fragments/lib/pubsub/js/connection-states.mdx';
 
-<Fragments fragments={{ js: jsConnectionStates }} />
+<Fragments fragments={{  javascript: jsConnectionStates , angular: jsConnectionStates, nextjs: jsConnectionStates, react: jsConnectionStates, vue: jsConnectionStates }} />
 
 ### Connection issues and automated reconnection
 
 import jsReconnectDescription from '/src/fragments/lib/pubsub/js/reconnect-description.mdx';
 
-<Fragments fragments={{ js: jsReconnectDescription }} />
+<Fragments fragments={{  javascript: jsReconnectDescription , angular: jsReconnectDescription, nextjs: jsReconnectDescription, react: jsReconnectDescription, vue: jsReconnectDescription }} />
 
 ```typescript
 const fetchRecentData = () => {
@@ -97,7 +84,7 @@ Hub.listen("pubsub", (data: any) => {
   if (
     payload.event === CONNECTION_STATE_CHANGE
   ) {
-   
+
     if (priorConnectionState === ConnectionState.Connecting && payload.data.connectionState === ConnectionState.Connected) {
       fetchRecentData();
     }
@@ -105,7 +92,7 @@ Hub.listen("pubsub", (data: any) => {
   }
 });
 
-PubSub.subscribe('myTopic').subscribe({
+pubsub.subscribe('myTopic').subscribe({
   next: data => // Process incoming messages
 })
 ```

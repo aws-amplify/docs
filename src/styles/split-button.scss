@@ -1,0 +1,17 @@
+.split-button {
+  gap: 2px;
+}
+
+.split-button__start {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  flex: 1 0 auto;
+}
+.split-button__end {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  padding-inline: var(--amplify-space-medium);
+}
+.split-button__end-icon {
+  font-size: var(--amplify-font-sizes-medium);
+}

@@ -1,10 +1,18 @@
-## Observe model mutations in real-time
+## Observe model mutations in real time
 
 You can subscribe to changes on your Models. This reacts dynamically to updates of data to the underlying Storage Engine, which could be the result of GraphQL Subscriptions as well as Queries or Mutations that run against the backing AppSync API if you are synchronizing with the cloud.
 
 import js0 from '/src/fragments/lib/datastore/js/real-time/observe-snippet.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
 
 import reactnative0 from '/src/fragments/lib/datastore/js/real-time/observe-snippet.mdx';
 
@@ -12,7 +20,7 @@ import reactnative0 from '/src/fragments/lib/datastore/js/real-time/observe-snip
 
 import ios1 from '/src/fragments/lib/datastore/ios/real-time/observe-snippet.mdx';
 
-<Fragments fragments={{ ios: ios1 }} />
+<Fragments fragments={{ swift: ios1 }} />
 
 import android2 from '/src/fragments/lib/datastore/android/real-time/observe-snippet.mdx';
 
@@ -26,17 +34,26 @@ import flutter3 from '/src/fragments/lib/datastore/flutter/real-time/observe-sni
 
 `observeQuery(...)` returns an initial data set, similar to `query(...)`, and also automatically subscribes to subsequent changes to the query.
 
-The first snapshot returned from `observeQuery` will contain the same results as calling `query` directly on your Model - a collection of all the locally-available records. Subsequent snapshots will be emitted as updates to the dataset are received in the local store.
+The first snapshot returned from `observeQuery` will contain the same results as calling `query` directly on your Model - a collection of all the locally available records. Subsequent snapshots will be emitted as updates to the dataset and received in the local store.
 
 While data is syncing from the cloud, snapshots will contain all of the items synced so far and an `isSynced` status of `false`. When the sync process is complete, a snapshot will be emitted with all the records in the local store and an `isSynced` status of `true`.
 
 In addition to typical real-time use cases, `observeQuery` can be used on app launch to show your customers an initial data set from the local store while new data is being synced from cloud.
 
-`observeQuery` also accepts the same [predicates](/lib/datastore/data-access#predicates) and [sorting](/lib/datastore/data-access#sort) options as `query`.
+
+`observeQuery` also accepts the same [predicates](/[platform]/build-a-backend/more-features/datastore/manipulate-data/#predicates) and [sorting](/[platform]/build-a-backend/more-features/datastore/manipulate-data/#sort) options as `query`.
 
 import js1 from '/src/fragments/lib/datastore/js/real-time/observe-query-snippet.mdx';
 
-<Fragments fragments={{ js: js1 }} />
+<Fragments
+  fragments={{
+    javascript: js1,
+    angular: js1,
+    nextjs: js1,
+    react: js1,
+    vue: js1
+  }}
+/>
 
 import reactnative1 from '/src/fragments/lib/datastore/js/real-time/observe-query-snippet.mdx';
 
@@ -44,7 +61,7 @@ import reactnative1 from '/src/fragments/lib/datastore/js/real-time/observe-quer
 
 import ios2 from '/src/fragments/lib/datastore/ios/real-time/observe-query-snippet.mdx';
 
-<Fragments fragments={{ ios: ios2 }} />
+<Fragments fragments={{ swift: ios2 }} />
 
 import android3 from '/src/fragments/lib/datastore/android/real-time/observe-query-snippet.mdx';
 

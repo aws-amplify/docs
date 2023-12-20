@@ -1,0 +1,37 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Sign-in with custom flow',
+  description:
+    'Use AWS Cognito Auth plugin to sign in a user into AWS Cognito User Pool using user-defined custom flow',
+  platforms: ['flutter', 'swift']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ swift: ios_maintenance }} />
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+import ios0 from '/src/fragments/lib-v1/auth/native_common/signin_with_custom_flow/common.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import flutter1 from '/src/fragments/lib-v1/auth/native_common/signin_with_custom_flow/common.mdx';
+
+<Fragments fragments={{ flutter: flutter1 }} />

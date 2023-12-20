@@ -1,4 +1,4 @@
-This section covers the client-side development experience for password and user management. To learn more about exposing administration actions to your application, click [here](/cli/auth/admin).
+This section covers the client-side development experience for password and user management. To learn more about exposing administration actions to your application, click [here](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/).
 
 ## Password operations
 
@@ -10,32 +10,34 @@ This section covers the client-side development experience for password and user
 ```ts
 import { Auth } from 'aws-amplify';
 
-async function changePassword (oldPassword: string, newPassword: string) {
+async function changePassword(oldPassword: string, newPassword: string) {
   try {
     const user = await Auth.currentAuthenticatedUser();
     const data = await Auth.changePassword(user, oldPassword, newPassword);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
+
 </Block>
 <Block name="JavaScript">
 
 ```javascript
 import { Auth } from 'aws-amplify';
 
-async function changePassword (oldPassword, newPassword) {
+async function changePassword(oldPassword, newPassword) {
   try {
     const user = await Auth.currentAuthenticatedUser();
     const data = await Auth.changePassword(user, oldPassword, newPassword);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -50,21 +52,26 @@ async function forgotPassword(username: string) {
   try {
     const data = await Auth.forgotPassword(username);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 
 // Collect confirmation code and new password
-async function forgotPasswordSubmit(username: string, code: string, newPassword: string) {
+async function forgotPasswordSubmit(
+  username: string,
+  code: string,
+  newPassword: string
+) {
   try {
     const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -76,21 +83,22 @@ async function forgotPassword(username) {
   try {
     const data = await Auth.forgotPassword(username);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-} 
+}
 
 // Collect confirmation code and new password
 async function forgotPasswordSubmit(username, code, newPassword) {
   try {
     const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -111,7 +119,7 @@ async function completeNewPassword(username: string, password: string) {
     if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
       const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
     }
-const newPassword = 'newPassword'
+    const newPassword = 'newPassword';
     const loggedInUser = await Auth.completeNewPassword(
       user, // the Cognito User Object
       newPassword, // the new password
@@ -120,14 +128,15 @@ const newPassword = 'newPassword'
         email: 'xxxx@example.com',
         phone_number: '1234567890'
       }
-    )
+    );
 
     console.log(loggedInUser);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -137,7 +146,7 @@ import { Auth } from 'aws-amplify';
 async function completeNewPassword(username, password) {
   try {
     const user = await Auth.signIn(username, password);
-const newPassword = 'newPassword'
+    const newPassword = 'newPassword';
     if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
       const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
       const loggedInUser = await Auth.completeNewPassword(
@@ -148,15 +157,16 @@ const newPassword = 'newPassword'
           email: 'xxxx@example.com',
           phone_number: '1234567890'
         }
-      )
+      );
 
       console.log(loggedInUser);
     }
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
+
 </Block>
 </BlockSwitcher>
 
@@ -173,21 +183,25 @@ async function verifyCurrentUserAttribute(attr: string) {
   try {
     await Auth.verifyCurrentUserAttribute(attr);
     console.log('a verification code is sent');
-  } catch(err) {
+  } catch (err) {
     console.log('failed with error', err);
   }
-};
+}
 
 // To verify attribute with the code
-async function verifyCurrentUserAttributeSubmit(attr: string, verificationCode: string) {
+async function verifyCurrentUserAttributeSubmit(
+  attr: string,
+  verificationCode: string
+) {
   try {
     await Auth.verifyCurrentUserAttributeSubmit(attr, verificationCode);
     console.log('phone_number verified');
-  } catch(err) {
+  } catch (err) {
     console.log('failed with error', err);
   }
-};
+}
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -197,24 +211,24 @@ async function verifyCurrentUserAttribute(attr) {
   try {
     await Auth.verifyCurrentUserAttribute(attr);
     console.log('a verification code is sent');
-  } catch(err) {
+  } catch (err) {
     console.log('failed with error', err);
   }
-};
+}
 
 // To verify attribute with the code
 async function verifyCurrentUserAttributeSubmit(attr, verificationCode) {
   try {
     await Auth.verifyCurrentUserAttribute(attr, verificationCode);
     console.log('phone_number verified');
-  } catch(err) {
+  } catch (err) {
     console.log('failed with error', err);
   }
-};
+}
 ```
+
 </Block>
 </BlockSwitcher>
-
 
 ## Retrieve current authenticated user
 
@@ -232,11 +246,12 @@ async function currentAuthenticatedUser() {
       bypassCache: false // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
     });
     console.log(user);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -248,15 +263,16 @@ async function currentAuthenticatedUser() {
     const user = Auth.currentAuthenticatedUser({
       bypassCache: false // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
     });
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
+
 </Block>
 </BlockSwitcher>
 
-This method can be used to check if a user is logged in when the page is loaded. It will throw an error if there is no user logged in. This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.](/lib/utilities/hub#authentication-events)
+This method can be used to check if a user is logged in when the page is loaded. It will throw an error if there is no user logged in. This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.](/[platform]/build-a-backend/utilities/hub/#authentication-events)
 
 ### Retrieve attributes for current authenticated user
 
@@ -279,23 +295,19 @@ async function currentSession() {
   try {
     const data = await Auth.currentSession();
     console.log(data);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
 
 ## Managing user attributes
 
-Attributes such as name, email address, phone number help you identify individual users. The Amplify JavaScript library contains 
-a set of APIs that can help you manage attributes in your user pool.
+Attributes such as name, email address, phone number help you identify individual users. The Amplify JavaScript library contains a set of APIs that can help you manage attributes in your user pool.
 
 ### Pass user attributes during sign up
 
-Amazon Cognito has a set of default standard attributes; you also have the ability to define custom attributes.
-Up to 50 custom attributes can be added to your user pool. 
-You can find a [list of all the standard attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes) and [documentation for custom attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes).
-You can pass them in the `attributes` object of `Auth.signUp` function parameters:
+Amazon Cognito has a set of default standard attributes; you also have the ability to define custom attributes. Up to 50 custom attributes can be added to your user pool. You can find a [list of all the standard attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes) and [documentation for custom attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes). You can pass them in the `attributes` object of `Auth.signUp` function parameters:
 
 ```javascript
 Auth.signUp({
@@ -325,7 +337,7 @@ const { attributes } = user;
 ```ts
 import { Auth } from 'aws-amplify';
 
-async function updateUserAttributes () {
+async function updateUserAttributes() {
   try {
     const user = await Auth.currentAuthenticatedUser();
     const result = await Auth.updateUserAttributes(user, {
@@ -333,31 +345,30 @@ async function updateUserAttributes () {
       family_name: 'Lastname'
     });
     console.log(result); // SUCCESS
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
 
 <Callout>
-Note: If you change an attribute that requires confirmation (i.e. email or phone number), you will receive a confirmation code to that attribute.
-</Callout> 
+  Note: If you change an attribute that requires confirmation (i.e. email or
+  phone number), you will receive a confirmation code to that attribute.
+</Callout>{' '}
 
-`Auth.updateUserAttributes()` function dispatches hub event to help identify attributes that require
-verification. You can listen to `updateUserAttributes` event on `auth` channel:
-
+`Auth.updateUserAttributes()` function dispatches hub event to help identify attributes that require verification. You can listen to `updateUserAttributes` event on `auth` channel:
 
 ```javascript
 import { Hub } from 'aws-amplify';
 
-Hub.listen('auth', ({payload}) => {
+Hub.listen('auth', ({ payload }) => {
   if (payload.event === 'updateUserAttributes') {
     const resultObject = payload.data;
   }
 });
 ```
 
-You can learn more about how to listen to Hub events [here](https://docs.amplify.aws/lib/utilities/hub/q/platform/js/).
+You can learn more about how to listen to Hub events [here](/[platform]/build-a-backend/utilities/hub/).
 
 Example of the dispatched `resultObject`:
 
@@ -376,16 +387,18 @@ Example of the dispatched `resultObject`:
   }
 }
 ```
-If a user sends several attributes for update and one or more of them is `read_only` or doesn't exist, the Amplify JavaScript library will throw
-an error and dispatch `updateUserAttributes_failure` Hub event. None of the attributes in the request will be updated.
+
+If a user sends several attributes for update and one or more of them is `read_only` or doesn't exist, the Amplify JavaScript library will throw an error and dispatch `updateUserAttributes_failure` Hub event. None of the attributes in the request will be updated.
 
 ### Confirm attribute
 
-If you change the email address, you will receive a confirmation code to the new email address. Below is an example of how to confirm the new 
-email address in your app:
+If you change the email address, you will receive a confirmation code to the new email address. Below is an example of how to confirm the new email address in your app:
 
 ```javascript
-const result = await Auth.verifyCurrentUserAttributeSubmit('email', '<verification_code>');
+const result = await Auth.verifyCurrentUserAttributeSubmit(
+  'email',
+  '<verification_code>'
+);
 ```
 
 ### Delete user attributes
@@ -400,10 +413,10 @@ async function deleteUserAttributes() {
     const user = await Auth.currentAuthenticatedUser();
     const result = await Auth.deleteUserAttributes(user, ['family_name']);
     console.log(result); // SUCCESS
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-};
+}
 ```
 
 ## Updating and verifying a Cognito user email address
@@ -477,7 +490,7 @@ export default function App() {
           </div>
           {showValidationCodeUI === false && (
             <button
-              onClick={async () => { 
+              onClick={async () => {
                 await updateUserEmail();
                 setShowValidationCodeUI(true);
               }}
@@ -493,6 +506,7 @@ export default function App() {
   );
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -511,7 +525,7 @@ async function updateUserEmail() {
     });
 
     console.log('a verification code is sent');
-  } catch(err) {
+  } catch (err) {
     console.log('failed with error', err);
   }
 }
@@ -520,7 +534,7 @@ async function verifyEmailValidationCode(code) {
   try {
     await Auth.verifyCurrentUserAttributeSubmit('email', code);
     console.log('email verified');
-  } catch(err) {
+  } catch (err) {
     console.log('failed with error', err);
   }
 }
@@ -574,6 +588,7 @@ export default function App() {
   );
 }
 ```
+
 </Block>
 </BlockSwitcher>
 

@@ -1,0 +1,19 @@
+.next-prev {
+  a {
+    text-decoration: none;
+    color: var(--amplify-colors-font-primary);
+  }
+
+  &__label {
+    font-size: 0.75rem;
+    text-decoration: none;
+  }
+
+  &__title {
+    font-weight: var(--amplify-font-weights-semibold);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

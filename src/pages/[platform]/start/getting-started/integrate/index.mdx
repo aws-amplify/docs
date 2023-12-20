@@ -1,0 +1,33 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Integrate your app',
+  description:
+    'Getting Started with Amplify Libraries - How to integrate Amplify into your app',
+  platforms: ['android', 'flutter', 'swift']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import ios0 from '/src/fragments/start/getting-started/ios/integrate.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android1 from '/src/fragments/start/getting-started/android/integrate.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import flutter2 from '/src/fragments/start/getting-started/flutter/integrate.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />

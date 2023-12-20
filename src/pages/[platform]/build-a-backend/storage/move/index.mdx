@@ -1,0 +1,26 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Move files',
+  description: "Learn more about how to move files using Amplify's storage category.",
+  platforms: ['flutter']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+
+import flutter0 from '/src/fragments/lib/storage/flutter/move.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />

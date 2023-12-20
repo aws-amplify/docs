@@ -1,0 +1,30 @@
+If you are using the Amplify CLI, an existing Amazon S3 bucket can be used with the Amplify Libraries by running:
+
+```bash
+amplify import storage
+```
+
+For more details, see how to [Use an existing S3 bucket or DynamoDB table](/[platform]/build-a-backend/storage/import/).
+
+If you are not using the Amplify CLI, an existing Amazon S3 bucket can be used by adding it to your `Amplify.configure` statement.
+
+<Callout warning>
+  When you are not using Amplify CLI, adding existing Amazon S3 bucket to your
+  application may require configuring bucket access permissions. e.g. Enabling
+  read/write access to the cognito user pool that you are using with the Amplify
+  Auth category.
+</Callout>
+
+```js
+Amplify.configure({
+  aws_user_files_s3_bucket_region: 'us-east-1', // (required) - Amazon S3 bucket region
+  aws_user_files_s3_bucket: 'testappa321fb103f1f2ae6a4d25d8cd2161728123152-dev' // (required) - Amazon S3 bucket URI
+});
+```
+
+- **aws_user_files_s3_bucket**: Name of the bucket to use for storage
+- **aws_user_files_s3_bucket_region**: AWS Region where the bucket is provisioned (e.g. _us-east-1_)
+
+You can also configure the resources on a scoped level by [following the steps shown here](#storage-amazon-s3).
+
+Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/[platform]/prev/start/project-setup/create-application/#n2-install-amplify-libraries).

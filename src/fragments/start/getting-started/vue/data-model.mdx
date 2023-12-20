@@ -5,33 +5,11 @@ For this app, you have the following requirements:
 1. A list of todos
 2. Ability to create/update/delete a todo
 
-### Model the data with the GraphQL Transform
-
-Given these requirements, you'll need to be able to query the API for a list of todos and also provide a way to send updates to the API to create, update, and delete todos. In GraphQL you would use a `type` to define that entity, like so:
-
-```graphql
-type Todo {
-  id: ID!
-  name: String!
-  description: String
-}
-```
-
-Because you're using Amplify, you can use the GraphQL Schema Definition Language (SDL) and custom Amplify directives to define your backend requirements for your API. The GraphQL Transform library then converts your SDL definition into a set of fully descriptive AWS CloudFormation templates that implement your data model.
-
-```graphql
-type Todo @model {
-  id: ID!
-  name: String!
-  description: String
-}
-```
-
-The `@model` directive lets Amplify know you intend for this type to have data that needs to be stored. This will create a DynamoDB table for us and make all GraphQL operations available in the API.
-
 ## Create GraphQL API and database
 
-Now that the data is modeled, it's time to create the GraphQL API. From the root of the project, run the following:
+Given these requirements, you'll need to be able to query the API for a list of todos and also provide a way to send updates to the API to create, update, and delete todos.
+
+It's time to create the GraphQL API. From the root of the project, run the following:
 
 ```bash
 amplify add api
@@ -65,6 +43,11 @@ The CLI should open this GraphQL schema in your text editor.
 **amplify/backend/api/myapi/schema.graphql**
 
 ```graphql
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/react/build-a-backend/graphqlapi/customize-authorization-rules/
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
 type Todo @model {
   id: ID!
   name: String!
@@ -72,7 +55,7 @@ type Todo @model {
 }
 ```
 
-The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql/data-modeling) library of Amplify.
+The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](/[platform]/build-a-backend/graphqlapi/data-modeling/) library of Amplify.
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
@@ -132,7 +115,7 @@ Next, open **App.vue**.
 
 ### Writing data with GraphQL mutations
 
-To create a new todo in the database, use the `API.graphql()` operation with the `createTodo` mutation and pass in the data you'd like to write.
+To create a new todo in the database, create a `client` by using the `generateClient()` operation, then pass the `createTodo` mutation into `client.graphql()` along with the data you'd like to write.
 
 ```html
 <template>
@@ -145,8 +128,10 @@ To create a new todo in the database, use the `API.graphql()` operation with the
 </template>
 
 <script>
-  import { API } from 'aws-amplify';
+  import { generateClient } from 'aws-amplify/api';
   import { createTodo } from './graphql/mutations';
+
+  const client = generateClient();
 
   export default {
     name: 'app',
@@ -161,7 +146,7 @@ To create a new todo in the database, use the `API.graphql()` operation with the
         const { name, description } = this;
         if (!name || !description) return;
         const todo = { name, description };
-        await API.graphql({
+        await client.graphql({
           query: createTodo,
           variables: { input: todo }
         });
@@ -192,9 +177,11 @@ To display the data, update `App.vue` to list all the items in the database by i
 </template>
 
 <script>
-  import { API } from 'aws-amplify';
+  import { generateClient } from 'aws-amplify/api';
   import { createTodo } from './graphql/mutations';
   import { listTodos } from './graphql/queries';
+
+  const client = generateClient();
 
   export default {
     name: 'App',
@@ -213,8 +200,7 @@ To display the data, update `App.vue` to list all the items in the database by i
         const { name, description } = this;
         if (!name || !description) return;
         const todo = { name, description };
-        this.todos = [...this.todos, todo];
-        await API.graphql({
+        await client.graphql({
           query: createTodo,
           variables: { input: todo }
         });
@@ -222,7 +208,7 @@ To display the data, update `App.vue` to list all the items in the database by i
         this.description = '';
       },
       async getTodos() {
-        const todos = await API.graphql({
+        const todos = await client.graphql({
           query: listTodos
         });
         this.todos = todos.data.listTodos.items;
@@ -243,17 +229,17 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
 
   export default {
     // other functions and properties
-    created() {
+    async created() {
       this.getTodos();
       this.subscribe();
     },
     methods: {
       // other methods
       subscribe() {
-        API.graphql({ query: onCreateTodo }).subscribe({
-          next: (eventData) => {
-            let todo = eventData.value.data.onCreateTodo;
-            if (this.todos.some((item) => item.name === todo.name)) return; // remove duplications
+        client.graphql({ query: onCreateTodo }).subscribe({
+          next: ({ data }) => {
+            let todo = data.onCreateTodo;
+            if (this.todos.some((item) => item.id === todo.id)) return; // remove duplications
             this.todos = [...this.todos, todo];
           }
         });

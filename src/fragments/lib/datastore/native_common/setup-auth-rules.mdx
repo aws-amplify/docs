@@ -22,7 +22,7 @@ import datastoreClearCallout from '/src/fragments/lib/datastore/native_common/ca
 
 ### Per User / Owner Based Data Access
 
-The following are commonly used patterns for owner based authorization. For more information on how to fine tune these examples, please see the [CLI documentation on owner based authorization](/cli/graphql/authorization-rules/#per-user--owner-based-data-access).
+The following are commonly used patterns for owner based authorization. For more information on how to fine tune these examples, please see the [CLI documentation on owner based authorization](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#per-user--owner-based-data-access).
 
 - Create/Read/Update/Delete mutations are private to the owner.
 
@@ -49,7 +49,7 @@ type YourModel
 
 ### Static Group Authorization
 
-The following are commonly used patterns for static group authorization. For more information on how to fine tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql/authorization-rules/#user-group-based-data-access).
+The following are commonly used patterns for static group authorization. For more information on how to fine tune these examples, please see the [CLI documentation on static group authorization](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#user-group-based-data-access).
 
 - Users belonging to the "Admin" group can CRUD (create, read, update, and delete), others cannot access anything.
 
@@ -77,7 +77,7 @@ type YourModel
 
 ### Owner and Static Group Combined
 
-The following are commonly used patterns for combining owner and static group authorization. For more information on how to fine tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql/authorization-rules#static-group-authorization).
+The following are commonly used patterns for combining owner and static group authorization. For more information on how to fine tune these examples, please see the [CLI documentation on static group authorization](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#static-group-authorization).
 
 - Users have their own data, but users who belong to the `Admin` group have access to their data and anyone else in that group. Users in the `Admin` group have the ability to make mutation on behalf of users not in the `Admin` group
 
@@ -91,7 +91,7 @@ type YourModel
 
 ### Public Data Access
 
-The following are commonly used patterns to grant everyone access. For more information on how to fine tune these examples, please see the [CLI documentation on public data access](/cli/graphql/authorization-rules/#public-data-access).
+The following are commonly used patterns to grant everyone access. For more information on how to fine tune these examples, please see the [CLI documentation on public data access](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#public-data-access).
 
 - Auth provider is API Key
 
@@ -111,7 +111,7 @@ type YourModel @model @auth(rules: [{ allow: public, provider: iam }]) {
 
 ### Signed-in User Data Access
 
-The following are commonly used patterns for private authorization. For more information on how to fine tune these examples, please see the [CLI documentation on signed-in user data access](https://docs.amplify.aws/cli/graphql/authorization-rules/#signed-in-user-data-access).
+The following are commonly used patterns for private authorization. For more information on how to fine tune these examples, please see the [CLI documentation on signed-in user data access](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#signed-in-user-data-access).
 
 - Cognito user pool authenticated users can CRUD all posts, regardless of who created it. Guest users do not have access.
 
@@ -131,7 +131,7 @@ type YourModel @model @auth(rules: [{ allow: private, provider: iam }]) {
 
 ### Owner based Authorization with OIDC provider
 
-The following are commonly used patterns for owner based authorization using a 3rd party OIDC provider (e.g. Facebook, Google, etc...). For more information on how to fine tune these examples, please see the [CLI documentation on using an oidc authorization provider](/cli/graphql/authorization-rules/#using-oidc-authorization-provider).
+The following are commonly used patterns for owner based authorization using a 3rd party OIDC provider (e.g. Facebook, Google, etc...). For more information on how to fine tune these examples, please see the [CLI documentation on using an oidc authorization provider](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#using-oidc-authorization-provider).
 
 - Using a 3rd party OIDC provider to achieve owner based authorization.
 
@@ -149,7 +149,7 @@ import android0 from '/src/fragments/lib/datastore/android/setup-auth-rules/owne
 
 import ios1 from '/src/fragments/lib/datastore/ios/setup-auth-rules/owner_based_auth_oidc.mdx';
 
-<Fragments fragments={{ ios: ios1 }} />
+<Fragments fragments={{ swift: ios1 }} />
 
 import flutterOidc from '/src/fragments/lib/datastore/flutter/setup-auth-rules/owner_based_auth_oidc.mdx';
 
@@ -157,7 +157,7 @@ import flutterOidc from '/src/fragments/lib/datastore/flutter/setup-auth-rules/o
 
 ### Static Group Authorization with OIDC provider
 
-The following are commonly used patterns for using `groupClaims` to achieve group based authorization using a 3rd party OIDC provider. For more information on how to fine tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql/authorization-rules#custom-claims).
+The following are commonly used patterns for using `groupClaims` to achieve group based authorization using a 3rd party OIDC provider. For more information on how to fine tune these examples, please see the [CLI documentation on static group authorization](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#custom-claims).
 
 - Using a custom value for `groupClaim` to achieve static group authorization with a 3rd party OIDC provider.
 
@@ -188,7 +188,7 @@ To enable DataStore to use multiple authorization types based on the model's `@a
 
 import ios2 from '/src/fragments/lib/datastore/ios/setup-auth-rules/10_multiauth-snippet.mdx';
 
-<Fragments fragments={{ ios: ios2 }} />
+<Fragments fragments={{ swift: ios2 }} />
 
 import android3 from '/src/fragments/lib/datastore/android/setup-auth-rules/10_multiauth-snippet.mdx';
 
@@ -196,7 +196,15 @@ import android3 from '/src/fragments/lib/datastore/android/setup-auth-rules/10_m
 
 import js4 from '/src/fragments/lib/datastore/js/setup-auth-rules/10_multiauth-snippet.mdx';
 
-<Fragments fragments={{ js: js4 }} />
+<Fragments
+  fragments={{
+    javascript: js4,
+    angular: js4,
+    nextjs: js4,
+    react: js4,
+    vue: js4
+  }}
+/>
 
 import reactnative0 from '/src/fragments/lib/datastore/js/setup-auth-rules/10_multiauth-snippet.mdx';
 
@@ -246,7 +254,15 @@ DataStore will attempt to use owner-based authorization first when synchronizing
 
 import js5 from '/src/fragments/lib/datastore/js/setup-auth-rules/20_function-auth-snippet.mdx';
 
-<Fragments fragments={{ js: js5 }} />
+<Fragments
+  fragments={{
+    javascript: js5,
+    angular: js5,
+    nextjs: js5,
+    react: js5,
+    vue: js5
+  }}
+/>
 
 import reactnative1 from '/src/fragments/lib/datastore/js/setup-auth-rules/20_function-auth-snippet.mdx';
 

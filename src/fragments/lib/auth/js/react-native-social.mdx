@@ -4,6 +4,10 @@
 
 OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after a login. [OIDC](https://en.wikipedia.org/wiki/OpenID_Connect) tokens are available in the app after the application has completed this process.
 
+<Callout warning>
+ When configuring social sign-in through the Amplify CLI, it's important to exercise caution when designating attributes as "required." Different social identity providers have varied scopes in terms of the information they respond back to Cognito with.  User pool attributes that are initially set up as "required" cannot be changed later, and may require you to migrate the users or create a new user pool.  
+</Callout>
+
 import all0 from "/src/fragments/lib/auth/common/social_signin_web_ui/setup_auth_provider.mdx";
 
 <Fragments fragments={{all: all0}} />
@@ -61,9 +65,9 @@ import { useEffect, useState } from "react";
 import { Text, View, Linking, Button } from "react-native";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 import { Amplify, Auth, Hub } from "aws-amplify";
-import awsconfig from "./aws-exports";
+import amplifyconfig from "./amplifyconfiguration.json";
 
-Amplify.configure(awsconfig);
+Amplify.configure(amplifyconfig);
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -123,7 +127,7 @@ import { useEffect, useState } from "react";
 import { Text, View, Linking, Button } from "react-native";
 
 import { Amplify, Auth, Hub } from "aws-amplify";
-import awsconfig from "./aws-exports";
+import amplifyconfig from "./amplifyconfiguration.json";
 
 Amplify.configure(awsconfig);
 
@@ -183,7 +187,7 @@ For *Sign in Redirect URI(s)* inputs, you can put one URI for local development 
 **Note:** if you have multiple redirect URI inputs, you'll need to handle both of them where you configure your Amplify project. For example:
 
 ```javascript
-import awsConfig from "./aws-exports";
+import amplifyconfig from "./amplifyconfiguration.json";
 
 const isLocalhost = Boolean(__DEV__);
 
@@ -191,17 +195,17 @@ const isLocalhost = Boolean(__DEV__);
 const [
   localRedirectSignIn,
   productionRedirectSignIn,
-] = awsConfig.oauth.redirectSignIn.split(",");
+] = amplifyconfig.oauth.redirectSignIn.split(",");
 
 const [
   localRedirectSignOut,
   productionRedirectSignOut,
-] = awsConfig.oauth.redirectSignOut.split(",");
+] = amplifyconfig.oauth.redirectSignOut.split(",");
 
 const updatedAwsConfig = {
-  ...awsConfig,
+   ...amplifyconfig,
   oauth: {
-    ...awsConfig.oauth,
+    ...amplifyconfig.oauth,
     redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
     redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
   }
@@ -213,7 +217,7 @@ Amplify.configure(updatedAwsConfig);
 For React Native applications, you need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. For Expo, follow the steps in [Expo Linking Guide](https://docs.expo.io/guides/linking/). For vanilla React Native, follow the steps in [React Native Linking Guide](https://reactnative.dev/docs/linking). After completing those steps, assuming you are using `myapp` as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect URI(s)* and/or *Sign out redirect URI(s)* inputs. Your URIs could look like any of these:
 
 - `myapp://`
-- `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app)).
+- `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.dev/guides/linking/#linking-to-your-app)).
 
 *React Native - iOS - Info.plist*
 
@@ -302,7 +306,7 @@ import InAppBrowser from 'react-native-inappbrowser-reborn';
 
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import awsconfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
 async function urlOpener(url: string, redirectUrl: string): Promise<void> {
   await InAppBrowser.isAvailable();
@@ -319,9 +323,9 @@ async function urlOpener(url: string, redirectUrl: string): Promise<void> {
 }
 
 Amplify.configure({
-  ...awsconfig,
+  ...amplifyconfig,
   oauth: {
-    ...awsconfig.oauth,
+    ...amplifyconfig.oauth,
     urlOpener,
   },
 });
@@ -392,7 +396,7 @@ import InAppBrowser from 'react-native-inappbrowser-reborn';
 
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import awsconfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
 async function urlOpener(url, redirectUrl) {
   await InAppBrowser.isAvailable();
@@ -409,9 +413,9 @@ async function urlOpener(url, redirectUrl) {
 }
 
 Amplify.configure({
-  ...awsconfig,
+  ...amplifyconfig,
   oauth: {
-    ...awsconfig.oauth,
+    ...amplifyconfig.oauth,
     urlOpener,
   },
 });
@@ -495,15 +499,15 @@ import * as WebBrowser from "expo-web-browser";
 
 import { Amplify, Hub, Auth } from "aws-amplify";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
-import awsconfig from "./src/aws-exports";
+import amplifyconfig from "./amplifyconfiguration.json";
 
 const isLocalHost = Boolean(__DEV__);
 
 const [localRedirectSignIn, productionRedirectSignIn] =
-  awsconfig.oauth.redirectSignIn.split(",");
+  amplifyconfig.oauth.redirectSignIn.split(",");
 
 const [localRedirectSignOut, productionRedirectSignOut] =
-  awsconfig.oauth.redirectSignOut.split(",");
+  amplifyconfig.oauth.redirectSignOut.split(",");
 
 async function urlOpener(url: string, redirectUrl: string): Promise<void> {
   const authSessionResult = await WebBrowser.openAuthSessionAsync(
@@ -518,9 +522,9 @@ async function urlOpener(url: string, redirectUrl: string): Promise<void> {
 }
 
 const updatedConfig = {
-  ...awsconfig,
+  ...amplifyconfig,
   oauth: {
-    ...awsconfig.oauth,
+    ...amplifyconfig.oauth,
     redirectSignIn: isLocalHost
       ? localRedirectSignIn
       : productionRedirectSignIn,
@@ -631,15 +635,15 @@ import * as WebBrowser from "expo-web-browser";
 
 import { Amplify, Hub, Auth } from "aws-amplify";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
-import awsconfig from "./src/aws-exports";
+import amplifyconfig from "./amplifyconfiguration.json";
 
 const isLocalHost = Boolean(__DEV__);
 
 const [localRedirectSignIn, productionRedirectSignIn] =
-  awsconfig.oauth.redirectSignIn.split(",");
+  amplifyconfig.oauth.redirectSignIn.split(",");
 
 const [localRedirectSignOut, productionRedirectSignOut] =
-  awsconfig.oauth.redirectSignOut.split(",");
+  amplifyconfig.oauth.redirectSignOut.split(",");
 
 async function urlOpener(url, redirectUrl) {
   const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(
@@ -654,9 +658,9 @@ async function urlOpener(url, redirectUrl) {
 }
 
 const updatedConfig = {
-  ...awsconfig,
+  ...amplifyconfig,
   oauth: {
-    ...awsconfig.oauth,
+    ...amplifyconfig.oauth,
     redirectSignIn: isLocalHost
       ? localRedirectSignIn
       : productionRedirectSignIn,

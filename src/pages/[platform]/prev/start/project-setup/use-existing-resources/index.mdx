@@ -1,0 +1,37 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use existing AWS resources',
+  description: 'Add existing AWS resources to an application without the CLI.',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      showBreadcrumbs: false,
+      meta
+    }
+  };
+}
+
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ swift: ios_maintenance }} />
+
+import ios0 from '/src/fragments/lib-v1/project-setup/ios/use-existing-resources/use-existing-resources.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+
+<Fragments fragments={{ android: android_maintenance }} />
+
+import android1 from '/src/fragments/lib-v1/project-setup/android/use-existing-resources/use-existing-resources.mdx';
+
+<Fragments fragments={{ android: android1 }} />

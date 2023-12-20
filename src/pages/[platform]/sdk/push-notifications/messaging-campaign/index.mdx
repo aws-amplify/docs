@@ -1,0 +1,33 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Messaging campaigns',
+  description:
+    'Use AWS Mobile SDK and the Amazon Pinpoint console to target your app users with push messaging. You can send individual messages or configure campaigns that target a group of users that match a profile that you define.',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import all0 from '/src/fragments/sdk/library-callout.mdx';
+
+<Fragments fragments={{ all: all0 }} />
+
+import ios1 from '/src/fragments/sdk/push-notifications/ios/messaging-campaign.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />
+
+import android2 from '/src/fragments/sdk/push-notifications/android/messaging-campaign.mdx';
+
+<Fragments fragments={{ android: android2 }} />

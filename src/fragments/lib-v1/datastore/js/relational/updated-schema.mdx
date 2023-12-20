@@ -1,0 +1,24 @@
+For the examples below with DataStore let's add a new model to the [sample schema](/[platform]/prev/build-a-backend/more-features/datastore/set-up-datastore/#sample-schema):
+
+```graphql
+enum PostStatus {
+  ACTIVE
+  INACTIVE
+}
+
+type Post @model {
+  id: ID!
+  title: String!
+  rating: Int!
+  status: PostStatus!
+  # New field with @hasMany
+  comments: [Comment] @hasMany
+}
+
+# New model
+type Comment @model {
+  id: ID!
+  post: Post @belongsTo
+  content: String!
+}
+```

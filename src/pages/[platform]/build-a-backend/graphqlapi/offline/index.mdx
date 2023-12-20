@@ -1,0 +1,37 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Working with caching and offline scenarios',
+  description:
+    "Learn more about how to support offline scenarios with Amplify's GraphQL API category",
+  platforms: ['react-native', 'flutter', 'swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import reactnative0 from '/src/fragments/lib/graphqlapi/js/offline.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
+
+import ios0 from '/src/fragments/lib/graphqlapi/js/offline.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android0 from '/src/fragments/lib/graphqlapi/js/offline.mdx';
+
+<Fragments fragments={{ android: android0 }} />
+
+import flutter0 from '/src/fragments/lib/graphqlapi/js/offline.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />

@@ -1,0 +1,21 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Get started',
+  description: 'Learn how to get started with AWS Amplify (Gen 2).',
+  route: '/gen2/start'
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+AWS Amplify is a collection of cloud services and libraries for fullstack application development. Amplify provides frontend libraries, UI components, backend building, and frontend hosting for building fullstack cloud apps. This tutorial will teach you how to use Amplify's new code-first developer experience to build a fullstack application with data, authentication, and frontend hosting which are all deployed to AWS. If you're completely new to AWS Amplify, you may want to read more about [how it works and the concepts behind the second generation of AWS Amplify](/gen2/how-amplify-works/concepts/), which this tutorial will use.
+
+<Overview childPageNodes={props.childPageNodes} />

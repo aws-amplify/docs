@@ -89,7 +89,7 @@ exports.handler = async (event) => {
   to send the challenge code to the user.
 </Callout>
 
-Amazon Cognito invokes the Create Auth Challenge trigger after Define Auth Challenge to create a custom challenge. In this lambda trigger, you define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user. Save and close the file. Now open the file under "<your_android_project>/amplify/backend/function/<project_code>CreateAuthChallenge/src/package.json" and add the following:
+Amazon Cognito invokes the Create Auth Challenge trigger after Define Auth Challenge to create a custom challenge. In this lambda trigger, you define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user. Save and close the file. Now open the file under "\<your_android_project>/amplify/backend/function/\<project_code>CreateAuthChallenge/src/package.json" and add the following:
 
 ```js
 "dependencies": {
@@ -111,10 +111,8 @@ Save and close the file, then switch back to the terminal and follow the instruc
 The boilerplate for Define Auth Challenge opens in your favorite code editor. Enter the following code in this file:
 
 ```js
-exports.handler = async function(event) {
-   if (
-    event.request.session.length == 0
-  ) {
+exports.handler = async function (event) {
+  if (event.request.session.length == 0) {
     event.response.issueTokens = false;
     event.response.failAuthentication = false;
     event.response.challengeName = 'CUSTOM_CHALLENGE';

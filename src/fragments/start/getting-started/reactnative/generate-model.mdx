@@ -1,4 +1,4 @@
-With the basic setup complete, you can now model the data your application will work with. Amplify DataStore persists the modeled data on your local device and can even synchronize to a backend API without writing any additional code. These models are specified as [GraphQL](http://graphql.org/) schemas. You can [learn more](/cli/graphql/overview) about GraphQL schemas and data modeling. For now, let’s start by generating some initial data models.
+With the basic setup complete, you can now model the data your application will work with. Amplify DataStore persists the modeled data on your local device and can even synchronize to a backend API without writing any additional code. These models are specified as [GraphQL](http://graphql.org/) schemas. You can [learn more](/[platform]/build-a-backend/graphqlapi/) about GraphQL schemas and data modeling. For now, let’s start by generating some initial data models.
 
 <Callout>
 
@@ -10,9 +10,9 @@ With the basic setup complete, you can now model the data your application will 
 
 1. Navigate to the [AWS Amplify Studio](https://sandbox.amplifyapp.com/getting-started) , select **To-do list** option in the quickstart section with **React Native** then click on **Get started**.
 
-    ![Create new schema](/images/lib/getting-started/reactnative/generate-model-admin-ui-create.png)
+   ![Create new schema](/images/lib/getting-started/reactnative/generate-model-admin-ui-create.png)
 
-2. On the Data modeling screen, you should see your Todo data model.  This is a good start but let’s take it a step further by adding a completion flag to your Todo items.
+2. On the Data modeling screen, you should see your Todo data model. This is a good start but let’s take it a step further by adding a completion flag to your Todo items.
 
 ### Add the isComplete Boolean field
 
@@ -21,22 +21,20 @@ With the basic setup complete, you can now model the data your application will 
 3. For the **Type** of this field, select **Boolean**
 4. In the inspector panel to the right, select **Is required** to make this field required
 
-    ![Add isComplete field](/images/lib/getting-started/reactnative/generate-model-admin-ui-isComplete-field.png)
+   ![Add isComplete field](/images/lib/getting-started/reactnative/generate-model-admin-ui-isComplete-field.png)
 
 ## Generate the models locally
 
-1. If you haven’t already done so, click **Next: Test locally in your app** on the Data modeling screen to proceed
-2. **Install Amplify CLI to pull the data model**
-    1. You should have already installed the Amplify CLI in a previous step
-    2. Copy and run the command shown in your project root. This command will initialize your current project with Amplify as well as generate the data models you will be using locally
-            
+1.  If you haven’t already done so, click **Next: Test locally in your app** on the Data modeling screen to proceed
+2.  **Install Amplify CLI to pull the data model**
+    1.  You should have already installed the Amplify CLI in a previous step
+    2.  Copy and run the command shown in your project root. This command will initialize your current project with Amplify as well as generate the data models you will be using locally
             ```bash
             amplify pull --sandboxId <UUID>
             ```
-            
-    4. Make a note of the sandbox id, just in case!
-    5. As the rest of the steps will be covered by the tutorial, you can skip the remaining steps in Amplify Studio and click **Deploy** on the top right
-3. In order to deploy a backend, you will need an AWS account. We will go over this in a later step when you’re ready to sync your app to the cloud. For now, keep the link to this page handy!
+    3.  Make a note of the sandbox id, just in case!
+    4.  As the rest of the steps will be covered by the tutorial, you can skip the remaining steps in Amplify Studio and click **Deploy** on the top right
+3.  In order to deploy a backend, you will need an AWS account. We will go over this in a later step when you’re ready to sync your app to the cloud. For now, keep the link to this page handy!
 
 At this point, Amplify should have generated several directories and configuration files in your project for you. Let’s take a look at the generated GraphQL schema.
 
@@ -44,23 +42,19 @@ From your project root, navigate to the `amplify/backend/api/amplifyDatasource/`
 
 ```graphql
 type Todo @model @auth(rules: [{ allow: public }]) {
-    id: ID!
-    name: String!
-    description: String
-    isComplete: Boolean!
+  id: ID!
+  name: String!
+  description: String
+  isComplete: Boolean!
 }
 ```
 
 - This schema also describes a model called Todo with four properties:
-    - **id** - an auto-generated identifier field for a Todo item
-    - **name** - a non-optional string field containing the name of a Todo item
-    - **description** - an optional string field containing additional details about a Todo item
-    - **isComplete** - a non-optional boolean field indicating the completion status of a Todo item
 
-        <Callout>
+<Callout>
 
-        **Note:** You are also specifying an @auth directive on your model which can be useful for setting up authorization rules later, but for the purposes of this tutorial, the model will be authorized for public access. You can read more about authorization rules [here](https://docs.amplify.aws/lib/datastore/setup-auth-rules/q/platform/js).
+**Note:** You are also specifying an @auth directive on your model which can be useful for setting up authorization rules later, but for the purposes of this tutorial, the model will be authorized for public access. You can read more about authorization rules [here](/[platform]/build-a-backend/more-features/datastore/authz-rules-setup/).
 
-        </Callout>
+</Callout>
 
 Now that local Amplify and data models are set up, you’re ready to integrate with the app!

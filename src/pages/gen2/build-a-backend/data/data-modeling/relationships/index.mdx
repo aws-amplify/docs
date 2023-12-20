@@ -1,0 +1,297 @@
+export const meta = {
+  title: 'Modeling relationships',
+  description:
+    'Learn about the types of model relationships and modeling relationships.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Applications that work with data need well-defined entities to represent that data. Typically, entities are stored across different tables in a database, and items in a given table need to be **uniquely identified**. This is achieved by defining a field (or a combination of fields) that will hold a value (or values) to unambiguously refer to the item. When modeling applications, you often need to **establish relationships** between entities. This is done by adding a field that holds the value of the unique identifier of the related entity.
+
+Retrieving an entity's related data can be expensive, so Amplify Data offers a way to specify lazy or eager loading of relationships. This is done through "custom selection sets." With eager loading, related data is retrieved immediately when the entity is loaded. With lazy loading, related data is only retrieved when explicitly requested. Custom selection sets give you control over when and how an entity's relationships are populated.
+
+ ## Types of relationships
+
+|Relationship|Description|
+|------------|--------|
+|`a.hasMany()`|Creates a one-directional, one-to-many relationship between two models. For example, a **Post** has many **Comments**. This allows you to query all the comments from the post record.|
+|`a.manyToMany()`| Creates a bidirectional relationship. Must be defined on both related models. For example, a **Blog** has many **Tags** and a **Tag** has many **Blogs**.|
+|`a.hasOne()`|Creates a one-directional, one-to-one relationship between two models. For example, a **Project** has one **Team**. This allows you to query the team from the project record.|
+|`a.belongsTo()`|Makes a "has one" or "has many" relationship bidirectional so you can read from both sides of the relationship. For example, a **Project** has one **Team** and a Team belongs to a Project. This allows you to reference the team from the project record and the other way around.|
+
+## Model a "Has Many" relationship
+
+Create a bidirectional, one-to-many relationship between two models using the `hasMany()` method. In the example below, a Team has many Members and the parent Team may be looked up from a given member.
+
+```typescript
+const schema = a.schema({
+  Team: a.model({
+    mantra: a.string().required(),
+    members: a.hasMany('Member'),
+  }),
+  Member: a.model({
+    team: a.belongsTo('Team'),
+  }),
+});
+```
+
+### Create a "Has Many" relationship between records
+
+```ts
+const { data: team } = await client.models.Team.create({
+  mantra: "Hello"
+})
+
+await client.models.Member.update({
+  id: "SOME_MEMBER_ID",
+  team
+})
+```
+
+### Update a "Has Many" relationship between records
+
+```ts
+await client.models.Member.update({
+  id: "SOME_MEMBER_ID",
+  team
+})
+```
+
+### Delete a "Has Many" relationship between records
+
+```ts
+await client.models.Member.update({
+  id: "SOME_MEMBER_ID",
+  team: undefined
+})
+```
+
+### Lazy load a "Has Many" relationship
+
+```ts
+const { data: team } = await client.models.Team.get({ id: "MY_TEAM_ID"})
+
+const { data: members } = await team.members()
+
+members.forEach(member => console.log(member.id))
+```
+
+### Eagerly load a "Has Many" relationship
+
+```ts
+const { data: teamWithMembers } = await client.models.Team.get(
+  { id: "MY_TEAM_ID" },
+  { selectionSet: ["id", "members.*"] },
+)
+
+teamWithMembers.members.forEach(member => console.log(member.id))
+```
+
+## Model a "many-to-many" relationship
+Create a many-to-many relationship between two models with the `manyToMany()` method. Provide a common `relationName` on both models to join them in a many-to-many relationship. 
+
+```typescript
+const schema = a.schema({
+  Post: a.model({
+    title: a.string(),
+    content: a.string(),
+    tags: a.manyToMany('Tag', { relationName: 'PostTags'})
+  }),
+  Tag: a.model({
+    name: a.string(),
+    posts: a.manyToMany('Post', { relationName: 'PostTags'})
+  }),
+});
+```
+
+## Model a "Has One" relationship
+
+Create a one-directional, one-to-one relationship between two models using the `hasOne()` method. In the example below, a Project has a Team. By using `hasOne` this way, it will automatically generate a field to hold the identifier of the related model.
+
+```typescript
+const schema = a.schema({
+  Project: a.model({
+    name: a.string(),
+    team: a.hasOne('Team')
+  }),
+  Team: a.model({
+    name: a.string(),
+  }),
+});
+```
+
+### Create a "Has One" relationship between records
+
+To create a "has one" relationship between records, first create the parent item and then create the child item and assign the parent. 
+
+```ts
+const { data: team } = await client.models.Team.create({
+  name: 'My Team',
+});
+
+const { data: project } = await client.models.Project.create({
+  name: 'My Project',
+  team,
+});
+```
+
+### Update a "Has One" relationship between records
+
+To update a "Has One" relationship between records, you first retrieve the child item and then update the reference to the parent to another parent. For example, to move a Project to a new Team:
+
+```ts
+const { data: newTeam } = await client.models.Team.create({
+  name: 'New Team',
+});
+
+await client.models.Project.update({
+  id: project.id,
+  team: newTeam,
+});
+```
+
+### Delete a "Has One" relationship between records
+
+You can update the relationship field to delete a "Has One" relationship between records.
+
+```ts
+await client.models.Project.update({
+  id: project.id,
+  team: undefined,
+});
+```
+
+### Lazy load a "Has One" relationship
+
+```ts
+const { data: project } = await client.models.Project.get({ id: "MY_PROJECT_ID"})
+const { data: team } = await project.team();
+```
+
+### Eagerly load a "Has One" relationship
+
+```ts
+const { data: project } = await client.models.Project.get(
+  { id: "MY_PROJECT_ID" },
+  { selectionSet: ['id', 'team.*'] },
+);
+```
+
+### Model multiple relationships between two models
+
+```typescript
+const schema = a.schema({
+  Employee: a.model({
+    firstName: a.string(),
+    lastName: a.string(),
+  }),
+  Organization: a.model({
+    name: a.string(),
+    individualContributors: a.hasMany('Employee'),
+    managers: a.hasMany('Employee'),
+  }),
+});
+```
+
+```ts
+const client = generateClient<Schema>();
+
+const { data: org } = await client.models.Organization.get({ id: 'AE6191BF-FEB4-4D8B-867D-898A7DA33101' });
+
+const { data: ics } = await org.individualContributors();
+const { data: managers } = await org.managers();
+```
+
+## Model a bidirectional relationship
+
+You can make a "has one" or "has many" relationship bidirectional with the `belongsTo()` method. Using the bidirectionality of `belongsTo()`, you can query the related item from both sides of the relationship. 
+
+<Callout>
+**Note:** The `belongsTo()` method requires that a `hasOne()` or `hasMany()` relationship already exists from parent to the related model.
+</Callout>
+
+### Create a bidirectional "Has One" relationship
+
+```typescript
+const schema = a.schema({
+  Project: a.model({
+    name: a.string(),
+    team: a.hasOne('Team')
+  }),
+  Team: a.model({
+    name: a.string(),
+    project: a.belongsTo('Project'),
+  }),
+});
+```
+
+```ts
+const client = generateClient<Schema>();
+
+const { data: team } = await client.models.Team.get({ id: 'FABF27EE-25D2-4851-AE1C-09BCA1604C77' });
+
+console.log((await team.project()).data?.name); // There is a 'project' field in the team
+
+const { data: teamProject } = await team.project();
+const { data: teamProjectRelatedTeam } = await teamProject.team();
+// teamProjectRelatedTeam is equivalent to original team
+```
+
+<Callout warning>
+"Belongs to" relationships **do not** allow you to update both sides of a "has one" and "belongs to" relationship in a transactional manner.
+</Callout>
+
+### Create a bidirectional "Has Many" relationship
+
+```typescript
+const schema = a.schema({
+  Post: a.model({
+    title: a.string(),
+    comments: a.hasMany('Comment'),
+  }),
+  Comment: a.model({
+    content: a.string(),
+    post: a.belongsTo('Post'),
+  }),
+});
+```
+
+```ts
+const client = generateClient<Schema>();
+
+const { data: post } = await client.models.Post.get({ id: 'FABF27EE-25D2-4851-AE1C-09BCA1604C77' });
+
+const { data: postComments } = await post.comments();
+const firstComment = postComments[0];
+const { data: firstCommentRelatedPost } = await firstComment.post();
+// firstCommentRelatedPost should be equivalent to post
+```
+
+## Retrieve related models
+
+```typescript
+const schema = a.schema({
+  Project: a.model({
+    name: a.string(),
+    team: a.hasOne('Team'),
+  }),
+  Team: a.model({
+    name: a.string(),
+  }),
+});
+
+const client = generateClient<Schema>();
+
+const { data: project } = await client.models.Project.get({ id: '1234' });
+const projectName = project.name;
+const lazyTeamName = (await project.team()).data?.name // project.team is typed as `Lazy<Team>` and can be awaited
+
+const projectWithTeam = await client.models.Project.get({ id: '1234' }, { selectionSet: ['team.*'] });
+const eagerTeamName = project.team.name // All team attributes were requested, so no need to await, it was eagerly loaded
+```

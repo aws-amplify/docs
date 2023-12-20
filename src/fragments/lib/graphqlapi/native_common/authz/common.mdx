@@ -8,7 +8,7 @@ API Key is the easiest way to setup and prototype your application with AWS AppS
 
 ### Amazon Cognito User Pools
 
-Amazon Cognito User Pools is most commonly used with AWS AppSync when adding authorization check on your API calls. If your application needs to interact with other AWS services besides AWS AppSync, such as Amazon S3, you will need to use AWS IAM credentials with Amazon Cognito Identity Pools. Amplify CLI can automatically configure this for you and will also automatically use the authenticated user from User Pools to federate with the Identity Pools to provide the AWS IAM credentials in the application. [See this for more information about the differences](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-user-pools-identity-pools/). This allows you to have both User Pools' credentials for AWS AppSync and AWS IAM credentials for other AWS resources. You can learn more about Amplify Auth outlined in the [Accessing credentials section](/lib/auth/access_credentials). 
+Amazon Cognito User Pools is most commonly used with AWS AppSync when adding authorization check on your API calls. If your application needs to interact with other AWS services besides AWS AppSync, such as Amazon S3, you will need to use AWS IAM credentials with Amazon Cognito Identity Pools. Amplify CLI can automatically configure this for you and will also automatically use the authenticated user from User Pools to federate with the Identity Pools to provide the AWS IAM credentials in the application. [See this for more information about the differences](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-user-pools-identity-pools/). This allows you to have both User Pools' credentials for AWS AppSync and AWS IAM credentials for other AWS resources. You can learn more about Amplify Auth outlined in the [Accessing credentials section](/[platform]/build-a-backend/auth/accessing-credentials/).
 
 ### IAM
 
@@ -16,13 +16,13 @@ Amazon Cognito Identity Pools allows you to use credentials from AWS IAM in your
 
 ### OpenID Connect (OIDC)
 
-If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. 
+If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself.
 
 ### AWS Lambda
 
 You can implement your own custom API authorization logic using an AWS Lambda function. To add a Lambda function as an authorization mode for your AppSync API, go to the **Settings** section of the **AppSync console**.
 
-You will need to manage the details of token refreshes in your application code yourself. 
+You will need to manage the details of token refreshes in your application code yourself.
 
 ## Use Amplify CLI to configure authorization modes
 
@@ -85,7 +85,9 @@ Add the following snippet to your `amplifyconfiguration.json`/`.dart` file, unde
     }
 }
 ```
+
 and under the `awsAPIPlugin`
+
 ```json
 {
     ...
@@ -101,17 +103,17 @@ and under the `awsAPIPlugin`
 
 ```
 
-import ios0 from "/src/fragments/lib/graphqlapi/ios/authz/10_userpool.mdx";
+import ios0 from '/src/fragments/lib/graphqlapi/ios/authz/10_userpool.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
-import android1 from "/src/fragments/lib/graphqlapi/android/authz/10_userpool.mdx";
+import android1 from '/src/fragments/lib/graphqlapi/android/authz/10_userpool.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ android: android1 }} />
 
-import flutter2 from "/src/fragments/lib/graphqlapi/flutter/authz/10_userpool.mdx";
+import flutter2 from '/src/fragments/lib/graphqlapi/flutter/authz/10_userpool.mdx';
 
-<Fragments fragments={{flutter: flutter2}} />
+<Fragments fragments={{ flutter: flutter2 }} />
 
 ### IAM
 
@@ -128,11 +130,13 @@ Add the following snippet to your `amplifyconfiguration.json`/`.dart` file:
                     "Region": "[REGION]"
                 }
             }
-        } 
+        }
     }
 }
 ```
+
 and under the `awsAPIPlugin`
+
 ```json
 {
     ...
@@ -165,31 +169,31 @@ Update the `amplifyconfiguration.json`/`.dart` file and code snippet as follows:
 }
 ```
 
-import ios3 from "/src/fragments/lib/graphqlapi/ios/authz/20_oidc.mdx";
+import ios3 from '/src/fragments/lib/graphqlapi/ios/authz/20_oidc.mdx';
 
-<Fragments fragments={{ios: ios3}} />
+<Fragments fragments={{ swift: ios3 }} />
 
-import android4 from "/src/fragments/lib/graphqlapi/android/authz/20_oidc.mdx";
+import android4 from '/src/fragments/lib/graphqlapi/android/authz/20_oidc.mdx';
 
-<Fragments fragments={{android: android4}} />
+<Fragments fragments={{ android: android4 }} />
 
-import flutter5 from "/src/fragments/lib/graphqlapi/flutter/authz/20_oidc.mdx";
+import flutter5 from '/src/fragments/lib/graphqlapi/flutter/authz/20_oidc.mdx';
 
-<Fragments fragments={{flutter: flutter5}} />
+<Fragments fragments={{ flutter: flutter5 }} />
 
 If you are using Cognito's user pool as the authorization type, this will by default retrieve and use the Access Token for your requests. If you would like to override this behavior and use the ID Token instead, you can treat Cognito user pool as your OIDC provider and use `Amplify.Auth` to retrieve the ID Token for your requests.
 
-import ios6 from "/src/fragments/lib/graphqlapi/ios/authz/21_oidc.mdx";
+import ios6 from '/src/fragments/lib/graphqlapi/ios/authz/21_oidc.mdx';
 
-<Fragments fragments={{ios: ios6}} />
+<Fragments fragments={{ swift: ios6 }} />
 
-import android7 from "/src/fragments/lib/graphqlapi/android/authz/21_oidc.mdx";
+import android7 from '/src/fragments/lib/graphqlapi/android/authz/21_oidc.mdx';
 
-<Fragments fragments={{android: android7}} />
+<Fragments fragments={{ android: android7 }} />
 
-import flutter8 from "/src/fragments/lib/graphqlapi/flutter/authz/21_oidc.mdx";
+import flutter8 from '/src/fragments/lib/graphqlapi/flutter/authz/21_oidc.mdx';
 
-<Fragments fragments={{flutter: flutter8}} />
+<Fragments fragments={{ flutter: flutter8 }} />
 
 ### AWS Lambda
 
@@ -209,19 +213,20 @@ Amplify CLI does not currently allow you to configure Lambda as an authorization
 }
 ```
 
-import ios9 from "/src/fragments/lib/graphqlapi/ios/authz/22_lambda.mdx";
+import ios9 from '/src/fragments/lib/graphqlapi/ios/authz/22_lambda.mdx';
 
-<Fragments fragments={{ios: ios9}} />
+<Fragments fragments={{ swift: ios9 }} />
 
-import android10 from "/src/fragments/lib/graphqlapi/android/authz/22_lambda.mdx";
+import android10 from '/src/fragments/lib/graphqlapi/android/authz/22_lambda.mdx';
 
-<Fragments fragments={{android: android10}} />
+<Fragments fragments={{ android: android10 }} />
 
-import flutter11 from "/src/fragments/lib/graphqlapi/flutter/authz/22_lambda.mdx";
+import flutter11 from '/src/fragments/lib/graphqlapi/flutter/authz/22_lambda.mdx';
 
-<Fragments fragments={{flutter: flutter11}} />
+<Fragments fragments={{ flutter: flutter11 }} />
 
 ### NONE
+
 You can also set authorization mode to `NONE` so that the library will not provide any request interception logic. You can use this when your API does not require any authorization or when you want to manipulate the request yourself, such as adding header values or authorization data.
 
 ```json
@@ -238,19 +243,19 @@ You can also set authorization mode to `NONE` so that the library will not provi
 }
 ```
 
-You can register your own request interceptor to intercept the request and perform an action or inject something into your request before it is performed. 
+You can register your own request interceptor to intercept the request and perform an action or inject something into your request before it is performed.
 
-import ios12 from "/src/fragments/lib/graphqlapi/ios/advanced-workflows/50_interceptor.mdx";
+import ios12 from '/src/fragments/lib/graphqlapi/ios/advanced-workflows/50_interceptor.mdx';
 
-<Fragments fragments={{ios: ios12}} />
+<Fragments fragments={{ swift: ios12 }} />
 
-import android13 from "/src/fragments/lib/graphqlapi/android/advanced-workflows/50_interceptor.mdx";
+import android13 from '/src/fragments/lib/graphqlapi/android/advanced-workflows/50_interceptor.mdx';
 
-<Fragments fragments={{android: android13}} />
+<Fragments fragments={{ android: android13 }} />
 
-import flutter14 from "/src/fragments/lib/graphqlapi/flutter/advanced-workflows/50_interceptor.mdx";
+import flutter14 from '/src/fragments/lib/graphqlapi/flutter/advanced-workflows/50_interceptor.mdx';
 
-<Fragments fragments={{flutter: flutter14}} />
+<Fragments fragments={{ flutter: flutter14 }} />
 
 ## Configure multiple authorization modes
 
@@ -258,7 +263,7 @@ import flutter14 from "/src/fragments/lib/graphqlapi/flutter/advanced-workflows/
 
 There is currently [a known issue](https://github.com/aws-amplify/amplify-flutter/issues/1867) where enabling multi-auth modes for the API plugin may break DataStore functionality if the DataStore plugin is also used in the same App.
 
-If you are planning to enable multi-auth for _only_ the DataStore plugin, please refer to the [configure multiple authorization types](/lib/datastore/setup-auth-rules/#configure-multiple-authorization-types) section in DataStore documentation.
+If you are planning to enable multi-auth for _only_ the DataStore plugin, please refer to the [configure multiple authorization types](/[platform]/build-a-backend/more-features/datastore/authz-rules-setup/#configure-multiple-authorization-types) section in DataStore documentation.
 
 If you are planning to enable multi-auth for both the API and DataStore plugins, please monitor the aforementioned issue for the latest progress and updates.
 
@@ -266,7 +271,7 @@ If you are planning to enable multi-auth for both the API and DataStore plugins,
 
 This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
 
-You can now configure a single GraphQL API to deliver private and public data. Private data requires authenticated access using authorization mechanisms such as IAM, Cognito User Pools, and OIDC. Public data does not require authenticated access and is delivered through authorization mechanisms such as API Keys. You can also configure a single GraphQL API to deliver private data using more than one authorization type. For example, you can configure your GraphQL API  to authorize some schema fields using OIDC, while other schema fields through Cognito User Pools and/or IAM.
+You can now configure a single GraphQL API to deliver private and public data. Private data requires authenticated access using authorization mechanisms such as IAM, Cognito User Pools, and OIDC. Public data does not require authenticated access and is delivered through authorization mechanisms such as API Keys. You can also configure a single GraphQL API to deliver private data using more than one authorization type. For example, you can configure your GraphQL API to authorize some schema fields using OIDC, while other schema fields through Cognito User Pools and/or IAM.
 
 As discussed in the above linked documentation, certain fields may be protected by different authorization types. This can lead the same query, mutation, or subscription to have different responses based on the authorization sent with the request; Therefore, it is recommended to use the different `friendly_name_<AuthMode>` as the `apiName` parameter in the `Amplify.API` call to reference each authorization type.
 
@@ -276,52 +281,52 @@ The `friendly_name` illustrated here is created from Amplify CLI prompt. There a
 
 ```json
 {
-    "UserAgent": "aws-amplify-cli/2.0",
-    "Version": "1.0",
-    "api": {
-        "plugins": {
-            "awsAPIPlugin": {
-                "[FRIENDLY-NAME-API-WITH-API-KEY]": {
-                    "endpointType": "GraphQL",
-                    "endpoint": "[GRAPHQL-ENDPOINT]",
-                    "region": "[REGION]",
-                    "authorizationType": "API_KEY",
-                    "apiKey": "[API_KEY]"
-                },
-                "[FRIENDLY-NAME-API-WITH-IAM]": {
-                    "endpointType": "GraphQL",
-                    "endpoint": "[GRAPHQL-ENDPOINT]",
-                    "region": "[REGION]",
-                    "authorizationType": "AWS_IAM",
-                },
-                "[FRIENDLY-NAME-API-WITH-USER-POOLS]": {
-                    "endpointType": "GraphQL",
-                    "endpoint": "https://xyz.appsync-api.us-west-2.amazonaws.com/graphql",
-                    "region": "[REGION]",
-                    "authorizationType": "AMAZON_COGNITO_USER_POOLS",
-                },
-                "[FRIENDLY-NAME-API-WITH-OPENID-CONNECT]": {
-                    "endpointType": "GraphQL",
-                    "endpoint": "https://xyz.appsync-api.us-west-2.amazonaws.com/graphql",
-                    "region": "[REGION]",
-                    "authorizationType": "OPENID_CONNECT",
-                }
-            }
+  "UserAgent": "aws-amplify-cli/2.0",
+  "Version": "1.0",
+  "api": {
+    "plugins": {
+      "awsAPIPlugin": {
+        "[FRIENDLY-NAME-API-WITH-API-KEY]": {
+          "endpointType": "GraphQL",
+          "endpoint": "[GRAPHQL-ENDPOINT]",
+          "region": "[REGION]",
+          "authorizationType": "API_KEY",
+          "apiKey": "[API_KEY]"
+        },
+        "[FRIENDLY-NAME-API-WITH-IAM]": {
+          "endpointType": "GraphQL",
+          "endpoint": "[GRAPHQL-ENDPOINT]",
+          "region": "[REGION]",
+          "authorizationType": "AWS_IAM"
+        },
+        "[FRIENDLY-NAME-API-WITH-USER-POOLS]": {
+          "endpointType": "GraphQL",
+          "endpoint": "https://xyz.appsync-api.us-west-2.amazonaws.com/graphql",
+          "region": "[REGION]",
+          "authorizationType": "AMAZON_COGNITO_USER_POOLS"
+        },
+        "[FRIENDLY-NAME-API-WITH-OPENID-CONNECT]": {
+          "endpointType": "GraphQL",
+          "endpoint": "https://xyz.appsync-api.us-west-2.amazonaws.com/graphql",
+          "region": "[REGION]",
+          "authorizationType": "OPENID_CONNECT"
         }
+      }
     }
+  }
 }
 ```
 
 The `GRAPHQL-ENDPOINT` from AWS AppSync will look similar to `https://xyz.appsync-api.us-west-2.amazonaws.com/graphql`.
 
-import ios15 from "/src/fragments/lib/graphqlapi/ios/authz/30_multi.mdx";
+import ios15 from '/src/fragments/lib/graphqlapi/ios/authz/30_multi.mdx';
 
-<Fragments fragments={{ios: ios15}} />
+<Fragments fragments={{ swift: ios15 }} />
 
-import android16 from "/src/fragments/lib/graphqlapi/android/authz/30_multi.mdx";
+import android16 from '/src/fragments/lib/graphqlapi/android/authz/30_multi.mdx';
 
-<Fragments fragments={{android: android16}} />
+<Fragments fragments={{ android: android16 }} />
 
-import flutter17 from "/src/fragments/lib/graphqlapi/flutter/authz/30_multi.mdx";
+import flutter17 from '/src/fragments/lib/graphqlapi/flutter/authz/30_multi.mdx';
 
-<Fragments fragments={{flutter: flutter17}} />
+<Fragments fragments={{ flutter: flutter17 }} />

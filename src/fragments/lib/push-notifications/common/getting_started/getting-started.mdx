@@ -14,18 +14,18 @@ import iosPreReq from '/src/fragments/lib/push-notifications/ios/getting_started
   fragments={{
     android: androidPreReq,
     flutter: crossPlatformPreReq,
-    ios: iosPreReq,
+    swift: iosPreReq,
     'react-native': crossPlatformPreReq
   }}
 />
 
 import iosSetEntitlements from '/src/fragments/lib/push-notifications/ios/getting_started/20_set_entitlements.mdx';
 
-<Fragments fragments={{ ios: iosSetEntitlements }} />
+<Fragments fragments={{ swift: iosSetEntitlements }} />
 
 import iosCreateAppDelegate from '/src/fragments/lib/push-notifications/ios/getting_started/30_create_app_delegate.mdx';
 
-<Fragments fragments={{ ios: iosCreateAppDelegate }} />
+<Fragments fragments={{ swift: iosCreateAppDelegate }} />
 
 ## Set up backend resources
 
@@ -34,7 +34,7 @@ To use Push Notifications with Amplify, you have the option to either have the A
 <BlockSwitcher>
 <Block name="Amplify CLI">
 
-> Prerequisite: [Install and configure the Amplify CLI](/cli/start/install)
+> Prerequisite: [Install and configure the Amplify CLI](/[platform]/tools/cli/start/set-up-cli/)
 
 <Callout warning>
 
@@ -57,7 +57,7 @@ import reactNativeCliResources from '/src/fragments/lib/push-notifications/react
   fragments={{
     android: androidCliResources,
     flutter: flutterCliResources,
-    ios: iosCliResources,
+    swift: iosCliResources,
     'react-native': reactNativeCliResources
   }}
 />
@@ -74,7 +74,7 @@ import reactNativeExistingResources from '/src/fragments/lib/push-notifications/
   fragments={{
     android: androidExistingResources,
     flutter: flutterExistingResources,
-    ios: iosExistingResources,
+    swift: iosExistingResources,
     'react-native': reactNativeExistingResources
   }}
 />
@@ -93,14 +93,14 @@ import reactNativeInstallLib from '/src/fragments/lib/push-notifications/react-n
   fragments={{
     android: androidInstallLib,
     flutter: flutterInstallLib,
-    ios: iosInstallLib,
+    swift: iosInstallLib,
     'react-native': reactNativeInstallLib
   }}
 />
 
 import reactNativeIntegrateNativeModule from '/src/fragments/lib/push-notifications/react-native/getting_started/50_integrate_native_modules.mdx';
 
-<Fragments  fragments={{ 'react-native': reactNativeIntegrateNativeModule }} />
+<Fragments fragments={{ 'react-native': reactNativeIntegrateNativeModule }} />
 
 ## Initialize Amplify Push Notifications
 
@@ -113,7 +113,7 @@ import reactNativeInitPN from '/src/fragments/lib/push-notifications/react-nativ
   fragments={{
     android: androidInitPN,
     flutter: flutterInitPN,
-    ios: iosInitPN,
+    swift: iosInitPN,
     'react-native': reactNativeInitPN
   }}
 />

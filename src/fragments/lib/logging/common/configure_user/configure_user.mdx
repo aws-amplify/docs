@@ -1,16 +1,18 @@
 Each Amplify authenticated user can be configured to have their own unique logging configuration. This is helpful in enabling you debug issues more granularly for your users.
 
 ## Retrieve userIDs with Amplify Auth.
+
 You can use the Amplify Auth category to retrieve the userId for a specific user if needed. You can also retrieve the userId by visiting the Amazon Cognito console and inspecting the `User ID` in User pools.
 
 import iosCurrentUser from '/src/fragments/lib/logging/ios/configure_user/auth_current_user.mdx';
 import androidCurrentUser from '/src/fragments/lib/logging/android/configure_user/auth_current_user.mdx';
 
 <Fragments
-    fragments={{
-        ios: iosCurrentUser,
-        android: androidCurrentUser
-    }}/>
+  fragments={{
+    swift: iosCurrentUser,
+    android: androidCurrentUser
+  }}
+/>
 
 ## Configure user allow list
 
@@ -21,14 +23,15 @@ import androidUserLogLevel from '/src/fragments/lib/logging/android/configure_us
 import commonUserLogLevel from '/src/fragments/lib/logging/common/configure_user/user_log_level.mdx';
 
 <BlockSwitcher>
-    <Block name="With Configuration File">
-        <Fragments fragments={{all: commonUserLogLevel}}/>
-    </Block>
-    <Block name="With Code">
-        <Fragments
-            fragments={{
-                ios: iosUserLogLevel,
-                android: androidUserLogLevel
-            }}/>
-    </Block>
+  <Block name="With Configuration File">
+    <Fragments fragments={{ all: commonUserLogLevel }} />
+  </Block>
+  <Block name="With Code">
+    <Fragments
+      fragments={{
+        swift: iosUserLogLevel,
+        android: androidUserLogLevel
+      }}
+    />
+  </Block>
 </BlockSwitcher>

@@ -11,7 +11,7 @@ import reactNativeGetUser from '/src/fragments/lib/push-notifications/react-nati
   fragments={{
     android: androidGetUser,
     flutter: flutterGetUser,
-    ios: iosGetUser,
+    swift: iosGetUser,
     'react-native': reactNativeGetUser
   }}
 />
@@ -29,7 +29,7 @@ import reactNativeSendToPinpoint from '/src/fragments/lib/push-notifications/rea
   fragments={{
     android: androidSendToPinpoint,
     flutter: flutterSendToPinpoint,
-    ios: iosSendToPinpoint,
+    swift: iosSendToPinpoint,
     'react-native': reactNativeSendToPinpoint
   }}
 />
@@ -38,5 +38,5 @@ import androidSendWithProfile from '/src/fragments/lib/push-notifications/androi
 import iosSendWithProfile from '/src/fragments/lib/push-notifications/ios/identify_user/30_send_to_pinpoint_profile.mdx';
 
 <Fragments
-  fragments={{ android: androidSendWithProfile, ios: iosSendWithProfile }}
+  fragments={{ android: androidSendWithProfile, swift: iosSendWithProfile }}
 />

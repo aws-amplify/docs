@@ -1,12 +1,14 @@
 <Callout warning>
 
-**Note:** This functionality is only available in **iOS** and **macOS**.
+**Note:** Social sign-in (OAuth) functionality is only available in **iOS** and **macOS**.
+
+ When configuring social sign-in through the Amplify CLI, it's important to exercise caution when designating attributes as "required." Different social identity providers have varied scopes in terms of the information they respond back to Cognito with.  User pool attributes that are initially set up as "required" cannot be changed later, and may require you to migrate the users or create a new user pool.  
 
 </Callout>
 
 An application with a minimum target of **iOS 13.0** and/or **macOS 10.15** with Amplify libraries integrated, using **Xcode 14.1** or later.
 
-For a full example, please follow the [project setup walkthrough](/lib/project-setup/prereq).
+For a full example, please follow the [project setup walkthrough](/[platform]/start/project-setup/prerequisites/).
 
 <Callout>
 

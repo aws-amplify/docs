@@ -1,0 +1,26 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Using RxJava with Amplify',
+  description: 'Amplify Android has first-class support for Reactive Extensions / RxJava.',
+  platforms: ['android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+
+import android0 from '/src/fragments/lib/project-setup/android/rxjava/rxjava.mdx';
+
+<Fragments fragments={{ android: android0 }} />

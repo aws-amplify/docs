@@ -1,32 +1,13 @@
 // Adapted from https://gist.github.com/joranquinten/78f3e288274a3c9405a499b8a8c46e35
 import * as fs from 'fs';
 import { execSync } from 'child_process';
-import { createRequire } from 'module';
-import directory from '../src/directory/directory.mjs';
-
-const require = createRequire(import.meta.url);
-const generatePathMap = require('../generatePathMap.cjs');
+import directory from '../src/directory/directory.json' assert { type: 'json' };
 
 const formatDate = (date) => `${date.toISOString().split('.')[0]}+0:00`;
-const getPriority = (_) => 0.5;
+const getPriority = () => 0.5;
 
 const lastModifiedCache = {};
 const lastModified = (path) => {
-  if (path == '/ChooseFilterPage') {
-    path = `./src/pages${path}.tsx`;
-  } else if (path == '/') {
-    path = `./src/pages/index.tsx`;
-  } else if (path == '/404') {
-    path = `./src/pages/404.tsx`;
-  } else if (path == '/console') {
-    path = `./src/pages/console/index.mdx`;
-  } else if (path == '/cli') {
-    path = `./src/pages/cli/index.mdx`;
-  } else if (path == '/cli/function') {
-    path = `./src/pages/cli/function/index.mdx`;
-  } else {
-    path = `./src/pages${path}.mdx`;
-  }
   if (fs.existsSync(path)) {
     if (path in lastModifiedCache) {
       return lastModifiedCache[path];
@@ -60,14 +41,60 @@ const xmlUrlNode = (pageUrl, pagePath) => {
 </url>`;
 };
 
+const traverseDirectory = (directory, cb) => {
+  let retValue = [];
+  const children = directory.children;
+  retValue = retValue.concat(cb(directory));
+  children?.forEach((child) => {
+    retValue = retValue.concat(traverseDirectory(child, cb));
+  });
+  return retValue;
+};
+
+const getFilePath = (filePaths) => {
+  for (let i = 0; i < filePaths.length; i++) {
+    if (fs.existsSync(filePaths[i])) {
+      return filePaths[i];
+    }
+  }
+  return '';
+};
+
+const createRoutePathList = (directory) => {
+  const getRouteAndPath = (directoryNode) => {
+    if (directoryNode.isExternal) return [];
+    const route = directoryNode.route;
+    const filePath = getFilePath([
+      `src/pages${route}.mdx`,
+      `src/pages${route}.tsx`,
+      `src/pages${route}/index.mdx`,
+      `src/pages${route}/index.tsx`
+    ]);
+    if (!route) {
+      return;
+    }
+    if (route.includes('[platform]') && directoryNode.platforms?.length) {
+      return directoryNode.platforms.map((platform) => {
+        return { route: route.replace('[platform]', platform), filePath };
+      });
+    } else {
+      return [{ route, filePath }];
+    }
+  };
+  const routePathList = traverseDirectory(directory, getRouteAndPath);
+
+  return routePathList;
+};
+
 const writeSitemap = async () => {
   const sitemapPath = './public/sitemap.xml';
-  const pathmap = generatePathMap(directory, undefined, true);
+  const pathMap = createRoutePathList(directory);
   let xmlUrlNodes = '';
-  for (const pageUrl in pathmap) {
-    const pagePath = pathmap[pageUrl].page;
-    xmlUrlNodes += xmlUrlNode(pageUrl, pagePath);
-  }
+  pathMap.forEach((routePath) => {
+    if (!routePath) return;
+    const { route, filePath } = routePath;
+    xmlUrlNodes += xmlUrlNode(route, filePath);
+  });
   const sitemap = `${xmlUrlWrapper(xmlUrlNodes)}`;
   fs.writeFileSync(sitemapPath, sitemap);
   console.log(`sitemap written to ${sitemapPath}`);
@@ -77,6 +104,9 @@ const writeRobots = () => {
   let robotsContent = `User-agent: *\nDisallow:\n`;
   if (typeof process.env.ALLOW_ROBOTS === 'undefined') {
     robotsContent = `User-agent: *\nDisallow: /\n`;
+  }
+  if (process.env.BUILD_ENV === 'production') {
+    robotsContent += `Sitemap: ${domain}/sitemap.xml\n`;
   }
 
   const robotsPath = './public/robots.txt';

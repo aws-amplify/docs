@@ -1,10 +1,12 @@
 let configured = false;
-let firstPageOfVisit = true;
 let AWSCShortbread;
 let s;
 let AWSMA;
 
-if (typeof window !== "undefined" && typeof window.AWSCShortbread !== "undefined") {
+if (
+  typeof window !== 'undefined' &&
+  typeof window.AWSCShortbread !== 'undefined'
+) {
   AWSCShortbread = window.AWSCShortbread;
   AWSMA = window.AWSMA;
   s = window.s;
@@ -13,7 +15,7 @@ if (typeof window !== "undefined" && typeof window.AWSCShortbread !== "undefined
     AWSCShortbread({
       domain: '.amplify.aws'
     }).checkForCookieConsent();
-    if (typeof s != "undefined") s.trackExternalLinks = false;
+    if (typeof s != 'undefined') s.trackExternalLinks = false;
     configured = true;
   }
 }
@@ -25,55 +27,12 @@ export enum AnalyticsEventType {
   PAGE_DATA_FETCH_EXCEPTION = 'PAGE_DATA_FETCH_EXCEPTION'
 }
 
-interface AnalyticsEventPageVisit {
-  type: AnalyticsEventType.PAGE_VISIT;
-  attributes: {
-    url: string;
-    previousUrl: string;
-    referrer: string;
-  };
-}
-
-interface AnalyticsEventInternalLinkClick {
-  type: AnalyticsEventType.INTERNAL_LINK_CLICK;
-  attributes: {
-    from: string;
-    to: string;
-  };
-}
-
-interface AnalyticsEventExternalLinkClick {
-  type: AnalyticsEventType.EXTERNAL_LINK_CLICK;
-  attributes: {
-    from: string;
-    to: string;
-  };
-}
-
-interface AnalyticsEventPageDataFetchException {
-  type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION;
-  attributes: {
-    url: string;
-    exception: Error;
-  };
-}
-
-type AnalyticsEvent =
-  | AnalyticsEventPageVisit
-  | AnalyticsEventInternalLinkClick
-  | AnalyticsEventExternalLinkClick
-  | AnalyticsEventPageDataFetchException;
-
 export const trackPageVisit = (): void => {
-  if (
-    typeof window !== 'undefined' &&
-    typeof s != 'undefined' &&
-    !firstPageOfVisit
-  ) {
+  if (typeof window !== 'undefined' && typeof s != 'undefined') {
+    s.pageName = window.location.href;
     s.pageURL = window.location.href;
     s.t();
   }
-  firstPageOfVisit = false;
 };
 
 export const trackPageFetchException = (): void => {
@@ -132,13 +91,7 @@ export const setSearchResultCount = (resultCount: number): void => {
   }
 };
 
-export const trackSearchQuery = (
-  _input,
-  _event,
-  suggestion,
-  _datasetNumber,
-  _context
-): void => {
+export const trackSearchQuery = (_input, _event, suggestion): void => {
   if (typeof window !== 'undefined' && typeof s != 'undefined') {
     s.linkTrackVars =
       'prop39,prop41,prop50,prop61,prop62,eVar26,eVar27,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events';
@@ -168,8 +121,7 @@ export const trackExpanderOpen = (expanderId) => {
   const opt = {
     event: {
       type: 'click',
-      name: 'ExpanderOpen',
-      expanderId
+      name: `ExpanderOpen.${expanderId}`
     }
   };
 
@@ -187,6 +139,38 @@ export const trackCopyClicks = (data) => {
       name: 'CopyCode'
     },
     data: data
+  };
+
+  AWSMA.ready(() => {
+    document.dispatchEvent(
+      new CustomEvent(AWSMA.TRIGGER_EVENT, { detail: opt })
+    );
+  });
+};
+
+// Track the click on the "Whats new" banner component
+export const trackWhatsNewBanner = () => {
+  const opt = {
+    event: {
+      type: 'click',
+      name: 'WhatsNewBanner'
+    }
+  };
+
+  AWSMA.ready(() => {
+    document.dispatchEvent(
+      new CustomEvent(AWSMA.TRIGGER_EVENT, { detail: opt })
+    );
+  });
+};
+
+// Track the click on the Version Switcher component
+export const trackVersionChange = (viewOld: boolean) => {
+  const opt = {
+    event: {
+      type: 'click',
+      name: `VersionChanged${viewOld ? 'Prev' : 'Current'}`
+    }
   };
 
   AWSMA.ready(() => {

@@ -1,0 +1,29 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Register a device',
+  description:
+    'Register a device with the push notification service and Amazon Pinpoint.',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import android0 from '/src/fragments/lib/push-notifications/common/register-device.mdx';
+
+<Fragments fragments={{ android: android0 }} />
+
+import ios1 from '/src/fragments/lib/push-notifications/common/register-device.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />

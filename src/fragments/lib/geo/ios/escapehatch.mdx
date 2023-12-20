@@ -1,11 +1,10 @@
 If you need functionality in the AWSLocation framework used by the Amplify Geo category that isn't available, we provide an escape hatch so you can reference it directly.
 
-import ios0 from "/src/fragments/lib/ios-escape-hatch-warning.mdx";
+import ios0 from '/src/fragments/lib/ios-escape-hatch-warning.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
-Note: If you provisioned your Geo resources via Amplify CLI, then the IAM policy will be specifically scoped to only allow actions required by the library.
-Please [adjust your authorization permissions](/lib/geo/existing-resources) accordingly for your escape hatch use-cases.
+Note: If you provisioned your Geo resources via Amplify CLI, then the IAM policy will be specifically scoped to only allow actions required by the library. Please [adjust your authorization permissions](/[platform]/build-a-backend/more-features/geo/existing-resources/) accordingly for your escape hatch use-cases.
 
 ```swift
 import AWSLocation
@@ -36,16 +35,19 @@ do {
 
 ### Documentation Resources
 
-* [How to manage Amazon Location Service resources through console](https://docs.aws.amazon.com/location/latest/developerguide/welcome.html)
+- [How to manage Amazon Location Service resources through console](https://docs.aws.amazon.com/location/latest/developerguide/welcome.html)
 
 **Maps**
-* [Using Amazon Location Maps in your application](https://docs.aws.amazon.com/location/latest/developerguide/using-maps.html)
-* [Amazon Location Maps API Reference](https://docs.aws.amazon.com/location-maps/latest/APIReference/API_Operations.html)
+
+- [Using Amazon Location Maps in your application](https://docs.aws.amazon.com/location/latest/developerguide/using-maps.html)
+- [Amazon Location Maps API Reference](https://docs.aws.amazon.com/location-maps/latest/APIReference/API_Operations.html)
 
 **Places**
-* [Searching place and geolocation data using Amazon Location](https://docs.aws.amazon.com/location/latest/developerguide/searching-for-places.html)
-* [Amazon Location Places API Reference](https://docs.aws.amazon.com/location-places/latest/APIReference/API_Operations.html)
+
+- [Searching place and geolocation data using Amazon Location](https://docs.aws.amazon.com/location/latest/developerguide/searching-for-places.html)
+- [Amazon Location Places API Reference](https://docs.aws.amazon.com/location-places/latest/APIReference/API_Operations.html)
 
 **Device Tracking**
-* [Managing your tracker resources](https://docs.aws.amazon.com/location/latest/developerguide/managing-trackers.html)
-* [Amazon Location Trackers API Reference](https://docs.aws.amazon.com/location-trackers/latest/APIReference/API_Operations.html)
+
+- [Managing your tracker resources](https://docs.aws.amazon.com/location/latest/developerguide/managing-trackers.html)
+- [Amazon Location Trackers API Reference](https://docs.aws.amazon.com/location-trackers/latest/APIReference/API_Operations.html)

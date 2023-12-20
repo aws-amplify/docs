@@ -1,0 +1,30 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Add SMS flows',
+  description: 'Using phone numbers for sign-in and verification',
+  platforms: ['flutter']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+import flutter0 from '/src/fragments/lib-v1/auth/common/sms/flows.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />

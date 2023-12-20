@@ -1,0 +1,145 @@
+export const meta = {
+  title: 'Sandbox features',
+  description:
+    'Explore sandbox features such as secrets, client codegen, and config generation for mobile and cross-platform.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+Sandbox environments include additional features for managing secrets, deploying multiple sandboxes, config generation, and client codegen for your Amplify app.
+
+## Secure secrets in your sandbox
+
+<Callout info>
+  Secrets set in a sandbox do not show up in the Amplify Console. You can view them in the AWS Systems Manager (SSM) Parameter Store console.
+</Callout>
+
+Amplify (Gen 2) offers secure secret storage to manage sensitive data like API keys and database credentials. Secrets are similar to environment variables, but they are encrypted AWS Systems Manager Parameter Store key value pairs. Secrets are stored in AWS Parameter Store with the following naming convention: `/amplify/<package.json#name>/<sandbox-name>/<key-name>`.
+
+### Set secrets
+
+You can add secrets while running your cloud sandbox with the following command:
+
+```bash
+npx amplify sandbox secret set foo
+? Enter secret value: ###
+Done!
+
+> npx amplify sandbox secret set bar
+? Enter secret value: ###
+Done!
+```
+
+### Access secrets
+
+Once you have set a secret, you can access the values in code by calling the `secret()` function. The following example shows how to set up social sign-in with authentication in your app. Depending on your environment, Amplify will automatically load the correct secret value with no extra configuration.
+
+```ts
+import { defineAuth, secret } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      facebook: {
+        // highlight-start
+        clientId: secret('foo'),
+        clientSecret: secret('bar')
+        // highlight-end
+      }
+    }
+  }
+});
+```
+
+### Retrieve secrets
+
+To get the value of a secret from the cloud, run the following command in your terminal:
+
+```bash
+npx amplify sandbox secret get foo
+ name: foo
+ version: 1
+ value: 123
+ lastUpdated: Mon Nov 13 2023 22:19:12 GMT-0800 (Pacific Standard Time)
+```
+
+### Remove secrets
+
+To remove a secret from the cloud, run the following command in your terminal:
+
+```bash
+npx amplify sandbox secret remove foo
+```
+
+### Work with multiple AWS profiles
+
+Sometimes you might have multiple AWS profiles set up locally. To run `amplify sandbox secret` commands, use the `--profile` flag to deploy to a specific profile. For example, let's say you have two AWS profiles set up locally—`default` and `work`. To add secrets to the `work` profile, run the following command in your terminal:
+
+```bash
+npx amplify sandbox secret set foo --profile work
+```
+
+## Multiple sandboxes per app
+
+<Callout info>
+  Provisioning multiple sandboxes per app is possible but not recommended because managing multiple ephemeral environments for a single app introduces complexity. With multiple sandboxes, it can be difficult to keep track of what code version or configuration is deployed where. Sticking to a single ephemeral sandbox per app keeps your workflows simple and straightforward.
+</Callout>
+
+You can create multiple cloud sandbox environments for each app if you want to keep persistent sandbox environments up and running to test against. First, run the following command in the terminal:
+
+```bash
+npx amplify sandbox --name s1
+```
+
+Once the deployment completes, exit sandbox `s1` and run the following command in the terminal:
+
+```bash
+npx amplify sandbox --name s2
+```
+
+After successful deployment, sandboxes `s1` and `s2` will be ready. Pick sandbox `s1` or `s2` to activate. You can switch between them but only one can be running at a time.
+
+## Generate client config
+
+The client config, or `amplifyconfiguration.json` file, contains the configuration strings for interacting with AWS resources specific to an environment. The Amplify client libraries need the client config in order to use the library APIs to connect to backend resources. By default, the cloud sandbox generates the client configuration file at the root of the project (such as `@/amplifyconfiguration.json`). If you want to place the file at a different path (such as for a monorepo or Android app), run the following command in the terminal:
+
+```bash
+npx amplify sandbox --config-out-dir ./path/to/config --format ["mjs", "json", "json-mobile", "ts", "dart"]
+```
+
+Alternatively, if you want to generate the config for a branch environment to test against, run the following command in the terminal.
+
+```bash
+npx amplify generate config --app-id <AMPLIFY_APP_ID> --branch main --format ["mjs", "json", "json-mobile", "ts", "dart"] out-dir ./path/to/config
+```
+
+## Generate client codegen
+
+<Callout info>
+  Amplify (Gen 2) introduces a fully typed experience for data that no longer requires an explicit codegen step, unlike in Amplify (Gen 1). You will only need this command if you are building a mobile app or have Gen-1 requirements.
+</Callout>
+
+Codegen generates native code for Swift (iOS), Java (Android), and JavaScript that represents your GraphQL API's data models. It can also generate GraphQL statements (queries, mutations, and subscriptions) so that you don't have to manually code them.
+
+Once your sandbox completes a deployment, you can run the following command in the terminal to generate client code that is specific to your needs:
+
+```bash
+npx amplify generate graphql-client-code
+--format [choices: "modelgen", "graphql-codegen", "introspection"]
+```
+
+## Delete a sandbox
+
+You can delete a cloud sandbox environment in several ways:
+
+1. Ctrl+C your sandbox and choose to delete resources.
+1. Run `npx amplify sandbox delete` or `npx amplify sandbox delete --name`
+1. Visit the Amplify console and [delete sandboxes](/gen2/deploy-and-host/sandbox-environments/setup/#manage-sandbox-environments).

@@ -1,0 +1,44 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Identify entities from images',
+  description: 'Learn how to identify entities from an image using Amplify.',
+  platforms: [
+    'javascript',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import identifyEntityJs from '/src/fragments/lib/predictions/js/identify-entity.mdx';
+import identifyEntityIOS from '/src/fragments/lib/predictions/ios/identify-entity.mdx';
+import identifyEntityAndroid from '/src/fragments/lib/predictions/android/identify-entity.mdx';
+
+<Fragments
+  fragments={{
+    javascript: identifyEntityJs,
+    angular: identifyEntityJs,
+    nextjs: identifyEntityJs,
+    react: identifyEntityJs,
+    vue: identifyEntityJs,
+    swift: identifyEntityIOS,
+    android: identifyEntityAndroid
+  }}
+/>

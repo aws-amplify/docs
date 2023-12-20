@@ -1,0 +1,22 @@
+The app badge count, when set, can be seen on your app's icon on a user's device. Amplify provides you with simple helpers to manipulate this number.
+
+<Callout>
+  App badge count helpers are safe to call (but will be ignored) even when your
+  app is running on platforms where badges are not supported.
+</Callout>
+
+## Get the current badge count
+
+Use `getBadgeCount` to get the current app badge count. You might need to do this to calculate the value when setting the badge count.
+
+import getBadgeCount from '/src/fragments/lib-v1/push-notifications/react-native/app_badge_count/get-badge-count.mdx';
+
+<Fragments fragments={{ 'react-native': getBadgeCount }} />
+
+## Update the badge count
+
+Use `setBadgeCount` to set the current app badge count. Setting the badge count to `0` (zero) will remove the badge from your app's icon.
+
+import setBadgeCount from '/src/fragments/lib-v1/push-notifications/react-native/app_badge_count/set-badge-count.mdx';
+
+<Fragments fragments={{ 'react-native': setBadgeCount }} />

@@ -1,0 +1,41 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Authentication',
+  description:
+    'The AWSMobileClient provides client APIs and building blocks for developers who want to create user authentication experiences. Learn more about how it works. ',
+  platforms: ['swift', 'android'],
+  route: '/[platform]/sdk/auth'
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+import all0 from '/src/fragments/sdk/library-callout.mdx';
+
+<Fragments fragments={{ all: all0 }} />
+
+import ios1 from '/src/fragments/sdk/auth/ios/how-it-works.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />
+
+import android2 from '/src/fragments/sdk/auth/android/how-it-works.mdx';
+
+<Fragments fragments={{ android: android2 }} />
+
+## Learn more
+
+<Overview childPageNodes={props.childPageNodes} />

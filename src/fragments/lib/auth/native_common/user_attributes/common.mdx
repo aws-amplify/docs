@@ -2,66 +2,66 @@
 
 Invoke the following api to get the list of attributes assigned to the user.
 
-import ios0 from "/src/fragments/lib/auth/ios/user_attributes/10_fetch_attributes.mdx";
+import ios0 from '/src/fragments/lib/auth/ios/user_attributes/10_fetch_attributes.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
-import android1 from "/src/fragments/lib/auth/android/user_attributes/10_fetch_attributes.mdx";
+import android1 from '/src/fragments/lib/auth/android/user_attributes/10_fetch_attributes.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ android: android1 }} />
 
-import flutter2 from "/src/fragments/lib/auth/flutter/user_attributes/10_fetch_attributes.mdx";
+import flutter2 from '/src/fragments/lib/auth/flutter/user_attributes/10_fetch_attributes.mdx';
 
-<Fragments fragments={{flutter: flutter2}} />
+<Fragments fragments={{ flutter: flutter2 }} />
 
 ## Update user attribute
 
 Invoke the update api for creating new or updating existing user attributes.
 
-import ios3 from "/src/fragments/lib/auth/ios/user_attributes/20_update_user_attribute.mdx";
+import ios3 from '/src/fragments/lib/auth/ios/user_attributes/20_update_user_attribute.mdx';
 
-<Fragments fragments={{ios: ios3}} />
+<Fragments fragments={{ swift: ios3 }} />
 
-import android4 from "/src/fragments/lib/auth/android/user_attributes/20_update_user_attribute.mdx";
+import android4 from '/src/fragments/lib/auth/android/user_attributes/20_update_user_attribute.mdx';
 
-<Fragments fragments={{android: android4}} />
+<Fragments fragments={{ android: android4 }} />
 
-import flutter5 from "/src/fragments/lib/auth/flutter/user_attributes/20_update_user_attribute.mdx";
+import flutter5 from '/src/fragments/lib/auth/flutter/user_attributes/20_update_user_attribute.mdx';
 
-<Fragments fragments={{flutter: flutter5}} />
+<Fragments fragments={{ flutter: flutter5 }} />
 
 ## Verify user attribute
-Some attributes require confirmation for the attribute update to complete. If the attribute need to be confirmed, the result of the above api will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details.
-When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the confirm attribute api with their input:
 
-import ios6 from "/src/fragments/lib/auth/ios/user_attributes/30_confirm_attribute.mdx";
+Some attributes require confirmation for the attribute update to complete. If the attribute need to be confirmed, the result of the above api will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the confirm attribute api with their input:
 
-<Fragments fragments={{ios: ios6}} />
+import ios6 from '/src/fragments/lib/auth/ios/user_attributes/30_confirm_attribute.mdx';
 
-import android7 from "/src/fragments/lib/auth/android/user_attributes/30_confirm_attribute.mdx";
+<Fragments fragments={{ swift: ios6 }} />
 
-<Fragments fragments={{android: android7}} />
+import android7 from '/src/fragments/lib/auth/android/user_attributes/30_confirm_attribute.mdx';
 
-import flutter8 from "/src/fragments/lib/auth/flutter/user_attributes/30_confirm_attribute.mdx";
+<Fragments fragments={{ android: android7 }} />
 
-<Fragments fragments={{flutter: flutter8}} />
+import flutter8 from '/src/fragments/lib/auth/flutter/user_attributes/30_confirm_attribute.mdx';
+
+<Fragments fragments={{ flutter: flutter8 }} />
 
 ## Resend verification code
+
 If the code has expired or the user needs to resend the confirmation code, invoke the resend api as shown below:
 
-import ios9 from "/src/fragments/lib/auth/ios/user_attributes/40_resend_code.mdx";
+import ios9 from '/src/fragments/lib/auth/ios/user_attributes/40_resend_code.mdx';
 
-<Fragments fragments={{ios: ios9}} />
+<Fragments fragments={{ swift: ios9 }} />
 
-import android10 from "/src/fragments/lib/auth/android/user_attributes/40_resend_code.mdx";
+import android10 from '/src/fragments/lib/auth/android/user_attributes/40_resend_code.mdx';
 
-<Fragments fragments={{android: android10}} />
+<Fragments fragments={{ android: android10 }} />
 
-import flutter11 from "/src/fragments/lib/auth/flutter/user_attributes/40_resend_code.mdx";
+import flutter11 from '/src/fragments/lib/auth/flutter/user_attributes/40_resend_code.mdx';
 
-<Fragments fragments={{flutter: flutter11}} />
+<Fragments fragments={{ flutter: flutter11 }} />
 
+import flutter12 from '/src/fragments/lib/auth/flutter/user_attributes/50_custom_attributes.mdx';
 
-import flutter12 from "/src/fragments/lib/auth/flutter/user_attributes/50_custom_attributes.mdx";
-
-<Fragments fragments={{flutter: flutter12}} />
+<Fragments fragments={{ flutter: flutter12 }} />

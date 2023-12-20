@@ -1,0 +1,97 @@
+## Create a New Next.js App
+
+import versionRangeCallout from '/src/fragments/lib/ssr/nextjs/version-range-callout.mdx';
+
+<Fragments
+  fragments={{
+    javascript: versionRangeCallout,
+    angular: versionRangeCallout,
+    nextjs: versionRangeCallout,
+    react: versionRangeCallout,
+    vue: versionRangeCallout
+  }}
+/>
+
+To set up the project, you will need to create a new Next.js app with the [`create-next-app`](https://nextjs.org/docs/api-reference/create-next-app) tool. You'll then add Amplify and initialize a new project.
+
+Run the following command and following the instructions to create a Next.js app.
+
+```shellscript
+npx create-next-app@">=13.5.0 <15.0.0" next-amplified
+```
+
+Then run the following command to enter the root of your Next.js app.
+
+```shellscript
+cd next-amplified
+```
+
+You can now run the app in development mode by using the following command:
+
+```bash
+npm run dev
+```
+
+## Create a New Amplify Backend
+
+Now that you have a running Next.js app, it's time to set up Amplify so that you can create the necessary backend services needed to support the app.
+
+<Callout warning>
+
+To use Amplify JS V6 with the Next.js, please ensure the Amplify CLI version in your system is higher than `12.5.1`. You can check the CLI version by running `amplify --version`.
+
+</Callout>
+
+Open a new terminal. From the root of the project, run:
+
+```bash
+amplify init
+```
+
+When you initialize Amplify you'll be prompted for some information about the app.
+
+```console
+? Enter a name for the project (nextamplified)
+The following configuration will be applied:
+
+Project information
+| Name: nextamplified
+| Environment: dev
+| Default editor: Visual Studio Code
+| App type: javascript
+| Javascript framework: react
+| Source Directory Path: src
+| Distribution Directory Path: build
+| Build Command: npm run-script build
+| Start Command: npm run-script start
+
+? Initialize the project with the above configuration? Yes
+Using default provider  awscloudformation
+? Select the authentication method you want to use: AWS profile
+
+For more information on AWS Profiles, see:
+https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
+
+? Please choose the profile you want to use default
+```
+
+When you initialize a new Amplify project, a few things happen:
+
+- It creates a top level directory called `amplify` that stores your backend definition. During the tutorial you'll add capabilities such as a GraphQL API and authentication. As you add features, the `amplify` folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
+- It creates a file called `amplifyconfiguration.json` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
+- It modifies the `.gitignore` file, adding some generated files to the ignore list
+- A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources
+
+As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in `amplifyconfiguration.json` will update automatically.
+
+## Install Amplify libraries
+
+Install required dependencies to your Next.js app to start using Amplify.
+
+```bash
+npm install aws-amplify@next @aws-amplify/adapter-nextjs@next
+```
+
+The `aws-amplify` package is the main library for working with Amplify in your apps. The `@aws-amplify/adapter-nextjs` provides adapter functions to enable use of Amplify APIs on the server side of your Next.js app for use cases such as Server Side Rendering (SSR).
+
+For details of using Amplify with in your Next.js app, see [use Amplify with Next.js](/[platform]/prev/build-a-backend/server-side-rendering/).

@@ -1,0 +1,45 @@
+You should have [completed the CLI and project setup steps.](/[platform]/prev/start/project-setup/prerequisites/)
+
+<BlockSwitcher>
+<Block name="iOS">
+
+An application targeting at least iOS 13.0, using Xcode 14.1 or later.
+
+import apnsPreReq from '/src/fragments/lib/push-notifications/ios/getting_started/apns-pre-req.mdx';
+
+<Fragments fragments={{ flutter: apnsPreReq, 'react-native': apnsPreReq }} />
+
+### Set Entitlements
+
+Using Amplify Push Notifications with APNs requires the following capabilities:
+
+- Push Notifications
+- Background Processing -> Remote Notifications
+
+To add these capabilities:
+
+import iosSetEntitlements from '/src/fragments/lib/push-notifications/ios/getting_started/ios-set-entitlements.mdx';
+
+<Fragments fragments={{ flutter: iosSetEntitlements, 'react-native': iosSetEntitlements }} />
+
+</Block>
+<Block name="Android">
+
+An application targeting at least Android SDK API level 24.
+
+import fcmPreReq from '/src/fragments/lib/push-notifications/android/getting_started/fcm-pre-req.mdx';
+
+<Fragments fragments={{ flutter: fcmPreReq, 'react-native': fcmPreReq }} />
+
+### Applying the Google services plugin
+
+The Firebase documentation directs you to add the Google services plugin to your app `build.gradle` using the [Gradle plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block). However, we recommend you continue to use the [Legacy Plugin Application](https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application) instead:
+
+```groovy
+apply plugin: 'com.google.gms.google-services'
+```
+
+If you prefer using the plugins DSL, you should add the `plugins` block to the very top of the file or you may experience issues when building your app for Android.
+
+</Block>
+</BlockSwitcher>

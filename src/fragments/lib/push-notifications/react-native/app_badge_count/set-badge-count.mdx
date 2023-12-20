@@ -1,3 +1,27 @@
-```js
-Notifications.Push.setBadgeCount(42);
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  setBadgeCount,
+  SetBadgeCountInput
+} from 'aws-amplify/push-notifications';
+
+const count: SetBadgeCountInput = 42;
+
+setBadgeCount(count);
 ```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { setBadgeCount } from 'aws-amplify/push-notifications';
+
+const count = 42;
+
+setBadgeCount(count);
+```
+
+</Block>
+</BlockSwitcher>

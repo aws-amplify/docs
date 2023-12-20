@@ -1,4 +1,4 @@
-> Prerequisite: [Install and configure the Amplify CLI](/cli/start/install)
+> Prerequisite: [Install and configure the Amplify CLI](/[platform]/tools/cli/start/set-up-cli/)
 
 ## Create new backend
 
@@ -18,28 +18,58 @@ The `add` command automatically creates the backend configuration. Once all your
 amplify push
 ```
 
-A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
+A configuration file called `amplifyconfiguration.json` will be copied to your configured source directory, for example `./src`.
+
+**NOTE:** if using Identify Labels or Identify Text, you will need to manually add configuration items to your amplify backend folder due to [this known issue in identifyText](https://github.com/aws-amplify/amplify-cli/issues/12159) and [this known issue in identifyLabels](https://github.com/aws-amplify/amplify-cli/issues/12208).
+
+#### Identify Text
+
+**amplify/backend/identify-text-resource/parameters.json**
+
+```json
+"identifyDoc": true,
+"access": "auth | authAndGuest",
+"format": "PLAIN | FORM | TABLE | ALL"
+```
+
+#### Identify Labels
+
+**amplify/backend/identify-labels-resource/parameters.json**
+
+```json
+"access": "auth | authAndGuest",
+"type": "LABELS | UNSAFE | ALL"
+```
+
+## Install Amplify Libraries
+
+To install the Amplify library to use predictions features, run the following commands in your project’s root folder:
+
+```bash
+npm install aws-amplify @aws-amplify/predictions
+```
+
+<Callout>
+
+Make sure that the `@aws-amplify/predictions` package has the same version number as the `aws-amplify` package in your `package.json` file.
+
+</Callout>
 
 ## Configure the frontend
 
-import js0 from '/src/fragments/lib/common/js/import_configuration.mdx'
+import js0 from '/src/fragments/lib/common/js/import_configuration.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{  javascript: js0 , angular: js0, nextjs: js0, react: js0, vue: js0 }} />
 
-import rn1 from '/src/fragments/lib/common/react-native/import_configuration.mdx'
+import rn1 from '/src/fragments/lib/common/react-native/import_configuration.mdx';
 
 <Fragments fragments={{ 'react-native': rn1 }} />
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-import {
-  Predictions,
-  AmazonAIPredictionsProvider
-} from '@aws-amplify/predictions';
-import awsconfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(awsconfig);
-Predictions.addPluggable(new AmazonAIPredictionsProvider());
+Amplify.configure(amplifyconfig);
 ```
 
 ## Import existing backend
@@ -152,9 +182,7 @@ The Amplify CLI will set appropriate IAM policy for Roles in your Cognito Identi
         "textract:StartDocumentTextDetection",
         "rekognition:SearchFacesByImage"
       ],
-      "Resource": [
-        "*"
-      ]
+      "Resource": ["*"]
     }
   ]
 }

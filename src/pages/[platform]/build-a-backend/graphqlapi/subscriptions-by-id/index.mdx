@@ -1,0 +1,59 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'How to create GraphQL subscriptions by ID',
+  description:
+    'How to create a custom GraphQL subscription that will listen by id',
+  platforms: [
+    'swift',
+    'android',
+    'javascript',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      showBreadcrumbs: false,
+      meta
+    }
+  };
+}
+
+In this guide you will learn how to create a custom GraphQL subscription that will only by connected and triggered by a mutation containing a specific ID as an argument.
+
+When using the Amplify GraphQL transform library, there will often be times when you need to expand the GraphQL schema and operations created by the `@model` directive. A common use case is when fine grained control is needed for GraphQL subscriptions.
+
+import ios0 from '/src/fragments/guides/api-graphql/ios/subscriptions-by-id.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import js1 from '/src/fragments/guides/api-graphql/js/subscriptions-by-id.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js1,
+    angular: js1,
+    nextjs: js1,
+    react: js1,
+    vue: js1
+  }}
+/>
+
+import android2 from '/src/fragments/guides/api-graphql/android/subscriptions-by-id.mdx';
+
+<Fragments fragments={{ android: android2 }} />
+
+import flutter3 from '/src/fragments/guides/api-graphql/flutter/subscriptions-by-id.mdx';
+
+<Fragments fragments={{ flutter: flutter3 }} />

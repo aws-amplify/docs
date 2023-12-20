@@ -1,4 +1,3 @@
-
 Once you're happy with your application, you can start syncing with the cloud by provisioning a backend from your project. DataStore can connect to remote backend and automatically sync all locally saved data using GraphQL as a data protocol.
 
 <Callout>
@@ -19,21 +18,21 @@ The next step is to make sure the locally saved data is synchronized with a clou
 
 </Callout>
 
-import ios0 from "/src/fragments/lib-v1/datastore/ios/sync/10-installPlugin.mdx";
+import ios0 from '/src/fragments/lib-v1/datastore/ios/sync/10-installPlugin.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
-import android1 from "/src/fragments/lib-v1/datastore/android/sync/10-installPlugin.mdx";
+import android1 from '/src/fragments/lib-v1/datastore/android/sync/10-installPlugin.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ android: android1 }} />
 
-import flutter2 from "/src/fragments/lib-v1/datastore/flutter/sync/10-installPlugin.mdx";
+import flutter2 from '/src/fragments/lib-v1/datastore/flutter/sync/10-installPlugin.mdx';
 
-<Fragments fragments={{flutter: flutter2}} />
+<Fragments fragments={{ flutter: flutter2 }} />
 
 ### Push the backend to the cloud
 
-By now you should have a backend created with conflict detection enabled, as described in the [Getting started](/lib-v1/datastore/getting-started) guide.
+By now you should have a backend created with conflict detection enabled, as described in the [Getting started](/[platform]/prev/build-a-backend/more-features/datastore/set-up-datastore/) guide.
 
 **Check the status of the backend** to verify if it is already provisioned in the cloud.
 
@@ -51,7 +50,7 @@ You should see a table similar to this one.
 
 <Callout>
 
-**Troubleshooting:** if `amplify status` gives you an error saying *"You are not working inside a valid Amplify project"*, make sure you run `amplify init` before the next step.
+**Troubleshooting:** if `amplify status` gives you an error saying _"You are not working inside a valid Amplify project"_, make sure you run `amplify init` before the next step.
 
 </Callout>
 
@@ -63,19 +62,19 @@ amplify push
 
 <Callout warning>
 
-**AWS credentials needed.** At this point an AWS account is required. If you have never run `amplify configure` before, do it so and follow the steps to configure Amplify with your AWS account. Details can be found in the [Configure the Amplify CLI](/cli/start/install#configure-the-amplify-cli) guide.
+**AWS credentials needed.** At this point an AWS account is required. If you have never run `amplify configure` before, do it so and follow the steps to configure Amplify with your AWS account. Details can be found in the [Configure the Amplify CLI](/[platform]/tools/cli/start/set-up-cli/#configure-the-amplify-cli) guide.
 
 </Callout>
 
 ## Existing backend
 
-DataStore can connect to an existing AWS AppSync backend that has been deployed from another project, no matter the platform it was originally created in. In these workflows it is best to work with the CLI directly by running an `amplify pull` command from your terminal and then generating models afterwards, using the process described in the [Getting started](/lib-v1/datastore/getting-started#idiomatic-persistence-models) guide.
+DataStore can connect to an existing AWS AppSync backend that has been deployed from another project, no matter the platform it was originally created in. In these workflows it is best to work with the CLI directly by running an `amplify pull` command from your terminal and then generating models afterwards, using the process described in the [Getting started](/[platform]/prev/build-a-backend/more-features/datastore/set-up-datastore/#idiomatic-persistence-models) guide.
 
-For more information on this workflow please see the [Multiple Frontends documentation](/cli/teams/multi-frontend).
+For more information on this workflow please see the [Multiple Frontends documentation](/[platform]/tools/cli/teams/multi-frontend/).
 
-import distributedDataFragment from "/src/fragments/lib-v1/datastore/native_common/sync-distributed-data.mdx";
+import distributedDataFragment from '/src/fragments/lib-v1/datastore/native_common/sync-distributed-data.mdx';
 
-<Fragments fragments={{all: distributedDataFragment}} />
+<Fragments fragments={{ all: distributedDataFragment }} />
 
 ## Clear local data
 
@@ -85,32 +84,48 @@ One common use for `clear()` is to manage different users sharing the same devic
 
 <Callout warning>
 
-**Note:** In case multiple users share the same device and your schema defines user-specific data, make sure you call `Amplify.DataStore.clear()` when switching users. Visit [Auth events](/lib-v1/auth/auth-events) for all authentication related events.
+**Note:** In case multiple users share the same device and your schema defines user-specific data, make sure you call `Amplify.DataStore.clear()` when switching users. Visit [Auth events](/[platform]/prev/build-a-backend/auth/auth-events/) for all authentication related events.
 
 </Callout>
 
-import ios7 from "/src/fragments/lib-v1/datastore/ios/sync/40-clear.mdx";
+import js6 from '/src/fragments/lib-v1/datastore/js/sync/40-clear.mdx';
 
-<Fragments fragments={{ios: ios7}} />
+<Fragments fragments={{  javascript: js6 , angular: js6, nextjs: js6, react: js6, vue: js6 }} />
 
-import android8 from "/src/fragments/lib-v1/datastore/android/sync/40-clear.mdx";
+import reactnative0 from '/src/fragments/lib-v1/datastore/js/sync/40-clear.mdx';
 
-<Fragments fragments={{android: android8}} />
+<Fragments fragments={{ 'react-native': reactnative0 }} />
 
-import flutter9 from "/src/fragments/lib-v1/datastore/flutter/sync/40-clear.mdx";
+import ios7 from '/src/fragments/lib-v1/datastore/ios/sync/40-clear.mdx';
 
-<Fragments fragments={{flutter: flutter9}} />
+<Fragments fragments={{ swift: ios7 }} />
+
+import android8 from '/src/fragments/lib-v1/datastore/android/sync/40-clear.mdx';
+
+<Fragments fragments={{ android: android8 }} />
+
+import flutter9 from '/src/fragments/lib-v1/datastore/flutter/sync/40-clear.mdx';
+
+<Fragments fragments={{ flutter: flutter9 }} />
 
 This is a simple yet effective example. However, in a real scenario you might want to only call `clear()` when a different user is `signedIn` in order to avoid clearing the database for a repeated sign-in of the same user.
 
-import android11 from "/src/fragments/lib-v1/datastore/android/sync/50-selectiveSync.mdx";
+import js10 from '/src/fragments/lib-v1/datastore/js/sync/50-selectiveSync.mdx';
 
-<Fragments fragments={{android: android11}} />
+<Fragments fragments={{  javascript: js10 , angular: js10, nextjs: js10, react: js10, vue: js10 }} />
 
-import ios12 from "/src/fragments/lib-v1/datastore/ios/sync/50-selectiveSync.mdx";
+import reactnative1 from '/src/fragments/lib-v1/datastore/js/sync/50-selectiveSync.mdx';
 
-<Fragments fragments={{ios: ios12}} />
+<Fragments fragments={{ 'react-native': reactnative1 }} />
 
-import flutter13 from "/src/fragments/lib-v1/datastore/flutter/sync/50-selectiveSync.mdx";
+import android11 from '/src/fragments/lib-v1/datastore/android/sync/50-selectiveSync.mdx';
 
-<Fragments fragments={{flutter: flutter13}} />
+<Fragments fragments={{ android: android11 }} />
+
+import ios12 from '/src/fragments/lib-v1/datastore/ios/sync/50-selectiveSync.mdx';
+
+<Fragments fragments={{ swift: ios12 }} />
+
+import flutter13 from '/src/fragments/lib-v1/datastore/flutter/sync/50-selectiveSync.mdx';
+
+<Fragments fragments={{ flutter: flutter13 }} />

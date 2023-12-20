@@ -1,0 +1,15 @@
+export const meta = {
+  title: 'Set up admin actions',
+  description: 'Learn how to set up admin actions and user group management.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+We do not yet have out-of-the-box support for Admin queries in Amplify (Gen 2). You will have to a create a new [AWS Lambda](https://aws.amazon.com/lambda/) resource, and provide it with the necessary permissions to access the [Amazon Cognito Admin Actions](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_Operations.html) behind the scenes.

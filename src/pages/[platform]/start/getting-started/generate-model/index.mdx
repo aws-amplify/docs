@@ -1,0 +1,34 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Generate model files',
+  description: 'Getting Started with Amplify Libraries - Generate model files',
+  platforms: ['android', 'flutter', 'swift']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import ios0 from '/src/fragments/start/getting-started/ios/generate-model.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android1 from '/src/fragments/start/getting-started/android/generate-model.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import flutter2 from '/src/fragments/start/getting-started/flutter/generate-model.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />
+
+import react_native3 from '/src/fragments/start/getting-started/reactnative/generate-model.mdx';

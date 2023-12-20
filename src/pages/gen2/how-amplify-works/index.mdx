@@ -1,0 +1,20 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'How Amplify Gen 2 works',
+  description:
+    'Learn about the capabilities of AWS Amplify and how they can be used together or independently for fullstack app development.',
+  route: '/gen2/how-amplify-works'
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

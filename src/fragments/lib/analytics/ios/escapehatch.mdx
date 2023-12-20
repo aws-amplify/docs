@@ -1,8 +1,8 @@
 For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access the underlying Amazon Pinpoint client.
 
-import ios0 from "/src/fragments/lib/ios-escape-hatch-warning.mdx";
+import ios0 from '/src/fragments/lib/ios-escape-hatch-warning.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />
 
 Add the following import:
 
@@ -19,7 +19,7 @@ do {
     guard let analyticsPlugin = plugin as? AWSPinpointAnalyticsPlugin else {
         return
     }
-    
+
     // Retrieve the reference to PinpointClientProtocol
     let pinpointClient = analyticsPlugin.getEscapeHatch()
 

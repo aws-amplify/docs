@@ -1,0 +1,346 @@
+<Callout>
+
+**Note:** Please reach out to us for any feedback and/or issues [here](https://github.com/aws-amplify/amplify-js/issues)
+
+</Callout>
+
+## Provisioning geofence resources
+
+First, make sure you've provisioned a geofence collection resource and configured your app using the instructions in either [Configure a Geofence Collection](/[platform]/prev/build-a-backend/more-features/geo/configure-geofencing) or [Use existing Amazon Location Service resources](/[platform]/prev/build-a-backend/more-features/geo/existing-resources/) and you have already setup [displaying a map](/[platform]/prev/build-a-backend/more-features/geo/maps) in your application.
+
+## Manage Geofences in Your Application
+
+To add a geofence management component to your map, you can use the [amplify-geofence-control](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/geo/API.md#amplifygeofencecontrol).
+
+Install the necessary dependencies with the following command:
+
+```bash
+npm install aws-amplify @aws-amplify/ui-react @aws-amplify/ui-react-geo maplibre-gl-js-amplify maplibre-gl
+```
+
+> **Note:** Make sure that `maplibre-gl-js-amplify` version `2.0.0` or above and `@aws-amplify/geo` version `1.3.0` or above are installed.
+
+First, create a map onto which you want to add the geofence management component. See the guide on [creating and displaying maps](/[platform]/prev/build-a-backend/more-features/geo/maps/).
+
+
+Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/geo/API.md#amplifygeofencecontrol) from "maplibre-gl-js-amplify", create a new instance of this control and add it to your MapLibre map instance.
+
+<BlockSwitcher>
+
+  <Block name="Javascript">
+
+**Note:** When using the existing [maps implementation/](/[platform]/prev/build-a-backend/more-features/geo/maps) you can add the Geofence control to an existing map
+
+```diff
+import { useEffect, useRef } from "react";
+- import { createMap } from "maplibre-gl-js-amplify";
++ import { createMap, AmplifyGeofenceControl } from "maplibre-gl-js-amplify";
++ import { withAuthenticator } from "@aws-amplify/ui-react";
++ import "@aws-amplify/ui-react/styles.css";
++ import "maplibre-gl-js-amplify/dist/public/amplify-ctrl-geofence.css";
+import "maplibre-gl/dist/maplibre-gl.css";
+
+function Map() {
+  const mapRef = useRef(null); // Reference to the map DOM element
+
+  // Wrapping your code in a useEffect allows us to run initializeMap after the div has been rendered into the DOM
+  useEffect(() => {
+    let map;
+    async function initializeMap() {
+      // You only want to initialize the underlying maplibre map after the div has been rendered
+      if (mapRef.current != null) {
+        map = await createMap({
+          container: mapRef.current,
+          center: [-122.431297, 37.773972],
+          zoom: 11,
+        });
+      }
+
++     const control = new AmplifyGeofenceControl()
++     map.addControl(control);
+  }
+  initializeMap();
+
+    // Cleans up and maplibre DOM elements and other resources - https://maplibre.org/maplibre-gl-js-docs/api/map/#map#remove
+    return function cleanup() {
+      if (map != null) map.remove();
+    };
+  }, []);
+
+ return (
+   <div className="App">
+     <div ref={mapRef} id="map" />
+   </div>
+ );
+}
+
+export default withAuthenticator(Map);
+```
+
+  </Block>
+
+  <Block name="React">
+
+**Note:** When using the [Amplify React MapView component](https://ui.docs.amplify.aws/react/components/geo) you can use the [`useControl` hook from react-map-gl](https://visgl.github.io/react-map-gl/docs/api-reference/use-control) to render the Geofence control component. The [react-map-gl](https://visgl.github.io/react-map-gl) dependency is already installed through `@aws-amplify/ui-react-geo`, you do not need to install it manually.
+
+```javascript
+import React from 'react';
+import { Amplify } from 'aws-amplify';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import { MapView } from '@aws-amplify/ui-react-geo';
+import { useControl } from 'react-map-gl';
+import { AmplifyGeofenceControl } from 'maplibre-gl-js-amplify';
+import '@aws-amplify/ui-react/styles.css';
+import '@aws-amplify/ui-react-geo/styles.css';
+import 'maplibre-gl-js-amplify/dist/public/amplify-ctrl-geofence.css';
+import awsconfig from '../src/aws-exports';
+Amplify.configure(awsconfig);
+
+function Geofence() {
+  useControl(() => new AmplifyGeofenceControl());
+
+  return null;
+}
+
+function App({ signOut }) {
+  return (
+    <div className="App">
+      <MapView
+        initialViewState={{
+          latitude: 37.8,
+          longitude: -122.4,
+          zoom: 14
+        }}
+      >
+        <Geofence />
+      </MapView>
+    </div>
+  );
+}
+
+export default withAuthenticator(App);
+```
+
+  </Block>
+
+</BlockSwitcher>
+
+> **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
+
+> **Notes:** To use Geofence Controls the user will need to be authenticated with the administrative Cognito user associated with the Geofence Collection you created above. Below is an example using React and the [Amplify Authenticator](https://ui.docs.amplify.aws/react/components/authenticator) but for other use cases check the [Authentication documentation](/[platform]/prev/build-a-backend/auth/under-the-hood).
+
+![Geofence Create](/images/geofence-create.png)
+
+![Geofence Edit](/images/geofence-edit.png)
+
+## Geofence API
+
+If you are using a different mapping library or need a programmatic approach to managing geofences, the `@aws-amplify/geo` package provides methods for managing geofences, but not geofence collections.
+
+First, you need to import Geo from either the `@aws-amplify/geo` or `aws-amplify` packages.
+
+```javascript
+import { Geo } from '@aws-amplify/geo';
+// Or
+import { Geo } from 'aws-amplify';
+```
+
+### saveGeofences
+
+`saveGeofences` is used to save geofences to your collection. It can take a single geofence or an array of geofences.
+
+#### API
+
+```javascript
+Geo.saveGeofences(geofences, options) => Promise<SaveGeofenceResults>;
+```
+
+#### Parameters
+
+- `geofences` - can be a single geofence object, or an array of geofence objects to save to a collection.
+- `options` - optional options object for saving geofences
+  - `collectionName` - the name of the collection to save geofences to.
+    - Defaults to the default collection listed in your `aws-exports.js` file after provisioning a geofence collection resource.
+
+Geofence objects must have the following properties:
+
+- `geofenceId` - a opaque and unique identifier for the geofence.
+- `geometry` - a geometry object that defines the geofence.
+  - `polygon` - an array of arrays with [Longitude, Latitude] coordinates.
+
+<Callout>
+
+NOTE: Polygon arrays have a few requirements:
+
+- must have at least 4 vertices (i.e. 4 coordinate points)
+- the first and last point must be the same in order to complete the polygonal loop
+- vertices must be in counter-clockwise order
+
+</Callout>
+
+#### Return
+
+The return from `saveGeofences` is a Promise that resolves to `SaveGeofenceResults` which contains both successes and errors for geofences that were successfully created or failed.
+
+Each success object has the following properties:
+
+- `geofenceId` - the geofenceId of the geofence that was saved.
+- `createTime` - the time the geofence was created.
+- `updateTime` - the time the geofence was last updated.
+
+Each error object has the following properties:
+
+- `geofenceId` - the geofenceId of the geofence that failed to be saved.
+- `error` - an error object
+  - `code` - the [error code](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_BatchItemError.html)
+  - `message` - the error message
+
+#### Example
+
+```js
+let saveGeofenceResults;
+try {
+  saveGeofenceResults = await Geo.saveGeofences({
+    geofenceId: 'my-geofence',
+    geometry: {
+      polygon: [
+        [-123.14695358276366, 49.290090146520434],
+        [-123.1358814239502, 49.294960279811974],
+        [-123.15021514892577, 49.29300108863353],
+        [-123.14909934997559, 49.29132171993048],
+        [-123.14695358276366, 49.290090146520434]
+      ]
+    }
+  });
+} catch (error) {
+  // errors thrown by input validations of `saveGeofences`
+  throw error;
+}
+
+if (saveGeofenceResults.errors.length > 0) {
+  // error handling that are from the underlying API calls
+  console.log(`Success count: ${saveGeofenceResults.successes.length}`);
+  console.log(`Error count: ${saveGeofenceResults.errors.length}`);
+}
+```
+
+### getGeofence
+
+`geoGeofence` is used to get a single geofence from a collection.
+
+#### API
+
+```javascript
+Geo.getGeofence(geofenceId, options) => Promise<Geofence>;
+```
+
+#### Parameters
+
+- `geofenceId` - the `id` of the geofence to get.
+- `options` - optional options object for getting a geofence
+  - `collectionName` - the name of the collection to get geofence from.
+    - Defaults to the default collection listed in your `aws-exports.js` file after provisioning a geofence collection resource.
+
+#### Return
+
+The return from `getGeofence` is a Promise that resolves to a geofence object.
+
+#### Example
+
+```javascript
+let responses;
+try {
+  response = await Geo.getGeofence('geofenceId');
+} catch (error) {
+  throw error;
+}
+```
+
+### listGeofences
+
+`listGeofences` is used to get a list of geofences from a collection. It has pagination built in and will return 100 geofences per page.
+
+#### API
+
+```javascript
+Geo.listGeofences(options) => Promise<ListGeofenceResults>;
+```
+
+#### Parameters
+
+- `options` - optional options object for saving geofences
+  - `nextToken` - the pagination token for the next page of geofences.
+    - if no token is given, it will return the first page of geofences.
+  - `collectionName` - the name of the collection to save geofences to.
+    - Defaults to the default collection listed in your `aws-exports.js` file after provisioning a geofence collection resource.
+
+#### Return
+
+Returns a Promise that resolves to an object with the following properties:
+
+- `entries` - an array of geofences
+- `nextToken` - the pagination token for the next page of geofences
+
+#### Example
+
+```javascript
+let response;
+try {
+  response = await Geo.listGeofences();
+  response.entries.forEach((geofence) => console.log(geofence.geofenceId));
+} catch (error) {
+  throw error;
+}
+```
+
+### deleteGeofences
+
+`deleteGeofences` is used to delete a geofences from a collection. It can delete a single or multiple geofences at once.
+
+#### API
+
+```js
+Geo.deleteGeofences(geofenceIds, options) => Promise<DeleteGeofencesResults>;
+```
+
+#### Parameters
+
+- `geofenceIds` - a single geofenceId or array of geofenceIds to delete
+- `options` - optional options object for saving geofences
+  - `collectionName` - the name of the collection to save geofences to.
+    - Defaults to the default collection listed in your `aws-exports.js` file after provisioning a geofence collection resource.
+
+#### Return
+
+The return from `deleteGeofences` is a Promise that resolves to an object with both successes and errors for geofences that were successfully deleted or not.
+
+- The success object is an array of geofenceIds that were successfully deleted.
+- The error object is an array of error objects that include the following properties:
+  - `geofenceId` - the geofenceId of the geofence that failed to be deleted.
+  - `error` - an error object
+    - `code` - the [error code](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_BatchItemError.html)
+    - `message` - the error
+
+#### Example
+
+```js
+let response;
+try {
+  response = await Geo.deleteGeofences(
+    [
+      "geofence1",
+      "geofence2",
+      "geofence3",
+    ]
+  )
+catch (error) {
+  // error handling from logic and validation issues within `deleteGeofences`
+  throw error;
+}
+
+if(response.errors.length > 0){
+  // error handling that are from the underlying API calls
+  console.log(`Success count: ${response.successes.length}`);
+  console.log(`Error count: ${response.errors.length}`);
+}
+```

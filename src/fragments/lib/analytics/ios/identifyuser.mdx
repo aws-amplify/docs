@@ -1,8 +1,8 @@
 This call sends information about the current user (which could be unauthenticated or authenticated) to Amazon Pinpoint.
 
-You can provide `name`, `email` and `plan`, as well as location information with `AnalyticsUserProfile.Location`. You can also send additional custom attributes using  `AnalyticsProperties`.
+You can provide `name`, `email` and `plan`, as well as location information with `AnalyticsUserProfile.Location`. You can also send additional custom attributes using `AnalyticsProperties`.
 
-If the user is signed in through [Amplify.Auth.signIn](/lib/auth/signin), then you can retrieve the current user's ID as shown below:
+If the user is signed in through [Amplify.Auth.signIn](/[platform]/build-a-backend/auth/enable-sign-in/), then you can retrieve the current user's ID as shown below:
 
 ```swift
 
@@ -36,6 +36,6 @@ Amplify.Analytics.identifyUser(
 )
 ```
 
-import ios0 from "/src/fragments/lib/analytics/native_common/identify-use-cases.mdx";
+import ios0 from '/src/fragments/lib/analytics/native_common/identify-use-cases.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ swift: ios0 }} />

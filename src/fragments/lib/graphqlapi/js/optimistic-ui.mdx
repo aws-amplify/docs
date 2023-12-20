@@ -6,7 +6,7 @@ In the following examples we'll create a list view that optimistically renders n
 
 For more details on TanStack Query, including requirements, supported browsers, and advanced usage, see the [TanStack Query documentation](https://tanstack.com/query/latest/docs/react/overview). 
 For complete guidance on how to implement optimistic updates with TanStack Query, see the [TanStack Query Optimistic UI Documentation](https://tanstack.com/query/latest/docs/react/guides/optimistic-updates).
-For more on the Amplify GraphQL API, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/js/).
+For more on the Amplify GraphQL API, see the [API documentation](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/).
 
 </Callout>
 
@@ -76,10 +76,11 @@ For more detailed information on query keys, see the [TanStack Query documentati
 
 To optimistically render a list of items returned from the GraphQL API, use the TanStack `useQuery` hook, passing in the GraphQL API query as the `queryFn` parameter. The following example creates a query to retrieve all records from the API. We'll use `realEstateProperties` as the query key, which will be the same key we use to optimistically render a newly created item.
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
 ```ts
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
+
 const {
   data: realEstateProperties,
   isLoading,
@@ -88,9 +89,7 @@ const {
 } = useQuery({
   queryKey: ["realEstateProperties"],
   queryFn: async () => {
-    const response = await API.graphql<
-      GraphQLQuery<ListRealEstatePropertiesQuery>
-    >({
+    const response = await client.graphql({
       query: queries.listRealEstateProperties,
     });
 
@@ -104,36 +103,6 @@ const {
 });
 ``` 
 
-</Block>
-<Block name="JavaScript">
-
-```js
-const {
-  data: realEstateProperties,
-  isLoading,
-  isSuccess,
-  isError: isErrorQuery,
-} = useQuery({
-  queryKey: ["realEstateProperties"],
-  queryFn: async () => {
-    const response = await API.graphql({
-      query: queries.listRealEstateProperties,
-    });
-
-    const allRealEstateProperties =
-      response?.data?.listRealEstateProperties?.items;
-
-    if (!allRealEstateProperties) return null;
-
-    return allRealEstateProperties;
-  },
-});
-```
-
-</Block>
-
-</BlockSwitcher>
-
 ## Optimistically rendering a newly created record
 
 To optimistically render a newly created record returned from the GraphQL API, use the TanStack `useMutation` hook, passing in the GraphQL API mutation as the `mutationFn` parameter. We'll use the same query key used by the `useQuery` hook (`realEstateProperties`) as the query key to optimistically render a newly created item.
@@ -143,13 +112,13 @@ We'll use the `onMutate` function to update the cache directly, as well as the `
 <Block name="TypeScript">
 
 ```ts
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
+
 const createMutation = useMutation({
-  mutationFn: async (
-    realEstatePropertyDetails: CreateRealEstatePropertyInput
-  ) => {
-    const response = await API.graphql<
-      GraphQLQuery<CreateRealEstatePropertyMutation>
-    >({
+  mutationFn: async (realEstatePropertyDetails: CreateRealEstatePropertyInput) => {
+    const response = await client.graphql({
       query: mutations.createRealEstateProperty,
       variables: { input: realEstatePropertyDetails },
     });
@@ -170,7 +139,7 @@ const createMutation = useMutation({
 
     // Optimistically update to the new value
     if (previousRealEstateProperties) {
-      queryClient.setQueryData(["realEstateProperties"], (old: any) => [
+      queryClient.setQueryData(["realEstateProperties"], (old: RealEstateProperty[]) => [
         ...old,
         newRealEstateProperty,
       ]);
@@ -195,15 +164,19 @@ const createMutation = useMutation({
     queryClient.invalidateQueries({ queryKey: ["realEstateProperties"] });
   },
 });
-``` 
+```
 
 </Block>
 <Block name="JavaScript">
 
 ```js
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
+
 const createMutation = useMutation({
   mutationFn: async (realEstatePropertyDetails) => {
-    const response = await API.graphql({
+    const response = await client.graphql({
       query: mutations.createRealEstateProperty,
       variables: { input: realEstatePropertyDetails },
     });
@@ -259,10 +232,11 @@ const createMutation = useMutation({
 
 To optimistically render updates on a single item, we'll first retrieve the item from the API. We'll use the `useQuery` hook, passing in the GraphQL API query as the `queryFn` parameter. For the query key, we'll use a combination of `realEstateProperties` and the record's unique identifier.
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
 ```ts
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
+
 const {
   data: realEstateProperty,
   isLoading,
@@ -271,9 +245,9 @@ const {
 } = useQuery({
   queryKey: ["realEstateProperties", currentRealEstatePropertyId],
   queryFn: async () => {
-    const response = await API.graphql<
-      GraphQLQuery<GetRealEstatePropertyQuery>
-    >({
+    if (!currentRealEstatePropertyId) { return }
+
+    const response = await client.graphql({
       query: queries.getRealEstateProperty,
       variables: { id: currentRealEstatePropertyId },
     });
@@ -282,32 +256,6 @@ const {
   },
 });
 ``` 
-
-</Block>
-<Block name="JavaScript">
-
-```js
-const {
-  data: realEstateProperty,
-  isLoading,
-  isSuccess,
-  isError: isErrorQuery,
-} = useQuery({
-  queryKey: ["realEstateProperties", currentRealEstatePropertyId],
-  queryFn: async () => {
-    const response = await API.graphql({
-      query: queries.getRealEstateProperty,
-      variables: { id: currentRealEstatePropertyId },
-    });
-
-    return response.data?.getRealEstateProperty;
-  },
-});
-```
-
-</Block>
-
-</BlockSwitcher>
 
 ## Optimistically render updates for a record
 
@@ -324,13 +272,15 @@ When directly interacting with the cache via the `onMutate` function, it should 
 <Block name="TypeScript">
 
 ```ts
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
+
 const updateMutation = useMutation({
   mutationFn: async (
     realEstatePropertyDetails: UpdateRealEstatePropertyInput
   ) => {
-    const response = await API.graphql<
-      GraphQLQuery<UpdateRealEstatePropertyMutation>
-    >({
+    const response = await client.graphql({
       query: mutations.updateRealEstateProperty,
       variables: { input: realEstatePropertyDetails },
     });
@@ -399,9 +349,13 @@ const updateMutation = useMutation({
 <Block name="JavaScript">
 
 ```js
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
+
 const updateMutation = useMutation({
   mutationFn: async (realEstatePropertyDetails) => {
-    const response = await API.graphql({
+    const response = await client.graphql({
       query: mutations.updateRealEstateProperty,
       variables: { input: realEstatePropertyDetails },
     });
@@ -479,13 +433,15 @@ We'll use the `onMutate` function to update the cache directly, as well as the `
 <Block name="TypeScript">
 
 ```ts
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
+
 const deleteMutation = useMutation({
   mutationFn: async (
     realEstatePropertyDetails: DeleteRealEstatePropertyInput
   ) => {
-    const response = await API.graphql<
-      GraphQLQuery<DeleteRealEstatePropertyMutation>
-    >({
+    const response = await client.graphql({
       query: mutations.deleteRealEstateProperty,
       variables: { input: realEstatePropertyDetails },
     });
@@ -549,9 +505,13 @@ const deleteMutation = useMutation({
 <Block name="JavaScript">
 
 ```js
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient()
+
 const deleteMutation = useMutation({
   mutationFn: async (realEstatePropertyDetails) => {
-    const response = await API.graphql({
+    const response = await client.graphql({
       query: mutations.deleteRealEstateProperty,
       variables: { input: realEstatePropertyDetails },
     });
@@ -705,12 +665,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { Amplify } from "aws-amplify";
-import awsExports from "./aws-exports";
+import config from "./amplifyconfiguration.json";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "@aws-amplify/ui-react/styles.css";
 
-Amplify.configure(awsExports);
+Amplify.configure(config);
 
 // Create a client
 const queryClient = new QueryClient();
@@ -728,26 +688,17 @@ root.render(
     </QueryClientProvider>
   </React.StrictMode>
 );
+```
 
+```tsx
 // App.tsx:
-import React, { useState } from "react";
+import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useIsFetching } from "@tanstack/react-query";
-import { API } from "aws-amplify";
+import { generateClient } from 'aws-amplify/api'
 import * as mutations from "./graphql/mutations";
 import * as queries from "./graphql/queries";
-import { GraphQLQuery } from "@aws-amplify/api";
-import {
-  CreateRealEstatePropertyInput,
-  CreateRealEstatePropertyMutation,
-  DeleteRealEstatePropertyInput,
-  DeleteRealEstatePropertyMutation,
-  GetRealEstatePropertyQuery,
-  ListRealEstatePropertiesQuery,
-  RealEstateProperty,
-  UpdateRealEstatePropertyInput,
-  UpdateRealEstatePropertyMutation,
-} from "./API";
+import { CreateRealEstatePropertyInput, DeleteRealEstatePropertyInput, RealEstateProperty, UpdateRealEstatePropertyInput } from "./API";
 
 /**
  * https://www.tanstack.com/query/v4/docs/react/guides/background-fetching-indicators#displaying-global-background-fetching-loading-state
@@ -761,6 +712,8 @@ function GlobalLoadingIndicator() {
 
   return isFetching ? <div style={styles.globalLoadingIndicator}></div> : null;
 }
+
+const client = generateClient()
 
 function App() {
   const [currentRealEstatePropertyId, setCurrentRealEstatePropertyId] =
@@ -778,9 +731,7 @@ function App() {
   } = useQuery({
     queryKey: ["realEstateProperties"],
     queryFn: async () => {
-      const response = await API.graphql<
-        GraphQLQuery<ListRealEstatePropertiesQuery>
-      >({
+      const response = await client.graphql({
         query: queries.listRealEstateProperties,
       });
 
@@ -795,12 +746,8 @@ function App() {
 
   // TanStack create mutation with optimistic updates
   const createMutation = useMutation({
-    mutationFn: async (
-      realEstatePropertyDetails: CreateRealEstatePropertyInput
-    ) => {
-      const response = await API.graphql<
-        GraphQLQuery<CreateRealEstatePropertyMutation>
-      >({
+    mutationFn: async (realEstatePropertyDetails: CreateRealEstatePropertyInput) => {
+      const response = await client.graphql({
         query: mutations.createRealEstateProperty,
         variables: { input: realEstatePropertyDetails },
       });
@@ -821,7 +768,7 @@ function App() {
 
       // Optimistically update to the new value
       if (previousRealEstateProperties) {
-        queryClient.setQueryData(["realEstateProperties"], (old: any) => [
+        queryClient.setQueryData(["realEstateProperties"], (old: RealEstateProperty[]) => [
           ...old,
           newRealEstateProperty,
         ]);
@@ -860,9 +807,9 @@ function App() {
     } = useQuery({
       queryKey: ["realEstateProperties", currentRealEstatePropertyId],
       queryFn: async () => {
-        const response = await API.graphql<
-          GraphQLQuery<GetRealEstatePropertyQuery>
-        >({
+        if (!currentRealEstatePropertyId) { return }
+
+        const response = await client.graphql({
           query: queries.getRealEstateProperty,
           variables: { id: currentRealEstatePropertyId },
         });
@@ -876,9 +823,7 @@ function App() {
       mutationFn: async (
         realEstatePropertyDetails: UpdateRealEstatePropertyInput
       ) => {
-        const response = await API.graphql<
-          GraphQLQuery<UpdateRealEstatePropertyMutation>
-        >({
+        const response = await client.graphql({
           query: mutations.updateRealEstateProperty,
           variables: { input: realEstatePropertyDetails },
         });
@@ -947,9 +892,7 @@ function App() {
       mutationFn: async (
         realEstatePropertyDetails: DeleteRealEstatePropertyInput
       ) => {
-        const response = await API.graphql<
-          GraphQLQuery<DeleteRealEstatePropertyMutation>
-        >({
+        const response = await client.graphql({
           query: mutations.deleteRealEstateProperty,
           variables: { input: realEstatePropertyDetails },
         });
@@ -1026,7 +969,7 @@ function App() {
         {realEstateProperty && (
           <div>
             <div>
-              {updateMutation.isLoading ? (
+              {updateMutation.isPending ? (
                 "Updating Real Estate Property..."
               ) : (
                 <>
@@ -1066,7 +1009,7 @@ function App() {
             </div>
 
             <div>
-              {deleteMutation.isLoading ? (
+              {deleteMutation.isPending ? (
                 "Deleting Real Estate Property..."
               ) : (
                 <>
@@ -1106,7 +1049,7 @@ function App() {
         <div style={styles.appContainer}>
           <h1>Real Estate Properties:</h1>
           <div>
-            {createMutation.isLoading ? (
+            {createMutation.isPending ? (
               "Adding Real Estate Property..."
             ) : (
               <>
@@ -1174,7 +1117,7 @@ function App() {
 
 export default App;
 
-const styles: any = {
+const styles = {
   appContainer: {
     display: "flex",
     flexDirection: "column",
@@ -1213,7 +1156,7 @@ const styles: any = {
     padding: "1rem",
     listStyleType: "none",
   },
-};
+} as const;
 ``` 
 
 </Block>
@@ -1226,12 +1169,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { Amplify } from "aws-amplify";
-import awsExports from "./aws-exports";
+import config from "./amplifyconfiguration.json";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "@aws-amplify/ui-react/styles.css";
 
-Amplify.configure(awsExports);
+Amplify.configure(config);
 
 // Create a client
 const queryClient = new QueryClient();
@@ -1247,12 +1190,14 @@ root.render(
     </QueryClientProvider>
   </React.StrictMode>
 );
+```
 
-// App.jsx
-import React, { useState } from "react";
+```js
+// App.jsx:
+import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useIsFetching } from "@tanstack/react-query";
-import { API } from "aws-amplify";
+import { generateClient } from 'aws-amplify/api'
 import * as mutations from "./graphql/mutations";
 import * as queries from "./graphql/queries";
 
@@ -1269,9 +1214,10 @@ function GlobalLoadingIndicator() {
   return isFetching ? <div style={styles.globalLoadingIndicator}></div> : null;
 }
 
+const client = generateClient()
+
 function App() {
-  const [currentRealEstatePropertyId, setCurrentRealEstatePropertyId] =
-    useState(null);
+  const [currentRealEstatePropertyId, setCurrentRealEstatePropertyId] = useState(null);
 
   // Access the client
   const queryClient = useQueryClient();
@@ -1285,7 +1231,7 @@ function App() {
   } = useQuery({
     queryKey: ["realEstateProperties"],
     queryFn: async () => {
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: queries.listRealEstateProperties,
       });
 
@@ -1301,7 +1247,7 @@ function App() {
   // TanStack create mutation with optimistic updates
   const createMutation = useMutation({
     mutationFn: async (realEstatePropertyDetails) => {
-      const response = await API.graphql({
+      const response = await client.graphql({
         query: mutations.createRealEstateProperty,
         variables: { input: realEstatePropertyDetails },
       });
@@ -1361,7 +1307,9 @@ function App() {
     } = useQuery({
       queryKey: ["realEstateProperties", currentRealEstatePropertyId],
       queryFn: async () => {
-        const response = await API.graphql({
+        if (!currentRealEstatePropertyId) { return }
+
+        const response = await client.graphql({
           query: queries.getRealEstateProperty,
           variables: { id: currentRealEstatePropertyId },
         });
@@ -1373,7 +1321,7 @@ function App() {
     // TanStack update mutation with optimistic updates
     const updateMutation = useMutation({
       mutationFn: async (realEstatePropertyDetails) => {
-        const response = await API.graphql({
+        const response = await client.graphql({
           query: mutations.updateRealEstateProperty,
           variables: { input: realEstatePropertyDetails },
         });
@@ -1440,7 +1388,7 @@ function App() {
     // TanStack delete mutation with optimistic updates
     const deleteMutation = useMutation({
       mutationFn: async (realEstatePropertyDetails) => {
-        const response = await API.graphql({
+        const response = await client.graphql({
           query: mutations.deleteRealEstateProperty,
           variables: { input: realEstatePropertyDetails },
         });
@@ -1517,12 +1465,12 @@ function App() {
         {realEstateProperty && (
           <div>
             <div>
-              {updateMutation.isLoading ? (
+              {updateMutation.isPending ? (
                 "Updating Real Estate Property..."
               ) : (
                 <>
                   {updateMutation.isError &&
-                  updateMutation.error ? (
+                  updateMutation.error instanceof Error ? (
                     <div>An error occurred: {updateMutation.error.message}</div>
                   ) : null}
 
@@ -1557,11 +1505,12 @@ function App() {
             </div>
 
             <div>
-              {deleteMutation.isLoading ? (
+              {deleteMutation.isPending ? (
                 "Deleting Real Estate Property..."
               ) : (
                 <>
-                  {deleteMutation.isError && deleteMutation.error ? (
+                  {deleteMutation.isError &&
+                  deleteMutation.error instanceof Error ? (
                     <div>An error occurred: {deleteMutation.error.message}</div>
                   ) : null}
 
@@ -1596,11 +1545,12 @@ function App() {
         <div style={styles.appContainer}>
           <h1>Real Estate Properties:</h1>
           <div>
-            {createMutation.isLoading ? (
+            {createMutation.isPending ? (
               "Adding Real Estate Property..."
             ) : (
               <>
-                {createMutation.isError && createMutation.error ? (
+                {createMutation.isError &&
+                createMutation.error instanceof Error ? (
                   <div>An error occurred: {createMutation.error.message}</div>
                 ) : null}
 

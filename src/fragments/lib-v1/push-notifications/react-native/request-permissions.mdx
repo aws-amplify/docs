@@ -1,0 +1,83 @@
+Depending on your users' platform and operating system version, it is likely that you will need to request their permission to display push notifications.
+
+To learn more about the platform-specific guidances for requesting permissions, you can visit the respective documentations for [iOS](https://developer.apple.com/documentation/usernotifications/asking_permission_to_use_notifications) and [Android](https://developer.android.com/develop/ui/views/notifications/notification-permission). To best aid you in giving your users a good permission experience with platform idiomatic flows, Amplify provides the functionality below.
+
+## Get permission status
+
+The first step to request permissions from your user is to understand the current status of permissions. Your app may behave differently in response to these possible statuses below.
+
+- **Should Request** - No permissions have been requested yet. It is idiomatic at this time to simply request for permissions from the user.
+- **Should Explain Then Request** - It is recommended at this time to provide some context or rationale to the user explaining why you want to send them push notifications before requesting for permissions.
+- **Granted** - Permissions have been granted by the user. No further actions are needed and their app is ready to display notifications.
+- **Denied** - Permissions have been denied by the user. Further attempts to request permissions will no longer trigger a permission dialog. Your app should now either degrade gracefully or prompt your user to grant the permissions needed in their device settings.
+
+<Callout>
+  If you use TypeScript for your development, the string values returned can be
+  represented as PushNotificationPermissionStatus enum members as well.
+</Callout>
+
+```js
+const status = await Notifications.Push.getPermissionStatus();
+// 'SHOULD_REQUEST' | 'SHOULD_EXPLAIN_THEN_REQUEST' | 'GRANTED' | 'DENIED'
+```
+
+## Request permissions
+
+Once you have determined if the current permission status requires you to request permissions from the user, you can call `requestPermissions()` to make that request.
+
+Amplify requests all supported notification permissions by default. But you can also choose not to request specific permissions.
+
+<Callout>
+  It is recommended that you specify these permissions if needed but it is
+  important to note that they are ignored by Android
+</Callout>
+
+- **Alert**: When set to true, requests the ability to display notifications to the user.
+- **Sound**: When set to true, requests the ability to play a sound in response to notifications.
+- **Badge**: When set to true, requests the ability to update the app's badge.
+
+```js
+const permissions = {
+  // permissions are true by default
+  // alert: true
+  sound: false,
+  badge: false
+};
+
+const result = await Notifications.Push.requestPermissions(permissions);
+// true if granted (or already granted), false otherwise
+```
+
+## Sample permissions flow
+
+Use `getPermissionStatus()` and `requestPermissions()` together to handle permission request flows. Below is a sample implementation of the expected logic.
+
+<Callout>
+  Remember, if you use TypeScript for your development, you can use the
+  PushNotificationPermissionStatus enum for comparison as well!
+</Callout>
+
+```js
+async function handlePermissions() {
+  const status = await Notifications.Push.getPermissionStatus();
+  if (status === 'GRANTED') {
+    // no further action is required, user has already granted permissions
+    return;
+  }
+  if (status === 'DENIED') {
+    // further attempts to request permissions will no longer do anything
+    myFunctionToGracefullyDegradeMyApp();
+    return;
+  }
+  if (status === 'SHOULD_REQUEST') {
+    // go ahead and request permissions from the user
+    await Notifications.Push.requestPermissions();
+  }
+  if (status === 'SHOULD_EXPLAIN_THEN_REQUEST') {
+    // you should display some explanation to your user before requesting permissions
+    await myFunctionExplainingPermissionsRequest();
+    // then request permissions
+    await Notifications.Push.requestPermissions();
+  }
+}
+```

@@ -1,0 +1,35 @@
+## Prerequisites
+
+Make sure you have completed the below steps:
+
+- [Completed the CLI and project setup steps.](/[platform]/prev/start/project-setup/prerequisites/)
+
+## Create backend resources
+
+After completing prerequisite steps above, proceed with creating backend resources for use with In-App Messaging via the CLI.
+
+```bash
+amplify add notifications
+
+? Choose the notification channel to enable …  (Use arrow keys or type to filter)
+  APNS |  Apple Push Notifications
+  FCM  | » Firebase Push Notifications
+❯ In-App Messaging
+  Email
+  SMS
+
+? Provide your pinpoint resource name: (inappmessaging)
+
+? Apps need authorization to send analytics events.
+Do you want to allow guests and unauthenticated
+users to send analytics events?
+(we recommend you allow this when getting started) (Y/n)
+
+✔ The In-App Messaging channel has been successfully enabled.
+```
+
+Now that your In-App Messaging channel is enabled, you can now push the changes to the cloud.
+
+```bash
+amplify push
+```
