@@ -45,6 +45,12 @@ Pre-requisites:
 - The [AWS CDK CLI is installed](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install)
 - Have an [AWS CDK application initialized](https://docs.aws.amazon.com/cdk/v2/guide/hello_world.html)
 
+<Callout warning>
+
+This feature is not yet available in the Asia Pacific (Hong Kong, ap-east-1) or Europe (Milan, eu-south-1) regions.
+
+</Callout>
+
 First, place your database connection information (hostname, username, password, port, and database name) into Systems Manager, each as a `SecureString`.
 
 Go to the Systems Manager console, navigate to Parameter Store, and click "Create Parameter". Create five different SecureStrings: one each for the hostname of your database server, the username and password to connect, the database port, and the database name.
@@ -439,7 +445,7 @@ Now the API has been deployed and you can start using it!
 
 You can start querying from the AWS AppSync console or integrate it into your application using the AWS Amplify libraries!
 
-{/* ## Auto-generate CRUDL operations for existing tables
+## Auto-generate CRUDL operations for existing tables
 
 You can generate common CRUDL operations for your database tables based on your database schema. This saves time from hand-authoring the GraphQL types, queries, and mutations and SQL statements for common CRUDL use cases. After you generate the operations, you can annotate the `@model` types with authorization rules.
 
@@ -735,7 +741,7 @@ cdk deploy
 ```
 
 </Block>
-</BlockSwitcher> */}
+</BlockSwitcher>
 
 ## How does it work?
 
