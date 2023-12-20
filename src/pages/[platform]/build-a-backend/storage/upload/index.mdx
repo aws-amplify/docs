@@ -38,6 +38,48 @@ import ios_upload from '/src/fragments/lib/storage/ios/upload.mdx';
 
 The `uploadData` method uploads files into Amazon S3.
 
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { UploadDataOutput, uploadData } from 'aws-amplify/storage';
+
+type FileUploadParams = {
+  key: string;
+  data: Blob | ArrayBufferView | ArrayBuffer | string;
+  options?: {
+    accessLevel?: 'guest' | 'protected' | 'private';
+    onProgress?: (event: { transferredBytes: number; totalBytes?: number }) => void;
+  };
+};
+
+export async function uploadFile({ key, data, options }: FileUploadParams) {
+  try {
+    const uploadDataOutput: UploadDataOutput = uploadData({
+      key,
+      data,
+      options,
+    });
+    const result = await uploadDataOutput.result;
+    console.log('Succeeded: ', result);
+  } catch (error) {
+    console.log('Error: ', error);
+    throw error;
+  }
+}
+
+async function uploadImage(): Promise<void> {
+  await uploadFile({
+    key: 'filename',
+    data: 'data',
+    options: {
+      accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
+    },
+  });
+}
+```
+</Block>
+<Block name="JavaScript">
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
 
@@ -55,10 +97,51 @@ try {
   console.log('Error : ', error);
 }
 ```
+</Block>
+</BlockSwitcher>
 
 ### Public level
 
 The `accessLevel` defaults to `guest`
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { UploadDataOutput, uploadData } from 'aws-amplify/storage';
+
+type FileUploadParams = {
+  key: string;
+  data: Blob | ArrayBufferView | ArrayBuffer | string;
+  options?: {
+    accessLevel?: 'guest' | 'protected' | 'private';
+    onProgress?: (event: { transferredBytes: number; totalBytes?: number }) => void;
+  };
+};
+
+export async function uploadFile({ key, data, options }: FileUploadParams) {
+  try {
+    const uploadDataOutput: UploadDataOutput = uploadData({
+      key,
+      data,
+      options,
+    });
+    const result = await uploadDataOutput.result;
+    console.log('Succeeded: ', result);
+  } catch (error) {
+    console.log('Error: ', error);
+    throw error;
+  }
+}
+async function uploadPublicImage(): Promise<void> {
+  await uploadFile({
+    key: 'filename',
+    data: 'data',
+  });
+}
+```
+</Block>
+<Block name="JavaScript">
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
@@ -73,8 +156,51 @@ try {
   console.log('Error : ', error);
 }
 ```
+</Block>
+</BlockSwitcher>
 
 ### Protected level
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { UploadDataOutput, uploadData } from 'aws-amplify/storage';
+
+type FileUploadParams = {
+  key: string;
+  data: Blob | ArrayBufferView | ArrayBuffer | string;
+  options?: {
+    accessLevel?: 'guest' | 'protected' | 'private';
+    onProgress?: (event: { transferredBytes: number; totalBytes?: number }) => void;
+  };
+};
+
+export async function uploadFile({ key, data, options }: FileUploadParams) {
+  try {
+    const uploadDataOutput: UploadDataOutput = uploadData({
+      key,
+      data,
+      options,
+    });
+    const result = await uploadDataOutput.result;
+    console.log('Succeeded: ', result);
+  } catch (error) {
+    console.log('Error: ', error);
+    throw error;
+  }
+}
+async function uploadProtectedImage(): Promise<void> {
+  await uploadFile({
+    key: 'filename',
+    data: 'data',
+    options: {
+      accessLevel: 'protected',
+    },
+  });
+}
+```
+</Block>
+<Block name="JavaScript">
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
@@ -92,8 +218,52 @@ try {
   console.log('Error : ', error);
 }
 ```
+</Block>
+</BlockSwitcher>
 
 ### Private level
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { UploadDataOutput, uploadData } from 'aws-amplify/storage';
+
+type FileUploadParams = {
+  key: string;
+  data: Blob | ArrayBufferView | ArrayBuffer | string;
+  options?: {
+    accessLevel?: 'guest' | 'protected' | 'private';
+    onProgress?: (event: { transferredBytes: number; totalBytes?: number }) => void;
+  };
+};
+
+export async function uploadFile({ key, data, options }: FileUploadParams) {
+  try {
+    const uploadDataOutput: UploadDataOutput = uploadData({
+      key,
+      data,
+      options,
+    });
+    const result = await uploadDataOutput.result;
+    console.log('Succeeded: ', result);
+  } catch (error) {
+    console.log('Error: ', error);
+    throw error;
+  }
+}
+async function uploadPrivateImage(): Promise<void> {
+  await uploadFile({
+    key: 'filename',
+    data: 'data',
+    options: {
+      accessLevel: 'private',
+    },
+  });
+}
+```
+</Block>
+<Block name="JavaScript">
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
@@ -111,10 +281,58 @@ try {
   console.log('Error : ', error);
 }
 ```
+</Block>
+</BlockSwitcher>
 
 ### Monitor progress of upload
 
 To track the progress of your upload, you can use the `onProgress` in options:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { UploadDataOutput, uploadData } from 'aws-amplify/storage';
+
+type FileUploadParams = {
+  key: string;
+  data: Blob | ArrayBufferView | ArrayBuffer | string;
+  options?: {
+    accessLevel?: 'guest' | 'protected' | 'private';
+    onProgress?: (event: { transferredBytes: number; totalBytes?: number }) => void;
+  };
+};
+
+export async function uploadFile({ key, data, options }: FileUploadParams) {
+  try {
+    const uploadDataOutput: UploadDataOutput = uploadData({
+      key,
+      data,
+      options,
+    });
+    const result = await uploadDataOutput.result;
+    console.log('Succeeded: ', result);
+  } catch (error) {
+    console.log('Error: ', error);
+    throw error;
+  }
+}
+async function monitorProgress(): Promise<void> {
+  await uploadFile({
+    key: 'filename',
+    data: 'data',
+    options: {
+      onProgress: ({ transferredBytes, totalBytes }) => {
+        if (totalBytes) {
+          console.log(`Upload progress ${Math.round(transferredBytes / totalBytes) * 100} %`);
+        }
+      },
+    },
+  });
+}
+```
+</Block>
+<Block name="JavaScript">
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
@@ -140,10 +358,40 @@ try {
   console.log('Error : ', error);
 }
 ```
+</Block>
+</BlockSwitcher>
 
 ## Pause and resume upload
 
 We have callback functions that support resuming, pausing, and cancelling `uploadData` requests.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { uploadData } from 'aws-amplify/storage';
+
+type FileUploadParams = {
+  key: string;
+  data: Blob | ArrayBufferView | ArrayBuffer | string;
+  options?: {
+    accessLevel?: 'guest' | 'protected' | 'private';
+    onProgress?: (event: { transferredBytes: number; totalBytes?: number }) => void;
+  };
+};
+
+export async function pauseAndResume({ key, data, options }: FileUploadParams) {
+  const uploadTask = uploadData({ key, data, options });
+  //..
+  uploadTask.pause();
+  //..
+  uploadTask.resume();
+  //..
+  await uploadTask.result;
+}
+```
+</Block>
+<Block name="JavaScript">
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
@@ -157,8 +405,42 @@ uploadTask.resume();
 //...
 await uploadTask.result;
 ```
+</Block>
+</BlockSwitcher>
 
 ## Cancel upload
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { uploadData, isCancelError } from 'aws-amplify/storage';
+
+type FileUploadParams = {
+  key: string;
+  data: Blob | ArrayBufferView | ArrayBuffer | string;
+  options?: {
+    accessLevel?: 'guest' | 'protected' | 'private';
+    onProgress?: (event: { transferredBytes: number; totalBytes?: number }) => void;
+  };
+};
+
+export async function cancel({ key, data, options }: FileUploadParams) {
+  const uploadTask = uploadData({ key, data, options });
+  //..
+  uploadTask.cancel();
+  //..
+  try {
+    await uploadTask.result;
+  } catch (error) {
+    if (isCancelError(error)) {
+      // Handle error thrown by task cancellation
+    }
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
 
 ```javascript
 import { uploadData, isCancelError } from 'aws-amplify/storage';
@@ -174,8 +456,62 @@ try {
   }
 }
 ```
+</Block>
+</BlockSwitcher>
 
 Other options available are:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { UploadDataOutput, uploadData } from 'aws-amplify/storage';
+
+type FileUploadParams = {
+  key: string;
+  data: Blob | ArrayBufferView | ArrayBuffer | string;
+  options?: {
+    accessLevel?: 'guest' | 'protected' | 'private';
+    contentType?: string;
+    contentEncoding?: string;
+    contentDisposition?: string;
+    metadata: { [key: string]: string };
+    useAccelerateEndpoint: boolean;
+    onProgress?: (event: { transferredBytes: number; totalBytes?: number }) => void;
+  };
+};
+
+export async function uploadFile({ key, data, options }: FileUploadParams) {
+  try {
+    const uploadDataOutput: UploadDataOutput = uploadData({
+      key,
+      data,
+      options,
+    });
+    const result = await uploadDataOutput.result;
+    console.log('Succeeded: ', result);
+  } catch (error) {
+    console.log('Error: ', error);
+    throw error;
+  }
+}
+
+async function uploadTextHtml() {
+  await uploadFile({
+    key: 'key',
+    data: 'data',
+    options: {
+      contentType: 'text/html', // (String) The default content-type header value of the file when downloading it.
+      contentEncoding: 'compress', // (String) The default content-encoding header value of the file when downloading it.
+      contentDisposition: 'attachment', // (String) Specifies presentational information for the object
+      metadata: { key: 'value', anotherKey: 'anotherValue' }, // (map<String>) A map of metadata to store with the object in S3.
+      useAccelerateEndpoint: true, // Whether to use accelerate endpoint.
+    },
+  });
+}
+```
+</Block>
+<Block name="JavaScript">
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
@@ -183,16 +519,17 @@ import { uploadData } from 'aws-amplify/storage';
 uploadData({
   key,
   data: file,
-  options:  {
-    contentType?: "text/html", // (String) The default content-type header value of the file when downloading it.
-    contentEncoding?: "compress" // (String) The default content-encoding header value of the file when downloading it.
-    contentDisposition?: "attachment", // (String) Specifies presentational information for the object
-    metadata?: {key: "value"}, // (map<String>) A map of metadata to store with the object in S3.
-    useAccelerateEndpoint?: boolean; // Whether to use accelerate endpoint.
-  }
+  options: {
+    contentType: 'text/html', // (String) The default content-type header value of the file when downloading it.
+    contentEncoding: 'compress', // (String) The default content-encoding header value of the file when downloading it.
+    contentDisposition: 'attachment', // (String) Specifies presentational information for the object
+    metadata: { key: 'value' }, // (map<String>) A map of metadata to store with the object in S3.
+    useAccelerateEndpoint: boolean, // Whether to use accelerate endpoint.
+  },
 });
-
 ```
+</Block>
+</BlockSwitcher>
 
 When a page refresh occurs during the upload, re-initializing the upload with the same file will continue from previous break point.
 
