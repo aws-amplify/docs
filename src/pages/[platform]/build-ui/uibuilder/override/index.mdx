@@ -4,15 +4,8 @@ export const meta = {
   title: 'Extend with code',
   description: 'Figma to React code with Amplify Studio',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
     'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
+    'react'
   ]
 };
 
@@ -60,7 +53,8 @@ All generated code exposes an `overrides` prop on all components and children to
 
          <View minWidth="0">
 
-        ```jsx import {FAQItem} from './ui-components'
+        ```jsx
+        import {FAQItem} from './ui-components'
         ... ... //⬇️ Element name
         shown in Studio
         <FAQItem overrides={{ Title: { color: 'red' } }} />
@@ -91,7 +85,11 @@ The following example shows how to override each collection item to show a diffe
 If you want to override a prop for a specific element within a collection item, pass an override object to `overrideItems`.
 
 ```jsx
-<HomeCollection overrideItems={(item, index) => ({ overrides: { Share: { fontWeight: 'bold'}}})}
+<HomeCollection
+  overrideItems={(item, index) => ({
+    overrides: { Share: { fontWeight: 'bold' } }
+  })}
+/>
 ```
 
 ### Nesting collections

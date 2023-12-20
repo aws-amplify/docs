@@ -216,9 +216,11 @@ import config from './amplifyconfiguration.json';
 
 Amplify.configure(config, {
   API: {
-    headers: async () => ({
-      'My-Custom-Header': 'my value'
-    })
+    GraphQL:  {
+      headers: async () => ({
+        'My-Custom-Header': 'my value'
+      })
+    }
   }
 });
 ```

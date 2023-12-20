@@ -22,7 +22,6 @@ import {
 import { ClassicBanner } from '@/components/Banner';
 import { Columns } from '@/components/Columns';
 import { FeatureList, FeatureItem } from '@/components/FeatureLists';
-import styles from '../../components/GlobalNav/GlobalNav.module.scss';
 
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
@@ -82,7 +81,11 @@ const Gen2Overview = () => {
           </Text>
           <sup>
             {' '}
-            <Badge size="small" className={styles['navbar-badge']}>
+            <Badge
+              size="small"
+              backgroundColor="purple.60"
+              color="font.inverse"
+            >
               Preview
             </Badge>
           </sup>
@@ -169,7 +172,8 @@ const Gen2Overview = () => {
           </Card>
         </Columns>
       </Flex>
-      <FeatureList heading="Develop" level={2}>
+      <Flex className="home-section">
+        <Heading level={2}>Develop</Heading>
         <video
           src="/videos/typed-api.mp4"
           style={{
@@ -182,7 +186,8 @@ const Gen2Overview = () => {
           muted
           loop
         />
-        <Columns columns={2}>
+
+        <Columns columns={2} as="ul">
           <FeatureItem
             linkText="TypeScript-first fullstack experience"
             href="/gen2/how-amplify-works/concepts/#build-fullstack-apps-with-typescript"
@@ -212,7 +217,7 @@ const Gen2Overview = () => {
             error states built in.
           </FeatureItem>
         </Columns>
-      </FeatureList>
+      </Flex>
 
       <Columns columns={2}>
         <ExportedImage
@@ -282,7 +287,7 @@ const Gen2Overview = () => {
           </FeatureItem>
         </FeatureList>
         <MDXCode
-          fileName="amplify/backend.ts"
+          title="amplify/backend.ts"
           language="typescript"
           codeString={`import * as sns from 'aws-cdk-lib/aws-sns';
 import * as sqs from 'aws-cdk-lib/aws-sqs';

@@ -165,7 +165,12 @@
     "Auth.currentAuthenticatedUser",
     "Auth.federatedSignIn",
     "Auth0",
+    "authcurrentsession",
+    "authverifycurrentuserattribute",
+    "authverifycurrentuserattributesubmit",
     "authcurrentusercredentials",
+    "authgetpreferredmfa",
+    "authuserattributes",
     "authData",
     "Authenticator's",
     "Authenticator",
@@ -431,6 +436,7 @@
     "Comment.todo",
     "Compat",
     "completionHandler",
+    "composables",
     "Conchita",
     "config",
     "configjson",
@@ -1566,20 +1572,12 @@
     "multirepo",
     "startbuild"
   ],
-  "flagWords": [
-    "hte",
-    "full-stack",
-    "Full-stack",
-    "Full-Stack",
-    "sudo"
-  ],
+  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
     {
       "name": "youtube-embed-ids",
       "pattern": "/embedId=\".*\" /"
     }
   ],
-  "ignoreRegExpList": [
-    "youtube-embed-ids"
-  ]
+  "ignoreRegExpList": ["youtube-embed-ids"]
 }

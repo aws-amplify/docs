@@ -41,9 +41,7 @@ To record custom events call the `record` API:
 import { record } from 'aws-amplify/analytics';
 
 record({
-  event: {
-    name: 'albumVisit'
-  }
+  name: 'albumVisit',
 });
 ```
 
@@ -55,10 +53,8 @@ The `record` API lets you add additional attributes to an event. For example, to
 import { record } from 'aws-amplify/analytics';
 
 record({
-  event: {
-    name: 'albumVisit',
-    attributes: { genre: '', artist: '' }
-  }
+  name: 'albumVisit',
+  attributes: { genre: '', artist: '' },
 });
 ```
 
@@ -72,10 +68,8 @@ Metrics can also be added to an event:
 import { record } from 'aws-amplify/analytics';
 
 record({
-  event: {
-    name: 'albumVisit',
-    metrics: { minutesListened: 30 }
-  }
+  name: 'albumVisit',
+  metrics: { minutesListened: 30 },
 });
 ```
 
