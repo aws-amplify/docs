@@ -33,12 +33,11 @@ This guide shows you how to connect new mobile and web apps to AWS resources you
 
 ## Connect mobile app to existing AWS resources
 
-### Overview
-
 This guide will walk you through connecting a new Flutter app to AWS resources created with Amplify for an existing Flutter app. If you don't already have an existing app, you can follow this [Flutter tutorial](https://docs.amplify.aws/start/getting-started/setup/q/integration/flutter/) to create a budget tracker app that uses Amplify Auth and API resources.
 
-### Prerequisites
+Before you begin, you will need:
 
+* An existing Flutter app
 * An AWS account: If you don't already have an account, follow the [Setting Up Your AWS Environment](https://aws.amazon.com/getting-started/guides/setup-environment/) tutorial for a quick overview.
 * [Install](https://docs.amplify.aws/cli/start/install/) and configure the Amplify CLI.
 * [Install](https://docs.flutter.dev/get-started/install) and configure Flutter.
@@ -46,6 +45,7 @@ This guide will walk you through connecting a new Flutter app to AWS resources c
 * A text editor combined with Flutter’s command-line tools. For this guide, we will use VS Code, but you can use your preferred IDE.
 
 ### Find the AWS backend details
+Before connecting the backend resources to our new app, we first need to locate the details of the AWS environment provisioned for the existing app.
 
 **Step 1:** In your existing app, open the file `<Your-App>/amplify/team-provider-info.json`.
 
@@ -59,6 +59,8 @@ This guide will walk you through connecting a new Flutter app to AWS resources c
 ![The environment and AmplifyAppId in team-provider-info.json file.](/images/existing-resources/dev-amplifyappid-mobile-cli.png)
 
 ### Create the Flutter app
+Now that we have gathered the necessary backend details, we can start building out the new Flutter app.
+
 **Step 1:** Create a Flutter app by running the following command in your terminal.
 
 ```
@@ -595,7 +597,7 @@ flutter run
 
 
 
-<video autoPlay={true} muted={true} loop={true} width="100%">
+<video autoPlay={true} muted={true} loop={true} width="50%">
   <source src="/images/existing-resources/budget-tracker-mobile-cli.mp4" />
 </video>
 
@@ -606,8 +608,9 @@ Congratulations! Your new Flutter app is now connected to AWS resources from a d
 
 ### Clean up resources
 
-Now that you’ve finished this guide, you can delete the backend resources to avoid incurring unexpected costs by running the following command in the root folder of the app. 
+If you would like to expand this demo app into a production-ready app, you will need to follow further implementation steps, including authorizing users, connecting storage, and securing the app per best practices. Refer to the [Build & connect backend section](/[platform]/build-a-backend/) for comprehensive guides on launching full-featured, scalable production apps.
 
+Once you're finished experimenting with this demo app, we recommend deleting the backend resources to avoid incurring unexpected costs. You can do this by running the following command in the root folder of the app.
 
 ```
 amplify delete
@@ -616,18 +619,18 @@ amplify delete
 
 ## Connect a web app to existing AWS resources
 
-### Overview
-
 This guide will walk you through connecting a new React web app to the AWS resources created with Amplify for an existing React app. If you don't already have an existing app, you can follow this [React tutorial](https://docs.amplify.aws/react/start/getting-started/introduction/) to create a to-do app that uses Amplify Auth, API, and Hosting resources.
 
-### Prerequisites
+Before you begin, you will need:
 
+* An existing React app
 * An AWS account: If you don't already have an account, follow the [Setting Up Your AWS Environment](https://aws.amazon.com/getting-started/guides/setup-environment/) tutorial for a quick overview.
 * [Install](https://docs.amplify.aws/cli/start/install/) and configure the Amplify CLI.
 * [Install](https://docs.github.com/en/get-started/quickstart/set-up-git) and configure Git.
 * A text editor. For this guide, we will use VS Code, but you can use your preferred IDE.
 
 ### Find the AWS backend details
+Before connecting the backend resources to our new app, we first need to locate the details of the AWS environment provisioned for the existing app.
 
 **Step 1:** In your existing app, open the file `<Your-App>/amplify/team-provider-info.json` .
 
@@ -642,6 +645,7 @@ This guide will walk you through connecting a new React web app to the AWS resou
 ![The environment and AmplifyAppId in team-provider-info.json file.](/images/existing-resources/dev-amplifyappid-web-cli.png)
 
 ### Create the React app
+Now that we have gathered the necessary backend details, we can start building out the new React app.
 
 **Step 1:** Create a React app by running the following command in your terminal.
 
@@ -984,7 +988,9 @@ Congratulations! Your new React app is now connected to AWS resources from a dif
 
 ### Clean up resources
 
-Now that you’ve finished this walkthrough, you can delete the backend resources to avoid incurring unexpected costs by running the following command in the root folder of the app.
+If you would like to expand this demo app into a production-ready app, you will need to follow further implementation steps, including authorizing users, connecting storage, and securing the app per best practices. Refer to the [Build & connect backend section](/[platform]/build-a-backend/) for comprehensive guides on launching full-featured, scalable production apps.
+
+Once you're finished experimenting with this demo app, we recommend deleting the backend resources to avoid incurring unexpected costs. You can do this by running the following command in the root folder of the app.
 
 ```
 amplify delete
