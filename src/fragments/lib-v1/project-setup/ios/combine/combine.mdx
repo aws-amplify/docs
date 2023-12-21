@@ -75,7 +75,7 @@ struct MyAppCode {
 
 There is no additional work needed to enable Combine support. Projects that declare a deployment target of iOS 13.0 or higher will automatically see the appropriate method signatures and properties, depending on the Category and API you are calling.
 
-### API Comparison
+### API comparison
 
 Amplify strives to provide an intuitive interface for APIs that expose Combine functionality by overloading the no-Combine API signature, minus the result callbacks. Thus, `Amplify.DataStore.save(_:where:completion:)` has an equivalent Combine-supporting API of `Amplify.DataStore.save(_:where:)`. In most cases, the Result callback `Success` and `Failure` types in standard Amplify APIs translate exactly to the `Output` and `Failure` types of publishers returned from Combine-supporting APIs.
 
