@@ -33,7 +33,7 @@ export function getStaticProps(context) {
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
-<Fragments fragments={{ ios: ios_maintenance }} />
+<Fragments fragments={{ swift: ios_maintenance }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
@@ -43,15 +43,11 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 <Fragments fragments={{ flutter: flutter_maintenance }} />
 
-<InlineFilter filters={["ios", "android", "flutter", "js", "react-native"]}>
-
 The Amplify open-source client libraries provide use-case centric, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. These libraries are powered by the AWS cloud. The libraries can be used with both new backends created using the Amplify CLI and existing backend resources.
-
-</InlineFilter>
 
 import ios0 from '/src/fragments/lib-v1/ios.mdx';
 
-<Fragments fragments={{ ios: ios0 }} />
+<Fragments fragments={{ swift: ios0 }} />
 
 import android1 from '/src/fragments/lib-v1/android.mdx';
 
@@ -61,7 +57,13 @@ import flutter2 from '/src/fragments/lib-v1/flutter.mdx';
 
 <Fragments fragments={{ flutter: flutter2 }} />
 
-<InlineFilter filters={["js", "react-native"]}>
+<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue"]}>
+
+<Callout info>
+
+If you are beginning a new project we recommend you work with the [latest version of the Amplify libraries](/[platform]/tools/libraries/) for your chosen framework or language.
+
+</Callout>
 
 ## Amplify JavaScript
 
