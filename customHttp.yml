@@ -13,5 +13,5 @@ customHeaders:
       - key: 'X-Content-Type-Options'
         value: 'nosniff'
       - key: 'Content-Security-Policy'
-        value: "upgrade-insecure-requests; default-src 'none'; style-src 'self' 'unsafe-inline' *.shortbread.aws.dev; font-src 'self'; frame-src 'self' https://www.youtube-nocookie.com https://aws.demdex.net https://dpm.demdex.net; connect-src 'self' *.shortbread.aws.dev https://amazonwebservices.d2.sc.omtrdc.net https://aws.demdex.net https://dpm.demdex.net https://cm.everesttech.net https://a0.awsstatic.com/ https://d2c.aws.amazon.com https://vs.aws.amazon.com https://*.algolia.net https://*.algolianet.com *.amazonaws.com https://aws.amazon.com/ https://d2c-alpha.dse.marketing.aws.a2z.com https://aws-mktg-csds-alpha.integ.amazon.com/ https://alpha.d2c.marketing.aws.dev/ https://aa0.awsstatic.com/; img-src 'self' https://img.shields.io https://amazonwebservices.d2.sc.omtrdc.net https://aws.demdex.net https://dpm.demdex.net https://cm.everesttech.net https://a0.awsstatic.com/ https://alpha.d2c.marketing.aws.dev/ https://aa0.awsstatic.com/; media-src 'self'; script-src 'self' *.shortbread.aws.dev https://a0.awsstatic.com/ https://aa0.awsstatic.com/ https://alpha.d2c.marketing.aws.dev/ https://d2c.aws.amazon.com/;"
+        value: 'upgrade-insecure-requests;'
       # CSP also set in _document.tsx meta tag
