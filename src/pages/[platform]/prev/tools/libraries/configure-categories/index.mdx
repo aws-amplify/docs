@@ -1,9 +1,17 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Configure Amplify categories',
-  description: 'Configuring the client.',
-  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'vue','react']
+  title: 'Amplify tools',
+  description:
+    'Tools',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue',
+    'react-native'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -14,6 +22,7 @@ export function getStaticProps(context) {
   return {
     props: {
       platform: context.params.platform,
+      showBreadcrumbs: false,
       meta
     }
   };
