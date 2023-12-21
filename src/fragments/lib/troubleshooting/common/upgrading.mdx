@@ -50,13 +50,11 @@ In order to use Amplify JavaScript V6, you will need to make sure you are using 
 
 <BlockSwitcher>
   <Block name="Web">
-    Upgrade to the latest Amplify library using the following command.
+    Upgrade to the latest Amplify library using the following command:
 
     ```
-    npm install aws-amplify
+    npm install aws-amplify@6
     ```
-
-    If you are using npm as a package manager, make sure the version of `aws-amplify` in your package.json file is `latest` or `^6.0.2` and re-installing dependencies by running `npm install`.
 
     The `aws-amplify` package in v6 includes the categories below:
 
@@ -73,14 +71,14 @@ In order to use Amplify JavaScript V6, you will need to make sure you are using 
 
   </Block>
   <Block name="React Native">
-    <Callout>The `aws-amplify-react-native` package has been deprecated in v6.</Callout>
+    <Callout>The `aws-amplify-react-native` package is not compatible with v6.</Callout>
 
     To upgrade React Native projects that do not utilize `aws-amplify-react-native`, remove `amazon-cognito-identity-js` from the project _package.json_ and install `@aws-amplify/react-native`.
 
     Then upgrade/install the necessary dependencies using the following command:
 
     ```
-    npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
+    npm install aws-amplify@6 @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
     ```
 
     Note that v6 supports react-native v0.70+, so if you prefer manually upgrading dependencies double-check the version of react-native in your package.json file.
@@ -104,7 +102,7 @@ In order to use Amplify JavaScript V6, you will need to make sure you are using 
       Upgrade/install the necessary dependencies using the following command:
 
       ```
-      npm install aws-amplify @aws-amplify/adapter-nextjs
+      npm install aws-amplify@6 @aws-amplify/adapter-nextjs
       ```
 
       The `@aws-amplify/adapter-nextjs` package provides adapter functions to enable use of Amplify APIs on the server side of your Next.js app for use cases such as Server Side Rendering (SSR) with the App Router.
