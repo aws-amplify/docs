@@ -212,7 +212,7 @@ To test that this is working, you can output the credentials to the console and 
 
 ```js
 const callAPI = () => {
-  fetch('/api/hello');
+  fetch('/api/chat');
 };
 ```
 
@@ -225,7 +225,7 @@ Then in the JSX of the page, add a button that calls our `callAPI` function on c
 If you are logged in and click the button, your authentication credentials should print to the console in your terminal.
 
 ```js
-fetch('/api/hello', {
+fetch('/api/chat', {
   method: 'POST',
   body: JSON.stringify({ input: 'Who are you?' })
 });
@@ -313,7 +313,7 @@ export default async function handler(
 Then update the `callAPI` function in your frontend to accept a JSON response:
 
 ```js
-fetch('/api/hello', {
+fetch('/api/chat', {
   method: 'POST',
   body: JSON.stringify({ input: 'Who are you?' })
 })
