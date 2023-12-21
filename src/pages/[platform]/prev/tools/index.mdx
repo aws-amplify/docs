@@ -1,0 +1,38 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Start',
+  description: 'Start',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ],
+  route: '/[platform]/prev/tools'
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      showBreadcrumbs: false,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Callout info>
+
+If you are working with an older project you can review our guide to configure Amplify categories for the [previous version](/[platform]/prev/tools/libraries/configure-categories/) for your chosen framework or language. However, if you are working on a new project, you will want to use the [latest version](/[platform]/tools/libraries/configure-categories/).
+
+</Callout>
