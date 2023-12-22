@@ -469,6 +469,14 @@ export const directory = {
               ]
             },
             {
+              path: 'src/pages/[platform]/build-a-backend/existing-resources/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/existing-resources/cli/index.mdx'
+                }     
+              ]
+            },
+            {
               path: 'src/pages/[platform]/build-a-backend/utilities/index.mdx',
               children: [
                 {
