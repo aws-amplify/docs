@@ -2069,6 +2069,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/add-aws-services/overriding-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/add-aws-services/deletion-backup-resources/index.mdx'
                 }
               ]
             }
