@@ -39,11 +39,25 @@ const backend = defineBackend({
 
 ## Example - Enabling Deletion protection on a Auth resource
 
-For example, if you would like to enable Deletion protection in a Cognito user pool resource created by Amplify Auth.
+For example, if you would like to enable Deletion protection on a Cognito user pool resource created by Amplify Auth.
 
 ```ts title="amplify/backend.ts"
 
 backend.resources.auth.resources.cfnResources.cfnUserPool.deletionProtection ="ACTIVE";
+
+```
+
+## Example - Enabling Deletion protection on a Data resource
+
+For example, if you would like to enable Deletion protection on all GraphQL API DynamoDB tables created by Amplify Data.
+
+```ts title="amplify/backend.ts"
+
+Object.values(backend.resources.data.resources.cfnResources.cfnTables).forEach(
+  (table) => {
+    table.deletionProtectionEnabled = true;
+  }
+);
 
 ```
 
