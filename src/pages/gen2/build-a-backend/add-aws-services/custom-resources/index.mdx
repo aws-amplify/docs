@@ -73,6 +73,70 @@ const backend = defineBackend({
 const customResourceStack = backend.createStack('MyCustomResources');
 
 new sqs.Queue(customResourceStack, 'CustomQueue');
+new sns.Topic(customResourceStack, 'CustomTopic');
+```
+
+Note the use of `backend.createStack()`. This method instructs the backend to create a new CloudFormation Stack for your custom resources to live in. You can create multiple custom stacks and you can place multiple resources in any given stack.
+
+## Defining a CDK Construct
+
+<Callout>
+
+Constructs are the basic building blocks of AWS CDK apps. A construct represents a "cloud component" and encapsulates everything AWS CloudFormation needs to create the component. [Read more](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html)
+
+</Callout>
+
+As shown above, you can use the existing CDK Constructs directly in an Amplify backend. However, you may find yourself repeating some patterns of common constructs. Custom constructs allow you to encapsulate common patterns into reusable components. This helps you implement best practices, accelerate development, and maintain consistency across applications.
+
+A common use case is creating a custom notification construct that combines a Lambda functions with SNS and SES.
+
+This AWS CDK construct implements a decoupled notification system using Amazon SNS and Lambda. It allows publishing notification messages to an SNS topic from one Lambda function, and processing those messages asynchronously using a separate Lambda subscribed to the topic.
+
+The key components are:
+
+- An SNS topic to receive notification messages
+- A Lambda function to publish messages to the SNS topic
+- A second Lambda subscribed to the topic that processes the messages and sends emails via Amazon SES
+
+The publisher Lambda allows publishing a message containing the email subject, body text, and recipient address. The emailer Lambda retrieves messages from the SNS topic and handles sending the actual emails.
+
+The `CustomNotifications` custom CDK construct can be defined as follows:
+
+```ts title="amplify/custom/CustomNotifications/resource.ts"
+import * as url from 'node:url';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import * as lambda from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as sns from 'aws-cdk-lib/aws-sns';
+import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
+import { Construct } from 'constructs';
+
+// message to publish
+export type Message = {
+  subject: string;
+  body: string;
+  recipient: string;
+};
+
+type CustomNotificationsProps = {
+  /**
+   * The source email address to use for sending emails
+   */
+  sourceAddress: string;
+};
+
+export class CustomNotifications extends Construct {
+  constructor(scope: Construct, id: string, props: CustomNotificationsProps) {
+    super(scope, id);
+
+    const { sourceAddress } = props;
+
+    // Create SNS topic
+    const topic = new sns.Topic(this, 'NotificationTopic');
+
+    // Create Lambda to publish messages to SNS topic
+    const publisher = new lambda.NodejsFunction(this, 'Publisher', {
+      entry: url.fileURLToPath(new URL('publisher.ts', import.meta.url)),
+      environment: {
         SNS_TOPIC_ARN: topic.topicArn
       },
       runtime: Runtime.NODEJS_18_X
