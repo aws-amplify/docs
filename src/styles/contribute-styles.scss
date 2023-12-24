@@ -1,31 +1,25 @@
 @font-face {
   font-family: 'AmazonEmberReg';
-  src: url('/fonts/AmazonEmberDisplay_Rg.ttf') format('truetype');
+  src: url('/fonts/Amazon_Ember_Rg.ttf') format('truetype');
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'AmazonEmberRegIt';
-  src: url('/fonts/AmazonEmberDisplay_RgIt.ttf') format('truetype');
+  src: url('/fonts/Amazon_Ember_RgIt.ttf') format('truetype');
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'AmazonEmberBd';
-  src: url('/fonts/AmazonEmberDisplay_Bd.ttf') format('truetype');
+  src: url('/fonts/Amazon_Ember_Bd.ttf') format('truetype');
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'AmazonEmberBdIt';
-  src: url('/fonts/AmazonEmberDisplay_BdIt.ttf') format('truetype');
+  src: url('/fonts/Amazon_Ember_BdIt.ttf') format('truetype');
   font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'AmazonEmberMono';
-  src: url('/fonts/AmazonEmberMono_Bd.ttf');
-  font-style: normal;
   font-display: swap;
 }
 
@@ -70,7 +64,7 @@
   border: 1px solid var(--amplify-colors-neutral-40);
   border-radius: var(--amplify-radii-xs);
   padding: 2px 5px;
-  font-family: AmazonEmberMono;
+  font-family: var(--font-code);
   width: fit-content;
   display: inline;
   font-size: 0.8125em;

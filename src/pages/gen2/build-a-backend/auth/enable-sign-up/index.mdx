@@ -187,6 +187,26 @@ const { cfnUserPool } = backend.resources.auth.resources.cfnResources;
 cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.MinimumLength', 32);
 ```
 
+## Customize Cognito UserPool email verification settings
+
+You can change the verification email by overriding the `verificationEmailStyle` and the `verificationEmailBody`.
+
+```ts title="amplify/auth/resource.ts"
+// amplify/auth/resource.ts
+import { defineAuth } from "@aws-amplify/backend";
+
+export const auth = defineAuth({
+  loginWith: {
+    email: {
+      verificationEmailStyle: "CODE",
+      verificationEmailBody: (code: string) =>
+        `Welcome! Your verification code is ${code}.`,
+      verificationEmailSubject: "Welcome! Here is your verification code",
+    },
+  },
+});
+```
+
 ### Confirm sign-up
 
 By default, each user that signs up remains in the unconfirmed status until they verify with a confirmation code that was sent to their email or phone number. The following are the default verification methods used when either `phone` or `email` are used as `loginWith` options.
