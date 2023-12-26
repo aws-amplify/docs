@@ -181,7 +181,7 @@ function MyApp({ Component, pageProps }) {
         {process.env.BUILD_ENV !== 'production' ? (
           <>
             <link
-              rel="preload"
+              rel="prefetch"
               as="script"
               href="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
             />
@@ -189,7 +189,7 @@ function MyApp({ Component, pageProps }) {
         ) : (
           <>
             <link
-              rel="preload"
+              rel="prefetch"
               as="script"
               href="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
             />
