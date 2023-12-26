@@ -1,21 +1,20 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
-  title: 'Project setup',
-  description: 'Project setup',
+  title: 'Amplify project setup',
+  description:
+    'Set up Amplify prerequisites and a project.',
   platforms: [
-    'android',
     'angular',
-    'flutter',
     'javascript',
     'nextjs',
     'react',
-    'react-native',
+    'vue',
     'swift',
-    'vue'
-  ],
-  route: '/[platform]/prev/start/project-setup'
+    'android',
+    'flutter',
+    'react-native'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -23,15 +22,209 @@ export const getStaticPaths = async () => {
 };
 
 export function getStaticProps(context) {
-  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
       platform: context.params.platform,
-      meta,
       showBreadcrumbs: false,
-      childPageNodes
+      meta
     }
   };
 }
 
-<Overview childPageNodes={props.childPageNodes} />
+<Callout info>
+
+We recommend that you use the [latest version for project setup](/[platform]/start/project-setup/) for your chosen framework or language. 
+
+This page is a reference for those who need the previous version and includes all project setup content for that version. Selecting the navigation menu will take you back to the current version by default.
+
+</Callout>
+
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ swift: ios_maintenance }} />
+
+import ios0 from '/src/fragments/lib-v1/project-setup/native_common/prereq/common_header.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+
+<Fragments fragments={{ android: android_maintenance }} />
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+import android0 from '/src/fragments/lib-v1/project-setup/native_common/prereq/common_header.mdx';
+
+<Fragments fragments={{ android: android0 }} />
+
+import reactnative0 from '/src/fragments/lib/project-setup/native_common/prereq/common_header.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
+
+import js0 from '/src/fragments/lib/project-setup/native_common/prereq/common_header.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
+
+import ios1 from '/src/fragments/lib-v1/project-setup/ios/prereq/prereq.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />
+
+import android1 from '/src/fragments/lib-v1/project-setup/android/prereq/prereq.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import ios2 from '/src/fragments/lib-v1/project-setup/native_common/prereq/common_body.mdx';
+
+<Fragments fragments={{ swift: ios2 }} />
+
+import android2 from '/src/fragments/lib-v1/project-setup/native_common/prereq/common_body.mdx';
+
+<Fragments fragments={{ android: android2 }} />
+
+import flutter0 from '/src/fragments/lib-v1/project-setup/native_common/prereq/common_header.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />
+
+import flutter1 from '/src/fragments/lib-v1/project-setup/flutter/prereq/prereq.mdx';
+
+<Fragments fragments={{ flutter: flutter1 }} />
+
+import flutter2 from '/src/fragments/lib-v1/project-setup/native_common/prereq/common_body.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />
+
+import js1 from '/src/fragments/lib/project-setup/native_common/prereq/common_body.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js1,
+    angular: js1,
+    nextjs: js1,
+    react: js1,
+    vue: js1
+  }}
+/>
+
+import reactnative1 from '/src/fragments/lib/project-setup/native_common/prereq/common_body.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative1 }} />
+
+## Create your application
+
+import ios3 from '/src/fragments/lib-v1/project-setup/native_common/create-application/common.mdx';
+
+<Fragments fragments={{ swift: ios3 }} />
+
+import android3 from '/src/fragments/lib-v1/project-setup/native_common/create-application/common.mdx';
+
+<Fragments fragments={{ android: android3 }} />
+
+import flutter3 from '/src/fragments/lib-v1/project-setup/native_common/create-application/common.mdx';
+
+<Fragments fragments={{ flutter: flutter3 }} />
+
+import react_native2 from '/src/fragments/start/getting-started/reactnative/setup.mdx';
+
+<Fragments fragments={{ 'react-native': react_native2 }} />
+
+import js2 from '/src/fragments/lib-v1/project-setup/js/getting-started.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js2,
+    angular: js2,
+    nextjs: js2,
+    react: js2,
+    vue: js2
+  }}
+/>
+
+<InlineFilter filters={["swift", "android", "flutter"]}>
+
+## Further customization
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+## Async Programming Model
+
+import android4 from '/src/fragments/lib-v1/project-setup/android/async/async.mdx';
+
+<Fragments fragments={{ android: android4 }} />
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+## Kotlin Coroutines support
+
+import android5 from '/src/fragments/lib-v1/project-setup/android/coroutines/coroutines.mdx';
+
+<Fragments fragments={{ android: android5 }} />
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+## Using RxJava with Amplify
+
+import android6 from '/src/fragments/lib-v1/project-setup/android/rxjava/rxjava.mdx';
+
+<Fragments fragments={{ android: android6 }} />
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+## Platform setup
+
+import flutter4 from '/src/fragments/lib-v1/project-setup/flutter/platform-setup/platform-setup.mdx';
+
+<Fragments fragments={{ flutter: flutter4 }} />
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+## Escape hatch
+
+import flutter5 from '/src/fragments/lib-v1/project-setup/flutter/escape-hatch/escape-hatch.mdx';
+
+<Fragments fragments={{ flutter: flutter5 }} />
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+## Use the Combine framework with Amplify
+
+import ios4 from '/src/fragments/lib-v1/project-setup/ios/combine/combine.mdx';
+
+<Fragments fragments={{ swift: ios4 }} />
+
+</InlineFilter>
+
+<InlineFilter filters={["swift", "android"]}>
+
+## Use existing AWS resources
+
+import ios5 from '/src/fragments/lib-v1/project-setup/ios/use-existing-resources/use-existing-resources.mdx';
+
+<Fragments fragments={{ swift: ios5 }} />
+
+import android7 from '/src/fragments/lib-v1/project-setup/android/use-existing-resources/use-existing-resources.mdx';
+
+<Fragments fragments={{ android: android7 }} />
+
+</InlineFilter>

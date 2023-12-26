@@ -190,6 +190,7 @@ export function MenuItem({
       >
         <Link
           className={`menu__list-item__link ${listItemLinkStyle} ${currentStyle}`}
+          aria-current={current ? 'page' : null}
           href={href}
           onClick={onLinkClick}
           passHref

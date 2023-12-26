@@ -2599,97 +2599,97 @@
   },
   {
     "source":"/lib-v1/project-setup/async/q/platform/android/",
-    "target":"/android/prev/start/project-setup/async-programming-model",
+    "target":"/android/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/combine/q/platform/ios/",
-    "target":"/swift/prev/start/project-setup/combine-framework",
+    "target":"/swift/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/coroutines/q/platform/android/",
-    "target":"/android/prev/start/project-setup/kotlin-coroutines",
+    "target":"/android/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/create-application/q/platform/android/",
-    "target":"/android/prev/start/project-setup/create-application",
+    "target":"/android/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/create-application/q/platform/flutter/",
-    "target":"/flutter/prev/start/project-setup/create-application",
+    "target":"/flutter/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/create-application/q/platform/ios/",
-    "target":"/swift/prev/start/project-setup/create-application",
+    "target":"/swift/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/create-application/q/platform/js/",
-    "target":"/javascript/start/project-setup/create-application",
+    "target":"/javascript/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/escape-hatch/q/platform/flutter/",
-    "target":"/flutter/prev/start/project-setup/escape-hatch",
+    "target":"/flutter/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/platform-setup/q/platform/flutter/",
-    "target":"/flutter/prev/start/project-setup/platform-setup",
+    "target":"/flutter/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/prereq/q/platform/android/",
-    "target":"/android/prev/start/project-setup/prerequisites",
+    "target":"/android/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/prereq/q/platform/flutter/",
-    "target":"/flutter/prev/start/project-setup/prerequisites",
+    "target":"/flutter/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/prereq/q/platform/ios/",
-    "target":"/swift/prev/start/project-setup/prerequisites",
+    "target":"/swift/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/prereq/q/platform/js/",
-    "target":"/javascript/start/project-setup/prerequisites",
+    "target":"/javascript/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/rxjava/q/platform/android/",
-    "target":"/android/prev/start/project-setup/rxjava",
+    "target":"/android/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/use-existing-resources/q/platform/android/",
-    "target":"/android/prev/start/project-setup/use-existing-resources",
+    "target":"/android/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/lib-v1/project-setup/use-existing-resources/q/platform/ios/",
-    "target":"/swift/prev/start/project-setup/use-existing-resources",
+    "target":"/swift/prev/start/project-setup/",
     "status":"301",
     "condition":null
   },

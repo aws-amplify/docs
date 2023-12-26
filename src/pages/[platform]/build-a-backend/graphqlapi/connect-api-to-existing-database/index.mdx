@@ -45,6 +45,12 @@ Pre-requisites:
 - The [AWS CDK CLI is installed](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install)
 - Have an [AWS CDK application initialized](https://docs.aws.amazon.com/cdk/v2/guide/hello_world.html)
 
+<Callout warning>
+
+This feature is not yet available in the Asia Pacific (Hong Kong, ap-east-1) or Europe (Milan, eu-south-1) regions.
+
+</Callout>
+
 First, place your database connection information (hostname, username, password, port, and database name) into Systems Manager, each as a `SecureString`.
 
 Go to the Systems Manager console, navigate to Parameter Store, and click "Create Parameter". Create five different SecureStrings: one each for the hostname of your database server, the username and password to connect, the database port, and the database name.
@@ -62,7 +68,7 @@ npm install @aws-amplify/graphql-api-construct
 Create a new `schema.graphql` file within your CDK app’s `lib/` folder that includes the APIs you want to expose. Define your GraphQL object types, queries, and mutations to match the APIs you wish to expose. For example, define object types for database tables, queries to fetch data from those tables, and mutations to modify those tables.
 
 ```graphql
-type Blog @refersTo(name: "blogs") {
+type Blog {
   id: Int!
   title: String!
 }
@@ -143,7 +149,7 @@ Before deploying, make sure to:
 
 - Set a value for `name`. This will be used to name the AppSync DataSource itself, plus any associated resources like resolver Lambdas. This name must be unique across all schema definitions in a GraphQL API.
 
-- Change the `dbType` to match your database engine. This is the type of the SQL database used to process model operations for this definition.Supported engines are `"MYSQL"`, `"POSTGRES"`, or `"DYNAMODB"`.
+- Change the `dbType` to match your database engine. This is the type of the SQL database used to process model operations for this definition.Supported engines are `"MYSQL"` or `"POSTGRES"`.
 
 - Update the SSM parameter paths within `dbConnectionConfig` to point to those existing in your AWS account. These are the parameters the SQL Lambda will use to connect to the database.
 
@@ -158,6 +164,12 @@ The target security group(s) must have two inbound rules set up:
 - A rule allowing traffic on port 443 from the security group.
 
 - An inbound rule allowing traffic on the database port from the security group. (Default: 3306 for MySQL. 5432 for PostgreSQL.)
+
+In addition, the target security group(s) must have two outbound rules set up:
+
+- An outbound rule allowing traffic on port 443 to the security group.
+
+- An outbound rule allowing traffic on the database port to the security group. (Default: 3306 for MySQL. 5432 for PostgreSQL.)
 
 <Callout>
   **NOTE:** Make sure to limit the type of inbound traffic your security group
@@ -433,7 +445,7 @@ Now the API has been deployed and you can start using it!
 
 You can start querying from the AWS AppSync console or integrate it into your application using the AWS Amplify libraries!
 
-{/* ## Auto-generate CRUDL operations for existing tables
+## Auto-generate CRUDL operations for existing tables
 
 You can generate common CRUDL operations for your database tables based on your database schema. This saves time from hand-authoring the GraphQL types, queries, and mutations and SQL statements for common CRUDL use cases. After you generate the operations, you can annotate the `@model` types with authorization rules.
 
@@ -729,7 +741,7 @@ cdk deploy
 ```
 
 </Block>
-</BlockSwitcher> */}
+</BlockSwitcher>
 
 ## How does it work?
 
