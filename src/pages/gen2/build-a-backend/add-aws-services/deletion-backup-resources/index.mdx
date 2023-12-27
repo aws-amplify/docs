@@ -25,7 +25,6 @@ Using underlying [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/c
 In the `amplify/backend.ts` create a `backend` object that exposes resource properties with objects for each of the components passed into the `defineBackend` function.
 
 ```ts title="amplify/backend.ts"
-// amplify/backend.ts
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
@@ -34,7 +33,6 @@ const backend = defineBackend({
   auth,
   data
 });
-
 ```
 
 ## Example - Enabling Deletion protection on a Auth resource
@@ -42,9 +40,7 @@ const backend = defineBackend({
 For example, if you would like to enable Deletion protection on a Cognito user pool resource created by Amplify Auth.
 
 ```ts title="amplify/backend.ts"
-
-backend.resources.auth.resources.cfnResources.cfnUserPool.deletionProtection ="ACTIVE";
-
+backend.auth.resources.cfnResources.cfnUserPool.deletionProtection ="ACTIVE";
 ```
 
 ## Example - Enabling Deletion protection on a Data resource
@@ -52,13 +48,10 @@ backend.resources.auth.resources.cfnResources.cfnUserPool.deletionProtection ="A
 For example, if you would like to enable Deletion protection on all GraphQL API DynamoDB tables created by Amplify Data.
 
 ```ts title="amplify/backend.ts"
-
-Object.values(backend.resources.data.resources.cfnResources.cfnTables).forEach(
-  (table) => {
-    table.deletionProtectionEnabled = true;
-  }
-);
-
+const { cfnResources } = backend.data.resources;
+for (const table of Object.values(cfnResources.cfnTables)) {
+  table.deletionProtectionEnabled = true;
+}
 ```
 
 ## Example - Enabling Point-in-time recovery for DynamoDB tables
@@ -66,15 +59,12 @@ Object.values(backend.resources.data.resources.cfnResources.cfnTables).forEach(
 For example, enabling Point-in-time recovery for all the DynamoDB tables created by GraphQL API.
 
 ```ts title="amplify/backend.ts"
-
-Object.values(backend.resources.data.resources.cfnResources.cfnTables).forEach(
-  (table) => {
-    table.pointInTimeRecoverySpecification = {
-      pointInTimeRecoveryEnabled: true,
-    };
-  }
-);
-
+const { cfnResources } = backend.data.resources;
+for (const table of Object.values(cfnResources.cfnTables)) {
+  table.pointInTimeRecoverySpecification = {
+    pointInTimeRecoveryEnabled: true,
+  };
+}
 ```
 
 ## Example - Enabling Backups for DynamoDB tables
@@ -86,7 +76,7 @@ The following example, creates a backup plan that applies to all the DynamoDB ta
 import * as backup from "aws-cdk-lib/aws-backup";
 import * as events from "aws-cdk-lib/aws-events";
 
-const tableNames = Object.values(backend.resources.data.resources.tables).map(
+const tableNames = Object.values(backend.data.resources.tables).map(
   (table) => table
 );
 
@@ -121,5 +111,4 @@ plan.addSelection("backup-plan-selection", {
   ),
   allowRestores: true,
 });
-
 ```
