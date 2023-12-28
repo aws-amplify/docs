@@ -71,15 +71,12 @@ For example, if the default 35 days Point-in-time recovery on a DynamoDB table i
 The following example, creates a backup plan that applies to all the DynamoDB tables that runs every day at midnight. 
 
 ```ts title="amplify/backend.ts"
-import * as cdk from "aws-cdk-lib";
-import * as backup from "aws-cdk-lib/aws-backup";
-import * as events from "aws-cdk-lib/aws-events";
-
-const tableNames = Object.values(backend.data.resources.tables).map(
-  (table) => table
-);
-
+const tableNames = Object.keys(backend.data.resources.amplifyDynamoDbTables);
 const backupStack = backend.createStack("amplify-backup");
+
+const ITables = tableNames.map((tableName) =>
+  Table.fromTableName(backupStack, tableName, tableName)
+);
 
 const vault = new backup.BackupVault(backupStack, "backup-vault", {
   backupVaultName: "amplify-backup-vault",
@@ -105,8 +102,8 @@ plan.addRule(
 );
 
 plan.addSelection("backup-plan-selection", {
-  resources: tableNames.map((tableName) =>
-    backup.BackupResource.fromDynamoDbTable(tableName)
+  resources: ITables.map((table) =>
+    backup.BackupResource.fromDynamoDbTable(table)
   ),
   allowRestores: true,
 });
