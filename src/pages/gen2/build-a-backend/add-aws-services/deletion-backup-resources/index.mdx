@@ -48,8 +48,8 @@ backend.auth.resources.cfnResources.cfnUserPool.deletionProtection ="ACTIVE";
 For example, if you would like to enable Deletion protection on all GraphQL API DynamoDB tables created by Amplify Data.
 
 ```ts title="amplify/backend.ts"
-const { cfnResources } = backend.data.resources;
-for (const table of Object.values(cfnResources.cfnTables)) {
+const dataResources = backend.data.resources;
+for (const table of Object.values(dataResources.amplifyDynamoDbTables)) {
   table.deletionProtectionEnabled = true;
 }
 ```
@@ -59,11 +59,9 @@ for (const table of Object.values(cfnResources.cfnTables)) {
 For example, enabling Point-in-time recovery for all the DynamoDB tables created by GraphQL API.
 
 ```ts title="amplify/backend.ts"
-const { cfnResources } = backend.data.resources;
-for (const table of Object.values(cfnResources.cfnTables)) {
-  table.pointInTimeRecoverySpecification = {
-    pointInTimeRecoveryEnabled: true,
-  };
+const dataResources = backend.data.resources;
+for (const table of Object.values(dataResources.amplifyDynamoDbTables)) {
+  table.pointInTimeRecoveryEnabled = true;
 }
 ```
 
@@ -73,6 +71,7 @@ For example, if the default 35 days Point-in-time recovery on a DynamoDB table i
 The following example, creates a backup plan that applies to all the DynamoDB tables that runs every day at midnight. 
 
 ```ts title="amplify/backend.ts"
+import * as cdk from "aws-cdk-lib";
 import * as backup from "aws-cdk-lib/aws-backup";
 import * as events from "aws-cdk-lib/aws-events";
 
