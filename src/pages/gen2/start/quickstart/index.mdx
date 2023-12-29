@@ -434,7 +434,23 @@ If you already have your project remotely hosted in a Git repository, you can sk
 ### Connect branch in the Amplify console
 
 1. To get started with Gen 2, log in to the [AWS console](https://console.aws.amazon.com/console/home?#amplify) and navigate to your preferred Region. (The Amplify console is available in [19 Regions](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplify_region)).
-2. If you have never created apps with Amplify before, choose _Create an app_ from the purple banner (top screenshot). If you have Amplify apps, you can find the option under _New app > Build an app (Gen 2)_.
+2. If you have never created apps with Amplify before, choose _Create an app_ from the purple banner (top screenshot). If you have Amplify apps, you can find the option under _New app > Build an app (Gen 2)_. 
+
+**NextJS requirements for Node**
+Since `NextJS 14` requires `Node` > 18.17 which leads to complications with `GLIC` on `Amazon Linux 2`, it is recommended to build your website using `Amazon Linux 2023`. 
+- When creating a new application, under `App Setting` -> `Advanced Settings`, add the image `amplify:al2023` to satisfy the GLIC. 
+- If you have already created your application on the Gen 2 console, we can accomplish this by setting environment settings. Go to `Hosting` -> `Environment Variables` and create a variable of `_CUSTOM_IMAGE`: `amplify:al2023`.
+- Finally, you will have to update the build steps to use the correct version of node. The most straightforward way it go to `Hosting` -> `Build Settings`, edit the `amplify.yml` backend preBuild stage with this following:
+
+```
+version: 1
+backend:
+  phases:
+    build:
+      commands:
+        - nvm install 18.17
+        - nvm use 18.17
+```
 
 ![gen2](/images/gen2/getting-started/console1.png)
 
