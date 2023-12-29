@@ -18,9 +18,9 @@ Deleting a Amplify sandbox with a resource enabled with deletion protection, the
 
 </Callout>
 
-Using AWS CDK we can configure Amplify generated resource to enable deletion protection and backups on supported resources. For example, a developer can could use CDK to enable Point-in-time recovery for DynamoDB tables, or use AWS Backups as a advanced backup option.
+Using the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) we can configure Amplify generated resource to enable deletion protection and backups on supported resources. For example, you can use CDK to enable [Point-in-time recovery for DynamoDB tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PointInTimeRecovery.html), or use [AWS Backup](https://aws.amazon.com/backup/) as a advanced backup option.
 
-Using underlying [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) construct properties you can modify resource configurations. This allows you to customize backend resources beyond what is offered via the `define*` functions.
+Using underlying CDK construct properties you can modify resource configurations. This allows you to customize backend resources beyond what is offered via the `define*` functions.
 
 In the `amplify/backend.ts` create a `backend` object that exposes resource properties with objects for each of the components passed into the `defineBackend` function.
 
@@ -56,7 +56,7 @@ for (const table of Object.values(dataResources.amplifyDynamoDbTables)) {
 
 ## Example - Enabling Point-in-time recovery for DynamoDB tables
 
-For example, enabling Point-in-time recovery for all the DynamoDB tables created by GraphQL API.
+For example, enabling Point-in-time recovery for all the DynamoDB tables created by GraphQL API. By default Point-in-Time recovery retains backups for 35 days.
 
 ```ts title="amplify/backend.ts"
 const dataResources = backend.data.resources;
@@ -67,8 +67,8 @@ for (const table of Object.values(dataResources.amplifyDynamoDbTables)) {
 
 ## Example - Enabling Backups for DynamoDB tables
 
-For example, if the default 35 days Point-in-time recovery on a DynamoDB table is not viable, we can utilize AWS Backup service to centralize and automate the backup of DynamoDB tables. 
-The following example, creates a backup plan that applies to all the DynamoDB tables that runs every day at midnight. 
+For example, if your DynamoDB tables requires backups that extend the default 35 days Point-in-time recovery, AWS Backup service can be utilized to centralize and automate backups for DynamoDB tables. 
+The example below outlines a backup plan configured to run daily at midnight, for all DynamoDB tables. 
 
 ```ts title="amplify/backend.ts"
 const tableNames = Object.keys(backend.data.resources.amplifyDynamoDbTables);
