@@ -322,6 +322,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/restapi/override-api-gateway/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/restapi/restapi-v5-to-v6-migration-guide/index.mdx'
                 }
               ]
             },
@@ -452,7 +455,26 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nuxt/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/existing-resources/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/existing-resources/cli/index.mdx'
+                }     
+              ]
             },
             {
               path: 'src/pages/[platform]/build-a-backend/utilities/index.mdx',
@@ -1185,12 +1207,11 @@ export const directory = {
           platforms: ['android']
         },
         {
-          route: '/[platform]/reference/flutter-api/',
+          path: 'src/pages/[platform]/reference/flutter-api/index.mdx',
           title: 'Reference',
           description: 'Reference',
           platforms: ['flutter']
         },
-
         {
           path: 'src/pages/[platform]/prev/index.mdx',
           children: [

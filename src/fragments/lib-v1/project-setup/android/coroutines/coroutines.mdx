@@ -40,7 +40,7 @@ lifecycleScope.launch {
 
 In Amplify's vanilla APIs, this would have created a large block of code with three nested callbacks.
 
-## Installation
+### Install coroutine support
 
 Amplify's coroutine support is included in an optional module, `core-kotlin`.
 
@@ -59,15 +59,15 @@ Amplify's coroutine support is included in an optional module, `core-kotlin`.
     import com.amplifyframework.kotlin.core.Amplify
     ```
 
-## Usage
+### Using Kotlin primitives
 
 Amplify tries to map the behavior of your callback-based APIs to Kotlin primitives in an intuitive way. Functions whose callbacks emit a single value (or error) are now expressed as suspending functions, returning the value instead. Functions whose callbacks emit a stream of values will now return Kotlin `Flow`s, instead.
 
-## Special cases
+### Special cases with Kotlin
 
 Some APIs return an operation which can be cancelled. Examples include realtime subscriptions to an API, and uploading/downloading objects from Storage.
 
-### API subscriptions
+#### API subscriptions with Kotlin
 
 The API category's `subscribe()` function uses both a suspend function _and_ a Flow. The function suspends until the API subscription is established. Then, it starts emitting values over the Flow.
 
@@ -83,7 +83,7 @@ lifecycleScope.async {
 }
 ```
 
-### Storage upload & download operations
+#### Storage upload and download operations with Kotlin
 
 The Storage category's `downloadFile()` and `uploadFile()` functions are bit more complex. These APIs allow you to observe transfer progress, and also to obtain a result. Progress results are delivered over a Flow, returned from the `progress()` function. Completion events are delivered by a suspending `result()` function.
 

@@ -1,0 +1,78 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Amplify Libraries',
+  description:
+    'The Amplify open-source client libraries provide use-case centric, opinionated, declarative, and easy-to-use interfaces across different categories of cloud powered operations, enabling mobile and web developers to easily interact with their backends.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue',
+    'swift',
+    'android',
+    'flutter',
+    'react-native'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      showBreadcrumbs: false,
+      meta
+    }
+  };
+}
+
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ swift: ios_maintenance }} />
+
+import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+
+<Fragments fragments={{ android: android_maintenance }} />
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+The Amplify open-source client libraries provide use-case centric, and easy-to-use interfaces across different categories of cloud powered operations, enabling mobile and web developers to easily interact with their backends. These libraries are powered by the AWS Cloud. The libraries can be used with both new backends created using the Amplify CLI and existing backend resources.
+
+import ios0 from '/src/fragments/lib-v1/ios.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android1 from '/src/fragments/lib-v1/android.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import flutter2 from '/src/fragments/lib-v1/flutter.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />
+
+<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue"]}>
+
+<Callout info>
+
+If you are beginning a new project, we recommend you work with the [latest version of the Amplify libraries](/[platform]/tools/libraries/) for your chosen framework or language.
+
+</Callout>
+
+## Amplify JavaScript
+
+The Amplify JavaScript libraries are supported for different web and mobile frameworks, including React, React Native, Angular, and Vue.
+
+What's next? Here are some things you can add to your app:
+
+- [Authentication](/[platform]/prev/build-a-backend/auth/set-up-auth/)
+- [File Storage](/[platform]/prev/build-a-backend/storage/set-up-storage/)
+- [Analytics](/[platform]/prev/build-a-backend/more-features/analytics/set-up-analytics/)
+
+</InlineFilter>

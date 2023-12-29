@@ -17,16 +17,16 @@ code:not([class]) {
 .pre-header {
   align-items: center;
   padding: var(--amplify-space-xs) 0;
+  margin-inline: var(--amplify-space-medium);
   border-bottom: 1px solid var(--amplify-colors-neutral-90);
 }
-.pre-filename {
+.pre-title {
   color: var(--amplify-colors-font-inverse);
   font-size: var(--amplify-font-sizes-medium);
   line-height: var(--amplify-line-heights-small);
 }
 
-.pre-wrapper {
-  padding: 1px;
+.pre-container {
   border-radius: var(--amplify-radii-small);
   background: var(--amplify-colors-neutral-100);
   overflow: hidden;
@@ -36,36 +36,68 @@ code:not([class]) {
     margin-block: var(--amplify-space-small);
   }
 }
-.pre-wrapper__inner {
-  font-size: var(--amplify-font-sizes-small);
-  background: var(--amplify-colors-neutral-100);
-  position: relative;
-  border-radius: var(--amplify-radii-small);
-  padding: 0 var(--amplify-space-large);
+
+.pre-wrapper {
+  padding: 0 var(--amplify-space-large) 0 var(--amplify-space-xs);
 }
 
 .pre {
-  margin: 0;
   overflow: auto;
-  padding-block-start: var(--amplify-space-medium);
-  padding-block-end: var(--amplify-space-large);
+  display: flex;
+  margin: 0;
+  padding-block: var(--amplify-space-medium);
   font-size: var(--amplify-font-sizes-medium);
-  &--header {
-    padding-block: var(--amplify-space-large);
+  &:focus-visible {
+    outline: 2px solid var(--amplify-colors-neutral-10);
   }
+}
+
+.pre-code {
+  flex: 1;
 }
 
 .token-line {
   display: block;
-  line-height: var(--amplify-line-heights-medium);
+  position: relative;
+  padding-inline: var(--amplify-space-small);
+  line-height: 1.6;
 }
+
+.token {
+  z-index: 1;
+  position: relative;
+}
+
+.line-highlight {
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: var(--amplify-colors-neutral-90);
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    width: 6px;
+    background-color: var(--amplify-colors-brand-primary-40);
+    z-index: 1;
+    height: 100%;
+  }
+}
+
 .line-number {
+  z-index: 1;
+  position: relative;
   color: var(--code-theme-comment);
   margin-inline-end: var(--amplify-space-medium);
   text-align: end;
   user-select: none;
   display: inline-block;
-  width: var(--amplify-space-medium);
+  width: 1.8rem;
 }
 
 .code-copy {

@@ -10,7 +10,7 @@ interface SocialNavLinksProps {
 
 export function SocialNavLinks({
   socialLinks,
-  currentSite,
+  currentSite
 }: SocialNavLinksProps) {
   return (
     <Flex className={`${styles['mobile-border']} ${styles['social-links']}`}>

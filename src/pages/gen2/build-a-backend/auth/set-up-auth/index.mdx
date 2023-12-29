@@ -112,7 +112,7 @@ See the [Amazon Cognito documentation](https://docs.aws.amazon.com/cognito/lates
 
 After you have chosen and set up your authentication resource, run the following command to create your first authentication resource in your personal cloud sandbox.
 
-```bash title=Terminal
+```bash title="Terminal"
 npx amplify sandbox
 ```
 
@@ -137,7 +137,7 @@ Next, open **pages/\_app.ts** and add the `withAuthenticator` component.
 
 **withAuthenticator**
 
-A higher-order component (HOC) is a function that takes a component and returns an enhanced component. The `withAuthenticator` HOC is an example of this pattern. It wraps the `Authenticator` component and enhances it by passing along additional authentication-related data like `user` info and the `signOut` function. 
+A higher-order component (HOC) is a function that takes a component and returns an enhanced component. The `withAuthenticator` HOC is an example of this pattern. It wraps the `Authenticator` component and enhances it by passing along additional authentication-related data like `user` info and the `signOut` function.
 
 **Usage**
 
@@ -203,7 +203,7 @@ First, install the `@aws-amplify/ui-vue` library:
 npm add @aws-amplify/ui-vue
 ```
 
-Next, open **src/App.js** and add the `Authenticator` component.
+Next, open **src/App.vue** and add the `Authenticator` component.
 
 **Authenticator**
 
@@ -215,9 +215,9 @@ The `Authenticator` component offers a simple way to add authentication flows in
   import "@aws-amplify/ui-vue/styles.css";
 
   import { Amplify } from 'aws-amplify';
-  import config './amplifyconfiguration';
+  import config from '../amplifyconfiguration.json';
 
-  Amplify.configure(awsconfig);
+  Amplify.configure(config);
 </script>
 
 <template>
@@ -290,9 +290,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 import { AppComponent } from './app.component';
-import amplifyconfig from './amplifyconfiguration.json';
+import config from './amplifyconfiguration.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(config);
 
 @NgModule({
   declarations: [AppComponent],

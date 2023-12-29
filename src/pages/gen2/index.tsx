@@ -22,7 +22,6 @@ import {
 import { ClassicBanner } from '@/components/Banner';
 import { Columns } from '@/components/Columns';
 import { FeatureList, FeatureItem } from '@/components/FeatureLists';
-import styles from '../../components/GlobalNav/GlobalNav.module.scss';
 
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
@@ -82,7 +81,11 @@ const Gen2Overview = () => {
           </Text>
           <sup>
             {' '}
-            <Badge size="small" className={styles['navbar-badge']}>
+            <Badge
+              size="small"
+              backgroundColor="purple.60"
+              color="font.inverse"
+            >
               Preview
             </Badge>
           </sup>
@@ -92,8 +95,8 @@ const Gen2Overview = () => {
         </Heading>
         <Text className="max-inline-content">
           Amplify has reimagined the way frontend developers build fullstack
-          applications on AWS. With this next generation of Amplify’s backend-building
-          experience, you can author your frontend and backend
+          applications on AWS. With this next generation of Amplify’s
+          backend-building experience, you can author your frontend and backend
           definition completely with TypeScript, a file convention, and Git
           branch-based environments.
         </Text>
@@ -140,8 +143,8 @@ const Gen2Overview = () => {
                 Code-first DX
               </Heading>
               <Text>
-                The code-first developer experience is a new approach that lets you focus
-                on your app code instead of infrastructure.
+                The code-first developer experience is a new approach that lets
+                you focus on your app code instead of infrastructure.
               </Text>
             </Flex>
           </Card>
@@ -151,8 +154,8 @@ const Gen2Overview = () => {
                 Fullstack Git deployments
               </Heading>
               <Text>
-                Fullstack deployments from your Git branch. Deploy your
-                frontend and backend together on every code commit.
+                Fullstack deployments from your Git branch. Deploy your frontend
+                and backend together on every code commit.
               </Text>
             </Flex>
           </Card>
@@ -169,7 +172,8 @@ const Gen2Overview = () => {
           </Card>
         </Columns>
       </Flex>
-      <FeatureList heading="Develop" level={2}>
+      <Flex className="home-section">
+        <Heading level={2}>Develop</Heading>
         <video
           src="/videos/typed-api.mp4"
           style={{
@@ -177,37 +181,43 @@ const Gen2Overview = () => {
             borderRadius: 'var(--amplify-radii-large)',
             marginBottom: 'var(--amplify-space-small)',
             boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
-          }} autoPlay muted loop />
-        <Columns columns={2}>
+          }}
+          autoPlay
+          muted
+          loop
+        />
+
+        <Columns columns={2} as="ul">
           <FeatureItem
             linkText="TypeScript-first fullstack experience"
             href="/gen2/how-amplify-works/concepts/#build-fullstack-apps-with-typescript"
           >
-            Write TypeScript across frontend and backend. Get schema validation, dot completion, and end-to-end types while you code.
+            Write TypeScript across frontend and backend. Get schema validation,
+            dot completion, and end-to-end types while you code.
           </FeatureItem>
           <FeatureItem
             linkText="Real-time data for modern apps"
             href="/gen2/build-a-backend/data/set-up-data/"
           >
-            Sync frontend state to real-time backend updates. Just write TypeScript without thinking about WebSockets.
+            Sync frontend state to real-time backend updates. Just write
+            TypeScript without thinking about WebSockets.
           </FeatureItem>
           <FeatureItem
             linkText="Authn and authz for secure apps"
             href="/gen2/build-a-backend/auth/set-up-auth/"
           >
-            Choose the auth strategy (such as passwords, social, email links) and
-            control data access based on users and groups.
+            Choose the auth strategy (such as passwords, social, email links)
+            and control data access based on users and groups.
           </FeatureItem>
           <FeatureItem
             linkText="Auto-generate CRUD forms wired to data"
             href="/gen2/build-ui/"
           >
-            Map CRUD forms to your data model with form-level validations
-            and error states built in.
+            Map CRUD forms to your data model with form-level validations and
+            error states built in.
           </FeatureItem>
         </Columns>
-      </FeatureList>
-
+      </Flex>
 
       <Columns columns={2}>
         <ExportedImage
@@ -228,8 +238,8 @@ const Gen2Overview = () => {
             linkText="SSR/SSG/ISR hosting support"
             href="/gen2/deploy-and-host/hosting/"
           >
-            Deploy apps in Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and more)
-            by simply connecting your Git repository.
+            Deploy apps in Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and
+            more) by simply connecting your Git repository.
           </FeatureItem>
           <FeatureItem
             linkText="Faster iterations with per-developer sandboxes"
@@ -249,7 +259,8 @@ const Gen2Overview = () => {
             linkText="GUI to manage your data"
             href="/gen2/how-amplify-works/concepts/#unified-management-console"
           >
-            Manage your app data, users and groups, and files in a single console.
+            Manage your app data, users and groups, and files in a single
+            console.
           </FeatureItem>
         </FeatureList>
 
@@ -276,7 +287,7 @@ const Gen2Overview = () => {
           </FeatureItem>
         </FeatureList>
         <MDXCode
-          fileName="amplify/backend.ts"
+          title="amplify/backend.ts"
           language="typescript"
           codeString={`import * as sns from 'aws-cdk-lib/aws-sns';
 import * as sqs from 'aws-cdk-lib/aws-sqs';

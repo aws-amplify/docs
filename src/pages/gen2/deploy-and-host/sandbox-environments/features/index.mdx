@@ -1,7 +1,7 @@
 export const meta = {
   title: 'Sandbox features',
   description:
-    'Sandbox features such as secrets, client codegen, and config generation for mobile and cross-platform.'
+    'Explore sandbox features such as secrets, client codegen, and config generation for mobile and cross-platform.'
 };
 
 export function getStaticProps(context) {
@@ -18,10 +18,10 @@ Sandbox environments include additional features for managing secrets, deploying
 ## Secure secrets in your sandbox
 
 <Callout info>
-  Secrets set in a sandbox do not show up in the Amplify Console. You can view them in the AWS Parameter Store console.
+  Secrets set in a sandbox do not show up in the Amplify Console. You can view them in the AWS Systems Manager (SSM) Parameter Store console.
 </Callout>
 
-Gen 2 offers secure secret storage to manage sensitive data like API keys and database credentials. Secrets are similar to environment variables, but they are encrypted AWS Systems Manager (SSM) Parameter Store key value pairs. Secrets are stored in AWS Parameter Store with the following naming convention: `/amplify/<package.json#name>/<sandbox-name>/<key-name>`.
+Amplify (Gen 2) offers secure secret storage to manage sensitive data like API keys and database credentials. Secrets are similar to environment variables, but they are encrypted AWS Systems Manager Parameter Store key value pairs. Secrets are stored in AWS Parameter Store with the following naming convention: `/amplify/<package.json#name>/<sandbox-name>/<key-name>`.
 
 ### Set secrets
 
@@ -39,7 +39,7 @@ Done!
 
 ### Access secrets
 
-Once you have set a secret, you can access the values in code by calling the `secret()` function. The example below shows how to set up social sign-in with authentication in your app. Depending on your environment, Amplify will automatically load the correct secret value with no extra configuration.
+Once you have set a secret, you can access the values in code by calling the `secret()` function. The following example shows how to set up social sign-in with authentication in your app. Depending on your environment, Amplify will automatically load the correct secret value with no extra configuration.
 
 ```ts
 import { defineAuth, secret } from '@aws-amplify/backend';
@@ -49,8 +49,10 @@ export const auth = defineAuth({
     email: true,
     externalProviders: {
       facebook: {
+        // highlight-start
         clientId: secret('foo'),
         clientSecret: secret('bar')
+        // highlight-end
       }
     }
   }
@@ -79,7 +81,7 @@ npx amplify sandbox secret remove foo
 
 ### Work with multiple AWS profiles
 
-Sometimes you might have multiple AWS profiles set up locally. To run `amplify sandbox secret` commands, use the `--profile` flag to deploy to a specific profile. For example, let's say you have two AWS profiles setup locally - `default` and `work`. To add secrets to the `work` profile, run the following command in your terminal:
+Sometimes you might have multiple AWS profiles set up locally. To run `amplify sandbox secret` commands, use the `--profile` flag to deploy to a specific profile. For example, let's say you have two AWS profiles set up locally—`default` and `work`. To add secrets to the `work` profile, run the following command in your terminal:
 
 ```bash
 npx amplify sandbox secret set foo --profile work
@@ -88,7 +90,7 @@ npx amplify sandbox secret set foo --profile work
 ## Multiple sandboxes per app
 
 <Callout info>
-  Provisioning multiple sandboxes per app is possible but not recommended - one ephemeral sandbox per app keeps things simple.
+  Provisioning multiple sandboxes per app is possible but not recommended because managing multiple ephemeral environments for a single app introduces complexity. With multiple sandboxes, it can be difficult to keep track of what code version or configuration is deployed where. Sticking to a single ephemeral sandbox per app keeps your workflows simple and straightforward.
 </Callout>
 
 You can create multiple cloud sandbox environments for each app if you want to keep persistent sandbox environments up and running to test against. First, run the following command in the terminal:
@@ -107,7 +109,7 @@ After successful deployment, sandboxes `s1` and `s2` will be ready. Pick sandbox
 
 ## Generate client config
 
-The client config, or `amplifyconfiguration.json`, is a file that contains the configuration strings for interacting with AWS resources specific to an environment. It is required by the Amplify client libraries in order for the library APIs to connect to the backend resources. By default, the cloud sandbox generates the client configuration file at the root of the project (e.g. `@/amplifyconfiguration.json`). If you want to place the file at a different path (for example, monorepo or Android app) run the following command in the terminal:
+The client config, or `amplifyconfiguration.json` file, contains the configuration strings for interacting with AWS resources specific to an environment. The Amplify client libraries need the client config in order to use the library APIs to connect to backend resources. By default, the cloud sandbox generates the client configuration file at the root of the project (such as `@/amplifyconfiguration.json`). If you want to place the file at a different path (such as for a monorepo or Android app), run the following command in the terminal:
 
 ```bash
 npx amplify sandbox --config-out-dir ./path/to/config --format ["mjs", "json", "json-mobile", "ts", "dart"]
@@ -122,12 +124,12 @@ npx amplify generate config --app-id <AMPLIFY_APP_ID> --branch main --format ["m
 ## Generate client codegen
 
 <Callout info>
-  Amplify (Gen 2) introduces a fully typed experience for data, that no longer requires an explicit codegen step (unlike Gen 1). You will only need this command if you are building a mobile app or have Gen 1 requirements.
+  Amplify (Gen 2) introduces a fully typed experience for data that no longer requires an explicit codegen step, unlike in Amplify (Gen 1). You will only need this command if you are building a mobile app or have Gen-1 requirements.
 </Callout>
 
-"Codegen" generates native code for Swift (iOS), Java (Android), and JavaScript that represent your GraphQL API's data models. It can also generate GraphQL statements (queries, mutations, and subscriptions) so that you don't have to manually code them.
+Codegen generates native code for Swift (iOS), Java (Android), and JavaScript that represents your GraphQL API's data models. It can also generate GraphQL statements (queries, mutations, and subscriptions) so that you don't have to manually code them.
 
-Once your sandbox completes a deployment, you can run the following command in the terminal to generate client code specific to your needs:
+Once your sandbox completes a deployment, you can run the following command in the terminal to generate client code that is specific to your needs:
 
 ```bash
 npx amplify generate graphql-client-code
