@@ -448,7 +448,7 @@ Next.js 14 apps require a [minimum node version](https://nextjs.org/blog/next-14
 
 4. Under _Advanced settings_, navigate to _Build Image_ and enter `amplify:al2023`. The Amplify Amazon Linux 2023 build image supports Node.js versions 18 and 20 at build time. You can specify the Node.js version during your build via [live package updates](https://docs.aws.amazon.com/amplify/latest/userguide/custom-build-image.html#setup-live-updates) or [nvm](https://github.com/nvm-sh/nvm). Amplify Hosting will automatically deploy your compute runtime to match the Node.js version used at build time.
 
-![gen2](/images/gen2/getting-started/console4.png)
+![Amplify Gen 2 console showing the "Advanced Settings" view with "amplify:al2023" specified for build image](/images/gen2/getting-started/console4.png)
 
 <Callout warning> If you have an existing Gen 2 application, you can modify the build image by navigating to _Hosting_ -> _Environment Variables_ and create a new environment variable `_CUSTOM_IMAGE`: `amplify:al2023` for specific or all branches, then redeploy the build. </Callout>
 
