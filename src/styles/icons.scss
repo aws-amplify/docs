@@ -37,14 +37,14 @@
 /* Some logo icons need specific styling for dark mode */
 .icon-js-monochrome-bg {
   fill: hsl(210, 50%, 10%);
-  @media (prefers-color-scheme: dark) {
+  @include darkMode {
     fill: #fff;
   }
 }
 
 .icon-js-monochrome-letter {
   fill: #fff;
-  @media (prefers-color-scheme: dark) {
+  @include darkMode {
     fill: hsl(210, 50%, 10%);
   }
 }

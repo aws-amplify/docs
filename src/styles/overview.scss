@@ -7,7 +7,7 @@
     &:hover &__card__title {
       color: var(--amplify-colors-brand-primary-60);
       text-decoration: none;
-      @media (prefers-color-scheme: dark) {
+      @include darkMode {
         color: var(--amplify-colors-white);
       }
     }
