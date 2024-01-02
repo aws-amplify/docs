@@ -8,14 +8,15 @@ import {
   VisuallyHidden
 } from '@aws-amplify/ui-react';
 import { IconDark, IconLight, IconSystem } from '@/components/Icons';
+import { ColorModeSwitcherProps } from './types';
 
 import { LayoutContext } from '@/components/Layout/LayoutProvider';
 
-export const ColorModeSwitcher = () => {
+export const ColorModeSwitcher = ({ testId }: ColorModeSwitcherProps) => {
   const { colorMode, handleColorModeChange } = useContext(LayoutContext);
   const colorSwitcherLabelId = `${useId()}-colorSwitcherLabel`;
   return (
-    <Flex className="color-switcher">
+    <Flex className="color-switcher" testId={testId}>
       <Text
         as="span"
         className="color-switcher__label"
