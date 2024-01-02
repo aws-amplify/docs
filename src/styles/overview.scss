@@ -7,7 +7,7 @@
     &:hover &__card__title {
       color: var(--amplify-colors-brand-primary-60);
       text-decoration: none;
-      [data-amplify-color-mode='dark'] & {
+      @media (prefers-color-scheme: dark) {
         color: var(--amplify-colors-white);
       }
     }

@@ -7,7 +7,7 @@
   color: var(--amplify-colors-font-primary);
   font-weight: var(--amplify-font-weights-bold);
   text-decoration: none;
-  [data-amplify-color-mode='dark'] & {
+  @media (prefers-color-scheme: dark) {
     --link-card-box-shadow: 0 0 0 2px var(--amplify-colors-neutral-20);
   }
 }

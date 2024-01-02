@@ -28,7 +28,7 @@
   --navbar-mobile-nav-padding: 12px;
   --nav-links-spacing: var(--amplify-space-small);
 
-  [data-amplify-color-mode='dark'] & {
+  @media (prefers-color-scheme: dark) {
     --navbar-background-color: var(--amplify-colors-neutral-20);
   }
 
@@ -320,7 +320,7 @@
   .chevron-icon {
     fill: var(--amplify-colors-font-inverse);
   }
-  [data-amplify-color-mode='dark'] & {
+  @media (prefers-color-scheme: dark) {
     --navbar-background-color: var(--amplify-colors-purple-40);
     .nav-menu-item {
       &:hover {

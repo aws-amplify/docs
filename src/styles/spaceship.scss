@@ -5,7 +5,7 @@
 .spaceship {
   --spaceship-cloud: #fff;
   --spaceship-star: var(--amplify-colors-neutral-100);
-  [data-amplify-color-mode='dark'] & {
+  @media (prefers-color-scheme: dark) {
     --spaceship-cloud: var(--amplify-colors-neutral-10);
     --spaceship-star: var(--amplify-colors-teal-20);
   }
