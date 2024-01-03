@@ -338,7 +338,7 @@ Now, let's display data on our app's frontend. Modify your app's home page file,
 // pages/index.tsx
 import { useState, useEffect } from 'react';
 import { generateClient } from 'aws-amplify/data';
-import { Schema } from '@/amplify/data/resource';
+import type { Schema } from '@/amplify/data/resource';
 
 // generate your data client using the Schema from your backend
 const client = generateClient<Schema>();
