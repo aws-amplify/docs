@@ -1,6 +1,10 @@
 .color-switcher {
   align-items: center;
   gap: var(--amplify-space-xxs);
+  &__label {
+    font-size: var(--amplify-font-sizes-medium);
+    font-weight: var(--amplify-font-weights-bold);
+  }
   .amplify-togglebutton {
     font-size: var(--amplify-font-sizes-medium);
     width: 42px;
@@ -23,6 +27,6 @@
   .amplify-togglebutton--pressed {
     color: var(--amplify-colors-font-primary);
     border-color: var(--amplify-colors-neutral-100);
-    background-color: transparent;
+    background-color: var(--amplify-colors-brand-primary-10);
   }
 }

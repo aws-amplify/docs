@@ -1,7 +1,7 @@
 import type { PrismTheme } from 'prism-react-renderer';
 
 /**
- * Note: Currently our code blocks our on a dark background,
+ * Note: Currently our code blocks are on a dark background,
  * regardless of light/dark mode, so we're not using Amplify UI
  * tokens because they flip from light to dark depending on mode.
  */
