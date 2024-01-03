@@ -142,11 +142,11 @@ const bucket = new s3.Bucket(bucketStack, 'Bucket', {
 });
 
 // allow any authenticated user to read and write to the bucket
-const authRole = backend.resources.auth.resources.authenticatedUserIamRole;
+const authRole = backend.auth.resources.authenticatedUserIamRole;
 bucket.grantReadWrite(authRole);
 
 // allow any guest (unauthenticated) user to read from the bucket
-const unauthRole = backend.resources.auth.resources.unauthenticatedUserIamRole;
+const unauthRole = backend.auth.resources.unauthenticatedUserIamRole;
 bucket.grantRead(unauthRole);
 ```
 

@@ -182,6 +182,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/sdk/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
                 },
                 {
@@ -319,6 +322,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/restapi/override-api-gateway/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/restapi/restapi-v5-to-v6-migration-guide/index.mdx'
                 }
               ]
             },
@@ -375,6 +381,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/sdk/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/data-usage-policy/index.mdx'
                 }
               ]
             },
@@ -446,7 +455,26 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nuxt/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/existing-resources/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/existing-resources/cli/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-a-backend/utilities/index.mdx',
@@ -503,6 +531,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/more-features/predictions/sdk/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/predictions/data-usage-policy/index.mdx'
                     }
                   ]
                 },
@@ -543,7 +574,10 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/more-features/analytics/analytics-migration-guide/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/analytics/data-usage-policy/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/more-features/analytics/app-uninstall/index.mdx'
                     }
                   ]
                 },
@@ -593,7 +627,7 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/more-features/datastore/data-usage-policy/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/more-features/datastore/app-uninstall/index.mdx'
                     }
                   ]
                 },
@@ -1173,12 +1207,11 @@ export const directory = {
           platforms: ['android']
         },
         {
-          route: '/[platform]/reference/flutter-api/',
+          path: 'src/pages/[platform]/reference/flutter-api/index.mdx',
           title: 'Reference',
           description: 'Reference',
           platforms: ['flutter']
         },
-
         {
           path: 'src/pages/[platform]/prev/index.mdx',
           children: [
@@ -1256,6 +1289,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/auth/sdk/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/auth/data-usage-policy/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/auth/app-uninstall/index.mdx'
@@ -1385,6 +1421,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/sdk/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/storage/data-usage-policy/index.mdx'
                     }
                   ]
                 },
@@ -1481,6 +1520,9 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/sdk/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/predictions/data-usage-policy/index.mdx'
                         }
                       ]
                     },
@@ -1524,7 +1566,10 @@ export const directory = {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/sdk/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/prev/build-a-backend/auth/app-uninstall/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/data-usage-policy/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/analytics/app-uninstall/index.mdx'
                         }
                       ]
                     },
