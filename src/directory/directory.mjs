@@ -473,7 +473,7 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/existing-resources/cli/index.mdx'
-                }     
+                }
               ]
             },
             {
@@ -1627,7 +1627,7 @@ export const directory = {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/set-up-geo/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/build-a-backend/more-features/geo/configure-maps/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/configure-maps/index.mdx'
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/maps/index.mdx'
