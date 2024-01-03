@@ -27,14 +27,10 @@ const backend = defineBackend({
 
 const dataResources = backend.data.resources;
 
-// Access L2 resources under `.resources`
-dataResources.tables['Todo'].tableArn;
+dataResources.cfnResources.cfnGraphqlApi.name;
 
-// Access L1 resources under `.resources.cfnResources`
-Object.values(dataResources.cfnResources.cfnTables).forEach((table) => {
-  table.pointInTimeRecoverySpecification = {
-    pointInTimeRecoveryEnabled: false
-  };
+Object.values(dataResources.amplifyDynamoDbTables).forEach((table) => {
+  table.pointInTimeRecoveryEnabled = true;
 });
 ```
 
@@ -55,7 +51,7 @@ backend.data.resources.cfnResources.cfnGraphqlApi.xrayEnabled = true;
 
 ## Customize Amplify-generated resources for data models
 
-Apply all the customizations on `backend.data.resources.tables["MODEL_NAME"]` or `backend.data.resources.cfnResources.cfnTables["MODEL_NAME"]`. Pass in the model type name into `backend.data.resources.cfnResources.cfnTables["MODEL_NAME"]` to modify the resources generated for that particular model type. For example, to enable time-to-live on the Todo `@model` type's DynamoDB table:
+Pass in the model type name into `backend.data.resources.amplifyDynamoDbTables["MODEL_NAME"]` to modify the resources generated for that particular model type. For example, to enable time-to-live on the Todo `@model` type's DynamoDB table:
 
 ```ts
 import { defineBackend } from '@aws-amplify/backend';
@@ -65,11 +61,10 @@ const backend = defineBackend({
   data
 });
 
-backend.data.resources.cfnResources.cfnTables['Todo'].timeToLiveSpecification =
-  {
-    attributeName: 'ttl',
-    enabled: true
-  };
+backend.data.resources.amplifyDynamoDbTables["Todo"].timeToLiveAttribute = {
+  attributeName: "ttl",
+  enabled: true,
+};
 ```
 
 ### Example - Configure billing mode on a DynamoDB table
@@ -79,13 +74,13 @@ Set the [DynamoDB billing mode](https://docs.aws.amazon.com/AWSCloudFormation/la
 ```ts
 import { defineBackend } from '@aws-amplify/backend';
 import { data } from './data/resource.js';
+import { BillingMode } from "aws-cdk-lib/aws-dynamodb";
 
 const backend = defineBackend({
   data
 });
 
-backend.data.resources.cfnResources.cfnTables['Todo'].billingMode =
-  'PAY_PER_REQUEST';
+backend.data.resources.amplifyDynamoDbTables['Todo'].billingMode = BillingMode.PAY_PER_REQUEST;
 ```
 
 ### Example - Configure provisioned throughput for a DynamoDB table
@@ -100,9 +95,9 @@ const backend = defineBackend({
   data
 });
 
-backend.data.resources.cfnResources.cfnTables['Todo'].provisionedThroughput = {
+backend.data.resources.amplifyDynamoDbTables["Todo"].provisionedThroughput = {
   readCapacityUnits: 5,
-  writeCapacityUnits: 5
+  writeCapacityUnits: 5,
 };
 ```
 
@@ -118,9 +113,5 @@ const backend = defineBackend({
   data
 });
 
-backend.data.resources.cfnResources.cfnTables[
-  'Todo'
-].pointInTimeRecoverySpecification = {
-  pointInTimeRecoveryEnabled: true
-};
+backend.data.resources.amplifyDynamoDbTables['Todo'].pointInTimeRecoveryEnabled: true;
 ```
