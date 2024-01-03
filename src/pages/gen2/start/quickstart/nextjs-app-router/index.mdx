@@ -314,7 +314,7 @@ npm install @aws-amplify/ui-react
 
 Next, create a `components` folder in the root of your project and the contents below to a file called `ConfigureAmplify.tsx`.
 
-```ts title=components/ConfigureAmplify.tsx
+```ts title="components/ConfigureAmplify.tsx"
 // components/ConfigureAmplify.tsx
 
 "use client";
@@ -331,7 +331,7 @@ export default function ConfigureAmplifyClientSide() {
 
 Update `app/layout.tsx` to import and render `<ConfigureAmplifyClientSide />`.  This client component will configure Amplify for client pages in our application.
 
-```ts title=app/layout.tsx
+```ts title="app/layout.tsx"
 // app/layout.tsx
 import ConfigureAmplifyClientSide from "@/components/ConfigureAmplify";
 import type { Metadata } from "next";
@@ -507,6 +507,7 @@ If you already have your project remotely hosted in a Git repository, you can sk
 ### Connect branch in the Amplify console
 
 1. To get started with Gen 2, log in to the [AWS console](https://console.aws.amazon.com/console/home?#amplify) and navigate to your preferred Region. (The Amplify console is available in [19 Regions](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplify_region)).
+
 2. If you have never created apps with Amplify before, choose _Create an app_ from the purple banner (top screenshot). If you have Amplify apps, you can find the option under *New app > Build an app (Gen 2)*.
 
 ![gen2](/images/gen2/getting-started/console1.png)
