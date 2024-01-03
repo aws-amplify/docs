@@ -29,4 +29,10 @@
   .amplify-link {
     color: var(--amplify-colors-font-primary);
   }
+  @include darkMode {
+    &.amplify-message--info {
+      background-color: var(--amplify-colors-teal-20);
+      border-color: transparent;
+    }
+  }
 }
