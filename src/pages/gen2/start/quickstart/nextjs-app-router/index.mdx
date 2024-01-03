@@ -318,7 +318,7 @@ Next, create a `components` folder in the root of your project and the contents 
 import config from "@/amplifyconfiguration.json";
 import { Amplify } from "aws-amplify";
 
-Amplify.configure(config as any, { ssr: true });
+Amplify.configure(config, { ssr: true });
 
 export default function ConfigureAmplifyClientSide() {
   return null;
@@ -385,17 +385,17 @@ Now, let's display data on our app's frontend. In the `components` directory cre
 
 ```tsx title="components/TodoList.tsx"
 // components/TodoList.tsx
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/amplify/data/resource';
+import { useState, useEffect } from "react";
+import { generateClient } from "aws-amplify/data";
+import type { Schema } from "@/amplify/data/resource";
 
 // generate your data client using the Schema from your backend
 const client = generateClient<Schema>();
 
 export default function TodoList() {
-  const [todos, setTodos] = useState<Schema['Todo'][]>([]);
+  const [todos, setTodos] = useState<Schema["Todo"][]>([]);
 
   async function listTodos() {
     // fetch all todos
