@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Download files',
-  description:
-    'Learn more about how to download and retrieve files using the Storage category of Amplify',
+  description: 'Learn more about how to download and retrieve files using the Storage category of Amplify',
   platforms: [
     'javascript',
     'react-native',
@@ -14,7 +13,19 @@ export const meta = {
     'nextjs',
     'react',
     'vue'
-  ]
+  ],
+  canonicalObject: {
+    group1: {
+      platforms: [
+        'angular',
+        'vue',
+        'react',
+        'javascript',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/storage/download/'
+    }
+  }
 };
 
 export const getStaticPaths = async () => {

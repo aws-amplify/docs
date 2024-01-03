@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Customize authorization rules',
-  description:
-    'Add authorization rules to your GraphQL schema to control access to your data.',
+  description: 'Add authorization rules to your GraphQL schema to control access to your data.',
   platforms: [
     'android',
     'angular',
@@ -14,7 +13,28 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ]
+  ],
+  canonicalObject: {
+    group1: {
+      platforms: [
+        'android',
+        'flutter',
+        'swift'
+      ],
+      canonicalPath: '/swift/build-a-backend/graphqlapi/customize-authorization-rules/'
+    },
+    group2: {
+      platforms: [
+        'angular',
+        'nextjs',
+        'javascript',
+        'react',
+        'vue',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/customize-authorization-rules/'
+    }
+  }
 };
 
 export const getStaticPaths = async () => {

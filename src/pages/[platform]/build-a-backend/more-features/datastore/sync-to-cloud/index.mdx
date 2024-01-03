@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Syncing data to cloud',
-  description:
-    'Learn more about how DataStore connects to an AppSync backend and automatically syncs all locally saved data using GraphQL.',
+  description: 'Learn more about how DataStore connects to an AppSync backend and automatically syncs all locally saved data using GraphQL.',
   platforms: [
     'javascript',
     'react-native',
@@ -14,7 +13,19 @@ export const meta = {
     'nextjs',
     'react',
     'vue'
-  ]
+  ],
+  canonicalObject: {
+    group1: {
+      platforms: [
+        'react',
+        'vue',
+        'nextjs',
+        'javascript',
+        'angular'
+      ],
+      canonicalPath: '/javascript/build-a-backend/more-features/datastore/sync-to-cloud/'
+    }
+  }
 };
 
 export const getStaticPaths = async () => {

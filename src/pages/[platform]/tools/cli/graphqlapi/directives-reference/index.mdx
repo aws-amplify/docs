@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Directives reference',
-  description:
-    "A reference document of all Amplify-provided GraphQL directives that enhance your Amplify app's GraphQL API and database",
+  description: "A reference document of all Amplify-provided GraphQL directives that enhance your Amplify app's GraphQL API and database",
   platforms: [
     'android',
     'angular',
@@ -14,7 +13,23 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ]
+  ],
+  canonicalObject: {
+    group1: {
+      platforms: [
+        'vue',
+        'javascript',
+        'nextjs',
+        'flutter',
+        'react',
+        'react-native',
+        'android',
+        'angular',
+        'swift'
+      ],
+      canonicalPath: '/javascript/tools/cli/graphqlapi/directives-reference/'
+    }
+  }
 };
 
 export const getStaticPaths = async () => {

@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Files and folders',
-  description:
-    'Learn more about the files and folders Amplify uses to maintain project state.',
+  description: 'Learn more about the files and folders Amplify uses to maintain project state.',
   platforms: [
     'android',
     'angular',
@@ -14,7 +13,23 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ]
+  ],
+  canonicalObject: {
+    group1: {
+      platforms: [
+        'react',
+        'vue',
+        'nextjs',
+        'swift',
+        'android',
+        'react-native',
+        'angular',
+        'javascript',
+        'flutter'
+      ],
+      canonicalPath: '/javascript/tools/cli/reference/files/'
+    }
+  }
 };
 
 export const getStaticPaths = async () => {

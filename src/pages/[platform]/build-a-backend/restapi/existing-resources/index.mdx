@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Use existing AWS resources',
-  description:
-    'Configure the Amplify Libraries to use existing Amazon API Gateway resources by referencing them in your configuration.',
+  description: 'Configure the Amplify Libraries to use existing Amazon API Gateway resources by referencing them in your configuration.',
   platforms: [
     'flutter',
     'swift',
@@ -14,7 +13,20 @@ export const meta = {
     'nextjs',
     'react',
     'vue'
-  ]
+  ],
+  canonicalObject: {
+    group1: {
+      platforms: [
+        'vue',
+        'nextjs',
+        'javascript',
+        'angular',
+        'react',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/build-a-backend/restapi/existing-resources/'
+    }
+  }
 };
 
 export const getStaticPaths = async () => {

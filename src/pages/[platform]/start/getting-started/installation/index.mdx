@@ -13,7 +13,25 @@ export const meta = {
     'react',
     'react-native',
     'vue'
-  ]
+  ],
+  canonicalObject: {
+    group1: {
+      platforms: [
+        'swift',
+        'android',
+        'javascript',
+        'vue'
+      ],
+      canonicalPath: '/javascript/start/getting-started/installation/'
+    },
+    group2: {
+      platforms: [
+        'react',
+        'nextjs'
+      ],
+      canonicalPath: '/react/start/getting-started/installation/'
+    }
+  }
 };
 
 export const getStaticPaths = async () => {

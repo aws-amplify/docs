@@ -12,7 +12,20 @@ export const meta = {
     'angular',
     'vue'
   ],
-  route: '/[platform]/build-a-backend/server-side-rendering/nuxt'
+  route: '/[platform]/build-a-backend/server-side-rendering/nuxt',
+  canonicalObject: {
+    group1: {
+      platforms: [
+        'nextjs',
+        'react',
+        'angular',
+        'vue',
+        'react-native',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/build-a-backend/server-side-rendering/nuxt/'
+    }
+  }
 };
 
 export const getStaticPaths = async () => {
