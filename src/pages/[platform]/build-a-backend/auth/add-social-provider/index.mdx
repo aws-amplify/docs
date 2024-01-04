@@ -952,6 +952,12 @@ When you import and use the `signInWithRedirect` function, it will add a listene
 import 'aws-amplify/auth/enable-oauth-listener';
 ```
 
+<Callout>
+
+**NOTE:** The listener only works on the client side in the context of a SSR-enabled project; ensure to import the listener on the client side only. For example, in a Next.js project, you should add the above import statement to a component that renders on the client side only by `'use client'`.
+
+</Callout>
+
 </InlineFilter>
 
 ### Custom Providers
