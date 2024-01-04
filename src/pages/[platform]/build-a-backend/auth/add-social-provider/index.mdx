@@ -944,6 +944,14 @@ function App() {
 
 </Accordion>
 
+#### Complete Social Sign In on Redirect
+
+When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the social sign in when an end user is redirected back to your app. This works well in a single-page application, but if you are developing a multi-page application, and the redirected page is not the same page that initiated the sign in, you will need to add the following code to the redirected page to ensure the sign in gets completed.
+
+```ts
+import 'aws-amplify/auth/enable-oauth-listener';
+```
+
 </InlineFilter>
 
 ### Custom Providers
