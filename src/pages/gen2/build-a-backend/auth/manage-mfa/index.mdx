@@ -33,10 +33,7 @@ export const auth = defineAuth({
   },
 + multifactor: {
 +   mode: 'optional',
-+   totp: true,
-+   sms: {
-+     message: (code) => `your MFA code is ${code}`
-+   }
++   totp: true
 + }
 });
 ```
