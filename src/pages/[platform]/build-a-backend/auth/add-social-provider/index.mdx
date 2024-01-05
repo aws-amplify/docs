@@ -960,7 +960,7 @@ import 'aws-amplify/auth/enable-oauth-listener';
 
 <Accordion eyebrow="Under the hood" headingLevel="4" title="Why Social Sign In needs to be explicitly handled for Multi-Page Applications">
 	
-When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the social sign in when an end user is redirected back to your app. This works well in a single-page application but in a multi-page application, you might get redirected to a page that doesn't include the listener that was originally added as a side-effect. Hence you must include the specific OAuth listener on your login success page."
+When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the social sign in when an end user is redirected back to your app. This works well in a single-page application but in a multi-page application, you might get redirected to a page that doesn't include the listener that was originally added as a side-effect. Hence you must include the specific OAuth listener on your login success page.
 	
 </Accordion>
 
