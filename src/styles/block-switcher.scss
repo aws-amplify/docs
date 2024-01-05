@@ -29,11 +29,11 @@
       content: '';
     }
   }
-  .amplify-tabs-item {
+  .amplify-tabs__item {
     flex: 0 0 auto;
     position: relative;
     border: none;
-    &[data-state='active'] {
+    &--active {
       &:after {
         height: 4px;
         position: absolute;
