@@ -9,7 +9,7 @@ interface BlockSwitcher {
 export const BlockSwitcher = ({ children }) => {
   return (
     <View className="block-switcher">
-      <Tabs.Container defaultValue={children[0].props.name}>
+      <Tabs.Container defaultValue={children[0]?.props?.name}>
         <Tabs.List>
           {Children.map(children, (child, index) => {
             return (
