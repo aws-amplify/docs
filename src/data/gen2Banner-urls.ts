@@ -9,7 +9,7 @@ export const GEN2BANNER_URLS = [
   '/react/',
   '/vue/',
   '/react-native/',
-  /javascript/how-amplify-works/',
+  '/javascript/how-amplify-works/',
   '/angular/how-amplify-works/',
   '/react/how-amplify-works/',
   '/nextjs/how-amplify-works/',
