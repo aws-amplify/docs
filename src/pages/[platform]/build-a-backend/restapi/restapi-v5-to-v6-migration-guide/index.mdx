@@ -460,6 +460,31 @@ For v6 REST APIs, all API's use the same underlying input/output types, although
 The process for cancelling a request has changed in v6. In v5 you send in the promise as input to the API.cancel API. In v6, cancel is a function returned with the result of an API(REST) operation. To cancel an operation, you will call `operation.cancel()`.
 
 <BlockSwitcher>
+  <Block name="V6">
+    ```js
+    import { get, isCancelError } from 'aws-amplify/api'
+
+    const operation = get({
+      apiName,
+      path,
+      options
+    });
+
+    operation.response.then(result => {
+      // GET operation completed successfully
+    }).catch(error => {
+      // If the error is because the request was cancelled you can confirm here.
+      if(isCancelError(error)) {
+        // 'my message for cancellation'
+        console.log(error.message);
+      }
+    })
+
+    // To cancel the above request
+    operation.cancel('my message for cancellation');
+    ```
+
+  </Block>
   <Block name="V5">
     ```js
     import { API } from 'aws-amplify'
@@ -482,31 +507,6 @@ The process for cancelling a request has changed in v6. In v5 you send in the pr
 
     // To cancel the above request
     API.cancel(promise, 'my message for cancellation');
-    ```
-
-  </Block>
-  <Block>
-    ```js
-    import { get, isCancelError } from 'aws-amplify/api'
-
-    const operation = get({
-      apiName,
-      path,
-      options
-    });
-
-    operation.response.then(result => {
-      // GET operation completed successfully
-    }).catch(error => {
-      // If the error is because the request was cancelled you can confirm here.
-      if(isCancelError(error)) {
-        // 'my message for cancellation'
-        console.log(error.message);
-      }
-    })
-
-    // To cancel the above request
-    operation.cancel('my message for cancellation');
     ```
 
   </Block>
