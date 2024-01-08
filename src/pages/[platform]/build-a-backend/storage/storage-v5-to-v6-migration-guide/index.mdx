@@ -1,0 +1,1118 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate from v5 to v6',
+  description: 'Learn more about the migration steps to upgrade Storage APIs for Amplify JavaScript v5 to v6',
+  platforms: ['angular', 'javascript', 'nextjs', 'react', 'vue', 'react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+This guide will help you migrate v5 Storage implementations to the new functional API's in v6.
+
+<Callout>Many input and output properties have been deprecated due to low useage, added complexity, or being deemed non-critical. If you would like to see these options re-implemented in v6, feel free to open a [feature request](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml) in our github repository. Keep in mind that an issue may already be open and that commenting on an existing feature request increases the likelihood that it will be implemented in a future release.</Callout>
+
+The input options below have been removed in v6 from all Storage API's:
+
+- `provider`: _Custom providers are no longer supported in v6._
+- `customPrefix`: _You can [add a prefix resolver](/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path) to your Storage Config to customize the key prefix per accessLevel._
+- `track`: _Tracking Storage events in Hub is not yet supported in v6._
+- `ServerSideEncryption`, `SSECustomerAlgorithm`, `SSECustomerKey`, `SSECustomerKeyMD5`, and `SSEKMSKeyId`: _These options have been deprecated due to low usage and added complexity: Server-Side Encryption has been automatically applied using default keys by S3 [since Jan 2023](https://aws.amazon.com/blogs/aws/amazon-s3-encrypts-new-objects-by-default/)._
+- `cacheControl`: _Response payload is always set to 'no-store' in v6._
+- `$metadata`: _Information like `statusCode` and `retryCount` will be provided in v6 via debug messages using [the Console Logger](/[platform]/build-a-backend/utilities/console-logger/)._
+
+## Storage.put
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // AWSS3 (Default) Provider
+      key: string
+      object: {
+        ACL?: string; // Not supported in v6
+        CacheControl?: string;
+        ContentDisposition? string;
+        ContentEncoding?: string;
+        ContentMD5?: string;
+        ContentType?: string;
+        Expires?: Date;
+        Metadata?: Record<string, string>;
+        ServerSideEncryption?: string; // Not supported in v6
+        SSECustomerAlgorithm?: string; // Not supported in v6
+        SSECustomerKey?: string; // Not supported in v6
+        SSECustomerKeyMD5?: string; // Not supported in v6
+        SSEKMSKeyId?: string; // Not supported in v6
+        Bucket: string;
+        Key: string;
+        Body?: string | ReadableStream<any> | Blob | Uint8Array | Buffer;
+        Tagging?: string; // Not supported in v6
+      }
+      // non-resumable config
+      config?: {
+        level?: 'public' | 'protected' | 'private';
+        provider?: string;
+        customPrefix?: {
+          private?: string;
+          public?: string;
+          protected?: string;
+        };
+        track?: boolean; // Not yet supported in V6
+        progressCallback?: (progress: any) => any;
+        serverSideEncryption?: string; // Not supported in v6
+        SSECustomerAlgorithm?: string; // Not supported in v6
+        SSECustomerKey?: string; // Not supported in v6
+        SSECustomerKeyMD5?: string; // Not supported in v6
+        SSEKMSKeyId?: string; // Not supported in v6
+        acl?: string; // Not supported in v6
+        bucket?: string;
+        cacheControl?: string;
+        contentDisposition?: string;
+        contentEncoding?: string;
+        contentType?: string;
+        expires?: Date;
+        metadata?: Record<string, string>;
+        tagging?: string; // Not supported in v6
+        useAccelerateEndpoint?: boolean;
+        resumable?: boolean;
+      }
+      // resumable config
+      config?:  {
+        // All of the standard config above plus
+        resumable: true; // More specific than resumable above
+        progressCallback?: (progress: UploadTaskProgressEvent) => any; // More specific than progressCallback above
+        completeCallback?: (event: UploadTaskCompleteEvent) => any;
+        errorCallback?: (err: any) => any;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      input: {
+        key: string;
+        data: string | Blob | ArrayBufferView | ArrayBuffer;
+        options?: {
+          accessLevel?: any;
+          useAccelerateEndpoint?: boolean;
+          onProgress?: ((event: TransferProgressEvent) => void);
+          contentDisposition?: string;
+          contentEncoding?: string;
+          contentType?: string;
+          metadata?: Record<string, string>;
+        };
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      S3ProviderGetPropertiesOutput {
+        contentType: string;
+        contentLength: number;
+        eTag: string;
+        lastModified: Date;
+        metadata: Record<string, string>;
+      };
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      UploadDataOutput {
+        cancel: (message?: string) => void;
+        pause: () => void;
+        resume: () => void;
+        readonly state: 
+          | 'IN_PROGRESS'
+          | 'PAUSED'
+          | 'CANCELED'
+          | 'SUCCESS'
+          | 'ERROR';
+        result: Promise<Item>;
+      }
+
+      Item {
+        key: string;
+        lastModified?: Date;
+        size?: number;
+        eTag?: string;
+        metadata?: Record<string, string>;
+        versionId?: string;
+        contentType?: string;
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```
+    import { uploadData } from 'aws-amplify/storage';
+
+    const handleUpload = async (key: string, data: string | Blob) => {
+      // Upload a file with access level `guest` as  the equivalent of `public` in v5
+      const operation = uploadData({
+        key,
+        data,
+        options: {
+          accessLevel: 'guest'
+        }
+      });
+
+      const result = await operation.result;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```
+    import { Storage } from 'aws-amplify';
+
+    const handleUpload = async (key: string, data: string | Blob) => {
+      // Upload a file with access level `public`
+      const result = await Storage.put(key, data, {
+        level: 'public',
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Storage.get
+
+Content options (`contentDisposition`, `contentLanguage`, `contentEncoding`, and `contentType`) are no longer supported in the `get` API as they override options selected on `upload` and have caused complexity in implementation.
+
+The following options have been removed due to a change in how Storage API's function in v6:
+
+- `download`: _The `get` API has been separated into two API's in v6 (`downloadData` and `getURL`), so this option is obselete._
+- `progressCallback`: _This functionality has been moved to the event target interface of the returned `S3DownloadDataTask` object in v6._
+
+The following response keys inherited from AWS SDK in v5 have been deemed non-critical and have been removed from the API output in v6:
+
+- DeleteMarker
+- AcceptRanges
+- Expiration
+- Restore
+- ChecksumXXX
+- MissingMeta
+- VersionId
+- ContentRange
+- Expires
+- WebsiteRedirectLocation
+- BucketKeyEnabled
+- StorageClass
+- RequestCharged
+- ReplicationStatus
+- PartsCount
+- TagCount
+- ObjectLockMode
+- ObjectLockRetainUntilDate
+- ObjectLockLegalHoldStatus
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // Assumes default provider 'AWSS3': custom provider not supported in v6
+      key: string
+      options: {
+        level?: 'public' | 'protected' | 'private';
+        provider?: 'AWSS3';
+        customPrefix?: {
+          private?: string;
+          public?: string;
+          protected?: string;
+        };
+        track?: boolean; // Not supported in v6
+        download?: boolean; // Not supported in v6
+        expires?: number;
+        identityId?: string;
+        progressCallback?: (progress: any) => any;
+        cacheControl?: string;
+        contentDisposition?: string; // Not supported in v6
+        contentEncoding?: string; // Not supported in v6
+        contentLanguage?: string; // Not supported in v6
+        contentType?: string; // Not supported in v6
+        SSECustomerAlgorithm?: string;
+        SSECustomerKey?: string;
+        SSECustomerKeyMD5?: string;
+        validateObjectExistence?: boolean;
+      };
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      // getUrl
+      {
+        key: string;
+        options?: {
+          accessLevel?: 'guest' | 'private' | 'protected';
+          // targetIdentityId?: string; // included if accessLevel is 'protected'
+          useAccelerateEndpoint?: boolean;
+          onProgress?: ((event: TransferProgressEvent) => void);
+          bytesRange?: {
+            start: number;
+            end: number;
+          };
+        };
+      }
+
+      // downloadData
+      input: {
+        key: string;
+        options?: {
+          accessLevel?: 'guest' | 'private' | 'protected';
+          // targetIdentityId?: string; // included if accessLevel is 'protected'
+          useAccelerateEndpoint?: boolean;
+          onProgress?: ((event: TransferProgressEvent) => void);
+          bytesRange?: {
+            start: number;
+            end: number;
+          };
+        };
+      }
+      ```
+      
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // download: false
+      string // presigned url
+
+      // download: true
+      S3ProviderGetOuput {
+        Body?: Blob;
+        DeleteMarker?: boolean;
+        AcceptRanges?: string;
+        Expiration?: string;
+        Restore?: string;
+        LastModified?: Date;
+        ContentLength?: number;
+        ETag?: string;
+        ChecksumCRC32?: string;
+        ChecksumCRC32C?: string;
+        ChecksumSHA1?: string;
+        ChecksumSHA256?: string;
+        MissingMeta?: number;
+        VersionId?: string;
+        CacheControl?: string;
+        ContentDisposition?: string;
+        ContentEncoding?: string;
+        ContentLanguage?: string;
+        ContentRange?: string;
+        ContentType?: string;
+        Expires?: Date;
+        WebsiteRedirectLocation?: string;
+        ServerSideEncryption?: ServerSideEncryption | string;
+        Metadata?: Record<string, string>;
+        SSECustomerAlgorithm?: string;
+        SSECustomerKeyMD5?: string;
+        SSEKMSKeyId?: string;
+        BucketKeyEnabled?: boolean;
+        StorageClass?: StorageClass | string;
+        RequestCharged?: RequestCharged | string;
+        ReplicationStatus?: ReplicationStatus | string;
+        PartsCount?: number;
+        TagCount?: number;
+        ObjectLockMode?: ObjectLockMode | string;
+        ObjectLockRetainUntilDate?: Date;
+        ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus | string;
+        $metadata: {
+          httpStatusCode?: number;
+          requestId?: string
+        }
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      // getUrl
+      GetUrlOutput {
+        url: URL;
+        expiresAt: Date;
+      }
+
+      // downloadData
+      DownloadDataOutput {
+        cancel: (message?: string) => void;
+        readonly state: TransferTaskState;
+        result: Promise<StorageDownloadDataOutput<Item>>;
+      }
+
+      StorageDownloadDataOutput<Item> {
+        key: string;
+        lastModified?: Date;
+        size?: number;
+        eTag?: string;
+        metadata?: Record<string, string>;
+        versionId?: string;
+        contentType?: string;
+        body: {
+          blob: () => Promise<Blob>;
+          json: () => Promise<any>;
+          text: () => Promise<string>;
+        };
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+### Get URL Only (Default)
+
+<BlockSwitcher>
+  <Block name="V6">
+  ```
+  import { getUrl } from 'aws-amplify/storage';
+
+  const handleGetUrl = async (key: string) => {
+    // Generate a file download url with check if the file exists in the S3 bucket
+    const url = await getUrl({
+      key,
+      options: {
+        validateObjectExistence: true
+      },
+    });
+  }
+  ```
+
+  </Block>
+  <Block name="V5">
+    ```
+    import { Storage } from 'aws-amplify';
+
+    const handleGetUrl = async (key: string) => {
+      // Generate a file download url with check if the file exists in the S3 bucket
+      const url = await Storage.get(key, {
+        validateObjectExistence: true
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### Download File Content to Memory
+
+<BlockSwitcher>
+  <Block name="V6">
+  ```
+  import { downloadData } from 'aws-amplify/storage';
+
+  const handleDownload = async (key: string) => {
+    const { body, eTag } = await downloadData({
+      key,
+      options: {
+        accessLevel: 'guest'
+      }
+    }).result;
+  }
+  ```
+
+  </Block>
+  <Block name="V5">
+    ```
+    import { Storage } from 'aws-amplify';
+
+    const handleDownload = async (key: string) => {
+      const { Body, ETag } = await Storage.get(key, {
+        download: true,
+        validateObjectExistence: true
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Storage.copy
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // Assumes default provider 'AWSS3': custom provider not supported in v6
+      src: {
+        key: string;
+        level?: string;
+        identityId?: string;
+      }
+      dest: {
+        level?: string;
+        key: string;
+      }
+      config?: {
+        provider?: 'AWSS3';
+        customPrefix?: {
+          public?: string;
+          protected?: string;
+          private?: string;
+        };
+        track?: boolean;
+        bucket?: string;
+        cacheControl?: string;
+        contentDisposition?: string;
+        contentLanguage?: string;
+        contentType?: string;
+        expires?: Date;
+        tagging?: string;
+        acl?: 
+          | 'private' 
+          | 'authenticated-read' 
+          | 'aws-exec-read' 
+          | 'bucket-owner-full-control' 
+          | 'bucket-owner-read' 
+          | 'public-read' 
+          | 'public-read-write'
+          | string;
+        metadata?: Record<string, string>;
+        serverSideEncryption?: 'AES256' | 'aws:kms';
+        SSECustomerAlgorithm?: string;
+        SSECustomerKey?: string;
+        SSECustomerKeyMD5?: string;
+        SSEKMSKeyId?: string;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      input: {
+        source: {
+          key: string;
+          accessLevel?: 'guest' | 'private' | 'protected';
+          // Included when accessLevel 'protected'
+          targetIdentityId?: string;
+        };
+        destination: {
+          key: string;
+          accessLevel?: any;
+        };
+      }
+      ```
+      
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      S3ProviderCopyOutput {
+        key: string;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      CopyOutput {
+        key: string;
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { copy } from 'aws-amplify/storage';
+
+    const handleCopy = async (sourceKey: string, destinationKey: string) => {
+      const { key } = await copy({
+        source: {
+          key: sourceKey
+        },
+        destination: {
+          key: destinationKey
+        },
+      });
+    };
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleCopy = async (sourceKey: string, destinationKey: string) => {
+      const { key } = await Storage.copy(
+        src: {
+          key: sourceKey
+        },
+        dest: { 
+          key: destinationKey
+        }
+      )
+    };
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Storage.remove
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // Assumes default provider 'AWSS3': custom provider not supported in v6
+      key: string
+		  config?: {
+        level?:  'public' | 'protected' | 'private';
+        provider?: 'AWSS3';
+        customPrefix?: {
+          public?: string;
+          protected?: string;
+          private?: string;
+        };
+        track?: boolean;
+        bucket?: string;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      input: {
+        key: string;
+        options?: {
+          accessLevel?: any;
+          useAccelerateEndpoint?: boolean;
+        };
+      }
+      ```
+      
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      DeleteMarker?: boolean;
+      VersionId?: string;
+      RequestCharged?: 'requester' | string;
+      $metadata: {
+        httpStatusCode?: number;
+        requestId?: string;
+        extendedRequestId?: string;
+        cfId?: string;
+        attempts?: number;
+        totalRetryDelay?: number;
+      };
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      RemoveOutput {
+        key: string;
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { remove } from 'aws-amplify/storage';
+
+    const handleRemove = async (key: string, accessLevel: string) => {
+      await remove({ 
+        key,
+        options: {
+          // accessLevel is required if other than 'guest'
+          accessLevel
+        }
+      });
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleRemove = async (key: string, accessLevel: string) => {
+      await Storage.remove(key, {
+        // accessLevel is required if other than 'public'
+        level: accessLevel
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Storage.list
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // Assumes default provider 'AWSS3': custom provider not supported in v6
+      path: string,
+      config?: {
+        level?: 'public' | 'protected' | 'private';
+        provider?: 'AWSS3';
+        customPrefix?: {
+          private?: string;
+          public?: string;
+          protected?: string;
+        };
+        track?: boolean; // Not yet supported in V6
+        bucket?: string;
+        pageSize?: number | 'ALL';
+        identityId?: string;
+        nextToken?: string;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      // Paginated List
+      input {
+        prefix?: string;
+        options?: {
+          listAll?: false;
+          accessLevel?: 'guest' | 'private' | 'protected';
+          pageSize?: number;
+          nextToken?: string;
+          useAccelerateEndpoint?: boolean;
+          // Included if accessLevel is 'protected'
+          targetIdentityId?: string';
+        };
+      }
+
+      // List All
+      input {
+        prefix?: string;
+        options?: {
+          listAll: true;
+          accessLevel?: 'guest' | 'private' | 'protected';
+          useAccelerateEndpoint?: boolean;
+          // Included if accessLevel is 'protected'
+          targetIdentityId?: string';
+        };
+      }
+      ```
+      
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      StorageListOutput {
+        results: S3ProviderListOutputItem[];
+        nextToken?: string;
+        hasNextToken: boolean;
+      };
+
+      S3ProviderListOutputItem {
+        key: string;
+        eTag: string;
+        lastModified: Date;
+        size: number;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      // Paginated List
+      ListPaginateOutput {
+        items: ListOutputItem[];
+        nextToken?: string;
+      }
+
+      // List All
+      ListAllOutput {
+        items: ListOutputItem[];
+      }
+
+      ListOutputItem {
+        key: string;
+        lastModified?: Date;
+        size?: number;
+        eTag?: string;
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+### Paginated List (Default)
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { list } from 'aws-amplify/storage';
+
+    const handleList = async (
+      prefix: string, 
+      accessLevel: string,
+      id: string
+    ) => {
+      const result = Storage.list({
+        prefix,
+        options: {
+          // accessLevel and targetIdentityId not required if accessLevel is 'guest'
+          accessLevel,
+          targetIdentityId: id
+        }
+      });
+      const { items } = result;
+      const nextToken = result.nextToken || null;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleList = async (
+      prefix: string, 
+      accessLevel: string,
+      id: string
+    ) => {
+      const result = Storage.list(prefix, {
+        // level and identityId not required if level is 'public'
+        level: accessLevel,
+        identityId: id
+      });
+      const { results } = result;
+      const nextToken = result.nextToken || null;
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### All Files
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { list } from 'aws-amplify/storage';
+
+    const handleListAll = async (
+      prefix: string, 
+      accessLevel: string,
+      id: string
+    ) => {
+      const { items } = list({
+        prefix,
+        options: {
+          listAll: true,
+          // accessLevel and targetIdentityId not required if accessLevel is 'guest'
+          accessLevel,
+          targetIdentityId: id,
+        }
+      });
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleListAll = async (
+      prefix: string, 
+      accessLevel: string,
+      id: string
+    ) => {
+      const { results } = Storage.list(prefix, {
+        pageSize: 'ALL',
+        // level and identityId not required if level is 'public'
+        level: accessLevel,
+        identityId: id
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Storage.getProperties
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      key: string
+		  config?: {
+        level?: 'public' | 'protected' | 'private';
+        provider?: string;
+        customPrefix?: {
+          private?: string;
+          public?: string;
+          protected?: string;
+        };
+        track?: boolean; // Not yet supported in V6
+        SSECustomerAlgorithm?: string; // Not yet supported in V6
+        SSECustomerKey?: string; // Not yet supported in V6
+        SSECustomerKeyMD5?: string; // Not yet supported in V6
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      input: {
+        key: string;
+        options?: {
+          accessLevel?: 'guest' | 'private' | 'protected';
+          useAccelerateEndpoint?: boolean;
+          // Included if accessLevel is 'protected'
+          targetIdentityId?: string;
+        };
+      }
+      ```
+      
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      S3ProviderGetPropertiesOutput {
+        contentType: string;
+        contentLength: number;
+        eTag: string;
+        lastModified: Date;
+        metadata: Record<string, string>;
+      };
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      {
+        key: string;
+        lastModified?: Date;
+        size?: number';
+        eTag?: string';
+        metadata?: Record<string, string>';
+        versionId?: string;
+        contentType?: string;
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<BlockSwitcher>
+  <Block name="V6">
+
+  </Block>
+  <Block name="V5">
+
+  </Block>
+</BlockSwitcher>
+
+## Storage.cancel
+
+The process for cancelling a request has changed in v6. In v5 you would send in the promise or `UploadTask` as input to the `Storage.cancel` API. In v6, `cancel` is a function returned with the result of a Storage operation. To cancel an operation, you will call `operation.cancel()`.
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```js
+    import { downloadData } from 'aws-amplify/storage';
+
+    const operation = downloadData({
+      apiName,
+      path,
+      options
+    });
+
+    operation.response.then(result => {
+      // GET operation completed successfully
+    }).catch(error => {
+      // If the error is because the request was cancelled you can confirm here.
+      if(isCancelError(error)) {
+        // 'my message for cancellation'
+        console.log(error.message);
+      }
+    })
+
+    // To cancel the above request
+    operation.cancel('my message for cancellation');
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```js
+    import { Storage } from 'aws-amplify';
+
+    const operation = Storage.get(key, options);
+
+    operation.then(result => {
+      // GET operation completed successfully
+    }).catch(error => {
+      // If the error is because the request was cancelled you can confirm here.
+      if(Storage.isCancel(error)) {
+        // 'my message for cancellation'
+        console.log(error.message);
+      }
+    });
+
+    // To cancel the above request
+    Storage.cancel(operation, 'my message for cancellation');
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Using a Custom Prefix
+
+If you would like to upload or download items with a `customPrefix`, you can configure a prefix resolver in the second parameter of `Amplify.configure`, `libraryOptions`. Keep in mind that you will need to resolve all `accessLevel`s in the custom `prefixResolver`. The example below shows the default for `protected` and `private` access levels and a customPrefix for `guest`. 
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```
+    import { uploadData } from 'aws-amplify/storage';
+    import { Amplify } from 'aws-amplify';
+    import amplifyconfig from './amplifyconfiguration.json';
+
+    const libraryOptions = {
+      Storage: {
+        S3: {
+          prefixResolver: async ({ accessLevel, targetIdentityId }) => {
+            if (accessLevel === 'guest') {
+              return 'publicPrefix/';
+            } else if (accessLevel === 'protected') {
+              return `protected/${targetIdentityId}/`;
+            } else {
+              return `private/${targetIdentityId}/`;
+            }
+          }
+        }
+      }
+    };
+
+    Amplify.configure(amplifyConfig, libraryOptions);
+
+    const handleUpload = async (key: string, data: string | Blob) => {
+      // Upload a file with access level `guest` as  the equivalent of `public` in v5
+      const operation = uploadData({
+        key,
+        data,
+        options: {
+          accessLevel: 'guest'
+        }
+      });
+
+      const result = await operation.result;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```
+    import { Storage } from 'aws-amplify';
+
+    const handleUpload = async (key: string, data: string | Blob) => {
+      // Upload a file with access level `public`
+      const result = await Storage.put(key, data, {
+        level: 'public',
+        customPrefix: {
+          public: 'publicPrefix'
+        }
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
