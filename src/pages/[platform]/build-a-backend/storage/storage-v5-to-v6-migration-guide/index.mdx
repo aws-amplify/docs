@@ -26,7 +26,7 @@ This guide will help you migrate v5 Storage implementations to the new functiona
 The input options below have been removed in v6 from Storage API's:
 
 - `provider`: _Custom providers are no longer supported in v6._
-- `customPrefix`: _You can [add a prefix resolver](/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path) to your Storage Config to customize the key prefix per accessLevel._
+- `customPrefix`: _You can [add a prefix resolver](/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path) to your Storage Config to customize the key prefix per accessLevel. See the [Using a Custom Prefix](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#using-a-custom-prefix) header for migration details._
 - `track`: _Tracking Storage events in Hub is not yet supported in v6._
 - `ServerSideEncryption`, `SSECustomerAlgorithm`, `SSECustomerKey`, `SSECustomerKeyMD5`, and `SSEKMSKeyId`: _These options have been deprecated due to low usage and added complexity: Server-Side Encryption has been automatically applied using default keys by S3 [since Jan 2023](https://aws.amazon.com/blogs/aws/amazon-s3-encrypts-new-objects-by-default/)._
 - `cacheControl`: _Response payload is always set to 'no-store' in v6._
@@ -1173,7 +1173,7 @@ The process for cancelling a request has changed in v6. In v5 you would send in 
 
 ## Using a Custom Prefix
 
-If you would like to upload or download items with a `customPrefix`, you can configure a prefix resolver in the second parameter of `Amplify.configure`, `libraryOptions`. Keep in mind that you will need to resolve all `accessLevel`s in the custom `prefixResolver`. The example below shows the default for `protected` and `private` access levels and a customPrefix for `guest`. 
+If you would like to upload or download items with a `customPrefix`, you can configure a prefix resolver in the second parameter of `Amplify.configure`, `libraryOptions`. Keep in mind that you will need to resolve each `accessLevel` in the custom `prefixResolver`. The example below shows the default for `protected` and `private` access levels and a customPrefix for `guest`. 
 
 <BlockSwitcher>
   <Block name="V6">
