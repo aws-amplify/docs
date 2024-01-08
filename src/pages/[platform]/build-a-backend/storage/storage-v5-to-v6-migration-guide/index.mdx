@@ -23,7 +23,7 @@ This guide will help you migrate v5 Storage implementations to the new functiona
 
 <Callout>Many input and output properties have been deprecated due to low usage, added complexity, or being deemed non-critical. If you would like to see these options re-implemented in v6, feel free to open a [feature request](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml) in our github repository. Keep in mind that an issue may already be open and that commenting on an existing feature request increases the likelihood that it will be implemented in a future release.</Callout>
 
-The input options below have been removed in v6 from all Storage API's:
+The input options below have been removed in v6 from Storage API's:
 
 - `provider`: _Custom providers are no longer supported in v6._
 - `customPrefix`: _You can [add a prefix resolver](/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path) to your Storage Config to customize the key prefix per accessLevel._
@@ -31,6 +31,8 @@ The input options below have been removed in v6 from all Storage API's:
 - `ServerSideEncryption`, `SSECustomerAlgorithm`, `SSECustomerKey`, `SSECustomerKeyMD5`, and `SSEKMSKeyId`: _These options have been deprecated due to low usage and added complexity: Server-Side Encryption has been automatically applied using default keys by S3 [since Jan 2023](https://aws.amazon.com/blogs/aws/amazon-s3-encrypts-new-objects-by-default/)._
 - `cacheControl`: _Response payload is always set to 'no-store' in v6._
 - `$metadata`: _Information like `statusCode` and `retryCount` will be provided in v6 via debug messages using [the Console Logger](/[platform]/build-a-backend/utilities/console-logger/)._
+
+The `progressCallback` option on upload and download operations has been replaced by `onProgress` in v6. Note that the parameter property names have also changed.
 
 ## Storage.put
 
@@ -93,8 +95,11 @@ The input options below have been removed in v6 from all Storage API's:
       config?:  {
         // All of the standard config above plus
         resumable: true; // More specific than resumable above
-        progressCallback?: (progress: UploadTaskProgressEvent) => any; // More specific than progressCallback above
-        completeCallback?: (event: UploadTaskCompleteEvent) => any;
+        progressCallback?: (progress: {
+          loaded: number;
+          total: number;
+        }) => any; // More specific than progressCallback above
+        completeCallback?: (event: { key?: string }) => any;
         errorCallback?: (err: any) => any;
       }
       ```
@@ -110,7 +115,10 @@ The input options below have been removed in v6 from all Storage API's:
         options?: {
           accessLevel?: any;
           useAccelerateEndpoint?: boolean;
-          onProgress?: ((event: TransferProgressEvent) => void);
+          onProgress?: (event: {
+            transferredBytes: number;
+            totalBytes?: number;
+          }) => void;
           contentDisposition?: string;
           contentEncoding?: string;
           contentType?: string;
@@ -205,14 +213,56 @@ The input options below have been removed in v6 from all Storage API's:
   </Block>
 </BlockSwitcher>
 
+### Monitor Upload Progress
+
+The `progressCallback` option has been replaced by `onProgress` in v6. Note that the parameter property names have also changed.
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```
+    import { uploadData } from 'aws-amplify/storage';
+
+    const handleUpload = async (key: string, data: string | Blob) => {
+      // Upload a file with access level `guest` as  the equivalent of `public` in v5
+      const operation = uploadData({
+        key,
+        data,
+        options: {
+          accessLevel: 'guest',
+          onProgress: ({ transferredBytes, totalBytes }) => {
+            // Progress implementation
+          }
+        }
+      });
+
+      const result = await operation.result;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```
+    import { Storage } from 'aws-amplify';
+
+    const handleUpload = async (key: string, data: string | Blob) => {
+      // Upload a file with access level `public`
+      const result = await Storage.put(key, data, {
+        level: 'public',
+        progressCallback: ({ loaded, total }) => {
+          // Progress implementation
+        }
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
 ## Storage.get
 
 Content options (`contentDisposition`, `contentLanguage`, `contentEncoding`, and `contentType`) are no longer supported in the `get` API as they override options selected on `upload` and have caused complexity in implementation.
 
-The following options have been removed due to a change in how Storage API's function in v6:
-
-- `download`: _The `get` API has been separated into two API's in v6 (`downloadData` and `getURL`), so this option is obsolete._
-- `progressCallback`: _This functionality has been moved to the event target interface of the returned `S3DownloadDataTask` object in v6._
+The `get` API has been separated into two API's in v6 (`downloadData` and `getURL`), so this option is obsolete.
 
 The following response keys inherited from AWS SDK in v5 have been deemed non-critical and have been removed from the API output in v6:
 
@@ -281,11 +331,6 @@ The following response keys inherited from AWS SDK in v5 have been deemed non-cr
           accessLevel?: 'guest' | 'private' | 'protected';
           // targetIdentityId?: string; // included if accessLevel is 'protected'
           useAccelerateEndpoint?: boolean;
-          onProgress?: ((event: TransferProgressEvent) => void);
-          bytesRange?: {
-            start: number;
-            end: number;
-          };
         };
       }
 
@@ -296,7 +341,10 @@ The following response keys inherited from AWS SDK in v5 have been deemed non-cr
           accessLevel?: 'guest' | 'private' | 'protected';
           // targetIdentityId?: string; // included if accessLevel is 'protected'
           useAccelerateEndpoint?: boolean;
-          onProgress?: ((event: TransferProgressEvent) => void);
+          onProgress?: (event: {
+            transferredBytes: number;
+            totalBytes?: number;
+          }) => void;
           bytesRange?: {
             start: number;
             end: number;
@@ -405,23 +453,23 @@ The following response keys inherited from AWS SDK in v5 have been deemed non-cr
 
 <BlockSwitcher>
   <Block name="V6">
-  ```
-  import { getUrl } from 'aws-amplify/storage';
+    ```ts
+    import { getUrl } from 'aws-amplify/storage';
 
-  const handleGetUrl = async (key: string) => {
-    // Generate a file download url with check if the file exists in the S3 bucket
-    const url = await getUrl({
-      key,
-      options: {
-        validateObjectExistence: true
-      },
-    });
-  }
-  ```
+    const handleGetUrl = async (key: string) => {
+      // Generate a file download url with check if the file exists in the S3 bucket
+      const url = await getUrl({
+        key,
+        options: {
+          validateObjectExistence: true
+        },
+      });
+    }
+    ```
 
   </Block>
   <Block name="V5">
-    ```
+    ```ts
     import { Storage } from 'aws-amplify';
 
     const handleGetUrl = async (key: string) => {
@@ -439,6 +487,42 @@ The following response keys inherited from AWS SDK in v5 have been deemed non-cr
 
 <BlockSwitcher>
   <Block name="V6">
+    ```ts
+    import { downloadData } from 'aws-amplify/storage';
+
+    const handleDownload = async (key: string) => {
+      const { body, eTag } = await downloadData({
+        key,
+        options: {
+          accessLevel: 'guest'
+        }
+      }).result;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleDownload = async (key: string) => {
+      const { Body, ETag } = await Storage.get(key, {
+        download: true,
+        validateObjectExistence: true,
+        progressCallback: ({ loaded, total }) => {
+          // Progress implementation
+        }
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### Monitor Download Progress
+
+<BlockSwitcher>
+  <Block name="V6">
   ```
   import { downloadData } from 'aws-amplify/storage';
 
@@ -446,7 +530,10 @@ The following response keys inherited from AWS SDK in v5 have been deemed non-cr
     const { body, eTag } = await downloadData({
       key,
       options: {
-        accessLevel: 'guest'
+        accessLevel: 'guest',
+        onProgress: ({ transferredBytes, totalBytes }) => {
+          // Progress implementation
+        }
       }
     }).result;
   }
