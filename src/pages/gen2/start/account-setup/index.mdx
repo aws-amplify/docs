@@ -1,6 +1,6 @@
 export const meta = {
   title: 'Set up your AWS account',
-  description: 'Configure your AWS account to work with Amplify.'
+  description: 'Learn how to set up your AWS account and configure it locally for use with Amplify'
 };
 
 export function getStaticProps(context) {
@@ -9,105 +9,97 @@ export function getStaticProps(context) {
       meta
     }
   };
-
 }
 
-This guide will walk you through how to set up your AWS account by creating a local profile and by completing a one-time bootstrapping process to perform CI/CD deployments for your Amplify (Gen 2) applications.
+{/* "...configure an AWS profile locally for use with Amplify" -> `amplify configure profile` */}
+This guide will walk you through how to set up your AWS account and configure an AWS profile locally for use with Amplify. Before getting started it is important to know there are a few options for authenticating with AWS. Using [AWS Identity and Access Management (IAM)](https://aws.amazon.com/iam/), you can configure either:
 
-## Configure local machine
+- permanent credentials with an [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) through the use of access keys
+- temporary credentials with an [IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
+- temporary credentials with [IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html), which is formerly known as AWS Single Sign-On (SSO)
 
-You will need to configure your local machine to connect to your AWS account before you can set up the [Amplify Sandbox environment](/gen2/deploy-and-host/sandbox-environments/setup/).
+Temporary credentials are an alternative to their permanent counterpart and enable you to define permissions for the _session_. Sessions are created when you [_assume_ an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) or sign in using AWS IAM Identity Center. These sessions come with an additional "session token" that is used to validate the temporary credentials and must be included on requests to AWS. As you are working locally, this will be presented as an additional environment variable.
 
-### Setup a local profile
+> You can use temporary security credentials to make programmatic requests for AWS resources using the AWS CLI or AWS API (using the AWS SDKs). The temporary credentials provide the same permissions as long-term security credentials, such as IAM user credentials. However, there are a few differences:...
+>
+> [AWS Identity and Access Management documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html)
+
+In general, though, credentials are typically resolved through the use of [AWS profiles](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-using-profiles). Profiles can contain permanent credentials or SSO metadata, and can be set for use with Amplify by using the same techniques as the AWS CLI:
+
+- with the `--profile` flag
+- with the `AWS_PROFILE` environment variable
 
 <Callout info>
 
-**Note**: If you already have an AWS profile with credentials on your machine, you can skip this step.
+**Note**: If you already have an AWS account and profile configured locally, you can skip this guide and specify a profile using one of the methods noted above.
 
 </Callout>
 
-Configure a profile by running the following command:
+## Configure an IAM user
+
+To get started configuring an AWS profile with an IAM user and permanent credentials, run the following command:
 
 ```bash
 npx amplify configure profile --name <value>
 ```
 
-`npx amplify configure profile` will ask you if you already have setup IAM user credentials. Enter `No`.
+This command will ask you if you have already configured IAM user credentials. Enter `No`. To set up an IAM user and with permanent credentials, follow the instructions outlined below:
 
-[Amazon IAM (Identity and Access Management)](https://aws.amazon.com/iam/) enables you to manage users and user permissions in AWS. To setup an IAM user and credentials, follow the instructions outlined below:
+1. Sign in to the [AWS Management Console](https://console.aws.amazon.com/)
+2. Navigate to the [IAM User creation page](https://console.aws.amazon.com/iamv2/home#/users/create)
+3. Specify a user name and select **Next**. You can name the user anything but we will call it "amplify-dev"
 
-- Sign into the [AWS Management Console](https://console.aws.amazon.com/).
-- Navigate to the [IAM User creation page](https://console.aws.amazon.com/iamv2/home#/users/create).
-- Enter a User name and select **Next**. You can name the user anything but we will call it "amplify-dev".
+  ![AWS IAM user creation dialog with "amplify-dev" input as the user name](/images/gen2/account-setup/user1.png)
 
-![](/images/gen2/account-setup/user1.png)
+4. Select **Attach policies directly** and select **AmplifyBackendDeployFullAccess** as the Permissions policy
 
-Select **Attach policies directly** and select **AmplifyBackendDeployFullAccess** as the Permissions policy. Select **Next**.
+  ![AWS IAM "set permissions" view with the "AmplifyBackendDeployFullAccess" managed policy selected](/images/gen2/account-setup/user2.png)
 
-![](/images/gen2/account-setup/user2.png)
+5. Select **Next**
+6. On the Review page, check that everything looks good and select **Create user**
 
-On the Review page, check that everything looks good and select **Create user**.
+  ![AWS IAM "review and create" view with relevant information from previous steps](/images/gen2/account-setup/user3.png)
 
-![](/images/gen2/account-setup/user3.png)
+7. This will redirect to the _Users_ list page. Select the user you just created
 
-This will redirect to the _Users_ list page. Select the user you just created.
+  ![AWS IAM users page with "amplify-dev" selected](/images/gen2/account-setup/user4.png)
 
-![](/images/gen2/account-setup/user4.png)
+8. On the user details page, navigate to the **Security credentials** tab, scroll down to **Access keys** and select **Create access keys**
 
-On the user details page, navigate to the **Security credentials** tab, scroll down to **Access keys** and select **Create access keys**.
+  ![AWS IAM user security credentials tab](/images/gen2/account-setup/user5.png)
 
-![](/images/gen2/account-setup/user5.png)
+9. On the next page, select **Command Line Interface**, acknowledge the warning, and select **Next**.
 
-On the next page, select **Command Line Interface**, acknowledge the warning, and select **Next**.
+  ![AWS IAM access key best practices & alternatives page with "command line interface" selected](/images/gen2/account-setup/user6.png)
 
-![](/images/gen2/account-setup/user6.png)
+10. On the next page select **Create access key**. You will then see a page with the access keys for the user. Use the copy icon to copy these values to your clipboard, then return to the CLI
 
-On the next page select **Create access key**. You will then see a page with the access keys for the user. Use the copy icon to copy these values to your clipboard, then return to the CLI.
+  ![AWS IAM "retrieve access keys" page showing to use the "copy" icon for the Access key and Security access key](/images/gen2/account-setup/user7.png)
 
-![](/images/gen2/account-setup/user7.png)
+11. Next, enter the credentials of the newly created IAM user, including the access key, secret access key, and lastly select the AWS region to use with the profile.
 
-Next, enter the credentials of the newly created IAM user i.e. their access key, secret access key, and lastly select the AWS region to use with the profile.
+  {/* @TODO replace this image with one that calls the profile `amplify-dev` */}
+  ![Terminal running "npx amplify configure profile"](/images/gen2/account-setup/profile1.png)
 
-![](/images/gen2/account-setup/profile1.png)
+## Configure an IAM role
 
-### If you already have an IAM user and credentials setup
+## Configure IAM Identity Center
 
-Configure a profile by running the following command:
+{/* https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html */}
+{/* https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html */}
+{/* https://docs.aws.amazon.com/singlesignon/latest/userguide/getting-started.html */}
 
-```bash
-npx amplify configure profile --name <value>
-```
+## Bootstrapping AWS account
 
-`npx amplify configure profile` will ask you if you already have setup IAM user credentials. Enter `Yes`.
-
-Next, enter the credentials of the existing IAM user (this is their access key and secret access key), and then select the AWS region to use with the profile.
-
-![](/images/gen2/account-setup/profile2.png)
-
-<Accordion title='Single Sign On (SSO) support' eyebrow='Learn more'>
-  AWS Amplify (Gen 2) enhances your user experience with Single Sign-On (SSO) authentication powered by AWS IAM Identity Center. AWS Amplify (Gen 2) now adheres to and works out of the box with the default [credential provider chain](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/setting-credentials-node.html#credchain).
-
-You can get started with implementing SSO with the AWS CLI for your teams or organizations by referring to the [AWS IAM Identity Center documentation](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html).
-
-</Accordion>
-
-## Configure Amplify CI/CD
-
-Before you can start creating the cloud sandbox environment, Amplify will need to complete a one-time bootstrap setup for the account and region before it can start deploying resources in your AWS account.
+Before you can start creating the cloud sandbox environment, Amplify will need to complete a one-time bootstrap setup for the account and region before it can start deploying resources.
 
 <Accordion title="What is bootstrapping?" eyebrow="Learn more">
-  Bootstrapping is the process of provisioning resources for the AWS CDK before
-  you can deploy AWS CDK apps into an AWS environment. These resources include
-  an Amazon S3 bucket for storing files and IAM roles that grant permissions
-  needed to perform deployments. The required resources are defined in an AWS
-  CloudFormation stack, called the bootstrap stack, which is usually named
-  `CDKToolkit`. Like any AWS CloudFormation stack, it appears in the AWS
-  CloudFormation console once it is deployed. You can learn more about this
-  process in the [CDK
-  documentation](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html).
+
+Bootstrapping is the process of provisioning resources for the AWS CDK before you can deploy AWS CDK apps into an AWS environment. These resources include an Amazon S3 bucket for storing files and IAM roles that grant permissions needed to perform deployments. The required resources are defined in an AWS CloudFormation stack, called the bootstrap stack, which is usually named `CDKToolkit`. Like any AWS CloudFormation stack, it appears in the AWS CloudFormation console once it is deployed. You can learn more about this process in the [CDK documentation](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html).
+
 </Accordion>
 
-You can setup a distinct profile for each developer on your team and they can now start developing their fullstack applications locally by creating an isolated sandbox environment as follows:
+You can set up a distinct profiles for each developer on your team and they can now start developing their fullstack applications locally by creating an isolated sandbox environment as follows:
 
 ```bash
 npx amplify sandbox --profile <value>
