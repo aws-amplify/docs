@@ -14,13 +14,14 @@ export function getStaticProps(context) {
 This Quickstart guide will walk you through how to build a task list application with TypeScript, Next.js **App Router**, and React. If you are new to these technologies, we recommend you go through the official [React](https://react.dev/learn/tutorial-tic-tac-toe), [Next.js](https://nextjs.org/docs/getting-started/installation), and [TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html) tutorials first.
 
 import prerequisites from 'src/fragments/gen2/quickstart/prerequisites.mdx';
-import createProject from 'src/fragments/gen2/quickstart/create-nextjs-project.mdx';
-import buildABackend from 'src/fragments/gen2/quickstart/build-a-backend.mdx';
-import deployAndHost from 'src/fragments/gen2/quickstart/deploy-and-host.mdx';
 
 <Fragments fragments={{ javascript: prerequisites, nextjs: prerequisites }} />
 
+import createProject from 'src/fragments/gen2/quickstart/create-nextjs-project.mdx';
+
 <Fragments fragments={{ javascript: createProject, nextjs: createProject }} />
+
+import buildABackend from 'src/fragments/gen2/quickstart/build-a-backend.mdx';
 
 <Fragments fragments={{ javascript: buildABackend, nextjs: buildABackend }} />
 
@@ -218,5 +219,7 @@ useEffect(() => {
 ### Terminate dev server
 
 Go to `localhost` in the browser to make sure you can now log in and create and list to-dos. You can end your development session by shutting down the frontend dev server and cloud sandbox. The sandbox prompts you to delete your backend resources. While you can retain your backend, we recommend deleting all resources so you can start clean again next time.
+
+import deployAndHost from 'src/fragments/gen2/quickstart/deploy-and-host.mdx';
 
 <Fragments fragments={{ javascript: deployAndHost, nextjs: deployAndHost }} />
