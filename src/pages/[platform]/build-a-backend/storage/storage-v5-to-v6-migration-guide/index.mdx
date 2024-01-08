@@ -21,7 +21,7 @@ export function getStaticProps(context) {
 
 This guide will help you migrate v5 Storage implementations to the new functional API's in v6.
 
-<Callout>Many input and output properties have been deprecated due to low useage, added complexity, or being deemed non-critical. If you would like to see these options re-implemented in v6, feel free to open a [feature request](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml) in our github repository. Keep in mind that an issue may already be open and that commenting on an existing feature request increases the likelihood that it will be implemented in a future release.</Callout>
+<Callout>Many input and output properties have been deprecated due to low usage, added complexity, or being deemed non-critical. If you would like to see these options re-implemented in v6, feel free to open a [feature request](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml) in our github repository. Keep in mind that an issue may already be open and that commenting on an existing feature request increases the likelihood that it will be implemented in a future release.</Callout>
 
 The input options below have been removed in v6 from all Storage API's:
 
@@ -211,7 +211,7 @@ Content options (`contentDisposition`, `contentLanguage`, `contentEncoding`, and
 
 The following options have been removed due to a change in how Storage API's function in v6:
 
-- `download`: _The `get` API has been separated into two API's in v6 (`downloadData` and `getURL`), so this option is obselete._
+- `download`: _The `get` API has been separated into two API's in v6 (`downloadData` and `getURL`), so this option is obsolete._
 - `progressCallback`: _This functionality has been moved to the event target interface of the returned `S3DownloadDataTask` object in v6._
 
 The following response keys inherited from AWS SDK in v5 have been deemed non-critical and have been removed from the API output in v6:
@@ -319,7 +319,7 @@ The following response keys inherited from AWS SDK in v5 have been deemed non-cr
       string // presigned url
 
       // download: true
-      S3ProviderGetOuput {
+      S3ProviderGetOutput {
         Body?: Blob;
         DeleteMarker?: boolean;
         AcceptRanges?: string;
