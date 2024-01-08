@@ -995,9 +995,38 @@ The following response keys inherited from AWS SDK in v5 have been deemed non-cr
 
 <BlockSwitcher>
   <Block name="V6">
+    ```ts
+    import { getProperties } from 'aws-amplify/storage';
+
+    const handleGetProperties = async (
+      key: string,
+      accessLevel: string
+    ) => {
+      const result = await getProperties({
+        key: 'key',
+        options: {
+          // accessLevel not required if accessLevel is 'guest'
+          accessLevel,
+        }
+      });
+    }
+    ```
 
   </Block>
   <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleGetProperties = async (
+      key: string,
+      accessLevel: string
+    ) => {
+      const result = await Storage.getProperties(key, {
+        // level not required if level is 'public'
+        level: accessLevel,
+      });
+    }
+    ```
 
   </Block>
 </BlockSwitcher>
