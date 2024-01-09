@@ -60,7 +60,7 @@ const getCspContent = (context) => {
 
   // Dev environment
   if (process.env.BUILD_ENV !== 'production') {
-    return `upgrade-insecure-requests;
+    return `
       default-src 'none';
       style-src 'self' 'unsafe-inline' ${ANALYTICS_CSP.all.style.join(' ')};
       font-src 'self' data:;
@@ -83,7 +83,7 @@ const getCspContent = (context) => {
 
   // Prod environment
   // Have to keep track of CSP inside customHttp.yml as well
-  return `upgrade-insecure-requests;
+  return `
     default-src 'none';
     style-src 'self' 'unsafe-inline' ${ANALYTICS_CSP.all.style.join(' ')};
     font-src 'self';
@@ -114,25 +114,10 @@ export default class MyDocument extends Document {
             httpEquiv="Content-Security-Policy"
             content={getCspContent(this.props)}
           />
-          <link
-            rel="preload"
-            href="/fonts/AmazonEmber_W_Rg.woff2"
-            as="font"
-            type="font/woff2"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/AmazonEmber_W_Lt.woff2"
-            as="font"
-            type="font/woff2"
-            crossOrigin="anonymous"
-          />
-          <script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
-          <link
-            href="https://prod.assets.shortbread.aws.dev/shortbread.css"
-            rel="stylesheet"
-          ></link>
+          <script
+            src="https://prod.assets.shortbread.aws.dev/shortbread.js"
+            defer
+          ></script>
         </Head>
         <body>
           <Main />

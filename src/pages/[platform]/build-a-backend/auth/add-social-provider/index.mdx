@@ -407,23 +407,86 @@ After configuring the OAuth endpoints (with Cognito Hosted UI), you can integrat
 
 A custom state is not required, but if you are looking to add one, you are able to do so by passing a string value (e.g. `signInWithRedirect({ customState: 'xyz' })`) and listening for the custom state via [Hub](/[platform]/build-a-backend/utilities/hub/). You can also use the Hub eventing system to catch errors using `signInWithRedirect()` to listen for the `signInWithRedirect_failure` event.
 
-<InlineFilter filters={["javascript"]}>
+<InlineFilter filters={["javascript", "angular", "vue"]}>
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Hub } from "aws-amplify/utils";
+import { signInWithRedirect, getCurrentUser, AuthUser } from "aws-amplify/auth";
+
+Hub.listen("auth", ({ payload }) => {
+  switch (payload.event) {
+    case "signInWithRedirect":
+      const user = await getCurrentUser();
+      console.log(user.username);
+      break;
+    case "signInWithRedirect_failure":
+      // handle sign in failure
+      break;
+    case "customOAuthState":
+      const state = payload.data; // this will be customState provided on signInWithRedirect function
+      console.log(state);
+      break;
+  }
+});
+
+function handleSignInClick(customState: string) {
+  signInWithRedirect({
+    provider: "Google",
+    customState
+  });
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { Hub } from "aws-amplify/utils";
+import { signInWithRedirect, getCurrentUser } from "aws-amplify/auth";
+
+Hub.listen("auth", ({ payload }) => {
+  switch (payload.event) {
+    case "signInWithRedirect":
+      const user = await getCurrentUser();
+      console.log(user.username);
+      break;
+    case "signInWithRedirect_failure":
+      // handle sign in failure
+      break;
+    case "customOAuthState":
+      const state = payload.data; // this will be customState provided on signInWithRedirect function
+      console.log(state);
+      break;
+  }
+});
+
+function handleSignInClick(customState) {
+  signInWithRedirect({
+    provider: "Google",
+    customState
+  });
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "nextjs"]}>
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
 import React, { useEffect, useState } from "react";
-import { Amplify } from "aws-amplify";
 import { Hub } from "aws-amplify/utils";
-import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
-import { AuthUser } from "aws-amplify/auth";
-import config from './amplifyconfiguration.json';
-
-Amplify.configure(config);
+import { signInWithRedirect, signOut, getCurrentUser, AuthUser } from "aws-amplify/auth";
 
 function App() {
-  const [user, setUser] = useState<CognitoAuthUser | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [customState, setCustomState] = useState<string | null>(null);
 
@@ -434,10 +497,10 @@ function App() {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has ocurred during the Oauth flow.");
+          setError("An error has ocurred during the OAuth flow.");
           break;
         case "customOAuthState":
-          setCustomState(payload.data);
+          setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
           break;
       }
     });
@@ -459,21 +522,22 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={() => signInWithRedirect()}>Open Hosted UI</button>
-      <button onClick={() => signInWithRedirect({ provider: "Facebook" })}>
+      <button onClick={() => signInWithRedirect({ customState: "shopping-cart"})}>Open Hosted UI</button>
+      <button onClick={() => signInWithRedirect({ provider: "Facebook", customState: "shopping-cart" })}>
         Open Facebook
       </button>
-      <button onClick={() => signInWithRedirect({ provider: "Google" })}>
+      <button onClick={() => signInWithRedirect({ provider: "Google", customState: "shopping-cart" })}>
         Open Google
       </button>
-      <button onClick={() => signInWithRedirect({ provider: "Amazon" })}>
+      <button onClick={() => signInWithRedirect({ provider: "Amazon", customState: "shopping-cart" })}>
         Open Amazon
       </button>
-      <button onClick={() => signInWithRedirect({ provider: "Apple" })}>
+      <button onClick={() => signInWithRedirect({ provider: "Apple", customState: "shopping-cart" })}>
         Open Apple
       </button>
       <button onClick={() => signOut()}>Sign Out</button>
       <div>{user?.username}</div>
+      <div>{customState}</div>
     </div>
   );
 }
@@ -483,13 +547,9 @@ function App() {
 <Block name="JavaScript">
 
 ```javascript
-import React, { useEffect, useState } from 'react';
-import { Amplify } from 'aws-amplify';
-import { Hub } from 'aws-amplify/utils';
-import { signInWithRedirect, signOut, getCurrentUser } from 'aws-amplify/auth';
-import config from './amplifyconfiguration.json';
-
-Amplify.configure(config);
+import React, { useEffect, useState } from "react";
+import { Hub } from "aws-amplify/utils";
+import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -497,16 +557,16 @@ function App() {
   const [customState, setCustomState] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = Hub.listen('auth', ({ payload }) => {
+    const unsubscribe = Hub.listen("auth", ({ payload }) => {
       switch (payload.event) {
-        case 'signInWithRedirect':
+        case "signInWithRedirect":
           getUser();
           break;
-        case 'signInWithRedirect_failure':
-          setError('An error has ocurred during the Oauth flow.');
+        case "signInWithRedirect_failure":
+          setError("An error has ocurred during the OAuth flow.");
           break;
-        case 'customOAuthState':
-          setCustomState(payload.data);
+        case "customOAuthState":
+          setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
           break;
       }
     });
@@ -522,27 +582,28 @@ function App() {
       setUser(currentUser);
     } catch (error) {
       console.error(error);
-      console.log('Not signed in');
+      console.log("Not signed in");
     }
   };
 
   return (
     <div className="App">
-      <button onClick={() => signInWithRedirect()}>Open Hosted UI</button>
-      <button onClick={() => signInWithRedirect({ provider: 'Facebook' })}>
+      <button onClick={() => signInWithRedirect({ customState: "shopping-cart"})}>Open Hosted UI</button>
+      <button onClick={() => signInWithRedirect({ provider: "Facebook", customState: "shopping-cart" })}>
         Open Facebook
       </button>
-      <button onClick={() => signInWithRedirect({ provider: 'Google' })}>
+      <button onClick={() => signInWithRedirect({ provider: "Google", customState: "shopping-cart" })}>
         Open Google
       </button>
-      <button onClick={() => signInWithRedirect({ provider: 'Amazon' })}>
+      <button onClick={() => signInWithRedirect({ provider: "Amazon", customState: "shopping-cart" })}>
         Open Amazon
       </button>
-      <button onClick={() => signInWithRedirect({ provider: 'Apple' })}>
+      <button onClick={() => signInWithRedirect({ provider: "Apple", customState: "shopping-cart" })}>
         Open Apple
       </button>
       <button onClick={() => signOut()}>Sign Out</button>
       <div>{user?.username}</div>
+      <div>{customState}</div>
     </div>
   );
 }
@@ -559,18 +620,19 @@ function App() {
 <Block name="TypeScript">
 
 ```ts
-import { useEffect, useState } from "react";
-import { Text, View, Linking, Button } from "react-native";
-import { Amplify } from "aws-amplify";
-import { Hub } from "aws-amplify/utils";
-import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
-import { AuthUser } from "aws-amplify/auth";
-import config from './amplifyconfiguration.json';
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  SafeAreaView,
+  Text,
+} from "react-native";
 
-Amplify.configure(config);
+import { AuthUser, getCurrentUser, signInWithRedirect, signOut } from "aws-amplify/auth";
+import { Hub } from "@aws-amplify/core";
 
-function App() {
-  const [user, setUser] = useState<CognitoAuthUser | null>(null);
+
+function App(): JSX.Element {
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [customState, setCustomState] = useState<string | null>(null);
 
@@ -581,10 +643,10 @@ function App() {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has ocurred during the oauth flow.");
+          setError("An error has ocurred during the OAuth flow.");
           break;
         case "customOAuthState":
-          setCustomState(payload.data);
+          setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
           break;
       }
     });
@@ -593,7 +655,7 @@ function App() {
 
     return unsubscribe;
   }, []);
-
+  
   const getUser = async (): Promise<void> => {
     try {
       const currentUser = await getCurrentUser();
@@ -605,23 +667,12 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <button onClick={() => signInWithRedirect()}>Open Hosted UI</button>
-      <button onClick={() => signInWithRedirect({ provider: "Facebook" })}>
-        Open Facebook
-      </button>
-      <button onClick={() => signInWithRedirect({ provider: "Google" })}>
-        Open Google
-      </button>
-      <button onClick={() => signInWithRedirect({ provider: "Amazon" })}>
-        Open Amazon
-      </button>
-      <button onClick={() => signInWithRedirect({ provider: "Apple" })}>
-        Open Apple
-      </button>
-      <button onClick={() => signOut()}>Sign Out</button>
-      <div>{user?.username}</div>
-    </div>
+    <SafeAreaView>
+      <Button title="Sign In" onPress={() => signInWithRedirect({ customState: "shopping-cart"})}></Button>
+      <Text>{user?.username}</Text>
+      <Text>{customState}</Text>
+      <Button title="Sign Out" onPress={() => signOut()}></Button>
+    </SafeAreaView>
   );
 }
 ```
@@ -630,14 +681,15 @@ function App() {
 <Block name="JavaScript">
 
 ```javascript
-import { useEffect, useState } from 'react';
-import { Text, View, Linking, Button } from 'react-native';
-import { Amplify } from 'aws-amplify';
-import { Hub } from 'aws-amplify/utils';
-import { signInWithRedirect, signOut, getCurrentUser } from 'aws-amplify/auth';
-import config from './amplifyconfiguration.json';
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  SafeAreaView,
+  Text,
+} from "react-native";
 
-Amplify.configure(config);
+import { getCurrentUser, signInWithRedirect, signOut } from "aws-amplify/auth";
+import { Hub } from "@aws-amplify/core";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -645,15 +697,15 @@ function App() {
   const [customState, setCustomState] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = Hub.listen('auth', ({ payload }) => {
+    const unsubscribe = Hub.listen("auth", ({ payload }) => {
       switch (payload.event) {
-        case 'signInWithRedirect':
+        case "signInWithRedirect":
           getUser();
           break;
-        case 'signInWithRedirect_failure':
-          setError('An error has ocurred during the Oauth flow.');
+        case "signInWithRedirect_failure":
+          setError("An error has ocurred during the OAuth flow.");
           break;
-        case 'customOAuthState':
+        case "customOAuthState":
           setCustomState(payload.data);
           break;
       }
@@ -663,35 +715,24 @@ function App() {
 
     return unsubscribe;
   }, []);
-
+  
   const getUser = async () => {
     try {
       const currentUser = await getCurrentUser();
       setUser(currentUser);
     } catch (error) {
       console.error(error);
-      console.log('Not signed in');
+      console.log("Not signed in");
     }
   };
 
   return (
-    <div className="App">
-      <button onClick={() => signInWithRedirect()}>Open Hosted UI</button>
-      <button onClick={() => signInWithRedirect({ provider: 'Facebook' })}>
-        Open Facebook
-      </button>
-      <button onClick={() => signInWithRedirect({ provider: 'Google' })}>
-        Open Google
-      </button>
-      <button onClick={() => signInWithRedirect({ provider: 'Amazon' })}>
-        Open Amazon
-      </button>
-      <button onClick={() => signInWithRedirect({ provider: 'Apple' })}>
-        Open Apple
-      </button>
-      <button onClick={() => signOut()}>Sign Out</button>
-      <div>{user?.username}</div>
-    </div>
+    <SafeAreaView>
+      <Button title="Sign In" onPress={() => signInWithRedirect({ customState: "shopping-cart"})}></Button>
+      <Text>{user?.username}</Text>
+      <Text>{customState}</Text>
+      <Button title="Sign Out" onPress={() => signOut()}></Button>
+    </SafeAreaView>
   );
 }
 ```
@@ -766,7 +807,7 @@ Amplify.configure({
 });
 
 function App() {
-  const [user, setUser] = useState<CognitoAuthUser | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [customState, setCustomState] = useState<string | null>(null);
 
@@ -903,7 +944,43 @@ function App() {
 
 </Accordion>
 
+### (Required for Multi-Page Applications) Complete Social Sign In after Redirect
+
+If you are developing a multi-page application, and the redirected page is not the same page that initiated the sign in, you will need to add the following code to the redirected page to ensure the sign in gets completed:
+
+```ts
+import 'aws-amplify/auth/enable-oauth-listener';
+```
+
+<Callout>
+
+**NOTE:** The listener only works on the client side in the context of a SSR-enabled project, so ensure to import the listener on the client side only. For example, in a Next.js project, you should add the above import statement to a component that renders on the client side only by `'use client'`.
+
+</Callout>
+
+<Accordion eyebrow="Under the hood" headingLevel="4" title="Why Social Sign In needs to be explicitly handled for Multi-Page Applications">
+	
+When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the social sign in when an end user is redirected back to your app. This works well in a single-page application but in a multi-page application, you might get redirected to a page that doesn't include the listener that was originally added as a side-effect. Hence you must include the specific OAuth listener on your login success page.
+	
+</Accordion>
+
 </InlineFilter>
+
+### Custom Providers
+
+When using custom providers that are not provided by default in Cognito, you can pass an object to the `provider` parameter with the name of your custom provider.
+
+```javascript
+import { signInWithRedirect } from 'aws-amplify/auth';
+
+const provider = {
+  custom: 'MyCustomOIDCProvider'
+}
+
+function handleSignInClick() {
+    signInWithRedirect({ provider })
+}
+```
 
 ### Deploy your backend environment with auth parameters for social sign-in
 

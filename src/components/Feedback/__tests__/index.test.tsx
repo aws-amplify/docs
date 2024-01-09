@@ -1,5 +1,5 @@
 import Feedback from '../index';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as trackModule from '../../../utils/track';
 

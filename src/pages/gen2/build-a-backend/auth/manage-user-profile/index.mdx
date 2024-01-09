@@ -62,7 +62,7 @@ export const auth = defineAuth({
 + userAttributes: {
 +   birthdate: {
 +     required: false,
-+     immutable: true,
++     mutable: false,
 +   },
 + },
 });
@@ -85,7 +85,7 @@ export const auth = defineAuth({
     },
     // do not allow changing of an attribute's value
     birthdate: {
-      immutable: true
+      mutable: false
     }
   }
   // highlight-end

@@ -14,7 +14,6 @@ import preToCodeBlock from './src/utils/pre-to-code-block';
 import { Overview } from './src/components/Overview';
 import ExternalLink from './src/components/ExternalLink';
 import { ExternalLinkButton } from './src/components/ExternalLinkButton';
-import InternalLink from './src/components/InternalLink';
 import { InternalLinkButton } from './src/components/InternalLinkButton';
 import FilterContent from './src/components/FilterContent';
 import { Grid, View } from '@aws-amplify/ui-react';
@@ -63,7 +62,6 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     Overview,
     ExternalLink,
     ExternalLinkButton,
-    InternalLink,
     InternalLinkButton,
     FilterContent,
     Grid,

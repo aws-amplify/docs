@@ -1,18 +1,19 @@
 import { createRequire } from 'module';
 import dotenv from 'dotenv';
 import createMDX from '@next/mdx';
+import rehypeMdxCodeProps from 'rehype-mdx-code-props';
 
 const require = createRequire(import.meta.url);
 import rehypeImgSize from 'rehype-img-size';
 import remarkGfm from 'remark-gfm';
 dotenv.config({ path: './.env.custom' });
 
-export default () => {
+const nextJSConfig = () => {
   const withMDX = createMDX({
     extension: /\.mdx$/,
     options: {
       remarkPlugins: [remarkGfm],
-      rehypePlugins: [[rehypeImgSize, { dir: 'public' }]]
+      rehypePlugins: [[rehypeImgSize, { dir: 'public' }], rehypeMdxCodeProps]
     }
   });
 
@@ -23,21 +24,15 @@ export default () => {
     distDir: 'client/www/next-build',
     env: {
       BUILD_ENV: process.env.BUILD_ENV,
-      // eslint-disable-next-line @typescript-eslint/camelcase
       nextImageExportOptimizer_imageFolderPath: 'public',
-      // eslint-disable-next-line @typescript-eslint/camelcase
       nextImageExportOptimizer_exportFolderPath: 'out',
-      // eslint-disable-next-line @typescript-eslint/camelcase
       nextImageExportOptimizer_quality: '75',
-      // eslint-disable-next-line @typescript-eslint/camelcase
       nextImageExportOptimizer_storePicturesInWEBP: 'true',
-      // eslint-disable-next-line @typescript-eslint/camelcase
       nextImageExportOptimizer_exportFolderName: 'nextImageExportOptimizer',
 
       // If you do not want to use blurry placeholder images, then you can set
       // nextImageExportOptimizer_generateAndUseBlurImages to false and pass
       // `placeholder="empty"` to all <ExportedImage> components.
-      // eslint-disable-next-line @typescript-eslint/camelcase
       nextImageExportOptimizer_generateAndUseBlurImages: 'true'
     },
     images: {
@@ -61,7 +56,6 @@ export default () => {
   });
 
   if (shouldAnalyzeBundles) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const withNextBundleAnalyzer = require('next-bundle-analyzer')({
       format: ['json'],
       reportDir: '../.github/analyze',
@@ -76,3 +70,5 @@ export default () => {
 
   return nextConfig;
 };
+
+export default nextJSConfig;

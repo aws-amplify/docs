@@ -1,0 +1,514 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate from v5 to v6',
+  description: 'Learn more about the migration steps to upgrade API(REST) APIs from Amplify JavaScript v5 to v6',
+  platforms: ['angular', 'javascript', 'nextjs', 'react', 'vue', 'react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Like many of our categories in v6, API (REST) has moved to a functional approach in an effort to maintain a smaller bundle size and better tree-shaking. We are also using named params and strict typing for clarity and consistency.
+
+For v6 REST APIs, all API's use the same underlying input/output types, although `delete` and `head` both omit the `body` option.
+
+> **Note:** Setting `response` to `true` in v5 will result in the full response object being returned, including headers. If `response` is set to `false` or left `undefined`, the library returns the parsed JS object from the JSON response. In v6, the return object structure is always the same. (expand **Output** for details)
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      apiName: string
+      path: string
+      init: { // actually { [key: string]: any }, but the values below are expected
+        headers?: { [key: string]: any };
+        body?: any;
+        response?: boolean;
+        queryStringParameters?: { [key: string]: any };
+        withCredentials?: boolean; // allow cross-site Access-Control requests with credentials
+      }
+      ```
+    </div>
+    <div>
+      **V6**
+
+      ```
+      input: {
+        apiName: string;
+        path: string;
+        options?: {
+          headers?: { [x: string]: string; };
+          queryParams?: Record<string, string>;
+          body?: DocumentType | FormData;
+          withCredentials?: boolean; // allow cross-site Access-Control requests with credentials
+        };
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // `response`: true
+      // response object interface conforming to Axios library
+      {
+        data: any
+        status: number;
+        statusText: string;
+        headers: AxiosResponseHeaders;
+        config: InternalAxiosRequestConfig;
+        request: any
+      }
+
+      // `response`: false || undefined
+      // JSON response deserialized into an object
+      { [key: string]: any }
+
+      ```
+    </div>
+    <div>
+      **V6**
+
+      ```
+      {
+        response: Promise<RestApiResponse>;
+        cancel: (abortMessage?: string) => void;
+      };
+
+      // RestApiResponse
+      {
+        body: {
+          blob: () => Promise<Blob>;
+          json: () => Promise<DocumentType>; // Type representing a plain JavaScript object that can be serialized to JSON.
+          text: () => Promise<string>;
+        };
+        statusCode: number;
+        headers: Headers;
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
+
+## API.get
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { get } from 'aws-amplify/api';
+
+    const handleGet = async ({
+      apiName,
+      path,
+      headers,
+      queryParams
+    }: {
+      apiName: string,
+      path: string,
+      headers: { [key: string]: any },
+      queryParams: { [key: string]: any }
+    }) => {
+      const response = await get({
+        apiName,
+        path,
+        options: {
+          headers,
+          queryParams,
+        }
+      }).response;
+    }
+    ```
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { API } from 'aws-amplify'
+
+    const handleGet = async ({
+      apiName,
+      path,
+      headers,
+      queryParams
+    }: {
+      apiName: string,
+      path: string,
+      headers: { [key: string]: any },
+      queryParams: { [key: string]: any }
+    }) => {
+      const response = await API.get(apiName, path, {
+        headers,
+        // response: true, // add to get full axios details
+        queryStringParameters: queryParams
+      });
+    }
+    ```
+  </Block>
+</BlockSwitcher>
+
+## API.post
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { post } from 'aws-amplify/api';
+
+    const handlePost = async ({
+      apiName,
+      path,
+      headers,
+      body,
+      queryParams
+    }: {
+      apiName: string,
+      path: string,
+      headers: { [key: string]: any },
+      body: string,
+      queryParams: { [key: string]: any }
+    }) => {
+      const response = await post({
+        apiName,
+        path,
+        options: {
+          body,
+          headers,
+          queryParams
+        }
+      }).response;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```
+    import { API } from 'aws-amplify'
+
+    const handlePost = async ({
+      apiName,
+      path,
+      headers,
+      body,
+      queryParams
+    }: {
+      apiName: string,
+      path: string,
+      headers: { [key: string]: any },
+      body: string,
+      queryParams: { [key: string]: any }
+    }) => {
+      const response = await API.post(apiName, path, {
+        body,
+        headers,
+        queryStringParameters: queryParams
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## API.put
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { put } from 'aws-amplify/api';
+
+    const handlePut = async ({
+      apiName,
+      path,
+      headers,
+      body,
+      queryParams
+    }: {
+      apiName: string,
+      path: string,
+      headers: { [key: string]: any },
+      body: string,
+      queryParams: { [key: string]: any }
+    }) => {
+      const response = await put({
+        apiName,
+        path,
+        options: {
+          body,
+          headers,
+          queryParams
+        }
+      }).response;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```
+    import { API } from 'aws-amplify'
+
+    const handlePost = async ({
+      apiName,
+      path,
+      headers,
+      body,
+      queryParams
+    }: {
+      apiName: string,
+      path: string,
+      headers: { [key: string]: any },
+      body: string,
+      queryParams: { [key: string]: any }
+    }) => {
+      const response = await API.put(apiName, path, {
+        body,
+        headers,
+        queryStringParameters: queryParams
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## API.del
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { del } from 'aws-amplify/api';
+
+    const handleDelete = async ({
+      apiName,
+      path,
+      headers,
+      queryParams
+    }: {
+      apiName: string,
+      path: string,
+      headers: { [key: string]: any },
+      queryParams: { [key: string]: any }
+    }) => {
+      const response = await del({
+        apiName,
+        path,
+        options: {
+          headers,
+          queryParams
+        }
+      }).response;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```
+    import { API } from 'aws-amplify'
+
+    const handlePost = async ({
+      apiName,
+      path,
+      headers,
+      queryParams
+    }: {
+      apiName: string,
+      path: string,
+      headers: { [key: string]: any },
+      queryParams: { [key: string]: any }
+    }) => {
+      const response = await API.del(apiName, path, {
+        headers,
+        queryStringParameters: queryParams
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## API.patch
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { patch } from 'aws-amplify/api';
+
+    const handlePatch = async ({
+      apiName,
+      path,
+      headers,
+      body,
+      queryParams
+    }: {
+      apiName: string,
+      path: string,
+      headers: { [key: string]: any },
+      body: string,
+      queryParams: { [key: string]: any }
+    }) => {
+      const response = await patch({
+        apiName,
+        path,
+        options: {
+          body,
+          headers,
+          queryParams
+        }
+      }).response;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```
+    import { API } from 'aws-amplify'
+
+    const handlePatch = async ({
+      apiName,
+      path,
+      headers,
+      body,
+      queryParams
+    }: {
+      apiName: string,
+      path: string,
+      headers: { [key: string]: any },
+      body: string,
+      queryParams: { [key: string]: any }
+    }) => {
+      const response = await API.patch(apiName, path, {
+        body,
+        headers,
+        queryStringParameters: queryParams
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## API.head
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { head } from 'aws-amplify/api';
+
+    const handleHead = async ({
+      apiName,
+      path,
+      headers,
+      queryParams
+    }: {
+      apiName: string,
+      path: string,
+      headers: { [key: string]: any },
+      queryParams: { [key: string]: any }
+    }) => {
+      const response = await head({
+        apiName,
+        path,
+        options: {
+          headers,
+          queryParams
+        }
+      }).response;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```
+    import { API } from 'aws-amplify'
+
+    const handleHead = async ({
+      apiName,
+      path,
+      headers,
+      queryParams
+    }: {
+      apiName: string,
+      path: string,
+      headers: { [key: string]: any },
+      queryParams: { [key: string]: any }
+    }) => {
+      const response = await API.head(apiName, path, {
+        headers,
+        queryStringParameters: queryParams
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## API.cancel
+
+The process for cancelling a request has changed in v6. In v5 you send in the promise as input to the API.cancel API. In v6, cancel is a function returned with the result of an API(REST) operation. To cancel an operation, you will call `operation.cancel()`.
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```js
+    import { get, isCancelError } from 'aws-amplify/api'
+
+    const operation = get({
+      apiName,
+      path,
+      options
+    });
+
+    operation.response.then(result => {
+      // GET operation completed successfully
+    }).catch(error => {
+      // If the error is because the request was cancelled you can confirm here.
+      if(isCancelError(error)) {
+        // 'my message for cancellation'
+        console.log(error.message);
+      }
+    })
+
+    // To cancel the above request
+    operation.cancel('my message for cancellation');
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```js
+    import { API } from 'aws-amplify'
+
+    const promise = API.get(
+      apiName, 
+      path, 
+      options
+    );
+
+    promise.then(result => {
+      // GET operation completed successfully
+    }).catch(error => {
+      // If the error is because the request was cancelled you can confirm here.
+      if(API.isCancel(error)) {
+        // 'my message for cancellation'
+        console.log(error.message);
+      }
+    });
+
+    // To cancel the above request
+    API.cancel(promise, 'my message for cancellation');
+    ```
+
+  </Block>
+</BlockSwitcher>
+
