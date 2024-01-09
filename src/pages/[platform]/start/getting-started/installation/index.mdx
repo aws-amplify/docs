@@ -242,7 +242,7 @@ sso_start_url = https://my-sso-portal.awsapps.com/start
 sso_registration_scopes = sso:account:access
 ```
 
-Using the example above, when creating a new app or pulling an existing app, specify `my-dev-profile` as the AWS profile you'd like to use with the Amplify app.
+Using the example above, when creating a new app or pulling an existing app, specify `my-sso-profile` as the AWS profile you'd like to use with the Amplify app.
 
 To create [an AWS profile locally using an IAM role](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html), assign the `AdministratorAccess-Amplify` permissions set to the role and set the role in your `~/.aws/config` file:
 
@@ -254,3 +254,5 @@ source_profile = amplify-user
 [profile amplify-user]
 region=us-east-1
 ```
+
+Using the example above, when creating a new app or pulling an existing app, specify `amplify-admin` as the AWS profile you'd like to use with the Amplify app
