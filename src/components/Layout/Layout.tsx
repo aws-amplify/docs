@@ -94,13 +94,12 @@ export const Layout = ({
   const isOverview =
     children?.props?.childPageNodes?.length != 'undefined' &&
     children?.props?.childPageNodes?.length > 0;
-  const showNextPrev = NEXT_PREVIOUS_SECTIONS.some((section) => {
-    return (
+  const showNextPrev = NEXT_PREVIOUS_SECTIONS.some(
+    (section) =>
       asPathWithNoHash.includes(section) &&
       !asPathWithNoHash.endsWith(section) &&
       !isOverview
-    );
-  });
+  );
   if (!isGen2) {
     // [platform] will always be the very first subpath right?
     // when using `router.asPath` it returns a string that starts with a '/'
