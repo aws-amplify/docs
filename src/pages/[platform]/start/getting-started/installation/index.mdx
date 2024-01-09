@@ -213,7 +213,7 @@ To create an AWS profile locally using IAM Identity Center, you can use the AWS 
 [profile my-sso-profile]
 sso_session = my-sso
 sso_account_id = 123456789011
-sso_role_name = readOnly
+sso_role_name = AdministratorAccess-Amplify
 region = us-west-2
 output = json
 
@@ -229,7 +229,7 @@ Currently, the Amplify CLI requires a workaround for use with IAM Identity Cente
 [profile my-sso-profile]
 sso_session = my-sso
 sso_account_id = 123456789011
-sso_role_name = readOnly
+sso_role_name = AdministratorAccess-Amplify
 region = us-west-2
 output = json
 + credential_process = aws configure export-credentials --profile my-sso-profile
