@@ -771,7 +771,7 @@ As of v6 of Amplify, you will now import the functional API’s directly from th
   </Block>
   <Block name="V6">
   ```
-  import { uploadData, downloadData } from 'aws-amplify/storage';
+  import { getUrl, uploadData } from 'aws-amplify/storage';
 
   // Upload a file with access level `guest` as  the equivalent of `public` in v5
   const result = await uploadData({
