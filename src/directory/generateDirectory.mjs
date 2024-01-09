@@ -32,7 +32,11 @@ async function getMetaStringObj(filePath) {
       return result;
     } catch (err) {
       throw new Error(
-        `Unable to parse meta object for file: "${filePath}". ${err}`
+        `Unable to parse meta object for file: "${filePath}". ${err}
+        
+Please check the "meta" object for file "${filePath}" and make sure the javascript object is a valid javascript object.
+There might be a missing comma in the object or a missing semicolon at the end of the meta object.
+        `
       );
     }
   }
