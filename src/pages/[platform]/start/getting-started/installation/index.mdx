@@ -209,8 +209,7 @@ To create an AWS profile locally using IAM Identity Center, you can use the AWS 
 
 </Callout>
 
-```toml
-# ~/.aws/config
+```toml title="~/.aws/config"
 [profile my-sso-profile]
 sso_session = my-sso
 sso_account_id = 123456789011
@@ -226,8 +225,7 @@ sso_registration_scopes = sso:account:access
 
 Currently, the Amplify CLI requires a workaround for use with IAM Identity Center due to [an issue in how it resolves credentials](https://github.com/aws-amplify/amplify-cli/issues/4488).
 
-```diff
-# ~/.aws/config
+```diff title="~/.aws/config"
 [profile my-sso-profile]
 sso_session = my-sso
 sso_account_id = 123456789011
@@ -246,7 +244,7 @@ Using the example above, when creating a new app or pulling an existing app, spe
 
 To create [an AWS profile locally using an IAM role](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html), assign the `AdministratorAccess-Amplify` permissions set to the role and set the role in your `~/.aws/config` file:
 
-```toml
+```toml title="~/.aws/config"
 [profile amplify-admin]
 role_arn = arn:aws:iam::123456789012:role/amplify-admin
 source_profile = amplify-user
