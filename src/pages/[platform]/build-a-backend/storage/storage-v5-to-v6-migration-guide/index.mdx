@@ -337,7 +337,7 @@ The `Storage.get` API has been separated into two API's in v6, `getURL` and `dow
       {
         key: string;
         options?: {
-          accessLevel?: 'guest' | 'private' | 'protected';
+          accessLevel?: 'guest' | 'protected' | 'private';
           // targetIdentityId?: string; // included if accessLevel is 'protected'
           useAccelerateEndpoint?: boolean;
         };
@@ -347,7 +347,7 @@ The `Storage.get` API has been separated into two API's in v6, `getURL` and `dow
       input: {
         key: string;
         options?: {
-          accessLevel?: 'guest' | 'private' | 'protected';
+          accessLevel?: 'guest' | 'protected' | 'private';
           // targetIdentityId?: string; // included if accessLevel is 'protected'
           useAccelerateEndpoint?: boolean;
           onProgress?: (event: {
@@ -625,7 +625,7 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
       input: {
         source: {
           key: string;
-          accessLevel?: 'guest' | 'private' | 'protected';
+          accessLevel?: 'guest' | 'protected' | 'private';
           // Included when accessLevel 'protected'
           targetIdentityId?: string;
         };
@@ -814,7 +814,7 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
 
 There are a few changes in the `list` API from v5 to v6 in addition to [those mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options):
 
-- The `path` parameter is now optional. If you want to list all files in the public folder, you do not need to provide an empty string as the `path` argument.
+- The `path` parameter is now the optional `prefix` parameter. If you want to list all files in the public folder, you do not need to provide an empty string as the `prefix`.
 - The `hasNextToken` output property has been removed. You can check that `nextToken` is defined to check if there are more items to retrieve.
 
 <Accordion title='Input' headingLevel='3'>
@@ -851,7 +851,7 @@ There are a few changes in the `list` API from v5 to v6 in addition to [those me
         prefix?: string;
         options?: {
           listAll?: false;
-          accessLevel?: 'guest' | 'private' | 'protected';
+          accessLevel?: 'guest' | 'protected' | 'private';
           pageSize?: number;
           nextToken?: string;
           useAccelerateEndpoint?: boolean;
@@ -865,7 +865,7 @@ There are a few changes in the `list` API from v5 to v6 in addition to [those me
         prefix?: string;
         options?: {
           listAll: true;
-          accessLevel?: 'guest' | 'private' | 'protected';
+          accessLevel?: 'guest' | 'protected' | 'private';
           useAccelerateEndpoint?: boolean;
           // Included if accessLevel is 'protected'
           targetIdentityId?: string';
@@ -1064,7 +1064,7 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
       input: {
         key: string;
         options?: {
-          accessLevel?: 'guest' | 'private' | 'protected';
+          accessLevel?: 'guest' | 'protected' | 'private';
           useAccelerateEndpoint?: boolean;
           // Included if accessLevel is 'protected'
           targetIdentityId?: string;
@@ -1151,7 +1151,7 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
 
 ## Storage.cancel
 
-The process for cancelling a request has changed in v6. In v5 you would send in the promise or `UploadTask` as input to the `Storage.cancel` API. In v6, `cancel` is a function returned with the result of a Storage operation. To cancel an operation, you will call `operation.cancel()`.
+The process for cancelling a request has changed in v6. In v5, you have to maintain the promise reference returned from a Storage API call, and supply it as input to the `Storage.cancel` API. In v6, `cancel` is a function returned with the result of a Storage operation. To cancel an operation, you will call `operation.cancel()`.
 
 <BlockSwitcher>
   <Block name="V6">
