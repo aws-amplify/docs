@@ -18,10 +18,9 @@ export function getStaticProps(context) {
 </Callout>
 
 {/* "...configure an AWS profile locally for use with Amplify" -> `amplify configure profile` */}
-This guide will walk you through how to set up your AWS account and configure an AWS profile locally for use with Amplify. Before getting started it is important to know there are a few options for authenticating with AWS. Using [AWS Identity and Access Management (IAM)](https://aws.amazon.com/iam/), you can configure either:
+This guide will walk you through how to set up your AWS account and configure an AWS profile locally for use with Amplify. Before getting started it is important to know there are a few options for authenticating with AWS. Using [AWS Identity and Access Management (IAM)](https://aws.amazon.com/iam/) you can configure either:
 
 - permanent credentials with an [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) through the use of access keys
-- temporary credentials with an [IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
 - temporary credentials with [IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html), which is formerly known as AWS Single Sign-On (SSO)
 
 Temporary credentials are an alternative to their permanent counterpart that enable you to define permissions for a _session_. Sessions are created when you [_assume_ an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) or sign in using AWS IAM Identity Center. These sessions come with an additional "session token" that is used to validate the temporary credentials and must be included on requests to AWS. As you are working locally, this will be presented as an additional environment variable.
