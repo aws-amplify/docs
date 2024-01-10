@@ -46,9 +46,9 @@ export const baseTheme = createTheme({
     components: {
       button: {
         borderRadius: { value: '{radii.medium}' },
-        borderColor: { value: '{colors.brand.primary.80}' },
+        borderColor: { value: '{colors.primary.80}' },
         backgroundColor: { value: '{colors.background.primary}' },
-        color: { value: '{colors.brand.primary.80}' },
+        color: { value: '{colors.primary.80}' },
         _focus: {
           borderColor: { value: 'transparent' },
           boxShadow: {

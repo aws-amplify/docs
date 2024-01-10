@@ -79,7 +79,7 @@ export const theme: PrismTheme = {
     {
       types: ['tag', 'operator', 'keyword'],
       style: {
-        color: 'var(--amplify-colors-brand-primary-20)'
+        color: 'var(--amplify-colors-primary-20)'
       }
     },
     {

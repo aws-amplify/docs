@@ -14,7 +14,7 @@ html {
 
 :root {
   // Algolia customizations
-  --docsearch-primary-color: var(--amplify-colors-brand-primary-60);
+  --docsearch-primary-color: var(--amplify-colors-primary-60);
   --docsearch-modal-background: var(--amplify-colors-background-primary);
   --docsearch-modal-shadow: var(--amplify-shadows-small);
   --docsearch-footer-background: var(--amplify-colors-background-primary);
@@ -161,7 +161,7 @@ textarea:not([rows]) {
 
 blockquote {
   padding: var(--amplify-space-medium);
-  border-left: 12px solid var(--amplify-colors-brand-primary-10);
+  border-left: 12px solid var(--amplify-colors-primary-10);
   color: var(--amplify-colors-font-secondary);
   font-style: italic;
 }
