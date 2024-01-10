@@ -11,6 +11,12 @@ export function getStaticProps(context) {
   };
 }
 
+<Callout info>
+
+**Note**: If you already have an AWS account and profile configured locally, you can skip this guide.
+
+</Callout>
+
 {/* "...configure an AWS profile locally for use with Amplify" -> `amplify configure profile` */}
 This guide will walk you through how to set up your AWS account and configure an AWS profile locally for use with Amplify. Before getting started it is important to know there are a few options for authenticating with AWS. Using [AWS Identity and Access Management (IAM)](https://aws.amazon.com/iam/), you can configure either:
 
@@ -28,12 +34,6 @@ In general, though, credentials are typically resolved through the use of [AWS p
 
 - with the `--profile` flag
 - with the `AWS_PROFILE` environment variable
-
-<Callout info>
-
-**Note**: If you already have an AWS account and profile configured locally, you can skip this guide and specify a profile using one of the methods noted above.
-
-</Callout>
 
 ## Configure an IAM user
 
