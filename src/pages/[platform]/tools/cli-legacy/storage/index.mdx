@@ -14,8 +14,8 @@ export const meta = {
     'swift',
     'vue'
   ],
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'react-native',
         'android',
@@ -23,7 +23,7 @@ export const meta = {
       ],
       canonicalPath: '/react-native/tools/cli-legacy/storage/'
     },
-    group2: {
+    {
       platforms: [
         'vue',
         'react',
@@ -34,7 +34,7 @@ export const meta = {
       ],
       canonicalPath: '/javascript/tools/cli-legacy/storage/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

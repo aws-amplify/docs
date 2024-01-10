@@ -12,8 +12,8 @@ export const meta = {
     'vue'
   ],
   route: '/[platform]/deploy-and-host/deployment',
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'vue',
         'nextjs',
@@ -23,7 +23,7 @@ export const meta = {
       ],
       canonicalPath: '/javascript/deploy-and-host/deployment/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

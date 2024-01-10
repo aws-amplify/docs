@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
                   
 export const meta = {
   title: 'Override feature enablement migration',
-  description: 'Upgrading to Amplify CLI version 7 and above with a project created prior requires a migration to enable the new \'override\' capability.',
+  description: "Upgrading to Amplify CLI version 7 and above with a project created prior requires a migration to enable the new 'override' capability.",
   platforms: [
     'android',
     'angular',
@@ -14,8 +14,8 @@ export const meta = {
     'swift',
     'vue'
   ],
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'vue',
         'android',
@@ -29,7 +29,7 @@ export const meta = {
       ],
       canonicalPath: '/javascript/tools/cli/migration/override/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

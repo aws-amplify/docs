@@ -16,15 +16,15 @@ export const meta = {
     'vue'
   ],
   route: '/[platform]/prev/build-a-backend/graphqlapi',
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'android',
         'flutter'
       ],
-      canonicalPath: '/flutter/prev/build-a-backend/graphqlapi/'
+      canonicalPath: '/android/prev/build-a-backend/graphqlapi/'
     },
-    group2: {
+    {
       platforms: [
         'angular',
         'react',
@@ -34,7 +34,7 @@ export const meta = {
       ],
       canonicalPath: '/javascript/prev/build-a-backend/graphqlapi/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

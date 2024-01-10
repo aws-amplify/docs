@@ -16,27 +16,22 @@ export const meta = {
     'vue'
   ],
   route: '/[platform]/build-a-backend/restapi',
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'react',
+        'swift',
+        'flutter',
         'vue',
         'nextjs',
+        'android',
         'angular',
         'javascript',
         'react-native'
       ],
       canonicalPath: '/javascript/build-a-backend/restapi/'
-    },
-    group2: {
-      platforms: [
-        'swift',
-        'android',
-        'flutter'
-      ],
-      canonicalPath: '/android/build-a-backend/restapi/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

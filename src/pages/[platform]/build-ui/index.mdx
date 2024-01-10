@@ -16,8 +16,8 @@ export const meta = {
     'vue'
   ],
   route: '/[platform]/build-ui',
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'flutter',
         'android',
@@ -29,14 +29,14 @@ export const meta = {
       ],
       canonicalPath: '/react-native/build-ui/'
     },
-    group2: {
+    {
       platforms: [
         'javascript',
         'react'
       ],
       canonicalPath: '/javascript/build-ui/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

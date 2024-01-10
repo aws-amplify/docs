@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
                   
 export const meta = {
   title: 'Override Amplify-generated API Gateway resources',
-  description: 'The \'amplify override api\' command generates a developer-configurable \'overrides\' TypeScript file which provides Amplify-generated API Gateway resources as CDK constructs. For example, developers can configure a custom description or the minimum compression size of their REST API.',
+  description: "The 'amplify override api' command generates a developer-configurable 'overrides' TypeScript file which provides Amplify-generated API Gateway resources as CDK constructs. For example, developers can configure a custom description or the minimum compression size of their REST API.",
   platforms: [
     'android',
     'angular',
@@ -14,8 +14,8 @@ export const meta = {
     'swift',
     'vue'
   ],
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'android',
         'vue',
@@ -29,7 +29,7 @@ export const meta = {
       ],
       canonicalPath: '/javascript/build-a-backend/restapi/override-api-gateway/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

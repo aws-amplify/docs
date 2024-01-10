@@ -13,8 +13,8 @@ export const meta = {
     'vue'
   ],
   route: '/[platform]/build-a-backend/server-side-rendering/nextjs',
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'angular',
         'react-native',
@@ -25,7 +25,7 @@ export const meta = {
       ],
       canonicalPath: '/javascript/build-a-backend/server-side-rendering/nextjs/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

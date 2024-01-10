@@ -15,8 +15,8 @@ export const meta = {
     'vue'
   ],
   route: '/[platform]/build-a-backend/utilities',
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'android',
         'android',
@@ -25,7 +25,7 @@ export const meta = {
       ],
       canonicalPath: '/swift/build-a-backend/utilities/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -9,15 +9,15 @@ export const meta = {
     'swift'
   ],
   route: '/[platform]/sdk/api',
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'android',
         'swift'
       ],
       canonicalPath: '/swift/sdk/api/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

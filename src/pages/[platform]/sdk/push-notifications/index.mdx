@@ -9,15 +9,15 @@ export const meta = {
     'swift'
   ],
   route: '/[platform]/sdk/push-notifications',
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'swift',
         'android'
       ],
       canonicalPath: '/swift/sdk/push-notifications/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

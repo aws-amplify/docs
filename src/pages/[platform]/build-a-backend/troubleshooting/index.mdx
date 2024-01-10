@@ -14,8 +14,8 @@ export const meta = {
     'vue'
   ],
   route: '/[platform]/build-a-backend/troubleshooting',
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'react',
         'react-native',
@@ -26,14 +26,14 @@ export const meta = {
       ],
       canonicalPath: '/javascript/build-a-backend/troubleshooting/'
     },
-    group2: {
+    {
       platforms: [
         'flutter',
         'flutter'
       ],
       canonicalPath: '/flutter/build-a-backend/troubleshooting/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

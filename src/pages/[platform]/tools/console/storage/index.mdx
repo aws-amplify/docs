@@ -16,8 +16,8 @@ export const meta = {
     'vue'
   ],
   route: '/[platform]/tools/console/storage',
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'nextjs',
         'angular',
@@ -31,7 +31,7 @@ export const meta = {
       ],
       canonicalPath: '/javascript/tools/console/storage/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

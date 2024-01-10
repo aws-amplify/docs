@@ -16,22 +16,22 @@ export const meta = {
     'vue'
   ],
   route: '/[platform]/prev/build-a-backend/more-features',
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'flutter',
         'flutter'
       ],
       canonicalPath: '/flutter/prev/build-a-backend/more-features/'
     },
-    group2: {
+    {
       platforms: [
         'android',
         'swift'
       ],
       canonicalPath: '/swift/prev/build-a-backend/more-features/'
     },
-    group3: {
+    {
       platforms: [
         'nextjs',
         'javascript',
@@ -41,7 +41,7 @@ export const meta = {
       ],
       canonicalPath: '/javascript/prev/build-a-backend/more-features/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

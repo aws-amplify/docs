@@ -16,8 +16,8 @@ export const meta = {
     'vue'
   ],
   route: '/[platform]/tools/cli/usage',
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'android',
         'react',
@@ -31,7 +31,7 @@ export const meta = {
       ],
       canonicalPath: '/javascript/tools/cli/usage/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

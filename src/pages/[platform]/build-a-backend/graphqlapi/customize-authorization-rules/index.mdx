@@ -14,8 +14,8 @@ export const meta = {
     'swift',
     'vue'
   ],
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'android',
         'flutter',
@@ -23,7 +23,7 @@ export const meta = {
       ],
       canonicalPath: '/swift/build-a-backend/graphqlapi/customize-authorization-rules/'
     },
-    group2: {
+    {
       platforms: [
         'angular',
         'nextjs',
@@ -34,7 +34,7 @@ export const meta = {
       ],
       canonicalPath: '/javascript/build-a-backend/graphqlapi/customize-authorization-rules/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
                   
 export const meta = {
   title: 'IAM roles and MFA',
-  description: 'Configure the Amplify CLI to assume an IAM role by defining a profile for the role in the shared \'~/.aws/config\' file.',
+  description: "Configure the Amplify CLI to assume an IAM role by defining a profile for the role in the shared '~/.aws/config' file.",
   platforms: [
     'android',
     'angular',
@@ -14,8 +14,8 @@ export const meta = {
     'swift',
     'vue'
   ],
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'nextjs',
         'angular',
@@ -29,7 +29,7 @@ export const meta = {
       ],
       canonicalPath: '/javascript/tools/cli/reference/iam-roles-mfa/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -16,8 +16,8 @@ export const meta = {
     'vue'
   ],
   route: '/[platform]/tools/cli/migration',
-  canonicalObject: {
-    group1: {
+  canonicalObjects: [
+    {
       platforms: [
         'javascript',
         'flutter',
@@ -31,7 +31,7 @@ export const meta = {
       ],
       canonicalPath: '/javascript/tools/cli/migration/'
     }
-  }
+  ]
 };
 
 export const getStaticPaths = async () => {
