@@ -62,8 +62,6 @@ query QueryAllTodos {
 }
 ```
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 ```js
 import { Amplify } from 'aws-amplify';
 import { generateClient } from 'aws-amplify/api';
@@ -82,8 +80,6 @@ try {
   console.error(errors);
 }
 ```
-
-</InlineFilter>
 
 ### Configure a primary key
 
@@ -124,8 +120,6 @@ query QueryInventoryByProductAndWarehouse($productID: ID!, $warehouseID: ID!) {
 }
 ```
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 ```js
 import { getInventory } from './graphql/queries';
 
@@ -138,8 +132,6 @@ const result = await client.graphql({
 });
 const inventory = result.data.getInventory;
 ```
-
-</InlineFilter>
 
 ### Configure a secondary index
 
@@ -176,8 +168,6 @@ query QueryCustomersForAccountRepresentative($accountRepresentativeID: ID!) {
 }
 ```
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 ```js
 import { customersByAccountRepresentativeID } from './graphql/queries';
 
@@ -189,8 +179,6 @@ const result = await client.graphql({
 });
 const customers = result.data.customersByAccountRepresentativeID;
 ```
-
-</InlineFilter>
 
 You can also overwrite the `queryField` or `name` to customize the GraphQL query name, or secondary index name respectively:
 
@@ -218,8 +206,6 @@ query QueryCustomersForAccountRepresentative($representativeId: ID!) {
 }
 ```
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 ```js
 import { customerByRepresentative } from './graphql/queries';
 
@@ -231,8 +217,6 @@ const result = await client.graphql({
 });
 const customer = result.data.customerByRepresentative;
 ```
-
-</InlineFilter>
 
 To optionally configure sort keys, provide the additional fields in the `sortKeyFields` parameter:
 
@@ -258,8 +242,6 @@ query MyQuery {
 }
 ```
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 ```js
 import { customerByNameAndPhone } from './graphql/queries';
 
@@ -273,8 +255,6 @@ const result = await client.graphql({
 
 const customer = result.data.customerByNameAndPhone;
 ```
-
-</InlineFilter>
 
 ## Setup relationships between models
 
@@ -325,8 +305,6 @@ mutation CreateProject {
 }
 ```
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 ```js
 import { createProject } from './graphql/mutations';
 
@@ -339,8 +317,6 @@ const result = await client.graphql({
 
 const project = result.data.createProject;
 ```
-
-</InlineFilter>
 
 To customize the field to be used for storing the relationship information, set the `fields` array argument and matching it to a field on the type:
 
@@ -373,8 +349,6 @@ mutation CreateProject {
 }
 ```
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 ```js
 import { createProject } from './graphql/mutations';
 
@@ -389,8 +363,6 @@ const result = await client.graphql({
 });
 const project = result.data.createProject;
 ```
-
-</InlineFilter>
 
 A `@hasOne` relationship always uses a reference to the primary key of the related model, by default `id` unless overridden with the [`@primaryKey` directive](#configure-a-primary-key).
 
@@ -430,8 +402,6 @@ mutation CreatePost {
 }
 ```
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 ```js
 import { createPost } from './graphql/mutations';
 
@@ -444,8 +414,6 @@ const result = await client.graphql({
 const post = result.data.createPost;
 const comments = post.comments.items;
 ```
-
-</InlineFilter>
 
 Under the hood, `@hasMany` configures a default secondary index on the related table to enable you to query the related model from the source model.
 
@@ -487,8 +455,6 @@ mutation CreatePost {
 }
 ```
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 ```js
 import { createPost, createComment } from './graphql/mutations';
 import { getPost } from './graphql/mutations';
@@ -519,8 +485,6 @@ const result = await client.graphql({
 const postWithComments = result.data.createPost;
 const postComments = postWithComments.comments.items; // access comments from post
 ```
-
-</InlineFilter>
 
 ### Belongs To relationship
 
@@ -567,8 +531,6 @@ mutation CreateProject {
 }
 ```
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 ```js
 import { createProject, createTeam, updateTeam } from './graphql/mutations';
 
@@ -602,8 +564,6 @@ const updateTeamResult = await client.graphql({
 const updatedTeam = updateTeamResult.data.updateTeam;
 const teamProject = updatedTeam.project; // access project from team
 ```
-
-</InlineFilter>
 
 </Block>
 
@@ -646,8 +606,6 @@ mutation CreatePost {
 }
 ```
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 ```js
 import { createPost, createComment } from './graphql/mutations';
 import { getPost } from './graphql/mutations';
@@ -680,8 +638,6 @@ const postComments = postWithComments.comments.items; // access comments from po
 
 const commentPost = postComments[0].post; // access post from comment;
 ```
-
-</InlineFilter>
 
 </Block>
 
@@ -760,8 +716,6 @@ mutation CreatePost {
 }
 ```
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 ```js
 import { createPost, createTag, createPostTags } from './graphql/mutations';
 import { listPosts } from './graphql/queries';
@@ -804,8 +758,6 @@ const posts = listPostsResult.data.listPosts;
 const postTags = posts[0].tags; // access tags from post
 ```
 
-</InlineFilter>
-
 ## Assign default values for fields
 
 You can use the `@default` directive to specify a default value for optional [scalar type fields](https://docs.aws.amazon.com/appsync/latest/devguide/scalars.html) such as `Int`, `String`, and more.
@@ -846,8 +798,6 @@ subscription OnCreateTask {
 }
 ```
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 ```js
 import { onCreateTask } from './graphql/subscriptions';
 
@@ -866,8 +816,6 @@ const subscription = client.graphql({
 	error: (error) => console.warn(error)
 });
 ```
-
-</InlineFilter>
 
 If you want to get all subscription events, don’t pass any `filter` parameters.
 
