@@ -108,8 +108,15 @@ The information presented below can also be found on the [official AWS documenta
   ![AWS IAM Identity Center dashboard indicating "permission sets" in the navigation pane](/images/gen2/account-setup/sso-dashboard-highlight-permission-sets.png)
 
 6. Select **Create permission set**
-7. When prompted for the permission set type, choose **Predefined permission set** and the **Administrator Access** policy. Then select **Next**
-8. Optionally change the permission set name and session duration, then select **Next**
+7. When prompted for the permission set type, choose **Custom permission set**. Then select **Next**
+8. Expand **AWS Managed Policies (set)** and search for _amplify_. Check **AmplifyBackendDeployFullAccess** and select **Next**
+
+  ![AWS IAM Identity Center custom permission set page with the "AmplifyBackendDeployFullAccess" AWS managed policy checked](/images/gen2/account-setup/sso-permission-set-custom.png)
+
+8. Name the permission set "AmplifySet" and optionally change the session duration. Select **Next**
+
+  ![AWS IAM Identity Center custom permission set details page with the name "AmplifySet"](/images/gen2/account-setup/sso-permission-set-custom-details.png)
+
 9. Review the permission set and select **Create**
 10. After creation you are navigated back to the IAM Identity Center dashboard and are ready to create your first user. Using the navigation pane, select **Users**
 11. Enter the user details, then select **Next**
