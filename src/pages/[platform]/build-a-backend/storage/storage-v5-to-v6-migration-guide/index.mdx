@@ -31,6 +31,7 @@ The input options below have been removed in v6 from Storage API's:
 - `ServerSideEncryption`, `SSECustomerAlgorithm`, `SSECustomerKey`, `SSECustomerKeyMD5`, and `SSEKMSKeyId`: _These options have been deprecated due to low usage and added complexity: Server-Side Encryption has been automatically applied using default keys by S3 [since Jan 2023](https://aws.amazon.com/blogs/aws/amazon-s3-encrypts-new-objects-by-default/)._
 - `cacheControl`: _Response payload is always set to 'no-store' in v6._
 - `$metadata`: _Information like `statusCode` and `retryCount` will be provided in v6 via debug messages using [the Console Logger](/[platform]/build-a-backend/utilities/console-logger/)._
+- `bucket`: _The `bucket` is required for `Storage` configuration and has therefore been removed from input options._
 
 The `progressCallback` option on upload and download operations has been replaced by `onProgress` in v6. Note that the parameter property names have also changed.
 
@@ -268,7 +269,7 @@ The `progressCallback` option has been replaced by `onProgress` in v6. Note that
 
 ## Storage.get
 
-The `Storage.get` API has been separated into two API's in v6, `getURL` and `downloadData`, to better align with 
+The `Storage.get` API has been separated into two API's in v6, `getURL` and `downloadData`.
 
 Content options (`contentDisposition`, `contentLanguage`, `contentEncoding`, and `contentType`) are no longer supported in the `get` API as they override options selected on `upload` and have caused complexity in implementation.
 
@@ -562,6 +563,10 @@ The following response keys inherited from AWS SDK in v5 have been deemed non-cr
 </BlockSwitcher>
 
 ## Storage.copy
+
+The `copy` API in v6 has not substantially changed in functionality, however the structure and content of the expected input has changed as described above.
+
+Content options (`contentDisposition`, `contentLanguage`, and `contentType`) are no longer supported in the `copy` API as they override options selected on the original file `upload` and have caused complexity in implementation.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
