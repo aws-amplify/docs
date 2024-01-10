@@ -127,6 +127,8 @@ query QueryInventoryByProductAndWarehouse($productID: ID!, $warehouseID: ID!) {
 }
 ```
 
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
+
 ```js
 import { getInventory } from './graphql/queries';
 
@@ -139,6 +141,8 @@ const result = await client.graphql({
 });
 const inventory = result.data.getInventory;
 ```
+
+</InlineFilter>
 
 ### Configure a secondary index
 
@@ -175,6 +179,8 @@ query QueryCustomersForAccountRepresentative($accountRepresentativeID: ID!) {
 }
 ```
 
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
+
 ```js
 import { customersByAccountRepresentativeID } from './graphql/queries';
 
@@ -186,6 +192,8 @@ const result = await client.graphql({
 });
 const customers = result.data.customersByAccountRepresentativeID;
 ```
+
+</InlineFilter>
 
 You can also overwrite the `queryField` or `name` to customize the GraphQL query name, or secondary index name respectively:
 
