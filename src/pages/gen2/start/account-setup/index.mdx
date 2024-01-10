@@ -24,7 +24,7 @@ This guide will walk you through how to set up your AWS account and configure an
 - temporary credentials with an [IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
 - temporary credentials with [IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html), which is formerly known as AWS Single Sign-On (SSO)
 
-Temporary credentials are an alternative to their permanent counterpart that enable you to define permissions for the _session_. Sessions are created when you [_assume_ an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) or sign in using AWS IAM Identity Center. These sessions come with an additional "session token" that is used to validate the temporary credentials and must be included on requests to AWS. As you are working locally, this will be presented as an additional environment variable.
+Temporary credentials are an alternative to their permanent counterpart that enable you to define permissions for a _session_. Sessions are created when you [_assume_ an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) or sign in using AWS IAM Identity Center. These sessions come with an additional "session token" that is used to validate the temporary credentials and must be included on requests to AWS. As you are working locally, this will be presented as an additional environment variable.
 
 > You can use temporary security credentials to make programmatic requests for AWS resources using the AWS CLI or AWS API (using the AWS SDKs). The temporary credentials provide the same permissions as long-term security credentials, such as IAM user credentials. However, there are a few differences:...
 >
