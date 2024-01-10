@@ -21,12 +21,12 @@ export function useCanonicalUrl(meta, canonicalUrlPath, currentPlatform) {
   }
 
   // If we have specific canonical Url for certain platforms
-  if (meta?.canonicalObject) {
-    for (const key in meta.canonicalObject) {
-      if (meta.canonicalObject[key].platforms.includes(currentPlatform)) {
-        canonicalUrlPath = meta.canonicalObject[key].canonicalPath;
+  if (meta?.canonicalObjects && Array.isArray(meta.canonicalObjects)) {
+    meta.canonicalObjects.forEach((canonicalObject) => {
+      if (canonicalObject.platforms.includes(currentPlatform)) {
+        canonicalUrlPath = canonicalObject.canonicalPath;
       }
-    }
+    });
   }
 
   return canonicalUrlPath;
