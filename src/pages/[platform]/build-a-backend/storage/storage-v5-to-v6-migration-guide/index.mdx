@@ -36,13 +36,13 @@ The `progressCallback` option on upload and download operations has been replace
 
 ## Storage.put
 
-The `Storage.put` API has moved to the `uploadData` API in v6. There are a few changes in the experience from v5 to v6 in addition to those mentioned above:
+The `Storage.put` API has been renamed to `uploadData` API in v6. There are a few changes in the experience from v5 to v6 in addition to those mentioned above:
 
 - We have remapped all capitalized input and output keys to camel case.
 - The `cacheControl` option has been removed and the response payload is always set to `no-store` in v6.
-- We removed the `acl` option: the S3 Bucket ACL provides extra access control options that Amplify does not currently support.
+- We removed the `acl` option: the S3 Bucket ACL provides extra access control options that Amplify does not currently support. ACL is no longer recommended according to [S3 security best practices](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html#security-best-practices-prevent).
 - The `expires` option has been deprecated.
-- The `resumable` option has been removed as all upload tasks are resumable in v6. You can find the `pause`, `resume`, and `cancel` functions on the `uploadData` output.
+- The `resumable` option has been removed as all upload tasks are resumable in v6. You can find the `pause`, `resume`, and `cancel` functions on the `uploadData` output. See [the v6 Storage documentation](/[platform]/build-a-backend/storage/upload/#pause-and-resume-upload) for details.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
@@ -268,9 +268,9 @@ The `progressCallback` option has been replaced by `onProgress` in v6. Note that
 
 ## Storage.get
 
-Content options (`contentDisposition`, `contentLanguage`, `contentEncoding`, and `contentType`) are no longer supported in the `get` API as they override options selected on `upload` and have caused complexity in implementation.
+The `Storage.get` API has been separated into two API's in v6, `getURL` and `downloadData`, to better align with 
 
-The `get` API has been separated into two API's in v6 (`downloadData` and `getURL`), so this option is obsolete.
+Content options (`contentDisposition`, `contentLanguage`, `contentEncoding`, and `contentType`) are no longer supported in the `get` API as they override options selected on `upload` and have caused complexity in implementation.
 
 The following response keys inherited from AWS SDK in v5 have been deemed non-critical and have been removed from the API output in v6:
 
@@ -465,7 +465,6 @@ The following response keys inherited from AWS SDK in v5 have been deemed non-cr
     import { getUrl } from 'aws-amplify/storage';
 
     const handleGetUrl = async (key: string) => {
-      // Generate a file download url with check if the file exists in the S3 bucket
       const url = await getUrl({
         key,
         options: {
@@ -481,7 +480,6 @@ The following response keys inherited from AWS SDK in v5 have been deemed non-cr
     import { Storage } from 'aws-amplify';
 
     const handleGetUrl = async (key: string) => {
-      // Generate a file download url with check if the file exists in the S3 bucket
       const url = await Storage.get(key, {
         validateObjectExistence: true
       });
@@ -922,22 +920,27 @@ The following response keys inherited from AWS SDK in v5 have been deemed non-cr
     ```ts
     import { list } from 'aws-amplify/storage';
 
-    const handleList = async (
-      prefix: string, 
-      accessLevel: string,
-      id: string
-    ) => {
-      const result = Storage.list({
-        prefix,
-        options: {
-          // accessLevel and targetIdentityId not required if accessLevel is 'guest'
-          accessLevel,
-          targetIdentityId: id
+    const PAGE_SIZE = 20;
+    let nextToken = undefined;
+    let hasNextPage = true;
+    
+    const loadNextPage = async () => {
+      if (hasNextPage) {
+        let response = await list({
+          options: {
+            pageSize: PAGE_SIZE,
+            nextToken: nextToken
+          }
+        });
+        if (response.nextToken) {
+          nextToken = response.nextToken;
+        } else {
+          nextToken = undefined;
+          hasNextPage = false;
         }
-      });
-      const { items } = result;
-      const nextToken = result.nextToken || null;
-    }
+        // render list items from response.results
+      }
+    };
     ```
 
   </Block>
@@ -945,19 +948,25 @@ The following response keys inherited from AWS SDK in v5 have been deemed non-cr
     ```ts
     import { Storage } from 'aws-amplify';
 
-    const handleList = async (
-      prefix: string, 
-      accessLevel: string,
-      id: string
-    ) => {
-      const result = Storage.list(prefix, {
-        // level and identityId not required if level is 'public'
-        level: accessLevel,
-        identityId: id
-      });
-      const { results } = result;
-      const nextToken = result.nextToken || null;
-    }
+    const PAGE_SIZE = 20;
+    let nextToken = undefined;
+    let hasNextPage = true;
+    
+    const loadNextPage = async () => {
+      if (hasNextPage) {
+        let response = await Storage.list('', {
+          pageSize: PAGE_SIZE,
+          nextToken: nextToken
+        });
+        if (response.hasNextToken) {
+          nextToken = response.nextToken;
+        } else {
+          nextToken = undefined;
+          hasNextPage = false;
+        }
+        // render list items from response.results
+      }
+    };
     ```
 
   </Block>
