@@ -130,9 +130,9 @@ async function currentSession() {
 </Block>
 </BlockSwitcher>
 
-### Refresh session
+### Refreshing sessions
 
-The `fetchAuthSession` API will auto refresh the user's session when tokens have expired and there is a valid `refreshToken`. Additionally, you can also refresh the session by calling the `fetchAuthSession` API with the `forceRefresh` flag enabled. 
+The `fetchAuthSession` API will automatically refresh the user's session when tokens have expired and there is a valid `refreshToken`. Additionally, you can also refresh the session by calling the `fetchAuthSession` API with the `forceRefresh` flag enabled. 
 
 ```ts
 import { fetchAuthSession } from 'aws-amplify/auth';
@@ -147,7 +147,7 @@ async function currentSession() {
 }
 ```
 
-### Refresh session with social providers
+### Refreshing sessions with social providers
 
 To refresh the user's session when authenticating with a social provider, you need to use the `code grant` oauth flow in your Amplify configuration.
 
@@ -169,7 +169,7 @@ Amplify.configure({
 
 <Callout>
 
-**Note:** refresh session with social providers will not work when the user has authenticated with a `token` oauth flow, e.g `{ responseType: 'token' }`.
+**Note:** refreshing sessions with social providers will not work when the user has authenticated with a `token` OAuth flow, e.g `{ responseType: 'token' }`.
 
 </Callout>
 
