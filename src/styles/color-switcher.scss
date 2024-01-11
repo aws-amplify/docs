@@ -21,12 +21,12 @@
       margin-inline-start: auto;
     }
     &:hover {
-      background-color: var(--amplify-colors-brand-primary-10);
+      background-color: var(--amplify-colors-primary-10);
     }
   }
   .amplify-togglebutton--pressed {
     color: var(--amplify-colors-font-primary);
     border-color: var(--amplify-colors-neutral-100);
-    background-color: var(--amplify-colors-brand-primary-10);
+    background-color: var(--amplify-colors-primary-10);
   }
 }
