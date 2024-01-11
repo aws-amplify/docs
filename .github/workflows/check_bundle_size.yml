@@ -6,22 +6,24 @@ jobs:
   checkBundleSizeChange:
     permissions:
       pull-requests: read
-    name: Check whether PR increases bundle size more than 5%
+    name: Check whether PR increases bundle size
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main branch
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0 https://github.com/actions/checkout/commit/f43a0e5ff2bd294095638e18286ca9a3d1956744
         with:
-          ref: main
+          ref: ${{ github.base_ref }}
       - name: Setup Node.js 20
         uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1 https://github.com/actions/setup-node/commit/5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d
         with:
           node-version: 20.x
       - name: Install dependencies
         run: yarn
+      - name: Run prebuild
+        run: yarn prebuild
       - name: Run build and analyze base bundle sizes
         env:
-          CURRENT_BRANCH: ${{ github.base_ref }}
+          CURRENT_BRANCH: main
           CURRENT_REPO: ${{ github.repository }}
           NODE_OPTIONS: --max_old_space_size=4096
         run: ANALYZE=true yarn next-build
@@ -43,6 +45,8 @@ jobs:
           node-version: 20.x
       - name: Install dependencies
         run: yarn
+      - name: Run prebuild
+        run: yarn prebuild
       - name: Run build and analyze head bundle sizes
         env:
           CURRENT_BRANCH: ${{ github.head_ref }}
@@ -67,6 +71,6 @@ jobs:
             const baseBundles = ${{ steps.base-bundle-sizes.outputs.result }}
             const headBundles = ${{ steps.head-bundle-sizes.outputs.result }}
             return await compareBundles(baseBundles, headBundles)
-      - name: Fail if bundle size growth exceeds 5% on any of the selected pages
+      - name: Fail if bundle size increases
         if: ${{ steps.compare-bundles.outputs.result > 0 }}
         run: exit 1

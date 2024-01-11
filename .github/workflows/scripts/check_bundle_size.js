@@ -1,14 +1,15 @@
 module.exports = {
   checkBundleSize: () => {
+    console.log('are you there god, its me, console.log')
     const fs = require('fs');
     const jsonString = fs.readFileSync('.github/analyze/bundles.json');
     const data = JSON.parse(jsonString);
     const pagesToCheck = [
       '/',
-      '/cli/start/install',
-      '/lib/auth/getting-started/q/platform/[platform]',
-      '/start',
-      '/cli'
+      '/[platform]/tools/cli/start/set-up-cli',
+      '/[platform]/build-a-backend/auth/set-up-auth',
+      '/[platform]/start',
+      '/[platform]/tools/cli'
     ];
     const bundleSizes = [];
     data.pages.filter((page) => {
@@ -24,6 +25,7 @@ module.exports = {
         });
       }
     });
+    console.log(bundleSizes)
     return bundleSizes;
   },
 
@@ -33,15 +35,23 @@ module.exports = {
       headBundles.forEach((headPage) => {
         if (
           basePage.page == headPage.page &&
-          basePage.parsedSize * 1.05 < headPage.parsedSize
+          basePage.parsedSize < headPage.parsedSize
         ) {
-          fails.push(basePage.page);
+          const fail = {
+            page: basePage.page,
+            baseSize: basePage.parsedSize,
+            headSize: headPage.parsedize
+          }
+          fails.push(fail);
         }
       });
     });
-    console.log(
-      `The bundle size of ${fails} increased by more than 5% with this PR`
-    );
+
+    if (fails.length > 0) {
+      console.log(
+        `The bundle size of ${fails.page} increased from ${fails.baseSize} to ${fails.headSize} with this PR`
+      );
+    }
     return fails.length;
   }
 };
