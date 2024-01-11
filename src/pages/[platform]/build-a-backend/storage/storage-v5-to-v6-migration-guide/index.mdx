@@ -530,7 +530,6 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
     const { body, eTag } = await downloadData({
       key,
       options: {
-        accessLevel: 'guest',
         onProgress: ({ transferredBytes, totalBytes }) => {
           // Progress implementation
         }
@@ -547,7 +546,9 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
     const handleDownload = async (key: string) => {
       const { Body, ETag } = await Storage.get(key, {
         download: true,
-        validateObjectExistence: true
+        progressCallback: ({ loaded, total }) => {
+          // Progress implementation
+        }
       });
     }
     ```
