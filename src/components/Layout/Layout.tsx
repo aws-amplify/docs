@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ReactElement } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
@@ -63,7 +63,7 @@ export const Layout = ({
   url,
   useCustomTitle = false
 }: {
-  children: React.ReactNode;
+  children: ReactElement;
   hasTOC?: boolean;
   pageDescription?: string;
   pageTitle?: string;
