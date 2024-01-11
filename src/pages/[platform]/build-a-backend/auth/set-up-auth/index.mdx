@@ -319,9 +319,9 @@ Creating the sign-in flow can be quite difficult and time-consuming to get right
 
 Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter. In this guide, we are focusing on those for web applications.
 
-<BlockSwitcher>
-<Block name="React">
+<MultiAccordion>
 
+<AccordionItem name="React">
 First, install the `@aws-amplify/ui-react` library as well as `aws-amplify` if you have not already:
 
 ```sh
@@ -385,8 +385,10 @@ export default withAuthenticator(App);
 </Block>
 </BlockSwitcher>
 
-</Block>
-<Block name="Vue 3">
+</AccordionItem>
+
+<AccordionItem name="Vue 3">
+
 
 First, install the `@aws-amplify/ui-vue` library as well as `aws-amplify` if you have not already:
 
@@ -420,8 +422,10 @@ The `Authenticator` component offers a simple way to add authentication flows in
 </template>
 ```
 
-</Block>
-<Block name="Vue 2">
+</AccordionItem>
+
+<AccordionItem name="Vue 2">
+
 
 First, install the `@aws-amplify/ui-components` library as well as `aws-amplify` if you have not already:
 
@@ -463,8 +467,10 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </template>
 ```
 
-</Block>
-<Block name="Angular">
+</AccordionItem>
+
+<AccordionItem name="Angular">
+
 
 First, install the `@aws-amplify/ui-angular` library as well as `aws-amplify` if you have not already:
 
@@ -518,8 +524,10 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </amplify-authenticator>
 ```
 
-</Block>
-</BlockSwitcher>
+</AccordionItem>
+
+</MultiAccordion>
+
 
 Once you add the Authenticator component to your app, you can test the sign-up, sign-in, and sign-out functionality. You can also [customize the Authenticator UI component](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization) to adjust colors and styling as needed.
 
