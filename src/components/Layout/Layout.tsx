@@ -95,7 +95,6 @@ export const Layout = ({
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
 
   const handleColorModeChange = (mode: ColorMode) => {
-    console.log('mode: ', mode);
     setColorMode(mode);
     if (mode !== 'system') {
       localStorage.setItem('colorMode', mode);
