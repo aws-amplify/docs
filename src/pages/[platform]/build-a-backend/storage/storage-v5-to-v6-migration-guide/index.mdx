@@ -498,12 +498,7 @@ The `Storage.get` API has been separated into two API's in v6, `getURL` and `dow
     import { downloadData } from 'aws-amplify/storage';
 
     const handleDownload = async (key: string) => {
-      const { body, eTag } = await downloadData({
-        key,
-        options: {
-          accessLevel: 'guest'
-        }
-      }).result;
+      const { body, eTag } = await downloadData({ key }).result;
     }
     ```
 
@@ -514,11 +509,7 @@ The `Storage.get` API has been separated into two API's in v6, `getURL` and `dow
 
     const handleDownload = async (key: string) => {
       const { Body, ETag } = await Storage.get(key, {
-        download: true,
-        validateObjectExistence: true,
-        progressCallback: ({ loaded, total }) => {
-          // Progress implementation
-        }
+        download: true
       });
     }
     ```
