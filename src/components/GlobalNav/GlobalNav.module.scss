@@ -12,11 +12,11 @@
   --navbar-border-color: var(--amplify-colors-neutral-20);
   --navbar-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   --navbar-padding-inline: var(--amplify-space-medium);
-  --navbar-current-property-color: var(--amplify-colors-brand-primary-60);
+  --navbar-current-property-color: var(--amplify-colors-primary-60);
   --nav-menu-item-border-width: 2px;
   --nav-menu-item-color: var(--amplify-colors-neutral-100);
   --nav-menu-item-active-color: var(--amplify-colors-neutral-100);
-  --nav-menu-item-hover-color: var(--amplify-colors-brand-primary-60);
+  --nav-menu-item-hover-color: var(--amplify-colors-primary-60);
   --nav-menu-item-mobile-padding-block: var(--amplify-space-xs);
   --nav-menu-item-mobile-padding-inline: var(--amplify-space-large);
   --nav-menu-item-padding-inline: var(--amplify-space-xs);
@@ -207,7 +207,7 @@
     padding-inline: 10px;
   }
   .current-nav-menu-item {
-    color: var(--amplify-colors-brand-primary-80);
+    color: var(--amplify-colors-primary-80);
 
     position: relative;
   }
@@ -222,7 +222,7 @@
     right: var(--nav-menu-item-padding-inline);
   }
   .current-nav-menu-item:visited {
-    color: var(--amplify-colors-brand-primary-80);
+    color: var(--amplify-colors-primary-80);
   }
   .current-nav-menu-item:hover {
     color: var(--nav-menu-item-color);

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ReactElement } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
@@ -63,7 +63,7 @@ export const Layout = ({
   url,
   useCustomTitle = false
 }: {
-  children: React.ReactNode;
+  children: ReactElement;
   hasTOC?: boolean;
   pageDescription?: string;
   pageTitle?: string;
@@ -91,12 +91,15 @@ export const Layout = ({
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
-  const showNextPrev = NEXT_PREVIOUS_SECTIONS.some((section) => {
-    return (
-      asPathWithNoHash.includes(section) && !asPathWithNoHash.endsWith(section)
-    );
-  });
-
+  const isOverview =
+    children?.props?.childPageNodes?.length != 'undefined' &&
+    children?.props?.childPageNodes?.length > 0;
+  const showNextPrev = NEXT_PREVIOUS_SECTIONS.some(
+    (section) =>
+      asPathWithNoHash.includes(section) &&
+      !asPathWithNoHash.endsWith(section) &&
+      !isOverview
+  );
   if (!isGen2) {
     // [platform] will always be the very first subpath right?
     // when using `router.asPath` it returns a string that starts with a '/'
