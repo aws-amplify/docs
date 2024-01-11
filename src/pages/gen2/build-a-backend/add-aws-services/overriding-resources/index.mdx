@@ -49,7 +49,7 @@ const backend = defineBackend({
   auth
 });
 
-const userPool = backend.resources.auth.resources.userPool as UserPool;
+const userPool = backend.auth.resources.userPool as UserPool;
 userPool.applyRemovalPolicy(RemovalPolicy.RETAIN_ON_UPDATE_OR_DELETE);
 ```
 
@@ -79,9 +79,8 @@ const backend = defineBackend({
   demoFunction
 });
 
-const userPool = backend.resources.auth.resources.userPool as UserPool;
-const lambdaFunction = backend.resources.demoFunction.resources
-  .lambda as Function;
+const userPool = backend.auth.resources.userPool as UserPool;
+const lambdaFunction = backend.demoFunction.resources.lambda as Function;
 
 // grant the lambdaFunction read access to users
 userPool.grant(lambdaFunction, 'cognito:GetUser', 'cognito:ListUsers');
@@ -103,7 +102,7 @@ const backend = defineBackend({
 });
 
 // override user pool password policies
-backend.resources.auth.resources.cfnResources.cfnUserPool.addPropertyOverride(
+backend.auth.resources.cfnResources.cfnUserPool.addPropertyOverride(
   'Policies',
   {
     PasswordPolicy: {
@@ -136,19 +135,16 @@ const backend = defineBackend({
   data
 });
 
-backend.resources.data.resources.cfnResources.cfnGraphqlApi.addPropertyOverride(
-  'Tags',
-  [
-    {
-      Key: 'graphqlapi-tag-1',
-      Value: 'graphql-tag-value-1'
-    },
-    {
-      Key: 'graphqlapi-tag-2',
-      Value: 'graphql-tag-value-2'
-    }
-  ]
-);
+backend.data.resources.cfnResources.cfnGraphqlApi.addPropertyOverride('Tags', [
+  {
+    Key: 'graphqlapi-tag-1',
+    Value: 'graphql-tag-value-1'
+  },
+  {
+    Key: 'graphqlapi-tag-2',
+    Value: 'graphql-tag-value-2'
+  }
+]);
 ```
 
 For situations where you need even more customization of your app backend, see the documentation on [custom resources](/gen2/build-a-backend/add-aws-services/custom-resources).

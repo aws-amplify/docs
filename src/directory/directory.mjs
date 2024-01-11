@@ -473,7 +473,7 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/existing-resources/cli/index.mdx'
-                }     
+                }
               ]
             },
             {
@@ -1627,7 +1627,7 @@ export const directory = {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/set-up-geo/index.mdx'
                         },
                         {
-                          path: 'src/pages/[platform]/build-a-backend/more-features/geo/configure-maps/index.mdx'
+                          path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/configure-maps/index.mdx'
                         },
                         {
                           path: 'src/pages/[platform]/prev/build-a-backend/more-features/geo/maps/index.mdx'
@@ -1928,7 +1928,15 @@ export const directory = {
           path: 'src/pages/gen2/start/index.mdx',
           children: [
             {
-              path: 'src/pages/gen2/start/quickstart/index.mdx'
+              path: 'src/pages/gen2/start/quickstart/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/gen2/start/quickstart/nextjs-pages-router/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/start/quickstart/nextjs-app-router/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/gen2/start/account-setup/index.mdx'

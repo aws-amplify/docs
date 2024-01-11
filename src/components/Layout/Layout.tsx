@@ -93,11 +93,6 @@ export const Layout = ({
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
-  const showNextPrev = NEXT_PREVIOUS_SECTIONS.some((section) => {
-    return (
-      asPathWithNoHash.includes(section) && !asPathWithNoHash.endsWith(section)
-    );
-  });
 
   const handleColorModeChange = (mode: ColorMode) => {
     console.log('mode: ', mode);
@@ -108,6 +103,17 @@ export const Layout = ({
       localStorage.removeItem('colorMode');
     }
   };
+
+  const isOverview =
+    children?.props?.childPageNodes?.length != 'undefined' &&
+    children?.props?.childPageNodes?.length > 0;
+
+  const showNextPrev = NEXT_PREVIOUS_SECTIONS.some(
+    (section) =>
+      asPathWithNoHash.includes(section) &&
+      !asPathWithNoHash.endsWith(section) &&
+      !isOverview
+  );
 
   if (!isGen2) {
     // [platform] will always be the very first subpath right?
