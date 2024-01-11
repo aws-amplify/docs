@@ -319,8 +319,23 @@ Creating the sign-in flow can be quite difficult and time-consuming to get right
 
 Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter. In this guide, we are focusing on those for web applications.
 
-<BlockSwitcher>
-<Block name="React">
+<InlineFilter filters={['javascript']}>
+
+[Skip to React](#for-react)
+
+[Skip to Vue](#for-vue)
+
+[Skip to Angular](#for-angular)
+
+</InlineFilter>
+
+<InlineFilter filters={['javascript']}>
+
+### For react
+
+</InlineFilter>
+
+<InlineFilter filters={['javascript', 'react']}>
 
 First, install the `@aws-amplify/ui-react` library as well as `aws-amplify` if you have not already:
 
@@ -385,7 +400,18 @@ export default withAuthenticator(App);
 </Block>
 </BlockSwitcher>
 
-</Block>
+</InlineFilter>
+
+<InlineFilter filters={['javascript']}>
+
+### For Vue
+
+</InlineFilter>
+
+<InlineFilter filters={['vue', 'javascript']}>
+
+<BlockSwitcher>
+
 <Block name="Vue 3">
 
 First, install the `@aws-amplify/ui-vue` library as well as `aws-amplify` if you have not already:
@@ -464,7 +490,18 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 ```
 
 </Block>
-<Block name="Angular">
+</BlockSwitcher>
+
+</InlineFilter>
+
+
+<InlineFilter filters={['javascript']}>
+
+### For Angular
+
+</InlineFilter>
+
+<InlineFilter filters={['angular', 'javascript']}>
 
 First, install the `@aws-amplify/ui-angular` library as well as `aws-amplify` if you have not already:
 
@@ -518,8 +555,8 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </amplify-authenticator>
 ```
 
-</Block>
-</BlockSwitcher>
+</InlineFilter>
+
 
 Once you add the Authenticator component to your app, you can test the sign-up, sign-in, and sign-out functionality. You can also [customize the Authenticator UI component](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization) to adjust colors and styling as needed.
 
