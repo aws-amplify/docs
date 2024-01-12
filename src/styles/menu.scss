@@ -23,7 +23,7 @@
     }
 
     &__link {
-      color: inherit;
+      color: var(--amplify-colors-font-primary);
       text-decoration: none;
 
       &:focus {

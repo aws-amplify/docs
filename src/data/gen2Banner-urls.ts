@@ -257,4 +257,4 @@ export const GEN2BANNER_URLS = [
   '/react/tools/libraries/',
   '/nextjs/tools/libraries/',
   '/vue/tools/libraries/'
-  ];
+];

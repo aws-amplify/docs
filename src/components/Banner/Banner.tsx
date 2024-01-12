@@ -33,6 +33,7 @@ export const Banner: React.FC<BannerProps> = ({ url = '/gen2' }) => {
             size="small"
             gap="small"
             target="_blank"
+            colorTheme="overlay"
             rel="noopener noreferrer"
             className="message-banner__button"
           >
