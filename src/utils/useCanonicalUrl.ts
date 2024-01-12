@@ -8,7 +8,7 @@ export function useCanonicalUrl(meta, currentPlatform: string): string {
 
   // Check to see if it's a generic canonical Url that can be found in our list of canonical Urls.
   canonicalUrlPath = CANONICAL_URLS.includes(canonicalUrlPath)
-    ? router.pathname.replace('[platform]', 'javascript')
+    ? canonicalUrlPath.replace('[platform]', 'javascript')
     : canonicalUrlPath;
 
   // If it's not found then just use the current platform (this is essentially the current Url)
