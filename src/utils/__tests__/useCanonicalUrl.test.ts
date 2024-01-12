@@ -29,17 +29,6 @@ describe('useCanonicalUrl', () => {
 
   it('should use custom canonical Url for generic platform if it exists', () => {
     const meta = {
-      platforms: [
-        'javascript',
-        'react-native',
-        'flutter',
-        'swift',
-        'android',
-        'angular',
-        'nextjs',
-        'react',
-        'vue'
-      ],
       canonicalUrl: '/[platform]/build-a-backend/auth/app-uninstall'
     };
 
@@ -50,17 +39,6 @@ describe('useCanonicalUrl', () => {
 
   it('should use the canonical object from the mdx if it exists', () => {
     const meta = {
-      platforms: [
-        'javascript',
-        'react-native',
-        'flutter',
-        'swift',
-        'android',
-        'angular',
-        'nextjs',
-        'react',
-        'vue'
-      ],
       canonicalObjects: [
         {
           platforms: ['vue', 'angular', 'javascript'],
@@ -85,6 +63,51 @@ describe('useCanonicalUrl', () => {
     );
     expect(vueResult.current).toEqual(
       '/javascript/build-a-backend/auth/add-social-provider/'
+    );
+  });
+
+  it("should use router.pathname with the current platform if the router.pathname doesn't exist in the canonical url list and has no custom canonical urls", () => {
+    const meta = {};
+
+    routerMock.useRouter = () => {
+      return {
+        pathname: '/[platform]/build-a-backend/auth/add-social-provider/'
+      };
+    };
+
+    const { result } = renderHook(() => useCanonicalUrl(meta, 'react'));
+
+    expect(result.current).toEqual(
+      '/react/build-a-backend/auth/add-social-provider/'
+    );
+  });
+
+  it("should use router.pathname as canonical url if it doesn't exist in the canonical objects", () => {
+    const meta = {
+      canonicalObjects: [
+        {
+          platforms: ['vue', 'angular', 'javascript'],
+          canonicalPath: '/javascript/build-a-backend/auth/add-social-provider/'
+        },
+        {
+          platforms: ['react', 'nextjs'],
+          canonicalPath: '/react/build-a-backend/auth/add-social-provider/'
+        }
+      ]
+    };
+
+    routerMock.useRouter = () => {
+      return {
+        pathname: '/[platform]/build-a-backend/auth/add-social-provider/'
+      };
+    };
+
+    // Here the current platform is "android", but it's not listed in the canonical object above.
+    // This pathname is not in the canonical url list either.
+    const { result } = renderHook(() => useCanonicalUrl(meta, 'android'));
+
+    expect(result.current).toEqual(
+      '/android/build-a-backend/auth/add-social-provider/'
     );
   });
 });
