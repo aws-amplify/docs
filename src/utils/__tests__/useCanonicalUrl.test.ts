@@ -75,10 +75,18 @@ describe('useCanonicalUrl', () => {
       ]
     };
 
-    const { result } = renderHook(() => useCanonicalUrl(meta, '', 'react'));
+    const { result: reactResult } = renderHook(() =>
+      useCanonicalUrl(meta, '', 'react')
+    );
+    const { result: vueResult } = renderHook(() =>
+      useCanonicalUrl(meta, '', 'vue')
+    );
 
-    expect(result.current).toEqual(
+    expect(reactResult.current).toEqual(
       '/react/build-a-backend/auth/add-social-provider/'
+    );
+    expect(vueResult.current).toEqual(
+      '/javascript/build-a-backend/auth/add-social-provider/'
     );
   });
 });
