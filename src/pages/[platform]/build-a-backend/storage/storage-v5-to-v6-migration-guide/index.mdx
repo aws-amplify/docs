@@ -32,7 +32,7 @@ The input options below have been removed in v6 from Storage APIs:
 - `track`: _Auto-tracking Storage events in pinpoint is Deprecated in V6. You can track Storage events [using the Analytics category](/[platform]/build-a-backend/more-features/analytics/record-events/)._
 - `ServerSideEncryption`, `SSECustomerAlgorithm`, `SSECustomerKey`, `SSECustomerKeyMD5`, and `SSEKMSKeyId`: _These options have been deprecated due to low usage and added complexity: Server-Side Encryption has been automatically applied using default keys by S3 [since Jan 2023](https://aws.amazon.com/blogs/aws/amazon-s3-encrypts-new-objects-by-default/)._
 - `cacheControl`: _This option has been removed and now defers to the HTTP caching behavior configured by the runtime._
-- `$metadata`: _Information like `httpStatusCode` and `attempts` will be provided in an upcoming release via category-level debug logs._
+- `$metadata`: _Debugging information like `httpStatusCode` and `attempts` will be reintroduced in an upcoming release focused on changes to logging._
 - `bucket`: _The `bucket` is required for `Storage` configuration and has therefore been removed from input options._
 
 >Note: We have remapped all capitalized input and output keys to camel case in v6.
