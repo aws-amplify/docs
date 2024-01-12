@@ -27,9 +27,9 @@ This guide will help you migrate Amplify JavaScript v5's Storage APIs to the new
 
 The input options below have been removed in Amplify JavaScript v6 from Storage APIs:
 
-- `provider`: _Custom providers are no longer supported in v6._
+- `provider`: _Custom providers are no longer supported in v6. All v5 examples below use the input/output values expected for the default S3 Provider._
 - `customPrefix`: _You can [add a prefix resolver](/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path) to your Storage Config to customize the key prefix per accessLevel. See the [Using a Custom Prefix](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#using-a-custom-prefix) header for migration details._
-- `track`: _Tracking Storage events in Hub is not yet supported in v6._
+- `track`: _Auto-tracking Storage events in pinpoint has been removed in V6. You can track Storage events [using the Analytics category](/[platform]/build-a-backend/more-features/analytics/record-events/)._
 - `ServerSideEncryption`, `SSECustomerAlgorithm`, `SSECustomerKey`, `SSECustomerKeyMD5`, and `SSEKMSKeyId`: _These options have been deprecated because Server-Side Encryption is automatically applied using default keys by S3 [since Jan 2023](https://aws.amazon.com/blogs/aws/amazon-s3-encrypts-new-objects-by-default/)._
 - `cacheControl`: _This option has been removed and now defers to the HTTP caching behavior configured by the runtime._
 - `$metadata`: _Information like `httpStatusCode` and `attempts` will be provided in an upcoming release via debug messages using [the Console Logger](/[platform]/build-a-backend/utilities/console-logger/)._
@@ -55,56 +55,55 @@ The `Storage.put` API has been renamed to `uploadData` in v6. There are a few ch
       // AWSS3 (Default) Provider
       key: string
       object: {
-        ACL?: string; // Not supported in v6
-        CacheControl?: string;
+        ACL?: string; // removed in V6
+        CacheControl?: string; // removed in V6
         ContentDisposition? string;
         ContentEncoding?: string;
         ContentMD5?: string;
         ContentType?: string;
-        Expires?: Date;
+        Expires?: Date; // removed in V6
         Metadata?: Record<string, string>;
-        ServerSideEncryption?: string; // Not supported in v6
-        SSECustomerAlgorithm?: string; // Not supported in v6
-        SSECustomerKey?: string; // Not supported in v6
-        SSECustomerKeyMD5?: string; // Not supported in v6
-        SSEKMSKeyId?: string; // Not supported in v6
+        ServerSideEncryption?: string; // removed in V6
+        SSECustomerAlgorithm?: string; // removed in V6
+        SSECustomerKey?: string; // removed in V6
+        SSECustomerKeyMD5?: string; // removed in V6
+        SSEKMSKeyId?: string; // removed in V6
         Bucket: string;
         Key: string;
         Body?: string | ReadableStream<any> | Blob | Uint8Array | Buffer;
-        Tagging?: string; // Not supported in v6
+        Tagging?: string; // removed in V6
       }
       // non-resumable config
       config?: {
         level?: 'public' | 'protected' | 'private';
-        provider?: string;
-        customPrefix?: {
+        provider?: string; // removed in V6
+        customPrefix?: { // removed in V6
           private?: string;
           public?: string;
           protected?: string;
         };
-        track?: boolean; // Not yet supported in V6
+        track?: boolean; // removed in V6
         progressCallback?: (progress: any) => any;
-        serverSideEncryption?: string; // Not supported in v6
-        SSECustomerAlgorithm?: string; // Not supported in v6
-        SSECustomerKey?: string; // Not supported in v6
-        SSECustomerKeyMD5?: string; // Not supported in v6
-        SSEKMSKeyId?: string; // Not supported in v6
-        acl?: string; // Not supported in v6
+        serverSideEncryption?: string; // removed in V6
+        SSECustomerAlgorithm?: string; // removed in V6
+        SSECustomerKey?: string; // removed in V6
+        SSECustomerKeyMD5?: string; // removed in V6
+        SSEKMSKeyId?: string; // removed in V6
+        acl?: string; // removed in V6
         bucket?: string;
-        cacheControl?: string;
+        cacheControl?: string; // removed in V6
         contentDisposition?: string;
         contentEncoding?: string;
         contentType?: string;
         expires?: Date;
         metadata?: Record<string, string>;
-        tagging?: string; // Not supported in v6
+        tagging?: string; // removed in V6
         useAccelerateEndpoint?: boolean;
-        resumable?: boolean;
+        resumable?: boolean; // Not required in v6: all put operations are resumable
       }
       // resumable config
       config?:  {
         // All of the standard config above plus
-        resumable: true; // More specific than resumable above
         progressCallback?: (progress: {
           loaded: number;
           total: number;
@@ -146,12 +145,17 @@ The `Storage.put` API has been renamed to `uploadData` in v6. There are a few ch
       **V5**
 
       ```
-      S3ProviderGetPropertiesOutput {
-        contentType: string;
-        contentLength: number;
-        eTag: string;
-        lastModified: Date;
-        metadata: Record<string, string>;
+      // Resumable
+      StoragePutOutput {
+        resume(): any;
+        pause(): any;
+        percent: number;
+        isInProgress: boolean;
+      }
+
+      // Non-resumable
+      StoragePutOutput {
+        key: string;
       };
       ```
 
@@ -301,29 +305,29 @@ The `Storage.get` API has been separated into two APIs in v6, `getURL` and `down
       **V5**
 
       ```
-      // Assumes default provider 'AWSS3': custom provider not supported in v6
+      // Assumes default provider 'AWSS3': custom provider Deprecated in V6
       key: string
       options: {
         level?: 'public' | 'protected' | 'private';
         provider?: 'AWSS3';
-        customPrefix?: {
+        customPrefix?: { // removed in V6
           private?: string;
           public?: string;
           protected?: string;
         };
-        track?: boolean; // Not supported in v6
-        download?: boolean; // Not supported in v6
+        track?: boolean; // removed in V6
+        download?: boolean; // removed in V6
         expires?: number;
         identityId?: string;
         progressCallback?: (progress: any) => any;
-        cacheControl?: string;
-        contentDisposition?: string; // Not supported in v6
-        contentEncoding?: string; // Not supported in v6
-        contentLanguage?: string; // Not supported in v6
-        contentType?: string; // Not supported in v6
-        SSECustomerAlgorithm?: string;
-        SSECustomerKey?: string;
-        SSECustomerKeyMD5?: string;
+        cacheControl?: string; // removed in V6
+        contentDisposition?: string; // removed in V6
+        contentEncoding?: string; // removed in V6
+        contentLanguage?: string; // removed in V6
+        contentType?: string; // removed in V6
+        SSECustomerAlgorithm?: string; // removed in V6
+        SSECustomerKey?: string; // removed in V6
+        SSECustomerKeyMD5?: string; // removed in V6
         validateObjectExistence?: boolean;
       };
       ```
@@ -378,42 +382,42 @@ The `Storage.get` API has been separated into two APIs in v6, `getURL` and `down
       // download: true
       S3ProviderGetOutput {
         Body?: Blob;
-        DeleteMarker?: boolean;
-        AcceptRanges?: string;
-        Expiration?: string;
-        Restore?: string;
+        DeleteMarker?: boolean; // removed in V6
+        AcceptRanges?: string; // removed in V6
+        Expiration?: string; // removed in V6
+        Restore?: string; // removed in V6
         LastModified?: Date;
         ContentLength?: number;
         ETag?: string;
-        ChecksumCRC32?: string;
-        ChecksumCRC32C?: string;
-        ChecksumSHA1?: string;
-        ChecksumSHA256?: string;
-        MissingMeta?: number;
-        VersionId?: string;
-        CacheControl?: string;
-        ContentDisposition?: string;
-        ContentEncoding?: string;
-        ContentLanguage?: string;
-        ContentRange?: string;
+        ChecksumCRC32?: string; // removed in V6
+        ChecksumCRC32C?: string; // removed in V6
+        ChecksumSHA1?: string; // removed in V6
+        ChecksumSHA256?: string; // removed in V6
+        MissingMeta?: number; // removed in V6
+        VersionId?: string; // removed in V6
+        CacheControl?: string; // removed in V6
+        ContentDisposition?: string; // removed in V6
+        ContentEncoding?: string; // removed in V6
+        ContentLanguage?: string; // removed in V6
+        ContentRange?: string; // removed in V6
         ContentType?: string;
-        Expires?: Date;
-        WebsiteRedirectLocation?: string;
-        ServerSideEncryption?: ServerSideEncryption | string;
+        Expires?: Date; // removed in V6
+        WebsiteRedirectLocation?: string; // removed in V6
+        ServerSideEncryption?: ServerSideEncryption | string; // removed in V6
         Metadata?: Record<string, string>;
-        SSECustomerAlgorithm?: string;
-        SSECustomerKeyMD5?: string;
-        SSEKMSKeyId?: string;
-        BucketKeyEnabled?: boolean;
-        StorageClass?: StorageClass | string;
-        RequestCharged?: RequestCharged | string;
-        ReplicationStatus?: ReplicationStatus | string;
-        PartsCount?: number;
-        TagCount?: number;
-        ObjectLockMode?: ObjectLockMode | string;
-        ObjectLockRetainUntilDate?: Date;
-        ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus | string;
-        $metadata: {
+        SSECustomerAlgorithm?: string; // removed in V6
+        SSECustomerKeyMD5?: string; // removed in V6
+        SSEKMSKeyId?: string; // removed in V6
+        BucketKeyEnabled?: boolean; // removed in V6
+        StorageClass?: StorageClass | string; // removed in V6
+        RequestCharged?: RequestCharged | string; // removed in V6
+        ReplicationStatus?: ReplicationStatus | string; // removed in V6
+        PartsCount?: number; // removed in V6
+        TagCount?: number; // removed in V6
+        ObjectLockMode?: ObjectLockMode | string; // removed in V6
+        ObjectLockRetainUntilDate?: Date; // removed in V6
+        ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus | string; // removed in V6
+        $metadata: { // removed in V6
           httpStatusCode?: number;
           requestId?: string
         }
@@ -498,12 +502,7 @@ The `Storage.get` API has been separated into two APIs in v6, `getURL` and `down
     import { downloadData } from 'aws-amplify/storage';
 
     const handleDownload = async (key: string) => {
-      const { body, eTag } = await downloadData({
-        key,
-        options: {
-          accessLevel: 'guest'
-        }
-      }).result;
+      const { body, eTag } = await downloadData({ key }).result;
     }
     ```
 
@@ -514,11 +513,7 @@ The `Storage.get` API has been separated into two APIs in v6, `getURL` and `down
 
     const handleDownload = async (key: string) => {
       const { Body, ETag } = await Storage.get(key, {
-        download: true,
-        validateObjectExistence: true,
-        progressCallback: ({ loaded, total }) => {
-          // Progress implementation
-        }
+        download: true
       });
     }
     ```
@@ -539,7 +534,6 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
     const { body, eTag } = await downloadData({
       key,
       options: {
-        accessLevel: 'guest',
         onProgress: ({ transferredBytes, totalBytes }) => {
           // Progress implementation
         }
@@ -556,7 +550,9 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
     const handleDownload = async (key: string) => {
       const { Body, ETag } = await Storage.get(key, {
         download: true,
-        validateObjectExistence: true
+        progressCallback: ({ loaded, total }) => {
+          // Progress implementation
+        }
       });
     }
     ```
@@ -574,7 +570,7 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
       **V5**
 
       ```
-      // Assumes default provider 'AWSS3': custom provider not supported in v6
+      // Assumes default provider 'AWSS3': custom provider Deprecated in V6
       src: {
         key: string;
         level?: string;
@@ -586,19 +582,19 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
       }
       config?: {
         provider?: 'AWSS3';
-        customPrefix?: {
+        customPrefix?: { // removed in V6
           public?: string;
           protected?: string;
           private?: string;
         };
-        track?: boolean;
+        track?: boolean; // removed in V6
         bucket?: string;
-        cacheControl?: string;
-        contentDisposition?: string;
-        contentLanguage?: string;
-        contentType?: string;
+        cacheControl?: string; // removed in V6
+        contentDisposition?: string; // removed in V6
+        contentLanguage?: string; // removed in V6
+        contentType?: string; // removed in V6
         expires?: Date;
-        tagging?: string;
+        tagging?: string; // removed in V6
         acl?: 
           | 'private' 
           | 'authenticated-read' 
@@ -610,10 +606,10 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
           | string;
         metadata?: Record<string, string>;
         serverSideEncryption?: 'AES256' | 'aws:kms';
-        SSECustomerAlgorithm?: string;
-        SSECustomerKey?: string;
-        SSECustomerKeyMD5?: string;
-        SSEKMSKeyId?: string;
+        SSECustomerAlgorithm?: string; // removed in V6
+        SSECustomerKey?: string; // removed in V6
+        SSECustomerKeyMD5?: string; // removed in V6
+        SSEKMSKeyId?: string; // removed in V6
       }
       ```
 
@@ -704,7 +700,7 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
 
 ## Storage.remove
 
- In addition to [the changes mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the output of the `remove` API in v6 now only returns the `key` of the removed file. `DeleteMarker`, `VersionId`, `RequestCharged`, and `$metadata` have been removed from the output.
+In addition to [the changes mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the output of the `remove` API in v6 now only returns the `key` of the removed file. `DeleteMarker`, `VersionId`, `RequestCharged`, and `$metadata` have been removed from the output.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
@@ -712,17 +708,17 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
       **V5**
 
       ```
-      // Assumes default provider 'AWSS3': custom provider not supported in v6
+      // Assumes default provider 'AWSS3': custom provider Deprecated in V6
       key: string
 		  config?: {
         level?:  'public' | 'protected' | 'private';
         provider?: 'AWSS3';
-        customPrefix?: {
+        customPrefix?: { // removed in V6
           public?: string;
           protected?: string;
           private?: string;
         };
-        track?: boolean;
+        track?: boolean; // removed in V6
         bucket?: string;
       }
       ```
@@ -751,10 +747,10 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
       **V5**
 
       ```
-      DeleteMarker?: boolean;
-      VersionId?: string;
-      RequestCharged?: 'requester' | string;
-      $metadata: {
+      DeleteMarker?: boolean; // removed in V6
+      VersionId?: string; // removed in V6
+      RequestCharged?: 'requester' | string; // removed in V6
+      $metadata: { // removed in V6
         httpStatusCode?: number;
         requestId?: string;
         extendedRequestId?: string;
@@ -823,17 +819,17 @@ There are a few changes in the `list` API from v5 to v6 in addition to [those me
       **V5**
 
       ```
-      // Assumes default provider 'AWSS3': custom provider not supported in v6
+      // Assumes default provider 'AWSS3': custom provider Deprecated in V6
       path: string,
       config?: {
         level?: 'public' | 'protected' | 'private';
         provider?: 'AWSS3';
-        customPrefix?: {
+        customPrefix?: { // removed in V6
           private?: string;
           public?: string;
           protected?: string;
         };
-        track?: boolean; // Not yet supported in V6
+        track?: boolean; // removed in V6
         bucket?: string;
         pageSize?: number | 'ALL';
         identityId?: string;
@@ -886,7 +882,7 @@ There are a few changes in the `list` API from v5 to v6 in addition to [those me
       StorageListOutput {
         results: S3ProviderListOutputItem[];
         nextToken?: string;
-        hasNextToken: boolean;
+        hasNextToken: boolean; // removed in V6
       };
 
       S3ProviderListOutputItem {
@@ -1043,16 +1039,16 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
       key: string
 		  config?: {
         level?: 'public' | 'protected' | 'private';
-        provider?: string;
-        customPrefix?: {
+        provider?: string; // removed in V6
+        customPrefix?: { // removed in V6
           private?: string;
           public?: string;
           protected?: string;
         };
-        track?: boolean; // Not yet supported in V6
-        SSECustomerAlgorithm?: string; // Not yet supported in V6
-        SSECustomerKey?: string; // Not yet supported in V6
-        SSECustomerKeyMD5?: string; // Not yet supported in V6
+        track?: boolean; // removed in V6
+        SSECustomerAlgorithm?: string; // removed in V6
+        SSECustomerKey?: string; // removed in V6
+        SSECustomerKeyMD5?: string; // removed in V6
       }
       ```
 
@@ -1082,7 +1078,7 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
       **V5**
 
       ```
-      S3ProviderGetPropertiesOutput {
+      StorageGetPropertiesOutput {
         contentType: string;
         contentLength: number;
         eTag: string;
@@ -1096,7 +1092,7 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
       **V6**
 
       ```
-      {
+      GetPropertiesOutput {
         key: string;
         lastModified?: Date;
         size?: number';
@@ -1151,7 +1147,7 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
 
 ## Storage.cancel
 
-The process for cancelling a request has changed in v6. In v5, you have to maintain the promise reference returned from a Storage API call, and supply it as input to the `Storage.cancel` API. In v6, `cancel` is a function returned with the result of a Storage operation. To cancel an operation, you will call `operation.cancel()`.
+The process for cancelling a request has changed in v6. In v5, you have to maintain the promise or UploadTask reference returned from a Storage API call, and supply it as input to the `Storage.cancel` API. In v6, `cancel` is a function returned with the result of a Storage operation. To cancel an operation, you will call `operation.cancel()`.
 
 <BlockSwitcher>
   <Block name="V6">
