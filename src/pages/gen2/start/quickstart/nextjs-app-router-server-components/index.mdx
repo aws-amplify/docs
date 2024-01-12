@@ -188,8 +188,80 @@ export const config = {
 
 Run your application with `npm run dev` and navigate to `http://localhost:3000`. You should now see the authenticator, which is already configured and ready for your first sign-up! Create a new user account, confirm the account through email, and then sign in.
 
+### View list of to-do items
 
+Now, let's display data on our app's frontend.
 
+The code below uses the `cookiesClient` to provide access to the `Todo` model defined in the backend.
+
+Modify your app's home page file, `app/page.tsx`, with the following code:
+
+```ts title="app/page.tsx"
+// app/page.tsx
+
+import { cookiesClient } from "@/utils/amplify-utils";
+
+async function App() {
+  const { data: todos } = await cookiesClient.models.Todo.list();
+
+  return (
+    <>
+      <h1>Hello, Amplify 👋</h1>
+      <ul>
+        {todos && todos.map((todo) => <li key={todo.id}>{todo.content}</li>)}
+      </ul>
+    </>
+  );
+}
+
+export default App;
+```
+
+Once you save the file and navigate back to `http://localhost:3000`, you should see a blank page for now because you have only an empty list of to-dos.
+
+### Create a new to-do item
+
+Let's update the component to have a form for prompting the user for the title for creating a new to-do list item and run the `addTodo` method on form submission.  In a production app, the additional fields of the `Todo` model would be added to the form.
+
+After creating a todo, `revalidatePath` is run to clear the Next.js cache for this route to instantly update the results from the server without a full page reload.
+
+```ts title="app/page.tsx"
+// app/page.tsx
+
+import { cookiesClient } from "@/utils/amplify-utils";
+import { revalidatePath } from "next/cache";
+
+async function App() {
+  const { data: todos } = await cookiesClient.models.Todo.list();
+
+  async function addTodo(data: FormData) {
+    "use server";
+    const title = data.get("title") as string;
+    await cookiesClient.models.Todo.create({
+      content: title,
+      done: false,
+      priority: "medium",
+    });
+    revalidatePath("/");
+  }
+
+  return (
+    <>
+      <h1>Hello, Amplify 👋</h1>
+      <form action={addTodo}>
+        <input type="text" name="title" />
+        <button type="submit">Add Todo</button>
+      </form>
+
+      <ul>
+        {todos && todos.map((todo) => <li key={todo.id}>{todo.content}</li>)}
+      </ul>
+    </>
+  );
+}
+
+export default App;
+```
 
 ### Terminate dev server
 
