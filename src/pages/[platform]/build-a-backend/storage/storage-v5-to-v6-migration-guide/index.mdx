@@ -19,23 +19,23 @@ export function getStaticProps(context) {
   };
 }
 
-This guide will help you migrate v5 Storage implementations to the new functional API's in v6.
+This guide will help you migrate Amplify JavaScript v5's Storage APIs to the new Amplify JavaScript v6's Storage APIs.
 
 ## Deprecated Options
 
-<Callout>Many input and output properties have been deprecated due to low usage or added complexity. If you would like to see these options re-implemented in v6, feel free to open a [feature request](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml) in our github repository.</Callout>
+<Callout>Many input and output properties have been deprecated in favor of alternatives with a better developer experience. If you have identified a use case that you feel isn't covered in this migration guide, feel free to open a [GitHub issue](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml).</Callout>
 
-The input options below have been removed in v6 from Storage API's:
+The input options below have been removed in Amplify JavaScript v6 from Storage APIs:
 
 - `provider`: _Custom providers are no longer supported in v6._
 - `customPrefix`: _You can [add a prefix resolver](/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path) to your Storage Config to customize the key prefix per accessLevel. See the [Using a Custom Prefix](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#using-a-custom-prefix) header for migration details._
 - `track`: _Tracking Storage events in Hub is not yet supported in v6._
-- `ServerSideEncryption`, `SSECustomerAlgorithm`, `SSECustomerKey`, `SSECustomerKeyMD5`, and `SSEKMSKeyId`: _These options have been deprecated due to low usage and added complexity: Server-Side Encryption has been automatically applied using default keys by S3 [since Jan 2023](https://aws.amazon.com/blogs/aws/amazon-s3-encrypts-new-objects-by-default/)._
+- `ServerSideEncryption`, `SSECustomerAlgorithm`, `SSECustomerKey`, `SSECustomerKeyMD5`, and `SSEKMSKeyId`: _These options have been deprecated because Server-Side Encryption is automatically applied using default keys by S3 [since Jan 2023](https://aws.amazon.com/blogs/aws/amazon-s3-encrypts-new-objects-by-default/)._
 - `cacheControl`: _This option has been removed and now defers to the HTTP caching behavior configured by the runtime._
 - `$metadata`: _Information like `httpStatusCode` and `attempts` will be provided in an upcoming release via debug messages using [the Console Logger](/[platform]/build-a-backend/utilities/console-logger/)._
-- `bucket`: _The `bucket` is required for `Storage` configuration and has therefore been removed from input options._
+- `bucket`: _The `bucket` is required for `Storage` configuration object as part of `Amplify.configure()` and has therefore been removed from input options._
 
->Note: We have remapped all capitalized input and output keys to camel case in v6.
+>Note: We have remapped all capitalized input and output keys to "camelCase" in Amplify JavaScript v6.
 
 ## Storage.put
 
@@ -43,7 +43,7 @@ The `Storage.put` API has been renamed to `uploadData` in v6. There are a few ch
 
 - We removed the `ACL` option: the S3 Bucket ACL provides extra access control options that Amplify does not currently support. ACL is no longer recommended according to [S3 security best practices](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html#security-best-practices-prevent).
 - The `Expires` option has been deprecated.
-- The `resumable` option has been removed from `config` as all upload tasks are resumable in v6. You can find the `pause`, `resume`, and `cancel` functions on the `uploadData` output. See [the v6 Storage documentation](/[platform]/build-a-backend/storage/upload/#pause-and-resume-upload) for details.
+- The `resumable` option has been removed from `config` as all upload tasks are resumable by-default in Amplify JavaScript v6. You can find the `pause`, `resume`, and `cancel` functions on `uploadData`'s return value. See [the v6 Storage documentation](/[platform]/build-a-backend/storage/upload/#pause-and-resume-upload) for details.
 - The `progressCallback` option on upload and download operations has been replaced by `onProgress` in v6. The function input property names `loaded` and `total` now map to `transferredBytes` and `totalBytes`.
 
 <Accordion title='Input' headingLevel='3'>
@@ -270,9 +270,9 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
 
 ## Storage.get
 
-The `Storage.get` API has been separated into two API's in v6, `getURL` and `downloadData`. There are a few changes in the experience from v5 to v6 in addition to [those mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options):
+The `Storage.get` API has been separated into two APIs in v6, `getURL` and `downloadData`. There are a few changes in the experience from v5 to v6 in addition to [those mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options):
 
-- Content options (`contentDisposition`, `contentLanguage`, `contentEncoding`, and `contentType`) are no longer supported in the `get` API as they override options selected on `upload` and have caused complexity in implementation.
+- Content options (`contentDisposition`, `contentLanguage`, `contentEncoding`, and `contentType`) are no longer supported in the `get` API as these values are already provided in the uploaded file.
 - The following response keys inherited from AWS SDK in v5 have have been removed from the API output in v6:
   - DeleteMarker
   - AcceptRanges
@@ -566,7 +566,7 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
 
 ## Storage.copy
 
-In addition to [the changes mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the `copy` API in v6 no longer supports content options (`contentDisposition`, `contentLanguage`, and `contentType`) as they override options selected on the original file `upload` and have caused complexity in implementation.
+In addition to [the changes mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the `copy` API in v6 no longer supports content options (`contentDisposition`, `contentLanguage`, and `contentType`) as these values are already provided by the existing file.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
