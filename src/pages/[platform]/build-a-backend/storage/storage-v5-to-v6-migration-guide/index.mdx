@@ -305,7 +305,7 @@ The `Storage.get` API has been separated into two APIs in v6, `getURL` and `down
       **V5**
 
       ```
-      // Assumes default provider 'AWSS3': custom provider Deprecated in V6
+      // Assumes default S3 Provider
       key: string
       options: {
         level?: 'public' | 'protected' | 'private';
@@ -527,7 +527,7 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
 
 <BlockSwitcher>
   <Block name="V6">
-  ```
+  ```ts
   import { downloadData } from 'aws-amplify/storage';
 
   const handleDownload = async (key: string) => {
@@ -544,7 +544,7 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
 
   </Block>
   <Block name="V5">
-    ```
+    ```ts
     import { Storage } from 'aws-amplify';
 
     const handleDownload = async (key: string) => {
@@ -570,7 +570,7 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
       **V5**
 
       ```
-      // Assumes default provider 'AWSS3': custom provider Deprecated in V6
+      // Assumes default S3 Provider
       src: {
         key: string;
         level?: string;
@@ -708,7 +708,7 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
       **V5**
 
       ```
-      // Assumes default provider 'AWSS3': custom provider Deprecated in V6
+      // Assumes default S3 Provider
       key: string
 		  config?: {
         level?:  'public' | 'protected' | 'private';
@@ -819,7 +819,7 @@ There are a few changes in the `list` API from v5 to v6 in addition to [those me
       **V5**
 
       ```
-      // Assumes default provider 'AWSS3': custom provider Deprecated in V6
+      // Assumes default S3 Provider
       path: string,
       config?: {
         level?: 'public' | 'protected' | 'private';
@@ -1204,7 +1204,7 @@ If you would like to upload or download items with a `customPrefix`, you can con
 
 <BlockSwitcher>
   <Block name="V6">
-    ```
+    ```ts
     import { uploadData } from 'aws-amplify/storage';
     import { Amplify } from 'aws-amplify';
     import amplifyconfig from './amplifyconfiguration.json';
@@ -1243,7 +1243,7 @@ If you would like to upload or download items with a `customPrefix`, you can con
 
   </Block>
   <Block name="V5">
-    ```
+    ```ts
     import { Storage } from 'aws-amplify';
 
     const handleUpload = async (key: string, data: string | Blob) => {
