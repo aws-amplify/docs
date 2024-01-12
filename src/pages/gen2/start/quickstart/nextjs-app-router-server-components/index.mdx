@@ -111,7 +111,9 @@ function Login() {
 export default withAuthenticator(Login);
 ```
 
-### Configure Amplify Client Side
+### Configure Amplify Server Side
+
+Next, create a `utils/amplify-utils.ts` file from the root of the project and paste the code below.  `runWithAmplifyServerContext` and `cookiesClient` are declared here and will be used to gain access to Amplify assets from the server.
 
 
 ```ts title="utils/amplify-utils.ts"
@@ -183,7 +185,6 @@ export const config = {
   ],
 };
 ```
-
 
 Run your application with `npm run dev` and navigate to `http://localhost:3000`. You should now see the authenticator, which is already configured and ready for your first sign-up! Create a new user account, confirm the account through email, and then sign in.
 
