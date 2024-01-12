@@ -22,9 +22,7 @@ describe('useCanonicalUrl', () => {
 
     const meta = {};
 
-    const { result } = renderHook(() =>
-      useCanonicalUrl(meta, routerMock.useRouter().pathname, 'react')
-    );
+    const { result } = renderHook(() => useCanonicalUrl(meta, 'react'));
 
     expect(result.current).toEqual('/javascript/tools/cli/start/set-up-cli');
   });
@@ -45,7 +43,7 @@ describe('useCanonicalUrl', () => {
       canonicalUrl: '/[platform]/build-a-backend/auth/app-uninstall'
     };
 
-    const { result } = renderHook(() => useCanonicalUrl(meta, '', 'react'));
+    const { result } = renderHook(() => useCanonicalUrl(meta, 'react'));
 
     expect(result.current).toEqual('/react/build-a-backend/auth/app-uninstall');
   });
@@ -76,10 +74,10 @@ describe('useCanonicalUrl', () => {
     };
 
     const { result: reactResult } = renderHook(() =>
-      useCanonicalUrl(meta, '', 'react')
+      useCanonicalUrl(meta, 'react')
     );
     const { result: vueResult } = renderHook(() =>
-      useCanonicalUrl(meta, '', 'vue')
+      useCanonicalUrl(meta, 'vue')
     );
 
     expect(reactResult.current).toEqual(
