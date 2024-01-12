@@ -23,7 +23,7 @@ This guide will help you migrate Amplify JavaScript v5's Storage APIs to the new
 
 ## Deprecated Options
 
-<Callout>Many input and output properties have been deprecated in favor of alternatives with a better developer experience. If you have identified a use case that you feel isn't covered in this migration guide, feel free to open a [GitHub issue](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml).</Callout>
+<Callout>Many input and output properties have been deprecated in favor of alternatives with a better developer experience. If you have identified a use case that you feel isn't covered in this migration guide, please open a [GitHub issue](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml).</Callout>
 
 The input options below have been removed in v6 from Storage APIs:
 
@@ -32,7 +32,7 @@ The input options below have been removed in v6 from Storage APIs:
 - `track`: _Auto-tracking Storage events in pinpoint has been removed in V6. You can track Storage events [using the Analytics category](/[platform]/build-a-backend/more-features/analytics/record-events/)._
 - `ServerSideEncryption`, `SSECustomerAlgorithm`, `SSECustomerKey`, `SSECustomerKeyMD5`, and `SSEKMSKeyId`: _These options have been deprecated because Server-Side Encryption is automatically applied using default keys by S3 [since Jan 2023](https://aws.amazon.com/blogs/aws/amazon-s3-encrypts-new-objects-by-default/)._
 - `cacheControl`: _This option has been removed and now defers to the HTTP caching behavior configured by the runtime._
-- `$metadata`: _Information like `httpStatusCode` and `attempts` will be provided in an upcoming release via debug messages using [the Console Logger](/[platform]/build-a-backend/utilities/console-logger/)._
+{/* - `$metadata`: _Information like `httpStatusCode` and `attempts` is provided via debug messages using [the Console Logger](/[platform]/build-a-backend/utilities/console-logger/)._ */}
 - `bucket`: _The `bucket` is required for `Storage` configuration object as part of `Amplify.configure()` and has therefore been removed from input options._
 
 >Note: We have remapped all capitalized input and output keys to "camelCase" in v6.
