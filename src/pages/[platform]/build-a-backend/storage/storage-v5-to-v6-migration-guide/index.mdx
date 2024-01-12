@@ -19,13 +19,13 @@ export function getStaticProps(context) {
   };
 }
 
-This guide will help you migrate Amplify JavaScript v5's Storage APIs to the new Amplify JavaScript v6's Storage APIs.
+This guide will help you migrate Amplify JavaScript v5's Storage APIs to the new v6's Storage APIs.
 
 ## Deprecated Options
 
 <Callout>Many input and output properties have been deprecated in favor of alternatives with a better developer experience. If you have identified a use case that you feel isn't covered in this migration guide, feel free to open a [GitHub issue](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml).</Callout>
 
-The input options below have been removed in Amplify JavaScript v6 from Storage APIs:
+The input options below have been removed in v6 from Storage APIs:
 
 - `provider`: _Custom providers are no longer supported in v6. All v5 examples below use the input/output values expected for the default S3 Provider._
 - `customPrefix`: _You can [add a prefix resolver](/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path) to your Storage Config to customize the key prefix per accessLevel. See the [Using a Custom Prefix](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#using-a-custom-prefix) header for migration details._
@@ -35,7 +35,7 @@ The input options below have been removed in Amplify JavaScript v6 from Storage 
 - `$metadata`: _Information like `httpStatusCode` and `attempts` will be provided in an upcoming release via debug messages using [the Console Logger](/[platform]/build-a-backend/utilities/console-logger/)._
 - `bucket`: _The `bucket` is required for `Storage` configuration object as part of `Amplify.configure()` and has therefore been removed from input options._
 
->Note: We have remapped all capitalized input and output keys to "camelCase" in Amplify JavaScript v6.
+>Note: We have remapped all capitalized input and output keys to "camelCase" in v6.
 
 ## Storage.put
 
@@ -43,7 +43,7 @@ The `Storage.put` API has been renamed to `uploadData` in v6. There are a few ch
 
 - We removed the `ACL` option: the S3 Bucket ACL provides extra access control options that Amplify does not currently support. ACL is no longer recommended according to [S3 security best practices](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html#security-best-practices-prevent).
 - The `Expires` option has been deprecated.
-- The `resumable` option has been removed from `config` as all upload tasks are resumable by-default in Amplify JavaScript v6. You can find the `pause`, `resume`, and `cancel` functions on `uploadData`'s return value. See [the v6 Storage documentation](/[platform]/build-a-backend/storage/upload/#pause-and-resume-upload) for details.
+- The `resumable` option has been removed from `config` as all upload tasks are resumable by-default in v6. You can find the `pause`, `resume`, and `cancel` functions on `uploadData`'s return value. See [the v6 Storage documentation](/[platform]/build-a-backend/storage/upload/#pause-and-resume-upload) for details.
 - The `progressCallback` option on upload and download operations has been replaced by `onProgress` in v6. The function input property names `loaded` and `total` now map to `transferredBytes` and `totalBytes`.
 
 <Accordion title='Input' headingLevel='3'>
