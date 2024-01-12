@@ -1,7 +1,11 @@
 import { CANONICAL_URLS } from '@/data/canonical-urls';
 import { useRouter } from 'next/router';
 
-export function useCanonicalUrl(meta, canonicalUrlPath, currentPlatform) {
+export function useCanonicalUrl(
+  meta,
+  canonicalUrlPath: string,
+  currentPlatform: string
+): string {
   const router = useRouter();
 
   // Check to see if it's a generic canonical Url that can be found in our list of canonical Urls.
