@@ -1,6 +1,5 @@
 module.exports = {
   checkBundleSize: () => {
-    console.log('are you there god, its me, console.log')
     const fs = require('fs');
     const jsonString = fs.readFileSync('.github/analyze/bundles.json');
     const data = JSON.parse(jsonString);
