@@ -23,7 +23,7 @@ jobs:
         run: yarn prebuild
       - name: Run build and analyze base bundle sizes
         env:
-          CURRENT_BRANCH: main
+          CURRENT_BRANCH: ${{ github.base_ref }}
           CURRENT_REPO: ${{ github.repository }}
           NODE_OPTIONS: --max_old_space_size=4096
         run: ANALYZE=true yarn next-build
