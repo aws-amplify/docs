@@ -43,7 +43,7 @@ The `Storage.put` API has been renamed to `uploadData` in v6. There are a few ch
 
 - We removed the `ACL` option: the S3 Bucket ACL provides extra access control options that Amplify does not currently support. ACL is no longer recommended according to [S3 security best practices](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html#security-best-practices-prevent).
 - The `Expires` option has been deprecated.
-- The `resumable` option has been removed from `config` as all upload tasks are resumable by-default in v6. You can find the `pause`, `resume`, and `cancel` functions on `uploadData`'s return value. See [the v6 Storage documentation](/[platform]/build-a-backend/storage/upload/#pause-and-resume-upload) for details.
+- The `resumable` option has been removed from `config` as all upload tasks are resumable by default in v6. You can find the `pause`, `resume`, and `cancel` functions on `uploadData`'s return value. See [the v6 Storage documentation](/[platform]/build-a-backend/storage/upload/#pause-and-resume-upload) for details.
 - The `progressCallback` option on upload and download operations has been replaced by `onProgress` in v6. The function input property names `loaded` and `total` now map to `transferredBytes` and `totalBytes`.
 
 <Accordion title='Input' headingLevel='3'>
