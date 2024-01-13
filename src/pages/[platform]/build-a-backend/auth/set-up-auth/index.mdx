@@ -472,7 +472,52 @@ First, install the `@aws-amplify/ui-angular` library as well as `aws-amplify` if
 npm install aws-amplify @aws-amplify/ui-angular
 ```
 
-Now open **app.module.ts** and add the Amplify imports and configuration:
+Navigate to **tsconfig.json** and modify the compiler options to allow import of the amplifyconfiguration.json file:
+
+```
+
+  ...
+  "compilerOptions": {
+     ...
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+     ...
+  }
+```
+
+
+Now open **main.ts** and add the Amplify imports and configuration:
+
+```js
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
+
+import amplifyconfig from './amplifyconfiguration.json';
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure(amplifyconfig);
+
+if (environment.production) {
+  enableProdMode();
+}
+
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.log(err));
+
+```
+
+
+
+Next, navigate to **angular.json** and modify the styles import to include ui-angular/theme.css:
+
+```js
+    "styles": ["node_modules/@aws-amplify/ui-angular/theme.css", "src/global.scss"],
+```
+
+Now open **app.module.ts** and add the Amplify Authentication Module import:
 
 ```js
 import { NgModule } from '@angular/core';
@@ -480,9 +525,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 import { AppComponent } from './app.component';
-import amplifyconfig from './amplifyconfiguration.json';
-
-Amplify.configure(amplifyconfig);
 
 @NgModule({
   declarations: [AppComponent],
@@ -493,15 +535,7 @@ Amplify.configure(amplifyconfig);
 export class AppModule {}
 ```
 
-Next, import the default theme inside **styles.css**:
-
-```css
-@import '~@aws-amplify/ui-angular/theme.css';
-```
-
 Next, open **app.component.html** and add the `amplify-authenticator` component.
-
-**amplify-authenticator**
 
 The `amplify-authenticator` component offers a simple way to add authentication flows into your app. This component encapsulates an authentication workflow in the framework of your choice and is backed by the cloud resources set up in your Auth cloud resources. You will also notice that `user` and `signOut` are provided to the inner template.
 
