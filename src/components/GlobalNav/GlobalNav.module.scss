@@ -76,7 +76,7 @@
   gap: var(--amplify-space-xxs);
   padding: var(--amplify-space-small);
   &:focus {
-    outline: 2px solid var(--amplify-colors-font-inverse);
+    outline: 2px solid var(--amplify-colors-white);
   }
 }
 
@@ -319,11 +319,11 @@
     }
     &:focus {
       background-color: var(--amplify-colors-purple-60);
-      box-shadow: 0 0 0 2px var(--amplify-colors-font-inverse);
+      box-shadow: 0 0 0 2px var(--amplify-colors-white);
     }
   }
   .chevron-icon {
-    fill: var(--amplify-colors-font-inverse);
+    fill: var(--amplify-colors-white);
   }
   [data-amplify-color-mode='dark'] & {
     --navbar-background-color: var(--amplify-colors-purple-40);
