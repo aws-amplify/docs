@@ -7,6 +7,9 @@
     &:hover &__card__title {
       color: var(--amplify-colors-primary-60);
       text-decoration: none;
+      @include darkMode {
+        color: var(--amplify-colors-white);
+      }
     }
 
     &__card {

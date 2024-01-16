@@ -50,4 +50,22 @@
       border-color: var(--amplify-colors-border-focus);
     }
   }
+  @include darkMode {
+    border-color: var(--amplify-colors-teal-20);
+    &__summary {
+      background: var(--amplify-colors-teal-20);
+    }
+    &__eyebrow {
+      color: var(--amplify-colors-white);
+    }
+    &__chevron {
+      color: var(--amplify-colors-white);
+    }
+    &__body {
+      border-color: var(--amplify-colors-teal-20);
+    }
+    &__button {
+      background-color: var(--amplify-colors-teal-20);
+    }
+  }
 }
