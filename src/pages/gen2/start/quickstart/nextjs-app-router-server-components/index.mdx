@@ -101,10 +101,12 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 
-function Login() {
+function Login({ user }) {
   useEffect(() => {
-    redirect("/");
-  }, []);
+    if (user) {
+      redirect("/");
+    }
+  }, [user]);
   return null;
 }
 
