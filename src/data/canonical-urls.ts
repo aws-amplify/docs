@@ -1,4 +1,5 @@
 export const CANONICAL_URLS = [
+  '/[platform]/start',
   '/[platform]/tools/cli/graphqlapi/data-modeling',
   '/[platform]/tools/cli/graphqlapi/custom-buisness-logic',
   '/[platform]/tools/cli/graphqlapi/override-appsync',
