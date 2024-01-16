@@ -5,15 +5,15 @@ export const meta = {
   description:
     'Customize your data model with primary keys, secondary indexes, and model relationships.',
   platforms: [
-    'android',
     'angular',
-    'flutter',
     'javascript',
     'nextjs',
     'react',
     'react-native',
+    'vue',
+    'android',
     'swift',
-    'vue'
+    'flutter'
   ]
 };
 
@@ -65,6 +65,8 @@ query QueryAllTodos {
 }
 ```
 
+<InlineFilter filters={["react", "nextjs", "angular", "vue", "react-native", "javascript"]}>
+
 ```js
 import { Amplify } from 'aws-amplify';
 import { generateClient } from 'aws-amplify/api';
@@ -83,6 +85,8 @@ try {
   console.error(errors);
 }
 ```
+
+</InlineFilter>
 
 ### Configure a primary key
 
@@ -123,6 +127,8 @@ query QueryInventoryByProductAndWarehouse($productID: ID!, $warehouseID: ID!) {
 }
 ```
 
+<InlineFilter filters={["react", "nextjs", "angular", "vue", "react-native", "javascript"]}>
+
 ```js
 import { getInventory } from './graphql/queries';
 
@@ -135,6 +141,8 @@ const result = await client.graphql({
 });
 const inventory = result.data.getInventory;
 ```
+
+</InlineFilter>
 
 ### Configure a secondary index
 
@@ -171,6 +179,9 @@ query QueryCustomersForAccountRepresentative($accountRepresentativeID: ID!) {
 }
 ```
 
+
+<InlineFilter filters={["react", "nextjs", "angular", "vue", "react-native", "javascript"]}>
+
 ```js
 import { customersByAccountRepresentativeID } from './graphql/queries';
 
@@ -182,6 +193,8 @@ const result = await client.graphql({
 });
 const customers = result.data.customersByAccountRepresentativeID;
 ```
+
+</InlineFilter>
 
 You can also overwrite the `queryField` or `name` to customize the GraphQL query name, or secondary index name respectively:
 
@@ -209,6 +222,8 @@ query QueryCustomersForAccountRepresentative($representativeId: ID!) {
 }
 ```
 
+<InlineFilter filters={["react", "nextjs", "angular", "vue", "react-native", "javascript"]}>
+
 ```js
 import { customerByRepresentative } from './graphql/queries';
 
@@ -220,6 +235,8 @@ const result = await client.graphql({
 });
 const customer = result.data.customerByRepresentative;
 ```
+
+</InlineFilter>
 
 To optionally configure sort keys, provide the additional fields in the `sortKeyFields` parameter:
 
@@ -245,6 +262,8 @@ query MyQuery {
 }
 ```
 
+<InlineFilter filters={["react", "nextjs", "angular", "vue", "react-native", "javascript"]}>
+
 ```js
 import { customerByNameAndPhone } from './graphql/queries';
 
@@ -258,6 +277,10 @@ const result = await client.graphql({
 
 const customer = result.data.customerByNameAndPhone;
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "nextjs", "angular", "vue", "react-native", "javascript"]}>
 
 ## Setup relationships between models
 
@@ -308,6 +331,7 @@ mutation CreateProject {
 }
 ```
 
+
 ```js
 import { createProject } from './graphql/mutations';
 
@@ -351,6 +375,7 @@ mutation CreateProject {
   }
 }
 ```
+
 
 ```js
 import { createProject } from './graphql/mutations';
@@ -404,6 +429,7 @@ mutation CreatePost {
   }
 }
 ```
+
 
 ```js
 import { createPost } from './graphql/mutations';
@@ -488,6 +514,7 @@ const result = await client.graphql({
 const postWithComments = result.data.createPost;
 const postComments = postWithComments.comments.items; // access comments from post
 ```
+
 
 ### Belongs To relationship
 
@@ -827,6 +854,8 @@ If you want to get all subscription events, don’t pass any `filter` parameters
 **Important**: Passing an empty object `{}` as a filter is NOT recommended. Using `{}` as a filter might cause inconsistent behavior based on your data model's authorization rules.
 
 </Callout>
+
+</InlineFilter>
 
 ## Advanced
 

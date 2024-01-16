@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }) {
 
   const getLayout =
     Component.getLayout ||
-    ((page) => (
+    ((page: React.ReactElement) => (
       <Layout
         pageTitle={meta?.title ? meta.title : ''}
         pageDescription={meta?.description ? meta.description : ''}

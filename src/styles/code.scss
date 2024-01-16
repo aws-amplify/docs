@@ -12,28 +12,27 @@ code:not([class]) {
   h3 & {
     font-size: 0.75em;
   }
-}
-
-.pre-header {
-  align-items: center;
-  padding: var(--amplify-space-xs) 0;
-  margin-inline: var(--amplify-space-medium);
-  border-bottom: 1px solid var(--amplify-colors-neutral-90);
-}
-.pre-title {
-  color: var(--amplify-colors-font-inverse);
-  font-size: var(--amplify-font-sizes-medium);
-  line-height: var(--amplify-line-heights-small);
+  .amplify-message & {
+    background-color: var(--amplify-colors-overlay-5);
+    @include darkMode {
+      background-color: var(--amplify-colors-overlay-10);
+    }
+  }
 }
 
 .pre-container {
+  --pre-container-background-color: var(--amplify-colors-neutral-100);
   border-radius: var(--amplify-radii-small);
-  background: var(--amplify-colors-neutral-100);
+  background-color: var(--pre-container-background-color);
   overflow: hidden;
   /* There are some instances of code blocks in ol/ul and 
    * this is to add some spacing so they look better */
   li & {
     margin-block: var(--amplify-space-small);
+  }
+  @include darkMode {
+    --pre-container-background-color: hsl(210, 50%, 13%);
+    box-shadow: 0 0 0 2px var(--amplify-colors-neutral-20);
   }
 }
 
@@ -41,14 +40,31 @@ code:not([class]) {
   padding: 0 var(--amplify-space-large) 0 var(--amplify-space-xs);
 }
 
+.pre-header {
+  --pre-header-border-color: var(--amplify-colors-neutral-90);
+  align-items: center;
+  padding: var(--amplify-space-xs) 0;
+  margin-inline: var(--amplify-space-medium);
+  border-bottom: 1px solid var(--pre-header-border-color);
+  @include darkMode {
+    --pre-header-border-color: var(--amplify-colors-neutral-20);
+  }
+}
+.pre-title {
+  color: var(--amplify-colors-white);
+  font-size: var(--amplify-font-sizes-medium);
+  line-height: var(--amplify-line-heights-small);
+}
+
 .pre {
   overflow: auto;
   display: flex;
-  margin: 0;
-  padding-block: var(--amplify-space-medium);
+  margin: var(--amplify-space-xs) 0;
+  padding-block: var(--amplify-space-xs);
   font-size: var(--amplify-font-sizes-medium);
   &:focus-visible {
-    outline: 2px solid var(--amplify-colors-neutral-10);
+    outline: none;
+    box-shadow: 0 0 0 2px var(--amplify-colors-white) inset;
   }
 }
 
@@ -83,9 +99,17 @@ code:not([class]) {
     position: absolute;
     inset-inline-start: 0;
     width: 6px;
-    background-color: var(--amplify-colors-brand-primary-40);
+    background-color: var(--amplify-colors-primary-40);
     z-index: 1;
     height: 100%;
+  }
+  @include darkMode {
+    &:before {
+      background: var(--amplify-colors-neutral-20);
+    }
+    &:after {
+      background-color: var(--amplify-colors-primary-60);
+    }
   }
 }
 
@@ -101,17 +125,25 @@ code:not([class]) {
 }
 
 .code-copy {
+  --code-copy-hover-background-color: var(--amplify-colors-neutral-90);
+  --code-copy-focus-background-color: var(--amplify-colors-neutral-90);
+  --code-copy-focus-box-shadow: var(--amplify-colors-neutral-10);
   margin-inline-start: auto;
   padding-block: var(--amplify-space-xxxs);
-  color: var(--amplify-colors-font-inverse);
+  color: var(--amplify-colors-white);
   border-radius: var(--amplify-radii-small);
   &:hover {
-    color: var(--amplify-colors-font-inverse);
-    background-color: var(--amplify-colors-neutral-90);
+    color: var(--amplify-colors-white);
+    background-color: var(--code-copy-hover-background-color);
   }
   &:focus {
-    color: var(--amplify-colors-font-inverse);
-    background-color: var(--amplify-colors-neutral-90);
-    box-shadow: 0 0 0 2px var(--amplify-colors-neutral-10);
+    color: var(--amplify-colors-white);
+    background-color: var(--code-copy-focus-background-color);
+    box-shadow: 0 0 0 2px var(--code-copy-focus-box-shadow);
+  }
+  @include darkMode {
+    --code-copy-hover-background-color: var(--amplify-colors-neutral-20);
+    --code-copy-focus-background-color: var(--amplify-colors-neutral-20);
+    --code-copy-focus-box-shadow: var(--amplify-colors-neutral-100);
   }
 }
