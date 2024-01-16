@@ -384,6 +384,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/data-usage-policy/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/index.mdx'
                 }
               ]
             },

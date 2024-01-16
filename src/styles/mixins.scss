@@ -1,0 +1,13 @@
+@mixin darkMode {
+  // Dark mode css when dark mode is manually toggled
+  [data-amplify-color-mode='dark'] & {
+    @content;
+  }
+
+  // Dark mode css when using system preferences
+  @media (prefers-color-scheme: dark) {
+    [data-amplify-color-mode='system'] & {
+      @content;
+    }
+  }
+}
