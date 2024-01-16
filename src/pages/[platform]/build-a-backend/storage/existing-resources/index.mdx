@@ -2,9 +2,39 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Use existing AWS resources',
-  description:
-    'Configure the Amplify Libraries to use an existing Amazon S3 bucket by referencing it in your configuration.',
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native','angular','nextjs','react','vue'] 
+  description: 'Configure the Amplify Libraries to use an existing Amazon S3 bucket by referencing it in your configuration.',
+  platforms: [
+    'javascript',
+    'flutter',
+    'swift',
+    'android',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'react',
+        'react-native',
+        'angular',
+        'nextjs',
+        'vue'
+      ],
+      canonicalPath: '/javascript/build-a-backend/storage/existing-resources/'
+    },
+    {
+      platforms: [
+        'android',
+        'flutter',
+        'swift'
+      ],
+      canonicalPath: '/swift/build-a-backend/storage/existing-resources/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -2,9 +2,36 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Use existing AWS resources',
-  description:
-    'Configure the Amplify Libraries to use existing Amazon Pinpoint resources by referencing them in your configuration.',
-  platforms: ['javascript', 'react-native', 'swift', 'android', 'flutter', 'angular', 'nextjs', 'react', 'vue'] 
+  description: 'Configure the Amplify Libraries to use existing Amazon Pinpoint resources by referencing them in your configuration.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/build-a-backend/more-features/analytics/existing-resources/'
+    },
+    {
+      platforms: [
+        'react',
+        'angular',
+        'nextjs',
+        'vue'
+      ],
+      canonicalPath: '/react/build-a-backend/more-features/analytics/existing-resources/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

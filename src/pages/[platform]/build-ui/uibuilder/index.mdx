@@ -2,11 +2,20 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
                   
 export const meta = {
   title: 'Figma-to-Code',
-  description: "Generate clean React code from Figma design files with Amplify Studio.",
+  description: 'Generate clean React code from Figma design files with Amplify Studio.',
   platforms: [
-                'javascript',
-                'react'
-              ]
+    'javascript',
+    'react'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/build-ui/uibuilder/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

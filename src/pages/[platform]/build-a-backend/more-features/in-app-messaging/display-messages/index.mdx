@@ -2,9 +2,27 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Display messages',
-  description:
-    'Learn how in-app messages are displayed when an In-App Messaging or analytics event is sent and matches the criteria set forth by your active In-App Messaging campaigns.',
-  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
+  description: 'Learn how in-app messages are displayed when an In-App Messaging or analytics event is sent and matches the criteria set forth by your active In-App Messaging campaigns.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'angular',
+        'vue',
+        'react',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-a-backend/more-features/in-app-messaging/display-messages/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

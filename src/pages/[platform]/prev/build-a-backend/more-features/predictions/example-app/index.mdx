@@ -3,7 +3,27 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Example application',
   description: 'Sample code for using the Predictions category in Amplify',
-  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue'] 
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'nextjs',
+        'javascript',
+        'react',
+        'react-native',
+        'angular'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/more-features/predictions/example-app/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

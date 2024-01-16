@@ -3,7 +3,25 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Configure a custom domain',
   description: 'How to enable a custom domain name using Amplify Hosting.',
-  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue']
+  platforms: [
+    'javascript',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'angular',
+        'react',
+        'javascript',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/deploy-and-host/custom-configuration/configure-custom-domain/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

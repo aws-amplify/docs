@@ -4,16 +4,32 @@ export const meta = {
   title: 'Custom domains',
   description: 'Access Amplify Studio on a custom domain',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'flutter',
+        'swift',
+        'nextjs',
+        'vue',
+        'android',
+        'angular',
+        'react-native',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/tools/console/adminui/custom-domain/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -2,9 +2,27 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Sync messages',
-  description:
-    "Learn how to sync in-app messages to your user's local device. Synced messages will be displayed when a matching event is triggered.",
-  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
+  description: "Learn how to sync in-app messages to your user's local device. Synced messages will be displayed when a matching event is triggered.",
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'nextjs',
+        'vue',
+        'javascript',
+        'angular'
+      ],
+      canonicalPath: '/javascript/build-a-backend/more-features/in-app-messaging/sync-messages/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

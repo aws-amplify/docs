@@ -4,16 +4,32 @@ export const meta = {
   title: 'Versioning and conflict resolution',
   description: 'The @versioned directive adds object versioning and conflict resolution to a type.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'javascript',
+        'react-native',
+        'swift',
+        'flutter',
+        'vue',
+        'nextjs',
+        'android',
+        'angular'
+      ],
+      canonicalPath: '/javascript/tools/cli-legacy/versioned-directive/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

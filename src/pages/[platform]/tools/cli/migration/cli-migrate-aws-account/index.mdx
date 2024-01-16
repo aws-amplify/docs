@@ -4,16 +4,32 @@ export const meta = {
   title: 'Migrate project to another AWS account',
   description: 'Amplify CLI can be used to easily re-create resources in a different AWS account.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'flutter',
+        'javascript',
+        'nextjs',
+        'react-native',
+        'vue',
+        'swift',
+        'angular',
+        'react'
+      ],
+      canonicalPath: '/javascript/tools/cli/migration/cli-migrate-aws-account/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

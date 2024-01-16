@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Serverless containers',
-  description:
-    'Deploy containers to AWS. Serverless containers leverage AWS Fargate when building REST or GraphQL APIs in your account. Containers can be deployed via a single Dockerfile definition or by using a Docker Compose file, with a build and deployment pipeline created inside your AWS account.',
+  description: 'Deploy containers to AWS. Serverless containers leverage AWS Fargate when building REST or GraphQL APIs in your account. Containers can be deployed via a single Dockerfile definition or by using a Docker Compose file, with a build and deployment pipeline created inside your AWS account.',
   platforms: [
     'android',
     'angular',
@@ -14,6 +13,22 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'react-native',
+        'swift',
+        'flutter',
+        'angular',
+        'android',
+        'vue',
+        'javascript',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/tools/cli/usage/containers/'
+    }
   ]
 };
 
