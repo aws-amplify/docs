@@ -1,4 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { ProtectedAccountMessage } from '@/protected/ProtectedAccountMessage';
 
 export const meta = {
   title: 'Getting started',
@@ -49,11 +50,9 @@ AWS Amplify Studio is a visual development environment for building fullstack we
 
 Amplify Studio is available in the following regions: [Amplify Studio service endpoints](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplifyadmin_region).
 
-<Callout warning>
+{/* This component contains approved messaging and cannot be removed or modified without prior approval */}
 
-We recommend operating Amplify workloads in dedicated accounts so IAM principals not working with Amplify do not manipulate provisioned resources out-of-band.
-
-</Callout>
+<ProtectedAccountMessage />
 
 ## Quick start guide
 
