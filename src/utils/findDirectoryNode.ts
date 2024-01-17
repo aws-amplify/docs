@@ -1,4 +1,4 @@
-import directory from '../directory/directory.json';
+import directory from '@/directory/directory.json';
 
 export const findDirectoryNode = (route, dir = directory) => {
   if (dir.route === route) {
