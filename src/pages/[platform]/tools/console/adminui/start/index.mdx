@@ -51,7 +51,7 @@ Amplify Studio is available in the following regions: [Amplify Studio service en
 
 <Callout warning>
 
-Amplify provisions AWS resources directly in your account. Changes to resources can lead to unexpected behavior, so we recommend using a dedicated AWS account for building with Amplify.
+We recommend operating Amplify workloads in dedicated accounts so IAM principals not working with Amplify do not manipulate provisioned resources out-of-band.
 
 </Callout>
 
@@ -90,7 +90,9 @@ Next, follow these steps to deploy and launch Amplify Studio:
 ## Logging in and creating an app
 
 ### Log in to the Amplify Console
+
 The Amplify Console is where you build, manage, and host your Amplify applications. To log in, take the following steps:
+
 1. [Log in to the AWS console](https://console.aws.amazon.com/console/home)
 1. Search for **AWS Amplify** in the console
 1. Select **AWS Amplify** to open the Amplify Console
