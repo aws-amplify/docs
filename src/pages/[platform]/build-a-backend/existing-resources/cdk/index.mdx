@@ -33,11 +33,11 @@ This guide shows you how to connect new mobile and web apps to AWS resources you
 
 The guide has three sections to help you build and connect a fullstack app:
 
-1. Section one provides instructions for using the Amplify Data CDK to create a GraphQL API backend with AWS AppSync. This creates the core backend.
-1. Section two shows how to build and integrate a Flutter app with the AppSync API. Follow this if you want a cross-platform frontend.
-1. Section three explains how to create and connect a React web app to the AppSync API. Follow this if you want to build a web-only frontend or want to add a web frontend to complement the mobile experience.
+1. [Section one](/[platform]/build-a-backend/existing-resources/cdk/#build-backend-resources-with-the-cdk) provides instructions for using the Amplify Data CDK to create a GraphQL API backend with AWS AppSync. This creates the core backend.
+1. [Section two](/[platform]/build-a-backend/existing-resources/cdk/#build-a-flutter-app-and-connect-to-the-graphql-api) shows how to build and integrate a Flutter app with the AppSync API. Follow this if you want a cross-platform frontend.
+1. [Section three](/[platform]/build-a-backend/existing-resources/cdk/#build-a-react-app-and-connect-to-the-graphql-api) explains how to create and connect a React web app to the AppSync API. Follow this if you want to build a web-only frontend or want to add a web frontend to complement the mobile experience.
 
-The recommended approach is to complete section one to build the backend, then optionally complete section two or three, or both, to connect frontends for Flutter or React, or both.
+The recommended approach is to complete section one to build the backend, then optionally complete section two or three, or both, to connect frontends for Flutter or React, or both. Once you're finished experimenting with these demo apps, we recommend visiting the ["Clean up resources"](/[platform]/build-a-backend/existing-resources/cdk/#clean-up-resources) section to delete the backend resources to avoid incurring unexpected costs. 
 
 Before you begin, you will need:
 
@@ -46,7 +46,9 @@ Before you begin, you will need:
 * A text editor. For this guide, we will use VS Code, but you can use your preferred IDE.
 * Flutter and its command-line tools [installed](https://docs.flutter.dev/get-started/install) and configured (if completing the second part of this guide).
 
-## Build backend resources with the CDK
+## Build a GraphQL API using the Amplify Data CDK construct
+
+The CDK provides a simple way to define cloud infrastructure in code. In this section, we will use the CDK to build out the backend resources for our application.
 
 **Step 1:** Create a folder for the CDK app by running the following command in your terminal. 
 
@@ -77,7 +79,7 @@ npm install @aws-amplify/data-construct
 
 **Step 5:** Update the `cdk_backend/lib/cdk-backend-stack.ts` file as shown in the following code to use the `AmplifyData` construct  to create an AWS AppSync API. 
 
-```bash
+```bash title="lib/cdk-backend-stack.ts"
 
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
@@ -126,7 +128,11 @@ The CDK will deploy the stacks and display the following confirmation. Note the 
 
 <img src="/images/existing-resources/cdk-stacks.png" alt="CDK deploying the stacks." width="750" />
 
+Now that you have built the backend API with the CDK, you can connect a frontend. Refer to section two to connect a Flutter app or section three to connect a React app, or complete both to connect frontends in each framework.
+
 ## Build a Flutter app and connect to the GraphQL API
+
+In this section, we will connect a Flutter web app to the GraphQL API we created with the CDK. First, we will initialize a Flutter project, define models matching our schema, and use Amplify to integrate CRUD operations. Then we will add UI pages to manage to-do items with queries and mutations. Finally, we will configure Amplify with our backend details and run the app to demonstrate full functionality with our existing API.
 
 **Step 1:** Create a Flutter app by running the following command in your terminal.
 
@@ -148,7 +154,7 @@ code . -r
 **Step 3**: Update the `pubspec.yaml` file in the app’s root directory to add the required dependencies, as shown in the following code.
 
 {/* cSpell:disable */}
-```dart
+```dart title="pubspec.yaml"
 
 name: flutter_todo_app
 description: "A new Flutter project."
@@ -201,7 +207,7 @@ npm install @aws-amplify/cli
 
 **Step 7:** Update the file `schema.graphql`, as shown in the following example, to define the Todo data model, similar to what you used for the CDK app. 
 
-```dart
+```dart title="schema.graphql"
 
 type Todo @model @auth(rules: [{ allow: public }]) {
   id: ID!
@@ -225,7 +231,7 @@ npx @aws-amplify/cli codegen models   --model-schema ./graphql   --target flutte
 
 **Step 9:** Create the file `todo_item_page.dart` inside the `lib` folder and update it with the following code to present a form to the user for creating a to-do item. Once submitted, the form will initiate a GraphQL mutation to add or modify the item in the database.
 
-```dart
+```dart title="todo_item_page.dart"
 
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -388,7 +394,7 @@ class _ToDoItemPageState extends State<ToDoItemPage> {
 
 **Step 10:** Create the file `home_page.dart.dart` inside the `lib` folder and update it with the following code. This page will use a GraphQL query to retrieve the list of to-do items and display them in a ListView widget. The page will also allow the user to delete a to-do item by using a GraphQL mutation.
 
-```dart
+```dart title="home_page.dart.dart"
 
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -550,7 +556,7 @@ class _HomePageState extends State<HomePage> {
 
 **Step 11:** Update `main.dart` to configure Amplify using the details of the GraphQL API you created using the CDK app in the previous section.  
 
-```dart
+```dart title="main.dart"
 
 import 'package:amplify_api/amplify_api.dart';
 
@@ -559,8 +565,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'models/ModelProvider.dart';
-import 'pages/home_page.dart';
-import 'pages/todo_item_page.dart';
+import 'home_page.dart';
+import 'todo_item_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -573,7 +579,6 @@ Future<void> _configureAmplify() async {
     final api = AmplifyAPI(modelProvider: ModelProvider.instance);
 
     await Amplify.addPlugins([api]);
-    // TODO: Add the API details below
     const amplifyconfig = '''{
     "api": {
         "plugins": {
@@ -649,6 +654,8 @@ flutter run -d chrome
 Congratulations on successfully creating a new Flutter app and linking it to a preexisting GraphQL API built with AWS CDK. The next optional section will guide you through doing the same for a React web app. Alternatively, you can skip ahead to the ["Clean up resources"](/[platform]/build-a-backend/existing-resources/cdk/#clean-up-resources) section.
 
 ## Build a React app and connect to the GraphQL API
+
+In this section, we will connect a React web app to our existing GraphQL API. First, we will create a new React project and install the necessary Amplify packages. Next, we will use the Amplify CLI to generate GraphQL code matching our API structure. Then, we will add React components to perform queries and mutations to manage to-do items in our API. After that, we will configure the Amplify library with details of our backend API. Finally, we will run the application to demonstrate full CRUD functionality with our existing API. 
 
 **Step 1:** Create a React app by running the following command in your terminal.
 
@@ -840,6 +847,8 @@ npm start
 <video autoPlay={true} muted={true} loop={true} width="100%">
   <source src="/images/existing-resources/todo-react-cdk.mp4" />
 </video>
+
+In this section, we generated GraphQL code, created React components, configured Amplify, and connected the app to the API. This enabled full CRUD functionality with our backend through queries and mutations.
 
 ## Conclusion
 
