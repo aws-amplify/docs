@@ -37,7 +37,7 @@ import { LayoutProvider } from '@/components/Layout';
 import { TableOfContents } from '@/components/TableOfContents';
 import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
-import flatDirectory from 'src/directory/flatDirectory.json';
+import flatDirectory from '@/directory/flatDirectory.json';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import { DocSearch } from '@docsearch/react';

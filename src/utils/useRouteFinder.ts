@@ -1,4 +1,4 @@
-import flatDirectory from 'src/directory/flatDirectory.json';
+import flatDirectory from '@/directory/flatDirectory.json';
 import { useRouter } from 'next/router';
 import { Platform } from '@/data/platforms';
 
