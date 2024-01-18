@@ -80,19 +80,21 @@ npm install @aws-amplify/data-construct
 **Step 5:** Update the `cdk_backend/lib/cdk-backend-stack.ts` file as shown in the following code to use the `AmplifyData` construct  to create an AWS AppSync API. 
 
 ```ts title="lib/cdk-backend-stack.ts"
-
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { AmplifyData, AmplifyDataDefinition } from '@aws-amplify/data-construct';
+import {
+  AmplifyData,
+  AmplifyDataDefinition
+} from '@aws-amplify/data-construct';
 
 export class CdkBackendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
- // highlight-start
- new AmplifyData(this, 'AmplifyCdkData', {
+    // highlight-start
+    new AmplifyData(this, 'AmplifyCdkData', {
       definition: AmplifyDataDefinition.fromString(/* GraphQL */ `
-      type Todo @model @auth(rules: [{ allow: public }]) {
+        type Todo @model @auth(rules: [{ allow: public }]) {
           id: ID!
           name: String!
           description: String
@@ -106,10 +108,9 @@ export class CdkBackendStack extends cdk.Stack {
         }
       }
     });
- // highlight-end
+    // highlight-end
   }
 }
-
 ```
 
 **Step 6:** Deploy the CDK stacks by running the following command.
