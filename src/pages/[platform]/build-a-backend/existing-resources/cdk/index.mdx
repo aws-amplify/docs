@@ -221,11 +221,8 @@ type Todo @model @auth(rules: [{ allow: public }]) {
 
 **Step 8:** Run the following command to generate the GraphQL client helper models inside the `lib/models` folder.
 
-```dart
-
-npx @aws-amplify/cli codegen models   --model-schema ./graphql   --target flutter   --output-dir ./lib/models
-
-```
+```bash
+npx @aws-amplify/cli codegen models --model-schema ./graphql --target flutter --output-dir ./lib/models
 
 
 <img src="/images/existing-resources/client-helper-models-cdk.png" alt="The ModelProvider.dart and Todo.dart files within the models folder." width="450" />
