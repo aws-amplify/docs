@@ -208,7 +208,7 @@ npm install @aws-amplify/cli
 
 **Step 7:** Update the file `schema.graphql`, as shown in the following example, to define the Todo data model, similar to what you used for the CDK app. 
 
-```dart title="schema.graphql"
+```graphql title="schema.graphql"
 
 type Todo @model @auth(rules: [{ allow: public }]) {
   id: ID!
