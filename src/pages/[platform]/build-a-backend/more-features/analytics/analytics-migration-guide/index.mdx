@@ -324,11 +324,11 @@ This API has been renamed to `identifyUser` in v6 to align with other platforms.
     identifyUser({
       userId: 'xxxxxxx',
       userProfile: {
-        customProperties: { custom: ['value1', 'value2'] }
+        customProperties: { hobbies: ['piano', 'hiking'] },
       },
       options: {
         userAttributes: {
-          name: ['first last']
+          interests: ['football', 'basketball', 'AWS']
         }
       }
     });
