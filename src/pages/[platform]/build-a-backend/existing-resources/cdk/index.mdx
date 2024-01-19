@@ -56,7 +56,7 @@ mkdir cdk-backend
 
 **Step 2:** Navigate to the `cdk-backend` folder and create a new CDK project by running the `cdk init` command and specifying your preferred language.
 
-```bash title="Terminal" showLineNumbers={false}
+```bash title="Terminal"
 cd cdk-backend 
 cdk init --language typescript 
 ```
@@ -133,7 +133,7 @@ flutter create flutter_todo_app --platforms=web
 
 **Step 2:** Open the newly created Flutter app by running the following commands in your terminal. 
 
-```bash title="Terminal" showLineNumbers={false}
+```bash title="Terminal"
 cd flutter_todo_app 
 code . -r
 ```
@@ -199,7 +199,7 @@ type Todo @model @auth(rules: [{ allow: public }]) {
 
 **Step 8:** Run the following command to generate the GraphQL client helper models inside the `lib/models` folder.
 
-```bash
+```bash showLineNumbers={false}
 npx @aws-amplify/cli codegen models --model-schema ./graphql --target flutter --output-dir ./lib/models
 ```
 
@@ -643,7 +643,7 @@ npm install aws-amplify @aws-amplify/ui-react @aws-amplify/cli
 
 <img src="/images/existing-resources/outputs-cdk.png" alt="awsAppsyncApiId and awsAppsyncRegion values highlighted within the outputs of the CDK stack." width="750" />
 
-```react
+```react showLineNumbers={false}
 npx @aws-amplify/cli codegen add --apiId <aws-appsync-api-id> --region <aws-appsync-region> 
 ```
 
