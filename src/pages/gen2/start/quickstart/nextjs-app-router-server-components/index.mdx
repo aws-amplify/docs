@@ -127,11 +127,13 @@ Next, create a `utils/amplify-utils.ts` file from the root of the project and pa
 
 ```ts title="utils/amplify-utils.ts"
 // utils/amplify-utils.ts
-import { type Schema } from "@/amplify/data/resource";
-import config from "@/amplifyconfiguration.json";
+import { cookies } from "next/headers";
+
 import { createServerRunner } from "@aws-amplify/adapter-nextjs";
 import { generateServerClientUsingCookies } from "@aws-amplify/adapter-nextjs/api";
-import { cookies } from "next/headers";
+
+import { type Schema } from "@/amplify/data/resource";
+import config from "@/amplifyconfiguration.json";
 
 export const { runWithAmplifyServerContext } = createServerRunner({
   config,
