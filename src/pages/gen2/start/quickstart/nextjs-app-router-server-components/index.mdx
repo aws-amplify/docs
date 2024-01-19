@@ -45,8 +45,9 @@ Next, create a `components` folder in the root of your project and the contents 
 // components/ConfigureAmplify.tsx
 "use client";
 
-import config from "@/amplifyconfiguration.json";
 import { Amplify } from "aws-amplify";
+
+import config from "@/amplifyconfiguration.json";
 
 Amplify.configure(config, { ssr: true });
 
@@ -59,11 +60,12 @@ Update `app/layout.tsx` to import and render `<ConfigureAmplifyClientSide />`.  
 
 ```ts title="app/layout.tsx"
 // app/layout.tsx
-import ConfigureAmplifyClientSide from "@/components/ConfigureAmplify";
 import "@aws-amplify/ui-react/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+
+import ConfigureAmplifyClientSide from "@/components/ConfigureAmplify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -97,9 +99,10 @@ Create a new route under `app/login/page.tsx` to render the [Amplify Authenticat
 
 "use client";
 
+import { redirect } from "next/navigation";
+
 import { AuthUser } from "aws-amplify/auth";
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { redirect } from "next/navigation";
 import { useEffect } from "react";
 
 function Login({ user }: { user: AuthUser }) {
@@ -154,10 +157,11 @@ This middleware runs `fetchAuthSession` wrapped in `runWithAmplifyServerContext`
 
 ```ts title="middleware.ts"
 // middleware.ts
+import { NextRequest, NextResponse } from "next/server";
+
+import { fetchAuthSession } from "aws-amplify/auth/server";
 
 import { runWithAmplifyServerContext } from "@/utils/amplify-utils";
-import { fetchAuthSession } from "aws-amplify/auth/server";
-import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
@@ -239,8 +243,9 @@ After creating a todo, `revalidatePath` is run to clear the Next.js cache for th
 ```ts title="app/page.tsx"
 // app/page.tsx
 
-import { cookiesClient } from "@/utils/amplify-utils";
 import { revalidatePath } from "next/cache";
+
+import { cookiesClient } from "@/utils/amplify-utils";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
 async function App() {
