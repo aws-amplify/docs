@@ -2,7 +2,7 @@ import flatDirectory from '@/directory/flatDirectory.json';
 import { useRouter } from 'next/router';
 import { Platform } from '@/data/platforms';
 
-export const useRouteFinder = (platform: Platform, isPrev: boolean) => {
+export const useVersionSwitchPath = (platform: Platform, isPrev: boolean) => {
   const router = useRouter();
   const path = router.pathname;
   const newRoute = isPrev

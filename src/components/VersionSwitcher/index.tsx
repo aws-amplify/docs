@@ -5,14 +5,14 @@ import { IconCheck } from '@/components/Icons';
 import { PLATFORM_VERSIONS } from '@/data/platforms';
 import classNames from 'classnames';
 import { trackVersionChange } from '@/utils/track';
-import { useRouteFinder } from '@/utils/useRouteFinder';
+import { useVersionSwitchPath } from './useVersionSwitchPath';
 import { BUILD_A_BACKEND, PREV_BUILD_A_BACKEND } from '@/data/routes';
 
 export const VersionSwitcher = ({ platform, isPrev, ...rest }) => {
   const router = useRouter();
   const pathname = router.pathname;
   const versions = PLATFORM_VERSIONS[platform];
-  const switchPath = useRouteFinder(platform, isPrev);
+  const switchPath = useVersionSwitchPath(platform, isPrev);
   let path = isPrev ? BUILD_A_BACKEND : PREV_BUILD_A_BACKEND;
   if (
     switchPath &&
