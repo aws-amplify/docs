@@ -73,9 +73,9 @@ Fetch records from the database and use them in your frontend component.
   for how our app's data will be organized. Within the schema, we will define
   models which will correspond to a database table—`Todo` in the above code.
   Finally, we will define fields which are attributes that each data instance
-  will have—in the  generated code, the fields are `name` and `description`. Each
+  will have—in the generated code, the field is `content`. Each
   field will have a type attached to it—in the above examples, we are stating
-  that both `name` and `description` are strings.
+  that the `content` field is a string.
 </Accordion>
 
 Let's make a quick change to our data model and add a `done` field. This will be a `boolean`, which can be set to `true` or `false` depending on whether our to-do list item is complete. Let's also add a priority field, which will be an `enum`. This field type will allow for just a few options to be stored—low, medium, or high.

@@ -28,8 +28,8 @@ This guide will help you migrate Amplify JavaScript v5's Storage APIs to the new
 The input options below have been removed in v6 from Storage APIs:
 
 - `provider`: _Custom providers are no longer supported in v6. All v5 examples below use the input/output values expected for the default S3 Provider._
-- `customPrefix`: _You can [add a prefix resolver](/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path) to your Storage Config to customize the key prefix per accessLevel. See the [Using a Custom Prefix](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#using-a-custom-prefix) header for migration details._
-- `track`: _Auto-tracking Storage events in pinpoint has been removed in V6. You can track Storage events [using the Analytics category](/[platform]/build-a-backend/more-features/analytics/record-events/)._
+- `customPrefix`: _You can [add a prefix resolver](/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path) to your Storage Config to customize the key prefix per accessLevel. See [Using a Custom Prefix](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#using-a-custom-prefix) for migration details._
+- `track`: _Auto-tracking Storage events in pinpoint has been removed in V6. You can track Storage events [using the Analytics category](/[platform]/build-a-backend/more-features/analytics/record-events/). See [Tracking storage events](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#tracking-storage-events) for migration details._
 - `ServerSideEncryption`, `SSECustomerAlgorithm`, `SSECustomerKey`, `SSECustomerKeyMD5`, and `SSEKMSKeyId`: _These options have been deprecated because Server-Side Encryption is automatically applied using default keys by S3 [since Jan 2023](https://aws.amazon.com/blogs/aws/amazon-s3-encrypts-new-objects-by-default/)._
 - `cacheControl`: _This option has been removed and now defers to the HTTP caching behavior configured by the runtime._
 {/* - `$metadata`: _Information like `httpStatusCode` and `attempts` is provided via debug messages using [the Console Logger](/[platform]/build-a-backend/utilities/console-logger/)._ */}
@@ -1257,5 +1257,71 @@ If you would like to upload or download items with a `customPrefix`, you can con
     }
     ```
 
+  </Block>
+</BlockSwitcher>
+
+## Tracking storage events
+
+The `track` option has been removed from Storage and its APIs in v6. Previously, in v5, enabling this option would automatically send analytics events to Pinpoint following the success or failure of Storage API calls. The analytic events sent were defined by Amplify and therefore not configurable. In v6, this option has been removed but you can continue to track Storage API results in a more predictable and configurable way [using the Analytics category](/[platform]/build-a-backend/more-features/analytics/record-events/).
+
+The table below lists the analytics events previously associated to v5 APIs and the corresponding v6 APIs they should now be associated with instead.
+
+| Analytics event   | V5 API                 | V6 API        |
+|-------------------|------------------------|---------------|
+| `'copy'`          | copy                   | copy          |
+| `'download'`      | get (`download: true`) | downloadData  |
+| `'getSignedUrl'`  | get                    | getUrl        |
+| `'getProperties'` | getProperties          | getProperties |
+| `'upload'`        | put                    | uploadData    |
+| `'delete'`        | remove                 | remove        |
+| `'list'`          | list                   | list          |
+
+<BlockSwitcher>
+  <Block name="V6">
+  
+    <Callout info>
+
+      The example below records an analytics event similar to what you would have seen in v5, but does not prescribe a format or content that needs to be followed. Instead, it is fully configurable and should be structured to best suit your analytics needs. Learn more about [using the Analytics category](/[platform]/build-a-backend/more-features/analytics/record-events/).
+
+    </Callout>
+
+    ```ts
+    import { list } from 'aws-amplify/storage';
+    import { record } from 'aws-amplify/analytics';
+
+    const prefix = 'photos/';
+
+    try {
+      const result = await list({ prefix });
+      record({
+        name: 'list',
+        attributes: { result: 'success' },
+      });
+      // Do something with the result
+    } catch (error) {
+      record({
+        name: 'list',
+        attributes: { result: 'failure' },
+      });
+      // Do something with the error
+    };
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+    
+    const prefix = 'photos/';
+
+    Storage.configure({ track: true });
+
+    try {
+      const result = Storage.list(prefix);
+      // Do something with the result
+    } catch (error) {
+      // Do something with the error
+    }
+    ```
   </Block>
 </BlockSwitcher>
