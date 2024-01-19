@@ -116,6 +116,12 @@ export default withAuthenticator(Login);
 
 ### Configure Amplify Server Side
 
+First, install the Amplify Next.js Adapter:
+
+```bash
+npm install @aws-amplify/adapter-nextjs
+```
+
 Next, create a `utils/amplify-utils.ts` file from the root of the project and paste the code below.  `runWithAmplifyServerContext` and `cookiesClient` are declared here and will be used to gain access to Amplify assets from the server.
 
 
