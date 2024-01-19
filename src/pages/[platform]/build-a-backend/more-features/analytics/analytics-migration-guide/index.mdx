@@ -63,15 +63,15 @@ In both v5 and v6, Analytics is enabled by default. You can disable and enable a
 
 ## Pinpoint
 
-In v6, `provider` is determined by import path. To use Pinpoint APIs you will import directly from `aws-amplify/analytics`. These APIs no longer accept parameters specific to Kinesis or Personalize.
+In v6, `provider` is determined by import path. To use Pinpoint APIs you will import them directly from `aws-amplify/analytics`. These APIs no longer accept parameters specific to Kinesis or Personalize.
 
 ### Analytics.record
 
-There are a couple of changes to be aware of in v6:
+The `record` API in v6 has not changed in behavior, however, there are a couple of changes to be aware of in v6:
 
-- The `record` API is now synchronous and does not return since events are always buffered.
+- The `record` API is now synchronous and does not return as events are always buffered.
 - The `immediate` option was removed from the `record` API in v6. Alternatively in v6 you can use the [flushEvents API](/[platform]/build-a-backend/more-features/analytics/record-events/#flush-events) to clear all events from the buffer before calling `record`.
-- The `provider` parameter has been removed and provider will be determined by import path. The Pinpoint `record` API no longer accept Personalize and Kinesis events in v6.
+- The `provider` parameter has been removed and provider will be determined by import path. The Pinpoint `record` API does not accept Personalize or Kinesis events in v6.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
@@ -79,7 +79,7 @@ There are a couple of changes to be aware of in v6:
       **V5**
 
       ```
-      event: AnalyticsEvent | PersonalizeAnalyticsEvent | KinesisAnalyticsEvent // AnalyticsEvent only in v6
+      event: AnalyticsEvent | PersonalizeAnalyticsEvent | KinesisAnalyticsEvent
       provider?: string // removed in v6
 
       // Pinpoint
@@ -351,117 +351,18 @@ This API has been renamed to `identifyUser` in v6 to align with other platforms.
   </Block>
 </BlockSwitcher>
 
-## Record and Configuration APIs
+## Kinesis and Kinesis (Firehose)
 
-As of v6 of Amplify JavaScript, you will now import the functional API’s directly from the `aws-amplify/analytics` path as shown below. 
-
-Note: Red lines of code are v5 and Green lines are v6.
-
-```diff
-- import { Analytics } from 'aws-amplify';
-+ import { enable, disable, record, configureAutoTrack } from 'aws-amplify/analytics';
-
-- Analytics.disable();
-+ disable();
-
-- Analytics.enable();
-+ enable();
-
-- Analytics.record({
--   name: 'albumVisit',
--   attributes: {},
--   metrics: { minutesListened: 30 }
-- });
-
-+ record({
-+   name: 'albumVisit',
-+   attributes: { genre: '', artist: '' }
-+ });
-
-- Analytics.autoTrack('session', {
--   // REQUIRED, turn on/off the auto tracking
--   enable: true,
--   // OPTIONAL, the attributes of the event, you can either pass an object or a function
--   // which allows you to define dynamic attributes
--   attributes: {
--     attr: 'attr'
--   },
--   // OPTIONAL, the service provider, by default is the Amazon Pinpoint
--   provider: 'AWSPinpoint'
-- });
-
-+ configureAutoTrack({
-+   // REQUIRED, turn on/off the auto tracking
-+   enable: true,
-+   // REQUIRED, the event type, it's one of 'event', 'pageView' or 'session'
-+   type: 'session',
-+   // OPTIONAL, additional options for the tracked event.
-+   options: {
-+     // OPTIONAL, the attributes of the event
-+     attributes: {
-+       customizableField: 'attr'
-+     }
-+   }
-+ });
-```
-### Analytics.identifyUser
-
-You can identify an Analytics user with the `identifyUser` API, 
-
-```ts
-import { identifyUser } from 'aws-amplify/analytics';
-
-identifyUser({
-  userId: '<user-id>', // If the user was signed in through Amplify Auth's signIn method you can retrieve the current user's ID from there.
-  userProfile
-});
-
-```
-## Streaming data
-You can stream analytics data to Kinesis. To configure Kinesis with Amplify, reference the [Installation and Configuration](https://docs.amplify.aws/react/build-a-backend/more-features/analytics/streaming-data/#installation-and-configuration) section of the documentation. Below is an example on how to stream data and flush events,
-
-```ts
-import { record, flushEvents } from 'aws-amplify/analytics/kinesis';
-
-record({
-  data: {
-    // The data blob to put into the record
-  },
-  partitionKey: 'myPartitionKey',
-  streamName: 'myKinesisStream'
-});
-
-flushEvents();
-```
-Finally, let's look at the difference in how to personalize recommendations,
-
-```diff
-- import { Analytics, AmazonPersonalizeProvider } from 'aws-amplify';
-- Analytics.addPluggable(new AmazonPersonalizeProvider());
-
-+ import { record } from 'aws-amplify/analytics/personalize';
-
-
-- Analytics.record({
--     eventType: "Identify",
--     properties: {
--         "userId": "<USER_ID>"
--     }
-- }, 'AmazonPersonalize');
-
-+ record({
-+   eventType: "Identify",
-+   properties: {
-+      userId: "<USER_ID>"
-+   }
-+ });
-
-```
-Notice that in v5, the `Analytics.record` API takes in a second parameter with the string value `AmazonPersonalize` whereas in v6, the `record` function is imported from the `aws-amplify/analytics/personalize` subpath and takes only one parameter. 
-
-## Kinesis
+In v6, `provider` is determined by import path. To use Kinesis APIs you will import them from `aws-amplify/analytics/kinesis` and to use Kinesis (Firehose) APIs you will import them from `aws-amplify/analytics/kinesis-firehose`. These APIs no longer accept parameters specific to Pinpoint or Personalize.
 
 ### Analytics.record
+
+The Kinesis and Kinesis (Firehose) `record` APIs in v6 have not changed in behavior, however, there are a couple of changes to be aware of in v6:
+
+- The `record` API is now synchronous and does not return as events are always buffered.
+- The `immediate` option was removed from the `record` API in v6. Alternatively in v6 you can use the [flushEvents API](/[platform]/build-a-backend/more-features/analytics/record-events/#flush-events) to clear all events from the buffer before calling `record`.
+- The `partitionKey` option has been removed from the Kinesis (Firehose) `record` API in v6.
+- The `provider` parameter has been removed and provider will be determined by import path.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
@@ -471,23 +372,6 @@ Notice that in v5, the `Analytics.record` API takes in a second parameter with t
       ```
       event: AnalyticsEvent | PersonalizeAnalyticsEvent | KinesisAnalyticsEvent
       provider?: string // removed in v6
-
-      // Pinpoint
-      AnalyticsEvent {
-        name: string;
-        attributes?: EventAttributes;
-        metrics?: EventMetrics;
-        immediate?: boolean;
-      }
-
-      // Personalize
-      PersonalizeAnalyticsEvent {
-        eventType?: string;
-        userId?: string;
-        properties?: {
-          [key: string]: string;
-        };
-      }
 
       // Kinesis or Kinesis (Firehose)
       KinesisAnalyticsEvent {
@@ -503,32 +387,11 @@ Notice that in v5, the `Analytics.record` API takes in a second parameter with t
       **V6**
 
       ```
-      // Pinpoint
-      input: {
-        name: string;
-        attributes?: Record<string, string>;
-        metrics?: Record<string, number>;
-      } 
-
-      // Personalize
-      input: {
-        userId?: string;
-        eventId?: string;
-        eventType: string;
-        properties: Record<string, unknown>;
-      }
-
-      // Kinesis
       input: {
         streamName: string;
-        partitionKey: string;
         data: Record<string, unknown> | Uint8Array;
-      }
-
-      // Kinesis (Firehose)
-      input: {
-        streamName: string;
-        data: KinesisEventData;
+        // Kinesis only
+        partitionKey: string;
       }
       ```
 
@@ -539,238 +402,33 @@ Notice that in v5, the `Analytics.record` API takes in a second parameter with t
 <BlockSwitcher>
   <Block name="V6">
     ```ts
-    import { record as pinpointRecord } from 'aws-amplify/analytics';
-    import { record as personalizeRecord } from 'aws-amplify/analytics/personalize';
-    import { record as kinesisRecord } from 'aws-amplify/analytics/kinesis';
-    import { record as kinesisFirehoseRecord } from 'aws-amplify/analytics/kinesis-firehose';
-
-    // Pinpoint
-    pinpointRecord({
-      name: 'albumVisit',
-      attributes: { genre: '', artist: '' },
-      metrics: { minutesListened: 30 }
-    });
-
-    // Personalize
-    personalizeRecord({
-      eventType: 'Identify',
-      properties: {
-        userId: 'userId'
-      }
-    });
+    import { record } from 'aws-amplify/analytics/kinesis'; // or 'aws-amplify/analytics/kinesis-firehose'
 
     // Kinesis
     kinesisRecord({
       data: {
         // The data blob to put into the record
       },
-      partitionKey: 'myPartitionKey',
+      partitionKey: 'myPartitionKey', // removed from Kinesis (Firehose) in v6
       streamName: 'myKinesisStream'
-    });
-
-    // Kinesis (Firehose)
-    kinesisFirehoseRecord({
-
     });
     ```
 
   </Block>
   <Block name="V5">
     ```ts
-    import { Analytics, AmazonPersonalizeProvider, AWSKinesisProvider, AWSKinesisFirehoseProvider } from 'aws-amplify';
-    Analytics.addPluggable(new AmazonPersonalizeProvider());
+    import { Analytics, AWSKinesisProvider, AWSKinesisFirehoseProvider } from 'aws-amplify';
     Analytics.addPluggable(new AWSKinesisProvider());
     Analytics.addPluggable(new AWSKinesisFirehoseProvider());
 
-    // Pinpoint
-    Analytics.record({
-      name: 'albumVisit',
-      attributes: { genre: '', artist: '' },
-      metrics: { minutesListened: 30 }
-    });
-
-    // Personalize
-    Analytics.record({
-      eventType: 'Identify',
-      properties: {
-        userId: '<USER_ID>'
-      }
-    }, 'AmazonPersonalize');
-
     // Kinesis
     Analytics.record({
-      eventType: 'Identify',
-      properties: {
-        userId: '<USER_ID>'
-      }
-    }, 'AWSKinesisProvider');
-
-    // Kinesis (Firehose)
-    Analytics.record({
-      eventType: 'Identify',
-      properties: {
-        userId: '<USER_ID>'
-      }
-    }, 'AWSKinesisFirehoseProvider');
-
-    ```
-
-  </Block>
-</BlockSwitcher>
-
-## Kinesis (Firehose)
-
-### Analytics.record
-
-<Accordion title='Input' headingLevel='3'>
-  <Columns columns={2}>
-    <div>
-      **V5**
-
-      ```
-      event: AnalyticsEvent | PersonalizeAnalyticsEvent | KinesisAnalyticsEvent
-      provider?: string // removed in v6
-
-      // Pinpoint
-      AnalyticsEvent {
-        name: string;
-        attributes?: EventAttributes;
-        metrics?: EventMetrics;
-        immediate?: boolean;
-      }
-
-      // Personalize
-      PersonalizeAnalyticsEvent {
-        eventType?: string;
-        userId?: string;
-        properties?: {
-          [key: string]: string;
-        };
-      }
-
-      // Kinesis or Kinesis (Firehose)
-      KinesisAnalyticsEvent {
-        data: object | string;
-        partitionKey: string;
-        streamName: string;
-        immediate?: boolean;
-      }
-      ```
-
-    </div>
-    <div>
-      **V6**
-
-      ```
-      // Pinpoint
-      input: {
-        name: string;
-        attributes?: Record<string, string>;
-        metrics?: Record<string, number>;
-      } 
-
-      // Personalize
-      input: {
-        userId?: string;
-        eventId?: string;
-        eventType: string;
-        properties: Record<string, unknown>;
-      }
-
-      // Kinesis
-      input: {
-        streamName: string;
-        partitionKey: string;
-        data: Record<string, unknown> | Uint8Array;
-      }
-
-      // Kinesis (Firehose)
-      input: {
-        streamName: string;
-        data: KinesisEventData;
-      }
-      ```
-
-    </div>
-  </Columns>
-</Accordion>
-
-<BlockSwitcher>
-  <Block name="V6">
-    ```ts
-    import { record as pinpointRecord } from 'aws-amplify/analytics';
-    import { record as personalizeRecord } from 'aws-amplify/analytics/personalize';
-    import { record as kinesisRecord } from 'aws-amplify/analytics/kinesis';
-    import { record as kinesisFirehoseRecord } from 'aws-amplify/analytics/kinesis-firehose';
-
-    // Pinpoint
-    pinpointRecord({
-      name: 'albumVisit',
-      attributes: { genre: '', artist: '' },
-      metrics: { minutesListened: 30 }
-    });
-
-    // Personalize
-    personalizeRecord({
-      eventType: 'Identify',
-      properties: {
-        userId: 'userId'
-      }
-    });
-
-    // Kinesis
-    kinesisRecord({
       data: {
         // The data blob to put into the record
       },
-      partitionKey: 'myPartitionKey',
+      partitionKey: 'myPartitionKey', // accepted for firehose provider but not used
       streamName: 'myKinesisStream'
-    });
-
-    // Kinesis (Firehose)
-    kinesisFirehoseRecord({
-
-    });
-    ```
-
-  </Block>
-  <Block name="V5">
-    ```ts
-    import { Analytics, AmazonPersonalizeProvider, AWSKinesisProvider, AWSKinesisFirehoseProvider } from 'aws-amplify';
-    Analytics.addPluggable(new AmazonPersonalizeProvider());
-    Analytics.addPluggable(new AWSKinesisProvider());
-    Analytics.addPluggable(new AWSKinesisFirehoseProvider());
-
-    // Pinpoint
-    Analytics.record({
-      name: 'albumVisit',
-      attributes: { genre: '', artist: '' },
-      metrics: { minutesListened: 30 }
-    });
-
-    // Personalize
-    Analytics.record({
-      eventType: 'Identify',
-      properties: {
-        userId: '<USER_ID>'
-      }
-    }, 'AmazonPersonalize');
-
-    // Kinesis
-    Analytics.record({
-      eventType: 'Identify',
-      properties: {
-        userId: '<USER_ID>'
-      }
-    }, 'AWSKinesisProvider');
-
-    // Kinesis (Firehose)
-    Analytics.record({
-      eventType: 'Identify',
-      properties: {
-        userId: '<USER_ID>'
-      }
-    }, 'AWSKinesisFirehoseProvider');
+    }, 'AWSKinesisProvider'); // or 'AWSKinesisFirehoseProvider'
 
     ```
 
@@ -783,6 +441,11 @@ To use the personalize provider in v5, you had to pass in an additional paramete
 
 ### Analytics.record
 
+The Personalize `record` API in v6 has not changed in behavior, however, there are a couple of changes to be aware of in v6:
+
+- The `record` API is now synchronous and does not return as events are always buffered.
+- The `provider` parameter has been removed and provider will be determined by import path.
+
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
     <div>
@@ -792,29 +455,13 @@ To use the personalize provider in v5, you had to pass in an additional paramete
       event: AnalyticsEvent | PersonalizeAnalyticsEvent | KinesisAnalyticsEvent
       provider?: string // removed in v6
 
-      // Pinpoint
-      AnalyticsEvent {
-        name: string;
-        attributes?: EventAttributes;
-        metrics?: EventMetrics;
-        immediate?: boolean;
-      }
-
       // Personalize
       PersonalizeAnalyticsEvent {
-        eventType?: string;
         userId?: string;
+        eventType?: string;
         properties?: {
           [key: string]: string;
         };
-      }
-
-      // Kinesis or Kinesis (Firehose)
-      KinesisAnalyticsEvent {
-        data: object | string;
-        partitionKey: string;
-        streamName: string;
-        immediate?: boolean;
       }
       ```
 
@@ -823,32 +470,11 @@ To use the personalize provider in v5, you had to pass in an additional paramete
       **V6**
 
       ```
-      // Pinpoint
-      input: {
-        name: string;
-        attributes?: Record<string, string>;
-        metrics?: Record<string, number>;
-      } 
-
-      // Personalize
       input: {
         userId?: string;
         eventId?: string;
         eventType: string;
         properties: Record<string, unknown>;
-      }
-
-      // Kinesis
-      input: {
-        streamName: string;
-        partitionKey: string;
-        data: Record<string, unknown> | Uint8Array;
-      }
-
-      // Kinesis (Firehose)
-      input: {
-        streamName: string;
-        data: KinesisEventData;
       }
       ```
 
@@ -859,38 +485,14 @@ To use the personalize provider in v5, you had to pass in an additional paramete
 <BlockSwitcher>
   <Block name="V6">
     ```ts
-    import { record as pinpointRecord } from 'aws-amplify/analytics';
-    import { record as personalizeRecord } from 'aws-amplify/analytics/personalize';
-    import { record as kinesisRecord } from 'aws-amplify/analytics/kinesis';
-    import { record as kinesisFirehoseRecord } from 'aws-amplify/analytics/kinesis-firehose';
-
-    // Pinpoint
-    pinpointRecord({
-      name: 'albumVisit',
-      attributes: { genre: '', artist: '' },
-      metrics: { minutesListened: 30 }
-    });
+    import { record } from 'aws-amplify/analytics/personalize';
 
     // Personalize
-    personalizeRecord({
+    record({
       eventType: 'Identify',
       properties: {
         userId: 'userId'
       }
-    });
-
-    // Kinesis
-    kinesisRecord({
-      data: {
-        // The data blob to put into the record
-      },
-      partitionKey: 'myPartitionKey',
-      streamName: 'myKinesisStream'
-    });
-
-    // Kinesis (Firehose)
-    kinesisFirehoseRecord({
-
     });
     ```
 
@@ -902,36 +504,12 @@ To use the personalize provider in v5, you had to pass in an additional paramete
     Analytics.addPluggable(new AWSKinesisProvider());
     Analytics.addPluggable(new AWSKinesisFirehoseProvider());
 
-    // Pinpoint
-    Analytics.record({
-      name: 'albumVisit',
-      attributes: { genre: '', artist: '' },
-      metrics: { minutesListened: 30 }
-    });
-
-    // Personalize
     Analytics.record({
       eventType: 'Identify',
       properties: {
-        userId: '<USER_ID>'
+        userId: 'userId'
       }
     }, 'AmazonPersonalize');
-
-    // Kinesis
-    Analytics.record({
-      eventType: 'Identify',
-      properties: {
-        userId: '<USER_ID>'
-      }
-    }, 'AWSKinesisProvider');
-
-    // Kinesis (Firehose)
-    Analytics.record({
-      eventType: 'Identify',
-      properties: {
-        userId: '<USER_ID>'
-      }
-    }, 'AWSKinesisFirehoseProvider');
 
     ```
 
