@@ -132,7 +132,7 @@ export const Layout = ({
   const title = [
     pageTitle,
     platform ? PLATFORM_DISPLAY_NAMES[platform] : null,
-    'AWS Amplify Documentation'
+    isGen2 ? 'AWS Amplify Gen 2 Documentation' : 'AWS Amplify Documentation'
   ]
     .filter((s) => s !== '' && s !== null)
     .join(' - ');
