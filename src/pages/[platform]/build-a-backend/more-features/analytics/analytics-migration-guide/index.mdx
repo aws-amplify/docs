@@ -28,7 +28,9 @@ export function getStaticProps(context) {
 
 This guide will help you migrate Amplify JavaScript v5's Analytics APIs to the new v6's Analytics APIs.
 
-As of v6 of Amplify, you will now import APIs directly from the `aws-amplify/analytics` path when using the Pinpoint provider. If you are using the Personalize, Kinesis, or Kinesis (Stream) provider, you will need to import separate APIs from the appropriate subpath (ie `import { record } from 'aws-amplify/analytics/personalize'` when using the `record` API with the `AmazonPersonalize` provider) instead of passing in the `provider` or `options.provider` parameter.
+As of v6 of Amplify, you will now import APIs directly from the `aws-amplify/analytics` path when using the Pinpoint provider. If you are using the Personalize, Kinesis, or Kinesis (Firehose) provider, you will need to import separate APIs from the appropriate subpath (ie `import { record } from 'aws-amplify/analytics/personalize'` when using the `record` API with the `AmazonPersonalize` provider) instead of passing in the `provider` or `options.provider` parameter.
+
+> Note: we have removed the “startSession” API in v6. In v6, we recommend you to use the “record” API with the event “{ name: ‘_session.start’ }” instead.
 
 ## Enable and Disable
 
@@ -67,7 +69,7 @@ In v6, `provider` is determined by import path. To use Pinpoint APIs you will im
 
 The `record` API in v6 has not changed in behavior, however, there are a couple of changes to be aware of in v6:
 
-- The `record` API is now synchronous and does not return as events are always buffered.
+- The `record` API is now synchronous and no longer returns a Promise as events are always buffered.
 - The `immediate` option was removed from the `record` API in v6. Instead, you can now use the [flushEvents API](/[platform]/build-a-backend/more-features/analytics/record-events/#flush-events) to clear all events from the buffer before calling `record`.
 - The `provider` parameter has been removed and provider will be determined by import path. The Pinpoint `record` API does not accept Personalize or Kinesis events in v6.
 
@@ -357,7 +359,7 @@ In v6, `provider` is determined by import path. To use Kinesis APIs you will imp
 
 The Kinesis and Kinesis (Firehose) `record` APIs in v6 have not changed in behavior, however, there are a couple of changes to be aware of in v6:
 
-- The `record` API is now synchronous and does not return as events are always buffered.
+- The `record` API is now synchronous and no longer returns a Promise as events are always buffered.
 - The `immediate` option was removed from the `record` API in v6. Alternatively in v6 you can use the [flushEvents API](/[platform]/build-a-backend/more-features/analytics/record-events/#flush-events) to clear all events from the buffer before calling `record`.
 - The `partitionKey` option has been removed from the Kinesis (Firehose) `record` API in v6.
 - The `provider` parameter has been removed and provider will be determined by import path.
@@ -441,7 +443,7 @@ To use the personalize provider in v5, you had to pass in an additional paramete
 
 The Personalize `record` API in v6 has not changed in behavior, however, there are a couple of changes to be aware of in v6:
 
-- The `record` API is now synchronous and does not return as events are always buffered.
+- The `record` API is now synchronous and no longer returns a Promise as events are always buffered.
 - The `provider` parameter has been removed and provider will be determined by import path.
 
 <Accordion title='Input' headingLevel='3'>
