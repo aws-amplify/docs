@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { useVersionSwitchPath } from '../useVersionSwitchPath';
+import { useVersionSwitcherPath } from '../useVersionSwitcherPath';
 
 const routerMock = {
   __esModule: true,
@@ -16,7 +16,7 @@ const flatDirectoryMock = {};
 
 jest.mock('@/directory/flatDirectory.json', () => flatDirectoryMock);
 
-describe('useVersionSwitchPath', () => {
+describe('useVersionSwitcherPath', () => {
   it('should replace "/[platform]" with "/[platform]/prev" when isPrev is false', () => {
     routerMock.useRouter = () => {
       return {
@@ -30,7 +30,7 @@ describe('useVersionSwitchPath', () => {
       route: '/[platform]/prev/build-a-backend/auth/set-up-auth'
     };
 
-    const { result } = renderHook(() => useVersionSwitchPath('react', false));
+    const { result } = renderHook(() => useVersionSwitcherPath('react', false));
 
     expect(result.current).toEqual(
       '/[platform]/prev/build-a-backend/auth/set-up-auth'
@@ -50,7 +50,7 @@ describe('useVersionSwitchPath', () => {
       route: '/[platform]/build-a-backend/auth/set-up-auth'
     };
 
-    const { result } = renderHook(() => useVersionSwitchPath('react', true));
+    const { result } = renderHook(() => useVersionSwitcherPath('react', true));
 
     expect(result.current).toEqual(
       '/[platform]/build-a-backend/auth/set-up-auth'
@@ -70,7 +70,9 @@ describe('useVersionSwitchPath', () => {
       route: '/[platform]/build-a-backend/auth/set-up-auth'
     };
 
-    const { result } = renderHook(() => useVersionSwitchPath('angular', true));
+    const { result } = renderHook(() =>
+      useVersionSwitcherPath('angular', true)
+    );
 
     expect(result.current).toEqual(undefined);
   });
