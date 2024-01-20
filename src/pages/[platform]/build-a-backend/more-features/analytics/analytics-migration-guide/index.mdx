@@ -30,8 +30,6 @@ This guide will help you migrate Amplify JavaScript v5's Analytics APIs to the n
 
 As of v6 of Amplify, you will now import APIs directly from the `aws-amplify/analytics` path when using the Pinpoint provider. If you are using the Personalize, Kinesis, or Kinesis (Stream) provider, you will need to import separate APIs from the appropriate subpath (ie `import { record } from 'aws-amplify/analytics/personalize'` when using the `record` API with the `AmazonPersonalize` provider) instead of passing in the `provider` or `options.provider` parameter.
 
-<Callout>TODO: The `startSession` API has been removed in v6. (Due to auto-track capabilities?)</Callout>
-
 ## Enable and Disable
 
 In both v5 and v6, Analytics is enabled by default. You can disable and enable all Analytics providers using the `enable` and `disable` APIs exported from the `aws-amplify/analytics` path.
