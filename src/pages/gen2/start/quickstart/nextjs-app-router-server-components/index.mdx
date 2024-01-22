@@ -117,6 +117,61 @@ function Login({ user }: { user: AuthUser }) {
 export default withAuthenticator(Login);
 ```
 
+<Accordion title="Custom <Authenticator> example">
+
+Some applications require customizing the `<Authenticator>` component the following example shows how to add a custom Header to the `<Authenticator>`.
+
+```ts title="app/login/page.tsx"
+// app/login/page.tsx - Custom <Authenticator>
+
+"use client";
+
+import {
+  Authenticator,
+  Text,
+  View,
+  useAuthenticator,
+} from "@aws-amplify/ui-react";
+import { redirect } from "next/navigation";
+import { useEffect } from "react";
+
+const components = {
+  Header() {
+    return (
+      <View textAlign="center">
+        <Text>Authenticator Header</Text>
+      </View>
+    );
+  },
+};
+
+function CustomAuthenticator() {
+  const { user } = useAuthenticator((context) => [context.user]);
+
+  useEffect(() => {
+    if (user) {
+      redirect("/");
+    }
+  }, [user]);
+
+  return <Authenticator components={components} />;
+}
+
+export default function Login() {
+  return (
+    <Authenticator.Provider>
+      <CustomAuthenticator />
+    </Authenticator.Provider>
+  );
+}
+
+```
+
+</Accordion>
+
+
+
+
 ### Configure Amplify Server Side
 
 First, install the Amplify Next.js Adapter:
