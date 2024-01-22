@@ -176,6 +176,30 @@ import flutter8 from '/src/fragments/lib/graphqlapi/flutter/advanced-workflows/5
 
 <Fragments fragments={{ flutter: flutter8 }} />
 
-import ios9 from '/src/fragments/lib/graphqlapi/ios/advanced-workflows/60_custom_input.mdx';
+<InlineFilter filters={['swift']}>
 
-<Fragments fragments={{ swift: ios9 }} />
+## Custom Request Inputs as JSON Objects
+
+If you have custom query inputs defined, you can convert the input objects to Json objects as part of the requests.
+
+```swift
+extension GraphQLRequest {
+    static func get(filter: CustomRequestFilter) -> GraphQLRequest<JSONValue> {
+        let document = """
+        ....
+        """
+        
+        let data = try? JSONEncoder().encode(filter)
+        let jsonObject = try? JSONSerialization.jsonObject(with: data!, options: [])
+        return GraphQLRequest<JSONValue>(
+            document: document,
+            variables: [
+                "filter": jsonObject,
+            ],
+            responseType: JSONValue.self
+        )
+    }
+}
+```
+
+</InlineFilter>
