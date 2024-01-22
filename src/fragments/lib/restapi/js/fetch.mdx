@@ -115,9 +115,13 @@ The following example shows how to access the HTTP response from an `ApiError` i
 error response from your REST API endpoint:
 
 ```javascript
-import { ApiError } from 'aws-amplify/api';
+import { ApiError, get } from 'aws-amplify/api';
 
 try {
+  const restOperation = get({ 
+    apiName: 'todo-api',
+    path: '/todo' 
+  });
   await restOperation.response;
 } catch (error) {
   if (error instanceof ApiError) {
