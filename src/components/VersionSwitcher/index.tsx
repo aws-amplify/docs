@@ -12,7 +12,7 @@ export const VersionSwitcher = ({ platform, isPrev, ...rest }) => {
   const router = useRouter();
   const pathname = router.pathname;
   const versions = PLATFORM_VERSIONS[platform];
-  const switchPath = useVersionSwitcherPath(platform, isPrev);
+  const switchPath = useVersionSwitcherPath(platform);
   let path = isPrev ? BUILD_A_BACKEND : PREV_BUILD_A_BACKEND;
   if (
     switchPath &&
