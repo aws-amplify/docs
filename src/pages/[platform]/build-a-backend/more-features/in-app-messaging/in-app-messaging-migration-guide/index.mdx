@@ -524,7 +524,7 @@ The way to notify any interaction event listeners of your users' interactions wi
     import { notifyMessageInteraction } from 'aws-amplify/in-app-messaging';
 
     const message = {
-      // In-app message interacted with
+      // In-app message that you want to record an interaction on
     }
 
     notifyMessageInteraction({ message, type: 'messageDisplayed' });
@@ -538,7 +538,7 @@ The way to notify any interaction event listeners of your users' interactions wi
     const { InAppMessaging } = Notifications;
 
     const message = {
-      // In-app message interacted with
+      // In-app message that you want to record an interaction on
     }
 
     InAppMessaging.notifyMessageInteraction(
