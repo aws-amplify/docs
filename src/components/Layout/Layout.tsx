@@ -1,17 +1,14 @@
-import { useState, useEffect, useRef, ReactElement } from 'react';
+import { useState, useEffect, ReactElement } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
-  Button,
   ColorMode,
   Flex,
   Heading,
   IconsProvider,
   ThemeProvider,
-  View,
-  VisuallyHidden
+  View
 } from '@aws-amplify/ui-react';
-import classNames from 'classnames';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
 import { gen2Theme } from '@/themes/gen2Theme';
@@ -23,28 +20,15 @@ import {
   PLATFORM_DISPLAY_NAMES,
   Platform
 } from '@/data/platforms';
-import {
-  ALGOLIA_API_KEY,
-  ALGOLIA_INDEX_NAME,
-  ALGOLIA_APP_ID
-} from '../../constants/algolia';
 import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
 import { SpaceShip } from '@/components/SpaceShip';
-import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
-import { Menu } from '@/components/Menu';
-import { LayoutProvider } from '@/components/Layout';
+import { LayoutProvider, LayoutHeader } from '@/components/Layout';
 import { TableOfContents } from '@/components/TableOfContents';
 import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
-import { PlatformNavigator } from '@/components/PlatformNavigator';
-import flatDirectory from 'src/directory/flatDirectory.json';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
-import { DocSearch } from '@docsearch/react';
 import '@docsearch/css';
-import { PageLastUpdated } from '../PageLastUpdated';
-import Feedback from '../Feedback';
-import RepoActions from '../Menu/RepoActions';
 import { Banner } from '@/components/Banner';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import {
@@ -78,8 +62,6 @@ export const Layout = ({
   const [menuOpen, toggleMenuOpen] = useState(false);
   const [colorMode, setColorMode] = useState<ColorMode>('system');
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
   const mainId = 'pageMain';
   const showTOC = hasTOC && tocHeadings.length > 0;
   const router = useRouter();
@@ -92,7 +74,6 @@ export const Layout = ({
   let currentPlatform = isGen2 ? undefined : DEFAULT_PLATFORM;
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
-  const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
 
   const handleColorModeChange = (mode: ColorMode) => {
     setColorMode(mode);
@@ -138,18 +119,6 @@ export const Layout = ({
     .join(' - ');
 
   const description = `${pageDescription} AWS Amplify Documentation`;
-
-  const handleMenuToggle = () => {
-    if (!menuOpen) {
-      toggleMenuOpen(true);
-      // For keyboard navigators, move focus to the close menu button in the nav
-      setTimeout(() => sidebarMenuButtonRef?.current?.focus(), 0);
-    } else {
-      toggleMenuOpen(false);
-      // For keyboard navigators, move focus back to menu button in header
-      menuButtonRef?.current?.focus();
-    }
-  };
 
   const handleScroll = debounce((e) => {
     const bodyScroll = e.target.documentElement.scrollTop;
@@ -258,96 +227,12 @@ export const Layout = ({
                 isGen2={isGen2}
                 mainId={mainId}
               />
-              <View as="header" className="layout-header">
-                <Flex className={`layout-search layout-search--${pageType}`}>
-                  <Button
-                    onClick={() => handleMenuToggle()}
-                    size="small"
-                    ref={menuButtonRef}
-                    className="search-menu-toggle mobile-toggle"
-                  >
-                    <IconMenu aria-hidden="true" />
-                    Menu
-                  </Button>
-
-                  <View
-                    className={classNames(
-                      'layout-search__search',
-                      `layout-search__search--${pageType}`,
-                      { 'layout-search__search--toc': showTOC }
-                    )}
-                  >
-                    <View className="layout-search__search__container">
-                      <DocSearch
-                        appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
-                        indexName={
-                          process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME
-                        }
-                        apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
-                        searchParameters={{
-                          facetFilters: [
-                            `platform:${isGen2 ? 'gen2' : currentPlatform}`
-                          ]
-                        }}
-                      />
-                    </View>
-                  </View>
-                </Flex>
-                <View
-                  className={classNames('layout-sidebar', {
-                    'layout-sidebar--expanded': menuOpen
-                  })}
-                >
-                  <View
-                    className={classNames('layout-sidebar__backdrop', {
-                      'layout-sidebar__backdrop--expanded': menuOpen
-                    })}
-                    onClick={() => toggleMenuOpen(false)}
-                  ></View>
-                  <View
-                    className={classNames('layout-sidebar__inner', {
-                      'layout-sidebar__inner--expanded': menuOpen
-                    })}
-                  >
-                    <Button
-                      size="small"
-                      colorTheme="overlay"
-                      className={classNames('layout-sidebar__mobile-toggle', {
-                        'layout-sidebar__mobile-toggle--open': menuOpen
-                      })}
-                      ref={sidebarMenuButtonRef}
-                      onClick={() => handleMenuToggle()}
-                    >
-                      <IconDoubleChevron />
-                      <VisuallyHidden>Close menu</VisuallyHidden>
-                    </Button>
-                    {isGen2 ? null : (
-                      <div className="layout-sidebar-platform">
-                        <PlatformNavigator
-                          currentPlatform={currentPlatform}
-                          isPrev={isPrev}
-                        />
-                      </div>
-                    )}
-
-                    <div className="layout-sidebar-menu">
-                      <Menu
-                        currentPlatform={currentPlatform}
-                        path={asPathWithNoHash}
-                      />
-                      <div className="layout-sidebar-feedback">
-                        <RepoActions router={router}></RepoActions>
-                        <Feedback router={router}></Feedback>
-                      </div>
-                      {showLastUpdatedDate && (
-                        <PageLastUpdated
-                          directoryData={flatDirectory[router.pathname]}
-                        />
-                      )}
-                    </div>
-                  </View>
-                </View>
-              </View>
+              <LayoutHeader
+                hasTOC={hasTOC}
+                pageType={pageType}
+                platform={platform}
+                showLastUpdatedDate={showLastUpdatedDate}
+              ></LayoutHeader>
               <View key={asPathWithNoHash} className="layout-main">
                 <Flex
                   id={mainId}
