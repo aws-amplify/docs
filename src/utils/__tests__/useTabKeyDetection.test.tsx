@@ -13,6 +13,10 @@ describe('useTabKeyDetection', () => {
     };
   };
 
+  // Helper function to send keyboard event
+  // Since the hook is listening to specific keydown and keyup events and
+  // changing state based on keyup and keydown, "userevent" doesn't work
+  // as expected and so we're invoking the events directly on the object
   const sendKeyboardEvent = (mockRef, eventType, key) => {
     act(() => {
       const event = new KeyboardEvent(eventType, { key: key });
@@ -65,6 +69,19 @@ describe('useTabKeyDetection', () => {
     const { result, unmount } = renderHook(() => useTabKeyDetection(mockRef));
 
     unmount();
+
+    // Simulate pressing the Tab key
+    sendKeyboardEvent(mockRef, 'keydown', 'Tab');
+
+    expect(result.current.isTabKeyPressed).toBe(false);
+  });
+
+  it('should not add event listeners if there is no ref.current', () => {
+    const mockRef = {
+      current: null
+    };
+
+    const { result } = renderHook(() => useTabKeyDetection(mockRef));
 
     // Simulate pressing the Tab key
     sendKeyboardEvent(mockRef, 'keydown', 'Tab');
