@@ -259,34 +259,34 @@ The `identifyUser` API in v6 has not changed in behavior; however, it is now exp
     import { identifyUser } from 'aws-amplify/in-app-messaging';
 
     const identifyUserInput = {
-      userId: '', // E.g. user-id
+      userId: 'user-id',
       userProfile: {
-        email: '', // E.g. example@service.com
-        name: '', // E.g. name-of-the-user
-        plan: '' // E.g. plan-they-subscribe-to
+        email: 'example@service.com',
+        name: 'User A',
+        plan: 'Standard'
         customProperties: {
-          // E.g. hobbies: ['cooking', 'knitting'],
+          hobbies: ['cooking', 'knitting'],
         },
         demographic: {
-          appVersion: '',
-          locale: '', // E.g. en_US
-          make: '', // E.g. Apple
-          model: '', // E.g. iPhone
-          modelVersion: '', // E.g. 13
-          platform: '', // E.g. iOS
-          platformVersion: '', // E.g. 15
-          timezone: '' // E.g. Americas/Los_Angeles
+          appVersion: '1.0.0',
+          locale: 'en_US',
+          make: 'Apple',
+          model: 'iPhone',
+          modelVersion: '13',
+          platform: 'iOS',
+          platformVersion: '15',
+          timezone: 'Americas/Los_Angeles'
         },
         location: {
-          city: '', // E.g. Seattle
-          country: '', // E.g. US,
-          postalCode: '', // E.g. 98121
-          region: '', // E.g. WA
+          city: 'Seattle',
+          country: 'US',
+          postalCode: '98121',
+          region: 'WA',
           latitude: 0.0,
           longitude: 0.0
         },
         metrics: {
-          // E.g. logins: 157
+          logins: 157
         },
       },
     };
@@ -300,34 +300,34 @@ The `identifyUser` API in v6 has not changed in behavior; however, it is now exp
     import { Notifications } from 'aws-amplify';
     const { InAppMessaging } = Notifications;
 
-    const userId = ''; // E.g. user-id
+    const userId = 'user-id';
     const userInfo = {
-      address: '', // E.g. A device token or email address
+      address: 'example@service.com',
       attributes: {
-        // E.g. hobbies: ['cooking', 'knitting'],
+        hobbies: ['cooking', 'knitting'],
       },
       demographic: {
-        appVersion: '',
-        locale: '', // E.g. en_US
-        make: '', // E.g. Apple
-        model: '', // E.g. iPhone
-        modelVersion: '', // E.g. 13
-        platform: '', // E.g. iOS
-        platformVersion: '', // E.g. 15
-        timezone: '' // E.g. Americas/Los_Angeles
+        appVersion: '1.0.0',
+        locale: 'en_US',
+        make: 'Apple',
+        model: 'iPhone',
+        modelVersion: '13',
+        platform: 'iOS',
+        platformVersion: '15',
+        timezone: 'Americas/Los_Angeles'
       },
       location: {
-        city: '', // E.g. Seattle
-        country: '', // E.g. US,
-        postalCode: '', // E.g. 98121
-        region: '', // E.g. WA
+        city: 'Seattle',
+        country: 'US',
+        postalCode: '98121',
+        region: 'WA',
         latitude: 0.0,
         longitude: 0.0
       },
       metrics: {
-        // E.g. logins: 157
+        logins: 157
       },
-      optOut: ''  // Either ALL or NONE
+      optOut: 'NONE'
     };
 
     await InAppMessaging.identifyUser(userId, userInfo);
