@@ -5,7 +5,7 @@ import { IconExternalLink, IconChevron } from '@/components/Icons';
 import Link from 'next/link';
 import { JS_PLATFORMS, Platform, JSPlatform } from '@/data/platforms';
 import { LayoutContext } from '@/components/Layout';
-import { PageNode } from 'src/directory/directory';
+import { PageNode } from '@/directory/directory';
 
 enum Levels {
   Category = 1,
