@@ -31,6 +31,8 @@ async function getMetaStringObj(filePath) {
 
       return result;
     } catch (err) {
+      // This error is for when we found a match, but did not match the correct meta object.
+      // This case happens when we have another exported variable below the meta object.
       throw new Error(
         `Unable to parse meta object for file: "${filePath}". ${err}
         
@@ -39,6 +41,14 @@ There might be a missing comma in the object or a missing semicolon at the end o
         `
       );
     }
+  } else {
+    // This error is for when we don't find a match for the meta object in the file at all.
+    throw new Error(
+      `File "${filePath}" was listed in directory.mjs, but generateDirectory.mjs could not parse the meta object.
+Please check the "meta" object in the file and make sure it is a valid javascript object.
+There might be a missing comma in the object or a missing semicolon at the end of the meta object.
+`
+    );
   }
 }
 
