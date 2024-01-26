@@ -180,51 +180,39 @@ import flutter8 from '/src/fragments/lib/graphqlapi/flutter/advanced-workflows/5
 
 ## Custom Request Inputs using Encodable Objects
 
-You can custom query inputs that uses Encodable data structures as a filter.  The filtering object are encoded to JSON object as part of the request.
+You can create custom query inputs that uses Encodable data structures as the filter.  The filtering object are encoded to JSON object as part of the request.
 
 ```swift
-type ProductData
-{
-  id: String!
-  name: String! 
-  description: String! 
-  price: String!
-  brand: String! 
-}
-
-struct ProductRequestFilter: Encodable
-{
-  let name: String
-  let brand: String
+struct CreateTodoInput: Encodable {
+  let id: String!
+  let name: String!
+  let description: String?
 }
 
 extension GraphQLRequest {
-    static func getProducts(filter: ProductRequestFilter) throws -> GraphQLRequest<JSONValue> {
-      let operationName = "getProducts"
-        let document = """
-        query ($filter: productRequestFilter!) {
-          \(operationName)(filter: $filter) {
-            id
-            name
-            description
-            price
-            brand
-          }
+    static func createToDo(filter: CreateTodoInput) throws -> GraphQLRequest<TODO> {
+      let operationName = "createTodo"
+      let document = """
+      query createTodo($id: ID!) {
+        \(operationName)(id: $id) {
+          id
+          name
+          description
         }
-        """
-        
-        guard let data = try? JSONEncoder().encode(filter) else { 
-          throw APIError("Failed to encode filter")
-        }
-
-        let jsonObject = try? JSONSerialization.jsonObject(with: data, options: [])
-        return GraphQLRequest<JSONValue>(
-            document: document,
-            variables: [
-                "filter": jsonObject,
-            ],
-            responseType: JSONValue.self
-        )
+      }
+      """
+      // turn input into data
+      guard let data = try? JSONEncoder().encode(filter) else { 
+        throw APIError("Failed to encode filter")
+      }
+      // turn data into `Any` JSON object
+      let jsonObject = try? JSONSerialization.jsonObject(with: data, options: [])
+      return GraphQLRequest<Todo>(
+          document: document,
+          variables: ["input": jsonObject],
+          responseType: Todo.self,
+          decodePath: operationName
+      )
     }
 }
 ```
