@@ -4,24 +4,17 @@ export const meta = {
     'Customize your business logic for queries, mutations, and subscriptions.'
 };
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   return {
     props: {
       meta
     }
   };
-
 }
 
-<Callout info>
+The `a.model()` data model provides a solid foundation for querying, mutating, and fetching data. However, you may need additional customizations to meet specific requirements around custom API requests, response formatting, and or fetching from external data sources.
 
-**Coming soon:** The custom business logic experience in Amplify (Gen 2) is still under development. Expect the API surface to change dramatically during the Gen-2 preview period. If you have any feedback on the desired developer experience, please [file a GitHub issue](https://github.com/aws-amplify/amplify-backend).
-
-</Callout>
-
-The default GraphQL API provides a solid foundation for querying, mutating, and fetching data. Even so, you may need additional customization to tailor it to your app's specific requirements around data handling, response formatting, and more.
-
-In the following sections, we walk through the three steps to create a custom mutation or query:
+In the following sections, we walk through the three steps to create a custom query or query:
 
 1. Define a custom query or mutation
 2. Configure custom business logic handler code
@@ -90,7 +83,7 @@ const schema = a.schema({
     .mutation()
     // arguments that this query accepts
     .arguments({
-      content: a.string()
+      postId: a.string()
     })
     // return type of the query
     .returns(a.ref('Post'))
@@ -111,7 +104,13 @@ export const data = defineData({
 
 ## Step 2 - Configure custom business logic handler code
 
-After your query or mutation is defined, you need to author your custom business logic in a function. In your **amplify/data/** folder, create a **echo-handler.ts** file.
+After your query or mutation is defined, you need to author your custom business logic. You can either define it in a function or using an [AppSync JavaScript resolver](TK).
+
+<BlockSwitcher>
+
+<Block name="Function">
+
+In your **amplify/data/** folder, create a **echo-handler.ts** file.
 
 ```ts
 // amplify/data/echo-handler.ts
@@ -155,10 +154,57 @@ const schema = a.schema({
     .arguments({ content: a.string() })
     .returns(a.ref('EchoResponse'))
     .authorization([a.allow.public()])
-    // Step 2 - Define a function key ("echoHandler") that will be used
-    // to map this query to the corresponding functions provided to
-    // defineData(...)
-    .function('echoHandler')
+    .handler(a.handler.function(echoHandler))
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30
+    },
+  },
+});
+```
+
+</Block>
+<Block name="Custom resolver powered by AppSync JavaScript resolvers">
+
+Custom resolvers work on a "request/response" basis, you choose a data source, map your request to the data sources' input parameters, and then map the data source's response back to the query/mutation's return type. Custom resolvers provide the benefit of no cold starts but has some limitations, such as TK.
+
+In your **amplify/data/resource.ts** file, define a custom handler using `a.handler.custom`.
+
+```ts
+// amplify/data/resource.ts
+import {
+  type ClientSchema,
+  a,
+  defineData,
+  defineFunction // Step 1 - Import "defineFunction" to create new functions
+} from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Post: a.model({
+    content: a.string(),
+    likes: a.integer()
+      .authorization([a.allow.private().to(['read'])])
+  }).authorization([
+    a.allow.owner(),
+    a.allow.private().to(['read'])
+  ]),
+
+  likePost: a
+    .query()
+    .arguments({ postId: a.id() })
+    .returns(a.ref('Post'))
+    .authorization([a.allow.private()])
+    .handler(a.handler.custom({
+      dataSource: a.ref('Post'),
+      codePath: './increment-like.js'
+    }))
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -171,70 +217,106 @@ export const data = defineData({
       expiresInDays: 30
     }
   },
-  functions: {
-    // Step 3 - Map the function key to the function definition
-    echoHandler: defineFunction({
-      entry: './echo-handler.ts'
-    })
-  }
 });
 ```
 
-## Step 3 - Invoke the custom query or mutation
+```ts
+// amplify/data/increment-like.js
+export function request(ctx) {
+  return {
+    operation: 'UpdateItem',
+    key: util.dynamodb.toMapValues({ id: ctx.args.postId}),
+    update: {
+      expression: 'ADD likes :plusOne',
+      expressionValues: { 'plusOne': { N: 1 } },
+    }
+  }
+}
+
+export function response(ctx: Context) {
+  return ctx.result
+}
+```
+
+By default, you'll be able to access any existing database tables (powered by Amazon DynamoDB) using `a.ref('MODEL_NAME')`. But you can also reference any other external data source from within your AWS account, by adding them to your backend definition. 
+
+The supported data sources are:
+- Amazon DynamoDB
+- AWS Lambda
+- Amazon RDS databases with Data API
+- Amazon EventBridge
+- OpenSearch
+- HTTP endpoints
+
+You can add these additional data sources via our the `amplify/backend.ts` file:
+
+```ts
+// amplify/backend.ts
+import * as dynamoDb from 'aws-cdk-lib/aws-dynamodb'
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource.js';
+import { data } from './data/resource.js';
+
+export const backend = defineBackend({
+  auth,
+  data,
+});
+
+const externalDataSourcesStack = backend.createStack("MyExternalDataSources")
+
+const externalTable = dynamoDb.Table.fromTableName(externalDataSourcesStack, "MyTable", "MyExternalTable")
+
+backend.data.addDynamoDbDataSource("ExternalTableDataSource", externalTable)
+```
+
+{/* Note: the above will be using the types of the L1 construct of "CfnDataSource" for now. It's not a one-way door, we can always add explicit L2 construct approaches in the future: ".addDynamoDbDataSource". We should enhance the L1 typings though, so based on what's passed into "type", we type-enforce the other fields. For example if you pass in "AMAZON_DYNAMODB", then you can't set "openSearchConfig"*/}
+
+In your schema you can then reference these additional data sources based on their name:
+
+```ts
+```
+
+</Block>
+</BlockSwitcher>
 
 <Callout info>
 
-**Coming soon:** The following example requires you to manually generate GraphQL client code as an escape hatch to invoke the custom query or mutation. Amplify Data is built with GraphQL under the hood. While you're not expected to know GraphQL or have to interface with GraphQL directly when Amplify (Gen 2) becomes generally available, it is helpful to understand the [underlying GraphQL concepts](https://graphql.org) that enable Amplify Data's functionality.
+The `.handler()` accepts an array of handlers that will run in a pipeline. For example, you can add a common handler for input sanitization and then use different handlers post input sanitization:
 
-<br />
-For Gen 2's general availability, we plan on integrating this first class into the
-Data client, so you can call a custom query or mutation with code, such as:
+```ts
+.handler(
+  a.handler.function(inputValidator),
+  a.handler.function(actionHandler)
+)
+```
+
+</Callout>
+
+<Callout warning>
+
+All handlers must be of the same type. But you can't mix and match `a.handler.function` with `a.handler.custom` within a single `.handler()` modifier.
+
+</Callout>
+
+## Step 3 - Invoke the custom query or mutation
+
+From your generatedClient, you can find all your custom queries and mutations under `.queries` and `.mutations` respectively.
+
+<BlockSwitcher>
+
+<Block name="Custom query">
 
 ```ts
 const response = await client.queries.echo({ content: 'hello' });
 ```
 
-</Callout>
+</Block>
 
-In the preview of Amplify (Gen 2), you must first generate GraphQL client code for your custom queries and mutations and then pass them into the `client.graphql(...)` operation. In your terminal, run the following command:
-
-```bash
-npx amplify generate graphql-client-code \
---format graphql-codegen \
---statement-target typescript \
---type-target typescript \
---out ./graphql \
---stack <YOUR_STACK_NAME_HERE>
-# You can find your stack name in your "npx amplify sandbox"
-# console logs. It has the following format:
-# amplify-<app-name>-<user-name>-sandbox-<unique-id>
-```
-
-This should create the following set of GraphQL client helper code for you under **graphql/**:
-
-- **API.ts** – All the type definitions for queries, mutations, and subscriptions
-- **mutations.ts** – The GraphQL mutations from your API
-- **queries.ts** – The GraphQL queries from your API
-- **subscriptions.ts** – The GraphQL subscriptions from your API
-
-To call the `echo` query from step 1, we need to import the `echo` function from **queries.ts** and pass it as a query to `client.graphql(...)`.
+<Block name="Custom mutation">
 
 ```ts
-import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '@/amplify/data/resource';
-import * as queries from '@/graphql/queries';
-
-const client = generateClient<Schema>();
-
-async function callEcho() {
-  const response = await client.graphql({
-    query: echo,
-    variables: {
-      content: 'Echo me!'
-    }
-  });
-
-  console.log(response.data.echo?.content);
-  console.log(response.data.echo?.executionDuration);
-}
+const response = await client.mutations.likePost({ postId: 'hello' });
 ```
+
+</Block>
+</BlockSwitcher>
