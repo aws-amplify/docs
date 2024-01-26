@@ -109,7 +109,7 @@ struct CreateTodoInput: Encodable {
 Then create the GraphQLRequest
 ```swift
 extension GraphQLRequest {
-    static func createToDo(input: CreateTodoInput) throws -> GraphQLRequest<TODO> {
+    static func createToDo(input: CreateTodoInput) throws -> GraphQLRequest<Todo> {
       let operationName = "createTodo"
       let document = """
       query createTodo($id: ID!) {
