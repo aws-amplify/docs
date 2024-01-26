@@ -1940,7 +1940,10 @@ export const directory = {
                   path: 'src/pages/gen2/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/start/quickstart/nextjs-app-router/index.mdx'
+                  path: 'src/pages/gen2/start/quickstart/nextjs-app-router-client-components/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/start/quickstart/nextjs-app-router-server-components/index.mdx'
                 }
               ]
             },
