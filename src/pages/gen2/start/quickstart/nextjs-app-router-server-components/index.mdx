@@ -129,7 +129,7 @@ export default function LoginPage() {
 
 <Accordion title="Custom <Authenticator> example">
 
-Some applications require customizing the `<Authenticator>` component the following example shows how to add a custom Header to the `<Authenticator>`.
+Some applications require more customization for the `<Authenticator>` component. The following example shows how to add a custom Header to the `<Authenticator>`.
 
 ```ts title="app/login/page.tsx"
 // app/login/page.tsx - Custom <Authenticator>
@@ -149,7 +149,7 @@ const components = {
   Header() {
     return (
       <View textAlign="center">
-        <Text>Authenticator Header</Text>
+        <Text><span style={{color: "white"}}>Authenticator Header</span></Text>
       </View>
     );
   },
@@ -295,7 +295,7 @@ async function App() {
 export default App;
 ```
 
-Once you save the file and navigate back to `http://localhost:3000`, you should see a blank page for now because you have only an empty list of to-dos.
+Once you save the file and navigate back to `http://localhost:3000`, you should see "Hello, Amplify" with a blank page for now because you have only an empty list of to-dos.
 
 ### Create a new to-do item
 
