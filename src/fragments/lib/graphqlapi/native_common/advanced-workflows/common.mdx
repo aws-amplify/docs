@@ -178,32 +178,37 @@ import flutter8 from '/src/fragments/lib/graphqlapi/flutter/advanced-workflows/5
 
 <InlineFilter filters={['swift']}>
 
-## Custom Request Inputs as JSON Objects
+## Custom Request Inputs using Encodable Objects
 
-If you have custom query inputs defined, you can convert the input objects to Json objects as part of the requests.
+You can custom query inputs that uses Encodable data structures as a filter.  The filtering object are encoded to JSON object as part of the request.
 
 ```swift
-type Item
+type ProductData
 {
   id: String!
-  name: String!
-  description: String!
+  name: String! 
+  description: String! 
+  price: String!
+  brand: String! 
 }
 
-struct ItemRequestFilter: Encodable
+struct ProductRequestFilter: Encodable
 {
   let name: String
+  let brand: String
 }
 
 extension GraphQLRequest {
-    static func getItem(filter: ItemFilter) throws -> GraphQLRequest<JSONValue> {
-      let operationName = "getItem"
+    static func getProducts(filter: ProductRequestFilter) throws -> GraphQLRequest<JSONValue> {
+      let operationName = "getProducts"
         let document = """
-        query ($filter: itemFilter!) {
+        query ($filter: productRequestFilter!) {
           \(operationName)(filter: $filter) {
             id
             name
             description
+            price
+            brand
           }
         }
         """
