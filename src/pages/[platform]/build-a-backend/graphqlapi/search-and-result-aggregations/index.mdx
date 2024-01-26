@@ -206,7 +206,7 @@ query MyQuery {
 
 In the example above, the response's `total` field contains the total search result count for "Students" whose name ends with "Brandel". Note: `total` is calculated based on all records, irrespective of pagination configurations.
 
-## Aggregate values for search result (minimum, maximum, average, sum, terms)
+## Aggregate values for search result (minimum, maximum, average, sum, terms, cardinality)
 
 Use the `aggregates` parameter to get aggregate values such as "minimum", "maximum", "average", and "sum" returned in the `aggregateItems` field. Note: `aggregates` are calculated based on all records, irrespective of pagination configurations.
 
@@ -436,6 +436,51 @@ In the example above, the response includes the terms for the description and th
           "name": "descriptionTerms"
         }
       ]
+    }
+  }
+}
+```
+
+</Block>
+
+<Block name="Cardinality (cardinality)">
+
+Provide the `cardinality` value as the `aggregate` `type` and specify the `aggregateItems` in the response field.
+
+```graphql
+query MyQuery {
+  searchStudents(
+    aggregates: {
+      type: cardinality # Specifies that you want the "cardinality" value
+      field: examsCompleted # Specifies the field for the aggregate value
+      name: "cardinalityExams" # provides a name to reference in the response field
+    }
+    filter: { name: { wildcard: "Rene*" } }
+  ) {
+    aggregateItems {
+      name
+      result {
+        ... on SearchableAggregateScalarResult {
+          value
+        }
+      }
+    }
+  }
+}
+```
+
+In the example above, the response includes the count value of unique "examsCompleted" for all Students whose name starts with "Rene".
+
+```graphql
+{
+  "data": {
+    "searchStudents": {
+      "aggregateItems": [{
+        "name": "cardinalityExams",
+        "result": {
+          "value": 6
+        }
+      }]
     }
   }
 }
