@@ -94,26 +94,28 @@ import flutter3 from '/src/fragments/lib/graphqlapi/flutter/advanced-workflows/2
 
 ## Custom Request Inputs
 
-The **GraphQLRequest**'s variables property takes in a JSON object. You can define this as an Encodable type and serialize it to a JSON object for the request.
+The `GraphQLRequest`'s `variables` property takes in a JSON object. You can define this as an **Encodable** type and serialize it to a JSON object for the request.
 
-Define the type that matches the expected GraphQL input type:
+Define the type that matches the expected input type from your GraphQL service.
 
 ```swift
 struct CreateTodoInput: Encodable {
-  let id: String!
-  let name: String!
+  let id: String
+  let name: String
   let description: String?
 }
 ```
 
-Then create the GraphQLRequest
+Then create the `GraphQLRequest`
 ```swift
+import Foundation
+
 extension GraphQLRequest {
-    static func createToDo(input: CreateTodoInput) throws -> GraphQLRequest<Todo> {
+    static func createTodo(input: CreateTodoInput) throws -> GraphQLRequest<Todo> {
       let operationName = "createTodo"
       let document = """
-      query createTodo($id: ID!) {
-        \(operationName)(id: $id) {
+      query createTodo($input: CreateTodoInput!) {
+        \(operationName)(input: $input) {
           id
           name
           description
@@ -133,7 +135,7 @@ extension GraphQLRequest {
     }
 }
 ```
-
+The `input` object is encoded as a data object and then serialized into the JSON object.
 </InlineFilter>
 
 ## Nested Data
