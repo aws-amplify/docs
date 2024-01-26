@@ -92,6 +92,7 @@ export default function RootLayout({
 
 ### Add a login page
 
+First, create a client side Login component in the `components` folder that will be wrapped in `withAuthenticator`. If the user is logged in, they will be redirected to the index route, otherwise the [Amplify UI Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator) will be rendered.
 
 ```ts title="components/Login.tsx"
 // components/Login.tsx
@@ -114,8 +115,8 @@ function Login({ user }: { user?: AuthUser }) {
 export default withAuthenticator(Login);
 ```
 
+Next, create a new route under `app/login/page.tsx` to render the `Login` component.
 
-Create a new route under `app/login/page.tsx` to render the [Amplify Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator) when a user is not logged in or redirect to the root route.
 ```ts title="app/login/page.tsx"
 // app/login/page.tsx
 
@@ -125,7 +126,6 @@ export default function LoginPage() {
   return <Login />;
 }
 ```
-
 
 <Accordion title="Custom <Authenticator> example">
 
