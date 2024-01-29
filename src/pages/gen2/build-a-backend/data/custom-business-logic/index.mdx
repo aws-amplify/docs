@@ -14,7 +14,7 @@ export function getStaticProps() {
 
 The `a.model()` data model provides a solid foundation for querying, mutating, and fetching data. However, you may need additional customizations to meet specific requirements around custom API requests, response formatting, and or fetching from external data sources.
 
-In the following sections, we walk through the three steps to create a custom query or query:
+In the following sections, we walk through the three steps to create a custom query or mutation:
 
 1. Define a custom query or mutation
 2. Configure custom business logic handler code
@@ -72,7 +72,7 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 const schema = a.schema({
   // 1. Define your return type as a custom type or model
-  Post: a.customType({
+  Post: a.model({
     id: a.id(),
     content: a.string(),
     likes: a.integer()
@@ -110,7 +110,7 @@ After your query or mutation is defined, you need to author your custom business
 
 <Block name="Function">
 
-In your **amplify/data/** folder, create a **echo-handler.ts** file.
+In your **amplify/data/echo-handler/** folder, create a **handler.ts** file.
 
 ```ts
 // amplify/data/echo-handler.ts
@@ -142,6 +142,10 @@ import {
   defineData,
   defineFunction // Step 1 - Import "defineFunction" to create new functions
 } from '@aws-amplify/backend';
+
+const echoHandler = defineFunction({
+  entry: './echo-handler/handler.ts'
+})
 
 const schema = a.schema({
   EchoResponse: a.customType({
@@ -183,7 +187,6 @@ import {
   type ClientSchema,
   a,
   defineData,
-  defineFunction // Step 1 - Import "defineFunction" to create new functions
 } from '@aws-amplify/backend';
 
 const schema = a.schema({
@@ -197,13 +200,13 @@ const schema = a.schema({
   ]),
 
   likePost: a
-    .query()
+    .mutation()
     .arguments({ postId: a.id() })
     .returns(a.ref('Post'))
     .authorization([a.allow.private()])
     .handler(a.handler.custom({
       dataSource: a.ref('Post'),
-      codePath: './increment-like.js'
+      entry: './increment-like.js'
     }))
 });
 
@@ -281,7 +284,7 @@ In your schema you can then reference these additional data sources based on the
 
 <Callout info>
 
-The `.handler()` accepts an array of handlers that will run in a pipeline. For example, you can add a common handler for input sanitization and then use different handlers post input sanitization:
+The `.handler()` accepts an array of handlers that will run in a pipeline. For example, you can add a common handler for input sanitization and then use different handlers to operate on the sanitized data:
 
 ```ts
 .handler(
@@ -294,7 +297,7 @@ The `.handler()` accepts an array of handlers that will run in a pipeline. For e
 
 <Callout warning>
 
-All handlers must be of the same type. But you can't mix and match `a.handler.function` with `a.handler.custom` within a single `.handler()` modifier.
+All handlers must be of the same type. For example, you can't mix and match `a.handler.function` with `a.handler.custom` within a single `.handler()` modifier.
 
 </Callout>
 
