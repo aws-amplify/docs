@@ -115,7 +115,8 @@
           "*.config.js",
           "*.config.ts",
           "*.config.mjs",
-          "*.config.cjs"
+          "*.config.cjs",
+          "*.tsx"
         ],
         "rules": {
           "import/no-default-export": "off"
