@@ -94,7 +94,51 @@ export default function RootLayout({
 }
 ```
 
-### Add a login page
+### Configure Amplify Server Side
+
+First, install the Amplify Next.js Adapter:
+
+```bash
+npm install @aws-amplify/adapter-nextjs
+```
+
+Next, create a `utils/amplify-utils.ts` file from the root of the project and paste the code below.  `runWithAmplifyServerContext`,  `cookiesClient` and `AuthGetCurrentUserServer` are declared here and will be used to gain access to Amplify assets from the server.
+
+```ts title="utils/amplify-utils.ts"
+// utils/amplify-utils.ts
+import { cookies } from "next/headers";
+
+import { createServerRunner } from "@aws-amplify/adapter-nextjs";
+import { generateServerClientUsingCookies } from "@aws-amplify/adapter-nextjs/api";
+import { getCurrentUser } from "aws-amplify/auth/server";
+
+import { type Schema } from "@/amplify/data/resource";
+import config from "@/amplifyconfiguration.json";
+
+export const { runWithAmplifyServerContext } = createServerRunner({
+  config,
+});
+
+export const cookiesClient = generateServerClientUsingCookies<Schema>({
+  config,
+  cookies,
+});
+
+export async function AuthGetCurrentUserServer() {
+  try {
+    const currentUser = await runWithAmplifyServerContext({
+      nextServerContext: { cookies },
+      operation: (contextSpec) => getCurrentUser(contextSpec),
+    });
+    return currentUser;
+  } catch (error) {
+    console.error(error);
+  }
+}
+```
+
+
+### Add Server Authentication Routes
 
 First, create a client side Login component in the `components` folder that will be wrapped in `withAuthenticator`. If the user is logged in, they will be redirected to the index route, otherwise the [Amplify UI Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator) will be rendered.
 
@@ -133,7 +177,7 @@ export default function LoginPage() {
 
 <Accordion title="Custom <Authenticator> example">
 
-Some applications require more customization for the `<Authenticator>` component. The following example shows how to add a custom Header to the `<Authenticator>`. For this use, you will not need the `Login` file in the `components` folder but can do everything through the `page` file in the `app/login/` folder. For more customization option, see [Authenticator Customization](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization).
+Some applications require more customization for the `<Authenticator>` component. The following example shows how to add a custom Header to the `<Authenticator>`. For this use, you will not need the `Login` file in the `components` folder but can do everything through the `page` file in the `app/login/` folder. For more customization options, see [Authenticator Customization](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization).
 
 ```ts title="app/login/page.tsx"
 // app/login/page.tsx - Custom <Authenticator>
@@ -184,36 +228,55 @@ export default function Login() {
 </Accordion>
 
 
-### Configure Amplify Server Side
+Finally, create a `Logout` component to be used later.
 
-First, install the Amplify Next.js Adapter:
+```ts title="components/Logout.tsx"
+// components/Logout.tsx
 
-```bash
-npm install @aws-amplify/adapter-nextjs
+"use client";
+
+import { signOut } from "aws-amplify/auth";
+import { useRouter } from "next/navigation";
+
+export default function Logout() {
+  const router = useRouter();
+
+  return (
+    <button
+      onClick={async () => {
+        await signOut();
+        router.push("/login");
+      }}
+      className="px-2 bg-white text-black"
+    >
+      Sign out
+    </button>
+  );
+}
 ```
 
-Next, create a `utils/amplify-utils.ts` file from the root of the project and paste the code below.  `runWithAmplifyServerContext` and `cookiesClient` are declared here and will be used to gain access to Amplify assets from the server.
+<Callout info>
 
+**Note**: If using [Amplify UI Social Providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#social-providers), set the `callbackUrls` for the `/login` route when [configuring social sign-in for your Gen 2 backend](https://docs.amplify.aws/gen2/build-a-backend/auth/add-social-provider/#configure-social-sign-in-backend), as shown below.
 
-```ts title="utils/amplify-utils.ts"
-// utils/amplify-utils.ts
-import { cookies } from "next/headers";
+```ts title="amplify/auth/resource.ts"
+import { defineAuth, secret } from '@aws-amplify/backend';
 
-import { createServerRunner } from "@aws-amplify/adapter-nextjs";
-import { generateServerClientUsingCookies } from "@aws-amplify/adapter-nextjs/api";
-
-import { type Schema } from "@/amplify/data/resource";
-import config from "@/amplifyconfiguration.json";
-
-export const { runWithAmplifyServerContext } = createServerRunner({
-  config,
-});
-
-export const cookiesClient = generateServerClientUsingCookies<Schema>({
-  config,
-  cookies,
+export const auth = defineAuth({
+  loginWith: {
+    externalProviders: {
+      // ...
+      callbackUrls: [
+        'http://localhost:3000/login',
+        'https://mywebsite.com/login'
+      ],
+      logoutUrls: ['http://localhost:3000/logout', 'https://mywebsite.com/logout']
+    }
+  }
 });
 ```
+
+</Callout>
 
 ### Add middleware for server-side redirect
 
@@ -312,9 +375,12 @@ After creating a todo, `revalidatePath` is run to clear the Next.js cache for th
 
 import { revalidatePath } from "next/cache";
 
-import { cookiesClient } from "@/utils/amplify-utils";
+import { AuthGetCurrentUserServer, cookiesClient } from "@/utils/amplify-utils";
+
+import Logout from "@/components/Logout";
 
 async function App() {
+  const user = await AuthGetCurrentUserServer();
   const { data: todos } = await cookiesClient.models.Todo.list();
 
   async function addTodo(data: FormData) {
@@ -331,6 +397,7 @@ async function App() {
   return (
     <>
       <h1>Hello, Amplify 👋</h1>
+      {user && <Logout />}
       <form action={addTodo}>
         <input type="text" name="title" />
         <button type="submit">Add Todo</button>
