@@ -138,7 +138,7 @@ export async function AuthGetCurrentUserServer() {
 ```
 
 
-### Add Authentication
+### Add Server Authentication Routes
 
 First, create a client side Login component in the `components` folder that will be wrapped in `withAuthenticator`. If the user is logged in, they will be redirected to the index route, otherwise the [Amplify UI Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator) will be rendered.
 
@@ -255,6 +255,28 @@ export default function Logout() {
 }
 ```
 
+<Callout info>
+
+**Note**: If using [Amplify UI Social Providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#social-providers), set the `callbackUrls` for the `/login` route when [configuring social sign-in for your Gen 2 backend](https://docs.amplify.aws/gen2/build-a-backend/auth/add-social-provider/#configure-social-sign-in-backend), as shown below.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth, secret } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    externalProviders: {
+      // ...
+      callbackUrls: [
+        'http://localhost:3000/login',
+        'https://mywebsite.com/login'
+      ],
+      logoutUrls: ['http://localhost:3000/logout', 'https://mywebsite.com/logout']
+    }
+  }
+});
+```
+
+</Callout>
 
 ### Add middleware for server-side redirect
 
