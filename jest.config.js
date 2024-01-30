@@ -10,12 +10,6 @@ module.exports = {
       }
     ]
   },
-  testMatch: [
-    '**/__tests__/**/*.[jt]s?(x)',
-    '**/?(*.)+(spec|test).[tj]s?(x)',
-    '**/?(*.)+(spec|test).mjs'
-  ],
-  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'mjs'],
   testPathIgnorePatterns: ['capi', '.next', 'client'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
