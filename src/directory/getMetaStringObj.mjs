@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
 import JSON5 from 'json5';
 
-export const invalidMetaError = (
+const invalidMetaError = (
   filePath,
   err
 ) => `Unable to parse meta object for file: "${filePath}". ${err}
@@ -10,7 +10,7 @@ Please check the "meta" object for file "${filePath}" and make sure the javascri
 There might be a missing comma in the object or a missing semicolon at the end of the meta object.
         `;
 
-export const missingMetaError = (filePath) =>
+const missingMetaError = (filePath) =>
   `File "${filePath}" was listed in directory.mjs, but generateDirectory.mjs could not parse the meta object.
     Please check the "meta" object in the file and make sure it is a valid javascript object.
     There might be a missing comma in the object or a missing semicolon at the end of the meta object.`;
