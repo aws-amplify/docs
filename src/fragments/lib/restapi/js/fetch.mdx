@@ -104,7 +104,7 @@ You can not consume the response payload more than once.
 
 ## Access HTTP response from errors
 
-The REST API handler may throw an `ApiError` error instance. In case the error is caused by an HTTP response with
+The REST API handler may throw an `ApiError` error instance. If the error is caused by an HTTP response with a
 non-2xx status code, the error instance will provide a `response` property. The `response` property contains following
 properties:
 * `statusCode`: HTTP status code
