@@ -1,0 +1,37 @@
+name: Sync to S3
+on:
+  schedule:
+    - cron: '0 17 * * 1-5'
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  SyncToS3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - name: Setup Node.js 20
+        uses: actions/setup-node@e33196f7422957bea03ed53f6fbb155025ffc7b8 # v3.7.0
+        with:
+          node-version: 20.x
+      - name: Install Dependencies
+        run: yarn
+      - name: Run Build
+        run: yarn build
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355 # v2.2.0
+        with:
+          role-to-assume: arn:aws:iam::789362886327:role/docs_test_s3_sync_role
+          aws-region: us-east-1
+      - name: Read secrets from AWS Secrets Manager into environment variables
+        uses: aws-actions/aws-secretsmanager-get-secrets@022e8919774ecb75e8e375656d7b1898936ab878 # v1.0.4
+        with:
+          secret-ids: |
+            docs_s3_bucket_name_test
+          parse-json-secrets: true
+      - name: Sync build output
+        run: aws s3 sync ./client/www/next-build s3://${{env.docs_s3_bucket_name_test}}
