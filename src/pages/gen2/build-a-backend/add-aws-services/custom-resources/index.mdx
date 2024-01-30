@@ -18,7 +18,7 @@ Custom resources allow you to integrate any AWS service into an Amplify backend.
 
 </Callout>
 
-With Amplify (Gen 2), you can add custom AWS resources to an Amplify app using the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html). The AWS CDK is an open source software development framework that defines your cloud application resources using familiar programming languages, such as TypeScript.
+With Amplify (Gen 2), you can add custom AWS resources to an Amplify app using the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html), which is installed by default as part of the [`create-amplify`](https://www.npmjs.com/package/create-amplify) workflow. The AWS CDK is an open source software development framework that defines your cloud application resources using familiar programming languages, such as TypeScript.
 
 The AWS CDK can be used within an Amplify app to add custom resources and configurations beyond what Amplify supports out of the box. For example, a developer could use CDK to hook up a Redis cache, implement custom security rules, deploy containers on AWS Fargate, or use any other AWS service.
 
@@ -34,28 +34,7 @@ With the Amplify code-first DX, you can add existing or custom CDK [constructs](
 
 ## Adding an existing CDK construct
 
-The AWS CDK comes with [many existing constructs](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-construct-library.html) that can be directly added to your Amplify backend. To get started, install the CDK library:
-
-```bash
-npm add --save-dev aws-cdk-lib constructs
-```
-
-<Callout warning>
-
-Depending on the Node.js package manager you are using, you may encounter warnings where it is now unable to resolve the peer dependency version `@aws-amplify/backend` has on `aws-cdk-lib`. If you encounter a warning similar to the following, re-install the version specified in the warning text:
-
-```
-npm WARN Could not resolve dependency:
-npm WARN peer aws-cdk-lib@"~2.103.0" from @aws-amplify/backend@0.4.0
-npm WARN node_modules/@aws-amplify/backend
-npm WARN   dev @aws-amplify/backend@"^0.4.0" from the root project
-```
-
-Using the sample warning text above, you would need to install `aws-cdk-lib@2.103.0`.
-
-</Callout>
-
-For example, to add an [Amazon Simple Queue Service (Amazon SQS)](https://aws.amazon.com/sqs/) queue and an [Amazon Simple Notification Service (Amazon SNS)](https://aws.amazon.com/sns/) topic to your backend, you can add the following to your `amplify/backend.ts` file.
+The AWS CDK comes with [many existing constructs](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-construct-library.html) that can be directly added to your Amplify backend. For example, to add an [Amazon Simple Queue Service (Amazon SQS)](https://aws.amazon.com/sqs/) queue and an [Amazon Simple Notification Service (Amazon SNS)](https://aws.amazon.com/sns/) topic to your backend, you can add the following to your `amplify/backend.ts` file.
 
 ```ts title="amplify/backend.ts"
 import * as sns from 'aws-cdk-lib/aws-sns';
