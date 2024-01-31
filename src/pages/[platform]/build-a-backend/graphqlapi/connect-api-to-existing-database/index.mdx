@@ -89,12 +89,19 @@ Install the following package to add the Amplify GraphQL API construct to your d
 npm install @aws-amplify/graphql-api-construct
 ```
 
-Create a new `schema.graphql` file within your CDK app’s `lib/` folder that includes the APIs you want to expose. Define your GraphQL object types, queries, and mutations to match the APIs you wish to expose. For example, define object types for database tables, queries to fetch data from those tables, and mutations to modify those tables.
+Create a new `schema.sql.graphql` file within your CDK app’s `lib/` folder that includes the APIs you want to expose. Define your GraphQL object types, queries, and mutations to match the APIs you wish to expose. For example, define object types for database tables, queries to fetch data from those tables, and mutations to modify those tables.
 
 ```graphql
 type Blog {
   id: Int!
   title: String!
+}
+
+type Post {
+  id: Int!
+  title: String!
+  content: String!
+  publishedDate: AWSDate @refersTo(name: "published_date")
 }
 
 type Query {
@@ -128,6 +135,8 @@ import {
   AmplifyGraphqlApi,
   AmplifyGraphqlDefinition
 } from '@aws-amplify/graphql-api-construct';
+ 
+import path from 'path';
 ```
 
 In the main stack class, add the following code to define a new GraphQL API. Replace `stack` with the name of your stack instance (often referenced via `this`):
@@ -136,9 +145,9 @@ In the main stack class, add the following code to define a new GraphQL API. Rep
 new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
   apiName: 'MySqlBoundApi',
   definition: AmplifyGraphqlDefinition.fromFilesAndStrategy(
-    [path.join(__dirname, 'schema.graphql')],
+    [path.join(__dirname, 'schema.sql.graphql')],
     {
-      name: 'MyBlogSiteDatabase',
+      name: 'MySQLSchemaDefinition',
       dbType: 'MYSQL',
       vpcConfiguration: {
         vpcId: 'vpc-123456',
@@ -162,7 +171,10 @@ new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
     }
   ),
   authorizationModes: {
-    apiKeyConfig: { expires: cdk.Duration.days(7) }
+    defaultAuthorizationMode: 'API_KEY',
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30)
+    }
   }
 });
 ```
@@ -291,11 +303,14 @@ Then, you can import the `SQLLambdaModelDataSourceStrategyFactory` which helps d
 
 ```js
 import { SQLLambdaModelDataSourceStrategyFactory } from '@aws-amplify/graphql-api-construct';
+import path from 'path';
+import fs from 'fs';
 ```
 
 In your `lib/<your-project-name>-stack.ts` file, read from the `sql-statements/` folder and add them as custom SQL statements to your Amplify GraphQL API:
 
 ```js
+
 // Define custom SQL statements folder path
 const sqlStatementsPath = path.join(__dirname, 'sql-statements');
 
@@ -318,9 +333,10 @@ const sqlStrategy = SQLLambdaModelDataSourceStrategyFactory.fromCustomSqlFiles(
   }
 );
 
-const amplifyApi = new AmplifyGraphqlApi(this, 'AmplifyApi', {
+
+const amplifyApi = new AmplifyGraphqlApi(this, 'SqlBoundApi', {
   definition: AmplifyGraphqlDefinition.fromFilesAndStrategy(
-    path.join(__dirname, 'schema.graphql'),
+    [path.join(__dirname, 'schema.sql.graphql')],
     sqlStrategy
   ),
   authorizationModes: {
@@ -356,7 +372,7 @@ For reference, you define a GraphQL query by adding a new field under a `type Qu
 type Query {
   searchPostsByTitle(title: String): [Post]
     @sql(
-      statement: "SELECT * FROM Post WHERE title LIKE CONCAT('%', :title, '%');"
+      statement: "SELECT * FROM posts WHERE title LIKE CONCAT('%', :title, '%');"
     )
     @auth(rules: [{ allow: public }])
 }
@@ -382,7 +398,7 @@ If you want to return the result of the SQL statement, you can use `AWSJSON` as 
 
 ```graphql
 type Mutation {
-  publishPosts: AWSJSON @sql(statement: "UPDATE Post SET published = 1;")
+  publishPosts: AWSJSON @sql(statement: "UPDATE posts SET published = 1;")
     @auth(rules: [{ allow: public }])
 }
 ```
