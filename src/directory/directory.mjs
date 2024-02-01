@@ -1937,6 +1937,9 @@ export const directory = {
               path: 'src/pages/gen2/start/quickstart/index.mdx',
               children: [
                 {
+                  path: 'src/pages/gen2/start/quickstart/vite-react-app/index.mdx'
+                },
+                {
                   path: 'src/pages/gen2/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
