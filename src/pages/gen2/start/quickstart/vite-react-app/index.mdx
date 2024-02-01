@@ -112,7 +112,7 @@ Next, configure the Amplify libraries client-side so it can interact with backen
 
 Open `src/main.tsx` and add the following code below the last import:
 
-```ts title="src/main.tsx"
+```tsx title="src/main.tsx"
 import { Amplify } from 'aws-amplify';
 import amplifyconfig from '../amplifyconfiguration.json';
 
@@ -121,7 +121,7 @@ Amplify.configure(amplifyconfig);
 
 In `src/App.tsx`, update with the following code which imports Amplify UI and wraps your App in the `withAuthenticator` function:
 
-```tsx title="app/App.tsx"
+```tsx title="src/App.tsx"
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 
@@ -179,7 +179,7 @@ export default function TodoList() {
 
 In `src/App.tsx`, import `components/TodoList` and render it:
 
-```ts title="src/App.tsx"
+```tsx title="src/App.tsx"
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import TodoList from "./components/TodoList";
