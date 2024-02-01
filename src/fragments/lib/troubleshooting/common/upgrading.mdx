@@ -842,7 +842,250 @@ For a deeper look at how the Storage functionality in V6, check out our [Storage
 
 ### Utilities
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/utils` path as shown below. Use the switcher below to see the differences between v5 and v6:
+As of v6 of Amplify, you will now import utility classes and instances from the `aws-amplify/utils` path as shown below. Use the switcher below to see the differences between v5 and v6:
+
+<Callout>
+
+In V6 we’ve audited our hub events and removed some events and categories to reduce redundancies and the overall chattiness of the hub. The Storage, In-App Messaging, and Push Notifications categories no longer emit Hub events. You can track the status of calls to those categories via API responses.
+
+Expand the sections below to see the events that have been changed or removed. There have been no changes to API, DataStore, and PubSub events.
+
+<Accordion title="Auth Hub Events" headingLevel="4">
+  <table>
+    <thead>
+      <tr>
+        <th colSpan="2">V5</th>
+        <th colSpan="2">V6</th>
+      </tr>
+      <tr>
+        <th>Event</th>
+        <th>Data</th>
+        <th>Event</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>configured</td>
+        <td>null</td>
+        <td>Use the new 'configure' event from the 'core' channel</td>
+        <td>ResourcesConfig</td>
+      </tr>
+      <tr>
+        <td>signIn</td>
+        <td>CognitoUser</td>
+        <td>signedIn</td>
+        <td>AuthUser</td>
+      </tr>
+      <tr>
+        <td>signIn_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>signUp</td>
+        <td>ISignUpResult</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>signUp_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>confirmSignUp</td>
+        <td>'SUCCESS'</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>completeNewPassword_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>autoSignIn</td>
+        <td>CognitoUser</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>autoSignIn_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>forgotPassword</td>
+        <td>CognitoUser</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>forgotPassword_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>forgotPasswordSubmit</td>
+        <td>CognitoUser</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>forgotPasswordSubmit_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>verify</td>
+        <td>CognitoUser</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>tokenRefresh</td>
+        <td></td>
+        <td>tokenRefresh</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>tokenRefresh_failure</td>
+        <td>error</td>
+        <td>tokenRefresh_failure</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>cognitoHostedUI</td>
+        <td>CognitoUser</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>cognitoHostedUI_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>customOAuthState</td>
+        <td>state</td>
+        <td>customOAuthState</td>
+        <td>state</td>
+      </tr>
+      <tr>
+        <td>customState_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>parsingCallbackUrl</td>
+        <td>url</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>userDeleted</td>
+        <td>result</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>updateUserAttributes</td>
+        <td>attributes</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>updateUserAttributes_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>signOut</td>
+        <td>CognitoUser</td>
+        <td>signedOut</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</Accordion>
+
+<br/>
+
+<Accordion title="Analytics Hub Events" headingLevel="4">
+  <table>
+    <thead>
+      <tr>
+        <th colSpan="2">V5</th>
+        <th colSpan="2">V6</th>
+      </tr>
+      <tr>
+        <th>Event</th>
+        <th>Data</th>
+        <th>Event</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>configured</td>
+        <td>null</td>
+        <td>Use the new 'configure' event from the 'core' channel</td>
+        <td>ResourcesConfig</td>
+      </tr>
+      <tr>
+        <td>pinpointProvider_configured</td>
+        <td>null</td>
+        <td>Use the new 'configure' event from the 'core' channel</td>
+        <td>ResourcesConfig</td>
+      </tr>
+      <tr>
+        <td>record</td>
+        <td>event data</td>
+        <td>record</td>
+        <td>event data</td>
+      </tr>
+    </tbody>
+  </table>
+</Accordion>
+
+<br/>
+
+<Accordion title="Core Hub Events" headingLevel="4">
+  <table>
+    <thead>
+      <tr>
+        <th colSpan="2">V5</th>
+        <th colSpan="2">V6</th>
+      </tr>
+      <tr>
+        <th>Event</th>
+        <th>Data</th>
+        <th>Event</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>credentials_configured</td>
+        <td>null</td>
+        <td>configure</td>
+        <td>ResourcesConfig</td>
+      </tr>
+    </tbody>
+  </table>
+</Accordion>
+
+</Callout>
 
 <BlockSwitcher>
   <Block name="V5">
