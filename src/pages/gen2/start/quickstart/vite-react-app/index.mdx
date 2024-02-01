@@ -11,7 +11,7 @@ export function getStaticProps(context) {
   };
 }
 
-This Quickstart guide will walk you through how to build a task list application with TypeScript, Vite and React. If you are new to these technologies, we recommend you go through the official [React](https://react.dev/learn/tutorial-tic-tac-toe), [Vite](https://vitejs.dev/guide/), and [TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html) tutorials first.
+This Quickstart guide will walk you through how to build a task list application with TypeScript, Vite, and React. If you are new to these technologies, we recommend you go through the [TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html), [Vite](https://vitejs.dev/guide/), and official [React](https://react.dev/learn/tutorial-tic-tac-toe) tutorials first.
 
 import prerequisites from 'src/fragments/gen2/quickstart/prerequisites.mdx';
 
@@ -74,7 +74,7 @@ npm run dev
 
 <Callout info>
 
-Now [configure your AWS account to use Amplify](/gen2/start/account-setup/).  Note: If you already have an AWS profile with credentials on your local machine, and you have configured the corresponding AWS profile with the **AmplifyBackendDeployFullAccess** permission policy, you can skip this step.
+Now [configure your AWS account to use Amplify](/gen2/start/account-setup/). **Note:** If you already have an AWS profile with credentials on your local machine, and you have configured the corresponding AWS profile with the **AmplifyBackendDeployFullAccess** permission policy, you can skip this step.
 
 </Callout>
 
@@ -110,7 +110,7 @@ npm install @aws-amplify/ui-react
 
 Next, configure the Amplify libraries client-side so it can interact with backend services.
 
-Open src/main.tsx and add the following code below the last import:
+Open `src/main.tsx` and add the following code below the last import:
 
 ```ts title="src/main.tsx"
 import { Amplify } from 'aws-amplify';
@@ -121,7 +121,7 @@ Amplify.configure(amplifyconfig);
 
 In `src/App.tsx`, update with the following code which imports Amplify UI and wraps your App in the `withAuthenticator` function:
 
-```ts title="app/App.tsx"
+```tsx title="app/App.tsx"
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 
