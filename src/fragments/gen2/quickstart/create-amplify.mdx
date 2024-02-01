@@ -1,11 +1,11 @@
 
 The easiest way to get started with AWS Amplify is through npm with `create-amplify`.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm create amplify@latest
 ```
 
-```console
+```console title="Terminal" showLineNumbers={false}
 ? Where should we create your project? (.) # press enter
 ```
 
@@ -30,7 +30,7 @@ Running this command will scaffold a lightweight Amplify project in your current
 
 Let's start a local dev server for your app development. For the frontend, run `npm run dev` to spin up a `localhost` dev server with the default Next.js template.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm run dev
 ```
 
@@ -42,7 +42,7 @@ Now [configure your AWS account to use Amplify](/gen2/start/account-setup/).  No
 
 For the backend, we're going to start a cloud sandbox environment. Amplify gives every developer a personal cloud sandbox environment that provides isolated development spaces to rapidly build, test, and iterate. When you're working with a team, each developer will have their own personal cloud sandbox. In a new terminal window, run the following command:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
 ```
 <Callout warning>Do not use cloud sandbox environments in production.</Callout>
