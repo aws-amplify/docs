@@ -605,9 +605,76 @@ import iosContinueSignInWithMFASelection from '/src/fragments/lib/auth/ios/signi
 
 <Fragments fragments={{ swift: iosContinueSignInWithMFASelection }} />
 
-import androidContinueSignInWithMFASelection from '/src/fragments/lib/auth/android/signin_next_steps/91_confirm_totp_mfa.mdx';
+<InlineFilter filters={['android']}>
 
-<Fragments fragments={{ android: androidContinueSignInWithMFASelection }} />
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.confirmSignIn(
+    MFATypeUtil.getChallengeResponse(MFAType.TOTP),
+    result -> {
+        if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE) {
+          Log.i("AuthQuickStart", "Received next step as confirm sign in with TOTP");
+        }
+        // ...
+    },
+    error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmSignIn(
+    MFAType.TOTP.challengeResponse,
+    { result ->
+        if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE) {
+          Log.i("AuthQuickStart", "Received next step as confirm sign in with TOTP");
+        }
+        // ...
+    },
+    { error -> Log.e("AuthQuickstart", "Confirm sign in failed: $error") }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+  val result = Amplify.Auth.confirmSignIn(MFAType.TOTP.challengeResponse)
+  if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE) {
+    Log.i("AuthQuickStart", "Received next step as confirm sign in with TOTP");
+  }
+  // ...
+} catch(error: Exception) {
+  Log.e("AuthQuickstart", "Confirm sign in failed: $error")
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmSignIn(
+  MFATypeUtil.getChallengeResponse(MFAType.TOTP)
+).subscribe(
+  result -> {
+    if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE) {
+      Log.i("AuthQuickStart", "Received next step as confirm sign in with TOTP");
+    }
+    // ...
+  },
+  error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
 
 <InlineFilter filters={['flutter']}>
 
