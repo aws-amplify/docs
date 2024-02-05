@@ -116,7 +116,9 @@ _Note: These authorization rules can be modified using a chain of methods as def
 .authorization([a.allow.owner()]),
 ```
 
-Then, you will see the `defineData` function, which has our schema and authorization configuration passed in as arguments. We have an `apiKey` set up to enable public access. Let's change our `defaultAuthorizationMode` to `userPool` instead so that the default is to use user authentication.
+Below the schema declaration, you will see the `defineData` function which receives our schema and authorization configuration as arguments.  The default configuration is for an `apiKey` to enable public access.
+
+<b>STEP 3</b> Update the `defaultAuthorizationMode` to `userPool` so that the default is to use user authentication.
 
 ```js
 export const data = defineData({
