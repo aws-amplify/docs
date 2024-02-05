@@ -1,0 +1,56 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { JS_PLATFORMS } from '@/data/platforms';
+
+export const meta = {
+  title: 'Connect to data from server-side runtimes',
+  description: 'Learn more about how to call an AppSync GraphQL API from a NodeJS app or a Lambda function',
+  platforms: [
+    'javascript',
+    'nextjs',
+    'vue',
+    'angular',
+    'react',
+    'react-native'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'nextjs',
+        'javascript',
+        'vue',
+        'react'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/graphqlapi/connect-from-server-runtime/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import js0 from '/src/fragments/lib-v1/graphqlapi/graphql-from-node.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
+
+import reactnative0 from '/src/fragments/lib-v1/graphqlapi/graphql-from-node.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

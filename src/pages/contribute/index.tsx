@@ -1,4 +1,5 @@
 import { Heading, Text, Flex, View } from '@aws-amplify/ui-react';
+import ExportedImage from 'next-image-export-optimizer';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import HowItWorks from '@/components/contribute/HowItWorks';
 import { YoutubeEmbed } from '@/components/YoutubeEmbed';
@@ -62,21 +63,21 @@ export default function Contribute() {
         gap="2em"
         wrap={'wrap'}
       >
-        <img
+        <ExportedImage
           alt={img.BADGE_FOUNDATIONAL.alt}
           height={200}
           width={200}
           src={img.BADGE_FOUNDATIONAL.src}
         />
 
-        <img
+        <ExportedImage
           alt={img.BADGE_ITERMEDIATE.alt}
           height={200}
           width={200}
           src={img.BADGE_ITERMEDIATE.src}
         />
 
-        <img
+        <ExportedImage
           alt={img.BADGE_ADVANCED.alt}
           height={200}
           width={200}

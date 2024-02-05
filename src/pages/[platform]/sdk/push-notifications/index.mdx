@@ -3,20 +3,21 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'Push Notifications',
-  description:
-    'Drive customer engagement using push notifications with campaign analytics and targeting',
+  description: 'Drive customer engagement using push notifications with campaign analytics and targeting',
   platforms: [
     'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
+    'swift'
   ],
-  route: '/[platform]/sdk/push-notifications'
+  route: '/[platform]/sdk/push-notifications',
+  canonicalObjects: [
+    {
+      platforms: [
+        'swift',
+        'android'
+      ],
+      canonicalPath: '/swift/sdk/push-notifications/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

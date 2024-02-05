@@ -13,6 +13,19 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'nextjs',
+        'angular',
+        'vue',
+        'react',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/auth-events/'
+    }
   ]
 };
 
@@ -69,7 +82,7 @@ Channels are logical group names that help you organize dispatching and listenin
 Here is a basic example of setting up a listener that logs an event emitted through the `auth` channel:
 
 ```javascript
-import { Hub } from 'aws-amplify';
+import { Hub } from 'aws-amplify/utils';
 
 const listener = (data) => {
   console.log(data);

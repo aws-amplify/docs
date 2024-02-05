@@ -1,0 +1,1241 @@
+export const meta = {
+  title: 'Mobile support',
+  description:
+    'Learn more about working with Android, iOS, Flutter, and React Native apps.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify Gen 2 enables backend code sharing between web and mobile apps. The initial focus is on a TypeScript-first experience optimized for web developers. Mobile developers can also leverage the Gen 2 capabilities to build a unified backend for Android, iOS, Flutter and React Native apps. Expect ongoing improvements to streamline mobile workflows as we gather feedback from developers.
+
+## Prerequisites
+
+Before you get started, make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) v18.17 or later
+- [npm](https://www.npmjs.com/) v9 or later
+- [git](https://git-scm.com/) v2.14.1 or later
+- You will also need to [create an AWS Account](https://portal.aws.amazon.com/billing/signup). Note that AWS Amplify is part of the [AWS Free Tier](https://aws.amazon.com/amplify/pricing/).
+- Configure your AWS account to use with Amplify [instructions](/gen2/start/account-setup/).
+
+## Build a mobile app
+
+Here is how you can build a To Do application on each platform with CRUD operations:
+
+
+<BlockSwitcher>
+  <Block name="Android">
+  
+<Callout info>
+You need to have [Android Studio and SDK](https://developer.android.com/studio) installed on your machine.
+</Callout>
+
+**Open Android Studio.** Select **+ Create New Project.**
+
+![Shows the Android studio welcome window](/images/lib/getting-started/android/set-up-android-studio-welcome.png)
+
+In **Select a Project Template**, select **Empty Activity** or **Empty Compose Activity**. Press **Next**.
+
+![Shows Android studio new project window](/images/lib/getting-started/android/set-up-android-studio-select-project-template.png)
+
+- Enter _MyAmplifyApp_ in the **Name** field
+- Select either _Java_ or _Kotlin_ from the **Language** dropdown menu
+- Select _API 24: Android 7.0 (Nougat)_ from the **Minimum SDK** dropdown menu
+- Press **Finish**
+
+![Shows Android studio configure project window](/images/lib/getting-started/android/set-up-android-studio-configure-your-project.png)
+
+<Callout info>
+  This guide will expect you to use Kotlin DSL for Gradle. If you are using
+  Groovy DSL, you will need to make some changes to the Gradle files.
+</Callout>
+
+### Create Amplify Project
+
+The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
+
+```bash
+npm create amplify
+? Where should we create your project? (.) # press enter
+```
+
+Running this command will scaffold a lightweight Amplify project in your current project with the following files added:
+
+```text
+├── amplify/
+│   ├── auth/
+│   │   └── resource.ts
+│   ├── data/
+│   │   └── resource.ts
+│   ├── backend.ts
+│   └── package.json
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+└── tsconfig.json
+```
+
+### Running Local Development Environment
+
+Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
+
+<Callout warning>
+  Be sure to add a "raw" folder under app/src/main/res directory if it doesn't
+  exist.
+</Callout>
+
+```bash
+npx amplify sandbox --config-format=json-mobile --config-out-dir=app/src/main/res/raw
+```
+
+### Adding Authentication
+
+After the Amplify creation process, you can see a resource.ts file in the amplify/auth folder. This file contains the configuration for the authentication resource. The base code will enable the authentication with the default configuration. You can change the configuration based on your needs. For more information about the configuration, you can check the [documentation](/gen2/build-a-backend/auth/enable-sign-up/).
+
+```typescript
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  }
+});
+```
+
+After you have configured the authentication resource, you can use the Amplify UI libraries to run your authentication flow. Amplify UI is a collection of accessible, themeable, performant ui components that can connect directly to the Amplify resources.
+
+To use the Amplify UI libraries, you need to add the following dependencies to your app/build.gradle file:
+
+<Callout warning>Be sure to have compileSdk version as 34 or higher.</Callout>
+
+```kotlin
+dependencies {
+    implementation("androidx.compose.material3:material3:1.1.0")
+    implementation("com.amplifyframework.ui:authenticator:1.0.1")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+}
+```
+
+Afterwards create a `MyAmplifyApp` class that extends `Application` and add the following code:
+
+```kotlin
+import android.app.Application
+import android.util.Log
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+
+class MyAmplifyApp: Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        try {
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.configure(applicationContext)
+            Log.i("MyAmplifyApp", "Initialized Amplify")
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+        }
+    }
+}
+```
+
+Next call this class in your `AndroidManifest.xml` file:
+
+```xml
+<application
+    android:name=".MyAmplifyApp"
+    ...
+</application>
+```
+
+Lastly update your MainActivity.kt file to use the Amplify UI components:
+
+```kotlin
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.ui.authenticator.ui.Authenticator
+import <your-package-name>.ui.theme.MyAmplifyAppTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyAmplifyAppTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Authenticator { state ->
+                        Column {
+                            Text(
+                                text = "Hello ${state.user.username}!",
+                            )
+                            Button(onClick = {
+                                Amplify.Auth.signOut {  }
+                            }) {
+                                Text(text = "Sign Out")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+Now if you run the application on the Android emulator, you should see the authentication flow working.
+
+<video autoPlay={true} muted={true} loop={true} width="40%">
+  <source src="/images/gen2/getting-started/android/android-getting-started-1.mp4" />
+</video>
+
+### Adding GraphQL API
+
+After the Amplify creation process, you can see a resource.ts file in the amplify/data folder. This file contains the configuration for the GraphQL API resource.
+
+The default code will create a Todo model with content and isDone property. The authorization rules below specify that owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
+
+```typescript
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      isDone: a.boolean()
+    })
+    .authorization([a.allow.owner()])
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'userPool'
+  }
+});
+```
+
+To generate the model classes out of GraphQL schema, you can run the following command:
+
+```bash
+npx amplify generate graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java
+```
+
+Now you can see that the model classes are generated under app/src/main/java/com/amplifyframework/datastore/generated/model folder.
+
+<Callout info>
+  The generated models are in Java but do not worry Java and Kotlin are
+  interoperable. You can use the generated models in your Kotlin code.
+</Callout>
+
+For using GraphQL API, you need to add the following dependencies to your app/build.gradle file:
+
+```kotlin
+dependencies {
+  implementation("com.amplifyframework:core:2.14.4")
+  implementation("com.amplifyframework:aws-api:2.14.4")
+}
+```
+
+Afterwards open the `MyAmplifyApp` class and add the following line before the `configure` call:
+
+```kotlin
+Amplify.addPlugin(AWSApiPlugin())
+```
+
+Now it is time to update the UI code a bit. Update the `MainActivity` class with the following code:
+
+```kotlin
+
+class MainActivity : ComponentActivity() {
+
+    private val todoList = mutableStateListOf<Todo>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyApplicationTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Authenticator { _ ->
+                      Scaffold(
+                          floatingActionButton = {
+                              FloatingActionButton(
+                                  onClick = {
+                                      val date = Date()
+                                      val offsetMillis = TimeZone.getDefault().getOffset(date.time).toLong()
+                                      val offsetSeconds = TimeUnit.MILLISECONDS.toSeconds(offsetMillis).toInt()
+                                      val temporalDateTime = Temporal.DateTime(date, offsetSeconds)
+                                      val todo = Todo.builder()
+                                          .createdAt(temporalDateTime)
+                                          .updatedAt(temporalDateTime)
+                                          .content("My random todo ${System.currentTimeMillis()}")
+                                          .isDone(false)
+                                          .build()
+
+                                      Amplify.API.mutate(
+                                          ModelMutation.create(todo),
+                                          {
+                                            Log.i("MyAmplifyApp", "Added Todo with id: ${it.data.id}")
+                                            todoList.add(todo)
+                                          },
+                                          { Log.e("MyAmplifyApp", "Create failed", it) }
+                                      )
+                                  },
+                              ) {
+                                  Icon(Icons.Filled.Add, "Add a random todo.")
+                              }
+                          }
+                      ) {
+                          Column(modifier = Modifier.padding(it)) {
+                              Button(onClick = {
+                                  Amplify.Auth.signOut {  }
+                              }) {
+                                  Text(text = "Sign Out")
+                              }
+                              Text(text = "The list of items will come here.")
+                          }
+                      }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+The `onClick` function of the `FloatingActionButton` will create a random Todo item. Now it is time to add a logic to see the added items.
+
+First let's add a `TodoScreen` composable function:
+
+```kotlin
+@Composable
+fun TodoScreen(
+  todoList: SnapshotStateList<Todo>,
+  onItemUpdated: (Todo) -> Unit,
+  onItemDeleted: (Todo) -> Unit,
+) {
+    LazyColumn {
+        todoList.forEach { todo ->
+            item {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = todo.isDone,
+                        onCheckedChange = { }
+                    )
+                    Text(todo.content)
+                }
+            }
+        }
+    }
+}
+```
+
+Next let's update the `MainActivity` class to use the `TodoScreen` composable function. Update the `Authenticator` usage with the following code:
+
+```kotlin
+Authenticator(modifier = Modifier.padding(it)) { _ ->
+    Column {
+            Button(onClick = {
+                Amplify.Auth.signOut { }
+            }) {
+                Text(text = "Sign Out")
+            }
+        if (todoList.isEmpty())
+            Text(text = "The list is empty.\nAdd some items by clicking the Floating Action Button.")
+        else
+            TodoScreen(
+                todoList,
+                onItemUpdated = { todo ->
+                    val foundItem =
+                        todoList.firstOrNull { it.id == todo.id }
+                    if (foundItem != null) {
+                        val index = todoList.indexOf(foundItem)
+                        todoList.removeAt(index)
+                        Log.i("updated", todo.toString())
+                        todoList.add(index, todo)
+                    }
+                },
+            ) { todo -> todoList.remove(todo) }
+    }
+}
+```
+
+Now add a `todoList` variable to the `MainActivity` class before the `onCreate` call and call the `refreshItems` function before the `setContent` call:
+
+```kotlin
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    refreshItems()
+...
+}
+```
+
+Lastly create a function to fetch the items. Add the following code to the `MainActivity` class:
+
+```kotlin
+private fun refreshItems() {
+    Amplify.API.query(
+        ModelQuery.list(Todo::class.java),
+        { response ->
+            val items = response.data
+            items.forEach { todo ->
+                val foundItem = todoList.firstOrNull { it.id == todo.id }
+                if (foundItem != null) {
+                    val index = todoList.indexOf(foundItem)
+                    todoList.removeAt(index)
+                    todoList.add(index, todo)
+                } else {
+                    todoList.add(todo)
+                }
+            }
+            Log.i("MyAmplifyApp", "Queried items: $items")
+        },
+        { Log.e("MyAmplifyApp", "Query failure", it) }
+    )
+}
+```
+
+Now let's update and delete the items. For update, add the following code to the `onCheckedChange` method of the `Checkbox` widget:
+
+```kotlin
+val newTodo = todo.copyOfBuilder().isDone(it).build()
+Amplify.API.mutate(
+    ModelMutation.update(newTodo),
+    {
+        Log.i("MyAmplifyApp", "Updated Todo with id: ${todo.id}")
+        onItemUpdated(newTodo)
+    },
+    { Log.e("MyAmplifyApp", "Update failed") }
+)
+```
+
+For deleting add a long click behavior with the `Modifier.combinedClickable` modifier. To add it, update the Row composable call in the `TodoScreen` composable function with the following code:
+
+```kotlin
+Row(
+    verticalAlignment = Alignment.CenterVertically,
+    modifier = Modifier.combinedClickable(
+        onClick = {
+            val newTodo = todo.copyOfBuilder().isDone(!todo.isDone).build()
+            Amplify.API.mutate(
+                ModelMutation.update(newTodo),
+                {
+                    Log.i("MyAmplifyApp", "Updated Todo with id: ${todo.id}")
+                    onItemUpdated(newTodo)
+                },
+                { Log.e("MyAmplifyApp", "Update failed") }
+            )
+        },
+        onLongClick = {
+            Amplify.API.mutate(
+                ModelMutation.delete(todo),
+                {
+                    Log.i("MyAmplifyApp", "Deleted Todo with id: ${todo.id}")
+                    onItemDeleted(todo)
+                },
+                { Log.e("MyAmplifyApp", "Delete failed") }
+            )
+        },
+    )
+)
+```
+
+With the click, we update the checkbox but with the long click we remove it. Now if you run the application you should see the following flow.
+
+<video autoPlay={true} muted={true} loop={true} width="40%">
+  <source src="/images/gen2/getting-started/android/android-getting-started-2.mp4" />
+</video>
+
+You can terminate the sandbox environment now to clean up the project.
+
+### Publishing changes to cloud
+
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/gen2/start/quickstart/#create-remote-git-repository).
+
+</Block>
+
+<Block name="Flutter">
+  For using Flutter with Amplify Gen2, you need to have a Flutter version higher than 3.3.0 and setup the editor of you
+  
+  <Callout info>
+  You can follow the [official documentation](https://flutter.dev/docs/get-started/install) to install Flutter on your machine and check the [editor documentation](https://docs.flutter.dev/get-started/editor) for setting up your editor.
+  </Callout>
+  
+  Once you have installed Flutter, you can create a new Flutter project using the following command:
+  
+  ```bash
+  flutter create my_amplify_app
+  ```
+
+### Create Amplify Project
+
+The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
+
+```bash
+npm create amplify
+? Where should we create your project? (.) # press enter
+```
+
+Running this command will scaffold a lightweight Amplify project in your current project with the following files added:
+
+```text
+├── amplify/
+│   ├── auth/
+│   │   └── resource.ts
+│   ├── data/
+│   │   └── resource.ts
+│   ├── backend.ts
+│   └── package.json
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+└── tsconfig.json
+```
+
+### Running Local Development Environment
+
+Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
+
+```bash
+npx amplify sandbox --config-format=dart --config-out-dir=lib
+```
+
+### Adding Authentication
+
+After the Amplify creation process, you can see a resource.ts file in the amplify/auth folder. This file contains the configuration for the authentication resource. The base code will enable the authentication with the default configuration. You can change the configuration based on your needs. For more information about the configuration, you can check the [documentation](/gen2/build-a-backend/auth/enable-sign-up/).
+
+```typescript
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  }
+});
+```
+
+After you have configured the authentication resource, you can use the Amplify UI libraries to run your authentication flow. Amplify UI is a collection of accessible, themeable, performant ui components that can connect directly to the Amplify resources.
+
+To use the Amplify UI libraries, you need to add the following dependencies to your pubspec.yaml file:
+
+```yaml
+dependencies:
+  amplify_flutter: ^1.0.0
+  amplify_auth_cognito: ^1.0.0
+  amplify_authenticator: ^1.0.0
+```
+
+You will add:
+
+- `amplify_flutter` to connect your application with the Amplify resources.
+- `amplify_auth_cognito` to connect your application with the Amplify Cognito resources.
+- `amplify_authenticator` to use the Amplify UI components.
+
+After adding the dependencies, you need to run the following command to install the dependencies:
+
+```bash
+flutter pub get
+```
+
+Lastly update your main.dart file to use the Amplify UI components:
+
+```dart
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_authenticator/amplify_authenticator.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:flutter/material.dart';
+
+import 'amplifyconfiguration.dart';
+
+Future<void> main() async {
+  try {
+    await _configureAmplify();
+    runApp(const MyApp());
+  } on AmplifyException catch (e) {
+    runApp(Text("Error configuring Amplify: ${e.message}"));
+  }
+}
+
+Future<void> _configureAmplify() async {
+  try {
+    await Amplify.addPlugin(AmplifyAuthCognito());
+    await Amplify.configure(amplifyConfig);
+    safePrint('Successfully configured');
+  } on Exception catch (e) {
+    safePrint('Error configuring Amplify: $e');
+  }
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Authenticator(
+      child: MaterialApp(
+        builder: Authenticator.builder(),
+        home: const Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SignOutButton(),
+                Text('TODO Application'),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+The **Authenticator** widget provides an authentication flow according to the resources that has been configured. If you run the application now (on Flutter you can run your applications on Web, Desktop and Mobile), you can see the authentication flow working.
+
+<video autoPlay={true} muted={true} loop={true} width="100%">
+  <source src="/images/gen2/getting-started/flutter/flutter-getting-started-1.mp4" />
+</video>
+
+### Adding Data
+
+After the Amplify creation process, you can see a resource.ts file in the amplify/data folder. This file contains the configuration for the GraphQL API resource.
+
+The default code will create a Todo model with content and isDone property. The authorization rules below specify that owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
+
+```typescript
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      isDone: a.boolean()
+    })
+    .authorization([a.allow.owner()])
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'userPool'
+  }
+});
+```
+
+To generate the model classes out of GraphQL schema, you can run the following command:
+
+```bash
+npx amplify generate graphql-client-code --format=modelgen --model-target=dart --out=lib/models
+```
+
+This will generate dart models under lib/models folder.
+
+For using GraphQL API, you need to add the following dependencies to your pubspec.yaml file:
+
+```yaml
+dependencies:
+  amplify_api: ^1.0.0
+```
+
+You will add `amplify_api` to connect your application with the Amplify API.
+
+After adding the dependencies, update the `_configureAmplify` method in your main.dart file to use the Amplify API:
+
+```dart
+Future<void> _configureAmplify() async {
+  try {
+    await Amplify.addPlugins(
+      [
+        AmplifyAuthCognito(),
+        AmplifyAPI(modelProvider: ModelProvider.instance),
+      ],
+    );
+    await Amplify.configure(amplifyConfig);
+    safePrint('Successfully configured');
+  } on Exception catch (e) {
+    safePrint('Error configuring Amplify: $e');
+  }
+}
+```
+
+Next create a new widget called `TodoScreen` and add the following code:
+
+```dart
+
+class TodoScreen extends StatefulWidget {
+  const TodoScreen({super.key});
+
+  @override
+  State<TodoScreen> createState() => _TodoScreenState();
+}
+
+class _TodoScreenState extends State<TodoScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text('Add Random Todo'),
+        onPressed: () async {
+          final newTodo = Todo(
+            id: uuid(),
+            content: "Random Todo ${DateTime.now().toIso8601String()}",
+            isDone: false,
+            createdAt: TemporalDateTime(DateTime.now()),
+            updatedAt: TemporalDateTime(DateTime.now()),
+          );
+          final request = ModelMutations.create(newTodo);
+          final response = await Amplify.API.mutate(request: request).response;
+          if (response.hasErrors) {
+            safePrint('Creating Todo failed.');
+          } else {
+            safePrint('Creating Todo successful.');
+          }
+        },
+      ),
+      body: const Placeholder(),
+    );
+  }
+}
+```
+
+This will create a random Todo every time a user clicks on the floating action button. You can see the `ModelMutations.create` method is used to create a new Todo.
+
+And update the `Text('TODO Application')` line in your **main.dart** file to use the `TodoScreen` widget.
+
+Next add a `_todos` list to add the results from the API and call the refresh function:
+
+```dart
+List<Todo> _todos = [];
+
+@override
+void initState() {
+  super.initState();
+  _refreshTodos();
+}
+```
+
+and update the body with the following code:
+
+```dart
+body: _todos.isEmpty == true
+    ? const Center(
+        child: Text(
+          "The list is empty.\nAdd some items by clicking the floating action button.",
+          textAlign: TextAlign.center,
+        ),
+      )
+    : ListView.builder(
+        itemCount: _todos.length,
+        itemBuilder: (context, index) {
+          final todo = _todos[index];
+          return Dismissible(
+            key: UniqueKey(),
+            confirmDismiss: (direction) async {
+              return false;
+            },
+            child: CheckboxListTile.adaptive(
+              value: todo.isDone,
+              title: Text(todo.content!),
+              onChanged: (isChecked) async { },
+            ),
+          );
+        },
+      ),
+```
+
+and create a new function called `_refreshTodos`:
+
+```dart
+Future<void> _refreshTodos() async {
+  try {
+    final request = ModelQueries.list(Todo.classType);
+    final response = await Amplify.API.query(request: request).response;
+
+    final todos = response.data?.items;
+    if (response.hasErrors) {
+      safePrint('errors: ${response.errors}');
+      return;
+    }
+    setState(() {
+      _todos = todos!.whereType<Todo>().toList();
+    });
+  } on ApiException catch (e) {
+    safePrint('Query failed: $e');
+  }
+}
+```
+
+Now let's add a update and delete functionality.
+
+For update, add the following code to the `onChanged` method of the `CheckboxListTile.adaptive` widget:
+
+```dart
+final request = ModelMutations.update(
+  todo.copyWith(isDone: isChecked!),
+);
+final response =
+    await Amplify.API.mutate(request: request).response;
+if (response.hasErrors) {
+  safePrint('Updating Todo failed. ${response.errors}');
+} else {
+  safePrint('Updating Todo successful.');
+  await _refreshTodos();
+}
+```
+
+This will call the `ModelMutations.update` method to update the Todo with a copied/updated version of the todo item. So now the checkbox will get an update as well.
+
+For delete functionality, add the following code to the `confirmDismiss` method of the `Dismissible` widget:
+
+```dart
+if (direction == DismissDirection.endToStart) {
+  final request = ModelMutations.delete(todo);
+  final response =
+      await Amplify.API.mutate(request: request).response;
+  if (response.hasErrors) {
+    safePrint('Updating Todo failed. ${response.errors}');
+  } else {
+    safePrint('Updating Todo successful.');
+    await _refreshTodos();
+    return true;
+  }
+}
+return false;
+```
+
+This will delete the Todo item when the user swipes the item from right to left. Now if you run the application you should see the following flow.
+
+<video autoPlay={true} muted={true} loop={true} width="100%">
+  <source src="/images/gen2/getting-started/flutter/flutter-getting-started-2.mp4" />
+</video>
+
+You can terminate the sandbox environment now to clean up the project.
+
+### Publishing changes to cloud
+
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/gen2/start/quickstart/#create-remote-git-repository).
+
+</Block>
+
+<Block name="iOS">
+
+<Callout info>
+  You need to have [Xcode and Developer
+  Tooling](https://developer.apple.com/xcode/) installed on your machine.
+</Callout>
+
+Open Xcode and select **Create New Project...**
+
+![Shows the Xcode starter video to start project](/images/lib/getting-started/ios/set-up-swift-1.png)
+
+In the next step select the **App** template under **iOS**. Click on next.
+
+![Shows the template of apps for iOS](/images/lib/getting-started/ios/set-up-swift-2.png)
+
+Next steps are:
+
+- Adding a _Product Name_ (e.g. MyAmplifyApp)
+- Select a _Team_ (e.g. None)
+- Select a _Organization Identifier_ (e.g. com.example)
+- Select **SwiftUI** an _Interface_.
+- Press **Next**
+
+![Shows the project details dialog](/images/lib/getting-started/ios/set-up-swift-3.png)
+
+Now you should have your project created.
+
+![Shows the base project for SwiftUI](/images/lib/getting-started/ios/set-up-swift-4.png)
+
+### Create Amplify Project
+
+The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
+
+```bash
+npm create amplify
+? Where should we create your project? (.) # press enter
+```
+
+Running this command will scaffold a lightweight Amplify project in your current project with the following files added:
+
+```text
+├── amplify/
+│   ├── auth/
+│   │   └── resource.ts
+│   ├── data/
+│   │   └── resource.ts
+│   ├── backend.ts
+│   └── package.json
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+└── tsconfig.json
+```
+
+### Running Local Development Environment
+
+Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
+
+```bash
+npx amplify sandbox --config-format=json-mobile
+```
+
+Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+
+<video autoPlay={true} muted={true} loop={true} width="100%">
+  <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
+</video>
+
+### Adding Authentication
+
+After the Amplify creation process, you can see a resource.ts file in the amplify/auth folder. This file contains the configuration for the authentication resource. The base code will enable the authentication with the default configuration. You can change the configuration based on your needs. For more information about the configuration, you can check the [documentation](/gen2/build-a-backend/auth/enable-sign-up/).
+
+```typescript
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  }
+});
+```
+
+After you have configured the authentication resource, you can use the Amplify UI libraries to run your authentication flow. Amplify UI is a collection of accessible, themeable, performant ui components that can connect directly to the Amplify resources.
+
+Open your project in Xcode and select **File > Add Packages...** and add the following dependencies:
+
+![Shows the Amplify library for Swift](/images/lib/getting-started/ios/set-up-swift-5.png)
+
+- Amplify Library for Swift: Enter its GitHub URL (https://github.com/aws-amplify/amplify-swift), select **Up to Next Major Version** and click **Add Package Dependencies...** and select the following libraries:
+
+  - Amplify
+  - AWSCognitoAuthPlugin
+
+![Shows the Amplify library for Swift](/images/lib/getting-started/ios/set-up-swift-6.png)
+
+- Amplify UI Swift - Authenticator: Enter its GitHub URL (https://github.com/aws-amplify/amplify-ui-swift-authenticator), select **Up to Next Major Version** and click **Add Package Dependencies...** and select the following libraries:
+  - Authenticator
+
+![Shows the Amplify library for Swift](/images/lib/getting-started/ios/set-up-swift-7.png)
+
+Now update the `MyAmplifyAppApp` class with the following code:
+
+```swift
+import Amplify
+import Authenticator
+import AWSCognitoAuthPlugin
+import SwiftUI
+
+@main
+struct MyApp: App {
+    init() {
+        do {
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.configure()
+        } catch {
+            print("Unable to configure Amplify \(error)")
+        }
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            Authenticator { state in
+                VStack {
+                    Button("Sign out") {
+                        Task {
+                            await state.signOut()
+                        }
+                    }
+                    Spacer()
+                    Button(action: {
+                        Task {
+                            await createTodo()
+                            await listTodos()
+                        }
+                    }) {
+                        HStack {
+                            Text("Add a New Todo")
+                            Image(systemName: "plus")
+                        }
+                    }
+                    .accessibilityLabel("New Todo")
+                }
+            }
+        }
+    }
+}
+```
+
+This will add the authentication flow by using the Authenticator component and add a sign out button with a create todo button.
+
+If you run the application now, you can see that the authentication flow is working.
+
+<video autoPlay={true} muted={true} loop={true} width="40%">
+  <source src="/images/gen2/getting-started/ios/ios-getting-started-1.mp4" />
+</video>
+
+### Adding Data
+
+After the Amplify creation process, you can see a resource.ts file in the amplify/data folder. This file contains the configuration for the GraphQL API resource.
+
+The default code will create a Todo model with content and isDone property. The authorization rules below specify that owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
+
+```typescript
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      isDone: a.boolean()
+    })
+    .authorization([a.allow.owner()])
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'userPool'
+  }
+});
+```
+
+To generate the model classes out of GraphQL schema, you can run the following command:
+
+```bash
+npx amplify generate graphql-client-code --format=modelgen
+```
+
+Move the generated files to your project. You can do this by dragging and dropping the files to your project.
+
+![Shows the drag and drop phase](/images/lib/getting-started/ios/set-up-swift-8.png)
+
+Once you are done, add the API dependencies to your project. Select **File > Add Package Dependencies...** and add the `AWSAPIPlugin`.
+
+![Shows the Amplify API library for Swift selected](/images/lib/getting-started/ios/set-up-swift-9.png)
+
+Next, update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+init() {
+    do {
+        try Amplify.add(plugin: AWSCognitoAuthPlugin())
+        try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
+        try Amplify.configure()
+    } catch {
+        print("Unable to configure Amplify \(error)")
+    }
+}
+```
+
+Now it is time to update the UI code a bit. Create a `createTodo` function in the `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+func createTodo() async {
+    let creationTime = Temporal.DateTime.now()
+    let todo = Todo(
+        content: "Random Todo \(creationTime)",
+        isDone: false,
+        createdAt: creationTime,
+        updatedAt: creationTime
+    )
+    do {
+        let result = try await Amplify.API.mutate(request: .create(todo))
+        switch result {
+        case .success(let todo):
+            print("Successfully created todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to create todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+The code above will create a random todo with the current time.
+
+Next create a `listTodos` function in the `MyAmplifyAppApp.swift` file with the following code to have the logic of listing the items:
+
+```swift
+func listTodos() async {
+    let request = GraphQLRequest<Todo>.list(Todo.self)
+    do {
+        let result = try await Amplify.API.query(request: request)
+        switch result {
+        case .success(let todos):
+            self.todos = todos.elements
+            print("Successfully retrieved list of todos: \(todos)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to query list of todos: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+This will assign the value of the fetched todos into a State object. Be sure to create it before the `body` property:
+
+```swift
+@State var todos: [Todo] = []
+```
+
+Now let's update the UI code to show the todos. Update the `VStack` in the `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+VStack {
+  Button("Sign out") {
+      Task {
+          await state.signOut()
+      }
+  }
+  List(todos, id: \.id) { todo in
+     Text(todo.content!)
+  }
+  Button(action: {
+      Task {
+          await createTodo()
+          await listTodos()
+      }
+  }) {
+      HStack {
+          Text("Add a New Todo")
+          Image(systemName: "plus")
+      }
+  }
+  .accessibilityLabel("New Todo")
+}.task {
+  await listTodos()
+}
+```
+
+<Callout info>
+  Throughout the Swift implementation, the async/await pattern has been used and
+  for using it easily, we take advantage of the Task structure. For more
+  information about the Task structure, you can check the
+  [documentation](https://developer.apple.com/documentation/swift/task).
+</Callout>
+
+The code above will fetch the todos once the VStack is shown. It will also create a todo and update the todo list each time a todo is created.
+
+Next step is to update and delete the todos. For that, create `updateTodo` and `deleteTodo` functions in the `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+func deleteTodo(todo: Todo) async {
+    do {
+        let result = try await Amplify.API.mutate(request: .delete(todo))
+        switch result {
+        case .success(let todo):
+            print("Successfully deleted todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to deleted todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+func updateTodo(todo: Todo) async {
+    do {
+        let result = try await Amplify.API.mutate(request: .update(todo))
+        switch result {
+        case .success(let todo):
+            print("Successfully updated todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to updated todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+Lastly, update the `List` in the `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+List(todos, id: \.id) { todo in
+    @State var isToggled = todo.isDone!
+    Toggle(isOn: $isToggled
+    ) {
+        Text(todo.content!)
+    }.onTapGesture {
+        var updatedTodo = todos.first {$0.id == todo.id}!
+        updatedTodo.isDone = !todo.isDone!
+        Task {
+            await updateTodo(todo: updatedTodo)
+            await listTodos()
+        }
+    }
+    .onChange(of: isToggled) { oldValue, newValue in
+        var updatedTodo = todos.first {$0.id == todo.id}!
+        updatedTodo.isDone = newValue
+        Task {
+            await updateTodo(todo: updatedTodo)
+            await listTodos()
+        }
+    }
+    .toggleStyle(.switch)
+    .onLongPressGesture {
+        Task {
+            await deleteTodo(todo: todo)
+            await listTodos()
+        }
+    }
+}
+```
+
+This will update the UI to show a toggle to update the todo and a long press gesture to delete the todo. Now if you run the application you should see the following flow.
+
+<video autoPlay={true} muted={true} loop={true} width="40%">
+  <source src="/images/gen2/getting-started/ios/ios-getting-started-3.mp4" />
+</video>
+
+You can terminate the sandbox environment now to clean up the project.
+
+### Publishing changes to cloud
+
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/gen2/start/quickstart/#create-remote-git-repository).
+
+</Block>
+
+</BlockSwitcher>

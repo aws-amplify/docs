@@ -2,9 +2,28 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Internationalization',
-  description:
-    'The AWS Amplify I18n module is a lightweight internationalization solution.',
-  platforms: ['javascript', 'react-native','angular','nextjs','react','vue'] 
+  description: 'The AWS Amplify I18n module is a lightweight internationalization solution.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'nextjs',
+        'vue',
+        'react-native',
+        'javascript',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-a-backend/utilities/i18n/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

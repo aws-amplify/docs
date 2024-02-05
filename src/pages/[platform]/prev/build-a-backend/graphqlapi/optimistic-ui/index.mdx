@@ -1,0 +1,51 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Optimistic UI',
+  description: 'Learn more about implementing optimistic UI with Amplify GraphQL API.',
+  platforms: [
+    'javascript',
+    'swift',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'javascript',
+        'react',
+        'angular',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/graphqlapi/optimistic-ui/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import js0 from '/src/fragments/lib-v1/graphqlapi/js/optimistic-ui.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>

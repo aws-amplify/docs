@@ -5,17 +5,25 @@ export const meta = {
   title: 'Deployment',
   description: 'With Amplify Hosting, developers building apps with Amplify can continuously deploy updates to their backend and frontend on every code commit.',
   platforms: [
-    'android',
     'angular',
-    'flutter',
     'javascript',
     'nextjs',
     'react',
-    'react-native',
-    'swift',
     'vue'
   ],
-  route: '/[platform]/deploy-and-host/deployment'
+  route: '/[platform]/deploy-and-host/deployment',
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'nextjs',
+        'react',
+        'javascript',
+        'angular'
+      ],
+      canonicalPath: '/javascript/deploy-and-host/deployment/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

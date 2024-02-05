@@ -2,9 +2,31 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'List files',
-  description:
-    "Learn more about how to list all of the uploaded objects using Amplify's storage category.",
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native','angular','nextjs','react','vue'] 
+  description: "Learn more about how to list all of the uploaded objects using Amplify's storage category.",
+  platforms: [
+    'javascript',
+    'flutter',
+    'swift',
+    'android',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'nextjs',
+        'react-native',
+        'angular',
+        'vue',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-a-backend/storage/list/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -114,9 +136,12 @@ To list current user's objects:
 import { list } from 'aws-amplify/storage';
 
 try {
-  const response = await list({ prefix: 'photos/', options:  {
-    accessLevel: 'protected',
-  }});
+  const response = await list({ 
+    prefix: 'photos/', 
+    options:  {
+      accessLevel: 'protected',
+    }
+  });
   console.log('Listed Items:', response.items);
 } catch(error) {
   console.log('Error ': error);
@@ -129,10 +154,13 @@ To list other user's objects:
 import { list } from 'aws-amplify/storage';
 
 try {
-  const response = list({ prefix: 'photos/', options:  {
-    accessLevel: 'protected',
-    targetIdentityId: 'xxxxxxx' // the identityId of that user
-  }});
+  const response = await list({ 
+    prefix: 'photos/', 
+    options:  {
+      accessLevel: 'protected',
+      targetIdentityId: 'xxxxxxx' // the identityId of that user
+    }
+  });
   console.log('Listed Items:', response.items);
 } catch(error) {
   console.log('Error ': error);
@@ -145,9 +173,12 @@ try {
 import { list } from 'aws-amplify/storage';
 
 try {
-  const response = list({ prefix: 'photos/', options:  {
-    accessLevel: 'private',
-  }})
+  const response = await list({ 
+    prefix: 'photos/', 
+    options:  {
+      accessLevel: 'private',
+    }
+  });
   console.log('Listed Items:', response.items);
 } catch(error) {
   console.log('Error ': error);

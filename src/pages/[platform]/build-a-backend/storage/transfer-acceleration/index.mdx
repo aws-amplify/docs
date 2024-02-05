@@ -2,9 +2,31 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Use transfer acceleration',
-  description:
-    'Learn how to enable and use Transfer Acceleration on your S3 bucket',
-  platforms: ['javascript', 'flutter', 'android', 'react-native', 'angular', 'nextjs', 'react', 'vue'] 
+  description: 'Learn how to enable and use Transfer Acceleration on your S3 bucket',
+  platforms: [
+    'javascript',
+    'flutter',
+    'android',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue',
+    'swift'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'angular',
+        'vue',
+        'react-native',
+        'react',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/build-a-backend/storage/transfer-acceleration/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -20,16 +42,7 @@ export function getStaticProps(context) {
   };
 }
 
-import common_transfer_acceleration from '/src/fragments/lib/storage/native_common/transfer-acceleration/common.mdx';
-
-<Fragments
-  fragments={{
-    android: common_transfer_acceleration,
-    flutter: common_transfer_acceleration
-  }}
-/>
-
-<InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
+<InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue', 'android', 'flutter', 'swift']}>
 
 <Callout warning>
 
@@ -68,6 +81,9 @@ Next, deploy this storage resource:
 ```sh
 amplify push
 ```
+</InlineFilter>
+
+<InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
 
 ## Upload files using the accelerated S3 endpoint
 
@@ -90,5 +106,147 @@ The following Storage APIs support accelerated endpoint
 - remove
 - downloadData
 - uploadData
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+## Upload files using the accelerated S3 endpoint
+
+We switch to the accelerated S3 endpoint by using the `useAccelerateEndpoint` parameter set to `true` in the `AWSS3StorageUploadFileOptions`.
+<BlockSwitcher>
+
+<Block name="Java">
+
+```java
+AWSS3StorageUploadFileOptions awsS3StorageUploadFileOptions =
+              AWSS3StorageUploadFileOptions.builder().setUseAccelerateEndpoint(true).build();
+ Amplify.Storage.uploadFile(
+   "KEY",
+   file
+   awsS3StorageUploadFileOptions,
+   result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+   storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+);
+```
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val awsS3StorageUploadFileOptions = AWSS3StorageUploadFileOptions.builder().
+                                                  setUseAccelerateEndpoint(true).
+                                                  build()
+ Amplify.Storage.uploadFile(
+   "KEY",
+   file
+   awsS3StorageUploadFileOptions,
+   { Log.i("MyAmplifyApp", "Successfully uploaded: " + it.getKey()) },
+   { Log.e("MyAmplifyApp", "Upload failed", it) }
+)
+```
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val awsS3StorageUploadFileOptions = AWSS3StorageUploadFileOptions.builder().
+                                                    setUseAccelerateEndpoint(true).
+                                                    build()
+val upload = Amplify.Storage.uploadFile("KEY", file, awsS3StorageUploadFileOptions)
+try {
+    val result = upload.result()
+    Log.i("MyAmplifyApp", "Successfully uploaded: ${result.key}")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Upload failed", error)
+}
+)
+```
+</Block>
+<Block name="RxJava">
+
+```java
+AWSS3StorageUploadFileOptions awsS3StorageUploadFileOptions =
+            AWSS3StorageUploadFileOptions.builder().setUseAccelerateEndpoint(true).build();
+RxProgressAwareSingleOperation<StorageUploadFileResult> rxUploadOperation =
+            RxAmplify.Storage.uploadFile("KEY", file, awsS3StorageUploadFileOptions);
+rxUploadOperation
+            .observeResult()
+            .subscribe(
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                error -> Log.e("MyAmplifyApp", "Upload failed", error)
+            );
+);
+```
+</Block>
+</BlockSwitcher>
+<Callout>Note: useAccelerateEndpoint flag is available in AWSS3StorageUploadFileOptions, AWSS3StorageUploadInputStreamOptions, AWSS3StorageDownloadFileOptions and AWSS3StorageGetPresignedUrlOptions</Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+## Use Transfer Acceleration on Storage Operations
+
+You can use transfer acceleration when calling the following APIs:
+
+* `getUrl`
+* `downloadData`
+* `downloadFile`
+* `uploadData`
+* `uploadFile`
+
+Set `useAccelerateEndpoint` to `true` in the corresponding Storage S3 plugin options to apply an accelerated S3 endpoint to the operation. For example, upload a file using transfer acceleration:
+
+```dart
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+
+Future<void> uploadFileUsingAcceleration(String filePath, String key) async {
+  final localFile = AWSFile.fromPath(filePath);
+  try {
+    final uploadFileOperation = Amplify.Storage.uploadFile(
+      localFile: localFile,
+      key: key,
+      options: const StorageUploadFileOptions(
+        pluginOptions: S3UploadFilePluginOptions(
+          useAccelerateEndpoint: true,
+        ),
+      ),
+    );
+
+    final result = await uploadFileOperation.result;
+    safePrint('Uploaded file: ${result.uploadedItem.key}');
+  } on StorageException catch (error) {
+    safePrint('Something went wrong uploading file: ${error.message}');
+  }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+## Use Transfer Acceleration on Storage Operations
+
+You can use transfer acceleration by setting `"useAccelerateEndpoint"` to `true` in the corresponding `pluginOptions` for any of the following Storage APIs:
+- `getUrl(key:options:)`
+- `downloadData(key:options:)`
+- `downloadFile(key:local:options:)`
+- `uploadData(key:data:options:)`
+- `uploadFile(key:local:options:)`
+
+For example, to upload a file using transfer acceleration:
+
+```swift
+let uploadTask = Amplify.Storage.uploadFile(
+    key: aKey,
+    local: aLocalFile,
+    options: .init(
+        pluginOptions: [
+            "useAccelerateEndpoint": true
+        ]
+    )
+)
+
+let data = try await uploadTask.value
+```
 
 </InlineFilter>

@@ -15,7 +15,20 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/build-a-backend/storage'
+  route: '/[platform]/build-a-backend/storage',
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'javascript',
+        'react-native',
+        'vue',
+        'angular',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-a-backend/storage/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

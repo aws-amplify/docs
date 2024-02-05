@@ -3,7 +3,7 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'Tools',
-  description: 'Tools',
+  description: 'Overview of Amplify tools including CLI, Studio, and Libraries.',
   platforms: [
     'android',
     'angular',
@@ -15,7 +15,23 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/tools'
+  route: '/[platform]/tools',
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'vue',
+        'javascript',
+        'flutter',
+        'angular',
+        'nextjs',
+        'react-native',
+        'android',
+        'swift'
+      ],
+      canonicalPath: '/javascript/tools/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -1,0 +1,83 @@
+export const meta = {
+  title: 'User group-based data access',
+  description: "The user group authorization strategy allows restricting data access to specific user groups or groups defined dynamically on each data record. Both static and dynamic group authorization options are available, with some limitations around real-time subscriptions when using dynamic group authorization."
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+You can use the `group` authorization strategy to restrict access based on user groups. The user group authorization strategy allows restricting data access to specific user groups or groups defined dynamically on each data record.
+
+## Add authorization rules for specific user groups
+
+When you want to restrict access to a specific set of user groups, provide the group names in the `groups` parameter. In the example below, only users that are part of the "Admin" user group are granted access to the Salary model.
+
+```ts
+// allow one specific group
+export const schema = a.schema({
+  Salary: a.model({
+    wage: a.float(),
+    currency: a.string()
+  }).authorization([
+    a.allow.specificGroup("Admin")
+  ])
+})
+```
+
+This can then be updated to allow access to multiple defined groups; in this example below we added access for "Leadership".
+
+```ts
+// allow multiple specific groups
+export const schema = a.schema({
+  Salary: a.model({
+    wage: a.float(),
+    currency: a.string()
+  }).authorization([
+    a.allow.specificGroups(["Admin", "Leadership"])
+  ])
+})
+```
+
+## Add authorization rules for dynamically set user groups
+
+With dynamic group authorization, each record contains an attribute specifying what Cognito groups should be able to access it. Use the first argument to specify which attribute in the underlying data store holds this group information. To specify that a single group should have access, use a field of type `a.string()`. To specify that multiple groups should have access, use a field of type `a.string().array()`.
+
+```ts
+// Dynamic group authorization with multiple groups
+a.schema({
+  Post: a.model({
+    title: a.string(),
+    groups: a.string().array()
+  }).authorization([
+    a.allow.groupsDefinedInField('groups'),
+  ])
+})
+```
+
+```ts
+// Dynamic group authorization with a single group
+a.schema({
+  Post: a.model({
+    title: a.string(),
+    groups: a.string()
+  }).authorization([
+    a.allow.groupDefinedIn('groups'),
+  ])
+})
+```
+
+By default, `group` authorization leverages Amazon Cognito user pool groups but you can also use OpenID Connect with `group` authorization. See [OpenID Connect as an authorization provider](/gen2/build-a-backend/data/customize-authz/using-oidc-authorization-provider).
+
+<Callout>
+**Known limitations for real-time subscriptions when using dynamic group authorization:**
+
+1. If you authorize based on a single group per record, then subscriptions are only supported if the user is part of 5 or fewer user groups
+2. If you authorize via an array of groups (`groups: a.string().array()` used in the example above),
+   - subscriptions are only supported if the user is part of 20 or fewer groups
+   - you can only authorize 20 or fewer user groups per record
+</Callout>

@@ -4,16 +4,32 @@ export const meta = {
   title: 'Architecture',
   description: 'The Amplify CLI has a pluggable architecture. The CLI core provides the pluggable platform, and most of the CLI category functions are implemented as plugins.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'nextjs',
+        'vue',
+        'javascript',
+        'android',
+        'angular',
+        'swift',
+        'flutter',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/tools/cli/plugins/architecture/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

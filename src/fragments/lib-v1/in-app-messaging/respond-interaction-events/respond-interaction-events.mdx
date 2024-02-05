@@ -67,6 +67,11 @@ If you are using the Amplify In-App Messaging UI, interaction events notificatio
 
 ```ts
 import { InAppMessageInteractionEvent } from '@aws-amplify/notifications';
+
+const message = {
+  // In-app message that you want to record an interaction on
+}
+
 /**
  * Interaction events that can be notified correspond to their respective listeners:
  *   'InAppMessageInteractionEvent.MESSAGE_RECEIVED_EVENT'
@@ -75,6 +80,7 @@ import { InAppMessageInteractionEvent } from '@aws-amplify/notifications';
  *   'InAppMessageInteractionEvent.MESSAGE_ACTION_TAKEN_EVENT'
  */
 InAppMessaging.notifyMessageInteraction(
+  message,
   InAppMessageInteractionEvent.MESSAGE_DISPLAYED_EVENT
 );
 ```
@@ -83,6 +89,11 @@ InAppMessaging.notifyMessageInteraction(
 <Block name="JavaScript">
 
 ```js
+
+const message = {
+  // In-app message that you want to record an interaction on
+}
+
 /**
  * Interaction events that can be notified correspond to their respective listeners:
  *   'MESSAGE_RECEIVED_EVENT'
@@ -90,7 +101,7 @@ InAppMessaging.notifyMessageInteraction(
  *   'MESSAGE_DISMISSED_EVENT'
  *   'MESSAGE_ACTION_TAKEN_EVENT'
  */
-InAppMessaging.notifyMessageInteraction('MESSAGE_DISPLAYED_EVENT');
+InAppMessaging.notifyMessageInteraction(message, 'MESSAGE_DISPLAYED_EVENT');
 ```
 
 </Block>

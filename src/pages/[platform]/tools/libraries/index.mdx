@@ -2,10 +2,32 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Libraries',
-  description:
-    'The Amplify open-source client libraries provide use-case centric, opinionated, declarative, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. ',
+  description: 'The Amplify open-source client libraries provide use-case centric, opinionated, declarative, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. ',
   disableTOC: 'true',
-  platforms: ['android', 'flutter', 'javascript', 'react-native', 'swift','angular','nextjs','react','vue'] 
+  platforms: [
+    'android',
+    'flutter',
+    'javascript',
+    'react-native',
+    'swift',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'react',
+        'vue',
+        'angular',
+        'javascript',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/tools/libraries/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -20,8 +42,6 @@ export function getStaticProps(context) {
     }
   };
 }
-
-import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 The Amplify open-source client libraries provide use-case centric, and easy-to-use interfaces across different categories of cloud powered operations, enabling mobile and web developers to easily interact with their backends. These libraries are powered by the AWS Cloud. The libraries can be used with both new backends created using the Amplify CLI and existing backend resources.
 

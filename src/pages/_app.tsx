@@ -3,10 +3,11 @@ import '../styles/styles.scss';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
-import { CANONICAL_URLS } from '@/data/canonical-urls';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { trackPageVisit } from '../utils/track';
+import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
+import { useCanonicalUrl } from '@/utils/useCanonicalUrl';
 
 function MyApp({ Component, pageProps }) {
   const {
@@ -36,7 +37,7 @@ function MyApp({ Component, pageProps }) {
 
   const getLayout =
     Component.getLayout ||
-    ((page) => (
+    ((page: React.ReactElement) => (
       <Layout
         pageTitle={meta?.title ? meta.title : ''}
         pageDescription={meta?.description ? meta.description : ''}
@@ -53,14 +54,15 @@ function MyApp({ Component, pageProps }) {
     ));
 
   let canonicalUrl = 'https://docs.amplify.aws';
-  const canonicalPath = CANONICAL_URLS.includes(router.pathname)
-    ? router.pathname.replace('[platform]', 'javascript')
-    : router.asPath;
-  canonicalUrl += canonicalPath;
+
+  const canonicalUrlPath = useCanonicalUrl(meta, useCurrentPlatform());
+
+  canonicalUrl += canonicalUrlPath;
 
   return (
     <>
       <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="msapplication-TileImage"
           content="/assets/icon/ms-icon-144x144.png"
@@ -179,6 +181,7 @@ function MyApp({ Component, pageProps }) {
 
       {process.env.BUILD_ENV !== 'production' ? (
         <>
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
           <script src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
           <script
             src="https://alpha.d2c.marketing.aws.dev/client/loader/v1/d2c-load.js"
@@ -187,6 +190,7 @@ function MyApp({ Component, pageProps }) {
         </>
       ) : (
         <>
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
           <script src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
           <script
             src="https://d2c.aws.amazon.com/client/loader/v1/d2c-load.js"
@@ -194,6 +198,10 @@ function MyApp({ Component, pageProps }) {
           ></script>
         </>
       )}
+      <link
+        href="https://prod.assets.shortbread.aws.dev/shortbread.css"
+        rel="stylesheet"
+      ></link>
     </>
   );
 }

@@ -1,0 +1,127 @@
+export const meta = {
+  title: 'Custom data access using Lambda functions',
+  description: 'Define a custom authorization rule with a Lambda function.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+You can define your own custom authorization rule with a Lambda function.
+
+```ts
+import {
+  type ClientSchema,
+  a,
+  defineData,
+  defineFunction
+} from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string()
+    })
+    // STEP 1
+    // Indicate which models / fields should use a custom authorization rule
+    .authorization([a.allow.custom()])
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'lambda',
+    // STEP 2
+    // Pass in the function to be used for a custom authorization rule
+    lambdaAuthorizationMode: {
+      function: defineFunction({
+        entry: './custom-authorizer.ts'
+      }),
+      // (Optional) STEP 3
+      // Configure the token's time to live
+      timeToLiveInSeconds: 300
+    }
+  }
+});
+```
+
+The Lambda function of choice will receive an authorization token from the client and execute the desired authorization logic. The AppSync GraphQL API will receive a payload from Lambda after invocation to allow or deny the API call accordingly.
+
+To configure a Lambda function as the authorization mode, create a new file `amplify/data/custom-authorizer.ts`. You can use this Lambda function code template as a starting point for your authorization handler code:
+
+```ts
+// amplify/data/custom-authorizer.ts
+
+// This is sample code. Update this to suite your needs
+import type { AppSyncAuthorizerHandler } from 'aws-lambda'; // types imported from @types/aws-lambda
+
+type ResolverContext = {
+  userid: string;
+  info: string;
+  more_info: string;
+};
+
+export const handler: AppSyncAuthorizerHandler<ResolverContext> = async (
+  event
+) => {
+  console.log(`EVENT: ${JSON.stringify(event)}`);
+  const {
+    authorizationToken,
+    requestContext: { apiId, accountId }
+  } = event;
+  const response = {
+    isAuthorized: authorizationToken === 'custom-authorized',
+    resolverContext: {
+      // eslint-disable-next-line spellcheck/spell-checker
+      userid: 'user-id',
+      info: 'contextual information A',
+      more_info: 'contextual information B'
+    },
+    deniedFields: [
+      `arn:aws:appsync:${process.env.AWS_REGION}:${accountId}:apis/${apiId}/types/Event/fields/comments`,
+      `Mutation.createEvent`
+    ],
+    ttlOverride: 300
+  };
+  console.log(`RESPONSE: ${JSON.stringify(response, null, 2)}`);
+  return response;
+};
+```
+
+You can use the template above as a starting point for your custom authorization rule. The authorization Lambda function receives the following event:
+
+```json
+{
+    "authorizationToken": "ExampleAuthToken123123123", # Authorization token specified by client
+    "requestContext": {
+        "apiId": "aaaaaa123123123example123", # AppSync API ID
+        "accountId": "111122223333", # AWS Account ID
+        "requestId": "f4081827-1111-4444-5555-5cf4695f339f",
+        "queryString": "mutation CreateEvent {...}\n\nquery MyQuery {...}\n", # GraphQL query
+        "operationName": "MyQuery", # GraphQL operation name
+        "variables": {} # any additional variables supplied to the operation
+    }
+}
+```
+
+Your Lambda authorization function needs to return the following JSON:
+
+```json
+{
+  // required
+  "isAuthorized": true, // if "false" then an UnauthorizedException is raised, access is denied
+  "resolverContext": { "banana": "very yellow" }, // JSON object visible as $ctx.identity.resolverContext in VTL resolver templates
+
+  // optional
+  "deniedFields": ["TypeName.FieldName"], // Forces the fields to "null" when returned to the client
+  "ttlOverride": 10 // The number of seconds that the response should be cached for. Overrides default specified in "amplify update api"
+}
+```
+
+Review the Amplify documentation to set the custom authorization token for the [Data client](/gen2/build-a-backend/data/connect-to-API).

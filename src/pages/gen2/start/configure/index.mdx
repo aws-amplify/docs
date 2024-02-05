@@ -1,0 +1,42 @@
+export const meta = {
+  title: 'Set up local AWS profile',
+  description:
+    'Configure a local AWS profile to get started with AWS Amplify (Gen 2).'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+This Configure guide will walk you through how to setup a local profile that will be used alongside the Amplify Sandbox to deploy cloud resources in your AWS account.
+
+Before you get started, you will need to [create an AWS Account](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start). Additionally, if you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
+
+Inside your Amplify (Gen 2) project, use [`amplify configure profile`](/gen2/reference/cli-commands#amplify-configure-profile) to configure your local AWS profile:
+
+```bash
+npx amplify configure profile
+```
+
+This command will prompt for a few details after creating your IAM user:
+
+```console
+npx amplify configure profile
+? Do you already have IAM User credentials? (y/N) y
+? Enter Access Key ID: [input is masked]
+? Enter Secret Access Key: [input is masked]
+? Enter the AWS region to use with the 'default' profile (eg us-east-1, us-west-2, etc): [input is masked]
+Created profile default successfully!
+```
+
+Now you have a `default` profile written to `~/.aws/config` and `~/.aws/credentials` and are ready to create your first cloud sandbox!
+
+## Next steps
+
+- [Learn more about account setup](/gen2/start/account-setup)
+- [Learn more about IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html)
+- [Understand local AWS config file formats](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-format)

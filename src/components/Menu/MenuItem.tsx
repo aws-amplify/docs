@@ -1,11 +1,11 @@
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
-import { ReactElement, useContext, useEffect, useState } from 'react';
+import { ReactElement, useContext, useEffect, useState, useMemo } from 'react';
 import { Link as AmplifyUILink, Flex } from '@aws-amplify/ui-react';
 import { IconExternalLink, IconChevron } from '@/components/Icons';
 import Link from 'next/link';
-import { JS_PLATFORMS, Platform } from '@/data/platforms';
+import { JS_PLATFORMS, Platform, JSPlatform } from '@/data/platforms';
 import { LayoutContext } from '@/components/Layout';
-import { PageNode } from 'src/directory/directory';
+import { PageNode } from '@/directory/directory';
 
 enum Levels {
   Category = 1,
@@ -43,7 +43,10 @@ export function MenuItem({
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const asPathWithoutHash = usePathWithoutHash();
   const [open, setOpen] = useState(false);
-  const children = hideChildren ? [] : pageNode.children;
+  const children = useMemo(
+    () => (hideChildren ? [] : pageNode.children),
+    [hideChildren, pageNode.children]
+  );
   const onLinkClick = () => {
     // Category shouldn't be collapsible
     if (
@@ -65,6 +68,14 @@ export function MenuItem({
     }
   };
 
+  const pathname = getPathname(pageNode.route, currentPlatform);
+
+  const current = asPathWithoutHash === pathname;
+
+  const currentStyle = current ? 'menu__list-item__link--current' : '';
+
+  let hideAPIResources = false;
+
   useEffect(() => {
     if (current) {
       if (children && children.length > 0) {
@@ -78,7 +89,7 @@ export function MenuItem({
         parentSetOpen(true);
       }
     }
-  }, [asPathWithoutHash]);
+  }, [asPathWithoutHash, current, children, parentSetOpen]);
 
   useEffect(() => {
     // Using this to help open nested menu items
@@ -89,21 +100,24 @@ export function MenuItem({
     if (open && parentSetOpen) {
       parentSetOpen(true);
     }
-  }, [open]);
+  }, [open, parentSetOpen]);
 
-  let pathname = getPathname(pageNode.route, currentPlatform);
-
-  const current = asPathWithoutHash === pathname;
-
-  const currentStyle = current ? 'menu__list-item__link--current' : '';
-
-  let hideAPIResources = false; 
-
-  if (JS_PLATFORMS.includes(currentPlatform) 
-      && !usePathWithoutHash().includes('/prev/') 
-      && pageNode.route == 'https://aws-amplify.github.io/amplify-js/api/') {
-        hideAPIResources = true
+  if (
+    currentPlatform &&
+    JS_PLATFORMS.includes(currentPlatform as JSPlatform) &&
+    asPathWithoutHash.includes('/prev/') &&
+    pageNode.route == 'https://aws-amplify.github.io/amplify-js/api/'
+  ) {
+    hideAPIResources = true;
   }
+
+  let hasVisibleChildren = currentPlatform ? false : true;
+
+  children?.forEach((child) => {
+    if (currentPlatform && child.platforms?.includes(currentPlatform)) {
+      hasVisibleChildren = true;
+    }
+  });
 
   let listItemStyle = '';
   let listItemLinkStyle = '';
@@ -131,8 +145,11 @@ export function MenuItem({
 
   if (hideAPIResources) {
     return <></>;
-  } else if (pageNode.isExternal &&((currentPlatform && pageNode?.platforms?.includes(currentPlatform)) ||
-  !pageNode.platforms)) {
+  } else if (
+    pageNode.isExternal &&
+    ((currentPlatform && pageNode?.platforms?.includes(currentPlatform)) ||
+      !pageNode.platforms)
+  ) {
     return (
       <li key={pageNode.route} className="menu__list-item">
         <AmplifyUILink
@@ -173,6 +190,7 @@ export function MenuItem({
       >
         <Link
           className={`menu__list-item__link ${listItemLinkStyle} ${currentStyle}`}
+          aria-current={current ? 'page' : null}
           href={href}
           onClick={onLinkClick}
           passHref
@@ -181,15 +199,16 @@ export function MenuItem({
             className={`menu__list-item__link__inner ${listItemLinkInnerStyle}`}
           >
             {pageNode.title}
-            {children && level !== Levels.Category && (
+            {children && hasVisibleChildren && level !== Levels.Category && (
               <IconChevron className={open ? '' : 'icon-rotate-90-reverse'} />
             )}
           </Flex>
         </Link>
         {children && (
           <ul
-            className={`menu__list ${!open && level > Levels.Category ? 'menu__list--hide' : ''
-              }`}
+            className={`menu__list ${
+              !open && level > Levels.Category ? 'menu__list--hide' : ''
+            }`}
           >
             {children.map((child, index) => (
               <MenuItem

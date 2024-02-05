@@ -4,16 +4,32 @@ export const meta = {
   title: 'Export Amplify project to CDK',
   description: 'Export your Amplify CLI-generated backends as a Cloud Development Kit (CDK) stack and incorporate it into existing CDK deployment pipelines. This capability allows frontend developers to build their app backend quickly and, each time it is ready to ship, hand it over to DevOps teams to deploy to production.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'android',
+        'nextjs',
+        'flutter',
+        'react',
+        'swift',
+        'angular',
+        'javascript',
+        'vue'
+      ],
+      canonicalPath: '/javascript/tools/cli/usage/export-to-cdk/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

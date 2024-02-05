@@ -4,16 +4,32 @@ export const meta = {
   title: 'Feature flags',
   description: 'More information about feature flags in Amplify CLI',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'swift',
+        'javascript',
+        'vue',
+        'react-native',
+        'react',
+        'nextjs',
+        'angular',
+        'flutter',
+        'android'
+      ],
+      canonicalPath: '/javascript/tools/cli/reference/feature-flags/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

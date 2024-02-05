@@ -3,8 +3,7 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'Interactions',
-  description:
-    'Automate customer workflows by enlisting the help of conversational chatbots powered by deep learning technologies',
+  description: 'Automate customer workflows by enlisting the help of conversational chatbots powered by deep learning technologies',
   platforms: [
     'angular',
     'javascript',
@@ -13,7 +12,26 @@ export const meta = {
     'react-native',
     'vue'
   ],
-  route: '/[platform]/prev/build-a-backend/more-features/interactions'
+  route: '/[platform]/prev/build-a-backend/more-features/interactions',
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'react',
+        'vue',
+        'angular',
+        'react-native',
+        'react',
+        'nextjs',
+        'javascript',
+        'nextjs',
+        'react-native',
+        'javascript',
+        'vue'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/more-features/interactions/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

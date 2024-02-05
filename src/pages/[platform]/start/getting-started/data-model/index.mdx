@@ -44,7 +44,7 @@ Accept the **default values** which are highlighted below:
 ? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
 ```
 
-The CLI should open this GraphQL schema in your text editor.
+The CLI will prompt you to open this GraphQL schema in your text editor.
 
 **amplify/backend/api/your-api-name/schema.graphql**
 
@@ -80,14 +80,36 @@ amplify push
 
 Choose the following values for each prompt:
 
+<BlockSwitcher>
+<Block name="TypeScript">
+
 ```console
+✔ Are you sure you want to continue? (Y/n) · yes
+...
+? Do you want to generate code for your newly created GraphQL API: Yes
+? Choose the code generation language target: typescript
+? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.ts
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
+? Enter the file name for the generated code: src/API.ts
+```
+
+</Block>
+<Block name="JavaScript">
+
+```console
+✔ Are you sure you want to continue? (Y/n) · yes
+...
 ? Do you want to generate code for your newly created GraphQL API Yes
-? Choose the code generation language target typescript
-? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.ts
+? Choose the code generation language target javascript
+? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.js
 ? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions Yes
 ? Enter maximum statement depth [increase from default if your schema is deeply nested] 2
-? Enter the file name for the generated code src/API.ts
+? Enter the file name for the generated code src/API.js
 ```
+
+</Block>
+</BlockSwitcher>
 
 Now the API is live and you can start interacting with it! The API you have deployed includes operations for creating, reading, updating, deleting, and listing posts.
 
@@ -272,18 +294,136 @@ Let's walk through some of the functions:
 
 In this section you will create a way to list and create todos from the React application. To do this, you will create a form with a button to create todos as well as a way to fetch and render the list of todos.
 
-Open **src/App.jsx** and replace it with the following code:
+<BlockSwitcher>
+<Block name="TypeScript">
 
-```javascript
+Open **src/App.tsx** and replace it with the following code:
+
+```typescript
 import { useEffect, useState } from 'react';
-import { Amplify } from 'aws-amplify';
+
 import { generateClient } from 'aws-amplify/api';
 
 import { createTodo } from './graphql/mutations';
 import { listTodos } from './graphql/queries';
+import { type CreateTodoInput, type Todo } from './API';
 
-import amplifyconfig from './amplifyconfiguration.json';
-Amplify.configure(amplifyconfig);
+const initialState: CreateTodoInput = { name: '', description: '' };
+const client = generateClient();
+
+const App = () => {
+  const [formState, setFormState] = useState<CreateTodoInput>(initialState);
+  const [todos, setTodos] = useState<Todo[] | CreateTodoInput[]>([]);
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  async function fetchTodos() {
+    try {
+      const todoData = await client.graphql({
+        query: listTodos,
+      });
+      const todos = todoData.data.listTodos.items;
+      setTodos(todos);
+    } catch (err) {
+      console.log('error fetching todos');
+    }
+  }
+
+  async function addTodo() {
+    try {
+      if (!formState.name || !formState.description) return;
+      const todo = { ...formState };
+      setTodos([...todos, todo]);
+      setFormState(initialState);
+      await client.graphql({
+        query: createTodo,
+        variables: {
+          input: todo,
+        },
+      });
+    } catch (err) {
+      console.log('error creating todo:', err);
+    }
+  }
+
+  return (
+    <div style={styles.container}>
+      <h2>Amplify Todos</h2>
+      <input
+        onChange={(event) =>
+          setFormState({ ...formState, name: event.target.value })
+        }
+        style={styles.input}
+        value={formState.name}
+        placeholder="Name"
+      />
+      <input
+        onChange={(event) =>
+          setFormState({ ...formState, description: event.target.value })
+        }
+        style={styles.input}
+        value={formState.description as string}
+        placeholder="Description"
+      />
+      <button style={styles.button} onClick={addTodo}>
+        Create Todo
+      </button>
+      {todos.map((todo, index) => (
+        <div key={todo.id ? todo.id : index} style={styles.todo}>
+          <p style={styles.todoName}>{todo.name}</p>
+          <p style={styles.todoDescription}>{todo.description}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const styles = {
+  container: {
+    width: 400,
+    margin: "0 auto",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: 20,
+  },
+  todo: { marginBottom: 15 },
+  input: {
+    border: "none",
+    backgroundColor: "#ddd",
+    marginBottom: 10,
+    padding: 8,
+    fontSize: 18,
+  },
+  todoName: { fontSize: 20, fontWeight: "bold" },
+  todoDescription: { marginBottom: 0 },
+  button: {
+    backgroundColor: "black",
+    color: "white",
+    outline: "none",
+    fontSize: 18,
+    padding: "12px 0px",
+  },
+} as const;
+
+export default App;
+
+```
+
+</Block>
+<Block name="JavaScript">
+
+Open **src/App.jsx** and replace it with the following code:
+
+```javascript
+import { useEffect, useState } from 'react';
+
+import { generateClient } from 'aws-amplify/api';
+
+import { createTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
 
 const initialState = { name: '', description: '' };
 const client = generateClient();
@@ -388,6 +528,9 @@ const styles = {
 export default App;
 ```
 
+</Block>
+</BlockSwitcher>
+
 **useEffect** - After the component renders, the `useEffect` hook is called and it invokes the `fetchTodos` function.
 
 **fetchTodos** - Uses the Amplify API `client` created by `generateClient()` to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
@@ -440,7 +583,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { generateClient } from 'aws-amplify/api';
+import { generateClient, type Client } from 'aws-amplify/api';
 import { Todo, ListTodosQuery } from '../../API';
 import * as mutations from '../../graphql/mutations';
 
@@ -453,7 +596,7 @@ import * as mutations from '../../graphql/mutations';
 })
 export class TodosComponent {
   public createForm: FormGroup;
-  public client: any;
+  public client: Client;
 
   constructor(private fb: FormBuilder) {
     this.createForm = this.fb.group({
@@ -514,7 +657,7 @@ import {
   Validators
 } from '@angular/forms';
 
-import { generateClient } from 'aws-amplify/api';
+import { generateClient, type Client } from 'aws-amplify/api';
 import { ListTodosQuery, Todo } from '../../API';
 import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
@@ -528,7 +671,7 @@ import * as queries from '../../graphql/queries';
 })
 export class TodosComponent implements OnInit {
   public createForm: FormGroup;
-  public client: any;
+  public client: Client;
 
   /* declare todos variable */
   public todos: ListTodosQuery['listTodos'];
@@ -658,7 +801,7 @@ import {
   Validators
 } from '@angular/forms';
 
-import { generateClient } from 'aws-amplify/api';
+import { generateClient, type Client } from 'aws-amplify/api';
 import { Todo, ListTodosQuery } from '../../API';
 import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
@@ -674,7 +817,7 @@ import * as subscriptions from '../../graphql/subscriptions';
 export class TodosComponent implements OnInit, OnDestroy {
   public todos: ListTodosQuery['listTodos'];
   public createForm: FormGroup;
-  public client: any;
+  public client: Client;
 
   private subscription: any = null;
 
@@ -704,12 +847,12 @@ export class TodosComponent implements OnInit, OnDestroy {
       })
       .subscribe({
         next: (event: any) => {
-        const newTodo: Todo = event.data.onCreateTodo;
-        if (this.todos) {
-          this.todos.items = [newTodo, ...this.todos];
+          const newTodo: Todo = event.data.onCreateTodo;
+          if (this.todos) {
+            this.todos.items = [newTodo, ...this.todos];
+          }
         }
-      }
-    });
+      });
   }
 
   ngOnDestroy(): void {
@@ -1158,28 +1301,72 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
 
 In this section you will create a way to list and create todos from the Next.js application. To do this, you will fetch & render the latest todos from the server as well as create a new todo.
 
-Open **app/page.tsx** and replace it with the following code:
+### Generate the Amplify GraphQL API client
 
-```jsx
-// app/page.tsx
+To make any GraphQL API requests service-side, we need to first generate an API client that we can use on server-side. To generate a new API client, import `generateServerClientUsingCookies` from `@aws-amplify/adapter-nextjs/api` and use it to generate a cookiesClient using the **amplifyconfiguration.json** in our project as `config` and `cookies` from `next/headers`.
+
+<Callout info>
+
+Amplify offers two API clients for Next.js server-side runtimes. Use `generateServerClientUsingCookies` primarily for use cases where `cookies` from `next/headers` is available, such as in App Router's React Server Components, Server Actions. Use `generateServerClientUsingReqRes` for use cases where a `NextRequest`/`NextResponse` are available, such as in the Pages Router or Middleware. Review [Connect to data from server-side runtimes](/[platform]/build-a-backend/graphqlapi/connect-from-server-runtime/) to review in-depth which API client to use for which use cases.
+
+</Callout>
+
+Open **src/app/page.tsx** and replace it with the following code:
+
+```tsx
 import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
-import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 
-import * as mutations from '@/src/graphql/mutations';
-import * as queries from '@/src/graphql/queries';
+import config from '@/amplifyconfiguration.json';
 
-import config from '@/src/amplifyconfiguration.json';
-
-export const cookiesClient = generateServerClientUsingCookies({
+const cookiesClient = generateServerClientUsingCookies({
   config,
   cookies
 });
 
+export default async function Home() {
+  return (
+    <div
+      style={{
+        maxWidth: '500px',
+        margin: '0 auto',
+        textAlign: 'center',
+        marginTop: '100px'
+      }}
+    >
+      <form>
+        <input name="name" placeholder="Add a todo" />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+  );
+}
+```
+
+### Create a form for submitting the todos
+
+In Next.js you can use a [Server Action](https://nextjs.org/docs/app/api-reference/functions/server-actions) to handle form submission server-side. Let's add a Server Action which submits its data to the `createTodo` function. When called, `createTodo` should send a GraphQL mutation via `cookiesClient.graphql(...)` to the GraphQL API, then call `revalidatePath` from the Next.js cache to invalidate the page cache and fetch the latest todos.
+
+Update the **src/app/page.tsx** with the following code:
+
+```tsx
+import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
+import { cookies } from 'next/headers';
+// 1. Add the following two imports
+import { revalidatePath } from 'next/cache';
+import * as mutations from '@/graphql/mutations';
+
+import config from '@/amplifyconfiguration.json';
+
+const cookiesClient = generateServerClientUsingCookies({
+  config,
+  cookies
+});
+
+// 2. Create a new Server Action
 async function createTodo(formData: FormData) {
   'use server';
-
-  await cookiesClient.graphql({
+  const { data } = await cookiesClient.graphql({
     query: mutations.createTodo,
     variables: {
       input: {
@@ -1188,10 +1375,71 @@ async function createTodo(formData: FormData) {
     }
   });
 
+  console.log('Created Todo: ', data?.createTodo);
+
   revalidatePath('/');
 }
 
 export default async function Home() {
+  return (
+    <div
+      style={{
+        maxWidth: '500px',
+        margin: '0 auto',
+        textAlign: 'center',
+        marginTop: '100px'
+      }}
+    >
+      {/* 3. Update the form's action to use the
+          new create Todo Server Action*/}
+      <form action={createTodo}>
+        <input name="name" placeholder="Add a todo" />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+  );
+}
+```
+
+### List todos
+
+Using `cookiesClient.graphql(...)` we make GraphQL queries as well. Pass in the `listTodos` query and assign the items returned to `todos` then iterate over them to display in a `<ul>` tag. If there are no todos, we display the message "No todos, please add one".
+
+Update the **src/app/page.tsx** with the following code:
+
+```tsx
+import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
+import { cookies } from 'next/headers';
+import { revalidatePath } from 'next/cache';
+import * as mutations from '@/graphql/mutations';
+// 1. Add the queries as an import
+import * as queries from '@/graphql/queries';
+
+import config from '@/amplifyconfiguration.json';
+
+const cookiesClient = generateServerClientUsingCookies({
+  config,
+  cookies
+});
+
+async function createTodo(formData: FormData) {
+  'use server';
+  const { data } = await cookiesClient.graphql({
+    query: mutations.createTodo,
+    variables: {
+      input: {
+        name: formData.get('name')?.toString() ?? ''
+      }
+    }
+  });
+
+  console.log('Created Todo: ', data?.createTodo);
+
+  revalidatePath('/');
+}
+
+export default async function Home() {
+  // 2. Fetch additional todos
   const { data, errors } = await cookiesClient.graphql({
     query: queries.listTodos
   });
@@ -1212,12 +1460,14 @@ export default async function Home() {
         <button type="submit">Add</button>
       </form>
 
+      {/* 3. Handle edge cases & zero state & error states*/}
       {(!todos || todos.length === 0 || errors) && (
         <div>
           <p>No todos, please add one.</p>
         </div>
       )}
 
+      {/* 4. Display todos*/}
       <ul>
         {todos.map((todo) => {
           return <li style={{ listStyle: 'none' }}>{todo.name}</li>;
@@ -1227,14 +1477,6 @@ export default async function Home() {
   );
 }
 ```
-
-Let's walk through some of this file:
-
-- First we import `generateServerClientUsingCookies` from `@aws-amplify/adapter-nextjs/api` and use it to generate a `cookiesClient` using the `amplifyconfiguration.json` in our project as `config` and `cookies` from `@next/headers`.
-
-- Using `cookiesClient.graphql` we call `queries.listTodos` and await the response and assign the items returned to `todos` then iterate over them to display. If there are no todos, display the message "No todos, please add one".
-
-- The form above the list of todos is a [Server-only form in Next.js](https://nextjs.org/docs/app/building-your-application/data-fetching/forms-and-mutations#server-only-forms) which submits it's data to the `createTodo` async function. When called, `createTodo` sends a mutation via `cookiesClient.graphql` to the GraphQL API, then calls `revalidatePath` from the Next.js cache to invalidate the page cache and fetch the latest todos.
 
 </InlineFilter>
 

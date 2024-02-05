@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "prettier" // prettier should always come last
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier"],
+  "rules": {
+    "react-hooks/exhaustive-deps": "error",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error"
+  }
+}

@@ -2,9 +2,26 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Service Worker',
-  description:
-    'AWS Amplify ServiceWorker class enables registering a service worker in the browser and communicating with it via postMessage events, so that you can create rich offline experiences with Push APIs and analytics.',
-  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue'] 
+  description: 'AWS Amplify ServiceWorker class enables registering a service worker in the browser and communicating with it via postMessage events, so that you can create rich offline experiences with Push APIs and analytics.',
+  platforms: [
+    'javascript',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'angular',
+        'nextjs',
+        'javascript',
+        'vue'
+      ],
+      canonicalPath: '/javascript/build-a-backend/utilities/service-worker/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

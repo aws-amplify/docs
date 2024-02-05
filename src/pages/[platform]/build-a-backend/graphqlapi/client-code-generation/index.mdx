@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'JavaScript, Android, Swift, and Flutter client code generation',
-  description:
-    "Amplify's codegen capabilities generate native code for iOS and Android, as well as types for Flow and TypeScript. Codegen can also generate GraphQL statements (queries, mutations, and subscriptions).",
+  description: "Amplify's codegen capabilities generate native code for iOS and Android, as well as types for Flow and TypeScript. Codegen can also generate GraphQL statements (queries, mutations, and subscriptions).",
   platforms: [
     'android',
     'angular',
@@ -14,6 +13,22 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'javascript',
+        'android',
+        'vue',
+        'react',
+        'react-native',
+        'angular',
+        'swift',
+        'flutter'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/client-code-generation/'
+    }
   ]
 };
 
@@ -36,7 +51,7 @@ export function getStaticProps(context) {
 
 The design of codegen functionality provides mechanisms to run at different points in your app development lifecycle, including when you create or update an API as well as independently when you want to just update the data fetching requirements of your app but leave your API alone. It additionally allows you to work in a team where the schema is updated or managed by another person. Finally, you can also include the codegen in your build process so that it runs automatically (such as from in Xcode).
 
-## Generate GraphQL client helper code with CDK-deployed GraphQL API
+## Generate GraphQL client helper code for GraphQL APIs deployed with Amplify GraphQL CDK construct
 
 The necessary GraphQL client helper code differ from platform to platform. For JavaScript GraphQL client code, you need to reference the API ID that you receive after you deploy your application. For Android, iOS, and Flutter you can reference the local GraphQL schema to generate models for your API client.
 

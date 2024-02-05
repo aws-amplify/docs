@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
-  title: 'Deploy and host',
+  title: 'Deploy & host',
   description: 'Deploy and host',
   platforms: [
     'android',
@@ -15,7 +15,28 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/deploy-and-host'
+  route: '/[platform]/deploy-and-host',
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'swift',
+        'android',
+        'flutter'
+      ],
+      canonicalPath: '/react-native/deploy-and-host/'
+    },
+    {
+      platforms: [
+        'javascript',
+        'angular',
+        'vue',
+        'react',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/deploy-and-host/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

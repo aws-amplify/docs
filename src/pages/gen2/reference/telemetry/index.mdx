@@ -1,0 +1,46 @@
+export const meta = {
+  title: 'Telemetry',
+  description: 'Reference for Amplify (Gen 2) telemetry.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+{/* inspired by https://nextjs.org/telemetry */}
+
+Amplify (Gen 2) collects anonymous telemetry data about general usage of the CLI. Participation is optional, and you may [opt out](#how-do-i-opt-out) by using `amplify configure telemetry disable`.
+
+Your decision to opt out is stored for your user, meaning all Amplify apps you work with on that computer will not send telemetry data.
+
+{/* ## Why is telemetry collected? */}
+
+{/* @TODO */}
+
+{/* ## What is being collected? */}
+
+{/* @TODO */}
+
+## How do I opt out?
+
+You may opt out by using the `configure telemetry disable` command from the root of your Amplify app:
+
+```bash
+npx amplify configure telemetry disable
+```
+
+You can opt back in to the program by running the following from the root of your Amplify app:
+
+```bash
+npx amplify configure telemetry enable
+```
+
+In the event you would like to disable telemetry on a one-time basis, you can opt out by defining an environment variable:
+
+```bash
+AMPLIFY_DISABLE_TELEMETRY=1
+```

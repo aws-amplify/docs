@@ -1,7 +1,7 @@
 export const meta = {
   title: 'Add fields to data model',
   description:
-    'Learn how to customize your data model.'
+    'Configure built-in and custom field types.'
 };
 
 export function getStaticProps(context) {
@@ -13,11 +13,11 @@ export function getStaticProps(context) {
 
 }
 
-Amplify Data supports all AWS AppSync scalar types as field types. The following scalar types are available for every field:
+Amplify Data supports all AWS AppSync scalar types as field types. The following scalar types are available:
 
 |Field type|Description|TypeScript validation|GraphQL Scalar Type|
 |-|-|-|-|
-|`a.id()`|A unique identifier for an object. This scalar is serialized like a String but isn't meant to be human-readable. If not specified on create operations, a ULID will be generated.|`string`|ID|
+|`a.id()`|A unique identifier for an object. This scalar is serialized like a String but isn't meant to be human-readable. If not specified on create operations, a UUID will be generated.|`string`|ID|
 |`a.string()`|A UTF-8 character sequence.|`string`|String|
 |`a.integer()`|An integer value between -(2^31) and 2^31-1.|`number` but rounded to closest integer value upon query/mutation|Int|
 |`a.float()`|An IEEE 754 floating point value.|`number`|Float|
@@ -27,16 +27,16 @@ Amplify Data supports all AWS AppSync scalar types as field types. The following
 |`a.datetime()`|An extended ISO 8601 date and time string in the format YYYY-MM-DDThh:mm:ss.sssZ.|`Date`|AWSDateTime|
 |`a.timestamp()`|An integer value representing the number of seconds before or after 1970-01-01-T00:00Z.|`number`|AWSTimestamp|
 |`a.email()`|An email address in the format local-part@domain-part as defined by RFC 822.|`string` with local-part and domain-part type enforcement|AWSEmail|
-|`a.json()`|A JSON string. Any valid JSON construct is automatically parsed and loaded in the resolver code as maps, lists, or scalar values rather than as the literal input strings. Unquoted strings or otherwise invalid JSON result in a GraphQL validation error.|`any`|AWSJSON|
+|`a.json()`|A JSON string. Any valid JSON construct is automatically parsed and loaded in the resolver code as maps, lists, or scalar values, rather than as the literal input strings. Unquoted strings or otherwise invalid JSON result in a validation error.|`any`|AWSJSON|
 |`a.phone()`|A phone number. This value is stored as a string. Phone numbers can contain either spaces or hyphens to separate digit groups. Phone numbers without a country code are assumed to be US/North American numbers adhering to the North American Numbering Plan.|`string` validation only happening service-side|AWSPhone|
 |`a.url()`|A URL as defined by RFC 1738. For example, https://www.amazon.com/dp/B000NZW3KC/ or mailto:example@example.com. URLs must contain a schema (http, mailto) and can't contain two forward slashes (//) in the path part.|`string` but with type enforcement on the schema part|AWSURL|
-|`a.ipAddress()`|A valid IPv4 or IPv6 address. IPv4 addresses are expected in quad-dotted notation (123.12.34.56). IPv6 addresses are expected in non-bracketed, colon-separated format (1a2b:3c4b::1234:4567). You can include an optional CIDR suffix (123.45.67.89/16) to indicate subnet mask.|`string` with type enforcement for IPv4 and IPv6 pattern|AWSIPAddress|
+|`a.ipAddress()`|A valid IPv4 or IPv6 address. IPv4 addresses are expected in quad-dotted notation (123.12.34.56). IPv6 addresses are expected in non-bracketed, colon-separated format (1a2b:3c4b:1234:4567). You can include an optional CIDR suffix (123.45.67.89/16) to indicate subnet mask.|`string` with type enforcement for IPv4 and IPv6 pattern|AWSIPAddress|
 
 ## Specify a custom field type
 
-Sometimes the built-in types do not meet the needs of your application requirements. In those cases you can specify custom types. You can either define the custom types inline or explicitly define the custom type in the schema.
+Sometimes, the built-in types do not meet the needs of your application. In those cases, you can specify custom types. You can either define the custom types inline or explicitly define the custom type in the schema.
 
-**Inline definition:** The "location" field will be PascalCase-ed a new non-model type. If there are conflicts with another schema-level definition (model, custom type, enum), then you'll receive a Type error with a warning that you need to sift the value out as a separate item and use a "ref".
+**Inline definition:** The "location" field will become a new non-model type that uses PascalCase, a naming convention in which the first letter of each word in a compound word is capitalized. If there are conflicts with another schema-level definition (model, custom type, enum), you will receive a Type error with a warning that you need to sift the value out as a separate item and use a "ref".
 
 ```ts
 a.schema({
@@ -45,12 +45,12 @@ a.schema({
       lat: a.float(),
       long: a.float()
     }),
-    content: string(),
+    content: a.string(),
   })
 })
 ```
 
-**Explicit definition:** Specify the "Location" as `a.customType()` in your schema. To use the custom type, reference it via `a.ref()` in the respective field definitions.
+**Explicit definition:** Specify the "Location" as `a.customType()` in your schema. To use the custom type, reference it through `a.ref()` in the respective field definitions.
 
 ```ts
 a.schema({
@@ -73,7 +73,7 @@ a.schema({
 To set or read the location field on the client side, you can expand a nested object and the type system will auto-infer the allowed values.
 
 ```ts
-const newPost = await client.Post.create({
+const newPost = await client.models.Post.create({
   location: {
     lat: 48.837006,
     long: 8.282450
@@ -84,7 +84,7 @@ console.log(newPost.location.lat, newPost.location.long)
 ```
 
 ## Specify an enum field type
-Enum function in a similar developer experience as custom types, there are short-hand approaches and a long-form. To make building a dropdown UI easier, you can also retrieve all available enum options from your client code.
+Enum has a similar developer experience as custom types: short-hand and long-form approaches. To make building a dropdown UI easier, you can also retrieve all available enum options from your client code.
 
 ```ts
 a.schema({
@@ -114,20 +114,9 @@ a.schema({
 })
 ```
 
-To retrieve all available dropdown options:
-
-```ts
-function PostConfig() {
-  const enums = await client.enums.PrivacySetting.values()
-  return <select>
-    {enums.map(enum => <option value={enum}>{enum}</option>)}
-  </select>
-}
-```
-
 When creating a new item client-side, the enums are also type-enforced:
 ```ts
-client.Post.create({
+client.models.Post.create({
   content: "hello",
   // WORKS - value auto-completed
   privacySetting: "PRIVATE"
@@ -139,7 +128,7 @@ client.Post.create({
 
 ## Mark fields as required
 
-By default, fields are optional to mark a field as required use the `.required()` modifier.
+By default, fields are optional. To mark a field as required, use the `.required()` modifier.
 
 ```ts
 export const schema = a.schema({
@@ -173,5 +162,6 @@ export const schema = a.schema({
   })
 })
 ```
-
-> Note: `.default(...)` modifier can't be applied to required fields.
+<Callout>
+**Note:** The `.default(...)` modifier can't be applied to required fields.
+</Callout>

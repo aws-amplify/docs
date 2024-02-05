@@ -1,0 +1,135 @@
+export const meta = {
+  title: 'Project structure',
+  description: 'Learn more about how Amplify projects are structured.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify (Gen 2) backends are defined using TypeScript, and enable you to collocate resources depending on their function. For example, you can author a [post confirmation trigger for Amazon Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-post-confirmation.html) right next to your auth's resource file.
+
+When you create your first Amplify project using `npm create amplify@latest`, it will automatically set up the scaffolding for Data and Authentication resources:
+
+```text
+├── amplify/
+│   ├── auth/
+│   │   └── resource.ts
+│   ├── data/
+│   │   └── resource.ts
+│   ├── backend.ts
+│   └── package.json
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+└── tsconfig.json
+```
+
+As your project grows and you build out your backend, the structure of your project may look like the following:
+
+```text
+├── amplify/
+│   ├── auth/
+│   │   ├── custom-message/
+│   │   │   ├── custom-message.tsx
+│   │   │   ├── handler.ts
+│   │   │   ├── package.json
+│   │   │   └── resource.ts
+│   │   ├── post-confirmation.ts
+│   │   ├── pre-sign-up.ts
+│   │   ├── resource.ts
+│   │   └── verification-email.tsx
+│   ├── data/
+│   │   ├── resolvers/
+│   │   │   ├── list-featured-posts.ts
+│   │   │   └── list-top-10-posts.ts
+│   │   ├── resource.ts
+│   │   └── schema.ts
+│   ├── jobs/
+│   │   ├── monthly-report/
+│   │   │   ├── handler.ts
+│   │   │   └── resource.ts
+│   │   ├── process-featured-posts/
+│   │   │   ├── handler.py
+│   │   │   ├── requirements.txt
+│   │   │   └── resource.ts
+│   │   └── store-top-10-posts/
+│   │       ├── handler.ts
+│   │       └── resource.ts
+│   ├── storage/
+│   │   ├── photos/
+│   │   │   ├── resource.ts
+│   │   │   └── trigger.ts
+│   │   └── reports/
+│   │       └── resource.ts
+│   ├── backend.ts
+│   └── package.json
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+└── tsconfig.json
+```
+
+Backend resources are defined in `resource` files using the `define*` helpers:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  }
+});
+```
+
+After the resources are defined, they are set up on the backend:
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource.js';
+import { data } from './data/resource.js';
+
+defineBackend({
+  auth,
+  data
+});
+```
+
+You can extend backends by using the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/v2/guide/home.html), which is installed by default as part of the [`create-amplify`](https://www.npmjs.com/package/create-amplify) workflow. With the CDK, you can build using any AWS service, such as an Amazon S3 bucket that authenticated users have read and write access to. To get started with the CDK, add it to your backend:
+
+```ts title="amplify/backend.ts"
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource.js';
+import { data } from './data/resource.js';
+
+const backend = defineBackend({
+  auth,
+  data
+});
+
+// create the bucket and its stack
+const bucketStack = backend.getStack('BucketStack');
+const bucket = new s3.Bucket(bucketStack, 'Bucket', {
+  blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL
+});
+
+// allow any authenticated user to read and write to the bucket
+const authRole = backend.auth.resources.authenticatedUserIamRole;
+bucket.grantReadWrite(authRole);
+
+// allow any guest (unauthenticated) user to read from the bucket
+const unauthRole = backend.auth.resources.unauthenticatedUserIamRole;
+bucket.grantRead(unauthRole);
+```
+
+## Next steps
+
+- [Learn the concepts](/gen2/how-amplify-works/concepts)
+- [Learn how to add AWS services to your backend](/gen2/build-a-backend/add-aws-services)

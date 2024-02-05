@@ -3,7 +3,27 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Connect your app code to the API',
   description: 'Learn how to connect your app code to the API.',
-  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'javascript',
+        'nextjs',
+        'vue',
+        'react',
+        'angular'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/connect-to-api/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -26,7 +46,7 @@ In this guide, you will connect your application code to the backend API using t
 Before you begin, you will need:
 
 - An GraphQL API already set up either via the [Amplify CLI](/[platform]/tools/cli/), or directly via the underlying [AWS AppSync service](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html).
-- A frontend application set up. For instructions on setting up an app, see [Project Setup: Create your application](/[platform]/build-a-backend/storage/configure-access/)
+- A frontend application set up. For instructions on setting up an app, see [Project Setup: Create your application](/[platform]/start/project-setup/create-application/)
 - [npm installed](https://docs.npmjs.com/getting-started)
 
 ## Install the Amplify Library
@@ -216,9 +236,11 @@ import config from './amplifyconfiguration.json';
 
 Amplify.configure(config, {
   API: {
-    headers: async () => ({
-      'My-Custom-Header': 'my value'
-    })
+    GraphQL:  {
+      headers: async () => ({
+        'My-Custom-Header': 'my value'
+      })
+    }
   }
 });
 ```

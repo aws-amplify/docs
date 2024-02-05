@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Subscribe to real-time events',
-  description:
-    'Learn more about how to observe to data changes using subscriptions in Amplify.',
+  description: 'Learn more about how to observe to data changes using subscriptions in Amplify.',
   platforms: [
     'flutter',
     'swift',
@@ -14,6 +13,19 @@ export const meta = {
     'nextjs',
     'react',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'react',
+        'react-native',
+        'nextjs',
+        'angular',
+        'vue'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/graphqlapi/subscribe-data/'
+    }
   ]
 };
 
@@ -36,12 +48,8 @@ In this guide, we will outline the benefits of enabling real-time data integrati
 
 Before you begin, you will need:
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue", "react-native"]}>
-
-- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/connect-to-api/)
+- An [application connected to the API](/[platform]/prev/build-a-backend/graphqlapi/connect-to-api/)
 - Data already created to modify
-
-</InlineFilter>
 
 ## Set up a real-time subscription
 
@@ -345,8 +353,6 @@ const cleanupSubscriptions = () => {
 </BlockSwitcher>
 
 </Accordion>
-
-<br />
 
 <Accordion title='Create a custom GraphQL subscription by ID' headingLevel='4' eyebrow='Walkthrough'>
 

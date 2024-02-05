@@ -1,0 +1,821 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Connect to existing AWS resources built with the CDK',
+  description: "Connect new mobile and web apps to AWS resources built with the CDK.",
+  platforms: [
+                'angular',
+                'flutter',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'vue'
+              ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+This guide shows you how to connect new mobile and web apps to AWS resources you've already created using the [AWS Cloud Development Kit (AWS CDK)](https://aws.amazon.com/cdk/). The AWS CDK is an open-source software development framework for defining cloud infrastructure as code with modern programming languages. This infrastructure is then deployed through [AWS CloudFormation](https://aws.amazon.com/cloudformation/). 
+
+The guide has three sections to help you build and connect a fullstack app:
+
+1. [Section one](/[platform]/build-a-backend/existing-resources/cdk/#build-a-graphql-api-using-the-amplify-data-cdk-construct) provides instructions for using the Amplify Data CDK to create a GraphQL API backend with AWS AppSync. This creates the core backend.
+1. [Section two](/[platform]/build-a-backend/existing-resources/cdk/#build-a-react-app-and-connect-to-the-graphql-api) explains how to create and connect a React web app to the GraphQL API. Follow this if you are using React to build a web frontend.
+1. [Section three](/[platform]/build-a-backend/existing-resources/cdk/#build-a-flutter-app-and-connect-to-the-graphql-api) shows how to build and integrate a Flutter app with the GraphQL API. Follow this if you are using Flutter to build a cross-platform frontend.
+
+The recommended approach is to complete section one to build the backend, then optionally complete section two (React) or three (Flutter), or both, to connect frontends to the GraphQL API. Once you're finished experimenting with these demo apps, we recommend visiting the ["Clean up resources"](/[platform]/build-a-backend/existing-resources/cdk/#clean-up-resources) section to delete the backend resources to avoid incurring unexpected costs. 
+
+Before you begin, you will need:
+
+* An AWS account: If you don't already have an account, follow the [Setting Up Your AWS Environment](https://aws.amazon.com/getting-started/guides/setup-environment/) tutorial for a quick overview.
+* The Amplify CLI [installed](https://docs.amplify.aws/cli/start/install/) and configured.
+* A text editor. For this guide, we will use VS Code, but you can use your preferred IDE.
+* Flutter and its command-line tools [installed](https://docs.flutter.dev/get-started/install) and configured (if completing the third part of this guide).
+
+## Build a GraphQL API using the Amplify Data CDK construct
+
+The CDK provides a simple way to define cloud infrastructure in code. In this section, we will use the CDK to build out the backend resources for our application.
+
+**Step 1:** Create a folder for the CDK app by running the following command in your terminal. 
+
+```bash title="Terminal" showLineNumbers={false}
+mkdir cdk-backend 
+```
+
+**Step 2:** Navigate to the `cdk-backend` folder and create a new CDK project by running the `cdk init` command and specifying your preferred language.
+
+```bash title="Terminal"
+cd cdk-backend 
+cdk init --language typescript 
+```
+
+**Step 3:** Open the newly created CDK project using VS Code, or your preferred IDE.
+
+**Step 4:** In your terminal, navigate to the `cdk_backend` root folder, and install the AWS Amplify Data package by running the following command.
+
+```bash title="Terminal" showLineNumbers={false}
+npm install @aws-amplify/data-construct
+```
+
+**Step 5:** Update the `cdk_backend/lib/cdk-backend-stack.ts` file as shown in the following code to use the `AmplifyData` construct  to create an AWS AppSync API. 
+
+```ts title="lib/cdk-backend-stack.ts"
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import {
+  AmplifyData,
+  AmplifyDataDefinition
+} from '@aws-amplify/data-construct';
+
+export class CdkBackendStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    // highlight-start
+    new AmplifyData(this, 'AmplifyCdkData', {
+      definition: AmplifyDataDefinition.fromString(/* GraphQL */ `
+        type Todo @model @auth(rules: [{ allow: public }]) {
+          id: ID!
+          name: String!
+          description: String
+          complete: Boolean
+        }
+      `),
+      authorizationModes: {
+        defaultAuthorizationMode: 'API_KEY',
+        apiKeyConfig: {
+          expires: cdk.Duration.days(30)
+        }
+      }
+    });
+    // highlight-end
+  }
+}
+```
+
+**Step 6:** Deploy the CDK stacks by running the following command.
+
+```bash showLineNumbers={false}
+cdk deploy
+```
+
+**Step 7:** The CDK will prepare the resources for deployment and will display the following prompt. Enter **Y** and press **Enter**.
+
+<img src="/images/existing-resources/resources-cdk.png" alt="The CDK preparing for deployment." width="750" />
+
+The CDK will deploy the stacks and display the following confirmation. Note the details of the deployed API; we’re going to use them in the next section.
+
+<img src="/images/existing-resources/cdk-stacks.png" alt="CDK deploying the stacks." width="750" />
+
+Now that you have built the backend API with the CDK, you can connect a frontend. Refer to section two to connect a React app or section three to connect a Flutter app, or complete both to connect frontends in each framework.
+
+## Build a React app and connect to the GraphQL API
+
+In this section, we will connect a React web app to our existing GraphQL API. First, we will create a new React project and install the necessary Amplify packages. Next, we will use the Amplify CLI to generate GraphQL code matching our API structure. Then, we will add React components to perform queries and mutations to manage to-do items in our API. After that, we will configure the Amplify library with details of our backend API. Finally, we will run the application to demonstrate full CRUD functionality with our existing API. 
+
+**Step 1:** Create a React app by running the following command in your terminal.
+
+```bash title="Terminal" showLineNumbers={false}
+npx create-react-app react-amplify-connect 
+```
+
+**Step 2:** Open the newly created React app using VS Code, or your preferred IDE.
+ 
+**Step 3:** Install the `aws-amplify`, `@aws-amplify/ui-react`, and `@aws-amplify/cli` packages by running the following commands. 
+
+```bash title="Terminal" showLineNumbers={false}
+npm install aws-amplify @aws-amplify/ui-react @aws-amplify/cli 
+```
+
+**Step 4:** Use the awsAppsyncApiId and awsAppsyncRegion values of the CDK stack you created previously to generate the GraphQL client helper code by running the following command.
+
+<img src="/images/existing-resources/outputs-cdk.png" alt="awsAppsyncApiId and awsAppsyncRegion values highlighted within the outputs of the CDK stack." width="750" />
+
+```react showLineNumbers={false}
+npx @aws-amplify/cli codegen add --apiId <aws-appsync-api-id> --region <aws-appsync-region> 
+```
+
+**Step 5:** Accept the default values for the prompts. 
+
+```console title="Terminal" showLineNumbers={false}
+? Choose the type of app that you're building javascript
+? What javascript framework are you using react
+✔ Getting API details
+? Choose the code generation language target javascript
+? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.js
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested] 2
+✔ Downloaded the schema
+✔ Generated GraphQL operations successfully and saved at src/graphql
+```
+
+The Amplify CLI will create the GraphQL client helper code inside the `src/graphql` folder.
+
+<img src="/images/existing-resources/client-helper-models2-cdk.png" alt="mutations.js, queries.js, and subscriptions.js within the graphql folder." width="400" />
+
+**Step 6:** Update the `App.js` file with the following code to create a form with a button to create to-dos, as well as a way to fetch and render the to-do list.
+
+```jsx title="src/App.js"
+import { Amplify} from 'aws-amplify'
+import '@aws-amplify/ui-react/styles.css';
+import { useEffect, useState } from 'react';
+import { generateClient } from 'aws-amplify/api';
+import { createTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
+
+Amplify.configure({
+  API: {
+    GraphQL: {
+ // highlight-start
+      endpoint: '<your-graphql-endpoint>',
+      region: '<your-aws-region>',
+      defaultAuthMode: 'apiKey',
+      apiKey: '<your-api-key>'
+ // highlight-end
+      }
+  }
+});
+
+const initialState = { name: '', description: '' };
+const client = generateClient();
+
+const App = () => {
+  const [formState, setFormState] = useState(initialState);
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  function setInput(key, value) {
+    setFormState({ ...formState, [key]: value });
+  }
+
+  async function fetchTodos() {
+    try {
+      const todoData = await client.graphql({
+        query: listTodos
+      });
+      const todos = todoData.data.listTodos.items;
+      setTodos(todos);
+    } catch (err) {
+      console.log('error fetching todos');
+    }
+  }
+
+  async function addTodo() {
+    try {
+      if (!formState.name || !formState.description) return;
+      const todo = { ...formState };
+      setTodos([...todos, todo]);
+      setFormState(initialState);
+      await client.graphql({
+        query: createTodo,
+        variables: {
+          input: todo
+        }
+      });
+    } catch (err) {
+      console.log('error creating todo:', err);
+    }
+  }
+
+  return (
+    <div style={styles.container}>
+      <h2>Amplify Todos</h2>
+      <input
+        onChange={(event) => setInput('name', event.target.value)}
+        style={styles.input}
+        value={formState.name}
+        placeholder="Name"
+      />
+      <input
+        onChange={(event) => setInput('description', event.target.value)}
+        style={styles.input}
+        value={formState.description}
+        placeholder="Description"
+      />
+      <button style={styles.button} onClick={addTodo}>
+        Create Todo
+      </button>
+      {todos.map((todo, index) => (
+        <div key={todo.id ? todo.id : index} style={styles.todo}>
+          <p style={styles.todoName}>{todo.name}</p>
+          <p style={styles.todoDescription}>{todo.description}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const styles = {
+  container: {
+    width: 400,
+    margin: '0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 20
+  },
+  todo: { marginBottom: 15 },
+  input: {
+    border: 'none',
+    backgroundColor: '#ddd',
+    marginBottom: 10,
+    padding: 8,
+    fontSize: 18
+  },
+  todoName: { fontSize: 20, fontWeight: 'bold' },
+  todoDescription: { marginBottom: 0 },
+  button: {
+    backgroundColor: 'black',
+    color: 'white',
+    outline: 'none',
+    fontSize: 18,
+    padding: '12px 0px'
+  }
+};
+
+export default App;
+```
+
+
+**Step 7:** Run the app using the following command.
+
+```bash title="Terminal" showLineNumbers={false}
+npm start 
+```
+
+**Step 8:** Use the form to create a few to-do items.
+
+<video autoPlay={true} muted={true} loop={true} width="100%">
+  <source src="/images/existing-resources/todo-react-cdk.mp4" />
+</video>
+
+In this section, we generated GraphQL code, created React components, configured Amplify, and connected the app to the API. This enabled full CRUD functionality with our backend through queries and mutations.
+
+## Conclusion - CDK and React
+
+Congratulations on successfully creating a new React app and linking it to a preexisting GraphQL API built with AWS CDK. The next optional section will guide you through doing the same for a Flutter mobile app. Alternatively, you can skip ahead to the ["Clean up resources"](/[platform]/build-a-backend/existing-resources/cdk/#clean-up-resources) section.
+
+## Build a Flutter app and connect to the GraphQL API
+
+In this section, we will connect a Flutter mobile app to the GraphQL API we created with the CDK. First, we will initialize a Flutter project, define models matching our schema, and use Amplify to integrate CRUD operations. Then we will add UI pages to manage to-do items with queries and mutations. Finally, we will configure Amplify with our backend details and run the app to demonstrate full functionality with our existing API.
+
+**Step 1:** Create a Flutter app by running the following command in your terminal.
+
+```bash title="Terminal" showLineNumbers={false}
+flutter create flutter_todo_app --platforms=web   
+```
+
+**Step 2:** Open the newly created Flutter app by running the following commands in your terminal. 
+
+```bash title="Terminal"
+cd flutter_todo_app 
+code . -r
+```
+
+**Step 3**: Update the `pubspec.yaml` file in the app’s root directory to add the required dependencies, as shown in the following code.
+
+{/* cSpell:disable */}
+```yaml title="pubspec.yaml"
+name: flutter_todo_app
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+// highlight-start
+dependencies:
+  flutter:
+    sdk: flutter
+  amplify_flutter: ^1.0.0
+  amplify_api: ^1.0.0  
+  go_router: ^6.5.5
+  cupertino_icons: ^1.0.2
+// highlight-end
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+```
+{/* cSpell:enable */}
+
+**Step 4:** Run the following command in your terminal to install the dependencies you added to the `pubspec.yaml` file.
+
+```bash title="Terminal" showLineNumbers={false}
+flutter pub get
+```
+
+**Step 5:** Install the @aws-amplify/cli packages by running the following command. 
+
+```bash title="Terminal" showLineNumbers={false}
+npm install @aws-amplify/cli 
+```
+
+**Step 6:** Create a new folder and name it `graphql`. Inside it, create the file `schema.graphql`. 
+
+<img src="/images/existing-resources/schema-graphql-cdk.png" alt="The schema.graphql file inside the graphql folder." width="450" />
+
+**Step 7:** Update the file `schema.graphql`, as shown in the following example, to define the Todo data model, similar to what you used for the CDK app. 
+
+```graphql title="schema.graphql"
+type Todo @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  name: String!
+  description: String
+  complete: Boolean
+}
+```
+
+**Step 8:** Run the following command to generate the GraphQL client helper models inside the `lib/models` folder.
+
+```bash showLineNumbers={false}
+npx @aws-amplify/cli codegen models --model-schema ./graphql --target flutter --output-dir ./lib/models
+```
+
+<img src="/images/existing-resources/client-helper-models-cdk.png" alt="The ModelProvider.dart and Todo.dart files within the models folder." width="450" />
+
+**Step 9:** Create the file `todo_item_page.dart` inside the `lib` folder and update it with the following code to present a form to the user for creating a to-do item. Once submitted, the form will initiate a GraphQL mutation to add or modify the item in the database.
+
+```dart title="todo_item_page.dart"
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../models/ModelProvider.dart';
+
+class ToDoItemPage extends StatefulWidget {
+  const ToDoItemPage({
+    required this.todoItem,
+    super.key,
+  });
+
+  final Todo? todoItem;
+
+  @override
+  State<ToDoItemPage> createState() => _ToDoItemPageState();
+}
+
+class _ToDoItemPageState extends State<ToDoItemPage> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+
+  late final String _nameText;
+  late bool _isDone;
+
+  bool get _isCreate => _todoItem == null;
+  Todo? get _todoItem => widget.todoItem;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final todoItem = _todoItem;
+    if (todoItem != null) {
+      _nameController.text = todoItem.name;
+      _descriptionController.text = todoItem.description ?? '';
+
+      _nameText = 'Update to-do Item';
+      _isDone = todoItem.complete ?? false;
+    } else {
+      _nameText = 'Create to-do Item';
+      _isDone = false;
+    }
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _descriptionController.dispose();
+
+    super.dispose();
+  }
+
+  Future<void> submitForm() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    // If the form is valid, submit the data
+    final name = _nameController.text;
+    final description = _descriptionController.text;
+    final complete = _isDone;
+
+ // highlight-start
+ if (_isCreate) {
+      // Create a new todo item
+      final newEntry = Todo(
+        name: name,
+        description: description.isNotEmpty ? description : null,
+        complete: complete,
+      );
+      final request = ModelMutations.create(newEntry);
+      final response = await Amplify.API.mutate(request: request).response;
+      safePrint('Create result: $response');
+    } else {
+      // Update todoItem instead
+      final updateToDoItem = _todoItem!.copyWith(
+        name: name,
+        description: description.isNotEmpty ? description : null,
+        complete: complete,
+      );
+      final request = ModelMutations.update(updateToDoItem);
+      final response = await Amplify.API.mutate(request: request).response;
+      safePrint('Update result: $response');
+    }
+    // highlight-end
+
+    // Navigate back to homepage after create/update executes
+    if (mounted) {
+      context.pop();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_nameText),
+      ),
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 800),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: const InputDecoration(
+                        labelText: 'Name (required)',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a name';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _descriptionController,
+                      decoration: const InputDecoration(
+                        labelText: 'Description',
+                      ),
+                    ),
+                    SwitchListTile(
+                      title: const Text('Done'),
+                      value: _isDone,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _isDone = value;
+                        });
+                      },
+                      secondary: const Icon(Icons.done_all_outlined),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: submitForm,
+                      child: Text(_nameText),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+**Step 10:** Create the file `home_page.dart.dart` inside the `lib` folder and update it with the following code. This page will use a GraphQL query to retrieve the list of to-do items and display them in a ListView widget. The page will also allow the user to delete a to-do item by using a GraphQL mutation.
+
+```dart title="home_page.dart.dart"
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../models/ModelProvider.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  var _todoItems = <Todo>[];
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshTodoItems();
+  }
+
+ // highlight-start
+ Future<void> _refreshTodoItems() async {
+    try {
+      final request = ModelQueries.list(Todo.classType);
+      final response = await Amplify.API.query(request: request).response;
+
+      final todos = response.data?.items;
+      if (response.hasErrors) {
+        safePrint('errors: ${response.errors}');
+        return;
+      }
+      setState(() {
+        _todoItems = todos!.whereType<Todo>().toList();
+      });
+    } on ApiException catch (e) {
+      safePrint('Query failed: $e');
+    }
+  }
+
+  Future<void> _deleteToDoItem(Todo todoItem) async {
+    final request = ModelMutations.delete<Todo>(todoItem);
+    final response = await Amplify.API.mutate(request: request).response;
+    safePrint('Delete response: $response');
+    await _refreshTodoItems();
+  }
+  // highlight-end
+
+  Future<void> _openToDoItem({Todo? todoItem}) async {
+    await context.pushNamed('manage', extra: todoItem);
+    // Refresh the entries when returning from the
+    // todo item screen.
+    await _refreshTodoItems();
+  }
+
+  Widget _buildRow({
+    required String name,
+    required String description,
+    required bool isDone,
+    TextStyle? style,
+  }) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            name,
+            textAlign: TextAlign.center,
+            style: style,
+          ),
+        ),
+        Expanded(
+          child: Text(
+            description,
+            textAlign: TextAlign.center,
+            style: style,
+          ),
+        ),
+        Expanded(
+          child: isDone ? const Icon(Icons.done) : const SizedBox(),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        // Navigate to the page to create new todo item
+        onPressed: _openToDoItem,
+        child: const Icon(Icons.add),
+      ),
+      appBar: AppBar(
+        title: const Text('To-Do List'),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 25),
+          child: RefreshIndicator(
+            onRefresh: _refreshTodoItems,
+            child: Column(
+              children: [
+                if (_todoItems.isEmpty)
+                  const Text('Use the \u002b sign to add new to-do items')
+                else
+                  const SizedBox(height: 30),
+                _buildRow(
+                  name: 'Name',
+                  description: 'Description',
+                  isDone: false,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const Divider(),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _todoItems.length,
+                    itemBuilder: (context, index) {
+                      final todoItem = _todoItems[index];
+                      return Dismissible(
+                        key: ValueKey(todoItem),
+                        background: const ColoredBox(
+                          color: Colors.red,
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 10),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Icon(Icons.delete, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        onDismissed: (_) => _deleteToDoItem(todoItem),
+                        child: ListTile(
+                          onTap: () => _openToDoItem(
+                            todoItem: todoItem,
+                          ),
+                          title: _buildRow(
+                            name: todoItem.name,
+                            description: todoItem.description ?? '',
+                            isDone: todoItem.complete ?? false,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+**Step 11:** Update `main.dart` to configure Amplify using the details of the GraphQL API you created using the CDK app in the previous section.  
+
+```dart title="main.dart"
+import 'package:amplify_api/amplify_api.dart';
+
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import 'models/ModelProvider.dart';
+import 'home_page.dart';
+import 'todo_item_page.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _configureAmplify();
+  runApp(const MyApp());
+}
+
+Future<void> _configureAmplify() async {
+  try {
+    final api = AmplifyAPI(modelProvider: ModelProvider.instance);
+
+    await Amplify.addPlugins([api]);
+    const amplifyconfig = '''{
+    "api": {
+        "plugins": {
+            "awsAPIPlugin": {
+                "flutter_todo_app": {
+                    "endpointType": "GraphQL",
+ // highlight-start
+                    "endpoint": "<The-GraphQL-Endpoint>",
+                    "region": "<The-Region>",
+                    "authorizationType": "API_KEY",
+                    "apiKey": "<The-API-KEY-Value>"
+ // highlight-end
+                }
+            }
+        }
+    }
+}''';
+
+    await Amplify.configure(amplifyconfig);
+
+    safePrint('Successfully configured');
+  } on Exception catch (e) {
+    safePrint('Error configuring Amplify: $e');
+  }
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // GoRouter configuration
+  static final _router = GoRouter(
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+        path: '/manage-todo-item',
+        name: 'manage',
+        builder: (context, state) => ToDoItemPage(
+          todoItem: state.extra as Todo?,
+        ),
+      ),
+    ],
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      routerConfig: _router,
+      debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        return child!;
+      },
+    );
+  }
+}
+```
+
+**Step 12:** Run the app in the Chrome browser using the following command.
+
+```bash title="Terminal" showLineNumbers={false}
+flutter run -d chrome 
+```
+
+<video autoPlay={true} muted={true} loop={true} width="100%">
+  <source src="/images/existing-resources/todo-example-cdk.mp4" />
+</video>
+
+## Conclusion - CDK and Flutter
+
+Congratulations! You used the AWS Amplify Data CDK construct to create a GraphQL API backend using AWS AppSync. You then connected either a Flutter app, a React app, or both to that API using the Amplify libraries. If you have any feedback, leave a [GitHub issue](https://github.com/aws-amplify/docs/issues) or join our [Discord Community](https://discord.gg/amplify)!
+
+## Clean up resources
+
+Once you're finished experimenting with these demo apps, we recommend deleting the backend resources to avoid incurring unexpected costs. You can do this by running the following command in the root folder of the CDK app created above.
+
+```bash title="Terminal" showLineNumbers={false}
+  cdk destroy
+```

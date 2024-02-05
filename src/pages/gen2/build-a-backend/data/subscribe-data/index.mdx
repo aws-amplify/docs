@@ -1,6 +1,6 @@
 export const meta = {
-  title: 'Subscribe to real time events',
-  description: 'Learn how to subscribe to real time events.'
+  title: 'Subscribe to real-time events',
+  description: 'Set up real-time data subscriptions in your app to get live updates, filter those subscriptions on the server side, and unsubscribe when no longer needed.'
 };
 
 export function getStaticProps(context) {
@@ -16,12 +16,12 @@ In this guide, we will outline the benefits of enabling real-time data integrati
 
 Before you begin, you will need:
 
-- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/connect-to-api/)
+- An [application connected to the API](/gen2/build-a-backend/data/connect-to-API/)
 - Data already created to modify
 
 ## Set up a real-time list query
 
-The recommended way to fetch a list of data is to use observe query to get a real-time list of your app data at all times. You can integrate `observeQuery` with React's `useState` and `useEffect` hooks in the following way:
+The recommended way to fetch a list of data is to use `observeQuery` to get a real-time list of your app data at all times. You can integrate `observeQuery` with React's `useState` and `useEffect` hooks in the following way:
 
 ```ts
 import { useState, useEffect } from 'react'
@@ -39,11 +39,11 @@ function MyComponent() {
     const sub = client.models.Todo.observeQuery()
       .subscribe({
         next: ({ items, isSynced }) => {
-          setTodos(items)
+          setTodos([...items])
         }
       })
     return () => sub.unsubscribe()
-  })
+  }, [])
 
   return <ul>
     {todos.map(todo => <li key={todo.id}>{todo.content}</li>)}
@@ -51,11 +51,11 @@ function MyComponent() {
 }
 ```
 
-`observeQuery` fetches and paginates through all the available data in the cloud. While data is syncing from the cloud, snapshots will contain all of the items synced so far and an `isSynced` status of `false`. When the sync process is complete, a snapshot will be emitted with all the records in the local store and an `isSynced` status of `true`.
+`observeQuery` fetches and paginates through all of your available data in the cloud. While data is syncing from the cloud, snapshots will contain all of the items synced so far and an `isSynced` status of `false`. When the sync process is complete, a snapshot will be emitted with all the records in the local store and an `isSynced` status of `true`.
 
 ## Set up a real-time event subscription
 
-Subscriptions is a feature that allows the server to send data to its clients when a specific event happens. For example, you can subscribe to an event when a new record is created, updated, or deleted through the API. You can are automatically available for any `a.model()` in your Amplify Data schema.
+Subscriptions is a feature that allows the server to send data to its clients when a specific event happens. For example, you can subscribe to an event when a new record is created, updated, or deleted through the API. Subscriptions are automatically available for any `a.model()` in your Amplify Data schema.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
@@ -116,7 +116,7 @@ If you want to get all subscription events, don't specify any `filter` parameter
 **Limitations:**
 
 - Specifying an empty object `{}` as a filter is **not** recommended. Using `{}` as a filter might cause inconsistent behavior based on your data model's authorization rules.
-- If you are using dynamic group authorization and you authorize based on a single group per record, subscriptions are only supported if the user is part of five or fewer user groups.
+- If you're using dynamic group authorization and you authorize based on a single group per record, subscriptions are only supported if the user is part of five or fewer user groups.
 - Additionally, if you authorize by using an array of groups (`groups: [String]`),
   - subscriptions are only supported if the user is part of 20 or fewer groups
   - you can only authorize 20 or fewer user groups per record
@@ -151,7 +151,7 @@ Hub.listen('api', (data: any) => {
 - **`ConnectionDisruptedPendingNetwork`** - The connection is disrupted and the network connection is unavailable.
 - **`Disconnected`** - Connection has no active subscriptions and is disconnecting.
 
-<Accordion title='Troubleshooting connection issues and automated reconnection' headingLevel='4' eyebrow='Troubleshooting'>
+<Accordion title='Troubleshoot connection issues and automated reconnection' headingLevel='4' eyebrow='Troubleshooting'>
 
 Connections between your application and backend subscriptions can be interrupted for various reasons, including network outages or the device entering sleep mode. Your subscriptions will automatically reconnect when it becomes possible to do so.
 
@@ -203,8 +203,6 @@ const cleanupSubscriptions = () => {
 
 </Accordion>
 
-<br />
-
 ## Unsubscribe from a subscription
 
 You can also unsubscribe from events by using subscriptions by implementing the following:
@@ -218,10 +216,10 @@ sub.unsubscribe();
 
 Congratulations! You have finished the **Subscribe to real-time events** guide. In this guide, you set up subscriptions for real-time events and learned how to filter and cancel these subscriptions when needed.
 
-## Next steps
+### Next steps
 
 Our recommended next steps include continuing to build out and customize your information architecture for your data. Some resources that will help with this work include:
 
-- [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/)
-- [Data modeling](/[platform]/build-a-backend/graphqlapi/data-modeling/)
-- [Custom business logic](/[platform]/build-a-backend/graphqlapi/custom-business-logic/)
+- [Customize your auth rules](/gen2/build-a-backend/data/customize-authz/)
+- [Customize your data model](/gen2/build-a-backend/data/data-modeling/)
+- [Add custom business logic](/gen2/build-a-backend/data/custom-business-logic/)

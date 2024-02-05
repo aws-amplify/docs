@@ -3,8 +3,7 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'More features',
-  description:
-    'Discover additional functionalities that enable you to integrate with a wide range of AWS services to adapt to evolving use cases.',
+  description: 'Discover additional functionalities that enable you to integrate with a wide range of AWS services to adapt to evolving use cases.',
   platforms: [
     'android',
     'angular',
@@ -16,7 +15,33 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/prev/build-a-backend/more-features'
+  route: '/[platform]/prev/build-a-backend/more-features',
+  canonicalObjects: [
+    {
+      platforms: [
+        'flutter',
+        'flutter'
+      ],
+      canonicalPath: '/flutter/prev/build-a-backend/more-features/'
+    },
+    {
+      platforms: [
+        'android',
+        'swift'
+      ],
+      canonicalPath: '/swift/prev/build-a-backend/more-features/'
+    },
+    {
+      platforms: [
+        'nextjs',
+        'javascript',
+        'angular',
+        'react',
+        'vue'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/more-features/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

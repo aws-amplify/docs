@@ -1,0 +1,540 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate from v5 to v6',
+  description: 'Learn more about the migration steps to upgrade Push Notifications APIs for Amplify JavaScript v5 to v6',
+  platforms: ['react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+This guide will help you migrate Amplify JavaScript v5's Push Notifications APIs to the new v6's Push Notifications APIs.
+
+## Installation
+
+With the introduction of v6, JavaScript polyfills and core native modules are a part of the `@aws-amplify/react-native` package. The necessary dependencies have changed as follows:
+
+- `amazon-cognito-identity-js`, `@react-native-community/netinfo` are no longer required for Push Notifications.
+- `react-native-url-polyfill` no longer needs to be installed separately.
+- `@aws-amplify/react-native` is now required.
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```sh
+    npm install aws-amplify @aws-amplify/react-native @aws-amplify/rtn-push-notification @react-native-async-storage/async-storage react-native-get-random-values
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```sh
+    npm install aws-amplify @aws-amplify/rtn-push-notification amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values react-native-url-polyfill
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+Additionally, polyfill imports no longer need to be added to your application's entry point file.
+
+```diff
+// Example index.js
+- import 'react-native-get-random-values';
+- import 'react-native-url-polyfill/auto';
+```
+
+## Push.enable
+
+The `enable` API has been renamed to `initializePushNotifications` in v6 to add clarity to the API's functionality but has otherwise not changed in behavior. This API is exported from the `aws-amplify/push-notifications` path.
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { Amplify, Notifications } from 'aws-amplify';
+    import awsconfig from './src/aws-exports';
+
+    Amplify.configure(awsconfig);
+    Notifications.Push.enable();
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Amplify } from 'aws-amplify';
+    import amplifyconfig from './amplifyconfiguration.json';
+    import { initializePushNotifications } from 'aws-amplify/push-notifications';
+
+    Amplify.configure(amplifyconfig);
+    initializePushNotifications();
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Requesting permissions
+
+### Push.getPermissionStatus
+
+The `getPermissionStatus` API in v6 has not changed in behavior; however, this API is now exported from the `aws-amplify/push-notifications` path and the statuses returned have been updated as follows:
+
+- Statuses have been changed from a SCREAMING_SNAKE_CASE convention to camelCase.
+- Returned status is now a string instead of a `PushNotificationPermissionStatus` enumeration.
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      PushNotificationPermissionStatus.SHOULD_REQUEST
+      PushNotificationPermissionStatus.SHOULD_EXPLAIN_THEN_REQUEST
+      PushNotificationPermissionStatus.GRANTED
+      PushNotificationPermissionStatus.DENIED
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      'shouldRequest' | 'shouldExplainThenRequest' | 'granted' | 'denied'
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { getPermissionStatus } from 'aws-amplify/push-notifications';
+
+    const status = await getPermissionStatus();
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+
+    const status = await Notifications.Push.getPermissionStatus();
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### Push.requestPermissions
+
+The `requestPermissions` API in v6 has not changed in behavior; however, it is now exported from the `aws-amplify/push-notifications` path.
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { requestPermissions } from 'aws-amplify/push-notifications';
+
+    const permissions = {
+      sound: false,
+      badge: false
+    };
+
+    const arePermissionsGranted = await requestPermissions(permissions);
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+
+    const permissions = {
+      sound: false,
+      badge: false
+    };
+
+    const arePermissionsGranted = await Notifications.Push.requestPermissions(permissions);
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Push.onTokenReceived
+
+The `onTokenReceived` API in v6 has not changed in behavior; however, it is now exported from the `aws-amplify/push-notifications` path.
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { onTokenReceived } from 'aws-amplify/push-notifications';
+
+    const myTokenReceivedHandler: OnTokenReceivedInput = (token) => {
+      // Do something with the received token
+    };
+
+    const listener = onTokenReceived(myTokenReceivedHandler);
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+
+    const myTokenReceivedHandler = (token) => {
+      // Do something with the received token
+    };
+
+    const listener = Notifications.Push.onTokenReceived(myTokenReceivedHandler);
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Interacting with notifications
+
+Interactions with push notifications in v6 have not changed in behavior. You will continue to use the `onNotificationReceivedInForeground`, `onNotificationReceivedInBackground`, `onNotificationOpened` and `getLaunchNotification` APIs to interact with them. However, these APIs are now exported from the `aws-amplify/push-notifications` path.
+
+### Push.onNotificationReceivedInForeground
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { onNotificationReceivedInForeground } from 'aws-amplify/push-notifications';
+
+    const myNotificationReceivedHandler = (notification) => {
+      // Respond to the received push notification message in real time
+    };
+
+    const listener = onNotificationReceivedInForeground(myNotificationReceivedHandler);
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+
+    const myNotificationReceivedHandler = (notification) => {
+      // Respond to the received push notification message in real time
+    };
+
+    const listener = Notifications.Push.onNotificationReceivedInForeground(
+      myNotificationReceivedHandler
+    );
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### Push.onNotificationReceivedInBackground
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { onNotificationReceivedInForeground } from 'aws-amplify/push-notifications';
+
+    const myNotificationReceivedHandler = (notification) => {
+      // Process the received push notification message in the background
+    };
+
+    const listener = onNotificationReceivedInBackground(myNotificationReceivedHandler);
+
+    listener.remove(); // Depending on your use case, you may not need to remove this listener
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+
+    const myNotificationReceivedHandler = (notification) => {
+      // Process the received push notification message in the background
+    };
+
+    const listener = Notifications.Push.onNotificationReceivedInBackground(
+      myNotificationReceivedHandler
+    );
+
+    listener.remove(); // Depending on your use case, you may not need to remove this listener
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### Push.onNotificationOpened
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { onNotificationOpened } from 'aws-amplify/push-notifications';
+
+    const myNotificationOpenedHandler = (notification) => {
+      // Take further action with the opened push notification message
+    };
+
+    const listener = onNotificationOpened(myNotificationOpenedHandler);
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+
+    const myNotificationOpenedHandler = (notification) => {
+      // Take further action with the opened push notification message
+    };
+
+    const listener = Notifications.Push.onNotificationOpened(
+      myNotificationOpenedHandler
+    );
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### Push.getLaunchNotification
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { getLaunchNotification } from 'aws-amplify/push-notifications';
+
+    const launchNotification = await getLaunchNotification();
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+
+    const launchNotification = await Notifications.Push.getLaunchNotification();
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Push.identifyUser
+
+The `identifyUser` API in v6 has not changed in behavior; however, it is now exported from the `aws-amplify/push-notifications` path. Additionally, the input parameters have been updated as follows:
+
+- Instead of two position positional parameters (corresponding to `userId` and `userInfo`), there are now three named parameters: `userId`, `userProfile` and `options` (i.e. a single input object containing these properties).
+- The `attributes` property previously found under `userInfo` has been renamed to `customProperties` and can now be found under `userProfile`.
+- A new `userAttributes` property can be found under `options`.
+- New convenience properties `name`, `email` and `plan` can be found under `userProfile`. These properties are automatically merged into `customProperties`.
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      userId: string;
+      userInfo: {
+        attributes?: Record<string, string[]>;
+        demographic?: {
+          appVersion?: string;
+          locale?: string;
+          make?: string;
+          model?: string;
+          modelVersion?: string;
+          platform?: string;
+          platformVersion?: string;
+          timezone?: string;
+        };
+        location?: {
+          city?: string;
+          country?: string;
+          latitude?: number;
+          longitude?: number;
+          postalCode?: string;
+          region?: string;
+        };
+        metrics?: Record<string, number>;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      input: {
+        userId: string;
+        userProfile: {
+          customProperties?: Record<string, string[]>;
+          demographic?: {
+            appVersion?: string;
+            locale?: string;
+            make?: string;
+            model?: string;
+            modelVersion?: string;
+            platform?: string;
+            platformVersion?: string;
+            timezone?: string;
+          };
+          email?: string;
+          location?: {
+            city?: string;
+            country?: string;
+            latitude?: number;
+            longitude?: number;
+            postalCode?: string;
+            region?: string;
+          };
+          metrics?: Record<string, number>;
+          name?: string;
+          plan?: string;
+        };
+        options?: { userAttributes?: Record<string, string[]>; };
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { identifyUser } from 'aws-amplify/in-app-messaging';
+
+    const identifyUserInput = {
+      userId: 'user-id',
+      userProfile: {
+        email: 'example@service.com',
+        name: 'User A',
+        plan: 'Standard'
+        customProperties: {
+          hobbies: ['cooking', 'knitting'],
+        },
+        demographic: {
+          appVersion: '1.0.0',
+          locale: 'en_US',
+          make: 'Apple',
+          model: 'iPhone',
+          modelVersion: '13',
+          platform: 'iOS',
+          platformVersion: '15',
+          timezone: 'Americas/Los_Angeles'
+        },
+        location: {
+          city: 'Seattle',
+          country: 'US',
+          postalCode: '98121',
+          region: 'WA',
+          latitude: 0.0,
+          longitude: 0.0
+        },
+        metrics: {
+          logins: 157
+        },
+      },
+    };
+
+    await identifyUser(identifyUserInput);
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+    const { InAppMessaging } = Notifications;
+
+    const userId = 'user-id';
+    const userInfo = {
+      address: 'example@service.com',
+      attributes: {
+        hobbies: ['cooking', 'knitting'],
+      },
+      demographic: {
+        appVersion: '1.0.0',
+        locale: 'en_US',
+        make: 'Apple',
+        model: 'iPhone',
+        modelVersion: '13',
+        platform: 'iOS',
+        platformVersion: '15',
+        timezone: 'Americas/Los_Angeles'
+      },
+      location: {
+        city: 'Seattle',
+        country: 'US',
+        postalCode: '98121',
+        region: 'WA',
+        latitude: 0.0,
+        longitude: 0.0
+      },
+      metrics: {
+        logins: 157
+      },
+      optOut: 'NONE'
+    };
+
+    await InAppMessaging.identifyUser(userId, userInfo);
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Adding app badge count
+
+Getting and updating app badge count in v6 have not changed in behavior. You will continue to use the `getBadgeCount`, and `setBadgeCount` APIs. However, these APIs are now exported from the `aws-amplify/push-notifications` path.
+
+### Push.getBadgeCount
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { getBadgeCount } from 'aws-amplify/push-notifications';
+
+    const count = await getBadgeCount();
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+
+    const count = await Notifications.Push.getBadgeCount();
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### Push.setBadgeCount
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { setBadgeCount } from 'aws-amplify/push-notifications';
+
+    setBadgeCount(42);
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+
+    Notifications.Push.setBadgeCount(42);
+    ```
+
+  </Block>
+</BlockSwitcher>

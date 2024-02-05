@@ -1,14 +1,14 @@
-import {useRouter} from "next/router";
+import { useRouter } from 'next/router';
 
 export default function FilterContent(props) {
   const router = useRouter();
 
   let shouldShow: boolean;
-  let filterKey = "";
-  if ("platform" in router.query) {
+  let filterKey = '';
+  if ('platform' in router.query) {
     filterKey = router.query.platform as string;
     shouldShow = filterKey === props.platform;
-  } else if ("integration" in router.query) {
+  } else if ('integration' in router.query) {
     filterKey = router.query.integration as string;
     shouldShow = filterKey === props.integration;
   } else {

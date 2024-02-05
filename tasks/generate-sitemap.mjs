@@ -4,7 +4,7 @@ import { execSync } from 'child_process';
 import directory from '../src/directory/directory.json' assert { type: 'json' };
 
 const formatDate = (date) => `${date.toISOString().split('.')[0]}+0:00`;
-const getPriority = (_) => 0.5;
+const getPriority = () => 0.5;
 
 const lastModifiedCache = {};
 const lastModified = (path) => {
@@ -70,7 +70,7 @@ const createRoutePathList = (directory) => {
       `src/pages${route}/index.mdx`,
       `src/pages${route}/index.tsx`
     ]);
-    if(!route){
+    if (!route) {
       return;
     }
     if (route.includes('[platform]') && directoryNode.platforms?.length) {
@@ -88,17 +88,10 @@ const createRoutePathList = (directory) => {
 
 const writeSitemap = async () => {
   const sitemapPath = './public/sitemap.xml';
-
-  // remove gen2 from being generated in the sitemap
-  const GEN2_ROUTE = "/gen2";
-  directory.children = directory.children.filter((node) => {
-    return node.route !== GEN2_ROUTE;
-  });
-  
   const pathMap = createRoutePathList(directory);
   let xmlUrlNodes = '';
   pathMap.forEach((routePath) => {
-    if(!routePath) return;
+    if (!routePath) return;
     const { route, filePath } = routePath;
     xmlUrlNodes += xmlUrlNode(route, filePath);
   });

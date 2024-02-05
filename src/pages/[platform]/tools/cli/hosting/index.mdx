@@ -4,16 +4,32 @@ export const meta = {
   title: 'Hosting',
   description: 'Deploy and host your app using either Amplify Console or Amazon CloudFront/S3. The Amplify Console offers fully managed hosting with features such as instant cache invalidation and atomic deploys.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'flutter',
+        'react',
+        'angular',
+        'android',
+        'javascript',
+        'swift',
+        'vue',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/tools/cli/hosting/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Create, update, and delete application data',
-  description:
-    'Learn more about how to create and update data using GraphQL APIs in Amplify',
+  description: 'Learn more about how to create and update data using GraphQL APIs in Amplify',
   platforms: [
     'flutter',
     'swift',
@@ -14,6 +13,19 @@ export const meta = {
     'nextjs',
     'react',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'angular',
+        'react-native',
+        'nextjs',
+        'javascript',
+        'react'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/graphqlapi/mutate-data/'
+    }
   ]
 };
 
@@ -53,25 +65,19 @@ import flutter3 from '/src/fragments/lib-v1/graphqlapi/flutter/mutate-data.mdx';
 
 <Fragments fragments={{ flutter: flutter3 }} />
 
-<InlineFilter filters={['javascript',  'react-native', "angular", "nextjs", "react", "vue"]}>
+<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue"]}>
 
 In this guide, you will learn how to create, update, and delete your data using Amplify Libraries' GraphQL client.
 
 Before you begin, you will need:
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue", "react-native"]}>
-
-- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/connect-to-api/)
-
-</InlineFilter>
+- An [application connected to the API](/[platform]/prev/build-a-backend/graphqlapi/connect-to-api/)
 
 ## Run mutations to create, update, and delete application data
 
 In GraphQL, mutations are APIs that are used to create, update, or delete data. This is different than queries, which are used to read the data but not change it. The following examples demonstrate how you can create, update, and delete items using the Amplify GraphQL client.
 
 ### Create an item
-
-<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 You can create an item by first importing the API and mutations. Then you can add an item:
 
@@ -128,11 +134,7 @@ You should see the item created: `Learn AWS AppSync`.
 
 </Callout>
 
-</InlineFilter>
-
 ### Update an item
-
-<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 To update the item, use the GraphQL update mutation:
 
@@ -189,11 +191,7 @@ const updatedTodo = await API.graphql({
 
 </Callout>
 
-</InlineFilter>
-
 ### Delete an item
-
-<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 You can then delete the Todo by using the delete mutation. To specify which item to delete, you only need to provide the `id` of that item:
 
@@ -297,10 +295,6 @@ const todo = await API.graphql({
 
 </Accordion>
 
-</InlineFilter>
-
-<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
-
 ## Cancel mutation requests
 
 You can cancel any GraphQL API request by calling `.cancel` on the GraphQL request promise that's returned by `API.graphql(...)`.
@@ -337,8 +331,6 @@ const promise = makeAPICall();
 API.cancel(promise, 'my error message');
 ```
 
-</InlineFilter>
-
 ## Conclusion
 
 Congratulations! You have finished the **Create, update, and delete application data** guide. In this guide, you created, updated, and deleted your app data through the GraphQL API.
@@ -347,18 +339,7 @@ Congratulations! You have finished the **Create, update, and delete application 
 
 Our recommended next steps include using the API to query data and subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
 
-<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
-
 - [Read application data](/[platform]/prev/build-a-backend/graphqlapi/query-data/)
 - [Subscribe to real-time events](/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/)
-
-</InlineFilter>
-
-<InlineFilter filters={["react-native"]}>
-
-- [Read application data](/[platform]/prev/build-a-backend/graphqlapi/query-data/)
-- [Subscribe to real-time events](/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/)
-
-</InlineFilter>
 
 </InlineFilter>

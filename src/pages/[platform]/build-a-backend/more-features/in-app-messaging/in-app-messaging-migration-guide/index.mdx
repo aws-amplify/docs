@@ -1,0 +1,583 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate from v5 to v6',
+  description: 'Learn more about the migration steps to upgrade In-app messaging APIs for Amplify JavaScript v5 to v6',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'vue',
+        'angular',
+        'react',
+        'javascript',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-a-backend/more-features/in-app-messaging/in-app-messaging-migration-guide/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+This guide will help you migrate Amplify JavaScript v5's In-App Messaging APIs to the new v6's In-App Messaging APIs.
+
+## Initialization
+
+As of v6 of Amplify, In-App Messaging must first be initialized by using the `initializeInAppMessaging` API exported from the `aws-amplify/in-app-messaging` path. In a typical application, this step should be performed immediately after Amplify is configured.
+
+```ts
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from './amplifyconfiguration.json';
+import { initializeInAppMessaging } from 'aws-amplify/in-app-messaging';
+
+Amplify.configure(amplifyconfig);
+initializeInAppMessaging();
+```
+
+## InAppMessaging.syncMessages
+
+The `syncMessages` API in v6 has not changed in behavior; however, it is now exported from the `aws-amplify/in-app-messaging` path.
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { syncMessages } from 'aws-amplify/in-app-messaging';
+
+    await syncMessages();
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+    const { InAppMessaging } = Notifications;
+
+    await InAppMessaging.syncMessages();
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Displaying messages
+
+The way in-app messages are displayed in v6 has not changed in behavior. You will continue to use the `record` API from Analytics or the `dispatchEvent` API from In-App Messaging. However, these APIs are now exported from the `aws-amplify/analytics` and `aws-amplify/in-app-messaging` paths, respectively.
+
+### Analytics.record
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { record } from 'aws-amplify/analytics';
+
+    const event = {
+      name: 'first_event',
+      attributes: { color: 'red' },
+      metrics: { quantity: 10 }
+    };
+
+    record(event);
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Analytics } from 'aws-amplify';
+
+    const event = {
+      name: 'first_event',
+      attributes: { color: 'red' },
+      metrics: { quantity: 10 }
+    };
+
+    Analytics.record(event);
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### InAppMessaging.dispatchEvent
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { dispatchEvent } from 'aws-amplify/in-app-messaging';
+
+    const event = {
+      name: 'first_event',
+      attributes: { color: 'red' },
+      metrics: { quantity: 10 }
+    };
+
+    dispatchEvent(event);
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+    const { InAppMessaging } = Notifications;
+
+    const event = {
+      name: 'first_event',
+      attributes: { color: 'red' },
+      metrics: { quantity: 10 }
+    };
+
+    InAppMessaging.dispatchEvent(event);
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## InAppMessaging.clearMessages
+
+The `clearMessages` API in v6 has not changed in behavior; however, it is now exported from the `aws-amplify/in-app-messaging` path.
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { clearMessages } from 'aws-amplify/in-app-messaging';
+
+    await clearMessages();
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+    const { InAppMessaging } = Notifications;
+
+    await InAppMessaging.clearMessages();
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## InAppMessaging.identifyUser
+
+The `identifyUser` API in v6 has not changed in behavior; however, it is now exported from the `aws-amplify/in-app-messaging` path. Additionally, the input parameters have been updated as follows:
+
+- Instead of two position positional parameters (corresponding to `userId` and `userInfo`), there are now three named parameters: `userId`, `userProfile` and `options` (i.e. a single input object containing these properties).
+- The `attributes` property previously found under `userInfo` has been renamed to `customProperties` and can now be found under `userProfile`.
+- A new `userAttributes` property can be found under `options`.
+- New convenience properties `name`, `email` and `plan` can be found under `userProfile`. These properties are automatically merged into `customProperties`.
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      userId: string;
+      userInfo: {
+        attributes?: Record<string, string[]>;
+        demographic?: {
+          appVersion?: string;
+          locale?: string;
+          make?: string;
+          model?: string;
+          modelVersion?: string;
+          platform?: string;
+          platformVersion?: string;
+          timezone?: string;
+        };
+        location?: {
+          city?: string;
+          country?: string;
+          latitude?: number;
+          longitude?: number;
+          postalCode?: string;
+          region?: string;
+        };
+        metrics?: Record<string, number>;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      input: {
+        userId: string;
+        userProfile: {
+          customProperties?: Record<string, string[]>;
+          demographic?: {
+            appVersion?: string;
+            locale?: string;
+            make?: string;
+            model?: string;
+            modelVersion?: string;
+            platform?: string;
+            platformVersion?: string;
+            timezone?: string;
+          };
+          email?: string;
+          location?: {
+            city?: string;
+            country?: string;
+            latitude?: number;
+            longitude?: number;
+            postalCode?: string;
+            region?: string;
+          };
+          metrics?: Record<string, number>;
+          name?: string;
+          plan?: string;
+        };
+        options?: { userAttributes?: Record<string, string[]>; };
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { identifyUser } from 'aws-amplify/in-app-messaging';
+
+    const identifyUserInput = {
+      userId: 'user-id',
+      userProfile: {
+        email: 'example@service.com',
+        name: 'User A',
+        plan: 'Standard'
+        customProperties: {
+          hobbies: ['cooking', 'knitting'],
+        },
+        demographic: {
+          appVersion: '1.0.0',
+          locale: 'en_US',
+          make: 'Apple',
+          model: 'iPhone',
+          modelVersion: '13',
+          platform: 'iOS',
+          platformVersion: '15',
+          timezone: 'Americas/Los_Angeles'
+        },
+        location: {
+          city: 'Seattle',
+          country: 'US',
+          postalCode: '98121',
+          region: 'WA',
+          latitude: 0.0,
+          longitude: 0.0
+        },
+        metrics: {
+          logins: 157
+        },
+      },
+    };
+
+    await identifyUser(identifyUserInput);
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+    const { InAppMessaging } = Notifications;
+
+    const userId = 'user-id';
+    const userInfo = {
+      address: 'example@service.com',
+      attributes: {
+        hobbies: ['cooking', 'knitting'],
+      },
+      demographic: {
+        appVersion: '1.0.0',
+        locale: 'en_US',
+        make: 'Apple',
+        model: 'iPhone',
+        modelVersion: '13',
+        platform: 'iOS',
+        platformVersion: '15',
+        timezone: 'Americas/Los_Angeles'
+      },
+      location: {
+        city: 'Seattle',
+        country: 'US',
+        postalCode: '98121',
+        region: 'WA',
+        latitude: 0.0,
+        longitude: 0.0
+      },
+      metrics: {
+        logins: 157
+      },
+      optOut: 'NONE'
+    };
+
+    await InAppMessaging.identifyUser(userId, userInfo);
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Responding to interaction events
+
+The ways to respond to your users' interactions with in-app messages in v6 have not changed in behavior. You will continue to use the `onMessageReceived`, `onMessageDisplayed`, `onMessageDismissed` and `onMessageActionTaken` APIs to respond to interaction events. However, these APIs are now exported from the `aws-amplify/in-app-messaging` path.
+
+### InAppMessaging.onMessageReceived
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { onMessageReceived } from 'aws-amplify/in-app-messaging';
+
+    const myMessageReceivedHandler = (message) => {
+      // Do something with the received message
+    };
+
+    const listener = onMessageReceived(myMessageReceivedHandler);
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+    const { InAppMessaging } = Notifications;
+
+    const myMessageReceivedHandler = (message) => {
+      // Do something with the received message
+    };
+
+    const listener = InAppMessaging.onMessageReceived(myMessageReceivedHandler);
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### InAppMessaging.onMessageDisplayed
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { onMessageDisplayed } from 'aws-amplify/in-app-messaging';
+
+    const myMessageDisplayedHandler = (message) => {
+      // Do something with the displayed message
+    };
+
+    const listener = onMessageDisplayed(myMessageDisplayedHandler);
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+    const { InAppMessaging } = Notifications;
+
+    const myMessageDisplayedHandler = (message) => {
+      // Do something with the displayed message
+    };
+
+    const listener = InAppMessaging.onMessageDisplayed(myMessageDisplayedHandler);
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### InAppMessaging.onMessageDismissed
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { onMessageDismissed } from 'aws-amplify/in-app-messaging';
+
+    const myMessageDismissedHandler = (message) => {
+      // Do something with the dismissed message
+    };
+
+    const listener = onMessageDismissed(myMessageDismissedHandler);
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+    const { InAppMessaging } = Notifications;
+
+    const myMessageDismissedHandler = (message) => {
+      // Do something with the dismissed message
+    };
+
+    const listener = InAppMessaging.onMessageDismissed(myMessageDismissedHandler);
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### InAppMessaging.onMessageActionTaken
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { onMessageActionTaken } from 'aws-amplify/in-app-messaging';
+
+    const myMessageActionTakenHandler = (message) => {
+      // Do something with the message action was taken against
+    };
+
+    const listener = onMessageActionTaken(myMessageActionTakenHandler);
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+    const { InAppMessaging } = Notifications;
+
+    const myMessageActionTakenHandler = (message) => {
+      // Do something with the message action was taken against
+    };
+
+    const listener = InAppMessaging.onMessageActionTaken(
+      myMessageActionTakenHandler
+    );
+
+    listener.remove(); // Remember to remove the listener when it is no longer needed
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### InAppMessaging.notifyMessageInteraction
+
+The way to notify any interaction event listeners of your users' interactions with in-app messages in v6 has not changed in behavior. You will continue to use the `notifyMessageInteraction` API to notify of interaction events. However, this API is now exported from the `aws-amplify/in-app-messaging` path and the input parameters have been updated as follows:
+
+- Instead of two position positional parameters (corresponding to `message` and `inAppMessageInteractionEvent`), there are now two named parameters: `message` and `type` (i.e. a single input object containing these properties).
+- Interaction event types have been changed from a SCREAMING_SNAKE_CASE convention to camelCase.
+- The event type now expects a string instead of an `InAppMessageInteractionEvent` enumeration.
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      message: InAppMessage;
+
+      /**
+       * InAppMessageInteractionEvent.MESSAGE_RECEIVED_EVENT
+       * InAppMessageInteractionEvent.MESSAGE_DISPLAYED_EVENT
+       * InAppMessageInteractionEvent.MESSAGE_DISMISSED_EVENT
+       * InAppMessageInteractionEvent.MESSAGE_ACTION_TAKEN_EVENT
+       */
+      inAppMessageInteractionEvent: InAppMessageInteractionEvent;
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      input: {
+        message: InAppMessage;
+        type: 'messageReceived' | 'messageDisplayed' | 'messageDismissed' | 'messageActionTaken';
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { notifyMessageInteraction } from 'aws-amplify/in-app-messaging';
+
+    const message = {
+      // In-app message that you want to record an interaction on
+    }
+
+    notifyMessageInteraction({ message, type: 'messageDisplayed' });
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+    import { InAppMessageInteractionEvent } from '@aws-amplify/notifications';    
+    const { InAppMessaging } = Notifications;
+
+    const message = {
+      // In-app message that you want to record an interaction on
+    }
+
+    InAppMessaging.notifyMessageInteraction(
+      message,
+      InAppMessageInteractionEvent.MESSAGE_DISPLAYED_EVENT
+    );
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## InAppMessaging.setConflictHandler
+
+The `setConflictHandler` API in v6 has not changed in behavior; however, it is now exported from the `aws-amplify/in-app-messaging` path.
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { setConflictHandler } from 'aws-amplify/in-app-messaging';
+
+    const myConflictHandler = (messages) => {
+      // Given an array of messages, return a single message
+    };
+
+    setConflictHandler(myConflictHandler);
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Notifications } from 'aws-amplify';
+    const { InAppMessaging } = Notifications;
+
+    const myConflictHandler = (messages) => {
+      // Given an array of messages, return a single message
+    };
+
+    InAppMessaging.setConflictHandler(myConflictHandler);
+    ```
+
+  </Block>
+</BlockSwitcher>

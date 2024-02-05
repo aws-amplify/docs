@@ -12,7 +12,7 @@ Start with the [React Native CLI](https://reactnative.dev/docs/getting-started):
 npx react-native@0.68.2 init AmplifyDataStoreRN --version 0.68.2
 cd AmplifyDataStoreRN
 npx amplify-app@latest
-npm install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage core-js
+npm install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage @azure/core-asynciterator-polyfill
 ```
 
 You will also need to install the pod dependencies for iOS:
@@ -31,7 +31,7 @@ To enable SQLite with DataStore for enhanced local database performance, follow 
 npx react-native@0.68.2 init AmplifyDataStoreRN --version 0.68.2
 cd AmplifyDataStoreRN
 npx amplify-app@latest
-npm install aws-amplify amazon-cognito-identity-js @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-community/netinfo @react-native-async-storage/async-storage core-js
+npm install aws-amplify amazon-cognito-identity-js @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-community/netinfo @react-native-async-storage/async-storage @azure/core-asynciterator-polyfill
 npx pod-install
 ```
 
@@ -61,7 +61,7 @@ Start with the [Expo CLI](https://docs.expo.dev/):
 npx create-expo-app AmplifyDataStoreExpo
 cd AmplifyDataStoreExpo
 npx amplify-app@latest
-expo install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage
+expo install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage @azure/core-asynciterator-polyfill
 ```
 
 **Use SQLite for enhanced performance (optional)**
@@ -74,7 +74,7 @@ To enable SQLite with DataStore for enhanced local database performance, follow 
 npx create-expo-app AmplifyDataStoreExpo
 cd AmplifyDataStoreExpo
 npx amplify-app@latest
-expo install aws-amplify amazon-cognito-identity-js @aws-amplify/datastore-storage-adapter expo-sqlite expo-file-system @react-native-community/netinfo @react-native-async-storage/async-storage core-js
+expo install aws-amplify amazon-cognito-identity-js @aws-amplify/datastore-storage-adapter expo-sqlite expo-file-system @react-native-community/netinfo @react-native-async-storage/async-storage @azure/core-asynciterator-polyfill
 ```
 
 Then configure the SQLite storage adapter with DataStore in your app:

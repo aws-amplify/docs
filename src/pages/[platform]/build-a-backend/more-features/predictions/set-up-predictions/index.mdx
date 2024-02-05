@@ -2,9 +2,28 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Set up Predictions',
-  description:
-    'Get started with integrating ML capabilities into your application using Amplify',
-  platforms: ['javascript', 'react-native', 'swift', 'android', 'angular', 'nextjs', 'react', 'vue'] 
+  description: 'Get started with integrating ML capabilities into your application using Amplify',
+  platforms: [
+    'javascript',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'react',
+        'angular',
+        'nextjs',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/build-a-backend/more-features/predictions/set-up-predictions/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -26,7 +45,6 @@ import gettingStartedCommon from '/src/fragments/lib/predictions/native_common/g
 <Fragments
   fragments={{
     javascript: gettingStartedJs,
-    'react-native': gettingStartedJs,
     angular: gettingStartedJs,
     nextjs: gettingStartedJs,
     react: gettingStartedJs,

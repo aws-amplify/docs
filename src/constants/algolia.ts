@@ -1,3 +1,3 @@
-export const ALGOLIA_API_KEY = '39400f04880764b2ba504813b0902bd4';
-export const ALGOLIA_INDEX_NAME = 'next-amplify';
-export const ALGOLIA_APP_ID = 'HBI6AAVZLI';
+export const ALGOLIA_API_KEY = '096fb25a5abb771ed2ac4391e80673c4';
+export const ALGOLIA_INDEX_NAME = 'amplify';
+export const ALGOLIA_APP_ID = 'WUUEEESZ67';
