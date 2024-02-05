@@ -1,14 +1,16 @@
 ## Build a backend
 
-Next, we will add data and auth capabilities to the app.
+Next, we will add data and auth capabilities to the app.  In Amplify Gen 2, the `resource.ts` files are where you _define_ the corresponding backend resource and details about it.
 
 ### Add data
 
-The `create-amplify` commands provides scaffolding of a `/amplify/data/resource.ts` ready to deploy.  In Amplify, the `resource.ts` files are where you _define_ the corresponding backend resource and details about it.
+`create-amplify` provides the scaffolding of a `/amplify/data/resource.ts` which is ready to deploy.
 
 <Accordion title="See the complete /amplify/data/resources.ts">
 
 If you open up the `/amplify/data/resource.ts` file in your text editor, you will see some generated code already there:
+
+_Note: The steps defined in the code below do not require action to complete this quickstart._
 
 ```ts showLineNumbers title="amplify/data/resource.ts"
 // amplify/data/resource.ts
@@ -82,7 +84,7 @@ Fetch records from the database and use them in your frontend component.
 </Accordion>
 
 
-<b>STEP 1</b> Update `amplify/data/resource.ts` to add a `done` field of type `boolean` and a priority field, which will be an `enum` of low, medium, or high.
+<b>STEP 1</b> Open `amplify/data/resource.ts` and update it to add a `done` field of type `boolean` and a `priority` field of `enum` with a value of `['low', 'medium', 'high']`.
 
 ```diff title="amplify/data/resource.ts"
 // amplify/data/resource.ts
@@ -103,7 +105,7 @@ const schema = a.schema({
 // ...
 ```
 
-Once you save your changes to the data model, your changes will be deployed in seconds within your cloud sandbox.
+Once you save your changes to the data model, they will be deployed in seconds to your cloud sandbox.
 
 
 The `Todo` data model is defined with authorization rules to allow the person who creates the Todo instance (the owner), to perform all actions on the data they own.  We are also allowing all page viewers, including unauthenticated users, to read data.
