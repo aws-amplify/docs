@@ -212,6 +212,8 @@ If you have previously configured Amplify by passing the configuration object li
 
 </InlineFilter>
 
+<InlineFilter filters={["nextjs"]}>
+
 ### Running Amplify on the server with NextJS
 
 To enable the use of the Amplify JavaScript library on the server, you need to set the `ssr` configuration to true in the `Amplify.configure` function.
@@ -221,6 +223,8 @@ Amplify.configure(amplifyConfig, {
   ssr: true
 });
 ```
+
+</InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
@@ -1184,6 +1188,8 @@ Expand the sections below to see the events that have been changed or removed. T
 
 For a deeper look at v6 Utilities, check out our [Utilities documentation](/[platform]/build-a-backend/utilities/).
 
+<InlineFilter filters={["nextjs"]}>
+
 ### Server-side Rendering
 
 <Callout>Find a comprehensive summary of changes to Server-Side Rendering in the [NextJS migration guide](/nextjs/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/)</Callout>
@@ -1253,3 +1259,5 @@ Use the switcher below to see the differences between v5 and v6:
 </BlockSwitcher>
 
 Please review the [Server-Side Rendering with Amplify JavaScript v6](/[platform]/build-a-backend/server-side-rendering/), as we've changed the developer experience to allow working with cookies and middleware in NextJS.
+
+</InlineFilter>
