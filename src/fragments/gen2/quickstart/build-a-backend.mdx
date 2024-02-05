@@ -136,6 +136,7 @@ export const data = defineData({
 
 Now let's work on our authentication configuration. Similar to the `data/resource.ts` we just worked on, the `auth/resource.ts` file has code to define our authentication configuration. In this case, setting the authentication method to log in with email.
 
+<Accordion title="See the complete /amplify/auth/resources.ts">
 ```ts title="amplify/auth/resource.ts"
 // amplify/auth/resource.ts
 import { defineAuth } from '@aws-amplify/backend';
@@ -180,8 +181,11 @@ export const auth = defineAuth({
   }
 });
 ```
+</Accordion>
 
-Let's customize the verification email for our app. We can add a subject line by defining an object with email authentication properties. Again, we have removed comments for brevity.
+Let's customize the subject of the verification email sent to users after they sign up for our app.
+
+Open `amplify/auth/resource.ts` and update it to a subject line by defining an object with email authentication properties referencing the code below:
 
 ```diff title="amplify/auth/resource.ts"
 // amplify/auth/resource.ts
