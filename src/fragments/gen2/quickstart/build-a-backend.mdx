@@ -207,7 +207,6 @@ export const auth = defineAuth({
 <Callout info>The Data and Auth resource files are imported into the `amplify/backend.ts` file which serves as the entrypoint to the Amplify backend for all resources used in this app. It is shown below, but there are no modifications needed to complete this quickstart.</Callout>
 
 ```ts title="amplify/backend.ts"
-// amplify/backend.ts
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
