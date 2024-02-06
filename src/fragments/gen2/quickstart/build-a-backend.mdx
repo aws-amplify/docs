@@ -108,7 +108,9 @@ Once you save your changes to the data model, they will be deployed in seconds t
 
 The `Todo` data model is defined with authorization rules to allow the person who creates the Todo instance (the owner), to perform all actions on the data they own.  We are also allowing all page viewers, including unauthenticated users, to read data.
 
-_Note: These authorization rules can be modified using a chain of methods as defined by default. For example, we could remove the `.to(['read'])` and allow all visitors to perform all actions on data or add permissions for signed-in users or users who belong to user groups such as `Admin`. You can learn more about all options for authorization in the [customize your auth rules](/gen2/build-a-backend/data/customize-authz/) section of the docs._
+<Callout>
+**Note:** These authorization rules can be modified using a chain of methods as defined by default. For example, we could remove the `.to(['read'])` and allow all visitors to perform all actions on data or add permissions for signed-in users or users who belong to user groups such as `Admin`. You can learn more about all options for authorization in the [customize your auth rules](/gen2/build-a-backend/data/customize-authz/) section of the docs.
+</Callout>
 
 <b>STEP 2</b> Remove public access by deleting the `a.allow.public().to(['read'])` authorization rule. You authorization rule will look like the code below:
 
