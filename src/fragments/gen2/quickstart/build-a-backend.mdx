@@ -114,7 +114,7 @@ The `Todo` data model is defined with authorization rules to allow the person wh
 
 <b>STEP 2</b> Remove public access by deleting the `a.allow.public().to(['read'])` authorization rule. You authorization rule will look like the code below:
 
-```js
+```js title="amplify/data/resource.ts"
 .authorization([a.allow.owner()]),
 ```
 
