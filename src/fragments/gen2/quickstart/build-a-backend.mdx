@@ -120,7 +120,7 @@ The `Todo` data model is defined with authorization rules to allow the person wh
 
 Below the schema declaration, you will see the `defineData` function which receives our schema and authorization configuration as arguments.  The default configuration is for an `apiKey` to enable public access.
 
-<b>STEP 3</b> Update the `defaultAuthorizationMode` to `userPool` so that the default is to use user authentication.
+<b>Step 3:</b> Update the `defaultAuthorizationMode` to `userPool` so that the default is to use user authentication.
 
 ```js title="amplify/data/resource.ts"
 export const data = defineData({
