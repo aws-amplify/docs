@@ -25,8 +25,6 @@ jest.mock('next/link', () => {
 
 jest.mock('next/link', () => {
   const MockedNextLink = ({ children, href }) => {
-    // Convert object to string for easier testing if href is an object
-
     const hrefProp =
       href && typeof href === 'object'
         ? `${href.pathname.replace('[platform]', href.query?.platform)}${
