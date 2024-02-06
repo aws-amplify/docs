@@ -1,48 +1,14 @@
 import Link from 'next/link';
 import ExternalLink from '@/components/ExternalLink';
-import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
-import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
+import { useMDXLinkHref } from './utils/useMDXLinkHref';
 
-export const MDXLink = ({
-  href: hrefFromProps,
-  children,
-  hash: hashFromProps
-}) => {
-  let href = hrefFromProps;
-  let hash = hashFromProps;
+export const MDXLink = ({ href, children, hash }) => {
   const isInternal = href && (href.startsWith('/') || href.startsWith('#'));
-  const baseURI = usePathWithoutHash();
-  const platform = useCurrentPlatform();
 
-  if (href.startsWith('/') && href.includes('#')) {
-    hash = href.slice(href.indexOf('#'));
-    href = href.slice(0, href.indexOf('#'));
-  }
-
-  // For setting up a link when passed only a hash link
-  if (!href.includes('/') && href.startsWith('#')) {
-    hash = href;
-    href = baseURI.replace(platform, '[platform]');
-  }
-
-  const decodedUri = decodeURI(href);
-
-  // Check to see if we need to add the "platform" query param
-  // We shouldn't add it, if a specific platform is linked in the baseURI
-  const query = decodedUri.includes('[platform]')
-    ? { query: { platform } }
-    : {};
+  const nextLinkHref = useMDXLinkHref(href, hash);
 
   return isInternal ? (
-    <Link
-      href={{
-        pathname: decodedUri,
-        ...(platform && query),
-        hash: hash
-      }}
-    >
-      {children}
-    </Link>
+    <Link href={nextLinkHref}>{children}</Link>
   ) : (
     <ExternalLink href={href}>{children}</ExternalLink>
   );

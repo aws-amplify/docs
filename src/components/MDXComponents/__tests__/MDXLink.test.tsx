@@ -15,6 +15,14 @@ const routerMock = {
 
 jest.mock('next/router', () => routerMock);
 
+const MockedNextLink = ({ children }) => {
+  return children;
+};
+
+jest.mock('next/link', () => {
+  return MockedNextLink;
+});
+
 jest.mock('next/link', () => {
   const MockedNextLink = ({ children, href }) => {
     // Convert object to string for easier testing if href is an object
