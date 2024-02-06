@@ -3,7 +3,27 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Work with maps',
   description: 'Working with map displays, APIs, and more.',
-  platforms: ['javascript', 'swift', 'android','angular','nextjs','react','vue'] 
+  platforms: [
+    'javascript',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'angular',
+        'vue',
+        'nextjs',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-a-backend/more-features/geo/maps/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

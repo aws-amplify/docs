@@ -33,3 +33,18 @@
   transition: opacity 0.2s ease-out;
   opacity: 0;
 }
+
+/* Some logo icons need specific styling for dark mode */
+.icon-js-monochrome-bg {
+  fill: hsl(210, 50%, 10%);
+  @include darkMode {
+    fill: #fff;
+  }
+}
+
+.icon-js-monochrome-letter {
+  fill: #fff;
+  @include darkMode {
+    fill: hsl(210, 50%, 10%);
+  }
+}

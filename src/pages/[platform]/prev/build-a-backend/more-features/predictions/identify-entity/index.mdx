@@ -2,9 +2,30 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Identify entities from images',
-  description:
-    'Learn more about how to identify entities from an image using Amplify.',
-  platforms: ['swift', 'android', 'javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
+  description: 'Learn more about how to identify entities from an image using Amplify.',
+  platforms: [
+    'swift',
+    'android',
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'angular',
+        'vue',
+        'javascript',
+        'react',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/more-features/predictions/identify-entity/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

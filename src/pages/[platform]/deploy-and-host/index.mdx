@@ -15,7 +15,28 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/deploy-and-host'
+  route: '/[platform]/deploy-and-host',
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'swift',
+        'android',
+        'flutter'
+      ],
+      canonicalPath: '/react-native/deploy-and-host/'
+    },
+    {
+      platforms: [
+        'javascript',
+        'angular',
+        'vue',
+        'react',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/deploy-and-host/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

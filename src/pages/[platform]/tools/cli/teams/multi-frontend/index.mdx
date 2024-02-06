@@ -4,16 +4,32 @@ export const meta = {
   title: 'Multiple frontends',
   description: 'Learn how to share the same Amplify backend across multiple frontends (e.g., a React and Android app).',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'nextjs',
+        'javascript',
+        'vue',
+        'angular',
+        'android',
+        'react-native',
+        'flutter',
+        'swift'
+      ],
+      canonicalPath: '/javascript/tools/cli/teams/multi-frontend/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

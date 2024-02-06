@@ -16,7 +16,23 @@ export const meta = {
     'vue'
   ],
   route: '/[platform]/tools/cli-legacy',
-  hideChildrenOnBase: 'true'
+  hideChildrenOnBase: 'true',
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'angular',
+        'react-native',
+        'react',
+        'vue',
+        'javascript',
+        'swift',
+        'flutter',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/tools/cli-legacy/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -1,4 +1,4 @@
-import { PageNode } from 'src/directory/directory';
+import { PageNode } from '@/directory/directory';
 import { Card, Flex, View, Text } from '@aws-amplify/ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

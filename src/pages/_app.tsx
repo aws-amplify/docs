@@ -3,11 +3,11 @@ import '../styles/styles.scss';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
-import { CANONICAL_URLS } from '@/data/canonical-urls';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { trackPageVisit } from '../utils/track';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
+import { useCanonicalUrl } from '@/utils/useCanonicalUrl';
 
 function MyApp({ Component, pageProps }) {
   const {
@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }) {
 
   const getLayout =
     Component.getLayout ||
-    ((page) => (
+    ((page: React.ReactElement) => (
       <Layout
         pageTitle={meta?.title ? meta.title : ''}
         pageDescription={meta?.description ? meta.description : ''}
@@ -54,12 +54,10 @@ function MyApp({ Component, pageProps }) {
     ));
 
   let canonicalUrl = 'https://docs.amplify.aws';
-  let canonicalPath = meta?.canonicalUrl ? meta.canonicalUrl : router.pathname;
-  canonicalPath = CANONICAL_URLS.includes(canonicalPath)
-    ? router.pathname.replace('[platform]', 'javascript')
-    : canonicalPath;
-  canonicalPath = canonicalPath.replace('[platform]', useCurrentPlatform());
-  canonicalUrl += canonicalPath;
+
+  const canonicalUrlPath = useCanonicalUrl(meta, useCurrentPlatform());
+
+  canonicalUrl += canonicalUrlPath;
 
   return (
     <>

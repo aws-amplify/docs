@@ -2,9 +2,31 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'File access levels',
-  description:
-    'Learn about configuring different access levels in Amplify Storage. Objects can be public, protected, or private.',
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native','angular','nextjs','react','vue'] 
+  description: 'Learn about configuring different access levels in Amplify Storage. Objects can be public, protected, or private.',
+  platforms: [
+    'javascript',
+    'flutter',
+    'swift',
+    'android',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'react-native',
+        'javascript',
+        'angular',
+        'vue',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-a-backend/storage/configure-access/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

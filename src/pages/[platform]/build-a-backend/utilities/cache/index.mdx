@@ -2,9 +2,28 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Cache',
-  description:
-    'The Amplify Cache module provides a generic LRU cache for JavaScript developers to store data with priority and expiration settings.',
-  platforms: ['javascript', 'react-native','angular','nextjs','react','vue'] 
+  description: 'The Amplify Cache module provides a generic LRU cache for JavaScript developers to store data with priority and expiration settings.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'vue',
+        'nextjs',
+        'react-native',
+        'javascript',
+        'angular'
+      ],
+      canonicalPath: '/javascript/build-a-backend/utilities/cache/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -151,6 +170,18 @@ const newCache = Cache.createInstance(config);
 // Please provide a new keyPrefix which is the identifier of Cache.
 ```
 
+You can keep default values and only override the values you need as well.
+
+```javascript
+// Get default values 
+const defaultConfig = Cache.configure();
+
+// Pass default config and overwrite only the options you want, ex: keyPrefix
+const customCache = Cache.createInstance({
+    ...defaultConfig,
+    keyPrefix: "my-custom-instance-prefix-",
+});
+```
 ## API Reference
 
 For the complete API documentation for Cache module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/interfaces/cache.html)

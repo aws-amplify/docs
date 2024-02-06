@@ -15,7 +15,23 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/tools/cli'
+  route: '/[platform]/tools/cli',
+  canonicalObjects: [
+    {
+      platforms: [
+        'flutter',
+        'javascript',
+        'react-native',
+        'react',
+        'angular',
+        'nextjs',
+        'swift',
+        'android',
+        'vue'
+      ],
+      canonicalPath: '/javascript/tools/cli/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -63,6 +79,7 @@ Ship fullstack web and mobile apps that you’ll never outgrow, powered by AWS A
 
 5. Export Amplify project to CDK - Use Amplify with existing DevOps tools or integrate into your existing deployment systems. Amplify’s export feature lets you export your Amplify project to your preferred tooling using CDK. Export Amplify CLI build artifacts, including CloudFormation templates, GraphQL API resolver code, Lambda function assets, and client-side code generation.
 
+<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue"]}>
 
 ### Local mocking
 
@@ -71,6 +88,8 @@ Amplify supports running a local server for mocking and testing your application
 ```bash
 amplify mock
 ```
+
+</InlineFilter>
 
 ### Serverless containers
 

@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Set up custom queries and mutations',
-  description:
-    'Add authorization rules to your GraphQL schema to control access to your data.',
+  description: 'Add authorization rules to your GraphQL schema to control access to your data.',
   platforms: [
     'android',
     'angular',
@@ -14,6 +13,22 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'flutter',
+        'angular',
+        'react',
+        'javascript',
+        'android',
+        'nextjs',
+        'swift',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/custom-business-logic/'
+    }
   ]
 };
 
@@ -95,7 +110,7 @@ First, create your Lambda function in CDK with your logic and set the `functionN
 
 ```ts
 const echoLambda = new lambda.Function(this, 'EchoLambda', {
-  functionName: 'EchoLambda', // MAKE SURE THIS MATCHES THE @function's "name" PARAMETER
+  functionName: 'echofunction', // MAKE SURE THIS MATCHES THE @function's "name" PARAMETER
   code: lambda.Code.fromAsset(path.join(__dirname, 'handlers/echo')),
   handler: 'index.handler',
   runtime: lambda.Runtime.NODEJS_18_X

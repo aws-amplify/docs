@@ -2,10 +2,34 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Connect API to existing MySQL or PostgreSQL database',
-  description:
-    'Learn how to connect your API to an existing MySQL or PostgreSQL database.',
-    platforms: ['javascript', 'react', 'nextjs', 'angular', 'vue', 'react-native', 'flutter', 'swift', 'android']
-
+  description: 'Learn how to connect your API to an existing MySQL or PostgreSQL database.',
+  platforms: [
+    'javascript',
+    'react',
+    'nextjs',
+    'angular',
+    'vue',
+    'react-native',
+    'flutter',
+    'swift',
+    'android'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'flutter',
+        'javascript',
+        'react-native',
+        'vue',
+        'swift',
+        'react',
+        'angular',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/connect-api-to-existing-database/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -65,25 +89,28 @@ Install the following package to add the Amplify GraphQL API construct to your d
 npm install @aws-amplify/graphql-api-construct
 ```
 
-Create a new `schema.graphql` file within your CDK app’s `lib/` folder that includes the APIs you want to expose. Define your GraphQL object types, queries, and mutations to match the APIs you wish to expose. For example, define object types for database tables, queries to fetch data from those tables, and mutations to modify those tables.
+Create a new `schema.sql.graphql` file within your CDK app’s `lib/` folder that includes the APIs you want to expose. Define your GraphQL object types, queries, and mutations to match the APIs you wish to expose. For example, define object types for database tables, queries to fetch data from those tables, and mutations to modify those tables.
 
 ```graphql
-type Blog {
+type Post {
   id: Int!
   title: String!
+  content: String!
+  published: Boolean
+  publishedDate: AWSDate @refersTo(name: "published_date")
 }
 
 type Query {
-  listBlogs(contains: String!): [Blog]
+  searchPosts(contains: String!): [Post]
     @sql(
-      statement: "SELECT * FROM blogs WHERE title LIKE CONCAT('%', :contains, '%');"
+      statement: "SELECT * FROM posts WHERE title LIKE CONCAT('%', :contains, '%');"
     )
     @auth(rules: [{ allow: public }])
 }
 
 type Mutation {
-  createBlog(title: String!): AWSJSON
-    @sql(statement: "INSERT INTO blogs (title) VALUES (:title);")
+  createPost(title: String! content: String!): AWSJSON
+    @sql(statement: "INSERT INTO posts (title, content) VALUES (:title, :content);")
     @auth(rules: [{ allow: public }])
 }
 ```
@@ -104,6 +131,8 @@ import {
   AmplifyGraphqlApi,
   AmplifyGraphqlDefinition
 } from '@aws-amplify/graphql-api-construct';
+ 
+import path from 'path';
 ```
 
 In the main stack class, add the following code to define a new GraphQL API. Replace `stack` with the name of your stack instance (often referenced via `this`):
@@ -112,9 +141,9 @@ In the main stack class, add the following code to define a new GraphQL API. Rep
 new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
   apiName: 'MySqlBoundApi',
   definition: AmplifyGraphqlDefinition.fromFilesAndStrategy(
-    [path.join(__dirname, 'schema.graphql')],
+    [path.join(__dirname, 'schema.sql.graphql')],
     {
-      name: 'MyBlogSiteDatabase',
+      name: 'MySQLSchemaDefinition',
       dbType: 'MYSQL',
       vpcConfiguration: {
         vpcId: 'vpc-123456',
@@ -138,7 +167,10 @@ new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
     }
   ),
   authorizationModes: {
-    apiKeyConfig: { expires: cdk.Duration.days(7) }
+    defaultAuthorizationMode: 'API_KEY',
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30)
+    }
   }
 });
 ```
@@ -177,6 +209,15 @@ In addition, the target security group(s) must have two outbound rules set up:
   security group rules, please refer to the [Amazon EC2 Security Group Rules reference](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-rules-reference.html?icmpid=docs_ec2_console).
 </Callout>
 </Accordion>
+
+</Block>
+<Block name="Amplify CLI">
+
+<Callout warning>
+
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+
+</Callout>
 
 </Block>
 </BlockSwitcher>
@@ -231,7 +272,7 @@ First, update your GraphQL schema file to reference a SQL file name without the 
 ```graphql
 type Query {
   getPublishedPosts(start: AWSDate, end: AWSDate): [Post]
-    @sql(reference: "getPublishedPostsByRange")
+    @sql(reference: "getPublishedPostsByDateRange")
     @auth(rules: [{ allow: public }])
 }
 ```
@@ -239,7 +280,7 @@ type Query {
 Next, create a new `lib/sql-statements` folder and add any custom queries or mutations as SQL files. For example, you could create different `.sql` files for different queries:
 
 ```sql
--- lib/sql-statements/getPublishedPostsByRange.sql
+-- lib/sql-statements/getPublishedPostsByDateRange.sql
 SELECT p.id, p.title, p.content, p.published_date
 FROM posts p
 WHERE p.published = 1
@@ -250,19 +291,22 @@ LIMIT 10
 ```
 
 ```sql
--- lib/sql-statements/getBlogById.sql
-SELECT * FROM blogs WHERE id = :id;
+-- lib/sql-statements/getPostById.sql
+SELECT * FROM posts WHERE id = :id;
 ```
 
 Then, you can import the `SQLLambdaModelDataSourceStrategyFactory` which helps define the datasource strategy from the custom `.sql` files you've created.
 
 ```js
 import { SQLLambdaModelDataSourceStrategyFactory } from '@aws-amplify/graphql-api-construct';
+import path from 'path';
+import fs from 'fs';
 ```
 
 In your `lib/<your-project-name>-stack.ts` file, read from the `sql-statements/` folder and add them as custom SQL statements to your Amplify GraphQL API:
 
 ```js
+
 // Define custom SQL statements folder path
 const sqlStatementsPath = path.join(__dirname, 'sql-statements');
 
@@ -285,9 +329,10 @@ const sqlStrategy = SQLLambdaModelDataSourceStrategyFactory.fromCustomSqlFiles(
   }
 );
 
-const amplifyApi = new AmplifyGraphqlApi(this, 'AmplifyApi', {
+
+const amplifyApi = new AmplifyGraphqlApi(this, 'SqlBoundApi', {
   definition: AmplifyGraphqlDefinition.fromFilesAndStrategy(
-    path.join(__dirname, 'schema.graphql'),
+    [path.join(__dirname, 'schema.sql.graphql')],
     sqlStrategy
   ),
   authorizationModes: {
@@ -303,6 +348,16 @@ The SQL statements defined in the `.sql` files will be executed as if they were 
 
 </Block>
 
+<Block name="Amplify CLI">
+
+<Callout warning>
+
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+
+</Callout>
+
+</Block>
+
 </BlockSwitcher>
 
 ### Custom Query
@@ -313,7 +368,7 @@ For reference, you define a GraphQL query by adding a new field under a `type Qu
 type Query {
   searchPostsByTitle(title: String): [Post]
     @sql(
-      statement: "SELECT * FROM Post WHERE title LIKE CONCAT('%', :title, '%');"
+      statement: "SELECT * FROM posts WHERE title LIKE CONCAT('%', :title, '%');"
     )
     @auth(rules: [{ allow: public }])
 }
@@ -339,7 +394,7 @@ If you want to return the result of the SQL statement, you can use `AWSJSON` as 
 
 ```graphql
 type Mutation {
-  publishPosts: AWSJSON @sql(statement: "UPDATE Post SET published = 1;")
+  publishPosts: AWSJSON @sql(statement: "UPDATE posts SET published = 1;")
     @auth(rules: [{ allow: public }])
 }
 ```
@@ -417,12 +472,13 @@ All model-level authorization rules are supported for Amplify GraphQL schemas ge
 
 In the example below, public users authorized via API Key are granted unrestricted access to all posts.
 
-Add the following auth rule to the `Blog` model within the `schema.sql.graphql` file:
+Add the following auth rule to the `Post` model within the `schema.sql.graphql` file:
 
 ```graphql
-type Blog @model @refersTo(name: "blogs") @auth(rules: [{ allow: public }]) {
+type Post @model @refersTo(name: "posts") @auth(rules: [{ allow: public }]) {
   id: String! @primaryKey
   title: String!
+  content: String!
 }
 ```
 
@@ -437,6 +493,15 @@ To deploy the API, you can use the `cdk deploy` command:
 ```sh
 cdk deploy
 ```
+
+</Block>
+<Block name="Amplify CLI">
+
+<Callout warning>
+
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+
+</Callout>
 
 </Block>
 </BlockSwitcher>
@@ -624,6 +689,15 @@ cdk deploy
 ```
 
 </Block>
+<Block name="Amplify CLI">
+
+<Callout warning>
+
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+
+</Callout>
+
+</Block>
 </BlockSwitcher>
 
 Now the API has been deployed and you can start using it!
@@ -634,14 +708,14 @@ To rename models and fields, you can use the `@refersTo` directive to map the mo
 
 By default, the Amplify CLI singularizes each model name using PascalCase and field names that are either snake_case or kebab-case will be converted to camelCase.
 
-In the example below, the Post model in the GraphQL schema is now mapped to the posts table in the database schema. Also, the isPublished is now mapped to the published column on the posts table.
+In the example below, the Post model in the GraphQL schema is now mapped to the posts table in the database schema. Also, the `isPublished` is now mapped to the `published` column on the posts table.
 
 ```graphql
 type Post @refersTo(name: "posts") @model {
   id: String! @primaryKey
   title: String!
   content: String!
-  isPublished: Boolean @refersTo(name: "is-published")
+  isPublished: Boolean @refersTo(name: "published")
   publishedDate: AWSDate @refersTo(name: "published_date")
 }
 ```
@@ -656,11 +730,13 @@ Relationships that query across DynamoDB and SQL data sources are currently not 
 
 </Callout>
 
+Assume that you have `users`, `blogs`, and `posts` tables in your database schema. The following examples demonstrate how you might create different types of relationships between them. Use them as references for creating relationships between the models in your own schema.
+
 #### Has One relationship
 
 Create a one-directional one-to-one relationship between two models using the `@hasOne` directive.
 
-In the example below, a User has a single Profile.
+In the example below, a User has a single Blog.
 
 ```graphql
 type User
@@ -670,7 +746,7 @@ type User
   id: String! @primaryKey
   name: String!
   owner: String
-  profile: Profile @hasOne(references: ["userId"])
+  blog: Blog @hasOne(references: ["userId"])
 }
 ```
 
@@ -691,6 +767,7 @@ type Post @model {
   id: String! @primaryKey
   title: String!
   content: String!
+  blogId: String! @refersTo(name: "blog_id")
 }
 ```
 
@@ -739,6 +816,15 @@ npx @aws-amplify/cli api generate-schema --engine-type mysql --sql-schema schema
 ```sh
 cdk deploy
 ```
+
+</Block>
+<Block name="Amplify CLI">
+
+<Callout warning>
+
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+
+</Callout>
 
 </Block>
 </BlockSwitcher>

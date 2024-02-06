@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ReactElement } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
   Button,
+  ColorMode,
   Flex,
   Heading,
   IconsProvider,
@@ -36,7 +37,7 @@ import { LayoutProvider } from '@/components/Layout';
 import { TableOfContents } from '@/components/TableOfContents';
 import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
-import flatDirectory from 'src/directory/flatDirectory.json';
+import flatDirectory from '@/directory/flatDirectory.json';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import { DocSearch } from '@docsearch/react';
@@ -63,7 +64,7 @@ export const Layout = ({
   url,
   useCustomTitle = false
 }: {
-  children: React.ReactNode;
+  children: ReactElement;
   hasTOC?: boolean;
   pageDescription?: string;
   pageTitle?: string;
@@ -75,6 +76,7 @@ export const Layout = ({
   useCustomTitle?: boolean;
 }) => {
   const [menuOpen, toggleMenuOpen] = useState(false);
+  const [colorMode, setColorMode] = useState<ColorMode>('system');
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
@@ -91,11 +93,26 @@ export const Layout = ({
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
-  const showNextPrev = NEXT_PREVIOUS_SECTIONS.some((section) => {
-    return (
-      asPathWithNoHash.includes(section) && !asPathWithNoHash.endsWith(section)
-    );
-  });
+
+  const handleColorModeChange = (mode: ColorMode) => {
+    setColorMode(mode);
+    if (mode !== 'system') {
+      localStorage.setItem('colorMode', mode);
+    } else {
+      localStorage.removeItem('colorMode');
+    }
+  };
+
+  const isOverview =
+    children?.props?.childPageNodes?.length != 'undefined' &&
+    children?.props?.childPageNodes?.length > 0;
+
+  const showNextPrev = NEXT_PREVIOUS_SECTIONS.some(
+    (section) =>
+      asPathWithNoHash.includes(section) &&
+      !asPathWithNoHash.endsWith(section) &&
+      !isOverview
+  );
 
   if (!isGen2) {
     // [platform] will always be the very first subpath right?
@@ -115,7 +132,7 @@ export const Layout = ({
   const title = [
     pageTitle,
     platform ? PLATFORM_DISPLAY_NAMES[platform] : null,
-    'AWS Amplify Documentation'
+    isGen2 ? 'AWS Amplify Gen 2 Documentation' : 'AWS Amplify Documentation'
   ]
     .filter((s) => s !== '' && s !== null)
     .join(' - ');
@@ -174,6 +191,14 @@ export const Layout = ({
       };
     }
   });
+
+  useEffect(() => {
+    const colorModePreference = localStorage.getItem('colorMode') as ColorMode;
+    if (colorModePreference) {
+      setColorMode(colorModePreference);
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -209,8 +234,18 @@ export const Layout = ({
           key="twitter:image"
         />
       </Head>
-      <LayoutProvider value={{ menuOpen, toggleMenuOpen }}>
-        <ThemeProvider theme={isGen2 ? gen2Theme : defaultTheme}>
+      <LayoutProvider
+        value={{
+          colorMode,
+          menuOpen,
+          toggleMenuOpen,
+          handleColorModeChange
+        }}
+      >
+        <ThemeProvider
+          theme={isGen2 ? gen2Theme : defaultTheme}
+          colorMode={colorMode}
+        >
           <IconsProvider icons={defaultIcons}>
             <View className={`layout-wrapper layout-wrapper--${pageType}`}>
               {pageType === 'home' ? (

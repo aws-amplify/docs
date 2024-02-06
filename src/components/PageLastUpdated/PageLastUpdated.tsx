@@ -1,5 +1,5 @@
 import { Text, View } from '@aws-amplify/ui-react';
-import { PageNode } from 'src/directory/directory';
+import { PageNode } from '@/directory/directory';
 
 type PageLastUpdatedProps = {
   directoryData: PageNode;

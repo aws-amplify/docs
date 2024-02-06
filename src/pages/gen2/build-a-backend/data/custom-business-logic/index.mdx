@@ -19,7 +19,7 @@ export function getStaticProps(context) {
 
 </Callout>
 
-The default GraphQL API provides a solid foundation for querying, mutating, and fetching data. Even so, you may need additional customization to tailor it to your app's specific requirements around data handling, response formatting, and more. 
+The default GraphQL API provides a solid foundation for querying, mutating, and fetching data. Even so, you may need additional customization to tailor it to your app's specific requirements around data handling, response formatting, and more.
 
 In the following sections, we walk through the three steps to create a custom mutation or query:
 
@@ -29,10 +29,10 @@ In the following sections, we walk through the three steps to create a custom mu
 
 ## Step 1 - Define a custom query or mutation
 
-| Type         | When to choose                                                                 |
-| ------------ | ------------------------------------------------------------------------------ |
-| Query        | When the request only needs to read data and will not modify any backend data  |
-| Mutation     | When the request will modify backend data                                      |
+| Type | When to choose |
+| --- | --- |
+| Query | When the request only needs to read data and will not modify any backend data |
+| Mutation | When the request will modify backend data |
 
 For every custom query or mutation, you need to set a return type and, optionally, arguments. Use `a.query()` or `a.mutation()` to define your custom query or mutation in your **amplify/data/resource.ts** file:
 
@@ -51,22 +51,23 @@ const schema = a.schema({
   }),
 
   // 2. Define your query with the return type and, optionally, arguments
-  echo: a.query()
+  echo: a
+    .query()
     // arguments that this query accepts
-    .arguments({ 
+    .arguments({
       content: a.string()
-    }) 
+    })
     // return type of the query
     .returns(a.ref('EchoResponse'))
     // only allow signed-in users to call this API
     .authorization([a.allow.private()])
-})
+});
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
-  schema,
-})
+  schema
+});
 ```
 
 </Block>
@@ -85,22 +86,23 @@ const schema = a.schema({
   }),
 
   // 2. Define your mutation with the return type and, optionally, arguments
-  likePost: a.mutation()
+  likePost: a
+    .mutation()
     // arguments that this query accepts
-    .arguments({ 
+    .arguments({
       content: a.string()
-    }) 
+    })
     // return type of the query
     .returns(a.ref('Post'))
     // only allow signed-in users to call this API
     .authorization([a.allow.private()])
-})
+});
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
-  schema,
-})
+  schema
+});
 ```
 
 </Block>
@@ -109,36 +111,37 @@ export const data = defineData({
 
 ## Step 2 - Configure custom business logic handler code
 
-<Callout info>
-
-**Coming soon:** The following example requires you to use JavaScript. We're working on adding TypeScript support natively for Gen 2's general availability. [Follow us on X](https://x.com/awsamplify) to keep up with updates to this functionality.
-
-</Callout>
-
-After your query or mutation is defined, you need to author your custom business logic in a Lambda function. In your **amplify/data/** folder, create a new folder named after your mutation or query with an **index.js** file. 
-
-**amplify/data/echo/index.js**
-
-```js
-exports.handler = async (event) => {
-  const start = performance.now()
-  return {
-    content: event.arguments.name,
-    executionDuration: performance.now() - start
-  }
-}
-```
-
-In your **amplify/data/resource.ts** file, import the function using the **experimental** `Func` functionality and then reference the function with your query or mutation using the `.function()` modifier along with the `functions` map of `defineData`.
-
-**amplify/data/resource.ts**
+After your query or mutation is defined, you need to author your custom business logic in a function. In your **amplify/data/** folder, create a **echo-handler.ts** file.
 
 ```ts
+// amplify/data/echo-handler.ts
+import type { AppSyncResolverHandler } from 'aws-lambda'; // types imported from @types/aws-lambda
+
+type ResolverArgs = { content: string };
+
+type ResolverResult = { content: string; executionDuration: number };
+
+export const handler: AppSyncResolverHandler<
+  ResolverArgs,
+  ResolverResult
+> = async (event, context) => {
+  const start = performance.now();
+  return {
+    content: `Echoing content: ${event.arguments.content}`,
+    executionDuration: performance.now() - start
+  };
+};
+```
+
+In your **amplify/data/resource.ts** file, define the function using `defineFunction` and then reference the function with your query or mutation using the `.function()` modifier along with the `functions` map of `defineData`.
+
+```ts
+// amplify/data/resource.ts
 import {
   type ClientSchema,
   a,
   defineData,
-  Func // Step 1 - Import "Func" to create new functions
+  defineFunction // Step 1 - Import "defineFunction" to create new functions
 } from '@aws-amplify/backend';
 
 const schema = a.schema({
@@ -147,28 +150,34 @@ const schema = a.schema({
     executionDuration: a.float()
   }),
 
-  echo: a.query()
-    .arguments({ content: a.string() }) 
+  echo: a
+    .query()
+    .arguments({ content: a.string() })
     .returns(a.ref('EchoResponse'))
-    .authorization([a.allow.private()])
+    .authorization([a.allow.public()])
     // Step 2 - Define a function key ("echoHandler") that will be used
     // to map this query to the corresponding functions provided to
     // defineData(...)
     .function('echoHandler')
-})
+});
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
   schema,
-  // Step 3 - Map the function key to the newly created function
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30
+    }
+  },
   functions: {
-    'echoHandler': Func.fromDir({
-      codePath: './echo',
-      name: 'echoHandlerFunc',
+    // Step 3 - Map the function key to the function definition
+    echoHandler: defineFunction({
+      entry: './echo-handler.ts'
     })
   }
-})
+});
 ```
 
 ## Step 3 - Invoke the custom query or mutation
@@ -176,11 +185,13 @@ export const data = defineData({
 <Callout info>
 
 **Coming soon:** The following example requires you to manually generate GraphQL client code as an escape hatch to invoke the custom query or mutation. Amplify Data is built with GraphQL under the hood. While you're not expected to know GraphQL or have to interface with GraphQL directly when Amplify (Gen 2) becomes generally available, it is helpful to understand the [underlying GraphQL concepts](https://graphql.org) that enable Amplify Data's functionality.
+
 <br />
-For Gen 2's general availability, we plan on integrating this first class into the Data client, so you can call a custom query or mutation with code, such as:
+For Gen 2's general availability, we plan on integrating this first class into the
+Data client, so you can call a custom query or mutation with code, such as:
 
 ```ts
-const response = await client.queries.echo({ content: 'hello' })
+const response = await client.queries.echo({ content: 'hello' });
 ```
 
 </Callout>
@@ -193,13 +204,14 @@ npx amplify generate graphql-client-code \
 --statement-target typescript \
 --type-target typescript \
 --out ./graphql \
---stack <YOUR_STACK_NAME_HERE> 
+--stack <YOUR_STACK_NAME_HERE>
 # You can find your stack name in your "npx amplify sandbox"
 # console logs. It has the following format:
 # amplify-<app-name>-<user-name>-sandbox-<unique-id>
 ```
 
 This should create the following set of GraphQL client helper code for you under **graphql/**:
+
 - **API.ts** – All the type definitions for queries, mutations, and subscriptions
 - **mutations.ts** – The GraphQL mutations from your API
 - **queries.ts** – The GraphQL queries from your API
@@ -208,21 +220,21 @@ This should create the following set of GraphQL client helper code for you under
 To call the `echo` query from step 1, we need to import the `echo` function from **queries.ts** and pass it as a query to `client.graphql(...)`.
 
 ```ts
-import { generateClient } from 'aws-amplify/data'
-import { type Schema } from '@/amplify/data/resource'
-import * as queries from '@/graphql/queries'
+import { generateClient } from 'aws-amplify/data';
+import { type Schema } from '@/amplify/data/resource';
+import * as queries from '@/graphql/queries';
 
-const client = generateClient<Schema>()
+const client = generateClient<Schema>();
 
 async function callEcho() {
   const response = await client.graphql({
     query: echo,
     variables: {
-      content: "Echo me!"
+      content: 'Echo me!'
     }
-  })
+  });
 
-  console.log(response.data.echo?.content)
-  console.log(response.data.echo?.executionDuration)
+  console.log(response.data.echo?.content);
+  console.log(response.data.echo?.executionDuration);
 }
 ```

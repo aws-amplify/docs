@@ -216,7 +216,7 @@ Dynamic rendering is based on a user session extracted from an incoming request.
 
 ```jsx
 import { cookies } from 'next/headers';
-import { getCurrentUser } from '@aws-amplify/auth/server';
+import { getCurrentUser } from 'aws-amplify/auth/server';
 import { runWithAmplifyServerContext } from '@/utils/amplifyServerUtils';
 
 // This page always dynamically renders per request

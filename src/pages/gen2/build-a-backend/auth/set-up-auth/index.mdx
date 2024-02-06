@@ -70,6 +70,8 @@ export const auth = defineAuth({
       //   clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
       //   clientSecret: secret('LOGINWITHAMAZON_CLIENT_SECRET'),
       // }
+      // callbackUrls: ['http://localhost:3000'],
+      // logoutUrls: ['http://localhost:3000'],
     }
   },
   /**
@@ -203,7 +205,7 @@ First, install the `@aws-amplify/ui-vue` library:
 npm add @aws-amplify/ui-vue
 ```
 
-Next, open **src/App.js** and add the `Authenticator` component.
+Next, open **src/App.vue** and add the `Authenticator` component.
 
 **Authenticator**
 
@@ -215,9 +217,9 @@ The `Authenticator` component offers a simple way to add authentication flows in
   import "@aws-amplify/ui-vue/styles.css";
 
   import { Amplify } from 'aws-amplify';
-  import config './amplifyconfiguration';
+  import config from '../amplifyconfiguration.json';
 
-  Amplify.configure(awsconfig);
+  Amplify.configure(config);
 </script>
 
 <template>
@@ -290,9 +292,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 import { AppComponent } from './app.component';
-import amplifyconfig from './amplifyconfiguration.json';
+import config from './amplifyconfiguration.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(config);
 
 @NgModule({
   declarations: [AppComponent],

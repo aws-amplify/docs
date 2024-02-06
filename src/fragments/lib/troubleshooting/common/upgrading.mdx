@@ -37,9 +37,37 @@ const handleSignIn = async ({
 };
 ```
 
+<InlineFilter filters={["react-native"]}>
+
+## Changes to React Native
+
+As part of the updates to Amplify JavaScript v6, we also re-evaluated our strategy for how we can best support React Native going forward. This has been an ongoing effort ever since we introduced our updated Push Notification experience in v5 and is something we will continue to evolve along with the ever-changing React Native ecosystem.
+
+### @aws-amplify/react-native
+
+We have introduced a new package - `@aws-amplify/react-native` - to encompass the core requirements for using Amplify JavaScript v6 in a React Native environment. This package is a new requirement which allows us to:
+
+- Remove the dependency on the `amazon-cognito-identity-js` package by moving core native Amplify functionality previously vended by this package into `@aws-amplify/react-native`.
+- Automatically install JavaScript-only (i.e. non-native module dependencies) polyfills required by Amplify as transitive dependencies, no longer requiring extra steps from you.
+- Automatically import all required polyfills, no longer requiring you to take extra steps to include import statements at the top of your application entry point.
+
+> Native modules required by Amplify such as `@react-native-async-storage/async-storage` or `react-native-get-random-values` still need to be installed separately as they need to be linked with React Native
+
+### Dropping support for Expo Go
+
+With the goal of providing more idiomatic native functionality to your React Native application, Expo Go will no longer be supported in v6.
+
+Per the [Expo docs](https://docs.expo.dev/workflow/customizing/):
+
+> The Expo Go app is a great tool to get started. It exists to help developers quickly get projects off the ground, experiment with ideas (such as on Snack), and share their work with minimal friction. Expo Go makes this possible by including a feature-rich native runtime made up of every module in the Expo SDK, so all you need to do to use a module is install the package and reload your app. <br/><br/> The tradeoff is that Expo Go does not allow you to add custom native code. You can only use native modules built into the Expo SDK. Many great libraries are available outside of the Expo SDK, and you may even want to build your native library. You can leverage these libraries with development builds or using prebuild to generate native projects, or both. You can also continue using EAS Build to release your app as no changes are required.
+
+A key part of Amplify's React Native strategy going forward is to reduce our reliance on third-party native modules. While third-party native modules are a mainstay of the React Native ecosystem, we believe the flexibility of building more native modules tailored to the specific needs of our customers will allow us to most quickly deliver value to them in the long run. As a result of now requiring native modules not available through the Expo SDK, Expo Go is not supported in v6 but you should be able to use Expo.
+
+</InlineFilter>
+
 ## Step 1: Upgrade your dev environment
 
-In order to use Amplify JavaScript V6, you will need to make sure you are using the following versions in your development environment:
+In order to use Amplify JavaScript v6, you will need to make sure you are using the following versions in your development environment:
 
 - [Node.js](https://nodejs.org/) v16.x or later
 - [npm](https://www.npmjs.com/) v9.7.1 or later
@@ -48,71 +76,74 @@ In order to use Amplify JavaScript V6, you will need to make sure you are using 
 
 <Callout>Make sure to delete your package-lock.json and node_modules folder before running `npm install`</Callout>
 
-<BlockSwitcher>
-  <Block name="Web">
-    Upgrade to the latest Amplify library using the following command:
+<InlineFilter filters={['angular', 'javascript', 'vue', 'react']}>
 
-    ```
-    npm install aws-amplify@6
-    ```
+Upgrade to the latest Amplify library using the following command:
 
-    The `aws-amplify` package in v6 includes the categories below:
+```
+npm install aws-amplify@6
+```
 
-    - Auth
-    - API
-    - Storage
-    - Analytics
-    - DataStore
-    - In-App Messaging
+The `aws-amplify` package in v6 includes the categories below:
 
-    If you previously listed `@aws-amplify` namespaced packages for the above categories as dependencies in your `package.json`, you will need to remove them to avoid dependency duplication.
+- Auth
+- API
+- Storage
+- Analytics
+- DataStore
+- In-App Messaging
 
-    If you would like to use Geo, Predictions, PubSub, or Interactions you will need to install those packages separately. (see [category-specific migration instructions](/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/#4-upgrade-category-usage))
+If you previously listed `@aws-amplify` namespaced packages for the above categories as dependencies in your `package.json`, you will need to remove them to avoid dependency duplication.
 
-  </Block>
-  <Block name="React Native">
-    <Callout>The `aws-amplify-react-native` package is not compatible with v6.</Callout>
+If you would like to use Geo, Predictions, PubSub, or Interactions you will need to install those packages separately. (see [category-specific migration instructions](/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/#4-upgrade-category-usage))
 
-    To upgrade React Native projects that do not utilize `aws-amplify-react-native`, remove `amazon-cognito-identity-js` from the project _package.json_ and install `@aws-amplify/react-native`.
+</InlineFilter>
 
-    Then upgrade/install the necessary dependencies using the following command:
+<InlineFilter filters={['react-native']}>
 
-    ```
-    npm install aws-amplify@6 @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
-    ```
+<Callout>The `aws-amplify-react-native` package is not compatible with v6.</Callout>
 
-    Note that v6 supports react-native v0.70+, so if you prefer manually upgrading dependencies double-check the version of react-native in your package.json file.
+To upgrade React Native projects that do not utilize `aws-amplify-react-native`, remove `amazon-cognito-identity-js` from the project _package.json_ and install `@aws-amplify/react-native`.
 
-    `@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0`, if it has not already been set to `13.0` or above, open the _Podfile_ located in the _ios_ directory and update the `target` value:
+Then upgrade/install the necessary dependencies using the following command:
 
-    ```diff
-    - platform :ios, min_ios_version_supported
-    + platform :ios, 13.0
-    ```
+```
+npm install aws-amplify@6 @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
+```
 
-    <Callout>
-      If you are using `signInWithRedirect` (previously `Auth.federatedSignIn`) you will need to install the `@aws-amplify/rtn-web-browser` native module.
+Note that v6 supports react-native v0.70+, so if you prefer manually upgrading dependencies double-check the version of react-native in your package.json file.
 
-      If you are using Push Notifications, you will need to upgrade the `@aws-amplify/rtn-push-notification` native module to v1.2+ (if you were using push notifications in v5, this dependency should already be added). Find all Push Notifications API changes in its [migration guide](/[platform]/build-a-backend/push-notifications/push-notifications-migration-guide/)
+`@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0`, if it has not already been set to `13.0` or above, open the _Podfile_ located in the _ios_ directory and update the `target` value:
 
-    </Callout>
+```diff
+- platform :ios, min_ios_version_supported
++ platform :ios, 13.0
+```
 
-  </Block>
-  <Block name="NextJS">
-      Upgrade/install the necessary dependencies using the following command:
+<Callout>
+  If you are using `signInWithRedirect` (previously `Auth.federatedSignIn`) you will need to install the `@aws-amplify/rtn-web-browser` native module.
 
-      ```
-      npm install aws-amplify@6 @aws-amplify/adapter-nextjs
-      ```
+  If you are using Push Notifications, you will need to upgrade the `@aws-amplify/rtn-push-notification` native module to v1.2+ (if you were using push notifications in v5, this dependency should already be added). Find all Push Notifications API changes in its [migration guide](/react-native/build-a-backend/push-notifications/push-notifications-migration-guide/)
 
-      The `@aws-amplify/adapter-nextjs` package provides adapter functions to enable use of Amplify APIs on the server side of your Next.js app for use cases such as Server Side Rendering (SSR) with the App Router.
+</Callout>
 
-      Note that v6 supports NextJS v13.5.0 through 14. We recommend upgrading if you are using a version below  13.5.0.
+</InlineFilter>
 
-      <Callout>NextJS v13.5.0 requires Node v16.14.0 or later and NextJS v14+ requires Node v18.17.0 or later</Callout>
+<InlineFilter filters={['nextjs']}>
 
-  </Block>
-</BlockSwitcher>
+Upgrade/install the necessary dependencies using the following command:
+
+```
+npm install aws-amplify@6 @aws-amplify/adapter-nextjs
+```
+
+The `@aws-amplify/adapter-nextjs` package provides adapter functions to enable use of Amplify APIs on the server side of your Next.js app for use cases such as Server Side Rendering (SSR) with the App Router.
+
+Note that v6 supports NextJS v13.5.0 through 14. We recommend upgrading if you are using a version below  13.5.0.
+
+<Callout>NextJS v13.5.0 requires Node v16.14.0 or later and NextJS v14+ requires Node v18.17.0 or later</Callout>
+
+</InlineFilter>
 
 ## Step 3: Upgrade Amplify CLI version and configuration file
 
@@ -181,7 +212,9 @@ If you have previously configured Amplify by passing the configuration object li
 
 </InlineFilter>
 
-**Running Amplify on the server with NextJS**
+<InlineFilter filters={["nextjs"]}>
+
+### Running Amplify on the server with NextJS
 
 To enable the use of the Amplify JavaScript library on the server, you need to set the `ssr` configuration to true in the `Amplify.configure` function.
 
@@ -190,6 +223,22 @@ Amplify.configure(amplifyConfig, {
   ssr: true
 });
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+### Remove polyfill imports
+
+For React Native applications, polyfill imports should no longer need to be added to your application's entry point file as they are imported by the `@aws-amplify/react-native` package.
+
+```diff
+// Example index.js
+- import 'react-native-get-random-values';
+- import 'react-native-url-polyfill/auto';
+```
+
+</InlineFilter>
 
 ## Step 4: Update category usage
 
@@ -749,6 +798,8 @@ For a deeper look at PubSub functionality in V6, check out our [PubSub category 
 
 ### Storage
 
+<Callout>Find a comprehensive summary of changes to Storage in the [Storage migration guide](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/)</Callout>
+
 As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/storage` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
 <BlockSwitcher>
@@ -771,7 +822,7 @@ As of v6 of Amplify, you will now import the functional API’s directly from th
   </Block>
   <Block name="V6">
   ```
-  import { uploadData, downloadData } from 'aws-amplify/storage';
+  import { getUrl, uploadData } from 'aws-amplify/storage';
 
   // Upload a file with access level `guest` as  the equivalent of `public` in v5
   const result = await uploadData({
@@ -798,7 +849,250 @@ For a deeper look at how the Storage functionality in V6, check out our [Storage
 
 ### Utilities
 
-As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/utils` path as shown below. Use the switcher below to see the differences between v5 and v6:
+As of v6 of Amplify, you will now import utility classes and instances from the `aws-amplify/utils` path as shown below. Use the switcher below to see the differences between v5 and v6:
+
+<Callout>
+
+In V6 we’ve audited our hub events and removed some events and categories to reduce redundancies and the overall chattiness of the hub. The Storage, In-App Messaging, and Push Notifications categories no longer emit Hub events. You can track the status of calls to those categories via API responses.
+
+Expand the sections below to see the events that have been changed or removed. There have been no changes to API, DataStore, and PubSub events.
+
+<Accordion title="Auth Hub Events" headingLevel="4">
+  <table>
+    <thead>
+      <tr>
+        <th colSpan="2">V5</th>
+        <th colSpan="2">V6</th>
+      </tr>
+      <tr>
+        <th>Event</th>
+        <th>Data</th>
+        <th>Event</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>configured</td>
+        <td>null</td>
+        <td>Use the new 'configure' event from the 'core' channel</td>
+        <td>ResourcesConfig</td>
+      </tr>
+      <tr>
+        <td>signIn</td>
+        <td>CognitoUser</td>
+        <td>signedIn</td>
+        <td>AuthUser</td>
+      </tr>
+      <tr>
+        <td>signIn_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>signUp</td>
+        <td>ISignUpResult</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>signUp_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>confirmSignUp</td>
+        <td>'SUCCESS'</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>completeNewPassword_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>autoSignIn</td>
+        <td>CognitoUser</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>autoSignIn_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>forgotPassword</td>
+        <td>CognitoUser</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>forgotPassword_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>forgotPasswordSubmit</td>
+        <td>CognitoUser</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>forgotPasswordSubmit_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>verify</td>
+        <td>CognitoUser</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>tokenRefresh</td>
+        <td></td>
+        <td>tokenRefresh</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>tokenRefresh_failure</td>
+        <td>error</td>
+        <td>tokenRefresh_failure</td>
+        <td>error</td>
+      </tr>
+      <tr>
+        <td>cognitoHostedUI</td>
+        <td>CognitoUser</td>
+        <td>signInWithRedirect</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>cognitoHostedUI_failure</td>
+        <td>error</td>
+        <td>signInWithRedirect_failure</td>
+        <td>error</td>
+      </tr>
+      <tr>
+        <td>customOAuthState</td>
+        <td>state</td>
+        <td>customOAuthState</td>
+        <td>state</td>
+      </tr>
+      <tr>
+        <td>customState_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>parsingCallbackUrl</td>
+        <td>url</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>userDeleted</td>
+        <td>result</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>updateUserAttributes</td>
+        <td>attributes</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>updateUserAttributes_failure</td>
+        <td>error</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>signOut</td>
+        <td>CognitoUser</td>
+        <td>signedOut</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</Accordion>
+
+<br/>
+
+<Accordion title="Analytics Hub Events" headingLevel="4">
+  <table>
+    <thead>
+      <tr>
+        <th colSpan="2">V5</th>
+        <th colSpan="2">V6</th>
+      </tr>
+      <tr>
+        <th>Event</th>
+        <th>Data</th>
+        <th>Event</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>configured</td>
+        <td>null</td>
+        <td>Use the new 'configure' event from the 'core' channel</td>
+        <td>ResourcesConfig</td>
+      </tr>
+      <tr>
+        <td>pinpointProvider_configured</td>
+        <td>null</td>
+        <td>Use the new 'configure' event from the 'core' channel</td>
+        <td>ResourcesConfig</td>
+      </tr>
+      <tr>
+        <td>record</td>
+        <td>event data</td>
+        <td>record</td>
+        <td>event data</td>
+      </tr>
+    </tbody>
+  </table>
+</Accordion>
+
+<br/>
+
+<Accordion title="Core Hub Events" headingLevel="4">
+  <table>
+    <thead>
+      <tr>
+        <th colSpan="2">V5</th>
+        <th colSpan="2">V6</th>
+      </tr>
+      <tr>
+        <th>Event</th>
+        <th>Data</th>
+        <th>Event</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>credentials_configured</td>
+        <td>null</td>
+        <td>configure</td>
+        <td>ResourcesConfig</td>
+      </tr>
+    </tbody>
+  </table>
+</Accordion>
+
+</Callout>
 
 <BlockSwitcher>
   <Block name="V5">
@@ -894,9 +1188,11 @@ As of v6 of Amplify, you will now import the functional API’s directly from th
 
 For a deeper look at v6 Utilities, check out our [Utilities documentation](/[platform]/build-a-backend/utilities/).
 
+<InlineFilter filters={["nextjs"]}>
+
 ### Server-side Rendering
 
-<Callout>Find a comprehensive summary of changes to Server-Side Rendering in the [NextJS migration guide](/[platform]/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/)</Callout>
+<Callout>Find a comprehensive summary of changes to Server-Side Rendering in the [NextJS migration guide](/nextjs/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/)</Callout>
 
 The Amplify JS v5 `withSSRContext` utility is no longer available with Amplify JS v6. You will need to use the `runWithAmplifyServerContext` function exported from `@aws-amplify/adapter-nextjs` to use Amplify categories on the server side of your Next.js app. 
 
@@ -963,3 +1259,5 @@ Use the switcher below to see the differences between v5 and v6:
 </BlockSwitcher>
 
 Please review the [Server-Side Rendering with Amplify JavaScript v6](/[platform]/build-a-backend/server-side-rendering/), as we've changed the developer experience to allow working with cookies and middleware in NextJS.
+
+</InlineFilter>

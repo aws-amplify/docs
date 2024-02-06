@@ -3,7 +3,27 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Connect your app code to the API',
   description: 'Learn how to connect your app code to the API.',
-  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'javascript',
+        'nextjs',
+        'vue',
+        'react',
+        'angular'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/connect-to-api/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

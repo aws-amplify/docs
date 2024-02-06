@@ -53,7 +53,7 @@ export const auth = defineAuth({
 + userAttributes: {
 +   birthdate: {
 +     required: false,
-+     immutable: true,
++     mutable: false,
 +   },
 + },
 });
@@ -182,7 +182,7 @@ const backend = defineBackend({
 });
 
 // extract L1 UserPool construct
-const { cfnUserPool } = backend.resources.auth.resources.cfnResources;
+const { cfnUserPool } = backend.auth.resources.cfnResources;
 // from the CDK use `addPropertyOverride` to modify properties directly
 cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.MinimumLength', 32);
 ```
@@ -266,7 +266,7 @@ async function handleSignUpConfirmation({ username, confirmationCode }) {
 The `autoSignIn` API will automatically sign-in a user when it was previously enabled by the `signUp` API and after any of the following cases has completed:
 
 - User confirmed their account with a verification code sent to their phone or email (default option).
-- User confirmed their account with a verification link sent to their phone or email. In order to enable this option you need to go to the [Amazon Cognito console](https://aws.amazon.com/pm/cognito), look for your userpool, then go to the `Messaging` tab and enable `link` mode inside the `Verification message` option. Finally you need to define the `signUpVerificationMethod` to `link` inside the `Cognito` option of your `Auth` config.
+- User confirmed their account with a verification link sent to their phone or email. In order to enable this option you need to set `loginWith.email.verificationEmailStyle` to `LINK` in your auth resource file (`amplify/auth/resource.ts`)
 
 ```ts
 import { autoSignIn } from 'aws-amplify/auth';
@@ -348,7 +348,7 @@ const backend = defineBackend({
 });
 
 // extract the L1 IdentityPool construct
-const { cfnIdentityPool } = backend.resources.auth.resources.cfnResources;
+const { cfnIdentityPool } = backend.auth.resources.cfnResources;
 // from the CDK use `addPropertyOverride` to modify properties directly
 cfnIdentityPool.addPropertyOverride('AllowUnauthenticatedIdentities', false);
 ```

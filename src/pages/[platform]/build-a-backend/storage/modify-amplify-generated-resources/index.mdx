@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Modify Amplify-generated resources',
-  description:
-    'The "amplify override storage" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated S3 and DynamoDB resources as CDK constructs. For example, developers can run the "amplify override storage" command to enable Transfer Acceleration for Amplify-generated S3 buckets.',
+  description: "The 'amplify override storage' command generates a developer-configurable 'overrides' TypeScript file which provides Amplify-generated S3 and DynamoDB resources as CDK constructs. For example, developers can run the 'amplify override storage' command to enable Transfer Acceleration for Amplify-generated S3 buckets.",
   platforms: [
     'android',
     'angular',
@@ -14,6 +13,22 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'swift',
+        'react',
+        'android',
+        'vue',
+        'react-native',
+        'flutter',
+        'angular',
+        'javascript',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-a-backend/storage/modify-amplify-generated-resources/'
+    }
   ]
 };
 

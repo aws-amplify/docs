@@ -12,7 +12,20 @@ export const meta = {
     'angular',
     'vue'
   ],
-  route: '/[platform]/build-a-backend/server-side-rendering/nuxt'
+  route: '/[platform]/build-a-backend/server-side-rendering/nuxt',
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'react',
+        'angular',
+        'vue',
+        'react-native',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/build-a-backend/server-side-rendering/nuxt/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -119,6 +132,7 @@ Example implementation:
 <Accordion title='Expand to view the example implementation' headingLevel='4' eyebrow='Learn more'>
 
 ```ts
+import type { CookieRef } from 'nuxt/app';
 import {
   createKeyValueStorageFromCookieStorageAdapter,
   createUserPoolsTokenProvider,
@@ -144,8 +158,6 @@ import type {
 } from '@aws-amplify/api-graphql';
 
 import config from '../amplifyconfiguration.json';
-
-type CookieRef = ReturnType<typeof useCookie<string | null | undefined>>;
 
 // parse the content of `amplifyconfiguration.json` into the shape of ResourceConfig
 const amplifyConfig = parseAmplifyConfig(config);
@@ -207,16 +219,12 @@ export default defineNuxtPlugin({
         name,
         cookieRef: useCookie(name, { sameSite: 'lax', expires, secure: true })
       }))
-      .filter(
-        (item): item is { name: string; cookieRef: CookieRef } =>
-          item.cookieRef !== undefined
-      )
-      .reduce(
+      .reduce<Record<string, CookieRef<string | null | undefined>>>(
         (result, current) => ({
           ...result,
           [current.name]: current.cookieRef
         }),
-        {} as Record<string, CookieRef>
+        {}
       );
 
     // Create a key value storage based on the cookies

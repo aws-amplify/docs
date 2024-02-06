@@ -3,9 +3,28 @@ import { JS_PLATFORMS } from '@/data/platforms';
 
 export const meta = {
   title: 'Connect to data from server-side runtimes',
-  description:
-    'Learn more about how to call an AppSync GraphQL API from a NodeJS app or a Lambda function',
-  platforms: ['javascript', 'nextjs', 'vue', 'angular', 'react', 'react-native', 'android', 'swift']
+  description: 'Learn more about how to call an AppSync GraphQL API from a NodeJS app or a Lambda function',
+  platforms: [
+    'javascript',
+    'nextjs',
+    'vue',
+    'angular',
+    'react',
+    'react-native'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'react',
+        'angular',
+        'vue',
+        'react-native',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/connect-from-server-runtime/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

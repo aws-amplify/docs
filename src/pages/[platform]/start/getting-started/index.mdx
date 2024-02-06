@@ -15,7 +15,31 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/start/getting-started'
+  route: '/[platform]/start/getting-started',
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'swift'
+      ],
+      canonicalPath: '/swift/start/getting-started/'
+    },
+    {
+      platforms: [
+        'angular',
+        'react',
+        'vue'
+      ],
+      canonicalPath: '/react/start/getting-started/'
+    },
+    {
+      platforms: [
+        'javascript',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/start/getting-started/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

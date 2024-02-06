@@ -97,3 +97,6 @@
 /src/public @aws-amplify/documentation-team 
 /src/styles @aws-amplify/documentation-team 
 /src/utils @aws-amplify/documentation-team
+
+#Protected Content
+/src/protected @reesscot @srquinn21 @Milan-Shah @swaminator
