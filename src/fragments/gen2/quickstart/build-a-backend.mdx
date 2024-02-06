@@ -86,7 +86,6 @@ Fetch records from the database and use them in your frontend component.
 <b>Step 1:</b> Open `amplify/data/resource.ts` and update it to add a `done` field of type `boolean` and a `priority` field of `enum` with a value of `['low', 'medium', 'high']`. We've removed the default comments to shorten the code below for the next few examples.
 
 ```diff title="amplify/data/resource.ts"
-// amplify/data/resource.ts
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 // ...
