@@ -115,7 +115,11 @@ The `Todo` data model is defined with authorization rules to allow the person wh
 <b>Step 2:</b> Remove public access by deleting the `a.allow.public().to(['read'])` authorization rule. Your authorization rule will look like the code below:
 
 ```js title="amplify/data/resource.ts"
+// ...
+
 .authorization([a.allow.owner()]),
+
+// ...
 ```
 
 Below the schema declaration, you will see the `defineData` function which receives our schema and authorization configuration as arguments.  The default configuration is for an `apiKey` to enable public access.
