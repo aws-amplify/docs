@@ -330,8 +330,29 @@ Creating the sign-in flow can be quite difficult and time-consuming to get right
 
 Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter. In this guide, we are focusing on those for web applications.
 
-<BlockSwitcher>
-<Block name="React">
+<ContentRenderer>
+
+test
+
+<ContentItem platform="javascript">
+### React
+
+[Go to React docs](/react/build-a-backend/auth/set-up-auth/)
+
+### Next.js
+
+[Go to Next.js docs](/nextjs/build-a-backend/auth/set-up-auth/#build-an-authentication-experience-using-the-authenticator)
+
+### Angular
+
+[Go to Angular docs](/angular/build-a-backend/auth/set-up-auth/#build-an-authentication-experience-using-the-authenticator)
+
+### Vue
+
+[Go to Vue docs](/vue/build-a-backend/auth/set-up-auth/#build-an-authentication-experience-using-the-authenticator)
+</ContentItem>
+
+<ContentItem platform="react">
 
 First, install the `@aws-amplify/ui-react` library as well as `aws-amplify` if you have not already:
 
@@ -396,7 +417,11 @@ export default withAuthenticator(App);
 </Block>
 </BlockSwitcher>
 
-</Block>
+</ContentItem>
+
+<ContentItem platform="vue">
+
+<BlockSwitcher>
 <Block name="Vue 3">
 
 First, install the `@aws-amplify/ui-vue` library as well as `aws-amplify` if you have not already:
@@ -475,7 +500,11 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 ```
 
 </Block>
-<Block name="Angular">
+</BlockSwitcher>
+
+</ContentItem>
+
+<ContentItem platform="angular">
 
 First, install the `@aws-amplify/ui-angular` library as well as `aws-amplify` if you have not already:
 
@@ -529,8 +558,8 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </amplify-authenticator>
 ```
 
-</Block>
-</BlockSwitcher>
+</ContentItem>
+</ContentRenderer>
 
 Once you add the Authenticator component to your app, you can test the sign-up, sign-in, and sign-out functionality. You can also [customize the Authenticator UI component](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization) to adjust colors and styling as needed.
 
