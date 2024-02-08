@@ -1,8 +1,8 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
                   
 export const meta = {
-  title: 'Calling GraphQL API from a Lambda function',
-  description: 'How to interact with a GraphQL API from a Lambda function',
+  title: 'Call a GraphQL API from a Lambda function',
+  description: 'Interact with a GraphQL API from a Lambda function.',
   platforms: ['javascript','swift','android', 'angular', 'flutter', 'nextjs', 'react', 'react-native', 'vue']
 };
 
@@ -18,7 +18,7 @@ export function getStaticProps(context) {
     }
   };
 }
-     
+
 
 You can call an AppSync GraphQL API from a Node.js app or a Lambda function. Take a basic `Todo` app as an example:
 
@@ -31,7 +31,7 @@ type Todo @model @auth(rules: [{ allow: public }]) {
 
 This API will have operations available for `Query`, `Mutation`, and `Subscription`. Let's take a look at how to perform both a **query** as well as a **mutation** from a Lambda function using Node.js.
 
-### Utilizing Lambda function template (IAM authorization)
+## Utilizing Lambda function template (IAM authorization)
 
 First, create a Lambda function with `amplify add function` and choose the `AppSync - GraphQL API request (with IAM)` to get started. Be sure to grant access to your GraphQL API when prompted by the CLI to grant access to other resources in the project. Alternatively, you can create the [function from scratch](#create-from-scratch).
 
