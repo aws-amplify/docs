@@ -227,14 +227,20 @@ Generate React form components derived from your backend data models for your fr
 
 ## npx amplify info
 
-Generates information on system, binaries, NPM packages and environment variables for troubleshooting Amplify issues.
+Generates information on system, binaries, NPM packages, and environment variables for troubleshooting Amplify issues.
 
 ## npx amplify pipeline-deploy
 
 Deploys the Amplify project in a CI/CD pipeline for a specified Amplify app and branch.
 
-<SubCommandHeading>Options</SubCommandHeading>
+<SubCommandHeading parentCommand="amplify-pipeline-deploy">Options</SubCommandHeading>
 
 - `--branch` (_string_) - Name of the git branch being deployed.
 - `--app-id` (_string_) - The app id of the target Amplify app.
 - `--config-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
+
+<SubCommandHeading parentCommand="amplify-pipeline-deploy">Usage</SubCommandHeading>
+
+```bash
+npx amplify pipeline-deploy --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID
+```
