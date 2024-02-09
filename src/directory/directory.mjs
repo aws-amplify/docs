@@ -410,6 +410,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/configure-options/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/graphql-from-lambda/index.mdx'
                 }
               ]
             },
