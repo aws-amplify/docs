@@ -14,21 +14,19 @@ const routerMock = {
 };
 
 jest.mock('next/router', () => routerMock);
+//   const MockedNextLink = ({ children, href }) => {
+//     const hrefProp =
+//       href && typeof href === 'object'
+//         ? `${href.pathname.replace('[platform]', href.query?.platform)}${
+//             href.hash ? `${href.hash}` : ''
+//           }`
+//         : href;
 
-jest.mock('next/link', () => {
-  const MockedNextLink = ({ children, href }) => {
-    const hrefProp =
-      href && typeof href === 'object'
-        ? `${href.pathname.replace('[platform]', href.query?.platform)}${
-            href.hash ? `${href.hash}` : ''
-          }`
-        : href;
+//     return <a href={hrefProp}>{children}</a>;
+//   };
 
-    return <a href={hrefProp}>{children}</a>;
-  };
-
-  return MockedNextLink;
-});
+//   return MockedNextLink;
+// });
 
 describe('MDXLink', () => {
   it('should render external link', () => {
@@ -48,7 +46,7 @@ describe('MDXLink', () => {
   });
 
   it('should render internal link', () => {
-    const href = '/[platform]/build-a-backend/existing-resources/cli/';
+    const href = '/[platform]/build-a-backend/existing-resources/cli';
     const linkText = 'Internal link';
 
     routerMock.useRouter = () => {
@@ -76,7 +74,7 @@ describe('MDXLink', () => {
 
   it('should render internal link with hash', () => {
     const href =
-      '/[platform]/build-a-backend/existing-resources/cli/#test-hash-title';
+      '/[platform]/build-a-backend/existing-resources/cli#test-hash-title';
     const linkText = 'Internal link';
 
     routerMock.useRouter = () => {
@@ -125,12 +123,12 @@ describe('MDXLink', () => {
     expect(linkElement).toBeInTheDocument();
     expect(linkElement).toHaveAttribute(
       'href',
-      '/react/build-a-backend/current-page/#test-hash-title'
+      '/react/build-a-backend/current-page#test-hash-title'
     );
   });
 
   it('should render with specific platform when specified', () => {
-    const href = '/react/build-a-backend/existing-resources/cli/';
+    const href = '/react/build-a-backend/existing-resources/cli';
     const linkText = 'Internal link';
 
     routerMock.useRouter = () => {
