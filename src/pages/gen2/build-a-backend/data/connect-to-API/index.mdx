@@ -47,7 +47,7 @@ Once the Amplify library is configured, you can generate a "Data client" for you
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
+import type { Schema } from '@/amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>();
 
@@ -74,7 +74,7 @@ To apply the same authorization mode on all requests from a Data client, specify
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
+import type { Schema } from '@/amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
   authMode: 'apiKey'
@@ -86,7 +86,7 @@ const client = generateClient<Schema>({
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
+import type { Schema } from '@/amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
   authMode: 'userPool'
@@ -98,7 +98,7 @@ const client = generateClient<Schema>({
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
+import type { Schema } from '@/amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
   authMode: 'iam'
@@ -110,7 +110,7 @@ const client = generateClient<Schema>({
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
+import type { Schema } from '@/amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
   authMode: 'oidc'
@@ -124,7 +124,7 @@ You can implement your own custom API authorization logic using a AWS Lambda fun
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/backend/data/resource'; // Path to your backend resource definition
+import type { Schema } from '@/amplify/data/resource'; // Path to your backend resource definition
 
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
@@ -206,7 +206,7 @@ When working with the Amplify Data endpoint, you may need to set request headers
 <Block name="Custom headers per Data client">
 
 ```ts
-import type { Schema } from '@/backend/schema';
+import type { Schema } from '@/amplify/schema';
 import { generateClient } from 'aws-amplify/data';
 
 const client = generateClient<Schema>({
@@ -240,7 +240,7 @@ The examples above show you how to set static headers but you can also programma
 <Block name="Custom headers per Data client">
 
 ```ts
-import type { Schema } from '@/backend/schema';
+import type { Schema } from '@/amplify/schema';
 import { generateClient } from 'aws-amplify/data';
 
 const client = generateClient<Schema>({
