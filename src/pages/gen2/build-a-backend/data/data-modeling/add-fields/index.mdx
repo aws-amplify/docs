@@ -62,7 +62,7 @@ a.schema({
   Post: a.model({
     location: a.ref('Location'),
     content: a.string(),
-  })
+  }),
 
   User: a.model({
     lastKnownLocation: a.ref('Location')
@@ -89,7 +89,7 @@ Enum has a similar developer experience as custom types: short-hand and long-for
 ```ts
 a.schema({
   Post: a.model({
-    privacySetting: a.enum(['PRIVATE', 'FRIENDS_ONLY', 'PUBLIC'])
+    privacySetting: a.enum(['PRIVATE', 'FRIENDS_ONLY', 'PUBLIC']),
     content: string(),
   })
 })
@@ -106,7 +106,7 @@ a.schema({
   Post: a.model({
     content: string(),
     privacySetting: a.ref('PrivacySetting')
-  })
+  }),
 
   Video: a.model({
     privacySetting: a.ref('PrivacySetting')
@@ -145,7 +145,7 @@ Any field can be modified to be an array using the `.array()` modifier.
 ```ts
 export const schema = a.schema({
   Todo: a.model({
-    content: a.string().required()
+    content: a.string().required(),
     notes: a.string().array()
   })
 })
