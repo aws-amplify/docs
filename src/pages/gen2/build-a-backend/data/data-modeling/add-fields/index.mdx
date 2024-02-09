@@ -145,7 +145,7 @@ Any field can be modified to be an array using the `.array()` modifier.
 ```ts
 export const schema = a.schema({
   Todo: a.model({
-    content: a.string().required()
+    content: a.string().required(),
     notes: a.string().array()
   })
 })
