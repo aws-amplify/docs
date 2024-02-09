@@ -14,19 +14,6 @@ const routerMock = {
 };
 
 jest.mock('next/router', () => routerMock);
-//   const MockedNextLink = ({ children, href }) => {
-//     const hrefProp =
-//       href && typeof href === 'object'
-//         ? `${href.pathname.replace('[platform]', href.query?.platform)}${
-//             href.hash ? `${href.hash}` : ''
-//           }`
-//         : href;
-
-//     return <a href={hrefProp}>{children}</a>;
-//   };
-
-//   return MockedNextLink;
-// });
 
 describe('MDXLink', () => {
   it('should render external link', () => {
