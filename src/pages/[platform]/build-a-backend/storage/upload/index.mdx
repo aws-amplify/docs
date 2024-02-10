@@ -231,7 +231,7 @@ Upload a file in the browser:
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
 
-const uploadDataInBrowser = async () => {
+const uploadDataInBrowser = async (event) => {
   if (event?.target?.files) {
     const file = event.target.files[0];
     uploadData({
@@ -244,7 +244,7 @@ const uploadDataInBrowser = async () => {
 
 ```html
 <h2>Upload File</h2>
-<input type="file" onChange="{()" ="" /> uploadDataInBrowser(event)} />
+<input type="file" onChange={uploadDataInBrowser} />
 ```
 
 </InlineFilter>
