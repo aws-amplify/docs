@@ -1,3 +1,5 @@
+import { SubCommandHeading } from '@/components/CliCommands/CommandHeading';
+
 export const meta = {
   title: 'About amplifyconfiguration',
   description: 'Reference for amplifyconfiguration.'
@@ -16,3 +18,44 @@ In Amplify (Gen 2), the CLI will generate an `amplifyconfiguration.json` file wi
 You can also manually create this file for a specified Amplify app ID and branch, or an AWS CloudFormation stack name with [`amplify generate config`](/gen2/reference/cli-commands#amplify-generate-config).
 
 {/* @TODO full type/interface to reference */}
+
+## Extending Amplify configuration file
+
+The `amplifyconfiguration.json` file is not just a static artifact; it's designed to be extendable to suit the evolving needs of your application. By leveraging the `addOutput` method you can programmatically add or modify configurations.
+This is particularly useful for customizing outputs that are not directly exposed through the Amplify constructs or for dynamically adjusting your app's configuration in response to changes in your backend strategy.
+
+One common scenario where extending the configuration becomes handy is when you need to add custom outputs or overwrite existing configurations without manual file edits.
+
+<SubCommandHeading parentCommand="extending-amplify-configuration">Override configuration</SubCommandHeading>
+
+Consider a scenario where you want to override output parameters in your `amplifyconfiguration.json` that specify an S3 bucket and its region that your application will use for storing files.
+
+```ts title="amplify/backend.ts"
+const backend = defineBackend({
+  auth, 
+  data, 
+});
+
+backend.addOutput({
+  aws_user_files_s3_bucket: "amplify-Gen2-bucket",
+  aws_user_files_s3_bucket_region: "us-east-1",
+});
+
+```
+
+<SubCommandHeading parentCommand="extending-amplify-configuration">Custom configuration</SubCommandHeading>
+
+In addition to overriding existing configurations, you can also add custom output parameters to your `amplifyconfiguration.json`. This is useful for including unique identifiers, custom flags, or any other information that might be necessary for your application's logic or configuration.
+
+```ts title="amplify/backend.ts"
+const backend = defineBackend({
+  auth, 
+  data, 
+});
+
+backend.addOutput({
+  custom: {
+    "message": "Hello World",
+  }
+});
+```
