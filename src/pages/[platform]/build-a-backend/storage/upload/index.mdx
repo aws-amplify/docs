@@ -235,7 +235,7 @@ const uploadDataInBrowser = async (event) => {
   if (event?.target?.files) {
     const file = event.target.files[0];
     uploadData({
-      key: filename,
+      key: file.name,
       data: file
     });
   }
