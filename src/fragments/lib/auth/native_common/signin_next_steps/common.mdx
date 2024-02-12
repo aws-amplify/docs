@@ -94,7 +94,7 @@ Amplify.Auth.confirmSignIn(
 ```kotlin
 try {
     val result = Amplify.Auth.confirmSignIn(
-        "confirmation code"
+        "TOTP confirmation code"
     )
     if (result.isSignedIn) {
         Log.i("AuthQuickstart", "Confirm signIn succeeded")
