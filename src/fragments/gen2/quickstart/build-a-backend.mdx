@@ -77,6 +77,8 @@ Fetch records from the database and use them in your frontend component.
   for how our app's data will be organized. Within the schema, we will define
   models that will correspond to a database table—`Todo` in the above code.
   Finally, we will define fields, which are attributes that each data instance
+  models that will correspond to a database table—`Todo` in the above code.
+  Finally, we will define fields, which are attributes that each data instance
   will have—in the generated code, the field is `content`. Each
   field will have a type attached to it—in the above examples, we are stating
   that the `content` field is a string.
@@ -107,18 +109,11 @@ const schema = a.schema({
 
 Once you save your changes to the data model, they will be deployed in seconds to your cloud sandbox.
 
+Our Todo data model also has authorization set up. Our model has the `authorization` method chained to it, which you can add rules to. In our example, we are allowing an owner, or the person who creates the Todo instance, to perform all actions on the data they own. We are also allowing all page viewers, including unauthenticated users, to read data. These can be modified; for example, we could remove the `.to(['read'])` and allow all visitors to perform all actions on data. We could also add permissions for signed-in users or users who belong to user groups, such as `Admin`. You can learn more about all options for authorization in the [Customize your auth rules](/gen2/build-a-backend/data/customize-authz/) section of the docs.
 
-The `Todo` data model is defined with authorization rules to allow the person who creates the Todo instance (the owner), to perform all actions on the data they own.  We are also allowing all page viewers, including unauthenticated users, to read data.
+Let's remove public access.
 
-<Callout>
-**Note:** These authorization rules can be modified using a chain of methods as defined by default. For example, we could remove the `.to(['read'])` and allow all visitors to perform all actions on data or add permissions for signed-in users or users who belong to user groups such as `Admin`. You can learn more about all options for authorization in the [customize your auth rules](/gen2/build-a-backend/data/customize-authz/) section of the docs.
-</Callout>
-
-<b>Step 2:</b> Remove public access by deleting the `a.allow.public().to(['read'])` authorization rule. Your authorization rule will look like the code below:
-
-```js title="amplify/data/resource.ts"
-// ...
-
+```js showLineNumbers={false}
 .authorization([a.allow.owner()]),
 
 // ...
@@ -142,6 +137,7 @@ export const data = defineData({
 
 ### Add authentication
 
+Now let's work on our authentication configuration. Similar to the `data/resource.ts` we just worked on, the `auth/resource.ts` file has code to define our authentication configuration. In this case, we are setting the authentication method to log in with email.
 Now let's work on our authentication configuration. Similar to the `data/resource.ts` we just worked on, the `auth/resource.ts` file has code to define our authentication configuration. In this case, we are setting the authentication method to log in with email.
 
 <Accordion title="See the complete /amplify/auth/resources.ts">
