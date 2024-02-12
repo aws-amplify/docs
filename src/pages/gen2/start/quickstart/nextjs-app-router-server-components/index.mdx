@@ -39,11 +39,11 @@ Let's add UI that connects to the backend data and auth resources.
 
 First, install the Amplify UI component library:
 
-```bash
+```bash showLineNumbers={false}
 npm install @aws-amplify/ui-react
 ```
 
-Next, create a `components` folder in the root of your project and the contents below to a file called `ConfigureAmplify.tsx`.
+Next, create a `components` folder in the root of your project and copy the contents below to a file called `ConfigureAmplify.tsx`.
 
 ```ts title="components/ConfigureAmplify.tsx"
 // components/ConfigureAmplify.tsx
@@ -60,7 +60,7 @@ export default function ConfigureAmplifyClientSide() {
 }
 ```
 
-Update `app/layout.tsx` to import and render `<ConfigureAmplifyClientSide />`.  This client component will configure Amplify for client pages in our application.
+Update `app/layout.tsx` to import and render `<ConfigureAmplifyClientSide />`. This client component will configure Amplify for client pages in our application.
 
 ```ts title="app/layout.tsx"
 // app/layout.tsx
@@ -96,13 +96,13 @@ export default function RootLayout({
 
 ### Configure Amplify Server Side
 
-First, install the Amplify Next.js Adapter:
+First, install the Amplify Next.js adapter:
 
-```bash
+```bash showLineNumbers={false}
 npm install @aws-amplify/adapter-nextjs
 ```
 
-Next, create a `utils/amplify-utils.ts` file from the root of the project and paste the code below.  `runWithAmplifyServerContext`,  `cookiesClient` and `AuthGetCurrentUserServer` are declared here and will be used to gain access to Amplify assets from the server.
+Next, create a `utils/amplify-utils.ts` file from the root of the project and paste the code below.  `runWithAmplifyServerContext`,  `cookiesClient`, and `AuthGetCurrentUserServer` are declared here and will be used to gain access to Amplify assets from the server.
 
 ```ts title="utils/amplify-utils.ts"
 // utils/amplify-utils.ts
@@ -138,9 +138,9 @@ export async function AuthGetCurrentUserServer() {
 ```
 
 
-### Add Server Authentication Routes
+### Add server authentication routes
 
-First, create a client side Login component in the `components` folder that will be wrapped in `withAuthenticator`. If the user is logged in, they will be redirected to the index route, otherwise the [Amplify UI Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator) will be rendered.
+First, create a client-side `Login` component in the `components` folder that will be wrapped in `withAuthenticator`. If the user is logged in, they will be redirected to the index route; otherwise, the [Amplify UI Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator) will be rendered.
 
 ```ts title="components/Login.tsx"
 // components/Login.tsx
@@ -177,7 +177,7 @@ export default function LoginPage() {
 
 <Accordion title="Custom <Authenticator> example">
 
-Some applications require more customization for the `<Authenticator>` component. The following example shows how to add a custom Header to the `<Authenticator>`. For this use, you will not need the `Login` file in the `components` folder but can do everything through the `page` file in the `app/login/` folder. For more customization options, see [Authenticator Customization](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization).
+Some applications require more customization for the `<Authenticator>` component. The following example shows how to add a custom Header to the `<Authenticator>`. For this use, you will not need the `Login` file in the `components` folder, but can do everything through the `page` file in the `app/login/` folder. For more customization options, see [Authenticator Customization](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization).
 
 ```ts title="app/login/page.tsx"
 // app/login/page.tsx - Custom <Authenticator>
@@ -257,7 +257,7 @@ export default function Logout() {
 
 <Callout info>
 
-**Note**: If using [Amplify UI Social Providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#social-providers), set the `callbackUrls` for the `/login` route when [configuring social sign-in for your Gen 2 backend](https://docs.amplify.aws/gen2/build-a-backend/auth/add-social-provider/#configure-social-sign-in-backend), as shown below.
+**Note**: If using [Amplify UI Social Providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#social-providers), set the `callbackUrls` for the `/login` route when [configuring social sign-in for your Gen-2 backend](https://docs.amplify.aws/gen2/build-a-backend/auth/add-social-provider/#configure-social-sign-in-backend), as shown below.
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth, secret } from '@aws-amplify/backend';
@@ -366,9 +366,9 @@ Once you save the file and navigate back to `http://localhost:3000`, you should 
 
 ### Create a new to-do item
 
-Let's update the component to have a form for prompting the user for the title for creating a new to-do list item and run the `addTodo` method on form submission.  In a production app, the additional fields of the `Todo` model would be added to the form.
+Let's update the component to have a form for prompting the user for the title for creating a new to-do list item and run the `addTodo` method on form submission. In a production app, the additional fields of the `Todo` model would be added to the form.
 
-After creating a todo, `revalidatePath` is run to clear the Next.js cache for this route to instantly update the results from the server without a full page reload.
+After creating a to-do, `revalidatePath` is run to clear the Next.js cache for this route to instantly update the results from the server without a full page reload.
 
 ```ts title="app/page.tsx"
 // app/page.tsx

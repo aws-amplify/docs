@@ -179,6 +179,32 @@ new AmplifyGraphqlApi(this, "MyNewApi", {
 })
 ```
 
+<InlineFilter filters={["react", "angular", "nextjs", "vue", "react-native", "javascript"]}>
+
+In the Amplify Library's client configuration file (`amplifyconfiguration.json`) set `allowGuestAccess` to `true`. This lets the Amplify Library use the unauthenticated role from your Cognito identity pool when your user isn't logged in. 
+
+```json
+{
+	"Auth": {
+		"Cognito": {
+			"userPoolId": "YOUR_USER_POOL_ID",
+			"userPoolClientId": "YOUR_USER_POOL_CLIENT_ID",
+			"identityPoolId": "YOUR_IDENTITY_POOL_ID",
+			"allowGuestAccess": true
+		},
+	},
+	"API": {
+		"GraphQL": {
+			"endpoint": "YOUR_API_ENDPOINT",
+			"region": "YOUR_API_REGION",
+			"defaultAuthMode": "YOUR_DEFAULT_AUTHORIZATION_MODE",
+		},
+	},
+}
+```
+
+</InlineFilter>
+
 </Block>
 </BlockSwitcher>
 
