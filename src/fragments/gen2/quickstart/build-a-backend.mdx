@@ -109,11 +109,18 @@ const schema = a.schema({
 
 Once you save your changes to the data model, they will be deployed in seconds to your cloud sandbox.
 
-Our Todo data model also has authorization set up. Our model has the `authorization` method chained to it, which you can add rules to. In our example, we are allowing an owner, or the person who creates the Todo instance, to perform all actions on the data they own. We are also allowing all page viewers, including unauthenticated users, to read data. These can be modified; for example, we could remove the `.to(['read'])` and allow all visitors to perform all actions on data. We could also add permissions for signed-in users or users who belong to user groups, such as `Admin`. You can learn more about all options for authorization in the [Customize your auth rules](/gen2/build-a-backend/data/customize-authz/) section of the docs.
 
-Let's remove public access.
+The `Todo` data model is defined with authorization rules to allow the person who creates the Todo instance (the owner), to perform all actions on the data they own.  We are also allowing all page viewers, including unauthenticated users, to read data.
 
-```js showLineNumbers={false}
+<Callout>
+**Note:** These authorization rules can be modified using a chain of methods as defined by default. For example, we could remove the `.to(['read'])` and allow all visitors to perform all actions on data or add permissions for signed-in users or users who belong to user groups such as `Admin`. You can learn more about all options for authorization in the [customize your auth rules](/gen2/build-a-backend/data/customize-authz/) section of the docs.
+</Callout>
+
+<b>Step 2:</b> Remove public access by deleting the `a.allow.public().to(['read'])` authorization rule. Your authorization rule will look like the code below:
+
+```js title="amplify/data/resource.ts"
+// ...
+
 .authorization([a.allow.owner()]),
 
 // ...
@@ -196,10 +203,25 @@ import { defineAuth } from '@aws-amplify/backend';
 
 export const auth = defineAuth({
   loginWith: {
--   email: true,
-+   email: {
-+     verificationEmailSubject: 'Welcome! Verify your email!'
-+   },
+// highlight-start
+   email: {
+     verificationEmailSubject: 'Welcome! Verify your email!'
+   },
+// highlight-end
   }
+});
+```
+
+
+<Callout info>The Data and Auth resource files are imported into the `amplify/backend.ts` file which serves as the entrypoint to the Amplify backend for all resources used in this app. It is shown below, but there are no modifications needed to complete this quickstart.</Callout>
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+
+defineBackend({
+  auth,
+  data
 });
 ```
