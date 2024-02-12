@@ -20,7 +20,7 @@ export const Footer = ({ hasTOC = false }: FooterProps) => {
         <Flex className="footer__content">
           <ColorModeSwitcher />
           <p>
-            <IconAWS aria-hidden="true" marginInlineEnd="xs" />
+            <IconAWS fontSize="xl" aria-label="AWS" marginInlineEnd="xs" />
             Amplify open source software, documentation and community are
             supported by Amazon Web Services.
           </p>
