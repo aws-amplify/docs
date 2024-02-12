@@ -576,8 +576,8 @@ import 'amplifyconfiguration.dart';
 
 Future<void> main() async {
   try {
-    await _configureAmplify();
     runApp(const MyApp());
+    await _configureAmplify();
   } on AmplifyException catch (e) {
     runApp(Text("Error configuring Amplify: ${e.message}"));
   }
