@@ -1,5 +1,3 @@
-import { SubCommandHeading } from '@/components/CliCommands/CommandHeading';
-
 export const meta = {
   title: 'About amplifyconfiguration',
   description: 'Reference for amplifyconfiguration.'
@@ -26,7 +24,7 @@ This is particularly useful for customizing outputs that are not directly expose
 
 One common scenario where extending the configuration becomes handy is when you need to add custom outputs or overwrite existing configurations without manual file edits.
 
-<SubCommandHeading parentCommand="extending-amplify-configuration">Override configuration</SubCommandHeading>
+### Override configuration
 
 Consider a scenario where you want to override output parameters in your `amplifyconfiguration.json` that specify an S3 bucket and its region that your application will use for storing files.
 
@@ -43,7 +41,7 @@ backend.addOutput({
 
 ```
 
-<SubCommandHeading parentCommand="extending-amplify-configuration">Custom configuration</SubCommandHeading>
+### Custom configuration
 
 In addition to overriding existing configurations, you can also add custom output parameters to your `amplifyconfiguration.json`. This is useful for including unique identifiers, custom flags, or any other information that might be necessary for your application's logic or configuration.
 
