@@ -23,18 +23,19 @@ Before you begin, you will need:
 
 Use `defineAuth` to enable MFA for your app. The example below is setting up MFA with TOTP but not SMS as you can see that the phone number is not a required attribute. If you are using SMS, then the `PhoneNumber` attribute must be `true`.
 
-```diff title="amplify/auth/resource.ts"
-// amplify/auth/resource.ts
+```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
 
 export const auth = defineAuth({
   loginWith: {
     email: true
   },
-+ multifactor: {
-+   mode: 'optional',
-+   totp: true
-+ }
+// highlight-start
+  multifactor: {
+    mode: 'optional',
+    totp: true
+  }
+// highlight-end
 });
 ```
 
