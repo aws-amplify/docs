@@ -103,7 +103,7 @@ Your developer accounts with the social providers are now set up and you can ret
 
 In `amplify/auth/resource.ts` the social providers need to be added.
 
-The following is an example of how you would set up access to all of the social providers supported by Amplify Auth. You also need to configure your `callbackUrls` and `logoutUrls` URLs for your application, which will inform your backend resources how to behave when initiating sign in and sign out operations in your app.
+The following is an example of how you would set up access to all of the social providers supported by Amplify Auth. Please note you will need to configure your `callbackUrls` and `logoutUrls` URLs for your application, which will inform your backend resources how to behave when initiating sign in and sign out operations in your app. You will also need to configure your `domainPrefix` for your user pool domain, which will be the redirect URI for your OAuth provider.
 
 <Callout>
 
@@ -138,7 +138,8 @@ export const auth = defineAuth({
         'http://localhost:3000/profile',
         'https://mywebsite.com/profile'
       ],
-      logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com']
+      logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com'],
+      domainPrefix: 'subdomain'
     }
   }
 });
@@ -231,7 +232,8 @@ export const auth = defineAuth({
         'http://localhost:3000/profile',
         'https://mywebsite.com/profile'
       ],
-      logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com']
+      logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com'],
+      domainPrefix: 'subdomain'
     }
   }
 });
@@ -267,7 +269,8 @@ export const auth = defineAuth({
         'http://localhost:3000/profile',
         'https://mywebsite.com/profile'
       ],
-      logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com']
+      logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com'],
+      domainPrefix: 'subdomain'
     }
   }
 });

@@ -51,7 +51,7 @@ With dynamic group authorization, each record contains an attribute specifying w
 // Dynamic group authorization with multiple groups
 a.schema({
   Post: a.model({
-    title: a.string()
+    title: a.string(),
     groups: a.string().array()
   }).authorization([
     a.allow.groupsDefinedInField('groups'),
@@ -63,10 +63,10 @@ a.schema({
 // Dynamic group authorization with a single group
 a.schema({
   Post: a.model({
-    title: a.string()
+    title: a.string(),
     groups: a.string()
   }).authorization([
-    a.allow.groupDefinedInField('groups'),
+    a.allow.groupDefinedIn('groups'),
   ])
 })
 ```

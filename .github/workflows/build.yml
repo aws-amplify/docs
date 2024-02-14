@@ -17,7 +17,7 @@ jobs:
       - name: Install Dependencies
         run: yarn
       - name: Run tests
-        run: yarn test
+        run: yarn prebuild && yarn test
       - name: Run Build
         run: yarn build
         env:

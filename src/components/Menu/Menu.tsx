@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { MenuItem } from './MenuItem';
 import { Platform } from '@/data/platforms';
-import { PageNode } from 'src/directory/directory';
+import { PageNode } from '@/directory/directory';
 import { findDirectoryNode } from '@/utils/findDirectoryNode';
 import { BUILD_A_BACKEND, PREV_BUILD_A_BACKEND } from '@/data/routes';
 

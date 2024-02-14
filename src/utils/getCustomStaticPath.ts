@@ -1,14 +1,10 @@
-import { PLATFORMS } from '@/data/platforms';
-
-export const getCustomStaticPath = (platforms: string[] | string) => {
-  const platformsArr = Array.isArray(platforms)
-    ? platforms
-    : platforms.includes('all')
-    ? PLATFORMS
-    : platforms.split('|');
-
+/**
+ * Helper function to return list of paths to be statically generated.
+ * Used inside "getStaticPaths"
+ */
+export const getCustomStaticPath = (platforms: string[]) => {
   return {
-    paths: platformsArr.map((platform) => ({ params: { platform } })),
+    paths: platforms.map((platform) => ({ params: { platform } })),
     fallback: false
   };
 };
