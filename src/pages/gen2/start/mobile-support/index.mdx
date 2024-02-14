@@ -576,6 +576,7 @@ import 'amplifyconfiguration.dart';
 
 Future<void> main() async {
   try {
+    WidgetsFlutterBinding.ensureInitialized();
     await _configureAmplify();
     runApp(const MyApp());
   } on AmplifyException catch (e) {
