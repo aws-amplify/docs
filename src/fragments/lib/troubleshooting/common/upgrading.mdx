@@ -76,6 +76,7 @@ In order to use Amplify JavaScript v6, you will need to make sure you are using 
 
 <Callout>Make sure to delete your package-lock.json and node_modules folder before running `npm install`</Callout>
 
+<<<<<<< HEAD
 <BlockSwitcher>
   <Block name="Web">
     Upgrade to the latest Amplify library using the following command:
@@ -92,11 +93,21 @@ In order to use Amplify JavaScript v6, you will need to make sure you are using 
     - Analytics
     - DataStore
     - In-App Messaging
+=======
+<InlineFilter filters={['angular', 'javascript', 'vue', 'react']}>
+
+Upgrade to the latest Amplify library using the following command:
+
+```
+npm install aws-amplify@6
+```
+>>>>>>> main
 
     If you previously listed `@aws-amplify` namespaced packages for the above categories as dependencies in your `package.json`, you will need to remove them to avoid dependency duplication.
 
     If you would like to use Geo, Predictions, PubSub, or Interactions you will need to install those packages separately. (see [category-specific migration instructions](/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/#4-upgrade-category-usage))
 
+<<<<<<< HEAD
   </Block>
   <Block name="React Native">
     <Callout>The `aws-amplify-react-native` package is not compatible with v6.</Callout>
@@ -108,40 +119,94 @@ In order to use Amplify JavaScript v6, you will need to make sure you are using 
     ```
     npm install aws-amplify@6 @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
     ```
+=======
+If you previously listed `@aws-amplify` namespaced packages for the above categories as dependencies in your `package.json`, you will need to remove them to avoid dependency duplication.
+
+If you would like to use Geo, Predictions, PubSub, or Interactions you will need to install those packages separately. (see [category-specific migration instructions](/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/#4-upgrade-category-usage))
+
+</InlineFilter>
+
+<InlineFilter filters={['react-native']}>
+
+<Callout>The `aws-amplify-react-native` package is not compatible with v6.</Callout>
+
+To upgrade React Native projects that do not utilize `aws-amplify-react-native`, remove `amazon-cognito-identity-js` from the project _package.json_ and install `@aws-amplify/react-native`.
+>>>>>>> main
 
     Note that v6 supports react-native v0.70+, so if you prefer manually upgrading dependencies double-check the version of react-native in your package.json file.
 
+<<<<<<< HEAD
     `@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0`, if it has not already been set to `13.0` or above, open the _Podfile_ located in the _ios_ directory and update the `target` value:
+=======
+```
+npm install aws-amplify@6 @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
+```
+>>>>>>> main
 
     ```diff
     - platform :ios, min_ios_version_supported
     + platform :ios, 13.0
     ```
 
+<<<<<<< HEAD
     <Callout>
       If you are using `signInWithRedirect` (previously `Auth.federatedSignIn`) you will need to install the `@aws-amplify/rtn-web-browser` native module.
 
       If you are using Push Notifications, you will need to upgrade the `@aws-amplify/rtn-push-notification` native module to v1.2+ (if you were using push notifications in v5, this dependency should already be added). Find all Push Notifications API changes in its [migration guide](/[platform]/build-a-backend/push-notifications/push-notifications-migration-guide/)
 
     </Callout>
+=======
+`@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0`, if it has not already been set to `13.0` or above, open the _Podfile_ located in the _ios_ directory and update the `target` value:
+
+```diff
+- platform :ios, min_ios_version_supported
++ platform :ios, 13.0
+```
+
+<Callout>
+  If you are using `signInWithRedirect` (previously `Auth.federatedSignIn`) you will need to install the `@aws-amplify/rtn-web-browser` native module.
+
+  If you are using Push Notifications, you will need to upgrade the `@aws-amplify/rtn-push-notification` native module to v1.2+ (if you were using push notifications in v5, this dependency should already be added). Find all Push Notifications API changes in its [migration guide](/react-native/build-a-backend/push-notifications/push-notifications-migration-guide/)
+>>>>>>> main
 
   </Block>
   <Block name="NextJS">
       Upgrade/install the necessary dependencies using the following command:
 
+<<<<<<< HEAD
       ```
       npm install aws-amplify@6 @aws-amplify/adapter-nextjs
       ```
 
       The `@aws-amplify/adapter-nextjs` package provides adapter functions to enable use of Amplify APIs on the server side of your Next.js app for use cases such as Server Side Rendering (SSR) with the App Router.
+=======
+</InlineFilter>
+
+<InlineFilter filters={['nextjs']}>
+>>>>>>> main
 
       Note that v6 supports NextJS v13.5.0 through 14. We recommend upgrading if you are using a version below  13.5.0.
 
+<<<<<<< HEAD
       <Callout>NextJS v13.5.0 requires Node v16.14.0 or later and NextJS v14+ requires Node v18.17.0 or later</Callout>
 
   </Block>
 </BlockSwitcher>
 
+=======
+```
+npm install aws-amplify@6 @aws-amplify/adapter-nextjs
+```
+
+The `@aws-amplify/adapter-nextjs` package provides adapter functions to enable use of Amplify APIs on the server side of your Next.js app for use cases such as Server Side Rendering (SSR) with the App Router.
+
+Note that v6 supports NextJS v13.5.0 through 14. We recommend upgrading if you are using a version below  13.5.0.
+
+<Callout>NextJS v13.5.0 requires Node v16.14.0 or later and NextJS v14+ requires Node v18.17.0 or later</Callout>
+
+</InlineFilter>
+
+>>>>>>> main
 ## Step 3: Upgrade Amplify CLI version and configuration file
 
 If you created your project with Amplify CLI version < 12.5.1, upgrade your CLI version and regenerate your configuration file using the scripts below.
@@ -209,6 +274,11 @@ If you have previously configured Amplify by passing the configuration object li
 
 </InlineFilter>
 
+<<<<<<< HEAD
+=======
+<InlineFilter filters={["nextjs"]}>
+
+>>>>>>> main
 ### Running Amplify on the server with NextJS
 
 To enable the use of the Amplify JavaScript library on the server, you need to set the `ssr` configuration to true in the `Amplify.configure` function.
@@ -218,6 +288,22 @@ Amplify.configure(amplifyConfig, {
   ssr: true
 });
 ```
+
+<<<<<<< HEAD
+<InlineFilter filters={["react-native"]}>
+
+### Remove polyfill imports
+
+For React Native applications, polyfill imports should no longer need to be added to your application's entry point file as they are imported by the `@aws-amplify/react-native` package.
+
+```diff
+// Example index.js
+- import 'react-native-get-random-values';
+- import 'react-native-url-polyfill/auto';
+```
+
+=======
+</InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
@@ -231,6 +317,7 @@ For React Native applications, polyfill imports should no longer need to be adde
 - import 'react-native-url-polyfill/auto';
 ```
 
+>>>>>>> main
 </InlineFilter>
 
 ## Step 4: Update category usage
@@ -1181,10 +1268,19 @@ Expand the sections below to see the events that have been changed or removed. T
 
 For a deeper look at v6 Utilities, check out our [Utilities documentation](/[platform]/build-a-backend/utilities/).
 
+<<<<<<< HEAD
 ### Server-side Rendering
 
 <Callout>Find a comprehensive summary of changes to Server-Side Rendering in the [NextJS migration guide](/nextjs/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/)</Callout>
 
+=======
+<InlineFilter filters={["nextjs"]}>
+
+### Server-side Rendering
+
+<Callout>Find a comprehensive summary of changes to Server-Side Rendering in the [NextJS migration guide](/nextjs/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/)</Callout>
+
+>>>>>>> main
 The Amplify JS v5 `withSSRContext` utility is no longer available with Amplify JS v6. You will need to use the `runWithAmplifyServerContext` function exported from `@aws-amplify/adapter-nextjs` to use Amplify categories on the server side of your Next.js app. 
 
 > Note: DataStore is no longer supported in an SSR context: if you are using DataStore within your SSR project, you will need to migrate to the API category. For details on how to accomplish this, see the [NextJS migration guide: Migrating from DataStore to API in a server context](/[platform]/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/#migrating-from-datastore-to-graphql-api-client-in-a-server-context)
@@ -1250,3 +1346,8 @@ Use the switcher below to see the differences between v5 and v6:
 </BlockSwitcher>
 
 Please review the [Server-Side Rendering with Amplify JavaScript v6](/[platform]/build-a-backend/server-side-rendering/), as we've changed the developer experience to allow working with cookies and middleware in NextJS.
+<<<<<<< HEAD
+=======
+
+</InlineFilter>
+>>>>>>> main

@@ -1717,19 +1717,19 @@
   },
   {
     "source":"/guides/functions/appsync-operations-to-lambda-layer/q/platform/android/",
-    "target":"/android/build-a-backend/functions/",
+    "target":"/android/build-a-backend/graphqlapi/client-code-generation/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/guides/functions/appsync-operations-to-lambda-layer/q/platform/ios/",
-    "target":"/swift/build-a-backend/functions/",
+    "target":"/swift/build-a-backend/graphqlapi/client-code-generation/",
     "status":"301",
     "condition":null
   },
   {
     "source":"/guides/functions/appsync-operations-to-lambda-layer/q/platform/js/",
-    "target":"/javascript/build-a-backend/functions/appsync-operations-to-lambda-layer/",
+    "target":"/javascript/build-a-backend/graphqlapi/client-code-generation/",
     "status":"301",
     "condition":null
   },
