@@ -227,6 +227,7 @@ Create a couple of to-dos, then refresh the page to see them. You can also subsc
 
 ```js
 useEffect(() => {
+  listTodos()
   const sub = client.models.Todo.observeQuery().subscribe(({ items }) =>
    setTodos([...items])
   );
