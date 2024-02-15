@@ -4,12 +4,6 @@ import ExternalLink from '../index';
 import * as trackModule from '../../../utils/track';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('../../../utils/track', () => ({
-  trackExternallink: jest
-    .fn()
-    .mockImplementation(() => 'https://www.amazon.com')
-}));
-
 describe('ExternalLink', () => {
   const component = (
     <ExternalLink href="https://www.amazon.com" className="footer-link">
