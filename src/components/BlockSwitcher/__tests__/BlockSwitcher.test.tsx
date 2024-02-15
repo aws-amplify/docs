@@ -27,37 +27,15 @@ describe('BlockSwitcher', () => {
   });
   it('should show the first Block as default', async () => {
     render(component);
-    const blockATab = await screen.findByText(
-      component.props.children[0].props.name
-    );
-    const blockBTab = await screen.findByText(
-      component.props.children[1].props.name
-    );
-    const blockCTab = await screen.findByText(
-      component.props.children[1].props.name
-    );
-    const blockAContent = await screen.findByText(
-      component.props.children[0].props.children
-    );
-    const blockBContent = await screen.findByText(
-      component.props.children[1].props.children
-    );
-    const blockCContent = await screen.findByText(
-      component.props.children[1].props.children
-    );
+    const tabs = await screen.getAllByRole('tab');
+    const panels = await screen.getAllByRole('tabpanel');
 
-    expect(blockATab).toHaveClass('amplify-tabs__item--active');
-    expect(blockBTab).not.toHaveClass('amplify-tabs__item--active');
-    expect(blockCTab).not.toHaveClass('amplify-tabs__item--active');
-    expect(blockAContent.parentElement).toHaveClass(
-      'amplify-tabs__panel--active'
-    );
-    expect(blockBContent.parentElement).not.toHaveClass(
-      'amplify-tabs__panel--active'
-    );
-    expect(blockCContent.parentElement).not.toHaveClass(
-      'amplify-tabs__panel--active'
-    );
+    expect(tabs[0]).toHaveClass('amplify-tabs__item--active');
+    expect(tabs[1]).not.toHaveClass('amplify-tabs__item--active');
+    expect(tabs[2]).not.toHaveClass('amplify-tabs__item--active');
+    expect(panels[0]).toHaveClass('amplify-tabs__panel--active');
+    expect(panels[1]).not.toHaveClass('amplify-tabs__panel--active');
+    expect(panels[2]).not.toHaveClass('amplify-tabs__panel--active');
   });
   it('should load all Blocks to the DOM', async () => {
     render(component);
