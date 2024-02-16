@@ -330,8 +330,25 @@ Creating the sign-in flow can be quite difficult and time-consuming to get right
 
 Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter. In this guide, we are focusing on those for web applications.
 
-<BlockSwitcher>
-<Block name="React">
+<InlineFilter filters={['javascript']}>
+
+Navigate to your preferred platform page to continue building an Authentication experience using the Authenticator UI component:
+
+<Columns>
+
+<PlatformLinkCard url="/react/build-a-backend/auth/set-up-auth/#build-an-authentication-experience-using-the-authenticator" title="Go to the React docs" />
+
+<PlatformLinkCard url="/nextjs/build-a-backend/auth/set-up-auth/#build-an-authentication-experience-using-the-authenticator" title="Go to the Next.js docs" />
+
+<PlatformLinkCard url="/angular/build-a-backend/auth/set-up-auth/#build-an-authentication-experience-using-the-authenticator" title="Go to the Angular docs" />
+
+<PlatformLinkCard url="/vue/build-a-backend/auth/set-up-auth/#build-an-authentication-experience-using-the-authenticator" title="Go to the Vue docs" />
+
+</Columns>
+
+</InlineFilter>
+
+<InlineFilter filters={['react', 'nextjs']}>
 
 First, install the `@aws-amplify/ui-react` library as well as `aws-amplify` if you have not already:
 
@@ -396,7 +413,10 @@ export default withAuthenticator(App);
 </Block>
 </BlockSwitcher>
 
-</Block>
+</InlineFilter>
+
+<InlineFilter filters={['vue']}>
+<BlockSwitcher>
 <Block name="Vue 3">
 
 First, install the `@aws-amplify/ui-vue` library as well as `aws-amplify` if you have not already:
@@ -475,7 +495,10 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 ```
 
 </Block>
-<Block name="Angular">
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={['angular']}>
 
 First, install the `@aws-amplify/ui-angular` library as well as `aws-amplify` if you have not already:
 
@@ -529,8 +552,9 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </amplify-authenticator>
 ```
 
-</Block>
-</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={["angular", "nextjs", "react", "vue"]}>
 
 Once you add the Authenticator component to your app, you can test the sign-up, sign-in, and sign-out functionality. You can also [customize the Authenticator UI component](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization) to adjust colors and styling as needed.
 
@@ -550,6 +574,8 @@ Now that you completed setting up Amplify Auth with username and password, you m
 
 - [Social sign-in (OAuth)](/[platform]/build-a-backend/auth/add-social-provider/)
 - [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/)
+
+</InlineFilter>
 
 </InlineFilter>
 

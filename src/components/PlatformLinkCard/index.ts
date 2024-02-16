@@ -1,0 +1,1 @@
+export { PlatformLinkCard } from './PlatformLinkCard';
