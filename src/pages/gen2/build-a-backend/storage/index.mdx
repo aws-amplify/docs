@@ -13,32 +13,13 @@ export function getStaticProps(context) {
 
 <Callout info>
 
-**Coming soon:** The Storage experience for Amplify (Gen 2) is still under development. You can add Amazon S3 to your Amplify (Gen 2) project with AWS CDK.
+**Coming soon:** The Storage experience for Amplify (Gen 2) is still under development. You can add Amazon S3 to your Amplify (Gen 2) project with the AWS CDK.
 
 </Callout>
 
-To use Storage today, you must use the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/). To get started, install the CDK library package:
+To use Storage today, you must use the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/), which is installed by default as part of the [`create-amplify`](https://www.npmjs.com/package/create-amplify) workflow. 
 
-```bash
-npm add --save-dev aws-cdk-lib
-```
-
-<Callout warning>
-
-Depending on the Node.js package manager you are using, you may encounter warnings where it is now unable to resolve the peer dependency version `@aws-amplify/backend` has on `aws-cdk-lib`. If you encounter a warning similar to the following, re-install the version specified in the warning text:
-
-```
-npm WARN Could not resolve dependency:
-npm WARN peer aws-cdk-lib@"~2.103.0" from @aws-amplify/backend@0.4.0
-npm WARN node_modules/@aws-amplify/backend
-npm WARN   dev @aws-amplify/backend@"^0.4.0" from the root project
-```
-
-Using the sample warning text above, you would need to install `aws-cdk-lib@2.103.0`.
-
-</Callout>
-
-Next, modify your project's `backend.ts` file to create an Amazon S3 bucket and grant Amplify-generated resources access to read and write:
+To get started, modify your project's `backend.ts` file to create an Amazon S3 bucket and grant Amplify-generated resources access to read and write:
 
 ```ts title="amplify/backend.ts"
 // amplify/backend.ts

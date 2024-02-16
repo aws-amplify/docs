@@ -27,8 +27,29 @@ export function getStaticProps(context) {
   };
 }
 
-This guide shows you how to connect new mobile and web apps to AWS resources you've already created using the AWS Amplify CLI (Command Line Interface). The Amplify CLI provides a simple workflow for provisioning cloud resources like authentication, databases, and storage for mobile and web apps through the command line. By following the [first part](/[platform]/build-a-backend/existing-resources/cli/#connect-mobile-app-to-existing-aws-resources) of the guide, you will learn how to connect a new Flutter mobile app to pre-existing backend resources set up through Amplify. The [second part](/[platform]/build-a-backend/existing-resources/cli/#connect-a-web-app-to-existing-aws-resources) of the guide covers how to do the same for a React web app. 
+The AWS Amplify CLI (Command Line Interface) CLI provides a simple workflow for provisioning cloud resources like authentication, databases, and storage for apps through the command line.
 
+<InlineFilter filters={["flutter"]}>
+In this guide, you will learn how to connect a new Flutter mobile app to backend resources you've already created using the Amplify CLI.
+
+<Callout info>
+
+Connecting a web app? We also offer a version of this guide for integrating existing backends with React using the Amplify CLI. Check out the [React guide](/react/build-a-backend/existing-resources/cli/).
+
+</Callout>
+</InlineFilter> 
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+In this guide, you will learn how to connect a new React web app to backend resources you've already created using the Amplify CLI.
+
+<Callout info>
+
+Connecting a mobile app? We also offer a version of this guide for integrating existing backends with Flutter using the Amplify CLI. Check out the [Flutter guide](/flutter/build-a-backend/existing-resources/cli/).
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
 ## Connect mobile app to existing AWS resources
 
 This guide will walk you through connecting a new Flutter app to AWS resources created with Amplify for an existing Flutter app. If you don't already have an existing app, you can follow this [Flutter tutorial](https://docs.amplify.aws/start/getting-started/setup/q/integration/flutter/) to create a budget tracker app that uses Amplify Auth and API resources.
@@ -611,7 +632,9 @@ amplify delete
 ```
 
 If you would like to expand this demo app into a production-ready app, you may need to add additional resources, such as authorization and storage. Refer to the [Build & connect backend section](/[platform]/build-a-backend/) for guides on how to add and connect other backend resources.
+</InlineFilter>
 
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 ## Connect web app to existing AWS resources
 
 This guide will walk you through connecting a new React web app to the AWS resources created with Amplify for an existing React app. If you don't already have an existing app, you can follow this [React tutorial](https://docs.amplify.aws/react/start/getting-started/introduction/) to create a to-do app that uses Amplify Auth, API, and Hosting resources.
@@ -992,5 +1015,4 @@ amplify delete
 ```
 
 If you would like to expand this demo app into a production-ready app, you may need to add additional resources, such as authorization and storage. Refer to the [Build & connect backend section](/[platform]/build-a-backend/) for guides on how to add and connect other backend resources.
-
-
+</InlineFilter>

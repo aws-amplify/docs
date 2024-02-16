@@ -325,6 +325,8 @@ Also notice that `userConfirmed` is no longer returned, and instead we return `n
 
 ### Legacy
 
+In the past, we've supported the ability to pass in `username`, `password`, `email`, `phone_number` as positional parameters instead of as named input parameters for `Auth.signUp` for backwards compatibility with older versions of Amplify JavaScript. The following guide shows you how to migrate from that legacy call pattern for `Auth.signUp`:
+
 <BlockSwitcher>
   <Block name="V6">
     ```js
@@ -946,6 +948,8 @@ Also notice that `challengeName` and `challengeParam` (returned in v5 as additio
 </BlockSwitcher>
 
 ### Legacy
+
+In the past, we've supported the ability to pass in `username`, `password` as positional parameters instead of as named input parameters for `Auth.signIn` for backwards compatibility with older versions of Amplify JavaScript. The following guide shows you how to migrate from that legacy call pattern for `Auth.signIn`:
 
 <BlockSwitcher>
   <Block name="V6">
