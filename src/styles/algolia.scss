@@ -45,12 +45,15 @@
 
   .DocSearch-Button-Key {
     height: var(--amplify-font-sizes-medium);
-    font-family: var(--docs-font-mono);
+    font-family: var(--font-code);
     padding: 0;
     margin-right: var(--amplify-space-xxs);
-
+    color: var(--amplify-colors-neutral-80);
     &:last-of-type {
       margin-right: 0;
+    }
+    @include darkMode {
+      color: var(--amplify-colors-neutral-20);
     }
   }
 
