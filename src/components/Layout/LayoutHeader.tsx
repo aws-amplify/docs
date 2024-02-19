@@ -10,6 +10,7 @@ import {
 } from '../../constants/algolia';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
+import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
 import flatDirectory from 'src/directory/flatDirectory.json';
 import { DocSearch } from '@docsearch/react';
@@ -21,13 +22,13 @@ import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 
 export const LayoutHeader = ({
   hasTOC = true,
-  tocHeadings = tocHeadings,
+  tocHeadings,
   pageType = 'inner',
   platform,
   showLastUpdatedDate = true
 }: {
   hasTOC?: boolean;
-  tocHeadings: object;
+  tocHeadings: HeadingInterface[];
   pageType?: 'home' | 'inner';
   platform?: Platform;
   showLastUpdatedDate: boolean;
