@@ -89,8 +89,9 @@
     "prismjs": "^1.27.0",
     "@adobe/css-tools": "4.3.2",
     "follow-redirects": "^1.15.4",
-    "ip": "2.0.1"
-  },
+    "ip": "2.0.1",
+    "sharp": "0.32.6"
+  }, 
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
     "refresh": "yarn clean && yarn",
