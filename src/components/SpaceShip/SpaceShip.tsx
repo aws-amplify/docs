@@ -11,6 +11,7 @@ export const SpaceShip = ({ hasBanner }: SpaceShipProps) => {
           viewBox="0 0 538 457"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
         >
           <path
             fillRule="evenodd"
