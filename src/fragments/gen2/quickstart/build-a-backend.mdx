@@ -4,11 +4,11 @@ Next, we will add data and auth capabilities to the app.  In Amplify (Gen 2), th
 
 ### Add data
 
-`create-amplify` provides the scaffolding of a `/amplify/data/resource.ts` file, which is ready to deploy.
+`create-amplify` provides the scaffolding of a `amplify/data/resource.ts` file, which is ready to deploy.
 
-<Accordion title="See the complete /amplify/data/resources.ts">
+<Accordion title="See the complete amplify/data/resources.ts">
 
-Open the `/amplify/data/resource.ts` file in your text editor, and you will see a default data model generated for you.
+Open the `amplify/data/resource.ts` file in your text editor, and you will see a default data model generated for you.
 
 _Note: The steps defined in the code below do not require action to complete this quickstart. These notes are provided for every new app and will help you when you build your next app on your own._
 
@@ -144,7 +144,7 @@ export const data = defineData({
 
 Now let's work on our authentication configuration. Similar to the `data/resource.ts` we just worked on, the `auth/resource.ts` file has code to define our authentication configuration. In this case, we are setting the authentication method to log in with email.
 
-<Accordion title="See the complete /amplify/auth/resources.ts">
+<Accordion title="See the complete amplify/auth/resources.ts">
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
 
