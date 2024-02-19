@@ -87,16 +87,20 @@
 #Docs Engineering
 /src/components @aws-amplify/documentation-team
 /src/constants @aws-amplify/documentation-team 
+/src/data @aws-amplify/documentation-team
 /src/directory @aws-amplify/documentation-team 
 /src/pages/_app.tsx @aws-amplify/documentation-team 
 /src/pages/_document.tsx @aws-amplify/documentation-team 
-/src/pages/404.tsx @aws-amplify/documentation-team 
-/src/pages/ChooseFilterPage.tsx @aws-amplify/documentation-team 
+/src/pages/404.tsx @aws-amplify/documentation-team  
+/src/pages/contribute @aws-amplify/documentation-team
 /src/pages/index.tsx @aws-amplify/documentation-team
+/src/pages/**/index.tsx @aws-amplify/documentation-team
 /src/plugins @aws-amplify/documentation-team 
 /src/public @aws-amplify/documentation-team 
-/src/styles @aws-amplify/documentation-team 
+/src/styles @aws-amplify/documentation-team
+/src/themes @aws-amplify/documentation-team 
 /src/utils @aws-amplify/documentation-team
+/tasks @aws-amplify/documentation-team
 
 #Protected Content
 /src/protected @reesscot @srquinn21 @Milan-Shah @swaminator
