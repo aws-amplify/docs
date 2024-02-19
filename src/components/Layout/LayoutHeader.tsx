@@ -13,7 +13,6 @@ import { Menu } from '@/components/Menu';
 import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
 import flatDirectory from 'src/directory/flatDirectory.json';
-// import { debounce } from '@/utils/debounce';
 import { DocSearch } from '@docsearch/react';
 import '@docsearch/css';
 import { PageLastUpdated } from '../PageLastUpdated';
@@ -54,8 +53,8 @@ export const LayoutHeader = ({
     currentPlatform = platform
       ? platform
       : PLATFORMS.includes(asPathPlatform)
-      ? asPathPlatform
-      : DEFAULT_PLATFORM;
+        ? asPathPlatform
+        : DEFAULT_PLATFORM;
   }
 
   const handleMenuToggle = () => {
@@ -70,15 +69,6 @@ export const LayoutHeader = ({
     }
   };
 
-  // const handleScroll = debounce((e) => {
-  //   const bodyScroll = e.target.documentElement.scrollTop;
-  //   if (bodyScroll > 20) {
-  //     document.body.classList.add('scrolled');
-  //   } else if (document.body.classList.contains('scrolled')) {
-  //     document.body.classList.remove('scrolled');
-  //   }
-  // }, 20);
-
   useEffect(() => {
     const headings: HeadingInterface[] = [];
 
@@ -86,7 +76,6 @@ export const LayoutHeader = ({
     const cliCommandHeadings =
       '.commands-list__command > h2, .commands-list__command > .commands-list__command__subcommands > h3';
     const headingSelectors = [defaultHeadings, cliCommandHeadings];
-
     const pageHeadings = document.querySelectorAll(headingSelectors.join(', '));
 
     pageHeadings.forEach((node) => {
@@ -101,15 +90,6 @@ export const LayoutHeader = ({
     });
     setTocHeadings(headings);
   }, [pageType]);
-
-  // useEffect(() => {
-  //   if (pageType === 'home') {
-  //     document.addEventListener('scroll', handleScroll);
-  //     return () => {
-  //       document.removeEventListener('scroll', handleScroll);
-  //     };
-  //   }
-  // });
 
   return (
     <View as="header" className="layout-header">
