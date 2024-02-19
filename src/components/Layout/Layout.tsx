@@ -229,6 +229,7 @@ export const Layout = ({
               />
               <LayoutHeader
                 hasTOC={hasTOC}
+                tocHeadings={tocHeadings}
                 pageType={pageType}
                 platform={platform}
                 showLastUpdatedDate={showLastUpdatedDate}

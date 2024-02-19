@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
@@ -10,7 +10,6 @@ import {
 } from '../../constants/algolia';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
-import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
 import flatDirectory from 'src/directory/flatDirectory.json';
 import { DocSearch } from '@docsearch/react';
@@ -22,17 +21,18 @@ import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 
 export const LayoutHeader = ({
   hasTOC = true,
+  tocHeadings = tocHeadings,
   pageType = 'inner',
   platform,
   showLastUpdatedDate = true
 }: {
   hasTOC?: boolean;
+  tocHeadings: object;
   pageType?: 'home' | 'inner';
   platform?: Platform;
   showLastUpdatedDate: boolean;
 }) => {
   const [menuOpen, toggleMenuOpen] = useState(false);
-  const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
   const showTOC = hasTOC && tocHeadings.length > 0;
@@ -68,28 +68,6 @@ export const LayoutHeader = ({
       menuButtonRef?.current?.focus();
     }
   };
-
-  useEffect(() => {
-    const headings: HeadingInterface[] = [];
-
-    const defaultHeadings = '.main > h2, .main > h3';
-    const cliCommandHeadings =
-      '.commands-list__command > h2, .commands-list__command > .commands-list__command__subcommands > h3';
-    const headingSelectors = [defaultHeadings, cliCommandHeadings];
-    const pageHeadings = document.querySelectorAll(headingSelectors.join(', '));
-
-    pageHeadings.forEach((node) => {
-      const { innerText, id, localName } = node as HTMLElement;
-      if (innerText && id && (localName == 'h2' || localName == 'h3')) {
-        headings.push({
-          linkText: innerText,
-          hash: id,
-          level: localName
-        });
-      }
-    });
-    setTocHeadings(headings);
-  }, [pageType]);
 
   return (
     <View as="header" className="layout-header">
