@@ -1,0 +1,198 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Server-Side Rendering',
+  description: 'Use Amplify categories APIs from SSR enabled frameworks.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ],
+  route: '/[platform]/build-a-backend/server-side-rendering',
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'angular',
+        'vue',
+        'javascript',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-a-backend/server-side-rendering/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+## Use Amplify Categories APIs in Server Side Rendering
+
+Amplify JS v6 provides a set of APIs that can be called on the server side of a full stack Web app built with an SSR-enabled framework. These APIs are required to be called within an isolated server context to avoid cross-request state pollution. An isolated server context contains information that is extracted from the incoming request and used by the API calls, e.g., the Amplify Auth tokens extracted from the request cookie header. To allow Amplify's APIs to retrieve the Auth tokens and further to retrieve credentials for making service calls, you will need to provide `tokenProvider` and `credentialsProvider` (details see the following sections).
+
+You will need to use the `runWithAmplifyServerContext` function (exported from `aws-amplify/adapter-core`) to create server contexts. It creates a server context based on the cookies sent along with a request to the server. Hence, if the SSR framework you are using provides APIs that allow you to interact with the cookies while receiving a request and sending a response for it, you should be able to use the `runWithAmplifyServerContext` function to call Amplify categories APIs on the server.
+
+<Callout warning>
+
+**NOTE:** You will need to call `Amplify.configure()` on the client side of your app by setting `ssr` to `true`. E.g., `Amplify.configure(config, { ssr: true })` so that the requests sent to your server will have Amplify auth tokens in the cookie header.
+
+</Callout>
+
+### Using the `runWithAmplifyServerContext` Function
+
+The `runWithAmplifyServerContext` function requires the following parameters to function:
+
+1. The Amplify configuration object
+2. A `LibraryOptions` object with `tokenProvider` and `credentialsProvider` properties
+3. A callback function containing your business logic, including calls to Amplify categories APIs
+
+#### Amplify Configuration Object
+
+You can get the configuration object by passing the config object imported from the `amplifyconfiguration.json` file to the utility function `parseAmplifyConfig` (exported from `aws-amplify/utils`), or you can create an object literal that conforms to the `ResourceConfig` type (exported from `aws-amplify`).
+
+#### The `LibraryOptions` Object with `tokenProvider` and `credentialsProvider` Properties
+
+We have mentioned above that Amplify categories APIs will rely on the `tokenProvider` and `credentialsProvider` to retrieve Auth tokens and credentials. Therefore, you will need to create and configure the providers using cookies, following the below steps.
+
+**1. Create a key-value storage that operates on top of the cookie APIs provided by the framework.**
+
+You can create the storage object by using the utility function `createKeyValueStorageFromCookieStorageAdapter` exported from `aws-amplify/adapter-core`.
+
+**2. Create a `tokenProvider` using the key-value storage**
+
+You can create a tokenProvider by using the utility function `createUserPoolsTokenProvider` exported from `aws-amplify/adapter-core`.
+
+**3. Create a `credentialsProvider` using the key-value storage**
+
+You can create a `credentialsProvider` using the utility function `createAWSCredentialsAndIdentityIdProvider` exported from `aws-amplify/adapter-core`.
+
+#### Callback Function
+
+The callback function that contains your business logic will be called by the function `runWithAmplifyServerContext` within a context. The callback function will be passed a `contextSpec` parameter that you can use to call the Amplify categories APIs exported from the `aws-amplify/<category>/server` subpaths. When the callback function completes, the corresponding server context will be destroyed, and the result returned by the callback function will be returned by the `runWithAmplifyServerContext` function.
+
+<Callout warning>
+
+You must **not** hoist any variables, object references created within the callback function (e.g., the `contextSpec` parameter), or your business logic to an outer scope, as it may lead to cross-request state pollution.
+
+</Callout>
+
+`runWithAmplifyServerContext` and Amplify APIs are stateless on the server side. Each call of `runWithAmplifyServerContext` may cause requesting credentials from Cognito service. Therefore, you should avoid calling `runWithAmplifyServerContext` in a loop or calling it multiple times in a single request.
+
+<Callout>
+
+**NOTE:** If you anticipate a large number of concurrent requests to your server that require calls to `runWithAmplifyServerContext`, which may cause the rate limit exceptions thrown by the Cognito service, you can request to adjust the limit. See [Quotas in Amazon Cognito document](https://docs.aws.amazon.com/cognito/latest/developerguide/limits.html) for details.
+
+</Callout>
+
+
+Once you prepare the three required parameters you can perform calls of Amplify categories APIs on the server side. For example:
+
+```ts
+import {
+  createKeyValueStorageFromCookieStorageAdapter,
+  createUserPoolsTokenProvider,
+  createAWSCredentialsAndIdentityIdProvider,
+  runWithAmplifyServerContext
+} from 'aws-amplify/adapter-core';
+import { parseAmplifyConfig } from 'aws-amplify/utils';
+import { getCurrentUser } from 'aws-amplify/auth/server';
+
+import config from './amplifyconfiguration.json';
+
+// Get the Amplify configuration object
+const amplifyConfig = parseAmplifyConfig(config);
+
+// Step 1 create the key-value storage
+const keyValueStorage = createKeyValueStorageFromCookieStorageAdapter({
+  get(name) {
+    const value = ...; // use framework cookie API to get the value by name
+    return { name, value };
+  },
+  getAll() {
+    return [...]; // use framework cookie API to get an array of { name, value }
+  },
+  set(name, value) {
+    // use framework cookie API to set a cookie
+    //
+    // you should implement this function if you need to update the
+    // token cookies on the client side from the server side
+  },
+  delete(name) {
+    // use framework cookies API to delete a cookie
+  }
+})
+
+// Step 2 create the `tokenProvider`
+const tokenProvider = createUserPoolsTokenProvider(
+  amplifyConfig.Auth,
+  keyValueStorage
+);
+
+// Step 3 create the `credentialsProvider`
+const credentialsProvider = createAWSCredentialsAndIdentityIdProvider(
+  amplifyConfig.Auth,
+  keyValueStorage
+);
+
+// Call Amplify APIs in the callback function
+//
+// For example, calling the `getCurrentUser` API on the server side
+const welcomeMessage = await runWithAmplifyServerContext(
+  amplifyConfig,
+  {
+    Auth: { tokenProvider, credentialsProvider }
+  },
+  // The callback function that contains your business logic
+  async (contextSpec) => {
+    const { username } = await getCurrentUser(contextSpec);
+
+    return `Welcome ${username}!`;
+  },
+);
+```
+
+### Supported APIs for Server Side Usage
+
+All APIs that support use on the server are exported from the `aws-amplify/<category>/server` sub paths. You must use these server API variations for any server-side use cases, and you must **not** use the client API variations in server-side use cases. Using a client-side API in a server context will generate a runtime error.
+
+| Category      | APIs                  |
+| ------------- | --------------------- |
+| Auth          | `fetchAuthSession`    |
+| Auth          | `fetchUserAttributes` |
+| Auth          | `getCurrentUser`      |
+| API (GraphQL) | `generateClient`      |
+| API (REST)    | `GET`                 |
+| API (REST)    | `POST`                |
+| API (REST)    | `PUT`                 |
+| API (REST)    | `DEL`                 |
+| API (REST)    | `HEAD`                |
+| API (REST)    | `PATCH`               |
+| Storage       | `getUrl`              |
+| Storage       | `getProperties`       |
+| Storage       | `list`                |
+| Storage       | `remove`              |
+| Storage       | `copy`                |
+
+### More Examples
+
+Amplify JS v6 provides a pre-built adapter for Next.js based on the approach described above. You can explore the [source code](https://github.com/aws-amplify/amplify-js/blob/main/packages/adapter-nextjs) of the `@aws-amplify/adapter-nextjs` package to learn more about how to use the Next.js provided cookie APIs to make the `runWithAmplifyServerContext` function work.
+
+We also provide a getting-started guide to using the `runWithAmplifyServerContext` function to interact with Amplify categories APIs on the server side of a Nuxt 3 project. See [Use Amplify categories APIs from Nuxt 3](/[platform]/build-a-backend/server-side-rendering/nuxt) for details.
+
+<Overview childPageNodes={props.childPageNodes} />

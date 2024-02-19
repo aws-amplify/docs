@@ -1,18 +1,48 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
-  title: 'Customize sign-up, sign-in, and sign-out',
-  description:
-    'Learn how to build and customize sign-up, sign-in, and sign-out from scratch.'
+  title: 'Enable sign-up, sign-in, and sign-out',
+  description: "Learn how to use Amplify's sign-up, sign-in, and sign-out APIs.",
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'angular',
+        'javascript',
+        'vue',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/enable-sign-up/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
 }
 
+<InlineFilter filters={["javascript" ,  "react-native", "angular", "nextjs", "react", "vue"]}>
+
 In this guide, you will set up sign-up, sign-in, and sign-out using the Amplify Libraries and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out. Once set up, you can connect this functionality to your frontend UI.
+
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 <Callout>
 
@@ -20,7 +50,21 @@ This guide is for those who want to set up Amplify Auth with the Amplify Librari
 
 </Callout>
 
-Before you begin, you should have finished the [_Create your first authentication resource_](/gen2/build-a-backend/auth/set-up-auth/#create-your-first-authentication-resource) section of the _Set up Amplify Auth_ guide. In that guide we showed how to configure the `amplify/auth/resource.ts` file to enable your users to sign up to your application using a username and password. We will be continuing with examples of how to further customize those sign-up, sign-in, and sign-out workflows in this guide.
+Before you begin, you should have finished the [_Set up and connect backend resources_](/[platform]/build-a-backend/auth/set-up-auth/#set-up-and-connect-backend-resources) section of the _Set up Amplify Auth_ guide.
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+<Callout>
+
+This guide is for those who want to set up Amplify Auth with the Amplify Libraries. If you want to create a sign-in and registration experience for your app with a few lines of code, we recommend using the [Authenticator component](https://ui.docs.amplify.aws/react-native/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+
+Before you begin, you should have finished the [_Set up backend resources_](/[platform]/build-a-backend/auth/set-up-auth/#set-up-backend-resources) section of the _Set up Amplify Auth_ guide.
+
+</InlineFilter>
 
 ## Decide before you build
 
@@ -40,28 +84,24 @@ Below is a high-level overview of the workflows for sign-up, sign-in, and sign-o
 
 ### Which Amazon Cognito attributes will you pass for sign-up?
 
-User attributes such as `email` are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are added. You can modify your backend authentication resource to include additional User attributes.
+User attributes (such as username and email) are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are added. You can use the Amplify CLI to add user attributes or visit the Amazon Cognito console. To add user attributes with the CLI, you can run the command `amplify add auth` for a new project, or use `amplify update auth` if you already have existing resources set up. Then, you can select `manual configuration` when prompted by the Amplify CLI.
 
-```diff title="amplify/auth/resource.ts"
-// amplify/auth/resource.ts
-import { defineAuth } from '@aws-amplify/backend';
+```sh
+? amplify update auth
+? What do you want to do?
+  'Walkthrough all the auth configurations'
+# Accept defaults for everything else
 
-export const auth = defineAuth({
-  loginWith: {
-    email: true,
-  },
-+ userAttributes: {
-+   birthdate: {
-+     required: false,
-+     mutable: false,
-+   },
-+ },
-});
+# Select the attributes you want users to read/write
+? Specify read attributes:
+  'Birthdate, Email, Given Name'
+? Specify write attributes:
+  'Locale, Given Name'
 ```
 
 <Callout>
 
-User attributes such as `email` and `phoneNumber` are required and automatically configured if you specify `email` or `phone` as how you would like your user's to `loginWith`. Additional user attributes are not required, however you can specify additional, required user attributes.
+User attributes are not required by default. You can make user attributes required but it cannot be changed back to not required once configured.
 
 </Callout>
 
@@ -75,9 +115,19 @@ Once you have these decisions in mind, you are ready to enable sign-up, sign-in,
 
 You can add the functionality to enable sign-up, sign-in, and sign-out with the Amplify Libraries. You can connect this to an existing UI or create your own.
 
-For many apps, user sign-up and sign-in with a username and password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. This is the method we illustrated in the [_Set up Amplify Auth_](/gen2/build-a-backend/auth/set-up-auth/) guide.
+For many apps, user sign-up and sign-in with a username and password is all that is required. Once authenticated, the app can talk to an API to access and mutate data.
 
-We will use the username and password authentication flow to get started. Both [third-party social provider federation](/gen2/build-a-backend/auth/add-social-provider/) and [Multi-factor authentication](/gen2/build-a-backend/auth/manage-mfa/) can be added after this initial setup.
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
+
+We will use the username and password authentication flow to get started. Both [third-party social provider federation](/[platform]/build-a-backend/auth/add-social-provider/) and [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/) can be added after this initial setup.
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+We will use the username and password authentication flow to get started. Both [third-party social provider federation](/[platform]/build-a-backend/auth/add-social-provider/) and [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/) can be added after this initial set up.
+
+</InlineFilter>
 
 ### Sign-up
 
@@ -126,7 +176,7 @@ async function handleSignUp({
 </Block>
 <Block name="JavaScript">
 
-```js
+```javascript
 import { signUp } from 'aws-amplify/auth';
 
 async function handleSignUp({ username, password, email, phone_number }) {
@@ -160,64 +210,9 @@ The `signUp` API response will include a `nextStep` property, which can be used 
 - `DONE` - The sign up process has been fully completed.
 - `COMPLETE_AUTO_SIGN_IN` - The sign up process needs to complete by invoking the `autoSignIn` API.
 
-#### Update the password format
-
-Using password policy in your `amplify/auth/resource.ts` file, you can customize the format acceptable by your auth backend. By default your password policy is set to the following:
-
-- `MinLength`: 8 characters
-- `requireLowercase`: true
-- `requireUppercase`: true
-- `requireDigits`: true
-- `tempPasswordValidity`: 3 days
-
-```ts title="amplify/backend.ts"
-// amplify/backend.ts
-import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
-
-const backend = defineBackend({
-  auth,
-  data
-});
-
-// extract L1 UserPool construct
-const { cfnUserPool } = backend.auth.resources.cfnResources;
-// from the CDK use `addPropertyOverride` to modify properties directly
-cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.MinimumLength', 32);
-```
-
-## Customize Cognito UserPool email verification settings
-
-You can change the verification email by overriding the `verificationEmailStyle` and the `verificationEmailBody`.
-
-```ts title="amplify/auth/resource.ts"
-// amplify/auth/resource.ts
-import { defineAuth } from "@aws-amplify/backend";
-
-export const auth = defineAuth({
-  loginWith: {
-    email: {
-      verificationEmailStyle: "CODE",
-      verificationEmailBody: (code: string) =>
-        `Welcome! Your verification code is ${code}.`,
-      verificationEmailSubject: "Welcome! Here is your verification code",
-    },
-  },
-});
-```
-
 ### Confirm sign-up
 
-By default, each user that signs up remains in the unconfirmed status until they verify with a confirmation code that was sent to their email or phone number. The following are the default verification methods used when either `phone` or `email` are used as `loginWith` options.
-
-| Login option        | User account verification channel |
-| ------------------- | --------------------------------- |
-| `phone`             | Phone Number                      |
-| `email`             | Email                             |
-| `email` and `phone` | Email                             |
-
-You can confirm the sign-up after retrieving a confirmation code from the user as shown here.
+By default, each user that signs up remains in the unconfirmed status until they verify with a confirmation code that was sent to their email or phone number. You can confirm the sign-up after retrieving a confirmation code from the user as shown here.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -266,7 +261,7 @@ async function handleSignUpConfirmation({ username, confirmationCode }) {
 The `autoSignIn` API will automatically sign-in a user when it was previously enabled by the `signUp` API and after any of the following cases has completed:
 
 - User confirmed their account with a verification code sent to their phone or email (default option).
-- User confirmed their account with a verification link sent to their phone or email. In order to enable this option you need to set `loginWith.email.verificationEmailStyle` to `LINK` in your auth resource file (`amplify/auth/resource.ts`)
+- User confirmed their account with a verification link sent to their phone or email. In order to enable this option you need to go to the [Amazon Cognito console](https://aws.amazon.com/pm/cognito), look for your userpool, then go to the `Messaging` tab and enable `link` mode inside the `Verification message` option. Finally you need to define the `signUpVerificationMethod` to `link` inside the `Cognito` option of your `Auth` config.
 
 ```ts
 import { autoSignIn } from 'aws-amplify/auth';
@@ -330,28 +325,7 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 - `CONFIRM_SIGN_UP` - The user hasn't completed the sign-up flow fully and must be confirmed via `confirmSignUp`.
 - `DONE` - The sign in process has been completed.
 
-For more information on handling the TOTP and MFA steps that may be returned, please see [_'Multi-factor authentication'_](/gen2/build-a-backend/auth/manage-mfa/).
-
-### Guest access
-
-Guest access is enabled by default for your Amplify Auth resources. You can override this default behavior by using CDK as follows:
-
-```ts title="amplify/backend.ts"
-// amplify/backend.ts
-import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
-
-const backend = defineBackend({
-  auth,
-  data
-});
-
-// extract the L1 IdentityPool construct
-const { cfnIdentityPool } = backend.auth.resources.cfnResources;
-// from the CDK use `addPropertyOverride` to modify properties directly
-cfnIdentityPool.addPropertyOverride('AllowUnauthenticatedIdentities', false);
-```
+For more information on handling the TOTP & MFA steps that may be returned, please see [_'Multi-factor authentication'_](/[platform]/prev/build-a-backend/auth/manage-mfa/).
 
 ### Sign-out
 
@@ -427,13 +401,34 @@ async function handleSignOut() {
 
 Once you implement the Amplify Library methods within your application, you can test the sign-up, sign-in, and sign-out functionality.
 
+### View the created user in the AWS Console
+
+After you test the sign-up, sign-in, and sign-out functionality, you can take a look at the created user in the Amazon Cognito console. To do so, you can use `amplify console auth` to open the console directly from the CLI, or take a look at the existing User Pools in the console. Note the users status should be `CONFIRMED` if you successfully verified the user; however, it can be in `UNCONFIRMED` if the user is not yet verified. You can also check to make sure any other required attributes are updating correctly.
+
+You now have enabled sign-up, sign-in, and sign-out for your authentication and verified its functionality with a test user.
+
 ## Conclusion
 
 Congratulations! You finished the **Enable sign-up, sign-in, sign-out** guide and verified the functionality works as expected.
 
-### Next steps
+## Next steps
+
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
 Now that you completed setting up Amplify Auth with username and password, you may also want to add some additional features. We recommend:
 
-- [Add social provider sign-in](/gen2/build-a-backend/auth/add-social-provider/)
-- [Multi-factor authentication](/gen2/build-a-backend/auth/manage-mfa/)
+- [Add social provider sign-in](/[platform]/build-a-backend/auth/add-social-provider/)
+- [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+Now that you completed setting up Amplify Auth with username and password, you may also want to add some additional features. We recommend:
+
+- [Add social provider sign-in](/[platform]/build-a-backend/auth/add-social-provider/)
+- [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/)
+
+</InlineFilter>
+
+</InlineFilter>

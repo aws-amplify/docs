@@ -1,27 +1,60 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
   title: 'Manage user profiles',
-  description: 'Learn how to manage user profiles and add user attributes.'
+  description: 'Learn more about how to enable customers to personalize their profile and verify their contact information with attributes.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'nextjs',
+        'react-native',
+        'javascript',
+        'vue',
+        'angular'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/manage-user-profile/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
 }
 
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
+
 User profile management helps you keep your applications secure while also personalizing your app experiences. In this guide we will review how you can enable your users to personalize their profile and verify their contact information. This includes outlining how you can set up user attributes, verify them, and allow your users to delete them when necessary.
 
-If you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
+Before you begin, you will need:
+
+- An Amplify project with the Auth category configured
+- The Amplify libraries installed and configured
 
 ## Set up user attributes
 
-User attributes such as email address and phone number help you identify individual users. Defining the user attributes you include for your user profiles makes user data easy to manage at scale. This information will help you personalize user journeys, tailor content, provide intuitive account control, and more. You can capture information upfront during sign-up or enable your users to update their profile after sign-up. In this section we take a closer look at working with user attributes and how to set them up and manage them.
+User attributes such as email address, phone number help you identify individual users. Defining the user attributes you include for your user profiles makes user data easy to manage at scale. This information will help you personalize user journeys, tailor content, provide intuitive account control, and more. You can capture information upfront during sign-up or enable customers to update their profile after sign-up. In this section we take a closer look at working with user attributes and how to set them up and manage them.
 
-### Add standard attributes
+### Enable standard attributes
 
-You can build a user profile for your users by adding OIDC standard user attributes using the `amplify/auth/resource.ts` file. Amazon Cognito has a set of default standard attributes that follow this standard.
+Amazon Cognito has a set of default standard attributes. To configure and enable standard user attributes using the Amplify CLI in your app, you can run the Amplify `amplify add auth` command and choose `Walkthrough all the auth configurations`. If you have previously created your auth resources, you can instead run the `amplify update auth` command in your terminal. When prompted for `Specify read attributes` and `Specify write attributes`, choose the attributes you'd like to enable in your app.
 
 <Accordion title='Review standard attributes options' headingLevel='4' eyebrow='Learn more'>
 
@@ -45,58 +78,13 @@ There are many user attributes available to use by default in Cognito. Their def
 - `updated_at`
 - `website`
 
-For more information, visit the [AWS documentation for Amazon Cognito with a list of all the standard attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes).
+You can find a [list of all the standard attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes).
 
 </Accordion>
 
-The following is an example on how to add a user attribute to your authentication resources.
-
-```diff title="amplify/auth/resource.ts"
-// amplify/auth/resource.ts
-import { defineAuth } from '@aws-amplify/backend';
-
-export const auth = defineAuth({
-  loginWith: {
-    email: true,
-  },
-+ userAttributes: {
-+   birthdate: {
-+     required: false,
-+     mutable: false,
-+   },
-+ },
-});
-```
-
-By default, any attributes that you add to your `amplify/auth/resource.ts` file are set to not required and mutable. You can change this behavior by overriding it as shown in the following example.
-
-```ts title="amplify/auth/resource.ts"
-import { Auth } from '@aws-amplify/backend';
-
-export const auth = defineAuth({
-  loginWith: {
-    email: true
-  },
-  // highlight-start
-  userAttributes: {
-    // require the attribute be provided during sign-up
-    preferredUsername: {
-      required: true
-    },
-    // do not allow changing of an attribute's value
-    birthdate: {
-      mutable: false
-    }
-  }
-  // highlight-end
-});
-```
-
 ### Pass user attributes during sign-up
 
-You can also create user attributes during sign-up or when the user is authenticated. To do this as part of sign-up you can pass them in the `userAttributes` object of the `signUp` API:
-
-{/* @TODO, is this snippet accurate? are these attributes snake_case and not camelCase?? */}
+You can create user attributes during sign-up or when the user is authenticated. To do this as part of sign-up you can pass them in the `userAttributes` object of the `signUp` API:
 
 ```ts
 import { signUp } from 'aws-amplify/auth';
@@ -126,7 +114,7 @@ async function handleSignUp() {
 
 Custom attributes can be passed in with the `userAttributes` option of the `signUp` API:
 
-```js
+```javascript
 signUp({
   username: 'jdoe',
   password: 'mysecurerandompassword#123',
@@ -140,19 +128,13 @@ signUp({
 });
 ```
 
-<Callout warning>
-
-The backend authentication resource authored using `defineAuth` does not currently support adding custom attributes. If you wish to add custom attributes you will need to define them using [overrides](/gen2/build-a-backend/auth/override-cognito).
-
-</Callout>
-
 ### Retrieve user attributes
 
 You can then retrieve user attributes for your users to read in their profile. This helps you personalize their frontend experience as well as control what they will see.
 
 You can retrieve a user's latest attributes using the `fetchUserAttributes` API.
 
-```js
+```javascript
 import { fetchUserAttributes } from 'aws-amplify/auth';
 
 async function handleFetchUserAttributes() {
@@ -176,7 +158,7 @@ Invoke the `updateUserAttribute` API to create or update existing user attribute
 <BlockSwitcher>
 <Block name="TypeScript">
 
-```ts
+```typescript
 import {
   updateUserAttribute,
   type UpdateUserAttributeOutput
@@ -217,7 +199,7 @@ function handleUpdateUserAttributeNextSteps(output: UpdateUserAttributeOutput) {
 </Block>
 <Block name="JavaScript">
 
-```js
+```javascript
 import { updateUserAttribute } from 'aws-amplify/auth';
 
 async function handleUpdateUserAttribute(attributeKey, value) {
@@ -256,9 +238,10 @@ function handleUpdateUserAttributeNextSteps(output) {
 </BlockSwitcher>
 
 <Callout>
-
-**Note:** If you change an attribute that requires confirmation (i.e. email or phone_number), the user will receive a confirmation code either to their email or cellphone. This code can be used with the confirmUserAttribute API to confirm the change.
-
+  Note: If you change an attribute that requires confirmation (i.e. email or
+  phone_number), the user will receive a confirmation code either to their email
+  or cellphone. This code can be used with the confirmUserAttribute API to
+  confirm the change.
 </Callout>
 
 ### Update user attributes
@@ -268,7 +251,7 @@ Invoke the `updateUserAttributes` API to create or update multiple existing user
 <BlockSwitcher>
 <Block name="TypeScript">
 
-```ts
+```typescript
 import {
   updateUserAttributes,
   type UpdateUserAttributesOutput
@@ -295,7 +278,7 @@ async function handleUpdateEmailAndNameAttributes(
 </Block>
 <Block name="JavaScript">
 
-```js
+```javascript
 import { updateUserAttributes, type UpdateUserAttributesOutput } from 'aws-amplify/auth';
 
 async function handleUpdateEmailAndNameAttributes(
@@ -326,7 +309,7 @@ Some attributes require confirmation for the attribute update to complete. If th
 <BlockSwitcher>
 <Block name="TypeScript">
 
-```ts
+```typescript
 import {
   confirmUserAttribute,
   type ConfirmUserAttributeInput
@@ -347,7 +330,7 @@ async function handleConfirmUserAttribute({
 </Block>
 <Block name="JavaScript">
 
-```js
+```javascript
 import { confirmUserAttribute } from 'aws-amplify/auth';
 
 async function handleConfirmUserAttribute({
@@ -463,9 +446,22 @@ By following the above steps your users can now update, verify, and delete speci
 
 Congratulations! You finished the **Manage user profiles** guide and your users can now review and customize their profile information.
 
-### Next steps
+## Next steps
 
 Now that you completed setting up user profile management, you may also want to add some additional features. We recommend:
 
-- [Set up password change and recovery](/gen2/build-a-backend/auth/password-management)
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
+
+- [Set up password change and recovery](/[platform]/build-a-backend/auth/manage-passwords/)
 - [Custom Attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+- [Set up password change and recovery](/[platform]/build-a-backend/auth/manage-passwords/)
+- [Custom Attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes)
+
+</InlineFilter>
+
+</InlineFilter>

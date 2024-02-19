@@ -1,0 +1,52 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Functions',
+  description: 'Build and deploy serverless functions to perform various tasks, such as handling API requests, executing backend logic, or integrating with other AWS services.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  route: '/[platform]/build-a-backend/functions',
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'react-native',
+        'react',
+        'flutter',
+        'android',
+        'angular',
+        'javascript',
+        'swift',
+        'vue'
+      ],
+      canonicalPath: '/javascript/build-a-backend/functions/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

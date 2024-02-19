@@ -1,65 +1,56 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-import { getChildPageNodes } from '@/utils/getChildPageNodes';
-
 export const meta = {
   title: 'Storage',
-  description: 'Learn more about how you can manage user content for your app in public, protected or private storage buckets using Amplify Storage.',
-  platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ],
-  route: '/[platform]/build-a-backend/storage',
-  canonicalObjects: [
-    {
-      platforms: [
-        'react',
-        'javascript',
-        'react-native',
-        'vue',
-        'angular',
-        'nextjs'
-      ],
-      canonicalPath: '/javascript/build-a-backend/storage/'
-    }
-  ]
-};
-
-export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
+  description: 'Set up and connect to storage.'
 };
 
 export function getStaticProps(context) {
-  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      platform: context.params.platform,
-      meta,
-      childPageNodes
+      meta
     }
   };
 }
 
-AWS Amplify storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets. The storage category comes with built-in support for [Amazon S3 (Simple Storage Service)](https://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html).
+<Callout info>
 
-## S3 Core Concepts
+**Coming soon:** The Storage experience for Amplify (Gen 2) is still under development. You can add Amazon S3 to your Amplify (Gen 2) project with the AWS CDK.
 
-Amazon S3 stores data as objects within container buckets. An object consists of a file and optionally any metadata that describes that file. To store an object in Amazon S3, you upload the file you want to store to a bucket. When you upload a file, you can set permissions on the object and any metadata.
+</Callout>
 
-Buckets are the containers for objects. You can have one or more buckets. For each bucket, you can control access to it (who can create, delete, and list objects in the bucket), view access logs for it and its objects, and choose the geographical region where Amazon S3 will store the bucket and its contents.
+To use Storage today, you must use the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/), which is installed by default as part of the [`create-amplify`](https://www.npmjs.com/package/create-amplify) workflow. 
 
-## Accessing AWS services
+To get started, modify your project's `backend.ts` file to create an Amazon S3 bucket and grant Amplify-generated resources access to read and write:
 
-With storage, it's important to understand user-level access to storage assets. While Amplify helps with abstraction with provisioning your S3 buckets, it is important to understand the right level of control for your customers.
+```ts title="amplify/backend.ts"
+// amplify/backend.ts
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource.js';
+import { data } from './data/resource.js';
 
-When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. You will have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels.
+const backend = defineBackend({
+  auth,
+  data
+});
 
-## Learn more
+// create the bucket and its stack
+const bucketStack = backend.createStack('BucketStack');
+const bucket = new s3.Bucket(bucketStack, 'Bucket', {
+  blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL
+});
 
-<Overview childPageNodes={props.childPageNodes} />
+// allow any authenticated user to read and write to the bucket
+const authRole = backend.auth.resources.authenticatedUserIamRole;
+bucket.grantReadWrite(authRole);
+
+// allow any guest (unauthenticated) user to read from the bucket
+const unauthRole = backend.auth.resources.unauthenticatedUserIamRole;
+bucket.grantRead(unauthRole);
+```
+
+Finally, run `npx amplify sandbox` to create your first Amazon S3 bucket!
+
+### Next steps
+
+- [Learn more about `s3.Bucket`](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html)
+- [Learn more about `defineBackend`](/gen2/build-a-backend/)

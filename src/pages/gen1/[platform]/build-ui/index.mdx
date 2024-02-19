@@ -1,0 +1,57 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Build UI',
+  description: 'Build UI',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  route: '/[platform]/build-ui',
+  canonicalObjects: [
+    {
+      platforms: [
+        'flutter',
+        'android',
+        'react-native',
+        'vue',
+        'angular',
+        'swift',
+        'nextjs'
+      ],
+      canonicalPath: '/react-native/build-ui/'
+    },
+    {
+      platforms: [
+        'javascript',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-ui/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

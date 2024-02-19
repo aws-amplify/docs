@@ -1,0 +1,117 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Delete user account',
+  description: 'Learn how to delete a user account.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'nextjs',
+        'angular',
+        'react',
+        'react-native',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/delete-user-account/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
+
+Empowering users to delete their account can improve trust and transparency. You can programmatically enable self-service account deletion with Amplify Auth. In this guide, we will review how you can enable this feature for your users.
+
+Before you begin, you will need:
+
+- An Amplify project with the Auth category configured
+- The Amplify Libraries installed and configured
+- A test user to delete
+
+## Allow my users to delete their account
+
+You can quickly set up account deletion for your users with the Amplify Libraries. Invoking the `deleteUser` API to delete a user from the Auth category will also sign out your user.
+
+If your application uses a Cognito User Pool, which is the default configuration, this action will only delete the user from the Cognito User Pool. It will have no effect if you are federating with a Cognito Identity Pool alone.
+
+<Callout warning>
+
+Before invoking the `deleteUser` API, you may need to first delete associated user data that is not stored in Cognito. For example, if you are using Amplify GraphQL API to persist user data, you could follow [these instructions](https://gist.github.com/aws-amplify-ops/27954c421bd72930874d48c15c284807) to delete associated user data. This allows you to address any guidelines (such as GDPR) that require your app to delete data associated with a user who deletes their account.
+
+</Callout>
+
+You can enable account deletion using the following method:
+
+```ts
+import { deleteUser } from 'aws-amplify/auth';
+
+async function handleDeleteUser() {
+  try {
+    await deleteUser();
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+
+We recommend you update your UI to let your users know that their account is deleted and test the functionality with a test user. Note that your user will be signed out of your application when they delete their account.
+
+## Conclusion
+
+Congratulations! You finished the **Delete user account** guide. In this guide, you learned how to enable account deletion for your users.
+
+## Next steps
+
+Now that you enabled account deletion you may also want to add some additional features. We recommend you learn more about:
+
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
+
+- [Manage user profile](/[platform]/build-a-backend/auth/manage-user-profile/)
+- [Set up password change and recovery](/[platform]/build-a-backend/auth/manage-passwords/)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+- [Manage user profile](/[platform]/build-a-backend/auth/manage-user-profile/)
+- [Set up password change and recovery](/[platform]/build-a-backend/auth/manage-passwords/)
+
+</InlineFilter>
+
+</InlineFilter>
+
+import ios0 from '/src/fragments/lib/auth/native_common/delete_user/common.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import flutter1 from '/src/fragments/lib/auth/native_common/delete_user/common.mdx';
+
+<Fragments fragments={{ flutter: flutter1 }} />
+
+import android3 from '/src/fragments/lib/auth/native_common/delete_user/common.mdx';
+
+<Fragments fragments={{ android: android3 }} />

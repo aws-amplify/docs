@@ -1,44 +1,64 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
   title: 'Manage MFA settings',
-  description: 'Learn how to enable and manage MFA settings.'
+  description: 'Learn how to enable multi-factor authentication with Amplify.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'nextjs',
+        'vue',
+        'javascript',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/manage-mfa/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
-
 }
 
-Amplify Auth supports Multi-factor Authentication (MFA) for user sign-in flows. MFA is an extra layer of security used to make sure that users trying to gain access to an account are who they say they are. It requires users to provide additional information to verify their identity. Amplify Auth supports the MFA methods with Time-based-One-Time Passwords (TOTP) as well as text messages (SMS). In this guide we will review how you can set up MFA using TOTP and SMS and the tradeoffs between these methods to help you choose the right set up for your application. We will also review how to set up MFA to remember a device and reduce sign-in friction for your users.
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
+
+The Auth category supports Multi-factor Authentication (MFA) for user sign-in flows. MFA is an extra layer of security used to make sure that users trying to gain access to an account are who they say they are. It requires users to provide additional information to verify their identity. Amplify Auth supports the MFA methods with Time-based-One-Time Passwords (TOTP) as well as text messages (SMS). In this guide we will review how you can set up MFA using TOTP and SMS and the tradeoffs between these methods to help you choose the right set up for your application. We’ll also review how to set up MFA to remember a device and reduce sign-in friction for your users.
 
 Before you begin, you will need:
 
-- An Amplify app set up (see the [quickstart](/gen2/start/quickstart/) if you need to set up an app)
+- The Amplify libraries installed and configured
 - _Optional_ If you are using SMS you will need a phone number provisioned with an [SNS/Pinpoint](https://docs.aws.amazon.com/sns/latest/dg/channels-sms-originating-identities.html)
 
-## Configure multi-factor authentication backend
+## Enable multi-factor authentication
 
-Use `defineAuth` to enable MFA for your app. The example below is setting up MFA with TOTP but not SMS as you can see that the phone number is not a required attribute. If you are using SMS, then the `PhoneNumber` attribute must be `true`.
+Below are the steps you can use to set up MFA using SMS or TOTP with the Amplify CLI. The Amplify libraries are designed to work with MFA even if you have set up your Amazon Cognito resources separately.
 
-```diff title="amplify/auth/resource.ts"
-// amplify/auth/resource.ts
-import { defineAuth } from '@aws-amplify/backend';
+<Callout>
 
-export const auth = defineAuth({
-  loginWith: {
-    email: true
-  },
-+ multifactor: {
-+   mode: 'optional',
-+   totp: true
-+ }
-});
-```
+You can also use the Amazon Cognito console to enable MFA. You will first enable MFA for your Cognito User Pool and then set up MFA for your app. Please see the [_Amazon Cognito Developer Guide_](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html) for more information to set up MFA in Amazon Cognito. You can use the same Cognito console to enable or disable MFA.
 
-After you enable MFA you will also need to include MFA setup when users sign up. This will change depending on if you enable SMS, TOTP or both.
+</Callout>
 
 ### Understand your MFA options
 
@@ -50,21 +70,151 @@ When enabling MFA you will have two key decisions to make:
 <Accordion title='Compare TOTP and SMS MFA methods' headingLevel='4' eyebrow='Learn more'>
 
 |  | Time-based One-time Password (TOTP) | Short Message Service (SMS) |
-| --- | --- | --- |
+| :-- | :-- | :-- |
 | **Description** | Generates a short-lived numeric code for user authentication that includes a shared secret key and current time using an authenticator app. | Generates a one-time code shared via text message that is entered with other credentials for user authentication. |
 | **Benefits** | More secure than SMS since the code is generated locally and not transmitted over a network. TOTP also works without cell service as long as the TOTP app is installed. | Easy to set up with a user-provided phone number and is familiar to users as a common authentication method. |
 | **Constraints** | Requires an app to generate codes and adds to the initial setup of an account. Codes also expire quickly and must be used promptly after it is generated. | SMS requires cell service and can include an additional cost for the user. Although rare, SMS messages can also be intercepted. |
 
 </Accordion>
 
-## Multi-factor authentication with SMS
+### Enable MFA with the Amplify CLI
 
-<Callout info>
-  If you are using the [Authenticator
-  component](https://ui.docs.amplify.aws/react/connected-components/authenticator)
-  with Amplify (Gen 2), this feature works without any additional code. The
-  guide below is for writing your own implementation.
+<Callout warning>
+
+**Note:** If your User Pool was created using Amplify CLI to set up backend resources (via `amplify add auth`) and you did not enable MFA, you will only be able to select the 'OPTIONAL' configuration for MFA when updating (via `amplify update auth`). Similarly, once MFA is enabled for a User pool you cannot disable it (via `amplify update auth`).
+
 </Callout>
+
+<BlockSwitcher>
+<Block name="New Project">
+
+Run `amplify add auth` to create a new Cognito Auth resource, and follow the prompts below depending on how you want to integrate MFA into your flow.
+
+Turning MFA "ON" will make it required for all users, while "Optional" will make it available to enable on a per-user basis.
+
+#### SMS MFA
+
+<Callout>
+
+**Note:** If you create or update an SMS MFA configuration for your Cognito user pool, the Cognito service will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS.
+
+For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aws.amazon.com/sns/sms-pricing/).
+
+</Callout>
+
+```
+$ amplify add auth
+
+? Do you want to use the default authentication and security configuration?
+  Manual configuration
+
+# Answer as appropriate
+
+? Multifactor authentication (MFA) user login options:
+  ON (Required for all logins, can not be enabled later)
+? For user login, select the MFA types:
+  SMS Text Message
+? Please specify an SMS authentication message:
+  Your authentication code is {####}
+
+# Answer as appropriate
+
+Some next steps:
+"amplify push" will build all your local backend resources and provision it in the cloud
+"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
+```
+
+#### TOTP MFA
+
+```
+$ amplify add auth
+
+? Do you want to use the default authentication and security configuration?
+  Manual configuration
+
+# Answer as appropriate
+
+? Multifactor authentication (MFA) user login options:
+  ON (Required for all logins, can not be enabled later)
+? For user login, select the MFA types:
+  Time-Based One-Time Password (TOTP)
+
+# Answer as appropriate
+
+Some next steps:
+"amplify push" will build all your local backend resources and provision it in the cloud
+"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
+```
+
+</Block>
+<Block name="Existing Project">
+
+Run `amplify update auth` and follow the prompts as guided below.
+
+The following steps show how to enable MFA as "Optional" for users. In this mode, MFA must be enabled on a user-by-user basis, either through an Admin SDK (e.g. via a Lambda trigger as part of the sign-up process), or manually in the Cognito console.
+
+If you'd like to make MFA required for users, you must first delete your auth resource by running `amplify remove auth`, then follow the **New Project** flow on this page.
+
+#### SMS MFA
+
+<Callout>
+
+**Note:** If you create or update an SMS MFA configuration for your Cognito user pool, the Cognito service will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS.
+
+For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aws.amazon.com/sns/sms-pricing/).
+
+</Callout>
+
+```
+$ amplify update auth
+
+? What do you want to do?
+  Walkthrough all the auth configurations
+
+# Answer as appropriate
+
+? Multifactor authentication (MFA) user login options:
+  OPTIONAL (Individual users can use MFA)
+? For user login, select the MFA types:
+  SMS Text Message
+? Please specify an SMS authentication message:
+  Your authentication code is {####}
+
+# Answer as appropriate
+
+Some next steps:
+"amplify push" will build all your local backend resources and provision it in the cloud
+"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
+```
+
+#### TOTP MFA
+
+```
+$ amplify update auth
+
+? What do you want to do?
+  Walkthrough all the auth configurations
+
+# Answer as appropriate
+
+? Multifactor authentication (MFA) user login options:
+  OPTIONAL (Individual users can use MFA)
+? For user login, select the MFA types:
+  Time-Based One-Time Password (TOTP)
+
+# Answer as appropriate
+
+Some next steps:
+"amplify push" will build all your local backend resources and provision it in the cloud
+"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
+```
+
+</Block>
+</BlockSwitcher>
+
+After you enable MFA you will also need to include MFA setup when users sign up. This will change depending on if you enable SMS, TOTP or both.
+
+## Multi-factor authentication with SMS
 
 Once you have setup SMS as your second layer of authentication with MFA as shown above, your users will get an authentication code via a text message to complete sign-in after they sign in with their username and password.
 
@@ -107,7 +257,7 @@ async function handleSignUp(
 
 <Block name="JavaScript">
 
-```js
+```javascript
 import { signUp } from 'aws-amplify/auth';
 
 async function handleSignUp(username, password, phone_number, email) {
@@ -176,7 +326,7 @@ After a user signs in, if they have MFA enabled for their account, a challenge w
 <BlockSwitcher>
 <Block name="TypeScript">
 
-```ts
+```typescript
 import { signIn } from 'aws-amplify/auth';
 
 async function handleSignIn(username: string, password: string) {
@@ -257,13 +407,6 @@ async function handleUpdateMFAPreference() {
 ```
 
 ## Multi-factor authentication with TOTP
-
-<Callout info>
-  If you are using the [Authenticator
-  component](https://ui.docs.amplify.aws/react/connected-components/authenticator)
-  with Amplify (Gen 2), this feature works without any additional code. The
-  guide below is for writing your own implementation.
-</Callout>
 
 You can use Time-based One-Time Password (TOTP) for multi-factor authentication (MFA) in your web or mobile applications. The Amplify Auth category includes support for TOTP setup and verification using authenticator apps, offering an integrated solution and enhanced security for your users. These apps, such as Google Authenticator, Microsoft Authenticator, have the TOTP algorithm built-in and work by using a shared secret key and the current time to generate short-lived, six digit passwords.
 
@@ -617,7 +760,7 @@ async function handleMFASelection(mfaType) {
 
 ## Remember a device
 
-Remembering a device is useful in conjunction with MFA because it allows the second factor requirement to be automatically met when your user signs in on that device and reduces friction in their sign-in experience. By default, this feature is turned off.
+Remembering a device is useful in conjunction with MFA because it allows the second factor requirement to be automatically met when your user signs in on that device and reduces friction in their sign-in experience.
 
 <Callout>
 
@@ -631,25 +774,30 @@ Remembering a device is useful in conjunction with MFA because it allows the sec
 
 ### Configure device tracking
 
-You can configure device tracking with `deviceTracking` construct.
+You can enable the remembered device functionality in the Cognito User Pool console. To begin, go to your project directory and issue the command:
 
-```ts title="amplify/backend.ts"
-import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
-
-const backend = defineBackend({
-  auth,
-  data
-});
-
-const { cfnUserPool } = backend.auth.resources.cfnResources;
-
-cfnUserPool.addPropertyOverride('DeviceConfiguration', {
-  ChallengeRequiredOnNewDevice: true,
-  DeviceOnlyRememberedOnUserPrompt: false
-});
+```bash
+amplify auth console
 ```
+
+Select the following option to open the Cognito User Pool console:
+
+```bash
+? Which Console
+    User Pool
+```
+
+When the console opens, scroll down to the "Device Tracking" section and select the "Edit" button. This will render the following page allowing you to configure your preference for remembering a user's device.
+
+![Edit device tracking options list is shown, with the don't remember highlighted.](/images/auth/webconsole_remember1.png)
+
+Choose either "Always remember" to remember a user's device by default or "User Opt-in" to give the user the ability to choose.
+
+When MFA is enabled you will have the option to suppress the second factor during multi-factor authentication. Choose "Yes" if you want a remembered device to be used as a second factor mechanism.
+
+![Options for allow users to bypass MFA for trusted devices.](/images/auth/webconsole_remember2.png)
+
+When you have made your selection(s), click "Save changes". You are now ready to start updating your code to manage remembered devices.
 
 <Accordion title='Understand key terms used for tracking devices' headingLevel='4' eyebrow='Learn more'>
 
@@ -781,9 +929,26 @@ You can now set up devices to be remembered, forgotten, and fetched.
 
 Congratulations! You finished the **Manage MFA settings** guide. In this guide, you set up and configured MFA for your users and provided them options on remembering their MFA preferences and devices.
 
-### Next steps
+## Next steps
 
 Now that you completed setting up multi-factor authentication you may also want to add additional customization. We recommend you learn more about:
 
-- [Listen to auth events](/gen2/build-a-backend/auth/auth-events/)
-- [Set up admin actions and user group management](/gen2/build-a-backend/auth/admin-actions/)
+</InlineFilter>
+
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
+
+- [Switching authentication flows](/[platform]/build-a-backend/auth/switch-auth/#customauth-flow)
+- [Advanced workflows](/[platform]/build-a-backend/auth/advanced-workflows/)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+- [Switching authentication flows](/[platform]/build-a-backend/auth/switch-auth/#customauth-flow)
+- [Advanced workflows](/[platform]/build-a-backend/auth/advanced-workflows/)
+
+</InlineFilter>
+
+import flows from '/src/fragments/lib/auth/common/mfa/flows.mdx';
+
+<Fragments fragments={{ swift: flows, flutter: flows, android: flows }} />

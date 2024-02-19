@@ -1,0 +1,385 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Set up admin actions',
+  description: 'Learn how to expose administrative actions for your Cognito User Pool to your end user applications.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'swift',
+        'flutter',
+        'react-native',
+        'vue',
+        'nextjs',
+        'react',
+        'android',
+        'javascript',
+        'angular'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/admin-actions/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Admin Actions allow you to execute queries and operations against users and groups in your Cognito user pool.
+
+For example, the ability to list all users in a Cognito User Pool may provide useful for the administrative panel of an app if the logged-in user is a member of a specific Group called "Admins".
+
+> This is an advanced feature that is not recommended without an understanding of the underlying architecture. The associated infrastructure which is created is a base designed for you to customize for your specific business needs. We recommend removing any functionality which your app does not require.
+
+The Amplify CLI can setup a REST endpoint with secure access to a Lambda function running with limited permissions to the User Pool if you wish to have these capabilities in your application, and you can choose to expose the actions to all users with a valid account or restrict to a specific User Pool Group.
+
+## Enable Admin Queries
+ 
+<BlockSwitcher>
+<Block name="With a New Auth Resource">
+
+```bash
+amplify add auth
+```
+
+Select the option to go through Manual configuration.
+
+```console
+ Do you want to use the default authentication and security configuration? (Use arrow keys)
+  Default configuration 
+  Default configuration with Social Provider (Federation) 
+❯ Manual configuration 
+  I want to learn more. 
+```
+
+Go through the rest of the configuration steps until you reach the following prompts:
+
+```console
+? Do you want to add User Pool Groups? Yes
+? Provide a name for your user pool group: Admins
+? Do you want to add another User Pool Group No
+✔ Sort the user pool groups in order of preference · Admins
+? Do you want to add an admin queries API? Yes
+? Do you want to restrict access to the admin queries API to a specific Group? Yes
+? Select the group to restrict access with: (Use arrow keys)
+❯ Admins 
+  Enter a custom group
+```
+
+Continue with the rest of the prompts to finish the configuration.
+
+</Block>
+
+<Block name="With an Existing Auth Resource">
+
+```bash
+amplify update auth
+```
+
+Select the option to Create or update Admin queries API.
+
+```console
+What do you want to do? Create or update Admin queries API
+? Do you want to restrict access to the admin queries API to a specific Group Yes
+? Select the group to restrict access with: (Use arrow keys)
+❯ Admins
+  Enter a custom group
+```
+
+</Block>
+
+</BlockSwitcher>
+
+<Callout>
+
+If you don't have any User Pool Groups, you will need to select `Enter a custom group`.
+
+</Callout>
+
+When ready, run `amplify push` to deploy the changes.
+
+This will configure an API Gateway endpoint with a Cognito Authorizer that accepts an Access Token, which is used by a Lambda function to perform actions against the User Pool. The function is example code which you can use to remove, add, or alter functionality based on your business case by editing it in the `amplify/backend/function/AdminQueriesXXX/src` directory and running an `amplify push` to deploy your changes. If you choose to restrict actions to a specific Group, custom middleware in the function will prevent any actions unless the user is a member of that Group.
+
+## Admin Queries API
+
+The default routes and their functions, HTTP methods, and expected parameters are below
+
+- `addUserToGroup`: Adds a user to a specific Group. Expects `username` and `groupname` in the POST body.
+- `removeUserFromGroup`: Removes a user from a specific Group. Expects `username` and `groupname` in the POST body.
+- `confirmUserSignUp`: Confirms a users signup. Expects `username` in the POST body.
+- `disableUser`: Disables a user. Expects `username` in the POST body.
+- `enableUser`: Enables a user. Expects `username` in the POST body.
+- `getUser`: Gets specific user details. Expects `username` as a GET query string.
+- `listUsers`: Lists all users in the current Cognito User Pool. You can provide an OPTIONAL `limit` (between 0 and 60) as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `listGroups`: Lists all groups in the current Cognito User Pool. You can provide an OPTIONAL `limit` (between 0 and 60) as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `listGroupsForUser`: Lists groups to which current user belongs to. Expects `username` as a GET query string. You can provide an OPTIONAL `limit` (between 0 and 60) as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `listUsersInGroup`: Lists users that belong to a specific group. Expects `groupname` as a GET query string. You can provide an OPTIONAL `limit` (between 0 and 60) as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `signUserOut`: Signs a user out from User Pools, but only if the call is originating from that user. Expects `username` in the POST body.
+
+## Example
+
+To leverage this functionality in your app you would call the appropriate route from `Amplify.API` after signing in. The following example adds the user "richard" to the Editors Group and then list all members of the Editors Group with a pagination limit of 10:
+
+<BlockSwitcher>
+
+<Block name="JS (React)">
+
+```js
+import React from 'react'
+import { Amplify } from 'aws-amplify';
+import { fetchAuthSession } from 'aws-amplify/auth';
+import { post } from 'aws-amplify/api'
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
+
+const client = generateClient()
+
+async function addToGroup() { 
+  let apiName = 'AdminQueries';
+  let path = '/addUserToGroup';
+  let options = {
+      body: {
+        "username" : "richard",
+        "groupname": "Editors"
+      }, 
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
+      } 
+  }
+  return post({apiName, path, options});
+}
+
+async function listEditors(limit){
+  let apiName = 'AdminQueries';
+  let path = '/listUsersInGroup';
+  let options = { 
+      queryStringParameters: {
+        "groupname": "Editors",
+        "limit": limit,
+      },
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
+      }
+  }
+  const response = await get({apiName, path, options});
+  return response;
+}
+
+function App() {
+  return (
+    <div className="App">
+      <button onClick={addToGroup}>Add to Group</button>
+      <button onClick={() => listEditors(10)}>List Editors</button>
+    </div>
+  );
+}
+
+export default withAuthenticator(App);
+```
+
+</Block>
+
+<Block name="Swift">
+
+1. Initialize Amplify API. Refer to [Set up Amplify REST API](/[platform]/build-a-backend/restapi/set-up-rest-api/) for more details.
+
+You should have the initialization code including the imports:
+
+```swift
+import Amplify
+import AWSCognitoAuthPlugin
+import AWSAPIPlugin
+```
+
+and code that adds `AWSCognitoAuthPlugin` and `AWSAPIPlugin` before configuring Amplify.
+
+```swift
+try Amplify.add(plugin: AWSCognitoAuthPlugin())
+try Amplify.add(plugin: AWSAPIPlugin())
+try Amplify.configure()
+```
+
+2. Sign in using `Amplify.Auth`. See [Amplify.Auth](/[platform]/build-a-backend/auth/set-up-auth/) to learn more about signing up and signing in a user.
+
+3. Use the following in your app to add a user to the Group.
+
+```swift
+func addToGroup(username: String, groupName: String) async {
+    let path = "/addUserToGroup"
+    let body = "{\"username\":\"\(username)\",\"groupname\":\"\(groupName)\"}".data(using: .utf8)
+    let request = RESTRequest(path: path, body: body)
+    do {
+        let data = try await Amplify.API.post(request: request)
+        print("Response Body: \(String(decoding: data, as: UTF8.self))")
+    } catch {
+        if case let .httpStatusError(statusCode, response) = error as? APIError,
+           let awsResponse = response as? AWSHTTPURLResponse,
+           let responseBody = awsResponse.body {
+            print("StatusCode: \(statusCode) Response Body: \(String(decoding: responseBody, as: UTF8.self))")
+        }
+    }
+}
+
+await addToGroup(username: "richard", groupName:  "Editors")
+```
+
+4. Use the following to list the users in the Group.
+
+```swift
+func listEditors(groupName: String, limit: Int, nextToken: String? = nil) async {
+    let path = "/listUsersInGroup"
+    var query = [
+        "groupname": groupName,
+        "limit": String(limit)
+    ]
+    if let nextToken = nextToken {
+        query["token"] = nextToken
+    }
+
+    let request = RESTRequest(path: path, queryParameters: query, body: nil)
+    do {
+        let data = try await Amplify.API.get(request: request)
+        print("Response Body: \(String(decoding: data, as: UTF8.self))")
+    } catch {
+        if case let .httpStatusError(statusCode, response) = error as? APIError,
+           let awsResponse = response as? AWSHTTPURLResponse,
+           let responseBody = awsResponse.body {
+            print("StatusCode: \(statusCode) Response Body: \(String(decoding: responseBody, as: UTF8.self))")
+        }
+    }
+}
+
+await listEditors(groupName: "Editors", limit: 10)
+```
+
+**Note: Cognito User Pool with HostedUI** 
+
+The Admin Queries API configuration in **amplifyconfiguration.json** will have the endpoint's authorization type set to `AMAZON_COGNITO_USER_POOLS`. With this authorization type, `Amplify.API` will perform the request with the access token. However, when using HostedUI, the app may get unauthorized responses despite being signed in, and will require using the ID Token. Set the authorizationType to "NONE" and add a custom interceptor to return the ID Token. 
+
+```json
+{
+    "awsAPIPlugin": {
+        "[YOUR-RESTENDPOINT-NAME]": {
+            "endpointType": "REST",
+            "endpoint": "[YOUR-REST-ENDPOINT]",
+            "region": "[REGION]",
+            "authorizationType": "NONE"
+        }
+    }
+}
+```
+<Callout warning>
+
+If you perform additional updates to your resources using Amplify CLI, the authorizationType will be reverted back to `AMAZON_COGNITO_USER_POOLS`. Make sure to update this back to `NONE`.
+
+</Callout>
+
+Add a custom interceptor to the API
+```swift
+try Amplify.configure()
+try Amplify.API.add(interceptor: MyCustomInterceptor(), for: "[YOUR-RESTENDPOINT-NAME]")
+```
+
+Set up the custom interceptor to return the ID token for the request.
+
+```swift
+import Amplify
+import AWSPluginsCore
+
+class MyCustomInterceptor: URLRequestInterceptor {
+    func latestAuthToken() async throws -> String {
+        guard let session = try await Amplify.Auth.fetchAuthSession() as? AuthCognitoTokensProvider else {
+            throw AuthError.unknown("Could not retrieve Cognito token")
+        }
+
+        let tokens = try session.getCognitoTokens().get()
+        return tokens.idToken
+    }
+
+    func intercept(_ request: URLRequest) async throws -> URLRequest {
+        var request = request
+        do {
+            let token = try await latestAuthToken()
+            request.setValue(token, forHTTPHeaderField: "authorization")
+        } catch {
+            throw APIError.operationError("Failed to retrieve Cognito UserPool token.", "", error)
+        }
+        return request
+    }
+}
+```
+</Block>
+</BlockSwitcher>
+
+## Adding Admin Actions
+
+To add additional admin actions that are not included by default but are enabled by Amazon Cognito, you will need to update the Lambda function code that is generated for you. The change will include adding a route handler for the action and creating a route for it. You will then associate the route handler to the route within the [Express](https://expressjs.com/) app.
+
+Below is an example of how to add an admin action that will allow you to [update a user's attributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html).
+```js
+async function updateUserAttributes(username, attributes) {
+  
+  const params = {
+    Username: username,
+    UserAttributes: attributes,
+    UserPoolId: 'STRING_VALUE',
+  };
+
+  console.log(`Attempting to update ${username} attributes`);
+
+  try {
+    await cognitoIdentityServiceProvider.adminUpdateUserAttributes(params).promise();
+    console.log(`Success updating ${username} attributes`);
+    return {
+      message: `Success updating ${username} attributes`,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+```
+Once the route handler is defined, you will then add a route with the correct HTTP method to the Express app and associate the route handler to the route. Be sure to make the route unique.
+
+Below is an example of how you can add a `POST` route named `/updateUserAttributes` and associate the above route handler to it.
+```js
+app.post('/updateUserAttributes', async (req, res, next) => {
+  if (!req.body.username || !req.body.attributes) {
+    const err = new Error('username and attributes are required');
+    err.statusCode = 400;
+    return next(err);
+  }
+
+  try {
+    const response = await updateUserAttributes(req.body.username, req.body.attributes);
+    res.status(200).json(response);
+  } catch (err) {
+    next(err);
+  }
+});
+```

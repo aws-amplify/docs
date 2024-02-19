@@ -1,0 +1,281 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { IconCheckCircle } from '@/components/Icons';
+
+export const meta = {
+  title: 'How Amplify works',
+  description: 'Learn about the capabilities of AWS Amplify and how they can be used together or independently for fullstack app development.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'flutter',
+        'swift',
+        'android'
+      ],
+      canonicalPath: '/swift/how-amplify-works/'
+    },
+    {
+      platforms: [
+        'angular',
+        'vue',
+        'react-native',
+        'javascript',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/how-amplify-works/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## Overview
+
+Amplify empowers developers with a flexible collection of modular cloud services and libraries for fullstack application development. Each capability is designed to integrate with the others, while also remaining standalone for customized implementations. Developers can mix and match Amplify capabilities based on their project needs, leveraging only the required building blocks. For example, a developer could use Amplify’s data functionality for their fullstack app’s backend and frontend, just host their app’s frontend, or connect their user interface to an existing AWS resource like an Amazon S3 bucket. This guide explores the different capabilities Amplify provides and how you can use them together or independently.
+
+## Amplify capabilities
+
+Amplify provides tooling for building app backends, connecting app frontends to backend resources, and hosting frontend apps.
+
+For end-to-end fullstack development, you would use Amplify to host your app’s frontend, provision backend resources either visually or through a command line, and build your app’s frontend user interface with Figma-to-code generation and Amplify’s frontend libraries. While this diagram shows a complete Amplify flow, you can also use each piece independently—for example, just host your frontend or use UI components to build out your app’s frontend.
+
+![How Amplify capabilities can be used together or independently.](/images/how-amplify-works/amplify-flow.png)
+
+Let’s look a little closer at the different use cases Amplify enables. In this guide, we will use JavaScript for the code snippets; however, Amplify also supports mobile developers using Swift, Android, and Flutter.
+
+## Building an app
+
+### Data
+
+With Amplify, you can quickly set up a GraphQL or REST API connected to a database.
+
+To add an API to your app’s backend, you can run the following CLI command:
+
+```bash
+amplify add api
+```
+
+The CLI will display prompts to configure your schema and choose either GraphQL or REST. Answer these prompts in the terminal to set up your API. Amplify will handle the backend setup, including provisioning an API backed by AWS AppSync or Amazon API Gateway and an Amazon DynamoDB database.
+
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
+Then access your API from your frontend code, for example, in a to-do list app that uses GraphQL:
+
+```javascript
+import { generateClient } from 'aws-amplify/api';
+import { listTodos } from './graphql/queries';
+
+const client = generateClient();
+
+const result = await client.graphql({
+  query: listTodos
+});
+console.log(result);
+```
+
+</InlineFilter>
+
+Learn more about [Amplify Data.](/[platform]/build-a-backend/graphqlapi/)
+
+### Authentication
+
+Amplify Auth makes it easy to add full user authentication flows to your application.
+
+To add backend authentication, you can run the following command:
+
+```bash
+amplify add auth
+```
+
+You can customize your authentication flow with customized sign-in and registration flows, multi-factor authentication (MFA), and third-party social providers. Amplify deploys an Amazon Cognito instance in your AWS account when you add auth to your app.
+
+<InlineFilter filters={['react']}>
+
+Then, you could use the Amplify `Authenticator` component or the client libraries to add user flows.
+
+```javascript
+import { withAuthenticator } from '@aws-amplify/ui-react';
+
+function App({ signOut, user }) {
+  return (
+    <>
+      <h1>Hello {user.username}</h1>
+      <button onClick={signOut}>Sign out</button>
+    </>
+  );
+}
+
+export default withAuthenticator(App);
+```
+
+</InlineFilter>
+
+Learn more about [Amplify Auth](/[platform]/build-a-backend/auth/).
+
+### Storage
+
+Amplify Storage provides a simple mechanism for managing file and data storage like images, videos, and documents in the cloud.
+
+To add a storage bucket to your app on the backend, run the command:
+
+```bash
+amplify add storage
+```
+
+Amplify adds an Amazon S3 bucket or Amazon DynamoDB database to your AWS account to store your content.
+
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
+In your app’s frontend, you can upload files:
+
+```javascript
+import { uploadData } from 'aws-amplify/storage';
+
+const result = await uploadData({
+  key: 'example.png',
+  data: file
+});
+```
+
+Or retrieve content to display to users:
+
+```javascript
+import { getUrl } from 'aws-amplify/storage';
+
+const image = await getUrl({
+  key: 'example.png'
+});
+```
+
+</InlineFilter>
+
+Learn more about [Amplify Storage](/[platform]/build-a-backend/storage/set-up-storage/).
+
+### UI building
+
+Amplify makes it easy to quickly build web and mobile app user interfaces using component libraries and Figma-to-code generation.
+
+With the Figma-to-code feature, you can convert Figma designs directly into React components. You can then connect these components to your cloud data in Amplify Studio, and customize them as needed in your code base. This automates the process of coding UIs from design mocks.
+
+Figma to code is available for React users. Learn more about [Figma-to-code generation](/react/build-ui/uibuilder/).
+
+![Screenshot showing Figma to Code](/images/how-amplify-works/figma-to-code.png)
+
+Amplify also has form-building capabilities to generate React forms with custom theming, validation logic, lifecycle management, and validation.
+
+Form Builder is available for React users. Learn more about [Form Builder](/react/build-ui/formbuilder/).
+
+![Studio console showing auto-generated forms in the left-hand navigation pane](/images/how-amplify-works/ui-library-form-builder.png)
+
+Amplify includes a library of open-source React components that handle common use cases like authentication, file storage, and data management. These components use AWS services as their backend data sources. For example, the `<Authenticator>` component provides a complete authentication flow by connecting to authentication resources.
+
+Learn more about [cloud connected components](https://ui.docs.amplify.aws/react/connected-components/authenticator).
+
+![Amplify’s default sign-in form with email, password, sign-in, and account creation capabilities.](/images/how-amplify-works/ui-library-sign-in.png)
+
+Amplify also offers more than 40 [primitive React components](https://ui.docs.amplify.aws/react/components) built in CSS and React that provide a solid foundation for building your entire app. These primitive components provide the foundational building blocks for constructing custom user interfaces.
+
+![Amplify UI primitive components](/images/how-amplify-works/ui-library-primitive-components.png)
+
+### More!
+
+Amplify provides more beyond its core data, storage, and authentication capabilities. It also offers additional categories including:
+
+- Serverless functions – Add AWS Lambda functions to your projects to add custom business logic to your app.
+- Location services – Add mapping features, geofencing, and location tracking.
+- Analytics – Understand user behavior and track key metrics.
+- AI/ML – Incorporate AI-powered functionality like natural language processing, text-to-speech, and recommendations.
+- PubSub – Pass messages between your app instances and your app's backend to create real-time interactive experiences.
+- Interactions – Create conversational interfaces powered by voice and chatbots.
+- In-app messaging – Send targeted messages to your defined user segments or trigger contextual messages based on user behavior.
+
+## Frontend hosting
+
+Amplify Hosting provides hosting for static and server-side rendered Next.js apps. It has built-in CI/CD workflows, so you can automatically redeploy on every commit. Connect your git branches to Amplify Hosting to automatically deploy both your frontend and backend changes on every push. Enable pull request previews to view new features before merging them into your production branch.
+
+Connect your repository branch:
+
+![Adding a repository through the Amplify Hosting form, including selecting a repository provider and a branch name.](/images/how-amplify-works/hosting-form.png)
+
+Confirm your build settings, add any environmental variables you may need for API keys or parameters, then save and deploy. Amplify will provision a build environment, clone your repository, deploy your Amplify backend if you have one, and then deploy your frontend. All completely managed by Amplify.
+
+![Amplify Hosting displaying a fully deployed site.](/images/how-amplify-works/hosting-deployed-site.png)
+
+Learn more about [Amplify Hosting](https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html).
+
+## Connecting to AWS beyond Amplify
+
+### Connect to existing resources
+
+Amplify is designed to work with your existing AWS resources and configurations. For example, you can use Amplify's pre-built authentication UI components with an existing Amazon Cognito user pool you created and configured separately. Or you can display images and files from an existing S3 bucket in your app's user interface by integrating with Amplify Storage.
+
+Amplify's libraries provide an interface to leverage your existing AWS services so that you can adopt Amplify's capabilities incrementally into your current workflows, without disrupting your existing backend infrastructure.
+
+This flexibility makes it easy to start taking advantage of Amplify frontend capabilities like authentication, APIs, storage, and business logic with your existing resources. Amplify streamlines the integration between UI code, application logic, and backend cloud services.
+
+### Extend with CDK
+
+Amplify provides three override capabilities for customizing your infrastructure beyond the defaults the CLI provides.
+
+- Overrides – Override Amplify-generated infrastructure with additional settings. For example, you could add authentication settings that aren’t directly available in Amplify but are in Amazon Cognito.
+- Custom – Add any AWS service to an Amplify-created backend.
+- Export – Export an Amplify backend to a CDK stack.
+
+Similar to other Amplify actions, you can enable extensibility features by running CLI commands, for example:
+
+```javascript
+amplify override
+```
+
+Learn more about [extensibility](/[platform]/tools/cli/#extensibility).
+
+## Support matrix
+
+Amplify supports the following categories and features across the supported languages:
+
+|  | Swift | Android | Flutter | JavaScript |
+| :-- | :-: | :-: | :-: | :-: |
+| Hosting |  |  |  | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |
+| Figma to Code |  |  |  | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |
+| Authentication | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |
+| GraphQL API | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |
+| Storage | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |
+| Functions | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |
+| REST APIs | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |
+| Analytics | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |
+| Predictions | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |  | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |
+| In-app messaging |  |  |  | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |
+| Push notifications | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |
+| PubSub |  |  |  | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |
+| Geo | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |  | <IconCheckCircle color="purple.60" aria-hidden="false" aria-label="Supported" /> |
+
+## Amplify architecture example
+
+The following diagram outlines a few scenarios you could implement with Amplify. It shows the UI, or the data displayed by AWS Amplify; the backend resources provisioned by Amplify; and the underlying AWS services Amplify deploys for you.
+
+![Different Amplify implementations.](/images/how-amplify-works/amplify-scenarios.png)
+
+Amplify grows with your needs, and you can use it in whatever way works best—from a fullstack front-to-back solution, to just frontend hosting or UI components to integrate with your AWS resources.
+
+Now that you understand the core concepts and capabilities of AWS Amplify, it's time to start building! Our step-by-step getting started tutorials walk you through how to configure and integrate Amplify into a new application. These tutorials are available for many popular development platforms and frameworks like React, JavaScript, and Flutter.

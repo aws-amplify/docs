@@ -1,0 +1,49 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Authentication',
+  description: 'Enable sign-in, sign-up and sign-out within minutes with pre-built UI components and powerful authentication APIs',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  route: '/[platform]/build-a-backend/auth',
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'vue',
+        'javascript',
+        'react',
+        'angular',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

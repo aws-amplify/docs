@@ -1,0 +1,57 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Deploy & host',
+  description: 'Deploy and host',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  route: '/[platform]/deploy-and-host',
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'swift',
+        'android',
+        'flutter'
+      ],
+      canonicalPath: '/react-native/deploy-and-host/'
+    },
+    {
+      platforms: [
+        'javascript',
+        'angular',
+        'vue',
+        'react',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/deploy-and-host/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

@@ -1,0 +1,58 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Build & connect backend',
+  description: 'Learn more about how you can build the backend for your app or connect with existing resources.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  route: '/[platform]/build-a-backend',
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'javascript',
+        'react',
+        'angular',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-a-backend/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />
+
+<InlineFilter filters={["swift"]}>
+
+<Callout info>
+
+Apple requires app developers to provide the data usage policy of the app when they submit their app to the App Store. You can review the different categories identified by Apple and the corresponding data type used by the Amplify library in the our **[Data usage policy information](/[platform]/build-a-backend/auth/data-usage-policy/)**.
+
+</Callout>
+
+</InlineFilter>
