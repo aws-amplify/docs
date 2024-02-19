@@ -1,7 +1,6 @@
 import { useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
-import { LayoutContext } from '@/components/Layout';
 import classNames from 'classnames';
 import { DEFAULT_PLATFORM, PLATFORMS, Platform } from '@/data/platforms';
 import {
@@ -11,6 +10,7 @@ import {
 } from '../../constants/algolia';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
+import { LayoutContext } from '@/components/Layout';
 import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
 import flatDirectory from 'src/directory/flatDirectory.json';
