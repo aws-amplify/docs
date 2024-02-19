@@ -4,11 +4,11 @@ Next, we will add data and auth capabilities to the app.  In Amplify (Gen 2), th
 
 ### Add data
 
-`create-amplify` provides the scaffolding of a `/amplify/data/resource.ts` which is ready to deploy.
+`create-amplify` provides the scaffolding of a `/amplify/data/resource.ts` file, which is ready to deploy.
 
 <Accordion title="See the complete /amplify/data/resources.ts">
 
-If you open up the `/amplify/data/resource.ts` file in your text editor, you will see some generated code already there.
+If you open the `/amplify/data/resource.ts` file in your text editor, you will see some generated code already there.
 
 _Note: The steps defined in the code below do not require action to complete this quickstart. These notes are provided for every new app and will help you when you build your next app on your own._
 
@@ -108,10 +108,10 @@ const schema = a.schema({
 Once you save your changes to the data model, they will be deployed in seconds to your cloud sandbox.
 
 
-The `Todo` data model is defined with authorization rules to allow the person who creates the Todo instance (the owner), to perform all actions on the data they own.  We are also allowing all page viewers, including unauthenticated users, to read data.
+The `Todo` data model is defined with authorization rules to allow the person who creates the Todo instance (the owner) to perform all actions on the data they own. We are also allowing all page viewers, including unauthenticated users, to read data.
 
 <Callout>
-**Note:** These authorization rules can be modified using a chain of methods as defined by default. For example, we could remove the `.to(['read'])` and allow all visitors to perform all actions on data or add permissions for signed-in users or users who belong to user groups such as `Admin`. You can learn more about all options for authorization in the [customize your auth rules](/gen2/build-a-backend/data/customize-authz/) section of the docs.
+**Note:** These authorization rules can be modified using a chain of methods as defined by default. For example, we could remove the `.to(['read'])` and allow all visitors to perform all actions on data or add permissions for signed-in users or users who belong to user groups such as `Admin`. You can learn more about all options for authorization in the [Customize your auth rules](/gen2/build-a-backend/data/customize-authz/) section of the docs.
 </Callout>
 
 <b>Step 2:</b> Remove public access by deleting the `a.allow.public().to(['read'])` authorization rule. Your authorization rule will look like the code below:
@@ -124,7 +124,7 @@ The `Todo` data model is defined with authorization rules to allow the person wh
 // ...
 ```
 
-Below the schema declaration, you will see the `defineData` function which receives our schema and authorization configuration as arguments.  The default configuration is for an `apiKey` to enable public access.
+Below the schema declaration, you will see the `defineData` function, which receives our schema and authorization configuration as arguments. The default configuration is for an `apiKey` to enable public access.
 
 <b>Step 3:</b> Update the `defaultAuthorizationMode` to `userPool` so that the default is to use user authentication.
 
@@ -210,7 +210,7 @@ export const auth = defineAuth({
 ```
 
 
-<Callout info>The Data and Auth resource files are imported into the `amplify/backend.ts` file which serves as the entrypoint to the Amplify backend for all resources used in this app. It is shown below, but there are no modifications needed to complete this quickstart.</Callout>
+<Callout info>The Data and Auth resource files are imported into the `amplify/backend.ts` file which serves as the entry point to the Amplify backend for all resources used in this app. It is shown below, but there are no modifications needed to complete this quickstart.</Callout>
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
