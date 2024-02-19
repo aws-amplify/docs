@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
+import { LayoutContext } from '@/components/Layout';
 import classNames from 'classnames';
 import { DEFAULT_PLATFORM, PLATFORMS, Platform } from '@/data/platforms';
 import {
@@ -33,7 +34,7 @@ export const LayoutHeader = ({
   platform?: Platform;
   showLastUpdatedDate: boolean;
 }) => {
-  const [menuOpen, toggleMenuOpen] = useState(false);
+  const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
   const showTOC = hasTOC && tocHeadings.length > 0;
