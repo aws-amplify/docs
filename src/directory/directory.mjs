@@ -1901,6 +1901,9 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/sdk/configuration/setup-options/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/configuration/amplify-compatibility/index.mdx'
                 }
               ]
             },
