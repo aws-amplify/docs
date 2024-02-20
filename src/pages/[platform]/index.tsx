@@ -22,6 +22,7 @@ import {
 import { ClassicBanner } from '@/components/Banner';
 import { Columns } from '@/components/Columns';
 import { FeatureList, FeatureItem } from '@/components/FeatureLists';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Amplify Docs (Gen 2)',

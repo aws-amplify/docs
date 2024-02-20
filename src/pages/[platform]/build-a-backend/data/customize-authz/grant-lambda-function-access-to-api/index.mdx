@@ -1,3 +1,5 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
   title: 'Grant Lambda function access to API and Data',
   description: "Amplify Data uses a 'deny-by-default' authorization model. To allow access for Lambda functions or other services authenticated via IAM, their IAM role names must be explicitly listed in the `allowListedRoleNames` property when defining the Data resource. This grants privileged access based on their IAM policy rather than their `.authorization()` rules."

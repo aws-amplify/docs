@@ -1,3 +1,5 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
   title: 'Use IAM authorization within the AppSync console',
   description: "The AppSync console's IAM authorization only works with Amplify-generated IAM roles, so you need to explicitly allowlist IAM users or roles by name to grant them access. To allow external AWS resources or IAM roles access through CDK, add their names to the `allowListedRoleNames` property to grant them full read/write access based on their IAM policy rather than `@auth` rules."
