@@ -3,7 +3,18 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Sandbox features',
   description:
-    'Explore sandbox features such as secrets, client codegen, and config generation for mobile and cross-platform.'
+    'Explore sandbox features such as secrets, client codegen, and config generation for mobile and cross-platform.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {

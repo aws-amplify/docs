@@ -27,7 +27,22 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
   description:
-    'Build apps with the Amplify code-first developer experience (Gen 2) using TypeScript-based development.'
+    'Build apps with the Amplify code-first developer experience (Gen 2) using TypeScript-based development.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps() {

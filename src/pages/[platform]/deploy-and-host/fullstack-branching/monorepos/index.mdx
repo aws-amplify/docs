@@ -2,7 +2,18 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Monorepo setup',
-  description: 'Set up monorepos with the Amplify CI/CD pipeline.'
+  description: 'Set up monorepos with the Amplify CI/CD pipeline.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
