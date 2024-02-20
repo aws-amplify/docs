@@ -1,4 +1,4 @@
-import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import { DEFAULT_PLATFORM, PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
@@ -25,12 +25,12 @@ export function getStaticProps() {
   };
 }
 
-const PlatformOverview = ({ platform }) => {
+const PlatformOverview = () => {
   return (
     <Flex className="home-content">
       <Flex className="home-intro">
         <Heading level={1} className="home-intro__heading">
-          Amplify Documentation for {PLATFORM_DISPLAY_NAMES[platform]}
+          Amplify Documentation for {PLATFORM_DISPLAY_NAMES[DEFAULT_PLATFORM]}
         </Heading>
         <Text className="home-intro__text">
           AWS Amplify streamlines full-stack app development. With its
@@ -43,14 +43,14 @@ const PlatformOverview = ({ platform }) => {
             size="large"
             href={{
               pathname: '/[platform]/how-amplify-works',
-              query: { platform: platform }
+              query: { platform: DEFAULT_PLATFORM }
             }}
           >
             How Amplify Works
             <IconChevron className="icon-rotate-270" fontSize=".875em" />
           </InternalLinkButton>
 
-          <GetStartedPopover platform={platform} />
+          <GetStartedPopover platform={DEFAULT_PLATFORM} />
         </Flex>
       </Flex>
       <Flex direction="column">
@@ -63,9 +63,9 @@ const PlatformOverview = ({ platform }) => {
           other resources will help you build, connect, and host fullstack apps
           on AWS. Get started by selecting your preferred framework.
         </Text>
-        <FrameworkGrid currentKey={platform} />
-        <PlatformFeatureList platform={platform} />
-        <LinkCards platform={platform} />
+        <FrameworkGrid currentKey={DEFAULT_PLATFORM} />
+        <PlatformFeatureList platform={DEFAULT_PLATFORM} />
+        <LinkCards platform={DEFAULT_PLATFORM} />
       </Flex>
     </Flex>
   );
