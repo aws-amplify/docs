@@ -1,4 +1,3 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
@@ -10,28 +9,12 @@ import PlatformFeatureList from '@/components/FeatureLists/PlatformFeatureList';
 
 export const meta = {
   title: 'Overview',
-  description: 'This is a description for the overview page.',
-  platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+  description: 'This is a description for the overview page.'
 };
 
-export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
-};
-
-export function getStaticProps(context) {
+export function getStaticProps() {
   return {
     props: {
-      platform: context.params.platform,
       hasTOC: false,
       showBreadcrumbs: false,
       showLastUpdatedDate: false,
