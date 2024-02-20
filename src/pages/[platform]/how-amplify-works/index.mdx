@@ -8,6 +8,10 @@ export const meta = {
   route: '/gen2/how-amplify-works'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   const childPageNodes = getChildPageNodes(meta.route);
   return {

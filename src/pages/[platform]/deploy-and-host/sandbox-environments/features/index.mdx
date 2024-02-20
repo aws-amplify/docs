@@ -6,6 +6,10 @@ export const meta = {
     'Explore sandbox features such as secrets, client codegen, and config generation for mobile and cross-platform.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

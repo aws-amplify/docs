@@ -5,6 +5,10 @@ export const meta = {
   description: 'Generate React code directly inside Figma using Amplify UI.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

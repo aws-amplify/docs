@@ -5,6 +5,10 @@ export const meta = {
   description: "Amplify Data allows you to configure custom identity and group claims instead of using the default Cognito claims, which can be useful if you want to populate claims from an external source like a database or 3rd party auth provider. The example shows how to check the `user_id` identity claim and the `user_groups` group claim that could come from a custom pre token generation Lambda trigger. Defining these custom claims provides more flexibility in authorization rules."
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

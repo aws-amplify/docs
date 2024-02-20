@@ -6,6 +6,10 @@ export const meta = {
     'Learn how to get started with AWS Amplify (Gen 2) by manually installing.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

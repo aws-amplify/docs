@@ -6,6 +6,10 @@ export const meta = {
     'Define the primary key for a model using single-field or composite identifiers.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

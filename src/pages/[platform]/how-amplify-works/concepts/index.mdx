@@ -6,6 +6,10 @@ export const meta = {
     'Learn about the new Amplify backend-building experience with code-first DX (Gen 2).'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

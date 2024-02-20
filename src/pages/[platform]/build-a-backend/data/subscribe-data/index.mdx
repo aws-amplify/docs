@@ -5,6 +5,10 @@ export const meta = {
   description: 'Set up real-time data subscriptions in your app to get live updates, filter those subscriptions on the server side, and unsubscribe when no longer needed.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

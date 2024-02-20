@@ -6,6 +6,10 @@ export const meta = {
     'Learn more about working with Android, iOS, Flutter, and React Native apps.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

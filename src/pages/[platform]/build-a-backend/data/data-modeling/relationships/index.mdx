@@ -6,6 +6,10 @@ export const meta = {
     'Learn about the types of model relationships and modeling relationships.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

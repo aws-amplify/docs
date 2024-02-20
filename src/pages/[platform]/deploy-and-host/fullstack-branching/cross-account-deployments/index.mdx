@@ -6,6 +6,10 @@ export const meta = {
     'Set up a cross-account deployment pipeline powered by Amazon CodeCatalyst and AWS Amplify Hosting.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

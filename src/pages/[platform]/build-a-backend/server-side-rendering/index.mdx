@@ -5,6 +5,10 @@ export const meta = {
   description: 'Use Amplify Auth and Data APIs from Next.js server-side runtimes.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

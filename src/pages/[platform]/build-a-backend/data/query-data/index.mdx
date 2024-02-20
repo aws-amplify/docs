@@ -5,6 +5,10 @@ export const meta = {
   description: 'Read application data using list and get queries. You can filter query results, paginate list queries, specify only the data fields needed, and cancel requests. This guide covers how to perform these tasks to optimize data access in your application.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

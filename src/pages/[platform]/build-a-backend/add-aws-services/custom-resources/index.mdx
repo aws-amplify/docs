@@ -5,6 +5,10 @@ export const meta = {
   description: 'Learn how to write custom resources with the AWS CDK.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

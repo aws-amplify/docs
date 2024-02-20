@@ -6,6 +6,10 @@ export const meta = {
     'Generate React forms for creating and updating data in your Amplify data backend.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

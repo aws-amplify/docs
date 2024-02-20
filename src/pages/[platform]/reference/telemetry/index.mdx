@@ -5,6 +5,10 @@ export const meta = {
   description: 'Reference for Amplify (Gen 2) telemetry.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

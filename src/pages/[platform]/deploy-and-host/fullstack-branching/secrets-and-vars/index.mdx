@@ -5,6 +5,10 @@ export const meta = {
   description: 'Manage secrets and environment variables across your fullstack branch and local dev environments.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

@@ -6,6 +6,10 @@ export const meta = {
     'Set up multiple repositories with the Amplify CI/CD pipeline.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

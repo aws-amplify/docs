@@ -6,6 +6,10 @@ export const meta = {
     'Connect to Amplify Data from Next.js Server-side Runtimes (SSR).',
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

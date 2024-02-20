@@ -5,6 +5,10 @@ export const meta = {
   description: 'Define a custom authorization rule with a Lambda function.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

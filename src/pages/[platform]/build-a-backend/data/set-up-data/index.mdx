@@ -6,6 +6,10 @@ export const meta = {
     'Create a new cloud API that connects your app with new or existing data sources.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

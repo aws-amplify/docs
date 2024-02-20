@@ -6,6 +6,10 @@ export const meta = {
     'Learn how to connect your app to an existing data backend.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

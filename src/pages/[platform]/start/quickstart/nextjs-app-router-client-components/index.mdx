@@ -5,6 +5,10 @@ export const meta = {
   description: 'Get started with AWS Amplify (Gen 2) using the Next.js App Router.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

@@ -6,6 +6,10 @@ export const meta = {
     'Learn how to build and customize sign-up, sign-in, and sign-out from scratch.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

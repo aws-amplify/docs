@@ -5,6 +5,10 @@ export const meta = {
   description: 'Learn more about how Amplify projects are structured.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

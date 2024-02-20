@@ -6,6 +6,10 @@ export const meta = {
     'Learn how to set up password change and recovery for your users.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

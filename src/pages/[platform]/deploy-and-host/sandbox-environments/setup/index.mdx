@@ -5,6 +5,10 @@ export const meta = {
   description: 'Set up a cloud sandbox environment on your machine.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

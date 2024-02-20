@@ -5,6 +5,10 @@ export const meta = {
   description: 'Mutate application data in an API by generating the client, adding items, updating existing items, deleting items, troubleshooting unauthorized errors, and canceling requests.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

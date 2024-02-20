@@ -5,6 +5,10 @@ export const meta = {
   description: 'Learn how to set up admin actions and user group management.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

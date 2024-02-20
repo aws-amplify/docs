@@ -6,6 +6,10 @@ export const meta = {
     'Host static and server-rendered web apps built with modern JS frameworks like Next.js, Vue, and React.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

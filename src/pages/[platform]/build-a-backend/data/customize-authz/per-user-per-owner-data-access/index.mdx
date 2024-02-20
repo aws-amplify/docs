@@ -6,6 +6,10 @@ export const meta = {
     "The owner authorization strategy restricts operations on a record to only the record's owner. When configured, the owner field (default `owner`) will automatically be added and populated with the identity of the created user. The API will authorize against the `owner` field to allow or deny operations."
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

@@ -5,6 +5,10 @@ export const meta = {
   description: 'Learn how to set up your AWS account and configure it locally for use with Amplify.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

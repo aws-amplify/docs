@@ -6,6 +6,10 @@ export const meta = {
     'Customize your business logic for queries, mutations, and subscriptions.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

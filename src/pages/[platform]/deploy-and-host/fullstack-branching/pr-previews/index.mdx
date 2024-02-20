@@ -6,6 +6,10 @@ export const meta = {
     'Set up ephemeral fullstack environments with pull request previews.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

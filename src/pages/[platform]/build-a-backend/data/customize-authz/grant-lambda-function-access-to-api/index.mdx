@@ -5,6 +5,10 @@ export const meta = {
   description: "Amplify Data uses a 'deny-by-default' authorization model. To allow access for Lambda functions or other services authenticated via IAM, their IAM role names must be explicitly listed in the `allowListedRoleNames` property when defining the Data resource. This grants privileged access based on their IAM policy rather than their `.authorization()` rules."
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {

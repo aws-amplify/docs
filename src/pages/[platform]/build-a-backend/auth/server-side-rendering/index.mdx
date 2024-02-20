@@ -6,6 +6,10 @@ export const meta = {
     'Learn how to use Amplify with SSR.'
 };
 
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
 export function getStaticProps(context) {
   return {
     props: {
