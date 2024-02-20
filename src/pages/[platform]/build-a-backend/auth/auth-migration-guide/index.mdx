@@ -1841,7 +1841,7 @@ In v6, `Auth.setPreferredMFA` has been replaced by `updateMFAPreference`, which 
     import { updateMFAPreference } from 'aws-amplify/auth';
 
     const handleSetPreferredMFA = async ({ user }) => {
-      await updateMFAPreference({ mfa: 'PREFERRED' });
+      await updateMFAPreference({ totp: 'PREFERRED' });
     }
     ```
 
