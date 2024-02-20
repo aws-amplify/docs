@@ -3815,7 +3815,10 @@ This API has been deprecated: existing use cases can be migrated by using a comb
 <BlockSwitcher>
   <Block name="V6">
     ```js
-    import { getCurrentUser, fetchUserAttributes } from 'aws-amplify';
+    import { 
+      getCurrentUser, 
+      fetchUserAttributes 
+    } from 'aws-amplify/auth';
 
     const getCurrentUserInfo = async () => {
       const {
