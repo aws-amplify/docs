@@ -12,7 +12,7 @@ type BreadcrumbItem = {
 
 type Props = {
   route: string;
-  platform: string;
+  platform?: string;
 };
 
 const overrides = {
@@ -39,7 +39,7 @@ const overrides = {
 
 function generateBreadcrumbs(
   route: string,
-  platform: string
+  platform?: string
 ): BreadcrumbItem[] {
   const breadcrumbs: BreadcrumbItem[] = [];
 
@@ -58,9 +58,10 @@ function generateBreadcrumbs(
       href['query'] = { platform };
     }
     let label = directoryEntry ? directoryEntry.title : url;
+
     const override = overrides[url]
       ? overrides[url]
-      : overrides[url.replace('[platform]', platform)];
+      : overrides[url.replace('[platform]', platform!)];
 
     if (override) {
       label = override;
