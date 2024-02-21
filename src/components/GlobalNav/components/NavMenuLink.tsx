@@ -26,8 +26,10 @@ export function NavMenuLink({
   if (navMenuItem.type === 'DEFAULT') {
     return (
       <Link
-        className={`nav-menu-item ${
-          navMenuItem.label === currentMenuItem ? 'current-nav-menu-item' : ''
+        className={`navbar-menu-item ${
+          navMenuItem.label === currentMenuItem
+            ? 'navbar-menu-item--current'
+            : ''
         }`}
         href={navMenuItem.url}
       >
@@ -36,7 +38,11 @@ export function NavMenuLink({
     );
   } else {
     return (
-      <Link isExternal={true} className="nav-menu-item" href={navMenuItem.url}>
+      <Link
+        isExternal={true}
+        className="navbar-menu-item"
+        href={navMenuItem.url}
+      >
         {linkContent}
       </Link>
     );

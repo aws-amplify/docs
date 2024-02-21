@@ -225,7 +225,7 @@ export const Layout = ({
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
                 currentSite={currentGlobalNavMenuItem}
-                isGen2={isGen2}
+                isGen1={isGen1}
                 mainId={mainId}
               />
               <LayoutHeader

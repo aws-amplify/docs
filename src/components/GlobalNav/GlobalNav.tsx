@@ -55,13 +55,11 @@ export function GlobalNav({
             setIsCollapsed={setIsCollapsed}
           />
 
-          {isGen1 ? null : (
-            <LeftNavLinks
-              isCollapsed={isCollapsed}
-              leftLinks={leftLinks}
-              currentSite={currentSite}
-            />
-          )}
+          <LeftNavLinks
+            isCollapsed={isCollapsed}
+            leftLinks={leftLinks}
+            currentSite={currentSite}
+          />
         </Flex>
         <RightNavLinks
           rightLinks={rightLinks}

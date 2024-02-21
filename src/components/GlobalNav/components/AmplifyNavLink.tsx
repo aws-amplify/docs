@@ -13,7 +13,7 @@ export function AmplifyNavLink({ currentSite, isCollapsed, setIsCollapsed }) {
         direction="row"
       >
         <AmplifyLogo />
-        <Text as="span" className="dev-center-logo">
+        <Text as="span" className="navbar-logo-text">
           <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
           <span style={{ fontWeight: '300' }}>Dev Center</span>
           <span className="mobile-only">
@@ -25,7 +25,7 @@ export function AmplifyNavLink({ currentSite, isCollapsed, setIsCollapsed }) {
 
       <Flex className="mobile-only mobile-current-link" as="a" href="/">
         <AmplifyLogo />
-        <Text as="span" className="dev-center-logo">
+        <Text as="span" className="navbar-logo-text">
           <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
           <span style={{ fontWeight: '300' }}>Dev Center</span>
           <span className="mobile-only">
@@ -41,7 +41,7 @@ export function AmplifyNavLink({ currentSite, isCollapsed, setIsCollapsed }) {
         aria-controls="mobile-nav-links"
         variation="link"
         size="large"
-        className="mobile-only nav-expander"
+        className="mobile-only navbar-expander"
         onClick={() => {
           setIsCollapsed(!isCollapsed);
         }}

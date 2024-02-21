@@ -1,37 +1,40 @@
 .navbar {
-  // --navbar-border-color: var(--amplify-colors-purple-60);
-  // --navbar-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  // --navbar-padding-inline: var(--amplify-space-medium);
-  // --navbar-current-property-color: var(--amplify-colors-primary-60);
-  // --nav-menu-item-border-width: 2px;
-  // --nav-menu-item-color: var(--amplify-colors-white);
-  // --nav-menu-item-active-color: var(--amplify-colors-neutral-100);
-  // --nav-menu-item-hover-color: var(--amplify-colors-primary-60);
-  // --nav-menu-item-mobile-padding-block: var(--amplify-space-xs);
-  // --nav-menu-item-mobile-padding-inline: var(--amplify-space-large);
-  // --nav-menu-item-padding-inline: var(--amplify-space-xs);
-  // --secondary-nav-hover-color: black;
-  // --secondary-nav-hover-background-color: var(--amplify-colors-neutral-90);
-  --dev-center-nav-height: 4rem;
-  // --logo-color: var(--amplify-colors-font-inverse);
-  // --amplify-colors-font-hover: var(--amplify-colors-neutral-10);
-  // --navbar-mobile-nav-padding: 12px;
-  // --nav-links-spacing: var(--amplify-space-small);
-
-  background-color: var(--amplify-colors-primary-80);
+  --navbar-background-color: var(--amplify-colors-primary-80);
+  --navbar-logo-text-color: var(--amplify-colors-white);
+  --navbar-logo-color: var(--amplify-colors-white);
+  --navbar-menu-item-color: var(--amplify-colors-white);
+  --navbar-menu-item-visited-color: var(--amplify-colors-white);
+  --navbar-menu-item-hover-color: var(--amplify-colors-primary-20);
+  --navbar-menu-item-focus-border-color: var(--amplify-colors-white);
+  --navbar-menu-item-focus-color: var(--amplify-colors-white);
+  --navbar-menu-item-current-after-background-color: var(
+    --amplify-colors-white
+  );
+  --navbar-box-shadow: none;
+  --navbar-mobile-border-color: var(--amplify-colors-primary-60);
+  --navbar-expander-color: var(--amplify-colors-white);
+  --navbar-expander-hover-background-color: var(--amplify-colors-primary-60);
+  --navbar-expander-focus-background-color: var(--amplify-colors-primary-60);
+  --navbar-expander-focus-box-shadow: var(--amplify-colors-white);
+  --navbar-height: 4rem;
+  background-color: var(--navbar-background-color);
   position: fixed;
   top: 0px;
   width: 100%;
   z-index: 5;
+  box-shadow: var(--navbar-box-shadow);
   @include darkMode {
-    background-color: var(--amplify-colors-primary-40);
+    --navbar-background-color: var(--amplify-colors-primary-40);
   }
 }
 
-.dev-center-logo {
-  color: var(--amplify-colors-white);
+.navbar-logo-text {
+  color: var(--navbar-logo-text-color);
   font-size: var(--amplify-font-sizes-medium);
   white-space: nowrap;
+}
+.navbar-logo {
+  color: var(--navbar-logo-color);
 }
 
 .nav-links-container {
@@ -42,28 +45,25 @@
   justify-content: space-between;
   flex-direction: column;
   padding: 0;
-  background-color: var(--amplify-colors-primary-80);
+  background-color: var(--navbar-background-color);
   gap: 0;
   .left-nav-links,
   .right-nav-links {
     flex-direction: column;
     gap: 0;
   }
-  @include darkMode {
-    background-color: var(--amplify-colors-primary-40);
-  }
 }
 
-.nav-expander {
+.navbar-expander {
   align-self: center;
-  color: var(--amplify-colors-white);
+  color: var(--navbar-expander-color);
   padding: var(--amplify-space-medium);
   &:hover {
-    background-color: var(--amplify-colors-primary-60);
+    background-color: var(--navbar-expander-hover-background-color);
   }
   &:focus {
-    background-color: var(--amplify-colors-primary-60);
-    box-shadow: 0 0 0 2px var(--amplify-colors-white);
+    background-color: var(--navbar-expander-focus-background-color);
+    box-shadow: 0 0 0 2px var(--navbar-expander-focus-box-shadow);
   }
 }
 
@@ -80,7 +80,7 @@
   }
 }
 
-.nav-menu-item {
+.navbar-menu-item {
   display: flex;
   border: 2px solid transparent;
   align-items: center;
@@ -89,21 +89,19 @@
   padding: var(--amplify-space-xs) var(--amplify-space-medium);
   font-size: var(--amplify-font-sizes-medium);
   text-decoration: none;
-  color: var(--amplify-colors-white);
+  color: var(--navbar-menu-item-color);
   font-weight: 700;
   white-space: nowrap;
   &:visited {
-    color: var(--amplify-colors-white);
+    color: var(--navbar-menu-item-visited-color);
   }
-
   &:hover {
-    color: var(--amplify-colors-primary-20);
+    color: var(--navbar-menu-item-hover-color);
   }
-
   &:focus {
     outline: none;
-    border: 2px solid var(--amplify-colors-white);
-    color: var(--amplify-colors-white);
+    border: 2px solid var(--navbar-menu-item-focus-border-color);
+    color: var(--navbar-menu-item-focus-color);
   }
   @include darkMode {
     &:hover {
@@ -131,13 +129,13 @@
 }
 
 .mobile-border {
-  border-top: 1px solid var(--amplify-colors-primary-60);
+  border-top: 1px solid var(--navbar-mobile-border-color);
 }
 
 .navbar__logo-container {
   justify-content: space-between;
   padding-inline: var(--amplify-space-medium);
-  height: var(--dev-center-nav-height);
+  height: var(--navbar-height);
 }
 
 .collapsed-menu {
@@ -146,7 +144,7 @@
 
 .social-links {
   justify-content: space-around;
-  column-gap: var(--nav-links-spacing);
+  column-gap: var(--amplify-space-small);
   padding: 0px;
 
   // Make the social links cover their whole flex area
@@ -167,34 +165,33 @@
 }
 
 @media (min-width: 500px) {
-  .dev-center-logo {
+  .navbar-logo-text {
     font-size: var(--amplify-font-sizes-large);
   }
 }
 
 @media (min-width: 975px) {
-  .nav-menu-item {
-    position: relative;
+  .navbar {
     padding-inline: var(--amplify-space-medium);
-    height: var(--dev-center-nav-height);
-    line-height: var(--dev-center-nav-height);
   }
-  .right-nav-links .nav-menu-item {
+  .navbar-menu-item {
+    position: relative;
+    padding-inline: var(--amplify-space-xs);
+    height: var(--navbar-height);
+    line-height: var(--navbar-height);
+  }
+  .right-nav-links .navbar-menu-item {
     padding-inline: 10px;
   }
-  // .current-nav-menu-item {
-  //   color: var(--amplify-colors-primary-80);
-  //   position: relative;
-  // }
-  .current-nav-menu-item:after {
+  .navbar-menu-item--current:after {
     height: 4px;
     border-radius: 2px;
-    background: var(--amplify-colors-white);
+    background-color: var(--navbar-menu-item-current-after-background-color);
     content: '';
     position: absolute;
     bottom: -2px;
-    left: var(--amplify-space-medium);
-    right: var(--amplify-space-medium);
+    left: var(--amplify-space-xs);
+    right: var(--amplify-space-xs);
   }
 
   .background-overlay {
@@ -220,13 +217,13 @@
 
   .nav-links-container {
     flex-direction: row;
-    height: var(--dev-center-nav-height);
-    gap: var(--nav-links-spacing);
+    height: var(--navbar-height);
+    gap: var(--amplify-space-small);
     & .left-nav-links,
     .right-nav-links {
       flex-direction: row;
       align-items: center;
-      gap: var(--nav-links-spacing);
+      gap: var(--amplify-space-small);
     }
   }
 
@@ -234,79 +231,32 @@
     margin-inline: auto;
   }
 
-  .logo-container {
+  .navbar__logo-container {
     padding-inline: 0;
   }
-
-  .navbar {
-    padding-inline: var(--navbar-padding-inline);
-  }
-}
-
-.navbar-badge {
-  background-color: var(--amplify-colors-purple-60);
-  color: var(--amplify-colors-white);
 }
 
 .navbar--gen1 {
-  --navbar-background-color: var(--amplify-colors-background-primary);
-  --logo-color: var(--amplify-colors-neutral-100);
-  --nav-menu-item-color: var(--amplify-colors-neutral-100);
-  --navbar-border-color: var(--amplify-colors-neutral-20);
-  .nav-menu-item {
-    color: var(--amplify-colors-white);
-    &:hover {
-      color: var(--amplify-colors-purple-20);
-    }
-    &:focus {
-      color: var(--nav-menu-item-color);
-      outline: 2px solid var(--amplify-colors-font-inverse);
-    }
-  }
-  .nav-expander {
-    &:hover {
-      background-color: var(--amplify-colors-purple-60);
-    }
-    &:focus {
-      background-color: var(--amplify-colors-purple-60);
-      box-shadow: 0 0 0 2px var(--amplify-colors-white);
-    }
-  }
-  .chevron-icon {
-    fill: var(--amplify-colors-white);
-  }
-  [data-amplify-color-mode='dark'] & {
-    --navbar-background-color: var(--amplify-colors-purple-40);
-    .nav-menu-item {
-      &:hover {
-        color: var(--amplify-colors-purple-90);
-      }
-    }
-    .dev-center-logo {
-      color: var(--amplify-colors-white);
-    }
-    .home {
-      svg {
-        fill: #fff;
-      }
-    }
-  }
-  @media (prefers-color-scheme: dark) {
-    [data-amplify-color-mode='system'] & {
-      --navbar-background-color: var(--amplify-colors-purple-40);
-      .nav-menu-item {
-        &:hover {
-          color: var(--amplify-colors-purple-90);
-        }
-      }
-      .dev-center-logo {
-        color: var(--amplify-colors-white);
-      }
-      .home {
-        svg {
-          fill: #fff;
-        }
-      }
-    }
+  --navbar-background-color: var(--amplify-colors-white);
+  --navbar-logo-text-color: var(--amplify-colors-font-primary);
+  --navbar-logo-color: var(--amplify-colors-primary-60);
+  --navbar-menu-item-color: var(--amplify-colors-font-primary);
+  --navbar-menu-item-visited-color: var(--amplify-colors-font-primary);
+  --navbar-menu-item-hover-color: var(--amplify-colors-primary-60);
+  --navbar-menu-item-focus-border-color: var(--amplify-colors-border-focus);
+  --navbar-menu-item-focus-color: var(--amplify-colors-font-primary);
+  --navbar-menu-item-current-after-background-color: var(
+    --amplify-colors-primary-60
+  );
+  --navbar-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --navbar-mobile-border-color: var(--amplify-colors-neutral-20);
+  --navbar-expander-color: var(--amplify-colors-font-primary);
+  --navbar-expander-hover-background-color: var(--amplify-colors-primary-10);
+  --navbar-expander-focus-background-color: var(--amplify-colors-primary-10);
+  --navbar-expander-focus-box-shadow: var(--amplify-colors-font-primary);
+  @include darkMode {
+    --navbar-background-color: var(--amplify-colors-neutral-20);
+    --navbar-expander-hover-background-color: var(--amplify-colors-neutral-10);
+    --navbar-expander-focus-background-color: var(--amplify-colors-neutral-10);
   }
 }
