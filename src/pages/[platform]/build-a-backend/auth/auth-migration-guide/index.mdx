@@ -1840,8 +1840,8 @@ In v6, `Auth.setPreferredMFA` has been replaced by `updateMFAPreference`, which 
     ```js
     import { updateMFAPreference } from 'aws-amplify/auth';
 
-    const handleSetPreferredMFA = async ({ user }) => {
-      await updateMFAPreference({ mfa: 'PREFERRED' });
+    const handleSetPreferredMFA = async () => {
+      await updateMFAPreference({ totp: 'PREFERRED' });
     }
     ```
 
@@ -3815,7 +3815,10 @@ This API has been deprecated: existing use cases can be migrated by using a comb
 <BlockSwitcher>
   <Block name="V6">
     ```js
-    import { getCurrentUser, fetchUserAttributes } from 'aws-amplify';
+    import { 
+      getCurrentUser, 
+      fetchUserAttributes 
+    } from 'aws-amplify/auth';
 
     const getCurrentUserInfo = async () => {
       const {
