@@ -1,0 +1,42 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Frontend hosting',
+  description:
+    'Host static and server-rendered web apps built with modern JS frameworks like Next.js, Vue, and React.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+AWS Amplify Hosting is a fully managed CI/CD and hosting service for fast, secure, and reliable static and server-side rendered apps that scale with your business. This service supports modern web frameworks such as React, Angular, Vue, Next.js, Nuxt.js, Gatsby, and more.
+
+Because AWS Amplify Hosting is a fully managed service, its documentation lives on the AWS Documentation site. To learn about hosting features such as custom domains, redirects, and more, please visit the Hosting documentation.
+
+<ExternalLinkButton
+  variation="primary"
+  href="https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html"
+>
+  View Hosting Docs
+</ExternalLinkButton>
