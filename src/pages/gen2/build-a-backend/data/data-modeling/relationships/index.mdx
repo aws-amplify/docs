@@ -181,13 +181,13 @@ const tags = await Promise.all(postTags.map(postTag => postTag.tag()))
 ### Eager load a "many-to-many" relationship
 
 ```ts
-const { data: post } = await client.models.Post.get({
+const { data: postWithTags } = await client.models.Post.get({
   id: window.prompt("ID") ?? ""
 }, {
   selectionSet: ["tags.*", "tags.tag.*"]
 })
 
-const tags = post.tags.map(postTag => postTag.tag)
+const tags = postWithTags.tags.map(postTag => postTag.tag)
 ```
 
 ## Model a "Has One" relationship
