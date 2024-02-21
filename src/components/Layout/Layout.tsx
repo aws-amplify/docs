@@ -14,7 +14,7 @@ import {
 import classNames from 'classnames';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
-import { gen2Theme } from '@/themes/gen2Theme';
+import { gen1Theme } from '@/themes/gen1Theme';
 import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
 import {
@@ -89,6 +89,7 @@ export const Layout = ({
   const pathname = router.pathname;
   const shouldShowGen2Banner = GEN2BANNER_URLS.includes(asPathWithNoHash);
   const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
+  const isGen1 = asPathWithNoHash.split('/')[1] === 'gen1';
   let currentPlatform = isGen2 ? undefined : DEFAULT_PLATFORM;
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
@@ -125,8 +126,8 @@ export const Layout = ({
     currentPlatform = platform
       ? platform
       : PLATFORMS.includes(asPathPlatform)
-      ? asPathPlatform
-      : DEFAULT_PLATFORM;
+        ? asPathPlatform
+        : DEFAULT_PLATFORM;
   }
 
   const title = [
@@ -243,7 +244,7 @@ export const Layout = ({
         }}
       >
         <ThemeProvider
-          theme={isGen2 ? gen2Theme : defaultTheme}
+          theme={isGen1 ? gen1Theme : defaultTheme}
           colorMode={colorMode}
         >
           <IconsProvider icons={defaultIcons}>
