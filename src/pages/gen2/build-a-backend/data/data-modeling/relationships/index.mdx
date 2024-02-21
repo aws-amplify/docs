@@ -311,7 +311,7 @@ const schema = a.schema({
 const client = generateClient<Schema>();
 
 const { data: customer } = await client.models.Customer.get({
-  id: 'FABF27EE-25D2-4851-AE1C-09BCA1604C77'
+  id: 'SOME_CUSTOMER_ID'
 });
 
 const { data: cart } = await customer.activeCart();
