@@ -9,80 +9,80 @@
 /src/pages/console/  @dbanksdesign  @aws-amplify/documentation-team 
  
 #Analytics
-/src/**/**/analytics @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/**/**/analytics @hdworld11 @dbanksdesign @aws-amplify/documentation-team 
 
 #Auth
-/src/**/**/auth @renebrandel @dbanksdesign @aws-amplify/documentation-team 
-/src/**/**/authz @renebrandel @dbanksdesign @aws-amplify/documentation-team 
-/src/**/**/authentication @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/**/**/auth @josefaidt @aws-amplify/documentation-team 
+/src/**/**/authz @josefaidt @renebrandel @aws-amplify/documentation-team 
+/src/**/**/authentication @renebrandel @josefaidt @aws-amplify/documentation-team 
 
 #Client Configuration
-/src/**/**/client-configuration @renebrandel @dbanksdesign @hdworld11 @aws-amplify/documentation-team 
-/src/**/**/configuration @renebrandel @dbanksdesign @hdworld11 @aws-amplify/documentation-team 
+/src/**/**/client-configuration @renebrandel @josefaidt @hdworld11 @aws-amplify/documentation-team 
+/src/**/**/configuration @renebrandel @josefaidt @hdworld11 @aws-amplify/documentation-team 
 
 #Common
-/src/fragments/common @renebrandel @dbanksdesign @aws-amplify/documentation-team 
-/src/fragments/lib/common @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/common @renebrandel @hdworld11 @josefaidt @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/lib/common @renebrandel @hdworld11 @josefaidt @dbanksdesign @aws-amplify/documentation-team 
 
 #Data
-/src/**/**/datastore @renebrandel @dbanksdesign @aws-amplify/documentation-team 
-/src/**/**/data @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/**/**/datastore @renebrandel @aws-amplify/documentation-team 
+/src/**/**/data @renebrandel @aws-amplify/documentation-team 
 
 #Debugging
-/src/fragments/**/debugging @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/**/debugging @josefaidt @aws-amplify/documentation-team 
 
 #Geo
-/src/**/**/geo @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/**/**/geo @hdworld11 @aws-amplify/documentation-team 
 
 #Getting Started
-/src/**/start @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/**/start @renebrandel @hdworld11 @josefaidt @dbanksdesign @aws-amplify/documentation-team 
 
 #GraphQL API
-/src/**/**/api-graphql @renebrandel @dbanksdesign @aws-amplify/documentation-team 
-/src/**/**/graphqlapi @renebrandel @dbanksdesign @aws-amplify/documentation-team 
-/src/**/cli-legacy/graphql-transformer @renebrandel @dbanksdesign @aws-amplify/documentation-team 
-/src/fragments/sdk/api/**/graphql.mdx @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/**/**/api-graphql @renebrandel @aws-amplify/documentation-team 
+/src/**/**/graphqlapi @renebrandel @aws-amplify/documentation-team 
+/src/**/cli-legacy/graphql-transformer @renebrandel @aws-amplify/documentation-team 
+/src/fragments/sdk/api/**/graphql.mdx @renebrandel @aws-amplify/documentation-team 
 
 #In-App Messaging
-/src/**/**/in-app-messaging @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/**/**/in-app-messaging @hdworld11 @aws-amplify/documentation-team 
 
 #Info
-/src/fragments/**/info @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/**/info @renebrandel @hdworld11 @josefaidt @dbanksdesign @aws-amplify/documentation-team 
 
 #Interactions
-/src/**/**/interactions @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/**/**/interactions @josefaidt @aws-amplify/documentation-team 
 
 #Logging
-/src/fragments/lib/logging @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/lib/logging @hdworld11 @aws-amplify/documentation-team 
 
 #Predictions
-/src/**/**/predictions @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/**/**/predictions @hdworld11 @dbanksdesign @aws-amplify/documentation-team 
 
 #Project Setup
-/src/**/**/project-setup @renebrandel @dbanksdesign @hdworld11 @aws-amplify/documentation-team 
+/src/**/**/project-setup @renebrandel @josefaidt @dbanksdesign @hdworld11 @aws-amplify/documentation-team 
 
 #PubSub
-/src/**/**/pubsub @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/**/**/pubsub @renebrandel @aws-amplify/documentation-team 
 
 #Push Notifications
-/src/**/**/push-notifications @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/**/**/push-notifications @hdworld11 @dbanksdesign @aws-amplify/documentation-team 
 
 #Rest API
-/src/**/**/api-rest @renebrandel @dbanksdesign @aws-amplify/documentation-team 
-/src/**/**/restapi @renebrandel @dbanksdesign @aws-amplify/documentation-team 
-/src/fragments/sdk/api/**/rest.mdx @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/**/**/api-rest @josefaidt @aws-amplify/documentation-team 
+/src/**/**/restapi @josefaidt @aws-amplify/documentation-team 
+/src/fragments/sdk/api/**/rest.mdx @josefaidt @aws-amplify/documentation-team 
 
 #SSR
-/src/fragments/lib/ssr @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/lib/ssr @renebrandel @josefaidt @dbanksdesign @aws-amplify/documentation-team 
 
 #Storage
 /src/**/**/storage @hdworld11 @aws-amplify/documentation-team 
 
 #Troubleshooting
-/src/fragments/lib/troubleshooting @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/lib/troubleshooting @josefaidt @aws-amplify/documentation-team 
 
 #Utilities
-/src/**/**/utilities @renebrandel @dbanksdesign @aws-amplify/documentation-team 
+/src/**/**/utilities @josefaidt @aws-amplify/documentation-team 
 
 #Docs Engineering
 /src/components @aws-amplify/documentation-team
