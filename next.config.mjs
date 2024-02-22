@@ -24,6 +24,9 @@ const nextJSConfig = () => {
     distDir: 'client/www/next-build',
     env: {
       BUILD_ENV: process.env.BUILD_ENV,
+      ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID,
+      ALGOLIA_API_KEY: process.env.ALGOLIA_API_KEY,
+      ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME,
       nextImageExportOptimizer_imageFolderPath: 'public',
       nextImageExportOptimizer_exportFolderPath: 'out',
       nextImageExportOptimizer_quality: '75',
