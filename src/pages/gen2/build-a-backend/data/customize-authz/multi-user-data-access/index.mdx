@@ -21,10 +21,10 @@ If you want to grant a set of users access to a record, you use the `multipleOwn
 ```ts
 export const schema = a.schema({
   Todo: a.model({
-    content: a.string()
+    content: a.string(),
   }).authorization([
-    a.allow.multipleOwners()
-  ])
+    a.allow.multipleOwners(),
+  ]),
 })
 ```
 
@@ -35,10 +35,10 @@ You can override the `inField` to a list of owners. Use this if you want a dynam
 ```ts
 export const schema = a.schema({
   Todo: a.model({
-    content: a.string()
-    authors: a.string().array() // record owner information now stored in "authors" field
+    content: a.string(),
+    authors: a.string().array(), // record owner information now stored in "authors" field
   }).authorization([
-    a.allow.multipleOwners().inField("authors")
-  ])
+    a.allow.multipleOwners().inField("authors"),
+  ]),
 })
 ```
