@@ -48,12 +48,15 @@ describe('Accordion', () => {
 
   it('should toggle open/closed when heading is clicked', async () => {
     render(component);
-    const accordionHeading = await screen.findByText(
-      'Accordion component example'
-    );
-    userEvent.click(accordionHeading);
-    // fireEvent.animationStart(accordionHeading);
+    // const accordionHeading = await screen.findByText(
+    //   'Accordion component example'
+    // );
+    // const body = await screen.findByRole('group').;
+    // const accordionBody = component..getElementsByClassName('accordion__body')
+    // console.log(body);
+    // userEvent.click();
     // fireEvent.animationEnd(accordionHeading);
+    // fireEvent.animationStart(accordionHeading);
     // const accordionBody = await screen.findByText(content);
     // expect(accordionBody).toBeInTheDocument();
     // expect(accordionBody).not.toBeVisible();
@@ -61,23 +64,25 @@ describe('Accordion', () => {
 
   it('should track Accordion open on click of heading', async () => {
     jest.spyOn(trackModule, 'trackExpanderOpen');
-    const mockAnimations = () => {
-      Element.prototype.animate = jest
-        .fn()
-        .mockImplementation(() => ({ finished: Promise.resolve() }));
-    };
+    // const mockAnimations = () => {
+    //   Element.prototype.animate = jest
+    //     .fn()
+    //     .mockImplementation(() => ({ finished: Promise.resolve() }));
+    // };
 
-    beforeAll(() => {
-      mockAnimations();
-    });
+    // beforeAll(() => {
+    //   mockAnimations();
+    // });
 
     render(component);
 
     const accordionHeading = await screen.findByText(
       'Accordion component example'
     );
-    userEvent.click(accordionHeading);
-    fireEvent.animationEnd(accordionHeading);
+    const summary = accordionHeading?.parentElement?.parentElement;
+    console.log(accordionHeading?.parentElement?.parentElement?.parentElement);
+    fireEvent.animationEnd(summary);
+    userEvent.click(summary);
 
     await waitFor(() => {
       expect(trackModule.trackExpanderOpen).toHaveBeenCalled();

@@ -88,7 +88,6 @@ export const Accordion: React.FC<AccordionProps> = ({
     e.preventDefault();
 
     const details = detailsRef.current;
-    console.log(details);
     // Close accordion
     if (details?.hasAttribute('open')) {
       setDetailsOpen(false);
