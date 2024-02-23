@@ -2182,6 +2182,9 @@ export const directory = {
                   children: [
                     {
                       path: 'src/pages/gen1/[platform]/sdk/configuration/setup-options/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen1/[platform]/sdk/configuration/amplify-compatibility/index.mdx'
                     }
                   ]
                 },
