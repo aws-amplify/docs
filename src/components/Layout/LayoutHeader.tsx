@@ -11,7 +11,6 @@ import {
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
 import { LayoutContext } from '@/components/Layout';
-import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
 import flatDirectory from 'src/directory/flatDirectory.json';
 import { DocSearch } from '@docsearch/react';
@@ -22,18 +21,17 @@ import RepoActions from '../Menu/RepoActions';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 
 export const LayoutHeader = ({
-  showTOC,
+  currentPlatform,
   isGen2,
   pageType = 'inner',
-  currentPlatform,
-  showLastUpdatedDate = true
+  showLastUpdatedDate = true,
+  showTOC
 }: {
   currentPlatform?: Platform | undefined;
-  showTOC?: boolean;
   isGen2?: boolean;
-  tocHeadings: HeadingInterface[];
   pageType?: 'home' | 'inner';
   showLastUpdatedDate: boolean;
+  showTOC?: boolean;
 }) => {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
