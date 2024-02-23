@@ -228,10 +228,11 @@ export const Layout = ({
                 mainId={mainId}
               />
               <LayoutHeader
-                hasTOC={hasTOC}
+                showTOC={showTOC}
+                isGen2={isGen2}
+                currentPlatform={currentPlatform}
                 tocHeadings={tocHeadings}
                 pageType={pageType}
-                platform={platform}
                 showLastUpdatedDate={showLastUpdatedDate}
               ></LayoutHeader>
               <View key={asPathWithNoHash} className="layout-main">
