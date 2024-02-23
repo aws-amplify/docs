@@ -2,7 +2,7 @@ import { useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
-import { DEFAULT_PLATFORM, PLATFORMS, Platform } from '@/data/platforms';
+import { Platform } from '@/data/platforms';
 import {
   ALGOLIA_API_KEY,
   ALGOLIA_INDEX_NAME,
@@ -11,7 +11,6 @@ import {
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
 import { LayoutContext } from '@/components/Layout';
-import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
 import flatDirectory from 'src/directory/flatDirectory.json';
 import { DocSearch } from '@docsearch/react';
@@ -22,42 +21,24 @@ import RepoActions from '../Menu/RepoActions';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 
 export const LayoutHeader = ({
-  hasTOC = true,
-  tocHeadings,
+  currentPlatform,
+  isGen2,
   pageType = 'inner',
-  platform,
-  showLastUpdatedDate = true
+  showLastUpdatedDate = true,
+  showTOC
 }: {
-  hasTOC?: boolean;
-  tocHeadings: HeadingInterface[];
+  currentPlatform?: Platform | undefined;
+  isGen2?: boolean;
   pageType?: 'home' | 'inner';
-  platform?: Platform;
   showLastUpdatedDate: boolean;
+  showTOC?: boolean;
 }) => {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
-  const showTOC = hasTOC && tocHeadings.length > 0;
   const router = useRouter();
   const asPathWithNoHash = usePathWithoutHash();
-  const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
-  let currentPlatform = isGen2 ? undefined : DEFAULT_PLATFORM;
   const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
-
-  if (!isGen2) {
-    // [platform] will always be the very first subpath right?
-    // when using `router.asPath` it returns a string that starts with a '/'
-    // To get the "platform" the client was trying to visit, we have to get the string at index 1
-    // Doing this because when visiting a 404 page, there is no `router.query.platform`, so we have
-    // to check where the user was trying to visit from
-    const asPathPlatform = asPathWithNoHash.split('/')[1] as Platform;
-
-    currentPlatform = platform
-      ? platform
-      : PLATFORMS.includes(asPathPlatform)
-        ? asPathPlatform
-        : DEFAULT_PLATFORM;
-  }
 
   const handleMenuToggle = () => {
     if (!menuOpen) {
