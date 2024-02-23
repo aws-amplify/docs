@@ -231,7 +231,6 @@ export const Layout = ({
                 showTOC={showTOC}
                 isGen2={isGen2}
                 currentPlatform={currentPlatform}
-                tocHeadings={tocHeadings}
                 pageType={pageType}
                 showLastUpdatedDate={showLastUpdatedDate}
               ></LayoutHeader>
