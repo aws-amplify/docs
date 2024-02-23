@@ -1,0 +1,79 @@
+export const meta = {
+  title: 'Geo',
+  description: 'Learn how to set up Geo resource powered by Amazon Location Services.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+
+Amplify provides APIs and map UI components for maps and location search for JavaScript-based web apps. We can utilize AWS CDK to add the Geo resource and configurations.
+
+```ts title="amplify/backend.ts"
+import { CfnMap } from "aws-cdk-lib/aws-location";
+
+const backend = defineBackend({
+  auth, 
+  data,
+  // additional resources 
+});
+
+const geoStack = backend.createStack("geo-stack");
+
+const map = new CfnMap(geoStack, "Map", {
+  mapName: "myMap",
+  description: "Map",
+  configuration: {
+    style: "VectorEsriNavigation",
+  },
+  pricingPlan: "RequestBasedUsage",
+  tags: [
+    {
+      key: "name",
+      value: "myMap",
+    },
+  ],
+});
+
+const myGeoPolicy = new Policy(geoStack, "AuthenticatedUserIamRolePolicy", {
+  policyName: "GeoPolicy",
+  statements: [
+    new PolicyStatement({
+      actions: [
+        "geo:GetMapTile",
+        "geo:GetMapSprites",
+        "geo:GetMapGlyphs",
+        "geo:GetMapStyleDescriptor",
+      ],
+      resources: [map.attrArn],
+    }),
+  ],
+});
+
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
+
+backend.addOutput({
+  geo: {
+    amazon_location_service: {
+      region: "us-east-1",
+      maps: {
+        items: {
+          [map.mapName]: {
+            style: "VectorEsriNavigation",
+          },
+        },
+        default: map.mapName,
+      },
+    },
+  },
+});
+```
+
+### Initialize In-App Messaging
+
+To initialize In-App Messaging you need to configure Amplify with `Amplify.configure()`

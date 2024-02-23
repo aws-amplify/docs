@@ -1,0 +1,58 @@
+export const meta = {
+  title: 'Analytics',
+  description: 'Learn how to set Analytics resource powered by Pinpoint'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify enables you to collect analytics data for your App. The Analytics category uses Amazon Cognito Identity pools to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App. 
+We can use AWS CDK to create the necessary resources for analytics.
+
+```ts title="amplify/backend.ts"
+import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { CfnApp } from "aws-cdk-lib/aws-pinpoint";
+
+const backend = defineBackend({
+  auth, 
+  data,
+  // additional resources 
+});
+
+const analyticsStack = backend.createStack("analytics-stack");
+const pinpoint = new CfnApp(analyticsStack, "Pinpoint", {
+  name: "myPinpointApp",
+});
+
+const pinpointPolicy = new Policy(analyticsStack, "PinpointPolicy", {
+  policyName: "PinpointPolicy",
+  statements: [
+    new PolicyStatement({
+      actions: ["mobiletargeting:UpdateEndpoint", "mobiletargeting:PutEvents"],
+      resources: [pinpoint.attrArn + "/*"],
+    }),
+  ],
+});
+
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
+
+backend.addOutput({
+  Analytics: {
+    AWSPinpoint: {
+      appId: pinpoint.ref,
+      region: "us-east-1",
+    },
+  },
+});
+```
+
+
+### Initialize In-App Messaging
+
+To initialize In-App Messaging you need to configure Amplify with `Amplify.configure()`
