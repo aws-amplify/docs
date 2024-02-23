@@ -121,6 +121,8 @@ The CDK will deploy the stacks and display the following confirmation. Note the 
 
 Now that you have built the backend API with the CDK, you can connect a frontend. Refer to section two to connect a React app or section three to connect a Flutter app, or complete both to connect frontends in each framework.
 
+<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue"]}>
+
 ## Build a React app and connect to the GraphQL API
 
 In this section, we will connect a React web app to our existing GraphQL API. First, we will create a new React project and install the necessary Amplify packages. Next, we will use the Amplify CLI to generate GraphQL code matching our API structure. Then, we will add React components to perform queries and mutations to manage to-do items in our API. After that, we will configure the Amplify library with details of our backend API. Finally, we will run the application to demonstrate full CRUD functionality with our existing API. 
@@ -309,6 +311,10 @@ In this section, we generated GraphQL code, created React components, configured
 ## Conclusion - CDK and React
 
 Congratulations on successfully creating a new React app and linking it to a preexisting GraphQL API built with AWS CDK. The next optional section will guide you through doing the same for a Flutter mobile app. Alternatively, you can skip ahead to the ["Clean up resources"](/[platform]/build-a-backend/existing-resources/cdk/#clean-up-resources) section.
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
 
 ## Build a Flutter app and connect to the GraphQL API
 
@@ -811,6 +817,8 @@ flutter run -d chrome
 ## Conclusion - CDK and Flutter
 
 Congratulations! You used the AWS Amplify Data CDK construct to create a GraphQL API backend using AWS AppSync. You then connected either a Flutter app, a React app, or both to that API using the Amplify libraries. If you have any feedback, leave a [GitHub issue](https://github.com/aws-amplify/docs/issues) or join our [Discord Community](https://discord.gg/amplify)!
+
+</InlineFilter>
 
 ## Clean up resources
 
