@@ -1,0 +1,24 @@
+export const meta = {
+  title: 'Example: Add user to group',
+  description:
+    'Use an Auth Post Authentication trigger to automatically add new users to a group'
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+```ts title="amplify/auth/post-authentication.ts"
+import type { AuthPostAuthenticationHandler } from '@aws-amplify/backend';
+
+export const handler: AuthPostAuthenticationHandler = async (
+  event,
+  context
+) => {
+  return event;
+};
+```
