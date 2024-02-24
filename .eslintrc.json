@@ -2,14 +2,44 @@
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
     "prettier" // prettier should always come last
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
-    "react-hooks/exhaustive-deps": "error",
     "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/consistent-type-exports": [
+      "error",
+      {
+        "fixMixedExportsWithInlineTypeSpecifier": false
+      }
+    ],
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports"
+      }
+    ],
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "error"
-  }
+    "react-hooks/exhaustive-deps": "error"
+  },
+  "overrides": [
+    {
+      "files": ["*.mdx"],
+      "extends": ["plugin:mdx/recommended"],
+      "settings": {
+        "mdx/code-blocks": true,
+        // optional, if you want to disable language mapper, set it to `false`
+        // if you want to override the default language mapper inside, you can provide your own
+        "mdx/language-mapper": {}
+      },
+      "rules": {
+        // for mdx shortcodes, and snippets
+        "react/jsx-no-undef": ["off"]
+      }
+    }
+  ]
 }

@@ -9,4 +9,4 @@ README-assets
 yarn.lock
 redirects.json
 *.md
-*.mdx
+# *.mdx
