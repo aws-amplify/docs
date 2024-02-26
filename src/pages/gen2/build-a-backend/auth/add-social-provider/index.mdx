@@ -122,6 +122,7 @@ export const auth = defineAuth({
         clientSecret: secret('GOOGLE_CLIENT_SECRET')
       },
       signInWithApple: {
+        clientId: secret('SIWA_CLIENT_ID'),
         keyId: secret('SIWA_KEY_ID'),
         privateKey: secret('SIWA_PRIVATE_KEY'),
         teamId: secret('SIWA_TEAM_ID')
@@ -139,6 +140,7 @@ export const auth = defineAuth({
         'https://mywebsite.com/profile'
       ],
       logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com'],
+      // This required value will be prepended to `.auth.us-west-2.amazoncognito.com` and used for your application's oauth url
       domainPrefix: 'subdomain'
     }
   }
@@ -287,15 +289,18 @@ If you are using the [Authenticator component](https://ui.docs.amplify.aws/react
 Enabling a signing in of a user with a social provider can be done as shown in the following code snippet.
 
 ```ts title="src/my-client-side-js.js"
-import { Auth } from 'aws-amplify';
-
-try {
-  const { user } = await Auth.signInWithWebUI({
-    provider: 'google'
-  });
-} catch (error) {
-  console.log('error signing up:', error);
-}
+import { signInWithRedirect } from 'aws-amplify/auth';
+...
+  try {
+    await signInWithRedirect({
+      provider: 'Apple'
+    });
+    const currentUser = await getCurrentUser();
+    const userAttributes = await fetchUserAttributes();
+    console.log({currentUser, userAttributes});
+  } catch (error) {
+    console.log('error signing up:', error);
+  }
 ```
 
 ## Conclusion
