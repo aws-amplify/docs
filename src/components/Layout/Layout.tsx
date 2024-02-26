@@ -184,7 +184,7 @@ export const Layout = ({
         <meta
           property="og:image"
           content={`https://docs.amplify.aws/assets/${
-            isGen2 ? 'gen2' : 'classic'
+            isGen1 ? 'classic' : 'gen2'
           }-og.png`}
           key="og:image"
         />
@@ -199,7 +199,7 @@ export const Layout = ({
         <meta
           property="twitter:image"
           content={`https://docs.amplify.aws/assets/${
-            isGen2 ? 'gen2' : 'classic'
+            isGen1 ? 'classic' : 'gen2'
           }-og.png`}
           key="twitter:image"
         />
