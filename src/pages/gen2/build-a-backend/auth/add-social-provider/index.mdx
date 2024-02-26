@@ -295,9 +295,6 @@ import { signInWithRedirect, getCurrentUser, fetchUserAttributes } from 'aws-amp
     await signInWithRedirect({
       provider: 'Apple'
     });
-    const currentUser = await getCurrentUser();
-    const userAttributes = await fetchUserAttributes();
-    console.log({currentUser, userAttributes});
   } catch (error) {
     console.log('error signing up:', error);
   }
@@ -309,6 +306,22 @@ If you are developing a multi-page application, and the redirected page is not t
 
 ```ts title="src/my-redirected-page.js"
 import 'aws-amplify/auth/enable-oauth-listener';
+Hub.listen("auth", ({ payload }) => {
+  switch (payload.event) {
+    case "signInWithRedirect":
+      const user = await getCurrentUser();
+      const userAttributes = await fetchUserAttributes();
+      console.log({user, userAttributes});
+      break;
+    case "signInWithRedirect_failure":
+      // handle sign in failure
+      break;
+    case "customOAuthState":
+      const state = payload.data; // this will be customState provided on signInWithRedirect function
+      console.log(state);
+      break;
+  }
+});
 ```
 
 <Callout>
