@@ -54,6 +54,11 @@ code:not([class]) {
   color: var(--amplify-colors-white);
   font-size: var(--amplify-font-sizes-medium);
   line-height: var(--amplify-line-heights-small);
+
+  code {
+    background-color: inherit;
+    font-size: smaller;
+  }
 }
 
 .pre {
