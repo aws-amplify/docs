@@ -19,8 +19,7 @@ You can also manually create this file for a specified Amplify app ID and branch
 
 ## Extending Amplify configuration file
 
-The `amplifyconfiguration.json` file is not just a static artifact; it's designed to be extendable to suit the evolving needs of your application. By leveraging the `addOutput` method you can programmatically add or modify configurations.
-This is particularly useful for customizing outputs that are not directly exposed through the Amplify constructs or for dynamically adjusting your app's configuration in response to changes in your backend strategy.
+The `amplifyconfiguration.json` file is not just a static artifact; it's designed to be extendable to suit the evolving needs of your application. By leveraging the `addOutput` method you can programmatically add or modify configurations. This is particularly useful for customizing outputs that are not directly exposed through the Amplify constructs or for dynamically adjusting your app's configuration in response to changes in your backend strategy.
 
 One common scenario where extending the configuration becomes handy is when you need to add custom outputs or overwrite existing configurations without manual file edits.
 
@@ -29,6 +28,10 @@ One common scenario where extending the configuration becomes handy is when you 
 Consider a scenario where you want to override output parameters in your `amplifyconfiguration.json` that specify an S3 bucket and its region that your application will use for storing files.
 
 ```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+
 const backend = defineBackend({
   auth, 
   data, 
@@ -42,9 +45,13 @@ backend.addOutput({
 
 ### Custom configuration
 
-In addition to overriding existing configurations, you can also add custom output parameters to your `amplifyconfiguration.json`. This is useful for including unique identifiers, custom flags, or any other information that might be necessary for your application's logic or configuration.
+In addition to overriding existing configurations, you can also add custom output parameters to your `amplifyconfiguration.json`. This is useful for surfacing arbitrary outputs, values from custom CDK resources, or any other information that might be necessary for your application's logic or configuration.
 
 ```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+
 const backend = defineBackend({
   auth, 
   data, 
