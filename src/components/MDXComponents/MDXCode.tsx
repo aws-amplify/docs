@@ -31,6 +31,26 @@ const addVersions = (code: string) => {
   return code;
 };
 
+const isCodeTitle = (title: string) => {
+  const languages = [
+    'mjs',
+    'cjs',
+    'js',
+    'ts',
+    'jsx',
+    'tsx',
+    'html',
+    'css',
+    'java',
+    'swift',
+    'dart'
+  ];
+  const isKnownLanguage = languages.some((language) =>
+    title.endsWith(`.${language}`)
+  );
+  return isKnownLanguage;
+};
+
 export const MDXCode = ({
   codeString,
   language = 'js',
@@ -71,7 +91,7 @@ export const MDXCode = ({
               <Flex className="pre-header" data-testid={testHeaderId}>
                 {title ? (
                   <View className="pre-title" id={titleId}>
-                    {title}
+                    {isCodeTitle(title) ? <code>{title}</code> : <>{title}</>}
                   </View>
                 ) : null}
                 {shouldShowCopy ? (

@@ -28,8 +28,18 @@ describe('MDXCode', () => {
     expect(codeBlock).toBeInTheDocument();
   });
 
-  it('can render MDXCode with a title', async () => {
+  it('can render MDXCode with a code title', async () => {
     const title = 'src/app.tsx';
+    render(
+      <MDXCode testId="mdxCode" title={title} codeString={codeString}></MDXCode>
+    );
+    const titleElement = await screen.findByText(title);
+    expect(titleElement.nodeName).toBe('CODE');
+    expect(titleElement.parentElement!.className).toContain('pre-title');
+  });
+
+  it('can render MDXCode with a plaintext title', async () => {
+    const title = 'Terminal';
     render(
       <MDXCode testId="mdxCode" title={title} codeString={codeString}></MDXCode>
     );
