@@ -1953,6 +1953,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/gen2/start/quickstart/nextjs-app-router-server-components/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/start/quickstart/nuxtjs-app/index.mdx'
                 }
               ]
             },

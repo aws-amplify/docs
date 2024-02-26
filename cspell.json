@@ -1573,7 +1573,9 @@
     "parametersjson",
     "nextamplifygen",
     "multirepo",
-    "startbuild"
+    "startbuild",
+    "nuxi",
+    "nuxtjs"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
