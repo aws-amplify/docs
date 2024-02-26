@@ -217,7 +217,9 @@ export const Layout = ({
           colorMode={colorMode}
         >
           <IconsProvider icons={defaultIcons}>
-            <View className={`layout-wrapper layout-wrapper--${pageType}`}>
+            <View
+              className={`layout-wrapper layout-wrapper--${pageType}${isGen1 ? ' layout-wrapper--gen1' : ''}`}
+            >
               {pageType === 'home' ? (
                 <SpaceShip hasBanner={shouldShowGen2Banner} />
               ) : null}
