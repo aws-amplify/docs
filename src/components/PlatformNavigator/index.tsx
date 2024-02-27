@@ -94,7 +94,7 @@ export function PlatformNavigator({
               className={isOpen ? '' : 'icon-rotate-90-reverse'}
             />
           </Button>
-          {PLATFORM_VERSIONS[currentPlatform] && isGen1 && (
+          {isGen1 && PLATFORM_VERSIONS[currentPlatform] && (
             <VersionSwitcher platform={currentPlatform} flex="1 1 0" />
           )}
         </Flex>
