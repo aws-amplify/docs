@@ -14,16 +14,16 @@ export function getStaticProps(context) {
 
 Applications that work with data need well-defined entities to represent that data. Typically, entities are stored across different tables in a database, and items in a given table need to be **uniquely identified**. This is achieved by defining a field (or a combination of fields) that will hold a value (or values) to unambiguously refer to the item. When modeling applications, you often need to **establish relationships** between entities. This is done by adding a field that holds the value of the unique identifier of the related entity.
 
-Retrieving an entity's related data can be expensive, so Amplify Data offers a way to specify lazy or eager loading of relationships. This is done through "custom selection sets." With eager loading, related data is retrieved immediately when the entity is loaded. With lazy loading, related data is only retrieved when explicitly requested. Custom selection sets give you control over when and how an entity's relationships are populated.
+Retrieving an entity's related data can be expensive, so Amplify Data offers a way to specify lazy or eager loading of relationships. This is done through "custom selection sets." With eager loading, related data is retrieved immediately when the entity is loaded. With lazy loading, related data is only retrieved when explicitly requested. Custom selection sets give you control over when and how an entity's relationships are loaded and represented within your app code..
 
  ## Types of relationships
 
 |Relationship|Description|Example|
 |------------|--------|--|
-|`a.hasMany()`|Creates a one-directional, one-to-many relationship between two models. | A **Post** has many **Comments**. This allows you to query all the comments from the post record.|
-|`a.manyToMany()`| Creates a bidirectional relationship. Must be defined on both related models. | A **Blog** has many **Tags** and a **Tag** has many **Blogs**.|
-|`a.hasOne()`|Creates a one-directional, one-to-one relationship between two models. | A **Project** has one **Team**. This allows you to query the team from the project record.|
-|`a.belongsTo()`|Makes a "has one" or "has many" relationship bidirectional so you can read from both sides of the relationship. | A **Project** has one **Team** and a **Team** belongs to a **Project**. This allows you to reference the team from the project record and the other way around.|
+|`a.hasMany()`|Creates a one-directional, one-to-many relationship between two models. | A **Team** has many **Member**s. This allows you to query all the comments from the post record.|
+|`a.manyToMany()`| Creates a bidirectional relationship. Must be defined on both related models. Many-to-many relationships are only supported for DynamoDB data sources. | A **Post** has many **Tag**s and a **Tag** has many **Post**s.|
+|`a.hasOne()`|Creates a one-directional, one-to-one relationship between two models. | A **Customer** has one **Cart**. This allows you to query the active shopping cart from the customer record.|
+|`a.belongsTo()`|Makes a "has one" or "has many" relationship bidirectional so you can read from both sides of the relationship. | A **Team** has many **Member**s and a **Member** belongs to a **Team**. This allows you to reference the team from the member record and vice versa.|
 
 ## Model a "Has Many" relationship
 
@@ -68,7 +68,7 @@ await client.models.Member.update({
 
 ```ts
 await client.models.Member.update({
-  id: "SOME_MEMBER_ID",
+  id: "OTHER_MEMBER_ID",
   team
 })
 ```
@@ -77,7 +77,7 @@ await client.models.Member.update({
 
 ```ts
 await client.models.Member.update({
-  id: "SOME_MEMBER_ID",
+  id: "OTHER_MEMBER_ID",
   team: undefined
 })
 ```
