@@ -240,7 +240,7 @@ const { data: newCart } = await client.models.Cart.create({
 });
 
 await client.models.Customer.update({
-  id: project.id,
+  id: customer.id,
   activeCart: newCart
 });
 ```
@@ -266,10 +266,11 @@ const { data: cart } = await customer.activeCart();
 ### Eagerly load a "Has One" relationship
 
 ```ts
-const { data: customer } = await client.models.Customer.get(
+const { data: customerWithCart } = await client.models.Customer.get(
   { id: "MY_CUSTOMER_ID" },
   { selectionSet: ['id', 'activeCart.*'] },
 );
+const cart = customerWithCart.activeCart;
 ```
 
 ## Model a bidirectional relationship
