@@ -17,7 +17,7 @@ const invalidChildren = [
 ];
 
 export function Menu({ currentPlatform, path }: MenuProps): ReactElement {
-  const isGen2 = path.split('/')[1] === 'gen2';
+  const isGen1 = path.split('/')[1] === 'gen1';
   const isPrev = path.split('/')[2] === 'prev';
   const isLegacy = path.split('/')[3] === 'cli-legacy';
   const isSDK = path.split('/')[2] === 'sdk';
@@ -30,8 +30,8 @@ export function Menu({ currentPlatform, path }: MenuProps): ReactElement {
   } else if (isSDK) {
     rootMenuNode = { children: [findDirectoryNode('/[platform]/sdk')] };
     childrenNodes = rootMenuNode.children;
-  } else if (isGen2) {
-    rootMenuNode = findDirectoryNode('/gen2');
+  } else if (isGen1) {
+    rootMenuNode = findDirectoryNode('/gen1');
     childrenNodes = rootMenuNode.children;
   } else {
     baseMenu = true;
