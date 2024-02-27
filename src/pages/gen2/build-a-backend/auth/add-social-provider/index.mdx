@@ -289,7 +289,7 @@ If you are using the [Authenticator component](https://ui.docs.amplify.aws/react
 Enabling a signing in of a user with a social provider can be done as shown in the following code snippet.
 
 ```ts title="src/my-client-side-js.js"
-import { signInWithRedirect, getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
+import { signInWithRedirect } from 'aws-amplify/auth';
 ...
   try {
     await signInWithRedirect({
@@ -306,6 +306,9 @@ If you are developing a multi-page application, and the redirected page is not t
 
 ```ts title="src/my-redirected-page.js"
 import 'aws-amplify/auth/enable-oauth-listener';
+import { getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
+import { Hub } from 'aws-amplify/utils';
+
 Hub.listen("auth", ({ payload }) => {
   switch (payload.event) {
     case "signInWithRedirect":
