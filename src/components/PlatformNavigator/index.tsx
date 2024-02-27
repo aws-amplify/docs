@@ -105,14 +105,11 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
               const title = platform.title;
               const current = title === platformTitle;
               return (
-                <li
-                  className={classNames('popover-list__item', {
-                    'platform-navigator__dropdown__item--current': current
-                  })}
-                  key={`platform-${index}`}
-                >
+                <li className="popover-list__item" key={`platform-${index}`}>
                   <Link
-                    className="popover-list__link"
+                    className={classNames('popover-list__link', {
+                      'popover-list__link--current': current
+                    })}
                     href={platform.href}
                     onClick={() => setIsOpen(false)}
                   >

@@ -23,14 +23,14 @@
     }
 
     &.active {
-      background-color: var(--amplify-colors-teal-40);
+      background-color: var(--amplify-colors-primary-20);
     }
     &:focus {
       z-index: 1;
     }
     &:hover,
     &:active {
-      background-color: var(--amplify-colors-teal-20);
+      background-color: var(--amplify-colors-primary-40);
     }
   }
 }

@@ -1,7 +1,6 @@
 import { defaultTheme } from '@aws-amplify/ui';
 
 export const red = defaultTheme.tokens.colors.red;
-// export const orange = defaultTheme.tokens.colors.orange;
 export const yellow = defaultTheme.tokens.colors.yellow;
 export const neutral = defaultTheme.tokens.colors.neutral;
 

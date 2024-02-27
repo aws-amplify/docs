@@ -11,7 +11,7 @@ import {
 } from '@aws-amplify/ui-react';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
-import { gen2Theme } from '@/themes/gen2Theme';
+import { gen1Theme } from '@/themes/gen1Theme';
 import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
 import {
@@ -71,6 +71,7 @@ export const Layout = ({
   const pathname = router.pathname;
   const shouldShowGen2Banner = GEN2BANNER_URLS.includes(asPathWithNoHash);
   const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
+  const isGen1 = asPathWithNoHash.split('/')[1] === 'gen1';
   let currentPlatform = isGen2 ? undefined : DEFAULT_PLATFORM;
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
@@ -183,7 +184,7 @@ export const Layout = ({
         <meta
           property="og:image"
           content={`https://docs.amplify.aws/assets/${
-            isGen2 ? 'gen2' : 'classic'
+            isGen1 ? 'classic' : 'gen2'
           }-og.png`}
           key="og:image"
         />
@@ -198,7 +199,7 @@ export const Layout = ({
         <meta
           property="twitter:image"
           content={`https://docs.amplify.aws/assets/${
-            isGen2 ? 'gen2' : 'classic'
+            isGen1 ? 'classic' : 'gen2'
           }-og.png`}
           key="twitter:image"
         />
@@ -212,11 +213,13 @@ export const Layout = ({
         }}
       >
         <ThemeProvider
-          theme={isGen2 ? gen2Theme : defaultTheme}
+          theme={isGen1 ? gen1Theme : defaultTheme}
           colorMode={colorMode}
         >
           <IconsProvider icons={defaultIcons}>
-            <View className={`layout-wrapper layout-wrapper--${pageType}`}>
+            <View
+              className={`layout-wrapper layout-wrapper--${pageType}${isGen1 ? ' layout-wrapper--gen1' : ''}`}
+            >
               {pageType === 'home' ? (
                 <SpaceShip hasBanner={shouldShowGen2Banner} />
               ) : null}
@@ -224,7 +227,7 @@ export const Layout = ({
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
                 currentSite={currentGlobalNavMenuItem}
-                isGen2={isGen2}
+                isGen1={isGen1}
                 mainId={mainId}
               />
               <LayoutHeader
