@@ -107,13 +107,19 @@ npm install @aws-amplify/ui-react-native react-native-safe-area-context
 
 ```diff
 - platform :ios, min_ios_version_supported
-+ platform :ios, 13.0
++ platform :ios, 13.4
 ```
 
 You will also need to install the pod dependencies for iOS:
 
 ```bash
 npx pod-install
+```
+
+After installing pod dependencies, rebuild the app:
+
+```sh
+npm start
 ```
 
 </Block>

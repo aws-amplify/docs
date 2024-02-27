@@ -601,13 +601,19 @@ npm install aws-amplify @aws-amplify/react-native @react-native-community/netinf
 
 ```diff
 - platform :ios, min_ios_version_supported
-+ platform :ios, 13.0
++ platform :ios, 13.4
 ```
 
 You will also need to install the pod dependencies for iOS:
 
 ```sh
 npx pod-install
+```
+
+After installing pod dependencies, rebuild the app:
+
+```sh
+npm start
 ```
 
 </Block>
