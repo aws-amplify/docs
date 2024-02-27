@@ -123,6 +123,12 @@ export default defineNuxtPlugin({
 });
 ```
 
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your Application. If you are running into the `Library Not Configured` error and are unsure why, check out our [Troubleshooting documentation](/[platform]/build-a-backend/troubleshooting/library-not-configured/) on this issue.
+
+</Callout>
+
 </Accordion>
 
 ### Implement `01.amplify-apis.server.ts`
@@ -474,6 +480,12 @@ export default defineNuxtPlugin({
   }
 });
 ```
+
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your Application. If you are running into the `Library Not Configured` error and are unsure why, check out our [Troubleshooting documentation](/[platform]/build-a-backend/troubleshooting/library-not-configured/) on this issue.
+
+</Callout>
 
 </Accordion>
 

@@ -78,7 +78,7 @@ You can use the exported `runWithAmplifyServerContext` function to call Amplify 
 
 ## Configure Amplify library for client-side usage
 
-When you use the Amplify library on the client-side of your Next.js app, you will need to configure Amplify by calling the Amplify.configure as you would to use Amplify in a single-page application.
+When you use the Amplify library on the client-side of your Next.js app, you will need to configure Amplify by calling `Amplify.configure` as you would to use Amplify in a single-page application.
 
 <Callout>
 
@@ -104,6 +104,12 @@ export default function RootLayoutThatConfiguresAmplifyOnTheClient({
   return children;
 }
 ```
+
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your Application. If you are running into the `Library Not Configured` error and are unsure why, check out our [Troubleshooting documentation](/[platform]/build-a-backend/troubleshooting/library-not-configured/) on this issue.
+
+</Callout>
 
 <Callout>
 

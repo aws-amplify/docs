@@ -131,6 +131,12 @@ import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 ```
 
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your Application. If you are running into the `Library Not Configured` error and are unsure why, check out our [Troubleshooting documentation](/[platform]/build-a-backend/troubleshooting/library-not-configured/) on this issue.
+
+</Callout>
+
 ## Mocking and Local Testing with Amplify CLI
 
 Amplify CLI supports running a local mock server for testing your application with Amazon S3. Please see the [CLI toolchain documentation](/[platform]/tools/cli/usage/mock/) for more details.

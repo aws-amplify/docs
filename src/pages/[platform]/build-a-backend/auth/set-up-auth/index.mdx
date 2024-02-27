@@ -161,6 +161,12 @@ import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 ```
 
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your Application. If you are running into the `Library Not Configured` error and are unsure why, check out our [Troubleshooting documentation](/[platform]/build-a-backend/troubleshooting/library-not-configured/) on this issue.
+
+</Callout>
+
 </Block>
 
 <Block name="Amplify CLI (Import)">
@@ -207,6 +213,12 @@ import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 ```
 
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your Application. If you are running into the `Library Not Configured` error and are unsure why, check out our [Troubleshooting documentation](/[platform]/build-a-backend/troubleshooting/library-not-configured/) on this issue.
+
+</Callout>
+
 </Block>
 
 <Block name="Amplify Studio">
@@ -236,6 +248,12 @@ Amplify Studio allows you to create auth resources, set up authorization rules, 
 <Block name="Existing Resources">
 
 Existing Authentication resources from AWS (such as Amazon Cognito User Pools or Identity Pools) can be used with the Amplify Libraries by calling the `Amplify.configure()` method.
+
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your Application. If you are running into the `Library Not Configured` error and are unsure why, check out our [Troubleshooting documentation](/[platform]/build-a-backend/troubleshooting/library-not-configured/) on this issue.
+
+</Callout>
 
 In your app's entry point (specifically **App.js**, **index.js**, **\_app.js**, or **main.js**), import and load the configuration file:
 

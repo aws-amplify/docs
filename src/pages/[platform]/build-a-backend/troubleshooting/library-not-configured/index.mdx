@@ -1,0 +1,142 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Library Not Configured',
+  description: 'Addressing Library Not Configured error message',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'react',
+        'react-native',
+        'vue',
+        'nextjs',
+        'javascript'
+      ],
+      canonicalPath: '/angular/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+If you are running into the `Library Not Configured` error message and have called `Amplify.configure` in your project, your Amplify API is most likely being called before `Amplify.configure`. This can happen in a few different scenarios. Below are a list of things you can check to troubleshoot this issue.
+
+## Call `Amplify.configure` in the root of your project
+
+Make sure you are calling `Amplify.configure` in the root file of your project. The root file of your app may be different depending on your frontend framework:
+
+* Vue: **src/main.ts** or **src/main.js**
+* React: **src/main.tsx** or **src/main.jsx**
+* Next:
+* Angular: **main.ts** or **main.js**
+
+## Check for Module-level Amplify API Invocations
+
+When Amplify APIs are used outside of your application lifecycle, there is a risk that a javascript bundler may place that API call before `Amplify.configure`. Module-level function calls (calls at the top-level of a file), are generally evaluated in the order that they are imported.
+
+Below is an example of code that will likely result in a `Library Not Configured` error:
+
+```javascript title="index.ts"
+import { Amplify } from 'aws-amplify';
+import ComponentX from 'module-fetch-auth';
+
+// fetchAuthSession() in ComponentX executed on import
+
+Amplify.configure();
+
+export default function App() {
+  return (
+    <div>
+        <ComponentX />
+    </div>
+  );
+}
+```
+
+```javascript title="module-fetch-auth.ts"
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+fetchAuthSession(); // Will throw the Library Not Configured error
+
+export default function ComponentX() {
+  return (
+    <div className="box">
+      ...
+    </div>
+  );
+}
+```
+
+This can also happen when using Layouts (as in NextJS) and calling Amplify API’s in child components at the module-level (at the top of your file/module). See the example below for an example of this issue:
+
+```javascript title="layout.tsx"
+import ConfigureAmplifyClientSide from '@/ConfigureAmplifyClientSide';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className="container py-6">
+        <>
+          <ConfigureAmplifyClientSide />
+          {children}
+        </>
+      </body>
+    </html>
+  );
+}
+```
+
+```javascript title="ConfigureAmplifyClientSide.tsx"
+import { Amplify } from "aws-amplify";
+
+Amplify.configure(config, { ssr: true });
+
+export default function ConfigureAmplifyClientSide() {
+  return null;
+}
+```
+
+```javascript title="page.tsx"
+import { fetchAuthSession } from "aws-amplify/auth";
+
+// The layout calls configure, but fetchAuthSession ends up executing first
+fetchAuthSession().then((session) => {
+  console.log(session);
+});
+
+export default function HomePage() {
+  return (
+    <div className="box">
+      ...
+    </div>
+  );
+}
+```
+
+## Multi-Page App Configuration
+
+Make sure to call `Amplify.configure` on each route of your multi-page app.
