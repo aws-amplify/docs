@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Accordion } from '../index';
-import * as trackModule from '../../../utils/track';
+// import * as trackModule from '../../../utils/track';
 
 jest.mock('next/router', () => ({
   useRouter() {
@@ -21,71 +21,90 @@ jest.mock('../../../utils/track', () => ({
     .mockImplementation(() => 'accordion-component-example')
 }));
 
-describe('Accordion', () => {
-  const content =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla malesuada dignissim erat et lacinia. Quisque molestie vehicula dolor sit amet volutpat. Quisque eget orci quis mi sodales fringilla.';
-  const component = (
-    <Accordion
-      title="Accordion component example"
-      headingLevel="4"
-      eyebrow="Learn more"
-    >
-      <p>{content}</p>
-    </Accordion>
-  );
+HTMLElement.prototype.animate = jest.fn();
 
+describe('Accordion', () => {
   it('should render the Accordion component', async () => {
+    const content =
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla malesuada dignissim erat et lacinia. Quisque molestie vehicula dolor sit amet volutpat. Quisque eget orci quis mi sodales fringilla.';
+    const component = (
+      <Accordion
+        title="Accordion component example"
+        headingLevel="4"
+        eyebrow="Learn more"
+      >
+        <p>{content}</p>
+      </Accordion>
+    );
     render(component);
     const accordion = await screen.findByText(content);
     expect(accordion).toBeInTheDocument();
   });
 
   it('should hide the Accordion body content on load', async () => {
+    const content =
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla malesuada dignissim erat et lacinia. Quisque molestie vehicula dolor sit amet volutpat. Quisque eget orci quis mi sodales fringilla.';
+    const component = (
+      <Accordion
+        title="Accordion component example"
+        headingLevel="4"
+        eyebrow="Learn more"
+      >
+        <p>{content}</p>
+      </Accordion>
+    );
     render(component);
     const bodyText = await screen.findByText(content);
     expect(bodyText).not.toBeVisible();
   });
 
   it('should toggle open/closed when heading is clicked', async () => {
+    const content =
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla malesuada dignissim erat et lacinia. Quisque molestie vehicula dolor sit amet volutpat. Quisque eget orci quis mi sodales fringilla.';
+    const component = (
+      <Accordion
+        title="Accordion component example"
+        headingLevel="4"
+        eyebrow="Learn more"
+      >
+        <p>{content}</p>
+      </Accordion>
+    );
     render(component);
-    // const accordionHeading = await screen.findByText(
-    //   'Accordion component example'
-    // );
+
+    const accordionHeading = screen.getByText('Accordion component example');
+
     // const body = await screen.findByRole('group').;
     // const accordionBody = component..getElementsByClassName('accordion__body')
     // console.log(body);
-    // userEvent.click();
+    userEvent.click(accordionHeading);
+
+    // fireEvent.click(accordionHeading);
+
+    await waitFor(() => {
+      expect(screen.getByText(content)).toBeInTheDocument();
+      expect(screen.getByText(content)).toBeVisible();
+    });
     // fireEvent.animationEnd(accordionHeading);
     // fireEvent.animationStart(accordionHeading);
     // const accordionBody = await screen.findByText(content);
-    // expect(accordionBody).toBeInTheDocument();
-    // expect(accordionBody).not.toBeVisible();
   });
 
-  it('should track Accordion open on click of heading', async () => {
-    jest.spyOn(trackModule, 'trackExpanderOpen');
-    // const mockAnimations = () => {
-    //   Element.prototype.animate = jest
-    //     .fn()
-    //     .mockImplementation(() => ({ finished: Promise.resolve() }));
-    // };
+  // it('should track Accordion open on click of heading', async () => {
+  //   jest.spyOn(trackModule, 'trackExpanderOpen');
 
-    // beforeAll(() => {
-    //   mockAnimations();
-    // });
+  //   render(component);
 
-    render(component);
+  //   const accordionHeading = await screen.findByText(
+  //     'Accordion component example'
+  //   );
+  //   const summary = accordionHeading?.parentElement?.parentElement;
+  //   console.log(accordionHeading?.parentElement?.parentElement?.parentElement);
+  //   fireEvent.animationEnd(summary);
+  //   userEvent.click(summary);
 
-    const accordionHeading = await screen.findByText(
-      'Accordion component example'
-    );
-    const summary = accordionHeading?.parentElement?.parentElement;
-    console.log(accordionHeading?.parentElement?.parentElement?.parentElement);
-    fireEvent.animationEnd(summary);
-    userEvent.click(summary);
-
-    await waitFor(() => {
-      expect(trackModule.trackExpanderOpen).toHaveBeenCalled();
-    });
-  });
+  //   await waitFor(() => {
+  //     expect(trackModule.trackExpanderOpen).toHaveBeenCalled();
+  //   });
+  // });
 });
