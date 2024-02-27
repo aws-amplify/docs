@@ -39,18 +39,24 @@ export function getStaticProps(context) {
   };
 }
 
-If you are running into the `Library Not Configured` error message and have called `Amplify.configure` in your project, your Amplify API is most likely being called before `Amplify.configure`. This can happen in a few different scenarios. Below are a list of things you can check to troubleshoot this issue.
+If you are running into the `Library Not Configured` error message and have called `Amplify.configure` in your project, your Amplify API is most likely being called before `Amplify.configure`. This can happen in a few different ways. Below are three possibilities you can check to troubleshoot this issue.
 
 ## Call `Amplify.configure` in the root of your project
 
-Make sure you are calling `Amplify.configure` in the root file of your project. The root file of your app may be different depending on your frontend framework:
+Make sure you are calling `Amplify.configure` in the root file of your project. The root file of your app may be different depending on your frontend framework. The current default for some common frameworks are listed below (if you are not using TypeScript the `ts` and `tsx` extensions would be `js` and `jsx`):
 
-* Vue: **src/main.ts** or **src/main.js**
-* React: **src/main.tsx** or **src/main.jsx**
-* Next:
-* Angular: **main.ts** or **main.js**
+* Vue.js: **src/main.ts**
+* React: **src/main.tsx**
+* Angular: **src/main.ts**
+* Next.js Page Router: **pages/_app.tsx** or **src/pages/_app.tsx**
 
-## Check for Module-level Amplify API Invocations
+<Callout>
+
+If you are using the Next.js App Router, you can follow the suggestions in our [Next.js documentation](/[platform]/build-a-backend/server-side-rendering/nextjs/#configure-amplify-library-for-client-side-usage) for root-level configuration. Keep in mind that if you are calling any API's at the module-level (i.e. at the top of your file) in any of the Child components, you may still run into this issue.
+
+</Callout>
+
+## Check for module-level Amplify API invocations
 
 When Amplify APIs are used outside of your application lifecycle, there is a risk that a javascript bundler may place that API call before `Amplify.configure`. Module-level function calls (calls at the top-level of a file), are generally evaluated in the order that they are imported.
 
@@ -87,7 +93,7 @@ export default function ComponentX() {
 }
 ```
 
-This can also happen when using Layouts (as in NextJS) and calling Amplify API’s in child components at the module-level (at the top of your file/module). See the example below for an example of this issue:
+This can also happen when using Layouts (as in NextJS) and calling Amplify API’s in child components at the module-level (at the top of your file/module). See below for an example of this issue:
 
 ```javascript title="layout.tsx"
 import ConfigureAmplifyClientSide from '@/ConfigureAmplifyClientSide';
@@ -137,6 +143,6 @@ export default function HomePage() {
 }
 ```
 
-## Multi-Page App Configuration
+## Configure Amplify on each page of a multi-page app
 
-Make sure to call `Amplify.configure` on each route of your multi-page app.
+If you are working in a multi-page app, make sure `Amplify.configure` is called for each page.
