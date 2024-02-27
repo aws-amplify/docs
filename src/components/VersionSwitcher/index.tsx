@@ -7,12 +7,14 @@ import classNames from 'classnames';
 import { trackVersionChange } from '@/utils/track';
 import { useVersionSwitcherPath } from './useVersionSwitcherPath';
 import { BUILD_A_BACKEND, PREV_BUILD_A_BACKEND } from '@/data/routes';
+import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 
-export const VersionSwitcher = ({ platform, isPrev, ...rest }) => {
+export const VersionSwitcher = ({ platform, ...rest }) => {
   const router = useRouter();
   const pathname = router.pathname;
   const versions = PLATFORM_VERSIONS[platform];
   const switchPath = useVersionSwitcherPath(platform);
+  const isPrev = usePathWithoutHash().split('/')[2] === 'prev';
   let path = isPrev ? BUILD_A_BACKEND : PREV_BUILD_A_BACKEND;
   if (
     switchPath &&

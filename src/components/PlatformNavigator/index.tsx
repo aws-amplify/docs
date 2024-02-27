@@ -6,10 +6,22 @@ import Link from 'next/link';
 import classNames from 'classnames';
 import { useClickOutside } from '@/utils/useClickOutside';
 import { VersionSwitcher } from '../VersionSwitcher';
-import { PLATFORM_VERSIONS, PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import {
+  PLATFORM_VERSIONS,
+  PLATFORM_DISPLAY_NAMES,
+  Platform
+} from '@/data/platforms';
 import { useTabKeyDetection } from '@/utils/useTabKeyDetection';
 
-export function PlatformNavigator({ currentPlatform, isPrev }) {
+type PlatformNavigatorProps = {
+  currentPlatform: Platform;
+  isGen1: boolean;
+};
+
+export function PlatformNavigator({
+  currentPlatform,
+  isGen1
+}: PlatformNavigatorProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -82,12 +94,8 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
               className={isOpen ? '' : 'icon-rotate-90-reverse'}
             />
           </Button>
-          {PLATFORM_VERSIONS[currentPlatform] && (
-            <VersionSwitcher
-              platform={currentPlatform}
-              isPrev={isPrev}
-              flex="1 1 0"
-            />
+          {PLATFORM_VERSIONS[currentPlatform] && isGen1 && (
+            <VersionSwitcher platform={currentPlatform} flex="1 1 0" />
           )}
         </Flex>
         <View
@@ -110,7 +118,7 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
                     className={classNames('popover-list__link', {
                       'popover-list__link--current': current
                     })}
-                    href={platform.href}
+                    href={isGen1 ? `/gen1/${platform.href}` : platform.href}
                     onClick={() => setIsOpen(false)}
                   >
                     {platform.icon}

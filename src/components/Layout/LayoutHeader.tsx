@@ -22,13 +22,13 @@ import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 
 export const LayoutHeader = ({
   currentPlatform,
-  isGen2,
+  isGen1,
   pageType = 'inner',
   showLastUpdatedDate = true,
   showTOC
 }: {
-  currentPlatform?: Platform | undefined;
-  isGen2?: boolean;
+  currentPlatform: Platform;
+  isGen1: boolean;
   pageType?: 'home' | 'inner';
   showLastUpdatedDate: boolean;
   showTOC?: boolean;
@@ -38,7 +38,6 @@ export const LayoutHeader = ({
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const asPathWithNoHash = usePathWithoutHash();
-  const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
 
   const handleMenuToggle = () => {
     if (!menuOpen) {
@@ -78,7 +77,7 @@ export const LayoutHeader = ({
               indexName={process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME}
               apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
               searchParameters={{
-                facetFilters: [`platform:${isGen2 ? 'gen2' : currentPlatform}`]
+                facetFilters: [`platform:${isGen1 ? 'gen1' : currentPlatform}`]
               }}
             />
           </View>
@@ -112,14 +111,13 @@ export const LayoutHeader = ({
             <IconDoubleChevron />
             <VisuallyHidden>Close menu</VisuallyHidden>
           </Button>
-          {isGen2 ? null : (
-            <div className="layout-sidebar-platform">
-              <PlatformNavigator
-                currentPlatform={currentPlatform}
-                isPrev={isPrev}
-              />
-            </div>
-          )}
+
+          <div className="layout-sidebar-platform">
+            <PlatformNavigator
+              currentPlatform={currentPlatform}
+              isGen1={isGen1}
+            />
+          </div>
 
           <div className="layout-sidebar-menu">
             <Menu currentPlatform={currentPlatform} path={asPathWithNoHash} />
