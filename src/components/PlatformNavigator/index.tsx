@@ -118,7 +118,7 @@ export function PlatformNavigator({
                     className={classNames('popover-list__link', {
                       'popover-list__link--current': current
                     })}
-                    href={isGen1 ? `/gen1/${platform.href}` : platform.href}
+                    href={isGen1 ? `/gen1${platform.href}` : platform.href}
                     onClick={() => setIsOpen(false)}
                   >
                     {platform.icon}
