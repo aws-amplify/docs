@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Library Not Configured',
-  description: 'Addressing Library Not Configured error message',
+  description: 'Addressing Library Not Configured error messages',
   platforms: [
     'angular',
     'javascript',
@@ -52,7 +52,7 @@ Make sure you are calling `Amplify.configure` in the root file of your project. 
 
 <Callout>
 
-If you are using the Next.js App Router, you can follow the suggestions in our [Next.js documentation](/[platform]/build-a-backend/server-side-rendering/nextjs/#configure-amplify-library-for-client-side-usage) for root-level configuration. Keep in mind that if you are calling any API's at the module-level (i.e. at the top of your file) in any of the Child components, you may still run into this issue.
+If you are using the Next.js App Router, you can follow the suggestions in our [Next.js documentation](/[platform]/build-a-backend/server-side-rendering/nextjs/#configure-amplify-library-for-client-side-usage) for root-level configuration. Keep in mind that if you are calling any APIs at the module-level (i.e. at the top of your file) in any of the Child components, you may still run into this issue.
 
 </Callout>
 
@@ -93,7 +93,7 @@ export default function ComponentX() {
 }
 ```
 
-This can also happen when using Layouts (as in NextJS) and calling Amplify API’s in child components at the module-level (at the top of your file/module). See below for an example of this issue:
+This can also happen when using Next.js Layouts and calling Amplify APIs in child components at the module-level (at the top of your file/module). See below for an example of this issue:
 
 ```javascript title="layout.tsx"
 import ConfigureAmplifyClientSide from '@/ConfigureAmplifyClientSide';
