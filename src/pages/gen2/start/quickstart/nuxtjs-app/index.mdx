@@ -18,9 +18,20 @@ import prerequisites from 'src/fragments/gen2/quickstart/prerequisites.mdx';
 
 <Fragments fragments={{ javascript: prerequisites, nuxtjs: prerequisites }} />
 
-import createProject from 'src/fragments/gen2/quickstart/create-nuxtjs-project.mdx';
+## Create a project
 
-<Fragments fragments={{ javascript: createProject, nuxtjs: createProject }} />
+First, you will need to create a new Nuxt app. The following command will create a Nuxt 3 app in a directory called `nuxt-amplify-gen2`.
+
+```bash title="Terminal" showLineNumbers={false}
+npx nuxi@latest init nuxt-amplify-gen2
+
+Ok to proceed? (y) y
+
+✔ Which package manager would you like to use? npm
+✔ Initialize git repository? yes
+
+cd nuxt-amplify-gen2
+```
 
 import createAmplify from 'src/fragments/gen2/quickstart/create-amplify.mdx';
 
