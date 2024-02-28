@@ -27,70 +27,47 @@ You must have these information handy for your database:
 
 First, provide all the database connection information as secrets, you can use the Amplify sandbox's secret functionality to set them or go to the Amplify console to set secrets in a shared environment:
 
-    <BlockSwitcher>
+<BlockSwitcher>
+<Block name="Sandbox">
 
-          <Block name="Sandbox">
-
-                                                                                                                                                                                          ```bash
-npx amplify sandbox secret MYSQL_HOSTNAME
-npx amplify sandbox secret MYSQL_PORT
-npx amplify sandbox secret MYSQL_USERNAME
-npx amplify sandbox secret MYSQL_PASSWORD
-npx amplify sandbox secret MYSQL_DB_NAME
+```bash
+npx amplify sandbox secret add MYSQL_CONNECTION_STRING
+# postgres://rene:password123@hohuoeatsuhsaoetu.eoauoaeum/main
 ```
 
-      </Block>
-      <Block name="Amplify console">
-            </Block>
+</Block>
 
-          </BlockSwitcher>
+<Block name="Amplify console"></Block>
 
-## Step 2 - Create a new database schema generator configuration file
+</BlockSwitcher>
 
-Create a new **schema-generator.config.ts** file in the **amplify/data/** folder and provide the database connection information:
-
-```ts
-import { type SchemaGenerationConfig, secret } from '@aws-amplify/backend'
-
-export const databases: SchemaGenerationConfig = {
-  "rds": {
-    engine: "mysql",
-    hostname: secret("MYSQL_HOSTNAME"),
-    username: secret("MYSQL_USERNAME"),
-    password: secret("MYSQL_PASSWORD"),
-    port: secret("MYSQL_PORT"),
-    databaseName: secret("MYSQL_DB_NAME"),
-    // Provide an optional output file path  
-    // outputFile: 'my-custom-path/schema.mysql.ts' 
-  }, 
-}
-```
-
-### (Optional) Configure VPC settings for database connection 
-If your database is behind a VPC, you must also provide the VPC settings for database connection.
-
-
-## Step 3 - Generate database schema
+## Step 2 - Generate database schema
 
 Run the following command to generate the Data schema with your database connection information.
 
 ```bash
-npx amplify generate schema-from-databases schema-generator.config.ts
+npx amplify generate schema-from-database --connection-string MYSQL_CONNECTION_STRING --out amplify/data/schema.rds.ts
 ```
 
-This creates a new **schema.rds.ts** with a schema reflecting the types of your database. Import the schema to your **amplify/data/resource.ts** file and 
+<Callout info title="VPC connection">
+
+If your database is behind a VPC, we'll autodetect the VPC configuration based on your connection string. This happens via a hostname lookup within your account. The sandbox profile in your account needs to have XYZ permissions to do a VPC lookup and connect to the VPC. (If your database is in a private subnet, we'll provision a Lambda to retrieve the database schema in order for us to generate the TypeScript data model.) TODO: Chris / Ed to connect on how best to implement this.
+
+</Callout>
+
+This creates a new **schema.rds.ts** with a schema reflecting the types of your database. Import the schema to your **amplify/data/resource.ts** file and
 
 ```ts
 import { a, defineData } from '@aws-amplify/backend';
 // highlight-next-line
-import { schema as auroraSchema } from './schema.aurora.ts';
+import { schema as auroraSchema } from './schema.rds.ts';
 
 // Relational database sources can coexist with DynamoDB tables managed by Amplify.
 const schema = a.schema({
   Todo: a.model({
     content: a.string(),
-    isDone: a.boolean(),
-  }),
+    isDone: a.boolean()
+  })
 });
 
 // Use the .combine() operator to stitch together the models backed by DynamoDB
@@ -101,11 +78,11 @@ const combinedSchema = a.schema.combine([schema, auroraSchema]);
 export type Schema = typeof combinedSchema;
 export const data = defineData({
   // highlight-next-line
-  schema: combinedSchema,
+  schema: combinedSchema
 });
 ```
 
-## Step 4 - Add authorization rules
+## Step 3 - Add authorization rules
 
 ```ts
 import { a, defineData } from '@aws-amplify/backend'
@@ -133,7 +110,7 @@ export const data = defineData({
 })
 ```
 
-## Step 5 - Deploy your Data resources using the cloud sandbox
+## Step 4 - Deploy your Data resources using the cloud sandbox
 
 Finally, you can now validate your Data resources with your cloud sandbox:
 
@@ -141,7 +118,7 @@ Finally, you can now validate your Data resources with your cloud sandbox:
 npx amplify sandbox
 ```
 
-## Rename generated models and fields 
+## Rename generated models and fields
 
 ```ts
 import { a, defineData } from '@aws-amplify/backend'
@@ -170,6 +147,12 @@ export const data = defineData({
   schema: combinedSchema
 })
 ```
+
+Step 5 - Configure the `amplify.yml` TK
+
+Customers need to update the `amplify.yml` to generate the DB schema if the DB is in a different VPC. Etc Etc. TK
+
+TK: npx amplify generate config --connection-string $BRANCH_CONNECTION_STRING
 
 ## Add relationships between tables
 
@@ -243,7 +226,7 @@ rdsSchema.addMutation({
       todoChange: a.ref("Todo")
     })
     .returns(a.ref("Todo"))
-   .handler(a.handler.sqlReference()) 
+   .handler(a.handler.sqlReference())
     .authorization([a.allow.public()])
 })
 // highlight-end
@@ -268,7 +251,6 @@ export const data = defineData({
 
 ### Exclude or include only specific tables to introspect
 
-
 ### Generate Data schemas for multiple databases
 
 You should see a read-only (TK) new schema.rds.tsx file in `amplify/data` now. This file contains a TypeScript representation of your relational database tables.
@@ -284,8 +266,8 @@ import { schema as rdsSchema } from './schema.rds.ts';
 const schema = a.schema({
   Todo: a.model({
     content: a.string(),
-    isDone: a.boolean(),
-  }),
+    isDone: a.boolean()
+  })
 });
 
 // Use the `.combine()` operator to stitch together the models backed by DynamoDB
@@ -297,7 +279,7 @@ const combinedSchema = a.schema.combine([schema, rdsSchema]);
 export type Schema = typeof schema;
 export const data = defineData({
   // highlight-next-line
-  schema: combinedSchema,
+  schema: combinedSchema
 });
 ```
 
@@ -412,4 +394,5 @@ export const data = defineData({
 ```
 
 # NOTES:
+
 - Auto-enabled debug mode on sandbox 🔥
