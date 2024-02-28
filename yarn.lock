@@ -277,9 +277,9 @@
     uuid "^9.0.0"
 
 "@aws-amplify/data-schema-types@^0.7.1":
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/data-schema-types/-/data-schema-types-0.7.3.tgz#9effe97a17660025a7debeb257500ea071a50381"
-  integrity sha512-C9RKp83oEgvHMRaWhToBhMeK3Ij7XfwGgf1wH5O/xSClrrKzOyO9Cccq8JyFRlJZdnzgBMSBeNa3bGwbjsOYlg==
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/data-schema-types/-/data-schema-types-0.7.6.tgz#7953e3c2eb22aba2bc9e4cc34a7b9023345a1b12"
+  integrity sha512-g5LmvLEJ5BDtfxRT6QK/+HhTfGGADbF7gbxtWPbhP9hRYwDai0A9ARJ6qETLPzUE/1vXtURlJV+MLutsDrIkPA==
   dependencies:
     rxjs "^7.8.1"
 
