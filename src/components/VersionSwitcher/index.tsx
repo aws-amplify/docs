@@ -14,8 +14,13 @@ export const VersionSwitcher = ({ platform, ...rest }) => {
   const pathname = router.pathname;
   const versions = PLATFORM_VERSIONS[platform];
   const switchPath = useVersionSwitcherPath(platform);
-  const isPrev = usePathWithoutHash().split('/')[2] === 'prev';
+
+  // Since prev is only on gen1 pages, the prev should be at index 3
+  // docs.amplify.aws/gen1/[platform]/prev/...
+  const isPrev = usePathWithoutHash().split('/')[3] === 'prev';
+
   let path = isPrev ? BUILD_A_BACKEND : PREV_BUILD_A_BACKEND;
+
   if (
     switchPath &&
     (pathname.startsWith(BUILD_A_BACKEND) ||
