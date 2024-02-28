@@ -8,7 +8,7 @@ import LinkCards from '@/components/LinkCards';
 import PlatformFeatureList from '@/components/FeatureLists/PlatformFeatureList';
 
 export const meta = {
-  title: 'Overview',
+  title: 'Amplify Docs (Gen 1)',
   description: 'This is a description for the overview page.'
 };
 
