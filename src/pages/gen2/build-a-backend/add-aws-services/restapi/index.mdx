@@ -1,0 +1,80 @@
+export const meta = {
+  title: 'REST API',
+  description: 'Learn how to set up REST API resource powered by Amazon API Gateway'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify provides APIs to invoke your endpoints for JavaScript-based web apps. You can utilize AWS CDK to add the REST API resource and configurations.
+
+Create a [Function](/gen2/build-a-backend/functions) with the following.
+
+```ts title="amplify/functions/my-function/handler.ts"
+export const handler = async (event: any) => {
+  console.log("event", event);
+  return {
+    statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
+    },
+    body: JSON.stringify("Hello from myFunction!"),
+  };
+};
+```
+
+Lets create a REST API resource using AWS CDK and add the function.
+
+```ts title="amplify/backend.ts"
+import { myFunction } from "./functions/my-function/resource";
+import { LambdaRestApi } from "aws-cdk-lib/aws-apigateway";
+
+const backend = defineBackend({
+  auth, 
+  data,
+  myFunction
+});
+
+const apigateway = backend.createStack("apigateway-stack");
+
+const myapi = new LambdaRestApi(apigateway, "myAPI", {
+  handler: backend.myFunction.resources.lambda,
+});
+
+backend.addOutput({
+  custom: {
+    apiId: myapi.restApiId,
+    apiEndpoint: myapi.url,
+  },
+});
+```
+
+### Initialize REST API
+
+To initialize the REST API you need to configure Amplify with `Amplify.configure()`
+
+```tsx title="pages/index.tsx"
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from './src/amplifyconfiguration.json';
+Amplify.configure(amplifyconfig):
+
+const existingConfig = Amplify.getConfig();
+
+Amplify.configure({
+  ...existingConfig,
+  API: {
+    REST: {
+      [amplifyconfig.custom.apiName]: {
+        endpoint: amplifyconfig.custom.apiEndpoint,
+        region: "us-east-1",
+      },
+    },
+  },
+});
+```

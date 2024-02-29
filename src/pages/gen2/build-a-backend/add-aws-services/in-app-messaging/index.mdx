@@ -1,0 +1,112 @@
+export const meta = {
+  title: 'In-App Messaging',
+  description: 'Learn how to set up In-App Messaging resource powered by Pinpoint'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify allows interacting with In-App Messaging APIs, which enables you to send messages to your app users. In-App Messaging is a powerful tool to engage with your users and provide them with relevant information. 
+
+```ts title="amplify/backend.ts"
+import {
+  CfnApp,
+  CfnInAppTemplate,
+  CfnCampaign,
+  CfnSegment,
+} from "aws-cdk-lib/aws-pinpoint";
+import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+
+const backend = defineBackend({
+  auth, 
+  data,
+  // additional resources 
+});
+
+const inAppMessagingStack = backend.createStack("inAppMessaging-stack");
+const pinpoint = new CfnApp(inAppMessagingStack, "Pinpoint", {
+  name: "myPinpointApp",
+});
+
+const mySegment = new CfnSegment(inAppMessagingStack, "Segment", {
+  applicationId: pinpoint.ref,
+  name: "mySegment",
+});
+
+new CfnCampaign(inAppMessagingStack, "MyCampaign", {
+  applicationId: pinpoint.ref,
+  name: "MyCampaign",
+  segmentId: mySegment.attrSegmentId,
+  schedule: {
+    startTime: "2024-02-23T14:39:34Z",
+    endTime: "2024-02-29T14:32:40Z",
+    frequency: "IN_APP_EVENT",
+    eventFilter: {
+      dimensions: {
+        eventType: {
+          dimensionType: "INCLUSIVE",
+          values: ["PURCHASE"],
+        },
+      },
+      filterType: "ENDPOINT",
+    },
+  },
+
+  messageConfiguration: {
+    inAppMessage: {
+      layout: "TOP_BANNER",
+      content: [
+        {
+          // Define the content of the in-app message
+          bodyConfig: {
+            alignment: "CENTER",
+            body: "This is an example in-app message.",
+            textColor: "#FFFFFF",
+          },
+          backgroundColor: "#000000",
+          headerConfig: {
+            alignment: "CENTER",
+            header: "Welcome!",
+            textColor: "#FFFFFF",
+          },
+          // Optionally, define buttons, images, etc.
+        },
+      ],
+    },
+  },
+});
+
+const pinpointPolicy = new Policy(inAppMessagingStack, "PinpointPolicy", {
+  policyName: "PinpointPolicy",
+  statements: [
+    new PolicyStatement({
+      actions: ["mobiletargeting:GetInAppMessages"],
+      resources: [pinpoint.attrArn + "/*"],
+    }),
+  ],
+});
+
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
+
+backend.addOutput({
+  Notifications: {
+    InAppMessaging: {
+      AWSPinpoint: {
+        appId: pinpoint.ref,
+        region: "us-east-1",
+      },
+    },
+  },
+});
+```
+
+
+### Initialize In-App Messaging
+
+To initialize In-App Messaging you need to configure Amplify with `Amplify.configure()`
