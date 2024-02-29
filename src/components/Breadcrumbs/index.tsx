@@ -17,6 +17,7 @@ type Props = {
 
 const overrides = {
   '/': 'Home',
+  '/gen1': 'Gen 1',
   '/gen1/javascript/prev': 'V5',
   '/gen1/swift/prev': 'V1',
   '/gen1/android/prev': 'V1',
