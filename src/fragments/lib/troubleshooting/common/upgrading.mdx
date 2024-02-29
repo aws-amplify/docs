@@ -45,10 +45,6 @@ As part of the updates to Amplify JavaScript v6, we also re-evaluated our strate
 
 ### @aws-amplify/react-native
 
-import rnVersionCallout from '/src/fragments/common/react-native-version-deployment-target.mdx';
-
-<Fragments fragments={{ all: rnVersionCallout }} />
-
 We have introduced a new package - `@aws-amplify/react-native` - to encompass the core requirements for using Amplify JavaScript v6 in a React Native environment. This package is a new requirement which allows us to:
 
 - Remove the dependency on the `amazon-cognito-identity-js` package by moving core native Amplify functionality previously vended by this package into `@aws-amplify/react-native`.
@@ -56,6 +52,10 @@ We have introduced a new package - `@aws-amplify/react-native` - to encompass th
 - Automatically import all required polyfills, no longer requiring you to take extra steps to include import statements at the top of your application entry point.
 
 > Native modules required by Amplify such as `@react-native-async-storage/async-storage` or `react-native-get-random-values` still need to be installed separately as they need to be linked with React Native
+
+import rnVersionCallout from '/src/fragments/common/react-native-version-deployment-target.mdx';
+
+<Fragments fragments={{ all: rnVersionCallout }} />
 
 ### Dropping support for Expo Go
 
