@@ -93,7 +93,7 @@
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
     "refresh": "yarn clean && yarn",
-    "test": "jest",
+    "test": "jest --coverage",
     "dev": "yarn prebuild && next dev",
     "spellcheck": "cspell \"src/**/*.mdx\" --no-progress",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
