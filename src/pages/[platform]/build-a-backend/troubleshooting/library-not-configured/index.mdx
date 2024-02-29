@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Library Not Configured',
-  description: 'Addressing Library Not Configured error messages',
+  description: 'Addressing missing configuration or `NoCredentials` error messages',
   platforms: [
     'angular',
     'javascript',
@@ -39,7 +39,7 @@ export function getStaticProps(context) {
   };
 }
 
-If you are running into the `Library Not Configured` error message and have called `Amplify.configure` in your project, your Amplify API is most likely being called before `Amplify.configure`. This can happen in a few different ways. Below are three possibilities you can check to troubleshoot this issue.
+If you are running into a missing configuration or `NoCredentials` error message and have called `Amplify.configure` in your project, your Amplify API is most likely being called before `Amplify.configure`. This can happen in a few different ways. Below are three possibilities you can check to troubleshoot this issue.
 
 ## Call `Amplify.configure` in the root of your project
 
@@ -60,7 +60,7 @@ If you are using the Next.js App Router, you can follow the suggestions in our [
 
 When Amplify APIs are used outside of your application lifecycle, there is a risk that a javascript bundler may place that API call before `Amplify.configure`. Module-level function calls (calls at the top-level of a file), are generally evaluated in the order that they are imported.
 
-Below is an example of code that will likely result in a `Library Not Configured` error:
+Below is an example of code that will likely result in a missing configuration or `NoCredentials` error message:
 
 ```javascript title="index.ts"
 import { Amplify } from 'aws-amplify';
@@ -82,7 +82,7 @@ export default function App() {
 ```javascript title="module-fetch-auth.ts"
 import { fetchAuthSession } from 'aws-amplify/auth';
 
-fetchAuthSession(); // Will throw the Library Not Configured error
+fetchAuthSession(); // Will throw "AuthUserPoolException: Auth UserPool not configured."
 
 export default function ComponentX() {
   return (
@@ -130,6 +130,7 @@ export default function ConfigureAmplifyClientSide() {
 import { fetchAuthSession } from "aws-amplify/auth";
 
 // The layout calls configure, but fetchAuthSession ends up executing first
+// Will throw "AuthUserPoolException: Auth UserPool not configured."
 fetchAuthSession().then((session) => {
   console.log(session);
 });
