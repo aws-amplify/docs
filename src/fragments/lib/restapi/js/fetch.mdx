@@ -16,8 +16,8 @@ async function getTodo() {
     });
     const response = await restOperation.response;
     console.log('GET call succeeded: ', response);
-  } catch (error) {
-    console.log('GET call failed: ', error);
+  } catch (e) {
+    console.log('GET call failed: ', JSON.parse(e.response.body));
   }
 }
 ```
@@ -74,8 +74,8 @@ async function getTodo() {
     });
     const response = await restOperation.response;
     console.log('GET call succeeded: ', response);
-  } catch (error) {
-    console.log('GET call failed: ', error);
+  } catch (e) {
+    console.log('GET call failed: ', JSON.parse(e.response.body));
   }
 }
 ```
