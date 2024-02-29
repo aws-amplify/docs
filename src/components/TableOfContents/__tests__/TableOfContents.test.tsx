@@ -26,9 +26,7 @@ describe('TableOfContents', () => {
     render(component);
     const tocEntry = await screen.findByText('Heading Three');
     const tocHash = tocEntry.href.slice(tocEntry.href.indexOf('#'));
-    const hashFormula =
-      '#' + tocHeadings[2].linkText.replace(' ', '-').toLowerCase();
-    expect(tocHash).toEqual(hashFormula);
+    expect(tocHash).toEqual('#heading-three');
   });
 
   it('should be either h2 or h3 heading', async () => {
