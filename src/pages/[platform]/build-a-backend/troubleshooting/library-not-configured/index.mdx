@@ -58,7 +58,7 @@ If you are using the Next.js App Router, you can follow the suggestions in our [
 
 ## Check for module-level Amplify API invocations
 
-When Amplify APIs are used outside of your application lifecycle, there is a risk that a javascript bundler may place that API call before `Amplify.configure`. Module-level function calls (calls at the top-level of a file), are generally evaluated in the order that they are imported.
+When Amplify APIs are used outside of your application lifecycle, there is a risk that a JavaScript bundler may place that API call before `Amplify.configure`. Module-level function calls (calls at the top-level of a file), are generally evaluated in the order that they are imported.
 
 Below is an example of code that will likely result in a missing configuration or `NoCredentials` error message:
 
