@@ -96,7 +96,6 @@ Let's first add a button to create a new todo item. To make a "create Todo" API 
 ```tsx title="TodoList.tsx"
 // TodoList.tsx
 
-"use client"
 import type { Schema } from '../amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
 
@@ -131,7 +130,6 @@ Next, list all your todos and then refetch the todos after a todo has been added
 ```tsx title="TodoList.tsx"
 // TodoList.tsx
 
-"use client";
 import { useState, useEffect } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
@@ -179,7 +177,6 @@ You can also use `observeQuery` to subscribe to a live feed of your backend data
 ```tsx title="App.tsx"
 // App.tsx
 
-"use client";
 import type { Schema } from "../amplify/data/resource";
 import { useState, useEffect } from "react";
 import { generateClient } from "aws-amplify/data";
