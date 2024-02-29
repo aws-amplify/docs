@@ -62,7 +62,7 @@ When Amplify APIs are used outside of your application lifecycle, there is a ris
 
 Below is an example of code that will likely result in a missing configuration or `NoCredentials` error message:
 
-```javascript title="index.ts"
+```tsx title="index.ts"
 import { Amplify } from 'aws-amplify';
 import ComponentX from 'module-fetch-auth';
 
@@ -79,7 +79,7 @@ export default function App() {
 }
 ```
 
-```javascript title="module-fetch-auth.ts"
+```tsx title="module-fetch-auth.ts"
 import { fetchAuthSession } from 'aws-amplify/auth';
 
 fetchAuthSession(); // Will throw "AuthUserPoolException: Auth UserPool not configured."
@@ -95,7 +95,7 @@ export default function ComponentX() {
 
 This can also happen when using Next.js Layouts and calling Amplify APIs in child components at the module-level (at the top of your file/module). See below for an example of this issue:
 
-```javascript title="layout.tsx"
+```tsx title="layout.tsx"
 import ConfigureAmplifyClientSide from '@/ConfigureAmplifyClientSide';
 
 export default function RootLayout({
@@ -116,7 +116,7 @@ export default function RootLayout({
 }
 ```
 
-```javascript title="ConfigureAmplifyClientSide.tsx"
+```tsx title="ConfigureAmplifyClientSide.tsx"
 import { Amplify } from "aws-amplify";
 
 Amplify.configure(config, { ssr: true });
@@ -126,7 +126,7 @@ export default function ConfigureAmplifyClientSide() {
 }
 ```
 
-```javascript title="page.tsx"
+```tsx title="page.tsx"
 import { fetchAuthSession } from "aws-amplify/auth";
 
 // The layout calls configure, but fetchAuthSession ends up executing first
@@ -146,4 +146,4 @@ export default function HomePage() {
 
 ## Configure Amplify on each page of a multi-page app
 
-If you are working in a multi-page app, make sure `Amplify.configure` is called for each page.
+If you are working in a multi-page app, you can call `Amplify.configure` in a common source file and import it into each page.
