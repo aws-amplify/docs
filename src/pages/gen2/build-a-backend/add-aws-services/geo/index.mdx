@@ -12,7 +12,7 @@ export function getStaticProps(context) {
 }
 
 
-Amplify provides APIs and map UI components for maps and location search for JavaScript-based web apps. We can utilize AWS CDK to add the Geo resource and configurations.
+Amplify provides APIs and map UI components for maps and location search for your web apps. We can utilize [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create a Geo resource powered by [Amazon Location Services](https://aws.amazon.com/location/).
 
 ```ts title="amplify/backend.ts"
 import { CfnMap } from "aws-cdk-lib/aws-location";
@@ -25,6 +25,7 @@ const backend = defineBackend({
 
 const geoStack = backend.createStack("geo-stack");
 
+// create a location services map
 const map = new CfnMap(geoStack, "Map", {
   mapName: "myMap",
   description: "Map",
@@ -40,6 +41,7 @@ const map = new CfnMap(geoStack, "Map", {
   ],
 });
 
+// create an IAM policy to allow interacting with geo resource
 const myGeoPolicy = new Policy(geoStack, "AuthenticatedUserIamRolePolicy", {
   policyName: "GeoPolicy",
   statements: [
@@ -55,8 +57,11 @@ const myGeoPolicy = new Policy(geoStack, "AuthenticatedUserIamRolePolicy", {
   ],
 });
 
+// apply the policy to the authenticated and unauthenticated roles
 backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
 
+// patch the custom map resource to the expected output configuration
 backend.addOutput({
   geo: {
     amazon_location_service: {
@@ -74,6 +79,14 @@ backend.addOutput({
 });
 ```
 
-### Initialize In-App Messaging
+### Initialize Geo
 
-To initialize In-App Messaging you need to configure Amplify with `Amplify.configure()`
+To initialize Geo you need to configure Amplify with `Amplify.configure()`
+
+### Working with Maps
+
+To display a map in your React app, you can use the [Amplify React MapView component](https://ui.docs.amplify.aws/react/components/geo) or the [MapLibre GL](https://github.com/maplibre/maplibre-gl-js) with `maplibre-gl-js-amplify` libraries are required. Refer to the [Amplify Geo documentation](/react/build-a-backend/more-features/geo/maps/) for more information.
+
+### References
+
+[Location Construct Library](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_location-readme.html)

@@ -11,7 +11,7 @@ export function getStaticProps(context) {
   };
 }
 
-Amplify provides APIs to invoke your endpoints for JavaScript-based web apps. You can utilize AWS CDK to add the REST API resource and configurations.
+Amplify provides APIs to invoke your endpoints from your web apps. You can utilize [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to add a REST API resource powered by [API Gateway](https://aws.amazon.com/api-gateway/).
 
 Create a [Function](/gen2/build-a-backend/functions) with the following.
 
@@ -29,7 +29,7 @@ export const handler = async (event: any) => {
 };
 ```
 
-Lets create a REST API resource using AWS CDK and add the function.
+Lets create API Gateway REST API with AWS Lambda proxy integration using AWS CDK and add the function.
 
 ```ts title="amplify/backend.ts"
 import { myFunction } from "./functions/my-function/resource";
@@ -43,14 +43,17 @@ const backend = defineBackend({
 
 const apigateway = backend.createStack("apigateway-stack");
 
+// create a REST API resource
 const myapi = new LambdaRestApi(apigateway, "myAPI", {
   handler: backend.myFunction.resources.lambda,
 });
 
+// patch the custom REST API resource to the expected output configuration
 backend.addOutput({
   custom: {
     apiId: myapi.restApiId,
     apiEndpoint: myapi.url,
+    apiName: myapi.restApiName,
   },
 });
 ```
@@ -78,3 +81,11 @@ Amplify.configure({
   },
 });
 ```
+
+### Working with REST API
+
+Refer to the [Amplify REST API documentation](/react/build-a-backend/restapi/) to learn how to work with REST API in your web app.
+
+### References
+
+[Amazon API Gateway Construct Library](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_apigateway-readme.html)

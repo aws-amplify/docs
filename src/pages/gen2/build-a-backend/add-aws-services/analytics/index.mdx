@@ -11,8 +11,8 @@ export function getStaticProps(context) {
   };
 }
 
-Amplify enables you to collect analytics data for your App. The Analytics category uses Amazon Cognito Identity pools to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App. 
-We can use AWS CDK to create the necessary resources for analytics.
+Amplify enables you to collect analytics data for your app. The Analytics category uses Amazon Cognito Identity pools to _identify_ users in your app.
+We can use the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create the an Analytics resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/).
 
 ```ts title="amplify/backend.ts"
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
@@ -25,10 +25,13 @@ const backend = defineBackend({
 });
 
 const analyticsStack = backend.createStack("analytics-stack");
+
+// create a Pinpoint app
 const pinpoint = new CfnApp(analyticsStack, "Pinpoint", {
   name: "myPinpointApp",
 });
 
+// create an IAM policy to allow interacting with Pinpoint
 const pinpointPolicy = new Policy(analyticsStack, "PinpointPolicy", {
   policyName: "PinpointPolicy",
   statements: [
@@ -39,9 +42,11 @@ const pinpointPolicy = new Policy(analyticsStack, "PinpointPolicy", {
   ],
 });
 
+// apply the policy to the authenticated and unauthenticated roles
 backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
 backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
 
+// patch the custom Pinpoint resource to the expected output configuration
 backend.addOutput({
   Analytics: {
     AWSPinpoint: {
@@ -52,7 +57,14 @@ backend.addOutput({
 });
 ```
 
+### Initialize Analytics
 
-### Initialize In-App Messaging
+To initialize Analytics you need to configure Amplify with `Amplify.configure()`
 
-To initialize In-App Messaging you need to configure Amplify with `Amplify.configure()`
+### Working with Analytics
+
+Refer to the [Analytics documentation](/react/build-a-backend/more-features/analytics/) to learn how to track events and user sessions in your app.
+
+### References
+
+[Amazon Pinpoint Construct Library](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_pinpoint-readme.html)
