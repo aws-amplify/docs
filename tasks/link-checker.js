@@ -62,9 +62,6 @@ const retrieveLinks = async (siteMapUrls, visitedLinks, localDomain) => {
       let response = await page.goto(url, { waitUntil: 'domcontentloaded' });
       await new Promise((r) => setTimeout(r, 100)); // localhost hangs on wait for idle so use a short timeout instead
       if (response && response.status() && response.status() === 200) {
-        console.log(
-          `successfully visited ${url} to retrieve links ${urlList.length} links found`
-        );
         visitedLinks[url] = true;
 
         const urlList = await page.evaluate(async (url) => {
@@ -83,6 +80,10 @@ const retrieveLinks = async (siteMapUrls, visitedLinks, localDomain) => {
           }
           return urls;
         }, url);
+
+        console.log(
+          `successfully visited ${url} to retrieve links ${urlList.length} links found`
+        );
 
         urlList.forEach((link) => {
           if (
