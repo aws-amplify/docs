@@ -1,5 +1,5 @@
-const puppeteer = require('puppeteer');
-const axios = require('axios');
+const puppeteer = require('puppeteer'); // eslint-disable-line
+const axios = require('axios'); // eslint-disable-line
 
 const SITEMAP_URL = 'https://docs.amplify.aws/sitemap.xml';
 const DOMAIN = 'https://docs.amplify.aws';
@@ -62,7 +62,9 @@ const retrieveLinks = async (siteMapUrls, visitedLinks, localDomain) => {
       let response = await page.goto(url, { waitUntil: 'domcontentloaded' });
       await new Promise((r) => setTimeout(r, 100)); // localhost hangs on wait for idle so use a short timeout instead
       if (response && response.status() && response.status() === 200) {
-        console.log(`successfully visited ${url} to retrieve links`);
+        console.log(
+          `successfully visited ${url} to retrieve links ${urlList.length} links found`
+        );
         visitedLinks[url] = true;
 
         const urlList = await page.evaluate(async (url) => {
@@ -128,11 +130,9 @@ const linkChecker = async (localDomain) => {
     localDomain
   );
 
-  let allPromises = [];
-
   for (let i = 0; i < urlsToVisit.length; i++) {
     const link = urlsToVisit[i];
-    let href = link.url;
+    let href = link.url.split('#')[0];
     if (href.startsWith(GITHUB_CREATE_ISSUE_LINK)) {
       // remove query parameters from github new issue links
       href = href.split('?')[0];
@@ -163,10 +163,8 @@ const linkChecker = async (localDomain) => {
         }
       });
 
-    allPromises.push(request);
+    await request;
   }
-
-  await Promise.all(allPromises);
 
   console.log(statusCodes);
   console.log(brokenLinks);
