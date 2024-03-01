@@ -1,0 +1,49 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Deploy & host',
+  description: 'Deploy and host',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'angular',
+        'flutter',
+        'javascript',
+        'nextjs',
+        'react',
+        'react-native',
+        'swift',
+        'vue'
+      ],
+      canonicalPath: '/gen1/react/prev/deploy-and-host/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Note: This page is exclusive to the latest version of our documentation. To ensure you have access to the most current information and features, please make sure you're viewing the latest version by using the version switcher in the left menu.
+
