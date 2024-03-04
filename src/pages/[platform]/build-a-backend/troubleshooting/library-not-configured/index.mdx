@@ -41,7 +41,7 @@ export function getStaticProps(context) {
 
 If you are running into a missing configuration or `NoCredentials` error message and have called `Amplify.configure` in your project, your Amplify API is most likely being called before `Amplify.configure`. This can happen in a few different ways. Below are three possibilities you can check to troubleshoot this issue.
 
-## Call `Amplify.configure` in the root of your project
+## Check 1: Validate that `Amplify.configure` is called in the root of your project
 
 Make sure you are calling `Amplify.configure` in the root file of your project. The root file of your app may be different depending on your frontend framework. The current default for some common frameworks are listed below (if you are not using TypeScript the `ts` and `tsx` extensions would be `js` and `jsx`):
 
@@ -52,11 +52,11 @@ Make sure you are calling `Amplify.configure` in the root file of your project. 
 
 <Callout>
 
-If you are using the Next.js App Router, you can follow the suggestions in our [Next.js documentation](/[platform]/build-a-backend/server-side-rendering/nextjs/#configure-amplify-library-for-client-side-usage) for root-level configuration. Keep in mind that if you are calling any APIs at the module-level (i.e. at the top of your file) in any of the Child components, you may still run into this issue.
+If you are using the Next.js App Router, you can follow the suggestions in our [Next.js documentation](/[platform]/build-a-backend/server-side-rendering/nextjs/#configure-amplify-library-for-client-side-usage) for root-level configuration. Keep in mind that if you are calling any APIs at the module-level (i.e. at the top of your file) in any of the Child components, you may still run into this issue. Continue on the [Check 2]() if this is the case.
 
 </Callout>
 
-## Check for module-level Amplify API invocations
+## Check 2: Move module-level Amplify API invocations
 
 When Amplify APIs are used outside of your application lifecycle, there is a risk that a JavaScript bundler may place that API call before `Amplify.configure`. Module-level function calls (calls at the top-level of a file), are generally evaluated in the order that they are imported.
 
@@ -79,7 +79,7 @@ export default function App() {
 }
 ```
 
-```tsx title="module-fetch-auth.ts"
+```tsx title="module-fetch-auth.tsx"
 import { fetchAuthSession } from 'aws-amplify/auth';
 
 fetchAuthSession(); // Will throw "AuthUserPoolException: Auth UserPool not configured."
@@ -144,6 +144,51 @@ export default function HomePage() {
 }
 ```
 
-## Configure Amplify on each page of a multi-page app
+To fix this, we suggest moving all Amplify API calls to within the application lifecycle. For instance, if you are using **React**, you can use the `useEffect` hook for functions that should run before the app is loaded:
 
-If you are working in a multi-page app, you can call `Amplify.configure` in a common source file and import it into each page.
+```tsx title="index.ts"
+import { Amplify } from 'aws-amplify';
+import ComponentX from 'module-fetch-auth';
+
+Amplify.configure();
+
+export default function App() {
+  return (
+    <div>
+        <ComponentX />
+    </div>
+  );
+}
+```
+
+```tsx title="module-fetch-auth.tsx"
+import { type AuthSession, fetchAuthSession } from 'aws-amplify/auth';
+import { useEffect, useState } from 'react';
+
+export default function ComponentX() {
+  const [session, setSession] = useState<AuthSession|undefined>();
+
+  const getSession = async () => {
+    try {
+      const currentSession = await fetchAuthSession();
+      setSession(currentSession);
+    } catch (error: unknown) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getSession();
+  }, []);
+
+  return (
+    <div className="box">
+      ...
+    </div>
+  );
+}
+```
+
+## Check 3: Configure Amplify on each page of a multi-page app
+
+If you are working in a multi-page app, you need to call `Amplify.configure()` for each page/route of your application. We recommend calling `Amplify.configure` in a common source file and importing it into each page.
