@@ -14,26 +14,34 @@ const routerMock = {
 jest.mock('next/router', () => routerMock);
 
 describe('MigrationAlert', () => {
+  const props = {
+    isLegacy: true,
+    url: '/[platform]/tools/cli/graphqlapi'
+  };
   const component = (
-    <MigrationAlert isLegacy url={'/[platform]/tools/cli/graphqlapi/'} />
+    <MigrationAlert isLegacy={props.isLegacy} url={props.url} />
   );
   it('should render the MigrationAlert component', async () => {
     render(component);
 
-    const migrationAlertNode = await screen.findByText(
-      'You are currently viewing'
-    );
-    console.log(migrationAlertNode);
-    // expect(migrationAlert).toBeInTheDocument();
+    const migrationAlertNode = props.isLegacy
+      ? await screen.findByRole('link', { name: /View latest documentation/i })
+      : await screen.findByRole('link', {
+          name: /Looking for legacy docs?/i
+        });
+
+    expect(migrationAlertNode).toBeInTheDocument();
   });
 
-  // it('should render legacy message if isLegacy', async () => {
-  //   render(
-  //     <MigrationAlert isLegacy url={'/[platform]/tools/cli/graphqlapi/'} />
-  //   );
+  it('should render href', async () => {
+    render(component);
 
-  //   const migrationAlert = await screen.findByText('You are currently viewing');
-  //   console.log(migrationAlert);
-  //   // expect(migrationAlert).toBeInTheDocument();
-  // });
+    const migrationAlertNode = props.isLegacy
+      ? await screen.findByRole('link', { name: /View latest documentation/i })
+      : await screen.findByRole('link', {
+          name: /Looking for legacy docs?/i
+        });
+
+    expect(migrationAlertNode.href).toContain('/react/tools/cli/graphqlapi');
+  });
 });
