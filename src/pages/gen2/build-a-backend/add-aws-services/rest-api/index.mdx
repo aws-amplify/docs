@@ -44,7 +44,7 @@ const backend = defineBackend({
 const apiGatewayStack = backend.createStack("apigateway-stack");
 
 // create a REST API resource
-const myAPI = new LambdaRestApi(apiGatewayStack, "myAPI", {
+const myAPI = new LambdaRestApi(apiGatewayStack, "MyAPI", {
   handler: backend.myFunction.resources.lambda,
 });
 
