@@ -309,6 +309,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/restapi/delete-data/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/restapi/cancel-api-requests/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/restapi/customize-authz/index.mdx'
                 },
                 {
