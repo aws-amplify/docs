@@ -152,7 +152,7 @@ On the client side, make sure to always authenticate with the corresponding auth
 
 ```ts
 import { generateClient } from 'aws-amplify/data'
-import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
+import type { Schema } from '@/amplify/data/resource' // Path to your backend resource definition
 
 const client = generateClient<Schema>()
 
