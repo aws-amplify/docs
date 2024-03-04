@@ -1,27 +1,27 @@
 import * as React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SkipToMain } from '../index';
-import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 
 describe('SkipToMain', () => {
   const component = <SkipToMain mainId="pageMain" />;
-  const pageMain = (
-    <main
-      aria-label="Main content"
-      className="amplify-flex main"
-      id="pageMain"
-      tabIndex={-1}
-    >
-      Content
-    </main>
-  );
+  // const pageMain = (
+  //   <div
+  //     aria-label="Main content"
+  //     className="amplify-flex main"
+  //     id="pageMain"
+  //     tabIndex={-1}
+  //   >
+  //     Content
+  //   </div>
+  // );
   // const content = <div>Content</div>;
-  // const pageMain = document.createElement('main');
-  // pageMain.setAttribute('aria-label', 'Main content');
-  // pageMain.setAttribute('class', 'amplify-flex main');
-  // pageMain.setAttribute('id', 'pageMain');
-  // pageMain.setAttribute('tabIndex', '-1');
-  // pageMain.appendChild(content);
+  // // const pageMain = document.createElement('main');
+  // // pageMain.setAttribute('aria-label', 'Main content');
+  // // pageMain.setAttribute('class', 'amplify-flex main');
+  // // pageMain.setAttribute('id', 'pageMain');
+  // // pageMain.setAttribute('tabIndex', '-1');
+  // // pageMain.appendChild(content);
 
   // const pageMain = React.createElement(
   //   'main',
@@ -34,6 +34,20 @@ describe('SkipToMain', () => {
   //   content
   // );
 
+  const page = (
+    <div>
+      <SkipToMain mainId="pageMain" />
+      <main
+        aria-label="Main content"
+        className="amplify-flex main"
+        id="pageMain"
+        tabIndex={-1}
+      >
+        Content
+      </main>
+    </div>
+  );
+
   it('should render the SkipToMain component', async () => {
     render(component);
 
@@ -43,8 +57,17 @@ describe('SkipToMain', () => {
   });
 
   it('should navigate to main page on select', async () => {
-    render(pageMain);
-    render(component);
+    // const page = React.createElement(
+    //   'div',
+    //   {
+    //     className: 'amplify-flex main'
+    //   },
+    //   component,
+    //   pageMain
+    // );
+    // render(pageMain);
+    // render(component);
+    render(page);
 
     // console.log(pageMain);
 
@@ -53,20 +76,29 @@ describe('SkipToMain', () => {
     expect(skipToMainNode).toHaveAttribute('href', '#pageMain');
 
     // fireEvent.focus(skipToMainNode);
-    // fireEvent.select(skipToMainNode);
-    // fireEvent.keyPress(skipToMainNode, {
-    //   key: 'Enter',
-    //   code: 'Enter',
-    //   charCode: 13
+    skipToMainNode.focus();
+    console.log(mainPage.parentElement);
+    // console.log(document.activeElement);
+    // await waitFor(() => {
+    //   expect(skipToMainNode).toHaveFocus();
     // });
-    userEvent.keyboard('{Enter}');
+
+    // fireEvent.select(skipToMainNode);
+    fireEvent.keyDown(skipToMainNode, {
+      key: 'Enter',
+      code: 'Enter',
+      charCode: 13
+    });
+
+    // userEvent.keyboard('{Enter}');
     // fireEvent.click(skipToMainNode);
     // userEvent.click(skipToMainNode);
-    console.log(document.activeElement);
+    // fireEvent.keyDown(skipToMainNode);
+    // mainPage.focus();
+    // expect(mainPage).toHaveFocus();
 
     await waitFor(() => {
       expect(mainPage).toHaveFocus();
-      // console.log(location, location.hash);
     });
   });
 });
