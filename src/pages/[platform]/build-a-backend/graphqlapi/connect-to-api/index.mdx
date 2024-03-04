@@ -167,6 +167,12 @@ Amplify.configure({
       // Set the default auth mode to "iam"
       defaultAuthMode: 'iam'
     }
+  },
+  Auth: {
+    Cognito: {
+      identityPoolId: "YOUR_IDENTITY_POOL_ID",
+      allowGuestAccess: true // set to false to not use the unauthenticated role
+    }
   }
 });
 ```
