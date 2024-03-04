@@ -70,9 +70,7 @@ export const Layout = ({
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
   const shouldShowGen2Banner = GEN2BANNER_URLS.includes(asPathWithNoHash);
-  const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
   const isGen1 = asPathWithNoHash.split('/')[1] === 'gen1';
-  let currentPlatform = isGen2 ? undefined : DEFAULT_PLATFORM;
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
 
@@ -96,25 +94,23 @@ export const Layout = ({
       !isOverview
   );
 
-  if (!isGen2) {
-    // [platform] will always be the very first subpath right?
-    // when using `router.asPath` it returns a string that starts with a '/'
-    // To get the "platform" the client was trying to visit, we have to get the string at index 1
-    // Doing this because when visiting a 404 page, there is no `router.query.platform`, so we have
-    // to check where the user was trying to visit from
-    const asPathPlatform = asPathWithNoHash.split('/')[1] as Platform;
+  // For 404 pages, we need to check what platform the user was visiting from so that we can
+  // show them the correct platform. This is because 404 pages do not have the platform in router.query.platform.
+  // For gen1 routes, [platform] is in index 2
+  const asPathPlatform = isGen1
+    ? (asPathWithNoHash.split('/')[2] as Platform)
+    : (asPathWithNoHash.split('/')[1] as Platform);
 
-    currentPlatform = platform
-      ? platform
-      : PLATFORMS.includes(asPathPlatform)
-        ? asPathPlatform
-        : DEFAULT_PLATFORM;
-  }
+  const currentPlatform = platform
+    ? platform
+    : PLATFORMS.includes(asPathPlatform)
+      ? asPathPlatform
+      : DEFAULT_PLATFORM;
 
   const title = [
     pageTitle,
     platform ? PLATFORM_DISPLAY_NAMES[platform] : null,
-    isGen2 ? 'AWS Amplify Gen 2 Documentation' : 'AWS Amplify Documentation'
+    isGen1 ? 'AWS Amplify Gen 1 Documentation' : 'AWS Amplify Documentation'
   ]
     .filter((s) => s !== '' && s !== null)
     .join(' - ');
@@ -232,7 +228,7 @@ export const Layout = ({
               />
               <LayoutHeader
                 showTOC={showTOC}
-                isGen2={isGen2}
+                isGen1={isGen1}
                 currentPlatform={currentPlatform}
                 pageType={pageType}
                 showLastUpdatedDate={showLastUpdatedDate}

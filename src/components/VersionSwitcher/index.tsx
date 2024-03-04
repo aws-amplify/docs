@@ -7,13 +7,20 @@ import classNames from 'classnames';
 import { trackVersionChange } from '@/utils/track';
 import { useVersionSwitcherPath } from './useVersionSwitcherPath';
 import { BUILD_A_BACKEND, PREV_BUILD_A_BACKEND } from '@/data/routes';
+import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 
-export const VersionSwitcher = ({ platform, isPrev, ...rest }) => {
+export const VersionSwitcher = ({ platform, ...rest }) => {
   const router = useRouter();
   const pathname = router.pathname;
   const versions = PLATFORM_VERSIONS[platform];
   const switchPath = useVersionSwitcherPath(platform);
+
+  // Since prev is only on gen1 pages, the prev should be at index 3
+  // docs.amplify.aws/gen1/[platform]/prev/...
+  const isPrev = usePathWithoutHash().split('/')[3] === 'prev';
+
   let path = isPrev ? BUILD_A_BACKEND : PREV_BUILD_A_BACKEND;
+
   if (
     switchPath &&
     (pathname.startsWith(BUILD_A_BACKEND) ||
