@@ -41,19 +41,19 @@ const backend = defineBackend({
   myFunction
 });
 
-const apigateway = backend.createStack("apigateway-stack");
+const apiGatewayStack = backend.createStack("apigateway-stack");
 
 // create a REST API resource
-const myapi = new LambdaRestApi(apigateway, "myAPI", {
+const myAPI = new LambdaRestApi(apiGatewayStack, "myAPI", {
   handler: backend.myFunction.resources.lambda,
 });
 
 // patch the custom REST API resource to the expected output configuration
 backend.addOutput({
   custom: {
-    apiId: myapi.restApiId,
-    apiEndpoint: myapi.url,
-    apiName: myapi.restApiName,
+    apiId: myAPI.restApiId,
+    apiEndpoint: myAPI.url,
+    apiName: myAPI.restApiName,
   },
 });
 ```
