@@ -74,12 +74,13 @@ const schema = a.schema({
 }).authorization([a.allow.owner()])
 ```
 
-On the client side, you can supply the filter as part of your list query from your secondary index:
+On the client side, you should find a new `listBy...` query that's named after hash key and sort keys. For example, in this case: `listByAccountRepresentativeIdAndName`. You can supply the filter as part of this new list query:
 
 ```ts
 const {
   data,
   errors
+  // highlight-next-line
 } = await client.models.Customer.listByAccountRepresentativeIdAndName({
   accountRepresentativeId: "YOUR_REP_ID",
   name: {
