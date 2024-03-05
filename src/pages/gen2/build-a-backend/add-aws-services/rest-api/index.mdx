@@ -16,7 +16,8 @@ Amplify provides APIs to invoke your endpoints from your web apps. The following
 Create a [Function](/gen2/build-a-backend/functions) with the following.
 
 ```ts title="amplify/functions/my-function/handler.ts"
-import { APIGatewayProxyHandlerV2 } from "aws-lambda";
+import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
+
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   console.log("event", event);
   return {
