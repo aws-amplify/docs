@@ -21,6 +21,7 @@ import {
   CfnSegment,
 } from "aws-cdk-lib/aws-pinpoint";
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { Stack } from "aws-cdk-lib";
 
 const backend = defineBackend({
   auth, 
@@ -107,7 +108,7 @@ backend.addOutput({
     InAppMessaging: {
       AWSPinpoint: {
         appId: pinpoint.ref,
-        region: "us-east-1",
+        region: Stack.of(pinpoint).region,
       },
     },
   },
@@ -122,7 +123,7 @@ To initialize In-App Messaging you need to configure Amplify with `Amplify.confi
 
 ### Working with In-App Messaging
 
-Refer to the [Amplify In-App Messaging documentation](/react/build-a-backend/more-features/in-app-messaging/)  to learn how to send in-app messages to your app users.
+Refer to the [Amplify In-App Messaging documentation](/react/build-a-backend/more-features/in-app-messaging/) to learn how to send in-app messages to your app users.
 
 ### References
 

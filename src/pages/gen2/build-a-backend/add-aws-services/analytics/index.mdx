@@ -51,7 +51,7 @@ backend.addOutput({
   Analytics: {
     AWSPinpoint: {
       appId: pinpoint.ref,
-      region: "us-east-1",
+      region: Stack.of(pinpoint).region,
     },
   },
 });

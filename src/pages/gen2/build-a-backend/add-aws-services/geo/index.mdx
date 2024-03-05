@@ -65,7 +65,7 @@ backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myGeoPolicy
 backend.addOutput({
   geo: {
     amazon_location_service: {
-      region: "us-east-1",
+      region: Stack.of(geoStack).region,
       maps: {
         items: {
           [map.mapName]: {

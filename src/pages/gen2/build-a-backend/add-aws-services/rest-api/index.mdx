@@ -16,7 +16,8 @@ Amplify provides APIs to invoke your endpoints from your web apps. The following
 Create a [Function](/gen2/build-a-backend/functions) with the following.
 
 ```ts title="amplify/functions/my-function/handler.ts"
-export const handler = async (event: any) => {
+import { APIGatewayProxyHandlerV2 } from "aws-lambda";
+export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   console.log("event", event);
   return {
     statusCode: 200,
@@ -44,7 +45,7 @@ const backend = defineBackend({
 const apiGatewayStack = backend.createStack("apigateway-stack");
 
 // create a REST API resource
-const myAPI = new LambdaRestApi(apiGatewayStack, "MyAPI", {
+const myAPI = new LambdaRestApi(apiGatewayStack, "MyApi", {
   handler: backend.myFunction.resources.lambda,
 });
 
@@ -54,6 +55,7 @@ backend.addOutput({
     apiId: myAPI.restApiId,
     apiEndpoint: myAPI.url,
     apiName: myAPI.restApiName,
+    apiRegion: Stack.of(apiGatewayStack).region,
   },
 });
 ```
@@ -75,7 +77,7 @@ Amplify.configure({
     REST: {
       [amplifyconfig.custom.apiName]: {
         endpoint: amplifyconfig.custom.apiEndpoint,
-        region: "us-east-1",
+        region: amplifyconfig.custom.apiRegion,
       },
     },
   },
