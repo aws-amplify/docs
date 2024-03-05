@@ -121,7 +121,7 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/data/data-modeling/identifiers/index.mdx'
                     },
                     {
-                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/secondary-index/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/data/data-modeling/secondary-index/index.mdx'
                     }
                   ]
                 },
