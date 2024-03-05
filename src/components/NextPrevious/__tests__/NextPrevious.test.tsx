@@ -23,14 +23,14 @@ describe('NextPrevious', () => {
 
   it('should include href to next/prev pages', async () => {
     render(<NextPrevious />);
-    const nextPrevNode = await screen.findAllByRole('link');
+    const nextPrevNode: HTMLLinkElement[] = await screen.findAllByRole('link');
     expect(nextPrevNode[0].textContent).toContain('PREVIOUS');
     expect(nextPrevNode[0].href).toContain(
-      '/react/build-a-backend/auth/set-up-auth'
+      '/react/build-a-backend/auth/add-social-provider'
     );
     expect(nextPrevNode[1].textContent).toContain('NEXT');
     expect(nextPrevNode[1].href).toContain(
-      '/react/build-a-backend/auth/enable-sign-up'
+      '/react/build-a-backend/auth/manage-user-profile'
     );
   });
 });
