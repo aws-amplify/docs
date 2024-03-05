@@ -20,8 +20,10 @@ describe('Overview', () => {
 
   it('should render the Overview component', async () => {
     render(component);
-    const overviewNode = await screen.findAllByRole('link');
-    const sampleOverviewCard = overviewNode[0];
+    const overviewNode = await screen.getByRole('link', {
+      name: 'Authentication Enable sign-in, sign-up and sign-out within minutes with pre-built UI components and powerful authentication APIs'
+    });
+    const sampleOverviewCard = overviewNode;
     childPageNodes
       ? expect(sampleOverviewCard).toBeInTheDocument()
       : expect(sampleOverviewCard).not.toBeInTheDocument();
