@@ -161,6 +161,12 @@ import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 ```
 
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+
+</Callout>
+
 </Block>
 
 <Block name="Amplify CLI (Import)">
@@ -207,6 +213,12 @@ import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 ```
 
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+
+</Callout>
+
 </Block>
 
 <Block name="Amplify Studio">
@@ -236,6 +248,12 @@ Amplify Studio allows you to create auth resources, set up authorization rules, 
 <Block name="Existing Resources">
 
 Existing Authentication resources from AWS (such as Amazon Cognito User Pools or Identity Pools) can be used with the Amplify Libraries by calling the `Amplify.configure()` method.
+
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+
+</Callout>
 
 In your app's entry point (specifically **App.js**, **index.js**, **\_app.js**, or **main.js**), import and load the configuration file:
 
