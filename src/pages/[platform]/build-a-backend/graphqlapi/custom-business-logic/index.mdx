@@ -683,21 +683,21 @@ export class cdkStack extends cdk.Stack {
 ##### Referencing a model in an attribute of another model
 For this example we will assume the following models
 
-```ts
-type User {
-id: ID!
-name: String
-isFriend: Boolean
+```graphql
+type User @model {
+  id: ID!
+  name: String
+  isFriend: Boolean
 }
 
-type Friendship {
-id: ID!
-userId: ID! @index(
-      name: "byUserIdAndFriendId"
-      queryField: "friendshipsByUserIdAndFriendId"
-      sortKeyFields: ["friendId"]
-    )
-friendId: ID!
+type Friendship @model {
+  id: ID!
+  userId: ID! @index(
+    name: "byUserIdAndFriendId"
+    queryField: "friendshipsByUserIdAndFriendId"
+    sortKeyFields: ["friendId"]
+  )
+  friendId: ID!
 }
 ```
 
