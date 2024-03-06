@@ -2,13 +2,27 @@ Expand **Gradle Scripts**, open **build.gradle (Module :app)**. You will already
 
 Add Predictions by adding these libraries into the `dependencies` block:
 
-```groovy
-dependencies {
-  // Add these lines in `dependencies`
-  implementation 'com.amplifyframework:aws-predictions:ANDROID_VERSION'
-  implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
-}
-```
+<BlockSwitcher>
+    <Block name="Groovy DSL">
+      ```groovy
+        dependencies {
+          // Add these lines in `dependencies`
+          implementation 'com.amplifyframework:aws-predictions:ANDROID_VERSION'
+          implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
+        }
+      ```
+    </Block>
+    
+    <Block name="Kotlin DSL">
+      ```kotlin
+        dependencies {
+          // Add these lines in `dependencies`
+          implementation("com.amplifyframework:aws-predictions:ANDROID_VERSION")
+          implementation("com.amplifyframework:aws-auth-cognito:ANDROID_VERSION")
+        }
+      ```
+    </Block>
+</BlockSwitcher>    
 
 `aws-auth-cognito` provides authentication for the backend services used by `aws-predictions`.
 

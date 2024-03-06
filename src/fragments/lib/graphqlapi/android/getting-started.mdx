@@ -101,27 +101,57 @@ buildscript {
 
 Next, add the following dependencies to your **app** `build.gradle`:
 
-```groovy
-dependencies {
-  implementation 'com.amplifyframework:aws-api:ANDROID_VERSION'
 
-  // Support for Java 8 features
-  coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-}
-```
 
-Also in your **app** `build.gradle`, add this piece of code to support the Java 8 features Amplify uses:
+<BlockSwitcher>
+  <Block name="Groovy DSL">
+    ```groovy
+    dependencies {
+      implementation 'com.amplifyframework:aws-api:ANDROID_VERSION'
 
-```groovy
-android {
-  compileOptions {
-    // Support for Java 8 features
-    coreLibraryDesugaringEnabled true
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-  }
-}
-```
+      // Support for Java 11 features
+      coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    }
+    ```
+
+    Also in your **app** `build.gradle`, add this piece of code to support the Java 11 features Amplify uses:
+
+    ```groovy
+    android {
+      compileOptions {
+        // Support for Java 11 features
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_11
+        targetCompatibility JavaVersion.VERSION_1_11
+      }
+    }
+    ```
+  </Block>
+
+  <Block name="Kotlin DSL">
+    ```kotlin
+    dependencies {
+      implementation("com.amplifyframework:aws-api:ANDROID_VERSION")
+
+      // Support for Java 11 features
+      coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    }
+    ```
+
+    Also in your **app** `build.gradle.kts`, add this piece of code to support the Java 11 features Amplify uses:
+
+    ```kotlin
+    android {
+      compileOptions {
+        // Support for Java 11 features
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_11
+        targetCompatibility = JavaVersion.VERSION_1_11
+      }
+    }
+    ```
+  </Block>
+</BlockSwitcher>    
 
 Sync the project with Maven and ensure it builds successfully.
 

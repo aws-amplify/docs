@@ -46,12 +46,25 @@ Amplify's coroutine support is included in an optional module, `core-kotlin`.
 
 1.  Under **Gradle Scripts**, open **build.gradle (Module :app)**, and add the following line in `dependencies`:
 
-    ```groovy
-    dependencies {
-        // Add the below line in `dependencies`
-        implementation 'com.amplifyframework:core-kotlin:ANDROID_VERSION'
-    }
-    ```
+<BlockSwitcher>
+    <Block name="Groovy DSL">
+        ```groovy
+            dependencies {
+                // Add the below line in `dependencies`
+                implementation 'com.amplifyframework:core-kotlin:ANDROID_VERSION'
+            }
+        ```
+    </Block>
+    
+    <Block name="Kotlin DSL">
+        ```kotlin
+            dependencies {
+                // Add the below line in `dependencies`
+                implementation("com.amplifyframework:core-kotlin:ANDROID_VERSION")
+            }
+        ```
+    </Block>
+</BlockSwitcher>    
 
 2. Wherever you use the **`Amplify`** facade, import `com.amplifyframework.kotlin.core.Amplify` instead of `com.amplifyframework.core.Amplify`:
 

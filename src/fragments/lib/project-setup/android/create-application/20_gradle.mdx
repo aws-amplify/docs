@@ -4,26 +4,52 @@ Under **Gradle Scripts**, open **build.gradle (Module :app)**.
 
 Add the following lines:
 
-```groovy
-android {
-    compileOptions {
-        // Support for Java 8 features
-        coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-}
 
-dependencies {
-    // Amplify core dependency
-    implementation 'com.amplifyframework:core:ANDROID_VERSION'
+<BlockSwitcher>
+    <Block name="Groovy DSL">
+        ```groovy
+            android {
+                compileOptions {
+                    // Support for Java 11 features
+                    coreLibraryDesugaringEnabled true
+                    sourceCompatibility JavaVersion.VERSION_1_11
+                    targetCompatibility JavaVersion.VERSION_1_11
+                }
+            }
 
-    // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-}
-```
+            dependencies {
+                // Amplify core dependency
+                implementation 'com.amplifyframework:core:ANDROID_VERSION'
 
-- Set `coreLibraryDesugaringEnabled`, `sourceCompatibility`, and `targetCompatibility` to allow your application to make use of Java 8 features like Lambda expressions
+                // Support for Java 11 features
+                coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+            }
+        ```
+    </Block>
+    <Block name="Kotlin DSL">
+
+    ```kotlin
+        android {
+            compileOptions {
+                // Support for Java 11 features
+                isCoreLibraryDesugaringEnabled = true
+                sourceCompatibility = JavaVersion.VERSION_11
+                targetCompatibility = JavaVersion.VERSION_11
+            }
+        }
+
+        dependencies {
+            // Amplify core dependency
+            implementation("com.amplifyframework:core:ANDROID_VERSION")
+
+            // Support for Java 11 features
+            coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+        }
+    ```
+    </Block>
+</BlockSwitcher>    
+
+- Set `coreLibraryDesugaringEnabled`, `sourceCompatibility`, and `targetCompatibility` to allow your application to make use of Java 11 features
 - Add Amplify Core and Desugaring libraries to the `dependencies` block
 
 Run **Gradle Sync**
