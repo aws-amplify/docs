@@ -133,6 +133,46 @@ export const handler = async (event) => {
 };
 ```
 
+## Resource access
+
+When you grant a function access to another resource in your Amplify backend ([such as granting access to storage](../storage/#resource-access)), that will configure environment variables for that function to make SDK calls to the AWS services it has access to. Those environment variables are typed and available as part of the `env` object.
+
+Example defineStorage that grants myDemoFunction access to files in `/foo/*`.
+
+```ts
+// amplify/storage/resource.ts
+import { myDemoFunction } from '../functions/my-demo-function/resource';
+
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    '/foo/*': [allow.resource(demoFunction).to(['read', 'write', 'delete'])]
+  })
+});
+```
+
+This access definition will add the environment variable `myProjectFiles_BUCKET_NAME` to the function. This environment variable can be accessed on the `env` object.
+
+Here's an example of how it can be used to upload some content to S3.
+
+```ts
+// amplify/functions/my-demo-function/handler.ts
+import { env } from '@env/my-demo-function';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+
+const s3Client = new S3Client();
+
+export const handler = async (event) => {
+  await s3Client.send(
+    new PutObjectCommand({
+      Bucket: env.myProjectFiles_BUCKET_NAME,
+      Key: 'foo/someFile.txt',
+      Body: 'this is an example'
+    })
+  );
+};
+```
+
 ## Additional configuration
 
 `defineFunction` comes out-of-the-box with sensible but minimal defaults. The following options are provided to tweak the function configuration.
