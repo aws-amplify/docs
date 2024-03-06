@@ -26,7 +26,7 @@ The recommended way to fetch a list of data is to use `observeQuery` to get a re
 ```ts
 import { useState, useEffect } from 'react'
 import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '@/backend/data/resource'
+import { type Schema } from '@/amplify/data/resource'
 
 type Todo = Schema["Todo"]
 
@@ -59,7 +59,7 @@ Subscriptions is a feature that allows the server to send data to its clients wh
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '@/backend/data/resource';
+import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
 
@@ -93,7 +93,7 @@ Subscriptions take an optional `filter` argument to define service-side subscrip
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '@/backend/data/resource';
+import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
 

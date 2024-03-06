@@ -786,6 +786,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/library-not-configured/index.mdx'
                 }
               ]
             }
@@ -2033,10 +2036,13 @@ export const directory = {
                       path: 'src/pages/gen2/build-a-backend/data/data-modeling/add-fields/index.mdx'
                     },
                     {
+                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/relationships/index.mdx'
+                    },
+                    {
                       path: 'src/pages/gen2/build-a-backend/data/data-modeling/identifiers/index.mdx'
                     },
                     {
-                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/relationships/index.mdx'
+                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/secondary-index/index.mdx'
                     }
                   ]
                 },
