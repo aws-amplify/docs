@@ -20,8 +20,7 @@ export function getStaticProps(context) {
 
 To create a function, start by creating a file `amplify/functions/my-demo-function/resource.ts`. Paste the following content into the file.
 
-```ts
-// amplify/functions/my-demo-function/resource.ts
+```ts title="amplify/functions/my-demo-function/resource.ts"
 import { defineFunction } from '@aws-amplify/backend';
 
 export const myDemoFunction = defineFunction({
@@ -34,9 +33,7 @@ export const myDemoFunction = defineFunction({
 
 Next, create `amplify/functions/my-demo-function/handler.ts`. This is where your function code will go.
 
-```ts
-// amplify/functions/my-demo-function/handler.ts
-
+```ts title="amplify/functions/my-demo-function/handler.ts"
 export const handler = async (event) => {
   // your function code goes here
   return 'You made a function!';
@@ -47,17 +44,188 @@ The handler file _must_ export an async function named "handler". This is the en
 
 Lastly, this function needs to be added to your backend.
 
-```ts
-// amplify/backend.ts
+```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
+// highlight-next-line
 import { myDemoFunction } from './functions/my-demo-function/resource';
 
 defineBackend({
+  // highlight-next-line
   myDemoFunction
 });
 ```
 
 Now when you run `npx amplify sandbox` or deploy your app on Amplify, it will include your backend function. However, just defining a function doesn't do a whole lot. We need a way to invoke the function based on some event or request. Let's take a look at some examples to see how we can do this.
+
+## Environment variables
+
+Environment variables can be configured in `defineFunction` using the `environment` property.
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+import { defineFunction } from '@aws-amplify/backend';
+
+export const myDemoFunction = defineFunction({
+  environment: {
+    ENV_VAR_NAME: 'someValueHere'
+  }
+});
+```
+
+Any environment variables specified here will be available to the function at runtime.
+
+Some environment variables are constant across all branches and deployments. But many environment values differ between deployment environments. [Branch-specific environment variables can be configured for Amplify hosting deployments](gen2/deploy-and-host/fullstack-branching/secrets-and-vars/#set-environment-variables).
+
+Suppose you created a branch-specific environment variable in hosting called "API_ENDPOINT" which had a different value for your "staging" vs "prod" branch. If you wanted that value to be available to your function you can pass it to the function using
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+export const myDemoFunction = defineFunction({
+  environment: {
+    API_ENDPOINT: process.env.API_ENDPOINT
+  }
+});
+```
+
+### Accessing environment variables
+
+Within your function handler, you can access environment variables using the normal `process.env` global object provided by the Node runtime. However, this does not make it easy to discover what environment variables will be available at runtime. Amplify generates an `env` symbol that can be used in your function handler and provides typings for all variables that will be available at runtime. Copy the following code to use it.
+
+```ts title="amplify/functions/my-demo-function/handler.ts"
+// highlight-next-line
+import { env } from '@env/my-demo-function'; // the import is '@env/<function name>'
+
+export const handler = async (event) => {
+  env. // the env object has intellisense for all environment variables that are available to the function
+  return 'You made a function!';
+};
+```
+
+## Secret access
+
+Sometimes it is necessary to provide a secret value to a function. For example, it may need a database password or an API key to perform some business use case. Environment variables should NOT be used for this because environment variable values are included in plaintext in the function configuration. Instead, secret access can be used.
+
+Before using a secret in a function, you need to [define a secret](gen2/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). After you have defined a secret, you can reference it in your function config.
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+import { defineFunction, secret } from '@aws-amplify/backend';
+
+export const myDemoFunction = defineFunction({
+  environment: {
+    API_KEY: secret('myApiKey') // this assumes you created a secret named "myApiKey"
+  }
+});
+```
+
+You can use this secret value at runtime in your function the same as any other environment variable. However, you will notice that the value of the environment variable is not stored as part of the function configuration. Instead, the value is fetched when your function runs and is provided in memory.
+
+```ts title="amplify/functions/my-demo-function/handler.ts"
+import { env } from '@env/my-demo-function';
+
+export const handler = async (event) => {
+  env.API_KEY; // this is the value of secret named "myApiKey"
+  return 'You made a function!';
+};
+```
+
+## Resource access
+
+When you grant a function access to another resource in your Amplify backend ([such as granting access to storage](../storage/#resource-access)), that will configure environment variables for that function to make SDK calls to the AWS services it has access to. Those environment variables are typed and available as part of the `env` object.
+
+Example `defineStorage` that grants myDemoFunction access to files in `/foo/*`.
+
+```ts title="amplify/storage/resource.ts"
+import { myDemoFunction } from '../functions/my-demo-function/resource';
+
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    '/foo/*': [allow.resource(demoFunction).to(['read', 'write', 'delete'])]
+  })
+});
+```
+
+This access definition will add the environment variable `myProjectFiles_BUCKET_NAME` to the function. This environment variable can be accessed on the `env` object.
+
+Here's an example of how it can be used to upload some content to S3.
+
+```ts title="amplify/functions/my-demo-function/handler.ts"
+import { env } from '@env/my-demo-function';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+
+const s3Client = new S3Client();
+
+export const handler = async (event) => {
+  await s3Client.send(
+    new PutObjectCommand({
+      Bucket: env.myProjectFiles_BUCKET_NAME,
+      Key: 'foo/someFile.txt',
+      Body: 'this is an example'
+    })
+  );
+};
+```
+
+## Additional configuration
+
+`defineFunction` comes out-of-the-box with sensible but minimal defaults. The following options are provided to tweak the function configuration.
+
+### `timeoutSeconds`
+
+By default, functions will time out after 3 seconds. This can be configured to any whole number of seconds up to 15 minutes.
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+export const myDemoFunction = defineFunction({
+  // highlight-next-line
+  timeoutSeconds: 60 // 1 minute timeout
+});
+```
+
+### `memoryMB`
+
+By default, functions have 512 MB of memory allocated to them. This can be configured from 128 MB up to 10240 MB. Note that this can increase the cost of executing the function. For more pricing information see [here](https://aws.amazon.com/lambda/pricing/).
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+export const myDemoFunction = defineFunction({
+  // highlight-next-line
+  memoryMB: 256 // allocate 256 MB of memory to the function.
+});
+```
+
+### `runtime`
+
+Currently, only Node runtimes are supported by `defineFunction`. However, you can change the Node version that is used by the function. The default is the oldest Node LTS version that is supported by AWS Lambda (currently Node 18).
+
+If you which to use an older version of Node, keep an eye on the [Lambda Node version deprecation schedule](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). As Lambda removes support for old Node versions, you will have to update to newer supported versions.
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+export const myDemoFunction = defineFunction({
+  runtime: 20 // use Node 20
+});
+```
+
+### `entry`
+
+By default, Amplify will look for your function handler in a file called `handler.ts` in the same directory as the file where `defineFunction` is called. To point to a different handler location, specify an `entry` value.
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+export const myDemoFunction = defineFunction({
+  entry: './path/to/handler.ts' // this path should either be absolute or relative to the current file
+});
+```
+
+### `name`
+
+By default, functions are named based on the directory the `defineFunction` call is placed in. In the above example, defining the function in `amplify/functions/my-demo-function/resource.ts` will cause the function to be named `my-demo-function` by default.
+
+If an entry is specified, then the name defaults to the basename of the entry path. For example, an `entry` of `./signup-trigger-handler.ts` would cause the function name to default to `signup-trigger-handler`.
+
+This optional property can be used to explicitly set the name of the function.
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+export const myDemoFunction = defineFunction({
+  entry: './demo-function-handler.ts',
+  name: 'overrideName' // explicitly set the name to override the default naming behavior
+});
+```
 
 ## Example - Create a Function trigger for Auth
 
@@ -65,8 +233,7 @@ Auth has several events that can trigger functions to perform custom sign up, si
 
 First, in your auth definition, add the following:
 
-```ts
-// amplify/auth/resource.ts
+```ts title="amplify/auth/resource.ts"
 
 export const auth = defineAuth({
   loginWith: {
@@ -83,8 +250,7 @@ export const auth = defineAuth({
 
 Then create the function definition at `amplify/auth/pre-sign-up-handler.ts`.
 
-```ts
-// amplify/auth/pre-sign-up-handler.ts
+```ts title="amplify/auth/pre-sign-up-handler.ts"
 import type { PreSignUpTriggerHandler } from 'aws-lambda';
 
 export const handler: PreSignUpTriggerHandler = async (event) => {
@@ -111,11 +277,3 @@ See [Custom business logic](/gen2/build-a-backend/data/custom-business-logic/)
 ## Example - Use a function as a custom authorizer in your data model
 
 See [Custom data access patterns](/gen2/build-a-backend/data/customize-authz/custom-data-access-patterns/)
-
-### Scheduled jobs
-
-We're actively working on a feature to trigger functions on a recurring schedule.
-
-### More function configuration
-
-You'll soon be able to customize function configuration like memory size, timeout, environment variables, access secret values and more. Keep your `@aws-amplify/backend` package up to date and come back to see what's new.
