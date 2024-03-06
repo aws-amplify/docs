@@ -10,7 +10,6 @@ export const PopoverTrigger = ({ children, ...rest }: PopoverTriggerProps) => {
     <Button
       onClick={() => handleExpansion(expanded)}
       ref={triggerRef}
-      size="large"
       {...rest}
     >
       {children}

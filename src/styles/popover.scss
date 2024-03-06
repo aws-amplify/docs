@@ -13,9 +13,18 @@
   min-width: 14rem;
   top: 100%;
   transform: translate(0, -1px);
-  right: 0;
+  z-index: 1;
   &:focus-visible {
     outline: 2px solid var(--amplify-colors-border-focus);
+  }
+  &--anchor-right {
+    right: 0;
+  }
+  &--anchor-left {
+    left: 0;
+  }
+  &--fullWidth {
+    width: 100%;
   }
 
   &--expanded {

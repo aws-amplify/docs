@@ -1,5 +1,5 @@
 import { useRef, useMemo, useState, useCallback, useEffect } from 'react';
-import { View } from '@aws-amplify/ui-react';
+import { View, ViewProps } from '@aws-amplify/ui-react';
 import { PopoverTrigger } from './PopoverTrigger';
 import { PopoverList } from './PopoverList';
 import { PopoverListItem } from './PopoverListItem';
@@ -7,11 +7,9 @@ import { PopoverContext } from './usePopover';
 import { useClickOutside } from '@/utils/useClickOutside';
 import { useTabKeyDetection } from '@/utils/useTabKeyDetection';
 
-interface PopoverPrimitiveProps {
-  children: React.ReactNode;
-}
+interface PopoverPrimitiveProps extends ViewProps {}
 
-const PopoverPrimitive = ({ children }: PopoverPrimitiveProps) => {
+const PopoverPrimitive = ({ children, ...rest }: PopoverPrimitiveProps) => {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [expanded, setExpanded] = useState<boolean>(false);
 
@@ -69,7 +67,9 @@ const PopoverPrimitive = ({ children }: PopoverPrimitiveProps) => {
 
   return (
     <PopoverContext.Provider value={value}>
-      <View className="popover-wrapper">{children}</View>
+      <View className="popover-wrapper" {...rest}>
+        {children}
+      </View>
     </PopoverContext.Provider>
   );
 };
