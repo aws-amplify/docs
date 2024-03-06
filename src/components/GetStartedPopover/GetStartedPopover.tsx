@@ -1,9 +1,7 @@
-import classNames from 'classnames';
 import { Flex, VisuallyHidden } from '@aws-amplify/ui-react';
 
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import {
-  IconChevron,
   IconAndroid,
   IconAngular,
   IconFlutter,
@@ -110,12 +108,6 @@ export const GetStartedPopover = (platform) => {
       </InternalLinkButton>
       <Popover>
         <Popover.Trigger size="large" className="split-button__end">
-          <IconChevron
-            aria-hidden="true"
-            className={classNames('split-button__end-icon', {
-              'icon-rotate-180-reverse': false
-            })}
-          />
           <VisuallyHidden>
             Toggle getting started guides navigation
           </VisuallyHidden>
