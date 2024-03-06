@@ -1,5 +1,4 @@
 import { Flex, Text, View } from '@aws-amplify/ui-react';
-import { IconChevron } from '@/components/Icons';
 import { frameworks } from '@/constants/frameworks';
 
 import { VersionSwitcher } from '../VersionSwitcher';
@@ -39,11 +38,6 @@ export function PlatformNavigator({
             >
               {platformItem.icon}
               {platformTitle}
-              <IconChevron
-                fontSize="xs"
-                marginLeft="auto"
-                className={false ? '' : 'icon-rotate-90-reverse'}
-              />
             </Popover.Trigger>
             <Popover.List anchor="left" fullWidth={true}>
               {frameworks.map((platform, index) => {

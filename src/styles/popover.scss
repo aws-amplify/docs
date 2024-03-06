@@ -68,6 +68,11 @@
   }
 }
 
+.popover-icon {
+  font-size: var(--amplify-font-sizes-medium);
+  margin-inline-start: auto;
+}
+
 @keyframes popoverContent {
   0% {
     opacity: 0;
