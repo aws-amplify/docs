@@ -19,8 +19,7 @@ export function getStaticProps(context) {
 
 Adding storage to your Amplify backend enables uploading and downloading files. To get started using storage, create a file `amplify/storage/resource.ts`. Paste the following content into the file.
 
-```ts
-// amplify/storage/resource.ts
+```ts title="amplify/storage/resource.ts"
 import { defineStorage } from '@aws-amplify/backend';
 
 export const storage = defineStorage({
@@ -30,24 +29,30 @@ export const storage = defineStorage({
 
 Then include storage in your backend definition.
 
-```ts
-// amplify/backend.ts
+```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+// highlight-next-line
 import { storage } from './storage/resource';
 
 defineBackend({
+  auth,
+  // highlight-next-line
   storage
 });
 ```
 
-Now when you run `npx amplify sandbox` or deploy your app on Amplify, it will configure AWS resource for file upload and download.
+Now when you run `npx amplify sandbox` or deploy your app on Amplify, it will configure AWS resources for file upload and download.
+
+Before files can be accessed by your application, you must configure storage access rules.
+
+To learn how to use storage in your frontend, see docs on [uploading files](../../../javascript/build-a-backend/storage/upload) or [downloading files](../../../javascript/build-a-backend/storage/download/).
 
 ## Storage access
 
 By default, no users or other project resources have access to any files in storage. Access must be explicitly granted within `defineStorage` using the `access` callback.
 
-```ts
-// amplify/storage/resource.ts
+```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
@@ -65,28 +70,30 @@ The access callback returns an object where each key in the object is a file pre
 
 ### Authenticated user access
 
-To grant all authenticated (signed in) users of your application read access to files that start with '/foo/\*', use the following `defineStorage` config. Note that your backend must include `defineAuth` in order to use this access rule.
+To grant all authenticated (signed in) users of your application read access to files that start with `/foo/*`, use the following `access` configuration.
 
-```ts
-// amplify/storage/resource.ts
+Note that your backend must include `defineAuth` in order to use this access rule.
+
+```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/*': [allow.authenticated.to(['read'])] // additional actions such as "write" and "delete" can be specified depending on your use case or access pattern
+    '/foo/*': [allow.authenticated.to(['read'])] // additional actions such as "write" and "delete" can be specified depending on your use case
   })
 });
 ```
 
 ### Guest user access
 
-To grant all guest (not signed in) users of your application read access to files that start with `/foo/*`, use the following `defineStorage` config. Note that your backend must include `defineAuth` in order to use this access rule.
+To grant all guest (not signed in) users of your application read access to files that start with `/foo/*`, use the following `access` config.
 
-```ts
-// amplify/storage/resource.ts
+Note that your backend must include `defineAuth` in order to use this access rule.
+
+```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/*': [allow.guest.to(['read'])] // additional actions such as "write" and "delete" can be specified depending on your use case or access pattern
+    '/foo/*': [allow.guest.to(['read'])] // additional actions such as "write" and "delete" can be specified depending on your use case
   })
 });
 ```
@@ -95,8 +102,7 @@ export const storage = defineStorage({
 
 If you have configured user groups in `defineAuth`, you can scope storage access to specific groups. Suppose you have a `defineAuth` config with `admin` and `auditor` groups.
 
-```ts
-// amplify/auth/resource.ts
+```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
 
 export const auth = defineAuth({
@@ -107,10 +113,9 @@ export const auth = defineAuth({
 });
 ```
 
-You can configure permissions such that auditors have readonly permissions to `/foo/*` while admin has full permissions with the following definition
+With the following `access` definition, you can configure permissions such that auditors have readonly permissions to `/foo/*` while admin has full permissions.
 
-```ts
-// amplify/storage/resource.ts
+```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
@@ -126,32 +131,32 @@ export const storage = defineStorage({
 
 Access to files with a certain prefix can be scoped down to individual authenticated users. To do this, a placeholder token is used in the storage path which will be substituted with the user identity when uploading or downloading files. The access rule will only allow a user to upload or download files with their specific identity string.
 
+Note that your backend must include `defineAuth` in order to use this access rule.
+
 The following policy would allow authenticated users full access to files with a prefix that matches their identity id.
 
-```ts
-// amplify/storage/resource.ts
+```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/{id}/*': [
-      // {id} is the token that is replaced with the user identity id
-      allow.id('identity').to(['read', 'write', 'delete'])
+    '/foo/{entity_id}/*': [
+      // {entity_id} is the token that is replaced with the user identity id
+      allow.entity('identity').to(['read', 'write', 'delete'])
     ]
   })
 });
 ```
 
-A user with identity id "123" would be able to perform read/write/delete operations on files within `/foo/123/*` and would not be able to perform actions on files with any other prefix. Likewise, a suer with identity id "ABC" would be able to perform read/write/delete operation on files only within `/foo/ABC/*`. In this way, each user can be granted access to a "private storage location" that is not accessible to any other user.
+A user with identity id "123" would be able to perform read/write/delete operations on files within `/foo/123/*` and would not be able to perform actions on files with any other prefix. Likewise, a user with identity id "ABC" would be able to perform read/write/delete operation on files only within `/foo/ABC/*`. In this way, each user can be granted access to a "private storage location" that is not accessible to any other user.
 
 It may be desireable for a file owner to be able to write and delete files in their private location but allow anyone to read from that location. For example, profile pictures should be readable by anyone, but only the owner can modify them. This use case can be configured with the following definition.
 
-```ts
-// amplify/storage/resource.ts
+```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/{id}/*': [
-      allow.id('identity').to(['read', 'write', 'delete']),
+    '/foo/{entity_id}/*': [
+      allow.entity('identity').to(['read', 'write', 'delete']),
       allow.guest.to(['read']),
       allow.authenticated.to(['read'])
     ]
@@ -159,14 +164,13 @@ export const storage = defineStorage({
 });
 ```
 
-When a non-id-based rule is applied to a path with the `{id}` token, the token is replaced with a wildcard (`*`). This means that the access will apply to files uploaded by _any_ user. In the above policy, write and delete is scoped to just the owner, but read is allowed for guest and authenticated users for any file within `/foo/*/*`.
+When a non-id-based rule is applied to a path with the `{entity_id}` token, the token is replaced with a wildcard (`*`). This means that the access will apply to files uploaded by _any_ user. In the above policy, write and delete is scoped to just the owner, but read is allowed for guest and authenticated users for any file within `/foo/*/*`.
 
-### Resource access
+### Grant function access
 
-In addition to granting application users access to storage files, you may also want to grant a backend function access to storage files. This could be used to enable a use case like resizing and reuploading images, or automatically deleting old files. The following configuration is used to define function access.
+In addition to granting application users access to storage files, you may also want to grant a backend function access to storage files. This could be used to enable a use case like resizing images, or automatically deleting old files. The following configuration is used to define function access.
 
-```ts
-// amplify/storage/resource.ts
+```ts title="amplify/storage/resource.ts"
 import { defineStorage, defineFunction } from '@aws-amplify/backend';
 
 const demoFunction = defineFunction({});
@@ -190,9 +194,9 @@ When a function is granted access to storage, it also receives an environment va
 There are some limitations on the types of prefixes that can be specified in the storage access definition.
 
 1. All paths are treated as prefixes from the storage root. As such all paths must start with `/` and end with `/*` to make this explicit.
-2. Only one level of nesting is allowed. For example, you can define access controls on `/foo/*` and `/foo/bar/*` but not on `/foo/bar/baz/*` because that path has 2 other prefixes
-3. Wildcards cannot conflict with the `{id}` token. For example, you cannot have both `/foo/*` and `/foo/{id}/*` defined because the wildcard in the first path conflicts with the `{id}` token in the second path.
-4. A path cannot be a prefix of another path with an `{id}` token. For example `/foo/*` and `/foo/bar/{id}/*` is not allowed.
+2. Only one level of nesting is allowed. For example, you can define access controls on `/foo/*` and `/foo/bar/*` but not on `/foo/bar/baz/*` because that path has 2 other prefixes.
+3. Wildcards cannot conflict with the `{entity_id}` token. For example, you cannot have both `/foo/*` and `/foo/{entity_id}/*` defined because the wildcard in the first path conflicts with the `{entity_id}` token in the second path.
+4. A path cannot be a prefix of another path with an `{entity_id}` token. For example `/foo/*` and `/foo/bar/{entity_id}/*` is not allowed.
 
 ### Prefix behavior
 
@@ -222,16 +226,11 @@ The access control matrix for this configuration is
 
 Authenticated users have access to read, write, and delete everything under `/foo/*` EXCEPT `/foo/bar/*` and `/foo/baz/*`. For those subpaths, the scoped down access overrides the access granted on the parent `/foo/*`
 
-### Configuring Amplify Gen1 Access patterns
+### Configuring Amplify Gen 1-equivalent access patterns
 
-To configure `defineStorage` in Amplify Gen2 to behave the same way as the storage category in Gen1, the following definition can be used.
+To configure `defineStorage` in Amplify Gen 2 to behave the same way as the storage category in Gen 1, the following definition can be used.
 
-```ts
-// amplify/storage/resource.ts
-import { defineStorage, defineFunction } from '@aws-amplify/backend';
-
-const demoFunction = defineFunction({});
-
+```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
@@ -239,11 +238,11 @@ export const storage = defineStorage({
       allow.guest.to(['read'])
       allow.authenticated.to(['read', 'write', 'delete']),
     ],
-    '/protected/{id}/*': [
+    '/protected/{entity_id}/*': [
       allow.authenticated.to(['read']),
-      allow.id('identity').to(['read', 'write', 'delete'])
+      allow.entity('identity').to(['read', 'write', 'delete'])
     ],
-    '/private/{id}/*': [allow.id('identity').to(['read', 'write', 'delete'])]
+    '/private/{entity_id}/*': [allow.entity('identity').to(['read', 'write', 'delete'])]
   })
 });
 ```
