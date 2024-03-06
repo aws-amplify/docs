@@ -5,11 +5,16 @@ import { IconChevron } from '@/components/Icons';
 
 interface PopoverTriggerProps extends ButtonProps {}
 
-export const PopoverTrigger = ({ children, ...rest }: PopoverTriggerProps) => {
+export const PopoverTrigger = ({
+  children,
+  className,
+  ...rest
+}: PopoverTriggerProps) => {
   const { triggerRef, handleExpansion, expanded } = usePopover();
 
   return (
     <Button
+      className={classNames('popover-trigger', className)}
       onClick={() => handleExpansion(expanded)}
       ref={triggerRef}
       {...rest}
