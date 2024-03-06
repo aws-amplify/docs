@@ -16,27 +16,21 @@ export const RIGHT_NAV_LINKS = [
 export const LEFT_NAV_LINKS = [
   {
     type: 'DEFAULT',
-    label: 'Docs',
-    url: '/',
-    order: 1
-  },
-  {
-    type: 'DEFAULT',
     label: 'Learn',
     url: 'https://amplify.aws/learn',
-    order: 2
+    order: 1
   },
   {
     type: 'DEFAULT',
     label: 'UI Library',
     url: 'https://ui.docs.amplify.aws/',
-    order: 3
+    order: 2
   },
   {
     type: 'DEFAULT',
     label: 'Contribute',
     url: '/contribute/',
-    order: 4
+    order: 3
   }
 ];
 

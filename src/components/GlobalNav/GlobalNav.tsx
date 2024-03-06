@@ -6,6 +6,7 @@ import { RightNavLinks } from './components/RightNavLinks';
 import { AmplifyNavLink } from './components/AmplifyNavLink';
 import { LeftNavLinks } from './components/LeftNavLinks';
 import { SkipToMain } from '@/components/SkipToMain';
+import { GenSwitcher } from '@/components/GenSwitcher';
 
 export enum NavMenuItemType {
   DEFAULT = 'DEFAULT',
@@ -44,16 +45,16 @@ export function GlobalNav({
     <View
       as="nav"
       className={`navbar ${isGen1 ? 'navbar--gen1' : ''}`}
-      aria-label="Amplify Dev Center - External links to additional Amplify resources"
+      aria-label="Amplify Docs - External links to additional Amplify resources"
     >
       <SkipToMain mainId={mainId} />
       <Flex className="nav-links-container">
         <Flex className="left-nav-links">
           <AmplifyNavLink
-            currentSite={currentSite}
             isCollapsed={isCollapsed}
             setIsCollapsed={setIsCollapsed}
           />
+          <GenSwitcher isGen1={isGen1} />
 
           <LeftNavLinks
             isCollapsed={isCollapsed}

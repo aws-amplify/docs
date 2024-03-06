@@ -2,12 +2,14 @@ import { Flex, Text, Button, VisuallyHidden } from '@aws-amplify/ui-react';
 import { AmplifyLogo } from './icons';
 import { IconChevron } from '@/components/Icons';
 
-export function AmplifyNavLink({ currentSite, isCollapsed, setIsCollapsed }) {
+export function AmplifyNavLink({ isCollapsed, setIsCollapsed }) {
   const chevronRotation = isCollapsed ? '0' : '180';
   return (
     <Flex className="navbar__logo-container">
       <Flex
-        className={'desktop-only'}
+        className="navbar-logo-link"
+        as="a"
+        href="/"
         gap="xs"
         alignItems="center"
         direction="row"
@@ -15,24 +17,7 @@ export function AmplifyNavLink({ currentSite, isCollapsed, setIsCollapsed }) {
         <AmplifyLogo />
         <Text as="span" className="navbar-logo-text">
           <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
-          <span style={{ fontWeight: '300' }}>Dev Center</span>
-          <span className="mobile-only">
-            {' '}
-            <IconChevron /> {currentSite}
-          </span>
-        </Text>
-      </Flex>
-
-      <Flex className="mobile-only mobile-current-link" as="a" href="/">
-        <AmplifyLogo />
-        <Text as="span" className="navbar-logo-text">
-          <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
-          <span style={{ fontWeight: '300' }}>Dev Center</span>
-          <span className="mobile-only">
-            {' '}
-            <IconChevron className="icon-rotate-270" fontSize="xs" />{' '}
-            {currentSite}
-          </span>
+          <span style={{ fontWeight: '300' }}>Docs</span>
         </Text>
       </Flex>
 

@@ -33,6 +33,9 @@
   font-size: var(--amplify-font-sizes-medium);
   white-space: nowrap;
 }
+.navbar-logo-link {
+  cursor: pointer;
+}
 .navbar-logo {
   color: var(--navbar-logo-color);
 }

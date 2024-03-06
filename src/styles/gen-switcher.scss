@@ -1,0 +1,10 @@
+.gen-switcher__trigger {
+  background-color: transparent;
+  color: var(--amplify-colors-white);
+  border-color: var(--amplify-colors-white);
+  &:focus {
+    box-shadow: none;
+    outline: 2px solid var(--amplify-colors-white);
+    outline-offset: 2px;
+  }
+}
