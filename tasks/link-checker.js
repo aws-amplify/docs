@@ -82,7 +82,7 @@ const retrieveLinks = async (siteMapUrls, visitedLinks, localDomain) => {
         }, url);
 
         console.log(
-          `successfully visited ${url} to retrieve links ${urlList.length} links found`
+          `successfully visited ${url} to retrieve links. ${urlList.length} links found`
         );
 
         urlList.forEach((link) => {
