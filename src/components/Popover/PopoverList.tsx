@@ -9,6 +9,7 @@ interface PopoverListProps extends ViewProps {
 
 export const PopoverList = ({
   children,
+  className,
   anchor = 'right',
   fullWidth = false,
   ...rest
@@ -16,10 +17,15 @@ export const PopoverList = ({
   const { expanded, contentRef, handleBlur } = usePopover();
   return (
     <View
-      className={classNames('popover', `popover--anchor-${anchor}`, {
-        'popover--expanded': expanded,
-        'popover--fullWidth': fullWidth
-      })}
+      className={classNames(
+        'popover',
+        `popover--anchor-${anchor}`,
+        {
+          'popover--expanded': expanded,
+          'popover--fullWidth': fullWidth
+        },
+        className
+      )}
       as="nav"
       tabIndex={0}
       ref={contentRef}
