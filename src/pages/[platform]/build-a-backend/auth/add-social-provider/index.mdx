@@ -312,6 +312,9 @@ import { signInWithRedirect } from 'aws-amplify/auth';
     await signInWithRedirect({
       provider: 'Apple'
     });
+    const currentUser = await getCurrentUser();
+    const userAttributes = await fetchUserAttributes();
+    console.log({currentUser, userAttributes});
   } catch (error) {
     console.log('error signing up:', error);
   }
