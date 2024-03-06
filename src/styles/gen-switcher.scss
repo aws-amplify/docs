@@ -8,6 +8,9 @@
     outline-offset: 2px;
   }
   .popover-icon {
-    font-size: var(--amplify-font-sizes-small);
+    font-size: var(--amplify-font-sizes-xs);
   }
+}
+.gen-switcher__list {
+  min-width: 6rem;
 }
