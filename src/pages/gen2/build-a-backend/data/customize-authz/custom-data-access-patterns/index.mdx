@@ -18,17 +18,17 @@ import {
   type ClientSchema,
   a,
   defineData,
-  defineFunction
+  defineFunction,
 } from '@aws-amplify/backend';
 
 const schema = a.schema({
   Todo: a
     .model({
-      content: a.string()
+      content: a.string(),
     })
     // STEP 1
     // Indicate which models / fields should use a custom authorization rule
-    .authorization([a.allow.custom()])
+    .authorization([a.allow.custom()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -41,13 +41,13 @@ export const data = defineData({
     // Pass in the function to be used for a custom authorization rule
     lambdaAuthorizationMode: {
       function: defineFunction({
-        entry: './custom-authorizer.ts'
+        entry: './custom-authorizer.ts',
       }),
       // (Optional) STEP 3
       // Configure the token's time to live
-      timeToLiveInSeconds: 300
-    }
-  }
+      timeToLiveInSeconds: 300,
+    },
+  },
 });
 ```
 
