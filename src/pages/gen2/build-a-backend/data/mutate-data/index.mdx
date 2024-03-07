@@ -52,7 +52,7 @@ const client = generateClient<Schema>();
 
 const todo = {
   id: 'some_id',
-  description: 'Updated description',
+  content: 'Updated content',
 };
 
 const { data: updatedTodo, errors } = await client.models.Todo.update(todo);
