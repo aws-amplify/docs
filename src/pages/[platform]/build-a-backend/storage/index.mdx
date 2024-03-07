@@ -1,6 +1,23 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
   title: 'Storage',
-  description: 'Set up and connect to storage.'
+  description: 'Set up and connect to storage.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {
