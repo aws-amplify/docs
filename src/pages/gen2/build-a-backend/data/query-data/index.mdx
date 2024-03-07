@@ -41,9 +41,8 @@ const client = generateClient<Schema>();
 const { data: todos, errors } = await client.models.Todo.list();
 
 // get a specific item
-const { data: inventory, errors } = await client.models.Inventory.get({
-  productId: '...',
-  warehouseId: '...'
+const { data: todo, errors } = await client.models.Todo.get({
+  id: "...",
 });
 ```
 
@@ -57,8 +56,8 @@ import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
 
-const { errors, data: newTodo } = await client.models.Todo.list({
-  authMode: 'apiKey'
+const { errors, data: todos } = await client.models.Todo.list({
+  authMode: "apiKey",
 });
 ```
 
@@ -77,7 +76,7 @@ const client = generateClient<Schema>();
 const { data: todos, errors } = await client.models.Todo.list({
   filter: {
     content: {
-      startsWith: 'hello'
+      beginsWith: 'hello'
     }
   }
 });
@@ -97,10 +96,10 @@ const { data: todos, errors } = await client.models.Todo.list({
   filter: {
     or: [
       {
-        priority: { eq: 1 }
+        priority: { eq: "1" }
       },
       {
-        priority: { eq: 2 }
+        priority: { eq: "2" }
       }
     ]
   }
@@ -187,12 +186,14 @@ A **custom selection set** allows consumers to specify, on a per-call basis, the
 ```ts
 // same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
 const { data: blogWithSubsetOfData, errors } = await client.models.Blog.get(
-  '<MY_BLOG_ID>',
+  {
+    id: "<MY_BLOG_ID>",
+  },
   {
     selectionSet: [
-      'author.email',
-      'publication.company.location.city',
-      'content.*'
+      "author.email",
+      "publication.company.location.city",
+      "content.*"
     ]
   }
 );
