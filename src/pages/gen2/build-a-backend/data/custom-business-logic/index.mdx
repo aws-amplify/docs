@@ -1,7 +1,7 @@
 export const meta = {
-  title: 'Add custom business logic',
+  title: 'Add custom queries and mutations',
   description:
-    'Customize your business logic for queries, mutations, and subscriptions.'
+    'Customize your business logic for queries and mutations.'
 };
 
 export function getStaticProps() {
@@ -158,7 +158,7 @@ const schema = a.schema({
     .arguments({ content: a.string() })
     .returns(a.ref('EchoResponse'))
     .authorization([a.allow.public()])
-    .handler(a.handler.function(echoHandler))
+    .function('echoHandler')
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -171,6 +171,9 @@ export const data = defineData({
       expiresInDays: 30
     },
   },
+  functions: {
+    'echoHandler': echoHandler
+  }
 });
 ```
 
@@ -181,8 +184,7 @@ Custom resolvers work on a "request/response" basis, you choose a data source, m
 
 In your **amplify/data/resource.ts** file, define a custom handler using `a.handler.custom`.
 
-```ts
-// amplify/data/resource.ts
+```ts title="amplify/data/resource.ts"
 import {
   type ClientSchema,
   a,
@@ -223,8 +225,7 @@ export const data = defineData({
 });
 ```
 
-```ts
-// amplify/data/increment-like.js
+```ts title="amplify/data/increment-like.js"
 export function request(ctx) {
   return {
     operation: 'UpdateItem',
@@ -269,10 +270,11 @@ const externalDataSourcesStack = backend.createStack("MyExternalDataSources")
 
 const externalTable = dynamoDb.Table.fromTableName(externalDataSourcesStack, "MyTable", "MyExternalTable")
 
-backend.data.addDynamoDbDataSource("ExternalTableDataSource", externalTable)
+backend.data.addDynamoDbDataSource(
+  // highlight-next-line
+  "ExternalTableDataSource",
+  externalTable)
 ```
-
-{/* Note: the above will be using the types of the L1 construct of "CfnDataSource" for now. It's not a one-way door, we can always add explicit L2 construct approaches in the future: ".addDynamoDbDataSource". We should enhance the L1 typings though, so based on what's passed into "type", we type-enforce the other fields. For example if you pass in "AMAZON_DYNAMODB", then you can't set "openSearchConfig"*/}
 
 In your schema you can then reference these additional data sources based on their name:
 
@@ -300,6 +302,7 @@ const schema = a.schema({
     .returns(a.ref('Post'))
     .authorization([a.allow.private()])
     .handler(a.handler.custom({
+      // highlight-next-line
       dataSource: "ExternalTableDataSource",
       entry: './increment-like.js'
     }))
@@ -321,24 +324,17 @@ export const data = defineData({
 </Block>
 </BlockSwitcher>
 
-<Callout info>
+<Callout warning>
 
-The `.handler()` accepts an array of handlers that will run in a pipeline. For example, you can add a common handler for input sanitization and then use different handlers to operate on the sanitized data:
-
-```ts
-.handler(
-  a.handler.function(inputValidator),
-  a.handler.function(actionHandler)
-)
-```
+The `.handler()` accepts an array of handlers that will run in a pipeline. For now, in the developer, you can only use `a.handler.custom()` all other handlers, such as `a.handler.function()` are still under active development. 
 
 </Callout>
 
-<Callout warning>
+{/* <Callout warning>
 
 All handlers must be of the same type. For example, you can't mix and match `a.handler.function` with `a.handler.custom` within a single `.handler()` modifier.
 
-</Callout>
+</Callout> */}
 
 ## Step 3 - Invoke the custom query or mutation
 
