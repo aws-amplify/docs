@@ -226,6 +226,30 @@ The access control matrix for this configuration is
 
 Authenticated users have access to read, write, and delete everything under `/foo/*` EXCEPT `/foo/bar/*` and `/foo/baz/*`. For those subpaths, the scoped down access overrides the access granted on the parent `/foo/*`
 
+### Available actions
+
+When you configure access to a particular storage prefix, you can scope the access to one or more CRUDL actions.
+
+#### `read`
+
+This is a convenience action that is equivalent to setting both `get` and `list` access.
+
+#### `get`
+
+This action maps to the [`s3:GetObject`](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html) IAM action, scoped to the corresponding object prefix.
+
+#### `list`
+
+This action maps to the [`s3:ListBucket`](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html) IAM action, scoped to the corresponding object prefix.
+
+#### `write`
+
+This action maps to the [`s3:PutObject`](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html) IAM action, scoped to the corresponding object prefix. Note that this action grants the ability to both create new object and update existing ones. There is no way to scope access to only creating or only updating objects.
+
+#### `delete`
+
+This action maps to the [`s3:DeleteObject`](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html) IAM action, scoped to the corresponding object prefix.
+
 ### Configuring Amplify Gen 1-equivalent access patterns
 
 To configure `defineStorage` in Amplify Gen 2 to behave the same way as the storage category in Gen 1, the following definition can be used.
