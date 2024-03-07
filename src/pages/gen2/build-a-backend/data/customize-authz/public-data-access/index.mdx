@@ -19,12 +19,12 @@ To grant everyone access, use the `.public()` authorization strategy. Behind the
 
 ```ts
 export const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-  }).authorization([
-    a.allow.public()
-  ])
-})
+  Todo: a
+    .model({
+      content: a.string(),
+    })
+    .authorization([a.allow.public()]),
+});
 ```
 
 ## Add public authorization rule using IAM authentication
@@ -33,10 +33,10 @@ You can also override the authorization provider. In the example below, `iam` is
 
 ```ts
 export const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-  }).authorization([
-    a.allow.public("iam")
-  ])
-})
+  Todo: a
+    .model({
+      content: a.string(),
+    })
+    .authorization([a.allow.public('iam')]),
+});
 ```
