@@ -62,10 +62,6 @@ export const MDXCode = ({
     <Highlight theme={theme} code={code} language={language}>
       {({ style, tokens, getLineProps, getTokenProps }) => (
         <View data-testid={testId}>
-          <div style={{ display: 'none' }}>
-            {/* searchable code \ */}
-            {codeString}
-          </div>
           <View className="pre-container">
             {shouldShowHeader ? (
               <Flex className="pre-header" data-testid={testHeaderId}>
