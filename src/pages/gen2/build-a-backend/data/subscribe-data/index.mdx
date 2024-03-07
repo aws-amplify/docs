@@ -32,7 +32,7 @@ type Todo = Schema['Todo'];
 
 const client = generateClient<Schema>();
 
-function MyComponent() {
+export default function MyComponent() {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
