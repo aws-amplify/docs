@@ -126,6 +126,15 @@ client.models.Post.create({
 })
 ```
 
+### List enum values client-side
+
+You can list available enum values client-side using the `client.enums.<ENUM_NAME>.values()` API. For example, this allows you to display the available enum values within a dropdown UI.
+
+```ts
+const availableSettings = client.enums.PrivacySetting.values()
+// availableSettings returns ["PRIVATE", "FRIENDS_ONLY", "PUBLIC"]
+```
+
 ## Mark fields as required
 
 By default, fields are optional. To mark a field as required, use the `.required()` modifier.

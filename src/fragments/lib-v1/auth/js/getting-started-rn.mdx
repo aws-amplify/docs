@@ -19,6 +19,12 @@ You will also need to install the pod dependencies for iOS:
 npx pod-install
 ```
 
+After installing pod dependencies, rebuild the app:
+
+```sh
+npm run ios
+```
+
 </Block>
 <Block name="Expo CLI">
 
@@ -268,5 +274,3 @@ Follow the instructions in the [Sign in, Sign up and Sign out](/[platform]/build
 To implement authentication flows using Amplify you can either use the Amplify UI libraries or call authentication methods directly on the `Auth` class.
 
 `Auth` has over 30 methods including [`signUp`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-up), [`signIn`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-in), [`forgotPassword`](/[platform]/build-a-backend/auth/manage-user-session/#forgot-password), and [`signOut`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-out) that allow you full control over all aspects of the user authentication flow.
-
-Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).

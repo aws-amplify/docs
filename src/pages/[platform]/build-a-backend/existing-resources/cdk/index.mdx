@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
                   
 export const meta = {
   title: 'Connect to existing AWS resources built with the CDK',
-  description: "Connect new mobile and web apps to AWS resources built with the CDK.",
+  description: "Connect a new app to AWS resources built with the CDK.",
   platforms: [
                 'angular',
                 'flutter',
@@ -27,22 +27,38 @@ export function getStaticProps(context) {
   };
 }
 
-This guide shows you how to connect new mobile and web apps to AWS resources you've already created using the [AWS Cloud Development Kit (AWS CDK)](https://aws.amazon.com/cdk/). The AWS CDK is an open-source software development framework for defining cloud infrastructure as code with modern programming languages. This infrastructure is then deployed through [AWS CloudFormation](https://aws.amazon.com/cloudformation/). 
+This guide shows you how to connect a new app to AWS resources you've already created using the [AWS Cloud Development Kit (AWS CDK)](https://aws.amazon.com/cdk/). The AWS CDK is an open-source software development framework for defining cloud infrastructure as code with modern programming languages. This infrastructure is then deployed through [AWS CloudFormation](https://aws.amazon.com/cloudformation/). 
 
-The guide has three sections to help you build and connect a fullstack app:
+<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue"]}>
 
-1. [Section one](/[platform]/build-a-backend/existing-resources/cdk/#build-a-graphql-api-using-the-amplify-data-cdk-construct) provides instructions for using the Amplify Data CDK to create a GraphQL API backend with AWS AppSync. This creates the core backend.
-1. [Section two](/[platform]/build-a-backend/existing-resources/cdk/#build-a-react-app-and-connect-to-the-graphql-api) explains how to create and connect a React web app to the GraphQL API. Follow this if you are using React to build a web frontend.
-1. [Section three](/[platform]/build-a-backend/existing-resources/cdk/#build-a-flutter-app-and-connect-to-the-graphql-api) shows how to build and integrate a Flutter app with the GraphQL API. Follow this if you are using Flutter to build a cross-platform frontend.
+In this guide, you will use the Amplify Data CDK to create a GraphQL API backend with AWS AppSync. This creates the core backend. You will then create and connect a React web app to the GraphQL API.
 
-The recommended approach is to complete section one to build the backend, then optionally complete section two (React) or three (Flutter), or both, to connect frontends to the GraphQL API. Once you're finished experimenting with these demo apps, we recommend visiting the ["Clean up resources"](/[platform]/build-a-backend/existing-resources/cdk/#clean-up-resources) section to delete the backend resources to avoid incurring unexpected costs. 
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+In this guide, you will use the Amplify Data CDK to create a GraphQL API backend with AWS AppSync. This creates the core backend. You will then build and integrate a Flutter app with the GraphQL API.
+
+</InlineFilter>
 
 Before you begin, you will need:
+
+<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue"]}>
 
 * An AWS account: If you don't already have an account, follow the [Setting Up Your AWS Environment](https://aws.amazon.com/getting-started/guides/setup-environment/) tutorial for a quick overview.
 * The Amplify CLI [installed](https://docs.amplify.aws/cli/start/install/) and configured.
 * A text editor. For this guide, we will use VS Code, but you can use your preferred IDE.
-* Flutter and its command-line tools [installed](https://docs.flutter.dev/get-started/install) and configured (if completing the third part of this guide).
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+* An AWS account: If you don't already have an account, follow the [Setting Up Your AWS Environment](https://aws.amazon.com/getting-started/guides/setup-environment/) tutorial for a quick overview.
+* The Amplify CLI [installed](https://docs.amplify.aws/cli/start/install/) and configured.
+* A text editor. For this guide, we will use VS Code, but you can use your preferred IDE.
+* Flutter and its command-line tools [installed](https://docs.flutter.dev/get-started/install) and configured.
+
+</InlineFilter>
 
 ## Build a GraphQL API using the Amplify Data CDK construct
 
@@ -119,7 +135,9 @@ The CDK will deploy the stacks and display the following confirmation. Note the 
 
 <img src="/images/existing-resources/cdk-stacks.png" alt="CDK deploying the stacks." width="750" />
 
-Now that you have built the backend API with the CDK, you can connect a frontend. Refer to section two to connect a React app or section three to connect a Flutter app, or complete both to connect frontends in each framework.
+Now that you have built the backend API with the CDK, you can connect a frontend.
+
+<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue"]}>
 
 ## Build a React app and connect to the GraphQL API
 
@@ -306,9 +324,9 @@ npm start
 
 In this section, we generated GraphQL code, created React components, configured Amplify, and connected the app to the API. This enabled full CRUD functionality with our backend through queries and mutations.
 
-## Conclusion - CDK and React
+</InlineFilter>
 
-Congratulations on successfully creating a new React app and linking it to a preexisting GraphQL API built with AWS CDK. The next optional section will guide you through doing the same for a Flutter mobile app. Alternatively, you can skip ahead to the ["Clean up resources"](/[platform]/build-a-backend/existing-resources/cdk/#clean-up-resources) section.
+<InlineFilter filters={["flutter"]}>
 
 ## Build a Flutter app and connect to the GraphQL API
 
@@ -808,13 +826,15 @@ flutter run -d chrome
   <source src="/images/existing-resources/todo-example-cdk.mp4" />
 </video>
 
-## Conclusion - CDK and Flutter
+</InlineFilter>
 
-Congratulations! You used the AWS Amplify Data CDK construct to create a GraphQL API backend using AWS AppSync. You then connected either a Flutter app, a React app, or both to that API using the Amplify libraries. If you have any feedback, leave a [GitHub issue](https://github.com/aws-amplify/docs/issues) or join our [Discord Community](https://discord.gg/amplify)!
+## Conclusion
+
+Congratulations! You used the AWS Amplify Data CDK construct to create a GraphQL API backend using AWS AppSync. You then connected your app to that API using the Amplify libraries. If you have any feedback, leave a [GitHub issue](https://github.com/aws-amplify/docs/issues) or join our [Discord Community](https://discord.gg/amplify)!
 
 ## Clean up resources
 
-Once you're finished experimenting with these demo apps, we recommend deleting the backend resources to avoid incurring unexpected costs. You can do this by running the following command in the root folder of the CDK app created above.
+Once you're finished experimenting with this demo app, we recommend deleting the backend resources to avoid incurring unexpected costs. You can do this by running the following command in the root folder of the CDK app created above.
 
 ```bash title="Terminal" showLineNumbers={false}
   cdk destroy

@@ -94,10 +94,6 @@ Use the following steps to connect add file storage backend services to your app
    </manifest>
    ```
 
-## Mocking and Local Testing
-
-Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](/[platform]/tools/cli/usage/mock/) for more details.
-
 ## Note on Transfer Utility and Amazon Cognito
 
 Transfer Utility generates Amazon S3 pre-signed URLs and uses them to enable background transferring. Using Amazon Cognito Identity, you receive AWS temporary credentials that are valid for up to 60 minutes. It is not possible to generate S3 pre-signed URLs that last longer than 60 minutes. Due to this limitation, the Transfer Utility enforces 50-minute transfer timeouts (10-minute buffer for reducing AWS temporary credential regenerations). After 50 minutes, you receive a transfer failure.
