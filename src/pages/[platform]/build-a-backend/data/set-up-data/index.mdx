@@ -42,10 +42,10 @@ With Amplify Data, you can build a secure, real-time API backed by a database in
 
 ## Building your data backend
 
-If you've run `npm create amplify@latest` already, you should see an `amplify/data/resource.ts` file, which is the central location to configure your data backend. The most important element is the `schema` object, which defines your backend data models (`a.model()`) and custom queries (`a.query()`), mutations (`a.mutation()`), and subscriptions (`a.subscription()`).
+If you've run `npm create amplify@beta` already, you should see an `amplify/data/resource.ts` file, which is the central location to configure your data backend. The most important element is the `schema` object, which defines your backend data models (`a.model()`) and custom queries (`a.query()`), mutations (`a.mutation()`), and subscriptions (`a.subscription()`).
 
-```ts title="backend/data/resource.ts"
-// backend/data/resource.ts
+```ts title="amplify/data/resource.ts"
+// amplify/data/resource.ts
 
 import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
 

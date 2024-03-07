@@ -3,7 +3,6 @@ import { MenuItem } from './MenuItem';
 import { Platform } from '@/data/platforms';
 import { PageNode } from '@/directory/directory';
 import { findDirectoryNode } from '@/utils/findDirectoryNode';
-import { BUILD_A_BACKEND, PREV_BUILD_A_BACKEND } from '@/data/routes';
 
 type MenuProps = {
   currentPlatform?: Platform;
@@ -57,14 +56,8 @@ export function Menu({ currentPlatform, path }: MenuProps): ReactElement {
   }
 
   if (isPrev) {
-    // replace build a backend with previous build a backend
-    const buildABackend = findDirectoryNode(PREV_BUILD_A_BACKEND);
-    childrenNodes = childrenNodes?.map((child) => {
-      if (child.route === BUILD_A_BACKEND) {
-        return buildABackend;
-      }
-      return child;
-    });
+    const rootMenuNode = findDirectoryNode('/gen1/[platform]/prev');
+    childrenNodes = rootMenuNode?.children;
   }
 
   return (

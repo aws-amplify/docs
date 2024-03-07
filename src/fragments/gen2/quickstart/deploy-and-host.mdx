@@ -15,15 +15,7 @@ If you already have your project remotely hosted in a Git repository, you can sk
 
 3. In the Git provider screen, choose **Option 2: Start with an existing app**. Connect the repository you just deployed and pick a branch.
 
-<Callout warning>Next.js 14 apps require a [minimum node version](https://nextjs.org/blog/next-14#other-changes) of 18.17 at build time.</Callout>
-
-4. Under **Advanced settings**, navigate to **Build image** and enter `amplify:al2023`. The Amplify Amazon Linux 2023 build image supports Node.js versions 18 and 20 at build time. You can specify the Node.js version during your build through [live package updates](https://docs.aws.amazon.com/amplify/latest/userguide/custom-build-image.html#setup-live-updates) or [nvm](https://github.com/nvm-sh/nvm). Amplify Hosting will automatically deploy your compute runtime to match the Node.js version used at build time.
-
-![Amplify Gen 2 console showing the "Advanced settings" view with "amplify:al2023" specified for build image.](/images/gen2/getting-started/console4.png)
-
-<Callout warning>If you have an existing Gen-2 application, you can modify the build image by navigating to **Hosting > Environment variables** and creating a new environment variable `_CUSTOM_IMAGE` with the value `amplify:al2023`, then redeploying the build.</Callout>
-
-5. Review all of your settings to ensure everything is set up correctly. Choose **Save and deploy** to deploy your web app.
+4. Review all of your settings to ensure everything is set up correctly. Choose **Save and deploy** to deploy your web app.
 
 ### Manage fullstack branch
 

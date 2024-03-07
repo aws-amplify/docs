@@ -7,6 +7,10 @@ Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authe
 <BlockSwitcher>
 <Block name="React Native CLI">
 
+import rnVersionCallout from '/src/fragments/common/react-native-version-deployment-target.mdx';
+
+<Fragments fragments={{ all: rnVersionCallout }} />
+
 Install the necessary dependencies by running the following command:
 
 ```sh
@@ -17,6 +21,12 @@ You will also need to install the pod dependencies for iOS:
 
 ```sh
 npx pod-install
+```
+
+After installing pod dependencies, rebuild the app:
+
+```sh
+npm run ios
 ```
 
 </Block>
@@ -237,4 +247,4 @@ To implement authentication flows using Amplify you can either use the Amplify U
 
 `Auth` has over 30 methods including [`signUp`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-up), [`signIn`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-in), [`forgotPassword`](/[platform]/build-a-backend/auth/manage-user-session/#forgot-password), and [`signOut`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-out) that allow you full control over all aspects of the user authentication flow.
 
-Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
+Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/modules/aws_amplify.auth.html).
