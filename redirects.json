@@ -1698,6 +1698,36 @@
     "condition":null
   },
   {
+    "source":"/javascript/build-a-backend/auth/email-only-sign-up/",
+    "target":"/javascript/build-a-backend/auth/enable-sign-up/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/angular/build-a-backend/auth/email-only-sign-up/",
+    "target":"/angular/build-a-backend/auth/enable-sign-up/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/nextjs/build-a-backend/auth/email-only-sign-up/",
+    "target":"/nextjs/build-a-backend/auth/enable-sign-up/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/react/build-a-backend/auth/email-only-sign-up/",
+    "target":"/react/build-a-backend/auth/enable-sign-up/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/vue/build-a-backend/auth/email-only-sign-up/",
+    "target":"/vue/build-a-backend/auth/enable-sign-up/",
+    "status":"301",
+    "condition":null
+  },
+  {
     "source":"/guides/authentication/listening-for-auth-events/q/platform/js/",
     "target":"/javascript/build-a-backend/auth/auth-events/",
     "status":"301",
@@ -1706,6 +1736,36 @@
   {
     "source":"/guides/authentication/managing-user-attributes/q/platform/js/",
     "target":"/javascript/build-a-backend/auth/manage-user-profile/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/javascript/build-a-backend/auth/manage-user-attributes/",
+    "target":"/javascript/build-a-backend/auth/manage-user-profile/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/angular/build-a-backend/auth/manage-user-attributes/",
+    "target":"/angular/build-a-backend/auth/manage-user-profile/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/nextjs/build-a-backend/auth/manage-user-attributes/",
+    "target":"/nextjs/build-a-backend/auth/manage-user-profile/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/react/build-a-backend/auth/manage-user-attributes/",
+    "target":"/react/build-a-backend/auth/manage-user-profile/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/vue/build-a-backend/auth/manage-user-attributes/",
+    "target":"/vue/build-a-backend/auth/manage-user-profile/",
     "status":"301",
     "condition":null
   },
@@ -1734,6 +1794,48 @@
     "condition":null
   },
   {
+    "source":"/javascript/build-a-backend/functions/appsync-operations-to-lambda-layer/",
+    "target":"/javascript/build-a-backend/graphqlapi/client-code-generation/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/swift/build-a-backend/functions/appsync-operations-to-lambda-layer/",
+    "target":"/swift/build-a-backend/graphqlapi/client-code-generation/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/android/build-a-backend/functions/appsync-operations-to-lambda-layer/",
+    "target":"/android/build-a-backend/graphqlapi/client-code-generation/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/angular/build-a-backend/functions/appsync-operations-to-lambda-layer/",
+    "target":"/angular/build-a-backend/graphqlapi/client-code-generation/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/nextjs/build-a-backend/functions/appsync-operations-to-lambda-layer/",
+    "target":"/nextjs/build-a-backend/graphqlapi/client-code-generation/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/react/build-a-backend/functions/appsync-operations-to-lambda-layer/",
+    "target":"/react/build-a-backend/graphqlapi/client-code-generation/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/vue/build-a-backend/functions/appsync-operations-to-lambda-layer/",
+    "target":"/vue/build-a-backend/graphqlapi/client-code-generation/",
+    "status":"301",
+    "condition":null
+  },
+  {
     "source":"/guides/functions/cognito-trigger-lambda-dynamodb/q/platform/android/",
     "target":"/android/build-a-backend/functions/",
     "status":"301",
@@ -1752,6 +1854,48 @@
     "condition":null
   },
   {
+    "source":"/javascript/build-a-backend/functions/cognito-trigger-lambda-dynamodb/",
+    "target":"/javascript/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/swift/build-a-backend/functions/cognito-trigger-lambda-dynamodb/",
+    "target":"/swift/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/android/build-a-backend/functions/cognito-trigger-lambda-dynamodb/",
+    "target":"/android/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/angular/build-a-backend/functions/cognito-trigger-lambda-dynamodb/",
+    "target":"/angular/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/nextjs/build-a-backend/functions/cognito-trigger-lambda-dynamodb/",
+    "target":"/nextjs/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/react/build-a-backend/functions/cognito-trigger-lambda-dynamodb/",
+    "target":"/react/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/vue/build-a-backend/functions/cognito-trigger-lambda-dynamodb/",
+    "target":"/vue/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
     "source":"/guides/functions/connecting-a-rest-api/q/platform/ios/",
     "target":"/swift/build-a-backend/functions/",
     "status":"301",
@@ -1760,6 +1904,48 @@
   {
     "source":"/guides/functions/connecting-a-rest-api/q/platform/js/",
     "target":"/javascript/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/javascript/build-a-backend/functions/connect-rest-api/",
+    "target":"/javascript/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/swift/build-a-backend/functions/connect-rest-api/",
+    "target":"/swift/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/android/build-a-backend/functions/connect-rest-api/",
+    "target":"/android/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/angular/build-a-backend/functions/connect-rest-api/",
+    "target":"/angular/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/nextjs/build-a-backend/functions/connect-rest-api/",
+    "target":"/nextjs/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/react/build-a-backend/functions/connect-rest-api/",
+    "target":"/react/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/vue/build-a-backend/functions/connect-rest-api/",
+    "target":"/vue/build-a-backend/functions/",
     "status":"301",
     "condition":null
   },
@@ -1782,6 +1968,48 @@
     "condition":null
   },
   {
+    "source":"/javascript/build-a-backend/functions/dynamodb-from-lambda-nodejs/",
+    "target":"/javascript/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/swift/build-a-backend/functions/dynamodb-from-lambda-nodejs/",
+    "target":"/swift/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/android/build-a-backend/functions/dynamodb-from-lambda-nodejs/",
+    "target":"/android/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/angular/build-a-backend/functions/dynamodb-from-lambda-nodejs/",
+    "target":"/angular/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/nextjs/build-a-backend/functions/dynamodb-from-lambda-nodejs/",
+    "target":"/nextjs/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/react/build-a-backend/functions/dynamodb-from-lambda-nodejs/",
+    "target":"/react/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/vue/build-a-backend/functions/dynamodb-from-lambda-nodejs/",
+    "target":"/vue/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
     "source":"/guides/functions/dynamodb-from-python-lambda/q/platform/android/",
     "target":"/android/build-a-backend/functions/",
     "status":"301",
@@ -1800,14 +2028,56 @@
     "condition":null
   },
   {
-    "source":"/guides/functions/graphql-from-lambda/q/platform/ios/",
+    "source":"/javascript/build-a-backend/functions/dynamodb-from-lambda-python/",
+    "target":"/javascript/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/swift/build-a-backend/functions/dynamodb-from-lambda-python/",
     "target":"/swift/build-a-backend/functions/",
     "status":"301",
     "condition":null
   },
   {
+    "source":"/android/build-a-backend/functions/dynamodb-from-lambda-python/",
+    "target":"/android/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/angular/build-a-backend/functions/dynamodb-from-lambda-python/",
+    "target":"/angular/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/nextjs/build-a-backend/functions/dynamodb-from-lambda-python/",
+    "target":"/nextjs/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/react/build-a-backend/functions/dynamodb-from-lambda-python/",
+    "target":"/react/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/vue/build-a-backend/functions/dynamodb-from-lambda-python/",
+    "target":"/vue/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/guides/functions/graphql-from-lambda/q/platform/ios/",
+    "target":"/swift/build-a-backend/functions/graphql-from-lambda/",
+    "status":"301",
+    "condition":null
+  },
+  {
     "source":"/guides/functions/graphql-from-lambda/q/platform/js/",
-    "target":"/javascript/build-a-backend/functions/",
+    "target":"/javascript/build-a-backend/functions/graphql-from-lambda/",
     "status":"301",
     "condition":null
   },
@@ -1820,6 +2090,48 @@
   {
     "source":"/guides/functions/graphql-server-in-lambda/q/platform/js/",
     "target":"/javascript/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/javascript/build-a-backend/functions/graphql-server-lambda/",
+    "target":"/javascript/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/swift/build-a-backend/functions/graphql-server-lambda/",
+    "target":"/swift/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/android/build-a-backend/functions/graphql-server-lambda/",
+    "target":"/android/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/angular/build-a-backend/functions/graphql-server-lambda/",
+    "target":"/angular/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/nextjs/build-a-backend/functions/graphql-server-lambda/",
+    "target":"/nextjs/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/react/build-a-backend/functions/graphql-server-lambda/",
+    "target":"/react/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/vue/build-a-backend/functions/graphql-server-lambda/",
+    "target":"/vue/build-a-backend/functions/",
     "status":"301",
     "condition":null
   },
@@ -3224,6 +3536,48 @@
   {
     "source":"/guides/functions/integrating-dynamodb-with-lambda/q/platform/js/",
     "target":"/javascript/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/javascript/build-a-backend/functions/integrate-dynamodb-with-lambda/",
+    "target":"/javascript/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/swift/build-a-backend/functions/integrate-dynamodb-with-lambda/",
+    "target":"/swift/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/android/build-a-backend/functions/integrate-dynamodb-with-lambda/",
+    "target":"/android/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/angular/build-a-backend/functions/integrate-dynamodb-with-lambda/",
+    "target":"/angular/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/nextjs/build-a-backend/functions/integrate-dynamodb-with-lambda/",
+    "target":"/nextjs/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/react/build-a-backend/functions/integrate-dynamodb-with-lambda/",
+    "target":"/react/build-a-backend/functions/",
+    "status":"301",
+    "condition":null
+  },
+  {
+    "source":"/vue/build-a-backend/functions/integrate-dynamodb-with-lambda/",
+    "target":"/vue/build-a-backend/auth/enable-sign-up/",
     "status":"301",
     "condition":null
   },
