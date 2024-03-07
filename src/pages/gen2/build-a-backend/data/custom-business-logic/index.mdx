@@ -255,8 +255,8 @@ You can add these additional data sources via our `amplify/backend.ts` file:
 ```ts title="amplify/backend.ts"
 import * as dynamoDb from 'aws-cdk-lib/aws-dynamodb'
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 export const backend = defineBackend({
   auth,
