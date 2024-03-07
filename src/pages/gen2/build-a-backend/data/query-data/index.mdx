@@ -186,13 +186,9 @@ A **custom selection set** allows consumers to specify, on a per-call basis, the
 ```ts
 // same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
 const { data: blogWithSubsetOfData, errors } = await client.models.Blog.get(
-  '<MY_BLOG_ID>',
+  { id: blog.id },
   {
-    selectionSet: [
-      'author.email',
-      'publication.company.location.city',
-      'content.*'
-    ]
+    selectionSet: ['author.email', 'posts.*'],
   }
 );
 ```
@@ -212,19 +208,20 @@ const [posts, setPosts] = useState<Post[]>([]);
 You can combine the `Schema["MODEL_NAME"]` type with the `SelectionSet` helper type to describe the return type of API requests using the `selectionSet` parameter:
 
 ```ts
-import { type SelectionSet } from 'aws-amplify/data'
-import { type Schema } from '@/backend/data/resource'
+import type { SelectionSet } from 'aws-amplify/data'
+import type { Schema } from '../amplify/data/resource';
 
-
-const selectionSet = ['content', 'author', 'comments.*'] as const;
-type PostWithComments = SelectionSet<Schema["Post"], typeof selectionSet>;
+const selectionSet = ['content', 'blog.author.*', 'comments.*'] as const;
+type PostWithComments = SelectionSet<Schema['Post'], typeof selectionSet>;
 
 // ...
 const [posts, setPosts] = useState<PostWithComments[]>([]);
 
-async fetchPosts() {
-  const { data: postsWithComments } = await client.models.Post.list({ selectionSet })
-  setPosts(postsWithComments)
+const fetchPosts = async () => {
+  const { data: postsWithComments } = await client.models.Post.list({
+    selectionSet,
+  });
+  setPosts(postsWithComments);
 }
 ```
 
@@ -233,8 +230,8 @@ async fetchPosts() {
 You can cancel any query API request by calling `.cancel` on the query request promise that's returned by `.list(...)` or `.get(...)`.
 
 ```javascript
-const promise = client.models.Todo.list()
-            //  ^ Note: we're not awaiting the request, we're returning the promise
+const promise = client.models.Todo.list();
+//  ^ Note: we're not awaiting the request, we're returning the promise
 
 try {
   await promise;
@@ -246,7 +243,6 @@ try {
     // handle user cancellation logic
   }
 }
-
 ...
 
 // To cancel the above request
