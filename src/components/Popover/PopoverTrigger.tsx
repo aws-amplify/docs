@@ -8,6 +8,7 @@ interface PopoverTriggerProps extends ButtonProps {}
 export const PopoverTrigger = ({
   children,
   className,
+  testId,
   ...rest
 }: PopoverTriggerProps) => {
   const { triggerRef, handleExpansion, expanded } = usePopover();
@@ -17,6 +18,7 @@ export const PopoverTrigger = ({
       className={classNames('popover-trigger', className)}
       onClick={() => handleExpansion(expanded)}
       ref={triggerRef}
+      testId={testId}
       {...rest}
     >
       {children}

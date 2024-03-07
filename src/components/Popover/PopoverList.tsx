@@ -12,6 +12,7 @@ export const PopoverList = ({
   className,
   anchor = 'right',
   fullWidth = false,
+  testId,
   ...rest
 }: PopoverListProps) => {
   const { expanded, contentRef, handleBlur } = usePopover();
@@ -30,6 +31,7 @@ export const PopoverList = ({
       tabIndex={0}
       ref={contentRef}
       onBlur={handleBlur}
+      testId={testId}
       {...rest}
     >
       <ul className="popover-list">{children}</ul>

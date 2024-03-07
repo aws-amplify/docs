@@ -9,7 +9,11 @@ import { useTabKeyDetection } from '@/utils/useTabKeyDetection';
 
 interface PopoverPrimitiveProps extends ViewProps {}
 
-const PopoverPrimitive = ({ children, ...rest }: PopoverPrimitiveProps) => {
+const PopoverPrimitive = ({
+  children,
+  testId,
+  ...rest
+}: PopoverPrimitiveProps) => {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [expanded, setExpanded] = useState<boolean>(false);
 
@@ -67,7 +71,7 @@ const PopoverPrimitive = ({ children, ...rest }: PopoverPrimitiveProps) => {
 
   return (
     <PopoverContext.Provider value={value}>
-      <View className="popover-wrapper" {...rest}>
+      <View className="popover-wrapper" {...rest} testId={testId}>
         {children}
       </View>
     </PopoverContext.Provider>
