@@ -6,5 +6,9 @@
   &__button {
     white-space: nowrap;
     font-weight: normal;
+    // padding-inline: var(--amplify-space-xs);
+  }
+  .popover-icon {
+    font-size: var(--amplify-font-sizes-xs);
   }
 }
