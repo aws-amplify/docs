@@ -112,8 +112,7 @@ After your query or mutation is defined, you need to author your custom business
 
 In your **amplify/data/echo-handler/** folder, create a **handler.ts** file.
 
-```ts
-// amplify/data/echo-handler.ts
+```ts title="amplify/data/echo-handler.ts"
 import type { AppSyncResolverHandler } from 'aws-lambda'; // types imported from @types/aws-lambda
 
 type ResolverArgs = { content: string };
@@ -134,8 +133,7 @@ export const handler: AppSyncResolverHandler<
 
 In your **amplify/data/resource.ts** file, define the function using `defineFunction` and then reference the function with your query or mutation using the `.function()` modifier along with the `functions` map of `defineData`.
 
-```ts
-// amplify/data/resource.ts
+```ts title="amplify/data/resource.ts"
 import {
   type ClientSchema,
   a,
@@ -254,8 +252,7 @@ The supported data sources are:
 
 You can add these additional data sources via our the `amplify/backend.ts` file:
 
-```ts
-// amplify/backend.ts
+```ts title="amplify/backend.ts"
 import * as dynamoDb from 'aws-cdk-lib/aws-dynamodb'
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource.js';
@@ -278,8 +275,7 @@ backend.data.addDynamoDbDataSource(
 
 In your schema you can then reference these additional data sources based on their name:
 
-```ts
-// amplify/data/resource.ts
+```ts title="amplify/data/resource.ts"
 import {
   type ClientSchema,
   a,
