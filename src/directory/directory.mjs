@@ -1502,6 +1502,9 @@ export const directory = {
               path: 'src/pages/gen1/[platform]/prev/index.mdx',
               children: [
                 {
+                  path: 'src/pages/gen1/[platform]/prev/start/index.mdx'
+                },
+                {
                   path: 'src/pages/gen1/[platform]/prev/build-a-backend/index.mdx',
                   children: [
                     {
@@ -2012,6 +2015,15 @@ export const directory = {
                       ]
                     }
                   ]
+                },
+                {
+                  path: 'src/pages/gen1/[platform]/prev/build-ui/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen1/[platform]/prev/deploy-and-host/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen1/[platform]/prev/tools/index.mdx'
                 }
               ]
             },
