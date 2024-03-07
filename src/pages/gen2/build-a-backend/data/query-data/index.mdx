@@ -41,9 +41,8 @@ const client = generateClient<Schema>();
 const { data: todos, errors } = await client.models.Todo.list();
 
 // get a specific item
-const { data: inventory, errors } = await client.models.Inventory.get({
-  productId: '...',
-  warehouseId: '...'
+const { data: todo, errors } = await client.models.Todo.get({
+  id: '...',
 });
 ```
 
