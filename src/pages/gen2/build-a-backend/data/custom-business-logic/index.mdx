@@ -131,7 +131,7 @@ export const handler: AppSyncResolverHandler<
 };
 ```
 
-In your **amplify/data/resource.ts** file, define the function using `defineFunction` and then reference the function with your query or mutation using the `.function()` modifier along with the `functions` map of `defineData`.
+In your `amplify/data/resource.ts` file, define the function using `defineFunction` and then reference the function with your query or mutation using the `.function()` modifier along with the `functions` map of `defineData`.
 
 ```ts title="amplify/data/resource.ts"
 import {
@@ -180,7 +180,7 @@ export const data = defineData({
 
 Custom resolvers work on a "request/response" basis, you choose a data source, map your request to the data source's input parameters, and then map the data source's response back to the query/mutation's return type. Custom resolvers provide the benefit of no cold starts, less infrastructure to manage, and no additional charge for Lambda function invocations. Review [Choosing between custom resolver and function](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-reference-overview-js.html#choosing-data-source).
 
-In your **amplify/data/resource.ts** file, define a custom handler using `a.handler.custom`.
+In your `amplify/data/resource.ts` file, define a custom handler using `a.handler.custom`.
 
 ```ts title="amplify/data/resource.ts"
 import {
