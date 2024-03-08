@@ -103,7 +103,7 @@ export const handler = async (event) => {
 
 Sometimes it is necessary to provide a secret value to a function. For example, it may need a database password or an API key to perform some business use case. Environment variables should NOT be used for this because environment variable values are included in plaintext in the function configuration. Instead, secret access can be used.
 
-Before using a secret in a function, you need to [define a secret](gen2/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). After you have defined a secret, you can reference it in your function config.
+Before using a secret in a function, you need to [define a secret](/gen2/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). After you have defined a secret, you can reference it in your function config.
 
 ```ts title="amplify/functions/my-demo-function/resource.ts"
 import { defineFunction, secret } from '@aws-amplify/backend';
