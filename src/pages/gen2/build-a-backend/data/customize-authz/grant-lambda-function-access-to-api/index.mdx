@@ -53,10 +53,11 @@ const schema = a
       description: a.string()
     })
   })
-  // highlight-next-line
+  // highlight-start
   .authorization([
     a.allow.resource(functionWithDataAccess).to(['query', 'listen'])
   ]); // allow query and subscription operations but not mutations
+// highlight-end
 ```
 
 When configuring function access, the function will be provided the API endpoint as an environment variable named `<defineDataName>_GRAPHQL_ENDPOINT`. The default name is `amplifyData_GRAPHQL_ENDPOINT` unless you have specified a different name in `defineData`.
