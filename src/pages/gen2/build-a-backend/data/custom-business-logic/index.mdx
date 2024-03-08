@@ -47,7 +47,7 @@ const schema = a.schema({
   // 1. Define your return type as a custom type
   EchoResponse: a.customType({
     content: a.string(),
-    executionDuration: a.float()
+    executionDuration: a.float(),
   }),
 
   // 2. Define your query with the return type and, optionally, arguments
@@ -55,7 +55,7 @@ const schema = a.schema({
     .query()
     // arguments that this query accepts
     .arguments({
-      content: a.string()
+      content: a.string(),
     })
     // return type of the query
     .returns(a.ref('EchoResponse'))
@@ -82,7 +82,7 @@ const schema = a.schema({
   Post: a.customType({
     id: a.id(),
     content: a.string(),
-    likes: a.integer()
+    likes: a.integer(),
   }),
 
   // 2. Define your mutation with the return type and, optionally, arguments
@@ -90,7 +90,7 @@ const schema = a.schema({
     .mutation()
     // arguments that this query accepts
     .arguments({
-      content: a.string()
+      content: a.string(),
     })
     // return type of the query
     .returns(a.ref('Post'))
@@ -147,7 +147,7 @@ import {
 const schema = a.schema({
   EchoResponse: a.customType({
     content: a.string(),
-    executionDuration: a.float()
+    executionDuration: a.float(),
   }),
 
   echo: a
@@ -228,7 +228,7 @@ const client = generateClient<Schema>();
 
 async function callEcho() {
   const response = await client.graphql({
-    query: echo,
+    query: queries.echo,
     variables: {
       content: 'Echo me!'
     }

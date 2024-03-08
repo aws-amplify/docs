@@ -43,7 +43,7 @@ a.schema({
   Post: a.model({
     location: a.customType({
       lat: a.float(),
-      long: a.float()
+      long: a.float(),
     }),
     content: a.string(),
   })
@@ -56,7 +56,7 @@ a.schema({
 a.schema({
   Location: a.customType({
       lat: a.float(),
-      long: a.float()
+      long: a.float(),
   }),
 
   Post: a.model({
@@ -65,7 +65,7 @@ a.schema({
   }),
 
   User: a.model({
-    lastKnownLocation: a.ref('Location')
+    lastKnownLocation: a.ref('Location'),
   })
 })
 ```
@@ -76,7 +76,7 @@ To set or read the location field on the client side, you can expand a nested ob
 const newPost = await client.models.Post.create({
   location: {
     lat: 48.837006,
-    long: 8.282450
+    long: 8.282450,
   }
 })
 
@@ -105,11 +105,11 @@ a.schema({
 
   Post: a.model({
     content: string(),
-    privacySetting: a.ref('PrivacySetting')
+    privacySetting: a.ref('PrivacySetting'),
   }),
 
   Video: a.model({
-    privacySetting: a.ref('PrivacySetting')
+    privacySetting: a.ref('PrivacySetting'),
   })
 })
 ```
@@ -117,12 +117,12 @@ a.schema({
 When creating a new item client-side, the enums are also type-enforced:
 ```ts
 client.models.Post.create({
-  content: "hello",
+  content: 'hello',
   // WORKS - value auto-completed
-  privacySetting: "PRIVATE"
+  privacySetting: 'PRIVATE',
 
   // DOES NOT WORK - TYPE ERROR
-  privacySetting: "NOT_PUBLIC"
+  privacySetting: 'NOT_PUBLIC',
 })
 ```
 
@@ -142,7 +142,7 @@ By default, fields are optional. To mark a field as required, use the `.required
 ```ts
 export const schema = a.schema({
   Todo: a.model({
-    content: a.string().required()
+    content: a.string().required(),
   })
 })
 ```
@@ -155,7 +155,7 @@ Any field can be modified to be an array using the `.array()` modifier.
 export const schema = a.schema({
   Todo: a.model({
     content: a.string().required(),
-    notes: a.string().array()
+    notes: a.string().array(),
   })
 })
 ```
@@ -167,7 +167,7 @@ You can use the `.default(...)` modifier to specify a default value for optional
 ```ts
 export const schema = a.schema({
   Todo: a.model({
-    content: a.string().default("My new Todo")
+    content: a.string().default('My new Todo'),
   })
 })
 ```

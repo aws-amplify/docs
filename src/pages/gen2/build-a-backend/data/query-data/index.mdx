@@ -42,7 +42,7 @@ const { data: todos, errors } = await client.models.Todo.list();
 
 // get a specific item
 const { data: todo, errors } = await client.models.Todo.get({
-  id: "...",
+  id: '...',
 });
 ```
 
@@ -57,7 +57,7 @@ import { type Schema } from '@/amplify/data/resource';
 const client = generateClient<Schema>();
 
 const { errors, data: todos } = await client.models.Todo.list({
-  authMode: "apiKey",
+  authMode: 'apiKey',
 });
 ```
 
@@ -96,10 +96,10 @@ const { data: todos, errors } = await client.models.Todo.list({
   filter: {
     or: [
       {
-        priority: { eq: "1" }
+        priority: { eq: '1' }
       },
       {
-        priority: { eq: "2" }
+        priority: { eq: '2' }
       }
     ]
   }
@@ -191,9 +191,9 @@ const { data: blogWithSubsetOfData, errors } = await client.models.Blog.get(
   },
   {
     selectionSet: [
-      "author.email",
-      "publication.company.location.city",
-      "content.*"
+      'author.email',
+      'publication.company.location.city',
+      'content.*'
     ]
   }
 );
