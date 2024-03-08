@@ -33,7 +33,7 @@ Amplify Data supports using custom identity and group claims if you do not wish 
 To use custom claims specify `identityClaim` or `groupClaim` as appropriate. In the example below, the `identityClaim` is specified and the record owner will check against this `user_id` claim. Similarly, if the `user_groups` claim contains a "Moderator" string then access will be granted.
 
 ```ts
-import { a, defineData, type ClientSchema } from "@aws-amplify/backend";
+import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
 
 const schema = a.schema({
   Post: a
@@ -44,12 +44,13 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization([
-      a.allow.owner().identityClaim("user_id"),
-      a.allow.specificGroups(["Moderator"]).withClaimIn("user_groups"),
+      a.allow.owner().identityClaim('user_id'),
+      a.allow.specificGroups(['Moderator']).withClaimIn('user_groups'),
     ]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({ schema });
+
 ```

@@ -41,30 +41,33 @@ Before you begin, you will need:
 The recommended way to fetch a list of data is to use `observeQuery` to get a real-time list of your app data at all times. You can integrate `observeQuery` with React's `useState` and `useEffect` hooks in the following way:
 
 ```ts
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '@/amplify/data/resource'
+import type { Schema } from '../amplify/data/resource';
 
-type Todo = Schema["Todo"]
+type Todo = Schema['Todo'];
 
 const client = generateClient<Schema>();
 
-function MyComponent() {
-  const [todos, setTodos] = useState<Todo[]>([])
+export default function MyComponent() {
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
-    const sub = client.models.Todo.observeQuery()
-      .subscribe({
-        next: ({ items, isSynced }) => {
-          setTodos([...items])
-        }
-      })
-    return () => sub.unsubscribe()
-  }, [])
+    const sub = client.models.Todo.observeQuery().subscribe({
+      next: ({ items, isSynced }) => {
+        setTodos([...items]);
+      },
+    });
+    return () => sub.unsubscribe();
+  }, []);
 
-  return <ul>
-    {todos.map(todo => <li key={todo.id}>{todo.content}</li>)}
-  </ul>
+  return (
+    <ul>
+      {todos.map((todo) => (
+        <li key={todo.id}>{todo.content}</li>
+      ))}
+    </ul>
+  );
 }
 ```
 
@@ -76,26 +79,26 @@ Subscriptions is a feature that allows the server to send data to its clients wh
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '@/amplify/data/resource';
+import type { Schema } from '../amplify/data/resource';
 
 const client = generateClient<Schema>();
 
 // Subscribe to creation of Todo
 const createSub = client.models.Todo.onCreate().subscribe({
-  next: ({ data }) => console.log(data),
-  error: (error) => console.warn(error)
+  next: (data) => console.log(data),
+  error: (error) => console.warn(error),
 });
 
 // Subscribe to update of Todo
 const updateSub = client.models.Todo.onUpdate().subscribe({
-  next: ({ data }) => console.log(data),
-  error: (error) => console.warn(error)
+  next: (data) => console.log(data),
+  error: (error) => console.warn(error),
 });
 
 // Subscribe to deletion of Todo
 const deleteSub = client.models.Todo.onDelete().subscribe({
-  next: ({ data }) => console.log(data),
-  error: (error) => console.warn(error)
+  next: (data) => console.log(data),
+  error: (error) => console.warn(error),
 });
 
 // Stop receiving data updates from the subscription
@@ -110,19 +113,19 @@ Subscriptions take an optional `filter` argument to define service-side subscrip
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '@/amplify/data/resource';
+import type { Schema } from '../amplify/data/resource';
 
 const client = generateClient<Schema>();
 
 const sub = client.models.Todo.onCreate({
   filter: {
     content: {
-      contains: 'groceries'
-    }
-  }
+      contains: 'groceries',
+    },
+  },
 }).subscribe({
-  next: ({ data }) => console.log(data),
-  error: (error) => console.warn(error)
+  next: (data) => console.log(data),
+  error: (error) => console.warn(error),
 });
 ```
 
@@ -177,8 +180,9 @@ While offline, your application will miss messages and will not automatically ca
 ```js
 import { generateClient, CONNECTION_STATE_CHANGE, ConnectionState } from 'aws-amplify/data'
 import { Hub } from 'aws-amplify/utils'
+import { Schema } from '../amplify/data/resource';
 
-const client = generateClient()
+const client = generateClient<Schema>()
 
 const fetchRecentData = () => {
   const { data: allTodos } = await client.models.Todo.list();
