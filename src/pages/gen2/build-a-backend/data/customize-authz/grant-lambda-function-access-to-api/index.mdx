@@ -72,7 +72,7 @@ Function access can only be configured on the schema object. It cannot be config
 
 <Callout warning>
 
-**Experimental:** Configuring the `aws-amplify` data client within a Lambda function is under development. There are rough edges to the experience that we are actively working on.
+**Under active development:** Configuring the `aws-amplify` data client is under active development. The current experience has rough edges and may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
 
 </Callout>
 
@@ -92,7 +92,7 @@ Amplify.configure(
   {
     API: {
       GraphQL: {
-        endpoint: env.<amplifyData>_GRAPHQL_ENDPOINT!, // replace with your defineData name
+        endpoint: env.<amplifyData>_GRAPHQL_ENDPOINT, // replace with your defineData name
         region: env.AWS_REGION,
         defaultAuthMode: 'iam',
         modelIntrospection: modelIntrospection as never
