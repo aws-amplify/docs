@@ -1,6 +1,23 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
   title: 'REST API',
-  description: 'Learn how to set up REST API resource powered by Amazon API Gateway'
+  description: 'Learn how to set up REST API resource powered by Amazon API Gateway',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {

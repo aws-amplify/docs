@@ -1,6 +1,23 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
   title: 'In-App Messaging',
-  description: 'Learn how to set up In-App Messaging resource powered by Pinpoint'
+  description: 'Learn how to set up In-App Messaging resource powered by Pinpoint',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {

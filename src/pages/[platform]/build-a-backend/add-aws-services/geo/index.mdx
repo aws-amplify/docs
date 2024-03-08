@@ -1,6 +1,23 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
   title: 'Geo',
-  description: 'Learn how to set up Geo resource powered by Amazon Location Services.'
+  description: 'Learn how to set up Geo resource powered by Amazon Location Services.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps(context) {
