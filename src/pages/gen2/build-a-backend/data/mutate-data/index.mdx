@@ -24,13 +24,13 @@ You can create an item by first generating the Data client with your backend Dat
 
 ```js
 import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '@/amplify/data/resource'
+import { type Schema } from '../amplify/data/resource'
 
 const client = generateClient<Schema>();
 
 const { errors, data: newTodo } = await client.models.Todo.create({
   content: "My new todo",
-  done: true,
+  isDone: true,
 })
 ```
 
@@ -46,16 +46,16 @@ To update the item, use the `update` function:
 
 ```js
 import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '@/amplify/data/resource'
+import { type Schema } from '../amplify/data/resource';
 
 const client = generateClient<Schema>();
 
 const todo = {
   id: 'some_id',
-  description: 'Updated description'
+  content: 'Updated content',
 };
 
-const { data: updatedTodo, errors } = await client.models.Todo.update(todo)
+const { data: updatedTodo, errors } = await client.models.Todo.update(todo);
 ```
 
 <Callout>
@@ -73,12 +73,12 @@ You can then delete the Todo by using the delete mutation. To specify which item
 
 ```js
 import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '@/amplify/data/resource'
+import { type Schema } from '../amplify/data/resource'
 
 const client = generateClient<Schema>();
 
 const toBeDeletedTodo = {
-  id: "123123213"
+  id: '123123213'
 }
 
 const { data: deletedTodo, errors } = await client.models.Todo.delete(toBeDeletedTodo)
@@ -96,17 +96,17 @@ Each API request uses an authorization mode. If you get unauthorized errors, you
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '@/amplify/data/resource';
+import { type Schema } from '../amplify/data/resource';
 
 const client = generateClient<Schema>();
 
 const { errors, data: newTodo } = await client.models.Todo.create(
   {
     content: 'My new todo',
-    done: true
+    isDone: true,
   },
   {
-    authMode: 'apiKey'
+    authMode: 'apiKey',
   }
 );
 ```
@@ -117,9 +117,9 @@ const { errors, data: newTodo } = await client.models.Todo.create(
 
 You can cancel any mutation API request by calling `.cancel` on the mutation request promise that's returned by `.create(...)`, `.update(...)`, or `.delete(...)`.
 
-```javascript
-const promise = client.models.Todo.create({ content: "New Todo "})
-            //  ^ Note: we're not awaiting the request, we're returning the promise
+```ts
+const promise = client.models.Todo.create({ content: 'New Todo ' });
+//  ^ Note: we're not awaiting the request, we're returning the promise
 
 try {
   await promise;
@@ -132,15 +132,15 @@ try {
   }
 }
 
-...
+//...
 
 // To cancel the above request
-client.cancel(promise, "my message for cancellation");
+client.cancel(promise, 'my message for cancellation');
 ```
 
 You need to ensure that the promise returned from `.create()`, `.update()`, and `.delete()` has not been modified. Typically, async functions wrap the promise being returned into another promise. For example, the following will **not** work:
 
-```javascript
+```ts
 async function makeAPICall() {
   return client.models.Todo.create({ content: 'New Todo' });
 }

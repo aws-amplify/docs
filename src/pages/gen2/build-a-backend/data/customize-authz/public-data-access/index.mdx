@@ -18,13 +18,13 @@ The public authorization strategy grants everyone access to the API, which is pr
 To grant everyone access, use the `.public()` authorization strategy. Behind the scenes, the API will be protected with an API key.
 
 ```ts
-export const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-  }).authorization([
-    a.allow.public()
-  ])
-})
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+    })
+    .authorization([a.allow.public()]),
+});
 ```
 
 ## Add public authorization rule using IAM authentication
@@ -32,11 +32,11 @@ export const schema = a.schema({
 You can also override the authorization provider. In the example below, `iam` is specified as the provider which allows you to use an "Unauthenticated Role" from the Cognito identity pool for public access instead of an API key. Your Auth resources defined in `amplify/auth/resource.ts` generates scoped down IAM policies for the "Unauthenticated role" in the Cognito identity pool automatically.
 
 ```ts
-export const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-  }).authorization([
-    a.allow.public("iam")
-  ])
-})
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+    })
+    .authorization([a.allow.public('iam')]),
+});
 ```

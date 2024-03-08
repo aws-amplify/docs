@@ -17,13 +17,15 @@ To grant an external AWS resource or an IAM role access to the Amplify Data API,
 
 ```ts title="amplify/data/resource.ts"
 // amplify/data/resource.ts
-import { a, defineData, type ClientSchema } from "@aws-amplify/backend";
+import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
 
 const schema = a.schema({
-  Todo: a.model({
-    name: a.string(),
-    description: a.string(),
-  }),
+  Todo: a
+    .model({
+      name: a.string(),
+      description: a.string(),
+    })
+    .authorization([a.allow.public()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -31,9 +33,11 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+
     // Pass in the Lambda Execution Role names to grant full read/write access to the API
     // if their IAM policies permit it.
-    allowListedRoleNames: ["lambdaRole"],
+    allowListedRoleNames: ['lambdaRole'],
   },
 });
 ```
