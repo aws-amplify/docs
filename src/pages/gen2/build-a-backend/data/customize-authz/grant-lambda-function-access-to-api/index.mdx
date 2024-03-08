@@ -43,7 +43,7 @@ export const data = defineData({
 });
 ```
 
-The object returned from `defineFunction` can be passed directly to to `a.allow.resource()` in the schema authorization rules. This will grant the function the ability to execute Query, Mutation, and Subscription operations against the GraphQL API. Use the `.to()` method to narrow down access to one or more operations.
+The object returned from `defineFunction` can be passed directly to `a.allow.resource()` in the schema authorization rules. This will grant the function the ability to execute Query, Mutation, and Subscription operations against the GraphQL API. Use the `.to()` method to narrow down access to one or more operations.
 
 ```ts
 const schema = a
