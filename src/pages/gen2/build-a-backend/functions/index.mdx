@@ -73,7 +73,7 @@ export const myDemoFunction = defineFunction({
 
 Any environment variables specified here will be available to the function at runtime.
 
-Some environment variables are constant across all branches and deployments. But many environment values differ between deployment environments. [Branch-specific environment variables can be configured for Amplify hosting deployments](gen2/deploy-and-host/fullstack-branching/secrets-and-vars/#set-environment-variables).
+Some environment variables are constant across all branches and deployments. But many environment values differ between deployment environments. [Branch-specific environment variables can be configured for Amplify hosting deployments](/gen2/deploy-and-host/fullstack-branching/secrets-and-vars/#set-environment-variables).
 
 Suppose you created a branch-specific environment variable in hosting called "API_ENDPOINT" which had a different value for your "staging" vs "prod" branch. If you wanted that value to be available to your function you can pass it to the function using
 
