@@ -45,7 +45,13 @@ const schema = a.schema({
 export type Schema = ClientSchema<typeof schema>;
 
 // defines the data resource to be deployed
-export const data = defineData({ schema });
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: { expiresInDays: 30 }
+  }
+});
 ```
 
 Every `a.model()` automatically creates the following resources in the cloud:
@@ -78,7 +84,7 @@ In your app's entry point, typically **main.tsx** for React apps created using V
 // main.tsx
 
 import { Amplify } from 'aws-amplify';
-import config from '@/amplifyconfiguration.json';
+import config from '../amplifyconfiguration.json';
 
 Amplify.configure(config);
 ```
@@ -90,15 +96,13 @@ Let's first add a button to create a new todo item. To make a "create Todo" API 
 ```tsx title="TodoList.tsx"
 // TodoList.tsx
 
-"use client"
-import type { Schema } from '@/amplify/data/resource'
+import type { Schema } from '../amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
-import { client } from '@/utils/data'
 
 const client = generateClient<Schema>()
 
 export default function TodoList() {
-  async function createTodo() => {
+  const createTodo = async () => {
     await client.models.Todo.create({
       content: window.prompt("Todo content?"),
       isDone: false
@@ -126,40 +130,43 @@ Next, list all your todos and then refetch the todos after a todo has been added
 ```tsx title="TodoList.tsx"
 // TodoList.tsx
 
-"use client"
-import type { Schema } from '@/amplify/data/resource'
-import { useState, useEffect } from 'react'
-import { generateClient } from 'aws-amplify/data'
+import { useState, useEffect } from "react";
+import type { Schema } from "../amplify/data/resource";
+import { generateClient } from "aws-amplify/data";
 
-const client = generateClient<Schema>()
+const client = generateClient<Schema>();
 
 export default function TodoList() {
-  const [todos, setTodos] = useState<Schema["Todo"][]>([])
+  const [todos, setTodos] = useState<Schema["Todo"][]>([]);
 
   const fetchTodos = async () => {
-    const { data: items, errors } = await client.models.Todo.list()
-    setTodos(items)
-  }
+    const { data: items, errors } = await client.models.Todo.list();
+    setTodos(items);
+  };
 
-  useEffect(() => { fetchTodos() }, [])
+  useEffect(() => {
+    fetchTodos();
+  }, []);
 
-  async function createTodo() => {
+  const createTodo = async () => {
     await client.models.Todo.create({
       content: window.prompt("Todo content?"),
-      isDone: false
-    })
+      isDone: false,
+    });
 
-    fetchTodos()
+    fetchTodos();
   }
 
   return (
     <div>
       <button onClick={createTodo}>Add new todo</button>
       <ul>
-        {todos.map({ id, content } => <li key={id}>{content}</li>)}
+        {todos.map(({ id, content }) => (
+          <li key={id}>{content}</li>
+        ))}
       </ul>
     </div>
-  )
+  );
 }
 ```
 
@@ -170,43 +177,44 @@ You can also use `observeQuery` to subscribe to a live feed of your backend data
 ```tsx title="App.tsx"
 // App.tsx
 
-"use client"
-import type { Schema } from '@/amplify/data/resource'
-import { useState, useEffect } from 'react'
-import { generateClient } from 'aws-amplify/data'
+import type { Schema } from "../amplify/data/resource";
+import { useState, useEffect } from "react";
+import { generateClient } from "aws-amplify/data";
 
-const client = generateClient<Schema>()
+const client = generateClient<Schema>();
 
 export default function TodoList() {
-  const [todos, setTodos] = useState<Schema["Todo"][]>([])
+  const [todos, setTodos] = useState<Schema["Todo"][]>([]);
 
   useEffect(() => {
-    const sub = client.models.Todo
-      .observeQuery()
-      .subscribe({
-        next: ({ items }) => {
-          setTodos([...items])
-        }
-      })
+    const sub = client.models.Todo.observeQuery().subscribe({
+      next: ({ items }) => {
+        setTodos([...items]);
+      },
+    });
 
-    return () => sub.unsubscribe()
-  }, [])
+    return () => sub.unsubscribe();
+  }, []);
 
-  async function createTodo() => {
+  const createTodo = async () => {
     await client.models.Todo.create({
       content: window.prompt("Todo content?"),
-      isDone: false
-    })
+      isDone: false,
+    });
     // no more manual refetchTodos required!
     // - fetchTodos()
-  }
+  };
 
-  return <div>
-    <button onClick={createTodo}>Add new todo</button>
-    <ul>
-      {todos.map({ id, content } => <li key={id}>{content}</li>)}
-    </ul>
-  </div>
+  return (
+    <div>
+      <button onClick={createTodo}>Add new todo</button>
+      <ul>
+        {todos.map(({ id, content }) => (
+          <li key={id}>{content}</li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 ```
 
