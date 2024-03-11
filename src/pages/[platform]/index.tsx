@@ -23,6 +23,7 @@ import { ClassicBanner } from '@/components/Banner';
 import { Columns } from '@/components/Columns';
 import { FeatureList, FeatureItem } from '@/components/FeatureLists';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
@@ -48,6 +49,9 @@ export const getStaticPaths = async () => {
 export function getStaticProps() {
   return {
     props: {
+      hasTOC: false,
+      showLastUpdatedDate: false,
+      pageType: 'home',
       meta,
       showBreadcrumbs: false,
       useCustomTitle: true
@@ -87,6 +91,8 @@ const supportedFrameworks = [
 ];
 
 const Gen2Overview = () => {
+  const currentPlatform = useCurrentPlatform();
+
   return (
     <Flex className="home-content">
       <Flex className="home-section">
@@ -202,28 +208,49 @@ const Gen2Overview = () => {
         <Columns columns={2} as="ul">
           <FeatureItem
             linkText="TypeScript-first fullstack experience"
-            href="/gen2/how-amplify-works/concepts/#build-fullstack-apps-with-typescript"
+            href={{
+              pathname: '/[platform]/how-amplify-works/concepts',
+              hash: 'build-fullstack-apps-with-typescript',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Write TypeScript across frontend and backend. Get schema validation,
             dot completion, and end-to-end types while you code.
           </FeatureItem>
           <FeatureItem
             linkText="Real-time data for modern apps"
-            href="/gen2/build-a-backend/data/set-up-data/"
+            href={{
+              pathname: '/[platform]/build-a-backend/data/set-up-data/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Sync frontend state to real-time backend updates. Just write
             TypeScript without thinking about WebSockets.
           </FeatureItem>
           <FeatureItem
             linkText="Authn and authz for secure apps"
-            href="/gen2/build-a-backend/auth/set-up-auth/"
+            href={{
+              pathname: '/[platform]/build-a-backend/auth/set-up-auth/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Choose the auth strategy (such as passwords, social, email links)
             and control data access based on users and groups.
           </FeatureItem>
           <FeatureItem
             linkText="Auto-generate CRUD forms wired to data"
-            href="/gen2/build-ui/"
+            href={{
+              pathname: '/[platform]/build-ui/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Map CRUD forms to your data model with form-level validations and
             error states built in.
@@ -248,28 +275,51 @@ const Gen2Overview = () => {
         <FeatureList heading="Deploy" level={2}>
           <FeatureItem
             linkText="SSR/SSG/ISR hosting support"
-            href="/gen2/deploy-and-host/hosting/"
+            href={{
+              pathname: '/[platform]/deploy-and-host/hosting/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Deploy apps in Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and
             more) by simply connecting your Git repository.
           </FeatureItem>
           <FeatureItem
             linkText="Faster iterations with per-developer sandboxes"
-            href="/gen2/deploy-and-host/sandbox-environments/setup/"
+            href={{
+              pathname:
+                '/[platform]/deploy-and-host/sandbox-environments/setup/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Per-developer cloud sandboxes provide high fidelity and faster
             deployment times to make local iteration quick.
           </FeatureItem>
           <FeatureItem
             linkText="Zero-config fullstack branches"
-            href="/gen2/deploy-and-host/fullstack-branching/branch-deployments/"
+            href={{
+              pathname:
+                '/[platform]/deploy-and-host/fullstack-branching/branch-deployments/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Fullstack deployments from your Git branch. Autodeploy Git branches
             to set up staging, development, and production environments.
           </FeatureItem>
           <FeatureItem
             linkText="GUI to manage your data"
-            href="/gen2/how-amplify-works/concepts/#unified-management-console"
+            href={{
+              pathname: '/[platform]/how-amplify-works/concepts',
+              hash: 'unified-management-console',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Manage your app data, users and groups, and files in a single
             console.
@@ -279,20 +329,37 @@ const Gen2Overview = () => {
         <FeatureList heading="Customize" level={2}>
           <FeatureItem
             linkText="Add any AWS service with CDK"
-            href="/gen2/build-a-backend/add-aws-services/"
+            href={{
+              pathname: '/[platform]/build-a-backend/add-aws-services/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Extend or customize with AWS CDK to access 200+ AWS services.
           </FeatureItem>
           <FeatureItem
             linkText="Bring your own pipelines"
-            href="/gen2/deploy-and-host/fullstack-branching/custom-pipelines/"
+            href={{
+              pathname:
+                '/[platform]/deploy-and-host/fullstack-branching/custom-pipelines/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Use your own pipelines to set up cross-account or multi-region,
             stage-based deployments.
           </FeatureItem>
           <FeatureItem
             linkText="Monorepo and multi-repo support"
-            href="/gen2/deploy-and-host/fullstack-branching/mono-and-multi-repos/"
+            href={{
+              pathname:
+                '/[platform]/deploy-and-host/fullstack-branching/mono-and-multi-repos/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Enable support for all types of fullstack team workflows—monorepos,
             micro frontends, multi-repos, and more.
