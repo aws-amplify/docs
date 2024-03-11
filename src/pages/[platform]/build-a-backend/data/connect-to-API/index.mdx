@@ -53,7 +53,7 @@ When you deploy you're iterating on your backend (`npx amplify sandbox`), an `am
 
 ```ts
 import { Amplify } from 'aws-amplify';
-import config from './amplifyconfiguration.json';
+import config from '../amplifyconfiguration.json';
 
 Amplify.configure(config);
 ```
@@ -64,15 +64,15 @@ Once the Amplify library is configured, you can generate a "Data client" for you
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/amplify/data/resource'; // Path to your backend resource definition
+import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>();
 
 // Now you should be able to make CRUDL operations with the
 // Data client
-async function fetchTodos() {
+const fetchTodos = async () => {
   const { data: todos, errors } = await client.models.Todo.list();
-}
+};
 ```
 
 ## Configure authorization mode
@@ -91,10 +91,10 @@ To apply the same authorization mode on all requests from a Data client, specify
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/amplify/data/resource'; // Path to your backend resource definition
+import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
-  authMode: 'apiKey'
+  authMode: 'apiKey',
 });
 ```
 
@@ -103,10 +103,10 @@ const client = generateClient<Schema>({
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/amplify/data/resource'; // Path to your backend resource definition
+import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
-  authMode: 'userPool'
+  authMode: 'userPool',
 });
 ```
 
@@ -115,10 +115,10 @@ const client = generateClient<Schema>({
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/amplify/data/resource'; // Path to your backend resource definition
+import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
-  authMode: 'iam'
+  authMode: 'iam',
 });
 ```
 
@@ -127,10 +127,10 @@ const client = generateClient<Schema>({
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/amplify/data/resource'; // Path to your backend resource definition
+import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
-  authMode: 'oidc'
+  authMode: 'oidc',
 });
 ```
 
@@ -141,14 +141,14 @@ You can implement your own custom API authorization logic using a AWS Lambda fun
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/amplify/data/resource'; // Path to your backend resource definition
+import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
 
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
 
 const client = generateClient<Schema>({
   authMode: 'lambda',
-  authToken: lambdaAuthToken
+  authToken: lambdaAuthToken,
 });
 ```
 
@@ -165,7 +165,7 @@ You can also specify the authorization mode on each individual API request. This
 
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
-  authMode: 'apiKey'
+  authMode: 'apiKey',
 });
 ```
 
@@ -174,7 +174,7 @@ const { data: todos, errors } = await client.models.Todo.list({
 
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
-  authMode: 'userPool'
+  authMode: 'userPool',
 });
 ```
 
@@ -183,7 +183,7 @@ const { data: todos, errors } = await client.models.Todo.list({
 
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
-  authMode: 'iam'
+  authMode: 'iam',
 });
 ```
 
@@ -192,7 +192,7 @@ const { data: todos, errors } = await client.models.Todo.list({
 
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
-  authMode: 'oidc'
+  authMode: 'oidc',
 });
 ```
 
@@ -206,9 +206,9 @@ const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
 
 const { data: todos, errors } = await client.models.Todo.list({
-  authMode: 'lambda'
-  authToken: lambdaAuthToken
-})
+  authMode: 'lambda',
+  authToken: lambdaAuthToken,
+});
 ```
 
 </Block>
@@ -223,13 +223,13 @@ When working with the Amplify Data endpoint, you may need to set request headers
 <Block name="Custom headers per Data client">
 
 ```ts
-import type { Schema } from '@/amplify/schema';
+import type { Schema } from '../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
 
 const client = generateClient<Schema>({
   headers: {
-    'My-Custom-Header': 'my value'
-  }
+    'My-Custom-Header': 'my value',
+  },
 });
 ```
 
@@ -239,11 +239,14 @@ const client = generateClient<Schema>({
 
 ```ts
 // same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
-const res = await client.models.Blog.get('myBlogId', {
-  headers: {
-    'My-Custom-Header': 'my value'
+const { data: blog, errors } = await client.models.Blog.get(
+  { id: 'myBlogId' },
+  {
+    headers: {
+      'My-Custom-Header': 'my value',
+    },
   }
-});
+);
 ```
 
 </Block>
@@ -257,7 +260,7 @@ The examples above show you how to set static headers but you can also programma
 <Block name="Custom headers per Data client">
 
 ```ts
-import type { Schema } from '@/amplify/schema';
+import type { Schema } from '../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
 
 const client = generateClient<Schema>({
@@ -274,9 +277,9 @@ const client = generateClient<Schema>({
     }
     */
     return {
-      'My-Custom-Header': 'my value'
+      'My-Custom-Header': 'my value',
     };
-  }
+  },
 });
 ```
 
@@ -286,10 +289,12 @@ const client = generateClient<Schema>({
 
 ```ts
 // same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
-const res = await client.models.Blog.get('myBlogId', {
-  headers: async (requestOptions) => {
-    console.log(requestOptions);
-    /* The request options allow you to customize your headers based on the request options such
+const res = await client.models.Blog.get(
+  { id: 'myBlogId' },
+  {
+    headers: async (requestOptions) => {
+      console.log(requestOptions);
+      /* The request options allow you to customize your headers based on the request options such
         as http method, headers, request URI, and query string. These options are typically used
         to create a request signature.
       {
@@ -299,11 +304,12 @@ const res = await client.models.Blog.get('myBlogId', {
         queryString: ""
       }
       */
-    return {
-      'My-Custom-Header': 'my value'
-    };
+      return {
+        'My-Custom-Header': 'my value',
+      };
+    },
   }
-});
+);
 ```
 
 </Block>
