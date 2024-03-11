@@ -38,8 +38,23 @@ export const auth = defineAuth({
 
 This will grant `demoFunction` the ability to perform CRUD operations on users in the Cognito UserPool created as part of `defineAuth`. See below for the detailed list of permissions.
 
-When a backend function is granted access to authentication resources, it also receives an environment variable that contains the userpool ID. This environment variable can be used in the function to make SDK calls to the user pool. The environment variable is named `amplifyAuth_USERPOOL_ID`
+When a backend function is granted access to authentication resources, it also receives an environment variable that contains the UserPool ID. This environment variable can be used in the function to make SDK calls to the UserPool. The environment variable is named `amplifyAuth_USERPOOL_ID`
 
+```ts title="amplify/functions/my-demo-function/handler.ts"
+import { env } from '@env/my-demo-function';
+import { CognitoIdentityProviderClient, ListUsersCommand } from '@aws-sdk/client-cognito-identity-provider';
+
+const cognitoIdentityProviderClient = new CognitoIdentityProviderClient();
+
+export const handler = async(event) => {
+    await cognitoIdentityProviderClient.send(
+        new ListUsersCommand({
+            UserPoolId: env.amplifyAuth_USERPOOL_ID,
+            Limit: 100
+        })
+    )
+}
+```
 [Learn more about function resource access environment variables](../functions/#resource-access)
 
 ### List of actions
