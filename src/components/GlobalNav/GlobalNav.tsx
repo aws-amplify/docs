@@ -6,7 +6,6 @@ import { RightNavLinks } from './components/RightNavLinks';
 import { AmplifyNavLink } from './components/AmplifyNavLink';
 import { LeftNavLinks } from './components/LeftNavLinks';
 import { SkipToMain } from '@/components/SkipToMain';
-import { GenSwitcher } from '@/components/GenSwitcher';
 
 export enum NavMenuItemType {
   DEFAULT = 'DEFAULT',
@@ -49,19 +48,18 @@ export function GlobalNav({
     >
       <SkipToMain mainId={mainId} />
       <Flex className="nav-links-container">
-        <Flex className="left-nav-links">
-          <AmplifyNavLink
-            isCollapsed={isCollapsed}
-            setIsCollapsed={setIsCollapsed}
-          />
-          <GenSwitcher isGen1={isGen1} />
+        <AmplifyNavLink
+          isGen1={isGen1}
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+        />
 
-          <LeftNavLinks
-            isCollapsed={isCollapsed}
-            leftLinks={leftLinks}
-            currentSite={currentSite}
-          />
-        </Flex>
+        <LeftNavLinks
+          isCollapsed={isCollapsed}
+          leftLinks={leftLinks}
+          currentSite={currentSite}
+        />
+
         <RightNavLinks
           rightLinks={rightLinks}
           socialLinks={socialLinks}

@@ -1,8 +1,9 @@
 import { Flex, Text, Button, VisuallyHidden } from '@aws-amplify/ui-react';
 import { AmplifyLogo } from './icons';
 import { IconChevron } from '@/components/Icons';
+import { GenSwitcher } from '@/components/GenSwitcher';
 
-export function AmplifyNavLink({ isCollapsed, setIsCollapsed }) {
+export function AmplifyNavLink({ isCollapsed, setIsCollapsed, isGen1 }) {
   const chevronRotation = isCollapsed ? '0' : '180';
   return (
     <Flex className="navbar__logo-container">
@@ -20,6 +21,8 @@ export function AmplifyNavLink({ isCollapsed, setIsCollapsed }) {
           <span style={{ fontWeight: '300' }}>Docs</span>
         </Text>
       </Flex>
+
+      <GenSwitcher isGen1={isGen1} />
 
       <Button
         aria-expanded={!isCollapsed}
