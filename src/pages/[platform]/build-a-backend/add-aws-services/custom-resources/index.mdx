@@ -120,19 +120,20 @@ type CustomNotificationsProps = {
 };
 
 export class CustomNotifications extends Construct {
+  public readonly topic: sns.Topic;
   constructor(scope: Construct, id: string, props: CustomNotificationsProps) {
     super(scope, id);
 
     const { sourceAddress } = props;
 
     // Create SNS topic
-    const topic = new sns.Topic(this, 'NotificationTopic');
+    this.topic = new sns.Topic(this, 'NotificationTopic');
 
     // Create Lambda to publish messages to SNS topic
     const publisher = new lambda.NodejsFunction(this, 'Publisher', {
       entry: url.fileURLToPath(new URL('publisher.ts', import.meta.url)),
       environment: {
-        SNS_TOPIC_ARN: topic.topicArn
+        SNS_TOPIC_ARN: this.topic.topicArn
       },
       runtime: Runtime.NODEJS_18_X
     });
@@ -147,10 +148,10 @@ export class CustomNotifications extends Construct {
     });
 
     // Subscribe emailer Lambda to SNS topic
-    topic.addSubscription(new subscriptions.LambdaSubscription(emailer));
+    this.topic.addSubscription(new subscriptions.LambdaSubscription(emailer));
 
     // Allow publisher to publish to SNS topic
-    topic.grantPublish(publisher);
+    this.topic.grantPublish(publisher);
   }
 }
 ```
@@ -246,11 +247,18 @@ const backend = defineBackend({
   data
 });
 
-new CustomNotifications(
+const customNotifications = new CustomNotifications(
   backend.createStack('CustomNotifications'),
   'CustomNotifications',
   { sourceAddress: 'sender@example.com' }
 );
+
+backend.addOutput({
+  custom: {
+    topicArn: customNotifications.topic.topicArn,
+    topicName: customNotifications.topic.topicName,
+  },
+});
 ```
 
 ## Community CDK resources
