@@ -115,10 +115,13 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/data/data-modeling/add-fields/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/data/data-modeling/relationships/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/data/data-modeling/identifiers/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/data/data-modeling/relationships/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/data/data-modeling/secondary-index/index.mdx'
                     }
                   ]
                 },
@@ -185,6 +188,18 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/overriding-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx'
                 }
               ]
             }
@@ -1059,6 +1074,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen1/[platform]/build-a-backend/troubleshooting/library-not-configured/index.mdx'
                     }
                   ]
                 }
@@ -1501,6 +1519,9 @@ export const directory = {
             {
               path: 'src/pages/gen1/[platform]/prev/index.mdx',
               children: [
+                {
+                  path: 'src/pages/gen1/[platform]/prev/start/index.mdx'
+                },
                 {
                   path: 'src/pages/gen1/[platform]/prev/build-a-backend/index.mdx',
                   children: [
@@ -2012,6 +2033,15 @@ export const directory = {
                       ]
                     }
                   ]
+                },
+                {
+                  path: 'src/pages/gen1/[platform]/prev/build-ui/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen1/[platform]/prev/deploy-and-host/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen1/[platform]/prev/tools/index.mdx'
                 }
               ]
             },

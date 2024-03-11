@@ -11,8 +11,8 @@ async function deleteTodo() {
     });
     await restOperation.response;
     console.log('DELETE call succeeded');
-  } catch (error) {
-    console.log('DELETE call failed: ', error);
+  } catch (e) {
+    console.log('DELETE call failed: ', JSON.parse(e.response.body));
   }
 }
 ```
