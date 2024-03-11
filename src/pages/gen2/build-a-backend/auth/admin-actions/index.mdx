@@ -36,7 +36,7 @@ export const auth = defineAuth({
 });
 ```
 
-This will grant the backend function, `demoFunction` ability to query users and updates to user in the Cognito user pool. See below for detailed list of permissions it grants.
+This will grant `demoFunction` the ability to perform CRUD operations on users in the Cogntio UserPool created as part of `defineAuth`. See below for the detailed list of permissions.
 
 When a backend function is granted access to authentication resources, it also receives an environment variable that contains the userpool ID. This environment variable can be used in the function to make SDK calls to the user pool. The environment variable is named `amplifyAuth_USERPOOL_ID`
 
