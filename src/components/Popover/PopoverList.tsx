@@ -15,7 +15,7 @@ export const PopoverList = ({
   testId,
   ...rest
 }: PopoverListProps) => {
-  const { expanded, contentRef, handleBlur } = usePopover();
+  const { navId, expanded, contentRef, handleBlur } = usePopover();
   return (
     <View
       className={classNames(
@@ -28,7 +28,8 @@ export const PopoverList = ({
         className
       )}
       as="nav"
-      tabIndex={0}
+      id={navId}
+      tabIndex={-1}
       ref={contentRef}
       onBlur={handleBlur}
       testId={testId}

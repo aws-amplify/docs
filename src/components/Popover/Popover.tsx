@@ -1,4 +1,11 @@
-import { useRef, useMemo, useState, useCallback, useEffect } from 'react';
+import {
+  useRef,
+  useMemo,
+  useState,
+  useCallback,
+  useEffect,
+  useId
+} from 'react';
 import { View, ViewProps } from '@aws-amplify/ui-react';
 import { PopoverTrigger } from './PopoverTrigger';
 import { PopoverList } from './PopoverList';
@@ -16,6 +23,7 @@ const PopoverPrimitive = ({
 }: PopoverPrimitiveProps) => {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [expanded, setExpanded] = useState<boolean>(false);
+  const navId = useId();
 
   const contentRef = useClickOutside((e) => {
     if (triggerRef.current && !triggerRef.current.contains(e.target)) {
@@ -54,13 +62,14 @@ const PopoverPrimitive = ({
 
   const value = useMemo(
     () => ({
+      navId,
       triggerRef,
       contentRef,
       expanded,
       handleBlur,
       handleExpansion
     }),
-    [contentRef, triggerRef, expanded, handleBlur, handleExpansion]
+    [navId, contentRef, triggerRef, expanded, handleBlur, handleExpansion]
   );
 
   useEffect(() => {
