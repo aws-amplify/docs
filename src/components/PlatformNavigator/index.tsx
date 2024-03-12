@@ -45,7 +45,7 @@ export function PlatformNavigator({
               {platformTitle}
             </Popover.Trigger>
             <Popover.List
-              aria-label="Supported frameworks and languages"
+              ariaLabel="Supported frameworks and languages"
               anchor="left"
               fullWidth={true}
             >

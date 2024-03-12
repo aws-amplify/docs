@@ -40,7 +40,7 @@ const PopoverPrimitive = ({
   }, [setExpanded, expanded]);
 
   const handleBlur = useCallback(
-    (e) => {
+    (e: React.FocusEvent<HTMLElement>) => {
       // Use relatedTarget to see if the target receiving focus is outside of the popover
       if (
         contentRef.current &&

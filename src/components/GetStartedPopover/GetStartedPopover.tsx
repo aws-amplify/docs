@@ -112,7 +112,7 @@ export const GetStartedPopover = (platform) => {
             Toggle getting started guides navigation
           </VisuallyHidden>
         </Popover.Trigger>
-        <Popover.List aria-label="Getting started guides for other platforms">
+        <Popover.List ariaLabel="Getting started guides for other platforms">
           {getStartedLinks.map((link, index) => {
             return (
               <Popover.ListItem
