@@ -27,7 +27,11 @@ export function PlatformNavigator({
   return (
     <>
       <View className={`platform-navigator`}>
-        <Text fontWeight="bold" paddingBottom="small">
+        <Text
+          fontWeight="bold"
+          id="platformNavigatorLabel"
+          paddingBottom="small"
+        >
           Choose your framework/language
         </Text>
         <Flex alignItems="center">
@@ -35,11 +39,16 @@ export function PlatformNavigator({
             <Popover.Trigger
               className={`platform-navigator__button`}
               isFullWidth={true}
+              aria-describedby="platformNavigatorLabel"
             >
               {platformItem.icon}
               {platformTitle}
             </Popover.Trigger>
-            <Popover.List anchor="left" fullWidth={true}>
+            <Popover.List
+              ariaLabel="Supported frameworks and languages"
+              anchor="left"
+              fullWidth={true}
+            >
               {frameworks.map((platform, index) => {
                 const title = platform.title;
                 const current = title === platformTitle;

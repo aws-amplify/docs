@@ -5,9 +5,15 @@ import { usePopover } from './usePopover';
 interface PopoverListProps extends ViewProps {
   anchor?: 'left' | 'right';
   fullWidth?: boolean;
+  /**
+   * @description
+   * Accessible label for the nav item. Required since we are using a <nav> element.
+   */
+  ariaLabel: string;
 }
 
 export const PopoverList = ({
+  ariaLabel,
   children,
   className,
   anchor = 'right',
@@ -28,6 +34,7 @@ export const PopoverList = ({
         className
       )}
       as="nav"
+      aria-label={ariaLabel}
       id={navId}
       tabIndex={-1}
       ref={contentRef}
