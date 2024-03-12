@@ -40,8 +40,8 @@ The AWS CDK comes with [many existing constructs](https://docs.aws.amazon.com/cd
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   auth,
@@ -145,7 +145,7 @@ The Lambda function code for the `Publisher` is:
 // amplify/custom/CustomNotifications/publisher.ts
 import { PublishCommand, SNSClient } from '@aws-sdk/client-sns';
 import type { Handler } from 'aws-lambda';
-import type { Message } from './resource.js';
+import type { Message } from './resource';
 
 const client = new SNSClient({ region: process.env.AWS_REGION });
 
@@ -221,8 +221,8 @@ The `CustomNotifications` CDK construct can then be added to the Amplify `backen
 ```ts title="amplify/backend.ts"
 // amplify/backend.ts
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 import { CustomNotifications } from './custom/CustomNotifications/resource';
 
 const backend = defineBackend({
