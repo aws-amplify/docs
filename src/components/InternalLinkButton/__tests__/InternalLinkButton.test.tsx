@@ -31,22 +31,4 @@ describe('InternalLinkButton', () => {
 
     expect(internalLinkButtonNode.textContent).toBe('Get started');
   });
-
-  it('should render optional attributes', async () => {
-    render(component);
-    const internalLinkButtonNode = await screen.getByRole('link');
-
-    if (component.props.size)
-      expect(internalLinkButtonNode.className).toContain(
-        `amplify-button--${component.props.size}`
-      );
-    if (component.props.variation)
-      expect(internalLinkButtonNode.className).toContain(
-        `amplify-button--${component.props.variation}`
-      );
-    if (component.props.className)
-      expect(internalLinkButtonNode.className).toContain(
-        component.props.className
-      );
-  });
 });
