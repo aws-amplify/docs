@@ -1,0 +1,19 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: "Configuring auth",
+  description: "Learn how to configure backend Amplify Auth resources",
+  route: "/gen2/build-a-backend/auth/configuring-auth"
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

@@ -1977,40 +1977,60 @@ export const directory = {
               path: 'src/pages/gen2/build-a-backend/auth/index.mdx',
               children: [
                 {
-                  path: 'src/pages/gen2/build-a-backend/auth/set-up-auth/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/auth/getting-started/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/auth/enable-sign-up/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/auth/concepts/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/auth/add-social-provider/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/auth/configure-auth/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/gen2/build-a-backend/auth/configure-auth/email/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/auth/configure-auth/phone/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/auth/configure-auth/google/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/auth/configure-auth/facebook/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/auth/configure-auth/login-with-amazon/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/auth/configure-auth/sign-in-with-apple/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/auth/configure-auth/openid-connect/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/auth/configure-auth/saml/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/auth/configure-auth/user-attributes/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/auth/configure-auth/multi-factor-auth/index.mdx'
+                    }
+                  ]
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/auth/manage-user-session/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/auth/customize-auth-behavior/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/auth/manage-user-profile/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/auth/password-management/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/auth/manage-mfa/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/auth/delete-user-account/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/auth/auth-events/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/auth/manage-user-sessions/index.mdx'
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/auth/admin-actions/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/auth/server-side-auth/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/auth/override-cognito/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/auth/extend-with-cdk/index.mdx'
                 }
               ]
             },
