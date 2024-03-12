@@ -51,20 +51,21 @@ For more information, visit the [AWS documentation for Amazon Cognito with a lis
 
 The following is an example on how to add a user attribute to your authentication resources.
 
-```diff title="amplify/auth/resource.ts"
-// amplify/auth/resource.ts
+```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
 
 export const auth = defineAuth({
   loginWith: {
     email: true,
   },
-+ userAttributes: {
-+   birthdate: {
-+     required: false,
-+     mutable: false,
-+   },
-+ },
+// highlight-start
+  userAttributes: {
+    birthdate: {
+      required: false,
+      mutable: false,
+    },
+  },
+// highlight-end
 });
 ```
 
