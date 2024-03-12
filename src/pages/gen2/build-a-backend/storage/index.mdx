@@ -278,7 +278,7 @@ Function triggers can be configured to enable event-based workflows when files a
 First, in your storage definition, add the following:
 
 ```ts title="amplify/storage/resource.ts"
-export const auth = defineStorage({
+export const storage = defineStorage({
   name: 'myProjectFiles',
   // highlight-start
   triggers: {
