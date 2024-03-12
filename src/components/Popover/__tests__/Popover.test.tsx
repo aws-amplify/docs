@@ -10,7 +10,7 @@ describe('Popover', () => {
   const popover = (
     <Popover testId={popoverTestId}>
       <Popover.Trigger>{triggerLabel}</Popover.Trigger>
-      <Popover.List aria-label={navLabel}>
+      <Popover.List ariaLabel={navLabel}>
         <Popover.ListItem href="">List item 1</Popover.ListItem>
         <Popover.ListItem href="">List item 2</Popover.ListItem>
         <Popover.ListItem href="">List item 3</Popover.ListItem>
