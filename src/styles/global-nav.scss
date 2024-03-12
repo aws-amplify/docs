@@ -35,6 +35,18 @@
 }
 .navbar-logo-link {
   cursor: pointer;
+  gap: var(--amplify-space-xs);
+  align-items: center;
+  &:focus {
+    box-shadow: none;
+    outline: 2px solid var(--amplify-colors-white);
+    outline-offset: 2px;
+  }
+  &--gen1 {
+    &:focus {
+      outline-color: var(--amplify-colors-font-primary);
+    }
+  }
 }
 .navbar-logo {
   color: var(--navbar-logo-color);

@@ -8,12 +8,9 @@ export function AmplifyNavLink({ isCollapsed, setIsCollapsed, isGen1 }) {
   return (
     <Flex className="navbar__logo-container">
       <Flex
-        className="navbar-logo-link"
+        className={`navbar-logo-link${isGen1 ? ' navbar-logo-link--gen1' : ''}`}
         as="a"
         href="/"
-        gap="xs"
-        alignItems="center"
-        direction="row"
       >
         <AmplifyLogo />
         <Text as="span" className="navbar-logo-text">
