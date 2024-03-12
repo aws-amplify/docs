@@ -122,6 +122,7 @@ export const auth = defineAuth({
         clientSecret: secret('GOOGLE_CLIENT_SECRET')
       },
       signInWithApple: {
+        clientId: secret('SIWA_CLIENT_ID'),
         keyId: secret('SIWA_KEY_ID'),
         privateKey: secret('SIWA_PRIVATE_KEY'),
         teamId: secret('SIWA_TEAM_ID')
@@ -139,6 +140,7 @@ export const auth = defineAuth({
         'https://mywebsite.com/profile'
       ],
       logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com'],
+      // This required value will be prepended to `.auth.us-west-2.amazoncognito.com` and used for your application's oauth url
       domainPrefix: 'subdomain'
     }
   }
@@ -287,16 +289,55 @@ If you are using the [Authenticator component](https://ui.docs.amplify.aws/react
 Enabling a signing in of a user with a social provider can be done as shown in the following code snippet.
 
 ```ts title="src/my-client-side-js.js"
-import { Auth } from 'aws-amplify';
-
-try {
-  const { user } = await Auth.signInWithWebUI({
-    provider: 'google'
-  });
-} catch (error) {
-  console.log('error signing up:', error);
-}
+import { signInWithRedirect } from 'aws-amplify/auth';
+...
+  try {
+    await signInWithRedirect({
+      provider: 'Apple'
+    });
+  } catch (error) {
+    console.log('error signing up:', error);
+  }
 ```
+
+### (Required for Multi-Page Applications) Complete Social Sign In after Redirect
+
+If you are developing a multi-page application, and the redirected page is not the same page that initiated the sign in, you will need to add the following code to the redirected page to ensure the sign in gets completed:
+
+```ts title="src/my-redirected-page.js"
+import 'aws-amplify/auth/enable-oauth-listener';
+import { getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
+import { Hub } from 'aws-amplify/utils';
+
+Hub.listen("auth", ({ payload }) => {
+  switch (payload.event) {
+    case "signInWithRedirect":
+      const user = await getCurrentUser();
+      const userAttributes = await fetchUserAttributes();
+      console.log({user, userAttributes});
+      break;
+    case "signInWithRedirect_failure":
+      // handle sign in failure
+      break;
+    case "customOAuthState":
+      const state = payload.data; // this will be customState provided on signInWithRedirect function
+      console.log(state);
+      break;
+  }
+});
+```
+
+<Callout>
+
+**NOTE:** The listener only works on the client side in the context of a SSR-enabled project, so ensure to import the listener on the client side only. For example, in a Next.js project, you should add the above import statement to a component that renders on the client side only by `'use client'`.
+
+</Callout>
+
+<Accordion eyebrow="Under the hood" headingLevel="4" title="Why Social Sign In needs to be explicitly handled for Multi-Page Applications">
+
+When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the social sign in when an end user is redirected back to your app. This works well in a single-page application but in a multi-page application, you might get redirected to a page that doesn't include the listener that was originally added as a side-effect. Hence you must include the specific OAuth listener on your login success page.
+
+</Accordion>
 
 ## Conclusion
 

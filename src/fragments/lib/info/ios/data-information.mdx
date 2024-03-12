@@ -1,4 +1,8 @@
-Apple requires app developers to provide the data usage policy of the app when they submit their app to the App Store. Below are the different categories identified by Apple and the corresponding data type used by the Amplify library.
+Apple requires app developers to provide the data usage policy of the app when they submit their app to the App Store. See Apple's [User privacy and data use](https://developer.apple.com/app-store/user-privacy-and-data-use/) for more details. Amplify Library is used to interact with AWS resources under the developer’s ownership and management. The library cannot predict the usage of its APIs and it is up to the developer to provide the privacy manifest that accurately reflects the data collected by the app. Below are the different categories identified by Apple and the corresponding data type used by the Amplify Library.
+
+By utilizing the library, Amplify gathers API usage metrics from the AWS services accessed. This process involves adding a user agent to the request made to your AWS service. The user-agent header is included with information about the Amplify Library version, operating system name, and version. AWS collects this data to generate metrics related to our library usage. This information is not linked to the user’s identity and not used for tracking purposes as described in Apple's privacy and data use guidelines.
+
+Should you have any specific concerns or require additional information for the enhancement of your privacy manifest, please don't hesitate to reach out.
 
 ## Contact info
 
@@ -27,21 +31,21 @@ Apple requires app developers to provide the data usage policy of the app when t
 | ------------------------------   | ------------------ | ------------------- | :------------------: | :--------: | :---------------------: |
 | **User ID**                      |                    |                     |                      |            |                         |
 |                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
-|                                  | Analytics          | Analytics           | ✅                   | ✅        | ❌                      |
+|                                  | Analytics          | Analytics           | ✅                   | ❌        | ❌                      |
 | **Device ID**                    |                    |                     |                      |            |                         |
 |                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
-|                                  | Analytics          | Analytics           | ✅                   | ✅        | ❌                      |
+|                                  | Analytics          | Analytics           | ✅                   | ❌        | ❌                      |
 
 ## Other Data
 
 | Data Type                        | Amplify Category   | Purpose             | Linked To Identity   | Tracking   | Provided by developer   |
 | ------------------------------   | ------------------ | ------------------- | :------------------: | :--------: | :---------------------: |
 | **OS Version**                   |                    |                     |                      |            |                         |
-|                                  | All categories     | Analytics           | ❌                   | ✅        | ❌                      |
+|                                  | All categories     | Analytics           | ❌                   | ❌        | ❌                      |
 | **OS Name**                      |                    |                     |                      |            |                         |
-|                                  | All categories     | Analytics           | ❌                   | ✅        | ❌                      |
+|                                  | All categories     | Analytics           | ❌                   | ❌        | ❌                      |
 | **Locale Info**                  |                    |                     |                      |            |                         |
-|                                  | All categories     | Analytics           | ❌                   | ✅        | ❌                      |
+|                                  | All categories     | Analytics           | ❌                   | ❌        | ❌                      |
 | **App Version**                  |                    |                     |                      |            |                         |
 |                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
 | **Min OS target of the app**     |                    |                     |                      |            |                         |
