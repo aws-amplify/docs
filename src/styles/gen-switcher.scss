@@ -20,6 +20,11 @@
   }
 }
 
+.gen-switcher__check {
+  margin-inline-start: auto;
+  font-size: var(--amplify-font-sizes-small);
+}
+
 .gen-switcher__trigger--gen1 {
   border-color: var(--amplify-colors-neutral-100);
   color: var(--amplify-colors-font-primary);
@@ -31,6 +36,6 @@
   }
 }
 
-.gen-switcher__list {
-  min-width: 6rem;
+.gen-switcher__list.popover {
+  min-width: 10rem;
 }
