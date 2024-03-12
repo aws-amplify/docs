@@ -1,7 +1,7 @@
 export const meta = {
-  title: 'Example: Email domain filtering',
+  title: 'User attribute validation',
   description:
-    'Use an Auth Pre Signup trigger to allow or deny sign-ups based on email domains'
+    'Validate user attributes with an Auth trigger'
 };
 
 export function getStaticProps() {
@@ -11,3 +11,24 @@ export function getStaticProps() {
     }
   };
 }
+
+```ts
+import type { PreSignUpTriggerHandler } from "aws-lambda"
+
+function isOlderThan(date: Date, age: number) {
+  const comparison = new Date()
+  comparison.setFullYear(comparison.getFullYear() - age)
+  return date.getTime() > comparison.getTime()
+}
+
+export const handler: PreSignUpTriggerHandler = async (event) => {
+  const birthdate = new Date(event.request.userAttributes["birthdate"])
+
+  // you must be 13 years or older
+  if (!isOlderThan(birthdate, 13)) {
+    throw new Error("You must be 13 years or older to use this site")
+  }
+
+  return event
+}
+```

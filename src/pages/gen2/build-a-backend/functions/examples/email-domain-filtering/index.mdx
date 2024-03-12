@@ -1,5 +1,5 @@
 export const meta = {
-  title: 'Example: Email domain filtering',
+  title: 'Email domain filtering',
   description:
     'Use an Auth Pre Signup trigger to allow or deny sign-ups based on email domains'
 };
@@ -11,3 +11,59 @@ export function getStaticProps() {
     }
   };
 }
+
+You can use `defineAuth` and `defineFunction` to create a [Cognito pre sign-up Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) that performs filtering based on the user's email address.
+
+To get started, modify your auth resource to include a `preSignUp` trigger:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth, defineFunction } from "@aws-amplify/backend"
+
+const preSignUp = defineFunction({
+  entry: "./pre-sign-up.ts",
+})
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  triggers: {
+    preSignUp,
+  },
+})
+```
+
+Next, create the corresponding `amplify/auth/pre-sign-up.ts` file with the following contents:
+
+```ts title="amplify/auth/pre-sign-up.ts"
+import type { PreSignUpTriggerHandler } from "aws-lambda"
+
+export const handler: PreSignUpTriggerHandler = async (event) => {
+  // read the user's email
+  const email = event.request.userAttributes["email"]
+  // do some validation
+  // ...
+  // return the event
+  return event
+}
+```
+
+## Perform basic email domain filtering on sign-up
+
+The following example filters out user's that do not sign up with an `@amazon.com` email:
+
+```ts title="amplify/auth/pre-sign-up.ts"
+import type { PreSignUpTriggerHandler } from "aws-lambda"
+
+const allowlist = ["amazon.com"] as const
+
+export const handler: PreSignUpTriggerHandler = async (event) => {
+  const email = event.request.userAttributes["email"]
+
+  if (!allowlist.some((domain) => email.endsWith(domain))) {
+    throw new Error("Invalid email domain")
+  }
+
+  return event
+}
+```

@@ -1,5 +1,5 @@
 export const meta = {
-  title: 'Example: Add user to group',
+  title: 'Add user to group',
   description:
     'Use an Auth Post Authentication trigger to automatically add new users to a group'
 };
@@ -12,13 +12,47 @@ export function getStaticProps() {
   };
 }
 
-```ts title="amplify/auth/post-authentication.ts"
-import type { AuthPostAuthenticationHandler } from '@aws-amplify/backend';
+You can use `defineAuth` and `defineFunction` to create a [Cognito post confirmation Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-post-confirmation.html) that extends the behavior to perform some action when a user is confirmed.
 
-export const handler: AuthPostAuthenticationHandler = async (
-  event,
-  context
-) => {
-  return event;
-};
+<Callout info>
+
+A user is "confirmed" when they verify their account. Typically this happens when the user confirms their email via the verification email. The post confirmation handler will _not_ be triggered for federated sign-ins (i.e. social sign-in).
+
+</Callout>
+
+To get started, modify your auth resource to include a `postConfirmation` trigger:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth, defineFunction } from "@aws-amplify/backend"
+
+const postConfirmation = defineFunction({
+  entry: "./post-confirmation.ts",
+})
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  triggers: {
+    postConfirmation,
+  },
+})
 ```
+
+Next, create the corresponding `amplify/auth/post-confirmation.ts` file with the following contents:
+
+```ts title="amplify/auth/post-confirmation.ts"
+import type { PostConfirmationTriggerHandler } from "aws-lambda"
+
+export const handler: PostConfirmationTriggerHandler = async (event) => {
+  // read the user's email
+  const email = event.request.userAttributes["email"]
+  // do some validation
+  // ...
+  // return the event
+  return event
+}
+```
+
+## Add user to group
+
