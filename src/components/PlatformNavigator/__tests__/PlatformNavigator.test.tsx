@@ -26,17 +26,13 @@ describe('PlatformNavigator', () => {
     expect(navigator).toBeInTheDocument();
   });
 
-  it('should show the selected platform as React', async () => {
+  it('should show the default platform as React', async () => {
     render(component);
 
-    const navigatorComponent = await screen.findByText(
-      'Choose your framework/language'
-    );
-    const platform =
-      navigatorComponent.parentElement?.getElementsByTagName('button')[0]
-        .textContent;
+    const platform = await screen.findByRole('button');
+    console.log(platform);
 
-    expect(platform).toBe('React');
+    expect(platform.textContent).toBe('React');
   });
 
   it('should open dropdown on click', async () => {
@@ -58,10 +54,10 @@ describe('PlatformNavigator', () => {
     userEvent.click(platformButton);
     userEvent.tab();
     userEvent.tab();
+    expect(popoverFirstItem.children[0]).toHaveFocus();
     expect(popoverFirstItem.textContent).toBe('JavaScript');
     expect(popoverFirstItem.children[0].getAttribute('href')).toBe(
       '/javascript'
     );
-    expect(popoverFirstItem.children[0]).toHaveFocus();
   });
 });
