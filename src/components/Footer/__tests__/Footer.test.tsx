@@ -10,6 +10,11 @@ describe('Footer', () => {
     expect(footer).toBeInTheDocument();
   });
 
+  it('should render component that matches snapshot', () => {
+    const footer = render(component);
+    expect(footer).toMatchSnapshot();
+  });
+
   it('should link to terms, privacy, and social media accounts', async () => {
     render(component);
     const footerLinks = await screen.getAllByRole('link');
@@ -22,7 +27,9 @@ describe('Footer', () => {
     };
 
     for (let i = 0; i < footerLinks.length; i++) {
-      expect(footerLinks[i].href).toBe(linkUrls[footerLinks[i].textContent]);
+      expect(footerLinks[i].getAttribute('href')).toBe(
+        linkUrls[footerLinks[i].textContent]
+      );
     }
   });
 
