@@ -45,7 +45,7 @@ describe('PlatformNavigator', () => {
     expect(platformButton.getAttribute('aria-expanded')).toBe('true');
   });
 
-  it('should change platform on selection', async () => {
+  it('should tab through platforms in dropdown', async () => {
     render(component);
 
     const platformButton = await screen.getByRole('button');
