@@ -38,8 +38,8 @@
     "@types/node": "^12.12.9",
     "@types/react": "^18.0.0",
     "@types/url-parse": "^1.4.3",
-    "@typescript-eslint/eslint-plugin": "^6.13.1",
-    "@typescript-eslint/parser": "^7.0.2",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
     "axios": "^1.3.4",
     "classnames": "^2.3.2",
     "cross-env": "^7.0.3",
@@ -49,10 +49,7 @@
     "eslint-config-next": "14.0.3",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-mdx": "^3.1.5",
-    "eslint-plugin-next": "^0.0.0",
     "eslint-plugin-prettier": "^5.0.1",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
     "fs-extra": "^9.0.1",
     "git-jiggy": "1.1.1",
     "husky": "^8.0.1",
@@ -67,7 +64,6 @@
     "rehype-img-size": "^1.0.1",
     "rehype-mdx-code-props": "^2.0.0",
     "remark": "^14.0.2",
-    "remark-cli": "^12.0.0",
     "remark-gfm": "^3.0.0",
     "remark-lint": "^9.1.2",
     "remark-mdx": "^2.3.0",
@@ -115,6 +111,13 @@
     "prepare": "husky install",
     "analyze": "ANALYZE=true yarn next-build",
     "prebuild": "node src/directory/generateDirectory.mjs && node src/directory/generateFlatDirectory.mjs",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:content": "eslint --ext mdx src"
+  },
+  "lint-staged": {
+    "**/*.(ts|tsx|js|css|mjs|mdx)": [
+      "eslint",
+      "prettier --list-different"
+    ]
   }
 }

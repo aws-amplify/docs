@@ -1,35 +1,30 @@
 {
+  "$schema": "https://json.schemastore.org/eslintrc.json",
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
+    "plugin:mdx/recommended",
     "prettier" // prettier should always come last
   ],
-  "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "prettier"],
+  "parser": "@typescript-eslint/parser",
   "rules": {
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-unused-vars": "error",
-    "@typescript-eslint/consistent-type-exports": [
-      "error",
-      {
-        "fixMixedExportsWithInlineTypeSpecifier": false
-      }
-    ],
-    "@typescript-eslint/consistent-type-imports": [
-      "error",
-      {
-        "prefer": "type-imports"
-      }
-    ],
     "no-unused-vars": "off",
     "react-hooks/exhaustive-deps": "error"
   },
   "overrides": [
     {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": ["./tsconfig.json"]
+      }
+    },
+    {
       "files": ["*.mdx"],
-      "extends": ["plugin:mdx/recommended"],
+      "extends": ["plugin:mdx/overrides"],
       "settings": {
         "mdx/code-blocks": true
       },
@@ -37,6 +32,11 @@
         // for mdx shortcodes, and snippets
         "react/jsx-no-undef": ["off"]
       }
+    },
+    {
+      // disable type-aware linting for MDX TS virtual files (code snippets)
+      "files": ["**/*.mdx/*.ts"],
+      "extends": ["plugin:@typescript-eslint/disable-type-checked"]
     }
   ]
 }
