@@ -140,7 +140,7 @@ const availableSettings = client.enums.PrivacySetting.values()
 By default, fields are optional. To mark a field as required, use the `.required()` modifier.
 
 ```ts
-export const schema = a.schema({
+const schema = a.schema({
   Todo: a.model({
     content: a.string().required(),
   }),
@@ -152,7 +152,7 @@ export const schema = a.schema({
 Any field can be modified to be an array using the `.array()` modifier.
 
 ```ts
-export const schema = a.schema({
+const schema = a.schema({
   Todo: a.model({
     content: a.string().required(),
     notes: a.string().array(),
@@ -165,7 +165,7 @@ export const schema = a.schema({
 You can use the `.default(...)` modifier to specify a default value for optional [scalar type fields and arrays](https://docs.aws.amazon.com/appsync/latest/devguide/scalars.html). The `.default(...)` modifier is not available for custom types, enums, or relationships.
 
 ```ts
-export const schema = a.schema({
+const schema = a.schema({
   Todo: a.model({
     content: a.string().default('My new Todo'),
   }),

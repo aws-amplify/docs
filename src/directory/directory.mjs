@@ -2007,6 +2007,9 @@ export const directory = {
                   path: 'src/pages/gen2/build-a-backend/auth/admin-actions/index.mdx'
                 },
                 {
+                  path: 'src/pages/gen2/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
+                },
+                {
                   path: 'src/pages/gen2/build-a-backend/auth/override-cognito/index.mdx'
                 }
               ]
@@ -2109,6 +2112,18 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/add-aws-services/overriding-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/add-aws-services/rest-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/add-aws-services/in-app-messaging/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/add-aws-services/analytics/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/add-aws-services/geo/index.mdx'
                 }
               ]
             }

@@ -188,11 +188,7 @@ A **custom selection set** allows consumers to specify, on a per-call basis, the
 const { data: blogWithSubsetOfData, errors } = await client.models.Blog.get(
   { id: blog.id },
   {
-    selectionSet: [
-      'author.email',
-      'publication.company.location.city',
-      'content.*'
-    ]
+    selectionSet: ['author.email', 'posts.*'],
   }
 );
 ```
@@ -216,8 +212,8 @@ import type { SelectionSet } from 'aws-amplify/data';
 import type { Schema } from '../amplify/data/resource';
 
 
-const selectionSet = ['content', 'author', 'comments.*'] as const;
-type PostWithComments = SelectionSet<Schema["Post"], typeof selectionSet>;
+const selectionSet = ['content', 'blog.author.*', 'comments.*'] as const;
+type PostWithComments = SelectionSet<Schema['Post'], typeof selectionSet>;
 
 // ...
 const [posts, setPosts] = useState<PostWithComments[]>([]);
@@ -248,7 +244,6 @@ try {
     // handle user cancellation logic
   }
 }
-
 ...
 
 // To cancel the above request
