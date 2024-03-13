@@ -34,10 +34,12 @@ const schema = a.schema({
   Team: a.model({
     mantra: a.string().required(),
     members: a.hasMany('Member'),
-  }),
+  })
+  .authorization([a.allow.public()]),
   Member: a.model({
     team: a.belongsTo('Team'),
-  }),
+  })
+  .authorization([a.allow.public()]),
 });
 ```
 
@@ -45,41 +47,41 @@ const schema = a.schema({
 
 ```ts
 const { data: team } = await client.models.Team.create({
-  mantra: "Hello"
-})
+  mantra: 'Hello',
+});
 
 await client.models.Member.update({
-  id: "SOME_MEMBER_ID",
-  team
-})
+  id: 'SOME_MEMBER_ID',
+  team,
+});
 ```
 
 ### Update a "Has Many" relationship between records
 
 ```ts
 await client.models.Member.update({
-  id: "SOME_MEMBER_ID",
-  team
-})
+  id: 'SOME_MEMBER_ID',
+  team,
+});
 ```
 
 ### Delete a "Has Many" relationship between records
 
 ```ts
 await client.models.Member.update({
-  id: "SOME_MEMBER_ID",
-  team: undefined
-})
+  id: 'SOME_MEMBER_ID',
+  team: undefined,
+});
 ```
 
 ### Lazy load a "Has Many" relationship
 
 ```ts
-const { data: team } = await client.models.Team.get({ id: "MY_TEAM_ID"})
+const { data: team } = await client.models.Team.get({ id: "MY_TEAM_ID"});
 
-const { data: members } = await team.members()
+const { data: members } = await team.members();
 
-members.forEach(member => console.log(member.id))
+members.forEach(member => console.log(member.id));
 ```
 
 ### Eagerly load a "Has Many" relationship
@@ -88,9 +90,9 @@ members.forEach(member => console.log(member.id))
 const { data: teamWithMembers } = await client.models.Team.get(
   { id: "MY_TEAM_ID" },
   { selectionSet: ["id", "members.*"] },
-)
+);
 
-teamWithMembers.members.forEach(member => console.log(member.id))
+teamWithMembers.members.forEach(member => console.log(member.id));
 ```
 
 ## Model a "many-to-many" relationship
@@ -101,11 +103,11 @@ const schema = a.schema({
   Post: a.model({
     title: a.string(),
     content: a.string(),
-    tags: a.manyToMany('Tag', { relationName: 'PostTags'})
+    tags: a.manyToMany('Tag', { relationName: 'PostTags'}),
   }),
   Tag: a.model({
     name: a.string(),
-    posts: a.manyToMany('Post', { relationName: 'PostTags'})
+    posts: a.manyToMany('Post', { relationName: 'PostTags'}),
   }),
 });
 ```
@@ -118,7 +120,7 @@ Create a one-directional, one-to-one relationship between two models using the `
 const schema = a.schema({
   Project: a.model({
     name: a.string(),
-    team: a.hasOne('Team')
+    team: a.hasOne('Team'),
   }),
   Team: a.model({
     name: a.string(),
@@ -170,7 +172,7 @@ await client.models.Project.update({
 ### Lazy load a "Has One" relationship
 
 ```ts
-const { data: project } = await client.models.Project.get({ id: "MY_PROJECT_ID"})
+const { data: project } = await client.models.Project.get({ id: "MY_PROJECT_ID"});
 const { data: team } = await project.team();
 ```
 
@@ -222,7 +224,7 @@ You can make a "has one" or "has many" relationship bidirectional with the `belo
 const schema = a.schema({
   Project: a.model({
     name: a.string(),
-    team: a.hasOne('Team')
+    team: a.hasOne('Team'),
   }),
   Team: a.model({
     name: a.string(),
@@ -290,7 +292,7 @@ const client = generateClient<Schema>();
 
 const { data: project } = await client.models.Project.get({ id: '1234' });
 const projectName = project.name;
-const lazyTeamName = (await project.team()).data?.name // project.team is typed as `Lazy<Team>` and can be awaited
+const lazyTeamName = (await project.team()).data?.name; // project.team is typed as `Lazy<Team>` and can be awaited
 
 const projectWithTeam = await client.models.Project.get({ id: '1234' }, { selectionSet: ['team.*'] });
 const eagerTeamName = project.team.name // All team attributes were requested, so no need to await, it was eagerly loaded
