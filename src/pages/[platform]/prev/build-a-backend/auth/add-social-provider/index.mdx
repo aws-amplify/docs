@@ -939,7 +939,7 @@ Amplify.configure(updatedAwsConfig);
 For React Native applications, you need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. For Expo, follow the steps in [Expo Linking Guide](https://docs.expo.io/guides/linking/). For vanilla React Native, follow the steps in [React Native Linking Guide](https://reactnative.dev/docs/linking). After completing those steps, assuming you are using `myapp` as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as _Sign in Redirect URI(s)_ and/or _Sign out redirect URI(s)_ inputs. Your URIs could look like any of these:
 
 - `myapp://`
-- `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app)).
+- `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.dev/guides/linking#linking-to-your-app)).
 
 <BlockSwitcher>
 <Block name="React Native - iOS - Info.plist">
@@ -1222,7 +1222,7 @@ export default App;
 </Block>
 <Block name="Expo CLI">
 
-The sample below uses Expo's [WebBrowser.openAuthSessionAsync](https://docs.expo.io/versions/v37.0.0/sdk/webbrowser/).
+The sample below uses Expo's [WebBrowser.openAuthSessionAsync](https://docs.expo.dev/versions/latest/sdk/webbrowser#webbrowseropenauthsessionasyncurl-redirecturl-options).
 
 <BlockSwitcher>
 <Block name="TypeScript">
