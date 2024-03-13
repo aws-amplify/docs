@@ -226,6 +226,8 @@ const fetchPosts = async () => {
   const { data: postsWithComments } = await client.models.Post.list({
     selectionSet,
   });
+  setPosts(postsWithComments);
+}
 ```
 
 ## Cancel read requests
