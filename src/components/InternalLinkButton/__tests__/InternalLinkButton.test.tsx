@@ -22,7 +22,7 @@ describe('InternalLinkButton', () => {
     expect(internalLinkButtonNode).toBeInTheDocument();
   });
 
-  it('should link to render correctly', async () => {
+  it('should render text and href', async () => {
     render(component);
     const internalLinkButtonNode = await screen.getByRole('link');
     expect(internalLinkButtonNode.href).toContain(
