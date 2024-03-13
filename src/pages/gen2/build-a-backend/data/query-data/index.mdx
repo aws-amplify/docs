@@ -186,9 +186,7 @@ A **custom selection set** allows consumers to specify, on a per-call basis, the
 ```ts
 // same way for all CRUDL: .create, .get, .update, .delete, .list, .observeQuery
 const { data: blogWithSubsetOfData, errors } = await client.models.Blog.get(
-  {
-    id: "<MY_BLOG_ID>",
-  },
+  { id: blog.id },
   {
     selectionSet: [
       'author.email',
@@ -214,8 +212,8 @@ const [posts, setPosts] = useState<Post[]>([]);
 You can combine the `Schema["MODEL_NAME"]` type with the `SelectionSet` helper type to describe the return type of API requests using the `selectionSet` parameter:
 
 ```ts
-import { type SelectionSet } from 'aws-amplify/data';
-import { type Schema } from '@/amplify/data/resource';
+import type { SelectionSet } from 'aws-amplify/data';
+import type { Schema } from '../amplify/data/resource';
 
 
 const selectionSet = ['content', 'author', 'comments.*'] as const;
@@ -224,10 +222,10 @@ type PostWithComments = SelectionSet<Schema["Post"], typeof selectionSet>;
 // ...
 const [posts, setPosts] = useState<PostWithComments[]>([]);
 
-async fetchPosts() {
-  const { data: postsWithComments } = await client.models.Post.list({ selectionSet });
-  setPosts(postsWithComments);
-}
+const fetchPosts = async () => {
+  const { data: postsWithComments } = await client.models.Post.list({
+    selectionSet,
+  });
 ```
 
 ## Cancel read requests
@@ -236,7 +234,7 @@ You can cancel any query API request by calling `.cancel` on the query request p
 
 ```javascript
 const promise = client.models.Todo.list();
-            //  ^ Note: we're not awaiting the request, we're returning the promise
+//  ^ Note: we're not awaiting the request, we're returning the promise
 
 try {
   await promise;
