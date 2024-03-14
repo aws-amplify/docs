@@ -5,40 +5,52 @@ import {
   ViewProps,
   VisuallyHidden
 } from '@aws-amplify/ui-react';
-// import { createPortal } from 'react-dom';
-import { useEffect, useState } from 'react';
-
+import { IconX } from '@/components/Icons';
+import { useState, useId } from 'react';
 interface ModalProps extends ViewProps {
   modalHeading?: React.ReactNode;
 }
 
 export const Modal = ({ modalHeading, children }: ModalProps) => {
-  // const [documentMounted, setDocumentMounted] = useState(false);
+  const headingId = useId();
+  const [isVisible, setIsVisible] = useState(true);
 
-  // useEffect(() => {
-  //   setDocumentMounted(true);
-  // }, []);
-
-  return (
-    <View role="dialog" className="modal-portal">
+  return isVisible ? (
+    <View role="dialog" className="modal-portal" aria-labelledby={headingId}>
       <Flex className="modal">
-        <View className="modal-header">
-          {modalHeading}
-          <Button variation="link">
+        <Flex className="modal-header">
+          <Flex as="h2" className="modal-heading" id={headingId}>
+            {modalHeading}
+          </Flex>
+          <Button
+            onClick={() => setIsVisible(false)}
+            variation="link"
+            className="modal-dismiss"
+          >
             <VisuallyHidden>Dismiss Gen 2 modal</VisuallyHidden>
+            <IconX />
           </Button>
-        </View>
+        </Flex>
 
         {children}
         <Flex>
-          <Button as="a" href="/gen1">
+          <Button
+            as="a"
+            href="/gen1"
+            className="modal-action modal-action--secondary"
+          >
             Go to Gen 1 docs
           </Button>
-          <Button as="a" href="/" variation="primary">
+          <Button
+            as="a"
+            href="/"
+            variation="primary"
+            className="modal-action modal-action--primary"
+          >
             Learn more
           </Button>
         </Flex>
       </Flex>
     </View>
-  );
+  ) : null;
 };

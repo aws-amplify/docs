@@ -35,6 +35,7 @@ import {
   NextPrevious,
   NEXT_PREVIOUS_SECTIONS
 } from '@/components/NextPrevious';
+import { IconStar } from '@/components/Icons';
 import { Modal } from '@/components/Modal';
 
 export const Layout = ({
@@ -214,6 +215,19 @@ export const Layout = ({
           colorMode={colorMode}
         >
           <IconsProvider icons={defaultIcons}>
+            <Modal
+              modalHeading={
+                <>
+                  <IconStar /> Introducing Amplify Gen 2
+                </>
+              }
+            >
+              Amplify has reimagined the way frontend developers build fullstack
+              applications on AWS. With this next generation of Amplify&apos;s
+              backend-building experience, you can author your frontend and
+              backend definition completely with Typescript a file convention,
+              and Git branch-based environments.
+            </Modal>
             <View
               className={`layout-wrapper layout-wrapper--${pageType}${isGen1 ? ' layout-wrapper--gen1' : ''}`}
             >
@@ -256,13 +270,6 @@ export const Layout = ({
               </View>
               <Footer hasTOC={showTOC} />
             </View>
-            <Modal>
-              Amplify has reimagined the way frontend developers build fullstack
-              applications on AWS. With this next generation of Amplify&apos;s
-              backend-building experience, you can author your frontend and
-              backend definition completely with Typescript a file convention,
-              and Git branch-based environments.
-            </Modal>
           </IconsProvider>
         </ThemeProvider>
       </LayoutProvider>
