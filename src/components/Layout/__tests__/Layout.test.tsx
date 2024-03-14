@@ -21,6 +21,8 @@ console.log(routerMock.useRouter());
 describe('Layout', () => {
   const directoryData = flatDirectory['/[platform]/how-amplify-works'];
   console.log(directoryData);
+  const h1 = React.createElement('h1');
+  console.log(h1);
   const children = (
     <div>
       <h1>HEADING</h1>
@@ -54,6 +56,7 @@ describe('Layout', () => {
       </p>
     </div>
   );
+
   const component = (
     <Layout
       pageTitle="Title"
@@ -77,7 +80,8 @@ describe('Layout', () => {
 
   it('should render the Layout component', async () => {
     render(component);
-    // const main = await screen.getByRole('main', { name: 'Main content' });
+    const main = await screen.getByRole('main', { name: 'Main content' });
+    main.appendChild(children);
     // const toc = await screen.getByText('On this page');
     // console.log(toc);
   });
