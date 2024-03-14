@@ -18,7 +18,9 @@ describe('ExternalLinkButton', () => {
   it('should render the ExternalLinkButton component', async () => {
     render(component);
 
-    const externalLinkButtonNode = await screen.findByText('Click Here!');
+    const externalLinkButtonNode = await screen.findByRole('link', {
+      name: 'Click Here!'
+    });
     expect(externalLinkButtonNode).toBeInTheDocument();
   });
 
