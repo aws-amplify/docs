@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import { GenSwitcher } from '../GenSwitcher';
 
-describe('Popover', () => {
+describe('GenSwitcher', () => {
   it('should render GenSwitcher component', async () => {
     const testId = 'testGenSwitcher';
     render(<GenSwitcher testId={testId} />);
