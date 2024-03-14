@@ -84,6 +84,8 @@ export const Layout = ({
     }
   };
 
+  console.log(children.props.children);
+
   const isOverview =
     children?.props?.childPageNodes?.length != 'undefined' &&
     children?.props?.childPageNodes?.length > 0;
@@ -167,6 +169,8 @@ export const Layout = ({
       setColorMode(colorModePreference);
     }
   }, []);
+
+  // console.log(tocHeadings);
 
   return (
     <>
