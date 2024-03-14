@@ -13,8 +13,21 @@ describe('ExternalLink', () => {
 
   it('should render the ExternalLink component', async () => {
     render(component);
-    const externalLink = await screen.findByText('Click Here!');
+    const externalLink = await screen.getByRole('link', {
+      name: 'Click Here!'
+    });
+
     expect(externalLink).toBeInTheDocument();
+  });
+
+  it('should open external links in a new window', async () => {
+    render(component);
+    const externalLink = await screen.getByRole('link', {
+      name: 'Click Here!'
+    });
+
+    expect(externalLink).toHaveAttribute('rel', 'noopener noreferrer');
+    expect(externalLink).toHaveAttribute('target', '_blank');
   });
 
   it('should trackExternalLink on click', async () => {
