@@ -29,9 +29,9 @@ describe('TableOfContents', () => {
     expect(tocHash).toEqual('#heading-three');
   });
 
-  it('should be either h2 or h3 heading', async () => {
+  it('should render correct heading level', async () => {
     render(component);
     const tocEntry = await screen.findByText('Heading One');
-    expect(tocEntry.className).toContain('h2' || 'h3');
+    expect(tocEntry.className).toContain('h2');
   });
 });
