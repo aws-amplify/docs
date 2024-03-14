@@ -11,8 +11,8 @@ describe('Footer', () => {
   });
 
   it('should render component that matches snapshot', () => {
-    const footer = render(component);
-    expect(footer).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container.outerHTML).toMatchSnapshot();
   });
 
   it('should link to terms, privacy, and social media accounts', async () => {
