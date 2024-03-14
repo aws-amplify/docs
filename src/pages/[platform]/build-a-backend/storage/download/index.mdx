@@ -228,7 +228,7 @@ const { body, eTag } = await downloadData(
     data: file,
     options: {
       onProgress: (progress) {
-        // console.log(`Downloaded: ${progress.transferredBytes}/${progress.totalBytes}`);
+        console.log(`Downloaded: ${progress.transferredBytes}/${progress.totalBytes}`);
       }
     }
   }
@@ -247,7 +247,7 @@ const { body, eTag } = await downloadData(
     data: file,
     options: {
       onProgress: (progress) {
-        // console.log(`Downloaded: ${progress.transferredBytes}/${progress.totalBytes}`);
+        console.log(`Downloaded: ${progress.transferredBytes}/${progress.totalBytes}`);
       }
     }
   }
