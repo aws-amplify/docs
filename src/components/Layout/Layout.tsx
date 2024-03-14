@@ -84,8 +84,6 @@ export const Layout = ({
     }
   };
 
-  console.log(children.props.children);
-
   const isOverview =
     children?.props?.childPageNodes?.length != 'undefined' &&
     children?.props?.childPageNodes?.length > 0;
