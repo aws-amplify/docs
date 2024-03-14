@@ -48,6 +48,7 @@ export const Modal = ({}: ModalProps) => {
       <Flex className="modal-actions">
         <Button
           as="a"
+          size="small"
           href="/gen1"
           onClick={() => handleDialogAction()}
           className="modal-action modal-action--secondary"
@@ -56,6 +57,7 @@ export const Modal = ({}: ModalProps) => {
         </Button>
         <Button
           as="a"
+          size="small"
           href="/"
           onClick={() => handleDialogAction()}
           variation="primary"
