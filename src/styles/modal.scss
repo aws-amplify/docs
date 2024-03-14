@@ -1,0 +1,17 @@
+.modal-portal {
+  position: fixed;
+  inset-inline-end: 0;
+  bottom: 0;
+  padding: var(--amplify-space-large);
+}
+
+.modal {
+  box-shadow: 0 1px 10px hsla(0, 0%, 0%, 0.3);
+  padding: var(--amplify-space-large);
+  background-color: var(--amplify-colors-neutral-100);
+  width: 100%;
+  max-width: 500px;
+  color: var(--amplify-colors-white);
+  border-radius: var(--amplify-radii-medium);
+  flex-direction: column;
+}

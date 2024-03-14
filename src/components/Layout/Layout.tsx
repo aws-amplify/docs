@@ -35,6 +35,7 @@ import {
   NextPrevious,
   NEXT_PREVIOUS_SECTIONS
 } from '@/components/NextPrevious';
+import { Modal } from '@/components/Modal';
 
 export const Layout = ({
   children,
@@ -255,6 +256,13 @@ export const Layout = ({
               </View>
               <Footer hasTOC={showTOC} />
             </View>
+            <Modal>
+              Amplify has reimagined the way frontend developers build fullstack
+              applications on AWS. With this next generation of Amplify&apos;s
+              backend-building experience, you can author your frontend and
+              backend definition completely with Typescript a file convention,
+              and Git branch-based environments.
+            </Modal>
           </IconsProvider>
         </ThemeProvider>
       </LayoutProvider>
