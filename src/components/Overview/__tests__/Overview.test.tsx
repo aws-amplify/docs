@@ -24,9 +24,6 @@ describe('Overview', () => {
       name: 'Authentication Enable sign-in, sign-up and sign-out within minutes with pre-built UI components and powerful authentication APIs'
     });
     const sampleOverviewCard = overviewNode;
-    childPageNodes
-      ? expect(sampleOverviewCard).toBeInTheDocument()
-      : expect(sampleOverviewCard).not.toBeInTheDocument();
-    expect(sampleOverviewCard.textContent).toContain('Authentication');
+    expect(sampleOverviewCard).toBeInTheDocument();
   });
 });
