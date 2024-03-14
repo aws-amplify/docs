@@ -15,30 +15,57 @@ jest.mock('next/router', () => routerMock);
 
 describe('MigrationAlert', () => {
   const legacyPageLinkText = 'View latest documentation',
-    currentPageLinkText = 'Looking for legacy docs?',
-    props = {
-      isLegacy: true,
-      url: '/[platform]/tools/cli/graphqlapi'
-    },
-    component = <MigrationAlert isLegacy={props.isLegacy} url={props.url} />;
+    currentPageLinkText = 'Looking for legacy docs?';
 
   it('should render the MigrationAlert component', async () => {
+    const component = (
+      <MigrationAlert isLegacy={true} url="/[platform]/tools/cli/graphqlapi" />
+    );
+    render(component);
+    const migrationAlertNode = await screen.findByRole('link', {
+      name: legacyPageLinkText
+    });
+    expect(migrationAlertNode).toBeInTheDocument();
+  });
+
+  it('should render should render legacy text when isLegacy is true', async () => {
+    const component = (
+      <MigrationAlert isLegacy={true} url="/[platform]/tools/cli/graphqlapi" />
+    );
     render(component);
 
-    const migrationAlertNode = props.isLegacy
-      ? await screen.findByRole('link', { name: legacyPageLinkText })
-      : await screen.findByRole('link', { name: currentPageLinkText });
+    const migrationAlertNode = await screen.findByRole('link', {
+      name: legacyPageLinkText
+    });
 
     expect(migrationAlertNode).toBeInTheDocument();
   });
 
-  it('should render href', async () => {
+  it('should render should render legacy href when isLegacy is true', async () => {
+    const component = (
+      <MigrationAlert isLegacy={true} url="/[platform]/tools/cli/graphqlapi" />
+    );
     render(component);
 
-    const migrationAlertNode = props.isLegacy
-      ? await screen.findByRole('link', { name: legacyPageLinkText })
-      : await screen.findByRole('link', { name: currentPageLinkText });
+    const migrationAlertNode = await screen.findByRole('link', {
+      name: legacyPageLinkText
+    });
 
-    expect(migrationAlertNode.href).toContain('/react/tools/cli/graphqlapi');
+    expect(migrationAlertNode.getAttribute('href')).toContain(
+      '/react/tools/cli/graphqlapi'
+    );
+  });
+
+  it('should render should render current text when isLegacy is false', async () => {
+    const component = (
+      <MigrationAlert isLegacy={false} url="/[platform]/tools/cli/graphqlapi" />
+    );
+    render(component);
+
+    const migrationAlertNode = await screen.findByRole('link', {
+      name: currentPageLinkText
+    });
+
+    expect(migrationAlertNode).toBeInTheDocument();
   });
 });
