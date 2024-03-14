@@ -128,7 +128,7 @@ export const handler = async (event) => {
 
 ## Resource access
 
-When you grant a function access to another resource in your Amplify backend ([such as granting access to storage](../storage/#resource-access)), that will configure environment variables for that function to make SDK calls to the AWS services it has access to. Those environment variables are typed and available as part of the `env` object.
+When you grant a function access to another resource in your Amplify backend ([such as granting access to storage](/gen2/build-a-backend/storage/#resource-access)), that will configure environment variables for that function to make SDK calls to the AWS services it has access to. Those environment variables are typed and available as part of the `env` object.
 
 Example `defineStorage` that grants myDemoFunction access to files in `/foo/*`.
 
