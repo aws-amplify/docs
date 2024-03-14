@@ -786,6 +786,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/library-not-configured/index.mdx'
                 }
               ]
             }
@@ -1901,6 +1904,9 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/sdk/configuration/setup-options/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/sdk/configuration/amplify-compatibility/index.mdx'
                 }
               ]
             },
@@ -2001,6 +2007,9 @@ export const directory = {
                   path: 'src/pages/gen2/build-a-backend/auth/admin-actions/index.mdx'
                 },
                 {
+                  path: 'src/pages/gen2/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
+                },
+                {
                   path: 'src/pages/gen2/build-a-backend/auth/override-cognito/index.mdx'
                 }
               ]
@@ -2030,10 +2039,13 @@ export const directory = {
                       path: 'src/pages/gen2/build-a-backend/data/data-modeling/add-fields/index.mdx'
                     },
                     {
+                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/relationships/index.mdx'
+                    },
+                    {
                       path: 'src/pages/gen2/build-a-backend/data/data-modeling/identifiers/index.mdx'
                     },
                     {
-                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/relationships/index.mdx'
+                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/secondary-index/index.mdx'
                     }
                   ]
                 },
@@ -2100,6 +2112,18 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/add-aws-services/overriding-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/add-aws-services/rest-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/add-aws-services/in-app-messaging/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/add-aws-services/analytics/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/add-aws-services/geo/index.mdx'
                 }
               ]
             }

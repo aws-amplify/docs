@@ -43,11 +43,11 @@ a.schema({
   Post: a.model({
     location: a.customType({
       lat: a.float(),
-      long: a.float()
+      long: a.float(),
     }),
     content: a.string(),
-  })
-})
+  }),
+});
 ```
 
 **Explicit definition:** Specify the "Location" as `a.customType()` in your schema. To use the custom type, reference it through `a.ref()` in the respective field definitions.
@@ -56,7 +56,7 @@ a.schema({
 a.schema({
   Location: a.customType({
       lat: a.float(),
-      long: a.float()
+      long: a.float(),
   }),
 
   Post: a.model({
@@ -65,9 +65,9 @@ a.schema({
   }),
 
   User: a.model({
-    lastKnownLocation: a.ref('Location')
-  })
-})
+    lastKnownLocation: a.ref('Location'),
+  }),
+});
 ```
 
 To set or read the location field on the client side, you can expand a nested object and the type system will auto-infer the allowed values.
@@ -76,9 +76,9 @@ To set or read the location field on the client side, you can expand a nested ob
 const newPost = await client.models.Post.create({
   location: {
     lat: 48.837006,
-    long: 8.282450
+    long: 8.282450,
   }
-})
+});
 
 console.log(newPost.location.lat, newPost.location.long)
 ```
@@ -91,8 +91,8 @@ a.schema({
   Post: a.model({
     privacySetting: a.enum(['PRIVATE', 'FRIENDS_ONLY', 'PUBLIC']),
     content: string(),
-  })
-})
+  }),
+});
 ```
 
 ```ts
@@ -105,25 +105,34 @@ a.schema({
 
   Post: a.model({
     content: string(),
-    privacySetting: a.ref('PrivacySetting')
+    privacySetting: a.ref('PrivacySetting'),
   }),
 
   Video: a.model({
-    privacySetting: a.ref('PrivacySetting')
-  })
-})
+    privacySetting: a.ref('PrivacySetting'),
+  }),
+});
 ```
 
 When creating a new item client-side, the enums are also type-enforced:
 ```ts
 client.models.Post.create({
-  content: "hello",
+  content: 'hello',
   // WORKS - value auto-completed
-  privacySetting: "PRIVATE"
+  privacySetting: 'PRIVATE',
 
   // DOES NOT WORK - TYPE ERROR
-  privacySetting: "NOT_PUBLIC"
-})
+  privacySetting: 'NOT_PUBLIC',
+});
+```
+
+### List enum values client-side
+
+You can list available enum values client-side using the `client.enums.<ENUM_NAME>.values()` API. For example, this allows you to display the available enum values within a dropdown UI.
+
+```ts
+const availableSettings = client.enums.PrivacySetting.values()
+// availableSettings returns ["PRIVATE", "FRIENDS_ONLY", "PUBLIC"]
 ```
 
 ## Mark fields as required
@@ -131,11 +140,11 @@ client.models.Post.create({
 By default, fields are optional. To mark a field as required, use the `.required()` modifier.
 
 ```ts
-export const schema = a.schema({
+const schema = a.schema({
   Todo: a.model({
-    content: a.string().required()
-  })
-})
+    content: a.string().required(),
+  }),
+});
 ```
 
 ## Mark fields as arrays
@@ -143,12 +152,12 @@ export const schema = a.schema({
 Any field can be modified to be an array using the `.array()` modifier.
 
 ```ts
-export const schema = a.schema({
+const schema = a.schema({
   Todo: a.model({
     content: a.string().required(),
-    notes: a.string().array()
-  })
-})
+    notes: a.string().array(),
+  }),
+});
 ```
 
 ## Assign default values for fields
@@ -156,11 +165,11 @@ export const schema = a.schema({
 You can use the `.default(...)` modifier to specify a default value for optional [scalar type fields and arrays](https://docs.aws.amazon.com/appsync/latest/devguide/scalars.html). The `.default(...)` modifier is not available for custom types, enums, or relationships.
 
 ```ts
-export const schema = a.schema({
+const schema = a.schema({
   Todo: a.model({
-    content: a.string().default("My new Todo")
-  })
-})
+    content: a.string().default('My new Todo'),
+  }),
+});
 ```
 <Callout>
 **Note:** The `.default(...)` modifier can't be applied to required fields.

@@ -593,21 +593,24 @@ npm install aws-amplify @aws-amplify/react-native @react-native-community/netinf
 </Block>
 <Block name="React Native CLI">
 
+import rnVersionCallout from '/src/fragments/common/react-native-version-deployment-target.mdx';
+
+<Fragments fragments={{ all: rnVersionCallout }} />
+
 ```sh
 npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
-```
-
-`@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0`, open the _Podfile_ located in the _ios_ directory and update the `target` value:
-
-```diff
-- platform :ios, min_ios_version_supported
-+ platform :ios, 13.0
 ```
 
 You will also need to install the pod dependencies for iOS:
 
 ```sh
 npx pod-install
+```
+
+After installing pod dependencies, rebuild the app:
+
+```sh
+npm run ios
 ```
 
 </Block>
@@ -727,6 +730,12 @@ In order to import `amplifyconfiguration.json` files in Typescript, you may need
 </InlineFilter>
 
 <InlineFilter filters={["javascript", "react", "angular", "react-native", "vue"]}>
+
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+
+</Callout>
 
 And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in **amplifyconfiguration.json** will update automatically.
 

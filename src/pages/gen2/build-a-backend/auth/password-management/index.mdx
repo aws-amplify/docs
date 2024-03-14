@@ -12,9 +12,9 @@ export function getStaticProps(context) {
   };
 }
 
-Amplify Auth provides a secure way for your users to change their password or recover a forgotten password. 
+Amplify Auth provides a secure way for your users to change their password or recover a forgotten password.
 
-If you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
+If you have not yet created an Amplify Gen 2 app, visit the [quickstart](/gen2/start/quickstart).
 
 ## Understand password default settings
 
@@ -31,15 +31,16 @@ By default, your users can retrieve access to their accounts if they forgot thei
 
 You can always change the channel used by your authentication resources by overriding the following setting.
 
-```diff title="amplify/auth/resource.ts"
-// amplify/auth/resource.ts
+```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
 
 export const auth = defineAuth({
   loginWith: {
     email: true
   },
-+ accountRecovery: 'EMAIL_ONLY'
+// highlight-start
+  accountRecovery: 'EMAIL_ONLY'
+// highlight-end
 });
 ```
 

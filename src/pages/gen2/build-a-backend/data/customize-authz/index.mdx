@@ -20,12 +20,12 @@ export function getStaticProps(context) {
 Use the `.authorization()` modifier to configure authorization rules for public, signed-in user, per user, and per user group data access. **Authorization rules operate on the deny-by-default principle**. Meaning that if an authorization rule is not specifically configured, it is denied.
 
 ```ts
-export const schema = a.schema({
+const schema = a.schema({
   Post: a.model({
     content: a.string()
   }).authorization([
     // Allow anyone auth'd with an API key to read everyone's posts.
-    a.allow.public().to(['read']), 
+    a.allow.public().to(['read']),
     // Allow signed-in user to create, read, update,
     // and delete their __OWN__ posts.
     a.allow.owner(),
@@ -55,7 +55,7 @@ Amplify will always use the most specific authorization rule that is available. 
 
 If there are multiple authorization rules present, they will be logically OR'ed. Review [Configure multiple authorization rules](#configure-multiple-authorization-rules) to learn more.
 
-Finally, there are special "Admin IAM Roles" that allow you to overrule any authorization logic applied on the API and determine the API access completely via its IAM policy.  
+Finally, there are special "Admin IAM Roles" that allow you to overrule any authorization logic applied on the API and determine the API access completely via its IAM policy.
 
 ### Global authorization rule (only for getting started)
 
@@ -64,7 +64,7 @@ To help you get started, you can define an authorization rule on the data schema
 The global authorization rule below uses `a.allow.public()`. This example allows anyone to create, read, update, and delete and is applied to every data model.
 
 ```ts
-export const schema = a.schema({
+const schema = a.schema({
   // Because no model-level authorization rule is present
   // this model will use the global authorization rule.
   Todo: a.model({
@@ -85,10 +85,10 @@ export const schema = a.schema({
 
 ### Model-level authorization rules
 
-Add an authorization rule to a model to apply the authorization rule to all fields of that model. 
+Add an authorization rule to a model to apply the authorization rule to all fields of that model.
 
 ```ts
-export const schema = a.schema({
+const schema = a.schema({
   Post: a.model({
     content: a.string(),
     createdBy: a.string()
@@ -96,7 +96,7 @@ export const schema = a.schema({
     // All fields (content, createdBy) will be protected by
     // this authorization rule
   }).authorization([
-    a.allow.public().to(['read']), 
+    a.allow.public().to(['read']),
     a.allow.owner(),
   ])
 })
@@ -112,7 +112,7 @@ In the example below:
 - Only the `ssn` field has `owner` auth applied and this field-level auth rule means that model-level auth rules are not applied
 
 ```ts
-export const schema = a.schema({
+const schema = a.schema({
   Employee: a.model({
     name: a.string(),
     email: a.string(),
@@ -137,7 +137,7 @@ When combining multiple authorization rules, they are "logically OR"-ed. In the 
 - Owners are allowed to create, read, update, and delete their own posts
 
 ```ts
-export const schema = a.schema({
+const schema = a.schema({
   Post: a.model({
     title: a.string(),
     content: a.string()
@@ -152,7 +152,7 @@ On the client side, make sure to always authenticate with the corresponding auth
 
 ```ts
 import { generateClient } from 'aws-amplify/data'
-import type { Schema } from '@/backend/data/resource' // Path to your backend resource definition
+import type { Schema } from '@/amplify/data/resource' // Path to your backend resource definition
 
 const client = generateClient<Schema>()
 
