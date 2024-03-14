@@ -13,14 +13,14 @@ export const IconX = ({ ...rest }) => {
       }}
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M22 3.8182L3.81818 22L2 20.1818L20.1818 2.00002L22 3.8182Z"
         fill="currentColor"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M3.81818 2L22 20.1818L20.1818 22L2 3.81818L3.81818 2Z"
         fill="currentColor"
       />

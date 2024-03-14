@@ -1,56 +1,69 @@
-import {
-  Button,
-  Flex,
-  View,
-  ViewProps,
-  VisuallyHidden
-} from '@aws-amplify/ui-react';
-import { IconX } from '@/components/Icons';
-import { useState, useId } from 'react';
-interface ModalProps extends ViewProps {
-  modalHeading?: React.ReactNode;
-}
+import { Button, Flex, ViewProps, VisuallyHidden } from '@aws-amplify/ui-react';
+import { IconStar, IconX } from '@/components/Icons';
+import { useEffect, useId, useState } from 'react';
 
-export const Modal = ({ modalHeading, children }: ModalProps) => {
+interface ModalProps extends ViewProps {}
+
+export const Modal = ({}: ModalProps) => {
   const headingId = useId();
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
-  return isVisible ? (
-    <View role="dialog" className="modal-portal" aria-labelledby={headingId}>
-      <Flex className="modal">
-        <Flex className="modal-header">
-          <Flex as="h2" className="modal-heading" id={headingId}>
-            {modalHeading}
-          </Flex>
-          <Button
-            onClick={() => setIsVisible(false)}
-            variation="link"
-            className="modal-dismiss"
-          >
-            <VisuallyHidden>Dismiss Gen 2 modal</VisuallyHidden>
-            <IconX />
-          </Button>
-        </Flex>
+  const handleDialogAction = () => {
+    localStorage.setItem('gen2ModalDismissed', 'true');
+    setIsVisible(false);
+  };
 
-        {children}
-        <Flex>
-          <Button
-            as="a"
-            href="/gen1"
-            className="modal-action modal-action--secondary"
-          >
-            Go to Gen 1 docs
-          </Button>
-          <Button
-            as="a"
-            href="/"
-            variation="primary"
-            className="modal-action modal-action--primary"
-          >
-            Learn more
-          </Button>
+  useEffect(() => {
+    const hasDismissedGen2Modal = localStorage.getItem('gen2ModalDismissed');
+    if (!hasDismissedGen2Modal) {
+      setIsVisible(true);
+    }
+  }, []);
+
+  return (
+    <Flex
+      as="dialog"
+      open={isVisible}
+      className="modal"
+      aria-labelledby={headingId}
+    >
+      <Flex className="modal-header">
+        <Flex as="h2" className="modal-heading" id={headingId}>
+          <IconStar /> Introducing Amplify Gen 2
         </Flex>
+        <Button
+          onClick={() => handleDialogAction()}
+          variation="link"
+          className="modal-dismiss"
+        >
+          <VisuallyHidden>Dismiss Gen 2 introduction dialog</VisuallyHidden>
+          <IconX />
+        </Button>
       </Flex>
-    </View>
-  ) : null;
+      Amplify has reimagined the way frontend developers build fullstack
+      applications on AWS. With this next generation of Amplify&apos;s
+      backend-building experience, you can author your frontend and backend
+      definition completely with Typescript a file convention, and Git
+      branch-based environments.
+      <Flex className="modal-actions">
+        <Button
+          as="a"
+          href="/gen1"
+          onClick={() => handleDialogAction()}
+          className="modal-action modal-action--secondary"
+        >
+          Go to Gen 1 docs
+        </Button>
+        <Button
+          as="a"
+          href="/"
+          onClick={() => handleDialogAction()}
+          variation="primary"
+          className="modal-action modal-action--primary"
+        >
+          Learn more
+        </Button>
+      </Flex>
+    </Flex>
+  );
 };

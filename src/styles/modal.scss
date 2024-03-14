@@ -1,21 +1,26 @@
-.modal-portal {
+.modal {
   position: fixed;
   inset-inline-end: 0;
+  inset-inline-start: auto;
+  margin: var(--amplify-space-large);
   bottom: 0;
-  padding: var(--amplify-space-large);
   z-index: 1;
-}
-
-.modal {
+  width: 100%;
+  height: auto;
+  border: none;
   box-shadow: 0 1px 10px hsla(0, 0%, 0%, 0.3);
   padding: var(--amplify-space-large);
   background-color: var(--amplify-colors-neutral-100);
-  width: 100%;
   max-width: 500px;
   color: var(--amplify-colors-white);
   border-radius: var(--amplify-radii-medium);
   flex-direction: column;
+  display: none;
+  &[open] {
+    display: flex;
+  }
 }
+
 .modal-header {
   align-items: center;
 }
@@ -61,4 +66,10 @@
   &:hover {
     background-color: var(--amplify-colors-neutral-90);
   }
+}
+
+.modal-actions {
+  padding-top: var(--amplify-space-medium);
+  justify-content: flex-end;
+  border-top: 1px solid hsla(255, 100%, 100%, 0.2);
 }
