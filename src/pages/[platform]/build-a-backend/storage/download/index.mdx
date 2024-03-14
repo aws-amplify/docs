@@ -129,12 +129,35 @@ await getUrl({ key: 'filename.txt', options: { expiresIn: 60 } });
 
 Download a file to in-memory buffer.
 
+<BlockSwitcher>
+<Block name="Path (Version 6.0.18)">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
 // Downloads file content to memory
 const { body, eTag } = await downloadData({
-  key,
+  path: filename,
+  data: file,
+  options: {
+    onProgress: (event) => {
+      console.log(event.transferredBytes);
+    } // optional progress callback
+    bytesRange: {
+      start: 1024,
+      end: 2048
+    } // optional bytes range parameter to download a part of the file, the 2nd MB of the file in this example
+  }
+}).result;
+```
+</Block>
+<Block name="Key (Deprecated)">
+
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+// Downloads file content to memory
+const { body, eTag } = await downloadData({
+  key: filename,
   data: file,
   options: {
     accessLevel: 'guest', // access level of the file being downloaded
@@ -149,11 +172,30 @@ const { body, eTag } = await downloadData({
   }
 }).result;
 ```
+</Block>
+</BlockSwitcher>
 
 ### Get the text value of downloaded File
 
 You can consume the value of file in any of the three formats: `blob`, `json`, or `text`. You can call the respective method on the `body` property to consume the set data in the respective format.
 
+<BlockSwitcher>
+<Block name="Path (Version 6.0.18)">
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+try {
+  const downloadResult = await downloadData({ path: filename }).result;
+  const text = await downloadResult.body.text();
+  // Alternatively, you can use `downloadResult.body.blob()`
+  // or `downloadResult.body.json()` get read body in Blob or JSON format.
+  console.log('Succeed: ', text);
+} catch (error) {
+  console.log('Error : ', error);
+}
+```
+</Block>
+<Block name="Key (Deprecated)">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
@@ -167,34 +209,61 @@ try {
   console.log('Error : ', error);
 }
 ```
+</Block>
+</BlockSwitcher>
 
 ### Track the progress of a download task
 
 To track the progress of your download, you can use `onProgress`:
 
+<BlockSwitcher>
+<Block name="Path (Version 6.0.18)">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
 // Download a file from s3 bucket
 const { body, eTag } = await downloadData(
   {
-    key,
+    path: filename,
     data: file,
     options: {
       onProgress: (progress) {
-        console.log(`Downloaded: ${progress.transferredBytes}/${progress.totalBytes}`);
+        // console.log(`Downloaded: ${progress.transferredBytes}/${progress.totalBytes}`);
       }
     }
   }
 ).result;
 ```
+</Block>
+
+<Block name="Key (Deprecated)">
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+// Download a file from s3 bucket
+const { body, eTag } = await downloadData(
+  {
+    key: filename,
+    data: file,
+    options: {
+      onProgress: (progress) {
+        // console.log(`Downloaded: ${progress.transferredBytes}/${progress.totalBytes}`);
+      }
+    }
+  }
+).result;
+```
+</Block>
+</BlockSwitcher>
 
 ### Cancel a download task
 
+<BlockSwitcher>
+<Block name="Path (Version 6.0.18)">
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
 
-const downloadTask = downloadData({ key, data: file });
+const downloadTask = downloadData({ path: filename, data: file });
 downloadTask.cancel();
 try {
   await downloadTask.result;
@@ -204,6 +273,27 @@ try {
   }
 }
 ```
+</Block>
+
+<Block name="Key (Deprecated)">
+```javascript
+import { downloadData, isCancelError } from 'aws-amplify/storage';
+const downloadTask = downloadData({ key: filename, data: file });
+downloadTask.cancel();
+try {
+  await downloadTask.result;
+} catch (error) {
+  if (isCancelError(error)) {
+    // Handle error thrown by task cancellation.
+  }
+}
+```
+</Block>
+</BlockSwitcher>
+
+<Callout warning>
+Note: The `key` and `accessLevel` parameters are deprecated and may be removed in the next major version.
+</Callout>
 
 <Callout>
 To get the metadata in result for all APIs you have to configure user defined metadata in CORS.
@@ -211,6 +301,7 @@ To get the metadata in result for all APIs you have to configure user defined me
 Learn more about how to setup an appropriate [CORS Policy](/[platform]/prev/build-a-backend/storage/set-up-storage/#amazon-s3-bucket-cors-policy-setup).
 
 </Callout>
+
 
 ### Frequently Asked Questions
 
