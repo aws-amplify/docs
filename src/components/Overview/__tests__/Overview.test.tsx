@@ -15,7 +15,7 @@ const routerMock = {
 jest.mock('next/router', () => routerMock);
 
 describe('Overview', () => {
-  const childPageNodes = getChildPageNodes('/[platform]/build-a-backend');
+  const childPageNodes = getChildPageNodes('/gen1/[platform]/build-a-backend');
   const component = <Overview childPageNodes={childPageNodes} />;
 
   it('should render the Overview component', async () => {

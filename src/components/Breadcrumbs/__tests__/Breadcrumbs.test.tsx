@@ -45,7 +45,7 @@ describe('Breadcrumbs', () => {
   it('should replace "prev" with applicable version in Breadcrumbs text', async () => {
     const component = (
       <Breadcrumbs
-        route={'/javascript/prev/build-a-backend/auth/set-up-auth/'}
+        route={'/gen1/javascript/prev/build-a-backend/auth/set-up-auth/'}
       />
     );
     render(component);
