@@ -127,19 +127,12 @@ After your query or mutation is defined, you need to author your custom business
 
 <Block name="Function">
 
-In your `amplify/data/echo-handler/` folder, create a `handler.ts` file.
+In your `amplify/data/echo-handler/` folder, create a `handler.ts` file. You can import a utility type for your function handler via the `Schema` type from your backend resource. This gives you type-safe handler parameters and return values.
 
 ```ts title="amplify/data/echo-handler.ts"
-import type { AppSyncResolverHandler } from 'aws-lambda'; // types imported from @types/aws-lambda
+import type { Schema } from './resource'
 
-type ResolverArgs = { content: string };
-
-type ResolverResult = { content: string; executionDuration: number };
-
-export const handler: AppSyncResolverHandler<
-  ResolverArgs,
-  ResolverResult
-> = async (event, context) => {
+export const handler: Schema["echo"]["functionHandler"] = async (event, context) => {
   const start = performance.now();
   return {
     content: `Echoing content: ${event.arguments.content}`,
@@ -148,16 +141,17 @@ export const handler: AppSyncResolverHandler<
 };
 ```
 
-In your `amplify/data/resource.ts` file, define the function using `defineFunction` and then reference the function with your query or mutation using the `.function()` modifier along with the `functions` map of `defineData`.
+In your `amplify/data/resource.ts` file, define the function using `defineFunction` and then reference the function with your query or mutation using `a.handler.function()` as a handler.
 
 ```ts title="amplify/data/resource.ts"
 import {
   type ClientSchema,
   a,
   defineData,
-  defineFunction // Step 1 - Import "defineFunction" to create new functions
+  defineFunction // 1.Import "defineFunction" to create new functions
 } from '@aws-amplify/backend';
 
+// 2. define a function
 const echoHandler = defineFunction({
   entry: './echo-handler/handler.ts'
 })
@@ -173,7 +167,8 @@ const schema = a.schema({
     .arguments({ content: a.string() })
     .returns(a.ref('EchoResponse'))
     .authorization([a.allow.public()])
-    .function('echoHandler')
+    // 3. set the function has the handler
+    .handler(a.handler.function(echoHandler))
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -186,9 +181,6 @@ export const data = defineData({
       expiresInDays: 30
     },
   },
-  functions: {
-    'echoHandler': echoHandler
-  }
 });
 ```
 
@@ -339,15 +331,15 @@ export const data = defineData({
 
 <Callout warning>
 
-The `.handler()` accepts an array of handlers that will run in a pipeline. For now, in the developer preview, you can only use `a.handler.custom()`. All other handlers, such as `a.handler.function()` are under active development. 
+The `.handler()` accepts an array of handlers that will run in a pipeline. For now, in the developer preview, you can only use `a.handler.custom()` and `a.handler.function()`. All other handlers, such as `a.handler.inlineSql()` are under active development. 
 
 </Callout>
 
-{/* <Callout warning>
+<Callout warning>
 
 All handlers must be of the same type. For example, you can't mix and match `a.handler.function` with `a.handler.custom` within a single `.handler()` modifier.
 
-</Callout> */}
+</Callout>
 
 ## Step 3 - Invoke the custom query or mutation
 
