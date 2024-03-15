@@ -130,7 +130,7 @@ await getUrl({ key: 'filename.txt', options: { expiresIn: 60 } });
 Download a file to in-memory buffer.
 
 <BlockSwitcher>
-<Block name="Path (Version 6.0.18)">
+<Block name="Path">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
@@ -180,7 +180,7 @@ const { body, eTag } = await downloadData({
 You can consume the value of file in any of the three formats: `blob`, `json`, or `text`. You can call the respective method on the `body` property to consume the set data in the respective format.
 
 <BlockSwitcher>
-<Block name="Path (Version 6.0.18)">
+<Block name="Path">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
@@ -217,7 +217,7 @@ try {
 To track the progress of your download, you can use `onProgress`:
 
 <BlockSwitcher>
-<Block name="Path (Version 6.0.18)">
+<Block name="Path">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
@@ -259,7 +259,7 @@ const { body, eTag } = await downloadData(
 ### Cancel a download task
 
 <BlockSwitcher>
-<Block name="Path (Version 6.0.18)">
+<Block name="Path">
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
 
