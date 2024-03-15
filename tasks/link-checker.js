@@ -48,7 +48,48 @@ const getSitemapUrls = async (localDomain) => {
   return siteMapUrls;
 };
 
-const retrieveLinks = async (siteMapUrls, visitedLinks, localDomain) => {
+/**
+ * Helper function to consolidate link texts by Url
+ * @param {{url: string, parentUrl: string, linkText: string}[]} links Array of link objects
+ * @returns An object with the URL as key and value as an array of objects containing the parentUrl and linkText
+ */
+const consolidateByUrl = (links) => {
+  const urlsToVisit = {};
+
+  for (const link of links) {
+    let href = link.url.split('#')[0];
+    if (href.startsWith(GITHUB_CREATE_ISSUE_LINK)) {
+      // remove query parameters from github new issue links
+      href = href.split('?')[0];
+    }
+
+    if (href.startsWith(GITHUB_EDIT_LINK)) continue;
+
+    if (!urlsToVisit.hasOwnProperty(href)) {
+      urlsToVisit[href] = [
+        {
+          parentUrl: link.parentUrl,
+          linkText: link.linkText
+        }
+      ];
+    } else {
+      urlsToVisit[href].push({
+        parentUrl: link.parentUrl,
+        linkText: link.linkText
+      });
+    }
+  }
+
+  return urlsToVisit;
+};
+
+/**
+ * Uses puppeteer to visit each url from siteMapUrls and finds all the 'a' tags to create a
+ * @param {string[]} siteMapUrls List of urls found from the sitemap
+ * @param {string} localDomain The base url we are running the link checker on
+ * @returns Array of urls we need to visit
+ */
+const retrieveLinks = async (siteMapUrls, localDomain) => {
   let browser = await puppeteer.launch({ headless: 'new' });
 
   let page = await browser.newPage();
@@ -62,11 +103,18 @@ const retrieveLinks = async (siteMapUrls, visitedLinks, localDomain) => {
       let response = await page.goto(url, { waitUntil: 'domcontentloaded' });
       await new Promise((r) => setTimeout(r, 100)); // localhost hangs on wait for idle so use a short timeout instead
       if (response && response.status() && response.status() === 200) {
-        visitedLinks[url] = true;
-
+        // Get all the links from the page
         const urlList = await page.evaluate(async (url) => {
-          let urls = [];
-          let elements = document.getElementsByTagName('a');
+          const urls = [];
+          let elements;
+          if (url === 'https://docs.amplify.aws/') {
+            // On the homepage, grab all the links (nav bar, footer, left menu)
+            elements = document.getElementsByTagName('a');
+          } else {
+            // On any other page, grab only the links in the main element
+            elements = document.querySelector('main').getElementsByTagName('a');
+          }
+
           for (let i = 0; i < elements.length; i++) {
             let element = elements[i];
             if (element.href) {
@@ -104,7 +152,8 @@ const retrieveLinks = async (siteMapUrls, visitedLinks, localDomain) => {
 
   browser.close();
 
-  return urlsToVisit;
+  // Merge duplicate urls
+  return consolidateByUrl(urlsToVisit);
 };
 
 const formatString = (inputs) => {
@@ -117,30 +166,31 @@ const formatString = (inputs) => {
   });
   return retString;
 };
-
-const linkChecker = async (localDomain) => {
-  const visitedLinks = {};
+/**
+ *
+ * @param {*} localDomain
+ * @param {string[]} links
+ * @returns
+ */
+const linkChecker = async (localDomain, links) => {
   const statusCodes = {};
   const brokenLinks = [];
 
-  const siteMapUrls = await getSitemapUrls(localDomain);
+  let urlsToVisit;
 
-  const urlsToVisit = await retrieveLinks(
-    siteMapUrls,
-    visitedLinks,
-    localDomain
-  );
+  if (Array.isArray(links) && links.length > 0) {
+    urlsToVisit = await retrieveLinks(links, localDomain);
+  } else {
+    const siteMapUrls = await getSitemapUrls(localDomain);
 
-  for (let i = 0; i < urlsToVisit.length; i++) {
-    const link = urlsToVisit[i];
-    let href = link.url.split('#')[0];
-    if (href.startsWith(GITHUB_CREATE_ISSUE_LINK)) {
-      // remove query parameters from github new issue links
-      href = href.split('?')[0];
-    }
-    if (href.startsWith(GITHUB_EDIT_LINK)) continue;
-    if (visitedLinks[href]) continue;
-    visitedLinks[href] = true;
+    urlsToVisit = await retrieveLinks(siteMapUrls, localDomain);
+  }
+
+  console.log('URLs to visit:\n', JSON.stringify(urlsToVisit, null, 2));
+  console.log('\n');
+
+  for (const href in urlsToVisit) {
+    console.log('visiting', href);
 
     let request = axios
       .get(href, {
@@ -160,15 +210,17 @@ const linkChecker = async (localDomain) => {
           statusCodes[statusCode].push(href);
         }
         if (statusCode === 404) {
-          brokenLinks.push(link);
+          brokenLinks.push({ url: href, found: urlsToVisit[href] });
         }
       });
 
     await request;
   }
 
-  console.log(statusCodes);
-  console.log(brokenLinks);
+  console.log('\n');
+  console.log(JSON.stringify(statusCodes, null, 2));
+  console.log('\n');
+  console.log(JSON.stringify(brokenLinks, null, 2));
 
   return formatString(brokenLinks);
 };
@@ -179,5 +231,8 @@ module.exports = {
   },
   checkDevLinks: async () => {
     return await linkChecker('http://localhost:3000');
+  },
+  checkSpecificLinks: async (localDomain, links) => {
+    return await linkChecker(localDomain, links);
   }
 };
