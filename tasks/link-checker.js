@@ -222,12 +222,9 @@ const linkChecker = async (localDomain, links) => {
     urlsToVisit = await retrieveLinks(siteMapUrls, localDomain);
   }
 
-  console.log('URLs to visit:\n', JSON.stringify(urlsToVisit, null, 2));
-  console.log('\n');
+  console.log('Visiting urls...\n');
 
   for (const href in urlsToVisit) {
-    console.log('visiting', href);
-
     let request = axios
       .get(href, {
         timeout: 5000
@@ -254,9 +251,9 @@ const linkChecker = async (localDomain, links) => {
   }
 
   console.log('\n');
-  console.log(JSON.stringify(statusCodes, null, 2));
+  console.log('Status codes:\n', JSON.stringify(statusCodes, null, 2));
   console.log('\n');
-  console.log(JSON.stringify(brokenLinks, null, 2));
+  console.log('Broken links:\n', JSON.stringify(brokenLinks, null, 2));
 
   return formatString(brokenLinks);
 };
