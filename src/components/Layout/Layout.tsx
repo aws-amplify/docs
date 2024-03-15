@@ -214,7 +214,7 @@ export const Layout = ({
           colorMode={colorMode}
         >
           <IconsProvider icons={defaultIcons}>
-            <Modal />
+            <Modal isGen1={isGen1} />
             <View
               className={`layout-wrapper layout-wrapper--${pageType}${isGen1 ? ' layout-wrapper--gen1' : ''}`}
             >

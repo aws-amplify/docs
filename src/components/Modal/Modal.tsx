@@ -1,17 +1,24 @@
 import { Button, Flex, ViewProps, VisuallyHidden } from '@aws-amplify/ui-react';
 import { IconStar, IconX } from '@/components/Icons';
 import { useEffect, useId, useState } from 'react';
+import { InternalLinkButton } from '@/components/InternalLinkButton';
+import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
+import { DEFAULT_PLATFORM } from '@/data/platforms';
+import { useGenSwitcherPath } from './useGenSwitcherPath';
 
-interface ModalProps extends ViewProps {}
+interface ModalProps extends ViewProps {
+  isGen1?: boolean;
+}
 
-export const Modal = ({}: ModalProps) => {
+export const Modal = ({ isGen1 }: ModalProps) => {
   const headingId = useId();
   const [isVisible, setIsVisible] = useState(false);
-
+  const platform = useCurrentPlatform() || DEFAULT_PLATFORM;
   const handleDialogAction = () => {
     localStorage.setItem('gen2ModalDismissed', 'true');
     setIsVisible(false);
   };
+  const gen1Path = useGenSwitcherPath(platform);
 
   useEffect(() => {
     const hasDismissedGen2Modal = localStorage.getItem('gen2ModalDismissed');
@@ -46,25 +53,30 @@ export const Modal = ({}: ModalProps) => {
       definition completely with Typescript a file convention, and Git
       branch-based environments.
       <Flex className="modal-actions">
-        <Button
+        {isGen1 ? null : (
+          <InternalLinkButton
+            as="a"
+            size="small"
+            href={gen1Path}
+            onClick={() => handleDialogAction()}
+            className="modal-action modal-action--secondary"
+          >
+            Go to Gen 1 docs
+          </InternalLinkButton>
+        )}
+        <InternalLinkButton
           as="a"
           size="small"
-          href="/gen1"
-          onClick={() => handleDialogAction()}
-          className="modal-action modal-action--secondary"
-        >
-          Go to Gen 1 docs
-        </Button>
-        <Button
-          as="a"
-          size="small"
-          href="/"
+          href={{
+            pathname: '/[platform]/how-amplify-works',
+            query: { platform: platform }
+          }}
           onClick={() => handleDialogAction()}
           variation="primary"
           className="modal-action modal-action--primary"
         >
-          Learn more
-        </Button>
+          How Amplify Gen 2 works
+        </InternalLinkButton>
       </Flex>
     </Flex>
   );
