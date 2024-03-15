@@ -40,7 +40,7 @@ There are two use cases for IAM auth with the Amplify GraphQL CDK construct.
 
 **Use case 1: Provide a deny-by-default authorization pattern for Amazon Cognito identity pool's unauthenticated and authenticated role access to the API.** We wanted to ensure if you want any unauthenticated roles to access a model, you must explicit allow-list that behavior. For example: `@auth(rules: [{ allow: public, provider: iam }])`. 
 
-**Use case 2: Provide access to the GraphQL API from other AWS roles, such as AWS Lambda functions' execution role, or to use the GraphQL query explorer from the AWS AppSync console.** In this case, despite these IAM roles having the required IAM policies to access the GraphQL API, you needed to also supply these IAM roles into the Amplify GraphQL API CDK construct's `allowListedAdminRoles` properties. This often led to circular dependency issues that are difficult to untangle.
+**Use case 2: Provide access to the GraphQL API from other IAM principals, such as AWS Lambda functions' execution role, or to use the GraphQL query explorer from the AWS AppSync console.** In this case, despite these IAM roles having the required IAM policies to access the GraphQL API, you needed to also supply these IAM roles into the Amplify GraphQL API CDK construct's `allowListedAdminRoles` properties. This often led to circular dependency issues that are difficult to untangle.
 
 ### How does IAM authorization work after this improvement? 
 
