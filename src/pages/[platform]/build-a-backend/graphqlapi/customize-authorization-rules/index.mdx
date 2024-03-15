@@ -707,7 +707,7 @@ IAM-based `@auth` rules are scoped down to only work with Amplify-generated IAM 
 </Block>
 <Block name="AWS CDK">
 
-To grant an external AWS Resource or an IAM role access, **with the exception of Amazon Cognito identity pool roles**, to this GraphQL API in CDK, you need to enable IAM authorization mode via the `iamConfig` property of the CDK construct.
+To grant any IAM principal (AWS Resource, IAM role, IAM user, etc) access, **with the exception of Amazon Cognito identity pool roles**, to this GraphQL API in CDK, you need to enable IAM authorization mode via the `iamConfig` property of the CDK construct.
 
 ```typescript
 const userRole = Role.fromRoleName(
