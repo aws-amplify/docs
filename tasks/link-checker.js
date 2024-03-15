@@ -204,8 +204,8 @@ const formatString = (inputs) => {
 
 /**
  * Makes a request to each link to check for 404s
- * @param {string} localDomain
- * @param {string[]} links
+ * @param {string} localDomain Base url for the links to check
+ * @param {string[]} links List of urls as strings to check. If this array is passed then the link checker will only look at these links
  * @returns Urls that returned a 404
  */
 const linkChecker = async (localDomain, links) => {
