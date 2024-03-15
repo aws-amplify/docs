@@ -1,24 +1,7 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
 export const meta = {
   title: 'Customize secondary indexes',
   description:
-    'Define the secondary indexes for your data model to optimize query performance',
-  platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
-};
-
-export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
+    'Define the secondary indexes for your data model to optimize query performance'
 };
 
 export function getStaticProps(context) {
@@ -44,16 +27,17 @@ export const schema = a.schema({
     a.index('accountRepresentativeId')
   ])
   // highlight-end
-})
+   .authorization([a.allow.public()]),
+});
 ```
 
 The example client query below allows you to query for "Customer" records based on their `accountRepresentativeId`:
 
 ```ts
-import { type Schema } from '../amplify/data/resource'
-import { generateClient } from 'aws-amplify/data'
+import { type Schema } from '../amplify/data/resource';
+import { generateClient } from 'aws-amplify/data';
 
-const client = generateClient<Schema>()
+const client = generateClient<Schema>();
 
 const {
   data,
@@ -61,7 +45,7 @@ const {
   // highlight-start
 } = await client.models.Customer.listByAccountRepresentativeId({
   accountRepresentativeId: "YOUR_REP_ID"
-})
+});
   // highlight-end
 ```
 
@@ -82,13 +66,13 @@ const schema = a.schema({
   Customer: a.model({
     name: a.string(),
     phoneNumber: a.phone().required(),
-    accountRepresentativeId: a.id().required()
+    accountRepresentativeId: a.id().required(),
   }).secondaryIndexes([
     a.index('accountRepresentativeId')
     // highlight-next-line
-      .sortKeys(["name"])
+      .sortKeys(["name"]),
   ])
-}).authorization([a.allow.owner()])
+}).authorization([a.allow.owner()]);
 ```
 
 On the client side, you should find a new `listBy...` query that's named after hash key and sort keys. For example, in this case: `listByAccountRepresentativeIdAndName`. You can supply the filter as part of this new list query:
@@ -99,11 +83,11 @@ const {
   errors
   // highlight-next-line
 } = await client.models.Customer.listByAccountRepresentativeIdAndName({
-  accountRepresentativeId: "YOUR_REP_ID",
+  accountRepresentativeId: 'YOUR_REP_ID',
   name: {
-    beginsWith: "Rene"
-  }
-})
+    beginsWith: 'Rene',
+  },
+});
 ```
 
 ## Customize the query field for secondary indexes
@@ -115,13 +99,13 @@ const schema = a.schema({
   Customer: a.model({
     name: a.string(),
     phoneNumber: a.phone(),
-    accountRepresentativeId: a.id().required()
+    accountRepresentativeId: a.id().required(),
   }).secondaryIndexes([
     a.index('accountRepresentativeId')
     // highlight-next-line
-      .queryField("listByRep")
-  ])
-}).authorization([a.allow.owner()])
+      .queryField("listByRep"),
+  ]),
+}).authorization([a.allow.owner()]);
 ```
 
 In your client app code, you'll see query updated under the Data client:
@@ -132,7 +116,7 @@ const {
   errors
   // highlight-next-line
 } = await client.models.Customer.listByRep({
-  accountRepresentativeId: "YOUR_REP_ID"
+  accountRepresentativeId: 'YOUR_REP_ID',
 })
 ```
 
@@ -145,11 +129,11 @@ const schema = a.schema({
   Customer: a.model({
     name: a.string(),
     phoneNumber: a.phone(),
-    accountRepresentativeId: a.id().required()
+    accountRepresentativeId: a.id().required(),
   }).secondaryIndexes([
     a.index('accountRepresentativeId')
     // highlight-next-line
-      .name("MyCustomIndexName")
+      .name("MyCustomIndexName"),
   ])
-}).authorization([a.allow.owner()])
+}).authorization([a.allow.owner()]);
 ```
