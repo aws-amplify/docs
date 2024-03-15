@@ -44,23 +44,22 @@ export function GlobalNav({
     <View
       as="nav"
       className={`navbar ${isGen1 ? 'navbar--gen1' : ''}`}
-      aria-label="Amplify Dev Center - External links to additional Amplify resources"
+      aria-label="Amplify Docs - External links to additional Amplify resources"
     >
       <SkipToMain mainId={mainId} />
       <Flex className="nav-links-container">
-        <Flex className="left-nav-links">
-          <AmplifyNavLink
-            currentSite={currentSite}
-            isCollapsed={isCollapsed}
-            setIsCollapsed={setIsCollapsed}
-          />
+        <AmplifyNavLink
+          isGen1={isGen1}
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+        />
 
-          <LeftNavLinks
-            isCollapsed={isCollapsed}
-            leftLinks={leftLinks}
-            currentSite={currentSite}
-          />
-        </Flex>
+        <LeftNavLinks
+          isCollapsed={isCollapsed}
+          leftLinks={leftLinks}
+          currentSite={currentSite}
+        />
+
         <RightNavLinks
           rightLinks={rightLinks}
           socialLinks={socialLinks}

@@ -77,7 +77,10 @@ export const LayoutHeader = ({
               indexName={process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME}
               apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
               searchParameters={{
-                facetFilters: [`platform:${isGen1 ? 'gen1' : currentPlatform}`]
+                facetFilters: [
+                  `platform:${currentPlatform}`,
+                  `gen:${isGen1 ? 'gen1' : 'gen2'}`
+                ]
               }}
             />
           </View>

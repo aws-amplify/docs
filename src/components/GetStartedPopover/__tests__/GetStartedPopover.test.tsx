@@ -33,7 +33,7 @@ describe('GetStartedPopover', () => {
     const popoverNode = await screen.findByRole('link', {
       name: 'Get started'
     });
-    expect(popoverNode.href).toContain(
+    expect(popoverNode.getAttribute('href')).toContain(
       '/react/start/getting-started/introduction'
     );
   });
@@ -59,13 +59,13 @@ describe('GetStartedPopover', () => {
     const swiftOption = await screen.findByRole('link', { name: 'Swift' });
     const angularOption = await screen.findByRole('link', { name: 'Angular' });
     const nextjsOption = await screen.findByRole('link', { name: 'Next.js' });
-    expect(swiftOption.href).toContain(
+    expect(swiftOption.getAttribute('href')).toContain(
       '/swift/start/getting-started/introduction'
     );
-    expect(angularOption.href).toContain(
+    expect(angularOption.getAttribute('href')).toContain(
       '/angular/start/getting-started/introduction'
     );
-    expect(nextjsOption.href).toContain(
+    expect(nextjsOption.getAttribute('href')).toContain(
       '/nextjs/start/getting-started/introduction'
     );
   });
