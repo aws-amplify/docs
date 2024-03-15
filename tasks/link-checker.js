@@ -84,7 +84,7 @@ const consolidateByUrl = (links) => {
 };
 
 /**
- * Uses puppeteer to visit each url from siteMapUrls and finds all the 'a' tags to create a
+ * Uses puppeteer to visit each url from siteMapUrls and finds all the 'a' tags on each page to create a list of urls we need to visit
  * @param {string[]} siteMapUrls List of urls found from the sitemap
  * @param {string} localDomain The base url we are running the link checker on
  * @returns Array of urls we need to visit
@@ -156,21 +156,59 @@ const retrieveLinks = async (siteMapUrls, localDomain) => {
   return consolidateByUrl(urlsToVisit);
 };
 
+/**
+ * Format the broken links output for slack
+ * @param {{url: string, pages: {parentUrl: string, linkText: string}[]}[]} inputs
+ * @returns String that slack uses to notify that there are broken links
+ *
+ * example argument, 'inputs':
+ * [
+ *  {
+ *    "url": "http://localhost:3000/test/build-a-backend/more-features/analytics/",
+ *    "pages": [
+ *      {
+ *        "parentUrl": "http://localhost:3000/gen2/build-a-backend/add-aws-services/analytics/",
+ *        "linkText": "Analytics documentation"
+ *      },
+ *      {
+ *        "parentUrl": "http://localhost:3000/gen2/build-a-backend/add-aws-services/analytics/",
+ *        "linkText": "another one"
+ *      },
+ *      {
+ *        "parentUrl": "http://localhost:3000/gen2/build-a-backend/functions/",
+ *        "linkText": "another broken one"
+ *      }
+ *    ]
+ *  }
+ * ]
+ */
 const formatString = (inputs) => {
   let retString = '';
   inputs.forEach((item) => {
     Object.keys(item).forEach((k) => {
-      retString += `${k} - ${item[k]} \\n`;
+      if (k === 'url') {
+        retString += `Broken url: ${item[k]} \\n`;
+      } else if (k === 'pages') {
+        retString += `On pages: \\n`;
+        item[k].forEach((page) => {
+          retString += `• ${page.parentUrl} \\n`;
+          retString += `   • For link text: \\"${page.linkText}\\" \\n`;
+        });
+      }
     });
     retString += '\\n \\n';
   });
+
+  console.log('slack string: \n', retString);
+
   return retString;
 };
+
 /**
- *
- * @param {*} localDomain
+ * Makes a request to each link to check for 404s
+ * @param {string} localDomain
  * @param {string[]} links
- * @returns
+ * @returns Urls that returned a 404
  */
 const linkChecker = async (localDomain, links) => {
   const statusCodes = {};
@@ -210,7 +248,7 @@ const linkChecker = async (localDomain, links) => {
           statusCodes[statusCode].push(href);
         }
         if (statusCode === 404) {
-          brokenLinks.push({ url: href, found: urlsToVisit[href] });
+          brokenLinks.push({ url: href, pages: urlsToVisit[href] });
         }
       });
 
