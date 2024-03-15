@@ -199,8 +199,6 @@ const formatString = (inputs) => {
     retString += '\\n \\n';
   });
 
-  console.log('slack string: \n', retString);
-
   return retString;
 };
 
