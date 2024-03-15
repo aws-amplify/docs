@@ -427,6 +427,29 @@ async function handleSignOut() {
 
 Once you implement the Amplify Library methods within your application, you can test the sign-up, sign-in, and sign-out functionality.
 
+
+## Using Cognito Hosted UI
+
+You can also utilize the prebuilt and managed Cognito hosted UI to have your users sign up and sign in to your application. The benefit of this includes not having to build out the login UI, however note that customizing the UI is also limited. Additionally, understand that the login process will involve the user being first redirected from your app to the Hosted UI, then after completing the authentication, getting redirected back to you app.
+
+Initiating this flow only requires calling the `signInWithRedirect()` API without passing any parameters.
+
+```ts
+import { signInWithRedirect } from 'aws-amplify/auth'
+
+const handleSignIn = () => {
+  signInWithRedirect();
+}
+
+```
+
+<Callout>
+
+NOTE: V6 of `aws-amplify` has in-built support for using the in-app browser for React-Native apps. However for older versions, you will need to setup a custom `urlOpener` that utilizes a plugin such as `react-native-inappbrowser-reborn` to use the in app browser instead of opening the default browser application on the users phone.
+
+</Callout>
+
+
 ## Conclusion
 
 Congratulations! You finished the **Enable sign-up, sign-in, sign-out** guide and verified the functionality works as expected.
