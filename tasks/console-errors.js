@@ -67,19 +67,15 @@ const checkPage = async (url) => {
 };
 
 const consoleErrors = async (domain) => {
-  let pagesToCheck = await getSitemapUrls(domain);
-  let errorMessage = '';
+  const pagesToCheck = await getSitemapUrls(domain);
+  const errorMessage = '';
   for (let i = 0; i < pagesToCheck.length; i++) {
-    try {
-      let url = pagesToCheck[i];
-      console.log(`checking page ${url}`);
-      let errorsFound = await checkPage(url);
-      errorsFound.forEach((error) => {
-        errorMessage += `${error.message} found on ${error.page}\n`;
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    let url = pagesToCheck[i];
+    console.log(`checking page ${url}`);
+    let errorsFound = await checkPage(url);
+    errorsFound.forEach((error) => {
+      errorMessage += `${error.message} found on ${error.page}\n`;
+    });
   }
   console.log(errorMessage);
   return errorMessage;
