@@ -20,7 +20,6 @@ import {
   PLATFORM_DISPLAY_NAMES,
   Platform
 } from '@/data/platforms';
-import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
 import { SpaceShip } from '@/components/SpaceShip';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { LayoutProvider, LayoutHeader } from '@/components/Layout';
@@ -29,7 +28,6 @@ import type { HeadingInterface } from '@/components/TableOfContents/TableOfConte
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import '@docsearch/css';
-import { Banner } from '@/components/Banner';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import {
   NextPrevious,
@@ -69,7 +67,6 @@ export const Layout = ({
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
-  const shouldShowGen2Banner = GEN2BANNER_URLS.includes(asPathWithNoHash);
   const isGen1 = asPathWithNoHash.split('/')[1] === 'gen1';
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
@@ -216,9 +213,7 @@ export const Layout = ({
             <View
               className={`layout-wrapper layout-wrapper--${pageType}${isGen1 ? ' layout-wrapper--gen1' : ''}`}
             >
-              {pageType === 'home' ? (
-                <SpaceShip hasBanner={shouldShowGen2Banner} />
-              ) : null}
+              {pageType === 'home' ? <SpaceShip /> : null}
               <GlobalNav
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
@@ -244,7 +239,6 @@ export const Layout = ({
                   {showBreadcrumbs ? (
                     <Breadcrumbs route={pathname} platform={currentPlatform} />
                   ) : null}
-                  {shouldShowGen2Banner ? <Banner /> : null}
                   {useCustomTitle ? null : (
                     <Heading level={1}>{pageTitle}</Heading>
                   )}
