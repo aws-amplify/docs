@@ -1,28 +1,15 @@
-import {
-  Heading,
-  Text,
-  Flex,
-  Button,
-  Grid,
-  Card,
-  View,
-  Badge
-} from '@aws-amplify/ui-react';
+import { Heading, Text, Flex, Card } from '@aws-amplify/ui-react';
 import ExportedImage from 'next-image-export-optimizer';
 import { MDXCode } from '@/components/MDXComponents/';
-import {
-  IconAngular,
-  IconJS,
-  IconNext,
-  IconReact,
-  IconTS,
-  IconVue,
-  IconChevron
-} from '@/components/Icons';
-import { ClassicBanner } from '@/components/Banner';
+import { IconChevron } from '@/components/Icons';
 import { Columns } from '@/components/Columns';
 import { FeatureList, FeatureItem } from '@/components/FeatureLists';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
+import { InternalLinkButton } from '@/components/InternalLinkButton';
+import { GetStartedPopover } from '@/components/GetStartedPopover';
+import { FrameworkGrid } from '@/components/FrameworkGrid';
+import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
@@ -48,6 +35,9 @@ export const getStaticPaths = async () => {
 export function getStaticProps() {
   return {
     props: {
+      hasTOC: false,
+      showLastUpdatedDate: false,
+      pageType: 'home',
       meta,
       showBreadcrumbs: false,
       useCustomTitle: true
@@ -55,96 +45,50 @@ export function getStaticProps() {
   };
 }
 
-const supportedFrameworks = [
-  {
-    title: 'JavaScript',
-    icon: <IconJS />
-  },
-  {
-    title: 'TypeScript',
-    icon: <IconTS />
-  },
-  {
-    title: 'React',
-    icon: <IconReact />
-  },
-  {
-    title: 'Next',
-    icon: <IconNext />
-  },
-  {
-    title: 'Vue',
-    icon: <IconVue />
-  },
-  {
-    title: 'Angular',
-    icon: <IconAngular />
-  },
-  {
-    title: 'React Native',
-    icon: <IconReact />
-  }
-];
-
 const Gen2Overview = () => {
+  const currentPlatform = useCurrentPlatform();
+
   return (
     <Flex className="home-content">
-      <Flex className="home-section">
-        <Heading level={1}>
-          Amplify Docs{' '}
-          <Text as="span" fontWeight="300">
-            (Gen 2)
-          </Text>
-          <sup>
-            {' '}
-            <Badge size="small" backgroundColor="purple.60" color="white">
-              Preview
-            </Badge>
-          </sup>
+      <Flex className="home-intro">
+        <Heading level={1} className="home-intro__heading">
+          Amplify Documentation for {PLATFORM_DISPLAY_NAMES[currentPlatform]}
         </Heading>
-        <Heading level={2} fontSize="xl" className="max-headline-content">
-          Preview: A new code-first DX (Gen 2) for building backends
-        </Heading>
-        <Text className="max-inline-content">
-          Amplify has reimagined the way frontend developers build fullstack
-          applications on AWS. With this next generation of Amplify’s
-          backend-building experience, you can author your frontend and backend
-          definition completely with TypeScript, a file convention, and Git
-          branch-based environments.
+        <Text className="home-intro__text">
+          AWS Amplify streamlines full-stack app development. With its
+          libraries, CLI, and services, you can easily connect your frontend to
+          the cloud for authentication, storage, APIs, and more.
         </Text>
         <Flex className="home-cta">
-          <Button
-            size="large"
-            as="a"
+          <InternalLinkButton
             variation="primary"
-            href="/gen2/start/quickstart/"
-            gap="small"
+            size="large"
+            href={{
+              pathname: '/[platform]/how-amplify-works',
+              query: { platform: currentPlatform }
+            }}
           >
-            Get started{' '}
-            <IconChevron fontSize=".875em" className="icon-rotate-90-reverse" />
-          </Button>
-          <Button size="large" as="a" href="/gen2/how-amplify-works/concepts/">
-            How it works
-          </Button>
+            How Amplify Works
+            <IconChevron
+              aria-hidden="true"
+              className="icon-rotate-270"
+              fontSize=".875em"
+            />
+          </InternalLinkButton>
+          <GetStartedPopover platform={currentPlatform} />
         </Flex>
       </Flex>
       <Flex className="home-section">
-        <Heading level={2}>Works with popular languages and frameworks</Heading>
-        <Grid as="ul" className="framework-grid">
-          {supportedFrameworks.map((framework, index) => {
-            return (
-              <li
-                key={`framework-${index}`}
-                className="framework-grid__item framework-grid__item--text"
-              >
-                <View className="framework-grid__icon">{framework.icon}</View>
-                {framework.title}
-              </li>
-            );
-          })}
-        </Grid>
-
-        <ClassicBanner />
+        <Heading level={2}>
+          Build fullstack apps with your framework of choice
+        </Heading>
+        <Text>
+          AWS Amplify provides libraries for popular web and mobile frameworks,
+          like JavaScript, Flutter, Swift, and React. Our guides, APIs, and
+          other resources will help you build, connect, and host fullstack apps
+          on AWS. Get started by selecting your preferred framework.
+        </Text>
+        <FrameworkGrid currentKey={currentPlatform} />
       </Flex>
       <Flex className="home-section">
         <Heading level={2}>Features</Heading>
@@ -202,28 +146,49 @@ const Gen2Overview = () => {
         <Columns columns={2} as="ul">
           <FeatureItem
             linkText="TypeScript-first fullstack experience"
-            href="/gen2/how-amplify-works/concepts/#build-fullstack-apps-with-typescript"
+            href={{
+              pathname: '/[platform]/how-amplify-works/concepts',
+              hash: 'build-fullstack-apps-with-typescript',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Write TypeScript across frontend and backend. Get schema validation,
             dot completion, and end-to-end types while you code.
           </FeatureItem>
           <FeatureItem
             linkText="Real-time data for modern apps"
-            href="/gen2/build-a-backend/data/set-up-data/"
+            href={{
+              pathname: '/[platform]/build-a-backend/data/set-up-data/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Sync frontend state to real-time backend updates. Just write
             TypeScript without thinking about WebSockets.
           </FeatureItem>
           <FeatureItem
             linkText="Authn and authz for secure apps"
-            href="/gen2/build-a-backend/auth/set-up-auth/"
+            href={{
+              pathname: '/[platform]/build-a-backend/auth/set-up-auth/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Choose the auth strategy (such as passwords, social, email links)
             and control data access based on users and groups.
           </FeatureItem>
           <FeatureItem
             linkText="Auto-generate CRUD forms wired to data"
-            href="/gen2/build-ui/"
+            href={{
+              pathname: '/[platform]/build-ui/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Map CRUD forms to your data model with form-level validations and
             error states built in.
@@ -248,28 +213,51 @@ const Gen2Overview = () => {
         <FeatureList heading="Deploy" level={2}>
           <FeatureItem
             linkText="SSR/SSG/ISR hosting support"
-            href="/gen2/deploy-and-host/hosting/"
+            href={{
+              pathname: '/[platform]/deploy-and-host/hosting/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Deploy apps in Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and
             more) by simply connecting your Git repository.
           </FeatureItem>
           <FeatureItem
             linkText="Faster iterations with per-developer sandboxes"
-            href="/gen2/deploy-and-host/sandbox-environments/setup/"
+            href={{
+              pathname:
+                '/[platform]/deploy-and-host/sandbox-environments/setup/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Per-developer cloud sandboxes provide high fidelity and faster
             deployment times to make local iteration quick.
           </FeatureItem>
           <FeatureItem
             linkText="Zero-config fullstack branches"
-            href="/gen2/deploy-and-host/fullstack-branching/branch-deployments/"
+            href={{
+              pathname:
+                '/[platform]/deploy-and-host/fullstack-branching/branch-deployments/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Fullstack deployments from your Git branch. Autodeploy Git branches
             to set up staging, development, and production environments.
           </FeatureItem>
           <FeatureItem
             linkText="GUI to manage your data"
-            href="/gen2/how-amplify-works/concepts/#unified-management-console"
+            href={{
+              pathname: '/[platform]/how-amplify-works/concepts',
+              hash: 'unified-management-console',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Manage your app data, users and groups, and files in a single
             console.
@@ -279,20 +267,37 @@ const Gen2Overview = () => {
         <FeatureList heading="Customize" level={2}>
           <FeatureItem
             linkText="Add any AWS service with CDK"
-            href="/gen2/build-a-backend/add-aws-services/"
+            href={{
+              pathname: '/[platform]/build-a-backend/add-aws-services/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Extend or customize with AWS CDK to access 200+ AWS services.
           </FeatureItem>
           <FeatureItem
             linkText="Bring your own pipelines"
-            href="/gen2/deploy-and-host/fullstack-branching/custom-pipelines/"
+            href={{
+              pathname:
+                '/[platform]/deploy-and-host/fullstack-branching/custom-pipelines/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Use your own pipelines to set up cross-account or multi-region,
             stage-based deployments.
           </FeatureItem>
           <FeatureItem
             linkText="Monorepo and multi-repo support"
-            href="/gen2/deploy-and-host/fullstack-branching/mono-and-multi-repos/"
+            href={{
+              pathname:
+                '/[platform]/deploy-and-host/fullstack-branching/mono-and-multi-repos/',
+              query: {
+                platform: currentPlatform
+              }
+            }}
           >
             Enable support for all types of fullstack team workflows—monorepos,
             micro frontends, multi-repos, and more.
