@@ -1,7 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-var-requires
-const puppeteer = require('puppeteer');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { getSitemapUrls } = require('./get-sitemap-links');
+const puppeteer = require('puppeteer'); // eslint-disable-line
+const { getSitemapUrls } = require('./get-sitemap-links'); // eslint-disable-line
 
 const excludedErrors = [
   {
@@ -19,7 +17,7 @@ const excludedScripts = [
 
 const checkPage = async (url) => {
   const errorsFound = [];
-  let browser = await launch({ headless: 'new' });
+  let browser = await puppeteer.launch({ headless: 'new' });
 
   const page = await browser.newPage();
 
