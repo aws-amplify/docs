@@ -29,9 +29,6 @@ export function getStaticProps() {
 }
 
 export default function Page() {
-  //Default platform is javascript
-  const defaultPlatform = DEFAULT_PLATFORM;
-
   return (
     <Flex className="home-content">
       <Flex className="home-intro">
@@ -62,7 +59,7 @@ export default function Page() {
           <GetStartedPopover platform={DEFAULT_PLATFORM} />
         </Flex>
       </Flex>
-      <Flex direction="column">
+      <Flex className="home-section">
         <Heading level={2}>
           Build fullstack apps with your framework of choice
         </Heading>
@@ -72,7 +69,7 @@ export default function Page() {
           other resources will help you build, connect, and host fullstack apps
           on AWS. Get started by selecting your preferred framework.
         </Text>
-        <FrameworkGrid currentKey={defaultPlatform} />
+        <FrameworkGrid currentKey={DEFAULT_PLATFORM} />
       </Flex>
       <Flex className="home-section">
         <Heading level={2}>Features</Heading>
