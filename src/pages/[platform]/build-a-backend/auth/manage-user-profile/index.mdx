@@ -30,7 +30,7 @@ export function getStaticProps(context) {
 
 User profile management helps you keep your applications secure while also personalizing your app experiences. In this guide we will review how you can enable your users to personalize their profile and verify their contact information. This includes outlining how you can set up user attributes, verify them, and allow your users to delete them when necessary.
 
-If you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
+If you have not yet created an Amplify Gen 2 app, visit the [quickstart](/gen2/start/quickstart).
 
 ## Set up user attributes
 
@@ -68,20 +68,21 @@ For more information, visit the [AWS documentation for Amazon Cognito with a lis
 
 The following is an example on how to add a user attribute to your authentication resources.
 
-```diff title="amplify/auth/resource.ts"
-// amplify/auth/resource.ts
+```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
 
 export const auth = defineAuth({
   loginWith: {
     email: true,
   },
-+ userAttributes: {
-+   birthdate: {
-+     required: false,
-+     mutable: false,
-+   },
-+ },
+// highlight-start
+  userAttributes: {
+    birthdate: {
+      required: false,
+      mutable: false,
+    },
+  },
+// highlight-end
 });
 ```
 
