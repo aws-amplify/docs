@@ -206,7 +206,8 @@ Start by removing this code, then update the `AndroidManifest.xml` as follows, r
  <application>
   ...
   <activity
-        android:name=".MainActivity" android:exported="true">
+        android:name=".MainActivity" android:exported="true"
++       android:launchMode="singleInstance">
 +        <intent-filter>
 +            <action android:name="android.intent.action.VIEW" />
 +            <category android:name="android.intent.category.DEFAULT" />

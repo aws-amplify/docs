@@ -24,7 +24,9 @@ Replace `myapp` with your redirect URI scheme as necessary:
 <application>
   ...
   <activity
-        android:name=".MainActivity" android:exported="true">
+        android:name=".MainActivity" 
+        android:exported="true"
+        android:launchMode="singleInstance">
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />

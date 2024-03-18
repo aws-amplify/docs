@@ -20,7 +20,8 @@ replacing `myapp` with your redirect URI prefix if necessary. Note that this dif
   ...
   <activity
       android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity"
-      android:exported="true">
+      android:exported="true"
+      android:launchMode="singleInstance">
       <intent-filter>
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
