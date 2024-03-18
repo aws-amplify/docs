@@ -4,16 +4,20 @@ export const meta = {
   title: 'Responsive components',
   description: 'Learn how to configure Figma to Code components in order for them to scale according to breakpoints',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'javascript',
+    'react', 
+    'nextjs'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'javascript', 
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-ui/uibuilder/responsive/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

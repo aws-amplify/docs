@@ -2,18 +2,21 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Form Builder',
-  description:
-    "Amplify Studio's Form Builder automatically generates cloud-connected forms as React code, either from your data model, any JSON object, or from scratch. You can configure validation logic, adjust theming, and customize presentation all within the console.",
+  description: "Amplify Studio's Form Builder automatically generates cloud-connected forms as React code, either from your data model, any JSON object, or from scratch. You can configure validation logic, adjust theming, and customize presentation all within the console.",
   platforms: [
-    'android',
-    'angular',
-    'flutter',
     'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
+    'react', 
+    'nextjs'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'react', 
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-ui/formbuilder/'
+    }
   ]
 };
 
@@ -197,7 +200,7 @@ import { ThemeProvider } from '@aws-amplify/ui-react';
 import amplifyconfig from './amplifyconfiguration.json';
 import studioTheme from './ui-components/studioTheme';
 
-Amplify.configure(awsconfig);
+Amplify.configure(amplifyconfig);
 ```
 
 3. In your application's entrypoint file (e.g. `src/index.js` for create-react-app or `src/main.jsx` for Vite), wrap the `<App />` component with the following:

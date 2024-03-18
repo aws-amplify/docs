@@ -1,0 +1,27 @@
+export const meta = {
+  title: 'Generate forms',
+  description:
+    'Generate React forms for creating and updating data in your Amplify data backend.'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+You can generate React forms that automatically connect to your data backend by calling the Amplify CLI:
+
+```bash
+npx amplify generate forms
+```
+
+This will generate create and update forms for each model defined in your schema.
+
+<Callout>
+
+**Note:** You will need to have a sandbox environment or a deployed environment to generate forms for your application.
+
+</Callout>

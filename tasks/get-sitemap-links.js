@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer'); // eslint-disable-line
 
 const DOMAIN = 'https://docs.amplify.aws';
 const SITEMAP_URL = 'https://docs.amplify.aws/sitemap.xml';

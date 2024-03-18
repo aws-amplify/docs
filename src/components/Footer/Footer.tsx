@@ -7,6 +7,7 @@ import {
   IconGithub,
   IconAWS
 } from '@/components/Icons';
+import { ColorModeSwitcher } from '@/components/ColorModeSwitcher';
 
 interface FooterProps {
   hasTOC?: boolean;
@@ -17,8 +18,14 @@ export const Footer = ({ hasTOC = false }: FooterProps) => {
     <Flex as="footer" className={`footer${hasTOC ? ' footer--toc' : ''}`}>
       <Flex className="footer-wrapper">
         <Flex className="footer__content">
+          <ColorModeSwitcher />
           <p>
-            <IconAWS aria-hidden="true" marginInlineEnd="xs" />
+            <IconAWS
+              fontSize="xl"
+              aria-hidden={false}
+              aria-label="AWS"
+              marginInlineEnd="xs"
+            />
             Amplify open source software, documentation and community are
             supported by Amazon Web Services.
           </p>

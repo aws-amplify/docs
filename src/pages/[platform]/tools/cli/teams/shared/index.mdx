@@ -4,16 +4,32 @@ export const meta = {
   title: 'Share single environment',
   description: 'Learn the recommended workflow for multiple team members sharing a single Amplify environment.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'angular',
+        'react-native',
+        'vue',
+        'javascript',
+        'flutter',
+        'swift',
+        'android',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/tools/cli/teams/shared/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

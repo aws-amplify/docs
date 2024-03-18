@@ -4,16 +4,32 @@ export const meta = {
   title: 'SSM Parameter Store',
   description: 'Version 11 of Amplify CLI will start using Parameter Store from AWS Systems Manager (SSM). Parameter Store will be used to keep a copy of the various values stored in team-provider-info.json. Amplify CLI will use standard parameters to keep this copy of the values. This usage falls under the permanent free tier of SSM.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'react',
+        'swift',
+        'nextjs',
+        'android',
+        'vue',
+        'react-native',
+        'flutter',
+        'angular'
+      ],
+      canonicalPath: '/javascript/tools/cli/reference/ssm-parameter-store/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

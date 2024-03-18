@@ -2,9 +2,28 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Advanced workflows',
-  description:
-    'Learn more about advanced workflows in the Amplify auth category. This includes subscribing to events, identity pool federation, auth-related Lambda triggers, and working with AWS service objects.',
-  platforms: ['javascript', 'react-native','angular','nextjs','react','vue'] 
+  description: 'Learn more about advanced workflows in the Amplify auth category. This includes subscribing to events, identity pool federation, auth-related Lambda triggers, and working with AWS service objects.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'react',
+        'angular',
+        'javascript',
+        'react-native',
+        'vue'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/auth/advanced-workflows/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -574,9 +593,5 @@ Full API Documentation for Service Interface Objects is available [here](https:/
 Note: To work with Service Interface Objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 
 </Callout>
-
-## API reference
-
-For the complete API documentation for Authentication module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)
 
 </InlineFilter>

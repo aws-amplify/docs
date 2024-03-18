@@ -1,0 +1,167 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Batch put custom resolver',
+  description: 'Leverage GraphQL mutations to efficiently create multiple objects in one request rather than making sequential requests to create each object individually.',
+  platforms: [
+    'javascript',
+    'angular',
+    'nextjs',
+    'react',
+    'vue',
+    'swift',
+    'android',
+    'flutter',
+    'react-native'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'swift',
+        'javascript',
+        'vue',
+        'react',
+        'angular',
+        'android',
+        'nextjs',
+        'flutter'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/best-practice/batch-put-custom-resolver/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Sometimes you need to create objects in bulk, rather than creating individual objects sequentially and waiting for all the requests to complete.
+
+1. Define your schema with a custom mutation. The custom mutation should not be deployed to AppSync beforehand if following these steps, the CLI will attach its own resolver preventing you from attaching a custom resource this way.
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type Mutation {
+  batchCreateTodo(todos: [BatchCreateTodo]): [Todo]
+}
+
+input BatchCreateTodo {
+  id: ID
+  name: String!
+  description: String
+}
+```
+
+2. [Create a custom resource for your resolver](/[platform]/build-a-backend/graphqlapi/custom-business-logic/#vtl-resolver) and use the following code snippets as a guide to get started
+
+2. Follow the steps for creating a custom resolver:
+```bash
+amplify add custom
+```
+```console
+? How do you want to define this custom resource?
+❯ AWS CDK
+? Provide a name for your custom resource
+❯ MyCustomResolvers
+```
+
+Next, install the AppSync dependencies for your custom resource:
+```bash
+cd amplify/backend/custom/MyCustomResolvers
+npm i @aws-cdk/aws-appsync@~1.124.0
+```
+
+Use the following template as a starting point for your custom CDK stack, the resolvers must be templated with environment references
+
+```ts
+import * as cdk from '@aws-cdk/core';
+import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
+import * as appsync from '@aws-cdk/aws-appsync';
+import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
+
+export class cdkStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
+    super(scope, id, props);
+    /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
+    new cdk.CfnParameter(this, 'env', {
+      type: 'String',
+      description: 'Current Amplify CLI env name',
+    });
+    
+    // Access other Amplify Resources 
+    const retVal:AmplifyDependentResourcesAttributes = AmplifyHelpers.addResourceDependency(this, 
+      amplifyResourceProps.category, 
+      amplifyResourceProps.resourceName, 
+      [{
+        category: "api",
+        resourceName: "<YOUR-API-NAME>"
+      }]
+    );
+
+    const requestVTL = `
+      ## [Start] Initialization default values. **
+      $util.qr($ctx.stash.put("defaultValues", $util.defaultIfNull($ctx.stash.defaultValues, {})))
+      #set( $createdAt = $util.time.nowISO8601() )
+      #set($todosArray = [])
+      #foreach($item in \${ctx.args.todos})
+        $util.qr($item.put("id", $util.defaultIfNullOrBlank($item.id, $util.autoId())))
+        $util.qr($item.put("createdAt", $util.defaultIfNull($item.createdAt, $createdAt)))
+        $util.qr($item.put("updatedAt", $util.defaultIfNull($item.updatedAt, $createdAt)))
+        $util.qr($item.put("__typename", "Todo"))
+        $util.qr($todosArray.add($util.dynamodb.toMapValues($item)))
+      #end
+      ## [End] Initialization default values. **
+      $util.toJson( {
+        "version": "2018-05-29",
+        "operation": "BatchPutItem",
+        "tables": {
+          "<TYPE-NAME-HERE>-${apiIdRef}-${envRef}": $todosArray
+        }
+      } )
+    `
+    const responseVTL = `
+      ## [Start] ResponseTemplate. **
+      #if( $ctx.error )
+        $util.error($ctx.error.message, $ctx.error.type)
+      #else
+        $util.toJson($ctx.result.data.<TYPE-NAME-HERE>-${apiIdRef}-${envRef})
+      #end
+      ## [End] ResponseTemplate. **
+    `;
+
+
+    const resolver = new appsync.CfnResolver(this, "custom-resolver", {
+      // apiId: retVal.api.new.GraphQLAPIIdOutput,
+      // https://github.com/aws-amplify/amplify-cli/issues/9391#event-5843293887
+      // If you use Amplify you can access the parameter via Ref since it's a CDK parameter passed from the root stack.
+      // Previously the ApiId is the variable Name which is wrong , it should be variable value as below
+      apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
+      fieldName: "querySomething", 
+      typeName: "Query", // Query | Mutation | Subscription
+      requestMappingTemplate: requestVTL,
+      responseMappingTemplate: responseVTL,
+      dataSourceName: "TodoTable" // DataSource name
+    })
+  }
+}
+```
+
+By using CloudFormation parameters, you contextualize your custom resolvers to the environment you're working with.
+
+3. Run `amplify push` and deploy your API
+
+The full documentation for custom resolvers [is available here](/[platform]/build-a-backend/graphqlapi/custom-business-logic/#vtl-resolver)

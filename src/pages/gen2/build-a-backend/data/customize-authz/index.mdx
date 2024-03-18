@@ -1,40 +1,100 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
 export const meta = {
   title: 'Customize your auth rules',
-  description:
-    'Learn how to customize and combine your authorization rules.'
+  description: 'Learn how to customize and combine your authorization rules.',
+  route: "/gen2/build-a-backend/data/customize-authz"
 };
 
 export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      meta
+      meta,
+      childPageNodes
     }
   };
-
 }
 
-# Add authorization rules
 
-Use the `.authorization()` modifier to configure authorization rules for public, sign-in user, per user, and per user group data access. **Authorization rules operate on the deny-by-default principle**. Meaning that if an authorization rule is not specifically configured, it is denied.
+Use the `.authorization()` modifier to configure authorization rules for public, signed-in user, per user, and per user group data access. **Authorization rules operate on the deny-by-default principle**. Meaning that if an authorization rule is not specifically configured, it is denied.
 
 ```ts
-export const schema = a.schema({
-  Todo: a.model({
+const schema = a.schema({
+  Post: a.model({
     content: a.string()
   }).authorization([
-    a.allow.owner()
+    // Allow anyone auth'd with an API key to read everyone's posts.
+    a.allow.public().to(['read']),
+    // Allow signed-in user to create, read, update,
+    // and delete their __OWN__ posts.
+    a.allow.owner(),
   ])
 })
 ```
+In the example above, everyone (`public`) can read every Post but authenticated users (`owner`) can create, read, update, and delete their own posts. Amplify also allows you to restrict the allowed operations, combine multiple authorization rules, and apply fine-grained field-level authorization.
 
-In the example above, each signed-in user, or also known as "owner", of a Todo can create, read, update, and delete their own Todos.
+## Available authorization strategies
 
-Amplify also allows you to restrict the allowed operations, combine multiple authorization rules, and apply fine-grained field-level authorization.
+Use the guide below to select the correct authorization strategy for your use case:
+
+| **Recommended use case** | **Strategy** | **Provider** |
+|---|---|---|
+| [Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access.](/gen2/build-a-backend/data/customize-authz/public-data-access) | `public` | `apiKey` |
+| [Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls.](/gen2/build-a-backend/data/customize-authz/public-data-access/#add-public-authorization-rule-using-iam-authentication) | `public` | `iam` |
+| [Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify/auth/resource.ts` Cognito user pool by default.](/gen2/build-a-backend/data/customize-authz/per-user-per-owner-data-access) | `owner` | `userPools` / `oidc` |
+| [Any signed-in data access. Unlike owner-based access, **any** signed-in user has access.](/gen2/build-a-backend/data/customize-authz/signed-in-user-data-access) | `private` | `userPools` / `oidc` / `iam` |
+| [Per user group data access. A specific or dynamically configured group of users has access.](/gen2/build-a-backend/data/customize-authz/user-group-based-data-access) | `group` | `userPools` / `oidc` |
+| [Define your own custom authorization rule within a serverless function.](/gen2/build-a-backend/data/customize-authz/custom-data-access-patterns) | `custom` | `function` |
+
+## Understand how authorization rules are applied
+
+Authorization rules can be applied globally across all data models in a schema, onto specific data models, and onto specific fields.
+
+Amplify will always use the most specific authorization rule that is available. For example, if there is an authorization rule for a field and an authorization rule for the model that the field belongs to, Amplify will evaluate against the field-level authorization rule. Review [Field-level authorization rules](#field-level-authorization-rules) to learn more.
+
+If there are multiple authorization rules present, they will be logically OR'ed. Review [Configure multiple authorization rules](#configure-multiple-authorization-rules) to learn more.
+
+Finally, there are special "Admin IAM Roles" that allow you to overrule any authorization logic applied on the API and determine the API access completely via its IAM policy.
+
+### Global authorization rule (only for getting started)
+
+To help you get started, you can define an authorization rule on the data schema that will be applied to all data models that **do not** have a model-level authorization rule. Instead of having a global authorization rule for all production environments, we recommend creating specific authorization rules for each model or field.
+
+The global authorization rule below uses `a.allow.public()`. This example allows anyone to create, read, update, and delete and is applied to every data model.
 
 ```ts
-export const schema = a.schema({
+const schema = a.schema({
+  // Because no model-level authorization rule is present
+  // this model will use the global authorization rule.
   Todo: a.model({
     content: a.string()
+  }),
+
+  // Will use model-level authorization rule
+  Notes: a.model({
+    content: a.string()
+    // [Model-level authorization rule]
+  }).authorization([a.allow.public().to(['read'])])
+
+// [Global authorization rule]
+}).authorization([
+  a.allow.public()
+])
+```
+
+### Model-level authorization rules
+
+Add an authorization rule to a model to apply the authorization rule to all fields of that model.
+
+```ts
+const schema = a.schema({
+  Post: a.model({
+    content: a.string(),
+    createdBy: a.string()
+    // [Model-level authorization rule]
+    // All fields (content, createdBy) will be protected by
+    // this authorization rule
   }).authorization([
     a.allow.public().to(['read']),
     a.allow.owner(),
@@ -42,262 +102,75 @@ export const schema = a.schema({
 })
 ```
 
-In the example above, everyone (`public`) can read every Todo but owner (authenticated users) can create, read, update, and delete their own Todos.
+### Field-level authorization rules
 
-### Global authorization rule (only for getting started)
+When an authorization rule is added to a field, it will strictly define the authorization rules applied on the field. Field-level authorization rules **do not** inherit model-level authorization rules. Meaning, only the specified field-level authorization rule is applied.
 
-To help you get started, there's a global authorization rule defined when you create a new GraphQL schema. For production environments, remove the global authorization rule and apply rules on each model instead.
+In the example below:
+- Owners are allowed to create, read, update, and delete Employee records they own
+- Any signed in user has read access and can read data with the exception of the `ssn` field
+- Only the `ssn` field has `owner` auth applied and this field-level auth rule means that model-level auth rules are not applied
 
 ```ts
-export const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
+const schema = a.schema({
+  Employee: a.model({
+    name: a.string(),
+    email: a.string(),
+    // [Field-level authorization rule]
+    // This auth rule will be used for the "ssn" field
+    // All other fields will use the model-level auth rule
+    ssn: a.string().authorization([a.allow.owner()]),
   })
-}).authorization([
-  a.allow.public()
-])
+
+  // [Model-level authorization rule]
+  .authorization([
+    a.allow.private().to(["read"]),
+    a.allow.owner()
+  ]),
+});
 ```
 
-The global authorization rule (in this case `a.allow.public()` - allows anyone to create, read, update, and delete) is applied to every data model in the GraphQL schema.
+### Configure multiple authorization rules
 
-## Authorization strategies
-
-Use the guide below to select the correct authorization strategy for your use case:
-
-| **Recommended use case** | **Strategy** | **Provider** |
-|---|---|---|
-| Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access. | `public` | `apiKey` |
-| Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls. | `public` | `iam` |
-| Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify add auth` Cognito user pool by default. | `owner` | `userPools` / `oidc` |
-| Any signed-in data access. Unlike owner-based access, **any** signed-in user has access. | `private` | `userPools` / `oidc` / `iam` |
-| Per user group data access. A specific or dynamically configured group of users have access | `group` | `userPools` / `oidc` |
-| Define your own custom authorization rule within a Lambda function | `custom` | `function` |
-
-### Public data access
-
-To grant everyone access, use the `public` authorization strategy. Behind the scenes, the API will be protected with an API Key.
+When combining multiple authorization rules, they are "logically OR"-ed. In the following example:
+- Any user (signed in or not, verified by IAM) is allowed to read all posts
+- Owners are allowed to create, read, update, and delete their own posts
 
 ```ts
-export const schema = a.schema({
-  Todo: a.model({
+const schema = a.schema({
+  Post: a.model({
+    title: a.string(),
     content: a.string()
   }).authorization([
-    a.allow.public()
-  ])
-})
-```
-
-You can also override the authorization provider. In the example below, `iam` is specified as the provider which allows you to use an "Unauthenticated Role" from the Cognito identity pool for public access instead of an API Key. When you run `amplify add auth`, the  Amplify CLI generates scoped down IAM policies for the "Unauthenticated role" in Cognito identity pool automatically.
-
-```ts
-export const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-  }).authorization([
-    a.allow.public("iam")
-  ])
-})
-```
-
-### Per-user / owner-based data access
-To restrict a record's access to a specific user, use the `owner` authorization strategy. When `owner` authorization is configured, only the record's `owner` is allowed the specified operations.
-
-```ts
-// The "owner" of a Todo is allowed to create, read, update, and delete their own todos
-export const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-  }).authorization([
+    a.allow.public("iam").to(["read"]),
     a.allow.owner()
   ])
 })
 ```
 
-```ts
-// The "owner" of a Todo record is only allowed to create, read, and update it.
-// The "owner" of a Todo record is denied to delete it.
-export const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-  }).authorization([
-    a.allow.owner().to(["create", "read", "update"])
-  ])
-})
-```
-
-Behind the scenes, Amplify will automatically add a `owner: a.string()` field to each record which contains the record owner's identity information upon record creation.
-
-By default, the Cognito user pool's user information is populated into the `owner` field. The value saved includes `sub` and `username` in the format `<sub>::<username>`. The API will authorize against the full value of `<sub>::<username>` or `sub` / `username` separately and return `username`. You can alternatively configure [OpenID Connect as an authorization provider](#using-oidc-authorization-provider).
-
-You can override the `owner` field to your own preferred field, by specifying a custom `ownerField` in the authorization rule.
+On the client side, make sure to always authenticate with the corresponding authorization mode.
 
 ```ts
-export const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-    author: a.string() // record owner information now stored in "author" field
-  }).authorization([
-    a.allow.owner().inField("author")
-  ])
-})
+import { generateClient } from 'aws-amplify/data'
+import type { Schema } from '@/amplify/data/resource' // Path to your backend resource definition
+
+const client = generateClient<Schema>()
+
+// Creating a post is restricted to Cognito User Pools
+const { data: newPostResult , errors } = await client.models.Post.create({
+	query: queries.createPost,
+	variables: { input: { title: 'Hello World' } },
+	authMode: 'userPool',
+});
+
+// Listing posts is available to all users (verified by IAM)
+const { data: listPostsResult , errors } = await client.models.Post.list({
+	query: queries.listPosts,
+	authMode: 'iam',
+});
 ```
 
-<Callout warning>
+## Learn more about specific authorization strategies
 
-TK should we introduce a change here? For example, make ownerFields uneditable?
+<Overview childPageNodes={props.childPageNodes} />
 
-  **By default, owners can reassign the owner of their existing record to another user.**
-
-  To prevent an owner from reassigning their record to another user, protect the owner field (by default `owner: String`) with a [field-level authorization rule](#field-level-authorization-rules). For example, in a social media app, you would want to prevent Alice from being able to reassign Alice's Post to Bob.
-
-  ```graphql
-  type Todo @model @auth(rules: [{ allow: owner }]) {
-    id: ID!
-    description: String
-    owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
-  }
-  ```
-</Callout>
-
-### Multi-user data access
-
-If you want to grant a set of users access to a record, you use the `multipleOwners` rule, this automatically creates a `owner: a.string().array()` field to store the allowed owners.
-
-```ts
-export const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-  }).authorization([
-    a.allow.multipleOwners()
-  ])
-})
-```
-
-You can override the `inField` to a list of owners. Use this if you want a dynamic set of users to have access to a record.
-
-```ts
-export const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-    authors: a.string().array() // record owner information now stored in "authors" field
-  }).authorization([
-    a.allow.multipleOwners().inField("authors")
-  ])
-})
-```
-
-In the example above, upon record creation, the `authors` list is populated with the creator of the record. The creator can then update the `authors` field with additional users. Any user listed in the `authors` field can access the record.
-
-### Signed-in user data access
-To restrict a record's access to every signed-in user, use the `private` authorization strategy.
-
-> If you want to restrict a record's access to a specific user, see [Per-user / owner-based data access](#per-user--owner-based-data-access). `private` authorization applies the authorization rule to **every** signed-in user access.
-
-```ts
-export const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-  }).authorization([
-    a.allow.private()
-  ])
-})
-```
-
-In the example above, anyone with a valid JWT token from Cognito user pool are allowed to access all Todos.
-
-You can also override the authorization provider. In the example below, `iam` is specified as the provider which allows you to use an "Authenticated Role" from the Cognito identity pool for public access instead of an API Key. When you run `amplify add auth`, the  Amplify CLI generates scoped down IAM policies for the "Authenticated role" in Cognito identity pool automatically.
-
-```ts
-export const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-  }).authorization([
-    a.allow.private("iam")
-  ])
-})
-```
-
-In addition, you can also use OpenID Connect with `private` authorization. See [OpenID Connect as an authorization provider](#using-oidc-authorization-provider).
-
-TK on how pending relationships doc **Note:** If you have a connected child model that allows `private` level access, any user authorized to fetch it from the parent model will be able to read the connected child model.
-For example,
-```graphql
-type Todo @model @auth(rules: [{ allow: owner }]) {
-  id: ID!
-  name: String!
-  task: [Task] @hasMany
-}
-
-type Task @model @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }]) {
-  id: ID!
-  description: String!
-}
-```
-In the above relationship, the owner of a `Todo` record can query all the tasks connected to it, since the `Task` model allows `private` read access.
-
-### User group-based data access
-To restrict access based on user groups, use the `group` authorization strategy.
-
-**Static group authorization**: When you want to restrict access to a specific set of user groups, provide the group names in the `groups` parameter.
-
-```ts
-// allow one specific group
-export const schema = a.schema({
-  Salary: a.model({
-    wage: a.float(),
-    currency: a.string()
-  }).authorization([
-    a.allow.specificGroup("Admin")
-  ])
-})
-```
-```ts
-// allow multiple specific groups
-export const schema = a.schema({
-  Salary: a.model({
-    wage: a.float(),
-    currency: a.string()
-  }).authorization([
-    a.allow.specificGroups(["Admin", "Leadership"])
-  ])
-})
-```
-
-In the example above, only users that are part of the "Admin" user group are granted access to the Salary model.
-
-**Dynamic group authorization**: When you want to restrict access to a set of user groups.
-
-
-```ts
-// Dynamic group authorization with multiple groups
-a.schema({
-  Post: a.model({
-    title: a.string()
-    groups: a.string().array()
-  }).authorization([
-    a.allow.groupsDefinedInField('groups'),
-  ])
-})
-```
-
-```ts
-// Dynamic group authorization with a single group
-a.schema({
-  Post: a.model({
-    title: a.string()
-    groups: a.string()
-  }).authorization([
-    a.allow.groupDefinedInField('groups'),
-  ])
-})
-```
-
-With dynamic group authorization, each record contains an attribute specifying what Cognito groups should be able to access it. Use the first argument to specify which attribute in the underlying data store holds this group information. To specify that a single group should have access, use a field of type `a.string()`. To specify that multiple groups should have access, use a field of type `a.string().array()`.
-
-By default, `group` authorization leverages Amazon Cognito user pool groups but you can also use OpenID Connect with `group` authorization. See [OpenID Connect as an authorization provider](#using-oidc-authorization-provider).
-
-**Known limitations for real-time subscriptions when using dynamic group authorization**:
-1. If you authorize based on a single group per record, then subscriptions are only supported if the user is part of 5 or fewer user groups
-2. If you authorize via an array of groups (`groups: a.string().array()` example above),
-  - subscriptions are only supported if the user is part of 20 or fewer groups
-  - you can only authorize 20 or fewer user groups per record

@@ -2,9 +2,39 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Use existing AWS resources',
-  description:
-    'Configure the Amplify Libraries to use an existing Amazon S3 bucket by referencing it in your configuration.',
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native','angular','nextjs','react','vue'] 
+  description: 'Configure the Amplify Libraries to use an existing Amazon S3 bucket by referencing it in your configuration.',
+  platforms: [
+    'javascript',
+    'flutter',
+    'swift',
+    'android',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'react',
+        'react-native',
+        'angular',
+        'nextjs',
+        'vue'
+      ],
+      canonicalPath: '/javascript/build-a-backend/storage/existing-resources/'
+    },
+    {
+      platforms: [
+        'android',
+        'flutter',
+        'swift'
+      ],
+      canonicalPath: '/swift/build-a-backend/storage/existing-resources/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -40,7 +70,7 @@ amplify import storage
 
 For more details, see how to [Use an existing S3 bucket or DynamoDB table](/[platform]/build-a-backend/storage/import/).
 
-If you are using Amplify CLI you can first import and configure the CLI generated `amplifyconfiguration.json` file and then you can manually configure Storage like this:
+If you are not using the Amplify CLI, an existing Amazon S3 bucket can be used by adding it to your `Amplify.configure` statement.
 
 <Callout warning>
   When you are not using Amplify CLI, adding existing Amazon S3 bucket to your
@@ -48,7 +78,6 @@ If you are using Amplify CLI you can first import and configure the CLI generate
   read/write access to the Cognito user pool that you are using with the Amplify
   Auth category.
 </Callout>
-
 ```javascript
 import { Amplify } from 'aws-amplify';
 import amplifyconfig from './amplifyconfiguration.json';

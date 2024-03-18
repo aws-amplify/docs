@@ -1,0 +1,155 @@
+export const meta = {
+  title: 'Grant Lambda function access to API and Data',
+  description:
+    "Amplify Data uses a 'deny-by-default' authorization model. Function access must be explicitly defined in the schema."
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Function access to `defineData` can be configured using an authorization rule on the schema object.
+
+```ts title="amplify/data/resource.ts"
+import {
+  a,
+  defineData,
+  defineFunction,
+  type ClientSchema
+} from '@aws-amplify/backend';
+
+const functionWithDataAccess = defineFunction({
+  entry: '../functions/data-access.ts'
+});
+
+const schema = a
+  .schema({
+    Todo: a.model({
+      name: a.string(),
+      description: a.string()
+    })
+  })
+  // highlight-next-line
+  .authorization([a.allow.resource(functionWithDataAccess)]);
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema
+});
+```
+
+The object returned from `defineFunction` can be passed directly to `a.allow.resource()` in the schema authorization rules. This will grant the function the ability to execute Query, Mutation, and Subscription operations against the GraphQL API. Use the `.to()` method to narrow down access to one or more operations.
+
+```ts
+const schema = a
+  .schema({
+    Todo: a.model({
+      name: a.string(),
+      description: a.string()
+    })
+  })
+  // highlight-start
+  .authorization([
+    a.allow.resource(functionWithDataAccess).to(['query', 'listen'])
+  ]); // allow query and subscription operations but not mutations
+// highlight-end
+```
+
+When configuring function access, the function will be provided the API endpoint as an environment variable named `<defineDataName>_GRAPHQL_ENDPOINT`. The default name is `amplifyData_GRAPHQL_ENDPOINT` unless you have specified a different name in `defineData`.
+
+<Callout info>
+
+Function access can only be configured on the schema object. It cannot be configured on individual models or fields.
+
+</Callout>
+
+## Access the API using `aws-amplify`
+
+<Callout warning>
+
+**Under active development:** Configuring the `aws-amplify` data client is under active development. The current experience has rough edges and may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
+
+</Callout>
+
+In the handler file for your function, configure the Amplify data client
+
+```ts title="amplify/functions/data-access.ts"
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/data';
+import { Schema } from '../data/resource';
+import { env } from '@env/<data-access>'; // replace with your function name
+// highlight-start
+// see instructions below on copying this file
+import { modelIntrospection } from './amplifyconfiguration.json';
+// highlight-end
+
+Amplify.configure(
+  {
+    API: {
+      GraphQL: {
+        endpoint: env.<amplifyData>_GRAPHQL_ENDPOINT, // replace with your defineData name
+        region: env.AWS_REGION,
+        defaultAuthMode: 'iam',
+        modelIntrospection: modelIntrospection as never
+      }
+    }
+  },
+  {
+    Auth: {
+      credentialsProvider: {
+        getCredentialsAndIdentityId: async () => ({
+          credentials: {
+            accessKeyId: env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+            sessionToken: env.AWS_SESSION_TOKEN,
+          },
+        }),
+        clearCredentialsAndIdentityId: () => {
+          /* noop */
+        },
+      },
+    },
+  }
+);
+
+const dataClient = generateClient<Schema>();
+
+export const handler = async (event) => {
+  // your function code goes here
+}
+```
+
+The `amplifyconfiguration.json` file is not automatically accessible to your function. To include it with your function, you must first do a deployment of your backend using either `npx amplify sandbox` or Amplify hosting. Then copy the `amplifyconfiguration.json` file that is placed in your project root into your function directory. Now you can import the file into your function as shown above.
+
+<Callout warning>
+
+**Note:** Whenever you update your data model, you will need to copy the `amplifyconfiguration.json` file again.
+
+</Callout>
+
+Once you have configured the Amplify data client, you can take full advantage of the automatic typing and other model operations on the data client. The following code creates a todo and then lists all todos.
+
+```ts title="amplify/functions/data-access.ts"
+const dataClient = generateClient<Schema>();
+
+export const handler = async (event) => {
+  await dataClient.models.Todo.create({
+    content: 'learn how to use the data client in a function'
+  });
+
+  const { data: allTodos, errors } = await dataClient.models.Todo.list();
+
+  if (errors) {
+    throw new Error(errors.join(', '));
+  }
+
+  return {
+    allTodos
+  };
+};
+```

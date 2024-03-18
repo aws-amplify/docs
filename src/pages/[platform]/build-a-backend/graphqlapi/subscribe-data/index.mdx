@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Subscribe to real-time events',
-  description:
-    'Learn more about how to observe data changes using subscriptions in Amplify.',
+  description: 'Learn more about how to observe data changes using subscriptions in Amplify.',
   platforms: [
     'android',
     'angular',
@@ -14,6 +13,18 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'vue',
+        'nextjs',
+        'javascript',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/subscribe-data/'
+    }
   ]
 };
 
@@ -218,9 +229,7 @@ const cleanupSubscriptions = () => {
 
 </Accordion>
 
-<br />
-
-<Accordion title='Create a custom GraphQL subscription by ID' headingLevel='4' eyebrow='Walkthrough'>
+## Create a custom GraphQL subscription by ID
 
 This brief walkthrough provides additional step-by-step guidance for creating a custom GraphQL subscription that will only be connected and triggered by a mutation containing a specific ID as an argument. Take, for example, the following GraphQL schema:
 
@@ -299,8 +308,6 @@ client
     }
   });
 ```
-
-</Accordion>
 
 ## Unsubscribe from a subscription
 

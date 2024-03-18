@@ -4,16 +4,32 @@ export const meta = {
   title: 'Environment variables',
   description: 'Configure environment variables for AWS Lambda functions',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'react-native',
+        'android',
+        'nextjs',
+        'swift',
+        'react',
+        'vue',
+        'flutter',
+        'angular'
+      ],
+      canonicalPath: '/javascript/build-a-backend/functions/environment-variables/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

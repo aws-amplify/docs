@@ -2,9 +2,27 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Console Logger',
-  description:
-    'AWS Amplify writes console logs through Console Logger. You can use Console Logger in your apps for the same purpose.',
-  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue'] 
+  description: 'AWS Amplify writes console logs through Console Logger. You can use Console Logger in your apps for the same purpose.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'vue',
+        'javascript',
+        'nextjs',
+        'react'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/utilities/console-logger/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

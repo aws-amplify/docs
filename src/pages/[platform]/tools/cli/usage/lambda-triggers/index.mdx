@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Lambda triggers',
-  description:
-    "Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Associate a Lambda trigger with an auth scenario, S3 bucket, DynamoDB table, or Kinesis Stream managed through the Amplify CLI.",
+  description: "Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Associate a Lambda trigger with an auth scenario, S3 bucket, DynamoDB table, or Kinesis Stream managed through the Amplify CLI.",
   platforms: [
     'android',
     'angular',
@@ -14,6 +13,22 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'react',
+        'nextjs',
+        'android',
+        'vue',
+        'swift',
+        'flutter',
+        'javascript',
+        'angular'
+      ],
+      canonicalPath: '/javascript/tools/cli/usage/lambda-triggers/'
+    }
   ]
 };
 
@@ -105,7 +120,7 @@ import trigger from '/src/fragments/cli/lambda_triggers_callout.mdx';
 
 The CLI Auth workflow provides the following Lambda trigger templates:
 
-### Custom Auth Challenge with Google reCaptcha
+#### Custom Auth Challenge with Google reCaptcha
 
 Captchas allow front end applications to guard against bots or other unwanted page interactions by presenting a challenge that is designed to require human intervention. The Google reCaptcha service is a popular implementation of captcha.
 
@@ -262,23 +277,23 @@ export class AppComponent {
 
 </BlockSwitcher>
 
-### Basic Scaffolding for a Custom Auth Challenge
+#### Basic Scaffolding for a Custom Auth Challenge
 
 This template will configure three triggers: [CreateAuthChallenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-create-auth-challenge.html), [DefineAuthChallenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-define-auth-challenge.html), and [VerifyAuthChallengeResponse](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-verify-auth-challenge-response.html).
 
 It will not, however, provide a fully-formed custom authentication flow. Instead, it will create a 'hello world' custom auth flow skeleton that you can manually edit. The intent of this template is to give you a starting place for building out your own custom auth flow.
 
-### Add User to Group
+#### Add User to Group
 
 This trigger allows you to define a Cognito group to which a user will be added upon registration.
 
 The trigger will check for the existence of the group in your User Pool, and will create the group if it is not present.
 
-### Email Domain Filtering (deny list) and Email Domain Filtering (allow list)
+#### Email Domain Filtering (deny list) and Email Domain Filtering (allow list)
 
 These two templates allow you to define email domains which are allowed or disallowed (respectively). They can be used in tandem or individually.
 
-### Override ID Token Claims
+#### Override ID Token Claims
 
 This template uses the Pre Token Generation trigger and allows you to add, override or remove claims from the [ID token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html#amazon-cognito-user-pools-using-the-id-token) that is returned by Cognito.
 

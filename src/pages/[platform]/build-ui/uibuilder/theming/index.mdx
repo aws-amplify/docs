@@ -4,16 +4,20 @@ export const meta = {
   title: 'Theming',
   description: 'Configure your Amplify-generated UI components to match your brand using the Amplify Theme Editor Figma plugin',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'javascript',
+    'react', 
+    'nextjs'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'react', 
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-ui/uibuilder/theming/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -137,10 +141,3 @@ The Amplify Theme Editor allows you to apply breakpoints to your component varia
 The grey bar within the outlined box will indicate your pixel value compared to a standard 1920px-wide display.
 
 You can learn more about how to use breakpoints in the [Responsive components documentation](/[platform]/build-ui/uibuilder/responsive/).
-
-
-<Callout>
-
-  If you have any issues, please let us know by [filing an issue on GitHub](https://github.com/aws-amplify/amplify-studio/issues).
-
-</Callout>

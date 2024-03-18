@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Set up Amplify Auth',
-  description:
-    'Amplify uses Amazon Cognito as the main authentication provider. Learn how to handle user registration, authentication, account recovery and other operations.',
+  description: 'Amplify uses Amazon Cognito as the main authentication provider. Learn how to handle user registration, authentication, account recovery and other operations.',
   platforms: [
     'javascript',
     'react-native',
@@ -14,6 +13,18 @@ export const meta = {
     'nextjs',
     'react',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'nextjs',
+        'vue',
+        'javascript',
+        'angular'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/set-up-auth/'
+    }
   ]
 };
 
@@ -145,10 +156,16 @@ amplify console
 In your app's entry point (specifically, **App.js**, **index.js**, **\_app.js**, or **main.js**), import and load the configuration file:
 
 ```javascript
-import { Amplify, Auth } from 'aws-amplify';
-import config '';
-Amplify.configure(awsconfig);
+import { Amplify } from 'aws-amplify';
+import config from './amplifyconfiguration.json';
+Amplify.configure(config);
 ```
+
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+
+</Callout>
 
 </Block>
 
@@ -196,6 +213,12 @@ import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 ```
 
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+
+</Callout>
+
 </Block>
 
 <Block name="Amplify Studio">
@@ -226,6 +249,12 @@ Amplify Studio allows you to create auth resources, set up authorization rules, 
 
 Existing Authentication resources from AWS (such as Amazon Cognito User Pools or Identity Pools) can be used with the Amplify Libraries by calling the `Amplify.configure()` method.
 
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+
+</Callout>
+
 In your app's entry point (specifically **App.js**, **index.js**, **\_app.js**, or **main.js**), import and load the configuration file:
 
 ```javascript
@@ -240,6 +269,8 @@ Amplify.configure({
       userPoolClientId: 'a1b2c3d4e5f6g7h8i9j0k1l2m3',
       // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
       identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
+      // OPTIONAL - Set to true to use your identity pool's unauthenticated role when user is not logged in
+      allowGuestAccess: true
       // OPTIONAL - This is used when autoSignIn is enabled for Auth.signUp
       // 'code' is used for Auth.confirmSignUp, 'link' is used for email link verification
       signUpVerificationMethod: 'code', // 'code' | 'link'
@@ -344,7 +375,7 @@ import { Amplify } from 'aws-amplify';
 import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import config './amplifyconfiguration.json';
+import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 
 export function App({ signOut, user }: WithAuthenticatorProps) {
@@ -367,7 +398,7 @@ import { Amplify } from 'aws-amplify';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import config './amplifyconfiguration.json';
+import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 
 function App({ signOut, user }) {
@@ -406,9 +437,8 @@ The `Authenticator` component offers a simple way to add authentication flows in
   import "@aws-amplify/ui-vue/styles.css";
 
   import { Amplify } from 'aws-amplify';
-  import config './amplifyconfiguration';
-
-  Amplify.configure(awsconfig);
+  import config from './amplifyconfiguration.json';
+  Amplify.configure(config);
 </script>
 
 <template>

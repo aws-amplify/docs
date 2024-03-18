@@ -2,9 +2,31 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Upload files',
-  description:
-    "Learn more about how to upload files using Amplify's storage category",
-  platforms: ['javascript', 'flutter', 'swift', 'android', 'react-native', 'angular', 'nextjs', 'react', 'vue'] 
+  description: "Learn more about how to upload files using Amplify's storage category",
+  platforms: [
+    'javascript',
+    'flutter',
+    'swift',
+    'android',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'angular',
+        'vue',
+        'react',
+        'javascript',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-a-backend/storage/upload/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -128,7 +150,7 @@ try {
         if (totalBytes) {
           console.log(
             `Upload progress ${
-              Math.round(transferredBytes / totalBytes) * 100
+              Math.round((transferredBytes / totalBytes) * 100)
             } %`
           );
         }
@@ -209,20 +231,16 @@ Upload a file in the browser:
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
 
-const uploadDataInBrowser = async () => {
+const uploadDataInBrowser = async (event) => {
   if (event?.target?.files) {
     const file = event.target.files[0];
     uploadData({
-      key: filename,
+      key: file.name,
       data: file
     });
   }
 };
 ```
 
-```html
-<h2>Upload File</h2>
-<input type="file" onChange="{()" ="" /> uploadDataInBrowser(event)} />
-```
 
 </InlineFilter>

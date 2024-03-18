@@ -5,8 +5,11 @@
     text-decoration: none;
 
     &:hover &__card__title {
-      color: var(--amplify-colors-brand-primary-60);
+      color: var(--amplify-colors-primary-60);
       text-decoration: none;
+      @include darkMode {
+        color: var(--amplify-colors-white);
+      }
     }
 
     &__card {
@@ -17,7 +20,7 @@
       &__title {
         font-size: var(--amplify-font-sizes-large);
         font-weight: var(--amplify-font-weights-bold);
-        color: var(--amplify-colors-brand-primary-80);
+        color: var(--amplify-colors-primary-80);
         text-decoration: underline;
         text-underline-offset: 2px;
       }

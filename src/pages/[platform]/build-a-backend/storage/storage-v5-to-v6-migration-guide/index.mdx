@@ -1,0 +1,1327 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate from v5 to v6',
+  description: 'Learn more about the migration steps to upgrade Storage APIs for Amplify JavaScript v5 to v6',
+  platforms: ['angular', 'javascript', 'nextjs', 'react', 'vue', 'react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+This guide will help you migrate Amplify JavaScript v5's Storage APIs to the new v6's Storage APIs.
+
+## Deprecated Options
+
+<Callout>Many input and output properties have been deprecated in favor of alternatives with a better developer experience. If you have identified a use case that you feel isn't covered in this migration guide, please open a [GitHub issue](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml).</Callout>
+
+The input options below have been removed in v6 from Storage APIs:
+
+- `provider`: _Custom providers are no longer supported in v6. All v5 examples below use the input/output values expected for the default S3 Provider._
+- `customPrefix`: _You can [add a prefix resolver](/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path) to your Storage Config to customize the key prefix per accessLevel. See [Using a Custom Prefix](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#using-a-custom-prefix) for migration details._
+- `track`: _Auto-tracking Storage events in pinpoint has been removed in V6. You can track Storage events [using the Analytics category](/[platform]/build-a-backend/more-features/analytics/record-events/). See [Tracking storage events](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#tracking-storage-events) for migration details._
+- `ServerSideEncryption`, `SSECustomerAlgorithm`, `SSECustomerKey`, `SSECustomerKeyMD5`, and `SSEKMSKeyId`: _These options have been deprecated because Server-Side Encryption is automatically applied using default keys by S3 [since Jan 2023](https://aws.amazon.com/blogs/aws/amazon-s3-encrypts-new-objects-by-default/)._
+- `cacheControl`: _This option has been removed and now defers to the HTTP caching behavior configured by the runtime._
+{/* - `$metadata`: _Information like `httpStatusCode` and `attempts` is provided via debug messages using [the Console Logger](/[platform]/build-a-backend/utilities/console-logger/)._ */}
+- `bucket`: _The `bucket` is required for `Storage` configuration object as part of `Amplify.configure()` and has therefore been removed from input options._
+
+>Note: We have remapped all capitalized input and output keys to "camelCase" in v6.
+
+## Storage.put
+
+The `Storage.put` API has been renamed to `uploadData` in v6. There are a few changes in the experience from v5 to v6 in addition to [those mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options):
+
+- We removed the `ACL` option: the S3 Bucket ACL provides extra access control options that Amplify does not currently support. ACL is no longer recommended according to [S3 security best practices](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html#security-best-practices-prevent).
+- The `Expires` option has been deprecated.
+- The `resumable` option has been removed from `config` as all upload tasks are resumable by default in v6. You can find the `pause`, `resume`, and `cancel` functions on `uploadData`'s return value. See [the v6 Storage documentation](/[platform]/build-a-backend/storage/upload/#pause-and-resume-upload) for details.
+- The `progressCallback` option on upload and download operations has been replaced by `onProgress` in v6. The function input property names `loaded` and `total` now map to `transferredBytes` and `totalBytes`.
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // AWSS3 (Default) Provider
+      key: string
+      object: {
+        ACL?: string; // removed in V6
+        CacheControl?: string; // removed in V6
+        ContentDisposition? string;
+        ContentEncoding?: string;
+        ContentMD5?: string;
+        ContentType?: string;
+        Expires?: Date; // removed in V6
+        Metadata?: Record<string, string>;
+        ServerSideEncryption?: string; // removed in V6
+        SSECustomerAlgorithm?: string; // removed in V6
+        SSECustomerKey?: string; // removed in V6
+        SSECustomerKeyMD5?: string; // removed in V6
+        SSEKMSKeyId?: string; // removed in V6
+        Bucket: string;
+        Key: string;
+        Body?: string | ReadableStream<any> | Blob | Uint8Array | Buffer;
+        Tagging?: string; // removed in V6
+      }
+      // non-resumable config
+      config?: {
+        level?: 'public' | 'protected' | 'private';
+        provider?: string; // removed in V6
+        customPrefix?: { // removed in V6
+          private?: string;
+          public?: string;
+          protected?: string;
+        };
+        track?: boolean; // removed in V6
+        progressCallback?: (progress: any) => any;
+        serverSideEncryption?: string; // removed in V6
+        SSECustomerAlgorithm?: string; // removed in V6
+        SSECustomerKey?: string; // removed in V6
+        SSECustomerKeyMD5?: string; // removed in V6
+        SSEKMSKeyId?: string; // removed in V6
+        acl?: string; // removed in V6
+        bucket?: string;
+        cacheControl?: string; // removed in V6
+        contentDisposition?: string;
+        contentEncoding?: string;
+        contentType?: string;
+        expires?: Date;
+        metadata?: Record<string, string>;
+        tagging?: string; // removed in V6
+        useAccelerateEndpoint?: boolean;
+        resumable?: boolean; // Not required in v6: all put operations are resumable
+      }
+      // resumable config
+      config?:  {
+        // All of the standard config above plus
+        progressCallback?: (progress: {
+          loaded: number;
+          total: number;
+        }) => any; // More specific than progressCallback above
+        completeCallback?: (event: { key?: string }) => any;
+        errorCallback?: (err: any) => any;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      input: {
+        key: string;
+        data: string | Blob | ArrayBufferView | ArrayBuffer;
+        options?: {
+          accessLevel?: any;
+          useAccelerateEndpoint?: boolean;
+          onProgress?: (event: {
+            transferredBytes: number;
+            totalBytes?: number;
+          }) => void;
+          contentDisposition?: string;
+          contentEncoding?: string;
+          contentType?: string;
+          metadata?: Record<string, string>;
+        };
+      }
+      ```
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // Resumable
+      StoragePutOutput {
+        resume(): any;
+        pause(): any;
+        percent: number;
+        isInProgress: boolean;
+      }
+
+      // Non-resumable
+      StoragePutOutput {
+        key: string;
+      };
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      UploadDataOutput {
+        cancel: (message?: string) => void;
+        pause: () => void;
+        resume: () => void;
+        readonly state: 
+          | 'IN_PROGRESS'
+          | 'PAUSED'
+          | 'CANCELED'
+          | 'SUCCESS'
+          | 'ERROR';
+        result: Promise<Item>;
+      }
+
+      Item {
+        key: string;
+        lastModified?: Date;
+        size?: number;
+        eTag?: string;
+        metadata?: Record<string, string>;
+        versionId?: string;
+        contentType?: string;
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```
+    import { uploadData } from 'aws-amplify/storage';
+
+    const handleUpload = async (key: string, data: string | Blob) => {
+      // Upload a file with access level `guest` as  the equivalent of `public` in v5
+      const operation = uploadData({
+        key,
+        data,
+        options: {
+          accessLevel: 'guest'
+        }
+      });
+
+      const result = await operation.result;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```
+    import { Storage } from 'aws-amplify';
+
+    const handleUpload = async (key: string, data: string | Blob) => {
+      // Upload a file with access level `public`
+      const result = await Storage.put(key, data, {
+        level: 'public',
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### Monitor Upload Progress
+
+The `progressCallback` option has been replaced by `onProgress` in v6. The function input property names `loaded` and `total` now map to `transferredBytes` and `totalBytes`.
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```
+    import { uploadData } from 'aws-amplify/storage';
+
+    const handleUpload = async (key: string, data: string | Blob) => {
+      // Upload a file with access level `guest` as  the equivalent of `public` in v5
+      const operation = uploadData({
+        key,
+        data,
+        options: {
+          accessLevel: 'guest',
+          onProgress: ({ transferredBytes, totalBytes }) => {
+            // Progress implementation
+          }
+        }
+      });
+
+      const result = await operation.result;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```
+    import { Storage } from 'aws-amplify';
+
+    const handleUpload = async (key: string, data: string | Blob) => {
+      // Upload a file with access level `public`
+      const result = await Storage.put(key, data, {
+        level: 'public',
+        progressCallback: ({ loaded, total }) => {
+          // Progress implementation
+        }
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Storage.get
+
+The `Storage.get` API has been separated into two APIs in v6, `getURL` and `downloadData`. There are a few changes in the experience from v5 to v6 in addition to [those mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options):
+
+- Content options (`contentDisposition`, `contentLanguage`, `contentEncoding`, and `contentType`) are no longer supported in the `get` API as these values are already provided in the uploaded file.
+- The following response keys inherited from AWS SDK in v5 have have been removed from the API output in v6:
+  - DeleteMarker
+  - AcceptRanges
+  - Expiration
+  - Restore
+  - ChecksumXXX
+  - MissingMeta
+  - VersionId
+  - ContentRange
+  - Expires
+  - WebsiteRedirectLocation
+  - BucketKeyEnabled
+  - StorageClass
+  - RequestCharged
+  - ReplicationStatus
+  - PartsCount
+  - TagCount
+  - ObjectLockMode
+  - ObjectLockRetainUntilDate
+  - ObjectLockLegalHoldStatus
+- The `progressCallback` option on upload and download operations has been replaced by `onProgress` in v6. The function input property names `loaded` and `total` now map to `transferredBytes` and `totalBytes`.
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // Assumes default S3 Provider
+      key: string
+      options: {
+        level?: 'public' | 'protected' | 'private';
+        provider?: 'AWSS3';
+        customPrefix?: { // removed in V6
+          private?: string;
+          public?: string;
+          protected?: string;
+        };
+        track?: boolean; // removed in V6
+        download?: boolean; // removed in V6
+        expires?: number;
+        identityId?: string;
+        progressCallback?: (progress: any) => any;
+        cacheControl?: string; // removed in V6
+        contentDisposition?: string; // removed in V6
+        contentEncoding?: string; // removed in V6
+        contentLanguage?: string; // removed in V6
+        contentType?: string; // removed in V6
+        SSECustomerAlgorithm?: string; // removed in V6
+        SSECustomerKey?: string; // removed in V6
+        SSECustomerKeyMD5?: string; // removed in V6
+        validateObjectExistence?: boolean;
+      };
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      // getUrl
+      {
+        key: string;
+        options?: {
+          accessLevel?: 'guest' | 'protected' | 'private';
+          // targetIdentityId?: string; // included if accessLevel is 'protected'
+          useAccelerateEndpoint?: boolean;
+        };
+      }
+
+      // downloadData
+      input: {
+        key: string;
+        options?: {
+          accessLevel?: 'guest' | 'protected' | 'private';
+          // targetIdentityId?: string; // included if accessLevel is 'protected'
+          useAccelerateEndpoint?: boolean;
+          onProgress?: (event: {
+            transferredBytes: number;
+            totalBytes?: number;
+          }) => void;
+          bytesRange?: {
+            start: number;
+            end: number;
+          };
+        };
+      }
+      ```
+      
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // download: false
+      string // presigned url
+
+      // download: true
+      S3ProviderGetOutput {
+        Body?: Blob;
+        DeleteMarker?: boolean; // removed in V6
+        AcceptRanges?: string; // removed in V6
+        Expiration?: string; // removed in V6
+        Restore?: string; // removed in V6
+        LastModified?: Date;
+        ContentLength?: number;
+        ETag?: string;
+        ChecksumCRC32?: string; // removed in V6
+        ChecksumCRC32C?: string; // removed in V6
+        ChecksumSHA1?: string; // removed in V6
+        ChecksumSHA256?: string; // removed in V6
+        MissingMeta?: number; // removed in V6
+        VersionId?: string; // removed in V6
+        CacheControl?: string; // removed in V6
+        ContentDisposition?: string; // removed in V6
+        ContentEncoding?: string; // removed in V6
+        ContentLanguage?: string; // removed in V6
+        ContentRange?: string; // removed in V6
+        ContentType?: string;
+        Expires?: Date; // removed in V6
+        WebsiteRedirectLocation?: string; // removed in V6
+        ServerSideEncryption?: ServerSideEncryption | string; // removed in V6
+        Metadata?: Record<string, string>;
+        SSECustomerAlgorithm?: string; // removed in V6
+        SSECustomerKeyMD5?: string; // removed in V6
+        SSEKMSKeyId?: string; // removed in V6
+        BucketKeyEnabled?: boolean; // removed in V6
+        StorageClass?: StorageClass | string; // removed in V6
+        RequestCharged?: RequestCharged | string; // removed in V6
+        ReplicationStatus?: ReplicationStatus | string; // removed in V6
+        PartsCount?: number; // removed in V6
+        TagCount?: number; // removed in V6
+        ObjectLockMode?: ObjectLockMode | string; // removed in V6
+        ObjectLockRetainUntilDate?: Date; // removed in V6
+        ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus | string; // removed in V6
+        $metadata: { // removed in V6
+          httpStatusCode?: number;
+          requestId?: string
+        }
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      // getUrl
+      GetUrlOutput {
+        url: URL;
+        expiresAt: Date;
+      }
+
+      // downloadData
+      DownloadDataOutput {
+        cancel: (message?: string) => void;
+        readonly state: TransferTaskState;
+        result: Promise<StorageDownloadDataOutput<Item>>;
+      }
+
+      StorageDownloadDataOutput<Item> {
+        key: string;
+        lastModified?: Date;
+        size?: number;
+        eTag?: string;
+        metadata?: Record<string, string>;
+        versionId?: string;
+        contentType?: string;
+        body: {
+          blob: () => Promise<Blob>;
+          json: () => Promise<any>;
+          text: () => Promise<string>;
+        };
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+### Get URL Only (Default)
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { getUrl } from 'aws-amplify/storage';
+
+    const handleGetUrl = async (key: string) => {
+      const url = await getUrl({
+        key,
+        options: {
+          validateObjectExistence: true
+        },
+      });
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleGetUrl = async (key: string) => {
+      const url = await Storage.get(key, {
+        validateObjectExistence: true
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### Download File Content to Memory
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { downloadData } from 'aws-amplify/storage';
+
+    const handleDownload = async (key: string) => {
+      const { body, eTag } = await downloadData({ key }).result;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleDownload = async (key: string) => {
+      const { Body, ETag } = await Storage.get(key, {
+        download: true
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### Monitor Download Progress
+
+The `progressCallback` option has been replaced by `onProgress` in v6. The function input property names `loaded` and `total` now map to `transferredBytes` and `totalBytes`.
+
+<BlockSwitcher>
+  <Block name="V6">
+  ```ts
+  import { downloadData } from 'aws-amplify/storage';
+
+  const handleDownload = async (key: string) => {
+    const { body, eTag } = await downloadData({
+      key,
+      options: {
+        onProgress: ({ transferredBytes, totalBytes }) => {
+          // Progress implementation
+        }
+      }
+    }).result;
+  }
+  ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleDownload = async (key: string) => {
+      const { Body, ETag } = await Storage.get(key, {
+        download: true,
+        progressCallback: ({ loaded, total }) => {
+          // Progress implementation
+        }
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Storage.copy
+
+In addition to [the changes mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the `copy` API in v6 no longer supports content options (`contentDisposition`, `contentLanguage`, and `contentType`) as these values are already provided by the existing file.
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // Assumes default S3 Provider
+      src: {
+        key: string;
+        level?: string;
+        identityId?: string;
+      }
+      dest: {
+        level?: string;
+        key: string;
+      }
+      config?: {
+        provider?: 'AWSS3';
+        customPrefix?: { // removed in V6
+          public?: string;
+          protected?: string;
+          private?: string;
+        };
+        track?: boolean; // removed in V6
+        bucket?: string;
+        cacheControl?: string; // removed in V6
+        contentDisposition?: string; // removed in V6
+        contentLanguage?: string; // removed in V6
+        contentType?: string; // removed in V6
+        expires?: Date;
+        tagging?: string; // removed in V6
+        acl?: 
+          | 'private' 
+          | 'authenticated-read' 
+          | 'aws-exec-read' 
+          | 'bucket-owner-full-control' 
+          | 'bucket-owner-read' 
+          | 'public-read' 
+          | 'public-read-write'
+          | string;
+        metadata?: Record<string, string>;
+        serverSideEncryption?: 'AES256' | 'aws:kms';
+        SSECustomerAlgorithm?: string; // removed in V6
+        SSECustomerKey?: string; // removed in V6
+        SSECustomerKeyMD5?: string; // removed in V6
+        SSEKMSKeyId?: string; // removed in V6
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      input: {
+        source: {
+          key: string;
+          accessLevel?: 'guest' | 'protected' | 'private';
+          // Included when accessLevel 'protected'
+          targetIdentityId?: string;
+        };
+        destination: {
+          key: string;
+          accessLevel?: any;
+        };
+      }
+      ```
+      
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      S3ProviderCopyOutput {
+        key: string;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      CopyOutput {
+        key: string;
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { copy } from 'aws-amplify/storage';
+
+    const handleCopy = async (sourceKey: string, destinationKey: string) => {
+      const { key } = await copy({
+        source: {
+          key: sourceKey
+        },
+        destination: {
+          key: destinationKey
+        },
+      });
+    };
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleCopy = async (sourceKey: string, destinationKey: string) => {
+      const { key } = await Storage.copy(
+        src: {
+          key: sourceKey
+        },
+        dest: { 
+          key: destinationKey
+        }
+      )
+    };
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Storage.remove
+
+In addition to [the changes mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the output of the `remove` API in v6 now only returns the `key` of the removed file. `DeleteMarker`, `VersionId`, `RequestCharged`, and `$metadata` have been removed from the output.
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // Assumes default S3 Provider
+      key: string
+		  config?: {
+        level?:  'public' | 'protected' | 'private';
+        provider?: 'AWSS3';
+        customPrefix?: { // removed in V6
+          public?: string;
+          protected?: string;
+          private?: string;
+        };
+        track?: boolean; // removed in V6
+        bucket?: string;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      input: {
+        key: string;
+        options?: {
+          accessLevel?: any;
+          useAccelerateEndpoint?: boolean;
+        };
+      }
+      ```
+      
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      DeleteMarker?: boolean; // removed in V6
+      VersionId?: string; // removed in V6
+      RequestCharged?: 'requester' | string; // removed in V6
+      $metadata: { // removed in V6
+        httpStatusCode?: number;
+        requestId?: string;
+        extendedRequestId?: string;
+        cfId?: string;
+        attempts?: number;
+        totalRetryDelay?: number;
+      };
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      RemoveOutput {
+        key: string;
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { remove } from 'aws-amplify/storage';
+
+    const handleRemove = async (key: string, accessLevel: string) => {
+      await remove({ 
+        key,
+        options: {
+          // accessLevel is required if other than 'guest'
+          accessLevel
+        }
+      });
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleRemove = async (key: string, accessLevel: string) => {
+      await Storage.remove(key, {
+        // accessLevel is required if other than 'public'
+        level: accessLevel
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Storage.list
+
+There are a few changes in the `list` API from v5 to v6 in addition to [those mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options):
+
+- The `path` parameter is now the optional `prefix` parameter. If you want to list all files in the public folder, you do not need to provide an empty string as the `prefix`.
+- The `hasNextToken` output property has been removed. You can check that `nextToken` is defined to check if there are more items to retrieve.
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      // Assumes default S3 Provider
+      path: string,
+      config?: {
+        level?: 'public' | 'protected' | 'private';
+        provider?: 'AWSS3';
+        customPrefix?: { // removed in V6
+          private?: string;
+          public?: string;
+          protected?: string;
+        };
+        track?: boolean; // removed in V6
+        bucket?: string;
+        pageSize?: number | 'ALL';
+        identityId?: string;
+        nextToken?: string;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      // Paginated List
+      input {
+        prefix?: string;
+        options?: {
+          listAll?: false;
+          accessLevel?: 'guest' | 'protected' | 'private';
+          pageSize?: number;
+          nextToken?: string;
+          useAccelerateEndpoint?: boolean;
+          // Included if accessLevel is 'protected'
+          targetIdentityId?: string';
+        };
+      }
+
+      // List All
+      input {
+        prefix?: string;
+        options?: {
+          listAll: true;
+          accessLevel?: 'guest' | 'protected' | 'private';
+          useAccelerateEndpoint?: boolean;
+          // Included if accessLevel is 'protected'
+          targetIdentityId?: string';
+        };
+      }
+      ```
+      
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      StorageListOutput {
+        results: S3ProviderListOutputItem[];
+        nextToken?: string;
+        hasNextToken: boolean; // removed in V6
+      };
+
+      S3ProviderListOutputItem {
+        key: string;
+        eTag: string;
+        lastModified: Date;
+        size: number;
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      // Paginated List
+      ListPaginateOutput {
+        items: ListOutputItem[];
+        nextToken?: string;
+      }
+
+      // List All
+      ListAllOutput {
+        items: ListOutputItem[];
+      }
+
+      ListOutputItem {
+        key: string;
+        lastModified?: Date;
+        size?: number;
+        eTag?: string;
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+### Paginated List (Default)
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { list } from 'aws-amplify/storage';
+
+    const PAGE_SIZE = 20;
+    let nextToken = undefined;
+    let hasNextPage = true;
+    
+    const loadNextPage = async () => {
+      if (hasNextPage) {
+        let response = await list({
+          options: {
+            pageSize: PAGE_SIZE,
+            nextToken: nextToken
+          }
+        });
+        if (response.nextToken) {
+          nextToken = response.nextToken;
+        } else {
+          nextToken = undefined;
+          hasNextPage = false;
+        }
+        // render list items from response.results
+      }
+    };
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const PAGE_SIZE = 20;
+    let nextToken = undefined;
+    let hasNextPage = true;
+    
+    const loadNextPage = async () => {
+      if (hasNextPage) {
+        let response = await Storage.list('', {
+          pageSize: PAGE_SIZE,
+          nextToken: nextToken
+        });
+        if (response.hasNextToken) {
+          nextToken = response.nextToken;
+        } else {
+          nextToken = undefined;
+          hasNextPage = false;
+        }
+        // render list items from response.results
+      }
+    };
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+### All Files
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { list } from 'aws-amplify/storage';
+
+    const handleListAll = async (
+      prefix: string, 
+      accessLevel: string,
+      id: string
+    ) => {
+      const { items } = list({
+        prefix,
+        options: {
+          listAll: true,
+          // accessLevel and targetIdentityId not required if accessLevel is 'guest'
+          accessLevel,
+          targetIdentityId: id,
+        }
+      });
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleListAll = async (
+      prefix: string, 
+      accessLevel: string,
+      id: string
+    ) => {
+      const { results } = Storage.list(prefix, {
+        pageSize: 'ALL',
+        // level and identityId not required if level is 'public'
+        level: accessLevel,
+        identityId: id
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Storage.getProperties
+
+In addition to [the changes mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the `getProperties` API in v6 also adds `key` to the result.
+
+<Accordion title='Input' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      key: string
+		  config?: {
+        level?: 'public' | 'protected' | 'private';
+        provider?: string; // removed in V6
+        customPrefix?: { // removed in V6
+          private?: string;
+          public?: string;
+          protected?: string;
+        };
+        track?: boolean; // removed in V6
+        SSECustomerAlgorithm?: string; // removed in V6
+        SSECustomerKey?: string; // removed in V6
+        SSECustomerKeyMD5?: string; // removed in V6
+      }
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      input: {
+        key: string;
+        options?: {
+          accessLevel?: 'guest' | 'protected' | 'private';
+          useAccelerateEndpoint?: boolean;
+          // Included if accessLevel is 'protected'
+          targetIdentityId?: string;
+        };
+      }
+      ```
+      
+    </div>
+  </Columns>
+</Accordion>
+
+<Accordion title='Output' headingLevel='3'>
+  <Columns columns={2}>
+    <div>
+      **V5**
+
+      ```
+      StorageGetPropertiesOutput {
+        contentType: string;
+        contentLength: number;
+        eTag: string;
+        lastModified: Date;
+        metadata: Record<string, string>;
+      };
+      ```
+
+    </div>
+    <div>
+      **V6**
+
+      ```
+      GetPropertiesOutput {
+        key: string;
+        lastModified?: Date;
+        size?: number';
+        eTag?: string';
+        metadata?: Record<string, string>';
+        versionId?: string;
+        contentType?: string;
+      }
+      ```
+
+    </div>
+  </Columns>
+</Accordion>
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { getProperties } from 'aws-amplify/storage';
+
+    const handleGetProperties = async (
+      key: string,
+      accessLevel: string
+    ) => {
+      const result = await getProperties({
+        key: 'key',
+        options: {
+          // accessLevel not required if accessLevel is 'guest'
+          accessLevel,
+        }
+      });
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleGetProperties = async (
+      key: string,
+      accessLevel: string
+    ) => {
+      const result = await Storage.getProperties(key, {
+        // level not required if level is 'public'
+        level: accessLevel,
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Storage.cancel
+
+The process for cancelling a request has changed in v6. In v5, you have to maintain the promise or UploadTask reference returned from a Storage API call, and supply it as input to the `Storage.cancel` API. In v6, `cancel` is a function returned with the result of a Storage operation. To cancel an operation, you will call `operation.cancel()`.
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```js
+    import { downloadData } from 'aws-amplify/storage';
+
+    const operation = downloadData({
+      apiName,
+      path,
+      options
+    });
+
+    operation.response.then(result => {
+      // GET operation completed successfully
+    }).catch(error => {
+      // If the error is because the request was cancelled you can confirm here.
+      if(isCancelError(error)) {
+        // 'my message for cancellation'
+        console.log(error.message);
+      }
+    })
+
+    // To cancel the above request
+    operation.cancel('my message for cancellation');
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```js
+    import { Storage } from 'aws-amplify';
+
+    const operation = Storage.get(key, options);
+
+    operation.then(result => {
+      // GET operation completed successfully
+    }).catch(error => {
+      // If the error is because the request was cancelled you can confirm here.
+      if(Storage.isCancel(error)) {
+        // 'my message for cancellation'
+        console.log(error.message);
+      }
+    });
+
+    // To cancel the above request
+    Storage.cancel(operation, 'my message for cancellation');
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Using a Custom Prefix
+
+If you would like to upload or download items with a `customPrefix`, you can configure a prefix resolver in the second parameter of `Amplify.configure`, `libraryOptions`. Keep in mind that you will need to resolve each `accessLevel` in the custom `prefixResolver`. The example below shows the default for `protected` and `private` access levels and a customPrefix for `guest`. 
+
+<BlockSwitcher>
+  <Block name="V6">
+    ```ts
+    import { uploadData } from 'aws-amplify/storage';
+    import { Amplify } from 'aws-amplify';
+    import amplifyconfig from './amplifyconfiguration.json';
+
+    const libraryOptions = {
+      Storage: {
+        S3: {
+          prefixResolver: async ({ accessLevel, targetIdentityId }) => {
+            if (accessLevel === 'guest') {
+              return 'publicPrefix/';
+            } else if (accessLevel === 'protected') {
+              return `protected/${targetIdentityId}/`;
+            } else {
+              return `private/${targetIdentityId}/`;
+            }
+          }
+        }
+      }
+    };
+
+    Amplify.configure(amplifyConfig, libraryOptions);
+
+    const handleUpload = async (key: string, data: string | Blob) => {
+      // Upload a file with access level `guest` as  the equivalent of `public` in v5
+      const operation = uploadData({
+        key,
+        data,
+        options: {
+          accessLevel: 'guest'
+        }
+      });
+
+      const result = await operation.result;
+    }
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+
+    const handleUpload = async (key: string, data: string | Blob) => {
+      // Upload a file with access level `public`
+      const result = await Storage.put(key, data, {
+        level: 'public',
+        customPrefix: {
+          public: 'publicPrefix'
+        }
+      });
+    }
+    ```
+
+  </Block>
+</BlockSwitcher>
+
+## Tracking storage events
+
+The `track` option has been removed from Storage and its APIs in v6. Previously, in v5, enabling this option would automatically send analytics events to Pinpoint following the success or failure of Storage API calls. The analytic events sent were defined by Amplify and therefore not configurable. In v6, this option has been removed but you can continue to track Storage API results in a more predictable and configurable way [using the Analytics category](/[platform]/build-a-backend/more-features/analytics/record-events/).
+
+The table below lists the analytics events previously associated to v5 APIs and the corresponding v6 APIs they should now be associated with instead.
+
+| Analytics event   | V5 API                 | V6 API        |
+|-------------------|------------------------|---------------|
+| `'copy'`          | copy                   | copy          |
+| `'download'`      | get (`download: true`) | downloadData  |
+| `'getSignedUrl'`  | get                    | getUrl        |
+| `'getProperties'` | getProperties          | getProperties |
+| `'upload'`        | put                    | uploadData    |
+| `'delete'`        | remove                 | remove        |
+| `'list'`          | list                   | list          |
+
+<BlockSwitcher>
+  <Block name="V6">
+  
+    <Callout info>
+
+      The example below records an analytics event similar to what you would have seen in v5, but does not prescribe a format or content that needs to be followed. Instead, it is fully configurable and should be structured to best suit your analytics needs. Learn more about [using the Analytics category](/[platform]/build-a-backend/more-features/analytics/record-events/).
+
+    </Callout>
+
+    ```ts
+    import { list } from 'aws-amplify/storage';
+    import { record } from 'aws-amplify/analytics';
+
+    const prefix = 'photos/';
+
+    try {
+      const result = await list({ prefix });
+      record({
+        name: 'list',
+        attributes: { result: 'success' },
+      });
+      // Do something with the result
+    } catch (error) {
+      record({
+        name: 'list',
+        attributes: { result: 'failure' },
+      });
+      // Do something with the error
+    };
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Storage } from 'aws-amplify';
+    
+    const prefix = 'photos/';
+
+    Storage.configure({ track: true });
+
+    try {
+      const result = Storage.list(prefix);
+      // Do something with the result
+    } catch (error) {
+      // Do something with the error
+    }
+    ```
+  </Block>
+</BlockSwitcher>

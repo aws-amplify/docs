@@ -1,0 +1,51 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Configure Amplify categories',
+  description:
+    'Configuring the client.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue',
+    'react-native'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      showBreadcrumbs: false,
+      meta
+    }
+  };
+}
+
+<Callout info>
+
+This guide is for those using the previous version of the Amplify libraries. You can also review the [updated guide for configuring Amplify categories](/[platform]/tools/libraries/configure-categories/) for the most recent version.
+
+</Callout>
+
+import js0 from '/src/fragments/lib-v1/client-configuration/js/js-configuration.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
+
+import reactnative0 from '/src/fragments/lib-v1/client-configuration/js/js-configuration.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

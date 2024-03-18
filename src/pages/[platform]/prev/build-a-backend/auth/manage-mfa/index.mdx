@@ -3,7 +3,28 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Manage MFA settings',
   description: 'Learn how to enable multi-factor authentication with Amplify.',
-  platforms: ['javascript', 'flutter', 'react-native','angular','nextjs','react','vue'] 
+  platforms: [
+    'javascript',
+    'flutter',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'vue',
+        'nextjs',
+        'javascript',
+        'react-native',
+        'angular'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/auth/manage-mfa/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -717,7 +738,7 @@ async function rememberDevice() {
 
 #### Forget devices
 
-You can also forget devices but note that forgotten devices are still tracked.
+You can also forget devices but note that forgotten devices are neither remembered nor tracked.
 
 <BlockSwitcher>
 <Block name="TypeScript">

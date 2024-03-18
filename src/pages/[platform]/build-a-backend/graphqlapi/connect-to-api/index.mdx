@@ -3,7 +3,27 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Connect your app code to the API',
   description: 'Learn how to connect your app code to the API.',
-  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'javascript',
+        'nextjs',
+        'vue',
+        'react',
+        'angular'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/connect-to-api/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -53,6 +73,12 @@ import config from './amplifyconfiguration.json';
 
 Amplify.configure(config);
 ```
+
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+
+</Callout>
 
 </Block>
 <Block name="Existing AppSync GraphQL API">
@@ -147,6 +173,12 @@ Amplify.configure({
       // Set the default auth mode to "iam"
       defaultAuthMode: 'iam'
     }
+  },
+  Auth: {
+    Cognito: {
+      identityPoolId: "YOUR_IDENTITY_POOL_ID",
+      allowGuestAccess: true // set to false to not use the unauthenticated role
+    }
   }
 });
 ```
@@ -216,9 +248,11 @@ import config from './amplifyconfiguration.json';
 
 Amplify.configure(config, {
   API: {
-    headers: async () => ({
-      'My-Custom-Header': 'my value'
-    })
+    GraphQL:  {
+      headers: async () => ({
+        'My-Custom-Header': 'my value'
+      })
+    }
   }
 });
 ```

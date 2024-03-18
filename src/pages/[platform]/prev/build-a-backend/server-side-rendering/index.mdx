@@ -10,7 +10,19 @@ export const meta = {
     'react',
     'vue'
   ],
-  route: '/[platform]/prev/build-a-backend/server-side-rendering'
+  route: '/[platform]/prev/build-a-backend/server-side-rendering',
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'react',
+        'nextjs',
+        'angular',
+        'vue'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/server-side-rendering/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

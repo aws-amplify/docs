@@ -3,8 +3,7 @@ import { JS_PLATFORMS } from '@/data/platforms';
 
 export const meta = {
   title: 'Set up Amplify GraphQL API',
-  description:
-    "Learn more about how to get started with Amplify's API category",
+  description: "Learn more about how to get started with Amplify's API category",
   platforms: [
     'javascript',
     'react-native',
@@ -15,6 +14,19 @@ export const meta = {
     'nextjs',
     'react',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'angular',
+        'vue',
+        'javascript',
+        'react',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/set-up-graphql-api/'
+    }
   ]
 };
 
@@ -85,7 +97,7 @@ Accept the default values and your code editor should show a GraphQL schema for 
 
 ```graphql
 # This "input" configures a global authorization rule to enable public access to
-# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/auth
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/react/build-a-backend/graphqlapi/customize-authorization-rules/
 input AMPLIFY {
   globalAuthRule: AuthRule = { allow: public }
 } # FOR TESTING ONLY!
@@ -465,6 +477,6 @@ There's so much more to discover with Amplify's GraphQL API capabilities. Learn 
 - [Add custom business logic to the GraphQL API](/[platform]/build-a-backend/graphqlapi/custom-business-logic/)
 - [Run search and result aggregation queries](/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/)
 - [Connect to machine learning services](/[platform]/build-a-backend/graphqlapi/connect-machine-learning-services/)
-- [Examples and solutions](/[platform]/build-a-backend/graphqlapi/best-practice/)
+- [Best practice and examples](/[platform]/build-a-backend/graphqlapi/best-practice/)
 
 </InlineFilter>

@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Set up a function',
-  description:
-    'Use Amplify CLI to add powerful Lambda functions to your cloud-based mobile and web app with a simple guided workflow.',
+  description: 'Use Amplify CLI to add powerful Lambda functions to your cloud-based mobile and web app with a simple guided workflow.',
   platforms: [
     'javascript',
     'flutter',
@@ -14,6 +13,22 @@ export const meta = {
     'nextjs',
     'react',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'angular',
+        'android',
+        'swift',
+        'react',
+        'javascript',
+        'react-native',
+        'nextjs',
+        'flutter'
+      ],
+      canonicalPath: '/javascript/build-a-backend/functions/set-up-function/'
+    }
   ]
 };
 
@@ -158,11 +173,5 @@ On running `amplify push` commands, the IAM policies specified in the `custom-po
 Amplify CLI allows you to schedule Lambda functions to be executed periodically (e.g every minute, hourly, daily, weekly, monthly or yearly). You can also formulate more complex schedules using AWS Cron Expressions such as: _“10:15 AM on the last Friday of every month”_. Review the [Schedule Expression for Rules documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) for more details.
 
 To schedule your Lambda function, answer **Yes** to `Do you want to invoke this function on a recurring schedule?` in the `amplify add function` flow. Once you deploy a function, it'll create a CloudWatch Rule to periodically execute the selected Lambda function.
-
-## GraphQL from Lambda
-
-import all0 from '/src/fragments/lib/graphqlapi/graphql-from-node.mdx';
-
-<Fragments fragments={{ all: all0 }} />
 
 For more information on files generated in the function resource folder, see [Function Category Files](/[platform]/tools/cli/reference/files/#function-category-files).

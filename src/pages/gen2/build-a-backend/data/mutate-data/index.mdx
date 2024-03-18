@@ -1,6 +1,6 @@
 export const meta = {
   title: 'Create, update, and delete application data',
-  description: 'Learn how to mutate application data.'
+  description: 'Mutate application data in an API by generating the client, adding items, updating existing items, deleting items, troubleshooting unauthorized errors, and canceling requests.'
 };
 
 export function getStaticProps(context) {
@@ -16,21 +16,21 @@ In this guide, you will learn how to create, update, and delete your data using 
 
 Before you begin, you will need:
 
-- An [application connected to the API](/[platform]/build-a-backend/graphqlapi/connect-to-api/)
+- An [application connected to the API](/gen2/build-a-backend/data/connect-to-API/)
 
 ## Create an item
 
 You can create an item by first generating the Data client with your backend Data schema. Then you can add an item:
 
 ```js
-import { generateClient } from 'aws-amplify/api';
-import { type Schema } from '@/amplify/data/resource'
+import { generateClient } from 'aws-amplify/data';
+import { type Schema } from '../amplify/data/resource'
 
 const client = generateClient<Schema>();
 
 const { errors, data: newTodo } = await client.models.Todo.create({
   content: "My new todo",
-  done: true,
+  isDone: true,
 })
 ```
 
@@ -45,17 +45,17 @@ const { errors, data: newTodo } = await client.models.Todo.create({
 To update the item, use the `update` function:
 
 ```js
-import { generateClient } from 'aws-amplify/api';
-import { type Schema } from '@/amplify/data/resource'
+import { generateClient } from 'aws-amplify/data';
+import { type Schema } from '../amplify/data/resource';
 
 const client = generateClient<Schema>();
 
-const todoDetails = {
+const todo = {
   id: 'some_id',
-  description: 'Updated description'
+  content: 'Updated content',
 };
 
-const { data: updatedTodo, errors } = await client.models.Todo.update(todo)
+const { data: updatedTodo, errors } = await client.models.Todo.update(todo);
 ```
 
 <Callout>
@@ -72,13 +72,13 @@ const { data: updatedTodo, errors } = await client.models.Todo.update(todo)
 You can then delete the Todo by using the delete mutation. To specify which item to delete, you only need to provide the `id` of that item:
 
 ```js
-import { generateClient } from 'aws-amplify/api';
-import { type Schema } from '@/amplify/data/resource'
+import { generateClient } from 'aws-amplify/data';
+import { type Schema } from '../amplify/data/resource'
 
 const client = generateClient<Schema>();
 
 const toBeDeletedTodo = {
-  id: "123123213"
+  id: '123123213'
 }
 
 const { data: deletedTodo, errors } = await client.models.Todo.delete(toBeDeletedTodo)
@@ -86,27 +86,27 @@ const { data: deletedTodo, errors } = await client.models.Todo.delete(toBeDelete
 
 <Callout>
 
-**Note:** When deleting items in many-to-many relationships, the join table records must be deleted before deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record before deleting a Post or Tag. Review [Many-to-many relationships](TK) for more details.
+**Note:** When deleting items in many-to-many relationships, the join table records must be deleted before deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record before deleting a Post or Tag. Review [Many-to-many relationships](/gen2/build-a-backend/data/data-modeling/relationships/) for more details.
 
 </Callout>
 
-<Accordion title='Troubleshooting unauthorized errors' headingLevel='4' eyebrow='Learn more'>
+<Accordion title='Troubleshoot unauthorized errors' headingLevel='4' eyebrow='Troubleshooting'>
 
-Each API request uses a authorization mode. If you get unauthorized errors, you may need to update your authorization mode. To override the default authorization mode defined in your **amplify/data/resource.ts** file, pass an `authMode` property to the request or the client. The following examples show how you can mutate data with a custom authorization mode:
+Each API request uses an authorization mode. If you get unauthorized errors, you may need to update your authorization mode. To override the default authorization mode defined in your **amplify/data/resource.ts** file, pass an `authMode` property to the request or the client. The following examples show how you can mutate data with a custom authorization mode:
 
 ```ts
-import { generateClient } from 'aws-amplify/api';
-import { type Schema } from '@/amplify/data/resource';
+import { generateClient } from 'aws-amplify/data';
+import { type Schema } from '../amplify/data/resource';
 
 const client = generateClient<Schema>();
 
 const { errors, data: newTodo } = await client.models.Todo.create(
   {
     content: 'My new todo',
-    done: true
+    isDone: true,
   },
   {
-    authMode: 'apiKey'
+    authMode: 'apiKey',
   }
 );
 ```
@@ -117,9 +117,9 @@ const { errors, data: newTodo } = await client.models.Todo.create(
 
 You can cancel any mutation API request by calling `.cancel` on the mutation request promise that's returned by `.create(...)`, `.update(...)`, or `.delete(...)`.
 
-```javascript
-const promise = client.models.Todo.create({ content: "New Todo "})
-            //  ^ Note: we're not awaiting the request, we're returning the promise
+```ts
+const promise = client.models.Todo.create({ content: 'New Todo ' });
+//  ^ Note: we're not awaiting the request, we're returning the promise
 
 try {
   await promise;
@@ -132,15 +132,15 @@ try {
   }
 }
 
-...
+//...
 
 // To cancel the above request
-client.cancel(promise, "my message for cancellation");
+client.cancel(promise, 'my message for cancellation');
 ```
 
 You need to ensure that the promise returned from `.create()`, `.update()`, and `.delete()` has not been modified. Typically, async functions wrap the promise being returned into another promise. For example, the following will **not** work:
 
-```javascript
+```ts
 async function makeAPICall() {
   return client.models.Todo.create({ content: 'New Todo' });
 }
@@ -152,11 +152,11 @@ client.cancel(promise, 'my error message');
 
 ## Conclusion
 
-Congratulations! You have finished the **Create, update, and delete application data** guide. In this guide, you created, updated, and deleted your app data through the GraphQL API.
+Congratulations! You have finished the **Create, update, and delete application data** guide. In this guide, you created, updated, and deleted your app data.
 
-## Next steps
+### Next steps
 
 Our recommended next steps include using the API to query data and subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
 
-- [Read application data](/[platform]/build-a-backend/graphqlapi/query-data/)
-- [Subscribe to real-time events](/[platform]/build-a-backend/graphqlapi/subscribe-data/)
+- [Read application data](/gen2/build-a-backend/data/query-data/)
+- [Subscribe to real-time events](/gen2/build-a-backend/data/subscribe-data/)

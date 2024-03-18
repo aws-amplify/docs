@@ -4,16 +4,32 @@ export const meta = {
   title: 'Plugins',
   description: 'Plugins enable you to add additional commands and functionality to existing Amplify CLI. Learn how to create, publish, and consume a plugin package.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'vue',
+        'swift',
+        'android',
+        'flutter',
+        'javascript',
+        'react',
+        'nextjs',
+        'angular'
+      ],
+      canonicalPath: '/javascript/tools/cli/plugins/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

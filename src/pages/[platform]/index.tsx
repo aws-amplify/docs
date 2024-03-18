@@ -4,10 +4,9 @@ import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
-import { Flex, Heading, Button, Text } from '@aws-amplify/ui-react';
+import { Flex, Heading, Text } from '@aws-amplify/ui-react';
 import LinkCards from '@/components/LinkCards';
 import PlatformFeatureList from '@/components/FeatureLists/PlatformFeatureList';
-import Link from 'next/link';
 
 export const meta = {
   title: 'Overview',

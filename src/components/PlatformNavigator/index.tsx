@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button, Flex, Text, View } from '@aws-amplify/ui-react';
 import { IconChevron } from '@/components/Icons';
 import { frameworks } from '@/constants/frameworks';
@@ -48,7 +48,7 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
     if (isOpen) {
       contentRef?.current?.focus();
     }
-  }, [isOpen]);
+  }, [isOpen, contentRef]);
 
   const platformItem = frameworks.filter((platform) => {
     return platform.title === platformTitle;
@@ -77,7 +77,10 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
               {platformItem.icon}
               {platformTitle}
             </Flex>
-            <IconChevron fontSize="xs" className={isOpen ? '' : 'icon-rotate-90-reverse'} />
+            <IconChevron
+              fontSize="xs"
+              className={isOpen ? '' : 'icon-rotate-90-reverse'}
+            />
           </Button>
           {PLATFORM_VERSIONS[currentPlatform] && (
             <VersionSwitcher

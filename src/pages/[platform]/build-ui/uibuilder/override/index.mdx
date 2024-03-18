@@ -4,15 +4,19 @@ export const meta = {
   title: 'Extend with code',
   description: 'Figma to React code with Amplify Studio',
   platforms: [
-    'android',
-    'angular',
-    'flutter',
     'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
+    'react', 
+    'nextjs'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'react', 
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-ui/uibuilder/override/'
+    }
   ]
 };
 
@@ -60,7 +64,8 @@ All generated code exposes an `overrides` prop on all components and children to
 
          <View minWidth="0">
 
-        ```jsx import {FAQItem} from './ui-components'
+        ```jsx
+        import {FAQItem} from './ui-components'
         ... ... //⬇️ Element name
         shown in Studio
         <FAQItem overrides={{ Title: { color: 'red' } }} />
@@ -91,7 +96,11 @@ The following example shows how to override each collection item to show a diffe
 If you want to override a prop for a specific element within a collection item, pass an override object to `overrideItems`.
 
 ```jsx
-<HomeCollection overrideItems={(item, index) => ({ overrides: { Share: { fontWeight: 'bold'}}})}
+<HomeCollection
+  overrideItems={(item, index) => ({
+    overrides: { Share: { fontWeight: 'bold' } }
+  })}
+/>
 ```
 
 ### Nesting collections
@@ -195,12 +204,12 @@ In the example above, you can add your own custom business logic, when the custo
 
 You can't directly customize all generated component code, as changes will be overwritten on the next `amplify pull`. However, the following workaround is available if you want to take control of component modifications.
 
-1. Duplicate the generated JSX and TS file inside `ui-components` (e.g. `Ampligram`)
-2. Change the name of the files to something else (e.g. `Ampligram2`) and update the function names to match as well.
-3. Update `index.js` to include the new export (e.g. `export { default as Ampligram2 } from "./Ampligram2";`)
+1. Duplicate the generated JSX and TS file from `ui-components` to a new folder (e.g. `Ampligram`)
+2. Change the name of the file to something else (e.g. `Ampligram2`) and update the function names to match as well.
+3. Create a new 'index.js' file in the new folder to include the new export (e.g. `export { default as Ampligram2 } from "./Ampligram2";`)
 4. Import the duplicated component wherever you want.
 
-The next `amplify pull` will not overwrite this new file.
+The next `amplify pull` will not overwrite the new files.
 
 ## Example use cases
 

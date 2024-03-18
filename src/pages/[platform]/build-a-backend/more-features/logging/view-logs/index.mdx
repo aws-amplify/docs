@@ -3,7 +3,19 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'View logs',
   description: 'Learn how to view logs in Amazon CloudWatch',
-  platforms: ['swift', 'android']
+  platforms: [
+    'swift',
+    'android'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'swift',
+        'android'
+      ],
+      canonicalPath: '/swift/build-a-backend/more-features/logging/view-logs/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

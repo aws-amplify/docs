@@ -3,7 +3,30 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Delete user account',
   description: 'Delete a user',
-  platforms: ['flutter', 'swift', 'android', 'javascript', 'react-native','angular','nextjs','react','vue'] 
+  platforms: [
+    'flutter',
+    'swift',
+    'android',
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'react-native',
+        'vue',
+        'angular',
+        'react',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/auth/delete-user-account/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

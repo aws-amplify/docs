@@ -1,16 +1,22 @@
 import Link from 'next/link';
 import { View, Flex } from '@aws-amplify/ui-react';
-import directory from 'src/directory/directory.json';
+import directory from '@/directory/directory.json';
 import { useRouter } from 'next/router';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
+import { IconChevron } from '@/components/Icons';
 
 export const NextPrevious = () => {
-
   const platform = useCurrentPlatform();
   const router = useRouter();
   const pathname = router.pathname;
 
-  const findDirectoryNodes = (route, dir = directory, platform, previous, next) => {
+  const findDirectoryNodes = (
+    route,
+    dir = directory,
+    platform,
+    previous,
+    next
+  ) => {
     const children = dir?.children?.filter((child) => {
       return child?.platforms?.includes(platform);
     });
@@ -18,14 +24,21 @@ export const NextPrevious = () => {
       return { previous, next };
     } else if (children && children.length) {
       for (let i = 0; i < children.length; i++) {
-        let child = children[i];
-        let res = findDirectoryNodes(route, child, platform, children[i - 1], children[i + 1]);
+        const child = children[i];
+        const res = findDirectoryNodes(
+          route,
+          child,
+          platform,
+          children[i - 1],
+          children[i + 1]
+        );
         if (res) return res;
       }
     }
-  }
+  };
 
-  const { previous, next } = findDirectoryNodes(pathname, directory, platform, null, null) || {};
+  const { previous, next } =
+    findDirectoryNodes(pathname, directory, platform, null, null) || {};
   let nextHref, prevHref;
   if (next) {
     nextHref = {
@@ -33,7 +46,7 @@ export const NextPrevious = () => {
       query: {
         platform
       }
-    }
+    };
   }
   if (previous) {
     prevHref = {
@@ -41,38 +54,39 @@ export const NextPrevious = () => {
       query: {
         platform
       }
-    }
+    };
   }
 
-  const justifyContent = next && previous ?
-    'space-between' : previous ? 'flex-start' : 'flex-end';
-
+  const justifyContent =
+    next && previous ? 'space-between' : previous ? 'flex-start' : 'flex-end';
 
   return (
     <Flex justifyContent={justifyContent} className="next-prev">
-      {previous &&
-        (<Link href={prevHref}>
+      {previous && (
+        <Link href={prevHref}>
           <Flex>
-            <img src="/assets/arrow-left.svg" alt="" width="8" height="56" className="previousArrow" />
+            <IconChevron margin="auto" className="icon-rotate-90" />
             <Flex direction="column" gap="0">
               <View className="next-prev__label">PREVIOUS</View>
               <View className="next-prev__title">{previous.title}</View>
             </Flex>
           </Flex>
-        </Link>)}
-      {next &&
-        (<Link href={nextHref}>
+        </Link>
+      )}
+      {next && (
+        <Link href={nextHref}>
           <Flex>
             <Flex direction="column" gap="0">
               <View className="next-prev__label">NEXT</View>
               <View className="next-prev__title">{next.title}</View>
             </Flex>
-            <img src="/assets/arrow-right.svg" alt="" width="8" height="56" className="nextArrow" />
+            <IconChevron margin="auto" className="icon-rotate-90-reverse" />
           </Flex>
-        </Link>)}
+        </Link>
+      )}
     </Flex>
   );
-}
+};
 
 export const NEXT_PREVIOUS_SECTIONS = [
   '/start/getting-started/',
@@ -102,4 +116,4 @@ export const NEXT_PREVIOUS_SECTIONS = [
   '/tools/console/data/',
   '/tools/console/storage/',
   '/tools/console/tutorial/'
-]
+];

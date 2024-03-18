@@ -3,7 +3,25 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Build a generative AI sandbox with Amplify and Amazon Bedrock',
   description: 'How to build a generative AI sandbox with Amazon Bedrock and AWS Amplify',
-  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android','angular','nextjs','react','vue'] 
+  platforms: [
+    'javascript',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'angular',
+        'nextjs',
+        'javascript',
+        'vue'
+      ],
+      canonicalPath: '/javascript/build-a-backend/restapi/gen-ai/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -331,7 +349,7 @@ But if you click that button, you will see this in your terminal:
 
 When you create an Authentication backend with Amplify, it sets up Amazon Cognito and creates two IAM roles, one for unauthenticated users and another for authenticated users. These IAM roles let AWS know what resources your authenticated and guest users can access. We didn’t give our authenticated users access to Amazon Bedrock yet. Let’s do that now.
 
-You can update the IAM policies Amplify creates with an [override](https://docs.amplify.aws/cli/project/override/). Run this command:
+You can update the IAM policies Amplify creates with an [override](/[platform]/tools/cli/project/override-iam/). Run this command:
 
 ```
 amplify override project

@@ -5,17 +5,25 @@ export const meta = {
   title: 'Custom configuration',
   description: 'Learn how to enable a custom domain name using Amplify Hosting.',
   platforms: [
-    'android',
     'angular',
-    'flutter',
     'javascript',
     'nextjs',
     'react',
-    'react-native',
-    'swift',
     'vue'
   ],
-  route: '/[platform]/deploy-and-host/custom-configuration'
+  route: '/[platform]/deploy-and-host/custom-configuration',
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'javascript',
+        'react',
+        'vue',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/deploy-and-host/custom-configuration/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

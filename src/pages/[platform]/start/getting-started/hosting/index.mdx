@@ -2,9 +2,24 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Deploy and host app',
-  description:
-    'Getting started with Amplify - How to host and deploy your web app',
-  platforms: ['angular', 'javascript', 'nextjs', 'react', 'vue']
+  description: 'Getting started with Amplify - How to host and deploy your web app',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'react',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/start/getting-started/hosting/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

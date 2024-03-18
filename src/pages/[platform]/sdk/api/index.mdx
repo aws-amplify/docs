@@ -6,16 +6,18 @@ export const meta = {
   description: 'API',
   platforms: [
     'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
+    'swift'
   ],
-  route: '/[platform]/sdk/api'
+  route: '/[platform]/sdk/api',
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'swift'
+      ],
+      canonicalPath: '/swift/sdk/api/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

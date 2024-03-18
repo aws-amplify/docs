@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Customize authorization rules',
-  description:
-    'Add authorization rules to your GraphQL schema to control access to your data.',
+  description: 'Add authorization rules to your GraphQL schema to control access to your data.',
   platforms: [
     'android',
     'angular',
@@ -14,6 +13,27 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'flutter',
+        'swift'
+      ],
+      canonicalPath: '/swift/build-a-backend/graphqlapi/customize-authorization-rules/'
+    },
+    {
+      platforms: [
+        'angular',
+        'nextjs',
+        'javascript',
+        'react',
+        'vue',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/customize-authorization-rules/'
+    }
   ]
 };
 
@@ -158,6 +178,32 @@ new AmplifyGraphqlApi(this, "MyNewApi", {
   },
 })
 ```
+
+<InlineFilter filters={["react", "angular", "nextjs", "vue", "react-native", "javascript"]}>
+
+In the Amplify Library's client configuration file (`amplifyconfiguration.json`) set `allowGuestAccess` to `true`. This lets the Amplify Library use the unauthenticated role from your Cognito identity pool when your user isn't logged in. 
+
+```json
+{
+	"Auth": {
+		"Cognito": {
+			"userPoolId": "YOUR_USER_POOL_ID",
+			"userPoolClientId": "YOUR_USER_POOL_CLIENT_ID",
+			"identityPoolId": "YOUR_IDENTITY_POOL_ID",
+			"allowGuestAccess": true
+		},
+	},
+	"API": {
+		"GraphQL": {
+			"endpoint": "YOUR_API_ENDPOINT",
+			"region": "YOUR_API_REGION",
+			"defaultAuthMode": "YOUR_DEFAULT_AUTHORIZATION_MODE",
+		},
+	},
+}
+```
+
+</InlineFilter>
 
 </Block>
 </BlockSwitcher>
@@ -337,6 +383,7 @@ type Salary @model @auth(rules: [{ allow: groups, groups: ["Admin"] }]) {
 
 In the example above, only users that are part of the "Admin" user group are granted access to the Salary model.
 
+<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue"]}>
 **Dynamic group authorization**: When you want to restrict access to a set of user groups.
 
 ```graphql
@@ -366,6 +413,7 @@ By default, `group` authorization leverages Amazon Cognito user pool groups but 
 
 - subscriptions are only supported if the user is part of 20 or fewer groups
 - you can only authorize 20 or fewer user groups per record
+</InlineFilter>
 
 ### Custom authorization rule
 
@@ -518,13 +566,13 @@ import { listPosts } from './graphql/queries';
 const newPostResult = await client.graphql({
   query: queries.createPost,
   variables: { input: { title: 'Hello World' } },
-  authMode: 'AMAZON_COGNITO_USER_POOLS'
+  authMode: 'userPool'
 });
 
 // Listing posts is available to all users (verified by IAM)
 const listPostsResult = await client.graphql({
   query: queries.listPosts,
-  authMode: 'AWS_IAM'
+  authMode: 'iam'
 });
 ```
 
@@ -753,6 +801,12 @@ Lambda functions' IAM execution role do not immediately grant access to Amplify'
 If you grant a Lambda function in your Amplify project access to the GraphQL API via `amplify update function`, then the Lambda function's IAM execution role is allow-listed to honor the permissions granted on the `Query`, `Mutation`, and `Subscription` types.
 
 Therefore, these functions have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
+
+<Callout>
+
+Once you grant a function access to the GraphQL API, it is required to redeploy the API to apply the permissions. To do so, run the command `amplify api gql-compile --force` before deployment via `amplify push`.
+
+</Callout>
 
 </Block>
 
