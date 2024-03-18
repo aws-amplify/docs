@@ -2,7 +2,6 @@ import {
   Heading,
   Text,
   Flex,
-  Button,
   Grid,
   Card,
   View,
@@ -24,6 +23,8 @@ import { Columns } from '@/components/Columns';
 import { FeatureList, FeatureItem } from '@/components/FeatureLists';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
+import { InternalLinkButton } from '@/components/InternalLinkButton';
+import { GetStartedPopover } from '@/components/GetStartedPopover';
 
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
@@ -119,19 +120,22 @@ const Gen2Overview = () => {
           branch-based environments.
         </Text>
         <Flex className="home-cta">
-          <Button
-            size="large"
-            as="a"
+          <InternalLinkButton
             variation="primary"
-            href="/gen2/start/quickstart/"
-            gap="small"
+            size="large"
+            href={{
+              pathname: '/[platform]/how-amplify-works',
+              query: { platform: currentPlatform }
+            }}
           >
-            Get started{' '}
-            <IconChevron fontSize=".875em" className="icon-rotate-90-reverse" />
-          </Button>
-          <Button size="large" as="a" href="/gen2/how-amplify-works/concepts/">
-            How it works
-          </Button>
+            How Amplify Works
+            <IconChevron
+              aria-hidden="true"
+              className="icon-rotate-270"
+              fontSize=".875em"
+            />
+          </InternalLinkButton>
+          <GetStartedPopover platform={currentPlatform} />
         </Flex>
       </Flex>
       <Flex className="home-section">
