@@ -36,7 +36,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     completed: a.boolean(),
-  })
+  }),
 });
 ```
 
@@ -62,11 +62,12 @@ const schema = a.schema({
     title: a.string(),
     completed: a.boolean(),
   }).identifier(['todoId'])
+  .authorization([a.allow.public()]),
 });
 
 const client = generateClient<Schema>();
 
-const todo = await client.models.Todo.create({ todoId: 'MyUniqueTodoId', title: 'Buy Milk', completed: false });
+ const { data: todo, errors } = await client.models.Todo.create({ todoId: 'MyUniqueTodoId', title: 'Buy Milk', completed: false });
 console.log(`New Todo created: ${todo.todoId}`); // New Todo created: MyUniqueTodoId
 ```
 
@@ -85,6 +86,7 @@ const schema = a.schema({
     zipCode: a.string(),
     streetAddress: a.string(),
   }).identifier(['tenantId', 'name'])
+  .authorization([a.allow.public()]),
 });
 
 const client = generateClient<Schema>();
