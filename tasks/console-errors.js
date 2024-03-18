@@ -1,5 +1,7 @@
-import { launch } from 'puppeteer';
-import { getSitemapUrls } from './get-sitemap-links';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-var-requires
+const puppeteer = require('puppeteer');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { getSitemapUrls } = require('./get-sitemap-links');
 
 const excludedErrors = [
   {

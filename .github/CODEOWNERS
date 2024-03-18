@@ -104,6 +104,7 @@
 /src/themes @aws-amplify/documentation-team 
 /src/utils @aws-amplify/documentation-team
 /tasks @aws-amplify/documentation-team
+.github @aws-amplify/documentation-team
 
 #Protected Content
 /src/protected @reesscot @srquinn21 @Milan-Shah @swaminator
