@@ -1,30 +1,15 @@
-import {
-  Heading,
-  Text,
-  Flex,
-  Grid,
-  Card,
-  View,
-  Badge
-} from '@aws-amplify/ui-react';
+import { Heading, Text, Flex, Card } from '@aws-amplify/ui-react';
 import ExportedImage from 'next-image-export-optimizer';
 import { MDXCode } from '@/components/MDXComponents/';
-import {
-  IconAngular,
-  IconJS,
-  IconNext,
-  IconReact,
-  IconTS,
-  IconVue,
-  IconChevron
-} from '@/components/Icons';
-import { ClassicBanner } from '@/components/Banner';
+import { IconChevron } from '@/components/Icons';
 import { Columns } from '@/components/Columns';
 import { FeatureList, FeatureItem } from '@/components/FeatureLists';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { GetStartedPopover } from '@/components/GetStartedPopover';
+import { FrameworkGrid } from '@/components/FrameworkGrid';
+import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
@@ -60,64 +45,19 @@ export function getStaticProps() {
   };
 }
 
-const supportedFrameworks = [
-  {
-    title: 'JavaScript',
-    icon: <IconJS />
-  },
-  {
-    title: 'TypeScript',
-    icon: <IconTS />
-  },
-  {
-    title: 'React',
-    icon: <IconReact />
-  },
-  {
-    title: 'Next',
-    icon: <IconNext />
-  },
-  {
-    title: 'Vue',
-    icon: <IconVue />
-  },
-  {
-    title: 'Angular',
-    icon: <IconAngular />
-  },
-  {
-    title: 'React Native',
-    icon: <IconReact />
-  }
-];
-
 const Gen2Overview = () => {
   const currentPlatform = useCurrentPlatform();
 
   return (
     <Flex className="home-content">
-      <Flex className="home-section">
-        <Heading level={1}>
-          Amplify Docs{' '}
-          <Text as="span" fontWeight="300">
-            (Gen 2)
-          </Text>
-          <sup>
-            {' '}
-            <Badge size="small" backgroundColor="purple.60" color="white">
-              Preview
-            </Badge>
-          </sup>
+      <Flex className="home-intro">
+        <Heading level={1} className="home-intro__heading">
+          Amplify Documentation for {PLATFORM_DISPLAY_NAMES[currentPlatform]}
         </Heading>
-        <Heading level={2} fontSize="xl" className="max-headline-content">
-          Preview: A new code-first DX (Gen 2) for building backends
-        </Heading>
-        <Text className="max-inline-content">
-          Amplify has reimagined the way frontend developers build fullstack
-          applications on AWS. With this next generation of Amplify’s
-          backend-building experience, you can author your frontend and backend
-          definition completely with TypeScript, a file convention, and Git
-          branch-based environments.
+        <Text className="home-intro__text">
+          AWS Amplify streamlines full-stack app development. With its
+          libraries, CLI, and services, you can easily connect your frontend to
+          the cloud for authentication, storage, APIs, and more.
         </Text>
         <Flex className="home-cta">
           <InternalLinkButton
@@ -139,22 +79,16 @@ const Gen2Overview = () => {
         </Flex>
       </Flex>
       <Flex className="home-section">
-        <Heading level={2}>Works with popular languages and frameworks</Heading>
-        <Grid as="ul" className="framework-grid">
-          {supportedFrameworks.map((framework, index) => {
-            return (
-              <li
-                key={`framework-${index}`}
-                className="framework-grid__item framework-grid__item--text"
-              >
-                <View className="framework-grid__icon">{framework.icon}</View>
-                {framework.title}
-              </li>
-            );
-          })}
-        </Grid>
-
-        <ClassicBanner />
+        <Heading level={2}>
+          Build fullstack apps with your framework of choice
+        </Heading>
+        <Text>
+          AWS Amplify provides libraries for popular web and mobile frameworks,
+          like JavaScript, Flutter, Swift, and React. Our guides, APIs, and
+          other resources will help you build, connect, and host fullstack apps
+          on AWS. Get started by selecting your preferred framework.
+        </Text>
+        <FrameworkGrid currentKey={currentPlatform} />
       </Flex>
       <Flex className="home-section">
         <Heading level={2}>Features</Heading>
