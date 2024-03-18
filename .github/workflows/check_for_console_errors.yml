@@ -32,7 +32,7 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const { consoleErrors } = require('./tasks/console-errors.mjs');
+            const { consoleErrors } = require('./tasks/console-errors.js');
             return await consoleErrors();
       - name: Fail if console errors have been found
         if: ${{ steps.consoleErrors.outputs.result }}
