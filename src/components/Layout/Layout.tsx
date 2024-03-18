@@ -168,8 +168,6 @@ export const Layout = ({
     }
   }, []);
 
-  // console.log(tocHeadings);
-
   return (
     <>
       <Head>

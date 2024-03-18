@@ -38,7 +38,7 @@ describe('Layout', () => {
     expect(layout).toBeInTheDocument();
   });
 
-  it('should render the Layout component', async () => {
+  it('should ', async () => {
     render(component);
     const main = await screen.getByRole('main', { name: 'Main content' });
     console.log(Array.from(main.children));
