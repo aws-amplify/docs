@@ -67,8 +67,8 @@ const checkPage = async (url) => {
 };
 
 const consoleErrors = async (domain) => {
-  const pagesToCheck = await getSitemapUrls(domain);
-  const errorMessage = '';
+  let pagesToCheck = await getSitemapUrls(domain);
+  let errorMessage = '';
   for (let i = 0; i < pagesToCheck.length; i++) {
     let url = pagesToCheck[i];
     console.log(`checking page ${url}`);
