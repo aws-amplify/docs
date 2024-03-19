@@ -130,7 +130,7 @@ await getUrl({ key: 'filename.txt', options: { expiresIn: 60 } });
 Download a file to in-memory buffer.
 
 <BlockSwitcher>
-<Block name="With Path">
+<Block name="With Path (Above v6.x.x)">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
@@ -149,7 +149,7 @@ const { body, eTag } = await downloadData({
 }).result;
 ```
 </Block>
-<Block name="With Key (Deprecated <= v6.x.x)">
+<Block name="With Key (Deprecated)">
 
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
@@ -178,7 +178,7 @@ const { body, eTag } = await downloadData({
 You can consume the value of file in any of the three formats: `blob`, `json`, or `text`. You can call the respective method on the `body` property to consume the set data in the respective format.
 
 <BlockSwitcher>
-<Block name="With Path">
+<Block name="With Path (Above v6.x.x)">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
@@ -193,7 +193,7 @@ try {
 }
 ```
 </Block>
-<Block name="With Key (Deprecated <= v6.x.x)">
+<Block name="With Key (Deprecated)">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
@@ -215,7 +215,7 @@ try {
 To track the progress of your download, you can use `onProgress`:
 
 <BlockSwitcher>
-<Block name="With Path">
+<Block name="With Path (Above v6.x.x)">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
@@ -233,7 +233,7 @@ const { body, eTag } = await downloadData(
 ```
 </Block>
 
-<Block name="With Key (Deprecated <= v6.x.x)">
+<Block name="With Key (Deprecated)">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
@@ -255,7 +255,7 @@ const { body, eTag } = await downloadData(
 ### Cancel a download task
 
 <BlockSwitcher>
-<Block name="With Path">
+<Block name="With Path (Above v6.x.x)">
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
 
@@ -271,7 +271,7 @@ try {
 ```
 </Block>
 
-<Block name="With Key (Deprecated <= v6.x.x)">
+<Block name="With Key (Deprecated)">
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
 const downloadTask = downloadData({ key: "abc.txt", data: file });
@@ -286,10 +286,6 @@ try {
 ```
 </Block>
 </BlockSwitcher>
-
-<Callout warning>
-Note: The `key` and `accessLevel` parameters are deprecated and may be removed in the next major version.
-</Callout>
 
 <Callout>
 To get the metadata in result for all APIs you have to configure user defined metadata in CORS.
