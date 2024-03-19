@@ -1,11 +1,12 @@
 import Link, { LinkProps } from 'next/link';
 import { Button, ButtonProps } from '@aws-amplify/ui-react';
 
-interface InternalLinkButtonProps extends LinkProps {
+interface InternalLinkButtonProps extends Omit<LinkProps, 'onClick'> {
   variation?: ButtonProps['variation'];
   size?: ButtonProps['size'];
   children?: React.ReactNode;
   className?: string;
+  onClick?: ButtonProps['onClick'];
 }
 
 export const InternalLinkButton = ({
@@ -13,7 +14,8 @@ export const InternalLinkButton = ({
   size,
   href,
   children,
-  className
+  className,
+  onClick
 }: InternalLinkButtonProps) => {
   return (
     <Link href={href} legacyBehavior={true} passHref={true}>
@@ -23,6 +25,7 @@ export const InternalLinkButton = ({
         size={size}
         as="a"
         className={className}
+        onClick={onClick}
       >
         {children}
       </Button>
