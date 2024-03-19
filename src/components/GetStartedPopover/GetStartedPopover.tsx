@@ -1,5 +1,4 @@
 import { Flex, VisuallyHidden } from '@aws-amplify/ui-react';
-
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import {
   IconAndroid,
@@ -121,9 +120,10 @@ export const GetStartedPopover = ({
         </Popover.Trigger>
         <Popover.List ariaLabel="Getting started guides for other platforms">
           {getStartedLinks.map((link, index) => {
-            link.href.pathname = isGen1
-              ? `/gen1/${link.href.pathname}`
-              : link.href.pathname;
+            link.href.pathname =
+              isGen1 && link.href.pathname.indexOf('gen1') < 0
+                ? `/gen1/${link.href.pathname}`
+                : link.href.pathname;
 
             return (
               <Popover.ListItem
