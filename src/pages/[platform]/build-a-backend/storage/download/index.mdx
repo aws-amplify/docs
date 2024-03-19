@@ -66,7 +66,7 @@ Get a presigned URL of a stored file and expiration of URL. You can specify [acc
 import { getUrl } from 'aws-amplify/storage';
 
 const getUrlResult = await getUrl({
-  key: filename,
+  key: "abc.txt",
   options: {
     accessLevel?: 'guest' , // can be 'private', 'protected', or 'guest' but defaults to `guest`
     targetIdentityId?: 'XXXXXXX', // id of another user, if `accessLevel` is `guest`
@@ -85,8 +85,8 @@ Inside your template or JSX code, you can use the `url` property to create a lin
 
 ```html
 <a href="{signedURL.url.toString()}" target="_blank" rel="noreferrer">
-  {fileName} </a
->;
+  {fileName} 
+</a>
 ```
 
 <Callout>
@@ -103,7 +103,7 @@ import { getUrl } from 'aws-amplify/storage';
 
 // To check for existence of a file
 await getUrl({
-  key: filename,
+  key: "abc.txt",
   options: {
     validateObjectExistence: true // defaults to false
   }
@@ -130,14 +130,13 @@ await getUrl({ key: 'filename.txt', options: { expiresIn: 60 } });
 Download a file to in-memory buffer.
 
 <BlockSwitcher>
-<Block name="Path">
+<Block name="With Path">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
 // Downloads file content to memory
 const { body, eTag } = await downloadData({
-  path: filename,
-  data: file,
+  path: "/album/2024/1.jpg",
   options: {
     onProgress: (event) => {
       console.log(event.transferredBytes);
@@ -150,15 +149,14 @@ const { body, eTag } = await downloadData({
 }).result;
 ```
 </Block>
-<Block name="Key (Deprecated)">
+<Block name="With Key (Deprecated <= v6.x.x)">
 
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
 // Downloads file content to memory
 const { body, eTag } = await downloadData({
-  key: filename,
-  data: file,
+  key: "abc.txt",
   options: {
     accessLevel: 'guest', // access level of the file being downloaded
     targetIdentityId: 'xxxxxxx', // the identity id of another user, required when setting accessLevel to 'protected'
@@ -180,12 +178,12 @@ const { body, eTag } = await downloadData({
 You can consume the value of file in any of the three formats: `blob`, `json`, or `text`. You can call the respective method on the `body` property to consume the set data in the respective format.
 
 <BlockSwitcher>
-<Block name="Path">
+<Block name="With Path">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
 try {
-  const downloadResult = await downloadData({ path: filename }).result;
+  const downloadResult = await downloadData({ path: "/album/2024/1.jpg" }).result;
   const text = await downloadResult.body.text();
   // Alternatively, you can use `downloadResult.body.blob()`
   // or `downloadResult.body.json()` get read body in Blob or JSON format.
@@ -195,12 +193,12 @@ try {
 }
 ```
 </Block>
-<Block name="Key (Deprecated)">
+<Block name="With Key (Deprecated <= v6.x.x)">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
 try {
-  const downloadResult = await downloadData({ key: filename }).result;
+  const downloadResult = await downloadData({ key: "abc.txt" }).result;
   const text = await downloadResult.body.text();
   // Alternatively, you can use `downloadResult.body.blob()`
   // or `downloadResult.body.json()` get read body in Blob or JSON format.
@@ -217,18 +215,17 @@ try {
 To track the progress of your download, you can use `onProgress`:
 
 <BlockSwitcher>
-<Block name="Path">
+<Block name="With Path">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
 // Download a file from s3 bucket
 const { body, eTag } = await downloadData(
   {
-    path: filename,
-    data: file,
+    path: "/album/2024/1.jpg",
     options: {
       onProgress: (progress) {
-        console.log(`Downloaded: ${progress.transferredBytes}/${progress.totalBytes}`);
+        console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
       }
     }
   }
@@ -236,18 +233,17 @@ const { body, eTag } = await downloadData(
 ```
 </Block>
 
-<Block name="Key (Deprecated)">
+<Block name="With Key (Deprecated <= v6.x.x)">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
 // Download a file from s3 bucket
 const { body, eTag } = await downloadData(
   {
-    key: filename,
-    data: file,
+    key: "abc.txt",
     options: {
       onProgress: (progress) {
-        console.log(`Downloaded: ${progress.transferredBytes}/${progress.totalBytes}`);
+        console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
       }
     }
   }
@@ -259,11 +255,11 @@ const { body, eTag } = await downloadData(
 ### Cancel a download task
 
 <BlockSwitcher>
-<Block name="Path">
+<Block name="With Path">
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
 
-const downloadTask = downloadData({ path: filename, data: file });
+const downloadTask = downloadData({ path: "/album/2024/1.jpg", data: file });
 downloadTask.cancel();
 try {
   await downloadTask.result;
@@ -275,10 +271,10 @@ try {
 ```
 </Block>
 
-<Block name="Key (Deprecated)">
+<Block name="With Key (Deprecated <= v6.x.x)">
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
-const downloadTask = downloadData({ key: filename, data: file });
+const downloadTask = downloadData({ key: "abc.txt", data: file });
 downloadTask.cancel();
 try {
   await downloadTask.result;
