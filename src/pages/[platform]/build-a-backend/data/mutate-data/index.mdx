@@ -33,7 +33,7 @@ In this guide, you will learn how to create, update, and delete your data using 
 
 Before you begin, you will need:
 
-- An [application connected to the API](/gen2/build-a-backend/data/connect-to-API/)
+- An [application connected to the API](/[platform]/build-a-backend/data/connect-to-API/)
 
 ## Create an item
 
@@ -103,7 +103,7 @@ const { data: deletedTodo, errors } = await client.models.Todo.delete(toBeDelete
 
 <Callout>
 
-**Note:** When deleting items in many-to-many relationships, the join table records must be deleted before deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record before deleting a Post or Tag. Review [Many-to-many relationships](/gen2/build-a-backend/data/data-modeling/relationships/) for more details.
+**Note:** When deleting items in many-to-many relationships, the join table records must be deleted before deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record before deleting a Post or Tag. Review [Many-to-many relationships](/[platform]/build-a-backend/data/data-modeling/relationships/) for more details.
 
 </Callout>
 
@@ -175,5 +175,5 @@ Congratulations! You have finished the **Create, update, and delete application 
 
 Our recommended next steps include using the API to query data and subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
 
-- [Read application data](/gen2/build-a-backend/data/query-data/)
-- [Subscribe to real-time events](/gen2/build-a-backend/data/subscribe-data/)
+- [Read application data](/[platform]/build-a-backend/data/query-data/)
+- [Subscribe to real-time events](/[platform]/build-a-backend/data/subscribe-data/)
