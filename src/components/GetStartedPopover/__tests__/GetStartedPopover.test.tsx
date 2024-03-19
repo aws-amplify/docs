@@ -129,4 +129,44 @@ describe('GetStartedPopover', () => {
     expect(dropdown.classList).not.toContain('popover--expanded');
     expect(dropdown).not.toHaveFocus();
   });
+
+  it('should link to the selected platform gen 1 link on click of "Getting started" if isGen1 is true', async () => {
+    const gen1GetStartedPopover = (
+      <GetStartedPopover platform={'vue'} isGen1={true} />
+    );
+
+    render(gen1GetStartedPopover);
+
+    const popoverNode = await screen.findByRole('link', {
+      name: 'Get started'
+    });
+
+    expect(popoverNode.getAttribute('href')).toContain(
+      '/gen1/vue/start/getting-started/introduction'
+    );
+  });
+
+  it('should show each platform option with link to corresponding gen1 Getting Started page if isGen1 is true', async () => {
+    const gen1GetStartedPopover = (
+      <GetStartedPopover platform={'react'} isGen1={true} />
+    );
+
+    render(gen1GetStartedPopover);
+
+    const swiftOption = await screen.findByRole('link', { name: 'Swift' });
+    const angularOption = await screen.findByRole('link', { name: 'Angular' });
+    const nextjsOption = await screen.findByRole('link', { name: 'Next.js' });
+
+    expect(swiftOption.getAttribute('href')).toContain(
+      '/gen1/swift/start/getting-started/introduction'
+    );
+
+    expect(angularOption.getAttribute('href')).toContain(
+      '/gen1/angular/start/getting-started/introduction'
+    );
+
+    expect(nextjsOption.getAttribute('href')).toContain(
+      '/gen1/nextjs/start/getting-started/introduction'
+    );
+  });
 });

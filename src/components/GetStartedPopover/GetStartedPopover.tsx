@@ -122,7 +122,7 @@ export const GetStartedPopover = ({
           {getStartedLinks.map((link, index) => {
             link.href.pathname =
               isGen1 && link.href.pathname.indexOf('gen1') < 0
-                ? `/gen1/${link.href.pathname}`
+                ? `/gen1${link.href.pathname}`
                 : link.href.pathname;
 
             return (
