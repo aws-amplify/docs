@@ -48,7 +48,7 @@ You can read application data using the Amplify GraphQL client. In this guide, w
 
 Before you begin, you will need:
 
-- An [application connected to the API](/[platform]/prev/build-a-backend/graphqlapi/connect-to-api/)
+- An [application connected to the API](/gen1/[platform]/prev/build-a-backend/graphqlapi/connect-to-api/)
 - Data already created to view
 
 ## List and get your data
@@ -138,7 +138,7 @@ type Todo
 
 In the previous example, everyone (`public`) can read every Todo, but the `owner` (authenticated users) can create, read, update, and delete their own Todos.
 
-To learn more, see [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/) for the GraphQL API.
+To learn more, see [Authorization rules](/gen1/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/) for the GraphQL API.
 
 </Accordion>
 
@@ -557,7 +557,7 @@ async function fetchTodos() {
 **Limitations:**
 
 - There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
-- Sorting is [available in DataStore](/[platform]/prev/build-a-backend/more-features/datastore/manipulate-data/#predicates) but not in AWS AppSync.
+- Sorting is [available in DataStore](/gen1/[platform]/prev/build-a-backend/more-features/datastore/manipulate-data/#predicates) but not in AWS AppSync.
 - AWS AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/guides/graphql-server-specification) but are spiritually similar.
 - You [cannot query by `page` number](https://github.com/aws-amplify/amplify-cli/issues/5086); you have to query by `nextToken`.
 
@@ -572,7 +572,7 @@ async function fetchTodos() {
 **Limitations:**
 
 - There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
-- Sorting is [available in DataStore](/[platform]/prev/build-a-backend/more-features/datastore/manipulate-data/#predicates) but not in AWS AppSync.
+- Sorting is [available in DataStore](/gen1/[platform]/prev/build-a-backend/more-features/datastore/manipulate-data/#predicates) but not in AWS AppSync.
 - AWS AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/guides/graphql-server-specification) but are spiritually similar.
 - You [cannot query by `page` number](https://github.com/aws-amplify/amplify-cli/issues/5086); you have to query by `nextToken`.
 
@@ -624,10 +624,10 @@ Congratulations! You have finished the **Read application data** guide. In this 
 
 Our recommended next steps include subscribing to real-time events to look for mutations in your data and continuing to build out and customize your information architecture for your data. Some resources that will help with this work include:
 
-- [Subscribe to real-time events](/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/)
-- [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/)
-- [Data modeling](/[platform]/build-a-backend/graphqlapi/data-modeling/)
-- [Custom business logic](/[platform]/build-a-backend/graphqlapi/custom-business-logic/)
+- [Subscribe to real-time events](/gen1/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/)
+- [Authorization rules](/gen1/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/)
+- [Data modeling](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/)
+- [Custom business logic](/gen1/[platform]/build-a-backend/graphqlapi/custom-business-logic/)
 
 </InlineFilter>
 

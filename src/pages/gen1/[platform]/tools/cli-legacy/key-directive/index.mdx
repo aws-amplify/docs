@@ -56,7 +56,7 @@ The `@key` directive makes it simple to configure custom index structures for `@
 
 Amazon DynamoDB is a key-value and document database that delivers single-digit millisecond performance at any scale but making it work for your access patterns requires a bit of forethought. DynamoDB query operations may use at most two attributes to efficiently query data. The first query argument passed to a query (the hash key) must use strict equality and the second attribute (the sort key) may use gt, ge, lt, le, eq, beginsWith, and between. DynamoDB can effectively implement a wide variety of access patterns that are powerful enough for the majority of applications.
 
-When modeling your data during schema design there are common patterns that you may need to leverage. [We provide a fully working schema with 17 patterns related to relational designs](/[platform]/tools/cli-legacy/data-access-patterns/).
+When modeling your data during schema design there are common patterns that you may need to leverage. [We provide a fully working schema with 17 patterns related to relational designs](/gen1/[platform]/tools/cli-legacy/data-access-patterns/).
 
 ## Definition
 
@@ -263,8 +263,8 @@ If your deployment fails locally when updating multiple GSIs, you'll have the ab
 Attempting to mutate more than 1 global secondary index at the same time.
 ```
 
-If you're running into the error above during `amplify push`, it is likely that you don't have this feature enabled. To enable multiple GSI updates, set the ["enableIterativeGsiUpdates" feature flag](/[platform]/tools/cli/reference/feature-flags/#enableIterativeGsiUpdates) to `true` in your `amplify/cli.json`.
+If you're running into the error above during `amplify push`, it is likely that you don't have this feature enabled. To enable multiple GSI updates, set the ["enableIterativeGsiUpdates" feature flag](/gen1/[platform]/tools/cli/reference/feature-flags/#enableIterativeGsiUpdates) to `true` in your `amplify/cli.json`.
 
 ## Combining @key with @connection
 
-Secondary indexes created with the `@key` directive can be used to resolve connections when creating relationships between types. To learn how this works, check out [the documentation for @connection](/[platform]/tools/cli-legacy/connection-directive/).
+Secondary indexes created with the `@key` directive can be used to resolve connections when creating relationships between types. To learn how this works, check out [the documentation for @connection](/gen1/[platform]/tools/cli-legacy/connection-directive/).

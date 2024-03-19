@@ -289,11 +289,11 @@ The queried comment is used to lazy load its post. The author of the post is laz
 
 Developers building with **DataStore (Swift)** can now receive real-time model updates coming from other platforms such as Amplify Studio and Amplify JavaScript and Android libraries. Previously, model updates (save/update/deletes) from other platforms will not be observed successfully by your iOS/macOS app running **DataStore (Swift)**. With the latest codegen and library changes, DataStore has been updated to successfully reconcile those model updates coming from other platforms, and will subsequently emit the event to your `DataStore.observe` API.
 
-To try this out, launch your iOS app with [verbose logging](/[platform]/start/project-setup/create-application/#2-install-amplify-libraries) and [DataStore started](/[platform]/build-a-backend/more-features/datastore/additional-methods/#start). Performing model updates using DataStore from any other platform and it will automatically be synchronized to your iOS/macOS app. You will see logs indicating that DataStore has successfully received and reconcile the model update immediately. To access the updates in your app, follow the [Real time guide to observe updates of data](/[platform]/build-a-backend/more-features/datastore/real-time/).
+To try this out, launch your iOS app with [verbose logging](/gen1/[platform]/start/project-setup/create-application/#2-install-amplify-libraries) and [DataStore started](/gen1/[platform]/build-a-backend/more-features/datastore/additional-methods/#start). Performing model updates using DataStore from any other platform and it will automatically be synchronized to your iOS/macOS app. You will see logs indicating that DataStore has successfully received and reconcile the model update immediately. To access the updates in your app, follow the [Real time guide to observe updates of data](/gen1/[platform]/build-a-backend/more-features/datastore/real-time/).
 
 ## DataStore (Swift) Bi-directional “has one” relationship support
 
-**DataStore (Swift)** now supports [Bi-directional “has one” relationship](/[platform]/build-a-backend/graphqlapi/data-modeling/#belongs-to-relationship). Previously, due to Swift language limitations the generated Swift model types will not compile.
+**DataStore (Swift)** now supports [Bi-directional “has one” relationship](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/#belongs-to-relationship). Previously, due to Swift language limitations the generated Swift model types will not compile.
 
 ```
 type Project @model {

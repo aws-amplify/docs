@@ -61,7 +61,7 @@ Amplify's GraphQL API category allows you to build a secure, real-time GraphQL A
 
 ## Creating your first API and database table
 
-Amplify's GraphQL API category can be deployed either using the [Amplify CLI](/[platform]/tools/cli) or using [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/). The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your frontend app. The AWS CDK is an open-source Infrastructure-as-Code framework used to model and provision your AWS cloud application resources with familiar programming languages.
+Amplify's GraphQL API category can be deployed either using the [Amplify CLI](/gen1/[platform]/tools/cli) or using [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/). The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your frontend app. The AWS CDK is an open-source Infrastructure-as-Code framework used to model and provision your AWS cloud application resources with familiar programming languages.
 
 <BlockSwitcher>
 
@@ -69,8 +69,8 @@ Amplify's GraphQL API category can be deployed either using the [Amplify CLI](/[
 
 Pre-requisites:
 
-- The [Amplify CLI is installed and configured](/[platform]/tools/cli/start/set-up-cli/)
-- Have an Amplify [project already initialized](/[platform]/tools/cli/start/key-workflows/#initialize-new-project)
+- The [Amplify CLI is installed and configured](/gen1/[platform]/tools/cli/start/set-up-cli/)
+- Have an Amplify [project already initialized](/gen1/[platform]/tools/cli/start/key-workflows/#initialize-new-project)
 
 First, set up your GraphQL API by running:
 
@@ -110,7 +110,7 @@ type Todo @model {
 
 <Callout warning>
 
-`input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }` allows you to get started quickly without worrying about authorization rules. Review the [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/) section to setup the appropriate access control for your GraphQL API.
+`input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }` allows you to get started quickly without worrying about authorization rules. Review the [Authorization rules](/gen1/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/) section to setup the appropriate access control for your GraphQL API.
 
 </Callout>
 
@@ -304,7 +304,7 @@ At this point, you should see a new `src/graphql/` folder that contains client h
 
 <Callout>
 
-For Flutter, Android, and Swift client code generation, refer to [JavaScript, Android, Swift, and Flutter client code generation](/[platform]/build-a-backend/graphqlapi/client-code-generation/).
+For Flutter, Android, and Swift client code generation, refer to [JavaScript, Android, Swift, and Flutter client code generation](/gen1/[platform]/build-a-backend/graphqlapi/client-code-generation/).
 
 </Callout>
 
@@ -424,8 +424,8 @@ npx @aws-amplify/cli codegen
 The following schema updates require replacement of the underlying DynamoDB table:
 
 1. Removing or renaming a model
-2. Modifying the [primary key](/[platform]/build-a-backend/graphqlapi/data-modeling/#configure-a-primary-key) of a model
-3. Modifying a Local Secondary Index of a model (only applies to projects with [secondaryKeyAsGSI](/[platform]/tools/cli/reference/feature-flags/#secondaryKeyAsGSI) turned off)
+2. Modifying the [primary key](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/#configure-a-primary-key) of a model
+3. Modifying a Local Secondary Index of a model (only applies to projects with [secondaryKeyAsGSI](/gen1/[platform]/tools/cli/reference/feature-flags/#secondaryKeyAsGSI) turned off)
 
 When trying to push a schema change with one or more of these updates you will see an error message explaining that you will lose ALL DATA in any table that requires replacement. To confirm you want to continue with the deployment, run:
 
@@ -471,12 +471,12 @@ Success! You've learned how to create a GraphQL API backed by a database table a
 
 There's so much more to discover with Amplify's GraphQL API capabilities. Learn more about:
 
-- [How to model your database table and their access patterns](/[platform]/build-a-backend/graphqlapi/data-modeling/)
-- [Secure your API with fine-grained authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/)
-- [Create relationships between different database model](/[platform]/build-a-backend/graphqlapi/data-modeling/#setup-relationships-between-models)
-- [Add custom business logic to the GraphQL API](/[platform]/build-a-backend/graphqlapi/custom-business-logic/)
-- [Run search and result aggregation queries](/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/)
-- [Connect to machine learning services](/[platform]/build-a-backend/graphqlapi/connect-machine-learning-services/)
-- [Best practice and examples](/[platform]/build-a-backend/graphqlapi/best-practice/)
+- [How to model your database table and their access patterns](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/)
+- [Secure your API with fine-grained authorization rules](/gen1/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/)
+- [Create relationships between different database model](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/#setup-relationships-between-models)
+- [Add custom business logic to the GraphQL API](/gen1/[platform]/build-a-backend/graphqlapi/custom-business-logic/)
+- [Run search and result aggregation queries](/gen1/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/)
+- [Connect to machine learning services](/gen1/[platform]/build-a-backend/graphqlapi/connect-machine-learning-services/)
+- [Best practice and examples](/gen1/[platform]/build-a-backend/graphqlapi/best-practice/)
 
 </InlineFilter>
