@@ -63,7 +63,7 @@ const PlatformOverview = () => {
           other resources will help you build, connect, and host fullstack apps
           on AWS. Get started by selecting your preferred framework.
         </Text>
-        <FrameworkGrid currentKey={DEFAULT_PLATFORM} />
+        <FrameworkGrid isGen1={true} currentKey={DEFAULT_PLATFORM} />
         <PlatformFeatureList platform={DEFAULT_PLATFORM} />
         <LinkCards platform={DEFAULT_PLATFORM} />
       </Flex>

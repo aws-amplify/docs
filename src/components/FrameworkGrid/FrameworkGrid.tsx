@@ -71,9 +71,10 @@ const frameworks = [
 
 interface FrameworkGridProps {
   currentKey?: Platform;
+  isGen1?: boolean;
 }
 
-export const FrameworkGrid = ({ currentKey }: FrameworkGridProps) => {
+export const FrameworkGrid = ({ currentKey, isGen1 }: FrameworkGridProps) => {
   return (
     <View
       as="nav"
@@ -87,7 +88,7 @@ export const FrameworkGrid = ({ currentKey }: FrameworkGridProps) => {
           return (
             <li key={key} className="framework-grid__item">
               <Link
-                href={href}
+                href={isGen1 ? `/gen1/${href}` : href}
                 className={`framework-grid__link${
                   isCurrent ? ' framework-grid__link--current' : ''
                 }`}
