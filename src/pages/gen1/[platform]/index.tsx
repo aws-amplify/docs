@@ -59,7 +59,7 @@ const PlatformOverview = ({ platform }) => {
             variation="primary"
             size="large"
             href={{
-              pathname: '/[platform]/how-amplify-works',
+              pathname: '/gen1/[platform]/how-amplify-works',
               query: { platform: platform }
             }}
           >
