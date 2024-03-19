@@ -5,13 +5,13 @@
   margin: var(--amplify-space-large);
   bottom: 0;
   z-index: 6;
-  width: 100%;
+  width: 500px;
   height: auto;
   border: none;
   box-shadow: 0 1px 10px hsla(0, 0%, 0%, 0.3);
   padding: var(--amplify-space-large);
   background-color: var(--amplify-colors-neutral-100);
-  max-width: 500px;
+  max-width: calc(100% - var(--amplify-space-large) * 2);
   color: var(--amplify-colors-white);
   border-radius: var(--amplify-radii-medium);
   flex-direction: column;
@@ -94,6 +94,13 @@
 
 .modal-actions {
   padding-top: var(--amplify-space-medium);
-  justify-content: flex-end;
+  flex-direction: column;
   border-top: 1px solid hsla(255, 100%, 100%, 0.2);
+}
+
+@media (min-width: 460px) {
+  .modal-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
 }
