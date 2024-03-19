@@ -8,7 +8,6 @@ const routerMock = {
 
   useRouter: () => {
     return {
-      prefetch: jest.fn(() => Promise.resolve(true)),
       query: {
         platform: 'react'
       }
