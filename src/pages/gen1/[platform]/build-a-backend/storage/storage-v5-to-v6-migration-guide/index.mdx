@@ -28,22 +28,22 @@ This guide will help you migrate Amplify JavaScript v5's Storage APIs to the new
 The input options below have been removed in v6 from Storage APIs:
 
 - `provider`: _Custom providers are no longer supported in v6. All v5 examples below use the input/output values expected for the default S3 Provider._
-- `customPrefix`: _You can [add a prefix resolver](/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path) to your Storage Config to customize the key prefix per accessLevel. See [Using a Custom Prefix](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#using-a-custom-prefix) for migration details._
-- `track`: _Auto-tracking Storage events in pinpoint has been removed in V6. You can track Storage events [using the Analytics category](/[platform]/build-a-backend/more-features/analytics/record-events/). See [Tracking storage events](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#tracking-storage-events) for migration details._
+- `customPrefix`: _You can [add a prefix resolver](/gen1/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path) to your Storage Config to customize the key prefix per accessLevel. See [Using a Custom Prefix](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#using-a-custom-prefix) for migration details._
+- `track`: _Auto-tracking Storage events in pinpoint has been removed in V6. You can track Storage events [using the Analytics category](/gen1/[platform]/build-a-backend/more-features/analytics/record-events/). See [Tracking storage events](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#tracking-storage-events) for migration details._
 - `ServerSideEncryption`, `SSECustomerAlgorithm`, `SSECustomerKey`, `SSECustomerKeyMD5`, and `SSEKMSKeyId`: _These options have been deprecated because Server-Side Encryption is automatically applied using default keys by S3 [since Jan 2023](https://aws.amazon.com/blogs/aws/amazon-s3-encrypts-new-objects-by-default/)._
 - `cacheControl`: _This option has been removed and now defers to the HTTP caching behavior configured by the runtime._
-{/* - `$metadata`: _Information like `httpStatusCode` and `attempts` is provided via debug messages using [the Console Logger](/[platform]/build-a-backend/utilities/console-logger/)._ */}
+{/* - `$metadata`: _Information like `httpStatusCode` and `attempts` is provided via debug messages using [the Console Logger](/gen1/[platform]/build-a-backend/utilities/console-logger/)._ */}
 - `bucket`: _The `bucket` is required for `Storage` configuration object as part of `Amplify.configure()` and has therefore been removed from input options._
 
 >Note: We have remapped all capitalized input and output keys to "camelCase" in v6.
 
 ## Storage.put
 
-The `Storage.put` API has been renamed to `uploadData` in v6. There are a few changes in the experience from v5 to v6 in addition to [those mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options):
+The `Storage.put` API has been renamed to `uploadData` in v6. There are a few changes in the experience from v5 to v6 in addition to [those mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options):
 
 - We removed the `ACL` option: the S3 Bucket ACL provides extra access control options that Amplify does not currently support. ACL is no longer recommended according to [S3 security best practices](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html#security-best-practices-prevent).
 - The `Expires` option has been deprecated.
-- The `resumable` option has been removed from `config` as all upload tasks are resumable by default in v6. You can find the `pause`, `resume`, and `cancel` functions on `uploadData`'s return value. See [the v6 Storage documentation](/[platform]/build-a-backend/storage/upload/#pause-and-resume-upload) for details.
+- The `resumable` option has been removed from `config` as all upload tasks are resumable by default in v6. You can find the `pause`, `resume`, and `cancel` functions on `uploadData`'s return value. See [the v6 Storage documentation](/gen1/[platform]/build-a-backend/storage/upload/#pause-and-resume-upload) for details.
 - The `progressCallback` option on upload and download operations has been replaced by `onProgress` in v6. The function input property names `loaded` and `total` now map to `transferredBytes` and `totalBytes`.
 
 <Accordion title='Input' headingLevel='3'>
@@ -274,7 +274,7 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
 
 ## Storage.get
 
-The `Storage.get` API has been separated into two APIs in v6, `getURL` and `downloadData`. There are a few changes in the experience from v5 to v6 in addition to [those mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options):
+The `Storage.get` API has been separated into two APIs in v6, `getURL` and `downloadData`. There are a few changes in the experience from v5 to v6 in addition to [those mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options):
 
 - Content options (`contentDisposition`, `contentLanguage`, `contentEncoding`, and `contentType`) are no longer supported in the `get` API as these values are already provided in the uploaded file.
 - The following response keys inherited from AWS SDK in v5 have have been removed from the API output in v6:
@@ -562,7 +562,7 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
 
 ## Storage.copy
 
-In addition to [the changes mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the `copy` API in v6 no longer supports content options (`contentDisposition`, `contentLanguage`, and `contentType`) as these values are already provided by the existing file.
+In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the `copy` API in v6 no longer supports content options (`contentDisposition`, `contentLanguage`, and `contentType`) as these values are already provided by the existing file.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
@@ -700,7 +700,7 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
 
 ## Storage.remove
 
-In addition to [the changes mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the output of the `remove` API in v6 now only returns the `key` of the removed file. `DeleteMarker`, `VersionId`, `RequestCharged`, and `$metadata` have been removed from the output.
+In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the output of the `remove` API in v6 now only returns the `key` of the removed file. `DeleteMarker`, `VersionId`, `RequestCharged`, and `$metadata` have been removed from the output.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
@@ -808,7 +808,7 @@ In addition to [the changes mentioned above](/[platform]/build-a-backend/storage
 
 ## Storage.list
 
-There are a few changes in the `list` API from v5 to v6 in addition to [those mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options):
+There are a few changes in the `list` API from v5 to v6 in addition to [those mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options):
 
 - The `path` parameter is now the optional `prefix` parameter. If you want to list all files in the public folder, you do not need to provide an empty string as the `prefix`.
 - The `hasNextToken` output property has been removed. You can check that `nextToken` is defined to check if there are more items to retrieve.
@@ -1028,7 +1028,7 @@ There are a few changes in the `list` API from v5 to v6 in addition to [those me
 
 ## Storage.getProperties
 
-In addition to [the changes mentioned above](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the `getProperties` API in v6 also adds `key` to the result.
+In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the `getProperties` API in v6 also adds `key` to the result.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
@@ -1262,7 +1262,7 @@ If you would like to upload or download items with a `customPrefix`, you can con
 
 ## Tracking storage events
 
-The `track` option has been removed from Storage and its APIs in v6. Previously, in v5, enabling this option would automatically send analytics events to Pinpoint following the success or failure of Storage API calls. The analytic events sent were defined by Amplify and therefore not configurable. In v6, this option has been removed but you can continue to track Storage API results in a more predictable and configurable way [using the Analytics category](/[platform]/build-a-backend/more-features/analytics/record-events/).
+The `track` option has been removed from Storage and its APIs in v6. Previously, in v5, enabling this option would automatically send analytics events to Pinpoint following the success or failure of Storage API calls. The analytic events sent were defined by Amplify and therefore not configurable. In v6, this option has been removed but you can continue to track Storage API results in a more predictable and configurable way [using the Analytics category](/gen1/[platform]/build-a-backend/more-features/analytics/record-events/).
 
 The table below lists the analytics events previously associated to v5 APIs and the corresponding v6 APIs they should now be associated with instead.
 
@@ -1281,7 +1281,7 @@ The table below lists the analytics events previously associated to v5 APIs and 
   
     <Callout info>
 
-      The example below records an analytics event similar to what you would have seen in v5, but does not prescribe a format or content that needs to be followed. Instead, it is fully configurable and should be structured to best suit your analytics needs. Learn more about [using the Analytics category](/[platform]/build-a-backend/more-features/analytics/record-events/).
+      The example below records an analytics event similar to what you would have seen in v5, but does not prescribe a format or content that needs to be followed. Instead, it is fully configurable and should be structured to best suit your analytics needs. Learn more about [using the Analytics category](/gen1/[platform]/build-a-backend/more-features/analytics/record-events/).
 
     </Callout>
 

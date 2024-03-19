@@ -39,7 +39,7 @@ export function getStaticProps(context) {
   };
 }
 
-It is highly recommended that you complete the **[Getting Started](/[platform]/start/getting-started/)** section of Amplify setup before using local mocking.
+It is highly recommended that you complete the **[Getting Started](/gen1/[platform]/start/getting-started/)** section of Amplify setup before using local mocking.
 
 In order to quickly test and debug without pushing all changes in your project to the cloud, Amplify supports _Local Mocking and Testing_ for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda). This includes using directives from the GraphQL Transformer, editing & debug resolvers, hot reloading, JWT mocking of authorization checks, and even performing S3 operations such as uploading and downloading content.
 
@@ -72,25 +72,25 @@ When adding a schema use an API Key at first to ensure everything works, though 
 
 When defining a schema you can use directives from the GraphQL Transformer in local testing as well as local code generation from the schema for types. The following directives are currently supported in local testing:
 
-- [@auth](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/)
-- [@primaryKey, @index](/[platform]/build-a-backend/graphqlapi/data-modeling/)
-- [@hasOne, @hasMany, @belongsTo, @manyToMany](/[platform]/build-a-backend/graphqlapi/data-modeling/)
-- [@function](/[platform]/build-a-backend/graphqlapi/custom-business-logic/#lambda-function-resolver)
-- [@searchable](/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/)
+- [@auth](/gen1/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/)
+- [@primaryKey, @index](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/)
+- [@hasOne, @hasMany, @belongsTo, @manyToMany](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/)
+- [@function](/gen1/[platform]/build-a-backend/graphqlapi/custom-business-logic/#lambda-function-resolver)
+- [@searchable](/gen1/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/)
 
 ### Mocking the Lambda triggers on `@model` types
 
-If you have DynamoDB Lambda triggers set up on `@model` types in your GraphQL schema, by following steps [listed here](/[platform]/tools/cli/usage/lambda-triggers/#as-a-part-of-the-graphql-api-types-with-model-annotation), then you can test those Lambda triggers locally via `amplify mock` or `amplify mock api`.
+If you have DynamoDB Lambda triggers set up on `@model` types in your GraphQL schema, by following steps [listed here](/gen1/[platform]/tools/cli/usage/lambda-triggers/#as-a-part-of-the-graphql-api-types-with-model-annotation), then you can test those Lambda triggers locally via `amplify mock` or `amplify mock api`.
 
 The connected Lambda triggers are automatically invoked locally if you perform a CRUD operation on the `@model` type using either the local DynamoDB endpoint (`http://localhost:62224`) or the local AppSync console (should be `http://localhost:20002`). The structure of the event that is sent to the lambda trigger can be found [here](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_GetRecords.html).
 
-The environment variables that are listed below in [Function mock environment variables](/[platform]/tools/cli/usage/mock/#function-mock-environment-variables), are available for each invocation of the Lambda trigger.
+The environment variables that are listed below in [Function mock environment variables](/gen1/[platform]/tools/cli/usage/mock/#function-mock-environment-variables), are available for each invocation of the Lambda trigger.
 
 In addition, you can use a `.env` file within the function directory (ie. `<project root>/amplify/backend/function/<function name>/.env`) to override any environment variables for local mocking.
 
 ### Mocking `@model` types with `@searchable`
 
-If you use the `@searchable` directive on `@model` types in your GraphQL schema, then you can test the search GraphQL queries that are generated for you locally via `amplify mock` or `amplify mock api`. To learn more about the search queries, refer to [this guide](/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/).
+If you use the `@searchable` directive on `@model` types in your GraphQL schema, then you can test the search GraphQL queries that are generated for you locally via `amplify mock` or `amplify mock api`. To learn more about the search queries, refer to [this guide](/gen1/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/).
 
 We create the following artifacts when you mock the API with searchable models:
 
@@ -136,7 +136,7 @@ Additionally, running `amplify mock function` allows selecting and testing multi
 
 ### Function mocking with GraphQL
 
-A GraphQL Lambda resolver connected to your schema using [@function](/[platform]/build-a-backend/graphqlapi/custom-business-logic/#lambda-function-resolver) can be mocked using [`amplify mock api`](#api-mocking-setup). For example, if you have a function named **quoteOfTheDay** and a schema like:
+A GraphQL Lambda resolver connected to your schema using [@function](/gen1/[platform]/build-a-backend/graphqlapi/custom-business-logic/#lambda-function-resolver) can be mocked using [`amplify mock api`](#api-mocking-setup). For example, if you have a function named **quoteOfTheDay** and a schema like:
 
 ```graphql
 type Query {

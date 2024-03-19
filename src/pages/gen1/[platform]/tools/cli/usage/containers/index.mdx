@@ -47,9 +47,9 @@ export function getStaticProps(context) {
 
 Serverless containers provide the ability for you to deploy APIs and host websites using AWS Fargate. Customers with existing applications or those who require a lower level of control can bring Docker containers and deploy them into an Amplify project fully integrating with other resources.
 
-Amplify [libraries](/[platform]/build-a-backend/) can be used with the [Auth category](/[platform]/build-a-backend/auth/set-up-auth/) giving mobile and web applications secure connectivity and access controls to your Serverless containers. Additionally, existing GraphQL and REST services such as AWS AppSync and Amazon API Gateway can be used in the same project along with Fargate-backed APIs giving flexibility to mix and match for cost optimization and operational needs.
+Amplify [libraries](/gen1/[platform]/build-a-backend/) can be used with the [Auth category](/gen1/[platform]/build-a-backend/auth/set-up-auth/) giving mobile and web applications secure connectivity and access controls to your Serverless containers. Additionally, existing GraphQL and REST services such as AWS AppSync and Amazon API Gateway can be used in the same project along with Fargate-backed APIs giving flexibility to mix and match for cost optimization and operational needs.
 
-Note that serverless containers do incur additional costs and operational overhead, as such we recommend using AWS AppSync with the [GraphQL Transform](/[platform]/build-a-backend/graphqlapi/) as a starting point when building mobile and web apps with Amplify.
+Note that serverless containers do incur additional costs and operational overhead, as such we recommend using AWS AppSync with the [GraphQL Transform](/gen1/[platform]/build-a-backend/graphqlapi/) as a starting point when building mobile and web apps with Amplify.
 
 > **Billing warning**: When you deploy serverless containers with Amplify, it incurs additional costs when resources are not in use for services such as VPC, Fargate, ECR, Cloud Map, CodePipeline, and CodeBuild. For more information refer to [VPC pricing](https://aws.amazon.com/vpc/pricing/), [Fargate pricing](https://aws.amazon.com/fargate/pricing/), [ECR Pricing](https://aws.amazon.com/ecr/pricing/), [CodePipeline pricing](https://aws.amazon.com/codepipeline/pricing/), [CodeBuild pricing](https://aws.amazon.com/codebuild/pricing/), and [Cloud Map pricing](https://aws.amazon.com/cloud-map/pricing/).
 
@@ -363,14 +363,14 @@ The CLI will provide you with the next steps to bring your existing Docker speci
 
 Serverless containers are fronted by a secure endpoint by which you can interact with them from a mobile or web application. Amplify CLI will attempt to update the project `aws-exports.js` or `amplifyconfiguration.json` file with the endpoint, however for GraphQL API types this is not possible and you will need to manually specify it in an `Amplify.configure()` call within your application code. The endpoint will be printed out to the screen after running an `amplify push` for you to make these changes, take note of it and follow one of the guides below appropriately.
 
-- [JavaScript GraphQL configuration](/[platform]/build-a-backend/graphqlapi/)
-- [JavaScript REST configuration](/[platform]/build-a-backend/restapi/set-up-rest-api/#manual-setup-import-existing-rest-api)
-- [Android GraphQL configuration](/[platform]/build-a-backend/graphqlapi/)
-- [Android REST configuration](/[platform]/build-a-backend/restapi/set-up-rest-api/)
-- [iOS GraphQL configuration](/[platform]/build-a-backend/graphqlapi/)
-- [iOS REST configuration](/[platform]/build-a-backend/restapi/set-up-rest-api/)
+- [JavaScript GraphQL configuration](/gen1/[platform]/build-a-backend/graphqlapi/)
+- [JavaScript REST configuration](/gen1/[platform]/build-a-backend/restapi/set-up-rest-api/#manual-setup-import-existing-rest-api)
+- [Android GraphQL configuration](/gen1/[platform]/build-a-backend/graphqlapi/)
+- [Android REST configuration](/gen1/[platform]/build-a-backend/restapi/set-up-rest-api/)
+- [iOS GraphQL configuration](/gen1/[platform]/build-a-backend/graphqlapi/)
+- [iOS REST configuration](/gen1/[platform]/build-a-backend/restapi/set-up-rest-api/)
 
-Note that if you have enabled Authorization checks on your endpoints during `amplify add api` your clients will need to Authenticate against the Cognito User Pool configured and pass tokens. Please see the [appropriate platform guide](/[platform]/build-a-backend/auth/set-up-auth/) for adding Sign-Up and Sign-In calls to your application.
+Note that if you have enabled Authorization checks on your endpoints during `amplify add api` your clients will need to Authenticate against the Cognito User Pool configured and pass tokens. Please see the [appropriate platform guide](/gen1/[platform]/build-a-backend/auth/set-up-auth/) for adding Sign-Up and Sign-In calls to your application.
 
 ## Access existing AWS resource from container
 
