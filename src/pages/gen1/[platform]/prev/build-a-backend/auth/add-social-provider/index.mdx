@@ -387,7 +387,7 @@ After configuring the OAuth endpoints (with Cognito Hosted UI), you can integrat
 
 </Callout>
 
-If you are looking to add a custom state, you are able to do so by passing a string value (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) and listening for the custom state via [Hub](/[platform]/build-a-backend/utilities/hub/). You can also use the Hub eventing system to catch errors using `Auth.federatedSignIn()` to listen for the `signIn_failure` event.
+If you are looking to add a custom state, you are able to do so by passing a string value (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) and listening for the custom state via [Hub](/gen1/[platform]/build-a-backend/utilities/hub/). You can also use the Hub eventing system to catch errors using `Auth.federatedSignIn()` to listen for the `signIn_failure` event.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -550,7 +550,7 @@ Hub.listen('auth', (data) => {
 
 <InlineFilter filters={["react-native"]}>
 
-If you are looking to add a custom state, you are able to do so by passing a string value (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) and listening for the custom state via [Hub](/[platform]/build-a-backend/utilities/hub/).
+If you are looking to add a custom state, you are able to do so by passing a string value (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) and listening for the custom state via [Hub](/gen1/[platform]/build-a-backend/utilities/hub/).
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -1518,17 +1518,17 @@ Now that you have social provider sign-in you may also want to learn additional 
 
 <InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
-- [Password management](/[platform]/prev/build-a-backend/auth/manage-passwords/)
-- [Identity Pool Federation](/[platform]/prev/build-a-backend/auth/advanced-workflows/#identity-pool-federation)
-- [Working with Hub](/[platform]/prev/build-a-backend/utilities/hub/)
+- [Password management](/gen1/[platform]/prev/build-a-backend/auth/manage-passwords/)
+- [Identity Pool Federation](/gen1/[platform]/prev/build-a-backend/auth/advanced-workflows/#identity-pool-federation)
+- [Working with Hub](/gen1/[platform]/prev/build-a-backend/utilities/hub/)
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
-- [Password management](/[platform]/prev/build-a-backend/auth/manage-passwords/)
-- [Identity Pool Federation](/[platform]/prev/build-a-backend/auth/advanced-workflows/#identity-pool-federation)
-- [Working with Hub](/[platform]/prev/build-a-backend/utilities/hub/)
+- [Password management](/gen1/[platform]/prev/build-a-backend/auth/manage-passwords/)
+- [Identity Pool Federation](/gen1/[platform]/prev/build-a-backend/auth/advanced-workflows/#identity-pool-federation)
+- [Working with Hub](/gen1/[platform]/prev/build-a-backend/utilities/hub/)
 
 </InlineFilter>
 

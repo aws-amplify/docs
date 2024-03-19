@@ -83,7 +83,7 @@ In v6, `provider` is determined by import path. To use Pinpoint APIs you will im
 The `record` API in v6 has not changed in behavior, however, there are a couple of changes to be aware of in v6:
 
 - The `record` API is now synchronous and no longer returns a Promise as events are always buffered.
-- The `immediate` option was removed from the `record` API in v6. Instead, you can now use the [flushEvents API](/[platform]/build-a-backend/more-features/analytics/record-events/#flush-events) to clear all events from the buffer before calling `record`.
+- The `immediate` option was removed from the `record` API in v6. Instead, you can now use the [flushEvents API](/gen1/[platform]/build-a-backend/more-features/analytics/record-events/#flush-events) to clear all events from the buffer before calling `record`.
 - The `provider` parameter has been removed and provider will be determined by import path. The Pinpoint `record` API does not accept Personalize or Kinesis events in v6.
 
 <Accordion title='Input' headingLevel='3'>
@@ -373,7 +373,7 @@ In v6, `provider` is determined by import path. To use Kinesis APIs you will imp
 The Kinesis and Kinesis (Firehose) `record` APIs in v6 have not changed in behavior, however, there are a couple of changes to be aware of in v6:
 
 - The `record` API is now synchronous and no longer returns a Promise as events are always buffered.
-- The `immediate` option was removed from the `record` API in v6. Alternatively in v6 you can use the [flushEvents API](/[platform]/build-a-backend/more-features/analytics/record-events/#flush-events) to clear all events from the buffer before calling `record`.
+- The `immediate` option was removed from the `record` API in v6. Alternatively in v6 you can use the [flushEvents API](/gen1/[platform]/build-a-backend/more-features/analytics/record-events/#flush-events) to clear all events from the buffer before calling `record`.
 - The `partitionKey` option has been removed from the Kinesis (Firehose) `record` API in v6.
 - The `provider` parameter has been removed and provider will be determined by import path.
 

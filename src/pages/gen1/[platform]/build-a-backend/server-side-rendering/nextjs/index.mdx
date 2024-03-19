@@ -52,8 +52,8 @@ Ensure you have the correct version to integrate with Amplify.
 
 Before you begin, you will need:
 
-- [A Next.js application created](/[platform]/start/project-setup/create-application/)
-- [Installed Amplify libraries for Next.js](/[platform]/start/project-setup/create-application/#install-amplify-libraries)
+- [A Next.js application created](/gen1/[platform]/start/project-setup/create-application/)
+- [Installed Amplify libraries for Next.js](/gen1/[platform]/start/project-setup/create-application/#install-amplify-libraries)
 
 ## Configure Amplify Library for server-side usage
 
@@ -107,7 +107,7 @@ export default function RootLayoutThatConfiguresAmplifyOnTheClient({
 
 <Callout warning="true">
 
-Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/gen1/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
 
 </Callout>
 
@@ -234,7 +234,7 @@ For the **Auth**, **REST APIs**, and **Storage** categories to use Amplify APIs 
 1. Import the API from the `/server` sub path.
 2. Use the `runWithAmplifyServerContext` helper function created by calling the `createServerRunner` function exported from `@aws-amplify/adapter-nextjs` to call the Amplify API in an isolated server context.
 
-For the **GraphQL API** category, review [Connect to GraphQL API from server-side runtimes](/[platform]/build-a-backend/graphqlapi/connect-from-server-runtime/).
+For the **GraphQL API** category, review [Connect to GraphQL API from server-side runtimes](/gen1/[platform]/build-a-backend/graphqlapi/connect-from-server-runtime/).
 
 <Callout>
 
