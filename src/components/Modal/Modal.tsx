@@ -4,7 +4,7 @@ import { useEffect, useId, useState } from 'react';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
-import { useGenSwitcherPath } from './useGenSwitcherPath';
+import { useGen1Path } from '@/components/GenSwitcher';
 
 interface ModalProps extends ViewProps {
   isGen1?: boolean;
@@ -18,7 +18,7 @@ export const Modal = ({ isGen1 }: ModalProps) => {
     localStorage.setItem('gen2ModalDismissed', 'true');
     setIsVisible(false);
   };
-  const gen1Path = useGenSwitcherPath(platform);
+  const gen1Path = useGen1Path(platform);
 
   useEffect(() => {
     const hasDismissedGen2Modal = localStorage.getItem('gen2ModalDismissed');

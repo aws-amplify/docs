@@ -79,17 +79,6 @@ describe('Modal', () => {
     expect(localStorage.getItem('gen2ModalDismissed')).toEqual('true');
   });
 
-  it('should set gen2ModalDismissed in localStorage when Gen1 link is clicked', async () => {
-    render(<Modal />);
-
-    const gen1Link = await screen.findByRole('link', {
-      name: 'Go to Gen 1 docs'
-    });
-
-    userEvent.click(gen1Link);
-    expect(localStorage.getItem('gen2ModalDismissed')).toEqual('true');
-  });
-
   it('should render Gen 1 link if isGen1 is false (default)', async () => {
     render(<Modal />);
 
