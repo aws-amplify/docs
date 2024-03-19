@@ -119,7 +119,7 @@ export default class MyDocument extends Document {
             defer
           ></script>
         </Head>
-        <body id="body">
+        <body>
           <Main />
           <NextScript />
         </body>
