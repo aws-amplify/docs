@@ -25,8 +25,11 @@ describe('useGenSwitcherPath', () => {
     };
 
     /**
-     * We won't mock flatDirectory.json here to simulate the pageNode not existing
+     * We mock flatDirectory.json as undefined to simulate the page not existing.
      */
+
+    flatDirectoryMock['/gen1/[platform]/build-a-backend/auth/set-up-auth/'] =
+      undefined;
     const { result } = renderHook(() => useGen1Path('react'));
 
     expect(result.current).toEqual('/gen1');
