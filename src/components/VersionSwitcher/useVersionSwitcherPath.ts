@@ -15,7 +15,6 @@ export const useVersionSwitcherPath = (platform: Platform) => {
       ? path.replace('/[platform]/prev', '/[platform]')
       : path.replace('/[platform]', '/[platform]/prev');
   const pageNode = flatDirectory[newRoute];
-  console.log('pageNode: ', pageNode);
   if (pageNode && pageNode.platforms && pageNode.platforms.includes(platform)) {
     return newRoute;
   }

@@ -24,12 +24,9 @@ describe('useGenSwitcherPath', () => {
       };
     };
 
-    flatDirectoryMock['/gen1/[platform]/start/quickstart/vite-react-app/'] = {
-      path: 'src/pages/gen1/[platform]/start/quickstart/vite-react-app/index.mdx',
-      platforms: ['react'],
-      route: '/gen1/[platform]/start/quickstart/vite-react-app/'
-    };
-
+    /**
+     * We won't mock flatDirectory.json here to simulate the pageNode not existing
+     */
     const { result } = renderHook(() => useGen1Path('react'));
 
     expect(result.current).toEqual('/gen1');
@@ -43,6 +40,10 @@ describe('useGenSwitcherPath', () => {
       };
     };
 
+    /**
+     * We'll mock flatDirectory.json results here since this page exists on Gen1
+     * and Gen2
+     */
     flatDirectoryMock['/gen1/[platform]/build-a-backend/auth/set-up-auth/'] = {
       path: 'src/pages/gen1/[platform]/build-a-backend/auth/set-up-auth/index.mdx',
       platforms: ['react'],

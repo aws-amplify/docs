@@ -12,7 +12,6 @@ export const useGen1Path = (platform: Platform) => {
   const gen1Path = '/gen1' + path;
 
   const pageNode = flatDirectory[gen1Path];
-  console.log('pageNode: ', pageNode);
   const gen1PageExists =
     pageNode && pageNode.platforms && pageNode.platforms.includes(platform);
 
