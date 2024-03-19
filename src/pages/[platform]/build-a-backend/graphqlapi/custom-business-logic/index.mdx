@@ -49,7 +49,7 @@ export function getStaticProps(context) {
   url={'/[platform]/tools/cli-legacy/function-directive/'}
 />
 
-Define your custom business logic in a Lambda function resolver, HTTP resolver, or VTL resolver and expose them in a GraphQL query or mutation. Extend or override Amplify-generated GraphQL resolvers to optimize for your specific use cases.
+Define your custom business logic in a Lambda function resolver, HTTP resolver, or an AppSync JavaScript or VTL resolver and expose them in a GraphQL query or mutation. Extend or override Amplify-generated GraphQL resolvers to optimize for your specific use cases.
 
 ## Create a custom query or mutation
 
@@ -71,7 +71,7 @@ type Query {
 
    - [Lambda function resolver](#lambda-function-resolver): use a custom Lambda function to handle query or mutation
    - [HTTP resolver](#http-resolver): call an HTTP endpoint upon a query or mutation
-   - [VTL resolver](#vtl-resolver) (most advanced): use VTL mapping templates to customize the query and mutation logic
+   - [AppSync JavaScript or VTL resolver](#appsync-javascript-or-vtl-resolver) (most advanced): use AppSync's JavaScript resolver or AppSync's VTL mapping templates to customize the query and mutation logic
 
 3. Secure your custom query or mutation with [field-level authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/)
    - Note: Dynamic authorization rules are not supported on a custom query or mutation.
@@ -594,9 +594,9 @@ input HttpHeader {
 
 The `@http` transformer will create one HTTP datasource for each identified base URL. For example, if multiple HTTP resolvers are created that interact with the "https://www.example.com" endpoint, only a single datasource is created. Each directive generates one resolver. Depending on the definition, the appropriate `body`, `params`, and `query` input types are created. Note that `@http` transformer does not support calling other AWS services where Signature Version 4 signing process is required.
 
-## VTL resolver
+## AppSync JavaScript or VTL resolver
 
-You can use AWS Cloud Development Kit (CDK) to define custom VTL resolvers for your GraphQL API. `@auth` directives are not supported for custom queries or mutations that are connected to a VTL resolver. This is because you are replacing Amplify's auto-generated capabilities for that particular query or mutation with a custom-defined cloud resources.
+You can use AWS Cloud Development Kit (CDK) to define custom AppSync resolvers for your GraphQL API. `@auth` directives are not supported for custom queries or mutations that are connected to a JavaScript or VTL resolver. This is because you are replacing Amplify's auto-generated capabilities for that particular query or mutation with a custom-defined cloud resources.
 
 ```bash
 amplify add custom
@@ -618,9 +618,87 @@ npm i @aws-cdk/aws-appsync@~1.172.0
 
 > **Note:** Installations using the '\~' character do not modify the package.json. To use '\~' for default npm configurations, make sure your package.json reflects the right dependency to avoid compatibility errors in CDK.
 
-Finally, add your custom resolvers into the `cdk-stack.ts` file. You can either add the VTL inline into your `cdk-stack.ts` file or define them externally in another file. Review the [Resolver Mapping Template Programming Guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html) to learn more about the VTL template.
+Finally, add your custom resolvers into the `cdk-stack.ts` file. You can either add the JavaScript or VTL inline into your `cdk-stack.ts` file. 
 
 #### Unit Resolver
+
+<BlockSwitcher>
+
+<Block name="JavaScript resolver">
+
+Review the [AppSync JavaScript resolver tutorial](https://docs.aws.amazon.com/appsync/latest/devguide/tutorials-js.html) for JavaScript resolver examples for different data sources.
+
+```ts
+import * as cdk from 'aws-cdk-lib';
+import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
+import * as appsync from 'aws-cdk-lib/aws-appsync';
+import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
+import { Construct } from 'constructs';
+
+const jsResolverTemplate = `
+export function request(ctx) {
+  return {
+    payload: null
+  }
+}
+
+export function response(ctx) {
+  return ctx.arguments.message
+}
+`
+
+export class cdkStack extends cdk.Stack {
+  constructor(
+    scope: Construct,
+    id: string,
+    props?: cdk.StackProps,
+    amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps
+  ) {
+    super(scope, id, props);
+    /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
+    new cdk.CfnParameter(this, 'env', {
+      type: 'String',
+      description: 'Current Amplify CLI env name'
+    });
+
+    // Access other Amplify Resources
+    const retVal: AmplifyDependentResourcesAttributes =
+      AmplifyHelpers.addResourceDependency(
+        this,
+        amplifyResourceProps.category,
+        amplifyResourceProps.resourceName,
+        [
+          {
+            category: 'api',
+            resourceName: '<YOUR-API-NAME>'
+          }
+        ]
+      );
+
+    const resolver = new appsync.CfnResolver(this, 'CustomResolver', {
+      // apiId: retVal.api.new.GraphQLAPIIdOutput,
+      // https://github.com/aws-amplify/amplify-cli/issues/9391#event-5843293887
+      // If you use Amplify you can access the parameter via Ref since it's a CDK parameter passed from the root stack.
+      // Previously the ApiId is the variable Name which is wrong , it should be variable value as below
+      apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
+      fieldName: 'echo',
+      typeName: 'Query', // Query | Mutation | Subscription
+      code: jsResolverTemplate,
+      dataSourceName: 'NONE_DS', // DataSource name
+      runtime: {
+        name: 'APPSYNC_JS',
+        runtimeVersion: '1.0.0'
+      }
+    });
+  }
+}
+```
+
+</Block>
+
+<Block name="VTL resolver">
+
+Review the [Resolver Mapping Template Programming Guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html) to learn more about the VTL template.
 
 ```ts
 import * as cdk from 'aws-cdk-lib';
@@ -778,6 +856,10 @@ responseMappingTemplate: appsync.MappingTemplate.fromFile(path.join(__dirname, "
 ```
 
 > **Note:** the `..` is added to the path because the path is always relative to the `build` folder of the custom resource.
+
+</Block>
+
+</BlockSwitcher>
 
 ## Add authorization rules to custom queries and mutations
 
