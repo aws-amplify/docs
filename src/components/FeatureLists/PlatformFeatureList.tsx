@@ -34,10 +34,7 @@ const PlatformFeatureList: React.FC<PlatformFeatureListProps> = ({
                   categoryItem.isExternal
                     ? categoryItem.link
                     : {
-                        pathname: `${isGen1 && pathname === '/gen1/' ? 'gen1/' : ''}[platform]/${categoryItem.link}`,
-                        query: {
-                          platform: platform
-                        }
+                        pathname: `${isGen1 && pathname === '/gen1/' ? 'gen1/' : ''}${platform}/${categoryItem.link}`
                       }
                 }
                 isExternal={categoryItem.isExternal}
