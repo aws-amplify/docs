@@ -151,7 +151,7 @@ import { defineAuth } from '@aws-amplify/backend';
 /**
  * Define and configure your auth resource
  * When used alongside data, it is automatically configured as an auth provider for data
- * @see https://docs.amplify.aws/javascript/build-a-backend/auth
+ * @see https://docs.amplify.aws/gen2/build-a-backend/auth
  */
 export const auth = defineAuth({
   loginWith: {
@@ -161,7 +161,7 @@ export const auth = defineAuth({
       /**
        * first, create your secrets using `amplify sandbox secret`
        * then, import `secret` from `@aws-amplify/backend`
-       * @see https://docs.amplify.aws/javascript/deploy-and-host/sandbox-environments/features/#setting-secrets
+       * @see https://docs.amplify.aws/gen2/deploy-and-host/sandbox-environments/features/#setting-secrets
        */
       // loginWithAmazon: {
       //   clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
@@ -171,7 +171,7 @@ export const auth = defineAuth({
   },
   /**
    * enable multifactor authentication
-   * @see https://docs.amplify.aws/javascript/build-a-backend/auth/manage-mfa
+   * @see https://docs.amplify.aws/gen2/build-a-backend/auth/manage-mfa
    */
   // multifactor: {
   //   mode: 'OPTIONAL',
