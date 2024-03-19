@@ -50,7 +50,7 @@ WORK IN THE FRONTEND CODE FILE.)
 
 Using JavaScript or Next.js React Server Components, Middleware, Server
 Actions, or Pages Router? Review how to generate Data clients for those use
-cases: https://docs.amplify.aws/gen2/build-a-backend/data/connect-to-API/
+cases: https://docs.amplify.aws/javascript/build-a-backend/data/connect-to-API/
 =========================================================================*/
 
 /*
@@ -111,7 +111,7 @@ Once you save your changes to the data model, they will be deployed in seconds t
 The `Todo` data model is defined with authorization rules to allow the person who creates the Todo instance (the owner) to perform all actions on the data they own. We are also allowing all page viewers, including unauthenticated users, to read data.
 
 <Callout>
-**Note:** These authorization rules can be modified using a chain of methods as defined by default. For example, we could remove the `.to(['read'])` and allow all visitors to perform all actions on data or add permissions for signed-in users or users who belong to user groups such as `Admin`. You can learn more about all options for authorization in the [Customize your auth rules](/gen2/build-a-backend/data/customize-authz/) section of the docs.
+**Note:** These authorization rules can be modified using a chain of methods as defined by default. For example, we could remove the `.to(['read'])` and allow all visitors to perform all actions on data or add permissions for signed-in users or users who belong to user groups such as `Admin`. You can learn more about all options for authorization in the [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz/) section of the docs.
 </Callout>
 
 <b>Step 2:</b> Remove public access by deleting the `a.allow.public().to(['read'])` authorization rule. Your authorization rule will look like the code below:
@@ -151,7 +151,7 @@ import { defineAuth } from '@aws-amplify/backend';
 /**
  * Define and configure your auth resource
  * When used alongside data, it is automatically configured as an auth provider for data
- * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ * @see https://docs.amplify.aws/javascript/build-a-backend/auth
  */
 export const auth = defineAuth({
   loginWith: {
@@ -161,7 +161,7 @@ export const auth = defineAuth({
       /**
        * first, create your secrets using `amplify sandbox secret`
        * then, import `secret` from `@aws-amplify/backend`
-       * @see https://docs.amplify.aws/gen2/deploy-and-host/sandbox-environments/features/#setting-secrets
+       * @see https://docs.amplify.aws/javascript/deploy-and-host/sandbox-environments/features/#setting-secrets
        */
       // loginWithAmazon: {
       //   clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
@@ -171,7 +171,7 @@ export const auth = defineAuth({
   },
   /**
    * enable multifactor authentication
-   * @see https://docs.amplify.aws/gen2/build-a-backend/auth/manage-mfa
+   * @see https://docs.amplify.aws/javascript/build-a-backend/auth/manage-mfa
    */
   // multifactor: {
   //   mode: 'OPTIONAL',
