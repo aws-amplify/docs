@@ -80,11 +80,6 @@ describe('Modal', () => {
   });
 
   it('should set gen2ModalDismissed in localStorage when Gen1 link is clicked', async () => {
-    const mockRouter = {
-      prefetch: jest.fn()
-    };
-    (routerMock.useRouter as jest.Mock).mockReturnValue(mockRouter);
-
     render(<Modal />);
 
     const gen1Link = await screen.findByRole('link', {
