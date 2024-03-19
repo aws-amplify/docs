@@ -64,7 +64,7 @@ const PlatformOverview = () => {
           on AWS. Get started by selecting your preferred framework.
         </Text>
         <FrameworkGrid isGen1={true} currentKey={DEFAULT_PLATFORM} />
-        <PlatformFeatureList platform={DEFAULT_PLATFORM} />
+        <PlatformFeatureList isGen1={true} platform={DEFAULT_PLATFORM} />
         <LinkCards platform={DEFAULT_PLATFORM} />
       </Flex>
     </Flex>

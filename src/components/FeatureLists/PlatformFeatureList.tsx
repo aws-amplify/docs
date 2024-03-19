@@ -13,9 +13,11 @@ import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import { usePathname } from 'next/navigation';
 interface PlatformFeatureListProps {
   platform: Platform | typeof DEFAULT_PLATFORM;
+  isGen1?: boolean;
 }
 const PlatformFeatureList: React.FC<PlatformFeatureListProps> = ({
-  platform
+  platform,
+  isGen1
 }) => {
   const pathname = usePathname();
   const categories = featureListData[platform].categories;
@@ -29,11 +31,14 @@ const PlatformFeatureList: React.FC<PlatformFeatureListProps> = ({
               <FeatureItem
                 linkText={categoryItem.linkText}
                 href={
-                  platform === DEFAULT_PLATFORM &&
-                  pathname === '/' &&
-                  !categoryItem.isExternal
-                    ? `${platform}/${categoryItem.link}`
-                    : categoryItem.link
+                  categoryItem.isExternal
+                    ? categoryItem.link
+                    : {
+                        pathname: `${isGen1 && pathname === '/gen1/' ? 'gen1/' : ''}[platform]/${categoryItem.link}`,
+                        query: {
+                          platform: platform
+                        }
+                      }
                 }
                 isExternal={categoryItem.isExternal}
                 key={index}
