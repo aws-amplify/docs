@@ -13,6 +13,7 @@ import {
 } from '@/components/Icons';
 
 import { Popover } from '@/components/Popover';
+import { DEFAULT_PLATFORM, Platform } from '@/data/platforms';
 
 const getStartedHref = '/[platform]/start/getting-started/introduction/';
 
@@ -91,16 +92,22 @@ const getStartedLinks = [
   }
 ];
 
-export const GetStartedPopover = (platform) => {
-  platform = platform.platform;
+type GetStartedPopoverType = {
+  platform: Platform | typeof DEFAULT_PLATFORM;
+  isGen1?: boolean;
+};
 
+export const GetStartedPopover = ({
+  platform,
+  isGen1
+}: GetStartedPopoverType) => {
   return (
     <Flex className="split-button">
       <InternalLinkButton
         size="large"
         className="split-button__start"
         href={{
-          pathname: '/[platform]/start/getting-started/introduction/',
+          pathname: `${isGen1 ? '/gen1' : ''}/[platform]/start/getting-started/introduction/`,
           query: { platform: platform }
         }}
       >
@@ -114,6 +121,10 @@ export const GetStartedPopover = (platform) => {
         </Popover.Trigger>
         <Popover.List ariaLabel="Getting started guides for other platforms">
           {getStartedLinks.map((link, index) => {
+            link.href.pathname = isGen1
+              ? `/gen1/${link.href.pathname}`
+              : link.href.pathname;
+
             return (
               <Popover.ListItem
                 href={link.href}
