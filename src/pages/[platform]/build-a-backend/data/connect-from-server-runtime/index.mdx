@@ -35,7 +35,7 @@ Before you begin, you will need:
 
 - [A Next.js application created](/nextjs/start/project-setup/create-application/)
 - [Installed and configured Amplify libraries for Next.js](/nextjs/build-a-backend/server-side-rendering/)
-- [Deployed Amplify Data resources](/gen2/build-a-backend/data/set-up-data/), or directly using [AWS AppSync](https://aws.amazon.com/appsync/)
+- [Deployed Amplify Data resources](/[platform]/build-a-backend/data/set-up-data/), or directly using [AWS AppSync](https://aws.amazon.com/appsync/)
 
 ## Connect to Amplify Data from a Next.js server runtime
 
@@ -107,7 +107,7 @@ We recommend you generate Amplify Data's server client in a utility file. Then, 
 
 <Block name="generateServerClientUsingReqRes() 🌐">
 
-To generate a Data client for the Next.js server runtime using `NextRequest` and `NextResponse`, you only need to provide your Amplify configuration. When making the individual API requests, you will need to pass it into a [`runWithAmplifyServerContext`](/gen2/build-a-backend/server-side-rendering) function to pass in the cookies from request and response variables.
+To generate a Data client for the Next.js server runtime using `NextRequest` and `NextResponse`, you only need to provide your Amplify configuration. When making the individual API requests, you will need to pass it into a [`runWithAmplifyServerContext`](/[platform]/build-a-backend/server-side-rendering) function to pass in the cookies from request and response variables.
 
 ```ts
 import { type Schema } from '@/amplify/data/resource';
@@ -168,7 +168,7 @@ const fetchTodos = async () => {
 
 <Block name="generateServerClientUsingReqRes() 🌐">
 
-Import the NextRequest/NextResponse-based server Data client in your Next.js server runtime code and make your API requests within the `runWithAmplifyServerContext` function. Review [Server-side Rendering](/gen2/build-a-backend/server-side-rendering) to learn more about creating an Amplify server context.
+Import the NextRequest/NextResponse-based server Data client in your Next.js server runtime code and make your API requests within the `runWithAmplifyServerContext` function. Review [Server-side Rendering](/[platform]/build-a-backend/server-side-rendering) to learn more about creating an Amplify server context.
 
 For example, in a Next.js Pages Router API route, use the `req` and `res` parameters from the `handler` function with `runWithAmplifyServerContext`:
 

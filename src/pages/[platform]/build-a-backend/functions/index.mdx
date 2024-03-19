@@ -90,7 +90,7 @@ export const myDemoFunction = defineFunction({
 
 Any environment variables specified here will be available to the function at runtime.
 
-Some environment variables are constant across all branches and deployments. But many environment values differ between deployment environments. [Branch-specific environment variables can be configured for Amplify hosting deployments](/gen2/deploy-and-host/fullstack-branching/secrets-and-vars/#set-environment-variables).
+Some environment variables are constant across all branches and deployments. But many environment values differ between deployment environments. [Branch-specific environment variables can be configured for Amplify hosting deployments](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/#set-environment-variables).
 
 Suppose you created a branch-specific environment variable in hosting called "API_ENDPOINT" which had a different value for your "staging" vs "prod" branch. If you wanted that value to be available to your function you can pass it to the function using
 
@@ -120,7 +120,7 @@ export const handler = async (event) => {
 
 Sometimes it is necessary to provide a secret value to a function. For example, it may need a database password or an API key to perform some business use case. Environment variables should NOT be used for this because environment variable values are included in plaintext in the function configuration. Instead, secret access can be used.
 
-Before using a secret in a function, you need to [define a secret](/gen2/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). After you have defined a secret, you can reference it in your function config.
+Before using a secret in a function, you need to [define a secret](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). After you have defined a secret, you can reference it in your function config.
 
 ```ts title="amplify/functions/my-demo-function/resource.ts"
 import { defineFunction, secret } from '@aws-amplify/backend';
@@ -145,7 +145,7 @@ export const handler = async (event) => {
 
 ## Resource access
 
-When you grant a function access to another resource in your Amplify backend ([such as granting access to storage](/gen2/build-a-backend/storage/#resource-access)), that will configure environment variables for that function to make SDK calls to the AWS services it has access to. Those environment variables are typed and available as part of the `env` object.
+When you grant a function access to another resource in your Amplify backend ([such as granting access to storage](/[platform]/build-a-backend/storage/#resource-access)), that will configure environment variables for that function to make SDK calls to the AWS services it has access to. Those environment variables are typed and available as part of the `env` object.
 
 Example `defineStorage` that grants myDemoFunction access to files in `/foo/*`.
 
@@ -289,12 +289,12 @@ For more information on auth triggers see https://docs.aws.amazon.com/cognito/la
 
 ## Example - Use a function resolver in your data model
 
-See [Custom business logic](/gen2/build-a-backend/data/custom-business-logic/)
+See [Custom business logic](/[platform]/build-a-backend/data/custom-business-logic/)
 
 ## Example - Use a function as a custom authorizer in your data model
 
-See [Custom data access patterns](/gen2/build-a-backend/data/customize-authz/custom-data-access-patterns/)
+See [Custom data access patterns](/[platform]/build-a-backend/data/customize-authz/custom-data-access-patterns/)
 
 ## Example - Create a Function trigger for Storage
 
-See [Configure storage triggers](/gen2/build-a-backend/storage/#configure-storage-triggers)
+See [Configure storage triggers](/[platform]/build-a-backend/storage/#configure-storage-triggers)

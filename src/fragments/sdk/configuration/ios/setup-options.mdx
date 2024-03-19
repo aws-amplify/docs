@@ -1,4 +1,4 @@
-The AWS SDK contains [high level client interfaces](/[platform]/start/getting-started/introduction/) for quickly adding common features and functionality to your app. You can also manually add the generated AWS service interfaces for direct interaction if you have custom or advanced requirements.
+The AWS SDK contains [high level client interfaces](/gen1/[platform]/start/getting-started/introduction/) for quickly adding common features and functionality to your app. You can also manually add the generated AWS service interfaces for direct interaction if you have custom or advanced requirements.
 
 ## CocoaPods setup
 
@@ -188,7 +188,7 @@ For comparison, Semantic versioning increments the patch level for backward-comp
 
 ## Direct AWS Service access
 
-You can call AWS service interface objects directly via the generated SDK clients. You can use the client credentials provided by the [AWSMobileClient](/[platform]/sdk/auth/getting-started/) when using the `.default()` method on a service object (e.g. `AWSSQS.default()`). This will leverage short term AWS credentials from Cognito Identity. Alternatively, you can call the constructors manually.
+You can call AWS service interface objects directly via the generated SDK clients. You can use the client credentials provided by the [AWSMobileClient](/gen1/[platform]/sdk/auth/getting-started/) when using the `.default()` method on a service object (e.g. `AWSSQS.default()`). This will leverage short term AWS credentials from Cognito Identity. Alternatively, you can call the constructors manually.
 
 **Note:** If you are relying on the AWSMobileClient as the credentials provider, then initialize the AWSMobileClient before constructing any other service client. The AWSMobileClient will attach itself as the credentials provider for all default clients. However, if you attach a default credentials provider before initializing the AWSMobileClient, then you cannot rely on the AWSMobileClient to vend credentials used to authenticate the service client's API calls.
 

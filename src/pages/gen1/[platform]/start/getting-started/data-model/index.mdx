@@ -62,7 +62,7 @@ type Todo @model {
 }
 ```
 
-The schema generated is for a Todo app. You'll notice a `@model` directive on the `Todo` type. This directive is part of the [Amplify GraphQL API](/[platform]/build-a-backend/graphqlapi/data-modeling/) category.
+The schema generated is for a Todo app. You'll notice a `@model` directive on the `Todo` type. This directive is part of the [Amplify GraphQL API](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/) category.
 
 Amplify GraphQL API provides custom GraphQL directives that allow you to define data models, set up authorization rules, configure serverless functions as resolvers, and more.
 
@@ -153,7 +153,7 @@ amplify console
 
 <Accordion title="Test API with local mocking">
 
-To test this out locally, you can run the `mock` command. Note: Refer to the [instructions to setup mocking](/[platform]/tools/cli/usage/mock/).
+To test this out locally, you can run the `mock` command. Note: Refer to the [instructions to setup mocking](/gen1/[platform]/tools/cli/usage/mock/).
 
 > If you'd like to go ahead and connect the front end, you can [jump to the next step](#connect-frontend-to-api).
 
@@ -1307,7 +1307,7 @@ To make any GraphQL API requests service-side, we need to first generate an API 
 
 <Callout info>
 
-Amplify offers two API clients for Next.js server-side runtimes. Use `generateServerClientUsingCookies` primarily for use cases where `cookies` from `next/headers` is available, such as in App Router's React Server Components, Server Actions. Use `generateServerClientUsingReqRes` for use cases where a `NextRequest`/`NextResponse` are available, such as in the Pages Router or Middleware. Review [Connect to data from server-side runtimes](/[platform]/build-a-backend/graphqlapi/connect-from-server-runtime/) to review in-depth which API client to use for which use cases.
+Amplify offers two API clients for Next.js server-side runtimes. Use `generateServerClientUsingCookies` primarily for use cases where `cookies` from `next/headers` is available, such as in App Router's React Server Components, Server Actions. Use `generateServerClientUsingReqRes` for use cases where a `NextRequest`/`NextResponse` are available, such as in the Pages Router or Middleware. Review [Connect to data from server-side runtimes](/gen1/[platform]/build-a-backend/graphqlapi/connect-from-server-runtime/) to review in-depth which API client to use for which use cases.
 
 </Callout>
 

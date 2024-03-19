@@ -33,6 +33,7 @@ import {
   NextPrevious,
   NEXT_PREVIOUS_SECTIONS
 } from '@/components/NextPrevious';
+import { Modal } from '@/components/Modal';
 
 export const Layout = ({
   children,
@@ -210,6 +211,7 @@ export const Layout = ({
           colorMode={colorMode}
         >
           <IconsProvider icons={defaultIcons}>
+            <Modal isGen1={isGen1} />
             <View
               className={`layout-wrapper layout-wrapper--${pageType}${isGen1 ? ' layout-wrapper--gen1' : ''}`}
             >

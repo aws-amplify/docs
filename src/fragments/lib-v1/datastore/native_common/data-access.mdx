@@ -76,7 +76,7 @@ import flutter8 from '/src/fragments/lib-v1/datastore/flutter/data-access/update
 
 **Avoid working with stale data!**
 
-Model instances which store values, such as those from the results of a `DataStore.Query` operation, can become stale and outdated when their properties are updated. This can be the result of a manual change or even a side effect of [real time data](/[platform]/prev/build-a-backend/more-features/datastore/sync-to-cloud/#distributed-data) being received by the application. In order to ensure you are performing mutations on the latest committed state to the system, either perform a query directly before the `DataStore.save()` operation or observe the model to keep the state updated at all times and perform mutations on that latest state referencing the model instance. The preceding example demonstrates one approach. The following example demonstrates the `observeQuery` approach.
+Model instances which store values, such as those from the results of a `DataStore.Query` operation, can become stale and outdated when their properties are updated. This can be the result of a manual change or even a side effect of [real time data](/gen1/[platform]/prev/build-a-backend/more-features/datastore/sync-to-cloud/#distributed-data) being received by the application. In order to ensure you are performing mutations on the latest committed state to the system, either perform a query directly before the `DataStore.save()` operation or observe the model to keep the state updated at all times and perform mutations on that latest state referencing the model instance. The preceding example demonstrates one approach. The following example demonstrates the `observeQuery` approach.
 
 </Callout>
 
@@ -244,7 +244,7 @@ import flutter21 from '/src/fragments/lib-v1/datastore/flutter/data-access/query
 
 <Fragments fragments={{ flutter: flutter21 }} />
 
-Multiple conditions can also be used, like the ones defined in [GraphQL Transform condition statements](/[platform]/build-a-backend/graphqlapi/data-modeling/). For example, fetch all posts that have a rating greater than `4` and are `ACTIVE`:
+Multiple conditions can also be used, like the ones defined in [GraphQL Transform condition statements](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/). For example, fetch all posts that have a rating greater than `4` and are `ACTIVE`:
 
 import js22 from '/src/fragments/lib-v1/datastore/js/data-access/query-predicate-multiple-snippet.mdx';
 
@@ -364,6 +364,6 @@ import flutter37 from '/src/fragments/lib-v1/datastore/flutter/data-access/query
 
 <Callout>
 
-To both query _and_ observe subsequent changes to a Model, consider using [`observeQuery`](/[platform]/prev/build-a-backend/more-features/datastore/real-time/#displaying-data-during-the-sync-process-with-observequery).
+To both query _and_ observe subsequent changes to a Model, consider using [`observeQuery`](/gen1/[platform]/prev/build-a-backend/more-features/datastore/real-time/#displaying-data-during-the-sync-process-with-observequery).
 
 </Callout>

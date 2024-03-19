@@ -37,7 +37,7 @@ This guide is for those who want to set up Amplify Auth with the Amplify Librari
 
 </Callout>
 
-Before you begin, you should have finished the [_Create your first authentication resource_](/gen2/build-a-backend/auth/set-up-auth/#create-your-first-authentication-resource) section of the _Set up Amplify Auth_ guide. In that guide we showed how to configure the `amplify/auth/resource.ts` file to enable your users to sign up to your application using a username and password. We will be continuing with examples of how to further customize those sign-up, sign-in, and sign-out workflows in this guide.
+Before you begin, you should have finished the [_Create your first authentication resource_](/[platform]/build-a-backend/auth/set-up-auth/#create-your-first-authentication-resource) section of the _Set up Amplify Auth_ guide. In that guide we showed how to configure the `amplify/auth/resource.ts` file to enable your users to sign up to your application using a username and password. We will be continuing with examples of how to further customize those sign-up, sign-in, and sign-out workflows in this guide.
 
 ## Decide before you build
 
@@ -93,9 +93,9 @@ Once you have these decisions in mind, you are ready to enable sign-up, sign-in,
 
 You can add the functionality to enable sign-up, sign-in, and sign-out with the Amplify Libraries. You can connect this to an existing UI or create your own.
 
-For many apps, user sign-up and sign-in with a username and password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. This is the method we illustrated in the [_Set up Amplify Auth_](/gen2/build-a-backend/auth/set-up-auth/) guide.
+For many apps, user sign-up and sign-in with a username and password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. This is the method we illustrated in the [_Set up Amplify Auth_](/[platform]/build-a-backend/auth/set-up-auth/) guide.
 
-We will use the username and password authentication flow to get started. Both [third-party social provider federation](/gen2/build-a-backend/auth/add-social-provider/) and [Multi-factor authentication](/gen2/build-a-backend/auth/manage-mfa/) can be added after this initial setup.
+We will use the username and password authentication flow to get started. Both [third-party social provider federation](/[platform]/build-a-backend/auth/add-social-provider/) and [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/) can be added after this initial setup.
 
 ### Sign-up
 
@@ -348,7 +348,7 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 - `CONFIRM_SIGN_UP` - The user hasn't completed the sign-up flow fully and must be confirmed via `confirmSignUp`.
 - `DONE` - The sign in process has been completed.
 
-For more information on handling the TOTP and MFA steps that may be returned, please see [_'Multi-factor authentication'_](/gen2/build-a-backend/auth/manage-mfa/).
+For more information on handling the TOTP and MFA steps that may be returned, please see [_'Multi-factor authentication'_](/[platform]/build-a-backend/auth/manage-mfa/).
 
 ### Guest access
 
@@ -453,5 +453,5 @@ Congratulations! You finished the **Enable sign-up, sign-in, sign-out** guide an
 
 Now that you completed setting up Amplify Auth with username and password, you may also want to add some additional features. We recommend:
 
-- [Add social provider sign-in](/gen2/build-a-backend/auth/add-social-provider/)
-- [Multi-factor authentication](/gen2/build-a-backend/auth/manage-mfa/)
+- [Add social provider sign-in](/[platform]/build-a-backend/auth/add-social-provider/)
+- [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/)
