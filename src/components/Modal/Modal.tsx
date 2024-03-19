@@ -4,7 +4,7 @@ import { useEffect, useId, useState } from 'react';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
-import { useGen1Path } from '@/components/GenSwitcher';
+import { useGen1Path } from './useGen1Path';
 
 interface ModalProps extends ViewProps {
   isGen1?: boolean;
