@@ -223,7 +223,7 @@ export const Layout = ({
                 }
               )}
             >
-              {pageType === 'home' ? <SpaceShip isGen1={isGen1} /> : null}
+              {pageType === 'home' ? <SpaceShip /> : null}
               <GlobalNav
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
