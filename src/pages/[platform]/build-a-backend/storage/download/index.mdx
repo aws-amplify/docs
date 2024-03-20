@@ -183,7 +183,9 @@ You can consume the value of file in any of the three formats: `blob`, `json`, o
 import { downloadData } from 'aws-amplify/storage';
 
 try {
-  const downloadResult = await downloadData({ path: "/album/2024/1.jpg" }).result;
+  const downloadResult = await downloadData({ 
+    path: "/album/2024/1.jpg" 
+  }).result;
   const text = await downloadResult.body.text();
   // Alternatively, you can use `downloadResult.body.blob()`
   // or `downloadResult.body.json()` get read body in Blob or JSON format.
@@ -198,7 +200,9 @@ try {
 import { downloadData } from 'aws-amplify/storage';
 
 try {
-  const downloadResult = await downloadData({ key: "abc.txt" }).result;
+  const downloadResult = await downloadData({ 
+    key: "abc.txt" 
+  }).result;
   const text = await downloadResult.body.text();
   // Alternatively, you can use `downloadResult.body.blob()`
   // or `downloadResult.body.json()` get read body in Blob or JSON format.
@@ -259,7 +263,7 @@ const { body, eTag } = await downloadData(
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
 
-const downloadTask = downloadData({ path: "/album/2024/1.jpg", data: file });
+const downloadTask = downloadData({ path: "/album/2024/1.jpg" });
 downloadTask.cancel();
 try {
   await downloadTask.result;
@@ -274,7 +278,7 @@ try {
 <Block name="With Key (Deprecated)">
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
-const downloadTask = downloadData({ key: "abc.txt", data: file });
+const downloadTask = downloadData({ key: "abc.txt" });
 downloadTask.cancel();
 try {
   await downloadTask.result;
