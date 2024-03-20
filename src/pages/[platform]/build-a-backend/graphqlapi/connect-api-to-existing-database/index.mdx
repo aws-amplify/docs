@@ -488,7 +488,7 @@ For more information on each rule please refer to our documentation on [Authoriz
 
 Field level auth rules are also supported for Amplify GraphQL schemas generated from MySQL and PostgreSQL databases.
 
-In the example below, unauthenticated users can read post data but the `update` operation on the `published` field is restricted to the owner of the post.
+In the example below, unauthenticated users can read post data but only the owner of the post can perform operations on the `published` field.
 
 ```graphql
 type Post
@@ -503,7 +503,7 @@ type Post
   content: String!
   published: Boolean
   // highlight-start
-    @auth(rules: [{ allow: owner, operations: [read, update] }])
+    @auth(rules: [{ allow: owner }])
   // highlight-end
 }
 ```
