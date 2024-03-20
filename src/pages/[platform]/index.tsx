@@ -7,7 +7,10 @@ import { FeatureList, FeatureItem } from '@/components/FeatureLists';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
-import { GetStartedPopover } from '@/components/GetStartedPopover';
+import {
+  GetStartedPopover,
+  gen2GetStartedLinks
+} from '@/components/GetStartedPopover';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 
@@ -75,7 +78,10 @@ const Gen2Overview = () => {
               fontSize=".875em"
             />
           </InternalLinkButton>
-          <GetStartedPopover platform={currentPlatform} />
+          <GetStartedPopover
+            platform={currentPlatform}
+            getStartedLinks={gen2GetStartedLinks}
+          />
         </Flex>
       </Flex>
       <Flex className="home-section">

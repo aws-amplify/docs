@@ -2,7 +2,10 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
-import { GetStartedPopover } from '@/components/GetStartedPopover';
+import {
+  GetStartedPopover,
+  gen1GetStartedLinks
+} from '@/components/GetStartedPopover';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { Flex, Heading, Text } from '@aws-amplify/ui-react';
 import LinkCards from '@/components/LinkCards';
@@ -67,7 +70,10 @@ const PlatformOverview = ({ platform }) => {
             <IconChevron className="icon-rotate-270" fontSize=".875em" />
           </InternalLinkButton>
 
-          <GetStartedPopover platform={platform} isGen1={true} />
+          <GetStartedPopover
+            platform={platform}
+            getStartedLinks={gen1GetStartedLinks}
+          />
         </Flex>
       </Flex>
       <Flex direction="column">
@@ -80,8 +86,8 @@ const PlatformOverview = ({ platform }) => {
           other resources will help you build, connect, and host fullstack apps
           on AWS. Get started by selecting your preferred framework.
         </Text>
-        <FrameworkGrid isGen1={true} currentKey={platform} />
-        <PlatformFeatureList isGen1={true} platform={platform} />
+        <FrameworkGrid currentKey={platform} />
+        <PlatformFeatureList platform={platform} />
         <LinkCards platform={platform} />
       </Flex>
     </Flex>

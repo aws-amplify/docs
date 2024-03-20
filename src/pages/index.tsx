@@ -1,6 +1,9 @@
 import { Heading, Text, Flex, Card } from '@aws-amplify/ui-react';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
-import { GetStartedPopover } from '@/components/GetStartedPopover';
+import {
+  GetStartedPopover,
+  gen2GetStartedLinks
+} from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
@@ -56,7 +59,10 @@ export default function Page() {
               fontSize=".875em"
             />
           </InternalLinkButton>
-          <GetStartedPopover platform={DEFAULT_PLATFORM} />
+          <GetStartedPopover
+            platform={DEFAULT_PLATFORM}
+            getStartedLinks={gen2GetStartedLinks}
+          />
         </Flex>
       </Flex>
       <Flex className="home-section">
