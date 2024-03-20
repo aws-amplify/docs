@@ -10,16 +10,15 @@ import featureListData from '@/constants/feature-lists-data';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
 import type { Platform } from '@/data/platforms';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
-import { usePathname } from 'next/navigation';
+import { useIsGen1Page } from '@/utils/useIsGen1Page';
+
 interface PlatformFeatureListProps {
   platform: Platform | typeof DEFAULT_PLATFORM;
-  isGen1?: boolean;
 }
 const PlatformFeatureList: React.FC<PlatformFeatureListProps> = ({
-  platform,
-  isGen1
+  platform
 }) => {
-  const pathname = usePathname();
+  const isGen1Page = useIsGen1Page();
   const categories = featureListData[platform].categories;
 
   return categories.length > 0 ? (
@@ -34,7 +33,12 @@ const PlatformFeatureList: React.FC<PlatformFeatureListProps> = ({
                   categoryItem.isExternal
                     ? categoryItem.link
                     : {
-                        pathname: `${isGen1 && pathname === '/gen1/' ? 'gen1/' : ''}${platform}/${categoryItem.link}`
+                        pathname: isGen1Page
+                          ? `/gen1/[platform]/${categoryItem.link}`
+                          : `/[platform]/${categoryItem.link}`,
+                        query: {
+                          platform: platform
+                        }
                       }
                 }
                 isExternal={categoryItem.isExternal}
