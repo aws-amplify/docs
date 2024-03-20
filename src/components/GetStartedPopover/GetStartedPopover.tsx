@@ -1,112 +1,37 @@
 import { Flex, VisuallyHidden } from '@aws-amplify/ui-react';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
-import {
-  IconAndroid,
-  IconAngular,
-  IconFlutter,
-  IconJS,
-  IconNext,
-  IconReact,
-  IconSwift,
-  IconVue
-} from '@/components/Icons';
-
 import { Popover } from '@/components/Popover';
 import { DEFAULT_PLATFORM, Platform } from '@/data/platforms';
+import { useIsGen1Page } from '@/utils/useIsGen1Page';
+import { UrlObject } from 'url';
 
-const getStartedHref = '/[platform]/start/getting-started/introduction/';
-
-const getStartedLinks = [
-  {
-    title: 'React',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'react' }
-    },
-    icon: <IconReact />
-  },
-  {
-    title: 'JavaScript',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'javascript' }
-    },
-    icon: <IconJS />
-  },
-  {
-    title: 'Flutter',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'flutter' }
-    },
-    icon: <IconFlutter />
-  },
-  {
-    title: 'Swift',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'swift' }
-    },
-    icon: <IconSwift />
-  },
-  {
-    title: 'Android',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'android' }
-    },
-    icon: <IconAndroid />
-  },
-  {
-    title: 'React Native',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'react-native' }
-    },
-    icon: <IconReact />
-  },
-  {
-    title: 'Angular',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'angular' }
-    },
-    icon: <IconAngular />
-  },
-  {
-    title: 'Next.js',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'nextjs' }
-    },
-    icon: <IconNext />
-  },
-  {
-    title: 'Vue',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'vue' }
-    },
-    icon: <IconVue />
-  }
-];
+export type GetStartedLinksType = {
+  title: string;
+  href: UrlObject;
+  icon: JSX.Element;
+  platform: Platform;
+};
 
 type GetStartedPopoverType = {
   platform: Platform | typeof DEFAULT_PLATFORM;
-  isGen1?: boolean;
+  getStartedLinks: GetStartedLinksType[];
 };
 
 export const GetStartedPopover = ({
   platform,
-  isGen1
+  getStartedLinks
 }: GetStartedPopoverType) => {
+  const isGen1Page = useIsGen1Page();
+
   return (
     <Flex className="split-button">
       <InternalLinkButton
         size="large"
         className="split-button__start"
         href={{
-          pathname: `${isGen1 ? '/gen1' : ''}/[platform]/start/getting-started/introduction/`,
+          pathname: isGen1Page
+            ? '/gen1/[platform]/start/getting-started/introduction/'
+            : '/[platform]/start/quickstart/',
           query: { platform: platform }
         }}
       >
@@ -120,11 +45,6 @@ export const GetStartedPopover = ({
         </Popover.Trigger>
         <Popover.List ariaLabel="Getting started guides for other platforms">
           {getStartedLinks.map((link, index) => {
-            link.href.pathname =
-              isGen1 && link.href.pathname.indexOf('gen1') < 0
-                ? `/gen1${link.href.pathname}`
-                : link.href.pathname;
-
             return (
               <Popover.ListItem
                 href={link.href}
