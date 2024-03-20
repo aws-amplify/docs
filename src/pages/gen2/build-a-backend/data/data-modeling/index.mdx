@@ -44,8 +44,8 @@ const schema = a.schema({
     tags: a.string().array(), // fields can be arrays
     representativeId: a.id().required()
     // customize secondary indexes to optimize your query performance
-  }).secondaryIndexes([
-    a.index('representativeId')
+  }).secondaryIndexes(index => [
+    index('representativeId')
   ]),
 }).authorization([a.allow.owner()])
 ```
