@@ -503,7 +503,7 @@ type Post
   content: String!
   published: Boolean
   // highlight-start
-    @auth(rules: [{ allow: owner, operations: [update] }])
+    @auth(rules: [{ allow: owner, operations: [read, update] }])
   // highlight-end
 }
 ```
