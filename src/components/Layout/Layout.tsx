@@ -9,6 +9,7 @@ import {
   ThemeProvider,
   View
 } from '@aws-amplify/ui-react';
+import classNames from 'classnames';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
 import { gen1Theme } from '@/themes/gen1Theme';
@@ -20,7 +21,6 @@ import {
   PLATFORM_DISPLAY_NAMES,
   Platform
 } from '@/data/platforms';
-import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
 import { SpaceShip } from '@/components/SpaceShip';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { LayoutProvider, LayoutHeader } from '@/components/Layout';
@@ -29,12 +29,12 @@ import type { HeadingInterface } from '@/components/TableOfContents/TableOfConte
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import '@docsearch/css';
-import { Banner } from '@/components/Banner';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import {
   NextPrevious,
   NEXT_PREVIOUS_SECTIONS
 } from '@/components/NextPrevious';
+import { Modal } from '@/components/Modal';
 
 export const Layout = ({
   children,
@@ -69,11 +69,10 @@ export const Layout = ({
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
-  const shouldShowGen2Banner = GEN2BANNER_URLS.includes(asPathWithNoHash);
   const isGen1 = asPathWithNoHash.split('/')[1] === 'gen1';
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
-
+  const isHome = pageType === 'home';
   const handleColorModeChange = (mode: ColorMode) => {
     setColorMode(mode);
     if (mode !== 'system') {
@@ -150,7 +149,7 @@ export const Layout = ({
   }, [children, pageType]);
 
   useEffect(() => {
-    if (pageType === 'home') {
+    if (isHome) {
       document.addEventListener('scroll', handleScroll);
       return () => {
         document.removeEventListener('scroll', handleScroll);
@@ -213,12 +212,18 @@ export const Layout = ({
           colorMode={colorMode}
         >
           <IconsProvider icons={defaultIcons}>
+            <Modal isGen1={isGen1} />
             <View
-              className={`layout-wrapper layout-wrapper--${pageType}${isGen1 ? ' layout-wrapper--gen1' : ''}`}
+              className={classNames(
+                'layout-wrapper',
+                `layout-wrapper--${pageType}`,
+                {
+                  'spaceship-layout': isHome,
+                  'spaceship-layout--gen1': isHome && isGen1
+                }
+              )}
             >
-              {pageType === 'home' ? (
-                <SpaceShip hasBanner={shouldShowGen2Banner} />
-              ) : null}
+              {isHome ? <SpaceShip /> : null}
               <GlobalNav
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
@@ -244,7 +249,6 @@ export const Layout = ({
                   {showBreadcrumbs ? (
                     <Breadcrumbs route={pathname} platform={currentPlatform} />
                   ) : null}
-                  {shouldShowGen2Banner ? <Banner /> : null}
                   {useCustomTitle ? null : (
                     <Heading level={1}>{pageTitle}</Heading>
                   )}

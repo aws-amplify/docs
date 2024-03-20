@@ -36,7 +36,7 @@ export function getStaticProps(context) {
 
 Amplify Studio offers the ability to bind UI component events (`onClick`, `onChange`, and more) to actions to build interactive components. Use the UI component editor to map UI components' events to actions for navigation, data manipulation, authentication, and more. All data bindings get automatically included in generated code.
 
-1. Launch [Amplify Studio](/[platform]/tools/console/adminui/start/#logging-in-and-creating-an-app) for an app
+1. Launch [Amplify Studio](/gen1/[platform]/tools/console/adminui/start/#logging-in-and-creating-an-app) for an app
 2. Select an UI element such as a button
 3. Click `Set onClick action` on **Child properties** panel
 4. Select an action to bind it to the UI element
@@ -112,7 +112,7 @@ Select "Refresh" to execute a browser refresh of the current page.
 
 <Callout warning>
 
-**Amplify Studio now provides a new experience to build React forms**. We recommend reviewing [Form Builder (React)](/[platform]/build-ui/formbuilder/) before using the data action bindings documented below.
+**Amplify Studio now provides a new experience to build React forms**. We recommend reviewing [Form Builder (React)](/gen1/[platform]/build-ui/formbuilder/) before using the data action bindings documented below.
 
 </Callout>
 
@@ -131,7 +131,7 @@ Forms created using Studio event handlers can work with any Amplify GraphQL API,
 
 If you are using DataStore, however, DataStore will only use the default authentication type and not the additional types unless configured with MULTI_AUTH enabled. In most cases, you will want to have authentication for your forms. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in. 
 
-To enable multiple authentication types in DataStore & Amplify Forms, please refer to [Configure Multiple Authorization Types](/[platform]/build-a-backend/more-features/datastore/authz-rules-setup/#configure-multiple-authorization-types).
+To enable multiple authentication types in DataStore & Amplify Forms, please refer to [Configure Multiple Authorization Types](/gen1/[platform]/build-a-backend/more-features/datastore/authz-rules-setup/#configure-multiple-authorization-types).
 
 ### Create a record in database
 
@@ -341,4 +341,4 @@ export default withAuthenticator(App);
 
 ## Handle UI changes after action execution
 
-In case you want to add additional business logic after an action is executed, review [Add additional business logic before or after action execution](/[platform]/build-ui/uibuilder/override/#add-business-logic-during-or-after-action-execution). You can use this capability to dismiss a modal after a data record was created, send analytics event after action, or display loading indicators when a record is being created.
+In case you want to add additional business logic after an action is executed, review [Add additional business logic before or after action execution](/gen1/[platform]/build-ui/uibuilder/override/#add-business-logic-during-or-after-action-execution). You can use this capability to dismiss a modal after a data record was created, send analytics event after action, or display loading indicators when a record is being created.

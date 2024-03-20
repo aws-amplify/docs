@@ -25,7 +25,7 @@ export function getStaticProps(context) {
 
 <InlineFilter filters={["android", "swift"]}>
 
-API (GraphQL) has the capability to handle relationships between Models, such as _has one_, _has many_, and _belongs to_. In Amplify GraphQL APIs, this is done with the `@hasOne`, `@hasMany` and `@belongsTo` directives as defined in the [GraphQL data modeling documentation](/[platform]/build-a-backend/graphqlapi/data-modeling/).
+API (GraphQL) has the capability to handle relationships between Models, such as _has one_, _has many_, and _belongs to_. In Amplify GraphQL APIs, this is done with the `@hasOne`, `@hasMany` and `@belongsTo` directives as defined in the [GraphQL data modeling documentation](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/).
 
 By default, GraphQL APIs requests generate a selection set with a depth of 0. Connected relationship models are not returned in the initial request, but can be lazily loaded as needed with an additional API request. We provide mechanisms to customize the selection set, which allows connected relationships to be eagerly loaded on the initial request.
 
@@ -63,7 +63,7 @@ If you already have relational models in your project, you must re-run `amplify 
 
 ## Create a GraphQL schema with relationships between models
 
-For the following example, let's add a Post and Comment model to the [schema](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/#creating-your-first-api-and-database-table):
+For the following example, let's add a Post and Comment model to the [schema](/gen1/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/#creating-your-first-api-and-database-table):
 
 ```graphql
 type Post @model {
@@ -80,7 +80,7 @@ type Comment @model {
 }
 ```
 
-Generate the models for the updated schema using the [Amplify CLI](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/).
+Generate the models for the updated schema using the [Amplify CLI](/gen1/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/).
 
 ```bash
 amplify codegen models
@@ -740,7 +740,7 @@ try {
 
 <Callout>
 
-This example illustrates the complexity of working with multiple sequential create operations. To remove the nested callbacks, consider using Amplify's support for [Coroutines](/[platform]/start/project-setup/kotlin-coroutines/).
+This example illustrates the complexity of working with multiple sequential create operations. To remove the nested callbacks, consider using Amplify's support for [Coroutines](/gen1/[platform]/start/project-setup/kotlin-coroutines/).
 
 </Callout>
 

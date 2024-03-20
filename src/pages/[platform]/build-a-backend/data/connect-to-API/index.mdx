@@ -34,7 +34,7 @@ In this guide, you will connect your application code to the backend API using t
 Before you begin, you will need:
 
 - your cloud sandbox with an Amplify Data resource up and running (`npx amplify sandbox`)
-- A frontend application set up. For instructions on setting up an app, see the [quickstart](/gen2/start/quickstart) for Amplify (Gen 2)
+- A frontend application set up. For instructions on setting up an app, see the [quickstart](/[platform]/start/quickstart) for Amplify (Gen 2)
 - [npm installed](https://docs.npmjs.com/getting-started)
 
 ## Install the Amplify Library
@@ -77,7 +77,7 @@ const fetchTodos = async () => {
 
 ## Configure authorization mode
 
-The **Authorization Mode** is determines how a request should be authorized with the backend. By default, Amplify Data uses the "userPool" authorization which uses the signed-in user credentials to sign an API request. If you use public authorization rules for you data models, you need to use "apiKey" an an authorization mode. Review [Customize your auth rules](/gen2/build-a-backend/data/customize-authz) to learn more about which authorization modes to choose for which type of request. A **Default Authorization Mode** is provided as part of the **amplifyconfiguration.json** that is generated upon a successful deployment.
+The **Authorization Mode** is determines how a request should be authorized with the backend. By default, Amplify Data uses the "userPool" authorization which uses the signed-in user credentials to sign an API request. If you use public authorization rules for you data models, you need to use "apiKey" an an authorization mode. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about which authorization modes to choose for which type of request. A **Default Authorization Mode** is provided as part of the **amplifyconfiguration.json** that is generated upon a successful deployment.
 
 You can generate different Data clients with different authorization modes or pass in the authorization mode at the request time.
 
@@ -137,7 +137,7 @@ const client = generateClient<Schema>({
 </Block>
 <Block name="Lambda Authorizer">
 
-You can implement your own custom API authorization logic using a AWS Lambda function. Review [Customize your auth rules](/gen2/build-a-backend/data/customize-authz) to learn more about how to implement your authorization protocol with AWS Lambda.
+You can implement your own custom API authorization logic using a AWS Lambda function. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about how to implement your authorization protocol with AWS Lambda.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
@@ -199,7 +199,7 @@ const { data: todos, errors } = await client.models.Todo.list({
 </Block>
 <Block name="Lambda Authorizer">
 
-You can implement your own custom API authorization logic using a AWS Lambda function. Review [Customize your auth rules](/gen2/build-a-backend/data/customize-authz) to learn more about how to implement your authorization protocol with AWS Lambda.
+You can implement your own custom API authorization logic using a AWS Lambda function. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about how to implement your authorization protocol with AWS Lambda.
 
 ```ts
 const getAuthToken = () => 'myAuthToken';
@@ -324,6 +324,6 @@ Congratulations! You have finished the **Connect your app code to the API** guid
 
 Our recommended next steps include using the API to mutate and query data. You can also review how to subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
 
-- [Create, update, and delete application data](/gen2/build-a-backend/data/mutate-data/)
-- [Read application data](/gen2/build-a-backend/data/query-data/)
-- [Subscribe to real-time events](/gen2/build-a-backend/data/subscribe-data/)
+- [Create, update, and delete application data](/[platform]/build-a-backend/data/mutate-data/)
+- [Read application data](/[platform]/build-a-backend/data/query-data/)
+- [Subscribe to real-time events](/[platform]/build-a-backend/data/subscribe-data/)
