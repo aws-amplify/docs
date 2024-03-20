@@ -9,6 +9,7 @@ import {
   ThemeProvider,
   View
 } from '@aws-amplify/ui-react';
+import classNames from 'classnames';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
 import { gen1Theme } from '@/themes/gen1Theme';
@@ -71,7 +72,7 @@ export const Layout = ({
   const isGen1 = asPathWithNoHash.split('/')[1] === 'gen1';
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
-
+  const isHome = pageType === 'home';
   const handleColorModeChange = (mode: ColorMode) => {
     setColorMode(mode);
     if (mode !== 'system') {
@@ -148,7 +149,7 @@ export const Layout = ({
   }, [children, pageType]);
 
   useEffect(() => {
-    if (pageType === 'home') {
+    if (isHome) {
       document.addEventListener('scroll', handleScroll);
       return () => {
         document.removeEventListener('scroll', handleScroll);
@@ -213,9 +214,16 @@ export const Layout = ({
           <IconsProvider icons={defaultIcons}>
             <Modal isGen1={isGen1} />
             <View
-              className={`layout-wrapper layout-wrapper--${pageType}${isGen1 ? ' layout-wrapper--gen1' : ''}`}
+              className={classNames(
+                'layout-wrapper',
+                `layout-wrapper--${pageType}`,
+                {
+                  'spaceship-layout': isHome,
+                  'spaceship-layout--gen1': isHome && isGen1
+                }
+              )}
             >
-              {pageType === 'home' ? <SpaceShip /> : null}
+              {isHome ? <SpaceShip /> : null}
               <GlobalNav
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
