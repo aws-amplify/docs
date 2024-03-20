@@ -7,7 +7,7 @@
   --spaceship-star: var(--amplify-colors-neutral-100);
   @include darkMode {
     --spaceship-cloud: var(--amplify-colors-neutral-10);
-    --spaceship-star: var(--amplify-colors-teal-20);
+    --spaceship-star: var(--amplify-colors-primary-40);
   }
   width: 400px;
   position: absolute;
@@ -49,5 +49,40 @@
   }
   .spaceship {
     right: calc(var(--amplify-space-xxl) * -1);
+  }
+}
+
+@media (min-width: 1383px) {
+  .spaceship-layout {
+    background-image: radial-gradient(
+      hsla(258, 41%, 85%, 0.3) 0,
+      #fff 70%,
+      #fff 100%
+    );
+    background-size: 900px 900px;
+    background-repeat: no-repeat;
+    background-position: top -200px right -200px;
+
+    &.spaceship-layout--gen1 {
+      background-image: radial-gradient(
+        hsla(176, 68%, 41%, 0.21) 0,
+        #fff 70%,
+        #fff 100%
+      );
+    }
+    @include darkMode {
+      background-image: radial-gradient(
+        hsla(264, 52%, 56%, 0.11) 0,
+        var(--amplify-colors-background-primary) 70%,
+        var(--amplify-colors-background-primary) 100%
+      );
+      &.spaceship-layout--gen1 {
+        background-image: radial-gradient(
+          hsla(176, 68%, 41%, 0.11) 0,
+          var(--amplify-colors-background-primary) 70%,
+          var(--amplify-colors-background-primary) 100%
+        );
+      }
+    }
   }
 }

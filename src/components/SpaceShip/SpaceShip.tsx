@@ -1,13 +1,19 @@
+import classNames from 'classnames';
+
 interface SpaceShipProps {
   hasBanner?: boolean;
+  isGen1?: boolean;
 }
 
-export const SpaceShip = ({ hasBanner }: SpaceShipProps) => {
+export const SpaceShip = ({ isGen1, hasBanner }: SpaceShipProps) => {
   return (
     <div className="spaceship-wrapper">
       <div className="spaceship-inner">
         <svg
-          className={`spaceship ${hasBanner ? ' spaceship--with-banner' : ''}`}
+          className={classNames('spaceship', {
+            'spaceship--with-banner': hasBanner,
+            'spaceship--gen1': isGen1
+          })}
           viewBox="0 0 538 457"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
