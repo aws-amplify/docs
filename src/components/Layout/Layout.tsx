@@ -149,7 +149,7 @@ export const Layout = ({
   }, [children, pageType]);
 
   useEffect(() => {
-    if (pageType === 'home') {
+    if (isHome) {
       document.addEventListener('scroll', handleScroll);
       return () => {
         document.removeEventListener('scroll', handleScroll);
