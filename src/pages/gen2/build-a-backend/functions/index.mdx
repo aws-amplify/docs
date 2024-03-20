@@ -91,7 +91,7 @@ Within your function handler, you can access environment variables using the nor
 
 ```ts title="amplify/functions/my-demo-function/handler.ts"
 // highlight-next-line
-import { env } from '@env/my-demo-function'; // the import is '@env/<function name>'
+import { env } from '$amplify/env/my-demo-function'; // the import is '$amplify/env/<function name>'
 
 export const handler = async (event) => {
   env. // the env object has intellisense for all environment variables that are available to the function
@@ -118,7 +118,7 @@ export const myDemoFunction = defineFunction({
 You can use this secret value at runtime in your function the same as any other environment variable. However, you will notice that the value of the environment variable is not stored as part of the function configuration. Instead, the value is fetched when your function runs and is provided in memory.
 
 ```ts title="amplify/functions/my-demo-function/handler.ts"
-import { env } from '@env/my-demo-function';
+import { env } from '$amplify/env/my-demo-function';
 
 export const handler = async (event) => {
   env.API_KEY; // this is the value of secret named "myApiKey"
@@ -148,7 +148,7 @@ This access definition will add the environment variable `myProjectFiles_BUCKET_
 Here's an example of how it can be used to upload some content to S3.
 
 ```ts title="amplify/functions/my-demo-function/handler.ts"
-import { env } from '@env/my-demo-function';
+import { env } from '$amplify/env/my-demo-function';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
 const s3Client = new S3Client();
