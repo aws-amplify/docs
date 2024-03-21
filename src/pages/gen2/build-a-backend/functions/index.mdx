@@ -4,7 +4,7 @@ export const meta = {
     'Use AWS Lambda functions to perform tasks and customize workflows.'
 };
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   return {
     props: {
       meta
@@ -94,8 +94,10 @@ Within your function handler, you can access environment variables using the nor
 import { env } from '@env/my-demo-function'; // the import is '@env/<function name>'
 
 export const handler = async (event) => {
-  env. // the env object has intellisense for all environment variables that are available to the function
-  return 'You made a function!';
+  // the env object has intellisense for all environment variables that are available to the function
+  const response = await fetch(env.API_ENDPOINT);
+  const result = await response.json();
+  return result;
 };
 ```
 
@@ -234,7 +236,6 @@ Auth has several events that can trigger functions to perform custom sign up, si
 First, in your auth definition, add the following:
 
 ```ts title="amplify/auth/resource.ts"
-
 export const auth = defineAuth({
   loginWith: {
     email: true
@@ -243,7 +244,7 @@ export const auth = defineAuth({
     // configure a trigger to point to a function definition
     preSignUp: defineFunction({
       entry: './pre-sign-up-handler.ts'
-    });
+    })
   }
 });
 ```
