@@ -18,8 +18,12 @@
       height: 100%;
       container-type: inline-size;
       &--featured {
-        box-shadow: 0 6px 0 var(--amplify-colors-neutral-20);
+        box-shadow: 0 6px 0 var(--amplify-colors-primary-20);
         border-color: var(--amplify-colors-primary-40);
+        @include darkMode {
+          box-shadow: 0 6px 0 var(--amplify-colors-primary-20);
+          border-color: var(--amplify-colors-primary-60);
+        }
       }
 
       &__title {
@@ -41,9 +45,15 @@
   }
 }
 
+.overview__link:focus {
+  .overview__link__card--featured {
+    box-shadow: none;
+  }
+}
+
 .overview-badge {
   background-color: var(--amplify-colors-primary-80);
-  color: var(--amplify-colors-white);
+  color: var(--amplify-colors-font-inverse);
 }
 
 .overview__featured-container {
