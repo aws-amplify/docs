@@ -36,7 +36,10 @@
     {
       // disable type-aware linting for MDX TS virtual files (code snippets)
       "files": ["**/*.mdx/*.ts"],
-      "extends": ["plugin:@typescript-eslint/disable-type-checked"]
+      "extends": ["plugin:@typescript-eslint/disable-type-checked"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": "warn"
+      }
     }
   ]
 }
