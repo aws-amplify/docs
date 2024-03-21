@@ -1,4 +1,4 @@
-This migration guide will help you upgrade your Amplify JavaScript project from v5 to v6. In order to provide you with a cleaner experience, better typings, improved support for NextJS, and improved [tree-shaking](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking) leading to [a much smaller bundle-size](https://aws.amazon.com/blogs/mobile/building-fast-next-js-apps-using-typescript-and-aws-amplify-javascript-v6), we made the following changes for v6:
+This migration guide will help you upgrade your Amplify JavaScript project from v5 to v6. In order to provide you with a cleaner experience, better typings, improved support for NextJS, and improved [tree-shaking](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking) leading to [a much smaller bundle-size](https://aws.amazon.com/blogs/mobile/amplify-javascript-v6/), we made the following changes for v6:
 
 1. We have transitioned to an approach where you only import the features you need from each of our categories.
 2. Most API’s now use named params instead of positional params, allowing for cleaner and more consistent typing.
@@ -52,6 +52,10 @@ We have introduced a new package - `@aws-amplify/react-native` - to encompass th
 - Automatically import all required polyfills, no longer requiring you to take extra steps to include import statements at the top of your application entry point.
 
 > Native modules required by Amplify such as `@react-native-async-storage/async-storage` or `react-native-get-random-values` still need to be installed separately as they need to be linked with React Native
+
+import rnVersionCallout from '/src/fragments/common/react-native-version-deployment-target.mdx';
+
+<Fragments fragments={{ all: rnVersionCallout }} />
 
 ### Dropping support for Expo Go
 
@@ -112,13 +116,6 @@ npm install aws-amplify@6 @aws-amplify/react-native @react-native-community/neti
 ```
 
 Note that v6 supports react-native v0.70+, so if you prefer manually upgrading dependencies double-check the version of react-native in your package.json file.
-
-`@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0`, if it has not already been set to `13.0` or above, open the _Podfile_ located in the _ios_ directory and update the `target` value:
-
-```diff
-- platform :ios, min_ios_version_supported
-+ platform :ios, 13.0
-```
 
 <Callout>
   If you are using `signInWithRedirect` (previously `Auth.federatedSignIn`) you will need to install the `@aws-amplify/rtn-web-browser` native module.

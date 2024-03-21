@@ -1,7 +1,7 @@
 export const meta = {
   title: 'Manual installation',
   description:
-    'Learn how to get started with AWS Amplify (Gen 2) by manually installing.'
+    'Learn how to get started with AWS Amplify Gen 2 by manually installing.'
 };
 
 export function getStaticProps(context) {
@@ -19,7 +19,7 @@ The easiest way to get started with AWS Amplify is through [npm](https://npmjs.c
 First, if your frontend framework of choice doesn't have it already, create your project's `package.json` with `npm init -y`. Then, install the Amplify dependencies for building a backend:
 
 ```bash
-npm add --save-dev @aws-amplify/backend @aws-amplify/backend-cli typescript
+npm add --save-dev @aws-amplify/backend@beta @aws-amplify/backend-cli@beta typescript
 ```
 
 <Callout info>
@@ -40,7 +40,7 @@ Now you can run `npx amplify sandbox` to create your first backend!
 
 <Callout warning>
 
-Amplify (Gen 2) requires your backend to be configured for use with [ECMAScript modules (ESM)](https://nodejs.org/api/esm.html). If you encounter the following error during `amplify sandbox`, consider modifying your `package.json` with `"type": "module"`:
+Amplify Gen 2 requires your backend to be configured for use with [ECMAScript modules (ESM)](https://nodejs.org/api/esm.html). If you encounter the following error during `amplify sandbox`, consider modifying your `package.json` with `"type": "module"`:
 
 ```text
 The current file is a CommonJS module whose imports will produce 'require' calls; however, the referenced file is an ECMAScript module and cannot be imported with 'require'. Consider writing a dynamic 'import("@aws-amplify/backend")' call instead.
@@ -99,7 +99,7 @@ defineBackend({
 You can also update an existing frontend app. To upgrade existing Amplify code-first DX (Gen 2) apps, use your Node.js package manager (for example, `npm`) to update relevant backend packages:
 
 ```bash
-npm update @aws-amplify/backend @aws-amplify/backend-cli
+npm update @aws-amplify/backend@beta @aws-amplify/backend-cli@beta
 ```
 
 ## Next steps
