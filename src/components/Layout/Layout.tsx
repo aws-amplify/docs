@@ -9,7 +9,6 @@ import {
   ThemeProvider,
   View
 } from '@aws-amplify/ui-react';
-import classNames from 'classnames';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
 import { gen1Theme } from '@/themes/gen1Theme';
