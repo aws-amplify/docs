@@ -13,8 +13,10 @@ const excludedErrors = [
 const excludedScripts = [
   'prod.assets.shortbread.aws',
   'prod.tools.shortbread.aws',
+  'prod.tools.shortbread.aws.dev',
   'aa0.awsstatic.com',
-  'alpha.d2c.marketing.aws.dev'
+  'alpha.d2c.marketing.aws.dev',
+  'vs-alpha.aws.amazon.com'
 ];
 
 const LOCALHOST = 'http://localhost:3000';
