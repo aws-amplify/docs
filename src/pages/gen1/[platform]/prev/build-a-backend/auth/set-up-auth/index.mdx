@@ -393,7 +393,7 @@ Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift
 First, install the `@aws-amplify/ui-react` library as well as `aws-amplify` if you have not already:
 
 ```sh
-npm install aws-amplify @aws-amplify/ui-react
+npm install aws-amplify@^5 @aws-amplify/ui-react@^5
 ```
 
 Next, open **src/App.js** and add the `withAuthenticator` component.
@@ -461,7 +461,7 @@ export default withAuthenticator(App);
 First, install the `@aws-amplify/ui-vue` library as well as `aws-amplify` if you have not already:
 
 ```bash
-npm install aws-amplify @aws-amplify/ui-vue
+npm install aws-amplify@^5 @aws-amplify/ui-vue@^3
 ```
 
 Next, open **src/App.js** and add the `Authenticator` component.
@@ -492,55 +492,12 @@ The `Authenticator` component offers a simple way to add authentication flows in
 ```
 
 </Block>
-<Block name="Vue 2">
-
-First, install the `@aws-amplify/ui-components` library as well as `aws-amplify` if you have not already:
-
-```bash
-npm install aws-amplify @aws-amplify/ui-components
-```
-
-Now open **src/main.js** and add the following below your last import:
-
-```js
-import '@aws-amplify/ui-components';
-import {
-  applyPolyfills,
-  defineCustomElements
-} from '@aws-amplify/ui-components/loader';
-import Vue from 'vue';
-
-Vue.config.ignoredElements = [/amplify-\w*/];
-
-applyPolyfills().then(() => {
-  defineCustomElements(window);
-});
-```
-
-Next, open **src/App.js** and add the `amplify-authenticator` component.
-
-**amplify-authenticator**
-
-The `amplify-authenticator` component offers a simple way to add authentication flows into your app. This component encapsulates an authentication workflow in the framework of your choice and is backed by the cloud resources set up in your Auth cloud resources. You will also notice the `amplify-sign-out` component. This is an optional component if you’d like to render a sign-out button.
-
-```html
-<template>
-  <amplify-authenticator>
-    <div>
-      My App
-      <amplify-sign-out></amplify-sign-out>
-    </div>
-  </amplify-authenticator>
-</template>
-```
-
-</Block>
 <Block name="Angular">
 
 First, install the `@aws-amplify/ui-angular` library as well as `aws-amplify` if you have not already:
 
 ```bash
-npm install aws-amplify @aws-amplify/ui-angular
+npm install aws-amplify@^5 @aws-amplify/ui-angular@^4
 ```
 
 Now open **app.module.ts** and add the Amplify imports and configuration:

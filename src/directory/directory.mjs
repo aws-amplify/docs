@@ -156,9 +156,6 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/data/customize-authz/configure-custom-identity-and-group-claim/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/data/customize-authz/use-iam-authz-within-appsync-console/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/build-a-backend/data/customize-authz/grant-lambda-function-access-to-api/index.mdx'
                     }
                   ]
