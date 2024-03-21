@@ -27,6 +27,8 @@ const checkPage = async (url) => {
 
   const page = await browser.newPage();
 
+  await page.setRequestInterception(true);
+
   page
     .on('pageerror', (message) => {
       const errorText = message.message;
@@ -60,6 +62,15 @@ const checkPage = async (url) => {
           });
         }
       }
+    })
+    .on('request', (interceptedRequest) => {
+      const excludedFromScript = excludedScripts.some((excludedScript) => {
+        return interceptedRequest.url().includes(excludedScript);
+      });
+      if (excludedFromScript) {
+        console.log(`Aborting call ${interceptedRequest.url()}`);
+        interceptedRequest.abort();
+      } else interceptedRequest.continue();
     });
 
   await page.goto(url, { waitUntil: 'domcontentloaded' });
