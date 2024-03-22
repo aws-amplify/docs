@@ -91,13 +91,33 @@ Within your function handler, you can access environment variables using the nor
 
 ```ts title="amplify/functions/my-demo-function/handler.ts"
 // highlight-next-line
-import { env } from '$amplify/env/my-demo-function'; // the import is '$amplify/env/<function name>'
+import { env } from '$amplify/env/my-demo-function'; // the import is '$amplify/env/<function-name>'
 
 export const handler = async (event) => {
   env. // the env object has intellisense for all environment variables that are available to the function
   return 'You made a function!';
 };
 ```
+
+<Accordion title='Understanding the "env" symbol and how to manually configure your Amplify project to use it' headingLevel='4' eyebrow='Learn more'>
+
+At the end of [AWS Cloud Development Kit's (AWS CDK)](https://aws.amazon.com/cdk/) synthesis, Amplify gathers names of environment variables that will be available to the function at runtime and generates the file `.amplify/generated/env/<function-name>.ts`.
+
+If you created your project with [`create-amplify`](https://www.npmjs.com/package/create-amplify), then Amplify has already set up your project to use the `env` symbol.
+
+If you did not, you will need to manually configure your project. Within your `amplify/tsconfig.json` file add a `paths` compiler option:
+
+```json title="amplify/tsconfig.json"
+{
+  "compilerOptions": {
+    "paths": {
+      "$amplify/*": ["../.amplify/generated/*"]
+    }
+  }
+}
+```
+
+</Accordion>
 
 ## Secret access
 
