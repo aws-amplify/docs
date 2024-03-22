@@ -2,11 +2,18 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
-import { GetStartedPopover } from '@/components/GetStartedPopover';
+import {
+  GetStartedPopover,
+  generateGetStartedLinks
+} from '@/components/GetStartedPopover';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { Flex, Heading, Text } from '@aws-amplify/ui-react';
 import LinkCards from '@/components/LinkCards';
 import PlatformFeatureList from '@/components/FeatureLists/PlatformFeatureList';
+import {
+  gen1GetStartedHref,
+  gen1HowAmplifyWorksPathname
+} from '@/data/index-page-data';
 
 export const meta = {
   title: 'Overview',
@@ -59,7 +66,7 @@ const PlatformOverview = ({ platform }) => {
             variation="primary"
             size="large"
             href={{
-              pathname: '/[platform]/how-amplify-works',
+              pathname: gen1HowAmplifyWorksPathname,
               query: { platform: platform }
             }}
           >
@@ -67,7 +74,10 @@ const PlatformOverview = ({ platform }) => {
             <IconChevron className="icon-rotate-270" fontSize=".875em" />
           </InternalLinkButton>
 
-          <GetStartedPopover platform={platform} />
+          <GetStartedPopover
+            platform={platform}
+            getStartedLinks={generateGetStartedLinks(gen1GetStartedHref)}
+          />
         </Flex>
       </Flex>
       <Flex direction="column">
