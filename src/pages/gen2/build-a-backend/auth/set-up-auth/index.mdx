@@ -156,7 +156,7 @@ import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 
 Amplify.configure(config);
 
-function App({ Component, pageProps, signOut, user }: WithAuthenticatorProps) {
+function App({ signOut, user }: WithAuthenticatorProps, { Component, pageProps }: AppProps) {
   return (
     <>
       <h1>Hello {user?.username}</h1>
