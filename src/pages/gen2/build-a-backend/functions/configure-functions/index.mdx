@@ -1,0 +1,20 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Configure functions',
+  description:
+    'Learn how to configure functions',
+    route: '/gen2/build-a-backend/functions/configure-functions'
+};
+
+export function getStaticProps() {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />
