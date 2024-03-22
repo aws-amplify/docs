@@ -12,6 +12,14 @@ export function getStaticProps() {
   };
 }
 
+Amplify Gen 2 Functions support setting environment variables and secrets on the `environment` property of `defineFunction`.
+
+<Callout warning>
+
+**Note:** do not store secret values in environment variables. Environment variables values are rendered in plaintext to the build artifacts located at `.amplify/artifacts` and may be emitted to CloudFormation stack event messages. To store secrets [skip to the secrets section](#secrets)
+
+</Callout>
+
 ## Environment variables
 
 Environment variables can be configured in `defineFunction` using the `environment` property.
@@ -54,7 +62,7 @@ export const handler = async (event) => {
 };
 ```
 
-## Secret access
+## Secrets
 
 Sometimes it is necessary to provide a secret value to a function. For example, it may need a database password or an API key to perform some business use case. Environment variables should NOT be used for this because environment variable values are included in plaintext in the function configuration. Instead, secret access can be used.
 
