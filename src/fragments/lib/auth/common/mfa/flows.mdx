@@ -219,13 +219,23 @@ You can use Time-based One-Time Password (TOTP) for multi-factor authentication 
 
 ### Setting up TOTP for a user
 
+<InlineFilter filters={['android']}>
+After you initiate a user sign in with the `signIn` API where a user is required to set up TOTP as an MFA method, the API call will return `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
+</InlineFilter>
+<InlineFilter filters={['swift', 'flutter']}>
 After you initiate a user sign in with the `signIn` API where a user is required to set up TOTP as an MFA method, the API call will return `continueSignInWithTOTPSetup` as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
+</InlineFilter>
 
 - MFA is marked as **Required** in Cognito User Pool.
 - TOTP is enabled in the Cognito User Pool
 - User does not have TOTP MFA set up already.
 
+<InlineFilter filters={['android']}>
+The `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app.
+</InlineFilter>
+<InlineFilter filters={['swift', 'flutter']}>
 The `continueSignInWithTOTPSetup` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app.
+</InlineFilter>
 
 Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 
@@ -599,15 +609,87 @@ Future<void> updateMfaPreferences() async {
 
 </InlineFilter>
 
+<InlineFilter filters={['android']}>
+If multiple MFA methods are enabled for the user, the `signIn` API will return `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
+</InlineFilter>
+<InlineFilter filters={['swift', 'flutter']}>
 If multiple MFA methods are enabled for the user, the `signIn` API will return `continueSignInWithMFASelection` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
+</InlineFilter>
 
 import iosContinueSignInWithMFASelection from '/src/fragments/lib/auth/ios/signin_next_steps/91_continue_mfa_selection_code.mdx';
 
 <Fragments fragments={{ swift: iosContinueSignInWithMFASelection }} />
 
-import androidContinueSignInWithMFASelection from '/src/fragments/lib/auth/android/signin_next_steps/91_confirm_totp_mfa.mdx';
+<InlineFilter filters={['android']}>
 
-<Fragments fragments={{ android: androidContinueSignInWithMFASelection }} />
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.confirmSignIn(
+    MFATypeUtil.getChallengeResponse(MFAType.TOTP),
+    result -> {
+        if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE) {
+          Log.i("AuthQuickStart", "Received next step as confirm sign in with TOTP");
+        }
+        // ...
+    },
+    error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmSignIn(
+    MFAType.TOTP.challengeResponse,
+    { result ->
+        if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE) {
+          Log.i("AuthQuickStart", "Received next step as confirm sign in with TOTP");
+        }
+        // ...
+    },
+    { error -> Log.e("AuthQuickstart", "Confirm sign in failed: $error") }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+  val result = Amplify.Auth.confirmSignIn(MFAType.TOTP.challengeResponse)
+  if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE) {
+    Log.i("AuthQuickStart", "Received next step as confirm sign in with TOTP");
+  }
+  // ...
+} catch(error: Exception) {
+  Log.e("AuthQuickstart", "Confirm sign in failed: $error")
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmSignIn(
+  MFATypeUtil.getChallengeResponse(MFAType.TOTP)
+).subscribe(
+  result -> {
+    if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE) {
+      Log.i("AuthQuickStart", "Received next step as confirm sign in with TOTP");
+    }
+    // ...
+  },
+  error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
 
 <InlineFilter filters={['flutter']}>
 
