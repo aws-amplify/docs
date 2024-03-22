@@ -2102,12 +2102,10 @@ export const directory = {
                   path: 'src/pages/gen2/build-a-backend/functions/set-up-function/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/functions/configure-functions/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/gen2/build-a-backend/functions/configure-functions/env-vars-and-secrets/index.mdx'
-                    }
-                  ]
+                  path: 'src/pages/gen2/build-a-backend/functions/environment-variables-and-secrets/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/functions/additional-configuration/index.mdx'
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/functions/grant-access-to-other-resources/index.mdx'
