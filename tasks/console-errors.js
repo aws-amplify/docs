@@ -68,7 +68,6 @@ const checkPage = async (url) => {
         return interceptedRequest.url().includes(excludedScript);
       });
       if (excludedFromScript) {
-        console.log(`Aborting call ${interceptedRequest.url()}`);
         interceptedRequest.abort();
       } else interceptedRequest.continue();
     });
