@@ -2,7 +2,7 @@ import { Heading, Text, Flex, Card } from '@aws-amplify/ui-react';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import {
   GetStartedPopover,
-  gen2GetStartedLinks
+  generateGetStartedLinks
 } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
@@ -11,6 +11,10 @@ import { FeatureItem, FeatureList } from '@/components/FeatureLists';
 import { MDXCode } from '@/components/MDXComponents';
 import { Columns } from '@/components/Columns';
 import ExportedImage from 'next-image-export-optimizer';
+import {
+  gen2GetStartedHref,
+  gen2HowAmplifyWorksPathname
+} from '@/data/index-page-data';
 
 const meta = {
   title: 'Amplify Documentation',
@@ -48,7 +52,7 @@ export default function Page() {
             variation="primary"
             size="large"
             href={{
-              pathname: '/[platform]/how-amplify-works',
+              pathname: gen2HowAmplifyWorksPathname,
               query: { platform: DEFAULT_PLATFORM }
             }}
           >
@@ -61,7 +65,7 @@ export default function Page() {
           </InternalLinkButton>
           <GetStartedPopover
             platform={DEFAULT_PLATFORM}
-            getStartedLinks={gen2GetStartedLinks}
+            getStartedLinks={generateGetStartedLinks(gen2GetStartedHref)}
           />
         </Flex>
       </Flex>

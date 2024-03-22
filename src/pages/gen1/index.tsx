@@ -3,12 +3,16 @@ import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
 import {
   GetStartedPopover,
-  gen1GetStartedLinks
+  generateGetStartedLinks
 } from '@/components/GetStartedPopover';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { Flex, Heading, Text } from '@aws-amplify/ui-react';
 import LinkCards from '@/components/LinkCards';
 import PlatformFeatureList from '@/components/FeatureLists/PlatformFeatureList';
+import {
+  gen1GetStartedHref,
+  gen1HowAmplifyWorksPathname
+} from '@/data/index-page-data';
 
 export const meta = {
   title: 'Amplify Docs (Gen 1)',
@@ -45,7 +49,7 @@ const PlatformOverview = () => {
             variation="primary"
             size="large"
             href={{
-              pathname: '/gen1/[platform]/how-amplify-works',
+              pathname: gen1HowAmplifyWorksPathname,
               query: { platform: DEFAULT_PLATFORM }
             }}
           >
@@ -55,7 +59,7 @@ const PlatformOverview = () => {
 
           <GetStartedPopover
             platform={DEFAULT_PLATFORM}
-            getStartedLinks={gen1GetStartedLinks}
+            getStartedLinks={generateGetStartedLinks(gen1GetStartedHref)}
           />
         </Flex>
       </Flex>

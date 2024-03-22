@@ -9,11 +9,14 @@ import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import {
   GetStartedPopover,
-  gen2GetStartedLinks
+  generateGetStartedLinks
 } from '@/components/GetStartedPopover';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
-
+import {
+  gen2GetStartedHref,
+  gen2HowAmplifyWorksPathname
+} from '@/data/index-page-data';
 export const meta = {
   title: 'Amplify Docs (Gen 2)',
   description:
@@ -67,7 +70,7 @@ const Gen2Overview = () => {
             variation="primary"
             size="large"
             href={{
-              pathname: '/[platform]/how-amplify-works',
+              pathname: gen2HowAmplifyWorksPathname,
               query: { platform: currentPlatform }
             }}
           >
@@ -80,7 +83,7 @@ const Gen2Overview = () => {
           </InternalLinkButton>
           <GetStartedPopover
             platform={currentPlatform}
-            getStartedLinks={gen2GetStartedLinks}
+            getStartedLinks={generateGetStartedLinks(gen2GetStartedHref)}
           />
         </Flex>
       </Flex>

@@ -4,6 +4,7 @@ import { Popover } from '@/components/Popover';
 import { DEFAULT_PLATFORM, Platform } from '@/data/platforms';
 import { useIsGen1Page } from '@/utils/useIsGen1Page';
 import { UrlObject } from 'url';
+import { gen1GetStartedHref, gen2GetStartedHref } from '@/data/index-page-data';
 
 export type GetStartedLinksType = {
   title: string;
@@ -29,9 +30,7 @@ export const GetStartedPopover = ({
         size="large"
         className="split-button__start"
         href={{
-          pathname: isGen1Page
-            ? '/gen1/[platform]/start/getting-started/introduction/'
-            : '/[platform]/start/quickstart/',
+          pathname: isGen1Page ? gen1GetStartedHref : gen2GetStartedHref,
           query: { platform: platform }
         }}
       >

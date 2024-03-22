@@ -9,20 +9,29 @@ import {
   IconVue
 } from '@/components/Icons';
 import { GetStartedLinksType } from './GetStartedPopover';
-import { PLATFORMS, PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
-
-const gen1GetStartedHref =
-  '/gen1/[platform]/start/getting-started/introduction/';
-
-const gen2GetStartedHref = '/[platform]/start/quickstart/';
+import { PLATFORM_DISPLAY_NAMES, Platforms } from '@/data/platforms';
 
 /**
  * Generates get started links for all platforms with the same get started url
  * @param getStartedPathname
  * @returns {GetStartedLinksType[]} The get started link objects to be used in GetStartedPopover component
  */
-function generateGetStartedLinks(getStartedPathname): GetStartedLinksType[] {
-  const getStartedItems: Partial<GetStartedLinksType>[] = PLATFORMS.map(
+export function generateGetStartedLinks(
+  getStartedPathname
+): GetStartedLinksType[] {
+  const platformOrder: Platforms = [
+    'react',
+    'javascript',
+    'flutter',
+    'swift',
+    'android',
+    'react-native',
+    'angular',
+    'nextjs',
+    'vue'
+  ];
+
+  const getStartedItems: Partial<GetStartedLinksType>[] = platformOrder.map(
     (platform) => ({
       title: PLATFORM_DISPLAY_NAMES[platform],
       platform: platform
@@ -117,7 +126,3 @@ function generateGetStartedLinks(getStartedPathname): GetStartedLinksType[] {
 
   return getStartedItems as GetStartedLinksType[];
 }
-
-export const gen1GetStartedLinks = generateGetStartedLinks(gen1GetStartedHref);
-
-export const gen2GetStartedLinks = generateGetStartedLinks(gen2GetStartedHref);
