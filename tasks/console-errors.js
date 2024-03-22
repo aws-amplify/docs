@@ -58,7 +58,8 @@ const checkPage = async (url) => {
         if (!excluded) {
           errorsFound.push({
             page: url,
-            message: errorText
+            message: errorText,
+            stackTrace: message.stackTrace()
           });
         }
       }
@@ -81,13 +82,16 @@ const checkPage = async (url) => {
 
 const consoleErrors = async (domain) => {
   let pagesToCheck = await getSitemapUrls(domain);
+  pagesToCheck = [
+    'http://localhost:3000/android/tools/console/authz/permissions/'
+  ];
   let errorMessage = '';
   for (let i = 0; i < pagesToCheck.length; i++) {
     let url = pagesToCheck[i];
     console.log(`checking page ${url}`);
     let errorsFound = await checkPage(url);
     errorsFound.forEach((error) => {
-      errorMessage += `${error.message} found on ${error.page}\n`;
+      errorMessage += `${error.message} found on ${error.page}\n${error.stackTrace ? JSON.stringify(error.stackTrace) + '\n' : ''}`;
     });
   }
   console.log(errorMessage);
