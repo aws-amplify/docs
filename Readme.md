@@ -91,6 +91,8 @@ When linking to other pages within the docs.amplify.aws site, do not use relativ
 
 To incorporate new platform-specific content within a page, please use [Inline Filters](https://github.com/aws-amplify/docs/blob/main/Readme.md#inline-filters).
 
+Please note: we do allow fragments in some cases where content is intended to be reused and cannot be via InlineFilters
+
 When editing content that hasn't been migrated, you may see the following pattern:
 
 ```jsx
