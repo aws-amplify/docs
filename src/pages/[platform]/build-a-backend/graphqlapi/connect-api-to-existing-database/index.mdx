@@ -83,20 +83,18 @@ Go to the Systems Manager console, navigate to Parameter Store, and click "Creat
 
 Your Systems Manager configuration should look something like this:
 
-![Storing Database Credentials in SSM](/images/storing-db-creds-in-ssm.png)
+![Database credentials stored in SSM Parameter Store as Secure Strings](/images/storing-db-creds-in-ssm.png)
 </Block>
 <Block name="Secrets Manager">
-First, place your database connection information (hostname, username, password, port, and database name) into Secrets Manger.
+First, place your database connection information (hostname, username, password, port, and database name) into Secrets Manager.
 
 Go to the Secrets Manager console, navigate to Secrets, and click "Store a new secret". You may create the secret in any manner as long as there are `username` and `password` keys defined.
 
+![Database credentials stored in Secrets Manager with username and password defined](/images/storing-db-creds-in-secrets-manager.png)
+
 Optionally, you can decide whether to encrypt the secret using the KMS key that Secrets Manager creates or a customer managed KMS key that you create.
 
-You can also optionally configure a rotation schedule and create a lambda or choose an existing one from your account to rotate the database credentials automatically.
-
-When viewing your new secret's value, it should look something like this:
-
-![Storing Database Credentials in Secrets Manager](/images/storing-db-creds-in-secrets-manager.png)
+You can also configure a rotation schedule and create a Lambda function or choose an existing Lambda function from your account to rotate the database credentials automatically.
 </Block>
 </BlockSwitcher>
 
