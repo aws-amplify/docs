@@ -1062,6 +1062,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli/migration/identity-claim-changes/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/migration/iam-auth-updates-for-cdk-construct/index.mdx'
                     }
                   ]
                 },

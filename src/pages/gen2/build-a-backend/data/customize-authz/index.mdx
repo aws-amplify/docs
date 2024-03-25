@@ -41,9 +41,9 @@ Use the guide below to select the correct authorization strategy for your use ca
 | **Recommended use case** | **Strategy** | **Provider** |
 |---|---|---|
 | [Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access.](/gen2/build-a-backend/data/customize-authz/public-data-access) | `public` | `apiKey` |
-| [Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls.](/gen2/build-a-backend/data/customize-authz/public-data-access/#add-public-authorization-rule-using-iam-authentication) | `public` | `iam` |
+| [Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using Amazon Cognito identity pool's role for unauthenticated identities.](/gen2/build-a-backend/data/customize-authz/public-data-access/#add-public-authorization-rule-using-iam-authentication) | `public` | `identityPool` |
 | [Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify/auth/resource.ts` Cognito user pool by default.](/gen2/build-a-backend/data/customize-authz/per-user-per-owner-data-access) | `owner` | `userPools` / `oidc` |
-| [Any signed-in data access. Unlike owner-based access, **any** signed-in user has access.](/gen2/build-a-backend/data/customize-authz/signed-in-user-data-access) | `private` | `userPools` / `oidc` / `iam` |
+| [Any signed-in data access. Unlike owner-based access, **any** signed-in user has access.](/gen2/build-a-backend/data/customize-authz/signed-in-user-data-access) | `private` | `userPools` / `oidc` / `identityPool` |
 | [Per user group data access. A specific or dynamically configured group of users has access.](/gen2/build-a-backend/data/customize-authz/user-group-based-data-access) | `group` | `userPools` / `oidc` |
 | [Define your own custom authorization rule within a serverless function.](/gen2/build-a-backend/data/customize-authz/custom-data-access-patterns) | `custom` | `function` |
 
@@ -54,8 +54,6 @@ Authorization rules can be applied globally across all data models in a schema, 
 Amplify will always use the most specific authorization rule that is available. For example, if there is an authorization rule for a field and an authorization rule for the model that the field belongs to, Amplify will evaluate against the field-level authorization rule. Review [Field-level authorization rules](#field-level-authorization-rules) to learn more.
 
 If there are multiple authorization rules present, they will be logically OR'ed. Review [Configure multiple authorization rules](#configure-multiple-authorization-rules) to learn more.
-
-Finally, there are special "Admin IAM Roles" that allow you to overrule any authorization logic applied on the API and determine the API access completely via its IAM policy.
 
 ### Global authorization rule (only for getting started)
 
@@ -133,7 +131,7 @@ const schema = a.schema({
 ### Configure multiple authorization rules
 
 When combining multiple authorization rules, they are "logically OR"-ed. In the following example:
-- Any user (signed in or not, verified by IAM) is allowed to read all posts
+- Any user (using Amazon Cognito identity pool's unauthenticated roles) is allowed to read all posts
 - Owners are allowed to create, read, update, and delete their own posts
 
 ```ts
@@ -142,7 +140,7 @@ const schema = a.schema({
     title: a.string(),
     content: a.string()
   }).authorization([
-    a.allow.public("iam").to(["read"]),
+    a.allow.public("identityPool").to(["read"]),
     a.allow.owner()
   ])
 })
@@ -163,7 +161,7 @@ const { data: newPostResult , errors } = await client.models.Post.create({
 	authMode: 'userPool',
 });
 
-// Listing posts is available to all users (verified by IAM)
+// Listing posts is available to unauthenticated users (verified by Amazon Cognito identity pool's unauthenticated role)
 const { data: listPostsResult , errors } = await client.models.Post.list({
 	query: queries.listPosts,
 	authMode: 'iam',
