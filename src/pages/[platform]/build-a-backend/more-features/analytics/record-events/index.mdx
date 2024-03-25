@@ -116,4 +116,10 @@ import { flushEvents } from 'aws-amplify/analytics';
 flushEvents();
 ```
 
+<Callout>
+
+Analytics events will not be saved locally between application sessions. If the session is ended before an event can be sent, it will be lost. The `flushEvents` API can be used to send pending events to the service.
+
+</Callout>
+
 </InlineFilter>
