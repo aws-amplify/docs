@@ -69,6 +69,11 @@ code:not([class]) {
 
 .pre-code {
   flex: 1;
+  /* 
+   Safari on iOS requires the webkit prefix for text-size-adjust. 
+   text-size-adjust fixes some fonts from showing larger than normal in some browsers.
+  */
+  -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   font-size: 0.96em;
 }
