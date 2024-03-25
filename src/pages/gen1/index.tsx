@@ -1,4 +1,4 @@
-import { DEFAULT_PLATFORM, PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import { DEFAULT_PLATFORM } from '@/data/platforms';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
 import {
@@ -37,7 +37,7 @@ const PlatformOverview = () => {
     <Flex className="home-content">
       <Flex className="home-intro">
         <Heading level={1} className="home-intro__heading">
-          Amplify Documentation for {PLATFORM_DISPLAY_NAMES[DEFAULT_PLATFORM]}
+          Amplify Documentation
         </Heading>
         <Text className="home-intro__text">
           AWS Amplify streamlines full-stack app development. With its
