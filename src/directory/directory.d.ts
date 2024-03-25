@@ -12,12 +12,6 @@ export type PageNode = {
   description: string;
 
   /**
-   * Used to apply a featured style/layout in list components,
-   * like the Overview component
-   */
-  featured?: boolean;
-
-  /**
    * Denotes whether the page should be included in the side nav.
    * Set as a page level static prop
    */
@@ -43,6 +37,11 @@ export type PageNode = {
    * The relative file path of the page
    */
   path?: string;
+
+  /**
+   * Used to pin pages to the top of lists like in the Overview component
+   */
+  pinned?: boolean;
 
   /**
    * The platforms that the pages apply to

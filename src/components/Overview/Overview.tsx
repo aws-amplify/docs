@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Platform } from '@/data/platforms';
 import { Columns } from '@/components/Columns';
+import { IconPushPin } from '@/components/Icons';
 
 type OverviewProps = {
   childPageNodes: PageNode[];
@@ -25,15 +26,15 @@ export function Overview({ childPageNodes }: OverviewProps) {
       return true;
     }
   });
-
-  const featuredNodes = nodes.filter((node) => node.featured);
-  const notFeaturedNodes = nodes.filter((node) => !node.featured);
-  console.log(featuredNodes.length > 0);
+  console.log('nodes: ', nodes);
+  const pinnedNodes = nodes.filter((node) => node.pinned);
+  const notPinnedNodes = nodes.filter((node) => !node.pinned);
+  console.log(pinnedNodes.length > 0);
   return (
     <Flex direction="column" gap="xl">
-      {featuredNodes?.length > 0 ? (
+      {pinnedNodes?.length > 0 ? (
         <Flex direction="column" className="overview">
-          {featuredNodes.map((node) => (
+          {pinnedNodes.map((node) => (
             <Link
               key={node.route}
               className="overview__link"
@@ -45,19 +46,36 @@ export function Overview({ childPageNodes }: OverviewProps) {
               rel={node.isExternal ? '"noopener noreferrer"' : undefined}
             >
               <Card
-                className="overview__link__card overview__link__card--featured"
+                className="overview__link__card overview__link__card--pinned"
                 variation="outlined"
               >
-                <Flex className="overview__featured-container">
-                  <Flex className="overview__featured-container__heading">
-                    <Badge size="small" className="overview-badge">
-                      Featured
-                    </Badge>
+                {/* overlap version */}
+                <Badge className="overview-badge" fontSize="small">
+                  <Flex gap="xxs" as="span">
+                    <IconPushPin /> Pinned
                   </Flex>
+                </Badge>
+                {/* /overlap version */}
+                <Flex className="overview__pinned-container">
                   <Flex direction="column" gap="xs" alignItems="flex-start">
-                    <Text fontSize="xl" className="overview__link__card__title">
+                    {/* <Badge
+                      size="small"
+                      className="overview-badge"
+                      marginInlineEnd="small"
+                    >
+                      <Flex gap="xxs">
+                        <IconPushPin /> Pinned
+                      </Flex>
+                    </Badge> */}
+
+                    <Text
+                      fontSize="xl"
+                      as="span"
+                      className="overview__link__card__title"
+                    >
                       {node.title}
                     </Text>
+
                     <View className="overview__link__card__description">
                       {node.description}
                     </View>
@@ -69,7 +87,7 @@ export function Overview({ childPageNodes }: OverviewProps) {
         </Flex>
       ) : null}
       <Columns columns={2} size="small" className="overview">
-        {notFeaturedNodes.map((node) => (
+        {notPinnedNodes.map((node) => (
           <Link
             key={node.route}
             className="overview__link"
