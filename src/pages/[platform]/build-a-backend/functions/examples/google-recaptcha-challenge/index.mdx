@@ -1,10 +1,9 @@
-import { getChildPageNodes } from '@/utils/getChildPageNodes';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Functions',
+  title: 'Google reCAPTCHA challenge',
   description:
-    'Use AWS Lambda functions to perform tasks and customize workflows.',
+    'Leverage Google reCAPTCHA to protect against spam',
   platforms: [
     'android',
     'angular',
@@ -15,8 +14,7 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ],
-  route: '/[platform]/build-a-backend/functions'
+  ]
 };
 
 export function getStaticPaths() {
@@ -24,13 +22,9 @@ export function getStaticPaths() {
 }
 
 export function getStaticProps() {
-  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      meta,
-      childPageNodes
+      meta
     }
   };
 }
-
-<Overview childPageNodes={props.childPageNodes} />
