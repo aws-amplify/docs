@@ -17,8 +17,8 @@ async function updateTodo() {
     });
     const response = await restOperation.response;
     console.log('PUT call succeeded: ', response);
-  } catch (err) {
-    console.log('PUT call failed: ', err);
+  } catch (e) {
+    console.log('PUT call failed: ', JSON.parse(e.response.body));
   }
 }
 ```

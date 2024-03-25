@@ -1,7 +1,7 @@
 export const meta = {
-  title: 'Add custom business logic',
+  title: 'Add custom queries and mutations',
   description:
-    'Customize your business logic for queries, mutations, and subscriptions.'
+    'Customize your business logic for queries and mutations.'
 };
 
 export function getStaticProps() {
@@ -12,7 +12,7 @@ export function getStaticProps() {
   };
 }
 
-The `a.model()` data model provides a solid foundation for querying, mutating, and fetching data. However, you may need additional customizations to meet specific requirements around custom API requests, response formatting, and or fetching from external data sources.
+The `a.model()` data model provides a solid foundation for querying, mutating, and fetching data. However, you may need additional customizations to meet specific requirements around custom API requests, response formatting, and/or fetching from external data sources.
 
 In the following sections, we walk through the three steps to create a custom query or mutation:
 
@@ -104,26 +104,18 @@ export const data = defineData({
 
 ## Step 2 - Configure custom business logic handler code
 
-After your query or mutation is defined, you need to author your custom business logic. You can either define it in a function or using an [AppSync JavaScript resolver](TK).
+After your query or mutation is defined, you need to author your custom business logic. You can either define it in a [function](/gen2/build-a-backend/functions/) or using a [custom resolver powered by AppSync JavaScript resolver](https://docs.aws.amazon.com/appsync/latest/devguide/tutorials-js.html).
 
 <BlockSwitcher>
 
 <Block name="Function">
 
-In your **amplify/data/echo-handler/** folder, create a **handler.ts** file.
+In your `amplify/data/echo-handler/` folder, create a `handler.ts` file. You can import a utility type for your function handler via the `Schema` type from your backend resource. This gives you type-safe handler parameters and return values.
 
-```ts
-// amplify/data/echo-handler.ts
-import type { AppSyncResolverHandler } from 'aws-lambda'; // types imported from @types/aws-lambda
+```ts title="amplify/data/echo-handler.ts"
+import type { Schema } from './resource'
 
-type ResolverArgs = { content: string };
-
-type ResolverResult = { content: string; executionDuration: number };
-
-export const handler: AppSyncResolverHandler<
-  ResolverArgs,
-  ResolverResult
-> = async (event, context) => {
+export const handler: Schema["echo"]["functionHandler"] = async (event, context) => {
   const start = performance.now();
   return {
     content: `Echoing content: ${event.arguments.content}`,
@@ -132,17 +124,17 @@ export const handler: AppSyncResolverHandler<
 };
 ```
 
-In your **amplify/data/resource.ts** file, define the function using `defineFunction` and then reference the function with your query or mutation using the `.function()` modifier along with the `functions` map of `defineData`.
+In your `amplify/data/resource.ts` file, define the function using `defineFunction` and then reference the function with your query or mutation using `a.handler.function()` as a handler.
 
-```ts
-// amplify/data/resource.ts
+```ts title="amplify/data/resource.ts"
 import {
   type ClientSchema,
   a,
   defineData,
-  defineFunction // Step 1 - Import "defineFunction" to create new functions
+  defineFunction // 1.Import "defineFunction" to create new functions
 } from '@aws-amplify/backend';
 
+// 2. define a function
 const echoHandler = defineFunction({
   entry: './echo-handler/handler.ts'
 })
@@ -158,6 +150,7 @@ const schema = a.schema({
     .arguments({ content: a.string() })
     .returns(a.ref('EchoResponse'))
     .authorization([a.allow.public()])
+    // 3. set the function has the handler
     .handler(a.handler.function(echoHandler))
 });
 
@@ -177,12 +170,11 @@ export const data = defineData({
 </Block>
 <Block name="Custom resolver powered by AppSync JavaScript resolvers">
 
-Custom resolvers work on a "request/response" basis, you choose a data source, map your request to the data sources' input parameters, and then map the data source's response back to the query/mutation's return type. Custom resolvers provide the benefit of no cold starts but has some limitations, such as TK.
+Custom resolvers work on a "request/response" basis, you choose a data source, map your request to the data source's input parameters, and then map the data source's response back to the query/mutation's return type. Custom resolvers provide the benefit of no cold starts, less infrastructure to manage, and no additional charge for Lambda function invocations. Review [Choosing between custom resolver and function](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-reference-overview-js.html#choosing-data-source).
 
-In your **amplify/data/resource.ts** file, define a custom handler using `a.handler.custom`.
+In your `amplify/data/resource.ts` file, define a custom handler using `a.handler.custom`.
 
-```ts
-// amplify/data/resource.ts
+```ts title="amplify/data/resource.ts"
 import {
   type ClientSchema,
   a,
@@ -223,8 +215,7 @@ export const data = defineData({
 });
 ```
 
-```ts
-// amplify/data/increment-like.js
+```ts title="amplify/data/increment-like.js"
 export function request(ctx) {
   return {
     operation: 'UpdateItem',
@@ -251,14 +242,13 @@ The supported data sources are:
 - OpenSearch
 - HTTP endpoints
 
-You can add these additional data sources via our the `amplify/backend.ts` file:
+You can add these additional data sources via our `amplify/backend.ts` file:
 
-```ts
-// amplify/backend.ts
+```ts title="amplify/backend.ts"
 import * as dynamoDb from 'aws-cdk-lib/aws-dynamodb'
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 export const backend = defineBackend({
   auth,
@@ -269,15 +259,15 @@ const externalDataSourcesStack = backend.createStack("MyExternalDataSources")
 
 const externalTable = dynamoDb.Table.fromTableName(externalDataSourcesStack, "MyTable", "MyExternalTable")
 
-backend.data.addDynamoDbDataSource("ExternalTableDataSource", externalTable)
+backend.data.addDynamoDbDataSource(
+  // highlight-next-line
+  "ExternalTableDataSource",
+  externalTable)
 ```
-
-{/* Note: the above will be using the types of the L1 construct of "CfnDataSource" for now. It's not a one-way door, we can always add explicit L2 construct approaches in the future: ".addDynamoDbDataSource". We should enhance the L1 typings though, so based on what's passed into "type", we type-enforce the other fields. For example if you pass in "AMAZON_DYNAMODB", then you can't set "openSearchConfig"*/}
 
 In your schema you can then reference these additional data sources based on their name:
 
-```ts
-// amplify/data/resource.ts
+```ts title="amplify/data/resource.ts"
 import {
   type ClientSchema,
   a,
@@ -300,6 +290,7 @@ const schema = a.schema({
     .returns(a.ref('Post'))
     .authorization([a.allow.private()])
     .handler(a.handler.custom({
+      // highlight-next-line
       dataSource: "ExternalTableDataSource",
       entry: './increment-like.js'
     }))
@@ -321,16 +312,9 @@ export const data = defineData({
 </Block>
 </BlockSwitcher>
 
-<Callout info>
+<Callout warning>
 
-The `.handler()` accepts an array of handlers that will run in a pipeline. For example, you can add a common handler for input sanitization and then use different handlers to operate on the sanitized data:
-
-```ts
-.handler(
-  a.handler.function(inputValidator),
-  a.handler.function(actionHandler)
-)
-```
+The `.handler()` accepts an array of handlers that will run in a pipeline. For now, in the developer preview, you can only use `a.handler.custom()` and `a.handler.function()`. All other handlers, such as `a.handler.inlineSql()` are under active development. 
 
 </Callout>
 
@@ -342,7 +326,7 @@ All handlers must be of the same type. For example, you can't mix and match `a.h
 
 ## Step 3 - Invoke the custom query or mutation
 
-From your generated Data client, you can find all your custom queries and mutations under `.queries` and `.mutations` respectively.
+From your generated Data client, you can find all your custom queries and mutations under the `client.queries.` and `client.mutations.` APIs respectively.
 
 <BlockSwitcher>
 <Block name="Custom query">

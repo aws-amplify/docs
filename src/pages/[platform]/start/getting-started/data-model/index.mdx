@@ -691,7 +691,7 @@ export class TodosComponent implements OnInit {
       const response = await this.client.graphql({
         query: queries.listTodos
       });
-      this.todos = response.data.listTodos.items;
+      this.todos = response.data.listTodos;
     } catch (e) {
       console.log('error fetching todos', e);
     }
@@ -718,7 +718,7 @@ Add the following to your `src/app/todos/todos.component.html` to display any of
 
 ```html
 <div>
-  @for (todo of todos; track todo?.id) {
+  @for (todo of todos?.items; track todo?.id) {
   <div>{{ todo?.name }}</div>
   <div>{{ todo?.description }}</div>
   } @empty {
@@ -762,7 +762,7 @@ export class TodosComponent implements OnInit {
       next: (event: any) => {
         const newTodo = event.data.onCreateTodo;
         if(this.todos) {
-          this.todos = [newTodo, ...this.todos];
+          this.todos.items = [newTodo, ...this.todos.items];
         }
       }
     });
@@ -836,7 +836,7 @@ export class TodosComponent implements OnInit, OnDestroy {
       const response = await this.client.graphql({
         query: queries.listTodos
       });
-      this.todos = response.data.listTodos.items;
+      this.todos = response.data.listTodos;
     } catch (e) {
       console.log('error fetching todos', e);
     }
@@ -849,7 +849,7 @@ export class TodosComponent implements OnInit, OnDestroy {
         next: (event: any) => {
           const newTodo: Todo = event.data.onCreateTodo;
           if (this.todos) {
-            this.todos.items = [newTodo, ...this.todos];
+            this.todos.items = [newTodo, ...this.todos.items];
           }
         }
       });
