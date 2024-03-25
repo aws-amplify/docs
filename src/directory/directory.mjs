@@ -2105,7 +2105,7 @@ export const directory = {
                   path: 'src/pages/gen2/build-a-backend/functions/environment-variables-and-secrets/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/functions/additional-configuration/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/functions/configure-functions/index.mdx'
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/functions/grant-access-to-other-resources/index.mdx'
@@ -2131,10 +2131,7 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/functions/extend-with-cdk/index.mdx'
-                },
-                {
-                  path: 'src/pages/gen2/build-a-backend/functions/troubleshooting/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/functions/modify-resources-with-cdk/index.mdx'
                 }
               ]
             },
