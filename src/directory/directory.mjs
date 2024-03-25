@@ -2180,6 +2180,9 @@ export const directory = {
                       path: 'src/pages/gen1/[platform]/sdk/push-notifications/messaging-campaign/index.mdx'
                     },
                     {
+                      path: 'src/pages/gen2/build-a-backend/data/data-modeling/relationships/index.mdx'
+                    },
+                    {
                       path: 'src/pages/gen1/[platform]/sdk/push-notifications/setup-push-service/index.mdx'
                     }
                   ]

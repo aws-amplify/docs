@@ -9,7 +9,6 @@ import {
   ThemeProvider,
   View
 } from '@aws-amplify/ui-react';
-import classNames from 'classnames';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
 import { gen1Theme } from '@/themes/gen1Theme';
@@ -23,6 +22,7 @@ import {
 } from '@/data/platforms';
 import { SpaceShip } from '@/components/SpaceShip';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
+import { LayoutProvider, LayoutHeader } from '@/components/Layout';
 import { LayoutProvider, LayoutHeader } from '@/components/Layout';
 import { TableOfContents } from '@/components/TableOfContents';
 import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
