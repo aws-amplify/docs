@@ -21,6 +21,7 @@ export { IconMenu } from './IconMenu';
 export { IconNext } from './IconNext';
 export { IconNuxt } from './IconNuxt';
 export { IconPencil } from './IconPencil';
+export { IconPushPin } from './IconPushPin';
 export { IconReact } from './IconReact';
 export { IconSwift } from './IconSwift';
 export { IconStar } from './IconStar';

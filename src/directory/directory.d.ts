@@ -2,49 +2,14 @@ import { Platform } from '@/data/platforms';
 
 export type PageNode = {
   /**
-   * Title of the page
-   */
-  title: string;
-
-  /**
-   * Description of the page
-   */
-  description: string;
-
-  /**
-   * Denotes that node is an external link (used for the navigation menu)
-   */
-  isExternal?: boolean;
-
-  /**
-   * The platforms that the pages apply to
-   */
-  platforms: Platform[];
-
-  /**
-   * The relative file path of the page
-   */
-  path?: string;
-
-  /**
-   * The page's route (used for page navigation in Next.js) or external URL
-   */
-  route: string;
-
-  /**
    * The children pages
    */
   children?: PageNode[];
 
   /**
-   * Root url for the home page
+   * Description of the page
    */
-  url?: string;
-
-  /**
-   * String representing when file was last edited
-   */
-  lastUpdated?: string;
+  description: string;
 
   /**
    * Denotes whether the page should be included in the side nav.
@@ -57,4 +22,44 @@ export type PageNode = {
    * This is being used for categories like Cli - Legacy and SDK
    */
   hideChildrenOnBase?: boolean;
+
+  /**
+   * Denotes that node is an external link (used for the navigation menu)
+   */
+  isExternal?: boolean;
+
+  /**
+   * String representing when file was last edited
+   */
+  lastUpdated?: string;
+
+  /**
+   * The relative file path of the page
+   */
+  path?: string;
+
+  /**
+   * Used to pin pages to the top of lists like in the Overview component
+   */
+  pinned?: boolean;
+
+  /**
+   * The platforms that the pages apply to
+   */
+  platforms: Platform[];
+
+  /**
+   * The page's route (used for page navigation in Next.js) or external URL
+   */
+  route: string;
+
+  /**
+   * Title of the page
+   */
+  title: string;
+
+  /**
+   * Root url for the home page
+   */
+  url?: string;
 };
