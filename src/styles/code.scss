@@ -61,7 +61,7 @@ code:not([class]) {
   display: flex;
   margin: var(--amplify-space-xs) 0;
   padding-block: var(--amplify-space-xs);
-  font-size: var(--amplify-font-sizes-medium);
+  font-size: 0.96em;
   &:focus-visible {
     outline: none;
     box-shadow: 0 0 0 2px var(--amplify-colors-white) inset;
