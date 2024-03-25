@@ -68,6 +68,12 @@ record({
 });
 ```
 
+<Callout>
+
+Analytics events are buffered in memory and periodically sent to the service and not saved locally between application sessions. If the session is ended before a buffered event is sent, it will be lost. Use the `flushEvents` API to manually send buffered events to the service.
+
+</Callout>
+
 ## Record a Custom Event with Attributes
 
 The `record` API lets you add additional attributes to an event. For example, to record _artist_ information with an _albumVisit_ event:
@@ -115,11 +121,5 @@ import { flushEvents } from 'aws-amplify/analytics';
 
 flushEvents();
 ```
-
-<Callout>
-
-Analytics events will not be saved locally between application sessions. If the session is ended before an event can be sent, it will be lost. The `flushEvents` API can be used to send pending events to the service.
-
-</Callout>
 
 </InlineFilter>
