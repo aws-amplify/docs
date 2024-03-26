@@ -56,10 +56,20 @@ const checkPage = async (url) => {
         if (!excluded) {
           errorsFound.push({
             page: url,
-            message: errorText
+            message: errorText,
+            stackTrace: message.stackTrace()
           });
         }
       }
+    })
+
+    .on('request', (interceptedRequest) => {
+      const excludedFromScript = excludedScripts.some((excludedScript) => {
+        return interceptedRequest.url().includes(excludedScript);
+      });
+      if (excludedFromScript) {
+        interceptedRequest.abort();
+      } else interceptedRequest.continue();
     });
 
   await page.goto(url, { waitUntil: 'domcontentloaded' });
