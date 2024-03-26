@@ -183,7 +183,44 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/storage/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/functions/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/set-up-function/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/environment-variables-and-secrets/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/configure-functions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/grant-access-to-other-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/examples/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/email-domain-filtering/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/add-user-to-group/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/user-attribute-validation/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/google-recaptcha-challenge/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/bedrock-response/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/modify-resources-with-cdk/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx'
