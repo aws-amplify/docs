@@ -7,6 +7,7 @@ import { FeatureList, FeatureItem } from '@/components/FeatureLists';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
+import { Video } from '@/components/Video';
 import {
   GetStartedPopover,
   generateGetStartedLinks
@@ -139,20 +140,7 @@ const Gen2Overview = () => {
       </Flex>
       <Flex className="home-section">
         <Heading level={2}>Develop</Heading>
-        <video
-          src="/videos/typed-api.mp4"
-          style={{
-            width: '100%',
-            borderRadius: 'var(--amplify-radii-large)',
-            marginBottom: 'var(--amplify-space-small)',
-            boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
-          }}
-          autoPlay
-          muted
-          loop
-          playsInline={true}
-        />
-
+        <Video src="/videos/typed-api.mp4" />
         <Columns columns={2} as="ul">
           <FeatureItem
             linkText="TypeScript-first fullstack experience"
