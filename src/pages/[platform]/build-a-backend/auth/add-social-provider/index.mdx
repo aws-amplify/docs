@@ -419,6 +419,31 @@ After configuring the OAuth endpoints (with Cognito Hosted UI), you can integrat
 
 </InlineFilter>
 
+```ts
+import { Hub } from "aws-amplify/utils";
+import { signInWithRedirect, getCurrentUser } from "aws-amplify/auth";
+
+Hub.listen("auth", async ({ payload }) => {
+  switch (payload.event) {
+    case "signInWithRedirect":
+      const user = await getCurrentUser();
+      console.log(user.username);
+      break;
+    case "signInWithRedirect_failure":
+      const error = payload.data.error;
+      console.log(error);
+      // handle sign in failure
+      break;
+  }
+});
+
+function handleSignInClick(customState: string) {
+  signInWithRedirect({
+    provider: "Google",
+  });
+}
+```
+
 ### Add custom state
 
 A custom state is not required, but if you are looking to add one, you are able to do so by passing a string value (e.g. `signInWithRedirect({ customState: 'xyz' })`) and listening for the custom state via [Hub](/[platform]/build-a-backend/utilities/hub/). You can also use the Hub eventing system to catch errors using `signInWithRedirect()` to listen for the `signInWithRedirect_failure` event.
@@ -430,15 +455,17 @@ A custom state is not required, but if you are looking to add one, you are able 
 
 ```ts
 import { Hub } from "aws-amplify/utils";
-import { signInWithRedirect, getCurrentUser, AuthUser } from "aws-amplify/auth";
+import { signInWithRedirect, getCurrentUser } from "aws-amplify/auth";
 
-Hub.listen("auth", ({ payload }) => {
+Hub.listen("auth", async ({ payload }) => {
   switch (payload.event) {
     case "signInWithRedirect":
       const user = await getCurrentUser();
       console.log(user.username);
       break;
     case "signInWithRedirect_failure":
+      const error = payload.data.error;
+      console.log(error);
       // handle sign in failure
       break;
     case "customOAuthState":
@@ -462,13 +489,15 @@ function handleSignInClick(customState: string) {
 import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect, getCurrentUser } from "aws-amplify/auth";
 
-Hub.listen("auth", ({ payload }) => {
+Hub.listen("auth", async ({ payload }) => {
   switch (payload.event) {
     case "signInWithRedirect":
       const user = await getCurrentUser();
       console.log(user.username);
       break;
     case "signInWithRedirect_failure":
+      const error = payload.data.error;
+      console.log(error);
       // handle sign in failure
       break;
     case "customOAuthState":
@@ -513,7 +542,8 @@ function App() {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has occurred during the OAuth flow.");
+          const error = payload.data.error;
+          setError(`An error has occurred during the OAuth flow. - ${error}`);
           break;
         case "customOAuthState":
           setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
@@ -579,7 +609,8 @@ function App() {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has occurred during the OAuth flow.");
+          const error = payload.data.error;
+          setError(`An error has occurred during the OAuth flow. - ${error}`);
           break;
         case "customOAuthState":
           setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
@@ -659,7 +690,8 @@ function App(): JSX.Element {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has occurred during the OAuth flow.");
+          const error = payload.data.error;
+          setError(`An error has occurred during the OAuth flow. - ${error}`);
           break;
         case "customOAuthState":
           setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
@@ -719,7 +751,8 @@ function App() {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has occurred during the OAuth flow.");
+          const error = payload.data.error;
+          setError(`An error has occurred during the OAuth flow. - ${error}`);
           break;
         case "customOAuthState":
           setCustomState(payload.data);
@@ -834,7 +867,8 @@ function App() {
           getUser();
           break;
         case "signInWithRedirect_failure":
-          setError("An error has occurred during the Oauth flow.");
+          const error = payload.data.error;
+          setError(`An error has occurred during the OAuth flow. - ${error}`);
           break;
         case "customOAuthState":
           setCustomState(payload.data);
@@ -910,7 +944,8 @@ function App() {
           getUser();
           break;
         case 'signInWithRedirect_failure':
-          setError('An error has occurred during the Oauth flow.');
+          const error = payload.data.error;
+          setError(`An error has occurred during the OAuth flow. - ${error}`);
           break;
         case 'customOAuthState':
           setCustomState(payload.data);
@@ -987,7 +1022,22 @@ When you import and use the `signInWithRedirect` function, it will add a listene
 When using custom providers that are not provided by default in Cognito, you can pass an object to the `provider` parameter with the name of your custom provider.
 
 ```javascript
-import { signInWithRedirect } from 'aws-amplify/auth';
+import { Hub } from "aws-amplify/utils";
+import { signInWithRedirect, getCurrentUser } from "aws-amplify/auth";
+
+Hub.listen("auth", async ({ payload }) => {
+  switch (payload.event) {
+    case "signInWithRedirect":
+      const user = await getCurrentUser();
+      console.log(user.username);
+      break;
+    case "signInWithRedirect_failure":
+      const error = payload.data.error;
+      console.log(error);
+      // handle sign in failure
+      break;
+  }
+});
 
 const provider = {
   custom: 'MyCustomOIDCProvider'
