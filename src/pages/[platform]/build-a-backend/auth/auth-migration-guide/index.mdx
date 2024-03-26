@@ -244,13 +244,13 @@ Also notice that `userConfirmed` is no longer returned, and instead we return `n
         username,
         password,
         options: {
+          autoSignIn: true,
           userAttributes: {
             email,
             phone_number
           },
           validationData
         },
-        autoSignIn: true
       });
     }
 
