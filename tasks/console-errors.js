@@ -27,6 +27,8 @@ const checkPage = async (url) => {
 
   const page = await browser.newPage();
 
+  await page.setRequestInterception(true);
+
   page
     .on('pageerror', (message) => {
       const errorText = message.message;
