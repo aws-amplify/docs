@@ -1,7 +1,7 @@
  ```dart
 Future<void> resendVerificationCode() async {
   try {
-    final result = await Amplify.Auth.resendUserAttributeConfirmationCode(
+    final result = await Amplify.Auth.sendUserAttributeConfirmationCode(
       userAttributeKey: AuthUserAttributeKey.email,
     );
     _handleCodeDelivery(result.codeDeliveryDetails);
