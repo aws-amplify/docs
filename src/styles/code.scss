@@ -61,6 +61,14 @@ code:not([class]) {
   display: flex;
   margin: var(--amplify-space-xs) 0;
   padding-block: var(--amplify-space-xs);
+  font-size: var(--amplify-font-sizes-medium);
+  /* 
+   Safari on iOS requires the webkit prefix for text-size-adjust. 
+   text-size-adjust fixes some fonts from showing larger than normal in some browsers.
+  */
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+
   &:focus-visible {
     outline: none;
     box-shadow: 0 0 0 2px var(--amplify-colors-white) inset;
@@ -69,13 +77,6 @@ code:not([class]) {
 
 .pre-code {
   flex: 1;
-  /* 
-   Safari on iOS requires the webkit prefix for text-size-adjust. 
-   text-size-adjust fixes some fonts from showing larger than normal in some browsers.
-  */
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-  font-size: 0.96em;
 }
 
 .token-line {
