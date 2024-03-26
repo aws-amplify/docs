@@ -7,6 +7,7 @@ const routerMock = {
   useRouter: () => {
     return {
       query: { platform: 'react' },
+      asPath: '/react/build-a-backend/auth/manage-user-session',
       pathname: '/[platform]/build-a-backend/auth/manage-user-session'
     };
   }
@@ -31,6 +32,27 @@ describe('NextPrevious', () => {
     expect(nextPrevNode[1].textContent).toContain('NEXT');
     expect(nextPrevNode[1].href).toContain(
       '/react/build-a-backend/auth/manage-user-profile'
+    );
+  });
+
+  it('should render the NextPrevious component for gen1 pages', async () => {
+    routerMock.useRouter = () => {
+      return {
+        query: { platform: 'react' },
+        asPath: '/gen1/react/tools/cli/start/set-up-cli',
+        pathname: '/gen1/[platform]/tools/cli/start/set-up-cli'
+      };
+    };
+
+    render(<NextPrevious />);
+
+    const nextPrevNode: HTMLLinkElement[] = await screen.findAllByRole('link');
+
+    expect(nextPrevNode[0]).toBeInTheDocument();
+
+    expect(nextPrevNode[0].textContent).toContain('NEXT');
+    expect(nextPrevNode[0].href).toContain(
+      '/gen1/react/tools/cli/start/key-workflows'
     );
   });
 });
