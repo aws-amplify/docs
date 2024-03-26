@@ -150,6 +150,7 @@ const Gen2Overview = () => {
           autoPlay
           muted
           loop
+          playsInline={true}
         />
 
         <Columns columns={2} as="ul">
