@@ -18,7 +18,7 @@ The `multipleOwners` rule grants a set of users access to a record by automatica
 
 If you want to grant a set of users access to a record, you use the `multipleOwners` rule. This automatically creates a `owner: a.string().array()` field to store the allowed owners.
 
-```ts
+```ts title="amplify/data/resource.ts"
 const schema = a.schema({
   Todo: a
     .model({
@@ -26,6 +26,41 @@ const schema = a.schema({
     })
     .authorization([a.allow.multipleOwners()]),
 });
+```
+
+In your application, you can perform CRUD operations against the model using `client.models.<ModelName>` with the `userPool` auth mode.
+
+```ts
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
+
+const client = generateClient<Schema>();
+
+// Create a record with current user as first owner
+const { errors, data: newTodo } = await client.models.Todo.create(
+  {
+    content: 'My new todo',
+  },
+  // highlight-start
+  {
+    authMode: 'userPool',
+  }
+  // highlight-end
+);
+```
+```ts
+// Add another user as an owner
+await client.models.Todo.update(
+  {
+    id: newTodo.id,
+    owner: [...(newTodo.owner as string[]), otherUserId],
+  },
+  // highlight-start
+  {
+    authMode: "userPool"
+  }
+  // highlight-end
+);
 ```
 
 ## Override to a list of owners
