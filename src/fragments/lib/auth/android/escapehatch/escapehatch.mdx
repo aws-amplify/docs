@@ -5,10 +5,25 @@ The escape hatch provides access to the underlying `CognitoIdentityProviderClien
 
 **Gradle Imports**
 
+<BlockSwitcher>
+<Block name="Groovy DSL">
 ```groovy
-implementation "aws.sdk.kotlin:cognitoidentityprovider:KOTLIN_SDK_VERSION"
-implementation "aws.sdk.kotlin:cognitoidentity:KOTLIN_SDK_VERSION"
+dependencies {
+    implementation 'aws.sdk.kotlin:cognitoidentityprovider:KOTLIN_SDK_VERSION'
+    implementation 'aws.sdk.kotlin:cognitoidentity:KOTLIN_SDK_VERSION'
+}
 ```
+</Block>
+<Block name="Kotlin DSL">
+```kotlin
+dependencies {
+    implementation("aws.sdk.kotlin:cognitoidentityprovider:KOTLIN_SDK_VERSION")
+    implementation("aws.sdk.kotlin:cognitoidentity:KOTLIN_SDK_VERSION")
+}
+```
+</Block>
+</BlockSwitcher>    
+
 import android1 from "/src/fragments/lib/android-kotlin-java-interop.mdx";
 
 <BlockSwitcher>

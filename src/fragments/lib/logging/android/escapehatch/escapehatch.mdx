@@ -2,9 +2,25 @@ The escape hatch provides access to the underlying `CloudWatchLogsClient` instan
 
 **Gradle Imports**
 
-```groovy
-implementation "aws.sdk.kotlin:cloudwatchlogs:KOTLIN_SDK_VERSION"
-```
+<BlockSwitcher>
+    <Block name="Groovy DSL">
+        ```groovy
+            dependencies {
+                // Add the below line in `dependencies`        
+                implementation 'aws.sdk.kotlin:cloudwatchlogs:KOTLIN_SDK_VERSION'
+            }
+        ```
+    </Block>
+    
+    <Block name="Kotlin DSL">
+        ```kotlin
+            dependencies {
+                // Add the below line in `dependencies`
+                implementation("aws.sdk.kotlin:cloudwatchlogs:KOTLIN_SDK_VERSION")
+            }
+        ```
+    </Block>
+</BlockSwitcher>    
 
 <BlockSwitcher>
 <Block name="Java">

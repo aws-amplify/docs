@@ -1,12 +1,25 @@
 Expand **Gradle Scripts**, open **build.gradle (Module :app)**. You will already have configured Amplify by following the steps in the [Project Setup walkthrough](/[platform]/start/project-setup/create-application/).
 
 Add API by adding these libraries into the `dependencies` block:
-```groovy
-dependencies {
-    implementation 'com.amplifyframework:aws-api:ANDROID_VERSION'
-    implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
 
-}
-```
+<BlockSwitcher>
+    <Block name="Groovy DSL">
+        ```groovy
+            dependencies {
+                implementation 'com.amplifyframework:aws-api:ANDROID_VERSION'
+                implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
+            }
+        ```
+    </Block>
+    
+    <Block name="Kotlin DSL">
+        ```kotlin
+            dependencies {
+                implementation("com.amplifyframework:aws-api:ANDROID_VERSION")
+                implementation("com.amplifyframework:aws-auth-cognito:ANDROID_VERSION")
+            }
+        ```
+    </Block>
+</BlockSwitcher>    
 
 Click **Sync Now**.
