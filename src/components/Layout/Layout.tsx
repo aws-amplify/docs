@@ -88,7 +88,7 @@ export const Layout = ({
 
   const showNextPrev = NEXT_PREVIOUS_SECTIONS.some(
     (section) =>
-      asPathWithNoHash.includes(section) &&
+      pathname.includes(section) &&
       !asPathWithNoHash.endsWith(section) &&
       !isOverview
   );
