@@ -15,7 +15,10 @@ export const meta = {
     'swift',
     'vue'
   ]
-    
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
 };
 
 export function getStaticProps() {
