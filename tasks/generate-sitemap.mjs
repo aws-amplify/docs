@@ -1,8 +1,6 @@
 import { promises as fs } from 'fs';
-import { cwd } from 'node:process';
 import { execSync } from 'child_process';
 import crypto from 'node:crypto';
-import path from 'path';
 import * as cheerio from 'cheerio';
 import dotenv from 'dotenv';
 dotenv.config({ path: './.env.custom' });
@@ -12,7 +10,7 @@ const SITEMAP_DOMAIN = process.env.SITEMAP_DOMAIN
   : 'https://docs.amplify.aws';
 
 // Path of the Next.js static HTML build output
-const ROOT_PATH = path.resolve(cwd(), 'client/www/next-build');
+const ROOT_PATH = './client/www/next-build';
 
 const formatDate = (date) => `${date.toISOString().split('.')[0]}+0:00`;
 const getPriority = () => 0.5;
