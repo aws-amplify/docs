@@ -21,12 +21,12 @@ describe('BlockSwitcher', () => {
     const blockSwitcher = await screen.findByText(blockAContent);
     expect(blockSwitcher).toBeInTheDocument();
   });
-  
+
   it('should have more than one Block', async () => {
     render(component);
     expect(component.props.children.length).toBeGreaterThan(1);
   });
-  
+
   it('should show the first Block as default', async () => {
     render(component);
     const tabs = await screen.getAllByRole('tab');
@@ -39,7 +39,7 @@ describe('BlockSwitcher', () => {
     expect(panels[1]).not.toHaveClass('amplify-tabs__panel--active');
     expect(panels[2]).not.toHaveClass('amplify-tabs__panel--active');
   });
-  
+
   it('should load all Blocks to the DOM', async () => {
     render(component);
     const blockA = await screen.findByText(blockAContent);
@@ -49,7 +49,7 @@ describe('BlockSwitcher', () => {
     expect(blockB).toBeInTheDocument();
     expect(blockC).toBeInTheDocument();
   });
-  
+
   it('should switch tabs upon click', async () => {
     render(component);
     const tabs = await screen.getAllByRole('tab');
