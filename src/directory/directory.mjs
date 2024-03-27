@@ -378,12 +378,16 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/gen1/[platform]/start/sample-apps/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/gen1/[platform]/start/sample-apps/to-do-app/index.mdx'
-                    }
-                  ]
+                  path: 'src/pages/gen2/build-a-backend/data/custom-business-logic/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/custom-subscription/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/connect-from-server-runtime/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/override-resources/index.mdx'
                 }
               ]
             },
