@@ -17,6 +17,18 @@ const ROOT_PATH = './client/www/next-build';
 const formatDate = (date) => `${date.toISOString().split('.')[0]}+0:00`;
 const getPriority = () => 0.5;
 
+const PLATFORMS = [
+  'android',
+  'flutter',
+  'swift',
+  'angular',
+  'javascript',
+  'nextjs',
+  'react',
+  'react-native',
+  'vue'
+];
+
 const xmlHeader = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">`;
 const xmlUrlWrapper = (nodes) => `${xmlHeader}
@@ -71,18 +83,6 @@ function findHtmlFiles(dir) {
  * @returns {boolean}
  */
 function isInternalLink(href) {
-  const PLATFORMS = [
-    'android',
-    'flutter',
-    'swift',
-    'angular',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'vue'
-  ];
-
   let matches;
 
   if (href.startsWith('/gen1')) {
@@ -106,28 +106,14 @@ function isInternalLink(href) {
 }
 
 /**
- * Helper function to replace the platform specific subpath of the href argument with the string 'platform'.
- * This helps make the pages more uniform for when we hash the content from the main element
+ * Helper function to replace the platform specific subpath of the href argument with the string '[platform]'.
  * @param {string} href
- * @returns
+ * @returns String with the platform subpath replaced with '[platform]', if a specific platform is found
  */
 function replacePlatformHref(href) {
-  if (!href.startsWith('/contribute')) {
-    if (href.startsWith('/gen1')) {
-      const regex = /^\/gen1\/[^\/]+\//;
+  const platformRegex = new RegExp(`\/(${PLATFORMS.join('|')})\/`);
 
-      const test = href.replace(regex, '/gen1/[platform]/');
-      return test;
-    } else {
-      const regex = /^\/[^\/]+\//;
-
-      const test = href.replace(regex, '/[platform]/');
-
-      return test;
-    }
-  } else {
-    return href;
-  }
+  return href.replace(platformRegex, '/[platform]/');
 }
 
 /**
@@ -272,7 +258,6 @@ export async function generateSitemap() {
     (accumulatedPages, currentHashedEntry) => {
       const pagePaths = currentHashedEntry[1];
 
-      //
       const { directoryObject, canonicalPageName } =
         findCanonicalPage(pagePaths);
 
