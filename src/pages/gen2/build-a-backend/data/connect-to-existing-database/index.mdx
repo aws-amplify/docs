@@ -215,7 +215,7 @@ rdsSchema.addQueries({
 // highlight-end
 
 // highlight-start
-rdsSchema.setSqlStatementFolderPath(path.join(__dirname, 'aurora-statements'))
+rdsSchema.setSqlStatementFolderPath('./aurora-statements/'))
 // Create a "updateTodoBasedOnLocation.sql" file with the statement
 rdsSchema.addMutation({
   updateTodoBasedOnLocation: a.mutation()
