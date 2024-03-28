@@ -1,0 +1,93 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Identify user',
+  description: 'Use the Amplify analytics plugin to inform Pinpoint about your users.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'angular',
+        'react',
+        'vue',
+        'nextjs'
+      ],
+      canonicalPath: '/[platform]/build-a-backend/add-aws-services/analytics/identify-user/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={['javascript',  'react-native', "angular", "nextjs", "react", "vue"]}>
+
+This API sends information about the current user to Amazon Pinpoint.
+
+Additional information such as the user's name, email, location, and device can be included by specifying the `UserProfile`. Custom attributes can also be included by setting `UserProfile.customProperties`.
+
+If the user was signed in through [signIn](/[platform]/prev/build-a-backend/auth/enable-sign-up/) you can retrieve the current user's ID as shown below:
+
+```js
+import { identifyUser } from 'aws-amplify/analytics';
+import { getCurrentUser } from 'aws-amplify/auth';
+
+const location = {
+  latitude: 47.606209,
+  longitude: -122.332069,
+  postalCode: '98122',
+  city: 'Seattle',
+  region: 'WA',
+  country: 'USA'
+};
+
+const customProperties = {
+  plan: ['plan'],
+  phoneNumber: ['+11234567890'],
+  age: ['25']
+};
+
+const userProfile = {
+  location,
+  name: 'username',
+  email: 'name@example.com',
+  customProperties
+};
+
+async function sendUserData() {
+  const user = await getCurrentUser();
+
+  identifyUser({
+    userId: user.userId,
+    userProfile
+  });
+}
+```
+
+Sending user information allows you to associate a user to their user profile and activities or actions in your app.  The user's actions and attributes can also tracked across devices and platforms by using the same `userId`.  
+
+Some scenarios for identifying a user and their associated app activities are:
+* When a user completes app sign up
+* When a user completes sign in process
+* When a user launches your app
+* When a user modifies or updates their user profile
+
+</InlineFilter>

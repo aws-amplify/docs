@@ -1,0 +1,58 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Enable and disable analytics',
+  description: 'Learn how to enable/disable analytics using Amplify.',
+  platforms: [
+    'javascript',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'angular',
+        'vue',
+        'nextjs',
+        'react'
+      ],
+      canonicalPath: '/[platform]/build-a-backend/add-aws-services/analytics/enable-disable/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## Disable Analytics
+
+Analytics is enabled by default when you configure it in your app. To disable Analytics in your app use the `disable` function:
+
+```javascript
+import { disable } from 'aws-amplify/analytics';
+
+disable();
+```
+
+## Enable Analytics
+
+To enable analytics you can use the `enable` function in your app:
+
+```javascript
+import { enable } from 'aws-amplify/analytics';
+
+enable();
+```

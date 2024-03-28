@@ -1,0 +1,138 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up Amplify Analytics',
+  description: 'The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for Amazon Pinpoint and Amazon Kinesis (Kinesis support is currently only available in the Amplify JavaScript library). The Analytics category uses Amazon Cognito Identity pools to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App.',
+  platforms: [
+    'javascript',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'angular',
+        'javascript',
+        'react',
+        'vue'
+      ],
+      canonicalPath: '/[platform]/build-a-backend/add-aws-services/analytics/set-up-analytics/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Amplify enables you to collect analytics data for your app. The Analytics category uses [Amazon Cognito Identity pools](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html) to _identify_ users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App.
+
+The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create the an Analytics resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/). 
+
+## Set up Analytics backend
+
+<Callout warning>
+
+**Under active development:** The `addOutput` method for Amplify Gen 2 is under active development. The experience may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
+
+</Callout>
+
+
+```ts title="amplify/backend.ts"
+import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { CfnApp } from "aws-cdk-lib/aws-pinpoint";
+
+const backend = defineBackend({
+  auth, 
+  data,
+  // additional resources 
+});
+
+const analyticsStack = backend.createStack("analytics-stack");
+
+// create a Pinpoint app
+const pinpoint = new CfnApp(analyticsStack, "Pinpoint", {
+  name: "myPinpointApp",
+});
+
+// create an IAM policy to allow interacting with Pinpoint
+const pinpointPolicy = new Policy(analyticsStack, "PinpointPolicy", {
+  policyName: "PinpointPolicy",
+  statements: [
+    new PolicyStatement({
+      actions: ["mobiletargeting:UpdateEndpoint", "mobiletargeting:PutEvents"],
+      resources: [pinpoint.attrArn + "/*"],
+    }),
+  ],
+});
+
+// apply the policy to the authenticated and unauthenticated roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
+
+// patch the custom Pinpoint resource to the expected output configuration
+backend.addOutput({
+  Analytics: {
+    AWSPinpoint: {
+      appId: pinpoint.ref,
+      region: Stack.of(pinpoint).region,
+    },
+  },
+});
+```
+
+## Install Amplify Libraries
+
+First, install the `aws-amplify` library:
+
+<InlineFilter filters={['javascript', "angular", "react", "vue"]}>
+```sh
+npm install aws-amplify
+```
+</InlineFilter>
+
+## Initialize Amplify Analytics
+
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point.
+
+<InlineFilter filters={['javascript', "angular", "react", "vue"]}>
+```js title="src/index.js"
+import { record } from 'aws-amplify/analytics';
+import amplifyconfig from './amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
+```
+</InlineFilter>
+
+<InlineFilter filters={['nextjs']}> 
+```js title="pages/_app.tsx"
+import { record } from 'aws-amplify/analytics';
+import amplifyconfig from '@/amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
+```
+</InlineFilter>
+
+Next Steps:
+
+Congratulations! Now that you have Analytics' backend provisioned and Analytics library installed. Check out the following links to see Amplify Analytics use cases:
+
+- [Record Events](/[platform]/build-a-backend/add-aws-services/analytics/record-events/)
+- [Track Sessions](/[platform]/build-a-backend/add-aws-services/analytics/auto-track-sessions/)
+- [Identify User](/[platform]/build-a-backend/add-aws-services/analytics/identify-user/)
+
+### References
+
+[Amazon Pinpoint Construct Library](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_pinpoint-readme.html)

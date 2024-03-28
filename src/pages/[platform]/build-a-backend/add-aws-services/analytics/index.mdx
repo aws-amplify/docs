@@ -1,17 +1,15 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Analytics',
   description: 'Learn how to set Analytics resource powered by Pinpoint',
+  route: "/[platform]/build-a-backend/add-aws-services/analytics",
   platforms: [
-    'android',
+   'javascript',
     'angular',
-    'flutter',
-    'javascript',
     'nextjs',
     'react',
-    'react-native',
-    'swift',
     'vue'
   ]
 };
@@ -21,73 +19,13 @@ export const getStaticPaths = async () => {
 };
 
 export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      meta
+      meta,
+      childPageNodes
     }
   };
 }
 
-<Callout warning>
-
-**Under active development:** The `addOutput` method for Amplify Gen 2 is under active development. The experience may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
-
-</Callout>
-
-Amplify enables you to collect analytics data for your app. The Analytics category uses Amazon Cognito Identity pools to _identify_ users in your app.
-The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create the an Analytics resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/).
-
-```ts title="amplify/backend.ts"
-import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { CfnApp } from "aws-cdk-lib/aws-pinpoint";
-
-const backend = defineBackend({
-  auth, 
-  data,
-  // additional resources 
-});
-
-const analyticsStack = backend.createStack("analytics-stack");
-
-// create a Pinpoint app
-const pinpoint = new CfnApp(analyticsStack, "Pinpoint", {
-  name: "myPinpointApp",
-});
-
-// create an IAM policy to allow interacting with Pinpoint
-const pinpointPolicy = new Policy(analyticsStack, "PinpointPolicy", {
-  policyName: "PinpointPolicy",
-  statements: [
-    new PolicyStatement({
-      actions: ["mobiletargeting:UpdateEndpoint", "mobiletargeting:PutEvents"],
-      resources: [pinpoint.attrArn + "/*"],
-    }),
-  ],
-});
-
-// apply the policy to the authenticated and unauthenticated roles
-backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
-backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
-
-// patch the custom Pinpoint resource to the expected output configuration
-backend.addOutput({
-  Analytics: {
-    AWSPinpoint: {
-      appId: pinpoint.ref,
-      region: Stack.of(pinpoint).region,
-    },
-  },
-});
-```
-
-### Initialize Analytics
-
-To initialize Analytics you need to configure Amplify with `Amplify.configure()`
-
-### Working with Analytics
-
-Refer to the [Analytics documentation](/gen1/[platform]/build-a-backend/more-features/analytics/) to learn how to track events and user sessions in your app.
-
-### References
-
-[Amazon Pinpoint Construct Library](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_pinpoint-readme.html)
+<Overview childPageNodes={props.childPageNodes} />
