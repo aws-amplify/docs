@@ -3,6 +3,8 @@ import { execSync } from 'child_process';
 import crypto from 'node:crypto';
 import * as cheerio from 'cheerio';
 import dotenv from 'dotenv';
+import flatDirectory from '../src/directory/flatDirectory.json' assert { type: 'json' };
+
 dotenv.config({ path: './.env.custom' });
 
 const SITEMAP_DOMAIN = process.env.SITEMAP_DOMAIN
@@ -27,9 +29,7 @@ const xmlUrlWrapper = (nodes) => `${xmlHeader}
  * @returns {string} XML url node
  */
 const xmlUrlNode = async (htmlPageData) => {
-  const urlPath = htmlPageData[0]
-    .replace(ROOT_PATH, '')
-    .replace('index.html', '');
+  const urlPath = htmlPageData[0];
 
   const lastmod = htmlPageData[1]
     ? formatDate(new Date(htmlPageData[1]))
@@ -112,37 +112,35 @@ function isInternalLink(href) {
  * @returns
  */
 function replacePlatformHref(href) {
-  if (href.startsWith('/gen1')) {
-    const regex = /^\/gen1\/([^\/]+)\//;
+  if (!href.startsWith('/contribute')) {
+    if (href.startsWith('/gen1')) {
+      const regex = /^\/gen1\/[^\/]+\//;
 
-    return href.replace(regex, 'platform');
+      const test = href.replace(regex, '/gen1/[platform]/');
+      return test;
+    } else {
+      const regex = /^\/[^\/]+\//;
+
+      const test = href.replace(regex, '/[platform]/');
+
+      return test;
+    }
   } else {
-    const regex = /^\/([^\/]+)\//;
-
-    return href.replace(regex, '/platform/');
+    return href;
   }
 }
 
 /**
- * Process the HTML file to do these things:
- *  - Get the last updated date from the page
- *  - Hash the main content of the page
+ * Process the HTML file to hash the content from the main element.
  * @param {string} htmlFilePath File path of the HTML to process
- * @returns {Object} value The values needed from processing the HTML file
- * @returns {string} value.hash Hash of the main content of the HTML file
- * @returns {string} value.lastUpdatedDate Last updated date of the HTML file
+ * @returns {string} The Hash value of the of the main content from HTML file
  */
-async function processHtmlFile(htmlFilePath) {
+async function getHashofHtmlFile(htmlFilePath) {
   try {
     if (htmlFilePath && htmlFilePath.length > 0) {
       const htmlContent = await fs.readFile(htmlFilePath, 'utf-8');
 
       const $ = cheerio.load(htmlContent);
-
-      // Get the last updated date from the page
-      const lastUpdatedDate = $('.page-last-updated')
-        .text()
-        .replace('Page updated', '');
 
       // Remove elements to help compare the pages
       $('.breadcrumb__container').remove();
@@ -163,15 +161,8 @@ async function processHtmlFile(htmlFilePath) {
 
       const mainContent = $('main').html();
 
-      const hash = crypto
-        .createHash('sha256')
-        .update(mainContent)
-        .digest('hex');
-
-      return {
-        hash,
-        lastUpdatedDate
-      };
+      // Hash the main content to help find duplicate content.
+      return crypto.createHash('sha256').update(mainContent).digest('hex');
     }
   } catch (error) {
     console.error(`Error reading file ${htmlFilePath}:`, error);
@@ -181,24 +172,21 @@ async function processHtmlFile(htmlFilePath) {
 /**
  * Finds duplicate HTML files in a directory and groups them together in a Map
  * @param {string[]} htmlFiles List of strings representing the paths to all the HTML files in the directory
- * @returns {Map<string, string[][]>} Group of duplicate html pages (and their last updated date) grouped by their hashed value
+ * @returns {Map<string, string[]>} Group of duplicate html pages grouped by their hashed value
  */
 async function groupDuplicateHtmlFiles(htmlFiles) {
   const hashes = new Map();
 
   for (let filePath of htmlFiles) {
-    const htmlPageData = await processHtmlFile(filePath);
+    const hash = await getHashofHtmlFile(filePath);
 
-    if (htmlPageData && htmlPageData.hash) {
-      if (!hashes.has(htmlPageData.hash)) {
-        hashes.set(htmlPageData.hash, [
-          [filePath, htmlPageData.lastUpdatedDate]
-        ]);
+    if (hash) {
+      if (!hashes.has(hash)) {
+        hashes.set(hash, [filePath]);
       } else {
+        // If the content is the same, then it will create the same hash
         // Found duplicate, push the file onto the existing array
-        hashes
-          .get(htmlPageData.hash)
-          .push([filePath, htmlPageData.lastUpdatedDate]);
+        hashes.get(hash).push(filePath);
       }
     }
   }
@@ -208,8 +196,7 @@ async function groupDuplicateHtmlFiles(htmlFiles) {
 
 /**
  * Finds the highest ranking page to be used in the sitemap as the canonical url
- * @param {string[][]} pages Array of page names with their last modified date
- *   (e.g. [['/react/my/page', 'Mar 19, 2024'], ['/javascript/my/page', 'Jan 5, 2024'], ['/nextjs/my/page', 'Feb 20, 2024']])
+ * @param {string[]} pages Array of page names (e.g. ['/react/my/page', '/javascript/my/page', '/nextjs/my/page'])
  * @returns {string[]} The highest ranking page and its last modified date (e.g. ['/react/my/page', 'Mar 19, 2024'])
  */
 function findHighestRankPage(pages) {
@@ -236,7 +223,7 @@ function findHighestRankPage(pages) {
   for (const [platform] of sortedRanks) {
     for (const page of pages) {
       const platformRegex = new RegExp(`\/${platform}\/`);
-      if (platformRegex.test(page[0])) {
+      if (platformRegex.test(page)) {
         return page;
       }
     }
@@ -244,27 +231,75 @@ function findHighestRankPage(pages) {
 }
 
 /**
+ * Helper function to find the canonical page to use in the sitemap.xml file.
+ * @param {string[]} pagePaths Array of page paths that were found to be duplicated pages (e.g. ['/react/my/page', '/javascript/my/page', '/nextjs/my/page'])
+ * @returns {object} Object containing the canonical page and its directoryObject.
+ * @returns {object} Object.directoryObject
+ * @returns {string} Object.canonicalPageName
+ */
+function findCanonicalPage(pagePaths) {
+  const canonicalPage = findHighestRankPage(pagePaths);
+
+  // After finding the canonical page, we need to check if it exists in our directory.
+  // To do that we clean up / format the canonical page found so that we can use it in flatDirectory
+  const canonicalPageName = canonicalPage
+    .replace(ROOT_PATH, '')
+    .replace('index.html', '');
+
+  const flatDirectoryKey = replacePlatformHref(canonicalPageName);
+
+  // Remove the trailing slash since flatDirectory has keys without these slashes
+  const keyWithoutTrailingSlash =
+    flatDirectoryKey.length > 1 && flatDirectoryKey.endsWith('/')
+      ? flatDirectoryKey.slice(0, -1)
+      : flatDirectoryKey;
+
+  const directoryObject = flatDirectory[keyWithoutTrailingSlash];
+
+  return { directoryObject, canonicalPageName };
+}
+
+/**
  * Generates the sitemap from the HTML files created by the Next.js build with only the canonical urls
  */
-async function generateSitemap() {
+export async function generateSitemap() {
   console.log('generating sitemap.xml file...');
-  const sitemapPath = `${ROOT_PATH}/sitemap.xml`;
 
   const htmlPages = findHtmlFiles(ROOT_PATH);
-  const pages = await groupDuplicateHtmlFiles(htmlPages);
+  const htmlFileMap = await groupDuplicateHtmlFiles(htmlPages);
 
-  // Find the highest ranking page to be used as the canonical url
-  const canonicalPages = [...pages].map((hashedEntry) => {
-    const pagePaths = hashedEntry[1];
-    return findHighestRankPage(pagePaths);
-  });
+  const canonicalPages = [...htmlFileMap].reduce(
+    (accumulatedPages, currentHashedEntry) => {
+      const pagePaths = currentHashedEntry[1];
+
+      //
+      const { directoryObject, canonicalPageName } =
+        findCanonicalPage(pagePaths);
+
+      // We only want to add the page if it's in our directory
+      if (directoryObject) {
+        accumulatedPages.push([canonicalPageName, directoryObject.lastUpdated]);
+      }
+
+      return accumulatedPages;
+    },
+    []
+  );
 
   let xmlUrlNodes = '';
   for (const page of canonicalPages) {
     xmlUrlNodes += await xmlUrlNode(page);
   }
 
-  const sitemap = `${xmlUrlWrapper(xmlUrlNodes)}`;
+  return `${xmlUrlWrapper(xmlUrlNodes)}`;
+}
+
+/**
+ * Writes the sitemap to the sitemap.xml file in the build directory
+ */
+async function writeSitemap() {
+  const sitemapPath = `${ROOT_PATH}/sitemap.xml`;
+  const sitemap = await generateSitemap();
 
   try {
     await fs.writeFile(sitemapPath, sitemap);
@@ -292,5 +327,5 @@ const writeRobots = async () => {
   }
 };
 
-generateSitemap();
-writeRobots();
+await writeSitemap();
+await writeRobots();
