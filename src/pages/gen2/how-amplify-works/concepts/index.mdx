@@ -166,9 +166,9 @@ This is then included in the `amplify/backend.ts` file so it gets deployed as pa
 
 ```ts
 import { Backend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
-import { LocationMapStack } from './locationMapStack/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+import { LocationMapStack } from './locationMapStack/resource';
 
 const backend = new Backend({
   auth,
