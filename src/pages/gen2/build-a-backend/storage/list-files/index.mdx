@@ -1,0 +1,21 @@
+export const meta = {
+  title: 'List files',
+  description: 'List files using Amplify Storage'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+<BlockSwitcher>
+<Block name="List Files">
+You can list files without having to download the entire file. You can do this by using the listFile API from the Amplify Library for Storage. You can also get properties individually for a file using the getProperties API.
+</Block>
+<Block name="Get File Properties">
+You can also view files properties on-demand on the Amplify Console.
+</Block>
+</BlockSwitcher>

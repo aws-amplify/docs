@@ -2093,7 +2093,36 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/gen2/build-a-backend/storage/index.mdx'
+              path: 'src/pages/gen2/build-a-backend/storage/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/gen2/build-a-backend/storage/define-storage/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/storage/authorization/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/storage/upload-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/storage/download-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/storage/list-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/storage/remove-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/storage/copy-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/storage/lambda-triggers/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/storage/extend-with-cdk/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/gen2/build-a-backend/functions/index.mdx'

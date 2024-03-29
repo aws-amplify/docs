@@ -1,0 +1,42 @@
+export const meta = {
+  title: 'Download files',
+  description: 'Download files using Amplify Storage'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+<BlockSwitcher>
+<Block name="Storage Image UI Component">
+You can easily display images on your app by using the cloud-connected Storage Image UI compponent. This component fetches images securely from your storage resource and displays it on the web page.
+</Block>
+<Block name="Amplify Console">
+You can download files on-demand from the Amplify Console
+</Block>
+</BlockSwitcher>
+
+#### API Usage
+To further customize your in-app experience, you can use the getURL or downloadData API from the Amplify Library for Storage.
+
+<BlockSwitcher>
+<Block name="getURL">
+</Block>
+<Block name="downloadData">
+
+Monitor download progress
+
+// code snippet
+
+Cancel download
+
+// code snippet
+
+</Block>
+</BlockSwitcher>
+
+Transfer Acceleration

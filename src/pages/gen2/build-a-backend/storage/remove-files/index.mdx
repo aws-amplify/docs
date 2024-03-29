@@ -1,0 +1,21 @@
+export const meta = {
+  title: 'Remove files',
+  description: 'Remove files using Amplify Storage'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+<BlockSwitcher>
+<Block name="API Usage">
+Files can be removed or deleted from a storage bucket using the 'remove' API. If a file is protected by an identity Id, only the user who owns the file will be able to remove it.
+</Block>
+<Block name="Amplify Console">
+You can also copy files on demand via the Amplify Console
+</Block>
+</BlockSwitcher>

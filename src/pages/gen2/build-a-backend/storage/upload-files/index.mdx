@@ -1,0 +1,63 @@
+export const meta = {
+  title: 'Upload files',
+  description: 'Upload files using Amplify Storage'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+There are multiple ways you can implement upload functionality for your app and upload files to your storage bucket.
+
+<BlockSwitcher>
+<Block name="Storage Manager UI Component">
+Upload files from your app in minutes by using the cloud-connected Storage Manager UI Component. You can further customize the theme of this component to better fit the aesthetics of your app.
+
+// UI component screenshot
+
+// Quick set up
+
+Refer to the [Storage Manager documentation](https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager) for more ways to customize the component.
+
+</Block>
+<Block name="Amplify Console">
+You can also upload files ad-hoc via the Amplify Console once you have set up your backend.
+</Block>
+</BlockSwitcher>
+
+### API Usage
+
+To further customize the upload experience from your app, refer to the API usage for uploading files using the Amplify Library for Storage.
+
+// Code snippet
+
+### Upload progress
+Monitor progress of upload by using the onProgress options
+
+// code snippet
+
+### Pause, resume, and cancel uploads
+
+// code snippets
+
+### Other options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| contentType | String |  |
+| contentEncoding | String | read |
+| contentDisposition | String | read |
+| metadata | map\<String\> | read |
+| useAccelerateEndpoint | boolean | read |
+
+// code snippet
+
+### Browser Uploads
+
+// code snippet
+
+### Transfer Acceleration
