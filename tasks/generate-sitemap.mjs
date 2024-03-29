@@ -78,34 +78,6 @@ function findHtmlFiles(dir) {
 }
 
 /**
- * Helper function to check if a string is an internal URL
- * @param {string} href
- * @returns {boolean}
- */
-function isInternalLink(href) {
-  let matches;
-
-  if (href.startsWith('/gen1')) {
-    const regex = /^\/gen1\/([^\/]+)\//;
-    matches = href.match(regex);
-  } else {
-    const regex = /^\/([^\/]+)\//;
-    matches = href.match(regex);
-  }
-
-  if (matches && matches.length > 1) {
-    const platform = matches[1];
-    if (PLATFORMS.includes(platform)) {
-      return true;
-    } else {
-      return false;
-    }
-  } else {
-    return false;
-  }
-}
-
-/**
  * Helper function to replace the platform specific subpath of the href argument with the string '[platform]'.
  * @param {string} href
  * @returns String with the platform subpath replaced with '[platform]', if a specific platform is found
@@ -133,19 +105,7 @@ async function getHashofHtmlFile(htmlFilePath) {
       $('img').remove();
       $('.next-prev').remove();
 
-      // Go through each link in main to remove the platform from internal links.
-      // This helps reduce the "difference" between the pages so that we can compare the content better.
-      // Without this change, a lot of pages would be considered different because the internal links
-      // in the page point to the platform specific pages.
-      const linksInMain = $('main a');
-      linksInMain.each((index, link) => {
-        const href = $(link).attr('href');
-        if (isInternalLink(href)) {
-          $(link).attr('href', replacePlatformHref(href));
-        }
-      });
-
-      const mainContent = $('main').html();
+      const mainContent = $('main').text();
 
       // Hash the main content to help find duplicate content.
       return crypto.createHash('sha256').update(mainContent).digest('hex');
@@ -232,6 +192,7 @@ function findCanonicalPage(pagePaths) {
     .replace(ROOT_PATH, '')
     .replace('index.html', '');
 
+  // Try to replace the specific platform from the page name so we can use it as a key
   const flatDirectoryKey = replacePlatformHref(canonicalPageName);
 
   // Remove the trailing slash since flatDirectory has keys without these slashes
