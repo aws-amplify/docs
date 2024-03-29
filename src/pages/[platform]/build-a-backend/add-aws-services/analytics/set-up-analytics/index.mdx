@@ -43,13 +43,6 @@ The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](
 
 ## Set up Analytics backend
 
-<Callout warning>
-
-**Under active development:** The `addOutput` method for Amplify Gen 2 is under active development. The experience may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
-
-</Callout>
-
-
 ```ts title="amplify/backend.ts"
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { CfnApp } from "aws-cdk-lib/aws-pinpoint";
@@ -84,11 +77,9 @@ backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(pinpointPol
 
 // patch the custom Pinpoint resource to the expected output configuration
 backend.addOutput({
-  Analytics: {
-    AWSPinpoint: {
-      appId: pinpoint.ref,
-      region: Stack.of(pinpoint).region,
-    },
+  analytics: {
+    pinpoint_app_id: pinpoint.ref,
+    aws_region: Stack.of(pinpoint).region,
   },
 });
 ```
