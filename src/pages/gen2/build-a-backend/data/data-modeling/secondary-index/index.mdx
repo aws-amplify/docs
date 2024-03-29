@@ -23,8 +23,8 @@ export const schema = a.schema({
     phoneNumber: a.phone(),
     accountRepresentativeId: a.id().required()
   // highlight-start
-  }).secondaryIndexes([
-    a.index('accountRepresentativeId')
+  }).secondaryIndexes(index => [
+    index('accountRepresentativeId')
   ])
   // highlight-end
    .authorization([a.allow.public()]),
@@ -67,8 +67,8 @@ const schema = a.schema({
     name: a.string(),
     phoneNumber: a.phone().required(),
     accountRepresentativeId: a.id().required(),
-  }).secondaryIndexes([
-    a.index('accountRepresentativeId')
+  }).secondaryIndexes(index => [
+    index('accountRepresentativeId')
     // highlight-next-line
       .sortKeys(["name"]),
   ])
@@ -100,8 +100,8 @@ const schema = a.schema({
     name: a.string(),
     phoneNumber: a.phone(),
     accountRepresentativeId: a.id().required(),
-  }).secondaryIndexes([
-    a.index('accountRepresentativeId')
+  }).secondaryIndexes(index => [
+    index('accountRepresentativeId')
     // highlight-next-line
       .queryField("listByRep"),
   ]),
@@ -130,8 +130,8 @@ const schema = a.schema({
     name: a.string(),
     phoneNumber: a.phone(),
     accountRepresentativeId: a.id().required(),
-  }).secondaryIndexes([
-    a.index('accountRepresentativeId')
+  }).secondaryIndexes(index => [
+    index('accountRepresentativeId')
     // highlight-next-line
       .name("MyCustomIndexName"),
   ])

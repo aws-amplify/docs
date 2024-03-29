@@ -92,8 +92,8 @@ After the resources are defined, they are set up on the backend:
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 defineBackend({
   auth,
@@ -106,8 +106,8 @@ You can extend backends by using the [AWS Cloud Development Kit (AWS CDK)](https
 ```ts title="amplify/backend.ts"
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   auth,

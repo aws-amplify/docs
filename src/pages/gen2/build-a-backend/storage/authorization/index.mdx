@@ -25,7 +25,9 @@ Note that your backend must include `defineAuth` in order to use this access rul
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/*': [allow.guest.to(['read'])] // additional actions such as "write" and "delete" can be specified depending on your use case
+    'foo/*': [
+      allow.guest.to(['read']) // additional actions such as "write" and "delete" can be specified depending on your use case
+    ]
   })
 });
 ```
@@ -39,7 +41,9 @@ Note that your backend must include `defineAuth` in order to use this access rul
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/*': [allow.authenticated.to(['read'])] // additional actions such as "write" and "delete" can be specified depending on your use case
+    'foo/*': [
+      allow.authenticated.to(['read']) // additional actions such as "write" and "delete" can be specified depending on your use case
+    ]
   })
 });
 ```
@@ -63,7 +67,7 @@ With the following `access` definition, you can configure permissions such that 
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/*': [
+    'foo/*': [
       allow.group('auditor').to(['read']),
       allow.group('admin').to(['read', 'write', 'delete'])
     ]
@@ -82,7 +86,7 @@ The following policy would allow authenticated users full access to files with a
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/{entity_id}/*': [
+    'foo/{entity_id}/*': [
       // {entity_id} is the token that is replaced with the user identity id
       allow.entity('identity').to(['read', 'write', 'delete'])
     ]
@@ -99,7 +103,7 @@ It may be desireable for a file owner to be able to write and delete files in th
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/{entity_id}/*': [
+    'foo/{entity_id}/*': [
       allow.entity('identity').to(['read', 'write', 'delete']),
       allow.guest.to(['read']),
       allow.authenticated.to(['read'])
@@ -120,7 +124,7 @@ const demoFunction = defineFunction({});
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/*': [allow.resource(demoFunction).to(['read', 'write', 'delete'])]
+    'foo/*': [allow.resource(demoFunction).to(['read', 'write', 'delete'])]
   })
 });
 ```
@@ -150,10 +154,10 @@ When one path is a subpath of another, the permissions on the subpath _always ov
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/*': [allow.authenticated.to(['read', 'write', 'delete'])],
-    '/foo/bar/*': [allow.guest.to(['read'])],
-    '/foo/baz/*': [allow.authenticated.to(['read'])],
-    '/other/*': [
+    'foo/*': [allow.authenticated.to(['read', 'write', 'delete'])],
+    'foo/bar/*': [allow.guest.to(['read'])],
+    'foo/baz/*': [allow.authenticated.to(['read'])],
+    'other/*': [
       allow.guest.to(['read']),
       allow.authenticated.to(['read', 'write'])
     ]
@@ -163,7 +167,7 @@ export const storage = defineStorage({
 
 The access control matrix for this configuration is
 
-|  | /foo/\* | /foo/bar/\* | /foo/baz/\* | /other/\* |
+|  | foo/\* | foo/bar/\* | foo/baz/\* | other/\* |
 | --- | --- | --- | --- | --- |
 | **Authenticated Users** | read, write, delete | NONE | read | read, write |
 | **Guest users** | NONE | read | NONE | read |
@@ -188,15 +192,15 @@ To configure `defineStorage` in Amplify Gen 2 to behave the same way as the stor
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/public/*': [
+    'public/*': [
       allow.guest.to(['read'])
       allow.authenticated.to(['read', 'write', 'delete']),
     ],
-    '/protected/{entity_id}/*': [
+    'protected/{entity_id}/*': [
       allow.authenticated.to(['read']),
       allow.entity('identity').to(['read', 'write', 'delete'])
     ],
-    '/private/{entity_id}/*': [allow.entity('identity').to(['read', 'write', 'delete'])]
+    'private/{entity_id}/*': [allow.entity('identity').to(['read', 'write', 'delete'])]
   })
 });
 ```
