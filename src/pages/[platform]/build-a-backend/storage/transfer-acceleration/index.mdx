@@ -227,14 +227,37 @@ Future<void> uploadFileUsingAcceleration(String filePath, String key) async {
 ## Use Transfer Acceleration on Storage Operations
 
 You can use transfer acceleration by setting `"useAccelerateEndpoint"` to `true` in the corresponding `pluginOptions` for any of the following Storage APIs:
-- `getUrl(key:options:)`
-- `downloadData(key:options:)`
-- `downloadFile(key:local:options:)`
-- `uploadData(key:data:options:)`
-- `uploadFile(key:local:options:)`
+- `getUrl(path:options:)`
+- `downloadData(path:options:)`
+- `downloadFile(path:local:options:)`
+- `uploadData(path:data:options:)`
+- `uploadFile(path:local:options:)`
+- `getUrl(key:options:)` (Deprecated)
+- `downloadData(key:options:)` (Deprecated)
+- `downloadFile(key:local:options:)` (Deprecated)
+- `uploadData(key:data:options:)` (Deprecated)
+- `uploadFile(key:local:options:)` (Deprecated)
 
 For example, to upload a file using transfer acceleration:
 
+<BlockSwitcher>
+<Block name="With StoragePath">
+```swift
+let uploadTask = Amplify.Storage.uploadFile(
+    path: .fromString("example/key"),
+    local: aLocalFile,
+    options: .init(
+        pluginOptions: [
+            "useAccelerateEndpoint": true
+        ]
+    )
+)
+
+let data = try await uploadTask.value
+```
+</Block>
+
+<Block name="With Key (Deprecated)">
 ```swift
 let uploadTask = Amplify.Storage.uploadFile(
     key: aKey,
@@ -248,5 +271,9 @@ let uploadTask = Amplify.Storage.uploadFile(
 
 let data = try await uploadTask.value
 ```
+</Block>
+
+</BlockSwitcher>
+
 
 </InlineFilter>
