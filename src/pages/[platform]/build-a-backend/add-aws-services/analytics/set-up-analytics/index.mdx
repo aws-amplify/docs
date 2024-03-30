@@ -46,6 +46,7 @@ The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](
 ```ts title="amplify/backend.ts"
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { CfnApp } from "aws-cdk-lib/aws-pinpoint";
+import { Stack } from "aws-cdk-lib";
 
 const backend = defineBackend({
   auth, 
