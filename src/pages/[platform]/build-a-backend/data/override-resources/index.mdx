@@ -36,7 +36,7 @@ In your Amplify app, you can access every underlying resource using CDK ["L2"](h
 
 ```ts
 import { defineBackend } from '@aws-amplify/backend';
-import { data } from './data/resource.js';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   data
@@ -55,7 +55,7 @@ Apply all the customizations on `backend.data.resources.graphqlApi` or `backend.
 
 ```ts
 import { defineBackend } from '@aws-amplify/backend';
-import { data } from './data/resource.js';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   data
@@ -72,7 +72,7 @@ Pass in the model type name into `backend.data.resources.amplifyDynamoDbTables["
 
 ```ts
 import { defineBackend } from '@aws-amplify/backend';
-import { data } from './data/resource.js';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   data
@@ -92,7 +92,7 @@ Set the [DynamoDB billing mode](https://docs.aws.amazon.com/AWSCloudFormation/la
 
 ```ts
 import { defineBackend } from '@aws-amplify/backend';
-import { data } from './data/resource.js';
+import { data } from './data/resource';
 import { BillingMode } from "aws-cdk-lib/aws-dynamodb";
 
 const backend = defineBackend({
@@ -109,7 +109,7 @@ Override the default [ProvisionedThroughput](https://docs.aws.amazon.com/AWSClou
 
 ```ts
 import { defineBackend } from '@aws-amplify/backend';
-import { data } from './data/resource.js';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   data
@@ -129,7 +129,7 @@ Enable/disable [DynamoDB point-in-time recovery](https://docs.aws.amazon.com/AWS
 
 ```ts
 import { defineBackend } from '@aws-amplify/backend';
-import { data } from './data/resource.js';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   data
