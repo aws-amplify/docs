@@ -14,7 +14,7 @@ const excludedScripts = [
   'prod.assets.shortbread.aws',
   'prod.tools.shortbread.aws',
   'prod.tools.shortbread.aws.dev',
-  'aa0.awsstatic.com',
+  'aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js',
   'alpha.d2c.marketing.aws.dev',
   'vs-alpha.aws.amazon.com'
 ];
