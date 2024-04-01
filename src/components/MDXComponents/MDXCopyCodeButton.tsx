@@ -4,10 +4,10 @@ import { Button, VisuallyHidden } from '@aws-amplify/ui-react';
 import { trackCopyClicks } from '@/utils/track';
 
 interface MDXCopyCodeButtonProps {
-  codeString: string;
-  title?: string;
   codeId: string;
+  codeString: string;
   testId?: string;
+  title?: string;
 }
 
 export const MDXCopyCodeButton = ({

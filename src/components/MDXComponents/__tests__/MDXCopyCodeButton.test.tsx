@@ -2,20 +2,23 @@ import * as React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MDXCopyCodeButton } from '../MDXCopyCodeButton';
 import userEvent from '@testing-library/user-event';
-
 import * as trackModule from '../../../utils/track';
 
 const codeString = `
 import * as sns from 'aws-cdk-lib/aws-sns';
+
+// highlight-next-line
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource.js';
 import { data } from './data/resource.js';
 
+// highlight-start
 const backend = defineBackend({
   auth,
   data
 });
+// highlight-end
 
 const customResourceStack = backend.createStack('MyCustomResources');
 
@@ -68,7 +71,6 @@ describe('MDXCopyCodeButton', () => {
   });
 
   it('should use aria-describedBy if no title is supplied', async () => {
-    jest.spyOn(trackModule, 'trackCopyClicks');
     render(
       <MDXCopyCodeButton
         codeString={codeString}
