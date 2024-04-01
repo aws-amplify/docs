@@ -2,9 +2,11 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MDXCode } from '../MDXCode';
 
-jest.mock('react-copy-to-clipboard', () => {
-  return jest.fn();
-});
+jest.mock('react-copy-to-clipboard', () => ({
+  CopyToClipboard: jest.fn().mockImplementation(({ children }) => {
+    return children;
+  })
+}));
 
 const codeString = `
 import * as sns from 'aws-cdk-lib/aws-sns';
