@@ -3,6 +3,19 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button, VisuallyHidden } from '@aws-amplify/ui-react';
 import { trackCopyClicks } from '@/utils/track';
 
+export const prepareCopyText = (codeString: string): string => {
+  // We need to strip out markdown comments from the code string
+  // so they don't show up in our copied text
+  const highlightStartText = /\/\/\s?highlight-start/g;
+  const highlightEndText = /\/\/\s?highlight-end/g;
+  const highlightNextLine = /\/\/\s?highlight-next-line/g;
+
+  return codeString
+    .replace(highlightStartText, '')
+    .replace(highlightEndText, '')
+    .replace(highlightNextLine, '');
+};
+
 interface MDXCopyCodeButtonProps {
   codeId: string;
   codeString: string;
@@ -18,16 +31,7 @@ export const MDXCopyCodeButton = ({
 }: MDXCopyCodeButtonProps) => {
   const [copied, setCopied] = useState(false);
 
-  // We need to strip out markdown comments from the code string
-  // so they don't show up in our copied text
-  const highlightStartText = /\/\/\s?highlight-start/g;
-  const highlightEndText = /\/\/\s?highlight-end/g;
-  const highlightNextLine = /\/\/\s?highlight-next-line/g;
-
-  const copyText = codeString
-    .replace(highlightStartText, '')
-    .replace(highlightEndText, '')
-    .replace(highlightNextLine, '');
+  const copyText = prepareCopyText(codeString);
 
   const copy = () => {
     trackCopyClicks(copyText);

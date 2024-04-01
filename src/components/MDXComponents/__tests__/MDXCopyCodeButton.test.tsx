@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { MDXCopyCodeButton } from '../MDXCopyCodeButton';
+import { MDXCopyCodeButton, prepareCopyText } from '../MDXCopyCodeButton';
 import userEvent from '@testing-library/user-event';
 import * as trackModule from '../../../utils/track';
 
@@ -80,5 +80,14 @@ describe('MDXCopyCodeButton', () => {
     );
     const copyButton = await screen.findByTestId(testId);
     expect(copyButton).toHaveAttribute('aria-describedby', codeId);
+  });
+});
+
+describe('prepareCopyText', () => {
+  it('should return code string without markdown comments', () => {
+    const copyText = prepareCopyText(codeString);
+    expect(copyText.indexOf('// highlight-next-line')).toEqual(-1);
+    expect(copyText.indexOf('// highlight-start')).toEqual(-1);
+    expect(copyText.indexOf('// highlight-end')).toEqual(-1);
   });
 });
