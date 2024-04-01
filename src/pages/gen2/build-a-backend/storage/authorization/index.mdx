@@ -15,6 +15,8 @@ Customize authorization for your storage bucket by defining access individually 
 
 Refer to the following examples to understand how you can further customize authorization against different user types.
 
+// leading slash
+
 <BlockSwitcher>
 <Block name="Guest Users">
 To grant all guest (not signed in) users of your application read access to files that start with `/foo/*`, use the following `access` config.
@@ -141,10 +143,10 @@ When a function is granted access to storage, it also receives an environment va
 
 There are some limitations on the types of prefixes that can be specified in the storage access definition.
 
-1. All paths are treated as prefixes from the storage root. As such all paths must start with `/` and end with `/*` to make this explicit.
-2. Only one level of nesting is allowed. For example, you can define access controls on `/foo/*` and `/foo/bar/*` but not on `/foo/bar/baz/*` because that path has 2 other prefixes.
-3. Wildcards cannot conflict with the `{entity_id}` token. For example, you cannot have both `/foo/*` and `/foo/{entity_id}/*` defined because the wildcard in the first path conflicts with the `{entity_id}` token in the second path.
-4. A path cannot be a prefix of another path with an `{entity_id}` token. For example `/foo/*` and `/foo/bar/{entity_id}/*` is not allowed.
+1. All paths are treated as prefixes from the storage root. As such all paths must end with `/*` to make this explicit.
+2. Only one level of nesting is allowed. For example, you can define access controls on `foo/*` and `/foo/bar/*` but not on `foo/bar/baz/*` because that path has 2 other prefixes.
+3. Wildcards cannot conflict with the `{entity_id}` token. For example, you cannot have both `foo/*` and `foo/{entity_id}/*` defined because the wildcard in the first path conflicts with the `{entity_id}` token in the second path.
+4. A path cannot be a prefix of another path with an `{entity_id}` token. For example `foo/*` and `foo/bar/{entity_id}/*` is not allowed.
 
 ### Prefix behavior
 
@@ -172,7 +174,7 @@ The access control matrix for this configuration is
 | **Authenticated Users** | read, write, delete | NONE | read | read, write |
 | **Guest users** | NONE | read | NONE | read |
 
-Authenticated users have access to read, write, and delete everything under `/foo/*` EXCEPT `/foo/bar/*` and `/foo/baz/*`. For those subpaths, the scoped down access overrides the access granted on the parent `/foo/*`
+Authenticated users have access to read, write, and delete everything under `foo/*` EXCEPT `foo/bar/*` and `foo/baz/*`. For those subpaths, the scoped down access overrides the access granted on the parent `foo/*`
 
 ### Available actions
 

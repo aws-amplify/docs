@@ -46,7 +46,7 @@ Now when you run `npx amplify sandbox` or deploy your app on Amplify, it will co
 
 Before files can be accessed by your application, you must configure storage access rules.
 
-## Storage access
+## Define File Prefix Access
 
 By default, no users or other project resources have access to any files in the storage bucket. Access must be explicitly granted within `defineStorage` using the `access` callback.
 
@@ -68,7 +68,7 @@ export const storage = defineStorage({
 
 The access callback returns an object where each key in the object is a file prefix and each value in the object is a list of access rules that apply to that prefix. 
 
-Refer to the following example to construct access rules for your storage bucket or you can copy paste to test it out. You can also read more about the customizing authorization rules here.
+Refer to the following example to construct access rules for your storage bucket or you can copy paste to test it out. [Learn more about customizing access to file prefixes](/gen2/build-a-backend/storage/authorization/).
 
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
@@ -109,7 +109,3 @@ export const storage = defineStorage({
   })
 });
 ```
-
-### Next steps
-
-- [Learn more about `defineBackend`](/gen2/build-a-backend/)
