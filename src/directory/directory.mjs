@@ -2108,7 +2108,15 @@ export const directory = {
                   path: 'src/pages/gen2/build-a-backend/storage/upload-files/index.mdx'
                 },
                 {
-                  path: 'src/pages/gen2/build-a-backend/storage/download-files/index.mdx'
+                  path: 'src/pages/gen2/build-a-backend/storage/download-files/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/gen2/build-a-backend/storage/download-files/get-url/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen2/build-a-backend/storage/download-files/download-data/index.mdx'
+                    }
+                  ]
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/storage/list-files/index.mdx'

@@ -14,6 +14,19 @@ export function getStaticProps(context) {
 <BlockSwitcher>
 <Block name="API Usage">
 Files can be removed or deleted from a storage bucket using the 'remove' API. If a file is protected by an identity Id, only the user who owns the file will be able to remove it.
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  await remove({ 
+    path: 'album/2024/1.jpg',
+    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+  });
+} catch (error) {
+  console.log('Error ', error);
+}
+```
 </Block>
 <Block name="Amplify Console">
 You can also remove files on demand via the Amplify Console

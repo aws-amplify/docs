@@ -1,0 +1,94 @@
+export const meta = {
+  title: 'Download Data',
+  description: 'Download data using Amplify Storage'
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Use the `downloadData` API to download the file locally on the client.
+
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+// Downloads file content to memory
+const { body, eTag } = await downloadData({
+  path: "/album/2024/1.jpg",
+  options: {
+    onProgress: (event) => {
+      console.log(event.transferredBytes);
+    } // optional progress callback
+    bytesRange: {
+      start: 1024,
+      end: 2048
+    } // optional bytes range parameter to download a part of the file, the 2nd MB of the file in this example
+  }
+}).result;
+```
+### Get the text value of downloaded File
+
+You can get the value of file in any of the three formats: `blob`, `json`, or `text`. You can call the respective method on the `body` property to consume the set data in the respective format.
+
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+try {
+  const downloadResult = await downloadData({ 
+    path: "/album/2024/1.jpg" 
+  }).result;
+  const text = await downloadResult.body.text();
+  // Alternatively, you can use `downloadResult.body.blob()`
+  // or `downloadResult.body.json()` get read body in Blob or JSON format.
+  console.log('Succeed: ', text);
+} catch (error) {
+  console.log('Error : ', error);
+}
+```
+### Transfer Acceleration
+
+<Callout warning>
+
+When you use Transfer Acceleration, additional data transfer charges might apply. For more information about pricing, see [Amazon S3 pricing](https://aws.amazon.com/s3/pricing/).
+
+</Callout>
+
+You can enable [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transfer-acceleration.html) for fast and secure transfer of files over long distances between your end user device and the S3 bucket. You can override the storage resource for this configuration and then leverage the `useAccelerateEndpoint` parameter to use the accelerated S3 endpoint.
+
+### Monitor download progress
+
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+// Download a file from s3 bucket
+const { body, eTag } = await downloadData(
+  {
+    path: "/album/2024/1.jpg",
+    options: {
+      onProgress: (progress) {
+        console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
+      }
+    }
+  }
+).result;
+```
+
+### Cancel download
+
+```javascript
+import { downloadData, isCancelError } from 'aws-amplify/storage';
+
+const downloadTask = downloadData({ path: "/album/2024/1.jpg" });
+downloadTask.cancel();
+try {
+  await downloadTask.result;
+} catch (error) {
+  if (isCancelError(error)) {
+    // Handle error thrown by task cancellation.
+  }
+}
+```

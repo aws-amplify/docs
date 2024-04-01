@@ -1,3 +1,5 @@
+import { Card } from '@aws-amplify/ui-react';
+
 export const meta = {
   title: 'Download files',
   description: 'Download files using Amplify Storage'
@@ -11,100 +13,32 @@ export function getStaticProps(context) {
   };
 }
 
-<BlockSwitcher>
-<Block name="Storage Image UI Component">
 You can easily display images on your app by using the cloud-connected Storage Image UI component. This component fetches images securely from your storage resource and displays it on the web page.
-</Block>
-<Block name="Amplify Console">
-You can download files on-demand from the Amplify Console
-</Block>
-</BlockSwitcher>
+
+```
+npm install @aws-amplify/ui-react-storage aws-amplify
+```
+```
+import { StorageImage } from '@aws-amplify/ui-react-storage';
+
+export const DefaultStorageImageExample = () => {
+  return <StorageImage alt="cat" imgKey="cat.jpg" accessLevel="guest" />;
+};
+```
+
+Learn more about how you can further customize the UI component by referring to the [Storage Image documentation](https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager).
 
 #### API Usage
 To further customize your in-app experience, you can use the getURL or downloadData API from the Amplify Library for Storage.
 
-<BlockSwitcher>
-<Block name="getURL">
-Get a presigned URL of a stored file and expiration of URL
-</Block>
-<Block name="downloadData">
-Download a file to in-memory buffer.
-
-```javascript
-import { downloadData } from 'aws-amplify/storage';
-
-// Downloads file content to memory
-const { body, eTag } = await downloadData({
-  path: "/album/2024/1.jpg",
-  options: {
-    onProgress: (event) => {
-      console.log(event.transferredBytes);
-    } // optional progress callback
-    bytesRange: {
-      start: 1024,
-      end: 2048
-    } // optional bytes range parameter to download a part of the file, the 2nd MB of the file in this example
-  }
-}).result;
-```
-### Get the text value of downloaded File
-
-You can consume the value of file in any of the three formats: `blob`, `json`, or `text`. You can call the respective method on the `body` property to consume the set data in the respective format.
-
-```javascript
-import { downloadData } from 'aws-amplify/storage';
-
-try {
-  const downloadResult = await downloadData({ 
-    path: "/album/2024/1.jpg" 
-  }).result;
-  const text = await downloadResult.body.text();
-  // Alternatively, you can use `downloadResult.body.blob()`
-  // or `downloadResult.body.json()` get read body in Blob or JSON format.
-  console.log('Succeed: ', text);
-} catch (error) {
-  console.log('Error : ', error);
-}
-```
-Transfer Acceleration
-//TODO
-
-Monitor download progress
-
-```javascript
-import { downloadData } from 'aws-amplify/storage';
-
-// Download a file from s3 bucket
-const { body, eTag } = await downloadData(
-  {
-    path: "/album/2024/1.jpg",
-    options: {
-      onProgress: (progress) {
-        console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
-      }
-    }
-  }
-).result;
-```
-
-Cancel download
-
-```javascript
-import { downloadData, isCancelError } from 'aws-amplify/storage';
-
-const downloadTask = downloadData({ path: "/album/2024/1.jpg" });
-downloadTask.cancel();
-try {
-  await downloadTask.result;
-} catch (error) {
-  if (isCancelError(error)) {
-    // Handle error thrown by task cancellation.
-  }
-}
-```
-
-</Block>
-</BlockSwitcher>
+<Columns columns={2}>
+<Card variation="outlined">
+[Get URL API usage](/gen2/build-a-backend/storage/download-files/get-url)
+</Card>
+<Card variation="outlined">
+[Download data API usage](/gen2/build-a-backend/storage/download-files/download-data)
+</Card>
+</Columns>
 
 ### Frequently Asked Questions
 

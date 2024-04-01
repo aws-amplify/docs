@@ -11,11 +11,40 @@ export function getStaticProps(context) {
   };
 }
 
+<Callout>
 Note: You can only copy files up to 5GB in a single operation
+</Callout>
 
 <BlockSwitcher>
 <Block name="API Usage">
 You can copy an existing file to a different path within the storage bucket using the copy API.
+
+The `copy` method duplicates an existing file to a designated path and returns an object `{path: 'destPath'}` upon successful completion.
+
+```javascript
+import { copy } from 'aws-amplify/storage';
+
+const copyFile = async () => {
+  try {
+    const response = await copy({
+      source: {
+        path: 'album/2024/1.jpg',
+        // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+      },
+      destination: {
+        path: 'shared/2024/1.jpg',
+        // Alternatively, path: ({identityId}) => `shared/{identityId}/1.jpg`
+      },
+    });
+  } catch (error) {
+    console.error('Error', err);
+  }
+};
+```
+
+<Callout>
+Cross identity ID copying is only allowed if the source object's access level is set to 'protected'.
+</Callout>
 </Block>
 <Block name="Amplify Console">
 You can also copy files on demand via the Amplify Console
