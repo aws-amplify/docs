@@ -30,7 +30,6 @@ describe('PlatformNavigator', () => {
     render(component);
 
     const platform = await screen.findByRole('button');
-    console.log(platform);
 
     expect(platform.textContent).toBe('React');
   });
