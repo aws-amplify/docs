@@ -73,11 +73,11 @@ By default, no users or other project resources have access to any files in stor
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/some/path/*': [
-      // access rules that apply to all files within "/some/path/*" go here
+    'some/path/*': [
+      // access rules that apply to all files within "some/path/*" go here
     ],
-    '/another/path/*': [
-      // access rules that apply to all files within "/another/path/*" go here
+    'another/path/*': [
+      // access rules that apply to all files within "another/path/*" go here
     ]
   })
 });
@@ -87,7 +87,7 @@ The access callback returns an object where each key in the object is a file pre
 
 ### Authenticated user access
 
-To grant all authenticated (signed in) users of your application read access to files that start with `/foo/*`, use the following `access` configuration.
+To grant all authenticated (signed in) users of your application read access to files that start with `foo/*`, use the following `access` configuration.
 
 Note that your backend must include `defineAuth` in order to use this access rule.
 
@@ -95,14 +95,14 @@ Note that your backend must include `defineAuth` in order to use this access rul
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/*': [allow.authenticated.to(['read'])] // additional actions such as "write" and "delete" can be specified depending on your use case
+    'foo/*': [allow.authenticated.to(['read'])] // additional actions such as "write" and "delete" can be specified depending on your use case
   })
 });
 ```
 
 ### Guest user access
 
-To grant all guest (not signed in) users of your application read access to files that start with `/foo/*`, use the following `access` config.
+To grant all guest (not signed in) users of your application read access to files that start with `foo/*`, use the following `access` config.
 
 Note that your backend must include `defineAuth` in order to use this access rule.
 
@@ -130,13 +130,13 @@ export const auth = defineAuth({
 });
 ```
 
-With the following `access` definition, you can configure permissions such that auditors have readonly permissions to `/foo/*` while admin has full permissions.
+With the following `access` definition, you can configure permissions such that auditors have readonly permissions to `foo/*` while admin has full permissions.
 
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/*': [
+    'foo/*': [
       allow.group('auditor').to(['read']),
       allow.group('admin').to(['read', 'write', 'delete'])
     ]
@@ -156,7 +156,7 @@ The following policy would allow authenticated users full access to files with a
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/{entity_id}/*': [
+    'foo/{entity_id}/*': [
       // {entity_id} is the token that is replaced with the user identity id
       allow.entity('identity').to(['read', 'write', 'delete'])
     ]
@@ -164,7 +164,7 @@ export const storage = defineStorage({
 });
 ```
 
-A user with identity id "123" would be able to perform read/write/delete operations on files within `/foo/123/*` and would not be able to perform actions on files with any other prefix. Likewise, a user with identity id "ABC" would be able to perform read/write/delete operation on files only within `/foo/ABC/*`. In this way, each user can be granted access to a "private storage location" that is not accessible to any other user.
+A user with identity id "123" would be able to perform read/write/delete operations on files within `foo/123/*` and would not be able to perform actions on files with any other prefix. Likewise, a user with identity id "ABC" would be able to perform read/write/delete operation on files only within `foo/ABC/*`. In this way, each user can be granted access to a "private storage location" that is not accessible to any other user.
 
 It may be desireable for a file owner to be able to write and delete files in their private location but allow anyone to read from that location. For example, profile pictures should be readable by anyone, but only the owner can modify them. This use case can be configured with the following definition.
 
@@ -172,7 +172,7 @@ It may be desireable for a file owner to be able to write and delete files in th
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/{entity_id}/*': [
+    'foo/{entity_id}/*': [
       allow.entity('identity').to(['read', 'write', 'delete']),
       allow.guest.to(['read']),
       allow.authenticated.to(['read'])
@@ -181,7 +181,7 @@ export const storage = defineStorage({
 });
 ```
 
-When a non-id-based rule is applied to a path with the `{entity_id}` token, the token is replaced with a wildcard (`*`). This means that the access will apply to files uploaded by _any_ user. In the above policy, write and delete is scoped to just the owner, but read is allowed for guest and authenticated users for any file within `/foo/*/*`.
+When a non-id-based rule is applied to a path with the `{entity_id}` token, the token is replaced with a wildcard (`*`). This means that the access will apply to files uploaded by _any_ user. In the above policy, write and delete is scoped to just the owner, but read is allowed for guest and authenticated users for any file within `foo/*/*`.
 
 ### Grant function access
 
@@ -195,12 +195,12 @@ const demoFunction = defineFunction({});
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/*': [allow.resource(demoFunction).to(['read', 'write', 'delete'])]
+    'foo/*': [allow.resource(demoFunction).to(['read', 'write', 'delete'])]
   })
 });
 ```
 
-This would grant the function `demoFunction` the ability to read write and delete files within `/foo/*`.
+This would grant the function `demoFunction` the ability to read write and delete files within `foo/*`.
 
 When a function is granted access to storage, it also receives an environment variable that contains the name of the S3 bucket configured by storage. This environment variable can be used in the function to make SDK calls to the storage bucket. The environment variable is named `<storageName>_BUCKET_NAME`. In the above example, it would be named `myProjectFiles_BUCKET_NAME`.
 
@@ -210,10 +210,11 @@ When a function is granted access to storage, it also receives an environment va
 
 There are some limitations on the types of prefixes that can be specified in the storage access definition.
 
-1. All paths are treated as prefixes from the storage root. As such all paths must start with `/` and end with `/*` to make this explicit.
-2. Only one level of nesting is allowed. For example, you can define access controls on `/foo/*` and `/foo/bar/*` but not on `/foo/bar/baz/*` because that path has 2 other prefixes.
-3. Wildcards cannot conflict with the `{entity_id}` token. For example, you cannot have both `/foo/*` and `/foo/{entity_id}/*` defined because the wildcard in the first path conflicts with the `{entity_id}` token in the second path.
-4. A path cannot be a prefix of another path with an `{entity_id}` token. For example `/foo/*` and `/foo/bar/{entity_id}/*` is not allowed.
+1. All paths start at the storage root. Paths cannot be defined relative to other paths.
+2. All paths are treated as prefixes. To make this explicit, all paths must end with `/*`.
+3. Only one level of nesting is allowed. For example, you can define access controls on `foo/*` and `foo/bar/*` but not on `foo/bar/baz/*` because that path has 2 other prefixes.
+4. Wildcards cannot conflict with the `{entity_id}` token. For example, you cannot have both `foo/*` and `foo/{entity_id}/*` defined because the wildcard in the first path conflicts with the `{entity_id}` token in the second path.
+5. A path cannot be a prefix of another path with an `{entity_id}` token. For example `foo/*` and `foo/bar/{entity_id}/*` is not allowed.
 
 ### Prefix behavior
 
@@ -223,10 +224,10 @@ When one path is a subpath of another, the permissions on the subpath _always ov
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/*': [allow.authenticated.to(['read', 'write', 'delete'])],
-    '/foo/bar/*': [allow.guest.to(['read'])],
-    '/foo/baz/*': [allow.authenticated.to(['read'])],
-    '/other/*': [
+    'foo/*': [allow.authenticated.to(['read', 'write', 'delete'])],
+    'foo/bar/*': [allow.guest.to(['read'])],
+    'foo/baz/*': [allow.authenticated.to(['read'])],
+    'other/*': [
       allow.guest.to(['read']),
       allow.authenticated.to(['read', 'write'])
     ]
@@ -236,12 +237,12 @@ export const storage = defineStorage({
 
 The access control matrix for this configuration is
 
-|  | /foo/\* | /foo/bar/\* | /foo/baz/\* | /other/\* |
+|  | foo/\* | foo/bar/\* | foo/baz/\* | other/\* |
 | --- | --- | --- | --- | --- |
 | **Authenticated Users** | read, write, delete | NONE | read | read, write |
 | **Guest users** | NONE | read | NONE | read |
 
-Authenticated users have access to read, write, and delete everything under `/foo/*` EXCEPT `/foo/bar/*` and `/foo/baz/*`. For those subpaths, the scoped down access overrides the access granted on the parent `/foo/*`
+Authenticated users have access to read, write, and delete everything under `foo/*` EXCEPT `foo/bar/*` and `foo/baz/*`. For those subpaths, the scoped down access overrides the access granted on the parent `foo/*`
 
 ### Available actions
 
@@ -275,15 +276,15 @@ To configure `defineStorage` in Amplify Gen 2 to behave the same way as the stor
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/public/*': [
+    'public/*': [
       allow.guest.to(['read'])
       allow.authenticated.to(['read', 'write', 'delete']),
     ],
-    '/protected/{entity_id}/*': [
+    'protected/{entity_id}/*': [
       allow.authenticated.to(['read']),
       allow.entity('identity').to(['read', 'write', 'delete'])
     ],
-    '/private/{entity_id}/*': [allow.entity('identity').to(['read', 'write', 'delete'])]
+    'private/{entity_id}/*': [allow.entity('identity').to(['read', 'write', 'delete'])]
   })
 });
 ```
