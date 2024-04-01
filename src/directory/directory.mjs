@@ -59,37 +59,28 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-up/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/concepts/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/add-social-provider/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-user-session/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-user-profile/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/password-management/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-mfa/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/delete-user-account/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/auth-events/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/admin-actions/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/configure-auth/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/override-cognito/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/user-management/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/client-side/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/server-side/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/modify-resources-with-cdk/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx'
                 }
               ]
             },
