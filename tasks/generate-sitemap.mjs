@@ -40,13 +40,13 @@ const xmlUrlWrapper = (nodes) => `${xmlHeader}
  * @param {string[]} htmlPageData String array of the HTML filepath and its last modified date (e.g. ['../../client/www/next-build/index.html', '2022-05-12T16:00:00.000Z'])
  * @returns {string} XML url node
  */
-const xmlUrlNode = async (htmlPageData) => {
+export const xmlUrlNode = (domain = SITEMAP_DOMAIN, htmlPageData) => {
   const urlPath = htmlPageData[0];
 
   const lastmod = htmlPageData[1]
     ? formatDate(new Date(htmlPageData[1]))
     : formatDate(new Date());
-  const loc = `${SITEMAP_DOMAIN}${urlPath}`;
+  const loc = `${domain}${urlPath}`;
   const priority = getPriority(urlPath);
   return `
 <url>
@@ -79,7 +79,7 @@ function findHtmlFiles(dir) {
 
 /**
  * Helper function to replace the platform specific subpath of the href argument with the string '[platform]'.
- * @param {string} href
+ * @param {string} href The platform specific string to be replaced with [platform]. (e.g. /android/build-a-backend/auth/sign-in)
  * @returns String with the platform subpath replaced with '[platform]', if a specific platform is found
  */
 function replacePlatformHref(href) {
@@ -143,7 +143,7 @@ async function groupDuplicateHtmlFiles(htmlFiles) {
 /**
  * Finds the highest ranking page to be used in the sitemap as the canonical url
  * @param {string[]} pages Array of page names (e.g. ['/react/my/page', '/javascript/my/page', '/nextjs/my/page'])
- * @returns {string[]} The highest ranking page and its last modified date (e.g. ['/react/my/page', 'Mar 19, 2024'])
+ * @returns {string} The highest ranking page
  */
 function findHighestRankPage(pages) {
   const PLATFORM_RANKINGS = {
@@ -166,6 +166,7 @@ function findHighestRankPage(pages) {
     (a, b) => a[1] - b[1]
   );
 
+  // Look for the highest rank page starting from the highest rank to the lowest rank
   for (const [platform] of sortedRanks) {
     for (const page of pages) {
       const platformRegex = new RegExp(`\/${platform}\/`);
@@ -183,7 +184,7 @@ function findHighestRankPage(pages) {
  * @returns {object} Object.directoryObject
  * @returns {string} Object.canonicalPageName
  */
-function findCanonicalPage(pagePaths) {
+export function findCanonicalPage(pagePaths) {
   const canonicalPage = findHighestRankPage(pagePaths);
 
   // After finding the canonical page, we need to check if it exists in our directory.
@@ -243,7 +244,7 @@ export async function generateSitemap() {
 /**
  * Writes the sitemap to the sitemap.xml file in the build directory
  */
-async function writeSitemap() {
+export async function writeSitemap() {
   const sitemapPath = `${ROOT_PATH}/sitemap.xml`;
   const sitemap = await generateSitemap();
 
@@ -255,7 +256,7 @@ async function writeSitemap() {
   }
 }
 
-const writeRobots = async () => {
+export const writeRobots = async () => {
   let robotsContent = `User-agent: *\nDisallow:\n`;
   if (typeof process.env.ALLOW_ROBOTS === 'undefined') {
     robotsContent = `User-agent: *\nDisallow: /\n`;
@@ -272,6 +273,3 @@ const writeRobots = async () => {
     console.error(`Error writing robots.txt to ${robotsPath}:`, error);
   }
 };
-
-await writeSitemap();
-await writeRobots();
