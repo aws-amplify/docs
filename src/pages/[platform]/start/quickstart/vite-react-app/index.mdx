@@ -118,7 +118,7 @@ First, find your application id in the Amplify console under **App Settings** > 
 Next, run the following command in your Terminal:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id <YOUR_APP_ID> --branch main
+npx amplify generate config --app-id <your-app-id> --branch main
 ```
 
 A new **amplifyconfiguration.json** file should appear in your repository's root directory. Review how the configuration file is imported within the `main.tsx` file and passed into the `Amplify.configure(...)` function of the Amplify client library.
