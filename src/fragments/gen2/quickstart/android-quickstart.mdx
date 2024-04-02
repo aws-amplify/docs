@@ -1,0 +1,459 @@
+## Prerequisites
+
+Before you get started, make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) v18.17 or later
+- [npm](https://www.npmjs.com/) v9 or later
+- [git](https://git-scm.com/) v2.14.1 or later
+- You will also need to [create an AWS Account](https://portal.aws.amazon.com/billing/signup). Note that AWS Amplify is part of the [AWS Free Tier](https://aws.amazon.com/amplify/pricing/).
+- Configure your AWS account to use with Amplify [instructions](/[platform]/start/account-setup/).
+
+## Build an Android app
+
+Here is how you can build a To Do application on each platform with CRUD operations:
+
+<Callout info>
+You need to have [Android Studio and SDK](https://developer.android.com/studio) installed on your machine.
+</Callout>
+
+**Open Android Studio.** Select **+ Create New Project.**
+
+![Shows the Android studio welcome window](/images/lib/getting-started/android/set-up-android-studio-welcome.png)
+
+In **Select a Project Template**, select **Empty Activity** or **Empty Compose Activity**. Press **Next**.
+
+![Shows Android studio new project window](/images/lib/getting-started/android/set-up-android-studio-select-project-template.png)
+
+- Enter _MyAmplifyApp_ in the **Name** field
+- Select either _Java_ or _Kotlin_ from the **Language** dropdown menu
+- Select _API 24: Android 7.0 (Nougat)_ from the **Minimum SDK** dropdown menu
+- Press **Finish**
+
+![Shows Android studio configure project window](/images/lib/getting-started/android/set-up-android-studio-configure-your-project.png)
+
+<Callout info>
+  This guide will expect you to use Kotlin DSL for Gradle. If you are using
+  Groovy DSL, you will need to make some changes to the Gradle files.
+</Callout>
+
+### Create Amplify Project
+
+The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
+
+```bash
+npm create amplify@beta
+? Where should we create your project? (.) # press enter
+```
+
+Running this command will scaffold a lightweight Amplify project in your current project with the following files added:
+
+```text
+├── amplify/
+│   ├── auth/
+│   │   └── resource.ts
+│   ├── data/
+│   │   └── resource.ts
+│   ├── backend.ts
+│   └── package.json
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+└── tsconfig.json
+```
+
+### Running Local Development Environment
+
+Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
+
+<Callout warning>
+  Be sure to add a "raw" folder under app/src/main/res directory if it doesn't
+  exist.
+</Callout>
+
+```bash
+npx amplify sandbox --config-format=json-mobile --config-out-dir=app/src/main/res/raw
+```
+
+### Adding Authentication
+
+After the Amplify creation process, you can see a resource.ts file in the amplify/auth folder. This file contains the configuration for the authentication resource. The base code will enable the authentication with the default configuration. You can change the configuration based on your needs. For more information about the configuration, you can check the [documentation](/[platform]/build-a-backend/auth/enable-sign-up/).
+
+```typescript
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  }
+});
+```
+
+After you have configured the authentication resource, you can use the Amplify UI libraries to run your authentication flow. Amplify UI is a collection of accessible, themeable, performant ui components that can connect directly to the Amplify resources.
+
+To use the Amplify UI libraries, you need to add the following dependencies to your app/build.gradle file:
+
+<Callout warning>Be sure to have compileSdk version as 34 or higher.</Callout>
+
+```kotlin
+dependencies {
+    implementation("androidx.compose.material3:material3:1.1.0")
+    implementation("com.amplifyframework.ui:authenticator:1.0.1")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+}
+```
+
+Afterwards create a `MyAmplifyApp` class that extends `Application` and add the following code:
+
+```kotlin
+import android.app.Application
+import android.util.Log
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+
+class MyAmplifyApp: Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        try {
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.configure(applicationContext)
+            Log.i("MyAmplifyApp", "Initialized Amplify")
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+        }
+    }
+}
+```
+
+Next call this class in your `AndroidManifest.xml` file:
+
+```xml
+<application
+    android:name=".MyAmplifyApp"
+    ...
+</application>
+```
+
+Lastly update your MainActivity.kt file to use the Amplify UI components:
+
+```kotlin
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.ui.authenticator.ui.Authenticator
+import <your-package-name>.ui.theme.MyAmplifyAppTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyAmplifyAppTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Authenticator { state ->
+                        Column {
+                            Text(
+                                text = "Hello ${state.user.username}!",
+                            )
+                            Button(onClick = {
+                                Amplify.Auth.signOut {  }
+                            }) {
+                                Text(text = "Sign Out")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+Now if you run the application on the Android emulator, you should see the authentication flow working.
+
+<video autoPlay={true} muted={true} loop={true} width="40%" playsInline={true}>
+  <source src="/images/gen2/getting-started/android/android-getting-started-1.mp4" />
+</video>
+
+### Adding GraphQL API
+
+After the Amplify creation process, you can see a resource.ts file in the amplify/data folder. This file contains the configuration for the GraphQL API resource.
+
+The default code will create a Todo model with content and isDone property. The authorization rules below specify that owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
+
+```typescript
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      isDone: a.boolean()
+    })
+    .authorization([a.allow.owner()])
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'userPool'
+  }
+});
+```
+
+To generate the model classes out of GraphQL schema, you can run the following command:
+
+```bash
+npx amplify generate graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java
+```
+
+Now you can see that the model classes are generated under app/src/main/java/com/amplifyframework/datastore/generated/model folder.
+
+<Callout info>
+  The generated models are in Java but do not worry Java and Kotlin are
+  interoperable. You can use the generated models in your Kotlin code.
+</Callout>
+
+For using GraphQL API, you need to add the following dependencies to your app/build.gradle file:
+
+```kotlin
+dependencies {
+  implementation("com.amplifyframework:core:2.14.4")
+  implementation("com.amplifyframework:aws-api:2.14.4")
+}
+```
+
+Afterwards open the `MyAmplifyApp` class and add the following line before the `configure` call:
+
+```kotlin
+Amplify.addPlugin(AWSApiPlugin())
+```
+
+Now it is time to update the UI code a bit. Update the `MainActivity` class with the following code:
+
+```kotlin
+
+class MainActivity : ComponentActivity() {
+
+    private val todoList = mutableStateListOf<Todo>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyApplicationTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Authenticator { _ ->
+                      Scaffold(
+                          floatingActionButton = {
+                              FloatingActionButton(
+                                  onClick = {
+                                      val date = Date()
+                                      val offsetMillis = TimeZone.getDefault().getOffset(date.time).toLong()
+                                      val offsetSeconds = TimeUnit.MILLISECONDS.toSeconds(offsetMillis).toInt()
+                                      val temporalDateTime = Temporal.DateTime(date, offsetSeconds)
+                                      val todo = Todo.builder()
+                                          .createdAt(temporalDateTime)
+                                          .updatedAt(temporalDateTime)
+                                          .content("My random todo ${System.currentTimeMillis()}")
+                                          .isDone(false)
+                                          .build()
+
+                                      Amplify.API.mutate(
+                                          ModelMutation.create(todo),
+                                          {
+                                            Log.i("MyAmplifyApp", "Added Todo with id: ${it.data.id}")
+                                            todoList.add(todo)
+                                          },
+                                          { Log.e("MyAmplifyApp", "Create failed", it) }
+                                      )
+                                  },
+                              ) {
+                                  Icon(Icons.Filled.Add, "Add a random todo.")
+                              }
+                          }
+                      ) {
+                          Column(modifier = Modifier.padding(it)) {
+                              Button(onClick = {
+                                  Amplify.Auth.signOut {  }
+                              }) {
+                                  Text(text = "Sign Out")
+                              }
+                              Text(text = "The list of items will come here.")
+                          }
+                      }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+The `onClick` function of the `FloatingActionButton` will create a random Todo item. Now it is time to add a logic to see the added items.
+
+First let's add a `TodoScreen` composable function:
+
+```kotlin
+@Composable
+fun TodoScreen(
+  todoList: SnapshotStateList<Todo>,
+  onItemUpdated: (Todo) -> Unit,
+  onItemDeleted: (Todo) -> Unit,
+) {
+    LazyColumn {
+        todoList.forEach { todo ->
+            item {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = todo.isDone,
+                        onCheckedChange = { }
+                    )
+                    Text(todo.content)
+                }
+            }
+        }
+    }
+}
+```
+
+Next let's update the `MainActivity` class to use the `TodoScreen` composable function. Update the `Authenticator` usage with the following code:
+
+```kotlin
+Authenticator(modifier = Modifier.padding(it)) { _ ->
+    Column {
+            Button(onClick = {
+                Amplify.Auth.signOut { }
+            }) {
+                Text(text = "Sign Out")
+            }
+        if (todoList.isEmpty())
+            Text(text = "The list is empty.\nAdd some items by clicking the Floating Action Button.")
+        else
+            TodoScreen(
+                todoList,
+                onItemUpdated = { todo ->
+                    val foundItem =
+                        todoList.firstOrNull { it.id == todo.id }
+                    if (foundItem != null) {
+                        val index = todoList.indexOf(foundItem)
+                        todoList.removeAt(index)
+                        Log.i("updated", todo.toString())
+                        todoList.add(index, todo)
+                    }
+                },
+            ) { todo -> todoList.remove(todo) }
+    }
+}
+```
+
+Now add a `todoList` variable to the `MainActivity` class before the `onCreate` call and call the `refreshItems` function before the `setContent` call:
+
+```kotlin
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    refreshItems()
+...
+}
+```
+
+Lastly create a function to fetch the items. Add the following code to the `MainActivity` class:
+
+```kotlin
+private fun refreshItems() {
+    Amplify.API.query(
+        ModelQuery.list(Todo::class.java),
+        { response ->
+            val items = response.data
+            items.forEach { todo ->
+                val foundItem = todoList.firstOrNull { it.id == todo.id }
+                if (foundItem != null) {
+                    val index = todoList.indexOf(foundItem)
+                    todoList.removeAt(index)
+                    todoList.add(index, todo)
+                } else {
+                    todoList.add(todo)
+                }
+            }
+            Log.i("MyAmplifyApp", "Queried items: $items")
+        },
+        { Log.e("MyAmplifyApp", "Query failure", it) }
+    )
+}
+```
+
+Now let's update and delete the items. For update, add the following code to the `onCheckedChange` method of the `Checkbox` widget:
+
+```kotlin
+val newTodo = todo.copyOfBuilder().isDone(it).build()
+Amplify.API.mutate(
+    ModelMutation.update(newTodo),
+    {
+        Log.i("MyAmplifyApp", "Updated Todo with id: ${todo.id}")
+        onItemUpdated(newTodo)
+    },
+    { Log.e("MyAmplifyApp", "Update failed") }
+)
+```
+
+For deleting add a long click behavior with the `Modifier.combinedClickable` modifier. To add it, update the Row composable call in the `TodoScreen` composable function with the following code:
+
+```kotlin
+Row(
+    verticalAlignment = Alignment.CenterVertically,
+    modifier = Modifier.combinedClickable(
+        onClick = {
+            val newTodo = todo.copyOfBuilder().isDone(!todo.isDone).build()
+            Amplify.API.mutate(
+                ModelMutation.update(newTodo),
+                {
+                    Log.i("MyAmplifyApp", "Updated Todo with id: ${todo.id}")
+                    onItemUpdated(newTodo)
+                },
+                { Log.e("MyAmplifyApp", "Update failed") }
+            )
+        },
+        onLongClick = {
+            Amplify.API.mutate(
+                ModelMutation.delete(todo),
+                {
+                    Log.i("MyAmplifyApp", "Deleted Todo with id: ${todo.id}")
+                    onItemDeleted(todo)
+                },
+                { Log.e("MyAmplifyApp", "Delete failed") }
+            )
+        },
+    )
+)
+```
+
+With the click, we update the checkbox but with the long click we remove it. Now if you run the application you should see the following flow.
+
+<video autoPlay={true} muted={true} loop={true} width="40%" playsInline={true}>
+  <source src="/images/gen2/getting-started/android/android-getting-started-2.mp4" />
+</video>
+
+You can terminate the sandbox environment now to clean up the project.
+
+### Publishing changes to cloud
+
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#create-remote-git-repository).

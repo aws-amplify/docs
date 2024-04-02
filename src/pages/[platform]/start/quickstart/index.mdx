@@ -1,4 +1,5 @@
 import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
@@ -26,11 +27,29 @@ export function getStaticProps(context) {
   const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
+      platform: context.params.platform,
       meta,
       childPageNodes
     }
   };
 }
 
+<InlineFilter filters={["android"]}>
+</InlineFilter>
+
+import swiftQuickstart from '/src/fragments/gen2/quickstart/swift-quickstart.mdx';
+
+<Fragments fragments={{ swift: swiftQuickstart }} />
+
+import androidQuickstart from '/src/fragments/gen2/quickstart/android-quickstart.mdx';
+
+<Fragments fragments={{ android: androidQuickstart }} />
+
+import flutterQuickstart from '/src/fragments/gen2/quickstart/flutter-quickstart.mdx';
+
+<Fragments fragments={{ flutter: flutterQuickstart }} />
+
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 <Overview childPageNodes={props.childPageNodes} />
+</InlineFilter>
 

@@ -43,9 +43,6 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
-            },
-            {
-              path: 'src/pages/[platform]/start/mobile-support/index.mdx'
             }
           ]
         },

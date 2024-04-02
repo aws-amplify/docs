@@ -1,0 +1,401 @@
+## Prerequisites
+
+Before you get started, make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) v18.17 or later
+- [npm](https://www.npmjs.com/) v9 or later
+- [git](https://git-scm.com/) v2.14.1 or later
+- You will also need to [create an AWS Account](https://portal.aws.amazon.com/billing/signup). Note that AWS Amplify is part of the [AWS Free Tier](https://aws.amazon.com/amplify/pricing/).
+- Configure your AWS account to use with Amplify [instructions](/[platform]/start/account-setup/).
+
+## Build a Swift app
+
+Here is how you can build a To Do application on each platform with CRUD operations:
+
+<Callout info>
+  You need to have [Xcode and Developer
+  Tooling](https://developer.apple.com/xcode/) installed on your machine.
+</Callout>
+
+Open Xcode and select **Create New Project...**
+
+![Shows the Xcode starter video to start project](/images/lib/getting-started/ios/set-up-swift-1.png)
+
+In the next step select the **App** template under **iOS**. Click on next.
+
+![Shows the template of apps for iOS](/images/lib/getting-started/ios/set-up-swift-2.png)
+
+Next steps are:
+
+- Adding a _Product Name_ (e.g. MyAmplifyApp)
+- Select a _Team_ (e.g. None)
+- Select a _Organization Identifier_ (e.g. com.example)
+- Select **SwiftUI** an _Interface_.
+- Press **Next**
+
+![Shows the project details dialog](/images/lib/getting-started/ios/set-up-swift-3.png)
+
+Now you should have your project created.
+
+![Shows the base project for SwiftUI](/images/lib/getting-started/ios/set-up-swift-4.png)
+
+### Create Amplify Project
+
+The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
+
+```bash
+npm create amplify@beta
+? Where should we create your project? (.) # press enter
+```
+
+Running this command will scaffold a lightweight Amplify project in your current project with the following files added:
+
+```text
+├── amplify/
+│   ├── auth/
+│   │   └── resource.ts
+│   ├── data/
+│   │   └── resource.ts
+│   ├── backend.ts
+│   └── package.json
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+└── tsconfig.json
+```
+
+### Running Local Development Environment
+
+Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
+
+```bash
+npx amplify sandbox --config-format=json-mobile
+```
+
+Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+  <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
+</video>
+
+### Adding Authentication
+
+After the Amplify creation process, you can see a resource.ts file in the amplify/auth folder. This file contains the configuration for the authentication resource. The base code will enable the authentication with the default configuration. You can change the configuration based on your needs. For more information about the configuration, you can check the [documentation](/[platform]/build-a-backend/auth/enable-sign-up/).
+
+```typescript
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  }
+});
+```
+
+After you have configured the authentication resource, you can use the Amplify UI libraries to run your authentication flow. Amplify UI is a collection of accessible, themeable, performant ui components that can connect directly to the Amplify resources.
+
+Open your project in Xcode and select **File > Add Packages...** and add the following dependencies:
+
+![Shows the Amplify library for Swift](/images/lib/getting-started/ios/set-up-swift-5.png)
+
+- Amplify Library for Swift: Enter its GitHub URL (https://github.com/aws-amplify/amplify-swift), select **Up to Next Major Version** and click **Add Package Dependencies...** and select the following libraries:
+
+  - Amplify
+  - AWSCognitoAuthPlugin
+
+![Shows the Amplify library for Swift](/images/lib/getting-started/ios/set-up-swift-6.png)
+
+- Amplify UI Swift - Authenticator: Enter its GitHub URL (https://github.com/aws-amplify/amplify-ui-swift-authenticator), select **Up to Next Major Version** and click **Add Package Dependencies...** and select the following libraries:
+  - Authenticator
+
+![Shows the Amplify library for Swift](/images/lib/getting-started/ios/set-up-swift-7.png)
+
+Now update the `MyAmplifyAppApp` class with the following code:
+
+```swift
+import Amplify
+import Authenticator
+import AWSCognitoAuthPlugin
+import SwiftUI
+
+@main
+struct MyApp: App {
+    init() {
+        do {
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.configure()
+        } catch {
+            print("Unable to configure Amplify \(error)")
+        }
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            Authenticator { state in
+                VStack {
+                    Button("Sign out") {
+                        Task {
+                            await state.signOut()
+                        }
+                    }
+                    Spacer()
+                    Button(action: {
+                        Task {
+                            await createTodo()
+                            await listTodos()
+                        }
+                    }) {
+                        HStack {
+                            Text("Add a New Todo")
+                            Image(systemName: "plus")
+                        }
+                    }
+                    .accessibilityLabel("New Todo")
+                }
+            }
+        }
+    }
+}
+```
+
+This will add the authentication flow by using the Authenticator component and add a sign out button with a create todo button.
+
+If you run the application now, you can see that the authentication flow is working.
+
+<video autoPlay={true} muted={true} loop={true} width="40%" playsInline={true}>
+  <source src="/images/gen2/getting-started/ios/ios-getting-started-1.mp4" />
+</video>
+
+### Adding Data
+
+After the Amplify creation process, you can see a resource.ts file in the amplify/data folder. This file contains the configuration for the GraphQL API resource.
+
+The default code will create a Todo model with content and isDone property. The authorization rules below specify that owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
+
+```typescript
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      isDone: a.boolean()
+    })
+    .authorization([a.allow.owner()])
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'userPool'
+  }
+});
+```
+
+To generate the model classes out of GraphQL schema, you can run the following command:
+
+```bash
+npx amplify generate graphql-client-code --format=modelgen
+```
+
+Move the generated files to your project. You can do this by dragging and dropping the files to your project.
+
+![Shows the drag and drop phase](/images/lib/getting-started/ios/set-up-swift-8.png)
+
+Once you are done, add the API dependencies to your project. Select **File > Add Package Dependencies...** and add the `AWSAPIPlugin`.
+
+![Shows the Amplify API library for Swift selected](/images/lib/getting-started/ios/set-up-swift-9.png)
+
+Next, update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+init() {
+    do {
+        try Amplify.add(plugin: AWSCognitoAuthPlugin())
+        try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
+        try Amplify.configure()
+    } catch {
+        print("Unable to configure Amplify \(error)")
+    }
+}
+```
+
+Now it is time to update the UI code a bit. Create a `createTodo` function in the `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+func createTodo() async {
+    let creationTime = Temporal.DateTime.now()
+    let todo = Todo(
+        content: "Random Todo \(creationTime)",
+        isDone: false,
+        createdAt: creationTime,
+        updatedAt: creationTime
+    )
+    do {
+        let result = try await Amplify.API.mutate(request: .create(todo))
+        switch result {
+        case .success(let todo):
+            print("Successfully created todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to create todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+The code above will create a random todo with the current time.
+
+Next create a `listTodos` function in the `MyAmplifyAppApp.swift` file with the following code to have the logic of listing the items:
+
+```swift
+func listTodos() async {
+    let request = GraphQLRequest<Todo>.list(Todo.self)
+    do {
+        let result = try await Amplify.API.query(request: request)
+        switch result {
+        case .success(let todos):
+            self.todos = todos.elements
+            print("Successfully retrieved list of todos: \(todos)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to query list of todos: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+This will assign the value of the fetched todos into a State object. Be sure to create it before the `body` property:
+
+```swift
+@State var todos: [Todo] = []
+```
+
+Now let's update the UI code to show the todos. Update the `VStack` in the `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+VStack {
+  Button("Sign out") {
+      Task {
+          await state.signOut()
+      }
+  }
+  List(todos, id: \.id) { todo in
+     Text(todo.content!)
+  }
+  Button(action: {
+      Task {
+          await createTodo()
+          await listTodos()
+      }
+  }) {
+      HStack {
+          Text("Add a New Todo")
+          Image(systemName: "plus")
+      }
+  }
+  .accessibilityLabel("New Todo")
+}.task {
+  await listTodos()
+}
+```
+
+<Callout info>
+  Throughout the Swift implementation, the async/await pattern has been used and
+  for using it easily, we take advantage of the Task structure. For more
+  information about the Task structure, you can check the
+  [documentation](https://developer.apple.com/documentation/swift/task).
+</Callout>
+
+The code above will fetch the todos once the VStack is shown. It will also create a todo and update the todo list each time a todo is created.
+
+Next step is to update and delete the todos. For that, create `updateTodo` and `deleteTodo` functions in the `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+func deleteTodo(todo: Todo) async {
+    do {
+        let result = try await Amplify.API.mutate(request: .delete(todo))
+        switch result {
+        case .success(let todo):
+            print("Successfully deleted todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to deleted todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+func updateTodo(todo: Todo) async {
+    do {
+        let result = try await Amplify.API.mutate(request: .update(todo))
+        switch result {
+        case .success(let todo):
+            print("Successfully updated todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to updated todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+Lastly, update the `List` in the `MyAmplifyAppApp.swift` file with the following code:
+
+```swift
+List(todos, id: \.id) { todo in
+    @State var isToggled = todo.isDone!
+    Toggle(isOn: $isToggled
+    ) {
+        Text(todo.content!)
+    }.onTapGesture {
+        var updatedTodo = todos.first {$0.id == todo.id}!
+        updatedTodo.isDone = !todo.isDone!
+        Task {
+            await updateTodo(todo: updatedTodo)
+            await listTodos()
+        }
+    }
+    .onChange(of: isToggled) { oldValue, newValue in
+        var updatedTodo = todos.first {$0.id == todo.id}!
+        updatedTodo.isDone = newValue
+        Task {
+            await updateTodo(todo: updatedTodo)
+            await listTodos()
+        }
+    }
+    .toggleStyle(.switch)
+    .onLongPressGesture {
+        Task {
+            await deleteTodo(todo: todo)
+            await listTodos()
+        }
+    }
+}
+```
+
+This will update the UI to show a toggle to update the todo and a long press gesture to delete the todo. Now if you run the application you should see the following flow.
+
+<video autoPlay={true} muted={true} loop={true} width="40%" playsInline={true}>
+  <source src="/images/gen2/getting-started/ios/ios-getting-started-3.mp4" />
+</video>
+
+You can terminate the sandbox environment now to clean up the project.
+
+### Publishing changes to cloud
+
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#create-remote-git-repository).
