@@ -22,7 +22,7 @@ export const getStaticPaths = async () => {
   return getCustomStaticPath(meta.platforms);
 };
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   return {
     props: {
       meta
@@ -109,6 +109,13 @@ npm install
 
 Every app that uses the Amplify Backend needs a client configuration file **amplifyconfiguration.json**, which contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this client configuration file to connect to your Amplify Backend.
 
+<Callout info>
+
+**First time using AWS Amplify Gen 2 on your computer?** [Configure your AWS account to grant Amplify permissions locally](/[platform]/start/account-setup/). **Note:** If you already have an AWS profile with credentials on your local machine, and you have configured the corresponding AWS profile with the **AmplifyBackendDeployFullAccess** permission policy, you can skip this step.
+
+</Callout>
+
+
 First, find your application id in the Amplify console under **App Settings** > **General Settings** > **App ARN**. Select **ONLY** the portion after the final "/".
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
@@ -167,7 +174,6 @@ npm run dev
 
 This should start a local dev server at http://localhost:5173.
 
-
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/getting-started/react/demo-delete.mp4" />
 </video>
@@ -217,7 +223,6 @@ The Authenticator component auto-detects your auth backend settings and renders 
 
 Try out your application in your localhost environment again. You should be presented with a login experience now.
 
-
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/getting-started/react/demo-auth.mp4" />
 </video>
@@ -229,20 +234,11 @@ git commit -am "added authenticator"
 git push
 ```
 
-
 ## Setup cloud sandbox for rapid fullstack iteration
 
 In the prior steps, we were working against our production-grade databases and authentication backend but **what if you want to work against an isolated backend environment purely used for development purposes?**
 
 Amplify's cloud sandbox functionality creates a per-developer backend environment intended for your localhost development and testing workflows. This allows you to test and iterate without touching production backend data. 
-
-
-<Callout info>
-
-**First time using AWS Amplify Gen 2 on your computer?** [Configure your AWS account to grant Amplify permissions locally](/[platform]/start/account-setup/). **Note:** If you already have an AWS profile with credentials on your local machine, and you have configured the corresponding AWS profile with the **AmplifyBackendDeployFullAccess** permission policy, you can skip this step.
-
-</Callout>
-
 
 To start your cloud sandbox, run the following command in a **new Terminal window**:
 
