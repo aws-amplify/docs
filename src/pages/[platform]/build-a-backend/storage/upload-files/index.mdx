@@ -1,0 +1,182 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Upload files',
+  description: 'Upload files using Amplify Storage',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+There are multiple ways you can implement upload functionality for your app and upload files to your storage bucket.
+
+<BlockSwitcher>
+<Block name="Storage Manager UI Component">
+Upload files from your app in minutes by using the cloud-connected Storage Manager UI Component. 
+
+```
+npm install @aws-amplify/ui-react-storage aws-amplify
+```
+```
+import { StorageImage } from '@aws-amplify/ui-react-storage';
+
+export const DefaultStorageImageExample = () => {
+  return <StorageImage alt="cat" imgKey="cat.jpg" accessLevel="guest" />;
+};
+```
+
+![Showing Storage Manager UI component](/images/gen2/storage/upload-ui-component.png)
+
+Learn more about how you can further customize the UI component by referring to the [Storage Manager documentation](https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager).
+
+</Block>
+<Block name="Amplify Console">
+You can also upload files ad-hoc via the Amplify Console once you have set up your backend.
+
+![Amplify Console showing drag and drop feature to upload files on-demand](/images/gen2/storage/drag-and-drop.png)
+</Block>
+</BlockSwitcher>
+
+### API Usage
+
+To further customize the upload experience from your app, refer to the API usage for uploading files using the Amplify Library for Storage.
+
+```javascript
+import { uploadData } from 'aws-amplify/storage';
+
+try {
+  const result = await uploadData({
+    path: "album/2024/1.jpg", 
+    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    data: file,
+    options: {
+      onProgress // Optional progress callback.
+    }
+  }).result;
+  console.log('Succeeded: ', result);
+} catch (error) {
+  console.log('Error : ', error);
+}
+```
+### Transfer Acceleration
+
+<Callout warning>
+
+When you use Transfer Acceleration, additional data transfer charges might apply. For more information about pricing, see [Amazon S3 pricing](https://aws.amazon.com/s3/pricing/).
+
+</Callout>
+
+You can enable [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transfer-acceleration.html) for fast and secure transfer of files over long distances between your end user device and the S3 bucket. You can override the storage resource for this configuration and then leverage the `useAccelerateEndpoint` parameter to use the accelerated S3 endpoint.
+
+//TODO
+
+### Upload progress
+Monitor progress of upload by using the `onProgress` options
+
+```javascript
+import { uploadData } from 'aws-amplify/storage';
+
+try {
+  const result = uploadData({
+    path: "album/2024/1.jpg", 
+    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    data: file,
+    options: {
+      onProgress: ({ transferredBytes, totalBytes }) => {
+        if (totalBytes) {
+          console.log(
+            `Upload progress ${
+              Math.round((transferredBytes / totalBytes) * 100)
+            } %`
+          );
+        }
+      }
+    }
+  }).result;
+  console.log('Path from Response: ', result.path);
+} catch (error) {
+  console.log('Error : ', error);
+}
+```
+
+### Pause, resume, and cancel uploads
+
+We have callback functions that support resuming, pausing, and cancelling `uploadData` requests.
+
+```javascript
+import { uploadData } from 'aws-amplify/storage';
+
+// Pause, resume, and cancel a task
+const uploadTask = uploadData({ path, data: file });
+//...
+uploadTask.pause();
+//...
+uploadTask.resume();
+//...
+uploadTask.cancel();
+//...
+try {
+  await uploadTask.result;
+} catch (error) {
+  if (isCancelError(error)) {
+    // Handle error thrown by task cancellation
+  }
+}
+```
+
+### Other options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| contentType | String | The default content-type header value of the file when downloading it. |
+| contentEncoding | String | The default content-encoding header value of the file when downloading it. |
+| contentDisposition | String | Specifies presentational information for the object |
+| metadata | map\<String\> | A map of metadata to store with the object in S3. |
+| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. |
+
+<Callout>
+
+Uploads that were initiated over one hour ago will be cancelled automatically. There are instances (e.g device went offline, user logs out) where the incomplete file remains in your S3 account. It is recommended to [setup a s3 lifecycle rule](https://aws.amazon.com/blogs/aws-cloud-financial-management/discovering-and-deleting-incomplete-multipart-uploads-to-lower-amazon-s3-costs/) to automatically cleanup incomplete upload requests.
+
+</Callout>
+
+### Browser Uploads
+
+```javascript
+import { uploadData } from 'aws-amplify/storage';
+
+const uploadDataInBrowser = async (event) => {
+  if (event?.target?.files) {
+    const file = event.target.files[0];
+    uploadData({
+      path: file.name,
+      data: file
+    });
+  }
+};
+```
+### Transfer Acceleration
+
+<Callout warning>
+
+When you use Transfer Acceleration, additional data transfer charges might apply. For more information about pricing, see [Amazon S3 pricing](https://aws.amazon.com/s3/pricing/).
+
+</Callout>
+
+You can enable [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transfer-acceleration.html) for fast and secure transfer of files over long distances between your end user device and the S3 bucket. You can override the storage resource for this configuration and then leverage the `useAccelerateEndpoint` parameter to use the accelerated S3 endpoint.
