@@ -24,4 +24,30 @@ export function getStaticProps(context) {
   };
 }
 
-//TODO
+Amplify Storage generates S3 resources to offer storage features. You can access the underlying S3 resources to further customize your backend configuration by using the AWS Cloud Developer Kit (CDK).
+
+### Example - Enable Transfer Acceleration
+
+The following is an example of how you would enable Transfer Acceleration on the bucket ([CDK documentation](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.CfnBucket.AccelerateConfigurationProperty.html)). In order to enable Transfer Acceleration on the bucket, you will have to unwrap the L1 CDK construct from the L2 CDK construct like the following.
+
+```
+import { defineBackend } from '@aws-amplify/backend';
+import { storage } from './storage/resource';
+// highlight-next-line
+import { aws_s3 as s3 } from 'aws-cdk-lib';
+
+const backend = defineBackend({
+  storage
+});
+
+// highlight-start
+const s3Bucket = backend.storage.resources.bucket;
+
+const cfnBucket = s3Bucket.node.defaultChild as s3.CfnBucket;
+
+cfnBucket.accelerateConfiguration = {
+  accelerationStatus: "Enabled" // 'Suspended' if you want to disable transfer acceleration
+}
+// highlight-end
+```
+Read more about this at [AWS CDK Escap Hatches](https://docs.aws.amazon.com/cdk/v2/guide/cfn_layer.html#develop-customize-escape).

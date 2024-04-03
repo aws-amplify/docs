@@ -73,7 +73,28 @@ When you use Transfer Acceleration, additional data transfer charges might apply
 
 You can enable [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transfer-acceleration.html) for fast and secure transfer of files over long distances between your end user device and the S3 bucket. You can override the storage resource for this configuration and then leverage the `useAccelerateEndpoint` parameter to use the accelerated S3 endpoint.
 
-//TODO
+Here is how you would enable Transfer Acceleration for your Storage resource by extending the S3 resource configuration
+
+```
+import { defineBackend } from '@aws-amplify/backend';
+import { storage } from './storage/resource';
+// highlight-next-line
+import { aws_s3 as s3 } from 'aws-cdk-lib';
+
+const backend = defineBackend({
+  storage
+});
+
+// highlight-start
+const s3Bucket = backend.storage.resources.bucket;
+
+const cfnBucket = s3Bucket.node.defaultChild as s3.CfnBucket;
+
+cfnBucket.accelerateConfiguration = {
+  accelerationStatus: "Enabled" // 'Suspended' if you want to disable transfer acceleration
+}
+// highlight-end
+```
 
 ### Monitor download progress
 
