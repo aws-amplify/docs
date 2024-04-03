@@ -56,7 +56,7 @@ describe('generate-sitemap', () => {
         '2022-05-12T16:00:00.000Z'
       ];
 
-      const result = xmlUrlNode('https://docs.amplify.aws', htmlPageData);
+      const result = xmlUrlNode(htmlPageData, 'https://docs.amplify.aws');
 
       expect(result).toEqual(
         `

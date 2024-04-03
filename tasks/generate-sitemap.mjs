@@ -40,7 +40,7 @@ const xmlUrlWrapper = (nodes) => `${xmlHeader}
  * @param {string[]} htmlPageData String array of the HTML filepath and its last modified date (e.g. ['../../client/www/next-build/index.html', '2022-05-12T16:00:00.000Z'])
  * @returns {string} XML url node
  */
-export const xmlUrlNode = (domain = SITEMAP_DOMAIN, htmlPageData) => {
+export const xmlUrlNode = (htmlPageData, domain = SITEMAP_DOMAIN) => {
   const urlPath = htmlPageData[0];
 
   const lastmod = htmlPageData[1]
