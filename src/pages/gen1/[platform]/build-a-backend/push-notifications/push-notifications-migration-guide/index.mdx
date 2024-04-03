@@ -63,22 +63,22 @@ The `enable` API has been renamed to `initializePushNotifications` in v6 to add 
 <BlockSwitcher>
   <Block name="V6">
     ```ts
-    import { Amplify, Notifications } from 'aws-amplify';
-    import awsconfig from './src/aws-exports';
-
-    Amplify.configure(awsconfig);
-    Notifications.Push.enable();
-    ```
-
-  </Block>
-  <Block name="V5">
-    ```ts
     import { Amplify } from 'aws-amplify';
     import amplifyconfig from './amplifyconfiguration.json';
     import { initializePushNotifications } from 'aws-amplify/push-notifications';
 
     Amplify.configure(amplifyconfig);
     initializePushNotifications();
+    ```
+
+  </Block>
+  <Block name="V5">
+    ```ts
+    import { Amplify, Notifications } from 'aws-amplify';
+    import awsconfig from './src/aws-exports';
+
+    Amplify.configure(awsconfig);
+    Notifications.Push.enable();
     ```
 
   </Block>
