@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Layout } from '../index';
-// import flatDirectory from '../../../directory/flatDirectory.json';
 
 const routerMock = {
   __esModule: true,
@@ -21,7 +20,7 @@ describe('Layout', () => {
     <Layout
       pageTitle="Title"
       pageDescription="Description"
-      pageType="inner"
+      pageType="home"
       platform="react"
       hasTOC={true}
       useCustomTitle={false}
@@ -38,13 +37,14 @@ describe('Layout', () => {
     expect(layout).toBeInTheDocument();
   });
 
-  it('should ', async () => {
-    render(component);
-    const main = await screen.getByRole('main', { name: 'Main content' });
-    console.log(Array.from(main.children));
+  // it('should show color change mode', async () => {
+  //   render(component);
+  //   console.log(localStorage.getItem('colorMode'));
+  // });
 
-    // console.log(Array.from(main.childNodes));
-    // const toc = await screen.getByText('On this page');
-    // console.log(toc);
+  it('handleScroll', async () => {
+    render(component);
+    console.log(component.props.pageType);
+    console.log(document.body.className);
   });
 });
