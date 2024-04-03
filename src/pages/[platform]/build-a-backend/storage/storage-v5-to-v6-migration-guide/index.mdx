@@ -39,11 +39,11 @@ The input options below have been removed in v6 from Storage APIs:
 
 ## Deprecated Options
 
-Starting version 6.x.x, the following parameters in input and output options have been marked deprecated and will be removed in a future version.
+Starting with version 6.x.x, the following API parameters and output options have been marked as deprecated and may be removed in a future version.
 
-- `key`: _A new `path` parameter is introduced and will be used instead of `key` parameter in input and output options. The `path` parameter allows for flexible input string or path construction based on user's identity id._
+- `key`: _A new `path` parameter has been introduced and will be used instead of the `key` parameter in input and output options. The `path` parameter allows for flexible path construction based on user's identity id._
 
-- `accessLevel`: _File accessLevel with scoped `public`, `protected` and `private` permission is now deprecated. Instead, [Amplify (Gen2)](https://docs.amplify.aws/gen2/build-a-backend/storage/) introduces a more refined access control mechanism. To offer similar flexibility to clients, we will utilize the `path` parameter for input options._
+- `accessLevel`: _File `accessLevel` with scoped `public`, `protected`, and `private` permissions is now deprecated. Instead, [Amplify (Gen2)](https://docs.amplify.aws/gen2/build-a-backend/storage/) introduces a more refined access control mechanism. To offer similar flexibility to clients, we will utilize the `path` parameter for input options._
 
 ## Storage.put
 
