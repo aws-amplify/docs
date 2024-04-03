@@ -46,7 +46,7 @@ import flutter0 from '/src/fragments/lib/storage/flutter/copy.mdx';
 
 <InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
 
-The `copy` method duplicates an existing file to a designated path and returns an object `{path: 'destPath'}` upon successful completion.
+The `copy` API duplicates an existing file to a designated path and returns an object `{path: 'destPath'}` upon successful completion.
 
 <Callout>
 
@@ -54,7 +54,7 @@ The `copy` method duplicates an existing file to a designated path and returns a
 
 </Callout>
 
-To copy a file, you need to provide a existing path as `source` and a destination path in `destination`.
+To copy a file, you need to provide the existing path in `source` and the destination path in `destination`.
 
 <BlockSwitcher>
 <Block name="With Path (Above v6.x.x)">
@@ -113,13 +113,13 @@ You can copy a file from the specified path to another path within the same [Fil
 ```javascript
 import { copy, list } from 'aws-amplify/storage';
 
-// Copies 'existing/srcPath' to 'copied/destPath' within the 'guest' access level
+// Copies 'existing/srcPath' to 'copied/destPath' within 'public/'
 const copied = await copy({
   source: { path: 'public/existing/srcPath' },
   destination: { path: 'public/copied/destPath' }
 });
 
-// There should now be a new file "copied/destPath" in 'guest' accessLevel
+// There should now be a new file 'copied/destPath' in 'public/'
 console.log((await list({ path: 'public/copied/' })).items); // [ { ..., path: 'copied/destPath' } ]
 console.log(copied); // { path: 'copied/destPath' }
 ```
@@ -128,13 +128,13 @@ console.log(copied); // { path: 'copied/destPath' }
 ```javascript
 import { copy, list } from 'aws-amplify/storage';
 
-// Copies 'existing/srcKey' to 'copied/destKey' within the 'guest' access level
+// Copies 'existing/srcKey' to 'copied/destKey' within 'public/'
 const copied = await copy({
   source: { key: 'existing/srcKey' },
   destination: { key: 'copied/destKey' }
 });
 
-// There should now be a new file with key "copied/destKey"
+// There should now be a new file with key 'copied/destKey'
 console.log((await list({ prefix: 'copied/' })).items); // [ { ..., key: 'copied/destKey' } ]
 console.log(copied); // { key: 'copied/destKey' }
 ```
@@ -143,7 +143,7 @@ console.log(copied); // { key: 'copied/destKey' }
 
 ## Copy files across access levels
 
-To copy a file from or to an access level, you'll need to explicitly provide the access level in `path` parameter.
+To copy a file to or from an access level, you'll need to explicitly provide the access level in `path` parameter.
 
 <BlockSwitcher>
 <Block name="With Path (Above v6.x.x)">
@@ -160,7 +160,7 @@ const copied = await copy({
   }
 });
 
-// There should now be a new file "copied/destPath" in the 'private' level
+// There should now be a new file 'copied/destPath' in 'private/'
 console.log(
   (await list({ path: 'private/copied/'})).items
 ); // [ { ..., path: 'copied/destPath' } ]
@@ -182,7 +182,7 @@ const copied = await copy({
   }
 });
 
-// There should now be a new file with key "copied/destKey" in the 'private' level
+// There should now be a new file with key 'copied/destKey' in the 'private' level
 console.log(
   (await list({ prefix: 'copied/', options: { accessLevel: 'private' } })).items
 ); // [ { ..., key: 'copied/destKey' } ]
@@ -201,18 +201,18 @@ You can also copy a protected file from another user by providing their identity
 ```javascript
 import { copy, list } from 'aws-amplify/storage';
 
-// Copies 'existing/srcPath' to 'copied/destPath' from 'protected' of another identity ID to 'protected' of the current authenticated user
+// Copies 'existing/srcPath' to 'copied/destPath' from 'protected' of another user to 'protected' of the current authenticated user
 
 const copied = await copy({
   source: {
-    path: `protected/[targetUserId]/existing/srcPath`,
+    path: `protected/${targetUserId}/existing/srcPath`,
   },
   destination: {
     path: ({identityId}) => `protected/${identityId}/copied/destPath`,
   }
 });
 
-// There should now be a new file "copied/destPath"
+// There should now be a new file 'copied/destPath'
 console.log(
   (await list({ path: ({identityId}) => `protected/${identityId}/copied/`})).items
 ); // [..., path: 'protected/XXX/copied/destPath']
@@ -224,8 +224,7 @@ console.log(copied); // { path: 'protected/XXX/copied/destPath' }
 ```javascript
 import { copy, list } from 'aws-amplify/storage';
 
-// Copies 'existing/srcKey' to 'copied/destKey' from 'protected' of another identity ID to 'private' of the current
-// authenticated user
+// Copies 'existing/srcKey' to 'copied/destKey' from 'protected' of another user to 'private' of the current authenticated user
 
 const copied = await copy({
   source: {
@@ -239,7 +238,7 @@ const copied = await copy({
   }
 });
 
-// There should now be a new file with key "copied/destKey"
+// There should now be a new file with key 'copied/destKey'
 console.log(
   (await list({ prefix: 'copied/', options: { accessLevel: 'private' } })).items
 ); // [..., key: 'copied/destKey']

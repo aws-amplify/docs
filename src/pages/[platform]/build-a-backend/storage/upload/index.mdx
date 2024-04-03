@@ -67,7 +67,7 @@ import { uploadData } from 'aws-amplify/storage';
 
 try {
   const result = await uploadData({
-    path: "album/2024/1.jpg", 
+    path: 'album/2024/1.jpg', 
     // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
     data: file,
     options: {
@@ -87,7 +87,7 @@ import { uploadData } from 'aws-amplify/storage';
 
 try {
   const result = await uploadData({
-    key: filename,
+    key: 'abc.txt',
     data: file,
     options: {
       accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
@@ -104,7 +104,7 @@ try {
 
 ### Monitor progress of upload
 
-To track the progress of your upload, you can use the `onProgress` in options:
+To track the progress of your upload, you can use the `onProgress` option:
 
 <BlockSwitcher>
 <Block name="With Path (Above v6.x.x)">
@@ -113,7 +113,7 @@ import { uploadData } from 'aws-amplify/storage';
 
 try {
   const result = uploadData({
-    path: "album/2024/1.jpg", 
+    path: 'album/2024/1.jpg', 
     // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
     data: file,
     options: {
@@ -141,7 +141,7 @@ import { uploadData } from 'aws-amplify/storage';
 
 try {
   const result = uploadData({
-    key: filename,
+    key: 'abc.txt',
     data: file,
     options: {
       onProgress: ({ transferredBytes, totalBytes }) => {
@@ -244,14 +244,14 @@ Other options available are:
 import { uploadData } from 'aws-amplify/storage';
 
 uploadData({
-  path: "album/2024/1.jpg", 
+  path: 'album/2024/1.jpg', 
   // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
   data: file,
   options:  {
-    contentType?: "text/html", // (String) The default content-type header value of the file when downloading it.
-    contentEncoding?: "compress" // (String) The default content-encoding header value of the file when downloading it.
-    contentDisposition?: "attachment", // (String) Specifies presentational information for the object
-    metadata?: {key: "value"}, // (map<String>) A map of metadata to store with the object in S3.
+    contentType?: 'text/html', // (String) The default content-type header value of the file when downloading it.
+    contentEncoding?: 'compress' // (String) The default content-encoding header value of the file when downloading it.
+    contentDisposition?: 'attachment', // (String) Specifies presentational information for the object
+    metadata?: {key: 'value'}, // (map<String>) A map of metadata to store with the object in S3.
     useAccelerateEndpoint?: boolean; // Whether to use accelerate endpoint.
   }
 });

@@ -68,12 +68,12 @@ Get a presigned URL of a stored file and expiration of URL.
 import { getUrl } from 'aws-amplify/storage';
 
 const getUrlResult = await getUrl({
-  path: "album/2024/1.jpg",
+  path: 'album/2024/1.jpg',
   // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
   options: {
-    validateObjectExistence?: false,  // defaults to false
+    validateObjectExistence?: false,  // Check if object exists before creating a URL
     expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
-    useAccelerateEndpoint?: true; // Whether to use accelerate endpoint.
+    useAccelerateEndpoint?: true; // Whether to use accelerate endpoint
   },
 });
 console.log('signed URL: ', getUrlResult.url);
@@ -85,13 +85,13 @@ console.log('URL expires at: ', getUrlResult.expiresAt);
 import { getUrl } from 'aws-amplify/storage';
 
 const getUrlResult = await getUrl({
-  key: "abc.txt",
+  key: 'abc.txt',
   options: {
     accessLevel?: 'guest' , // can be 'private', 'protected', or 'guest' but defaults to `guest`
     targetIdentityId?: 'XXXXXXX', // id of another user, if `accessLevel` is `guest`
-    validateObjectExistence?: false,  // defaults to false
+    validateObjectExistence?: false,  // Check if object exists before creating a URL
     expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
-    useAccelerateEndpoint?: true; // Whether to use accelerate endpoint.
+    useAccelerateEndpoint?: true; // Whether to use accelerate endpoint
   },
 });
 console.log('signed URL: ', getUrlResult.url);
@@ -126,7 +126,7 @@ import { getUrl } from 'aws-amplify/storage';
 
 // To check for existence of a file
 await getUrl({
-  path: "album/2024/1.jpg",
+  path: 'album/2024/1.jpg',
   // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
   options: {
     validateObjectExistence: true // defaults to false
@@ -140,7 +140,7 @@ import { getUrl } from 'aws-amplify/storage';
 
 // To check for existence of a file
 await getUrl({
-  key: "abc.txt",
+  key: 'abc.txt',
   options: {
     validateObjectExistence: true // defaults to false
   }
@@ -159,7 +159,7 @@ You can use `expiresIn` option to limit the availability of your URLs. This conf
 import { getUrl } from 'aws-amplify/storage';
 
 await getUrl({ 
-  path: "album/2024/1.jpg",
+  path: 'album/2024/1.jpg',
   // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
   options: { expiresIn: 60 } 
 });
@@ -171,7 +171,7 @@ await getUrl({
 import { getUrl } from 'aws-amplify/storage';
 
 await getUrl({ 
-  key: "abc.txt", 
+  key: 'abc.txt', 
   options: { expiresIn: 60 } 
 });
 
@@ -195,7 +195,7 @@ import { downloadData } from 'aws-amplify/storage';
 
 // Downloads file content to memory
 const { body, eTag } = await downloadData({
-  path: "album/2024/1.jpg",
+  path: 'album/2024/1.jpg',
   // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
   options: {
     onProgress: (event) => {
@@ -216,7 +216,7 @@ import { downloadData } from 'aws-amplify/storage';
 
 // Downloads file content to memory
 const { body, eTag } = await downloadData({
-  key: "abc.txt",
+  key: 'abc.txt',
   options: {
     accessLevel: 'guest', // access level of the file being downloaded
     targetIdentityId: 'xxxxxxx', // the identity id of another user, required when setting accessLevel to 'protected'
@@ -244,7 +244,7 @@ import { downloadData } from 'aws-amplify/storage';
 
 try {
   const downloadResult = await downloadData({ 
-    path: "album/2024/1.jpg",
+    path: 'album/2024/1.jpg',
     // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
   }).result;
   const text = await downloadResult.body.text();
@@ -262,7 +262,7 @@ import { downloadData } from 'aws-amplify/storage';
 
 try {
   const downloadResult = await downloadData({ 
-    key: "abc.txt" 
+    key: 'abc.txt' 
   }).result;
   const text = await downloadResult.body.text();
   // Alternatively, you can use `downloadResult.body.blob()`
@@ -287,7 +287,7 @@ import { downloadData } from 'aws-amplify/storage';
 // Download a file from s3 bucket
 const { body, eTag } = await downloadData(
   {
-    path: "album/2024/1.jpg",
+    path: 'album/2024/1.jpg',
     // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
     options: {
       onProgress: (progress) {
@@ -306,7 +306,7 @@ import { downloadData } from 'aws-amplify/storage';
 // Download a file from s3 bucket
 const { body, eTag } = await downloadData(
   {
-    key: "abc.txt",
+    key: 'abc.txt',
     options: {
       onProgress: (progress) {
         console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
@@ -326,7 +326,7 @@ const { body, eTag } = await downloadData(
 import { downloadData, isCancelError } from 'aws-amplify/storage';
 
 const downloadTask = downloadData({ 
-  path: "album/2024/1.jpg",
+  path: 'album/2024/1.jpg',
   // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg` 
 });
 downloadTask.cancel();
@@ -343,7 +343,7 @@ try {
 <Block name="With Key (Deprecated)">
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
-const downloadTask = downloadData({ key: "abc.txt" });
+const downloadTask = downloadData({ key: 'abc.txt' });
 downloadTask.cancel();
 try {
   await downloadTask.result;

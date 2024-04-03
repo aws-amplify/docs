@@ -56,7 +56,7 @@ import ios_remove from '/src/fragments/lib/storage/ios/remove.mdx';
 
 <InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
 
-Delete stored data from the storage bucket. To remove a file, you need to provide the `path`. 
+Delete stored data from the storage bucket. To remove a file, you need to provide the fully specified `path`.
 
 Files can only be deleted for the current user. Deletion capabilities do not extend to files associated with other users.
 
@@ -81,7 +81,7 @@ import { remove } from 'aws-amplify/storage';
 
 try {
   await remove({ 
-    key: "abc.txt", 
+    key: 'abc.txt', 
     options: { 
       accessLevel: 'protected' // defaults to `guest` but can be 'private' | 'protected' | 'guest'
     } 

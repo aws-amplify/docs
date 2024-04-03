@@ -46,7 +46,7 @@ import flutter0 from '/src/fragments/lib/storage/flutter/get-properties.mdx';
 
 <InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
 
-You can get file properties and metadata without downloading the File
+You can get file properties and metadata without downloading the file
 
 ## getProperties
 <BlockSwitcher>
@@ -56,7 +56,7 @@ import { getProperties } from 'aws-amplify/storage';
 
 try {
   const result = await getProperties({
-    path: "album/2024/1.jpg",
+    path: 'album/2024/1.jpg',
     // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
   });
   console.log('File Properties ', result);
@@ -71,7 +71,7 @@ import { getProperties } from 'aws-amplify/storage';
 
 try {
   const result = await getProperties({
-    key: 'key',
+    key: 'abc.jpg',
     options: {
       accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
       targetIdentityId: 'xxxxxxx' // ID of another user, if `accessLevel: protected`
@@ -90,10 +90,10 @@ The properties and metadata will look similar to the below example
 <Block name="With Path (Above v6.x.x)">
 ```js
 {
- path: "album/2024/1.jpg",
-  contentType: "image/jpeg",
+  path: 'album/2024/1.jpg',
+  contentType: 'image/jpeg',
   contentLength: 6873,
-  eTag: "\"56b32cf4779ff6ca3ba3f2d455fa56a7\"",
+  eTag: '\"56b32cf4779ff6ca3ba3f2d455fa56a7\"',
   lastModified: Wed Apr 19 2023 14:20:55 GMT-0700 (Pacific Daylight Time) {},
   metadata: { owner : 'aws' }
 }
@@ -102,10 +102,10 @@ The properties and metadata will look similar to the below example
 <Block name="With Key (Deprecated)">
 ```js
 {
-  key : "key",
-  contentType: "image/jpeg",
+  key : 'abc.jpg',
+  contentType: 'image/jpeg',
   contentLength: 6873,
-  eTag: "\"56b32cf4779ff6ca3ba3f2d455fa56a7\"",
+  eTag: '\"56b32cf4779ff6ca3ba3f2d455fa56a7\"',
   lastModified: Wed Apr 19 2023 14:20:55 GMT-0700 (Pacific Daylight Time) {},
   metadata: { owner : 'aws' }
 }

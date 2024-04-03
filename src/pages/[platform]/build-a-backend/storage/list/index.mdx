@@ -52,7 +52,7 @@ import ios_list from '/src/fragments/lib/storage/ios/list.mdx';
 
 <InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
 
-You can list all or paginated set of objects uploaded under a given path.
+You can either list all objects uploaded under a given path or opt to receive a paginated list of objects.
 
 ## list
 <BlockSwitcher>
@@ -98,9 +98,9 @@ The format of the response will look similar to the below example
 {
   items: [
     {
-      path: "photos/123.jpg",
-      eTag: "30074401292215403a42b0739f3b5262",
-      lastModified: "Thu Oct 08 2020 23:59:31 GMT+0800 (Singapore Standard Time)",
+      path: 'photos/123.jpg',
+      eTag: '30074401292215403a42b0739f3b5262',
+      lastModified: 'Thu Oct 08 2020 23:59:31 GMT+0800 (Singapore Standard Time)',
       size: 138256
     },
     // ...
@@ -163,7 +163,7 @@ import { list } from 'aws-amplify/storage';
 
 try {
   const response = await list({
-    path: 'photos/'
+    path: 'photos/',
     // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
     options: {
       listAll: true
@@ -208,10 +208,10 @@ let nextToken = undefined;
 //...
 const loadNextPage = async () => {
   let response = await list({
-    path: 'photos/'
+    path: 'photos/',
     // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
-      pageSize: PAGE_SIZE,
-      nextToken: nextToken
+    pageSize: PAGE_SIZE,
+    nextToken: nextToken
     }
   });
   if (response.nextToken) {
