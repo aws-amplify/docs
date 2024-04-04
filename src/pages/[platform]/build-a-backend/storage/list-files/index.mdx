@@ -24,8 +24,6 @@ export function getStaticProps(context) {
   };
 }
 
-<BlockSwitcher>
-<Block name="List Files">
 You can list files without having to download the entire file. You can do this by using the listFile API from the Amplify Library for Storage. You can also get properties individually for a file using the getProperties API.
 
 ```javascript
@@ -152,8 +150,7 @@ const loadNextPage = async () => {
 ```
 <Callout>Note: The range of pageSize can be from 0 - 1000.</Callout>
 
-</Block>
-<Block name="Get File Properties">
+## Get File Properties
 You can also view properties of an individual file.
 
 ```javascript
@@ -185,9 +182,7 @@ The properties and metadata will look similar to the below example
 <Callout>
 To get the metadata in result for all APIs you have to configure user defined metadata in CORS.
 
-Learn more about how to setup an appropriate [CORS Policy](/[platform]/prev/build-a-backend/storage/set-up-storage/#amazon-s3-bucket-cors-policy-setup).
+Learn more about how to setup an appropriate [CORS Policy](/[platform]/build-a-backend/storage/define-storage/#amazon-s3-bucket-cors-policy-setup).
 
 </Callout>
-</Block>
-</BlockSwitcher>
 
