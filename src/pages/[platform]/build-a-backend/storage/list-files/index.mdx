@@ -124,7 +124,7 @@ try {
 
 ## Paginated file access
 
-If the pageSize is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
+If the `pageSize` is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
 
 ```javascript
 import { list } from 'aws-amplify/storage';
