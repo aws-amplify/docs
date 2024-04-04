@@ -114,7 +114,7 @@ export const storage = defineStorage({
 ```
 A user with identity id "123" would be able to perform read/write/delete operations on files within `foo/123/*` and would not be able to perform actions on files with any other prefix.
 
-Likewise, a user with identity id "ABC" would be able to perform read/write/delete operation on files only within `foo/ABC/*`. In this way, each user can be granted access to a "private storage location" that is not accessible to any other user.
+Likewise, a user with identity ID "ABC" would be able to perform read/write/delete operation on files only within `foo/ABC/*`. In this way, each user can be granted access to a "private storage location" that is not accessible to any other user.
 
 It may be desireable for a file owner to be able to write and delete files in their private location but allow anyone to read from that location. For example, profile pictures should be readable by anyone, but only the owner can modify them. This use case can be configured with the following definition.
 
