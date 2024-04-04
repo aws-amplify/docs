@@ -130,7 +130,7 @@ export const storage = defineStorage({
   })
 });
 ```
-When a non-id-based rule is applied to a path with the `{entity_id}` token, the token is replaced with a wildcard (`*`). This means that the access will apply to files uploaded by _any_ user. In the above policy, write and delete is scoped to just the owner, but read is allowed for guest and authenticated users for any file within `foo/*/*`.
+When a non-ID-based rule is applied to a path with the `{entity_id}` token, the token is replaced with a wildcard (`*`). This means that the access will apply to files uploaded by _any_ user. In the above policy, write and delete is scoped to just the owner, but read is allowed for guest and authenticated users for any file within `foo/*/*`.
 </Block>
 <Block name="Functions">
 In addition to granting application users access to storage files, you may also want to grant a backend function access to storage files. This could be used to enable a use case like resizing images, or automatically deleting old files. The following configuration is used to define function access.
