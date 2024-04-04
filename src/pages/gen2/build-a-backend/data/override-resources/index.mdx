@@ -27,7 +27,7 @@ const backend = defineBackend({
 
 const dataResources = backend.data.resources;
 
-Object.values(dataResources.amplifyDynamoDbTables).forEach((table) => {
+Object.values(dataResources.cfnResources.amplifyDynamoDbTables).forEach((table) => {
   table.pointInTimeRecoveryEnabled = true;
 });
 ```
@@ -63,7 +63,7 @@ const backend = defineBackend({
 
 const dataResources = backend.data.resources;
 
-dataResources.amplifyDynamoDbTables["Todo"].timeToLiveAttribute = {
+dataResources.cfnResources.amplifyDynamoDbTables["Todo"].timeToLiveAttribute = {
   attributeName: "ttl",
   enabled: true,
 };
@@ -83,7 +83,7 @@ const backend = defineBackend({
 });
 const dataResources = backend.data.resources;
 
-dataResources.amplifyDynamoDbTables['Todo'].billingMode = BillingMode.PAY_PER_REQUEST;
+dataResources.cfnResources.amplifyDynamoDbTables['Todo'].billingMode = BillingMode.PAY_PER_REQUEST;
 ```
 
 ### Example - Configure provisioned throughput for a DynamoDB table
@@ -100,7 +100,7 @@ const backend = defineBackend({
 
 const dataResources = backend.data.resources;
 
-dataResources.amplifyDynamoDbTables["Todo"].provisionedThroughput = {
+dataResources.cfnResources.amplifyDynamoDbTables["Todo"].provisionedThroughput = {
   readCapacityUnits: 5,
   writeCapacityUnits: 5,
 };
@@ -120,5 +120,5 @@ const backend = defineBackend({
 
 const dataResources = backend.data.resources;
 
-dataResources.amplifyDynamoDbTables['Todo'].pointInTimeRecoveryEnabled = true;
+dataResources.cfnResources.amplifyDynamoDbTables['Todo'].pointInTimeRecoveryEnabled = true;
 ```
