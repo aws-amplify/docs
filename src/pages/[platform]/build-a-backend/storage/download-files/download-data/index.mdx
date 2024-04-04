@@ -34,13 +34,15 @@ import { downloadData } from 'aws-amplify/storage';
 const { body, eTag } = await downloadData({
   path: "/album/2024/1.jpg",
   options: {
+    // optional progress callback
     onProgress: (event) => {
       console.log(event.transferredBytes);
-    } // optional progress callback
+    }
+    // optional bytes range parameter to download a part of the file, the 2nd MB of the file in this example
     bytesRange: {
       start: 1024,
       end: 2048
-    } // optional bytes range parameter to download a part of the file, the 2nd MB of the file in this example
+    }```
   }
 }).result;
 ```
