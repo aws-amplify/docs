@@ -5,7 +5,6 @@ export const meta = {
   description: 'The Amazon Kinesis analytics provider allows you to send analytics data to an Amazon Kinesis stream for real-time processing.',
   platforms: [
     'javascript',
-    'react-native',
     'angular',
     'nextjs',
     'react',
@@ -20,7 +19,7 @@ export const meta = {
         'react',
         'vue'
       ],
-      canonicalPath: '/gen1/javascript/build-a-backend/more-features/analytics/streaming-data/'
+      canonicalPath: '/[platform]/build-a-backend/add-aws-services/analytics/streaming-data/'
     }
   ]
 };
@@ -38,34 +37,77 @@ export function getStaticProps(context) {
   };
 }
 
-import js0 from '/src/fragments/lib/analytics/js/streaming.mdx';
+The Amazon Kinesis analytics provider allows you to send analytics data to an [Amazon Kinesis](https://aws.amazon.com/kinesis) stream for real-time processing.
 
-<Fragments
-  fragments={{
-    javascript: js0,
-    angular: js0,
-    nextjs: js0,
-    react: js0,
-    vue: js0
-  }}
-/>
+## Installation and Configuration
 
-import reactnative0 from '/src/fragments/lib/analytics/js/streaming.mdx';
+Ensure you have [setup IAM permissions](https://docs.aws.amazon.com/streams/latest/dev/learning-kinesis-module-one-iam.html) for `kinesis:PutRecords`.
 
-<Fragments fragments={{ 'react-native': reactnative0 }} />
+Example IAM policy for Amazon Kinesis:
 
-<InlineFilter filters={['react-native']}>
+```javascript
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": "kinesis:PutRecords",
+    "Resource": "arn:aws:kinesis:<Region>:<AccountId>:stream/<StreamName>" // replace the template fields
+  }]
+}
+```
 
-## Known Issues
+For more information visit [Amazon Kinesis Developer Documentation](https://docs.aws.amazon.com/streams/latest/dev/learning-kinesis-module-one-iam.html).
 
-When importing alternative service providers listed below, instead of the default Pinpoint provider:
+Configure Kinesis:
 
-- Kinesis (`aws-amplify/analytics/kinesis`)
-- Kinesis Data Firehose (`aws-amplify/analytics/kinesis-firehose`)
-- Personalize Event (`aws-amplify/analytics/personalize`)
+```javascript
+// Configure the plugin after adding it to the Analytics module
+import { Amplify } from 'aws-amplify';
 
-you may encounter the following error when starting the bundler:
+Amplify.configure({
+  ...Amplify.getConfig(),
+  Analytics: {
+    Kinesis: {
+      // REQUIRED -  Amazon Kinesis service region
+      region: 'us-east-1',
 
-> Error: Unable to resolve module stream from /path/to/node_modules/@aws-sdk/... This is a [known issue](https://github.com/aws/aws-sdk-js-v3/issues/4877). Please follow [the steps](https://github.com/aws/aws-sdk-js-v3/issues/4877#issuecomment-1656007484) outlined in the issue to resolve the error.
+      // OPTIONAL - The buffer size for events in number of items.
+      bufferSize: 1000,
 
-</InlineFilter>
+      // OPTIONAL - The number of events to be deleted from the buffer when flushed.
+      flushSize: 100,
+
+      // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
+      flushInterval: 5000, // 5s
+
+      // OPTIONAL - The limit for failed recording retries.
+      resendLimit: 5
+    }
+  }
+});
+```
+
+## Stream data
+
+You can send a data to a Kinesis stream with the standard `record()` method:
+
+```javascript
+import { record } from 'aws-amplify/analytics/kinesis';
+
+record({
+  data: {
+    // The data blob to put into the record
+  },
+  partitionKey: 'myPartitionKey',
+  streamName: 'myKinesisStream'
+});
+```
+
+## Flush events
+The recorded events are saved in a buffer and sent to the remote server periodically *(You can tune it with the `flushInterval` option)*. If needed, you have the option to manually clear all the events from the buffer by using the 'flushEvents' API.
+
+```javascript
+import { flushEvents } from 'aws-amplify/analytics/kinesis';
+
+flushEvents();
+```

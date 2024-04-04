@@ -5,6 +5,10 @@ export const meta = {
   description: 'The Amplify analytics plugin records when an application opens and closes. This session information can be viewed either from your local computer’s terminal or the AWS Console for Pinpoint.',
   platforms: [
     'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
     'angular',
     'nextjs',
     'react',
@@ -37,6 +41,8 @@ export function getStaticProps(context) {
   };
 }
 
+
+<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
 Analytics Auto Tracking helps you to automatically track user behaviors like sessions start/stop, page view change and web events like clicking or mouseover.
 
 ## Session Tracking
@@ -200,3 +206,17 @@ configureAutoTrack({
   type: 'event'
 });
 ```
+
+<Callout>
+
+Note: Amplify doesn't capture the location automatically. Instead, you can add the location information in the default config when you [configure Analytics](/[platform]/build-a-backend/add-aws-services/analytics/set-up-analytics/#set-up-existing-analytics-backend) or while [updating the end point](/[platform]/build-a-backend/add-aws-services/analytics/existing-resources).
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["swift", "android", "flutter"]}>
+The Amplify analytics plugin records when an application opens and closes. This session information can be viewed either from the AWS Console for Pinpoint.
+
+1. On the Pinpoint Console under **Analytics**, choose **Events**. 
+2. Enable filters, you can select `Session Start` and `Session Stop` events to filter on session events.
+</InlineFilter>
