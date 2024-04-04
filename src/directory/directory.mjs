@@ -28,6 +28,9 @@ export const directory = {
                   path: 'src/pages/[platform]/start/quickstart/vite-react-app/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/start/quickstart/vite-react-app-option-2/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
