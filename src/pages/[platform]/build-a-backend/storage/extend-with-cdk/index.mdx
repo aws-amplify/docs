@@ -30,11 +30,11 @@ Amplify Storage generates S3 resources to offer storage features. You can access
 
 The following is an example of how you would enable Transfer Acceleration on the bucket ([CDK documentation](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.CfnBucket.AccelerateConfigurationProperty.html)). In order to enable Transfer Acceleration on the bucket, you will have to unwrap the L1 CDK construct from the L2 CDK construct like the following.
 
-```
+```tsx
+import * as s3 from 'aws-cdk-lib/aws-s3';
 import { defineBackend } from '@aws-amplify/backend';
 import { storage } from './storage/resource';
 // highlight-next-line
-import { aws_s3 as s3 } from 'aws-cdk-lib';
 
 const backend = defineBackend({
   storage
