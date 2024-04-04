@@ -77,7 +77,7 @@ export const auth = defineAuth({
   loginWith: {
     email: true
   },
-  groups: ['auditor', 'admin']
+  groups: ['admin', 'auditor']
 });
 ```
 With the following `access` definition, you can configure permissions such that auditors have readonly permissions to `foo/*` while admin has full permissions.
