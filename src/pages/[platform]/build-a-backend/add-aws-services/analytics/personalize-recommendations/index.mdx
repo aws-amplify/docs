@@ -10,18 +10,6 @@ export const meta = {
     'react',
     'vue',
     "react-native",
-  ],
-  canonicalObjects: [
-    {
-      platforms: [
-        'javascript',
-        'nextjs',
-        'react',
-        'vue',
-        'angular'
-      ],
-      canonicalPath: '/[platform]/build-a-backend/add-aws-services/analytics/personalize-recommendations/'
-    }
   ]
 };
 
@@ -42,8 +30,8 @@ Amazon Personalize can create recommendations by using event data, historical da
 
 To record event data, you need the following:
 
-* [A dataset group](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html#event-dataset-group)
-* [An event tracker](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html#event-get-tracker).
+* [A dataset group](https://docs.aws.amazon.com/personalize/latest/dg/data-prep-ds-group.html)
+* [An event tracker](https://docs.aws.amazon.com/personalize/latest/dg/event-get-tracker.html).
 
 For more information, see [Record Events](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html).
 
@@ -63,7 +51,7 @@ An example IAM policy:
 }
 ```
 
-You need the tracking ID of your event tracker. For more information, see [Get a Tracking ID](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html#event-get-tracker).
+You need the tracking ID of your event tracker. For more information, see [Get a Tracking ID](https://docs.aws.amazon.com/personalize/latest/dg/action-interaction-tracker-id.html).
 
 Configure Amazon Personalize:
 
