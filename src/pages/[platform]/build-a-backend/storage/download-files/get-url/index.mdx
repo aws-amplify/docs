@@ -46,11 +46,10 @@ console.log('URL expires at: ', getUrlResult.expiresAt);
 
 Inside your template or JSX code, you can use the `url` property to create a link to the file:
 
-```html
-<a href="{signedURL.url.toString()}" target="_blank" rel="noreferrer">
+```tsx
+<a href={signedURL.url.toString()} target="_blank" rel="noreferrer">
   {fileName} 
 </a>
-```
 
 <Callout>
 
