@@ -75,6 +75,7 @@ export const Layout = ({
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
 
+  // need test
   const handleColorModeChange = (mode: ColorMode) => {
     setColorMode(mode);
     if (mode !== 'system') {
@@ -83,6 +84,7 @@ export const Layout = ({
       localStorage.removeItem('colorMode');
     }
   };
+  // end need test
 
   const isOverview =
     children?.props?.childPageNodes?.length != 'undefined' &&
@@ -120,6 +122,7 @@ export const Layout = ({
 
   const description = `${pageDescription} AWS Amplify Documentation`;
 
+  // need test
   const handleScroll = debounce((e) => {
     const bodyScroll = e.target.documentElement.scrollTop;
     if (bodyScroll > 20) {
@@ -128,6 +131,7 @@ export const Layout = ({
       document.body.classList.remove('scrolled');
     }
   }, 20);
+  // end need test
 
   useEffect(() => {
     const headings: HeadingInterface[] = [];
@@ -140,8 +144,10 @@ export const Layout = ({
     const pageHeadings = document.querySelectorAll(headingSelectors.join(', '));
 
     pageHeadings.forEach((node) => {
+      // need test
       const { innerText, id, localName } = node as HTMLElement;
       if (innerText && id && (localName == 'h2' || localName == 'h3')) {
+        // end need test
         headings.push({
           linkText: innerText,
           hash: id,
@@ -165,7 +171,9 @@ export const Layout = ({
   useEffect(() => {
     const colorModePreference = localStorage.getItem('colorMode') as ColorMode;
     if (colorModePreference) {
+      // need test
       setColorMode(colorModePreference);
+      // end need test
     }
   }, []);
 

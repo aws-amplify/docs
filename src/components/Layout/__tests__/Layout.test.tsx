@@ -37,14 +37,18 @@ describe('Layout', () => {
     expect(layout).toBeInTheDocument();
   });
 
-  // it('should show color change mode', async () => {
-  //   render(component);
-  //   console.log(localStorage.getItem('colorMode'));
-  // });
+  it('colorChangeMode test', async () => {
+    render(component);
+    console.log(localStorage.getItem('colorMode'));
+  });
 
-  it('handleScroll', async () => {
+  it('handleScroll test', async () => {
     render(component);
     console.log(component.props.pageType);
     console.log(document.body.className);
+  });
+
+  it('heading if test', async () => {
+    render(component);
   });
 });
