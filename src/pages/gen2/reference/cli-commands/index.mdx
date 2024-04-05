@@ -244,17 +244,17 @@ Optional parameters:
 <SubCommandHeading parentCommand="amplify-graphql-client-code">Usage</SubCommandHeading>
 
 
-### Workflow 1 - Generate GraphQL client code using the Amplify App ID and branch. 
+### Generate GraphQL client code using the Amplify App ID and branch. 
 ```bash
 npx amplify generate graphql-client-code --app-id xxxxxx	--branch staging
 ```
-### Workflow 2 - Generate GraphQL client code for a branch that is connected in the Amplify service
+### Generate GraphQL client code for a branch that is connected in the Amplify service
 Sometimes you want to test your latest local changes with the backend of another deployed branch. If you want to generate the GraphQL client code file(s) for the latest deployment of another branch, then you can run the following command:
 
 ```bash 
 npx amplify generate graphql-client-code --branch staging
 ```
-### Workflow 3 - Generate codegen for CDK app using a joint "AmplifyBackendStack" construct
+### Generate codegen for CDK app using a joint "AmplifyBackendStack" construct
 Assume you have deployed your Amplify project with the CDK construct. You will need to remember your app's project name (designated as the second parameter in your CDK construct) and stack name (designated as part of your `npx cdk deploy` context)
 
 // CDK code in stack.ts
@@ -278,7 +278,7 @@ Run Amplify codegen command to generate GraphQL codegen:
 ```bash
 npx amplify generate graphql-client-code --stack="my-amplify-stack" --platform ts --out ./src
 ```   
-### Workflow 4 - Generate codegen in specfic language and format
+### Generate codegen in specfic language and format
 
 ```bash
 npx amplify generate graphql-client-code --format modelgen --type-target angular
