@@ -36,26 +36,27 @@ export function getStaticProps() {
 3. configure authentication and authorization rules
 
 
-## Deploy a React app to AWS Amplify
+## Step 1: Deploy a Fullstack React app to AWS Amplify
 
-To get started faster, we've created a starter "To-do" application. First, clone this starter application into your GitHub account.
+To get started faster, we've created a starter "To-do" application. First, create a repository in your GitHub account using our starter React template.
 
+### 1a: Create repository from a starter template
 <ExternalLinkButton
-  size="large"
+  size="medium"
   href='https://github.com/new?template_name=gen2-starter-option-2&template_owner=renebrandel&name=gen2-starter&description=My%20Amplify%20Gen%202%20starter%20application'
 >
 <IconGithub />
-Use starter template
+Create repository from template
 </ExternalLinkButton>
 
-Next, go to the AWS Amplify console to deploy the application.
+### 1b: Deploy starter to Amplify
 
 <ExternalLinkButton
-  size="large"
+  size="medium"
   href='https://us-east-1.console.aws.amazon.com/amplify/create/repo-branch'
 >
 <IconAmplify />
-Deploy starter template
+Deploy to Amplify
 </ExternalLinkButton>
 
 Select **Start with an existing app** > **GitHub**, pick the starter repository, and hit "Deploy".
@@ -64,26 +65,16 @@ Select **Start with an existing app** > **GitHub**, pick the starter repository,
   <source src="/images/gen2/getting-started/react/deploy.mp4" />
 </video>
 
-While you wait for the build (~3 min), let's take a tour on the key files included in the starter repository:
 
-```text
-├── src/ # React UI code
-│   ├── App.tsx # UI code to display todos
-│   ├── index.css # Styling for your app
-│   └── main.tsx # Entrypoint for the React application
-├── package.json
-└── tsconfig.json
+### 1c: Clone repo locally
+
+While you wait for the build (~6 min), let's take a tour of the starter repository. First, clone the repository locally: 
+
+```bash title="Terminal" showLineNumbers={false}
+git clone https://github.com/<github-user>/gen2-starter.git
 ```
 
-Once the build has completed view the newly deployed app by selecting "View production URL".
-
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/hosted-app.mp4" />
-</video>
-
-## Setup cloud sandbox for rapid fullstack iteration
-
-The starter application already has pre-written code to list and remove todos locally. Let's learn how to store and retrieve the todos to the cloud! We went ahead and already pre-defined your Amplify backend. Here's a quick overview of the Amplify Backend-specific files.
+Now open the project in an IDE of your choice, and let's tour the files. The starter application already has pre-written code to give you a real-time database with a feed of all todos and the ability to add new todos. Here's a quick overview of the Amplify Backend-specific files and the frontend files:
 
 ```text
 ├── amplify/ # Folder containing your Amplify backend configuration
@@ -93,24 +84,32 @@ The starter application already has pre-written code to list and remove todos lo
 │   │   └── resource.ts
 |   ├── backend.ts
 │   └── tsconfig.json
+├── src/ # React UI code
+│   ├── App.tsx # UI code to display todos
+│   ├── index.css # Styling for your app
+│   └── main.tsx # Entrypoint for the React application
+├── package.json
+└── tsconfig.json
 ```
 
-### Clone the starter app code locally
+Now head back to the console. Once the build has completed view the newly deployed app by selecting "View production URL". You can create to-do items but notice that when you refresh the page the to-dos disappear.
 
-First, clone your repository locally by following instructions on your GitHub repo page:
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+  <source src="/images/gen2/getting-started/react/hosted-app.mp4" />
+</video>
 
-```bash title="Terminal" showLineNumbers={false}
-git clone https://github.com/<github-user>/gen2-starter.git
-```
+## Step 2: Persist to-do items to a database
 
-Next, install all dependencies in order to run the dev environment locally.
+The app in it's current state does not persist data to a database. Let's learn how to store and retrieve the todos to the cloud. First, install all dependencies in order to run the dev environment locally.
 
 ```bash title="Terminal" showLineNumbers={false}
 cd gen2-starter
 npm install
 ```
 
-### Initialize a cloud sandbox for your localhost frontend
+### 2a: Initialize a cloud sandbox for rapid fullstack iteration
+
+Amplify's cloud sandbox functionality creates a per-developer backend environment intended for your localhost development and testing workflows. This allows you to test and iterate without touching production backend data. 
 
 <Callout info>
 
@@ -118,7 +117,6 @@ npm install
 
 </Callout>
 
-Amplify's cloud sandbox functionality creates a per-developer backend environment intended for your localhost development and testing workflows. This allows you to test and iterate without touching production backend data. 
 
 To start your cloud sandbox, run the following command in a **new Terminal window**:
 
@@ -134,11 +132,9 @@ The `npx amplify sandbox` command should run concurrently to your `npm run dev`.
 
 </Callout>
 
-## Build and connect to a database
+### 2b: Enable real-time feed of todos 
 
 Go to the **amplify/data/resource.ts** file. In there you'll find the definition of your backend data model. We have a `Todo` model with a `content` field. Let's replace the existing UI code that purely stores the data in a local state to use the cloud backend instead.
-
-### Enable real-time feed of todos
 
 Amplify Data provides a built-in capability to subscribe to a real-time feed of your data. Let's use that to update the state of the todos
 
@@ -174,7 +170,7 @@ function App() {
 }
 ```
 
-### Add "create todo" functionality
+### 2c: Add "create todo" functionality
 
 Next, let's update the `createTodo` function to make an "Create" API request to our cloud backend. 
 
@@ -204,7 +200,7 @@ npm run dev
 
 This should start a local dev server at http://localhost:5173.
 
-### Add "delete todo" functionality
+### 2d: Add "delete todo" functionality
 
 Go to the **src/App.tsx** file and add in a new `deleteTodo` functionality and pass function into the `<li>` element's `onClick` handler.
 
@@ -245,16 +241,8 @@ Try out the deletion functionality now on your localhost.
   <source src="/images/gen2/getting-started/react/demo-delete.mp4" />
 </video>
 
-Once everything works, push your latest changes to the Amplify-hosted URL by committing everything to git and push.
 
-```bash title="Terminal" showLineNumbers={false}
-git commit -am "added create, list, and delete functionality"
-git push -u origin/main
-```
-
-Amplify automatically deploys the latest version of your app based on your git commits. In just a few minutes, when the application rebuilds, the hosted URL will be updated to support the new cloud data functionality.
-
-## Add authentication
+## Step 3: Add login UI
 
 The starter application already has a pre-configured auth backend defined in the **amplify/auth/resource.ts** file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
@@ -301,7 +289,18 @@ git commit -am "added authenticator"
 git push
 ```
 
-## Configure authorization rules for your app data
+## Step 4: Commit code to Git
+
+Once everything works, push your latest changes to the Amplify-hosted URL by committing everything to git and push.
+
+```bash title="Terminal" showLineNumbers={false}
+git commit -am "added create, list, and delete functionality"
+git push -u origin/main
+```
+
+Amplify automatically deploys the latest version of your app based on your git commits. In just a few minutes, when the application rebuilds, the hosted URL will be updated to support the new cloud data functionality.
+
+## Step 5: Update authorization rules for your app data
 
 The todos in the starter are currently shared across all users but in most cases you want data to be isolated on a per-user basis. 
 
