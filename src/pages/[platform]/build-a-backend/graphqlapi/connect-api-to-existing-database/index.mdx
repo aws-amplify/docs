@@ -83,14 +83,14 @@ Go to the Systems Manager console, navigate to Parameter Store, and click "Creat
 
 Your Systems Manager configuration should look something like this:
 
-![Database credentials stored in SSM Parameter Store as Secure Strings](/images/storing-db-creds-in-ssm.png)
+![A screenshot of an AWS Systems Manager console page titled "Parameter Store". The page shows a list of parameters with names like "/amplify-cdk-app/username", "/amplify-cdk-app/password", and "/amplify-cdk-app/hostname" indicating database connection details. Each parameter is of Tier "Standard" and typed as "SecureString". The last modified date is displayed for each parameter.](/images/storing-db-creds-in-ssm.png)
 </Block>
 <Block name="Secrets Manager">
 First, place your database connection information (hostname, username, password, port, and database name) into Secrets Manager.
 
 Go to the Secrets Manager console, navigate to Secrets, and click "Store a new secret". You may create the secret in any manner as long as there are `username` and `password` keys defined.
 
-![Database credentials stored in Secrets Manager with username and password defined](/images/storing-db-creds-in-secrets-manager.png)
+![A screenshot of a page in the Secrets Manager console titled "Secret value info". The screenshot shows an example of a secret's keys and values in a table including "username", "password", "engine", "host", "port", and "dbClusterIdentifier".](/images/storing-db-creds-in-secrets-manager.png)
 
 Optionally, you can decide whether to encrypt the secret using the KMS key that Secrets Manager creates or a customer managed KMS key that you create.
 
