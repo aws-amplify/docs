@@ -306,9 +306,6 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/resolve-conflicts/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/create-campaign/index.mdx'
                     }
                   ]
                 },
