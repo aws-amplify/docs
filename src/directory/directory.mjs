@@ -221,7 +221,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/storage/lambda-triggers/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/extend-with-cdk/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/extend-s3-resources/index.mdx'
                 }
               ]
             },
