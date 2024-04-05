@@ -209,7 +209,7 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/list-files/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/get-files/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/remove-files/index.mdx'
