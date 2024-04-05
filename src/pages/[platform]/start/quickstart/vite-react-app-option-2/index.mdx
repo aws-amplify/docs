@@ -134,9 +134,9 @@ The `npx amplify sandbox` command should run concurrently to your `npm run dev`.
 
 ### 2b: Enable real-time feed of todos 
 
-Go to the **amplify/data/resource.ts** file. In there you'll find the definition of your backend data model. We have a `Todo` model with a `content` field. Let's replace the existing UI code that purely stores the data in a local state to use the cloud backend instead.
+Go to the **amplify/data/resource.ts** file. In there you'll find the definition of your backend data model. We have a `Todo` model with a `content` field.
 
-Amplify Data provides a built-in capability to subscribe to a real-time feed of your data. Let's use that to update the state of the todos
+Next, go to the **src/App.tsx** file and replace the existing UI code that purely stores the data in a local state to use the cloud backend instead. Amplify Data provides a built-in capability to subscribe to a real-time feed of your data. Let's use that to update the state of the todos
 
 ```tsx title="src/App.tsx"
 // highlight-start
