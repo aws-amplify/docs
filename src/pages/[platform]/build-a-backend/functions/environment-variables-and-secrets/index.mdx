@@ -29,7 +29,7 @@ export function getStaticProps() {
   };
 }
 
-Amplify Gen 2 Functions support setting environment variables and secrets on the `environment` property of `defineFunction`.
+Amplify Functions support setting environment variables and secrets on the `environment` property of `defineFunction`.
 
 <Callout warning>
 
@@ -41,25 +41,26 @@ Amplify Gen 2 Functions support setting environment variables and secrets on the
 
 Environment variables can be configured in `defineFunction` using the `environment` property.
 
-```ts title="amplify/functions/my-demo-function/resource.ts"
+```ts title="amplify/functions/say-hello/resource.ts"
 import { defineFunction } from '@aws-amplify/backend';
 
-export const myDemoFunction = defineFunction({
+export const sayHello = defineFunction({
   environment: {
-    ENV_VAR_NAME: 'someValueHere'
+    NAME: 'World'
   }
 });
 ```
 
 Any environment variables specified here will be available to the function at runtime.
 
-Some environment variables are constant across all branches and deployments. But many environment values differ between deployment environments. [Branch-specific environment variables can be configured for Amplify hosting deployments](/gen2/deploy-and-host/fullstack-branching/secrets-and-vars/#set-environment-variables).
+Some environment variables are constant across all branches and deployments. But many environment values differ between deployment environments. [Branch-specific environment variables can be configured for Amplify hosting deployments](../../../deploy-and-host/fullstack-branching/secrets-and-vars/).
 
 Suppose you created a branch-specific environment variable in hosting called "API_ENDPOINT" which had a different value for your "staging" vs "prod" branch. If you wanted that value to be available to your function you can pass it to the function using
 
-```ts title="amplify/functions/my-demo-function/resource.ts"
-export const myDemoFunction = defineFunction({
+```ts title="amplify/functions/say-hello/resource.ts"
+export const sayHello = defineFunction({
   environment: {
+    NAME: "World",
     API_ENDPOINT: process.env.API_ENDPOINT
   }
 });
@@ -69,13 +70,13 @@ export const myDemoFunction = defineFunction({
 
 Within your function handler, you can access environment variables using the normal `process.env` global object provided by the Node runtime. However, this does not make it easy to discover what environment variables will be available at runtime. Amplify generates an `env` symbol that can be used in your function handler and provides typings for all variables that will be available at runtime. Copy the following code to use it.
 
-```ts title="amplify/functions/my-demo-function/handler.ts"
+```ts title="amplify/functions/say-hello/handler.ts"
 // highlight-next-line
-import { env } from '$amplify/env/my-demo-function'; // the import is '$amplify/env/<function name>'
+import { env } from '$amplify/env/say-hello'; // the import is '$amplify/env/<function name>'
 
 export const handler = async (event) => {
-  env. // the env object has intellisense for all environment variables that are available to the function
-  return 'You made a function!';
+  // the env object has intellisense for all environment variables that are available to the function
+  return `Hello, ${env.NAME}!`;
 };
 ```
 
@@ -103,25 +104,33 @@ If you did not, you will need to manually configure your project. Within your `a
 
 Sometimes it is necessary to provide a secret value to a function. For example, it may need a database password or an API key to perform some business use case. Environment variables should NOT be used for this because environment variable values are included in plaintext in the function configuration. Instead, secret access can be used.
 
-Before using a secret in a function, you need to [define a secret](/gen2/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). After you have defined a secret, you can reference it in your function config.
+Before using a secret in a function, you need to [define a secret](../../../deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). After you have defined a secret, you can reference it in your function config.
 
-```ts title="amplify/functions/my-demo-function/resource.ts"
+```ts title="amplify/functions/say-hello/resource.ts"
 import { defineFunction, secret } from '@aws-amplify/backend';
 
-export const myDemoFunction = defineFunction({
+export const sayHello = defineFunction({
   environment: {
-    API_KEY: secret('myApiKey') // this assumes you created a secret named "myApiKey"
+    NAME: "World",
+    API_ENDPOINT: process.env.API_ENDPOINT,
+    API_KEY: secret('MY_API_KEY') // this assumes you created a secret named "MY_API_KEY"
   }
 });
 ```
 
 You can use this secret value at runtime in your function the same as any other environment variable. However, you will notice that the value of the environment variable is not stored as part of the function configuration. Instead, the value is fetched when your function runs and is provided in memory.
 
-```ts title="amplify/functions/my-demo-function/handler.ts"
-import { env } from '$amplify/env/my-demo-function';
+```ts title="amplify/functions/say-hello/handler.ts"
+import { env } from '$amplify/env/say-hello';
 
 export const handler = async (event) => {
-  env.API_KEY; // this is the value of secret named "myApiKey"
-  return 'You made a function!';
+  const request = new Request(env.API_ENDPOINT, {
+    headers: {
+      // this is the value of secret named "MY_API_KEY"
+      Authorization: `Bearer ${env.API_KEY}`
+    }
+  })
+  // ...
+  return `Hello, ${env.NAME}!`;
 };
 ```
