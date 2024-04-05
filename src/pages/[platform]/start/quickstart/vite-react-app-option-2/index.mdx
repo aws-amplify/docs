@@ -142,7 +142,7 @@ Go to the **amplify/data/resource.ts** file. In there you'll find the definition
 
 Amplify Data provides a built-in capability to subscribe to a real-time feed of your data. Let's use that to update the state of the todos
 
-```tsx
+```tsx title="src/App.tsx"
 // highlight-start
 import { useEffect, useState } from 'react'
 import type { Schema } from '../amplify/data/resource'
@@ -178,7 +178,7 @@ function App() {
 
 Next, let's update the `createTodo` function to make an "Create" API request to our cloud backend. 
 
-```tsx
+```tsx title="src/App.tsx"
 // ...
 function App() {
   // ...
