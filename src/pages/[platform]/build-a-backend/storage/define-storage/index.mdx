@@ -1,0 +1,166 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Define Storage',
+  description: 'Get started with Amplify Storage',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+<Callout warning>
+
+**Under active development:** The Storage experience for Amplify Gen 2 is under active development. The experience may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
+
+</Callout>
+
+By defining storage in your backend configuration, you can customize the access rules to different paths in your storage bucket.
+
+First, create a file `amplify/storage/resource.ts`. Paste the following content into the file.
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage } from '@aws-amplify/backend';
+
+export const storage = defineStorage({
+  name: 'myProjectFiles'
+});
+```
+
+Then include storage in your backend definition.
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+// highlight-next-line
+import { storage } from './storage/resource';
+
+defineBackend({
+  auth,
+  // highlight-next-line
+  storage
+});
+```
+
+Now when you run `npx amplify sandbox` or deploy your app on Amplify, it will configure an S3 bucket where the files will be uploaded to and downloaded from.
+
+Before files can be accessed by your application, you must configure storage access rules.
+
+## Define File Prefix Access
+
+By default, no users or other project resources have access to any files in the storage bucket. Access must be explicitly granted within `defineStorage` using the `access` callback.
+
+```ts title="amplify/storage/resource.ts"
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    // highlight-next-line
+    'some/path/*': [
+      // access rules that apply to all files within "/some/path/*" go here
+    ],
+    // highlight-next-line
+    'another/path/*': [
+      // access rules that apply to all files within "/another/path/*" go here
+    ]
+  })
+});
+```
+
+The access callback returns an object where each key in the object is a file prefix and each value in the object is a list of access rules that apply to that prefix. 
+
+Refer to the following example to construct access rules for your storage bucket or you can copy paste to test it out. [Learn more about customizing access to file prefixes](/[platform]/build-a-backend/storage/authorization/).
+
+```ts title="amplify/storage/resource.ts"
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    'authenticated_access_only/*': [
+      // highlight-next-line
+      allow.authenticated.to(['read', 'write', 'delete']),
+    ],
+    'user_protected/{entity_id}/*': [
+      // highlight-next-line
+      allow.authenticated.to(['read']),
+      // highlight-next-line
+      allow.entity('identity').to(['read', 'write', 'delete'])
+    ],
+    'guest_access_only/*': [
+      // highlight-next-line
+      allow.guest.to(['read', 'write', 'delete'])
+    ]
+  })
+});
+```
+Copy and paste the following definition for authorization rules to implement public, protected, and private prefixes (this is currently the pattern in Gen 1).
+
+```ts title="amplify/storage/resource.ts"
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    'public/*': [
+      allow.guest.to(['read'])
+      allow.authenticated.to(['read', 'write', 'delete']),
+    ],
+    'protected/{entity_id}/*': [
+      allow.authenticated.to(['read']),
+      allow.entity('identity').to(['read', 'write', 'delete'])
+    ],
+    'private/{entity_id}/*': [allow.entity('identity').to(['read', 'write', 'delete'])]
+  })
+});
+```
+### Amazon S3 Bucket CORS Policy Setup
+
+{/* TODO Rewrite is this needed only for JS? or is it needed for Flutter Web for example as well? */}
+
+<Callout warning>
+
+To make calls to your S3 bucket from your App, you need to set up a CORS Policy for your S3 bucket. This callout is only for manual configuration of your S3 bucket.
+
+</Callout>
+
+The following steps will set up your CORS Policy:
+
+1. Go to [Amazon S3 Console](https://s3.console.aws.amazon.com/s3/home?region=us-east-1) and click on your project's `userfiles` bucket, which is normally named as [Bucket Name][Id]-dev. ![Go to [Amazon S3 Console]](/images/storage/CORS1.png)
+2. Click on the **Permissions** tab for your bucket. ![Click on the **Permissions** tab for your bucket](/images/storage/CORS2.png)
+3. Click the edit button in the **Cross-origin resource sharing (CORS)** section. ![Click the edit button in the **Cross-origin resource sharing (CORS)** section](/images/storage/CORS3.png)
+4. Make the Changes and click on Save Changes. You can add required metadata to be exposed in `ExposeHeaders` with `x-amz-meta-XXXX` format. ![Click on Save Changes:](/images/storage/CORS4.png)
+
+```json
+[
+  {
+    "AllowedHeaders": ["*"],
+    "AllowedMethods": ["GET", "HEAD", "PUT", "POST", "DELETE"],
+    "AllowedOrigins": ["*"],
+    "ExposeHeaders": [
+      "x-amz-server-side-encryption",
+      "x-amz-request-id",
+      "x-amz-id-2",
+      "ETag",
+      "x-amz-meta-foo"
+    ],
+    "MaxAgeSeconds": 3000
+  }
+]
+```
+
+<Callout>
+
+**Note:** You can restrict the access to your bucket by updating AllowedOrigin to include individual domains.
+
+</Callout>
