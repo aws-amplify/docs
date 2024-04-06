@@ -75,7 +75,7 @@ Amazon Pinpoint service requires an IAM policy in order to use the `record` and 
     {
       "Effect": "Allow",
       "Action": ["mobiletargeting:UpdateEndpoint", "mobiletargeting:PutEvents"],
-      "Resource": ["arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"]
+      "Resource": ["arn:aws:mobiletargeting:*:<your-account-id>:apps/<your-pinpoint-app-id>*"]
     }
   ]
 }
@@ -88,19 +88,19 @@ Existing Amazon Pinpoint resources can be used with the Amplify Libraries by ref
 
 ```dart
 {
-    "analytics": {
-        "plugins": {
-            "awsPinpointAnalyticsPlugin": {
-                "pinpointAnalytics": {
-                    "appId": "[APP ID]",
-                    "region": "[REGION]"
-                },
-                "pinpointTargeting": {
-                    "region": "[REGION]"
-                }
-            }
+  "analytics": {
+    "plugins": {
+      "awsPinpointAnalyticsPlugin": {
+        "pinpointAnalytics": {
+          "appId": "<your-pinpoint-app-id>",
+          "region": "<your-aws-region>"
+        },
+        "pinpointTargeting": {
+          "region": "<your-aws-region>"
         }
+      }
     }
+  }
 }
 ```
 
@@ -118,16 +118,16 @@ Existing Amazon Pinpoint resources can be used with the Amplify Libraries by ref
 
 ```json
 {
-    "analytics": {
-        "plugins": {
-            "awsPinpointAnalyticsPlugin": {
-                "pinpointAnalytics": {
-                    "appId": "[APP ID]",
-                    "region": "[REGION]"
-                }
-            }
+  "analytics": {
+    "plugins": {
+      "awsPinpointAnalyticsPlugin": {
+        "pinpointAnalytics": {
+          "appId": "<your-pinpoint-app-id>",
+          "region": "<your-aws-region>"
         }
+      }
     }
+  }
 }
 ```
 
@@ -143,19 +143,19 @@ Existing Amazon Pinpoint resources can be used with the Amplify Libraries by ref
 
 ```json
 {
-    "analytics": {
-        "plugins": {
-            "awsPinpointAnalyticsPlugin": {
-                "pinpointAnalytics": {
-                    "appId": "[APP ID]",
-                    "region": "[REGION]"
-                },
-                "pinpointTargeting": {
-                    "region": "[REGION]"
-                }
-            }
+  "analytics": {
+    "plugins": {
+      "awsPinpointAnalyticsPlugin": {
+        "pinpointAnalytics": {
+          "appId": "<your-pinpoint-app-id>",
+          "region": "<your-aws-region>"
+        },
+        "pinpointTargeting": {
+          "region": "<your-aws-region>"
         }
+      }
     }
+  }
 }
 ```
 

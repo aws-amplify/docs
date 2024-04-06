@@ -32,10 +32,23 @@ The Amazon Data Firehose analytics provider allows you to send analytics data to
 
 The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create the Analytics resource powered by [Amazon Data Firehose](https://aws.amazon.com/firehose/).
 
+Let's create a storage bucket to store the data from Amazon Data Firehose stream.
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage } from "@aws-amplify/backend";
+export const storage = defineStorage({
+  name: "FirehoseDestinationBucket",
+});
+
+```
+
 ```ts title="amplify/backend.ts"
-import { Bucket } from "aws-cdk-lib/aws-s3";
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import { storage } from "./storage/resource";
 import { CfnDeliveryStream } from "aws-cdk-lib/aws-kinesisfirehose";
-import { Stack , RemovalPolicy} from "aws-cdk-lib";
+import { Stack } from "aws-cdk-lib";
 import {
   Policy,
   PolicyStatement,
@@ -46,22 +59,21 @@ import {
 const backend = defineBackend({
   auth, 
   data,
+  storage,
   // additional resources 
 });
 
 // Create a new stack for the Firehose resources
 const firehoseStack = backend.createStack("firehose-stack");
 
-// Create a new S3 bucket for the Firehose destination
-const s3Bucket = new Bucket(firehoseStack, "FirehoseDestinationBucket", {
-  // removalPolicy: cdk.RemovalPolicy.DESTROY, // Use with caution in production environments
-  // autoDeleteObjects: true, // Use with caution in production environments
-});
+// Access the S3 bucket resource
+const s3Bucket = backend.storage.resources.bucket;
 
 // Create a new IAM role for the Firehose
 const firehoseRole = new Role(firehoseStack, "FirehoseRole", {
   assumedBy: new ServicePrincipal("firehose.amazonaws.com"),
 });
+
 // Grant the Firehose role read/write permissions to the S3 bucket
 s3Bucket.grantReadWrite(firehoseRole);
 
@@ -114,7 +126,7 @@ Example IAM policy for Amazon Data Firehose:
     "Effect": "Allow",
     "Action": "firehose:PutRecordBatch",
     // replace the template fields
-    "Resource": "arn:aws:firehose:<Region>:<AccountId>:deliverystream/<StreamName>"
+    "Resource": "arn:aws:firehose:<your-aws-region>:<your-aws-account-id>:deliverystream/<your-stream-name>"
   }]
 }
 ```

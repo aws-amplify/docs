@@ -46,7 +46,7 @@ An example IAM policy:
   "Statement": [{
     "Effect": "Allow",
     "Action": "personalize:PutEvents",
-    "Resource": "*"
+    "Resource": "arn:aws:personalize:<your-aws-region>:<your-account-id>:event-tracker/<your-resource-name>"
   }]
 }
 ```
@@ -57,20 +57,16 @@ Configure Amazon Personalize:
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-
 Amplify.configure({
   ...Amplify.getConfig(),
   Analytics: {
     Personalize: {
       // REQUIRED - The trackingId to track the events
-      trackingId: '<TRACKING_ID>',
-
+      trackingId: '<tracking-id>',
       // REQUIRED -  Amazon Personalize service region
       region: 'us-east-1',
-
       // OPTIONAL - The number of events to be deleted from the buffer when flushed.
       flushSize: 10,
-
       // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
       flushInterval: 5000 // 5s
     }
@@ -91,9 +87,9 @@ You can use the `Identify` event type to track a user identity. This lets you co
 import { record } from 'aws-amplify/analytics/personalize';
 
 record({
-  eventType: "Identify",
+  eventType: 'Identify',
   properties: {
-     userId: "<USER_ID>"
+    userId: '<user-id>'
   }
 });
 ```
@@ -104,11 +100,11 @@ For information about the properties field, see [Put Events](https://docs.aws.am
 import { record } from 'aws-amplify/analytics/personalize';
 
 record({
-  eventType: "<EVENT_TYPE>",
-  userId: "<USER_ID>", // optional
+  eventType: '<event-type>',
+  userId: '<user-id>', // optional
   properties: {
-    itemId: "<ITEM_ID>",
-    eventValue: "<EVENT_VALUE>"
+    itemId: '<item-id>',
+    eventValue: '<event-value>'
   }
 });
 ```
@@ -118,11 +114,11 @@ You can track iframe and HTML5 media types by using the MediaAutoTrack event typ
 import { record } from 'aws-amplify/analytics/personalize';
 
 record({
-  eventType: "MediaAutoTrack",
-  userId: "<USER_ID>", // (optional)
+  eventType: 'MediaAutoTrack',
+  userId: '<user-id>', // (optional)
   properties: {
-    domElementId: "MEDIA DOM ELEMENT ID",
-    itemId: "<ITEM_ID>"
+    domElementId: 'media-dom-element-id',
+    itemId: '<item-d>'
   }
 });
 ```
