@@ -33,6 +33,8 @@ The Amazon Kinesis analytics provider allows you to send analytics data to an [A
 The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create the Analytics resource powered by [Amazon Kinesis](https://aws.amazon.com/kinesis).
 
 ```ts title="amplify/backend.ts"
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { Stream } from "aws-cdk-lib/aws-kinesis";
 import { Stack } from "aws-cdk-lib";

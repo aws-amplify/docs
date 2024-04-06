@@ -78,6 +78,8 @@ For more information on how to use the `visionos-preview` branch, see [Platform 
 The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create the an Analytics resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/). 
 
 ```ts title="amplify/backend.ts"
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { CfnApp } from "aws-cdk-lib/aws-pinpoint";
 import { Stack } from "aws-cdk-lib";

@@ -36,11 +36,15 @@ Let's create a storage bucket to store the data from Amazon Data Firehose stream
 
 ```ts title="amplify/storage/resource.ts"
 import { defineStorage } from "@aws-amplify/backend";
+
+// Define the S3 bucket resource
 export const storage = defineStorage({
   name: "FirehoseDestinationBucket",
 });
 
 ```
+
+next, let's create the Amazon Data Firehose resource.
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
@@ -101,7 +105,7 @@ const firehosePolicy = new Policy(firehoseStack, "FirehosePolicy", {
 backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(firehosePolicy);
 backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(firehosePolicy);
 
-// patch the custom Analytics resource to the output configuration
+// Patch the custom Analytics resource to the output configuration
 backend.addOutput({
   custom: {
     KinesisFirehose: {
@@ -170,7 +174,7 @@ record({
   data: {
     // The data blob to put into the record
   },
-  streamName: 'myKinesisStream'
+  streamName: 'myFirehose'
 });
 ```
 
