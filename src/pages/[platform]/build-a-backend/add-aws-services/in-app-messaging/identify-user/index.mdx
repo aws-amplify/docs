@@ -31,7 +31,7 @@ To fully harness the potential of In-App Messaging, you must segment and target 
 ```js
 import { identifyUser } from 'aws-amplify/in-app-messaging';
 
-const identifyUserInput = {
+await identifyUser({
   userId: '', // E.g. user-id
   userProfile: {
     email: '', // E.g. example@service.com
@@ -62,9 +62,7 @@ const identifyUserInput = {
       // E.g. logins: 157
     },
   },
-};
-
-await identifyUser(identifyUserInput);
+});
 ```
 
 ## Identify a user with Amazon Pinpoint
@@ -74,7 +72,7 @@ When using `identifyUser` with Amazon Pinpoint, in addition to the other user in
 ```js
 import { identifyUser } from 'aws-amplify/in-app-messaging';
 
-const identifyUserInput = {
+await identifyUser({
   userId: '', // E.g. user-id
   options: {
     address: '' // E.g. A device token or email address
@@ -83,8 +81,5 @@ const identifyUserInput = {
       // E.g. interests: ['soccer', 'shoes'],
     }
   },
-
-};
-
-await identifyUser(identifyUserInput);
+});
 ```

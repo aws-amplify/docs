@@ -33,11 +33,14 @@ The following is an example utilizing the AWS CDK to create the In-App Messaging
 
 <Callout informational>
 
-**Note**: Campaign start time must be at least 15 minutes in future. In-app messages can only be synced to local device once the campaign becomes active (Status should be "In Progress" in the campaigns screen of the Pinpoint console).
+**Note:** Campaign start time must be at least 15 minutes in future. In-app messages can only be synced to local device once the campaign becomes active (Status should be "In Progress" in the campaigns screen of the Pinpoint console).
 
 </Callout>
 
 ```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
 import {
   CfnApp,
   CfnInAppTemplate,
@@ -45,7 +48,8 @@ import {
   CfnSegment,
 } from "aws-cdk-lib/aws-pinpoint";
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { Stack } from "aws-cdk-lib";
+import { Stack } from "aws-cdk-lib/core";
+
 
 const backend = defineBackend({
   auth, 
@@ -67,7 +71,7 @@ const mySegment = new CfnSegment(inAppMessagingStack, "Segment", {
 });
 
 // create a campaign with event and in-app message template
-new CfnCampaign(inAppMessagingStack, "MyCampaign", {
+new CfnCampaign(inAppMessagingStack, "Campaign", {
   applicationId: pinpoint.ref,
   name: "MyCampaign",
   segmentId: mySegment.attrSegmentId,
@@ -150,8 +154,8 @@ To finish setting up your application with Amplify, you need to configure it usi
 <InlineFilter filters={["javascript", "angular", "react", "vue", "react-native"]}>
 ```js
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '../amplifyconfiguration.json';
 import { initializeInAppMessaging } from 'aws-amplify/in-app-messaging';
+import amplifyconfig from '../amplifyconfiguration.json';
 
 Amplify.configure(amplifyconfig);
 initializeInAppMessaging();
@@ -161,8 +165,8 @@ initializeInAppMessaging();
 <InlineFilter filters={['nextjs']}> 
 ```js
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '@/amplifyconfiguration.json';
 import { initializeInAppMessaging } from 'aws-amplify/in-app-messaging';
+import amplifyconfig from '@/amplifyconfiguration.json';
 
 Amplify.configure(amplifyconfig);
 initializeInAppMessaging();
