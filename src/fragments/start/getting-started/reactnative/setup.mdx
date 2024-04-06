@@ -5,6 +5,12 @@ To get started, initialize a new React Native project.
 <BlockSwitcher>
 <Block name="Expo CLI">
 
+<Callout>
+
+Amplify now requires native modules not available through the Expo SDK. As a result, Expo Go is no longer supported but you should still be able to use Expo. [Learn more about dropping support for Expo Go in Amplify v6](/gen1/react-native/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/#dropping-support-for-expo-go).
+
+</Callout>
+
 Create a new app with the following command:
 
 ```sh
@@ -20,7 +26,7 @@ import rnVersionCallout from '/src/fragments/common/react-native-version-deploym
 Install the necessary dependencies by running the following command:
 
 ```sh
-npm install aws-amplify @aws-amplify/react-native @aws-amplify/rtn-web-browser @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
+npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
 ```
 
 Start the app with the following command:

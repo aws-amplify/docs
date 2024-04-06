@@ -209,7 +209,7 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/list-files/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/get-files/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/remove-files/index.mdx'
@@ -221,7 +221,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/storage/lambda-triggers/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/extend-with-cdk/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/extend-s3-resources/index.mdx'
                 }
               ]
             },
@@ -339,6 +339,61 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/build-ui/figma-to-code/index.mdx'
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: [
+                'android',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'angular',
+                'flutter',
+                'swift',
+                'vue'
+              ]
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/react/connected-components/storage/storageimage',
+              title: 'StorageImage',
+              description:
+                'StorageImage is a connected component that simplifies the process of displaying images stored in an Amazon S3 bucket.',
+              platforms: ['javascript', 'nextjs', 'react']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager',
+              title: 'StorageManager',
+              description:
+                'StorageManager is a connected component that facilitates operations such as uploading, downloading, listing, and deleting files from an Amazon S3 bucket.',
+              platforms: ['javascript', 'nextjs', 'react']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+              title: 'Account Settings',
+              description:
+                'Account Settings components are a set of standalone components that add user management flows to your application with minimal boilerplate.                .                .',
+              platforms: ['javascript', 'nextjs', 'react']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+              title: 'Face Liveness',
+              description:
+                'FaceLivenessDetector is a connected component that helps verify that only real users, not bad actors using spoofs, can access your services.',
+              platforms: ['android', 'javascript', 'nextjs', 'react', 'swift']
             }
           ]
         },
