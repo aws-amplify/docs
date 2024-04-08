@@ -104,17 +104,6 @@ const firehosePolicy = new Policy(firehoseStack, "FirehosePolicy", {
 // Attach the policy to the authenticated and unauthenticated IAM roles
 backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(firehosePolicy);
 backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(firehosePolicy);
-
-// Patch the custom Analytics resource to the output configuration
-backend.addOutput({
-  custom: {
-    KinesisFirehose: {
-      firehoseName: myFirehose.ref,
-      region: Stack.of(firehoseStack).region,
-    },
-  },
-});
-
 ```
 
 ## Installation and Configuration

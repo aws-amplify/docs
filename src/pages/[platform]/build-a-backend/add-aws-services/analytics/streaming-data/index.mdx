@@ -67,16 +67,6 @@ const kinesisPolicy = new Policy(kinesisStack, "KinesisPolicy", {
 // apply the policy to the authenticated and unauthenticated roles
 backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(kinesisPolicy);
 backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(kinesisPolicy);
-
-// patch the custom Analytics resource to the output configuration
-backend.addOutput({
-  custom: {
-    Kinesis: {
-      streamName: kinesisStream.streamName,
-      region: Stack.of(kinesisStream).region,
-    },
-  },
-});
 ```
 
 ## Installation and Configuration
