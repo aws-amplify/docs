@@ -2,12 +2,23 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { GetStartedPopover } from '../index';
 import userEvent from '@testing-library/user-event';
+import {
+  IconAndroid,
+  IconAngular,
+  IconFlutter,
+  IconJS,
+  IconNext,
+  IconReact,
+  IconSwift,
+  IconVue
+} from '@/components/Icons';
 
 const routerMock = {
   __esModule: true,
   useRouter: () => {
     return {
-      query: { platform: 'react' }
+      query: { platform: 'react' },
+      asPath: '/'
     };
   }
 };
@@ -15,7 +26,85 @@ const routerMock = {
 jest.mock('next/router', () => routerMock);
 
 describe('GetStartedPopover', () => {
-  const component = <GetStartedPopover platform={'react'} />;
+  const getStartedHref = '/[platform]/start/quickstart/';
+  const getStartedLinks = [
+    {
+      title: 'React',
+      href: {
+        pathname: getStartedHref,
+        query: { platform: 'react' }
+      },
+      icon: <IconReact />
+    },
+    {
+      title: 'JavaScript',
+      href: {
+        pathname: getStartedHref,
+        query: { platform: 'javascript' }
+      },
+      icon: <IconJS />
+    },
+    {
+      title: 'Flutter',
+      href: {
+        pathname: getStartedHref,
+        query: { platform: 'flutter' }
+      },
+      icon: <IconFlutter />
+    },
+    {
+      title: 'Swift',
+      href: {
+        pathname: getStartedHref,
+        query: { platform: 'swift' }
+      },
+      icon: <IconSwift />
+    },
+    {
+      title: 'Android',
+      href: {
+        pathname: getStartedHref,
+        query: { platform: 'android' }
+      },
+      icon: <IconAndroid />
+    },
+    {
+      title: 'React Native',
+      href: {
+        pathname: getStartedHref,
+        query: { platform: 'react-native' }
+      },
+      icon: <IconReact />
+    },
+    {
+      title: 'Angular',
+      href: {
+        pathname: getStartedHref,
+        query: { platform: 'angular' }
+      },
+      icon: <IconAngular />
+    },
+    {
+      title: 'Next.js',
+      href: {
+        pathname: getStartedHref,
+        query: { platform: 'nextjs' }
+      },
+      icon: <IconNext />
+    },
+    {
+      title: 'Vue',
+      href: {
+        pathname: getStartedHref,
+        query: { platform: 'vue' }
+      },
+      icon: <IconVue />
+    }
+  ];
+
+  const component = (
+    <GetStartedPopover platform={'react'} getStartedLinks={getStartedLinks} />
+  );
 
   it('should render the GetStartedPopover component', async () => {
     render(component);
@@ -34,7 +123,7 @@ describe('GetStartedPopover', () => {
       name: 'Get started'
     });
     expect(popoverNode.getAttribute('href')).toContain(
-      '/react/start/getting-started/introduction'
+      '/react/start/quickstart'
     );
   });
 
@@ -60,13 +149,13 @@ describe('GetStartedPopover', () => {
     const angularOption = await screen.findByRole('link', { name: 'Angular' });
     const nextjsOption = await screen.findByRole('link', { name: 'Next.js' });
     expect(swiftOption.getAttribute('href')).toContain(
-      '/swift/start/getting-started/introduction'
+      '/swift/start/quickstart'
     );
     expect(angularOption.getAttribute('href')).toContain(
-      '/angular/start/getting-started/introduction'
+      '/angular/start/quickstart'
     );
     expect(nextjsOption.getAttribute('href')).toContain(
-      '/nextjs/start/getting-started/introduction'
+      '/nextjs/start/quickstart'
     );
   });
 
@@ -128,5 +217,72 @@ describe('GetStartedPopover', () => {
     userEvent.tab();
     expect(dropdown.classList).not.toContain('popover--expanded');
     expect(dropdown).not.toHaveFocus();
+  });
+
+  it('should link to the selected platform gen 1 link on click of "Getting started" if passed gen 1 links', async () => {
+    const gen1GetStartedLinks = getStartedLinks.map((link) => {
+      link.href.pathname =
+        '/gen1/[platform]/start/getting-started/introduction/';
+
+      return link;
+    });
+
+    routerMock.useRouter = () => {
+      return {
+        query: { platform: 'vue' },
+        asPath: '/gen1'
+      };
+    };
+
+    const gen1GetStartedPopover = (
+      <GetStartedPopover
+        platform={'vue'}
+        getStartedLinks={gen1GetStartedLinks}
+      />
+    );
+
+    render(gen1GetStartedPopover);
+
+    const popoverNode = await screen.findByRole('link', {
+      name: 'Get started'
+    });
+
+    expect(popoverNode.getAttribute('href')).toContain(
+      '/gen1/vue/start/getting-started/introduction'
+    );
+  });
+
+  it('should show each platform option with link to corresponding gen1 Getting Started if passed gen 1 links', async () => {
+    const gen1GetStartedLinks = getStartedLinks.map((link) => {
+      link.href.pathname =
+        '/gen1/[platform]/start/getting-started/introduction/';
+
+      return link;
+    });
+
+    const gen1GetStartedPopover = (
+      <GetStartedPopover
+        platform={'react'}
+        getStartedLinks={gen1GetStartedLinks}
+      />
+    );
+
+    render(gen1GetStartedPopover);
+
+    const swiftOption = await screen.findByRole('link', { name: 'Swift' });
+    const angularOption = await screen.findByRole('link', { name: 'Angular' });
+    const nextjsOption = await screen.findByRole('link', { name: 'Next.js' });
+
+    expect(swiftOption.getAttribute('href')).toContain(
+      '/gen1/swift/start/getting-started/introduction'
+    );
+
+    expect(angularOption.getAttribute('href')).toContain(
+      '/gen1/angular/start/getting-started/introduction'
+    );
+
+    expect(nextjsOption.getAttribute('href')).toContain(
+      '/gen1/nextjs/start/getting-started/introduction'
+    );
   });
 });

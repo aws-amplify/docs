@@ -28,6 +28,9 @@ export const directory = {
                   path: 'src/pages/[platform]/start/quickstart/vite-react-app/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/start/quickstart/vite-react-app-option-2/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
@@ -164,6 +167,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/data/custom-subscription/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/data/connect-from-server-runtime/index.mdx',
                   children: [
                     {
@@ -180,10 +186,84 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/storage/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/storage/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/define-storage/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/authorization/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/upload-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/download-files/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/storage/download-files/get-url/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/storage/download-files/download-data/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/get-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/remove-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/copy-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/lambda-triggers/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/extend-s3-resources/index.mdx'
+                }
+              ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/functions/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/set-up-function/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/environment-variables-and-secrets/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/configure-functions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/grant-access-to-other-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/examples/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/email-domain-filtering/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/add-user-to-group/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/user-attribute-validation/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/google-recaptcha-challenge/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/bedrock-response/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/modify-resources-with-cdk/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx'

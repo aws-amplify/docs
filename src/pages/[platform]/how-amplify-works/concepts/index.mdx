@@ -58,7 +58,7 @@ With Gen 2, all shared environments (such as `production`, `staging`, `gamma`) m
 
 All branches can be managed in the new Amplify console. The Gen 2 Amplify console consolidates the console experiences across Studio and Hosting, providing a single place for you to manage your builds, hosting settings (such as custom domains), deployed resources (such as data browser or user management), and environment variables and secrets. Even though you can access deployed resources directly in other AWS service consoles, the Amplify console will offer a first-party experience for the categories almost every app needs—data, auth, storage, and functions. For example, with Data, Amplify offers an API playground and a data manager (coming soon) with relationship building, seed data generation, and file upload capabilities.
 
-<video autoPlay={true} muted={true} loop={true} width="100%">
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/how-amplify-works/console.mp4" />
 </video>
 
@@ -183,9 +183,9 @@ This is then included in the `amplify/backend.ts` file so it gets deployed as pa
 
 ```ts
 import { Backend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
-import { LocationMapStack } from './locationMapStack/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+import { LocationMapStack } from './locationMapStack/resource';
 
 const backend = new Backend({
   auth,

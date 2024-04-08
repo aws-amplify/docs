@@ -1,15 +1,33 @@
-import { DEFAULT_PLATFORM, PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import { DEFAULT_PLATFORM } from '@/data/platforms';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
-import { GetStartedPopover } from '@/components/GetStartedPopover';
+import {
+  GetStartedPopover,
+  generateGetStartedLinks
+} from '@/components/GetStartedPopover';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { Flex, Heading, Text } from '@aws-amplify/ui-react';
 import LinkCards from '@/components/LinkCards';
 import PlatformFeatureList from '@/components/FeatureLists/PlatformFeatureList';
+import {
+  gen1GetStartedHref,
+  gen1HowAmplifyWorksPathname
+} from '@/data/index-page-data';
 
 export const meta = {
   title: 'Amplify Docs (Gen 1)',
-  description: 'This is a description for the overview page.'
+  description: 'This is a description for the overview page.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
 export function getStaticProps() {
@@ -30,7 +48,7 @@ const PlatformOverview = () => {
     <Flex className="home-content">
       <Flex className="home-intro">
         <Heading level={1} className="home-intro__heading">
-          Amplify Documentation for {PLATFORM_DISPLAY_NAMES[DEFAULT_PLATFORM]}
+          Amplify Documentation
         </Heading>
         <Text className="home-intro__text">
           AWS Amplify streamlines full-stack app development. With its
@@ -42,7 +60,7 @@ const PlatformOverview = () => {
             variation="primary"
             size="large"
             href={{
-              pathname: '/[platform]/how-amplify-works',
+              pathname: gen1HowAmplifyWorksPathname,
               query: { platform: DEFAULT_PLATFORM }
             }}
           >
@@ -50,7 +68,10 @@ const PlatformOverview = () => {
             <IconChevron className="icon-rotate-270" fontSize=".875em" />
           </InternalLinkButton>
 
-          <GetStartedPopover platform={DEFAULT_PLATFORM} />
+          <GetStartedPopover
+            platform={DEFAULT_PLATFORM}
+            getStartedLinks={generateGetStartedLinks(gen1GetStartedHref)}
+          />
         </Flex>
       </Flex>
       <Flex direction="column">

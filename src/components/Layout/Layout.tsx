@@ -88,7 +88,7 @@ export const Layout = ({
 
   const showNextPrev = NEXT_PREVIOUS_SECTIONS.some(
     (section) =>
-      asPathWithNoHash.includes(section) &&
+      pathname.includes(section) &&
       !asPathWithNoHash.endsWith(section) &&
       !isOverview
   );
@@ -103,8 +103,8 @@ export const Layout = ({
   const currentPlatform = platform
     ? platform
     : PLATFORMS.includes(asPathPlatform)
-      ? asPathPlatform
-      : DEFAULT_PLATFORM;
+    ? asPathPlatform
+    : DEFAULT_PLATFORM;
 
   const title = [
     pageTitle,
