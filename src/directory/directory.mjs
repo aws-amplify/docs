@@ -28,6 +28,9 @@ export const directory = {
                   path: 'src/pages/[platform]/start/quickstart/vite-react-app/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/start/quickstart/vite-react-app-option-2/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
@@ -174,7 +177,44 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/storage/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/storage/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/define-storage/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/authorization/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/upload-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/download-files/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/storage/download-files/get-url/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/storage/download-files/download-data/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/get-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/remove-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/copy-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/lambda-triggers/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/extend-s3-resources/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
@@ -235,7 +275,45 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/set-up-analytics/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/record-events/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/identify-user/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/auto-track-sessions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/enable-disable/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/streaming-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/storing-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/personalize-recommendations/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/existing-resources/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/sdk/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/data-usage-policy/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/app-uninstall/index.mdx'
+                    }
+                  ]
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx'
@@ -252,6 +330,61 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/build-ui/figma-to-code/index.mdx'
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: [
+                'android',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'angular',
+                'flutter',
+                'swift',
+                'vue'
+              ]
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/react/connected-components/storage/storageimage',
+              title: 'StorageImage',
+              description:
+                'StorageImage is a connected component that simplifies the process of displaying images stored in an Amazon S3 bucket.',
+              platforms: ['javascript', 'nextjs', 'react']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager',
+              title: 'StorageManager',
+              description:
+                'StorageManager is a connected component that facilitates operations such as uploading, downloading, listing, and deleting files from an Amazon S3 bucket.',
+              platforms: ['javascript', 'nextjs', 'react']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+              title: 'Account Settings',
+              description:
+                'Account Settings components are a set of standalone components that add user management flows to your application with minimal boilerplate.                .                .',
+              platforms: ['javascript', 'nextjs', 'react']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+              title: 'Face Liveness',
+              description:
+                'FaceLivenessDetector is a connected component that helps verify that only real users, not bad actors using spoofs, can access your services.',
+              platforms: ['android', 'javascript', 'nextjs', 'react', 'swift']
             }
           ]
         },
