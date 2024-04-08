@@ -1,6 +1,9 @@
 import { Heading, Text, Flex, Card } from '@aws-amplify/ui-react';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
-import { GetStartedPopover } from '@/components/GetStartedPopover';
+import {
+  GetStartedPopover,
+  generateGetStartedLinks
+} from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
@@ -8,6 +11,10 @@ import { FeatureItem, FeatureList } from '@/components/FeatureLists';
 import { MDXCode } from '@/components/MDXComponents';
 import { Columns } from '@/components/Columns';
 import ExportedImage from 'next-image-export-optimizer';
+import {
+  gen2GetStartedHref,
+  gen2HowAmplifyWorksPathname
+} from '@/data/index-page-data';
 
 const meta = {
   title: 'Amplify Documentation',
@@ -45,7 +52,7 @@ export default function Page() {
             variation="primary"
             size="large"
             href={{
-              pathname: '/[platform]/how-amplify-works',
+              pathname: gen2HowAmplifyWorksPathname,
               query: { platform: DEFAULT_PLATFORM }
             }}
           >
@@ -56,7 +63,10 @@ export default function Page() {
               fontSize=".875em"
             />
           </InternalLinkButton>
-          <GetStartedPopover platform={DEFAULT_PLATFORM} />
+          <GetStartedPopover
+            platform={DEFAULT_PLATFORM}
+            getStartedLinks={generateGetStartedLinks(gen2GetStartedHref)}
+          />
         </Flex>
       </Flex>
       <Flex className="home-section">
@@ -122,6 +132,7 @@ export default function Page() {
           autoPlay
           muted
           loop
+          playsInline={true}
         />
 
         <Columns columns={2} as="ul">
@@ -290,8 +301,8 @@ export default function Page() {
           codeString={`import * as sns from 'aws-cdk-lib/aws-sns';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   auth,

@@ -11,6 +11,7 @@ import {
   IconSwift,
   IconVue
 } from '@/components/Icons';
+import { useIsGen1Page } from '@/utils/useIsGen1Page';
 
 const frameworks = [
   {
@@ -74,6 +75,8 @@ interface FrameworkGridProps {
 }
 
 export const FrameworkGrid = ({ currentKey }: FrameworkGridProps) => {
+  const isGen1Page = useIsGen1Page();
+
   return (
     <View
       as="nav"
@@ -87,7 +90,7 @@ export const FrameworkGrid = ({ currentKey }: FrameworkGridProps) => {
           return (
             <li key={key} className="framework-grid__item">
               <Link
-                href={href}
+                href={isGen1Page ? `/gen1${href}` : href}
                 className={`framework-grid__link${
                   isCurrent ? ' framework-grid__link--current' : ''
                 }`}

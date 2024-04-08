@@ -22,6 +22,9 @@ const nextJSConfig = () => {
   let nextConfig = withMDX({
     output: 'export',
     distDir: 'client/www/next-build',
+    generateBuildId: async () => {
+      return 'amplify-docs';
+    },
     env: {
       BUILD_ENV: process.env.BUILD_ENV,
       ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID,
