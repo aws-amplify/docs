@@ -35,13 +35,11 @@ Now that messages have been synced to your users' devices, Amplify In-App Messag
 ```js
 import { record } from 'aws-amplify/analytics';
 
-const event = {
+record({
   name: 'first_event',
   attributes: { color: 'red' },
   metrics: { quantity: 10 }
-};
-
-record(event);
+});
 ```
 
 If the event name, attributes, and metrics match those set forth by one of your In-App Messaging campaigns, you should see the in-app message displayed in your app.
@@ -53,13 +51,11 @@ In addition to or instead of Amplify Analytics events, you can also dispatch In-
 ```js
 import { dispatchEvent } from 'aws-amplify/in-app-messaging';
 
-const event = {
+dispatchEvent({
   name: 'first_event',
   attributes: { color: 'red' },
   metrics: { quantity: 10 }
-};
-
-dispatchEvent(event);
+});
 ```
 
 If the event name, attributes, and metrics match those set forth by one of your In-App Messaging campaigns, you should see the in-app message displayed in your app.
