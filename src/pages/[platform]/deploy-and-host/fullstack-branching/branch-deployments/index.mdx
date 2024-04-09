@@ -47,26 +47,69 @@ You can also define a pattern to connect only certain branches. For example, set
   <source src="/images/gen2/fullstack-branching/autobranch.mp4" />
 </video>
 
-3. Push a commit to your `featureA` and `staging` branches that match the pattern. You should start seeing deployments on the console page. You will now have three fullstack branches deployed.
+3. Push a commit to your `feature/A` and `staging` branches that match the pattern. You should start seeing deployments on the console page. You will now have three fullstack branches deployed.
 
-![Production, featureA, and staging branches listed on app overview page in Amplify console.](/images/gen2/fullstack-branching/branches.png)
+![Production, feature/A, and staging branches listed on app overview page in Amplify console.](/images/gen2/fullstack-branching/branches.png)
 
 ## Promote changes to production
 
 In Gen 2, promoting changes to production follows the normal Git-based workflow.
 
-![Workflow for merging changes from featureA branch to main, or production, branch.](/images/gen2/fullstack-branching/gitflow.png)
+![Workflow for merging changes from feature/A branch to main, or production, branch.](/images/gen2/fullstack-branching/gitflow.png)
 
-1. Make a change in your `featureA` branch.
+1. Make a change in your `feature/A` branch.
 
-```terminal
-> git checkout featureA
+```sh showLineNumbers={false}
+git checkout -b feature/A
 
 ## make some edits to your code
 
-> git commit --am "New data model to track comments for todos added"
+git commit --am "New data model to track comments for todos added"
 
-> git push origin featureA
+git push origin feature/A
 ```
 
 2. Submit a pull request to your `main` branch. Once your team has validated the changes, merge the pull request to `main`. This will initiate a build on your `main` branch and update any frontend or backend resources that you changed.
+
+
+### Generate client config
+
+You can generate the config for a branch environment by running:
+
+```bash showLineNumbers={false}
+npx amplify generate config --app-id <AMPLIFY_APP_ID> --branch main --format=["mjs", "json", "json-mobile", "ts", "dart"] --out-dir=path/to/config
+```
+
+For Web and React Native, generating the config with the default format and output directory.
+
+<BlockSwitcher>
+<Block name="Flutter">
+```bash showLineNumbers={false}
+npx amplify generate config --app-id=<app-id> --branch=main --format=dart --out-dir=lib
+```
+</Block>
+<Block name="Android">
+
+<Callout warning>
+  Be sure to add a "raw" folder under app/src/main/res directory if it doesn't
+  exist.
+</Callout>
+
+```bash showLineNumbers={false}
+npx amplify generate config --app-id=<app-id> --branch=main --format=json-mobile --out-dir=app/src/main/res/raw
+```
+</Block>
+<Block name="iOS">
+
+```bash showLineNumbers={false}
+npx amplify generate config --app-id=<app-id> --format=json-mobile
+```
+
+Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+  <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
+</video>
+
+</Block>
+</BlockSwitcher>

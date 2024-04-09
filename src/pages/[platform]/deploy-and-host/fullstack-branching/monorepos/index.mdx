@@ -75,8 +75,43 @@ The first app, `my-shared-backend`, will be the only app that updates changes to
 
 1. For the frontend apps, connect the frontend projects in the Amplify console separately, and update the build commands to include:
 
-```
+```bash showLineNumbers={false}
 npx amplify generate config --branch main --app-id BACKEND-APP
 ```
 
 - `BACKEND-APP` is the `app-id` for your backend app. You can find this by going to the Amplify console and navigating to _backend-app > App settings > App ARN_ and copying the ID located at the end of the string `arn:aws:amplify:<region>:<account-id>:apps/app-id`.
+
+You can run the following one of the following commands in the terminal to generate client code that is specific to your needs:
+
+
+<BlockSwitcher>
+<Block name="Flutter">
+```bash showLineNumbers={false}
+npx amplify generate config --app-id=<app-id> --branch=main --format=dart --out-dir=lib
+```
+</Block>
+<Block name="Android">
+
+<Callout warning>
+  Be sure to add a "raw" folder under app/src/main/res directory if it doesn't
+  exist.
+</Callout>
+
+```bash showLineNumbers={false}
+npx amplify generate config --app-id=<app-id> --branch=main --format=json-mobile --out-dir=app/src/main/res/raw
+```
+</Block>
+<Block name="iOS">
+
+```bash showLineNumbers={false}
+npx amplify generate config --app-id=<app-id> --format=json-mobile
+```
+
+Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+  <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
+</video>
+
+</Block>
+</BlockSwitcher>
