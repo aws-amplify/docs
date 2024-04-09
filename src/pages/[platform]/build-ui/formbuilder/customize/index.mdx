@@ -1,0 +1,170 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Customize form inputs',
+  description: 'Use the Form Builder in Amplify Studio to customize React form components. You can add new form inputs, bind them to a field, customize labels, and add validation rules.',
+  platforms: [
+    'javascript',
+    'react',
+    'nextjs'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'react',
+        'nextjs'
+      ],
+      canonicalPath: '/gen1/javascript/build-ui/formbuilder/customize/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+In Gen 2, you own updating the code directly for the generated form. Here's how you can customize the form.
+
+## Manually add form input field
+
+You can manually add a form input connected to a data model to the generated form. For example, let's say you add a `priority` field to your data model. Make the following edits:
+
+```jsx title="src/ui-components/TodoCreateForm.js"
+  // 1. Set initialValues
+  const initialValues = {
+    content: "",
+    // highlight-next-line
+    priority: "" // Initial value for priority
+  };
+
+  // 2. State setup
+  const [priority, setPriority] = React.useState(initialValues.priority);
+
+  // 3. Update resetValues
+  const resetStateValues = () => {
+    .. // previous fields
+    // highlight-next-line
+    setPriority(initialValues.priority)
+    setErrors({});
+  };
+
+  // 4. Validation setup
+  const validations = {
+    content: [],
+    // highlight-next-line
+    priority: [] // Assuming no special validations for now
+  };
+
+  // 5. Update form submission
+   onSubmit={async (event) => {
+        event.preventDefault();
+        let modelFields = {
+          ..,
+          // highlight-next-line
+          priority
+        };
+
+  // 6. Add TextField
+  <TextField
+     label="Priority"
+     isRequired={false}
+     isReadOnly={false}
+     value={priority}
+     onChange={(e) => {
+       let { value } = e.target;
+       if (onChange) {
+         const modelFields = {
+           priority: value,
+         };
+         const result = onChange(modelFields);
+         value = result?.priority ?? value;
+       }
+       if (errors.priority?.hasError) {
+         runValidationTasks("priority", value);
+       }
+       setPriority(value);
+     }}
+     onBlur={() => runValidationTasks("priority", priority)}
+     errorMessage={errors.priority?.errorMessage}
+     hasError={errors.priority?.hasError}
+     {...getOverrideProps(overrides, "priority")}
+   />
+
+```
+
+## Manually add option fields
+
+[Select Fields](https://ui.docs.amplify.aws/react/components/selectfield), [Radio Group Fields](https://ui.docs.amplify.aws/react/components/radiogroupfield), and [Autocomplete Fields](https://ui.docs.amplify.aws/react/components/autocomplete) require a set of options for your users to choose from. For example, a "Status" input can only have the options "Not started", "In progress", and "Done". This would be identical to the above 6 steps, but in step 6 you would replace `<TextField>` with `<SelectField>`
+
+```js title="src/ui-components/TodoCreateForm.js"
+  // 6. Import <SelectField> component and add to form return
+  <SelectField
+    label="Label" 
+    placeholder="Please select an option" 
+    value={status} 
+    onChange={(e) => {
+      let { value } = e.target;
+      if (onChange) {
+          const modelFields = {
+              status: value
+          };
+          const result = onChange(modelFields);
+          value = result?.status ?? value;
+      }
+      if (errors.status?.hasError) {
+          runValidationTasks("status", value);
+      }
+      setStatus(value);
+      }} 
+      onBlur={() => runValidationTasks("status", status)}
+      errorMessage={errors.status?.errorMessage} 
+      hasError={errors.status?.hasError} 
+      {...getOverrideProps(overrides, "status")}
+    >
+      <option children="Not started" value="Not started" {...getOverrideProps(overrides, "statusoption0")}></option>
+      <option children="In progress" value="In progress" {...getOverrideProps(overrides, "statusoption1")}></option>
+      <option children="Done" value="Done" {...getOverrideProps(overrides, "statusoption2")}></option>
+  </SelectField>
+```
+
+
+## Configure form spacings (paddings and gaps)
+
+Add spacing to your form and between inputs. Spacing values can either be a CSS length value (`px`, `rem`, `em`, `%`) or a reference to your theme object's spacing value (`xss`, `medium`, `large`).
+
+```js title="src/ui-components/TodoCreateForm.js"
+  ...
+  return (
+    <Grid
+      as="form"
+      // highlight-start
+      rowGap="15px" //edit horizontal gap
+      columnGap="15px" //edit vertical gap
+      padding="20px" // edit pading around the form inputs and border
+      // highlight-end
+ ...
+```
+
+
+## Enable list inputs
+
+`TextInput`s can accept multiple values. This functionality is only enabled for inputs not linked to a data model. If your input is linked to an existing model, this feature is controlled directly on the model by toggling the "Is array" property on the corresponding field. Here is what a list input looks like for the end user:
+
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+  <source src="/images/console/formbuilder/customize-list-control.mp4" />
+</video>
+
+```js title="src/ui-components/TodoCreateForm.js"
+// @Danny Banks TODO
+
+```
