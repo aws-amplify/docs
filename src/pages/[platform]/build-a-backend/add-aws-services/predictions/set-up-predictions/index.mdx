@@ -1,0 +1,181 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up Predictions',
+  description: 'Get started with integrating ML capabilities into your application using Amplify',
+  platforms: [
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+<Callout warning>
+
+**Under active development:** The `addOutput` method for Amplify Gen 2 is under active development. The experience may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
+
+</Callout>
+
+
+
+### Set up the backend
+
+To enable Predictions we need to set up the appropriate IAM policy for Roles in your Cognito Identity Pool in order to use an appropriate feature. Additionally, we need to use the ```addOutput``` method to patch the custom Predictions resource to the expected output configuration.
+
+```ts title="amplify/backend.ts"
+
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { Stack } from "aws-cdk-lib";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+
+const backend = defineBackend({
+  auth,
+});
+
+backend.auth.resources.unauthenticatedUserIamRole.addToPrincipalPolicy(
+  new PolicyStatement({
+    actions: [
+      "translate:TranslateText",
+      "polly:SynthesizeSpeech",
+      "transcribe:StartStreamTranscriptionWebSocket",
+      "comprehend:DetectSentiment",
+      "comprehend:DetectEntities",
+      "comprehend:DetectDominantLanguage",
+      "comprehend:DetectSyntax",
+      "comprehend:DetectKeyPhrases",
+      "rekognition:DetectFaces",
+      "rekognition:RecognizeCelebrities",
+      "rekognition:DetectLabels",
+      "rekognition:DetectModerationLabels",
+      "rekognition:DetectText",
+      "rekognition:DetectLabel",
+      "textract:AnalyzeDocument",
+      "textract:DetectDocumentText",
+      "textract:GetDocumentAnalysis",
+      "textract:StartDocumentAnalysis",
+      "textract:StartDocumentTextDetection",
+      "rekognition:SearchFacesByImage",
+    ],
+    resources: ["*"],
+  })
+);
+
+backend.addOutput({
+  custom: {
+    Predictions: {
+      convert: {
+        translateText: {
+          defaults: {
+            sourceLanguage: "en",
+            targetLanguage: "es",
+          },
+          proxy: false,
+          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
+            .region,
+        },
+        speechGenerator: {
+          defaults: {
+            voiceId: "Ivy",
+          },
+          proxy: false,
+          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
+            .region,
+        },
+        transcription: {
+          defaults: {
+            language: "en-US",
+          },
+          proxy: false,
+          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
+            .region,
+        },
+      },
+      identify: {
+        identifyEntities: {
+          defaults: {
+            collectionId: "default",
+            maxEntities: 10,
+          },
+          celebrityDetectionEnabled: true,
+          proxy: false,
+          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
+            .region,
+        },
+        identifyLabels: {
+          defaults: {
+            type: "ALL",
+          },
+          proxy: false,
+          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
+            .region,
+        },
+        identifyText: {
+          defaults: {
+            format: "ALL",
+          },
+          proxy: false,
+          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
+            .region,
+        },
+      },
+      interpret: {
+        interpretText: {
+          defaults: {
+            type: "ALL",
+          },
+          proxy: false,
+          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
+            .region,
+        },
+      },
+    },
+  },
+});
+
+
+
+```
+
+## Install Amplify Libraries
+
+To install the Amplify library to use predictions features, run the following commands in your project’s root folder:
+
+```sh showLineNumbers={false}
+npm install aws-amplify
+```
+
+## Configure the frontend
+
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example ```index.js``` in React or ```main.ts``` in Angular.
+
+```
+
+import { Predictions } from "aws-amplify/predictions";
+import config from "./amplifyconfiguration.json";
+
+Amplify.configure(config);
+
+Amplify.configure({
+  ...Amplify.getConfig(),
+  Predictions: config.custom.Predictions,
+});
+
+```
+
+
