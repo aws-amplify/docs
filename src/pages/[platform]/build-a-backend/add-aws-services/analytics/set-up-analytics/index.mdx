@@ -2,7 +2,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Set up Amplify Analytics',
-  description: 'The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for Amazon Pinpoint and Amazon Kinesis (Kinesis support is currently only available in the Amplify JavaScript library). The Analytics category uses Amazon Cognito Identity pools to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App.',
+  description:
+    'The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for Amazon Pinpoint and Amazon Kinesis (Kinesis support is currently only available in the Amplify JavaScript library). The Analytics category uses Amazon Cognito Identity pools to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App.',
   platforms: [
     'javascript',
     'react-native',
@@ -13,7 +14,7 @@ export const meta = {
     'nextjs',
     'react',
     'vue'
-  ],
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -35,6 +36,7 @@ Amplify enables you to collect analytics data for your app. The Analytics catego
 ## Prerequisites
 
 An application with Amplify libraries integrated and a minimum target of any of the following:
+
 - **iOS 13.0**, using **Xcode 14.1** or later.
 - **macOS 10.15**, using **Xcode 14.1** or later.
 - **tvOS 13.0**, using **Xcode 14.3** or later.
@@ -43,8 +45,7 @@ An application with Amplify libraries integrated and a minimum target of any of 
 
 <Callout>
 
-visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch. 
-As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
+visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch. As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
 
 For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
 
@@ -54,7 +55,7 @@ For more information on how to use the `visionos-preview` branch, see [Platform 
 <InlineFilter filters={["android"]}>
 ## Prerequisites
 
-* An Android application targeting Android API level 16 (Android 4.1) or above
+- An Android application targeting Android API level 16 (Android 4.1) or above
 
 </InlineFilter>
 
@@ -71,55 +72,58 @@ For more information on how to use the `visionos-preview` branch, see [Platform 
   - macOS version 10.15 or higher
   - Any Ubuntu Linux distribution meeting Flutter minimums
 
-
 </InlineFilter>
 ## Set up Analytics backend
 
-The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create the an Analytics resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/). 
+The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create the an Analytics resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/).
 
 ```ts title="amplify/backend.ts"
-import { auth } from "./auth/resource";
-import { data } from "./data/resource";
-import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { CfnApp } from "aws-cdk-lib/aws-pinpoint";
-import { Stack } from "aws-cdk-lib/core";
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+import { Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { CfnApp } from 'aws-cdk-lib/aws-pinpoint';
+import { Stack } from 'aws-cdk-lib/core';
 
 const backend = defineBackend({
-  auth, 
-  data,
-  // additional resources 
+  auth,
+  data
+  // additional resources
 });
 
-const analyticsStack = backend.createStack("analytics-stack");
+const analyticsStack = backend.createStack('analytics-stack');
 
 // create a Pinpoint app
-const pinpoint = new CfnApp(analyticsStack, "Pinpoint", {
-  name: "myPinpointApp",
+const pinpoint = new CfnApp(analyticsStack, 'Pinpoint', {
+  name: 'myPinpointApp'
 });
 
 // create an IAM policy to allow interacting with Pinpoint
-const pinpointPolicy = new Policy(analyticsStack, "PinpointPolicy", {
-  policyName: "PinpointPolicy",
+const pinpointPolicy = new Policy(analyticsStack, 'PinpointPolicy', {
+  policyName: 'PinpointPolicy',
   statements: [
     new PolicyStatement({
-      actions: ["mobiletargeting:UpdateEndpoint", "mobiletargeting:PutEvents"],
-      resources: [pinpoint.attrArn + "/*"],
-    }),
-  ],
+      actions: ['mobiletargeting:UpdateEndpoint', 'mobiletargeting:PutEvents'],
+      resources: [pinpoint.attrArn + '/*']
+    })
+  ]
 });
 
 // apply the policy to the authenticated and unauthenticated roles
-backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
-backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(
+  pinpointPolicy
+);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(
+  pinpointPolicy
+);
 
 // patch the custom Pinpoint resource to the expected output configuration
 backend.addOutput({
   analytics: {
     amazon_pinpoint: {
       app_id: pinpoint.ref,
-      aws_region: Stack.of(pinpoint).region,
+      aws_region: Stack.of(pinpoint).region
     }
-  },
+  }
 });
 ```
 
@@ -131,6 +135,7 @@ First, install the `aws-amplify` library:
 ```sh showLineNumbers={false}
 npm install aws-amplify
 ```
+
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
@@ -140,7 +145,7 @@ npm install aws-amplify
 
   <Callout>
 
-  **Note:** **Up to Next Major Version** should be selected from the **Dependency Rule** dropdown.
+**Note:** **Up to Next Major Version** should be selected from the **Dependency Rule** dropdown.
 
   </Callout>
 3. Lastly, choose **AWSPinpointAnalyticsPlugin**, **AWSCognitoAuthPlugin**, and **Amplify**. Then click **Add Package**.
@@ -161,6 +166,7 @@ dependencies {
 ```
 
 Click **Sync Now**.
+
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
@@ -176,6 +182,7 @@ dependencies:
   amplify_auth_cognito: ^1.0.0
   amplify_flutter: ^1.0.0
 ```
+
 </InlineFilter>
 
 ## Initialize Amplify Analytics
@@ -188,14 +195,12 @@ import { Amplify } from 'aws-amplify';
 import { record } from 'aws-amplify/analytics';
 import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure({
-  ...Amplify.getConfig(),
-  Analytics: amplifyconfig.Analytics,
-});
-```
+Amplify.configure({ ...Amplify.getConfig(), Analytics: amplifyconfig.Analytics, });
+
+````
 </InlineFilter>
 
-<InlineFilter filters={['nextjs']}> 
+<InlineFilter filters={['nextjs']}>
 ```js title="pages/_app.tsx"
 import { Amplify } from 'aws-amplify';
 import { record } from 'aws-amplify/analytics';
@@ -205,7 +210,8 @@ Amplify.configure({
   ...Amplify.getConfig(),
   Analytics: amplifyconfig.Analytics,
 });
-```
+````
+
 </InlineFilter>
 
 <InlineFilter filters= {["swift"]}>
@@ -279,6 +285,7 @@ Upon building and running this application you should see the following in your 
 ```console
 Amplify configured with Auth and Analytics plugin
 ```
+
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
@@ -367,10 +374,11 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}): super(key: key);
-  
+
   // ...
 }
 ```
+
 </InlineFilter>
 
 <InlineFilter filters={['android']}>
@@ -425,7 +433,7 @@ import com.amplifyframework.AmplifyException
 import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
-```    
+```
 
 ```kotlin
 Amplify.addPlugin(AWSCognitoAuthPlugin())

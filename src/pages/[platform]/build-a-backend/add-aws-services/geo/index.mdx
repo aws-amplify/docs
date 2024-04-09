@@ -1,23 +1,7 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
 export const meta = {
   title: 'Geo',
-  description: 'Learn how to set up Geo resource powered by Amazon Location Services.',
-  platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
-};
-
-export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
+  description:
+    'Learn how to set up Geo resource powered by Amazon Location Services.'
 };
 
 export function getStaticProps(context) {
@@ -37,51 +21,53 @@ export function getStaticProps(context) {
 Amplify provides APIs and map UI components for maps and location search for your web apps. The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create a Geo resource powered by [Amazon Location Services](https://aws.amazon.com/location/).
 
 ```ts title="amplify/backend.ts"
-import { CfnMap } from "aws-cdk-lib/aws-location";
+import { CfnMap } from 'aws-cdk-lib/aws-location';
 
 const backend = defineBackend({
-  auth, 
-  data,
-  // additional resources 
+  auth,
+  data
+  // additional resources
 });
 
-const geoStack = backend.createStack("geo-stack");
+const geoStack = backend.createStack('geo-stack');
 
 // create a location services map
-const map = new CfnMap(geoStack, "Map", {
-  mapName: "myMap",
-  description: "Map",
+const map = new CfnMap(geoStack, 'Map', {
+  mapName: 'myMap',
+  description: 'Map',
   configuration: {
-    style: "VectorEsriNavigation",
+    style: 'VectorEsriNavigation'
   },
-  pricingPlan: "RequestBasedUsage",
+  pricingPlan: 'RequestBasedUsage',
   tags: [
     {
-      key: "name",
-      value: "myMap",
-    },
-  ],
+      key: 'name',
+      value: 'myMap'
+    }
+  ]
 });
 
 // create an IAM policy to allow interacting with geo resource
-const myGeoPolicy = new Policy(geoStack, "AuthenticatedUserIamRolePolicy", {
-  policyName: "GeoPolicy",
+const myGeoPolicy = new Policy(geoStack, 'AuthenticatedUserIamRolePolicy', {
+  policyName: 'GeoPolicy',
   statements: [
     new PolicyStatement({
       actions: [
-        "geo:GetMapTile",
-        "geo:GetMapSprites",
-        "geo:GetMapGlyphs",
-        "geo:GetMapStyleDescriptor",
+        'geo:GetMapTile',
+        'geo:GetMapSprites',
+        'geo:GetMapGlyphs',
+        'geo:GetMapStyleDescriptor'
       ],
-      resources: [map.attrArn],
-    }),
-  ],
+      resources: [map.attrArn]
+    })
+  ]
 });
 
 // apply the policy to the authenticated and unauthenticated roles
 backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
-backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(
+  myGeoPolicy
+);
 
 // patch the custom map resource to the expected output configuration
 backend.addOutput({
@@ -91,13 +77,13 @@ backend.addOutput({
       maps: {
         items: {
           [map.mapName]: {
-            style: "VectorEsriNavigation",
-          },
+            style: 'VectorEsriNavigation'
+          }
         },
-        default: map.mapName,
-      },
-    },
-  },
+        default: map.mapName
+      }
+    }
+  }
 });
 ```
 
@@ -107,7 +93,7 @@ To initialize Geo you need to configure Amplify with `Amplify.configure()`
 
 ### Working with Maps
 
-To display a map in your React app, you can use the [Amplify React MapView component](https://ui.docs.amplify.aws/react/components/geo) or the [MapLibre GL](https://github.com/maplibre/maplibre-gl-js) with `maplibre-gl-js-amplify` libraries are required. Refer to the [Amplify Geo documentation](/gen1/[platform]/build-a-backend/more-features/geo/maps/) for more information.
+To display a map in your React app, you can use the [Amplify React MapView component](https://ui.docs.amplify.aws/react/components/geo) or the [MapLibre GL](https://github.com/maplibre/maplibre-gl-js) with `maplibre-gl-js-amplify` libraries are required. Refer to the [Amplify Geo documentation](/react/build-a-backend/more-features/geo/maps/) for more information.
 
 ### References
 

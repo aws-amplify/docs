@@ -1,23 +1,7 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
 export const meta = {
   title: 'REST API',
-  description: 'Learn how to set up REST API resource powered by Amazon API Gateway',
-  platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
-};
-
-export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
+  description:
+    'Learn how to set up REST API resource powered by Amazon API Gateway'
 };
 
 export function getStaticProps(context) {
@@ -36,20 +20,20 @@ export function getStaticProps(context) {
 
 Amplify provides APIs to invoke your endpoints from your web apps. The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to add a REST API resource powered by [API Gateway](https://aws.amazon.com/api-gateway/).
 
-Create a [Function](/[platform]/build-a-backend/functions) with the following.
+Create a [Function](/gen2/build-a-backend/functions) with the following.
 
 ```ts title="amplify/functions/my-function/handler.ts"
-import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
+import type { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
-  console.log("event", event);
+  console.log('event', event);
   return {
     statusCode: 200,
     headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "*",
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*'
     },
-    body: JSON.stringify("Hello from myFunction!"),
+    body: JSON.stringify('Hello from myFunction!')
   };
 };
 ```
@@ -57,20 +41,20 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 Lets create API Gateway REST API with AWS Lambda proxy integration using AWS CDK and add the function.
 
 ```ts title="amplify/backend.ts"
-import { myFunction } from "./functions/my-function/resource";
-import { LambdaRestApi } from "aws-cdk-lib/aws-apigateway";
+import { myFunction } from './functions/my-function/resource';
+import { LambdaRestApi } from 'aws-cdk-lib/aws-apigateway';
 
 const backend = defineBackend({
-  auth, 
+  auth,
   data,
   myFunction
 });
 
-const apiGatewayStack = backend.createStack("apigateway-stack");
+const apiGatewayStack = backend.createStack('apigateway-stack');
 
 // create a REST API resource
-const myAPI = new LambdaRestApi(apiGatewayStack, "MyApi", {
-  handler: backend.myFunction.resources.lambda,
+const myAPI = new LambdaRestApi(apiGatewayStack, 'MyApi', {
+  handler: backend.myFunction.resources.lambda
 });
 
 // patch the custom REST API resource to the expected output configuration
@@ -79,8 +63,8 @@ backend.addOutput({
     apiId: myAPI.restApiId,
     apiEndpoint: myAPI.url,
     apiName: myAPI.restApiName,
-    apiRegion: Stack.of(apiGatewayStack).region,
-  },
+    apiRegion: Stack.of(apiGatewayStack).region
+  }
 });
 ```
 
@@ -110,7 +94,7 @@ Amplify.configure({
 
 ### Working with REST API
 
-Refer to the [Amplify REST API documentation](/gen1/[platform]/build-a-backend/restapi/) to learn how to work with REST API in your web app.
+Refer to the [Amplify REST API documentation](/react/build-a-backend/restapi/) to learn how to work with REST API in your web app.
 
 ### References
 

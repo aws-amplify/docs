@@ -1,24 +1,7 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
 export const meta = {
   title: 'Add custom real-time subscriptions',
   description:
-    'Customize your business logic to create custom real-time subscriptions.',
-  platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
-};
-
-export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
+    'Customize your business logic to create custom real-time subscriptions.'
 };
 
 export function getStaticProps() {
@@ -161,14 +144,18 @@ sub.unsubscribe()
 You can add subscription filters by adding arguments to the custom subscriptions. 
 
 {/* ### Basic subscription filters based on exact match
+
 By default, every argument specified will be exact-matched to the subscription event's output. In the following example, we can introduce a required `name` argument, which allows your users to filter events based on a specific channel name:
+
 ```ts
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
 const schema = a.schema({
   Channel: a.customType({
     name: a.string(),
     data: a.json()
   }),
+
   // Define a mutation to publish events to
   publish: a.mutation()
     .arguments({
@@ -188,11 +175,14 @@ const schema = a.schema({
     .returns(a.ref('Channel'))
     .authorization([a.allow.public()])
 });
+
 export type Schema = ClientSchema<typeof schema>;
+
 export const data = defineData({
   schema
 });
 ```
+
 ### Enhanced subscription filters for custom filtering logic */}
 
 If you want to customize the filters, modify the subscription handler. For this example, we'll allow a customer to pass in a `namePrefix` parameter that allows the end users to only receive channel events in channels that start with the `namePrefix`.
@@ -254,7 +244,7 @@ export function response(ctx) {
   }
 
   extensions.setSubscriptionFilter(util.transform.toSubscriptionFilter(filter))
-
+  
   return null
 }
 ```

@@ -1,24 +1,7 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
 export const meta = {
   title: 'Customize secondary indexes',
   description:
-    'Define the secondary indexes for your data model to optimize query performance',
-  platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
-};
-
-export const getStaticPaths = async () => {
-  return getCustomStaticPath(meta.platforms);
+    'Define the secondary indexes for your data model to optimize query performance'
 };
 
 export function getStaticProps(context) {
@@ -41,7 +24,7 @@ export const schema = a.schema({
     accountRepresentativeId: a.id().required()
   // highlight-start
   }).secondaryIndexes(index => [
-    a.index('accountRepresentativeId')
+    index('accountRepresentativeId')
   ])
   // highlight-end
    .authorization([a.allow.public()]),
@@ -85,7 +68,7 @@ const schema = a.schema({
     phoneNumber: a.phone().required(),
     accountRepresentativeId: a.id().required(),
   }).secondaryIndexes(index => [
-    a.index('accountRepresentativeId')
+    index('accountRepresentativeId')
     // highlight-next-line
       .sortKeys(["name"]),
   ])
@@ -118,7 +101,7 @@ const schema = a.schema({
     phoneNumber: a.phone(),
     accountRepresentativeId: a.id().required(),
   }).secondaryIndexes(index => [
-    a.index('accountRepresentativeId')
+    index('accountRepresentativeId')
     // highlight-next-line
       .queryField("listByRep"),
   ]),
@@ -148,7 +131,7 @@ const schema = a.schema({
     phoneNumber: a.phone(),
     accountRepresentativeId: a.id().required(),
   }).secondaryIndexes(index => [
-    a.index('accountRepresentativeId')
+    index('accountRepresentativeId')
     // highlight-next-line
       .name("MyCustomIndexName"),
   ])
