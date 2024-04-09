@@ -12,8 +12,50 @@ export function getStaticProps() {
   };
 }
 
+Amplify helps you secure your application while providing an easy sign-in experience for your users. This experience is influenced by your security strategy. This security strategy includes the authentication method, security credentials, and enabling additional verification when needed.
+
+- _Authentication_ is a process to validate **who you are** (abbreviated as _AuthN_). The system that does this validation is referred to as an Identity Provider or IdP. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon.
+- _Authorization_ is the process of validating **what you can access** (abbreviated as _AuthZ_). This is sometimes done by looking at tokens with custom logic, predefined rules, or signed requests with policies.
+
+Common authentication methods and associated risks include:
+
+- Social provider federation which enables easier access for your users but shares data with third parties.
+
+You can improve security credentials and verification for these authentication methods by:
+
+- Modifying the default password policy to ensure your users create stronger passwords.
+- Requiring additional contact information from users before they can reset passwords.
+- Enabling multi-factor authentication (MFA) which adds a layer of security at sign-in but may also add friction for your users.
+
 ## What is Amazon Cognito?
+
+Amplify Auth is powered by [Amazon Cognito](https://aws.amazon.com/cognito/). Amazon Cognito is an identity and access management service, enabling you to secure your web or mobile applications.
+
+Amazon Cognito can be customized based on your security strategy for authentication. However, some initial configuration options cannot be changed after the backend resources are configured:
+
+- User attributes that are used to identify your individual users (such as username and email) cannot be renamed or deleted.
+- Sign-in methods (including username, email, and phone) cannot be added or changed after the initial configuration. This includes both defining which attributes are used to sign in and which attributes are required. Required attributes must have a value for all users once set.
+- Verification methods (including username and email) are the same as required attributes and cannot be removed once configured.
+- The `sub` attribute is a unique identifier within each user pool that cannot be modified and can be used to index and search users.
+- If MFA is set to **required** for all users, you will need to include MFA setup when users sign up.
+
+See the [Amazon Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html) for more details on these settings, including [User pool attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html) and [Adding MFA to a user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html).
 
 ## Usernames
 
-{/* in another section, a note about required user attributes, use sandbox to scaffold */}
+Amplify Auth does not support signing in with only username and password, however can be configured to enable usernames for display purposes. Amazon Cognito offers two ways of provisioning login mechanisms:
+
+1. **Username attributes**
+2. **Alias attributes**
+
+Each are described in more detail on the [AWS documentation for Cognito user pool settings](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-aliases), however at a high-level can be described as follows:
+
+- **Username attributes** allow you to customize which attribute can be used as the "username", or allowing users to sign in with an email or phone in place of a username
+- **Alias attributes** allow you to specify with attribute(s) can be used with sign in _in addition to_ a username
+
+With Amazon Cognito, usernames are immutable, which means after the initial sign-up users are unable to change their username later. 
+
+{/* more about usernames */}
+{/* backend examples of vanity username */}
+{/* frontend examples of vanity username */}
+{/* overriding defaults for pure "username" */}

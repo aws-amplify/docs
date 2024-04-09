@@ -1,7 +1,7 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Set up Amplify Auth',
+  title: 'Define Amplify Auth',
   description:
     'Learn how to set up and connect your backend resources for authentication in Amplify Gen 2.',
   platforms: [
@@ -17,11 +17,11 @@ export const meta = {
   ]
 };
 
-export const getStaticPaths = async () => {
+export function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   return {
     props: {
       meta
@@ -29,107 +29,35 @@ export function getStaticProps(context) {
   };
 }
 
-In this guide, you will learn how to set up authentication in your Amplify Gen 2 app. This includes setting up and connecting your backend resources and enabling sign-up, sign-in, and sign-out with the Authenticator UI component. We will also provide more context on how resources are managed and created with Amplify to help you make decisions and understand any long-term impact of those decisions.
-
-If you have not yet created an Amplify Gen 2 app, visit the [quickstart](/[platform]/start/quickstart).
-
-## Building your auth backend
-
-### Configure auth resource
-
-To configure your auth backend, edit the `amplify/auth/resource.ts` file. You can set up sign-in mechanisms that work with either an email/phone and password combination, or through integration with social provider sign-in options.
-
-<Accordion title='Understanding Auth high-level concepts' headingLevel='4' eyebrow='Learn more'>
-
-Amplify helps you secure your application while providing an easy sign-in experience for your users. This experience is influenced by your security strategy. This security strategy includes the authentication method, security credentials, and enabling additional verification when needed.
-
-- _Authentication_ is a process to validate **who you are** (abbreviated as _AuthN_). The system that does this validation is referred to as an Identity Provider or IdP. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon.
-- _Authorization_ is the process of validating **what you can access** (abbreviated as _AuthZ_). This is sometimes done by looking at tokens with custom logic, predefined rules, or signed requests with policies.
-
-Common authentication methods and associated risks include:
-
-- Social provider federation which enables easier access for your users but shares data with third parties.
-
-You can improve security credentials and verification for these authentication methods by:
-
-- Modifying the default password policy to ensure your users create stronger passwords.
-- Requiring additional contact information from users before they can reset passwords.
-- Enabling multi-factor authentication (MFA) which adds a layer of security at sign-in but may also add friction for your users.
-
-</Accordion>
-
-<Callout>
-
-At a minimum, you will need to pass a `loginWith` value to set up how your users sign in to your app. Signing in with email and password is configured by default if you do not provide any value.
-
-</Callout>
+To get started with defining your authentication resource, open or create the auth resource file:
 
 ```ts title="amplify/auth/resource.ts"
-// amplify/auth/resource.ts
-import { defineAuth } from '@aws-amplify/backend';
+import { defineAuth } from "@aws-amplify/backend"
 
 /**
  * Define and configure your auth resource
- * When used alongside data, it is automatically configured as an auth provider for data
  * @see https://docs.amplify.aws/gen2/build-a-backend/auth
  */
 export const auth = defineAuth({
   loginWith: {
     email: true,
-    // add social providers
-    externalProviders: {
-      /**
-       * First, create your secrets using `amplify sandbox secret`
-       * Then, import `secret` from `@aws-amplify/backend`
-       * @see https://docs.amplify.aws/gen2/deploy-and-host/sandbox-environments/features/#setting-secrets
-       */
-      // loginWithAmazon: {
-      //   clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
-      //   clientSecret: secret('LOGINWITHAMAZON_CLIENT_SECRET'),
-      // }
-      // callbackUrls: ['http://localhost:3000'],
-      // logoutUrls: ['http://localhost:3000'],
-    }
   },
-  /**
-   * Enable multifactor authentication
-   * @see https://docs.amplify.aws/gen2/build-a-backend/auth/manage-mfa
-   */
-  // multifactor: {
-  //   mode: 'OPTIONAL',
-  //   sms: {
-  //     smsMessage: (code) => `Your verification code is ${code}`,
-  //   },
-  // },
-  userAttributes: {
-    /** Request additional attributes for your app's users */
-    // profilePicture: {
-    //   mutable: true,
-    //   required: false,
-    // },
-  }
-});
+})
 ```
 
-Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery, and other operations. If you have not worked with Amazon Cognito before, we recommend taking a closer look at Amazon Cognito configuration options before you continue, since some of them are irreversible after your resources are created.
+By default, your auth resource is scaffolded using `email` as the default login mechanism. You can also configure your auth resource to allow signing in with phone numbers or an external provider such as Google, Facebook, Amazon, or Sign in with Apple.
 
-<Accordion title='Review Amazon Cognito configuration options' headingLevel='4' eyebrow='Learn more'>
+<Callout info>
 
-Amazon Cognito can be customized based on your security strategy for authentication. However, some initial configuration options cannot be changed after the backend resources are configured:
+**Note:** At a minimum, you will need to pass a `loginWith` value to set up how your users sign in to your app. Signing in with email and password is configured by default if you do not provide any value.
 
-- User attributes that are used to identify your individual users (such as username and email) cannot be renamed or deleted.
-- Sign-in methods (including username, email, and phone) cannot be added or changed after the initial configuration. This includes both defining which attributes are used to sign in and which attributes are required. Required attributes must have a value for all users once set.
-- Verification methods (including username and email) are the same as required attributes and cannot be removed once configured.
-- The `sub` attribute is a unique identifier within each user pool that cannot be modified and can be used to index and search users.
-- If MFA is set to **required** for all users, you will need to include MFA setup when users sign up.
+</Callout>
 
-See the [Amazon Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html) for more details on these settings, including [User pool attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html) and [Adding MFA to a user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html).
-
-</Accordion>
+Amplify Auth is powered by [Amazon Cognito](https://aws.amazon.com/cognito/). Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery, and other operations. [Review the concepts to learn more](/[platform]/build-a-backend/auth/concepts/)
 
 ### Deploy auth resource
 
-After you have chosen and set up your authentication resource, run the following command to create your first authentication resource in your personal cloud sandbox.
+After you have chosen and defined your authentication resource, run the following command to create your resource in your personal cloud sandbox.
 
 ```bash title="Terminal"
 npx amplify sandbox
@@ -137,7 +65,7 @@ npx amplify sandbox
 
 After a successful deployment, this command also generates a configuration file (`amplifyconfiguration.json`) to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated configuration file to automatically configure the frontend [`Authenticator connected component`](https://ui.docs.amplify.aws/react/connected-components/authenticator).
 
-## Connect your application code to the auth backend
+## Connect your application code to your auth resource
 
 Creating and correctly implementing the sign-in flow can be challenging and time-consuming. Amplify's Authenticator UI component streamlines this by enabling you to rapidly build the entire authentication flow for your app. The component works seamlessly with configuration in `amplify/auth/resource.ts` to automatically connect with your backend resources.
 
@@ -160,61 +88,31 @@ A higher-order component (HOC) is a function that takes a component and returns 
 
 **Usage**
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
 ```ts title="pages/_app.tsx"
-// pages/_app.tsx
-import type { AppProps } from "next/app";
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import { Amplify } from 'aws-amplify';
-import config from '@/amplifyconfiguration.json';
-import '@aws-amplify/ui-react/styles.css';
-import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
-
-Amplify.configure(config);
-
-function App({ signOut, user, Component, pageProps }: WithAuthenticatorProps & AppProps) {
-    return (
-    <>
-      <h1>Hello {user?.username}</h1>
-      <button onClick={signOut}>Sign out</button>
-      <Component {...pageProps} />
-    </>
-  );
-}
-
-export default withAuthenticator(App);
-```
-
-</Block>
-<Block name="JavaScript">
-
-```js
-// pages/_app.js
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import type { AppProps } from 'next/app';
+import { Authenticator } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
 import config from '@/amplifyconfiguration.json';
 import '@aws-amplify/ui-react/styles.css';
 
 Amplify.configure(config);
 
-function App({ signOut, user }) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <h1>Hello {user.username}</h1>
-      <button onClick={signOut}>Sign out</button>
-    </>
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main>
+          <h1>Hello {user?.username}</h1>
+          <button onClick={signOut}>Sign out</button>
+          <Component {...pageProps} />
+        </main>
+      )}
+    </Authenticator>
   );
-}
-
-export default withAuthenticator(App);
+};
 ```
 
 </Block>
-</BlockSwitcher>
-</Block>
-
 <Block name="Vue 3">
 
 First, install the `@aws-amplify/ui-vue` library:
@@ -363,13 +261,11 @@ Once you deploy your code to Git, you can manage users and groups for the branch
   <source src="/images/gen2/authentication/user-manage.mp4" />
 </video>
 
-## Conclusion
-
-Congratulations! You finished the **Set up Amplify Auth** guide. In this guide, you set up and connected to backend resources, compared and determined your Auth integration path, and enabled sign-up, sign-in, and sign-out.
-
 ### Next steps
 
 Now that you have completed setting up authentication in your Amplify app with email and password, you may also want to add some additional features. We recommend you learn more about:
 
-- [Adding social provider sign-in](/[platform]/build-a-backend/auth/add-social-provider/)
-- [Managing MFA settings](/[platform]/build-a-backend/auth/manage-mfa/)
+- [Learn more about authentication concepts](/[platform]/build-a-backend/auth/concepts/)
+- [Configuring your auth resource](/[platform]/build-a-backend/auth/concepts/)
+- [User management](/[platform]/build-a-backend/auth/user-management/)
+- [Moving to production](/[platform]/build-a-backend/auth/moving-to-production/)
