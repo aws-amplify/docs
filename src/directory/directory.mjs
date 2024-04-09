@@ -272,47 +272,6 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/add-aws-services/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/overriding-resources/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/set-up-in-app-messaging/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/integrate-application/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/sync-messages/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/display-messages/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/clear-messages/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/identify-user/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/respond-interaction-events/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/resolve-conflicts/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/create-campaign/index.mdx'
-                    }
-                  ]
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/index.mdx',
                   children: [
                     {
@@ -355,6 +314,47 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/set-up-in-app-messaging/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/integrate-application/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/sync-messages/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/display-messages/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/clear-messages/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/identify-user/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/respond-interaction-events/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/resolve-conflicts/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/create-campaign/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/overriding-resources/index.mdx'
                 }
               ]
             }
