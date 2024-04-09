@@ -1,3 +1,4 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
@@ -14,17 +15,20 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ]
+  ],
+  route: '/[platform]/build-a-backend/functions'
 };
 
-export const getStaticPaths = async () => {
+export function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
-export function getStaticProps(context) {
+export function getStaticProps() {
+  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      meta
+      meta,
+      childPageNodes
     }
   };
 }
@@ -167,7 +171,7 @@ export const handler = async (event) => {
 
 When you grant a function access to another resource in your Amplify backend ([such as granting access to storage](/[platform]/build-a-backend/storage/#resource-access)), that will configure environment variables for that function to make SDK calls to the AWS services it has access to. Those environment variables are typed and available as part of the `env` object.
 
-Example `defineStorage` that grants myDemoFunction access to files in `/foo/*`.
+Example `defineStorage` that grants myDemoFunction access to files in `foo/*`.
 
 ```ts title="amplify/storage/resource.ts"
 import { myDemoFunction } from '../functions/my-demo-function/resource';
@@ -175,7 +179,7 @@ import { myDemoFunction } from '../functions/my-demo-function/resource';
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    '/foo/*': [allow.resource(demoFunction).to(['read', 'write', 'delete'])]
+    'foo/*': [allow.resource(demoFunction).to(['read', 'write', 'delete'])]
   })
 });
 ```
