@@ -101,8 +101,8 @@ Each of these newly defined resources are then imported and set in the backend d
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 defineBackend({
   auth,
