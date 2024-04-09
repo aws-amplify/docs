@@ -53,14 +53,12 @@ export const myKinesisFunction = defineFunction({
 Third, create the corresponding handler file, `amplify/functions/kinesis-function/handler.ts`, file with the following contents:
 
 ```ts title="amplify/functions/kinesis-function/handler.ts"
-import {
-  KinesisStreamEvent,
-  Context,
+import type {
+  KinesisStreamBatchResponse,
   KinesisStreamHandler,
   KinesisStreamRecordPayload,
-  KinesisStreamBatchResponse,
 } from "aws-lambda";
-import { Buffer } from "buffer";
+import { Buffer } from "node:buffer";
 import { Logger } from "@aws-lambda-powertools/logger";
 
 const logger = new Logger({
@@ -69,8 +67,8 @@ const logger = new Logger({
 });
 
 export const handler: KinesisStreamHandler = async (
-  event: KinesisStreamEvent,
-  context: Context
+  event,
+  context
 ): Promise<KinesisStreamBatchResponse> => {
   for (const record of event.Records) {
     try {
@@ -79,10 +77,10 @@ export const handler: KinesisStreamHandler = async (
       logger.info(`Record Data: ${recordData}`);
     } catch (err) {
       logger.error(`An error occurred ${err}`);
-      /*
-      When processing stream data, if any item fails, returning the failed item's position immediately
-      prompts Lambda to retry from this item forward, ensuring continuous processing without skipping data.
-      */
+      /**
+			 * When processing stream data, if any item fails, returning the failed item's position immediately
+			 * prompts Lambda to retry from this item forward, ensuring continuous processing without skipping data.
+			 */
       return {
         batchItemFailures: [{ itemIdentifier: record.kinesis.sequenceNumber }],
       };
@@ -95,8 +93,8 @@ export const handler: KinesisStreamHandler = async (
 async function getRecordDataAsync(
   payload: KinesisStreamRecordPayload
 ): Promise<string> {
-  var data = Buffer.from(payload.data, "base64").toString("utf-8");
-  await Promise.resolve(1); //Placeholder for an async process
+  const data = Buffer.from(payload.data, "base64").toString("utf-8");
+  await Promise.resolve(1); // Placeholder for an async process
   return data;
 }
 ```
@@ -105,17 +103,16 @@ Lastly, create the Kinesis stream in the `amplify/backend.ts` file:
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
+import { KinesisEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
+import { StartingPosition } from "aws-cdk-lib/aws-lambda";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 import { myKinesisFunction } from "./functions/kinesis-function/resource";
-import { KinesisEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
-import { StartingPosition } from "aws-cdk-lib/aws-lambda";
 
 const backend = defineBackend({
   auth,
   data,
   myKinesisFunction,
-  //other resources
 });
 
 const kinesisStack = backend.createStack("kinesis-stack");
@@ -127,6 +124,7 @@ const kinesisStream = new Stream(kinesisStack, "KinesisStream", {
 
 const eventSource = new KinesisEventSource(kinesisStream, {
   startingPosition: StartingPosition.LATEST,
+  reportBatchItemFailures: true,
 });
 
 backend.myKinesisFunction.resources.lambda.addEventSource(eventSource);
