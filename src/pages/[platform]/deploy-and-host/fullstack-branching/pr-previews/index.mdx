@@ -1,7 +1,7 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Fullstack previews (Coming soon)',
+  title: 'Fullstack previews',
   description:
     'Set up ephemeral fullstack environments with pull request previews.',
   platforms: [
@@ -30,10 +30,6 @@ export function getStaticProps(context) {
 
 }
 
-<Callout info={true}>
-  <b>Coming soon: </b>Fullstack previews are still under development.
-</Callout>
-
 With fullstack previews, you can set up ephemeral fullstack environments on every pull request. This allows you to test features in isolation from production. Once fullstack previews are enabled, your typical workflow would look like the following diagram:
 
 ![Pull request workflow detailing how Amplify handles the deployment of ephemeral environments](/images/gen2/fullstack-branching/previews.png)
@@ -44,4 +40,35 @@ With fullstack previews, you can set up ephemeral fullstack environments on ever
 1. The pull request preview is deployed on Amplify and available at `pr-1.appid.amplifyapp.com`.
 1. Once the pull request is merged into `main`, the request is closed and the fullstack environment is also automatically torn down.
 
-Once this feature is available, we will update this page with instructions for generating fullstack previews so you can view and validate proposed changes to your fullstack app before merging pull requests.
+### Prerequisites
+
+Before you get started, make sure you have the following:
+
+- [An Amplify Gen 2 app created](https://docs.amplify.aws/gen2/start/quickstart/)
+- The app should have a `main` (production) branch and a `dev` (feature) branch.
+- Ensure that your git repository is private. For security purposes, fullstack previews are disabled for public repositories with Amplify backend templates.
+
+
+### Enable fullstack previews
+
+To enable fullstack web previews for your Amplify Gen 2 app, follow these steps:
+
+1. Login to the [Amplify Console](https://console.aws.amazon.com/amplify/home) and select your app.
+
+2. Navigate to **Hosting > Previews**. Select the **`main`** branch and click on **Edit settings**. 
+![Amplify console page displaying the list of branches for the previews functionality](/images/gen2/fullstack-branching/previews-1.png)
+
+3. Click on the **Pull request previews** toggle button and choose **Confirm** to enable previews.
+![Amplify Console page displaying a toggle button to enable the previews functionality](/images/gen2/fullstack-branching/previews-2.png)
+
+4. Done! You have successfully enabled previews on the production branch.
+![Amplify Console page displaying the main branch with previews functionality enabled](/images/gen2/fullstack-branching/previews-3.png)
+
+5. Ship updates to the `dev` branch. Now, when you create a pull request for the `main` branch, Amplify will build and deploy your fullstack PR and provide you with a preview URL.
+![Amplify Console page displaying a toggle button to enable the previews functionality](/images/gen2/fullstack-branching/previews-4.png)
+
+For **GitHub repositories only**, you can access your preview URL directly on the pull request from the Amplify Hosting's bot comment:
+
+![GitHub pull request displaying preview URL in a bot comment](/images/gen2/fullstack-branching/previews-5.png)
+
+After the pull request is merged or closed, the preview URL is deleted and any ephemeral fullstack environment is also deleted.
