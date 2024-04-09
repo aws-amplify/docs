@@ -128,16 +128,84 @@ After successful deployment, sandboxes `s1` and `s2` will be ready. Pick sandbox
 
 The client config, or `amplifyconfiguration.json` file, contains the configuration strings for interacting with AWS resources specific to an environment. The Amplify client libraries need the client config in order to use the library APIs to connect to backend resources. By default, the cloud sandbox generates the client configuration file at the root of the project (such as `@/amplifyconfiguration.json`). If you want to place the file at a different path (such as for a monorepo or Android app), run the following command in the terminal:
 
+### Sandbox Environment
+
+<BlockSwitcher>
+<Block name="Flutter">
+```bash
+npx amplify sandbox --config-format=dart --config-out-dir=lib
+```
+</Block>
+<Block name="Android">
+
+<Callout warning>
+  Be sure to add a "raw" folder under app/src/main/res directory if it doesn't
+  exist.
+</Callout>
+
+```bash
+npx amplify sandbox --config-format=json-mobile --config-out-dir=app/src/main/res/raw
+```
+</Block>
+<Block name="iOS">
+
+```bash
+npx amplify sandbox --config-format=json-mobile
+```
+
+Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+  <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
+</video>
+
+</Block>
+<Block name="Custom">
 ```bash
 npx amplify sandbox --config-out-dir ./path/to/config --format ["mjs", "json", "json-mobile", "ts", "dart"]
 ```
+</Block>
+</BlockSwitcher>
+
+### Deployment Environment
 
 Alternatively, if you want to generate the config for a branch environment to test against, run the following command in the terminal.
+<BlockSwitcher>
+<Block name="Flutter">
+```bash
+npx amplify generate config --app-id=<app-id> --branch=main --format=dart --out-dir=lib
+```
+</Block>
+<Block name="Android">
 
+<Callout warning>
+  Be sure to add a "raw" folder under app/src/main/res directory if it doesn't
+  exist.
+</Callout>
+
+```bash
+npx amplify generate config --app-id=<app-id> --branch=main --format=dart --out-dir=app/src/main/res/raw
+```
+</Block>
+<Block name="iOS">
+
+```bash
+npx amplify generate config --app-id=<app-id> --format=json-mobile
+```
+
+Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+  <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
+</video>
+
+</Block>
+<Block name="Custom">
 ```bash
 npx amplify generate config --app-id <AMPLIFY_APP_ID> --branch main --format ["mjs", "json", "json-mobile", "ts", "dart"] out-dir ./path/to/config
 ```
-
+</Block>
+</BlockSwitcher>
 ## Generate client codegen
 
 <Callout info>
@@ -148,10 +216,32 @@ Codegen generates native code for Swift (iOS), Java (Android), and JavaScript th
 
 Once your sandbox completes a deployment, you can run the following command in the terminal to generate client code that is specific to your needs:
 
+<BlockSwitcher>
+<Block name="Flutter">
 ```bash
-npx amplify generate graphql-client-code
---format [choices: "modelgen", "graphql-codegen", "introspection"]
+npx amplify generate graphql-client-code --format=modelgen --model-target=dart --out=lib/models
 ```
+</Block>
+<Block name="Android">
+```bash
+npx amplify generate graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java
+```
+</Block>
+<Block name="iOS">
+```bash
+npx amplify generate graphql-client-code --format=modelgen
+```
+
+Move the generated files to your project. You can do this by dragging and dropping the files to your project.
+
+![Shows the drag and drop phase](/images/lib/getting-started/ios/set-up-swift-8.png)
+</Block>
+<Block name="Custom">
+```bash
+npx amplify generate graphql-client-code --format [choices: "modelgen", "graphql-codegen", "introspection"]
+```
+</Block>
+</BlockSwitcher>
 
 ## Delete a sandbox
 
