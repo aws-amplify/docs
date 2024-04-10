@@ -106,6 +106,7 @@ You can manually add a form input connected to a data model to the generated for
 
 [Select Fields](https://ui.docs.amplify.aws/react/components/selectfield), [Radio Group Fields](https://ui.docs.amplify.aws/react/components/radiogroupfield), and [Autocomplete Fields](https://ui.docs.amplify.aws/react/components/autocomplete) require a set of options for your users to choose from. For example, a "Status" input can only have the options "Not started", "In progress", and "Done". This would be identical to the above 6 steps, but in step 6 you would replace `<TextField>` with `<SelectField>`
 
+{/* cSpell:disable */}
 ```js title="src/ui-components/TodoCreateForm.js"
   // 6. Import <SelectField> component and add to form return
   <SelectField
@@ -136,6 +137,7 @@ You can manually add a form input connected to a data model to the generated for
       <option children="Done" value="Done" {...getOverrideProps(overrides, "statusoption2")}></option>
   </SelectField>
 ```
+{/* cSpell:enable */}
 
 
 ## Configure form spacings (paddings and gaps)
@@ -150,7 +152,7 @@ Add spacing to your form and between inputs. Spacing values can either be a CSS 
       // highlight-start
       rowGap="15px" //edit horizontal gap
       columnGap="15px" //edit vertical gap
-      padding="20px" // edit pading around the form inputs and border
+      padding="20px" // edit padding around the form inputs and border
       // highlight-end
  ...
 ```
