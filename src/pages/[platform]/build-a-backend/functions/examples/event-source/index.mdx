@@ -156,8 +156,8 @@ export const myDynamoDBFunction = defineFunction({
 Third, create the corresponding handler file, `amplify/functions/dynamoDB-function/handler.ts`, file with the following contents:
 
 ```ts title="amplify/functions/dynamoDB-function/resource.ts"
+import type { DynamoDBStreamHandler } from "aws-lambda";
 import { Logger } from "@aws-lambda-powertools/logger";
-import { DynamoDBStreamHandler } from "aws-lambda";
 
 const logger = new Logger({
   logLevel: "INFO",
@@ -165,8 +165,6 @@ const logger = new Logger({
 });
 
 export const handler: DynamoDBStreamHandler = async (event) => {
-  const batchItemFailures: { itemIdentifier: string }[] = [];
-
   for (const record of event.Records) {
     logger.info(`Processing record: ${record.eventID}`);
     logger.info(`Event Type: ${record.eventName}`);
@@ -176,7 +174,6 @@ export const handler: DynamoDBStreamHandler = async (event) => {
       logger.info(`New Image: ${JSON.stringify(record.dynamodb?.NewImage)}`);
     }
   }
-
   logger.info(`Successfully processed ${event.Records.length} records.`);
 };
 ```
