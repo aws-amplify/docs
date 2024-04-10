@@ -178,7 +178,7 @@ new AmplifyGraphqlApi(this, "MyNewApi", {
     apiKeyConfig: {
       expires: cdk.Duration.days(30)
     },
-    identityPool: {
+    identityPoolConfig: {
       identityPoolId: identityPool.identityPoolId,
       authenticatedUserRole: identityPool.authenticatedRole,
       unauthenticatedUserRole: identityPool.unauthenticatedRole,
