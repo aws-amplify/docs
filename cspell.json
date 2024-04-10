@@ -775,6 +775,7 @@
     "keystore",
     "kibana",
     "kill",
+    "kinesisfirehose",
     "Kinesis",
     "KinesisFirehoseRecorder",
     "KinesisRecorder",
