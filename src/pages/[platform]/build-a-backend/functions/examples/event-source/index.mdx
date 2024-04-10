@@ -31,7 +31,9 @@ export function getStaticProps() {
 
 With AWS Lambda, you can seamlessly integrate various event sources, such as Amazon Kinesis, Amazon SQS, and others, to trigger Lambda functions in response to real-time events. This feature enables you to build responsive, event-driven applications that react to changes in data or system state without the need for polling services.
 
-In this guide, lets configure a Lambda function with an Amazon Kinesis stream as an event source. The Lambda function is automatically triggered whenever new data is published to the stream, whether you're processing streaming data, reacting to application events, or automating workflows.
+## Kinesis stream
+
+Lets configure a Lambda function with an Amazon Kinesis stream as an event source. The Lambda function is automatically triggered whenever new data is published to the stream, whether you're processing streaming data, reacting to application events, or automating workflows.
 
 To get started, install the AWS Lambda Powertools Logger package, which provides a structured logging capabilities for your Lambda function.
 
@@ -98,7 +100,7 @@ async function getRecordDataAsync(
 }
 ```
 
-Lastly, create the Kinesis stream in the `amplify/backend.ts` file:
+Lastly, create the Kinesis stream and add it as a event source in the `amplify/backend.ts` file:
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
@@ -130,3 +132,74 @@ backend.myKinesisFunction.resources.lambda.addEventSource(eventSource);
 ```
 
 For an example of streaming analytics data to the Amazon Kinesis stream from your frontend, see the [Streaming analytics data documentation](/[platform]/build-a-backend/add-aws-services/analytics/streaming-data/)
+
+## DynamoDB stream
+
+You can also configure a Lambda function with an Amazon DynamoDB stream as an event source. The Lambda function is automatically triggered whenever an item is added, updated, or deleted from the table, enabling you to build real-time applications that react to changes in your data. In this example, we will use a `Todo` table created by a data model on the GraphQL API.
+
+To get started, install the AWS Lambda Powertools Logger package, which provides a structured logging capabilities for your Lambda function.
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-lambda-powertools/logger
+```
+
+Second, create a new directory and a resource file, `amplify/functions/dynamoDB-function/resource.ts`. Then, define the Function with `defineFunction`:
+
+```ts title="amplify/functions/kinesis-function/resource.ts"
+import { defineFunction } from "@aws-amplify/backend";
+
+export const myDynamoDBFunction = defineFunction({
+  name: "dynamoDB-function",
+});
+```
+
+Third, create the corresponding handler file, `amplify/functions/dynamoDB-function/handler.ts`, file with the following contents:
+
+```ts title="amplify/functions/dynamoDB-function/resource.ts"
+import { Logger } from "@aws-lambda-powertools/logger";
+import { DynamoDBStreamHandler } from "aws-lambda";
+
+const logger = new Logger({
+  logLevel: "INFO",
+  serviceName: "dynamodb-stream-handler",
+});
+
+export const handler: DynamoDBStreamHandler = async (event) => {
+  const batchItemFailures: { itemIdentifier: string }[] = [];
+
+  for (const record of event.Records) {
+    logger.info(`Processing record: ${record.eventID}`);
+    logger.info(`Event Type: ${record.eventName}`);
+
+    if (record.eventName === "INSERT") {
+      // business logic to process new records
+      logger.info(`New Image: ${JSON.stringify(record.dynamodb?.NewImage)}`);
+    }
+  }
+
+  logger.info(`Successfully processed ${event.Records.length} records.`);
+};
+```
+
+Lastly, create DynamoDB table as event source in the `amplify/backend.ts` file:
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { StartingPosition } from "aws-cdk-lib/aws-lambda";
+import { DynamoEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import { myDynamoDBFunction } from "./functions/kinesis-function/resource";
+
+const backend = defineBackend({
+  auth,
+  data,
+  myDynamoDBFunction,
+});
+
+const eventSource = new DynamoEventSource(backend.data.resources.tables["Todo"], {
+  startingPosition: StartingPosition.LATEST,
+});
+
+backend.myDynamoDBFunction.resources.lambda.addEventSource(eventSource);
+```
