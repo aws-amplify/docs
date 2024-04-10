@@ -27,9 +27,9 @@ const schema = a.schema({
 });
 ```
 
-## Add public authorization rule using IAM authentication
+## Add public authorization rule using Amazon Cognito identity pool's unauthenticated role
 
-You can also override the authorization provider. In the example below, `iam` is specified as the provider which allows you to use an "Unauthenticated Role" from the Cognito identity pool for public access instead of an API key. Your Auth resources defined in `amplify/auth/resource.ts` generates scoped down IAM policies for the "Unauthenticated role" in the Cognito identity pool automatically.
+You can also override the authorization provider. In the example below, `identityPool` is specified as the provider which allows you to use an "Unauthenticated Role" from the Cognito identity pool for public access instead of an API key. Your Auth resources defined in `amplify/auth/resource.ts` generates scoped down IAM policies for the "Unauthenticated role" in the Cognito identity pool automatically.
 
 ```ts
 const schema = a.schema({
@@ -37,6 +37,6 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.public('iam')]),
+    .authorization([a.allow.public('identityPool')]),
 });
 ```
