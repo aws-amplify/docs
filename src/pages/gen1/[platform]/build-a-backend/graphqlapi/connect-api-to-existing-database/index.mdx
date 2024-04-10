@@ -75,13 +75,28 @@ This feature is not yet available in the Asia Pacific (Hong Kong, ap-east-1) or 
 
 </Callout>
 
+<BlockSwitcher>
+<Block name="Systems Manager">
 First, place your database connection information (hostname, username, password, port, and database name) into Systems Manager, each as a `SecureString`.
 
 Go to the Systems Manager console, navigate to Parameter Store, and click "Create Parameter". Create five different SecureStrings: one each for the hostname of your database server, the username and password to connect, the database port, and the database name.
 
 Your Systems Manager configuration should look something like this:
 
-![Storing Database Credentials in SSM](/images/storing-db-creds-in-ssm.png)
+![A screenshot of an AWS Systems Manager console page titled "Parameter Store". The page shows a list of parameters with names like "/amplify-cdk-app/username", "/amplify-cdk-app/password", and "/amplify-cdk-app/hostname" indicating database connection details. Each parameter is of Tier "Standard" and typed as "SecureString". The last modified date is displayed for each parameter.](/images/storing-db-creds-in-ssm.png)
+</Block>
+<Block name="Secrets Manager">
+First, place your database connection information (hostname, username, password, port, and database name) into Secrets Manager.
+
+Go to the Secrets Manager console, navigate to Secrets, and click "Store a new secret". You may create the secret in any manner as long as there are `username` and `password` keys defined.
+
+![A screenshot of a page in the Secrets Manager console titled "Secret value info". The screenshot shows an example of a secret's keys and values in a table including "username", "password", "engine", "host", "port", and "dbClusterIdentifier".](/images/storing-db-creds-in-secrets-manager.png)
+
+Optionally, you can decide whether to encrypt the secret using the KMS key that Secrets Manager creates or a customer managed KMS key that you create.
+
+You can also configure a rotation schedule and create a Lambda function or choose an existing Lambda function from your account to rotate the database credentials automatically.
+</Block>
+</BlockSwitcher>
 
 Install the following package to add the Amplify GraphQL API construct to your dependencies:
 
@@ -136,6 +151,8 @@ import path from 'path';
 ```
 
 In the main stack class, add the following code to define a new GraphQL API. Replace `stack` with the name of your stack instance (often referenced via `this`):
+<BlockSwitcher>
+<Block name="Systems Manager">
 
 ```ts
 new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
@@ -175,13 +192,53 @@ new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
 });
 ```
 
+</Block>
+<Block name="Secrets Manager">
+
+```ts
+new AmplifyGraphqlApi(this, 'SqlBoundApi', {
+  apiName: 'MySqlBoundApi',
+  definition: AmplifyGraphqlDefinition.fromFilesAndStrategy(
+    [path.join(__dirname, 'schema.sql.graphql')],
+    {
+      name: 'MySQLSchemaDefinition',
+      dbType: 'MYSQL',
+      vpcConfiguration: {
+        vpcId: 'vpc-123456',
+        securityGroupIds: ['sg-123', 'sg-456'],
+        subnetAvailabilityZoneConfig: [
+          { subnetId: 'sn-123456', availabilityZone: 'us-east-1a' },
+          { subnetId: 'sn-987654', availabilityZone: 'us-east-1b' },
+        ],
+      },
+      dbConnectionConfig: {
+        databaseName: 'database',
+        port: 3306,
+        hostname: 'database-1-instance-1.id.region.rds.amazonaws.com',
+        secretArn:
+          'arn:aws:secretsmanager:Region1:123456789012:secret:MySecret-a1b2c3',
+      },
+    }
+  ),
+  authorizationModes: {
+    defaultAuthorizationMode: 'API_KEY',
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30),
+    },
+  },
+});
+```
+
+</Block>
+</BlockSwitcher>
+
 The API will have an API key enabled for authorization.
 
 Before deploying, make sure to:
 
 - Set a value for `name`. This will be used to name the AppSync DataSource itself, plus any associated resources like resolver Lambdas. This name must be unique across all schema definitions in a GraphQL API.
 
-- Change the `dbType` to match your database engine. This is the type of the SQL database used to process model operations for this definition.Supported engines are `"MYSQL"` or `"POSTGRES"`.
+- Change the `dbType` to match your database engine. This is the type of the SQL database used to process model operations for this definition. Supported engines are `"MYSQL"` or `"POSTGRES"`.
 
 - Update the SSM parameter paths within `dbConnectionConfig` to point to those existing in your AWS account. These are the parameters the SQL Lambda will use to connect to the database.
 
