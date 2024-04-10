@@ -355,6 +355,17 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/interpret-sentiment/index.mdx'
                     }
                   ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/set-up-interactions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/chatbot/index.mdx'
+                    }
+                  ]
                 }
               ]
             }
