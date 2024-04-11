@@ -355,6 +355,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/interpret-sentiment/index.mdx'
                     }
                   ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/deletion-backup-resources/index.mdx'
                 }
               ]
             }
