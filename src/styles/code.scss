@@ -145,7 +145,7 @@ code:not([class]) {
   color: white;
 }
 
-.highlight-copy-block .highlight-copy-block-hint {
+.highlight-copy-block .highlight-c4py-block-hint {
   display: none;
 }
 
@@ -159,10 +159,18 @@ code:not([class]) {
 
 .highlight-copy-block:focus .line-highlight::before {
   background-color: var(--amplify-colors-primary-80);
+
+  @include darkMode {
+    background-color: var(--amplify-colors-neutral-40);
+  }
 }
 
 .highlight-copy-block:hover .line-highlight::before {
   background-color: var(--amplify-colors-primary-90);
+
+  @include darkMode {
+    background-color: var(--amplify-colors-primary-10);
+  }
 }
 
 .code-copy {
