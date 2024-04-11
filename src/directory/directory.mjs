@@ -1062,6 +1062,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/tools/cli/migration/identity-claim-changes/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/tools/cli/migration/iam-auth-updates-for-cdk-construct/index.mdx'
                     }
                   ]
                 },
@@ -2077,15 +2080,15 @@ export const directory = {
                       path: 'src/pages/gen2/build-a-backend/data/customize-authz/configure-custom-identity-and-group-claim/index.mdx'
                     },
                     {
-                      path: 'src/pages/gen2/build-a-backend/data/customize-authz/use-iam-authz-within-appsync-console/index.mdx'
-                    },
-                    {
                       path: 'src/pages/gen2/build-a-backend/data/customize-authz/grant-lambda-function-access-to-api/index.mdx'
                     }
                   ]
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/data/custom-business-logic/index.mdx'
+                },
+                {
+                  path: 'src/pages/gen2/build-a-backend/data/custom-subscription/index.mdx'
                 },
                 {
                   path: 'src/pages/gen2/build-a-backend/data/connect-from-server-runtime/index.mdx'

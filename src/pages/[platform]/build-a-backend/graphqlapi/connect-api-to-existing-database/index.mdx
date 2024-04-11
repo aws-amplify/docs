@@ -75,13 +75,28 @@ This feature is not yet available in the Asia Pacific (Hong Kong, ap-east-1) or 
 
 </Callout>
 
+<BlockSwitcher>
+<Block name="Systems Manager">
 First, place your database connection information (hostname, username, password, port, and database name) into Systems Manager, each as a `SecureString`.
 
 Go to the Systems Manager console, navigate to Parameter Store, and click "Create Parameter". Create five different SecureStrings: one each for the hostname of your database server, the username and password to connect, the database port, and the database name.
 
 Your Systems Manager configuration should look something like this:
 
-![Storing Database Credentials in SSM](/images/storing-db-creds-in-ssm.png)
+![A screenshot of an AWS Systems Manager console page titled "Parameter Store". The page shows a list of parameters with names like "/amplify-cdk-app/username", "/amplify-cdk-app/password", and "/amplify-cdk-app/hostname" indicating database connection details. Each parameter is of Tier "Standard" and typed as "SecureString". The last modified date is displayed for each parameter.](/images/storing-db-creds-in-ssm.png)
+</Block>
+<Block name="Secrets Manager">
+First, place your database connection information (hostname, username, password, port, and database name) into Secrets Manager.
+
+Go to the Secrets Manager console, navigate to Secrets, and click "Store a new secret". You may create the secret in any manner as long as there are `username` and `password` keys defined.
+
+![A screenshot of a page in the Secrets Manager console titled "Secret value info". The screenshot shows an example of a secret's keys and values in a table including "username", "password", "engine", "host", "port", and "dbClusterIdentifier".](/images/storing-db-creds-in-secrets-manager.png)
+
+Optionally, you can decide whether to encrypt the secret using the KMS key that Secrets Manager creates or a customer managed KMS key that you create.
+
+You can also configure a rotation schedule and create a Lambda function or choose an existing Lambda function from your account to rotate the database credentials automatically.
+</Block>
+</BlockSwitcher>
 
 Install the following package to add the Amplify GraphQL API construct to your dependencies:
 
@@ -131,11 +146,13 @@ import {
   AmplifyGraphqlApi,
   AmplifyGraphqlDefinition
 } from '@aws-amplify/graphql-api-construct';
- 
+
 import path from 'path';
 ```
 
 In the main stack class, add the following code to define a new GraphQL API. Replace `stack` with the name of your stack instance (often referenced via `this`):
+<BlockSwitcher>
+<Block name="Systems Manager">
 
 ```ts
 new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
@@ -175,13 +192,53 @@ new AmplifyGraphqlApi(stack, 'SqlBoundApi', {
 });
 ```
 
+</Block>
+<Block name="Secrets Manager">
+
+```ts
+new AmplifyGraphqlApi(this, 'SqlBoundApi', {
+  apiName: 'MySqlBoundApi',
+  definition: AmplifyGraphqlDefinition.fromFilesAndStrategy(
+    [path.join(__dirname, 'schema.sql.graphql')],
+    {
+      name: 'MySQLSchemaDefinition',
+      dbType: 'MYSQL',
+      vpcConfiguration: {
+        vpcId: 'vpc-123456',
+        securityGroupIds: ['sg-123', 'sg-456'],
+        subnetAvailabilityZoneConfig: [
+          { subnetId: 'sn-123456', availabilityZone: 'us-east-1a' },
+          { subnetId: 'sn-987654', availabilityZone: 'us-east-1b' },
+        ],
+      },
+      dbConnectionConfig: {
+        databaseName: 'database',
+        port: 3306,
+        hostname: 'database-1-instance-1.id.region.rds.amazonaws.com',
+        secretArn:
+          'arn:aws:secretsmanager:Region1:123456789012:secret:MySecret-a1b2c3',
+      },
+    }
+  ),
+  authorizationModes: {
+    defaultAuthorizationMode: 'API_KEY',
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30),
+    },
+  },
+});
+```
+
+</Block>
+</BlockSwitcher>
+
 The API will have an API key enabled for authorization.
 
 Before deploying, make sure to:
 
 - Set a value for `name`. This will be used to name the AppSync DataSource itself, plus any associated resources like resolver Lambdas. This name must be unique across all schema definitions in a GraphQL API.
 
-- Change the `dbType` to match your database engine. This is the type of the SQL database used to process model operations for this definition.Supported engines are `"MYSQL"` or `"POSTGRES"`.
+- Change the `dbType` to match your database engine. This is the type of the SQL database used to process model operations for this definition. Supported engines are `"MYSQL"` or `"POSTGRES"`.
 
 - Update the SSM parameter paths within `dbConnectionConfig` to point to those existing in your AWS account. These are the parameters the SQL Lambda will use to connect to the database.
 
@@ -464,11 +521,11 @@ type Mutation {
 
 ## Apply authorization rules
 
+### Model level authorization rules
+
 The `@auth` directive can be used to restrict access to data and operations by specifying authorization rules. It allows granular access control over the GraphQL API based on the user's identity and attributes. You can for example, limit a query or mutation to only logged-in users via an `@auth(rules: [{ allow: private }])` rule or limit access to only users of the "Admin" group via an `@auth(rules: [{ allow: groups, groups: ["Admin"] }])` rule.
 
 All model-level authorization rules are supported for Amplify GraphQL schemas generated from MySQL and PostgreSQL databases.
-
-<Callout warning>**Limitation:** Field level auth rules are not supported.</Callout>
 
 In the example below, public users authorized via API Key are granted unrestricted access to all posts.
 
@@ -482,7 +539,33 @@ type Post @model @refersTo(name: "posts") @auth(rules: [{ allow: public }]) {
 }
 ```
 
-For more information on each rule please refer to our documentation on [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/).
+For more information on each rule please refer to our documentation on [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules).
+
+### Field-level authorization rules
+
+Field level auth rules are also supported for Amplify GraphQL schemas generated from MySQL and PostgreSQL databases.
+
+In the example below, unauthenticated users can read post data but only the owner of the post can perform operations on the `published` field.
+
+```graphql
+type Post
+  @model
+  @refersTo(name: "posts")
+  @auth(rules: [
+    { allow: public, operations: [read] },
+    { allow: owner }
+    ]) {
+  id: String! @primaryKey
+  title: String!
+  content: String!
+  published: Boolean
+  // highlight-start
+    @auth(rules: [{ allow: owner }])
+  // highlight-end
+}
+```
+
+For more information on field-level auth rules please refer to our documentation on [Field-level authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#field-level-authorization-rules).
 
 ## Deploy your API
 
@@ -668,7 +751,7 @@ input AMPLIFY {
 - type Ingredient @refersTo(name: "Ingredients") @model {
 + type Ingredient
 +   @refersTo(name: "Ingredients")
-+   @model 
++   @model
 +   @auth(rules: [{ allow: public }]) {
   id: Int! @refersTo(name: "ingredient_id") @primaryKey
   name: String!
@@ -919,7 +1002,7 @@ Unlike MySQL, PostgreSQL does support date time or timestamp values with an offs
 | Name         | Supported | Model Level | Field Level | Description |
 |--------------|:---------:|:-----------:|:-----------:|-------------|
 | `@model`     | ✅        | ✅          | ❌          | Creates a datasource and resolver for a table.            |
-| `@auth`      | ✅        | ✅          | ❌          | Allows access to data based on a set of authorization methods and operations. |
+| `@auth`      | ✅        | ✅          | ✅       | Allows access to data based on a set of authorization methods and operations. |
 | `@primaryKey`| ✅        | ❌          | ✅          | Sets a field to be the primary key. |
 | `@index`     | ✅        | ❌          | ✅          | Defines an index on a table.         |
 | `@default`   | ✅        | ❌          | ✅          | Sets the default value for a column.         |
