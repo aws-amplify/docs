@@ -27,7 +27,7 @@ const schema = a.schema({
 });
 ```
 
-In your application, you can perform CRUD operations against the model using `client.models.<ModelName>` by specifying the `apiKey` auth mode.
+In your application, you can perform CRUD operations against the model using `client.models.<model-name>` by specifying the `apiKey` auth mode.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
@@ -61,7 +61,7 @@ const schema = a.schema({
 });
 ```
 
-In your application, you can perform CRUD operations against the model using `client.models.<ModelName>` with the `iam` auth mode.
+In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `iam` auth mode.
 
 <Callout info>
 In the Amplify Library's resource configuration set `allowGuestAccess` to `true`. This lets the Amplify Library use the unauthenticated role from your Cognito identity pool when your user isn't logged in.
