@@ -64,27 +64,26 @@ const schema = a.schema({
 In your application, you can perform CRUD operations against the model using `client.models.<ModelName>` with the `iam` auth mode.
 
 <Callout info>
-In the Amplify Library's client configuration file (`amplifyconfiguration.json`) set `allowGuestAccess` to `true`. This lets the Amplify Library use the unauthenticated role from your Cognito identity pool when your user isn't logged in.
+In the Amplify Library's resource configuration set `allowGuestAccess` to `true`. This lets the Amplify Library use the unauthenticated role from your Cognito identity pool when your user isn't logged in.
 
-<Accordion title="amplifyconfiguration.json">
+<Accordion title="">
 ```json
-{
-	"Auth": {
-		"Cognito": {
-			"userPoolId": "YOUR_USER_POOL_ID",
-			"userPoolClientId": "YOUR_USER_POOL_CLIENT_ID",
-			"identityPoolId": "YOUR_IDENTITY_POOL_ID",
-			"allowGuestAccess": true
-		},
-	},
-	"API": {
-		"GraphQL": {
-			"endpoint": "YOUR_API_ENDPOINT",
-			"region": "YOUR_API_REGION",
-			"defaultAuthMode": "YOUR_DEFAULT_AUTHORIZATION_MODE",
-		},
-	},
-}
+import { Amplify } from "aws-amplify";
+import config from "../amplifyconfiguration.json";
+
+Amplify.configure(
+  {
+    ...config,
+    Auth: {
+      Cognito: {
+        identityPoolId: config.aws_cognito_identity_pool_id,
+        userPoolClientId: config.aws_user_pools_web_client_id,
+        userPoolId: config.aws_user_pools_id,
+        allowGuestAccess: true,
+      },
+    },
+  }
+);
 ```
 </Accordion>
 </Callout>
