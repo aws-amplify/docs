@@ -71,29 +71,7 @@ const schema = a.schema({
 In your application, you can perform CRUD operations against the model using `client.models.<ModelName>` with the `iam` auth mode.
 
 <Callout info>
-In the Amplify Library's client configuration file (`amplifyconfiguration.json`) set `allowGuestAccess` to `true`. This lets the Amplify Library use the authenticated role from your Cognito identity pool when your user is logged in.
-
-<Accordion title="amplifyconfiguration.json">
-```json
-{
-	"Auth": {
-		"Cognito": {
-			"userPoolId": "YOUR_USER_POOL_ID",
-			"userPoolClientId": "YOUR_USER_POOL_CLIENT_ID",
-			"identityPoolId": "YOUR_IDENTITY_POOL_ID",
-			"allowGuestAccess": true
-		},
-	},
-	"API": {
-		"GraphQL": {
-			"endpoint": "YOUR_API_ENDPOINT",
-			"region": "YOUR_API_REGION",
-			"defaultAuthMode": "YOUR_DEFAULT_AUTHORIZATION_MODE",
-		},
-	},
-}
-```
-</Accordion>
+ The user must be logged in for the Amplify Library to use the authenticated role from your Cognito identity pool.
 </Callout>
 
 ```ts
