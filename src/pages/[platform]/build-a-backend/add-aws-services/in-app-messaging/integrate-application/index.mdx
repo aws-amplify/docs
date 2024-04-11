@@ -87,7 +87,7 @@ Amplify UI provides a Higher-Order Component for ease of integrating the In-App 
 import { withInAppMessaging } from '@aws-amplify/ui-react-native';
 
 const App = () => (
-  {/* Your application */}
+  {/* Your application code */}
 );
 
 export default withInAppMessaging(App);
@@ -102,7 +102,9 @@ import { withInAppMessaging } from '@aws-amplify/ui-react-notifications';
 
 import '@aws-amplify/ui-react/styles.css';
 
-const App = () => <>In-App Messaging</>;
+const App = () => (
+  {/* Your application code */}
+);
 
 export default withInAppMessaging(App);
 ```
@@ -120,7 +122,7 @@ import {
 } from 'aws-amplify/in-app-messaging';
 import { withInAppMessaging } from '@aws-amplify/ui-react-native';
 import { record } from 'aws-amplify/analytics';
-import amplifyconfig from './amplifyconfiguration.json';
+import amplifyconfig from '../amplifyconfiguration.json';
 
 Amplify.configure(amplifyconfig);
 initializeInAppMessaging();
@@ -177,7 +179,7 @@ import { Button, View } from '@aws-amplify/ui-react';
 import { withInAppMessaging } from '@aws-amplify/ui-react-notifications';
 import { record } from 'aws-amplify/analytics';
 import '@aws-amplify/ui-react/styles.css';
-import amplifyconfig from './amplifyconfiguration.json';
+import amplifyconfig from '../amplifyconfiguration.json';
 
 Amplify.configure(amplifyconfig);
 initializeInAppMessaging();
