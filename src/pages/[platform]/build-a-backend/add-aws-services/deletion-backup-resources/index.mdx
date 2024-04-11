@@ -129,7 +129,7 @@ plan.addRule(
   })
 );
 
-plan.addSelection("plan-selection", {
+plan.addSelection("BackupPlanSelection", {
   resources: ITables.map((table) => BackupResource.fromDynamoDbTable(table)),
   allowRestores: true,
 });
