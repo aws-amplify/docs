@@ -106,7 +106,7 @@ const backend = defineBackend({
 const backupStack = backend.createStack("backup-stack");
 const ITables = Object.values(backend.data.resources.tables);
 
-const vault = new BackupVault(backupStack, "backup-vault", {
+const vault = new BackupVault(backupStack, "BackupVault", {
   backupVaultName: "backup-vault",
 });
 
