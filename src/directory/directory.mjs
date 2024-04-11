@@ -229,7 +229,7 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/functions/set-up-function/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/functions/define-function/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/environment-variables-and-secrets/index.mdx'
@@ -349,6 +349,35 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/set-up-predictions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/text-to-speech/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/transcribe-audio/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/translate/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/identify-text/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/identify-entity/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/label-image/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/interpret-sentiment/index.mdx'
+                    }
+                  ]
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/index.mdx'
