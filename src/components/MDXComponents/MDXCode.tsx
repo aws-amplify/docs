@@ -30,6 +30,18 @@ const addVersions = (code: string) => {
   return code;
 };
 
+const hasHighlights = (code: string): boolean => {
+  const highlightableStrings = [
+    '// highlight-start',
+    '// highlight-end',
+    '// highlight-line-start'
+  ];
+  if (highlightableStrings.some((highlight) => code.includes(highlight))) {
+    return true;
+  }
+  return false;
+};
+
 export const MDXCode = ({
   codeString,
   language = 'js',
@@ -39,7 +51,7 @@ export const MDXCode = ({
   title
 }: MDXCodeProps) => {
   const [code, setCode] = useState(codeString);
-  const shouldShowCopy = language !== 'console';
+  const shouldShowCopy = language !== 'console' && !hasHighlights(codeString);
   const shouldShowHeader = shouldShowCopy || title;
   const titleId = `${useId()}-titleID`;
   const codeId = `${useId()}-codeID`;
