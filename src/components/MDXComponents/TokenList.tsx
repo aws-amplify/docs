@@ -8,7 +8,7 @@ type ProcessedToken = {
   lineNumber: number;
 };
 
-type GroupedToken =
+type TokenGroup =
   | (ProcessedToken & {
       type: 'regular';
     })
@@ -27,7 +27,7 @@ export const TokenList = ({
   let shouldHighlight = false;
   let highlightNextIndex: number | undefined;
 
-  const groupedTokens: GroupedToken[] = [];
+  const tokenGroups: TokenGroup[] = [];
 
   tokens.forEach((line: Token[], i: number) => {
     let showLine = true;
@@ -72,7 +72,7 @@ export const TokenList = ({
       shouldHighlight = true;
       lineNumber--;
 
-      groupedTokens.push({
+      tokenGroups.push({
         tokens: [],
         type: 'highlighted'
       });
@@ -97,23 +97,19 @@ export const TokenList = ({
     }
 
     if (!shouldHighlight) {
-      groupedTokens.push({
+      tokenGroups.push({
         type: 'regular',
         line,
         showLine,
         lineNumber
       });
     } else {
-      const lastTokens = groupedTokens[groupedTokens.length - 1];
-      let existingTokens: {
-        lineNumber: number;
-        line: Token[];
-        showLine: boolean;
-      }[] = [];
-      if (lastTokens?.type === 'highlighted') {
-        existingTokens = lastTokens.tokens;
+      const lastGroup = tokenGroups[tokenGroups.length - 1];
+      let existingTokens: ProcessedToken[] = [];
+      if (lastGroup?.type === 'highlighted') {
+        existingTokens = lastGroup.tokens;
       }
-      groupedTokens[groupedTokens.length - 1] = {
+      tokenGroups[tokenGroups.length - 1] = {
         tokens: [
           ...existingTokens,
           {
@@ -149,7 +145,7 @@ export const TokenList = ({
     ) : null;
   }
 
-  return groupedTokens.map((processedToken, i) => {
+  return tokenGroups.map((processedToken, i) => {
     if (processedToken.type === 'regular') {
       return renderProcessedToken(
         processedToken,
