@@ -34,7 +34,7 @@ const hasHighlights = (code: string): boolean => {
   const highlightableStrings = [
     '// highlight-start',
     '// highlight-end',
-    '// highlight-line-start'
+    '// highlight-next-line'
   ];
   if (highlightableStrings.some((highlight) => code.includes(highlight))) {
     return true;
