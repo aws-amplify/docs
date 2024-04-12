@@ -1,4 +1,8 @@
-Delete an object uploaded to S3 by using `Amplify.Storage.remove` and specify the key:
+import native_common from '/src/fragments/lib/storage/native_common/gen2_callout.mdx';
+
+<Fragments fragments={{ all: native_common }} />
+
+Delete an object uploaded to S3 by using `Amplify.Storage.remove`:
 
 #### With StoragePath
 <BlockSwitcher>
@@ -6,8 +10,8 @@ Delete an object uploaded to S3 by using `Amplify.Storage.remove` and specify th
 <Block name="Async/Await">
 
 ```swift
-let removedKey = try await Amplify.Storage.remove(path: .fromString("example/path"))
-print("Deleted \(removedKey)")
+let removedObject = try await Amplify.Storage.remove(path: .fromString("example/path"))
+print("Deleted \(removedObject)")
 ```
 
 </Block>
@@ -22,8 +26,8 @@ let sink = Amplify.Publisher.create {
         print("Failed: \(error)")
     }
 }
-receiveValue: { removedKey in
-    print("Deleted \(removedKey)")
+receiveValue: { removedObject in
+    print("Deleted \(removedObject)")
 }
 ```
 

@@ -1,5 +1,10 @@
+import native_common from '/src/fragments/lib/storage/native_common/gen2_callout.mdx';
+
+<Fragments fragments={{ all: native_common }} />
+
 ## Upload data
-To upload to S3 from a data object, specify the `key` and the `data` object to be uploaded.
+
+To upload to S3 from a data object, specify the `path` and the `data` object to be uploaded.
 #### With StoragePath
 <BlockSwitcher>
 
@@ -110,7 +115,7 @@ let resultSink = uploadTask
 ## Upload file
 
 When you have a file that you want to upload, you can specify the url to the file in the `local` parameter.
-If a file with the same `key` already exists in S3, the existing S3 file will be overwritten.
+If a file with the same `path` already exists in S3, the existing S3 file will be overwritten.
 #### With StoragePath
 <BlockSwitcher>
 
@@ -118,15 +123,15 @@ If a file with the same `key` already exists in S3, the existing S3 file will be
 
 ```swift
 let dataString = "My Data"
-let fileNameKey = "myFile.txt"
-guard let filename = FileManager.default.urls(
+let fileName = "myFile.txt"
+guard let fileUrl = FileManager.default.urls(
     for: .documentDirectory,
     in: .userDomainMask
-).first?.appendingPathComponent(fileNameKey)
+).first?.appendingPathComponent(fileName)
 else { return }
 
 try dataString.write(
-    to: filename,
+    to: fileUrl,
     atomically: true,
     encoding: .utf8
 )
@@ -152,15 +157,15 @@ print("Completed: \(data)")
 
 ```swift
 let dataString = "My Data"
-let fileNameKey = "myFile.txt"
-guard let filename = FileManager.default.urls(
+let fileName = "myFile.txt"
+guard let fileUrl = FileManager.default.urls(
     for: .documentDirectory,
     in: .userDomainMask
-).first?.appendingPathComponent(fileNameKey)
+).first?.appendingPathComponent(fileName)
 else { return }
 
 try dataString.write(
-    to: filename,
+    to: fileUrl,
     atomically: true,
     encoding: .utf8
 )

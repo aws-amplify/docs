@@ -1,6 +1,10 @@
+import native_common from '/src/fragments/lib/storage/native_common/gen2_callout.mdx';
+
+<Fragments fragments={{ all: native_common }} />
+
 You can list all of the objects uploaded under a given prefix by setting the `pageSize`. If the `pageSize` is set lower than the total file size available, A single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, the user can use the `nextToken` from the previous call response.
 
-This will list all files in the path:
+#### With StoragePath
 <BlockSwitcher>
 
 <Block name="Async/Await">
@@ -44,7 +48,7 @@ receiveValue: { listResult in
 
 </BlockSwitcher>
 
-This will list all public files (This behavior is deprecated):
+#### With Key (Deprecated)
 <BlockSwitcher>
 
 <Block name="Async/Await">
@@ -92,7 +96,7 @@ You can also list private or protected files by passing options. For example, to
 let options = StorageListRequest.Options(accessLevel: .protected, targetIdentityId: "otherUserID", pageSize: 1000)
 let listResult = try await Amplify.Storage.list(options: options)
 listResult.items.forEach { item in
-    print("Key: \(item.key)")
+    print("Path: \(item.path)")
 }
 ```
 
@@ -112,7 +116,7 @@ let sink = Amplify.Publisher.create {
 receiveValue: { listResult in
     print("Completed")
     listResult.items.forEach { item in
-        print("Key: \(item.key)")
+        print("Path: \(item.path)")
     }
 }
 ```
