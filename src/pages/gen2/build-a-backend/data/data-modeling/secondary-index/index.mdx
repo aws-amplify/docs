@@ -141,7 +141,7 @@ const schema = a
         index("accountRepresentativeId")
           // highlight-next-line
           .name("MyCustomIndexName"),
-      ]),
-  })
-  .authorization([a.allow.owner()]);
+      ])
+      .authorization([a.allow.owner()])
+  });
 ```
