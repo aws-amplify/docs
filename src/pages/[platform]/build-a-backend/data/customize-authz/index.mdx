@@ -71,8 +71,6 @@ Amplify will always use the most specific authorization rule that is available. 
 
 If there are multiple authorization rules present, they will be logically OR'ed. Review [Configure multiple authorization rules](#configure-multiple-authorization-rules) to learn more.
 
-Finally, there are special "Admin IAM Roles" that allow you to overrule any authorization logic applied on the API and determine the API access completely via its IAM policy.
-
 ### Global authorization rule (only for getting started)
 
 To help you get started, you can define an authorization rule on the data schema that will be applied to all data models that **do not** have a model-level authorization rule. Instead of having a global authorization rule for all production environments, we recommend creating specific authorization rules for each model or field.
@@ -149,7 +147,7 @@ const schema = a.schema({
 ### Configure multiple authorization rules
 
 When combining multiple authorization rules, they are "logically OR"-ed. In the following example:
-- Any user (signed in or not, verified by IAM) is allowed to read all posts
+- Any user (using Amazon Cognito identity pool's unauthenticated roles) is allowed to read all posts
 - Owners are allowed to create, read, update, and delete their own posts
 
 ```ts
@@ -158,7 +156,7 @@ const schema = a.schema({
     title: a.string(),
     content: a.string()
   }).authorization([
-    a.allow.public("iam").to(["read"]),
+    a.allow.public("identityPool").to(["read"]),
     a.allow.owner()
   ])
 })
@@ -179,7 +177,7 @@ const { data: newPostResult , errors } = await client.models.Post.create({
 	authMode: 'userPool',
 });
 
-// Listing posts is available to all users (verified by IAM)
+// Listing posts is available to unauthenticated users (verified by Amazon Cognito identity pool's unauthenticated role)
 const { data: listPostsResult , errors } = await client.models.Post.list({
 	query: queries.listPosts,
 	authMode: 'iam',
