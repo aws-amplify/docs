@@ -103,8 +103,8 @@ export const Layout = ({
   const currentPlatform = platform
     ? platform
     : PLATFORMS.includes(asPathPlatform)
-      ? asPathPlatform
-      : DEFAULT_PLATFORM;
+    ? asPathPlatform
+    : DEFAULT_PLATFORM;
 
   const title = [
     pageTitle,
