@@ -275,7 +275,7 @@ Run Amplify codegen command to generate GraphQL codegen:
 ```bash
 npx amplify generate graphql-client-code --stack="my-amplify-backend" --platform ts --out ./src
 ```   
-### Generate codegen in specfic language and format
+### Generate codegen in specific language and format
 
 ```bash
 npx amplify generate graphql-client-code --format modelgen --type-target angular
@@ -285,7 +285,7 @@ npx amplify generate graphql-client-code --format modelgen --type-target angular
 | Format | Platform | Codegen command in Amplify CLI | Command in Amplify Gen2 | Default generated file/path |
 | -------| -------- | ------------------------------ | ----------------------- | --------------------------- |
 | Introspection schema | Amplify Javascript | N/A | `npx amplify generate graphql-client-code --format introspection` | <path_to_app>/ |
-| GraphQL codegen | Amplify Javascript | `amplify codegen` | `npx amplify generate graphql-client-code -format graphql-codegen --statement-target javascript --out <path_to_app>/src/graphql/` | `<path_to_app>/src/graphql/` \
+| GraphQL codegen | Amplify Javascript | `amplify codegen` | `npx amplify generate graphql-client-code -format graphql-codegen --statement-target javascript --out <path_to_app>/src/graphql/` | `<path_to_app>/src/graphql/` |
 | Modelgen | Amplify Javascript | `amplify codegen model` | `npx amplify generate graphql-client-code --format modelgen --model-target javascript --out <path_to_app>/src/models/` | `<path_to_app>/src/models/` \
 | Modelgen | Amplify Android | `amplify codegen model` | `npx amplify generate graphql-client-code --format modelgen --model-target java --out <path_to_app/src/main/java/>` | `<path_to_app>/src/main/java/com/amplifyframework/datastore/generated/model` |
 | Modelgen | Amplify Swift | `amplify codegen model` | `npx amplify generate graphql-client-code --format modelgen --model-target swift --out <path_to_swift_project>/AmplifyModels` | `<path_to_swift_project>/AmplifyModels` |
