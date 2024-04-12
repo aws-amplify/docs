@@ -16,6 +16,7 @@ export const LayoutContext = createContext<LayoutContextType>({
 });
 
 export function LayoutProvider({ value, children }) {
+  console.log(value);
   return (
     <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>
   );

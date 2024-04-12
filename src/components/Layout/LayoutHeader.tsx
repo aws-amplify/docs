@@ -113,7 +113,10 @@ export const LayoutHeader = ({
             <VisuallyHidden>Close menu</VisuallyHidden>
           </Button>
           {isGen2 ? null : (
-            <div className="layout-sidebar-platform">
+            <div
+              className="layout-sidebar-platform"
+              aria-label="navigator-platform"
+            >
               <PlatformNavigator
                 currentPlatform={currentPlatform}
                 isPrev={isPrev}
