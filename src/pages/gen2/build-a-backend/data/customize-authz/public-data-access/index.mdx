@@ -67,7 +67,7 @@ In your application, you can perform CRUD operations against the model using `cl
 In the Amplify Library's resource configuration set `allowGuestAccess` to `true`. This lets the Amplify Library use the unauthenticated role from your Cognito identity pool when your user isn't logged in.
 
 <Accordion title="Amplify configuration">
-```ts
+```ts title="src/App.tsx"
 import { Amplify } from "aws-amplify";
 import config from "../amplifyconfiguration.json";
 
@@ -88,7 +88,7 @@ Amplify.configure(
 </Accordion>
 </Callout>
 
-```ts
+```ts title="src/App.tsx"
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
 
