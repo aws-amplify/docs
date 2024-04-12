@@ -57,3 +57,15 @@ Amplify code-first DX (Gen 2) supports Auth, Data, Storage, and Functions. Other
 **What if we want to add a feature like AI/ML or Amazon Location Service to our application in Gen 2?**
 
 Because Amplify builds on the AWS CDK, any of the 175+ AWS services can be added to your app using [custom resources](/[platform]/build-a-backend/add-aws-services/custom-resources/) and L2/L1 AWS CDK constructs.
+
+**What happens once my application grows too big and I want to do more configuration with my application (add more features, other AWS services, etc.)?*
+
+Amplify is built on top of the AWS CDK, so you can add any [AWS service to your Amplify app](https://docs.amplify.aws/gen2/build-a-backend/add-aws-services/custom-resources/). You can also override [Amplify-generated configuration of your resources](https://docs.amplify.aws/gen2/build-a-backend/add-aws-services/custom-resources/) using the CDK.
+
+**How much does it cost to operate Amplify Gen2?**
+
+You can read all about Amplify's pricing on our [pricing page](https://aws.amazon.com/amplify/pricing/).
+
+**Can I use any other database storage other than Amazon DynamoDB? Does it have to be noSQL?**
+
+You can also use an [existing MySQL or PostgreSQL database](https://docs.amplify.aws/react/build-a-backend/graphqlapi/connect-api-to-existing-database/) in an Amplify app.
