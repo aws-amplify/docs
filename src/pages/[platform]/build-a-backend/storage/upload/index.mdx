@@ -42,6 +42,17 @@ export function getStaticProps(context) {
   };
 }
 
+<InlineFilter filters={["android", "swift", "flutter"]}>
+
+<Callout info>
+The latest version of Amplify Storage supports specifying S3 objects as a paths.  
+We recommend using `path` instead of `key` to specify S3 objects.
+
+Note: `key` parameter is deprecated and maybe removed in next major version.
+</Callout>
+
+</InlineFilter>
+
 import android_upload from '/src/fragments/lib/storage/android/upload.mdx';
 import flutter_upload from '/src/fragments/lib/storage/flutter/upload.mdx';
 import ios_upload from '/src/fragments/lib/storage/ios/upload.mdx';

@@ -101,9 +101,16 @@ import flutter11 from '/src/fragments/lib/storage/flutter/getting-started/30_ini
 
 ## Uploading data to your bucket
 
-import native_common from '/src/fragments/lib/storage/native_common/gen2_callout.mdx';
+<InlineFilter filters={["android", "swift", "flutter"]}>
 
-<Fragments fragments={{ all: native_common }} />
+<Callout info>
+The latest version of Amplify Storage supports specifying S3 objects as a paths.  
+We recommend using `path` instead of `key` to specify S3 objects.
+
+Note: `key` parameter is deprecated and maybe removed in next major version.
+</Callout>
+
+</InlineFilter>
 
 To upload to S3 from a data object, specify the path and the data object to be uploaded.
 

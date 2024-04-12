@@ -1,7 +1,3 @@
-import native_common from '/src/fragments/lib/storage/native_common/gen2_callout.mdx';
-
-<Fragments fragments={{ all: native_common }} />
-
 You can list all of the objects uploaded under a given prefix by setting the `pageSize`. If the `pageSize` is set lower than the total file size available, A single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, the user can use the `nextToken` from the previous call response.
 
 #### With StoragePath
