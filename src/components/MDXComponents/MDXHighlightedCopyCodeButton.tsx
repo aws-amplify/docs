@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Button, VisuallyHidden } from '@aws-amplify/ui-react';
+import { VisuallyHidden } from '@aws-amplify/ui-react';
 import { trackCopyClicks } from '@/utils/track';
 import { prepareCopyText } from './utils/copy-code';
 
@@ -9,13 +9,14 @@ interface MDXCopyCodeButtonProps {
   codeString: string;
   testId?: string;
   title?: string;
+  children?: React.ReactNode;
 }
 
-export const MDXCopyCodeButton = ({
+export const MDXHighlightedCopyCodeButton = ({
   codeString,
   title,
   codeId,
-  testId
+  children
 }: MDXCopyCodeButtonProps) => {
   const [copied, setCopied] = useState(false);
 
@@ -30,20 +31,16 @@ export const MDXCopyCodeButton = ({
   };
   return (
     <CopyToClipboard text={copyText} onCopy={copy}>
-      <Button
-        size="small"
-        variation="link"
-        disabled={copied}
-        className="code-copy"
-        testId={testId}
-        aria-describedby={title ? undefined : codeId}
-      >
-        {copied ? 'Copied!' : 'Copy'}
+      <button className="highlight-copy-block" key={codeId}>
+        {children}
+        <span className="highlight-copy-block-hint">
+          {copied ? 'Copied' : 'Copy'}
+        </span>
         <VisuallyHidden>
           {` `}
-          {title} code example
+          {title} highlighted code example
         </VisuallyHidden>
-      </Button>
+      </button>
     </CopyToClipboard>
   );
 };
