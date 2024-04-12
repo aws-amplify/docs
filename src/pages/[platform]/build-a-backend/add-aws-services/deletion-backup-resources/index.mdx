@@ -82,7 +82,7 @@ for (const table of Object.values(dataResources.amplifyDynamoDbTables)) {
 
 ## Enabling Backups for DynamoDB tables
 
-For example, if your DynamoDB tables requires backups that extend the default 35 days Point-in-time recovery, AWS Backup service can be utilized to centralize and automate backups for DynamoDB tables. 
+For example, if your DynamoDB tables requires backups that extend the default 35 days point-in-time recovery, AWS Backup service can be utilized to centralize and automate backups for DynamoDB tables. 
 The example below outlines a backup plan configured to run daily at midnight, for all DynamoDB tables. 
 
 ```ts title="amplify/backend.ts"
@@ -106,11 +106,11 @@ const backend = defineBackend({
 const backupStack = backend.createStack("backup-stack");
 const ITables = Object.values(backend.data.resources.tables);
 
-const vault = new BackupVault(backupStack, "backup-vault", {
+const vault = new BackupVault(backupStack, "BackupVault", {
   backupVaultName: "backup-vault",
 });
 
-const plan = new BackupPlan(backupStack, "backup-plan", {
+const plan = new BackupPlan(backupStack, "BackupPlan", {
   backupPlanName: "backup-plan",
   backupVault: vault,
 });
@@ -129,7 +129,7 @@ plan.addRule(
   })
 );
 
-plan.addSelection("plan-selection", {
+plan.addSelection("BackupPlanSelection", {
   resources: ITables.map((table) => BackupResource.fromDynamoDbTable(table)),
   allowRestores: true,
 });
