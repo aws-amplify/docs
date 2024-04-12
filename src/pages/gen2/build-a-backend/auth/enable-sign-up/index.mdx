@@ -174,8 +174,8 @@ Using password policy in your `amplify/auth/resource.ts` file, you can customize
 ```ts title="amplify/backend.ts"
 // amplify/backend.ts
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   auth,
@@ -340,8 +340,8 @@ Guest access is enabled by default for your Amplify Auth resources. You can over
 ```ts title="amplify/backend.ts"
 // amplify/backend.ts
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   auth,

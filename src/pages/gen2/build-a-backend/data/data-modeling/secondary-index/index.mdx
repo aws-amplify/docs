@@ -24,9 +24,8 @@ export const schema = a.schema({
       phoneNumber: a.phone(),
       accountRepresentativeId: a.id().required(),
     })
-      // highlight-start
+      // highlight-next-line
     .secondaryIndexes((index) => [index("accountRepresentativeId")])
-    // highlight-end
     .authorization([a.allow.public()]),
 });
 ```
