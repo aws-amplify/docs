@@ -256,6 +256,12 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/google-recaptcha-challenge/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/kinesis-stream/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/dynamo-db-stream/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/bedrock-response/index.mdx'
                     }
                   ]
