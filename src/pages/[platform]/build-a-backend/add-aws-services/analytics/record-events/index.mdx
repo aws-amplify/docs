@@ -521,7 +521,7 @@ Amplify.Analytics.unregisterGlobalProperties(globalProperties)
 
 To record custom events call the `record` API:
 
-```javascript
+```javascript title="src/index.js"
 import { record } from 'aws-amplify/analytics';
 
 record({
@@ -539,7 +539,7 @@ Analytics events are buffered in memory and periodically sent to the service and
 
 The `record` API lets you add additional attributes to an event. For example, to record _artist_ information with an _albumVisit_ event:
 
-```javascript
+```javascript title="src/index.js"
 import { record } from 'aws-amplify/analytics';
 
 record({
@@ -554,7 +554,7 @@ Recorded events will be buffered and periodically sent to Amazon Pinpoint.
 
 Metrics can also be added to an event:
 
-```javascript
+```javascript title="src/index.js"
 import { record } from 'aws-amplify/analytics';
 
 record({
@@ -577,7 +577,7 @@ However, it can take upwards of 30 minutes for the event to display in the Filte
 
 The recorded events are saved in a buffer and sent to the remote server periodically. If needed, you have the option to manually clear all the events from the buffer by using the 'flushEvents' API.
 
-```javascript
+```javascript title="src/index.js"
 import { flushEvents } from 'aws-amplify/analytics';
 
 flushEvents();
