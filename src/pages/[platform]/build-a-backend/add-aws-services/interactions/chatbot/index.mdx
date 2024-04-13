@@ -30,28 +30,26 @@ export function getStaticProps(context) {
 ### Send messages to bot
 You can send a text message to chatbot backend with `send()` command. The method returns a promise that includes the chatbot response.
 
-```javascript
+```javascript title="src/App.tsx"
 import { Interactions } from '@aws-amplify/interactions';
 
-let userInput = "I want to reserve a hotel for tonight";
+const userInput = "I want to reserve a hotel for tonight";
 
-(async () => {
-  // Provide a bot name and user input
-  const response = await Interactions.send({
-    botName: "TheBotName",
-    message: userInput
-  });
+// Provide a bot name and user input
+const response = await Interactions.send({
+  botName: "TheBotName",
+  message: userInput
+});
 
-  // Log chatbot response
-  console.log(response.message);
-})()
+// Log chatbot response
+console.log(response.message);
 ```
 
 ### Display end of chat message
 
 You can use `onComplete()` method to register a function to catch errors or chatbot confirmations when the session successfully ends.
 
-```typescript
+```typescript title="src/App.tsx"
 import { Interactions } from '@aws-amplify/interactions';
 
 Interactions.onComplete({

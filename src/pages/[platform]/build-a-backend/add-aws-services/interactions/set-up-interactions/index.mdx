@@ -36,7 +36,7 @@ AWS Amplify supports [Amazon Lex](https://aws.amazon.com/lex) as the default cha
 
 You can create an Amazon Lex V2 chatbot in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex V2 Developer Guide](https://docs.aws.amazon.com/lexv2/latest/dg/getting-started.html).
 
-![A screenshot of Amazon Lex intents page under a bot called 'BookTripNew', showing a list of two created intents 'BookCar' and 'FallbackIntent'. The intents have a last edited date 8 days ago and 1 month ago](/images/interactions_lex_v2_console_edit_bot.png)
+![Amazon Lex intents page with a bot called 'BookTripNew', showing a list of two created intents 'BookCar' and 'FallbackIntent' that your users want to accomplish like booking a car](/images/interactions_lex_v2_console_edit_bot.png)
 
 ## Update your IAM Policy
 
@@ -60,9 +60,8 @@ Amazon Lex service requires an IAM policy in order to use the interactions APIs 
 <InlineFilter filters={['javascript','angular','nextjs','react','vue' ]}>
 Add the aws-amplify and interactions package to your project:
 
-```sh
+```bash title="Terminal" showLineNumbers={false} 
 npm install --save @aws-amplify/interactions aws-amplify
-
 ```
 </InlineFilter>
 
@@ -81,8 +80,13 @@ npm install --save @aws-amplify/interactions aws-amplify
 
 </Accordion>
 
-```bash
-npm install aws-amplify @aws-amplify/react-native @aws-amplify/interactions @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
+```bash title="Terminal" showLineNumbers={false} 
+npm install aws-amplify \
+@aws-amplify/react-native \
+@aws-amplify/interactions \
+@react-native-community/netinfo \
+@react-native-async-storage/async-storage \
+react-native-get-random-values
 ```
 </InlineFilter>
 
@@ -93,8 +97,9 @@ Make sure that the `@aws-amplify/interactions` package has the same version numb
 </Callout>
 
 ### Configure Amplify
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example, **App.js** (Expo) or **index.js** (React Native CLI).
 
-```javascript
+```javascript title="src/index.js"
 import { Amplify } from 'aws-amplify';
 import amplifyconfig from '../amplifyconfiguration.json';
 
@@ -117,8 +122,7 @@ Amplify.configure({
 <InlineFilter filters={['react-native']}>
 You need to add the `crypto.getRandomValues` polyfills to your application's entry point file (in most React Native apps this will be the top level index.js).
 
-```js
-// Example index.js
+```js title="src/index.js"
 import 'react-native-get-random-values';
 
 import { AppRegistry } from 'react-native';
@@ -127,8 +131,6 @@ import { name as appName } from './app.json';
 
 AppRegistry.registerComponent(appName, () => App);
 ```
-
-Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example, **App.js** (Expo) or **index.js** (React Native CLI).
 </InlineFilter>
 
 <Callout warning="true">
