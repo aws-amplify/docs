@@ -256,6 +256,12 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/google-recaptcha-challenge/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/kinesis-stream/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/dynamo-db-stream/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/bedrock-response/index.mdx'
                     }
                   ]
@@ -1596,6 +1602,9 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/gen1/[platform]/tools/cli/migration/identity-claim-changes/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/gen1/[platform]/tools/cli/migration/iam-auth-updates-for-cdk-construct/index.mdx'
                         }
                       ]
                     },

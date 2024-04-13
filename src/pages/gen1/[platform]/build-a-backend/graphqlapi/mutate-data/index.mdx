@@ -322,7 +322,7 @@ const updatedTodo = await client.graphql({
 To update data, replace the request with `.update`.
 
 ```swift
-try await Amplify.API.mutate(request: .create(todo))
+try await Amplify.API.mutate(request: .update(todo))
 ```
 
 </InlineFilter>
