@@ -37,7 +37,9 @@ Using the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/late
 
 Using underlying CDK construct properties you can modify resource configurations. This allows you to customize backend resources beyond what is offered via the `define*` functions.
 
-In the `amplify/backend.ts` create a `backend` object that exposes resource properties with objects for each of the components passed into the `defineBackend` function.
+## Enabling deletion protection on a Auth resource
+
+For example, if you would like to enable deletion protection on a Cognito user pool resource created by Amplify Auth.
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
@@ -48,14 +50,11 @@ const backend = defineBackend({
   auth,
   data
 });
-```
 
-## Enabling Deletion protection on a Auth resource
-
-For example, if you would like to enable Deletion protection on a Cognito user pool resource created by Amplify Auth.
-
-```ts title="amplify/backend.ts"
-backend.auth.resources.cfnResources.cfnUserPool.deletionProtection = "ACTIVE";
+// highlight-start
+const { cfnUserPool } = backend.auth.resources.cfnResources
+cfnUserPool.deletionProtection = "ACTIVE";
+// highlight-end
 ```
 
 ## Enabling Deletion protection on a Data resource
@@ -63,10 +62,21 @@ backend.auth.resources.cfnResources.cfnUserPool.deletionProtection = "ACTIVE";
 For example, if you would like to enable Deletion protection on all DynamoDB tables created by GraphQL API.
 
 ```ts title="amplify/backend.ts"
-const dataResources = backend.data.resources.cfnResources;
-for (const table of Object.values(dataResources.amplifyDynamoDbTables)) {
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+
+const backend = defineBackend({
+  auth,
+  data
+});
+
+// highlight-start
+const { amplifyDynamoDbTables } = backend.data.resources.cfnResources;
+for (const table of Object.values(amplifyDynamoDbTables)) {
   table.deletionProtectionEnabled = true;
 }
+// highlight-end
 ```
 
 ## Enabling Point-in-time recovery for DynamoDB tables
@@ -74,10 +84,21 @@ for (const table of Object.values(dataResources.amplifyDynamoDbTables)) {
 For example, enabling Point-in-time recovery for all the DynamoDB tables created by GraphQL API. By default Point-in-Time recovery retains backups for 35 days.
 
 ```ts title="amplify/backend.ts"
-const dataResources = backend.data.resources.cfnResources;
-for (const table of Object.values(dataResources.amplifyDynamoDbTables)) {
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+
+const backend = defineBackend({
+  auth,
+  data
+});
+
+// highlight-start
+const { amplifyDynamoDbTables } = backend.data.resources.cfnResources;
+for (const table of Object.values(amplifyDynamoDbTables)) {
   table.pointInTimeRecoveryEnabled = true;
 }
+// highlight-end
 ```
 
 ## Enabling Backups for DynamoDB tables
@@ -104,7 +125,7 @@ const backend = defineBackend({
 });
 
 const backupStack = backend.createStack("backup-stack");
-const ITables = Object.values(backend.data.resources.tables);
+const myTables = Object.values(backend.data.resources.tables);
 
 const vault = new BackupVault(backupStack, "BackupVault", {
   backupVaultName: "backup-vault",
@@ -130,7 +151,7 @@ plan.addRule(
 );
 
 plan.addSelection("BackupPlanSelection", {
-  resources: ITables.map((table) => BackupResource.fromDynamoDbTable(table)),
+  resources: myTables.map((table) => BackupResource.fromDynamoDbTable(table)),
   allowRestores: true,
 });
 ```
