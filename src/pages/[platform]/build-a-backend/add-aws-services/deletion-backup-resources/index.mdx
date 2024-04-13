@@ -108,6 +108,7 @@ The example below outlines a backup plan configured to run daily at midnight, fo
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
+// highlight-start
 import {
   BackupPlan,
   BackupPlanRule,
@@ -116,6 +117,7 @@ import {
 } from "aws-cdk-lib/aws-backup";
 import { Schedule } from "aws-cdk-lib/aws-events";
 import { Duration } from "aws-cdk-lib/core";
+// highlight-end
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 
@@ -124,6 +126,7 @@ const backend = defineBackend({
   data,
 });
 
+// highlight-start
 const backupStack = backend.createStack("backup-stack");
 const myTables = Object.values(backend.data.resources.tables);
 
@@ -154,4 +157,5 @@ plan.addSelection("BackupPlanSelection", {
   resources: myTables.map((table) => BackupResource.fromDynamoDbTable(table)),
   allowRestores: true,
 });
+// highlight-end
 ```
