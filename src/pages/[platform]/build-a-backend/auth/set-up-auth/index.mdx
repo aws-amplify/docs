@@ -131,9 +131,31 @@ See the [Amazon Cognito documentation](https://docs.aws.amazon.com/cognito/lates
 
 After you have chosen and set up your authentication resource, run the following command to create your first authentication resource in your personal cloud sandbox.
 
+<InlineFilter filters={['flutter']}>
+```bash title="Terminal"
+npx amplify sandbox --config-format dart --config-out-dir lib
+```
+</InlineFilter>
+<InlineFilter filters={['android','angular','javascript','nextjs','react','react-native','vue']}>
 ```bash title="Terminal"
 npx amplify sandbox
 ```
+</InlineFilter>
+<InlineFilter filters={['android']}>
+<Callout warning>
+Be sure to add a "raw" folder under app/src/main/res directory if it doesn't exist.
+</Callout>
+
+```bash title="Terminal"
+npx amplify sandbox --config-format=json-mobile --config-out-dir=app/src/main/res/raw
+```
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+```bash title="Terminal"
+npx amplify sandbox --config-format=json-mobile
+```
+</InlineFilter>
 
 After a successful deployment, this command also generates a configuration file (`amplifyconfiguration.json`) to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated configuration file to automatically configure the frontend [`Authenticator connected component`](https://ui.docs.amplify.aws/react/connected-components/authenticator).
 
@@ -143,6 +165,7 @@ Creating and correctly implementing the sign-in flow can be challenging and time
 
 Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter.
 
+<InlineFilter filters={['angular','javascript','nextjs','react','vue']}>
 <BlockSwitcher>
 <Block name="React">
 
@@ -351,8 +374,85 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 ```
 
 </Block>
+</BlockSwitcher>
+</InlineFilter>
 
-<Block name="Flutter">
+
+<InlineFilter filters={['react-native']}>
+
+First, install the `@aws-amplify/ui-react-native` library:
+
+```sh showLineNumbers={false}
+npm install @aws-amplify/ui-react-native aws-amplify @aws-amplify/react-native react-native-safe-area-context @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
+```
+
+<Callout info>
+If your project will support Federated Sign In using the `React Native Authenticator` the `@aws-amplify/rtn-web-browser` package is also required:
+
+```sh showLineNumbers={false}
+npm install @aws-amplify/rtn-web-browser
+```
+</Callout>
+
+Then install the iOS cocoapods by running:
+
+```sh showLineNumbers={false}
+npx pod-install
+```
+
+<Callout warning>
+For calling native libraries and platform dependencies from Expo, you need to run the prebuild command for generating the folders for related platforms. 
+
+```sh
+npx expo prebuild
+```
+</Callout>
+Next, update the `App.tsx` file with the following to set up the authentication flow:
+
+```typescript
+import React from "react";
+import { Button, View, StyleSheet, SafeAreaView } from "react-native";
+
+import { Amplify } from "aws-amplify";
+import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
+
+import amplifyconfig from "./amplifyconfiguration.json";
+
+Amplify.configure(amplifyconfig);
+
+const SignOutButton = () => {
+  const { signOut } = useAuthenticator();
+
+  return (
+    <View style={styles.signOutButton}>
+      <Button title="Sign Out" onPress={signOut} />
+    </View>
+  );
+};
+
+const App = () => {
+  return (
+    <Authenticator.Provider>
+      <Authenticator>
+        <SafeAreaView>
+          <SignOutButton />
+        </SafeAreaView>
+      </Authenticator>
+    </Authenticator.Provider>
+  );
+};
+
+const styles = StyleSheet.create({
+  signOutButton: {
+    alignSelf: "flex-end",
+  },
+});
+
+export default App;
+```
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
 
 First, install the `amplify_authenticator` library:
 
@@ -438,81 +538,9 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
-</Block>
-<Block name="React Native">
+</InlineFilter>
 
-First, install the `@aws-amplify/ui-react-native` library:
-
-```sh showLineNumbers={false}
-npm install @aws-amplify/ui-react-native aws-amplify @aws-amplify/react-native react-native-safe-area-context @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
-```
-
-<Callout info>
-If your project will support Federated Sign In using the `React Native Authenticator` the `@aws-amplify/rtn-web-browser` package is also required:
-
-```sh showLineNumbers={false}
-npm install @aws-amplify/rtn-web-browser
-```
-</Callout>
-
-Then install the iOS cocoapods by running:
-
-```sh showLineNumbers={false}
-npx pod-install
-```
-
-<Callout warning>
-For calling native libraries and platform dependencies from Expo, you need to run the prebuild command for generating the folders for related platforms. 
-
-```sh
-npx expo prebuild
-```
-</Callout>
-Next, update the `App.tsx` file with the following to set up the authentication flow:
-
-```typescript
-import React from "react";
-import { Button, View, StyleSheet, SafeAreaView } from "react-native";
-
-import { Amplify } from "aws-amplify";
-import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
-
-import amplifyconfig from "./amplifyconfiguration.json";
-
-Amplify.configure(amplifyconfig);
-
-const SignOutButton = () => {
-  const { signOut } = useAuthenticator();
-
-  return (
-    <View style={styles.signOutButton}>
-      <Button title="Sign Out" onPress={signOut} />
-    </View>
-  );
-};
-
-const App = () => {
-  return (
-    <Authenticator.Provider>
-      <Authenticator>
-        <SafeAreaView>
-          <SignOutButton />
-        </SafeAreaView>
-      </Authenticator>
-    </Authenticator.Provider>
-  );
-};
-
-const styles = StyleSheet.create({
-  signOutButton: {
-    alignSelf: "flex-end",
-  },
-});
-
-export default App;
-```
-</Block>
-<Block name="Swift">
+<InlineFilter filters={['swift']}>
 
 Move the generated files to your project. You can do this by dragging and dropping the files to your project.
 
@@ -571,9 +599,9 @@ struct MyApp: App {
     }
 }
 ```
-</Block>
+</InlineFilter>
 
-<Block name="Android">
+<InlineFilter filters={['android']}>
 
 <Callout warning>
 Be sure to have compileSdk version as 34 or higher.
@@ -699,9 +727,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 ```
-</Block>
-</BlockSwitcher>
-
+</InlineFilter>
 Once you add the Authenticator component to your app, you can test the sign-up, sign-in, and sign-out functionality. You can also [customize the Authenticator connected component](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization) to adjust colors and styling as needed.
 
 ## Manage users in the Amplify console
