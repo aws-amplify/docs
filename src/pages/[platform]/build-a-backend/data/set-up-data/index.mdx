@@ -80,7 +80,7 @@ To deploy these resources to your cloud sandbox, run the following CLI command i
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
 ```
 
@@ -88,16 +88,23 @@ npx amplify sandbox
 
 <InlineFilter filters={["android"]}>
 
-```bash
-npx amplify sandbox --config-format json-mobile --config-out-dir <path_to_src/main/res/raw_folder>
+```bash title="Terminal" showLineNumbers={false}
+npx amplify sandbox --config-format json-mobile --config-out-dir <path_to_android_project>/src/main/res/raw/
 ```
 
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --config-format json-mobile --config-out-dir <path_to_swift_project>
+```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+```bash title="Terminal" showLineNumbers={false}
+npx amplify sandbox --config-format dart --config-out-dir <path_to_flutter_project>/lib/
 ```
 
 </InlineFilter>
@@ -201,13 +208,13 @@ Next, configure your application to use your new custom Application class. Open 
 
 Build and run the application. In Logcat, you'll see a log line indicating success:
 
-``` title="Logcat" showLineNumbers={false}
+```console title="Logcat" showLineNumbers={false}
 com.example.MyAmplifyApp I/MyAmplifyApp: Initialized Amplify
 ```
 
 Finally, let's generate the GraphQL client code for your Android application. Amplify Data uses GraphQL under the hood to make query, mutation, and subscription requests. The generated GraphQL client code helps you to author fully-typed API requests without needing to hand-author GraphQL requests and manually map them to Kotlin or Java code.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --format modelgen --model-target java --out <path_to_app/src/main/java/>
 ```
 
@@ -261,7 +268,7 @@ struct MyAmplifyApp: App {
 
 Finally, let's generate the GraphQL client code for your Swift application. Amplify Data uses GraphQL under the hood to make query, mutation, and subscription requests. The generated GraphQL client code helps you to author fully-typed API requests without needing to hand-author GraphQL requests and manually map them to Swift code.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --format modelgen --model-target swift --out <path_to_swift_project>/AmplifyModels
 ```
 
@@ -269,6 +276,67 @@ Drag and drop the **AmplifyModels** folder into your Xcode project to add the ge
 
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+
+From your project root directory, find and modify your **pubspec.yaml** and add the Amplify plugins to the project dependencies.
+
+```yaml title="pubspec.yaml"
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+
+dependencies:
+  // highlight-start
+  amplify_api: ^1.0.0
+  amplify_flutter: ^1.0.0
+  // highlight-end
+  flutter:
+    sdk: flutter
+```
+
+Install the dependencies by running the following command. Depending on your development environment, you may perform this step via your IDE (or it may even be performed for you automatically).
+
+```bash title="Terminal" showLineNumbers={false}
+flutter pub get
+```
+
+Now let's add the necessary plugins into the Flutter application by customizing the `main()` function of the **lib/main.dart** file:
+
+```dart title="lib/main.dart"
+// highlight-start
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+// highlight-end
+import 'package:flutter/material.dart';
+
+// highlight-start
+import 'amplifyconfiguration.dart';
+import 'models/ModelProvider.dart';
+// highlight-end
+
+Future<void> main() async {
+  // highlight-start
+  try {
+    final api = AmplifyAPI(modelProvider: ModelProvider());
+    await Amplify.addPlugins([api]);
+    await Amplify.configure(amplifyConfig);
+
+    safePrint('Successfully configured Amplify');
+  } on Exception catch (e) {
+    safePrint('Error configuring Amplify: $e');
+  }
+  // highlight-end
+
+  runApp(const MyApp());
+}
+```
+
+Finally, let's generate the GraphQL client code for your Flutter application. Amplify Data uses GraphQL under the hood to make query, mutation, and subscription requests. The generated GraphQL client code helps you to author fully-typed API requests without needing to hand-author GraphQL requests and manually map them to Dart code.
+
+```bash title="Terminal" showLineNumbers={false}
+npx amplify generate graphql-client-code --format modelgen --model-target dart --out <path_to_flutter_project>/lib/models
+```
+
+</InlineFilter>
 ## Write data to your backend
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
@@ -347,7 +415,7 @@ class MainActivity : ComponentActivity() {
 
 Build and run your app. Then, click on "Create Todo" on the app. Your Logcat should show you that a todo was successfully added:
 
-``` title="Logcat" showLineNumbers={false}
+```console title="Logcat" showLineNumbers={false}
 com.example.MyAmplifyApp I/MyAmplifyApp: Added Todo with id: SOME_TODO_ID
 ```
 
@@ -403,8 +471,74 @@ struct ContentView: View {
 
 Now if you run the application, and click on the "Create Todo" button, you should see a log indicating a todo was created:
 
-``` showLineNumbers={false}
+```console title="Logs" showLineNumbers={false}
 Successfully created todo: Todo(id: XYZ ...)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+In your page, let's add a floating action button that creates a new todo. 
+
+```dart title="lib/main.dart"
+// ... main() 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'Your todos',
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final newTodo = Todo(content: "New Flutter todo", isDone: false);
+          final request = ModelMutations.create(newTodo);
+          final response = await Amplify.API.mutate(request: request).response;
+          if (response.hasErrors) {
+            safePrint('Creating Todo failed.');
+          } else {
+            safePrint('Creating Todo successful.');
+          }
+        },
+        tooltip: 'Add todo',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+```
+
+Now if you run the application, and click on the floating action button, you should see a log indicating a todo was created:
+
+```console
+Creating Todo successful.
 ```
 
 </InlineFilter>
@@ -544,6 +678,113 @@ struct ContentView: View {
         }
     }
     // highlight-end
+}
+
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+Start by adding a new state to track the todos and the ability to fetch the todo list when it first renders:
+
+```dart title="lib/main.dart"
+// ...main()
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  List<Todo> _todos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshTodos();
+  }
+
+  Future<void> _refreshTodos() async {
+    try {
+      final request = ModelQueries.list(Todo.classType);
+      final response = await Amplify.API.query(request: request).response;
+
+      final todos = response.data?.items;
+      if (response.hasErrors) {
+        safePrint('errors: ${response.errors}');
+        return;
+      }
+      setState(() {
+        safePrint(todos);
+        _todos = todos!.whereType<Todo>().toList();
+      });
+    } on ApiException catch (e) {
+      safePrint('Query failed: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'Your todos',
+            ),
+            _todos.isEmpty == true
+                ? const Center(
+                    child: Text(
+                      "The list is empty.\nAdd some items by clicking the floating action button.",
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                : ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: _todos.length,
+                    itemBuilder: (context, index) {
+                      final todo = _todos[index];
+                      return CheckboxListTile.adaptive(
+                        value: todo.isDone,
+                        title: Text(todo.content!),
+                        onChanged: (isChecked) async {},
+                      );
+                    }),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final newTodo = Todo(content: "New Flutter todo", isDone: false);
+          final request = ModelMutations.create(newTodo);
+          final response = await Amplify.API.mutate(request: request).response;
+          if (response.hasErrors) {
+            safePrint('Creating Todo failed.');
+          } else {
+            safePrint('Creating Todo successful.');
+          }
+        },
+        tooltip: 'Add todo',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
 }
 
 ```
@@ -735,6 +976,71 @@ struct ContentView: View {
 ```
 
 Now if you rerun your app, a new todo should be appended to the list every time you create a new todo.
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+To add real-time updates, you can use the subscription feature of Amplify Data. It allows to subscribe to `onCreate`, `onUpdate`, and `onDelete` events of the application. In our example, let's append the list every time a new todo is added.
+
+When the page renders, subscribe to `onCreate` events and then unsubscribe when the Widget is disposed.
+
+```dart title="lib/main.dart"
+// ...main()
+// ...MyApp
+// ...MyHomePage
+
+class _MyHomePageState extends State<MyHomePage> {
+  List<Todo> _todos = [];
+  // highlight-next-line
+  StreamSubscription<GraphQLResponse<Todo>>? subscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshTodos();
+    // highlight-next-line
+    _subscribe();
+  }
+
+  // highlight-start
+  @override
+  void dispose() {
+    _unsubscribe();
+    super.dispose();
+  }
+  // highlight-end
+
+  // highlight-start
+  void _subscribe() {
+    final subscriptionRequest = ModelSubscriptions.onCreate(Todo.classType);
+    final Stream<GraphQLResponse<Todo>> operation = Amplify.API.subscribe(
+      subscriptionRequest,
+      onEstablished: () => safePrint('Subscription established'),
+    );
+    subscription = operation.listen(
+      (event) {
+        safePrint('Subscription event data received: ${event.data}');
+        setState(() {
+          _todos.add(event.data!);
+        });
+      },
+      onError: (Object e) => safePrint('Error in subscription stream: $e'),
+    );
+  }
+  // highlight-end
+
+  // highlight-start
+  void _unsubscribe() {
+    subscription?.cancel();
+    subscription = null;
+  }
+  // highlight-end
+
+  // ..._refreshTodos()
+  // ...build()
+}
+```
 
 </InlineFilter>
 
