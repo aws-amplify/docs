@@ -254,8 +254,7 @@ npx amplify generate graphql-client-code --branch staging
 ### Generate codegen for CDK app using a joint "AmplifyBackendStack" construct
 Assume you have deployed your Amplify project with the CDK construct. You will need to remember your app's project name (designated as the second parameter in your CDK construct) and stack name (designated as part of your `npx cdk deploy` context)
 
-// CDK code in stack.ts
-```ts
+```ts title="lib/stack.ts"
 import { Construct } from 'constructs';
 import { App, Backend } from 'aws-cdk-lib/aws-amplify';
 
