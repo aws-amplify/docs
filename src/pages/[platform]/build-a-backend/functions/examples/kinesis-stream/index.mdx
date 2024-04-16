@@ -76,10 +76,10 @@ export const handler: KinesisStreamHandler = async (
       logger.info(`Record Data: ${recordData}`);
     } catch (err) {
       logger.error(`An error occurred ${err}`);
-      /**
-			 * When processing stream data, if any item fails, returning the failed item's position immediately
-			 * prompts Lambda to retry from this item forward, ensuring continuous processing without skipping data.
-			 */
+      /*
+      When processing stream data, if any item fails, returning the failed item's position immediately
+      prompts Lambda to retry from this item forward, ensuring continuous processing without skipping data.
+      */
       return {
         batchItemFailures: [{ itemIdentifier: record.kinesis.sequenceNumber }],
       };

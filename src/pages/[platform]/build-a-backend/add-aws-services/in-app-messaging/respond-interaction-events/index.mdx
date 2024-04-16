@@ -32,7 +32,7 @@ Your code can respond with additional behavior to your users interacting with in
 
 Add `onMessageReceived` listeners to respond to an in-app message being received from the library as the result of an event matching the criteria of a synced in-app message. This is required if you are implementing a custom UI so that your UI can respond to event-triggered campaign messages but you may also find it helpful to listen for these messages for any other reason your application requires.
 
-```js
+```js title="src/index.js"
 import { onMessageReceived } from 'aws-amplify/in-app-messaging';
 
 const myMessageReceivedHandler = (message) => {
@@ -48,7 +48,7 @@ listener.remove(); // Remember to remove the listener when it is no longer neede
 
 Add `onMessageDisplayed` listeners to respond to an in-app message being displayed to your user.
 
-```js
+```js title="src/index.js"
 import { onMessageDisplayed } from 'aws-amplify/in-app-messaging';
 
 const myMessageDisplayedHandler = (message) => {
@@ -64,7 +64,7 @@ listener.remove(); // Remember to remove the listener when it is no longer neede
 
 Add `onMessageDismissed` listeners to respond to an in-app message being dismissed by your user.
 
-```js
+```js title="src/index.js"
 import { onMessageDismissed } from 'aws-amplify/in-app-messaging';
 
 const myMessageDismissedHandler = (message) => {
@@ -80,7 +80,7 @@ listener.remove(); // Remember to remove the listener when it is no longer neede
 
 Add `onMessageActionTaken` listeners to respond to an action being taken on an in-app message. Typically, this means that the user has tapped or clicked a button on an in-app message.
 
-```js
+```js title="src/index.js"
 import { onMessageActionTaken } from 'aws-amplify/in-app-messaging';
 
 const myMessageActionTakenHandler = (message) => {
@@ -96,7 +96,7 @@ listener.remove(); // Remember to remove the listener when it is no longer neede
 
 If you are using the Amplify In-App Messaging UI, interaction events notifications are already wired up for you. However, if you are implementing your own UI, it is highly recommended to notify listeners of interaction events through your UI code so that the library can take further actions prescribed by the installed provider (for example, automatically recording corresponding Analytics events).
 
-```ts
+```ts title="src/index.js"
 import { notifyMessageInteraction } from 'aws-amplify/in-app-messaging';
 
 const message = {
