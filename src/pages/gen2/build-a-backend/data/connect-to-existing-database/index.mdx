@@ -128,21 +128,25 @@ import { schema as rdsSchema } from './schema.rds.ts'
 
 // Rename models or fields to be more idiomatic for frontend code
 // highlight-start
-rdsSchema.models.todos.renameTo("Todo")
-rdsSchema.models.todos.fields.title.renameTo("content")
-// highlight-end
+const modifiedRds = rdsSchema.renameModels(() => [
+  ['todo', 'Todo']
+]).renameModelFields((models) => [
+    models.Todo.renameFields(() => [
+      ['title', 'content'],
+  ]),
+])
 
 const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-    isDone: a.boolean()
-  })
-}).authorization([a.allow.public()])
+  Post: a.model({
+    title: a.string()
+  }).authorization([a.allow.public()])
+})
 
 const combinedSchema = a.schema.combine([
   schema,
-  rdsSchema
+  modifiedRds
 ])
+
 
 export type Schema = typeof schema
 export const data = defineData({
