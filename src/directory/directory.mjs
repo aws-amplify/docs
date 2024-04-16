@@ -38,6 +38,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-app-router-server-components/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/quickstart/react-native-expo/index.mdx'
                 }
               ]
             },
