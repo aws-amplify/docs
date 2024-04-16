@@ -59,7 +59,7 @@ const { data: team } = await client.models.Team.create({
 });
 
 const { data: member } = await client.models.Member.create({
-  name: "Tim Schmelter",
+  name: "Tim",
   team,
 });
 ```
@@ -141,7 +141,7 @@ To create a "has one" relationship between records, first create the parent item
 
 ```ts
 const { data: customer } = await client.models.Customer.create({
-  name: 'Rene Brandel',
+  name: 'Rene',
 });
 
 const { data: cart } = await client.models.Cart.create({
@@ -156,7 +156,7 @@ To update a "Has One" relationship between records, you first retrieve the child
 
 ```ts
 const { data: newCustomer } = await client.models.Customer.create({
-  name: 'Ian Saultz',
+  name: 'Ian',
 });
 
 await client.models.Cart.update({
