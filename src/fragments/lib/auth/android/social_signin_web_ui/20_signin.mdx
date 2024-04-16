@@ -4,8 +4,9 @@ For now, just add this method to the `onCreate` method of MainActivity with what
 <Block name="Java">
 
 ```java
+// Replace facebook with your chosen auth provider such as google, amazon, or apple
 Amplify.Auth.signInWithSocialWebUI(
-    AuthProvider.facebook(), 
+    AuthProvider.facebook(),
     this,
     result -> Log.i("AuthQuickstart", result.toString()),
     error -> Log.e("AuthQuickstart", error.toString())
@@ -16,8 +17,9 @@ Amplify.Auth.signInWithSocialWebUI(
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
+// Replace facebook with your chosen auth provider such as google, amazon, or apple
 Amplify.Auth.signInWithSocialWebUI(
-    AuthProvider.facebook(), 
+    AuthProvider.facebook(),
     this,
     { Log.i("AuthQuickstart", "Sign in OK: $it") },
     { Log.e("AuthQuickstart", "Sign in failed", it) }
@@ -29,6 +31,7 @@ Amplify.Auth.signInWithSocialWebUI(
 
 ```kotlin
 try {
+    // Replace facebook with your chosen auth provider such as google, amazon, or apple
     val result = Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this)
     Log.i("AuthQuickstart", "Sign in OK: $result")
 } catch (error: AuthException) {
@@ -40,6 +43,7 @@ try {
 <Block name="RxJava">
 
 ```java
+// Replace facebook with your chosen auth provider such as google, amazon, or apple
 RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this)
     .subscribe(
         result -> Log.i("AuthQuickstart", result.toString()),

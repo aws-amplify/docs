@@ -1,7 +1,7 @@
 export const meta = {
   title: 'Set up Amplify Auth',
   description:
-    'Learn how to set up and connect your backend resources for authentication in Amplify (Gen 2).'
+    'Learn how to set up and connect your backend resources for authentication in Amplify Gen 2.'
 };
 
 export function getStaticProps(context) {
@@ -12,9 +12,9 @@ export function getStaticProps(context) {
   };
 }
 
-In this guide, you will learn how to set up authentication in your Amplify (Gen 2) app. This includes setting up and connecting your backend resources and enabling sign-up, sign-in, and sign-out with the Authenticator UI component. We will also provide more context on how resources are managed and created with Amplify to help you make decisions and understand any long-term impact of those decisions.
+In this guide, you will learn how to set up authentication in your Amplify Gen 2 app. This includes setting up and connecting your backend resources and enabling sign-up, sign-in, and sign-out with the Authenticator UI component. We will also provide more context on how resources are managed and created with Amplify to help you make decisions and understand any long-term impact of those decisions.
 
-If you have not yet created an Amplify (Gen 2) app, visit the [quickstart](/gen2/start/quickstart).
+If you have not yet created an Amplify Gen 2 app, visit the [quickstart](/gen2/start/quickstart).
 
 ## Building your auth backend
 
@@ -148,6 +148,7 @@ A higher-order component (HOC) is a function that takes a component and returns 
 
 ```ts title="pages/_app.tsx"
 // pages/_app.tsx
+import type { AppProps } from "next/app";
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
 import config from '@/amplifyconfiguration.json';
@@ -156,7 +157,7 @@ import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 
 Amplify.configure(config);
 
-function App({ Component, pageProps, signOut, user }: WithAuthenticatorProps) {
+function App({ signOut, user, Component, pageProps }: WithAuthenticatorProps & AppProps) {
   return (
     <>
       <h1>Hello {user?.username}</h1>
@@ -341,7 +342,7 @@ Once you add the Authenticator component to your app, you can test the sign-up, 
 
 Once you deploy your code to Git, you can manage users and groups for the branch environment in the Amplify console.
 
-<video autoPlay={true} muted={true} loop={true} width="100%">
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/authentication/user-manage.mp4" />
 </video>
 
