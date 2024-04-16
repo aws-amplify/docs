@@ -1,0 +1,139 @@
+export const meta = {
+  title: 'Build search and aggregate queries',
+  description:
+    'Build search and aggregate queries.'
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+# OpenSearch integration
+
+In this guide, we will demonstrate how to integrate OpenSearch with an Amplify project.
+
+Pre-requisites:
+1. A Todo API created with public access.
+
+## Create the OpenSearch Domain
+You can use AWS CDK constructs to create the OpenSearch domain in your Amplify project. Add the following code to your `amplify/backend.ts` file:
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import { Stack } from "aws-cdk-lib";
+
+const backend = defineBackend({
+  auth,
+  data,
+});
+const dataStack = Stack.of(backend.data);
+
+//const openSearchStack = dataStack.addDependency("OpenSearchStack");
+const openSearchStack = backend.createStack("OpenSearchStack");
+
+// Enable point-in-time recovery and stream specification for the Todo DynamoDB table
+backend.data.resources.cfnResources.amplifyDynamoDbTables[
+  "Todo"
+].pointInTimeRecoveryEnabled = true;
+backend.data.resources.cfnResources.amplifyDynamoDbTables[
+  "Todo"
+].streamSpecification = {
+  streamViewType: dynamodb.StreamViewType.NEW_IMAGE,
+};
+
+// Create the OpenSearch domain
+
+const openSearchDomain = new opensearch.Domain(
+  openSearchStack,
+  "OpenSearchDomain",
+  {
+    version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    nodeToNodeEncryption: true,
+    encryptionAtRest: {
+      enabled: true,
+    },
+  }
+);
+```
+## Add OpenSearch DataSource
+Next, add the OpenSearch data source to the GraphQL API by updating the `amplify/backend.ts` file:
+
+```ts title="amplify/backend.ts"
+const api = backend.data.resources.graphqlApi;
+const ds = api.addOpenSearchDataSource("ds", openSearchDomain);
+
+```
+
+## Add the Search Query in Schema
+
+Now, update the `amplify/data/resource.ts` file to add the `searchTodo` query that returns the Todo object:
+
+```ts title="amplify/data/resource.ts"
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      done: a.boolean(),
+      priority: a.enum(["low", "medium", "high"]),
+    })
+    .authorization([a.allow.public()]),
+  searchTodos: a.query().returns(a.ref("Todo")),
+});
+
+```
+
+## Add the AppSync Resolver for the Search Query
+
+Finally, create the `SearchResolver` and attach it to the `searchTodo` query in `amplify/data/resource.ts`:
+
+
+```ts title="amplify/data/resource.ts"
+
+new appsync.CfnResolver(dataStack, "searchBlogResolver", {
+  typeName: "Query",
+  fieldName: "searchTodos2",
+  dataSourceName: "ds",
+  apiId: backend.data.apiId,
+  runtime: {
+    name: "APPSYNC_JS",
+    runtimeVersion: "1.0.0",
+  },
+  code: `import { util } from '@aws-appsync/utils'
+  /**
+   * Searches for documents by using an input term
+   * @param {import('@aws-appsync/utils').Context} ctx the context
+   * @returns {*} the request
+   */
+  export function request(ctx) {
+    return {
+      operation: 'GET',
+      path: "/todo/_search",
+    }
+  }
+
+  /**
+   * Returns the fetched items
+   * @param {import('@aws-appsync/utils').Context} ctx the context
+   * @returns {*} the result
+   */
+  export function response(ctx) {
+    if (ctx.error) {
+      util.error(ctx.error.message, ctx.error.type)
+    }
+    return ctx.result.hits.hits.map((hit) => hit._source)
+  }
+  `,
+});
+
+```
+
+
+
+
+
