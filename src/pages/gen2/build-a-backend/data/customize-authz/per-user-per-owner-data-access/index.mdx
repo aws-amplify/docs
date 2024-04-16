@@ -18,7 +18,8 @@ The `owner` authorization strategy restricts operations on a record to only the 
 
 You can use the `owner` authorization strategy to restrict a record's access to a specific user. When `owner` authorization is configured, only the record's `owner` is allowed the specified operations.
 
-```ts
+
+```ts title="amplify/data/resource.ts"
 // The "owner" of a Todo is allowed to create, read, update, and delete their own todos
 const schema = a.schema({
   Todo: a
@@ -29,7 +30,7 @@ const schema = a.schema({
 });
 ```
 
-```ts
+```ts title="amplify/data/resource.ts"
 // The "owner" of a Todo record is only allowed to create, read, and update it.
 // The "owner" of a Todo record is denied to delete it.
 const schema = a.schema({
@@ -39,6 +40,26 @@ const schema = a.schema({
     })
     .authorization([a.allow.owner().to(['create', 'read', 'update'])]),
 });
+```
+
+In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `userPool` auth mode.
+
+```ts
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
+
+const client = generateClient<Schema>();
+
+const { errors, data: newTodo } = await client.models.Todo.create(
+  {
+    content: 'My new todo',
+  },
+  // highlight-start
+  {
+    authMode: 'userPool',
+  }
+  // highlight-end
+);
 ```
 
 Behind the scenes, Amplify will automatically add a `owner: a.string()` field to each record which contains the record owner's identity information upon record creation.
