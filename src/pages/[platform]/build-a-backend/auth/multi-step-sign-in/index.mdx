@@ -21,10 +21,12 @@ export function getStaticProps(context) {
 }
 
 <InlineFilter filters={['flutter']}>
-After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you ran `amplify add auth`. Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
+After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/manage-mfa/) page.
+
+Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
 
 <Callout warning>
-<b>New enumeration values</b>
+*New enumeration values*
 
 When Amplify adds a new enumeration value (e.g., a new enum class entry or sealed class subtype in Kotlin, or a new enum value in Swift/Dart/Kotlin), it will publish a new minor version of the Amplify Library. Plugins that switch over enumeration values should include default handlers (an else branch in Kotlin or a default statement in Swift/Dart/Kotlin) to ensure that they are not impacted by new enumeration values.
 
@@ -403,10 +405,12 @@ Future<void> _handleSignInResult(SignInResult result) async {
 </InlineFilter>
 
 <InlineFilter  filters={['android']}>
-After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you ran `amplify add auth`. Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
+After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/manage-mfa/) page. 
+
+Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
 
 <Callout warning>
-<b>New enumeration values</b>
+*New enumeration values*
 
 When Amplify adds a new enumeration value (e.g., a new enum class entry or sealed class subtype in Kotlin, or a new enum value in Swift/Dart/Kotlin), it will publish a new minor version of the Amplify Library. Plugins that switch over enumeration values should include default handlers (an else branch in Kotlin or a default statement in Swift/Dart/Kotlin) to ensure that they are not impacted by new enumeration values.
 
@@ -1259,10 +1263,12 @@ Sign In flow is complete when you get `done`. This means the user is successfull
 
 <InlineFilter filters={['swift']}>
 
-After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you ran `amplify add auth`. Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
+After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/manage-mfa/) page. 
+
+Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
 
 <Callout warning>
-<b>New enumeration values</b>
+*New enumeration values*
 
 When Amplify adds a new enumeration value (e.g., a new enum class entry or sealed class subtype in Kotlin, or a new enum value in Swift/Dart/Kotlin), it will publish a new minor version of the Amplify Library. Plugins that switch over enumeration values should include default handlers (an else branch in Kotlin or a default statement in Swift/Dart/Kotlin) to ensure that they are not impacted by new enumeration values.
 
