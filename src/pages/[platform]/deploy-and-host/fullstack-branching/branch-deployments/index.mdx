@@ -77,7 +77,7 @@ git push origin feature/A
 You can generate the config for a branch environment by running:
 
 ```bash showLineNumbers={false}
-npx amplify generate config --app-id <AMPLIFY_APP_ID> --branch main --format=["mjs", "json", "json-mobile", "ts", "dart"] --out-dir=path/to/config
+npx amplify generate config --app-id <your-amplify-app-id> --branch main --out-dir path/to/config
 ```
 
 For Web and React Native, generating the config with the default format and output directory.
@@ -85,7 +85,7 @@ For Web and React Native, generating the config with the default format and outp
 <BlockSwitcher>
 <Block name="Flutter">
 ```bash showLineNumbers={false}
-npx amplify generate config --app-id=<app-id> --branch=main --format=dart --out-dir=lib
+npx amplify generate config --app-id <your-amplify-app-id> --branch main --format dart --out-dir lib
 ```
 </Block>
 <Block name="Android">
@@ -105,7 +105,7 @@ npx amplify generate config --app-id=<app-id> --branch=main --format=json-mobile
 npx amplify generate config --app-id=<app-id> --format=json-mobile
 ```
 
-Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+Once the sandbox environment is running, you would also generate the configuration file for your application. However, Xcode won't recognize the file by default. To recognize the files, you need to drag and drop the generated configuration file to your project.
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
