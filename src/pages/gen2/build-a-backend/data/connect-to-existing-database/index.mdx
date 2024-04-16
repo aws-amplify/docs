@@ -167,10 +167,14 @@ import { a, defineData } from '@aws-amplify/backend'
 import { schema as rdsSchema } from './schema.rds.ts'
 
 // highlight-start
-rdsSchema.models.Todo.addRelationships({
-  comments: a.hasMany("Comment").references("todo_id"),
-  notes: a.hasMany("Note").references("todoId")
-})
+const modifiedRds = rdsSchema.relationships((models) => [
+  models.Todo.addRelationships({
+    // will be: a.hasMany("Comment", "todo_id")
+    comments: a.hasMany("Comment").references("todo_id"),
+    // will be: a.hasMany("Note", "todoId")    
+    notes: a.hasMany("Note").references("todoId")
+  })
+]);
 // highlight-end
 
 const ddbSchema = a.schema({
@@ -181,7 +185,7 @@ const ddbSchema = a.schema({
    })
 })
 
-const combinedSchema = a.schema.combine([rdsSchema, ddbSchema])
+const combinedSchema = a.schema.combine([modifiedRds, ddbSchema])
 
 export type Schema = typeof combinedSchema
 export const data = defineData({
@@ -208,7 +212,7 @@ rdsSchema.addQueries({
       radiusInMeters: a.float()
     })
     .returns(a.ref("Todo").array())
-    .handler(a.handler.inlineSql`
+    .handler(a.handler.inlineSql(`
       SELECT *
       FROM todos
       WHERE ST_DistanceSphere(
@@ -221,9 +225,8 @@ rdsSchema.addQueries({
 // highlight-end
 
 // highlight-start
-rdsSchema.setSqlStatementFolderPath('./aurora-statements/'))
 // Create a "updateTodoBasedOnLocation.sql" file with the statement
-rdsSchema.addMutation({
+const modifiedRds = rdsSchema.addMutation({
   updateTodoBasedOnLocation: a.mutation()
     .arguments({
       lat: a.float(),
@@ -232,7 +235,7 @@ rdsSchema.addMutation({
       todoChange: a.ref("Todo")
     })
     .returns(a.ref("Todo"))
-   .handler(a.handler.sqlReference())
+    .handler(a.handler.sqlReference('./updateTodoBasedOnLocation.sql'))
     .authorization([a.allow.public()])
 })
 // highlight-end
@@ -246,7 +249,7 @@ const schema = a.schema({
 
 const combinedSchema = a.schema.combine([
   schema,
-  rdsSchema
+  modifiedRds
 ])
 
 export type Schema = typeof combinedSchema
@@ -303,7 +306,10 @@ import { schema as rdsSchema } from './schema.rds.ts'
 
 // Add an authorization rule to the schema
 // highlight-next-line
-rdsSchema.models.Todo.authorization([a.allow.public()])
+const modifiedRds = rdsSchema.setAuthorization((models) => [
+  models.todo.authorization([a.allow.public()]),
+  models.todo.fields.content.authorization([a.allow.private()]),
+]);
 
 const schema = a.schema({
   Todo: a.model({
@@ -314,7 +320,7 @@ const schema = a.schema({
 
 const combinedSchema = a.schema.combine([
   schema,
-  rdsSchema
+  modifiedRds
 ])
 
 export type Schema = typeof schema
@@ -361,7 +367,7 @@ import { schema as rdsSchema } from './schema.rds.ts'
 
 // Add custom mutations or queries that execute SQL statements
 // highlight-start
-rdsSchema.addQueries({
+const modifiedRds = rdsSchema.addQueries({
   searchTodoBasedOnGeolocation: a.query()
     .arguments({
       lat: a.float(),
@@ -369,14 +375,14 @@ rdsSchema.addQueries({
       radiusInMeters: a.float()
     })
     .returns(a.ref("Todo").array())
-    .handler(sql`
+    .handler(a.handler.inlineSql(`
       SELECT *
       FROM todos
       WHERE ST_DistanceSphere(
         location,
         ST_MakePoint(:lat, :long)
       ) <= :radiusInMeters
-    `)
+    `))
     .authorization([a.allow.public()])
 })
 // highlight-end
@@ -390,7 +396,7 @@ const schema = a.schema({
 
 const combinedSchema = a.schema.combine([
   schema,
-  rdsSchema
+  modifiedRds
 ])
 
 export type Schema = typeof combinedSchema
