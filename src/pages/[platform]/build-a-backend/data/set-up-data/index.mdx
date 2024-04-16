@@ -100,6 +100,8 @@ npx amplify sandbox --config-format json-mobile --config-out-dir <path_to_androi
 npx amplify sandbox --config-format json-mobile --config-out-dir <path_to_swift_project>
 ```
 
+Drag and drop the **amplifyconfiguration.json** file into your Xcode project to add the generate file.
+
 </InlineFilter>
 <InlineFilter filters={["flutter"]}>
 
@@ -299,7 +301,13 @@ Install the dependencies by running the following command. Depending on your dev
 flutter pub get
 ```
 
-Now let's add the necessary plugins into the Flutter application by customizing the `main()` function of the **lib/main.dart** file:
+Now, let's generate the GraphQL client code for your Flutter application. Amplify Data uses GraphQL under the hood to make query, mutation, and subscription requests. The generated GraphQL client code helps you to author fully-typed API requests without needing to hand-author GraphQL requests and manually map them to Dart code.
+
+```bash title="Terminal" showLineNumbers={false}
+npx amplify generate graphql-client-code --format modelgen --model-target dart --out <path_to_flutter_project>/lib/models
+```
+
+Finally, let's add the necessary plugins into the Flutter application by customizing the `main()` function of the **lib/main.dart** file:
 
 ```dart title="lib/main.dart"
 // highlight-start
@@ -328,12 +336,6 @@ Future<void> main() async {
 
   runApp(const MyApp());
 }
-```
-
-Finally, let's generate the GraphQL client code for your Flutter application. Amplify Data uses GraphQL under the hood to make query, mutation, and subscription requests. The generated GraphQL client code helps you to author fully-typed API requests without needing to hand-author GraphQL requests and manually map them to Dart code.
-
-```bash title="Terminal" showLineNumbers={false}
-npx amplify generate graphql-client-code --format modelgen --model-target dart --out <path_to_flutter_project>/lib/models
 ```
 
 </InlineFilter>
