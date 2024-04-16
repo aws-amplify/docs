@@ -28,9 +28,9 @@ The Amplify Auth category persists authentication-related information to make it
 
 Amplify Flutter securely manages credentials and user identity information. You do not need to store, refresh, or delete credentials yourself. Amplify Flutter stores auth data on the device using platform capabilities such as [Keychain Services](https://developer.apple.com/documentation/security/keychain_services/) on iOS and macOS and [EncryptedSharedPreferences](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences) on Android.
 
-<Callout info={true} warning={false}>
+<Callout info>
 
-Amplify will refresh the [Access Token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-access-token.html) and [ID Token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-id-token.html) as long as the [Refresh Token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-refresh-token.html) is valid. Once the Refresh token expires, the user will need to reauthenticate to obtain a new one.
+Amplify will refresh the [access token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-access-token.html) and [ID token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-id-token.html) as long as the [refresh token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-refresh-token.html) is valid. Once the refresh token expires, the user will need to reauthenticate to obtain a new one.
 
 </Callout>
 
