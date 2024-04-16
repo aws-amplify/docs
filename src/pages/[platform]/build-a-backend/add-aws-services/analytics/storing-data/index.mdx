@@ -126,7 +126,7 @@ Example IAM policy for Amazon Data Firehose:
 
 Configure Firehose:
 
-```javascript
+```javascript title="src/index.js"
 import { Amplify } from 'aws-amplify';
 
 Amplify.configure({
@@ -156,7 +156,7 @@ Amplify.configure({
 
 You can send a data to a Firehose stream with the standard `record` method. Any data is acceptable and `streamName` is required:
 
-```javascript
+```javascript title="src/index.js"
 import { record } from 'aws-amplify/analytics/kinesis-firehose';
 
 record({
@@ -170,7 +170,7 @@ record({
 ## Flush events
 The recorded events are saved in a buffer and sent to the remote server periodically *(You can tune it with the `flushInterval` option)*. If needed, you have the option to manually clear all the events from the buffer by using the 'flushEvents' API.
 
-```javascript
+```javascript title="src/index.js"
 import { flushEvents } from 'aws-amplify/analytics/kinesis-firehose';
 
 flushEvents();
