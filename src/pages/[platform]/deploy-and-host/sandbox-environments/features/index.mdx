@@ -58,7 +58,7 @@ Done!
 
 Once you have set a secret, you can access the values in code by calling the `secret()` function. The following example shows how to set up social sign-in with authentication in your app. Depending on your environment, Amplify will automatically load the correct secret value with no extra configuration.
 
-```typescript showLineNumbers={false}
+```ts
 import { defineAuth, secret } from '@aws-amplify/backend';
 
 export const auth = defineAuth({
@@ -129,34 +129,39 @@ After successful deployment, sandboxes `s1` and `s2` will be ready. Pick sandbox
 The client config (e.g. `amplifyconfiguration.json` file for Web) contains the configuration strings for interacting with AWS resources specific to an environment. The Amplify client libraries need the client config file in order to use the library APIs to connect to backend resources. By default, the cloud sandbox generates the client configuration file at the root of the project (such as `@/amplifyconfiguration.json`). If you want to place the file at a different path you can use the following command template:
 
 ```bash showLineNumbers={false}
-npx amplify sandbox --config-out-dir=path/to/config --format=["mjs", "json", "json-mobile", "ts", "dart"]
+npx amplify sandbox --config-out-dir path/to/config --config-format ["mjs", "json", "json-mobile", "ts", "dart"]
 ```
 
 ### Sandbox Environment
 
 For Web and React Native, generating the client in the root of the project would work, but all the other platforms have specific directories to target.
 
-<BlockSwitcher>
-<Block name="Flutter">
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','swift','vue']}>
 ```bash showLineNumbers={false}
-npx amplify sandbox --config-format=dart --config-out-dir=lib
+npx amplify sandbox
 ```
-</Block>
-<Block name="Android">
+</InlineFilter>
 
+<InlineFilter filters={['flutter']}>
+```bash showLineNumbers={false}
+npx amplify sandbox --config-format dart --config-out-dir lib
+```
+</InlineFilter>
+<InlineFilter filters={['android']}>
 <Callout warning>
   Be sure to add a "raw" folder under app/src/main/res directory if it doesn't
   exist.
 </Callout>
 
 ```bash showLineNumbers={false}
-npx amplify sandbox --config-format=json-mobile --config-out-dir=app/src/main/res/raw
+npx amplify sandbox --config-format json-mobile --config-out-dir app/src/main/res/raw
 ```
-</Block>
-<Block name="iOS">
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
 
 ```bash showLineNumbers={false}
-npx amplify sandbox --config-format=json-mobile
+npx amplify sandbox --config-format json-mobile
 ```
 
 Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
@@ -164,41 +169,38 @@ Once the sandbox environment is running, you would also generate the configurati
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
 </video>
-
-</Block>
-</BlockSwitcher>
+</InlineFilter>
 
 ### Deployment Environment
 
-Alternatively, if you want to generate the config for a branch environment to test against, you can follow the following command template below in the terminal:
+Alternatively, if you want to generate the config for a branch environment to test against, you can run the following command below in the terminal:
 
-```bash showLineNumbers={false}
-npx amplify generate config --app-id <AMPLIFY_APP_ID> --branch main --format=["mjs", "json", "json-mobile", "ts", "dart"] --out-dir=path/to/config
-```
-
+<InlineFilter filters={['android','angular','flutter','javascript','nextjs','react','react-native','swift','vue']}>
 For Web and React Native, generating the config with the default format and output directory.
 
-<BlockSwitcher>
-<Block name="Flutter">
 ```bash showLineNumbers={false}
-npx amplify generate config --app-id=<app-id> --branch=main --format=dart --out-dir=lib
+npx amplify generate config --app-id <app-id> --branch main
 ```
-</Block>
-<Block name="Android">
-
+</InlineFilter>
+<InlineFilter filters={['flutter']}>
+```bash showLineNumbers={false}
+npx amplify generate config --app-id <app-id> --branch main --format dart --out-dir lib
+```
+</InlineFilter>
+<InlineFilter filters={['android']}>
 <Callout warning>
   Be sure to add a "raw" folder under app/src/main/res directory if it doesn't
   exist.
 </Callout>
 
 ```bash showLineNumbers={false}
-npx amplify generate config --app-id=<app-id> --branch=main --format=json-mobile --out-dir=app/src/main/res/raw
+npx amplify generate config --app-id <app-id> --branch main --format json-mobile --out-dir app/src/main/res/raw
 ```
-</Block>
-<Block name="iOS">
+</InlineFilter>
+<InlineFilter filters={['swift']}>
 
 ```bash showLineNumbers={false}
-npx amplify generate config --app-id=<app-id> --format=json-mobile
+npx amplify generate config --app-id <app-id> --format json-mobile
 ```
 
 Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
@@ -207,8 +209,7 @@ Once the sandbox environment is running, you would also generate the configurati
   <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
 </video>
 
-</Block>
-</BlockSwitcher>
+</InlineFilter>
 
 ## Generate client codegen
 
@@ -224,27 +225,30 @@ npx amplify generate graphql-client-code --format [choices: "modelgen", "graphql
 
 Once your sandbox completes a deployment, you can run the following command in the terminal to generate client code that is specific to your needs:
 
-<BlockSwitcher>
-<Block name="Flutter">
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 ```bash showLineNumbers={false}
-npx amplify generate graphql-client-code --format=modelgen --model-target=dart --out=lib/models
+npx amplify generate graphql-client-code --format modelgen
 ```
-</Block>
-<Block name="Android">
+</InlineFilter>
+<InlineFilter filters={['android']}>
 ```bash showLineNumbers={false}
-npx amplify generate graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java
+npx amplify generate graphql-client-code --format modelgen --model-target java --out app/src/main/java
 ```
-</Block>
-<Block name="iOS">
+</InlineFilter>
+<InlineFilter filters={['flutter']}>
 ```bash showLineNumbers={false}
-npx amplify generate graphql-client-code --format=modelgen
+npx amplify generate graphql-client-code --format modelgen --model-target dart --out lib/models
+```
+</InlineFilter>
+<InlineFilter filters={['swift']}>
+```bash showLineNumbers={false}
+npx amplify generate graphql-client-code --format modelgen
 ```
 
 Move the generated files to your project. You can do this by dragging and dropping the files to your project.
 
 ![Shows the drag and drop phase](/images/lib/getting-started/ios/set-up-swift-8.png)
-</Block>
-</BlockSwitcher>
+</InlineFilter>
 
 ## Delete a sandbox
 

@@ -76,31 +76,30 @@ git push origin feature/A
 
 You can generate the config for a branch environment by running:
 
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','swift','vue']}>
+For Web and React Native, generating the config with the default format and output directory.
+
 ```bash showLineNumbers={false}
 npx amplify generate config --app-id <your-amplify-app-id> --branch main --out-dir path/to/config
 ```
+</InlineFilter>
 
-For Web and React Native, generating the config with the default format and output directory.
-
-<BlockSwitcher>
-<Block name="Flutter">
-```bash showLineNumbers={false}
-npx amplify generate config --app-id <your-amplify-app-id> --branch main --format dart --out-dir lib
-```
-</Block>
-<Block name="Android">
-
+<InlineFilter filters={['android']}>
 <Callout warning>
   Be sure to add a "raw" folder under app/src/main/res directory if it doesn't
   exist.
 </Callout>
 
 ```bash showLineNumbers={false}
-npx amplify generate config --app-id=<app-id> --branch=main --format=json-mobile --out-dir=app/src/main/res/raw
+npx amplify generate config --app-id=<app-id> --branch main --format json-mobile --out-dir app/src/main/res/raw
 ```
-</Block>
-<Block name="iOS">
-
+</InlineFilter>
+<InlineFilter filters={['flutter']}>
+```bash showLineNumbers={false}
+npx amplify generate config --app-id <your-amplify-app-id> --branch main --format dart --out-dir lib
+```
+</InlineFilter>
+<InlineFilter filters={['swift']}>
 ```bash showLineNumbers={false}
 npx amplify generate config --app-id=<app-id> --format=json-mobile
 ```
@@ -111,5 +110,4 @@ Once the sandbox environment is running, you would also generate the configurati
   <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
 </video>
 
-</Block>
-</BlockSwitcher>
+</InlineFilter>
