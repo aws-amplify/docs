@@ -316,7 +316,7 @@ import 'models/ModelProvider.dart';
 Future<void> main() async {
   // highlight-start
   try {
-    final api = AmplifyAPI(modelProvider: ModelProvider());
+    final api = AmplifyAPI(modelProvider: ModelProvider.instance);
     await Amplify.addPlugins([api]);
     await Amplify.configure(amplifyConfig);
 
