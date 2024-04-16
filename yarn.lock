@@ -151,15 +151,15 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@aws-amplify/amplify-cli-core@^4.2.10":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.3.0.tgz#e1ab52857111615ba4da0a839a26dc850d675109"
-  integrity sha512-W0G2jdZBRStmIF7/KnfXgiU+ALGepBdWz6j7OLLbtAn9/S8OgBb9mCIohWCYoa5NGYKSzLZpkl9XQz5K8gZ2rg==
+"@aws-amplify/amplify-cli-core@^4.3.3":
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.3.3.tgz#7b04a0915c185fade9ca0597226f74da1fbfb9c5"
+  integrity sha512-N3howTaMiYCBIkbt4aD4uYIkAQMp/l3WXQxIuBmXS7O+rsczPB6wktPmMny5ccaaJzj5VzCrsPOpRGEq4IqOnA==
   dependencies:
     "@aws-amplify/amplify-cli-logger" "1.3.8"
     "@aws-amplify/amplify-function-plugin-interface" "1.12.1"
     "@aws-amplify/amplify-prompts" "2.8.6"
-    "@aws-amplify/graphql-transformer-interfaces" "^3.3.2"
+    "@aws-amplify/graphql-transformer-interfaces" "^3.5.0"
     "@aws-sdk/util-arn-parser" "^3.310.0"
     "@yarnpkg/lockfile" "^1.1.0"
     ajv "^6.12.6"
@@ -295,10 +295,10 @@
     rxjs "^7.8.1"
     ulid "^2.3.0"
 
-"@aws-amplify/graphql-transformer-interfaces@^3.3.2":
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-3.3.3.tgz#bd720fe1ba2dbdaa3346c843667e1c82dd25cd1c"
-  integrity sha512-m/Stnk3z8x/FJaNFXnXM4Kwd9L+qurON1ktJyMXB9cq20lCpi93413iG5856FTQx6/Re0tnS15GueiV/neP5ug==
+"@aws-amplify/graphql-transformer-interfaces@^3.5.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-3.6.0.tgz#c41b3141da010b7ea4c8d137aded0abb0692f074"
+  integrity sha512-j/Po/zoaFXPsDHB0mUul4bhVYIAlwA9omAggdKfdLUBV69cubFn9UngX9WQ6KxzqeDqduvLUIrGpwX7oD2Sp4Q==
   dependencies:
     graphql "^15.5.0"
 
@@ -12065,6 +12065,7 @@ winston@^3.3.3:
     winston-transport "^4.5.0"
 
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+  name wrap-ansi-cjs
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
