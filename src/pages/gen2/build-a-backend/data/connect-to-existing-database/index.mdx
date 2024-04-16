@@ -46,7 +46,7 @@ npx amplify sandbox secret set MYSQL_CONNECTION_STRING
 Run the following command to generate the Data schema with your database connection information.
 
 ```bash
-npx amplify generate schema-from-database --connection-string MYSQL_CONNECTION_STRING --out amplify/data/schema.rds.ts
+npx amplify generate schema-from-database --connection-uri-secret MYSQL_CONNECTION_STRING --out amplify/data/schema.rds.ts
 ```
 
 <Callout info title="VPC connection">
