@@ -90,18 +90,20 @@ import { schema as rdsSchema } from './schema.rds.ts'
 
 // Add an authorization rule to the schema
 // highlight-next-line
-rdsSchema.models.Todo.authorization([a.allow.public()])
+const modifiedRds = rdsSchema.setAuthorization((models) => [
+  models.todo.authorization([a.allow.public()]),
+  models.todo.fields.content.authorization([a.allow.private()]),
+]);
 
 const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-    isDone: a.boolean()
-  })
+  Post: a.model({
+    title: a.string()
+  }).authorization([a.allow.public()])
 })
 
 const combinedSchema = a.schema.combine([
   schema,
-  rdsSchema
+  modifiedRds
 ])
 
 export type Schema = typeof schema
