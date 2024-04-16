@@ -389,6 +389,9 @@ export const directory = {
                   ]
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/deletion-backup-resources/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/index.mdx'
                 },
                 {
