@@ -4,6 +4,7 @@ export const meta = {
   title: 'Text to speech',
   description: 'Learn how to integrate text-to-speech capabilities into your application using Amplify.',
   platforms: [
+    'swift',
     'javascript',
     'angular',
     'nextjs',
@@ -34,6 +35,78 @@ export function getStaticProps(context) {
 
 Generate an audio buffer for playback from a text input.
 
+<InlineFilter filters={['swift']}>
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+import Amplify
+import AWSPredictionsPlugin
+import AVFoundation
+
+//...
+
+var player: AVAudioPlayer?
+
+//...
+
+func textToSpeech() async throws {
+  let result = try await Amplify.Predictions.convert(
+      .textToSpeech("Hello, world!"),
+      options: .init(voice: .englishFemaleIvy)
+  )
+  print("TextToSpeech result: \(result)")
+  self.player = try AVAudioPlayer(data: result.audioData)
+  player?.play()
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+import Amplify
+import AWSPredictionsPlugin
+import AVFoundation
+
+//...
+
+var player: AVAudioPlayer?
+var textToSpeechSink: AnyCancellable?
+
+//...
+
+func textToSpeech() {
+  textToSpeechSink = Amplify.Publisher.create {
+     try await Amplify.Predictions.convert(
+        .textToSpeech("Hello, world!"),
+        options: .init(voice: .englishFemaleIvy)
+    )
+  }
+  .sink(receiveCompletion: { completion in
+      if case let .failure(error) = completion {
+          print("Error converting text to speech: \(error)")
+      }
+  }, receiveValue: { result in
+      print("TextToSpeech result: \(result)")
+      self.player = try? AVAudioPlayer(data: result.audioData)
+      self.player?.play()
+  })
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+As a result of running this code, you will hear audio of the text being emitted from your device.
+
+</InlineFilter>
+<InlineFilter filters={['javascript','angular','nextjs','react','vue']}>
+
 ```
 import { Predictions } from '@aws-amplify/predictions';
 
@@ -49,6 +122,8 @@ Predictions.convert({
 .catch(err => console.log({ err }));
 
 ```
+
+</InlineFilter>
 
 To view the complete list of voiceId options refer to [Voices in Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html).
 
