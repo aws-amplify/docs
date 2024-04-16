@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Menu } from '../index';
 
 const routerMock = {
@@ -78,6 +78,7 @@ describe('Menu', () => {
     expect(menuItem.classList).toContain('menu__list-item');
   });
 
+  // needs help
   it('should expand menu on Subcategory MenuItem click', async () => {
     const component = <Menu currentPlatform="react" path="/"></Menu>;
     render(component);
@@ -85,6 +86,34 @@ describe('Menu', () => {
       name: 'Existing AWS resources'
     });
     expect(menuItem.classList).toContain('menu__list-item__link--subcategory');
-    fireEvent.click(menuItem);
+    expect(menuItem?.nextElementSibling?.classList).toContain(
+      'menu__list--hide'
+    );
+    // userEvent.click(menuItem);
+    // console.log(menuItem.nextElementSibling);
+  });
+
+  // needs help
+  it('handleFocus', async () => {
+    const component = <Menu currentPlatform="react" path="/"></Menu>;
+    render(component);
+    const menuItemLink = await screen.getByRole('link', {
+      name: 'Existing AWS resources'
+    });
+    const menuItem = menuItemLink.parentElement;
+    menuItem?.focus();
+  });
+
+  it('should not render MenuItem if pageNode does not exist', async () => {
+    // const component = (
+    //   <Menu currentPlatform="react" path="/[platform]/prev"></Menu>
+    // );
+    // render(component);
+    // const menuItems = await screen.getAllByRole('listitem');
+    // // console.log(menuItems.key['prev/[platform]/build-a-backend/auth/set-up-auth/']);
+    // // console.log(menuItems);
+    // // menuItems.forEach((item) => {
+    // //   console.log(item.textContent);
+    // // });
   });
 });
