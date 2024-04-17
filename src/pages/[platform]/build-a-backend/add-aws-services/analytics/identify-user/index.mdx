@@ -255,7 +255,7 @@ Additional information such as the user's name, email, location, and device can 
 
 If the user was signed in through [signIn](/[platform]/prev/build-a-backend/auth/enable-sign-up/) you can retrieve the current user's ID as shown below:
 
-```js
+```js title="src/index.js"
 import { identifyUser } from 'aws-amplify/analytics';
 import { getCurrentUser } from 'aws-amplify/auth';
 
