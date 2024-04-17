@@ -28,6 +28,8 @@ Customize authorization for your storage bucket by defining access individually 
 
 Refer to the following examples to understand how you can further customize authorization against different user types.
 
+## Access Types
+
 <Callout>
 
 **Note:** Prefixes cannot have a '/' at the beginning of the string.
@@ -203,7 +205,7 @@ When you configure access to a particular storage prefix, you can scope the acce
 |`write`|`uploadData`, `copy`|
 |`delete`|`remove`|
 
-### For Gen 1 public, protected, and private access pattern
+## For Gen 1 public, protected, and private access pattern
 
 To configure `defineStorage` in Amplify Gen 2 to behave the same way as the storage category in Gen 1, the following definition can be used.
 
