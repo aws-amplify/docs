@@ -193,7 +193,7 @@ For the source configuration, you specify DynamoDB as the data source, identifyi
 
 For the sink configuration, you specify the OpenSearch domain cluster by setting the host, the index name and type, and template_content (the index mapping) for data formatting. You also configure document-related metadata and set the maximum bulk size for requests to OpenSearch in MB. Again, you specify the IAM role for the sink portion of the pipeline.
 
-When using OpenSearch, you can define the index template or mapping in advance based on your data structure, which allows you to set data types for each field in the document. This approach can be incredibly powerful for precise data ingestion and search. For more information on index mapping/templates, please refer to [OpenSearch documenatation](https://opensearch.org/docs/latest/im-plugin/index-templates/).
+When using OpenSearch, you can define the index template or mapping in advance based on your data structure, which allows you to set data types for each field in the document. This approach can be incredibly powerful for precise data ingestion and search. For more information on index mapping/templates, please refer to [OpenSearch documentation](https://opensearch.org/docs/latest/im-plugin/index-templates/).
 
 Customize the `template_content` JSON-representation to define the data structure for the ingestion pipeline.
 
