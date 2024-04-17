@@ -65,6 +65,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-up/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/guest-access/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/add-social-provider/index.mdx'
                 },
                 {
