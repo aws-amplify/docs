@@ -40,7 +40,7 @@ todoTable.streamSpecification = {
 
 ```
 
-## Step1: Setting Up the OpenSearch Instance
+## Step 1: Setting Up the OpenSearch Instance
 
 Create an OpenSearch instance with encryption.
 
@@ -59,9 +59,9 @@ const openSearchDomain = new opensearch.Domain(
 
 ```
 
-## Step2: Setting Up Zero ETL from DynamoDB to OpenSearch
+## Step 2: Setting Up Zero ETL from DynamoDB to OpenSearch
 
-### Step2a: S3 Bucket and IAM Role
+### Step 2a: S3 Bucket and IAM Role
 Create an S3 bucket for backing up raw events consumed by the OpenSearch pipeline. Also, set up an IAM role for the pipeline:
 
 ```
@@ -119,7 +119,7 @@ For the S3 bucket, follow standard security practices: block public access, encr
 
 The IAM role should allow the OpenSearch Ingestion Service (OSIS) pipelines to assume it. Grant specific OpenSearch Service permissions and also provide DynamoDB and S3 access. You may customize permissions to follow the principle of least privilege.
 
-### Step2b: OpenSearch Service Pipeline
+### Step 2b: OpenSearch Service Pipeline
 
 Define the pipeline construct and its configuration.
 
@@ -242,9 +242,9 @@ You can also check this in the DynamoDB console by going to the Integrations sec
 
 
 
-## Step3: Expose new queries on OpenSearch
+## Step 3: Expose new queries on OpenSearch
 
-### Step3a: Add the AppSync Resolver for the Search Query
+### Step 3a: Add the AppSync Resolver for the Search Query
 
 First, update the schema and add a searchTodo query.
 
@@ -273,7 +273,7 @@ const osDataSource = backend.data.addOpenSearchDataSource(
   openSearchDomain
 );
 ```
-### Step3c: Create Resolver and attach to query
+### Step 3c: Create Resolver and attach to query
 
 Create the search resolver and attach it to the searchTodo query. Also, grant the necessary access permissions to OpenSearch.
 
