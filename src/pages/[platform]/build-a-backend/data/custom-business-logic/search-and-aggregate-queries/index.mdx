@@ -1,0 +1,369 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Build search and aggregate queries',
+  description:
+    'Build search and aggregate queries.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+# OpenSearch integration
+
+AWS OpenSearch Service provides a managed platform for deploying search and analytics solutions with OpenSearch or Elasticsearch. The zero-ETL integration between Amazon DynamoDB and OpenSearch Service allows seamless search on DynamoDB data by automatically replicating and transforming it without requiring custom code or infrastructure. This integration simplifies processes and reduces the operational workload of managing data pipelines.
+
+DynamoDB users gain access to advanced OpenSearch features like full-text search, fuzzy search, auto-complete, and vector search for machine learning capabilities. Amazon OpenSearch Ingestion synchronizes data between DynamoDB and OpenSearch Service, enabling near-instant updates and comprehensive insights across multiple DynamoDB tables. Developers can adjust index mapping templates to match Amazon DynamoDB fields with OpenSearch Service indexes. 
+
+Amazon OpenSearch Ingestion, combined with S3 exports and DynamoDB streams, facilitates seamless data input from DynamoDB tables and automatic ingestion into OpenSearch. Additionally, the pipeline can back up data to S3 for potential future re-ingestion as needed.
+
+Pre-requisites:
+1. A Todo API created with required access.
+
+Important considerations:
+
+Ensure Point in Time Recovery (PITR) is enabled, which is crucial for the pipeline integration.
+Enable DynamoDB streams to capture item changes that will be ingested into OpenSearch.
+
+```ts title="amplify/backend.ts"
+
+const todoTable =
+  backend.data.resources.cfnResources.amplifyDynamoDbTables["Todo"];
+
+todoTable.pointInTimeRecoveryEnabled = true;
+
+todoTable.streamSpecification = {
+  streamViewType: dynamodb.StreamViewType.NEW_IMAGE,
+};
+
+```
+
+## Step 1: Setting Up the OpenSearch Instance
+
+Create an OpenSearch instance with encryption.
+
+``` ts title="amplify/backend.ts"
+const openSearchDomain = new opensearch.Domain(
+  openSearchStack,
+  "OpenSearchDomain",
+  {
+    version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    nodeToNodeEncryption: true,
+    encryptionAtRest: {
+      enabled: true,
+    },
+  }
+);
+
+```
+
+## Step 2: Setting Up Zero ETL from DynamoDB to OpenSearch
+
+### Step 2a: S3 Bucket and IAM Role
+Create an S3 bucket for backing up raw events consumed by the OpenSearch pipeline. Also, set up an IAM role for the pipeline:
+
+``` ts title="amplify/backend.ts"
+
+const s3BackupBucket = new s3.Bucket(
+  openSearchStack,
+  "OpenSearchBackupBucketAmplifyGen2",
+  {
+    blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+    bucketName: "opensearch-backup-bucket-amplify-gen-2-test",
+    enforceSSL: true,
+    versioned: true,
+    autoDeleteObjects: true,
+    removalPolicy: RemovalPolicy.DESTROY,
+  }
+);
+
+const openSearchIntegrationPipelineRole = new iam.Role(
+  openSearchStack,
+  "OpenSearchIntegrationPipelineRole",
+  {
+    assumedBy: new iam.ServicePrincipal("osis-pipelines.amazonaws.com"),
+    inlinePolicies: {
+      openSearchPipelinePolicy: new iam.PolicyDocument({
+        statements: [
+          new iam.PolicyStatement({
+            actions: ["es:DescribeDomain"],
+            resources: [openSearchDomain.domainArn],
+            effect: iam.Effect.ALLOW,
+          }),
+          new iam.PolicyStatement({
+            actions: ["es:ESHttp*"],
+            resources: [openSearchDomain.domainArn],
+            effect: iam.Effect.ALLOW,
+          }),
+        ],
+      }),
+    },
+    managedPolicies: [
+      iam.ManagedPolicy.fromAwsManagedPolicyName(
+        "AmazonOpenSearchServiceFullAccess"
+      ),
+    ],
+  }
+);
+
+openSearchIntegrationPipelineRole.addManagedPolicy(
+  iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonDynamoDBFullAccess")
+);
+openSearchIntegrationPipelineRole.addManagedPolicy(
+  iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonS3FullAccess")
+);
+
+```
+For the S3 bucket, follow standard security practices: block public access, encrypt data at rest, and enable versioning.
+
+The IAM role should allow the OpenSearch Ingestion Service (OSIS) pipelines to assume it. Grant specific OpenSearch Service permissions and also provide DynamoDB and S3 access. You may customize permissions to follow the principle of least privilege.
+
+### Step 2b: OpenSearch Service Pipeline
+
+Define the pipeline construct and its configuration.
+
+The configuration is a data-prepper feature of OpenSearch. For specific documentation on DynamoDB configuration, refer to [OpenSearch documentation](https://opensearch.org/docs/latest/data-prepper/pipelines/configuration/sources/dynamo-db/).
+
+``` ts title="amplify/backend.ts"
+
+const openSearchTemplate = `
+version: "2"
+dynamodb-pipeline:
+  source:
+    dynamodb:
+      acknowledgments: true
+      tables:
+        - table_arn: "${backend.data.resources.tables["Todo"].tableArn}"
+          # Remove the stream block if only export is needed
+          stream:
+            start_position: "LATEST"
+          # Remove the export block if only stream is needed
+          export:
+            s3_bucket: "${s3BackupBucket.bucketName}"
+            s3_region: "us-east-2"
+            s3_prefix: "<tableName>/"
+      aws:
+        sts_role_arn: "${openSearchIntegrationPipelineRole.roleArn}"
+        region: "us-east-2"
+  sink:
+    - opensearch:
+        hosts:
+          [
+            "https://${openSearchDomain.domainEndpoint}",
+          ]
+        index: "${indexName}"
+        index_type: "custom"
+        template_content: |
+          ${JSON.stringify(indexMapping)}
+        document_id: '\${getMetadata("primary_key")}'
+        action: '\${getMetadata("opensearch_action")}'
+        document_version: '\${getMetadata("document_version")}'
+        document_version_type: "external"
+        bulk_size: 4
+        aws:
+          sts_role_arn: "${openSearchIntegrationPipelineRole.roleArn}"
+          region: "us-east-2"
+`;
+
+```
+
+This configuration outlines the desired pipeline behavior. It’s based on the example configuration in the documentation, with some important adjustments.
+
+For the source configuration, you specify DynamoDB as the data source, identifying the table you want to ingest from and the starting point of the stream. Besides ingesting the stream into OpenSearch, you also define the target S3 bucket for backup purposes. Additionally, you set the IAM role for the ingestion pipeline, making sure it has the required permissions and policies as outlined in the documentation.
+
+For the sink configuration, you specify the OpenSearch domain cluster by setting the host, the index name and type, and template_content (the index mapping) for data formatting. You also configure document-related metadata and set the maximum bulk size for requests to OpenSearch in MB. Again, you specify the IAM role for the sink portion of the pipeline.
+
+When using OpenSearch, you can define the index template or mapping in advance based on your data structure, which allows you to set data types for each field in the document. This approach can be incredibly powerful for precise data ingestion and search. For more information on index mapping/templates, please refer to [OpenSearch documenatation](https://opensearch.org/docs/latest/im-plugin/index-templates/).
+
+Customize the `template_content` JSON-representation to define the data structure for the ingestion pipeline.
+
+``` ts title="amplify/backend.ts"
+
+const indexName = "todo";
+const indexMapping = {
+  settings: {
+    number_of_shards: 1,
+    number_of_replicas: 0,
+  },
+  mappings: {
+    properties: {
+      id: {
+        type: "keyword",
+      },
+      isDone: {
+        type: "boolean",
+      },
+      content: {
+        type: "text",
+      },
+    },
+  },
+};
+```
+Now, create the OSIS pipeline resource:
+
+
+``` ts title="amplify/backend.ts"
+const logGroup = new logs.LogGroup(openSearchStack, "LogGroup", {
+  logGroupName: "/aws/vendedlogs/OpenSearchService/pipelines/1",
+  removalPolicy: RemovalPolicy.DESTROY,
+});
+
+const cfnPipeline = new osis.CfnPipeline(
+  openSearchStack,
+  "OpenSearchIntegrationPipeline",
+  {
+    maxUnits: 4,
+    minUnits: 1,
+    pipelineConfigurationBody: openSearchTemplate,
+    pipelineName: "dynamodb-integration-2",
+    logPublishingOptions: {
+      isLoggingEnabled: true,
+      cloudWatchLogDestination: {
+        logGroup: logGroup.logGroupName,
+      },
+    },
+  }
+);
+
+```
+
+After deploying the resources, you can test the data ingestion process by adding an item to the `Todo` table. However, before doing that, let's verify that the pipeline has been set up correctly.
+
+In the AWS console, navigate to OpenSearch and then to the pipelines section. You should find your configured pipeline and review its settings to ensure they match your expectations:
+
+![A screenshot of OpenSearch OSIS pipeline](/images/gen2/opensearch-integration/OpenSearch_pipeline.png)
+
+You can also check this in the DynamoDB console by going to the Integrations section of the tables.
+
+![A screenshot of DynamoDB integration](/images/gen2/opensearch-integration/OpenSearch_DynamoDB_integration.png)
+
+## Step 3: Expose new queries on OpenSearch
+
+### Step 3a: Add the AppSync Resolver for the Search Query
+
+First, update the schema and add a searchTodo query.
+
+``` ts title="amplify/data/resource.ts"
+
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      done: a.boolean(),
+      priority: a.enum(["low", "medium", "high"]),
+    })
+    .authorization([a.allow.public()]),
+  //highlight-start  
+  searchTodos: a.query().returns(a.ref("Todo")),
+  //highlight-end
+});
+```
+
+### Step3b:Add OpenSearch Datasource to backend
+
+Add the OpenSearch data source to the data backend.
+
+``` ts title="amplify/backend.ts"
+const osDataSource = backend.data.addOpenSearchDataSource(
+  "osDataSource",
+  openSearchDomain
+);
+```
+### Step 3c: Create Resolver and attach to query
+
+Create the search resolver and attach it to the searchTodo query. Also, grant the necessary access permissions to OpenSearch.
+
+```ts title="amplify/backend.ts"
+
+new appsync.CfnResolver(openSearchStack, "searchBlogResolver", {
+  typeName: "Query",
+  fieldName: "searchTodos",
+  dataSourceName: "osDataSource",
+  apiId: "<app id>",
+  runtime: {
+    name: "APPSYNC_JS",
+    runtimeVersion: "1.0.0",
+  },
+  code: `import { util } from '@aws-appsync/utils'
+  /**
+   * Searches for documents by using an input term
+   * @param {import('@aws-appsync/utils').Context} ctx the context
+   * @returns {*} the request
+   */
+  export function request(ctx) {
+    return {
+      operation: 'GET',
+      path: "/todo/_search",
+    }
+  }
+
+  /**
+   * Returns the fetched items
+   * @param {import('@aws-appsync/utils').Context} ctx the context
+   * @returns {*} the result
+   */
+  export function response(ctx) {
+    if (ctx.error) {
+      util.error(ctx.error.message, ctx.error.type)
+    }
+    return ctx.result.hits.hits.map((hit) => hit._source)
+  }
+  `,
+});
+
+const osServiceRole = new iam.Role(openSearchStack, "OpenSearchServiceRole", {
+  assumedBy: new iam.ServicePrincipal("appsync.amazonaws.com"),
+  inlinePolicies: {
+    openSearchAccessPolicy: new iam.PolicyDocument({
+      statements: [
+        new iam.PolicyStatement({
+          actions: [
+            "es:ESHttpDelete",
+            "es:ESHttpHead",
+            "es:ESHttpGet",
+            "es:ESHttpPost",
+            "es:ESHttpPut",
+          ],
+          resources: [openSearchDomain.domainArn],
+          effect: iam.Effect.ALLOW,
+        }),
+      ],
+    }),
+  },
+});
+
+openSearchDomain.addAccessPolicies(
+  new iam.PolicyStatement({
+    principals: [osServiceRole],
+    actions: ["es:ESHttp*"],
+    resources: [openSearchDomain.domainArn],
+  })
+);
+
+```
+
+Once you've deployed the resources, you can check the AppSync console to confirm the changes. Run the searchTodo query and review the returned results to verify their accuracy.
+
+![A screenshot of AppSync console] (/images/gen2/opensearch-integration/opensearch_appsync_console.png)
+
