@@ -141,7 +141,7 @@ dynamodb-pipeline:
           export:
             s3_bucket: "${s3BackupBucket.bucketName}"
             s3_region: "us-east-2"
-            s3_prefix: "Todo-xo3ljezlabgjbkpt7tzuo4vgua-NONE/"
+            s3_prefix: "<tableName>/"
       aws:
         sts_role_arn: "${openSearchIntegrationPipelineRole.roleArn}"
         region: "us-east-2"
@@ -257,7 +257,9 @@ const schema = a.schema({
       priority: a.enum(["low", "medium", "high"]),
     })
     .authorization([a.allow.public()]),
+  //highlight-start  
   searchTodos: a.query().returns(a.ref("Todo")),
+  //highlight-end
 });
 ```
 
@@ -278,9 +280,9 @@ Create the search resolver and attach it to the searchTodo query. Also, grant th
 ```
 new appsync.CfnResolver(openSearchStack, "searchBlogResolver", {
   typeName: "Query",
-  fieldName: "searchTodos3",
+  fieldName: "searchTodos",
   dataSourceName: "osDataSource",
-  apiId: "lppo2y4dtfg5vjhujam6tle3wq",
+  apiId: "<app id>",
   runtime: {
     name: "APPSYNC_JS",
     runtimeVersion: "1.0.0",
