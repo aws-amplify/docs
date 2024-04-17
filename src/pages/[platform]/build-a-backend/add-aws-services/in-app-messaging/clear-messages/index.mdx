@@ -28,7 +28,7 @@ export function getStaticProps(context) {
 
 Once messages have been synced to your user's device, `clearMessages()` can be used to clear the synced messages.
 
-```js
+```js title="src/index.js"
 import { clearMessages } from 'aws-amplify/in-app-messaging';
 
 await clearMessages();
