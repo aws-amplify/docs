@@ -65,6 +65,7 @@ Amplify.configure({
     Cognito: {
       userPoolClientId: 'abcdefghij1234567890',
       userPoolId: 'us-east-1_abcd1234',
+      allowGuestAccess: 'true' //Optional,true if Identity Pool is configured for guest access (iam access)
       loginWith: { // Optional
         oauth: {
           domain: 'abcdefghij1234567890-29051e27.auth.us-east-1.amazoncognito.com',
