@@ -111,7 +111,7 @@ const client = generateClient<Schema>({
 ```
 
 </Block>
-<Block name="AWS IAM">
+<Block name="AWS IAM (including Amazon Cognito identity pool roles)">
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
@@ -179,7 +179,7 @@ const { data: todos, errors } = await client.models.Todo.list({
 ```
 
 </Block>
-<Block name="AWS IAM">
+<Block name="AWS IAM (including Amazon Cognito identity pool roles)">
 
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({

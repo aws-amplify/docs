@@ -1,0 +1,114 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Respond to interaction events',
+  description: 'Learn how to respond with additional behavior to your users interacting with in-app messages by adding interaction event listeners.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Your code can respond with additional behavior to your users interacting with in-app messages by adding interaction event listeners.
+
+## Message received
+
+Add `onMessageReceived` listeners to respond to an in-app message being received from the library as the result of an event matching the criteria of a synced in-app message. This is required if you are implementing a custom UI so that your UI can respond to event-triggered campaign messages but you may also find it helpful to listen for these messages for any other reason your application requires.
+
+```js title="src/index.js"
+import { onMessageReceived } from 'aws-amplify/in-app-messaging';
+
+const myMessageReceivedHandler = (message) => {
+  // Do something with the received message
+};
+
+const listener = onMessageReceived(myMessageReceivedHandler);
+
+listener.remove(); // Remember to remove the listener when it is no longer needed
+```
+
+## Message displayed
+
+Add `onMessageDisplayed` listeners to respond to an in-app message being displayed to your user.
+
+```js title="src/index.js"
+import { onMessageDisplayed } from 'aws-amplify/in-app-messaging';
+
+const myMessageDisplayedHandler = (message) => {
+  // Do something with the displayed message
+};
+
+const listener = onMessageDisplayed(myMessageDisplayedHandler);
+
+listener.remove(); // Remember to remove the listener when it is no longer needed
+```
+
+## Message dismissed
+
+Add `onMessageDismissed` listeners to respond to an in-app message being dismissed by your user.
+
+```js title="src/index.js"
+import { onMessageDismissed } from 'aws-amplify/in-app-messaging';
+
+const myMessageDismissedHandler = (message) => {
+  // Do something with the dismissed message
+};
+
+const listener = onMessageDismissed(myMessageDismissedHandler);
+
+listener.remove(); // Remember to remove the listener when it is no longer needed
+```
+
+## Message action taken
+
+Add `onMessageActionTaken` listeners to respond to an action being taken on an in-app message. Typically, this means that the user has tapped or clicked a button on an in-app message.
+
+```js title="src/index.js"
+import { onMessageActionTaken } from 'aws-amplify/in-app-messaging';
+
+const myMessageActionTakenHandler = (message) => {
+  // Do something with the message action was taken against
+};
+
+const listener = onMessageActionTaken(myMessageActionTakenHandler);
+
+listener.remove(); // Remember to remove the listener when it is no longer needed
+```
+
+## Notifying listeners
+
+If you are using the Amplify In-App Messaging UI, interaction events notifications are already wired up for you. However, if you are implementing your own UI, it is highly recommended to notify listeners of interaction events through your UI code so that the library can take further actions prescribed by the installed provider (for example, automatically recording corresponding Analytics events).
+
+```ts title="src/index.js"
+import { notifyMessageInteraction } from 'aws-amplify/in-app-messaging';
+
+const message = {
+  // In-app message that you want to record an interaction on
+}
+
+/**
+ * Interaction events that can be notified correspond to their respective listeners:
+ *    'messageReceived'
+ *    'messageDisplayed'
+ *    'messageDismissed'
+ *    'messageActionTaken'
+ */
+notifyMessageInteraction({ message, type: 'messageDisplayed' });
+```

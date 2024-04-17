@@ -31,10 +31,10 @@ export function getStaticProps(context) {
 
 ## Disable Analytics
 
-Analytics is enabled by default when you configure it in your app. To disable Analytics in your app use the `disable` function:
+Analytics are enabled by default when you configure it in your app. To disable Analytics in your app use the `disable` function:
 
 <InlineFilter filters={['javascript', 'react-native', "angular", "nextjs", "react", "vue"]}>
-```javascript
+```javascript title="src/index.js"
 import { disable } from 'aws-amplify/analytics';
 
 disable();
@@ -85,7 +85,7 @@ Amplify.Analytics.disable()
 To enable analytics you can use the `enable` function in your app:
 
 <InlineFilter filters={['javascript', 'react-native', "angular", "nextjs", "react", "vue"]}>
-```javascript
+```javascript title="src/index.js"
 import { enable } from 'aws-amplify/analytics';
 
 enable();
