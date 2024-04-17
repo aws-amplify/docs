@@ -198,15 +198,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/storage/upload-files/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/download-files/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/storage/download-files/get-url/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/storage/download-files/download-data/index.mdx'
-                    }
-                  ]
+                  path: 'src/pages/[platform]/build-a-backend/storage/download-files/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/get-files/index.mdx'
