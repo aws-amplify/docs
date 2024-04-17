@@ -29,10 +29,11 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
-## PUT data
+## PUT requests
 
 To create or update a item via the API endpoint:
+
+<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
 
 ```javascript
 import { put } from 'aws-amplify/api';
@@ -57,9 +58,6 @@ async function updateItems() {
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
-## Update data
-
-Put data to the API endpoint:
 
 <BlockSwitcher>
 
@@ -111,9 +109,6 @@ func putItem() -> AnyCancellable {
 </InlineFilter>
 
 <InlineFilter filters={['android']}>
-## PUT requests
-
-To update an item via the API endpoint:
 
 <BlockSwitcher>
 <Block name="Java">
@@ -185,10 +180,6 @@ RxAmplify.API.put(options)
 </InlineFilter>
 
 <InlineFilter filters={['flutter']}>
-## PUT requests
-
-To update an item via the API endpoint:
-
 
 ```dart
 Future<void> updateItem() async {

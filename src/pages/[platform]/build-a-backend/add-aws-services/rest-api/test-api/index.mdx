@@ -32,7 +32,7 @@ export function getStaticProps(context) {
 
 ## Test the API from the terminal
 
-If Guest users have access to your REST API you can test it from the terminal using Curl.
+If Guest users have access to your REST API you can test it from the terminal using curl.
 
 [Curl](https://github.com/curl/curl) is a command-line tool that lets you transfer data to and from a server using various protocols.
 
@@ -43,13 +43,13 @@ If Guest users have access to your REST API you can test it from the terminal us
 
 ### GET method example
 
-```bash
+```bash title="Terminal" showLineNumbers={false} 
 curl https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
 ```
 
 ### POST method example
 
-```bash
+```bash title="Terminal" showLineNumbers={false} 
 curl -H "Content-Type: application/json" -d '{"name":"item-1"}' https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
 ```
 
@@ -58,20 +58,24 @@ curl -H "Content-Type: application/json" -d '{"name":"item-1"}' https://a5b4c3d2
 
 ### GET method example
 
-```bash
+```bash title="Terminal" showLineNumbers={false} 
 curl https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
 ```
 
 ### POST method example
 
-```bash
+```bash title="Terminal" showLineNumbers={false} 
 curl -H "Content-Type: application/json" -d {\"name\":\"item-1\"} https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
 ```
 
 </Block>
 </BlockSwitcher>
 
-> Important! Testing methods using production endpoints may result in changes to resources that cannot be undone.
+<Callout warning="true">
+
+**Warning:** Testing methods using production endpoints may result in changes to resources that cannot be undone.
+
+</Callout>
 
 ## Test the API with API Gateway console
 
@@ -81,11 +85,15 @@ Let's test your new REST API using the route below with HTTP Method `GET` and pa
 GET /items?limit=10
 ```
 
-> Important! Testing methods with the API Gateway console may result in changes to resources that cannot be undone.
+<Callout warning="true">
 
-- Sign in to the API Gateway console at [https://console.aws.amazon.com/apigateway](https://console.aws.amazon.com/apigateway).
+**Warning:** Testing methods with the API Gateway console may result in changes to resources that cannot be undone.
+
+</Callout>
+
+- Sign in to the [API Gateway console](https://console.aws.amazon.com/apigateway).
 - Choose the `myRestApi` REST API.
-- In the Resources pane, choose the method you want to test. Pick `ANY` right under `/items`.
+- In the Resources pane, choose the method you want to test. Select `GET` right under `/items`.
 
 ```console
 /                        
@@ -100,12 +108,12 @@ GET /items?limit=10
     OPTIONS              Allow pre-flight requests in CORS by browser
 ```
 
-- In the Method Execution pane, in the Client box, choose TEST. Choose the `GET` method. Add `limit=10` to the Query String `{items}` field.
+- In the Method Execution pane, select **TEST**. Choose the `GET` method and add `limit=10` to the Query String `{items}` field.
 
-- Choose Test to run the test for `GET /items?limit=10`. The following information will be displayed: request, status, latency, response body, response headers and logs.
+- Choose **Test** to run the test for `GET /items?limit=10`. The following information will be displayed: request, status, latency, response body, response headers and logs.
 
-/* cSpell:disable */
-```bash
+
+```bash /* cSpell:disable */
 Request
 /items
 Latency
