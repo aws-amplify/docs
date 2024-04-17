@@ -14,7 +14,11 @@ export function getStaticProps() {
 
 # OpenSearch integration
 
-This guide will walk you through creating a zero-ETL integration with the OpenSearch service.
+AWS OpenSearch Service provides a managed platform for deploying search and analytics solutions with OpenSearch or Elasticsearch. The zero-ETL integration between Amazon DynamoDB and OpenSearch Service allows seamless search on DynamoDB data by automatically replicating and transforming it without requiring custom code or infrastructure. This integration simplifies processes and reduces the operational workload of managing data pipelines.
+
+DynamoDB users gain access to advanced OpenSearch features like full-text search, fuzzy search, auto-complete, and vector search for machine learning capabilities. Amazon OpenSearch Ingestion synchronizes data between DynamoDB and OpenSearch Service, enabling near-instant updates and comprehensive insights across multiple DynamoDB tables. Developers can adjust index mapping templates to match Amazon DynamoDB fields with OpenSearch Service indexes. 
+
+Amazon OpenSearch Ingestion, combined with S3 exports and DynamoDB streams, facilitates seamless data input from DynamoDB tables and automatic ingestion into OpenSearch. Additionally, the pipeline can back up data to S3 for potential future re-ingestion as needed.
 
 Pre-requisites:
 1. A Todo API created with required access.
@@ -36,7 +40,7 @@ todoTable.streamSpecification = {
 
 ```
 
-## Setting Up the OpenSearch Instance
+## Step1: Setting Up the OpenSearch Instance
 
 Create an OpenSearch instance with encryption.
 
@@ -55,9 +59,9 @@ const openSearchDomain = new opensearch.Domain(
 
 ```
 
-## Setting Up Zero ETL from DynamoDB to OpenSearch
+## Step2: Setting Up Zero ETL from DynamoDB to OpenSearch
 
-### S3 Bucket and IAM Role
+### Step2a: S3 Bucket and IAM Role
 Create an S3 bucket for backing up raw events consumed by the OpenSearch pipeline. Also, set up an IAM role for the pipeline:
 
 ```
@@ -115,7 +119,7 @@ For the S3 bucket, follow standard security practices: block public access, encr
 
 The IAM role should allow the OpenSearch Ingestion Service (OSIS) pipelines to assume it. Grant specific OpenSearch Service permissions and also provide DynamoDB and S3 access. You may customize permissions to follow the principle of least privilege.
 
-### OpenSearch Service Pipeline
+### Step2b: OpenSearch Service Pipeline
 
 Define the pipeline construct and its configuration.
 
@@ -165,8 +169,11 @@ dynamodb-pipeline:
 
 This configuration outlines the desired pipeline behavior. It’s based on the example configuration in the documentation, with some important adjustments.
 
-For the source, specify the DynamoDB table and stream settings. Define the export target bucket for backup.
-For the sink, set the OpenSearch domain and index details, including index mapping.
+For the source configuration, you specify DynamoDB as the data source, identifying the table you want to ingest from and the starting point of the stream. Besides ingesting the stream into OpenSearch, you also define the target S3 bucket for backup purposes. Additionally, you set the IAM role for the ingestion pipeline, making sure it has the required permissions and policies as outlined in the documentation.
+
+For the sink configuration, you specify the OpenSearch domain cluster by setting the host, the index name and type, and template_content (the index mapping) for data formatting. You also configure document-related metadata and set the maximum bulk size for requests to OpenSearch in MB. Again, you specify the IAM role for the sink portion of the pipeline.
+
+When using OpenSearch, you can define the index template or mapping in advance based on your data structure, which allows you to set data types for each field in the document. This approach can be incredibly powerful for precise data ingestion and search. For more information on index mapping/templates, please refer to [OpenSearch documenatation](https://opensearch.org/docs/latest/im-plugin/index-templates/).
 
 Customize the `template_content` JSON-representation to define the data structure for the ingestion pipeline.
 
@@ -221,9 +228,25 @@ const cfnPipeline = new osis.CfnPipeline(
 
 ```
 
-## Expose new queries on OpenSearch
+After deploying the resources, you can test the data ingestion process by adding an item to the `Todo` table. However, before doing that, let's verify that the pipeline has been set up correctly.
 
-### Add the AppSync Resolver for the Search Query
+In the AWS console, navigate to OpenSearch and then to the pipelines section. You should find your configured pipeline and review its settings to ensure they match your expectations:
+
+![A screenshot of OpenSearch OSIS pipeline]
+(/images/gen2/OpenSearch_pipeline.png)
+
+
+You can also check this in the DynamoDB console by going to the Integrations section of the tables.
+
+![A screenshot of OpenSearch OSIS pipeline]
+(images/OpenSearch_DynamoDB_integration.png)
+
+
+
+
+## Step3: Expose new queries on OpenSearch
+
+### Step3a: Add the AppSync Resolver for the Search Query
 
 First, update the schema and add a searchTodo query.
 
@@ -240,7 +263,7 @@ const schema = a.schema({
 });
 ```
 
-### Add OpenSearch Datasource to backend
+### Step3b:Add OpenSearch Datasource to backend
 
 Add the OpenSearch data source to the data backend.
 
@@ -250,7 +273,7 @@ const osDataSource = backend.data.addOpenSearchDataSource(
   openSearchDomain
 );
 ```
-### Create Resolver and attach to query
+### Step3c: Create Resolver and attach to query
 
 Create the search resolver and attach it to the searchTodo query. Also, grant the necessary access permissions to OpenSearch.
 
