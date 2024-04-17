@@ -74,7 +74,7 @@ import {
   RestApi,
 } from "aws-cdk-lib/aws-apigateway";
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { myApiFunction } from "./api-function/resource";
+import { myApiFunction } from "./functions/api-function/resource";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 
@@ -215,7 +215,7 @@ import {
 } from "aws-cdk-lib/aws-apigatewayv2-authorizers";
 import { HttpLambdaIntegration } from "aws-cdk-lib/aws-apigatewayv2-integrations";
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { myApiFunction } from "./api-function/resource";
+import { myApiFunction } from "./functions/api-function/resource";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 
@@ -322,7 +322,7 @@ backend.addOutput({
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
 Use the package manager of your choice to install the amplify JS library. For example, with `npm`:
 
-```bash
+```bash title="Terminal" showLineNumbers={false} 
 npm install aws-amplify
 ```
 </InlineFilter>
@@ -341,7 +341,7 @@ Use the package manager of your choice to install the amplify JS library. For ex
 
 </Accordion>
 
-```bash
+```bash title="Terminal" showLineNumbers={false} 
 npm install aws-amplify @aws-amplify/react-native
 ```
 
@@ -401,7 +401,7 @@ To initialize the Amplify API category you need to configure Amplify with `Ampli
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `index.js` in React or `main.ts` in Angular.
 
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native"]}>
-```javascript
+```javascript title="src/index.js"
 import { Amplify } from 'aws-amplify';
 import amplifyconfig from '../amplifyconfiguration.json';
 
@@ -417,7 +417,7 @@ Amplify.configure({
 </InlineFilter>
 
 <InlineFilter filters={["nextjs"]}>
-```javascript
+```javascript title="pages/index.tsx"
 import { Amplify } from 'aws-amplify';
 import amplifyconfig from '@/amplifyconfiguration.json';
 

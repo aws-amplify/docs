@@ -113,7 +113,7 @@ Amplify.configure(awsconfig, {
 Alternatively, you can set the authorization headers per request. For example, if you want to use a custom header named `Authorization` for a specific REST request, you can set the following configuration:
 
 ```javascript
-async function updateTodo() {
+async function updateItem() {
   await del({
     apiName: 'myRestApi',
     path: 'items/1',

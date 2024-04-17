@@ -30,7 +30,7 @@ export function getStaticProps(context) {
 }
 
 
-## Make a POST Request
+## POST Requests
 
 Send a POST request with a JSON body.
 
@@ -39,7 +39,7 @@ Send a POST request with a JSON body.
 ```javascript
 import { post } from 'aws-amplify/api';
 
-async function postTodo() {
+async function postItem() {
   try {
     const restOperation = post({
       apiName: 'myRestApi',
@@ -69,8 +69,8 @@ async function postTodo() {
 <Block name="Async/Await">
 
 ```swift
-func postTodo() async {
-    let message = #"{"message": "my new Todo"}"#
+func postItem() async {
+    let message = #"{"message": "my new Item"}"#
     let request = RESTRequest(path: "items", body: message.data(using: .utf8))
     do {
         let data = try await Amplify.API.post(request: request)
@@ -89,8 +89,8 @@ func postTodo() async {
 <Block name="Combine">
 
 ```swift
-func postTodo() -> AnyCancellable {
-    let message = #"{"message": "my new Todo"}"#
+func postItem() -> AnyCancellable {
+    let message = #"{"message": "my new Item"}"#
     let request = RESTRequest(path: "items", body: message.data(using: .utf8))
     let sink = Amplify.Publisher.create {
         try await Amplify.API.post(request: request)
@@ -182,7 +182,7 @@ RxAmplify.API.post(options)
 
 <InlineFilter filters={["flutter"]}>
 ```dart
-Future<void> postTodo() async {
+Future<void> postItem() async {
   try {
     final restOperation = Amplify.API.post(
       'items',

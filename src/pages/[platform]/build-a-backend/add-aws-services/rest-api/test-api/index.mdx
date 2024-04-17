@@ -50,7 +50,7 @@ curl https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
 ### POST method example
 
 ```bash
-curl -H "Content-Type: application/json" -d '{"name":"todo-1"}' https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
+curl -H "Content-Type: application/json" -d '{"name":"item-1"}' https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
 ```
 
 </Block>
@@ -65,7 +65,7 @@ curl https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
 ### POST method example
 
 ```bash
-curl -H "Content-Type: application/json" -d {\"name\":\"todo-1\"} https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
+curl -H "Content-Type: application/json" -d {\"name\":\"item-1\"} https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
 ```
 
 </Block>
@@ -75,7 +75,7 @@ curl -H "Content-Type: application/json" -d {\"name\":\"todo-1\"} https://a5b4c3
 
 ## Test the API with API Gateway console
 
-Let's test your new REST API using the route below with HTTP Method `GET` and path `/todos?limit=10` which includes a `limit` query string parameter.
+Let's test your new REST API using the route below with HTTP Method `GET` and path `/items?limit=10` which includes a `limit` query string parameter.
 
 ```console
 GET /items?limit=10

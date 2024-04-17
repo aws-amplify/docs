@@ -37,7 +37,7 @@ To create or update a item via the API endpoint:
 ```javascript
 import { put } from 'aws-amplify/api';
 
-async function updateTodo() {
+async function updateItems() {
   try {
     const Item = { name: 'My first Item', message: 'Hello world!' };
     const restOperation = put({
@@ -66,8 +66,8 @@ Put data to the API endpoint:
 <Block name="Async/Await">
 
 ```swift
-func putTodo() async {
-    let updatedMessage = #"{"message": "my updated Todo"}"#
+func putItem() async {
+    let updatedMessage = #"{"message": "my updated Item"}"#
     let request = RESTRequest(path: "items", body: updatedMessage.data(using: .utf8))
     do {
         let data = try await Amplify.API.put(request: request)
@@ -86,8 +86,8 @@ func putTodo() async {
 <Block name="Combine">
 
 ```swift
-func putTodo() -> AnyCancellable {
-    let updatedMessage = #"{"message": "my updated Todo"}"#
+func putItem() -> AnyCancellable {
+    let updatedMessage = #"{"message": "my updated Item"}"#
     let request = RESTRequest(path: "items", body: updatedMessage.data(using: .utf8))
     let sink = Amplify.Publisher.create {
         try await Amplify.API.put(request: request)
@@ -191,7 +191,7 @@ To update an item via the API endpoint:
 
 
 ```dart
-Future<void> updateTodo() async {
+Future<void> updateItem() async {
   try {
     final restOperation = Amplify.API.put(
       'items/1',

@@ -40,7 +40,7 @@ provides `name` and `message` properties parsed from the response.
 ```javascript
 import { get } from 'aws-amplify/api';
 
-async function getTodo() {
+async function getItem() {
   try {
     const restOperation = get({ 
       apiName: 'myRestApi',
@@ -124,7 +124,7 @@ To make a GET request, first create a RESTRequest object and then use the Amplif
 <Block name="Async/Await">
 
 ```swift
-func getTodo() async {
+func getItem() async {
     let request = RESTRequest(path: "items")
     do {
         let data = try await Amplify.API.get(request: request)
@@ -143,7 +143,7 @@ func getTodo() async {
 <Block name="Combine">
 
 ```swift
-func getTodo() -> AnyCancellable {
+func getItem() -> AnyCancellable {
     let request = RESTRequest(path: "items")
     let sink = Amplify.Publisher.create {
         try await Amplify.API.get(request: request)
@@ -192,7 +192,7 @@ To make a GET request, first build a RestOptions object and then use the Amplify
 <Block name="Java">
 
 ```java
-void getTodo() {
+void getItem() {
     RestOptions options = RestOptions.builder()
         .addPath("items")
         .build();
@@ -208,7 +208,7 @@ void getTodo() {
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-private fun getTodo() {
+private fun getItem() {
     val request = RestOptions.builder()
         .addPath("items")
         .build()
@@ -224,7 +224,7 @@ private fun getTodo() {
 <Block name="Kotlin - Coroutines">
 
 ```kotlin
-private suspend fun getTodo() {
+private suspend fun getItem() {
     val request = RestOptions.builder()
         .addPath("items")
         .build()
@@ -242,7 +242,7 @@ private suspend fun getTodo() {
 <Block name="RxJava">
 
 ```java
-void getTodo() {
+void getItem() {
     RestOptions options = RestOptions.builder()
         .addPath("items")
         .build();
@@ -267,7 +267,7 @@ To make a GET request use `Amplify.API.get`:
 
 
 ```dart
-Future<void> getTodo() async {
+Future<void> getItem() async {
   try {
     final restOperation = Amplify.API.get('items');
     final response = await restOperation.response;
