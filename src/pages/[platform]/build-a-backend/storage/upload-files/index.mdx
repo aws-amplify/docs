@@ -26,13 +26,14 @@ export function getStaticProps(context) {
 
 There are multiple ways you can implement upload functionality for your app and upload files to your storage bucket.
 
-<BlockSwitcher>
-<Block name="Storage Manager UI Component">
+## Storage Manager UI Component
+
 Upload files from your app in minutes by using the cloud-connected Storage Manager UI Component. 
 
 ```bash
 npm install @aws-amplify/ui-react-storage aws-amplify
 ```
+
 ```tsx
 import { StorageImage } from '@aws-amplify/ui-react-storage';
 
@@ -45,15 +46,13 @@ export const DefaultStorageImageExample = () => {
 
 Learn more about how you can further customize the UI component by referring to the [Storage Manager documentation](https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager).
 
-</Block>
-<Block name="Amplify Console">
+## Amplify Console
 You can also upload files ad-hoc via the Amplify Console once you have set up your backend.
 
 ![Amplify Console showing drag and drop feature to upload files on-demand](/images/gen2/storage/drag-and-drop.png)
-</Block>
-</BlockSwitcher>
 
-### API Usage
+
+## API Usage
 
 To further customize the upload experience from your app, refer to the API usage for uploading files using the Amplify Library for Storage.
 
