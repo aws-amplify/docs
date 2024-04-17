@@ -303,9 +303,6 @@ export const directory = {
                   path: 'src/pages/[platform]/build-ui/formbuilder/customize/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-ui/formbuilder/data-binding/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-ui/formbuilder/special-inputs/index.mdx'
                 },
                 {
@@ -313,12 +310,6 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-ui/formbuilder/lifecycle/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-ui/formbuilder/call-to-action/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-ui/formbuilder/overrides/index.mdx'
                 }
               ]
             },

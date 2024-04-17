@@ -24,7 +24,7 @@ export function getStaticProps(context) {
 }
 
 
-You can generate React forms that automatically connect to your data backend. 
+Connected Forms are bound to a model in your app's data schema. Whenever a connected form is submitted, a record is automatically created or updated in the bound data model, with some or all of the form's input fields mapping to fields in the data model. Connected forms automatically work with any Amplify GraphQL API, and no `onSubmit` handling is required.
 
 ## Generate forms
 First, install the Amplify UI library.
@@ -52,6 +52,12 @@ This will generate create and update forms for each model defined in your schema
 `File written: ui-components/TodoUpdateForm.d.ts`
 `File written: ui-components/utils.js`
 `File written: ui-components/index.js`
+
+
+### Re-generating forms
+
+In Gen 2, we automatically generate the form UI for you, which you can then customize and manage. If you decide to update your data model and need to regenerate the forms, please ensure you back up the original `ui-components` folder before executing the `npx amplify generate forms` command again.
+
 
 ## Render React form in your app
 
@@ -93,6 +99,31 @@ function App() {
 export default App;
 ```
 
-## Updating forms
 
-In Gen 2, we automatically generate the form UI for you, which you can then customize and manage. If you decide to update your data model and need to regenerate the forms, please ensure you back up the original `ui-components` folder before executing the `npx amplify generate forms` command again.
+## Types of forms
+
+All connected and unconnected forms are either a **Create** form or an **Update** form.
+
+### Create forms
+
+Create forms render a form with empty inputs. If a create form is connected to a data model, will always generate a new record upon submission.
+
+### Update forms
+
+Update forms expect an input value in order to pre-populate the form.
+
+For update forms that are connected to a data model, you can use the `id` prop, or the model prop:
+
+- `id` prop: id string of the record you want to update. For example:
+
+```jsx
+<AuthorUpdateForm id="ac74af5c-3aab-4274-8f41-23e1e6576af5" />
+```
+
+- Model prop: if your form is bound to a data model named `Author`, your form will have a prop named `author` as well, which can receive a record. For example:
+
+```jsx
+
+<AuthorUpdateForm author={authorRecord}>
+
+```
