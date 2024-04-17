@@ -123,7 +123,7 @@ The IAM role should allow the OpenSearch Ingestion Service (OSIS) pipelines to a
 
 Define the pipeline construct and its configuration.
 
-The configuration is a data-prepper feature of OpenSearch. For specific documentation on DynamoDB configuration, refer to OpenSearch documentation.
+The configuration is a data-prepper feature of OpenSearch. For specific documentation on DynamoDB configuration, refer to [OpenSearch documentation](https://opensearch.org/docs/latest/data-prepper/pipelines/configuration/sources/dynamo-db/).
 
 ```
 const openSearchTemplate = `
@@ -232,14 +232,12 @@ After deploying the resources, you can test the data ingestion process by adding
 
 In the AWS console, navigate to OpenSearch and then to the pipelines section. You should find your configured pipeline and review its settings to ensure they match your expectations:
 
-![A screenshot of OpenSearch OSIS pipeline]
-(/images/gen2/OpenSearch_pipeline.png)
+![A screenshot of OpenSearch OSIS pipeline](/images/gen2/OpenSearch_pipeline.png)
 
 
 You can also check this in the DynamoDB console by going to the Integrations section of the tables.
 
-![A screenshot of OpenSearch OSIS pipeline]
-(images/OpenSearch_DynamoDB_integration.png)
+![A screenshot of DynamoDB integration](images/OpenSearch_DynamoDB_integration.png)
 
 
 
