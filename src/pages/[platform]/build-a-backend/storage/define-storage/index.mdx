@@ -30,6 +30,12 @@ export function getStaticProps(context) {
 
 </Callout>
 
+In this guide, you will learn how to set up storage in your Amplify Gen 2 app. This includes setting up and connecting your backend resources and enabling file uploads, downloads, and list features.
+
+If you have not yet created an Amplify Gen 2 app, visit the [quickstart guide](/[platform]/start/quickstart/).
+
+## Building your storage backend
+
 By defining storage in your backend configuration, you can customize the access rules to different paths in your storage bucket.
 
 First, create a file `amplify/storage/resource.ts`. Paste the following content into the file.
@@ -61,7 +67,7 @@ Now when you run `npx amplify sandbox` or deploy your app on Amplify, it will co
 
 Before files can be accessed by your application, you must configure storage access rules.
 
-## Define File Prefix Access
+### Define File Prefix Access
 
 By default, no users or other project resources have access to any files in the storage bucket. Access must be explicitly granted within `defineStorage` using the `access` callback.
 
@@ -124,7 +130,7 @@ export const storage = defineStorage({
   })
 });
 ```
-## Connect your app code to the Storage backend
+## Connect your app code to the storage backend
 
 Amplify Storage library provides client APIs that connect to the backend resources you defined.
 
@@ -141,3 +147,14 @@ Amplify.configure(amplifyconfig);
 Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs.
 
 </Callout>
+
+## Conclusion
+
+Congratulations! You finished the Set up Amplify Storage guide. In this guide, you set up and connected to backend resources, customized your file prefixes and access definitions, and connected your application to the backend to implement features like file uploads and downloads.
+
+### Next steps
+
+Now that you have completed setting up storage in your Amplify app, you can proceed to add file management features to your app. You can access the following quicklinks to jump to upload and download functionality or access to more capabilities from the sidebar under storage.
+
+- [Upload Files](/[platform]/build-a-backend/storage/upload-files/)
+- [Download Files](/[platform]/build-a-backend/storage/download-files/)
