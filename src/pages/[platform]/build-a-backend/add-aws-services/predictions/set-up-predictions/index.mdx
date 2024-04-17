@@ -5,6 +5,7 @@ export const meta = {
   description: 'Get started with integrating ML capabilities into your application using Amplify',
   platforms: [
     'swift',
+    'android',
     'javascript',
     'angular',
     'nextjs',
@@ -30,6 +31,20 @@ export function getStaticProps(context) {
 **Under active development:** The `addOutput` method for Amplify Gen 2 is under active development. The experience may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
 
 </Callout>
+
+<InlineFilter filters={['android']}>
+
+## Prerequisites
+
+
+* An Android application targeting Android API level 24 (Android 7.0) or above
+    * For a full example of creating Android project, please follow the [project setup walkthrough](/gen1/[platform]/start/project-setup/create-application/)
+
+
+For a full example, please follow the [mobile support walkthrough](/swift/start/mobile-support/) .
+
+
+</InlineFilter>
 
 
 <InlineFilter filters={['swift']}>
@@ -179,6 +194,155 @@ backend.addOutput({
 ```
 
 ## Install Amplify Libraries
+
+<InlineFilter filters={['android']}>
+
+## Prerequisites
+
+
+Expand **Gradle Scripts**, open **build.gradle (Module :app)**. You will already have configured Amplify by following the steps in the [mobile support walkthrough](/[platform]/start/mobile-support/).
+
+Add Predictions by adding these libraries into the `dependencies` block:
+
+```groovy
+dependencies {
+  // Add these lines in `dependencies`
+  implementation 'com.amplifyframework:aws-predictions:ANDROID_VERSION'
+  implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
+}
+```
+
+`aws-auth-cognito` provides authentication for the backend services used by `aws-predictions`.
+
+Click **Sync Now**.
+
+## Initialize Amplify Predictions
+
+To initialize the Amplify Predictions and Authentication categories you call `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
+
+Add the following code to your `onCreate()` method in your application class:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+import android.util.Log;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.predictions.aws.AWSPredictionsPlugin;
+```
+
+```java
+Amplify.addPlugin(new AWSCognitoAuthPlugin());
+Amplify.addPlugin(new AWSPredictionsPlugin());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+  @Override
+  public void onCreate() {
+    super.onCreate();
+
+    try {
+      // Add these lines to add the AWSCognitoAuthPlugin and AWSPredictionsPlugin plugins
+      Amplify.addPlugin(new AWSCognitoAuthPlugin());
+      Amplify.addPlugin(new AWSPredictionsPlugin());
+      Amplify.configure(getApplicationContext());
+
+      Log.i("MyAmplifyApp", "Initialized Amplify");
+    } catch (AmplifyException error) {
+      Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+    }
+  }
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+import android.util.Log
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.predictions.aws.AWSPredictionsPlugin
+```
+
+```kotlin
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.addPlugin(AWSPredictionsPlugin())
+```
+
+Your class will look like this:
+
+```kotlin
+class MyAmplifyApp : Application() {
+  override fun onCreate() {
+    super.onCreate()
+
+    try {
+      // Add these lines to add the AWSCognitoAuthPlugin and AWSPredictionsPlugin plugins
+      Amplify.addPlugin(AWSCognitoAuthPlugin())
+      Amplify.addPlugin(AWSPredictionsPlugin())
+      Amplify.configure(applicationContext)
+
+      Log.i("MyAmplifyApp", "Initialized Amplify")
+    } catch (error: AmplifyException) {
+      Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+    }
+  }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+import android.util.Log;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.predictions.aws.AWSPredictionsPlugin;
+import com.amplifyframework.rx.RxAmplify;
+```
+
+```java
+RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+RxAmplify.addPlugin(new AWSPredictionsPlugin());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+  @Override
+  public void onCreate() {
+    super.onCreate();
+
+    try {
+      // Add these lines to add the AWSCognitoAuthPlugin and AWSPredictionsPlugin plugins
+      RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+      RxAmplify.addPlugin(new AWSPredictionsPlugin());
+      RxAmplify.configure(getApplicationContext());
+
+      Log.i("MyAmplifyApp", "Initialized Amplify");
+    } catch (AmplifyException error) {
+      Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+    }
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+Note that because the predictions category requires [auth](/[platform]/build-a-backend/auth/set-up-auth/).
+
+
+</InlineFilter>
+
 
 <InlineFilter filters={['swift']}>
 
