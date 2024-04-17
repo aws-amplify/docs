@@ -65,8 +65,10 @@ export const Modal = ({ isGen1 }: ModalProps) => {
             <Text as="h3" className="modal-key-point-heading">
               Fullstack TypeScript
             </Text>
-            Write your app&apos;s data model, auth, storage, and functions in
-            TypeScript; Amplify will do the rest.
+            <Text className="modal-key-point-text">
+              Write your app&apos;s data model, auth, storage, and functions in
+              TypeScript; Amplify will do the rest.
+            </Text>
           </Flex>
         </Flex>
         <Flex className="modal-key-point">
