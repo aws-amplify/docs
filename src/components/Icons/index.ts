@@ -30,5 +30,6 @@ export { IconThumbsUp } from './IconThumbsUp';
 export { IconTOC } from './IconTOC';
 export { IconTS } from './IconTS';
 export { IconTwitter } from './IconTwitter';
+export { IconTSBoxed } from './IconTSBoxed';
 export { IconVue } from './IconVue';
 export { IconX } from './IconX';
