@@ -44,7 +44,7 @@ Amplify Gen 2 offers secure secret storage to manage sensitive data like API key
 
 You can add secrets while running your cloud sandbox with the following command:
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox secret set foo
 ? Enter secret value: ###
 Done!
@@ -80,7 +80,7 @@ export const auth = defineAuth({
 
 To get the value of a secret from the cloud, run the following command in your terminal:
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox secret get foo
  name: foo
  version: 1
@@ -92,7 +92,7 @@ npx amplify sandbox secret get foo
 
 To remove a secret from the cloud, run the following command in your terminal:
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox secret remove foo
 ```
 
@@ -100,7 +100,7 @@ npx amplify sandbox secret remove foo
 
 Sometimes you might have multiple AWS profiles set up locally. To run `amplify sandbox secret` commands, use the `--profile` flag to deploy to a specific profile. For example, let's say you have two AWS profiles set up locally—`default` and `work`. To add secrets to the `work` profile, run the following command in your terminal:
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox secret set foo --profile work
 ```
 
@@ -112,13 +112,13 @@ npx amplify sandbox secret set foo --profile work
 
 You can create multiple cloud sandbox environments for each app if you want to keep persistent sandbox environments up and running to test against. First, run the following command in the terminal:
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --name s1
 ```
 
 Once the deployment completes, exit sandbox `s1` and run the following command in the terminal:
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --name s2
 ```
 
@@ -128,7 +128,7 @@ After successful deployment, sandboxes `s1` and `s2` will be ready. Pick sandbox
 
 The client config (e.g. `amplifyconfiguration.json` file for Web) contains the configuration strings for interacting with AWS resources specific to an environment. The Amplify client libraries need the client config file in order to use the library APIs to connect to backend resources. By default, the cloud sandbox generates the client configuration file at the root of the project (such as `@/amplifyconfiguration.json`). If you want to place the file at a different path you can use the following command template:
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --config-out-dir path/to/config --config-format ["mjs", "json", "json-mobile", "ts", "dart"]
 ```
 
@@ -137,13 +137,13 @@ npx amplify sandbox --config-out-dir path/to/config --config-format ["mjs", "jso
 For Web and React Native, generating the client in the root of the project would work, but all the other platforms have specific directories to target.
 
 <InlineFilter filters={['angular','javascript','nextjs','react','react-native','swift','vue']}>
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
 ```
 </InlineFilter>
 
 <InlineFilter filters={['flutter']}>
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --config-format dart --config-out-dir lib
 ```
 </InlineFilter>
@@ -153,14 +153,14 @@ npx amplify sandbox --config-format dart --config-out-dir lib
   exist.
 </Callout>
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --config-format json-mobile --config-out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --config-format json-mobile
 ```
 
@@ -178,12 +178,12 @@ Alternatively, if you want to generate the config for a branch environment to te
 <InlineFilter filters={['android','angular','flutter','javascript','nextjs','react','react-native','swift','vue']}>
 For Web and React Native, generating the config with the default format and output directory.
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate config --app-id <app-id> --branch main
 ```
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate config --app-id <app-id> --branch main --format dart --out-dir lib
 ```
 </InlineFilter>
@@ -193,13 +193,13 @@ npx amplify generate config --app-id <app-id> --branch main --format dart --out-
   exist.
 </Callout>
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate config --app-id <app-id> --branch main --format json-mobile --out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 <InlineFilter filters={['swift']}>
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate config --app-id <app-id> --format json-mobile
 ```
 
@@ -219,29 +219,29 @@ Once the sandbox environment is running, you would also generate the configurati
 
 Codegen generates native code for Swift (iOS), Java (Android), and JavaScript that represents your GraphQL API's data models. It can also generate GraphQL statements (queries, mutations, and subscriptions) so that you don't have to manually code them.
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --format [choices: "modelgen", "graphql-codegen", "introspection"]
 ```
 
 Once your sandbox completes a deployment, you can run the following command in the terminal to generate client code that is specific to your needs:
 
 <InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --format modelgen
 ```
 </InlineFilter>
 <InlineFilter filters={['android']}>
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --format modelgen --model-target java --out app/src/main/java
 ```
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --format modelgen --model-target dart --out lib/models
 ```
 </InlineFilter>
 <InlineFilter filters={['swift']}>
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --format modelgen
 ```
 

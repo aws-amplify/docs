@@ -59,7 +59,7 @@ In Gen 2, promoting changes to production follows the normal Git-based workflow.
 
 1. Make a change in your `feature/A` branch.
 
-```sh showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 git checkout -b feature/A
 
 ## make some edits to your code
@@ -79,7 +79,7 @@ You can generate the config for a branch environment by running:
 <InlineFilter filters={['angular','javascript','nextjs','react','react-native','swift','vue']}>
 For Web and React Native, generating the config with the default format and output directory.
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate config --app-id <your-amplify-app-id> --branch main --out-dir path/to/config
 ```
 </InlineFilter>
@@ -90,17 +90,17 @@ npx amplify generate config --app-id <your-amplify-app-id> --branch main --out-d
   exist.
 </Callout>
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate config --app-id=<app-id> --branch main --format json-mobile --out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate config --app-id <your-amplify-app-id> --branch main --format dart --out-dir lib
 ```
 </InlineFilter>
 <InlineFilter filters={['swift']}>
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate config --app-id=<app-id> --format=json-mobile
 ```
 

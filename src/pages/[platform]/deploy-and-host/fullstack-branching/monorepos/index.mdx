@@ -77,13 +77,13 @@ The first app, `my-shared-backend`, will be the only app that updates changes to
 
 <InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate config --branch main --app-id BACKEND-APP
 ```
 </InlineFilter>
 
 <InlineFilter filters={['flutter']}>
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate config --app-id BACKEND-APP --branch main --format dart --out-dir lib
 ```
 </InlineFilter>
@@ -94,13 +94,13 @@ npx amplify generate config --app-id BACKEND-APP --branch main --format dart --o
   exist.
 </Callout>
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate config --app-id BACKEND-APP --branch main --format json-mobile --out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate config --app-id BACKEND-APP --format json-mobile
 ```
 
