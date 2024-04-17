@@ -29,7 +29,7 @@ export function getStaticProps(context) {
   };
 }
 
-This guide walks through how you can connect to Amplify Data from Next.js Server-side Runtimes (SSR). For Next.js applications, Amplify provides first-class support for [App Router (React Server Components, Route Handlers, and Server Actions)](https://nextjs.org/docs/app) and [Pages Router (Components, API Routes)](https://nextjs.org/docs/pages), and [Middleware](https://nextjs.org/docs/app/building-your-application/routing/middleware).
+This guide walks through how you can connect to Amplify Data from Next.js Server-side Runtimes (SSR). For Next.js applications, Amplify provides first-class support for the [App Router (React Server Components, Route Handlers, and Server Actions)](https://nextjs.org/docs/app), the [Pages Router (Components, API Routes)](https://nextjs.org/docs/pages), and [Middleware](https://nextjs.org/docs/app/building-your-application/routing/middleware).
 
 Before you begin, you will need:
 
@@ -39,16 +39,16 @@ Before you begin, you will need:
 
 ## Connect to Amplify Data from a Next.js server runtime
 
-Connecting to Amplify Data will include choosing the correct Data client for Next.js server runtimes, generating the Data client, and then calling the API using generated server Data clients.
+Connecting to Amplify Data will include choosing the correct data client for Next.js server runtimes, generating the data client, and then calling the API.
 
 ### Step 1 - Choose the correct Data client for Next.js server runtimes
 
-Amplify offers two specialized Data clients for Next.js server runtimes (from `@aws-amplify/adapter-nextjs/data`) that you should use depending whether you retrieve the user tokens using [`cookies`](https://nextjs.org/docs/app/api-reference/functions/cookies) or [`NextRequest` and `NextResponse`](https://nextjs.org/docs/app/api-reference/functions/next-request):
+Amplify offers two specialized data clients for Next.js server runtimes (from `@aws-amplify/adapter-nextjs/data`) that you should use depending whether you retrieve the user tokens using [`cookies`](https://nextjs.org/docs/app/api-reference/functions/cookies) or [`NextRequest` and `NextResponse`](https://nextjs.org/docs/app/api-reference/functions/next-request):
 
-- `generateServerClientUsingCookies()` 🍪 generates a Data client with the Next.js `cookies` function from `next/headers`. Each API request dynamically refetches the cookies at runtime.
-- `generateServerClientUsingReqRes()` 🌐 generates a Data client requiring `NextRequest` and `NextResponse` provided to an `runWithAmplifyServerContext` function to prevent token contamination.
+- `generateServerClientUsingCookies()` 🍪 generates a data client with the Next.js `cookies` function from `next/headers`. Each API request dynamically refetches the cookies at runtime.
+- `generateServerClientUsingReqRes()` 🌐 generates a data client requiring `NextRequest` and `NextResponse` provided to an `runWithAmplifyServerContext` function to prevent token contamination.
 
-Choose the correct Data client based on your Next.js Router (App or Pages) and then the use case:
+Choose the correct data client based on your Next.js Router (App or Pages) and then the use case:
 
 <BlockSwitcher>
 
@@ -107,7 +107,7 @@ We recommend you generate Amplify Data's server client in a utility file. Then, 
 
 <Block name="generateServerClientUsingReqRes() 🌐">
 
-To generate a Data client for the Next.js server runtime using `NextRequest` and `NextResponse`, you only need to provide your Amplify configuration. When making the individual API requests, you will need to pass it into a [`runWithAmplifyServerContext`](/[platform]/build-a-backend/server-side-rendering) function to pass in the cookies from request and response variables.
+To generate a data client for the Next.js server runtime using `NextRequest` and `NextResponse`, you only need to provide your Amplify configuration. When making the individual API requests, you will need to pass the config to the [`runWithAmplifyServerContext`](/[platform]/build-a-backend/server-side-rendering) function to pass in the cookies from request and response variables.
 
 ```ts
 import { type Schema } from '@/amplify/data/resource';
@@ -136,7 +136,7 @@ We recommend you generate the server Data client in a utility file. Then, import
 
 ### Step 3 - Call API using generated server Data clients
 
-You can make any available query or mutation request with the generated server Data clients; however, note that subscriptions are not available within server runtimes.
+You can make any available query or mutation request with the generated server data clients; however, note that subscriptions are not available within server runtimes.
 
 <BlockSwitcher>
 
