@@ -222,7 +222,7 @@ export function request(ctx) {
     key: util.dynamodb.toMapValues({ id: ctx.args.postId}),
     update: {
       expression: 'ADD likes :plusOne',
-      expressionValues: { 'plusOne': { N: 1 } },
+      expressionValues: { ':plusOne': { N: 1 } },
     }
   }
 }
