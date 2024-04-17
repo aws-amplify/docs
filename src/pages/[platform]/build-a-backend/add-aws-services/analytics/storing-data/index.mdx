@@ -1,0 +1,193 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Storing analytics data',
+  description: 'The Amazon Data Firehose analytics provider allows you to send analytics data to an Amazon Data Firehose stream for reliably storing data.',
+  platforms: [
+    'javascript',
+    'angular',
+    'nextjs',
+    'react',
+    'vue',
+    'react-native',
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The Amazon Data Firehose analytics provider allows you to send analytics data to an [Amazon Data Firehose](https://aws.amazon.com/firehose/) stream for reliably storing data.
+
+## Setup Firehose stream
+
+The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create the Analytics resource powered by [Amazon Data Firehose](https://aws.amazon.com/firehose/).
+
+Let's create a storage bucket to store the data from the Firehose stream.
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage } from "@aws-amplify/backend";
+
+// Define the S3 bucket resource
+export const storage = defineStorage({
+  name: "FirehoseDestinationBucket",
+});
+
+```
+
+next, let's create the Firehose resource.
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import { storage } from "./storage/resource";
+import { CfnDeliveryStream } from "aws-cdk-lib/aws-kinesisfirehose";
+import { Stack } from "aws-cdk-lib/core";
+import {
+  Policy,
+  PolicyStatement,
+  Role,
+  ServicePrincipal,
+} from "aws-cdk-lib/aws-iam";
+
+const backend = defineBackend({
+  auth, 
+  data,
+  storage,
+  // additional resources 
+});
+
+// Create a new stack for the Firehose resources
+const firehoseStack = backend.createStack("firehose-stack");
+
+// Access the S3 bucket resource
+const s3Bucket = backend.storage.resources.bucket;
+
+// Create a new IAM role for the Firehose
+const firehoseRole = new Role(firehoseStack, "FirehoseRole", {
+  assumedBy: new ServicePrincipal("firehose.amazonaws.com"),
+});
+
+// Grant the Firehose role read/write permissions to the S3 bucket
+s3Bucket.grantReadWrite(firehoseRole);
+
+// Create a new Firehose delivery stream
+const myFirehose = new CfnDeliveryStream(firehoseStack, "MyFirehose", {
+  deliveryStreamType: "DirectPut",
+  s3DestinationConfiguration: {
+    bucketArn: s3Bucket.bucketArn,
+    roleArn: firehoseRole.roleArn,
+  },
+  deliveryStreamName: "myFirehose",
+});
+
+// Create a new IAM policy to allow users to write to the Firehose
+const firehosePolicy = new Policy(firehoseStack, "FirehosePolicy", {
+  statements: [
+    new PolicyStatement({
+      actions: ["firehose:PutRecordBatch"],
+      resources: [myFirehose.attrArn],
+    }),
+  ],
+});
+
+// Attach the policy to the authenticated and unauthenticated IAM roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(firehosePolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(firehosePolicy);
+```
+
+## Installation and Configuration
+
+Ensure you have [setup IAM permissions](https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html) for `firehose:PutRecordBatch`.
+
+Example IAM policy for Amazon Data Firehose:
+
+```javascript
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": "firehose:PutRecordBatch",
+    // replace the template fields
+    "Resource": "arn:aws:firehose:<your-aws-region>:<your-aws-account-id>:deliverystream/<your-stream-name>"
+  }]
+}
+```
+
+Configure Firehose:
+
+```javascript title="src/index.js"
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure({
+  ...Amplify.getConfig(),
+  Analytics: {
+    KinesisFirehose: {
+      // REQUIRED -  Amazon Kinesis Firehose service region
+      region: 'us-east-1',
+
+      // OPTIONAL - The buffer size for events in number of items.
+      bufferSize: 1000,
+
+      // OPTIONAL - The number of events to be deleted from the buffer when flushed.
+      flushSize: 100,
+
+      // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
+      flushInterval: 5000, // 5s
+
+      // OPTIONAL - The limit for failed recording retries.
+      resendLimit: 5
+    }
+  }
+});
+```
+
+## Storing data
+
+You can send a data to a Firehose stream with the standard `record` method. Any data is acceptable and `streamName` is required:
+
+```javascript title="src/index.js"
+import { record } from 'aws-amplify/analytics/kinesis-firehose';
+
+record({
+  data: {
+    // The data blob to put into the record
+  },
+  streamName: 'myFirehose'
+});
+```
+
+## Flush events
+The recorded events are saved in a buffer and sent to the remote server periodically *(You can tune it with the `flushInterval` option)*. If needed, you have the option to manually clear all the events from the buffer by using the 'flushEvents' API.
+
+```javascript title="src/index.js"
+import { flushEvents } from 'aws-amplify/analytics/kinesis-firehose';
+
+flushEvents();
+```
+
+<InlineFilter filters={['react-native']}>
+
+## Known Issues
+
+When importing alternative service providers listed below, instead of the default Pinpoint provider:
+
+- Amazon Kinesis (`aws-amplify/analytics/kinesis`)
+- Amazon Data Firehose (`aws-amplify/analytics/kinesis-firehose`)
+- Personalize Event (`aws-amplify/analytics/personalize`)
+
+you may encounter the following error when starting the bundler:
+
+> Error: Unable to resolve module stream from /path/to/node_modules/@aws-sdk/... This is a [known issue](https://github.com/aws/aws-sdk-js-v3/issues/4877). Please follow [the steps](https://github.com/aws/aws-sdk-js-v3/issues/4877#issuecomment-1656007484) outlined in the issue to resolve the error.
+
+</InlineFilter>

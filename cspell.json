@@ -775,6 +775,7 @@
     "keystore",
     "kibana",
     "kill",
+    "kinesisfirehose",
     "Kinesis",
     "KinesisFirehoseRecorder",
     "KinesisRecorder",
@@ -878,6 +879,7 @@
     "region",
     "myapp.xcodeproj",
     "myapp",
+    "myapplication",
     "mybucket",
     "mycognitoresource",
     "mycoolpassword",
@@ -1017,6 +1019,7 @@
     "posts.graphql",
     "PostsTable",
     "posttitle",
+    "powertools",
     "pre-annotated",
     "pre-built",
     "pre-created",
@@ -1045,6 +1048,7 @@
     "pubsub",
     "Pubsub",
     "PubSub",
+    "Powertools",
     "PUSHINFOPROVIDER",
     "PushListenerService",
     "pushnotification",
@@ -1575,12 +1579,20 @@
     "multirepo",
     "startbuild"
   ],
-  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
+  "flagWords": [
+    "hte",
+    "full-stack",
+    "Full-stack",
+    "Full-Stack",
+    "sudo"
+  ],
   "patterns": [
     {
       "name": "youtube-embed-ids",
       "pattern": "/embedId=\".*\" /"
     }
   ],
-  "ignoreRegExpList": ["youtube-embed-ids"]
+  "ignoreRegExpList": [
+    "youtube-embed-ids"
+  ]
 }
