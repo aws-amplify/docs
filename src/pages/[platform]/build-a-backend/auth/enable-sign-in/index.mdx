@@ -25,11 +25,11 @@ export function getStaticProps(context) {
 }
 
 <InlineFilter filters={['flutter']}>
-The Auth category can be used to register a user, confirm attributes like email/phone, and sign in with optional multi-factor authentication. It is set up to use Amazon Cognito User Pools which manages the users and their properties.
+The Auth category can be used to register a user, confirm attributes like email and phone, and sign in with optional multi-factor authentication. It is set up to use Amazon Cognito User Pools which manages the users and their properties.
 
 ## Prerequisites
 
-* An app setup according to the [getting started walkthrough](/[platform]/build-a-backend/auth/set-up-auth/)
+* An app set up according to the [getting started walkthrough](/[platform]/build-a-backend/auth/set-up-auth/)
 
 <Callout warning>
  When configuring Social sign-in through the Amplify CLI, it's important to exercise caution when designating attributes as "required." Different social identity providers have varied scopes in terms of the information they respond back to Cognito with.  User pool attributes that are initially set up as "required" cannot be changed later, and may require you to migrate the users or create a new user pool.  
@@ -37,7 +37,7 @@ The Auth category can be used to register a user, confirm attributes like email/
 
 ## Register a user
 
-The default CLI flow as mentioned in the [getting started guide](/[platform]/build-a-backend/auth/set-up-auth/) requires a username, password and a valid email id as parameters to register a user. Invoke the following api to initiate a sign up flow.
+The default CLI flow as mentioned in the [getting started guide](/[platform]/build-a-backend/auth/set-up-auth/) requires a username, password, and a valid email id as parameters to register a user. Invoke the following API to initiate a sign up flow.
 
  ```dart
 /// Signs a user up with a username, password, and email. The required
@@ -88,7 +88,7 @@ void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
   );
 }
 ```
-The next step in the sign up flow is to confirm the user. A confirmation code will be sent to the email id provided during sign up. Enter the confirmation code received via email in the `confirmSignUp` call.
+The next step in the sign up flow is to confirm the user. A confirmation code will be sent to the email ID provided during sign up. Enter the confirmation code received via email in the `confirmSignUp` call.
 
 ```dart
 Future<void> confirmUser({
@@ -177,7 +177,7 @@ void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
   );
 }
 ```
-You have now successfully registered a user and authenticated with that user's username and password with Amplify. The Authentication category supports other mechanisms for authentication such as web UI based sign in, sign in using other providers etc that you can explore in the other sections.
+You have now successfully registered a user and authenticated with that user's username and password with Amplify. The Authentication category supports other mechanisms for authentication such as web UI-based sign in, sign in using other providers etc. that you can explore in the other sections.
 
 ### Switching authentication flow at runtime
 
@@ -208,7 +208,7 @@ You can learn more about the custom auth flow [here](/[platform]/build-a-backend
 ## Multi-factor authentication
 
 <Callout>
-Note: If you create or update an SMS MFA configuration for your Cognito user pool, the Cognito service will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS.
+Note: If you create or update an SMS MFA configuration for your Cognito user pool, Cognito will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS.
 
 For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aws.amazon.com/sns/sms-pricing/).
 
@@ -263,7 +263,7 @@ Future<void> setUpMFASignUp() async {
   }
 }
 ```
-You'll then confirm signup, sign in, and get back a nextStep in the sign in result of type `CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE`. A confirmation code will also be texted to the phone number provided above. Pass the code you received to the confirmSignIn api:
+You'll then confirm sign up, sign in, and get back a nextStep in the sign in result of type `CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE`. A confirmation code will also be texted to the phone number provided above. Pass the code you received to the confirmSignIn API:
 
 <Callout>
   Note that you must call confirmSignIn in the same app session as you call
@@ -299,7 +299,7 @@ The Auth category can be used to register a user, confirm attributes like email/
 
 ## Register a user
 
-The default CLI flow as mentioned in the [getting started guide](/[platform]/build-a-backend/auth/set-up-auth/) requires a username, password and a valid email id as parameters to register a user. Invoke the following api to initiate a sign up flow.
+The default CLI flow as mentioned in the [getting started guide](/[platform]/build-a-backend/auth/set-up-auth/) requires a username, password and a valid email ID as parameters to register a user. Invoke the following API to initiate a sign up flow.
 
 <BlockSwitcher>
 <Block name="Java">
@@ -671,7 +671,7 @@ RxAmplify.Auth.confirmSignIn("confirmation code received via SMS")
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
-The Auth category can be used to register a user, confirm attributes like email/phone, and sign in with optional multi-factor authentication. It is set up to use Amazon Cognito User Pools which manages the users and their properties.
+The Auth category can be used to register a user, confirm attributes like email/phone, and sign in with optional multi-factor authentication. It is set up to use Amazon Cognito User Pools which manage the users and their properties.
 
 ## Prerequisites
 An application with Amplify libraries integrated and a minimum target of any of the following:
@@ -879,7 +879,7 @@ You will know the sign in flow is complete if you see the following in your cons
 ```console
 Sign in succeeded
 ```
-You have now successfully registered a user and authenticated with that user's username and password with Amplify. The Authentication category supports other mechanisms for authentication such as web UI based sign in, sign in using other providers etc that you can explore in the other sections.
+You have now successfully registered a user and authenticated with that user's username and password with Amplify. The Authentication category supports other mechanisms for authentication such as a web UI based sign in, sign in using other providers etc. that you can explore in the other sections.
 
 
 ## Multi-factor authentication
