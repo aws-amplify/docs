@@ -29,6 +29,8 @@ export function getStaticProps() {
   };
 }
 
+Amplify Auth is powered by [Amazon Cognito](https://aws.amazon.com/cognito/). Cognito is a robust user directory service that handles user registration, authentication, account recovery, and other operations. [Review the concepts to learn more](/[platform]/build-a-backend/auth/concepts/).
+
 To get started with defining your authentication resource, open or create the auth resource file:
 
 ```ts title="amplify/auth/resource.ts"
@@ -53,8 +55,6 @@ By default, your auth resource is scaffolded using `email` as the default login 
 
 </Callout>
 
-Amplify Auth is powered by [Amazon Cognito](https://aws.amazon.com/cognito/). Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery, and other operations. [Review the concepts to learn more](/[platform]/build-a-backend/auth/concepts/)
-
 ### Deploy auth resource
 
 After you have chosen and defined your authentication resource, run the following command to create your resource in your personal cloud sandbox.
@@ -71,8 +71,7 @@ Creating and correctly implementing the sign-in flow can be challenging and time
 
 Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter. In this guide, we are focusing on those for web applications.
 
-<BlockSwitcher>
-<Block name="React">
+<InlineFilter filters={["javascript", "react"]}>
 
 First, install the `@aws-amplify/ui-react` library:
 
@@ -80,13 +79,7 @@ First, install the `@aws-amplify/ui-react` library:
 npm add @aws-amplify/ui-react
 ```
 
-Next, open **pages/\_app.ts** and add the `withAuthenticator` component.
-
-**withAuthenticator**
-
-A higher-order component (HOC) is a function that takes a component and returns an enhanced component. The `withAuthenticator` HOC is an example of this pattern. It wraps the `Authenticator` component and enhances it by passing along additional authentication-related data like `user` info and the `signOut` function.
-
-**Usage**
+Next, open **pages/\_app.tsx** and add the `Authenticator` component.
 
 ```ts title="pages/_app.tsx"
 import type { AppProps } from 'next/app';
@@ -112,7 +105,9 @@ export default function App({ Component, pageProps }: AppProps) {
 };
 ```
 
-</Block>
+</InlineFilter>
+<InlineFilter filters={["vue"]}>
+<BlockSwitcher>
 <Block name="Vue 3">
 
 First, install the `@aws-amplify/ui-vue` library:
@@ -192,7 +187,10 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 ```
 
 </Block>
-<Block name="Angular">
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={["angular"]}>
 
 First, install the `@aws-amplify/ui-angular` library:
 
@@ -248,8 +246,7 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </amplify-authenticator>
 ```
 
-</Block>
-</BlockSwitcher>
+</InlineFilter>
 
 Once you add the Authenticator component to your app, you can test the sign-up, sign-in, and sign-out functionality. You can also [customize the Authenticator connected component](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization) to adjust colors and styling as needed.
 

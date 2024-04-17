@@ -71,10 +71,10 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/user-management/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/manage-users/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/client-side/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/sign-up/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/server-side/index.mdx'

@@ -1,8 +1,25 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
   title: 'Moving to production',
   description:
-    'Learn how to configure your auth resources for production workloads'
+    'Learn how to configure your auth resources for production workloads',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
 
 export function getStaticProps() {
   return {

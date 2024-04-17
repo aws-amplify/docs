@@ -16,9 +16,9 @@ export const meta = {
   ]
 };
 
-export const getStaticPaths = async () => {
+export function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
 export function getStaticProps(context) {
   return {
@@ -26,32 +26,18 @@ export function getStaticProps(context) {
       meta
     }
   };
-
 }
 
-The Amplify Auth features have default configurations for its features when you use the `amplify/auth/resource.ts` file.
-
-```ts title="amplify/auth/resource.ts"
-// amplify/auth/resource.ts
-import { defineAuth } from '@aws-amplify/backend';
-
-export const auth = defineAuth({
-  loginWith: {
-    email: true
-  }
-});
-```
-
-You can customize your authentication resource to enable it to behave exactly as needed for your use cases by modifying it directly using [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/)
+Amplify Auth provides sensible defaults for the underlying Amazon Cognito resource definitions. You can customize your authentication resource to enable it to behave exactly as needed for your use cases by modifying it directly using [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/)
 
 ## Override Cognito UserPool password policies
 
 You can override the password policy by using the L1 `cfnUserPool` construct and adding a `addPropertyOverride`.
 
 ```ts title="amplify/backend.ts"
-// amplify/backend.ts
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
+
 const backend = defineBackend({
   auth,
 });
@@ -78,7 +64,6 @@ cfnUserPool.addPropertyOverride(
 The following code will allow you to add custom attributes using the [Userpool schema](https://docs.aws.amazon.com/cdk/api/v1/docs/@aws-cdk_aws-cognito.CfnUserPool.html#schema) property with the L1 `cfnUserPool` construct.
 
 ```ts title="amplify/backend.ts"
-// amplify/backend.ts
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';

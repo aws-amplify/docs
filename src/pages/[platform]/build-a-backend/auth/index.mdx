@@ -18,9 +18,9 @@ export const meta = {
   ]
 };
 
-export const getStaticPaths = async () => {
+export function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
 export function getStaticProps(context) {
   const childPageNodes = getChildPageNodes(meta.route);

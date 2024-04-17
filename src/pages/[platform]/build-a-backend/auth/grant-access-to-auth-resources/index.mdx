@@ -1,0 +1,58 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Grant access to auth resources',
+  description:
+    'Learn how to grant access to auth resources',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+}
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify Auth can be defined with an `access` property, which allows other resources to interact with auth by specifying actions.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+import { addUserToGroup } from "../functions/add-user-to-group/resource"
+
+/**
+ * Define and configure your auth resource
+ * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ */
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  access: (allow) => [
+    allow.resource(addUserToGroup).to(["addUserToGroup"])
+  ],
+})
+```
+
+<Callout>
+
+When you grant a function access to another resource in your Amplify backend it will configure environment variables for that function to make SDK calls to the AWS services it has access to. Those environment variables are typed and available as part of the `env` object.
+
+</Callout>
+
+{/* list of actions */}
