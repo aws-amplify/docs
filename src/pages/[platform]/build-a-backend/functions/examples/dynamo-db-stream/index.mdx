@@ -71,6 +71,10 @@ export const handler: DynamoDBStreamHandler = async (event) => {
     }
   }
   logger.info(`Successfully processed ${event.Records.length} records.`);
+  
+  return {
+    batchItemFailures: [],
+  };
 };
 ```
 

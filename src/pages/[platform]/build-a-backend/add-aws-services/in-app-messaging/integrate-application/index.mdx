@@ -41,7 +41,7 @@ Installing the `@aws-amplify/react-native` will bring in the necessary polyfills
 
 </Accordion>
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npm install @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage
 ```
 
@@ -55,7 +55,7 @@ Learn more about Amplify In-App Messaging UI and how to fully unlock its capabil
   
 </Callout>
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npm install @aws-amplify/ui-react-native react-native-safe-area-context
 ```
 </InlineFilter>
@@ -73,7 +73,7 @@ Learn more about Amplify In-App Messaging UI and how to fully unlock its capabil
 
 </Callout>
 
-```bash showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npm install @aws-amplify/ui-react @aws-amplify/ui-react-notifications
 ```
 </InlineFilter>
@@ -97,7 +97,7 @@ export default withInAppMessaging(App);
 <InlineFilter filters={['javascript', "angular", "react", "vue", "nextjs"]}>
 {/* TODO in-app validate the library here. What should this be for things other than React */}
 
-```js
+```js title="src/App.js"
 import { withInAppMessaging } from '@aws-amplify/ui-react-notifications';
 
 import '@aws-amplify/ui-react/styles.css';
@@ -112,7 +112,7 @@ export default withInAppMessaging(App);
 
 Below is an example of what your entry file should look like:
 <InlineFilter filters={['react-native']}>
-```jsx
+```jsx title="src/index.js"
 import React, { useEffect } from 'react';
 import { Button, View } from 'react-native';
 import {
@@ -168,7 +168,7 @@ export default withInAppMessaging(App);
 <InlineFilter filters={['javascript', "angular", "react", "vue", "nextjs"]}>
 {/* TODO in-app validate the library here. What should this be for things other than React */}
 
-```jsx
+```jsx title="src/index.js"
 import React, { useEffect } from 'react';
 import {
   initializeInAppMessaging,

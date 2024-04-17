@@ -39,7 +39,7 @@ You can track the session both in a web app or a React Native app by using Analy
 
 For example:
 
-```javascript
+```javascript title="src/index.js"
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
 configureAutoTrack({
@@ -70,7 +70,7 @@ By default, when the page/app transitions to the foreground, the Analytics modul
 
 This behavior can be disabled by calling `configureAutoTrack`:
 
-```javascript
+```javascript title="src/index.js"
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
 configureAutoTrack({
@@ -84,7 +84,7 @@ configureAutoTrack({
 Use this feature to track the most frequently viewed page/url in your webapp. It automatically sends events containing url information when a page is visited.
 
 This behavior can be enabled by calling `configureAutoTrack`:
-```javascript
+```javascript title="src/index.js"
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
 configureAutoTrack({
@@ -116,7 +116,7 @@ configureAutoTrack({
 ```
 
 This behavior can be disabled by calling `configureAutoTrack`:
-```javascript
+```javascript title="src/index.js"
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
 configureAutoTrack({
@@ -130,7 +130,7 @@ configureAutoTrack({
 Use page event tracking to track user interactions with specific elements on a page. Attach the specified selectors to your DOM element and turn on the auto tracking.
 
 This behavior can be enabled by calling `configureAutoTrack`:
-```javascript
+```javascript title="src/index.js"
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
 configureAutoTrack({
@@ -186,7 +186,7 @@ When the button above is clicked, an event will be sent automatically. This is e
 ```
 
 This behavior can be disabled by calling `configureAutoTrack`:
-```javascript
+```javascript title="src/index.js"
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
 configureAutoTrack({
