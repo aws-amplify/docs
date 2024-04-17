@@ -123,7 +123,7 @@ Use the guide below to select the correct authorization strategy for your use ca
 | **Recommended use case** | **Strategy** | **Provider** |
 | --- | --- | --- |
 | Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access. | [`public`](#public-data-access) | `apiKey` |
-| Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls. | [`public`](#public-data-access) | `iam` |
+| Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls. | [`public`](#public-data-access) | `iam` (or `identityPool` when using CDK construct) |
 | Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify add auth` Cognito user pool by default. | [`owner`](#per-user--owner-based-data-access) | `userPools` / `oidc` |
 | Any signed-in data access. Unlike owner-based access, **any** signed-in user has access. | [`private`](#signed-in-user-data-access) | `userPools` / `oidc` / `iam` |
 | Per user group data access. A specific or dynamically configured group of users have access | [`groups`](#user-group-based-data-access) | `userPools` / `oidc` |
@@ -139,17 +139,25 @@ type Todo @model @auth(rules: [{ allow: public }]) {
 }
 ```
 
-You can also override the authorization provider. In the example below, `iam` is specified as the provider which allows you to use an "Unauthenticated Role" from the Cognito identity pool for public access instead of an API Key.
+You can also override the authorization provider. In the example below, you can use an "Unauthenticated Role" from the Cognito identity pool for public access instead of an API Key.
 
 <BlockSwitcher>
 <Block name="Amplify CLI">
 
 When you run `amplify add auth`, the Amplify CLI generates scoped down IAM policies for the "Unauthenticated role" in Cognito identity pool automatically.
 
+```graphql
+# public authorization with provider override
+type Post @model @auth(rules: [{ allow: public, provider: iam }]) {
+  id: ID!
+  title: String!
+}
+```
+
 </Block>
 <Block name="AWS CDK">
 
-Designate an IAM role for unauthenticated identities by setting the `iamConfig` property:
+Designate an Amazon Cognito identity pool's role for unauthenticated identities by setting the `identityPoolConfig` property:
 
 ```ts
 // Note: this sample uses the alpha Cognito Identity Pool construct, but is not required, CfnIdentityPool can be used as well
@@ -170,13 +178,21 @@ new AmplifyGraphqlApi(this, "MyNewApi", {
     apiKeyConfig: {
       expires: cdk.Duration.days(30)
     },
-    iamConfig: {
+    identityPoolConfig: {
       identityPoolId: identityPool.identityPoolId,
       authenticatedUserRole: identityPool.authenticatedRole,
       unauthenticatedUserRole: identityPool.unauthenticatedRole,
     }
   },
 })
+```
+
+```graphql
+# public authorization with provider override
+type Post @model @auth(rules: [{ allow: public, provider: identityPool }]) {
+  id: ID!
+  title: String!
+}
 ```
 
 <InlineFilter filters={["react", "angular", "nextjs", "vue", "react-native", "javascript"]}>
@@ -208,13 +224,7 @@ In the Amplify Library's client configuration file (`amplifyconfiguration.json`)
 </Block>
 </BlockSwitcher>
 
-```graphql
-# public authorization with provider override
-type Post @model @auth(rules: [{ allow: public, provider: iam }]) {
-  id: ID!
-  title: String!
-}
-```
+
 
 ### Per-user / owner-based data access
 
@@ -297,17 +307,24 @@ type Todo @model @auth(rules: [{ allow: private }]) {
 
 In the example above, anyone with a valid JWT token from Cognito user pool are allowed to access all Todos.
 
-You can also override the authorization provider. In the example below, `iam` is specified as the provider which allows you to use an "Authenticated Role" from the Cognito identity pool for public access instead of an API Key.
+You can also override the authorization provider. In the example below, you can use an "Authenticated Role" from the Cognito identity pool for granting access to signed-in users.
 
 <BlockSwitcher>
 <Block name="Amplify CLI">
 
 When you run `amplify add auth`, the Amplify CLI generates scoped down IAM policies for the "Authenticated role" in Cognito identity pool automatically.
 
+```graphql
+# public authorization with provider override
+type Post @model @auth(rules: [{ allow: private, provider: iam }]) {
+  id: ID!
+  title: String!
+}
+```
 </Block>
 <Block name="AWS CDK">
 
-Designate an IAM role for authenticated identities by setting the `iamConfig` property:
+Designate an Amazon Cognito identity pool role for authenticated identities by setting the `identityPoolConfig` property:
 
 ```ts
 // Note: this sample uses the alpha Cognito Identity Pool construct, but is not required, CfnIdentityPool can be used as well
@@ -328,7 +345,7 @@ new AmplifyGraphqlApi(this, "MyNewApi", {
     apiKeyConfig: {
       expires: cdk.Duration.days(30)
     },
-    iamConfig: {
+    identityPoolConfig: {
       identityPoolId: identityPool.identityPoolId,
       authenticatedUserRole: identityPool.authenticatedRole,
       unauthenticatedUserRole: identityPool.unauthenticatedRole,
@@ -337,14 +354,17 @@ new AmplifyGraphqlApi(this, "MyNewApi", {
 })
 ```
 
+```graphql
+# public authorization with provider override
+type Post @model @auth(rules: [{ allow: private, provider: identityPool }]) {
+  id: ID!
+  title: String!
+}
+```
+
 </Block>
 </BlockSwitcher>
 
-```graphql
-type Todo @model @auth(rules: [{ allow: private, provider: iam }]) {
-  content: String
-}
-```
 
 In addition, you can also use OpenID Connect with `private` authorization. See [OpenID Connect as an authorization provider](#using-oidc-authorization-provider).
 
@@ -672,12 +692,11 @@ userPools:owner:owner
 
 ### Use IAM authorization within the AppSync console
 
-IAM-based `@auth` rules are scoped down to only work with Amplify-generated IAM roles. To access the GraphQL API with IAM authorization within your AppSync console, you need to explicitly allow list the IAM user's name.
 
 <BlockSwitcher>
 <Block name="Amplify CLI">
 
-Add the allow-listed IAM users by adding them to `amplify/backend/api/<your-api-name>/custom-roles.json`. (Create the `custom-roles.json` file if it doesn't exist). Append the `adminRoleNames` array with the IAM role or user names:
+IAM-based `@auth` rules are scoped down to only work with Amplify-generated IAM roles. To access the GraphQL API with IAM authorization within your AppSync console, you need to explicitly allow list the IAM user's name. Add the allow-listed IAM users by adding them to `amplify/backend/api/<your-api-name>/custom-roles.json`. (Create the `custom-roles.json` file if it doesn't exist). Append the `adminRoleNames` array with the IAM role or user names:
 
 ```json
 {
@@ -688,7 +707,7 @@ Add the allow-listed IAM users by adding them to `amplify/backend/api/<your-api-
 </Block>
 <Block name="AWS CDK">
 
-To grant an external AWS Resource or an IAM role access to this GraphQL API in CDK, you need to explicitly list the IAM role by adding them to `adminRoles` property.
+To grant any IAM principal (AWS Resource, IAM role, IAM user, etc) access, **with the exception of Amazon Cognito identity pool roles**, to this GraphQL API in CDK, you need to enable IAM authorization mode via the `iamConfig` property of the CDK construct.
 
 ```typescript
 const userRole = Role.fromRoleName(
@@ -706,7 +725,10 @@ const amplifyApi = new AmplifyGraphqlApi(this, 'MyNewApi', {
     apiKeyConfig: {
       expires: cdk.Duration.days(30)
     },
-    adminRoles: [userRole] // <-- pass in the role of the console user into here to grant it access via IAM
+    iamConfig: {
+      // Set this value to true.
+      enableIamAuthorizationMode: true
+    }
   }
 });
 ```
@@ -811,7 +833,7 @@ Once you grant a function access to the GraphQL API, it is required to redeploy 
 </Block>
 
 <Block name="AWS CDK">
-To grant an external AWS Resource or an IAM role access to this GraphQL API in CDK, you need to explicitly list the IAM role by adding them to `adminRoles` property.
+To grant any IAM principal (AWS Resource, IAM role, IAM user, etc), **with the exception of Amazon Cognito identity pool roles**, to this GraphQL API in CDK, you need to enable IAM authorization mode on the CDK construct.
 
 ```typescript
 const amplifyApi = new AmplifyGraphqlApi(this, 'MyNewApi', {
@@ -823,9 +845,10 @@ const amplifyApi = new AmplifyGraphqlApi(this, 'MyNewApi', {
     apiKeyConfig: {
       expires: cdk.Duration.days(30)
     },
-    adminRoles: [
-      myFunction.role // <- Add your function's role here to grant it access to issue queries, mutations, and subscriptions
-    ]
+    iamConfig: {
+      // Must be set to `true`. Then grant your Lambda function's execution role access to the API
+      enableIamAuthorizationMode: true
+    }
   }
 });
 ```
