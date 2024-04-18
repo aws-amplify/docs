@@ -81,22 +81,22 @@ Amplify.configure({
     LocationService: {
       maps: {
         items: {
-          XXXXXXXXXXX: {
+          <your-map-name>: {
             // REQUIRED - Amazon Location Service Map resource name
             style: 'VectorEsriStreets' // REQUIRED - String representing the style of map resource
           }
         },
-        default: 'XXXXXXXXXXX' // REQUIRED - Amazon Location Service Map resource name to set as default
+        default: '<your-preferred-default-map>' // REQUIRED - Amazon Location Service Map resource name to set as default
       },
       search_indices: {
-        items: ['XXXXXXXXX', 'XXXXXXXXX'], // REQUIRED - Amazon Location Service Place Index name
-        default: 'XXXXXXXXX' // REQUIRED - Amazon Location Service Place Index name to set as default
+        items: ['<your-geo-index>'], // REQUIRED - Amazon Location Service Place Index name
+        default: '<your-default-index>' // REQUIRED - Amazon Location Service Place Index name to set as default
       },
       geofenceCollections: {
-        items: ['XXXXXXXXX', 'XXXXXXXXX'], // REQUIRED - Amazon Location Service Geofence Collection name
-        default: 'XXXXXXXXX' // REQUIRED - Amazon Location Service Geofence Collection name to set as default
+        items: ['<your-geo-collection>'], // REQUIRED - Amazon Location Service Geofence Collection name
+        default: '<your-default-collection>' // REQUIRED - Amazon Location Service Geofence Collection name to set as default
       },
-      region: 'XX-XXXX-X' // REQUIRED - Amazon Location Service Region
+      region: '<your-geo-region>' // REQUIRED - Amazon Location Service Region
     }
   }
 });
@@ -117,20 +117,20 @@ Amplify Geo is dependent on your Amplify Auth category. If it is not already con
     "geo": {
         "plugins": {
             "awsLocationGeoPlugin": {
-                "region": <YOUR_REGION>,
+                "region": <your-geo-region>,
                 "maps": {
                     "items": {
-                        <YOUR_MAP_NAME>: {
-                            "style": <YOUR_MAP_STYLE>
+                        <your-map-name>: {
+                            "style": <your-map-style>
                         }
                     },
-                    "default": <DEFAULT_MAP_NAME>
+                    "default":<your-preferred-default-map>
                 },
                 "searchIndices": {
                     "items": [
-                        <YOUR_INDEX_NAME>
+                        <your-geo-index>
                     ],
-                    "default": <DEFAULT_INDEX_NAME>
+                    "default": <your-default-index>
                 }
             }
         }
@@ -145,8 +145,8 @@ Amplify Geo is dependent on your Amplify Auth category. If it is not already con
                 "CredentialsProvider": {
                     "CognitoIdentity": {
                         "Default": {
-                            "PoolId": <YOUR_IDENTITY_POOL_ID>,
-                            "Region": <YOUR_REGION>
+                            "PoolId": <your-identity-pool-id>,
+                            "Region": <your-identity-pool-region>
                         }
                     }
                 }
@@ -172,20 +172,20 @@ Existing Amazon Location Service resources can be used with the Amplify Librarie
     "geo": {
         "plugins": {
             "awsLocationGeoPlugin": {
-                "region": <YOUR_REGION>,
+                "region": <your-geo-region>,
                 "maps": {
                     "items": {
-                        <YOUR_MAP_NAME>: {
-                            "style": <YOUR_MAP_STYLE>
+                        <your-map-name>: {
+                            "style": <your-map-style>
                         }
                     },
-                    "default": <DEFAULT_MAP_NAME>
+                    "default": <your-default-style>
                 },
                 "searchIndices": {
                     "items": [
-                        <YOUR_PLACE_INDEX>
+                        <your-geo-index>
                     ],
-                    "default": <DEFAULT_PLACE_INDEX>
+                    "default": <your-default-index>
                 }
             }
         }
