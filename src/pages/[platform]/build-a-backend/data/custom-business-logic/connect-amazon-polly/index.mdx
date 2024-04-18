@@ -61,7 +61,7 @@ npm install @aws-sdk/client-polly
 
 ## Step 3 - Setup Storage
 
-Customize your storage configuration to control access to different paths in your storage bucket. Create a file named `amplify/storage/resource.ts` and paste the following content:
+Create a file named `amplify/storage/resource.ts` and paste the following content:
 
 
 ```ts title="amplify/storage/resource.ts"
@@ -168,7 +168,7 @@ export const data = defineData({
 ```
 ## Step 7 - Update Storage permissions
 
-We need to modify the Storage resource to grant access to the `convertTextToSpeech` resource. Update the file `amplify/storage/resource.ts` as shown below.
+Customize your storage settings to manage access to various paths within your storage bucket. It's necessary to update the Storage resource to provide access to the `convertTextToSpeech` resource. Modify the file `amplify/storage/resource.ts` as shown below.
 
 ```ts title="amplify/storage/resource.ts"
 import { defineStorage } from "@aws-amplify/backend"
@@ -184,7 +184,6 @@ export const storage = defineStorage({
   })
 })
 ```
-
 
 ## Step 8 - Configure the frontend
 
