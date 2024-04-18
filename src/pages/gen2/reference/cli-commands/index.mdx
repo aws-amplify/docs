@@ -215,9 +215,81 @@ npx amplify generate config --stack amplify-nextamplifygen2-josef-sandbox-ca85e1
 
 ## npx amplify generate graphql-client-code
 
-Generate GraphQL statements for your frontend application to consume.
+Generate GraphQL statements and types for your frontend application to consume. 
 
-{/* @TODO */}
+<SubCommandHeading parentCommand="amplify-generate-graphql-client-code">Options</SubCommandHeading>
+
+The available parameters for `npx amplify generate graphql-client-code` are:
+
+Required parameters:
+- Stack identifier 
+  - `--stack`(_string_) - A stack name that contains an Amplify backend.
+- Project identifier
+  - `--app-id`(_string_) - The Amplify App ID of the project.
+  - `--branch`(_string_) - A git branch of the Amplify project.
+
+Optional parameters:
+- `--out`(_string_) - Specifies the path to the directory where the config is written. If not provided, defaults to the current process working directory.
+- `--format`(_string_) (choices: `modelgen`, `graphql-codegen`, `introspection`) - Specifies the format of the GraphQL client code to be generated.
+- `--model-target` (_string_) (choices: `java`, `swift`, `javascript`, `typescript`, `dart`) - Specifies the modelgen export target. Only applies when the --format parameter is set to modelgen.
+- `--statement-target`(_string_) (choices: `javascript`, `graphql`, `flow`, `typescript`, `angular`) - Specifies the graphql-codegen statement export target. Only applies when the --format parameter is set to graphql-codegen.
+- `--type-target`(_string_) (choices: `json`, `swift`, `typescript`, `flow`, `scala`, `flow-modern`, `angular`) - Specifies the optional graphql-codegen type export target. Only applies when the --format parameter is set to graphql-codegen.
+- `--all`(_boolean_)- Shows hidden options.
+- `--profile`(_string_) - Specifies an AWS profile name.
+- `--debug` (_boolean_) - Print debug logs to the console.
+- `--help`(_boolean_) - Displays help information about the command.
+<SubCommandHeading parentCommand="amplify-generate-graphql-client-code">Usage</SubCommandHeading>
+
+
+### Generate GraphQL client code using the Amplify App ID and branch. 
+```bash title="Terminal" showLineNumbers={false}
+npx amplify generate graphql-client-code --app-id <your-amplify-app-id>	--branch staging
+```
+### Generate GraphQL client code for a branch that is connected in the Amplify service
+Sometimes you want to test your latest local changes with the backend of another deployed branch. If you want to generate the GraphQL client code file(s) for the latest deployment of another branch, then you can run the following command:
+
+```bash title="Terminal" showLineNumbers={false}
+npx amplify generate graphql-client-code --branch staging
+```
+### Generate codegen for CDK app using a joint "AmplifyBackendStack" construct
+Assume you have deployed your Amplify project with the CDK construct. You will need to remember your app's project name (designated as the second parameter in your CDK construct) and stack name (designated as part of your `npx cdk deploy` context)
+
+```ts title="lib/stack.ts" showLineNumbers={false}
+import { Construct } from 'constructs';
+import { App, Backend } from 'aws-cdk-lib/aws-amplify';
+
+export class MyAmplifyStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    new Backend(this, "Backend", { /* ... */ });
+  }
+}
+```
+### Deployment command for CDK project
+```bash  title="Terminal" showLineNumbers={false}
+npx cdk deploy
+```
+Run Amplify codegen command to generate GraphQL codegen:
+```bash title="Terminal" showLineNumbers={false}
+npx amplify generate graphql-client-code --stack Backend --platform ts --out ./src
+```   
+### Generate codegen in specific language and format
+
+```bash title="Terminal" showLineNumbers={false}
+npx amplify generate graphql-client-code --format modelgen --type-target angular
+```
+### Supported GraphQL client code combinations:
+
+| Format | Platform | Codegen command in Amplify CLI | Command in Amplify Gen2 | Default generated file/path |
+| -------| -------- | ------------------------------ | ----------------------- | --------------------------- |
+| Introspection schema | Amplify Javascript | N/A | `npx amplify generate graphql-client-code --format introspection` | `<path_to_app>/` |
+| GraphQL codegen | Amplify Javascript | `amplify codegen` | `npx amplify generate graphql-client-code --format graphql-codegen --statement-target javascript --out <path_to_app>/src/graphql/` | `<path_to_app>/src/graphql/` |
+| Modelgen | Amplify Javascript | `amplify codegen model` | `npx amplify generate graphql-client-code --format modelgen --model-target javascript --out <path_to_app>/src/models/` | `<path_to_app>/src/models/` |
+| Modelgen | Amplify Android | `amplify codegen model` | `npx amplify generate graphql-client-code --format modelgen --model-target java --out <path_to_app/src/main/java/>` | `<path_to_app>/src/main/java/com/amplifyframework/datastore/generated/model` |
+| Modelgen | Amplify Swift | `amplify codegen model` | `npx amplify generate graphql-client-code --format modelgen --model-target swift --out <path_to_swift_project>/AmplifyModels` | `<path_to_swift_project>/AmplifyModels` |
+| Modelgen | Amplify Flutter | `amplify codegen model` | `npx amplify generate graphql-client-code --format modelgen --model-target dart --out <path_to_flutter_project>/AmplifyModels` | `<path_to_flutter_project>/AmplifyModels` |
+
 
 ## npx amplify generate forms
 
