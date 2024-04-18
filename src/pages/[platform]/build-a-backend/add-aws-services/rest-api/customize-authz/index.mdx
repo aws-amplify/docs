@@ -143,9 +143,9 @@ When your API is configured to use IAM as the authorization type, your requests 
 ```json
 {
   "awsAPIPlugin": {
-    "[YOUR-RESTENDPOINT-NAME]": {
+    "<your-api-name>": {
       "endpointType": "REST",
-      "endpoint": "YOUR-REST-ENDPOINT",
+      "endpoint": "<your-api-endpoint>",
       "region": "us-west-2",
       "authorizationType": "AWS_IAM"
     }
@@ -160,9 +160,9 @@ If you want to configure a public REST API, you can set an API key in Amazon API
 ```json
 {
   "awsAPIPlugin": {
-    "[YOUR-RESTENDPOINT-NAME]": {
+    "<your-api-name>": {
       "endpointType": "REST",
-      "endpoint": "YOUR-REST-ENDPOINT",
+      "endpoint": "<your-api-endpoint>",
       "region": "us-west-2",
       "authorizationType": "API_KEY",
       "apiKey": "YOUR_API_KEY"
@@ -178,9 +178,9 @@ If you set up the API Gateway with a custom authorization with a Cognito User po
 ```json
 {
   "awsAPIPlugin": {
-    "[YOUR-RESTENDPOINT-NAME]": {
+    "<your-api-name>": {
       "endpointType": "REST",
-      "endpoint": "YOUR-REST-ENDPOINT",
+      "endpoint": "<your-api-endpoint>",
       "region": "us-west-2",
       "authorizationType": "AMAZON_COGNITO_USER_POOLS"
     }
@@ -194,16 +194,16 @@ Your `amplifyconfiguration.json` should contain Cognito configuration in the `aw
 {
   "CognitoUserPool": {
     "Default": {
-      "PoolId": "YOUR-POOL-ID",
-      "AppClientId": "YOUR-APP-CLIENT-ID",
-      "AppClientSecret": "YOUR-APP-CLIENT-SECRET",
+      "PoolId": "<your-user-pool-id>",
+      "AppClientId": "<your-app-client-id>",
+      "AppClientSecret": "<your-app-client-secret>",
       "Region": "us-east-1"
     }
   },
   "CredentialsProvider": {
     "CognitoIdentity": {
       "Default": {
-        "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
+        "PoolId": "<your-cognito-identity-poolid>",
         "Region": "us-east-1"
       }
     }
@@ -219,15 +219,14 @@ If you are using a 3rd party OIDC provider you will need to configure it and man
 
 ```json
 {
-    ...
-    "awsAPIPlugin": {
-        "[YOUR-RESTENDPOINT-NAME]": {
-            "endpointType": "REST",
-            "endpoint": "[REST-ENDPOINT]",
-            "region": "[REGION]",
-            "authorizationType": "OPENID_CONNECT",
-        }
+  "awsAPIPlugin": {
+    "<your-api-name>": {
+      "endpointType": "REST",
+      "endpoint": "<your-api-endpoint>",
+      "region": "<your-api-region>",
+      "authorizationType": "OPENID_CONNECT"
     }
+  }
 }
 ```
 
@@ -269,7 +268,7 @@ Add the following code to your app:
 
 ```java
 ApiAuthProviders authProviders = ApiAuthProviders.builder()
-    .oidcAuthProvider(() -> "[OPEN-ID-CONNECT-TOKEN]")
+    .oidcAuthProvider(() -> "<your-openID-connect-token>")
     .build();
 AWSApiPlugin plugin = AWSApiPlugin.builder()
     .apiAuthProviders(authProviders)
@@ -462,15 +461,14 @@ You can also set authorization mode to `NONE` so that the library will not provi
 
 ```json
 {
-    ...
-    "awsAPIPlugin": {
-        "[yourApiName]": {
-            "endpointType": "REST",
-            "endpoint": "[REST-ENDPOINT]",
-            "region": "[REGION]",
-            "authorizationType": "NONE",
-        }
+  "awsAPIPlugin": {
+    "[yourApiName]": {
+      "endpointType": "REST",
+      "endpoint": "<your-api-endpoint>",
+      "region": "<your-api-region>",
+      "authorizationType": "NONE"
     }
+  }
 }
 ```
 
@@ -648,9 +646,9 @@ When your API is configured to use IAM as the authorization type, your requests 
 ```json
 {
   "awsAPIPlugin": {
-    "<YOUR-RESTENDPOINT-NAME>": {
+    "<your-api-name>": {
       "endpointType": "REST",
-      "endpoint": "YOUR-REST-ENDPOINT",
+      "endpoint": "<your-api-endpoint>",
       "region": "us-west-2",
       "authorizationType": "AWS_IAM"
     }
@@ -667,10 +665,10 @@ If you want to configure a public REST API, you can set an API key in Amazon API
   "awsAPIPlugin": {
     "<YOUR-RESTENDPOINT-NAME>": {
       "endpointType": "REST",
-      "endpoint": "YOUR-REST-ENDPOINT",
+      "endpoint": "<your-api-endpoint>",
       "region": "us-west-2",
       "authorizationType": "API_KEY",
-      "apiKey": "YOUR_API_KEY"
+      "apiKey": "<your-api-key>"
     }
   }
 }
@@ -685,7 +683,7 @@ If you set up the API Gateway with a custom authorization with a Cognito User po
   "awsAPIPlugin": {
     "<YOUR-RESTENDPOINT-NAME>": {
       "endpointType": "REST",
-      "endpoint": "YOUR-REST-ENDPOINT",
+      "endpoint": "<your-api-endpoint>",
       "region": "us-west-2",
       "authorizationType": "AMAZON_COGNITO_USER_POOLS"
     }
@@ -699,16 +697,16 @@ Your `amplifyconfiguration.dart` should contain Cognito configuration in the `aw
 {
   "CognitoUserPool": {
     "Default": {
-      "PoolId": "YOUR-POOL-ID",
-      "AppClientId": "YOUR-APP-CLIENT-ID",
-      "AppClientSecret": "YOUR-APP-CLIENT-SECRET",
+      "PoolId": "<your-user-pool-id>",
+      "AppClientId": "<your-app-client-id>",
+      "AppClientSecret": "<your-app-client-secret>",
       "Region": "us-east-1"
     }
   },
   "CredentialsProvider": {
     "CognitoIdentity": {
       "Default": {
-        "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
+        "PoolId": "<your-cognito-identity-poolid>",
         "Region": "us-east-1"
       }
     }
