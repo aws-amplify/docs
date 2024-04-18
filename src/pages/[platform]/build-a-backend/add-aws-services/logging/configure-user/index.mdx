@@ -21,15 +21,47 @@ export function getStaticProps(context) {
   };
 }
 
+Each Amplify authenticated user can be configured to have their own unique logging configuration. This is helpful in enabling you debug issues more granularly for your users.
+
+## Retrieve userIDs with Amplify Auth.
+
+You can use the Amplify Auth category to retrieve the userId for a specific user if needed. You can also retrieve the userId by visiting the Amazon Cognito console and inspecting the `User ID` in User pools.
+
+
+
 <InlineFilter filters={['android']}>
 
-## Prerequisites
+<BlockSwitcher>
+<Block name="Java">
 
+```java
+Amplify.Auth.getCurrentUser(
+   user.userId,
+   error -> // failed to fetch user
+);
+```
+</Block>
+<Block name="Kotlin">
 
-* An Android application targeting at least Android SDK API level 24 with Amplify libraries integrated
-    * For a full example, please follow the [mobile support walkthrough](/swift/start/mobile-support/) .
-* The Amplify Logger is available for versions 2.11.0 and beyond of the Amplify Android SDK
+```kotlin
+Amplify.Auth.getCurrentUser({ user ->
+    user.userId,{
+    // failed to get user
+})
+```
 
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.getCurrentUser().subscribe(
+        result -> result.userId,
+        error -> // failed to get user
+ );
+```
+
+</Block>
+</BlockSwitcher>
 
 
 </InlineFilter>
@@ -37,94 +69,123 @@ export function getStaticProps(context) {
 
 <InlineFilter filters={['swift']}>
 
-On iOS, we leverage Apple’s Core ML [Vision Framework](https://developer.apple.com/documentation/vision) and [Natural Language Framework](https://developer.apple.com/documentation/naturallanguage) to improve accuracy as well as support cases where your device is unable to reach AWS Services.  For more information, see each individual use case.
-
-## Prerequisites
-
-
-An application with Amplify libraries integrated and a minimum target of any of the following:
-- **iOS 13.0**, using **Xcode 14.1** or later.
-- **macOS 10.15**, using **Xcode 14.1** or later.
-- **tvOS 13.0**, using **Xcode 14.3** or later.
-- **watchOS 9.0**, using **Xcode 14.3** or later.
-- **visionOS 1.0**, using **Xcode 15 beta 2** or later. (Preview support - see below for more details.)
-
-For a full example, please follow the [mobile support walkthrough](/swift/start/mobile-support/) .
-
-<Callout>
-
-visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch. 
-As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
-
-For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
-
-</Callout>
+```swift
+Amplify.Auth.getCurrentUser().userId
+```
 
 </InlineFilter>
 
-### Set up the backend
+## Configure user allow list
 
+Below is an example of setting different default and category log level for an authenticated user.
 
+<BlockSwitcher>
+  <Block name="With Configuration File">
+    Add a `userLogLevel` section and for each user identifier add a `defaultLogLevel` and `categoryLogLevel`.
 
-<Callout>
-
-To add custom CDK resources, please follow the guide [here](/[platform]/build-a-backend/add-aws-services/custom-resources/).
-
-</Callout>
-
-You will need to create a log group in Amazon CloudWatch to send logs to. You can create and provision a log group by going through the AWS Console and creating your log group manually or using Amplify CLI and AWS CDK to provision and deploy the AWS resources.
-
-Below is a sample CDK construct to create the Amazon CloudWatch log group as well as creating and assigning the permission policies to Amplify roles.
-
-The `<log-group-name>` and `<region>` configured in the CDK construct will be used later to initialize the Amplify Logger plugin.
-
-### Replace the placeholder values with your own values:
-
-- `<log-group-name>` is the log group that logs will be sent to. Note that this CDK construct sample includes logic to create the CloudWatch log group that you may have already created in previous steps.
-- `<amplify-authenticated-role-name>` and `<amplify-unauthenticated-role-name>` are Amplify roles created as part of Amplify Auth configuration via Amplify CLI.
-
-```ts
-import * as cdk from "aws-cdk-lib"
-import { Construct } from "constructs"
-import * as logs from "aws-cdk-lib/aws-logs"
-import * as path from "path"
-import * as iam from "aws-cdk-lib/aws-iam"
-
-export class RemoteLoggingConstraintsConstruct extends Construct {
-  constructor(scope: Construct, id: string, props: RemoteLoggingConstraintProps) {
-    super(scope, id)
-
-    const region = cdk.Stack.of(this).region
-    const account = cdk.Stack.of(this).account
-    const logGroupName = <log-group-name>
-    const authRoleName = <amplify-authenticated-role-name>
-    const unAuthRoleName = <amplify-unauthenticated-role-name>
-
-    new logs.LogGroup(this, 'Log Group', {
-      logGroupName: logGroupName,
-      retention: logs.RetentionDays.INFINITE
-    })
-
-    const authRole = iam.Role.fromRoleName(this, "Auth-Role", authRoleName)
-    const unAuthRole = iam.Role.fromRoleName(this, "UnAuth-Role", unAuthRoleName)
-    const logResource = `arn:aws:logs:${region}:${account}:log-group:${logGroupName}:log-stream:*`
-    const logIAMPolicy = new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      resources: [logResource],
-      actions: ["logs:PutLogEvents", "logs:DescribeLogStreams", "logs:CreateLogStream"]
-    })
-
-    authRole.addToPrincipalPolicy(logIAMPolicy)
-    unAuthRole.addToPrincipalPolicy(logIAMPolicy)
-
-    new cdk.CfnOutput(this, 'CloudWatchLogGroupName', { value: logGroupName });
-    new cdk.CfnOutput(this, 'CloudWatchRegion', { value: region });
-  }
+```json
+{
+    "awsCloudWatchLoggingPlugin": {
+        "enable": true,
+        "logGroupName": "<log-group-name>",
+        "region": "<region>",
+        "localStoreMaxSizeInMB": 1,
+        "flushIntervalInSeconds": 60,
+        "loggingConstraints": {
+            "defaultLogLevel": "ERROR",
+            "userLogLevel": {
+                "xyz-123": {
+                    "defaultLogLevel": "DEBUG",
+                    "categoryLogLevel": {
+                        "Storage": "VERBOSE",
+                        "Api": "VERBOSE"
+                    }
+                }
+            }
+        }
+    }
 }
 ```
 
-The `<log-group-name>` and `<region>` will be printed out in the in the terminal. You can use this information to setup the Amplify library in the next section.
+  </Block>
+  <Block name="With Code">
 
-## Initialize Amplify Logging
+<InlineFilter filters={['android']}>
+Provide a map of `UserLogLevel` at initialization and configuration of the `AWSCloudWatchLoggingPlugin`.
 
-In this section, we will initialize and setup the Amplify library. The Logger can be configured via a configuration file or in code when your app is initializing.
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Map<CategoryType, LogLevel> categoryOverrides = new HashMap<>();
+categoryOverrides.put(CategoryType.AUTH, LogLevel.VERBOSE);
+categoryOverrides.put(CategoryType.STORAGE, LogLevel.DEBUG);
+
+UserLogLevel userLogLevel = new UserLogLevel(LogLevel.WARN, categoryOverrides);
+
+Map<String, UserLogLevel> userOverrides = new HashMap<>();
+userOverrides.put("USER_ID", userLogLevel);
+
+LoggingConstraints loggingConstraints = new LoggingConstraints(LogLevel.WARN, categoryOverrides, userOverrides);
+
+AWSCloudWatchLoggingPluginConfiguration config = new AWSCloudWatchLoggingPluginConfiguration (<log-group-name>, <region>, loggingConstraints);
+Amplify.addPlugin(new AWSCloudWatchLoggingPlugin(config));
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val categoryOverrides = mapOf(CategoryType.AUTH to LogLevel.VERBOSE, CategoryType.STORAGE to LogLevel.DEBUG)
+val userOverrides = mapOf("USER_ID" to UserLogLevel(LogLevel.WARN, categoryOverrides))
+
+val loggingConstraints = LoggingConstraints(defaultLogLevel = LogLevel.WARN, userLogLevel = userOverrides)
+
+val config = AWSCloudWatchLoggingPluginConfiguration(logGroupName = <log-group-name>, region = <region>, loggingConstraints = loggingConstraints)
+Amplify.addPlugin(AWSCloudWatchLoggingPlugin(config))
+```
+</Block>
+<Block name="RxJava">
+
+```java
+Map<CategoryType, LogLevel> categoryOverrides = new HashMap<>();
+categoryOverrides.put(CategoryType.AUTH, LogLevel.VERBOSE);
+categoryOverrides.put(CategoryType.STORAGE, LogLevel.DEBUG);
+
+UserLogLevel userLogLevel = new UserLogLevel(LogLevel.WARN, categoryOverrides);
+
+Map<String, UserLogLevel> userOverrides = new HashMap<>();
+userOverrides.put("USER_ID", userLogLevel);
+
+LoggingConstraints loggingConstraints = new LoggingConstraints(LogLevel.WARN, categoryOverrides, userOverrides);
+
+AWSCloudWatchLoggingPluginConfiguration config = new AWSCloudWatchLoggingPluginConfiguration (<log-group-name>, <region>, loggingConstraints);
+Amplify.addPlugin(new AWSCloudWatchLoggingPlugin(config));
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={['swift']}>
+Provide a dictionary of `UserLogLevel` at initialization and configuration of the `AWSCloudWatchLoggingPlugin`.
+
+
+```swift
+do {
+    let categoryLogLevels: [String: LogLevel] = ["Storage": .verbose, "API": .verbose]
+    let userLogLevel = UserLogLevel(defaultLogLevel: .debug, categoryLogLevel: categoryLogLevels)
+    let userLogLevels: [String: UserLogLevel] = ["xyz-123": userLogLevel]
+    let loggingConstraints = LoggingConstraints(defaultLogLevel: .warn, userLogLevel: userLogLevels)
+    let loggingConfiguration = AWSCloudWatchLoggingPluginConfiguration(logGroupName: "<log-group-name>", region: "<region>", loggingConstraints: loggingConstraints)
+    let loggingPlugin = AWSCloudWatchLoggingPlugin(loggingPluginConfiguration: loggingConfiguration)
+    try Amplify.add(plugin: loggingPlugin)
+} catch {
+    assert(false, "Error initializing Amplify: \(error)")
+}
+```
+</InlineFilter>
+
+  </Block>
+</BlockSwitcher>
+
