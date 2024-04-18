@@ -566,7 +566,7 @@ flutter pub get
 
 Lastly update your main.dart file to use the Amplify UI components:
 
-```dart
+```dart title="main.dart"
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -638,8 +638,6 @@ const schema = a.schema({
     .model({
       content: a.string(),
       isDone: a.boolean(),
-      createdAt: a.datetime(),
-      updatedAt: a.datetime(),
     })
     .authorization([a.allow.owner()]),
 });
@@ -673,7 +671,7 @@ You will add `amplify_api` to connect your application with the Amplify API.
 
 After adding the dependencies, update the `_configureAmplify` method in your main.dart file to use the Amplify API:
 
-```dart
+```dart title="main.dart"
 Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugins(
@@ -692,7 +690,7 @@ Future<void> _configureAmplify() async {
 
 Next create a new widget called `TodoScreen` and add the following code:
 
-```dart
+```dart title="main.dart"
 
 class TodoScreen extends StatefulWidget {
   const TodoScreen({super.key});
@@ -735,7 +733,7 @@ This will create a random Todo every time a user clicks on the floating action b
 
 And update the `MyApp` widget in your **main.dart** file like the following:
 
-```dart
+```dart title="main.dart"
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
@@ -759,7 +757,7 @@ class MyApp extends StatelessWidget {
 
 Next add a `_todos` list in `_TodoScreenState` to add the results from the API and call the refresh function:
 
-```dart
+```dart title="main.dart"
 List<Todo> _todos = [];
 
 @override
@@ -772,7 +770,7 @@ void initState() {
 
 and create a new function called `_refreshTodos`:
 
-```dart
+```dart title="main.dart"
 Future<void> _refreshTodos() async {
   try {
     final request = ModelQueries.list(Todo.classType);
@@ -794,7 +792,7 @@ Future<void> _refreshTodos() async {
 
 and update the body with the following code:
 
-```dart
+```dart title="main.dart"
 body: _todos.isEmpty == true
     ? const Center(
         child: Text(
@@ -825,7 +823,7 @@ Now let's add a update and delete functionality.
 
 For update, add the following code to the `onChanged` method of the `CheckboxListTile.adaptive` widget:
 
-```dart
+```dart title="main.dart"
 final request = ModelMutations.update(
   todo.copyWith(isDone: isChecked!),
 );
@@ -843,7 +841,7 @@ This will call the `ModelMutations.update` method to update the Todo with a copi
 
 For delete functionality, add the following code to the `confirmDismiss` method of the `Dismissible` widget:
 
-```dart
+```dart title="main.dart"
 if (direction == DismissDirection.endToStart) {
   final request = ModelMutations.delete(todo);
   final response =
