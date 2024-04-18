@@ -32,7 +32,7 @@ First, provide all the database connection information as secrets, you can use t
 
 ```bash
 npx amplify sandbox secret set MYSQL_CONNECTION_STRING
-# postgres://rene:password123@hohuoeatsuhsaoetu.eoauoaeum/main
+# mysql://rene:password123@super-awesome-db.rene.amazonaws.com/main
 ```
 
 </Block>
@@ -46,7 +46,7 @@ npx amplify sandbox secret set MYSQL_CONNECTION_STRING
 Run the following command to generate the Data schema with your database connection information.
 
 ```bash
-npx amplify generate schema-from-database --connection-uri-secret MYSQL_CONNECTION_STRING --out amplify/data/schema.rds.ts
+npx amplify generate schema-from-database --connection-uri-secret MYSQL_CONNECTION_STRING --out amplify/data/schema.sql.ts
 ```
 
 <Callout info title="VPC connection">
@@ -55,12 +55,14 @@ If your database is behind a VPC, we'll autodetect the VPC configuration based o
 
 </Callout>
 
-This creates a new **schema.rds.ts** with a schema reflecting the types of your database. Import the schema to your **amplify/data/resource.ts** file and
+TK add call outs that no "implicit fields" are created for the customer
+
+This creates a new **schema.sql.ts** with a schema reflecting the types of your database. Import the schema to your **amplify/data/resource.ts** file and
 
 ```ts
 import { a, defineData } from '@aws-amplify/backend';
 // highlight-next-line
-import { schema as auroraSchema } from './schema.rds.ts';
+import { schema as auroraSchema } from './schema.sql.ts';
 
 // Relational database sources can coexist with DynamoDB tables managed by Amplify.
 const schema = a.schema({
@@ -85,31 +87,30 @@ export const data = defineData({
 ## Step 3 - Add authorization rules
 
 ```ts
-import { a, defineData } from '@aws-amplify/backend'
-import { schema as rdsSchema } from './schema.rds.ts'
+import { a, defineData } from '@aws-amplify/backend';
+import { schema as sqlSchema } from './schema.sql.ts';
 
 // Add an authorization rule to the schema
 // highlight-next-line
-const modifiedRds = rdsSchema.setAuthorization((models) => [
-  models.todo.authorization([a.allow.public()]),
-  models.todo.fields.content.authorization([a.allow.private()]),
+const modifiedSqlSchema = sqlSchema.setAuthorization((models) => [
+  models.todo.authorization((allow) => [allow.publicApiKey()]),
+  models.todo.fields.content.authorization((allow) => [allow.guest()])
 ]);
 
 const schema = a.schema({
-  Post: a.model({
-    title: a.string()
-  }).authorization([a.allow.public()])
-})
+  Post: a
+    .model({
+      title: a.string()
+    })
+    .authorization((allow) => [allow.publicApiKey()])
+});
 
-const combinedSchema = a.schema.combine([
-  schema,
-  modifiedRds
-])
+const combinedSchema = a.schema.combine([schema, modifiedSqlSchema]);
 
-export type Schema = typeof schema
+export type Schema = typeof schema;
 export const data = defineData({
   schema: combinedSchema
-})
+});
 ```
 
 ## Step 4 - Deploy your Data resources using the cloud sandbox
@@ -123,35 +124,31 @@ npx amplify sandbox
 ## Rename generated models and fields
 
 ```ts
-import { a, defineData } from '@aws-amplify/backend'
-import { schema as rdsSchema } from './schema.rds.ts'
+import { a, defineData } from '@aws-amplify/backend';
+import { schema as sqlSchema } from './schema.sql.ts';
 
 // Rename models or fields to be more idiomatic for frontend code
 // highlight-start
-const modifiedRds = rdsSchema.renameModels(() => [
-  ['todo', 'Todo']
-]).renameModelFields((models) => [
-    models.Todo.renameFields(() => [
-      ['title', 'content'],
-  ]),
-])
+const modifiedSqlSchema = sqlSchema
+  .renameModels(() => [['todo', 'Todo']])
+  .renameModelFields((models) => [
+    models.Todo.renameFields(() => [['title', 'content']])
+  ]);
 
 const schema = a.schema({
-  Post: a.model({
-    title: a.string()
-  }).authorization([a.allow.public()])
-})
+  Post: a
+    .model({
+      title: a.string()
+    })
+    .authorization([a.allow.public()])
+});
 
-const combinedSchema = a.schema.combine([
-  schema,
-  modifiedRds
-])
+const combinedSchema = a.schema.combine([schema, modifiedSqlSchema]);
 
-
-export type Schema = typeof schema
+export type Schema = typeof schema;
 export const data = defineData({
   schema: combinedSchema
-})
+});
 ```
 
 Step 5 - Configure the `amplify.yml` TK
@@ -164,15 +161,15 @@ TK: npx amplify generate config --connection-string $BRANCH_CONNECTION_STRING
 
 ```ts
 import { a, defineData } from '@aws-amplify/backend'
-import { schema as rdsSchema } from './schema.rds.ts'
+import { schema as sqlSchema } from './schema.sql.ts'
 
 // highlight-start
-const modifiedRds = rdsSchema.relationships((models) => [
+const modifiedSqlSchema = sqlSchema.relationships((models) => [
   models.Todo.addRelationships({
     // will be: a.hasMany("Comment", "todo_id")
-    comments: a.hasMany("Comment").references("todo_id"),
-    // will be: a.hasMany("Note", "todoId")    
-    notes: a.hasMany("Note").references("todoId")
+    comments: a.hasMany("Comment", 'todo_id'),
+    // will be: a.hasMany("Note", "todoId")
+    notes: a.hasMany("Note", 'todoId')
   })
 ]);
 // highlight-end
@@ -181,11 +178,11 @@ const ddbSchema = a.schema({
    Note: a.model({
      content: a.string(),
      todoId: a.id()
-     todo: a.belongsTo("Todo").references("todoId")
+     todo: a.belongsTo("Todo", 'todoId')
    })
 })
 
-const combinedSchema = a.schema.combine([modifiedRds, ddbSchema])
+const combinedSchema = a.schema.combine([modifiedSqlSchema, ddbSchema])
 
 export type Schema = typeof combinedSchema
 export const data = defineData({
@@ -200,11 +197,11 @@ You can either define inline SQL statements or reference a file path containing 
 ```ts
 
 import { a, defineData } from '@aws-amplify/backend'
-import { schema as rdsSchema } from './schema.rds.ts'
+import { schema as sqlSchema } from './schema.sql.ts'
 
 // Add custom mutations or queries that execute SQL statements
 // highlight-start
-rdsSchema.addQueries({
+sqlSchema.addQueries({
   searchTodoBasedOnGeolocation: a.query()
     .arguments({
       lat: a.float(),
@@ -219,14 +216,14 @@ rdsSchema.addQueries({
         location,
         ST_MakePoint(:lat, :long)
       ) <= :radiusInMeters`
-    )
+    ))
     .authorization([a.allow.public()])
 })
 // highlight-end
 
 // highlight-start
 // Create a "updateTodoBasedOnLocation.sql" file with the statement
-const modifiedRds = rdsSchema.addMutation({
+const modifiedSqlSchema = sqlSchema.addMutation({
   updateTodoBasedOnLocation: a.mutation()
     .arguments({
       lat: a.float(),
@@ -249,7 +246,7 @@ const schema = a.schema({
 
 const combinedSchema = a.schema.combine([
   schema,
-  modifiedRds
+  modifiedSqlSchema
 ])
 
 export type Schema = typeof combinedSchema
@@ -262,149 +259,6 @@ export const data = defineData({
 
 ### Generate Data schemas for multiple databases
 
-You should see a read-only (TK) new schema.rds.tsx file in `amplify/data` now. This file contains a TypeScript representation of your relational database tables.
+TK add connection string in console
 
-Next, import the schema into your data resource file to deploy to the cloud.
-
-```ts title="amplify/data/resource.ts"
-import { a, defineData } from '@aws-amplify/backend';
-// highlight-next-line
-import { schema as rdsSchema } from './schema.rds.ts';
-
-// Relational database sources can coexist with DynamoDB tables managed by Amplify.
-const schema = a.schema({
-  Todo: a.model({
-    content: a.string(),
-    isDone: a.boolean()
-  })
-});
-
-// Use the `.combine()` operator to stitch together the models backed by DynamoDB
-// and the models backed by Postgres or MySQL databases.
-// highlight-start
-const combinedSchema = a.schema.combine([schema, rdsSchema]);
-// highlight-end
-
-export type Schema = typeof schema;
-export const data = defineData({
-  // highlight-next-line
-  schema: combinedSchema
-});
-```
-
-Once your cloud sandbox has updated, you should be able to call any CRUDL operations for your relational database.
-
-```bash
-npx amplify sandbox
-```
-
-### Apply authorization rules
-
-```ts title="amplify/data/resource.ts"
-import { a, defineData } from '@aws-amplify/backend'
-import { schema as rdsSchema } from './schema.rds.ts'
-
-// Add an authorization rule to the schema
-// highlight-next-line
-const modifiedRds = rdsSchema.setAuthorization((models) => [
-  models.todo.authorization([a.allow.public()]),
-  models.todo.fields.content.authorization([a.allow.private()]),
-]);
-
-const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-    isDone: a.boolean()
-  })
-})
-
-const combinedSchema = a.schema.combine([
-  schema,
-  modifiedRds
-])
-
-export type Schema = typeof schema
-export const data = defineData({
-  schema: combinedSchema
-})
-```
-
-### Rename inferred model and field names
-
-```ts title="amplify/data/resource.ts"
-import { a, defineData } from '@aws-amplify/backend'
-import { schema as rdsSchema } from './schema.rds.ts'
-
-// Rename models or fields to be more idiomatic for frontend code
-// highlight-start
-rdsSchema.models.todos.renameTo("Todo")
-rdsSchema.models.todos.fields.title.renameTo("content")
-// highlight-end
-
-const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-    isDone: a.boolean()
-  })
-}).authorization([a.allow.public()])
-
-const combinedSchema = a.schema.combine([
-  schema,
-  rdsSchema
-])
-
-export type Schema = typeof schema
-export const data = defineData({
-  schema: combinedSchema
-})
-```
-
-### Invoke SQL statements with custom queries and mutations
-
-```ts title="amplify/data/resource.ts"
-import { a, defineData } from '@aws-amplify/backend'
-import { schema as rdsSchema } from './schema.rds.ts'
-
-// Add custom mutations or queries that execute SQL statements
-// highlight-start
-const modifiedRds = rdsSchema.addQueries({
-  searchTodoBasedOnGeolocation: a.query()
-    .arguments({
-      lat: a.float(),
-      long: a.float(),
-      radiusInMeters: a.float()
-    })
-    .returns(a.ref("Todo").array())
-    .handler(a.handler.inlineSql(`
-      SELECT *
-      FROM todos
-      WHERE ST_DistanceSphere(
-        location,
-        ST_MakePoint(:lat, :long)
-      ) <= :radiusInMeters
-    `))
-    .authorization([a.allow.public()])
-})
-// highlight-end
-
-const schema = a.schema({
-  Todo: a.model({
-    content: a.string()
-    isDone: a.boolean()
-  })
-})
-
-const combinedSchema = a.schema.combine([
-  schema,
-  modifiedRds
-])
-
-export type Schema = typeof combinedSchema
-export const data = defineData({
-  schema: combinedSchema
-})
-```
-
-# NOTES:
-
-- Auto-enabled debug mode on sandbox 🔥
+TK trouble shooting guide
