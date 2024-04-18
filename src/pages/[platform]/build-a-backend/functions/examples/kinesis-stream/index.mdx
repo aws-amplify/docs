@@ -1,9 +1,9 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Kinesis stream',
+  title: 'Amazon Kinesis Data Streams',
   description:
-    'Create a Lambda event source for a Amazon Kinesis stream to trigger Lambda functions in response to real-time events',
+    'Create a Lambda event source for a Amazon Kinesis Data Stream to trigger Lambda functions in response to real-time events',
   platforms: [
     'android',
     'angular',
@@ -31,7 +31,7 @@ export function getStaticProps() {
 
 With AWS Lambda, you can seamlessly integrate various event sources, such as Amazon Kinesis, Amazon SQS, and others, to trigger Lambda functions in response to real-time events. This feature enables you to build responsive, event-driven applications that react to changes in data or system state without the need for polling services.
 
-In this guide, lets configure a Lambda function with an Amazon Kinesis stream as an event source. The Lambda function is automatically triggered whenever new data is published to the stream, whether you're processing streaming data, reacting to application events, or automating workflows.
+In this guide, let us configure a Lambda function with a Kinesis data stream as an event source. The Lambda function is automatically triggered whenever new data is published to the stream - whether you're processing streaming data, reacting to application events, or automating workflows.
 
 To get started, install the AWS Lambda Powertools Logger package, which provides a structured logging capabilities for your Lambda function.
 
@@ -39,7 +39,7 @@ To get started, install the AWS Lambda Powertools Logger package, which provides
 npm add @aws-lambda-powertools/logger
 ```
 
-Second, create a new directory and a resource file, `amplify/functions/kinesis-function/resource.ts`. Then, define the Function with `defineFunction`:
+Second, create a new directory and a resource file, `amplify/functions/kinesis-function/resource.ts`. Then, define the function with `defineFunction`:
 
 ```ts title="amplify/functions/kinesis-function/resource.ts"
 import { defineFunction } from "@aws-amplify/backend";
@@ -129,4 +129,4 @@ const eventSource = new KinesisEventSource(kinesisStream, {
 backend.myKinesisFunction.resources.lambda.addEventSource(eventSource);
 ```
 
-For an example of streaming analytics data to the Amazon Kinesis stream from your frontend, see the [Streaming analytics data documentation](/[platform]/build-a-backend/add-aws-services/analytics/streaming-data/)
+For examples on streaming analytics data to the Kinesis stream from your frontend, see the [Streaming analytics data](/[platform]/build-a-backend/add-aws-services/analytics/streaming-data/) documentation.
