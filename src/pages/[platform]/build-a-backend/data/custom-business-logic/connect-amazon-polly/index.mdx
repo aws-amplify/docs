@@ -33,7 +33,7 @@ Here's an introduction for Amazon Polly to add to the "Connect to Polly" documen
 
 ---
 
-## Connect to Amazon Polly
+# Connect to Amazon Polly
 
 Amazon Polly is a text-to-speech (TTS) service offered by Amazon Web Services (AWS). It uses advanced deep learning technologies to convert written text into lifelike speech, enabling you to create applications with speech capabilities in various languages and voices.
 
@@ -51,11 +51,11 @@ Key features of Amazon Polly include:
 
 In this section, you'll learn how to integrate Amazon Polly into your application using AWS Amplify, enabling you to leverage its powerful text-to-speech capabilities seamlessly.
 
-### Setup the project
+## Step 1 - Setup the project
 
 Setup the project by following the instructions in (Quickstart)[https://docs.amplify.aws/javascript/start/quickstart/] guide. 
 
-### Install Polly Libraries
+## Step 2 - Install Polly Libraries
  To install the Amazon Polly library, run the following command in your project’s root folder:
 
 ```bash
@@ -63,7 +63,7 @@ npm install @aws-sdk/client-polly
 
 ```
 
-### Setup Storage
+## Step 3 - Setup Storage
 
 By defining storage in your backend configuration, you can customize the access rules to different paths in your storage bucket.
 
@@ -78,13 +78,35 @@ export const storage = defineStorage({
 
 ```
 
-## Step 2 - Add your Amazon Polly as a source
+## Step 4 - Configure IAM Roles
 
-### Define the Custom Mutation
+ We need to set up the appropriate IAM policy for Roles. Add Amazon Polly as a source in `amplify/backend.ts` file.
 
-Now that your 
+ ```ts title= "amplify/backend.ts"
 
-### Configure the function handler 
+ import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data, convertTextToSpeech } from './data/resource';
+import { Stack } from 'aws-cdk-lib';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { storage } from './storage/resource';
+
+const backend = defineBackend({
+  auth,
+  data,
+  storage,
+  convertTextToSpeech
+});
+
+const dataStack = Stack.of(backend.data)
+
+backend.convertTextToSpeech.resources.lambda.addToRolePolicy(new PolicyStatement({
+  actions: ['polly:StartSpeechSynthesisTask'],
+  resources: ['*']
+}))
+
+```
+## Step 5 - Configure the function handler 
 
 To define the function, create a new file, `amplify/data/convertTextToSpeech.ts`. Then, define the Function with defineFunction: 
 
@@ -114,3 +136,87 @@ export const handler: Schema["convertTextToSpeech"]["functionHandler"] = async (
 }
 
 ```
+
+## Step 6 - Define the Custom Mutation and function
+
+In your `amplify/data/resource.ts` file, define the function using defineFunction and then reference the function with your mutation using a.handler.function() as a handler.
+
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData, defineFunction } from '@aws-amplify/backend';
+
+export const convertTextToSpeech = defineFunction({
+  entry: './convertTextToSpeech.ts'
+})
+
+const schema = a.schema({
+  convertTextToSpeech: a.mutation()
+    .arguments({
+      text: a.string().required()
+    })
+    .returns(a.string().required())
+    .authorization([a.allow.public()])
+    .handler(a.handler.function(convertTextToSpeech))
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    // API Key is used for a.allow.public() rules
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
+});
+
+
+```
+
+## Step 6  - Configure the frontend
+
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. 
+
+```ts title="App.tsx"
+import './App.css'
+import { generateClient } from 'aws-amplify/api'
+import type { Schema } from '../amplify/data/resource'
+import { getUrl } from 'aws-amplify/storage'
+import { useState } from 'react'
+
+const client = generateClient<Schema>()
+
+function App() {
+  const [src, setSrc] = useState("")
+  const [file, setFile] = useState("")
+  return (
+    <>
+      <button onClick={async () => {
+        const { data } = await client.mutations.convertTextToSpeech({
+          text: "Hello"
+        })
+
+        setFile(data)
+      }}>Synth</button>
+      <button onClick={async () => {
+
+        const res = await getUrl({
+          key: file,
+          options: {
+            accessLevel: 'guest',
+            expiresIn: 60 * 60 * 24
+          }
+        })
+
+        setSrc(res.url.toString())
+      }}>Fetch audio</button>
+      <a href={src}>Get audio file</a>
+    </>
+  )
+}
+
+export default App
+
+```
+
