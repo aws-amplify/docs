@@ -386,6 +386,20 @@ export const directory = {
                   ]
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/set-up-interactions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/chatbot/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/deletion-backup-resources/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/index.mdx'
                 },
                 {
@@ -1599,6 +1613,9 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/gen1/[platform]/tools/cli/migration/identity-claim-changes/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/gen1/[platform]/tools/cli/migration/iam-auth-updates-for-cdk-construct/index.mdx'
                         }
                       ]
                     },
