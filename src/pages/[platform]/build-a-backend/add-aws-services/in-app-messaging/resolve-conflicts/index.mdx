@@ -31,7 +31,7 @@ In the rare case where an event is sent and meets the criteria set forth by mult
 1. Sorting the messages in order of campaign expiration
 2. Returning the top message sorted (the closest message to expiry)
 
-However, this may not be how you wish to resolve such conflicts so you may want to set your own conflict handler.
+However, this may not be how you wish to resolve such conflicts, so you may want to set your own conflict handler.
 
 ```js title="src/index.js"
 import { setConflictHandler } from 'aws-amplify/in-app-messaging';
