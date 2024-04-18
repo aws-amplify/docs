@@ -29,10 +29,6 @@ export function getStaticProps() {
   };
 }
 
-Here's an introduction for Amazon Polly to add to the "Connect to Polly" documentation:
-
----
-
 # Connect to Amazon Polly
 
 Amazon Polly is a text-to-speech (TTS) service offered by Amazon Web Services (AWS). It uses advanced deep learning technologies to convert written text into lifelike speech, enabling you to create applications with speech capabilities in various languages and voices.
@@ -53,10 +49,10 @@ In this section, you'll learn how to integrate Amazon Polly into your applicatio
 
 ## Step 1 - Setup the project
 
-Setup the project by following the instructions in (Quickstart)[https://docs.amplify.aws/javascript/start/quickstart/] guide. 
+Set up your project by following the instructions in the (Quickstart guide)[https://docs.amplify.aws/javascript/start/quickstart/]. 
 
 ## Step 2 - Install Polly Libraries
- To install the Amazon Polly library, run the following command in your project’s root folder:
+ To install the Amazon Polly library, run the following command in your project's root folder:
 
 ```bash
 npm install @aws-sdk/client-polly
@@ -65,14 +61,13 @@ npm install @aws-sdk/client-polly
 
 ## Step 3 - Setup Storage
 
-By defining storage in your backend configuration, you can customize the access rules to different paths in your storage bucket.
+Customize your storage configuration to control access to different paths in your storage bucket. Create a file named `amplify/storage/resource.ts` and paste the following content:
 
-First, create a file `amplify/storage/resource.ts`. Paste the following content into the file. Please refer to Storage section for additional information.
 
 ```ts title="amplify/storage/resource.ts"
 import { defineStorage } from '@aws-amplify/backend';
 
-export const storage = defineStorage({
+export const storage = defineStorage(
   name: 'predictionsforgen2'
 });
 
@@ -108,9 +103,7 @@ backend.convertTextToSpeech.resources.lambda.addToRolePolicy(new PolicyStatement
 ```
 ## Step 5 - Configure the function handler 
 
-To define the function, create a new file, `amplify/data/convertTextToSpeech.ts`. Then, define the Function with defineFunction: 
-
-This function handler converts text into speech using Amazon Polly, a text-to-speech service from Amazon Web Services (AWS). The function takes in an event argument with a text input, and uses Amazon Polly to synthesize the text into an audio file in MP3 format. The synthesized speech is saved to an S3 bucket specified by the env.predictionsforgen2_BUCKET_NAME environment variable.
+Define the function handler by creating a new file, `amplify/data/convertTextToSpeech.ts`. This function converts text into speech using Amazon Polly and stores the synthesized speech as an MP3 file in an S3 bucket.
 
 ```ts title="amplify/data/convertTextToSpeech.ts"
 
@@ -173,8 +166,27 @@ export const data = defineData({
 
 
 ```
+## Step 7 - Update Storage permissions
 
-## Step 6  - Configure the frontend
+We need to modify the Storage resource to grant access to the `convertTextToSpeech` resource. Update the file `amplify/storage/resource.ts` as shown below.
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage } from "@aws-amplify/backend"
+import { convertTextToSpeech } from "../data/resource"
+
+export const storage = defineStorage({
+  name: "predictionsforgen2",
+  access: allow => ({
+    '/public/*': [
+      allow.resource(convertTextToSpeech).to(['write']),
+      allow.guest.to(['read', 'write', 'get'])
+    ]
+  })
+})
+```
+
+
+## Step 8 - Configure the frontend
 
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. 
 
