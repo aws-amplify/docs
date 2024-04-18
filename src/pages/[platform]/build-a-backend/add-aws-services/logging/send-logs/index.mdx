@@ -21,15 +21,75 @@ export function getStaticProps(context) {
   };
 }
 
+With the Amplify Logger, you can send logs to Amazon CloudWatch from errors that are caught by the Amplify library or by adding your own custom log messages. You can also customize which levels of log messages to send to CloudWatch.
+
+## Log messages
+
+<Callout>
+
+You should follow best security practices when logging messages. This includes validating log messages and ensuring log messages don't contain personally identifiable information and/or sensitive data.
+
+</Callout>
+
+You can log messages using the Amplify logger to a specific namespace to help you group logs that are similar when they are sent to CloudWatch. To accomplish this, get an instance of the `Logger` and specify a `category name` and/or `namespace`. Use the `Logger` instance to log messages at the desired log level. The `category name` and `namespace` values are used to tag your log messages that will appear in CloudWatch. They are also used to identify and fetch the logger again without creating a new `Logger` instance.
+
+You can also log JSON formatted log messages to leverage [AWS CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html) query and filter supports.
+
 <InlineFilter filters={['android']}>
 
-## Prerequisites
+<BlockSwitcher>
+<Block name="Java">
 
+```java
+Logger logger = Amplify.Logging.logger(AmplifyCategory.Auth, "<namespace>")
+try {
+  String result = doSomething();
+  logger.debug("result: " + result);
+} catch(Exception: exception) {
+  logger.error("operation failed", exception);
+}
 
-* An Android application targeting at least Android SDK API level 24 with Amplify libraries integrated
-    * For a full example, please follow the [mobile support walkthrough](/swift/start/mobile-support/) .
-* The Amplify Logger is available for versions 2.11.0 and beyond of the Amplify Android SDK
+```
 
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val logger = Amplify.Logging.logger(AmplifyCategory.Auth, "<namespace>")
+try {
+  val result = doSomething()
+  logger.debug("result: $result")
+} catch (exception: Exception) {
+  logger.error("operation failed", exception)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+Logger logger = Amplify.Logging.logger(AmplifyCategory.Auth, "<namespace>")
+try {
+  String result = doSomething();
+  logger.debug("result: " + result);
+} catch(Exception: exception) {
+  logger.error("operation failed", exception);
+}
+```
+</Block>
+</BlockSwitcher>
+
+The following are existing Amplify category names that are used by default by Amplify when automatically logging errors from the library.
+* `ANALYTICS`
+* `API`
+* `AUTH`
+* `DATASTORE`
+* `HUB`
+* `LOGGING`
+* `NOTIFICATIONS`
+* `PREDICTIONS`
+* `STORAGE`
+* `GEO`
 
 
 </InlineFilter>
@@ -37,94 +97,30 @@ export function getStaticProps(context) {
 
 <InlineFilter filters={['swift']}>
 
-On iOS, we leverage Apple’s Core ML [Vision Framework](https://developer.apple.com/documentation/vision) and [Natural Language Framework](https://developer.apple.com/documentation/naturallanguage) to improve accuracy as well as support cases where your device is unable to reach AWS Services.  For more information, see each individual use case.
-
-## Prerequisites
-
-
-An application with Amplify libraries integrated and a minimum target of any of the following:
-- **iOS 13.0**, using **Xcode 14.1** or later.
-- **macOS 10.15**, using **Xcode 14.1** or later.
-- **tvOS 13.0**, using **Xcode 14.3** or later.
-- **watchOS 9.0**, using **Xcode 14.3** or later.
-- **visionOS 1.0**, using **Xcode 15 beta 2** or later. (Preview support - see below for more details.)
-
-For a full example, please follow the [mobile support walkthrough](/swift/start/mobile-support/) .
-
-<Callout>
-
-visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch. 
-As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
-
-For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
-
-</Callout>
-
-</InlineFilter>
-
-### Set up the backend
-
-
-
-<Callout>
-
-To add custom CDK resources, please follow the guide [here](/[platform]/build-a-backend/add-aws-services/custom-resources/).
-
-</Callout>
-
-You will need to create a log group in Amazon CloudWatch to send logs to. You can create and provision a log group by going through the AWS Console and creating your log group manually or using Amplify CLI and AWS CDK to provision and deploy the AWS resources.
-
-Below is a sample CDK construct to create the Amazon CloudWatch log group as well as creating and assigning the permission policies to Amplify roles.
-
-The `<log-group-name>` and `<region>` configured in the CDK construct will be used later to initialize the Amplify Logger plugin.
-
-### Replace the placeholder values with your own values:
-
-- `<log-group-name>` is the log group that logs will be sent to. Note that this CDK construct sample includes logic to create the CloudWatch log group that you may have already created in previous steps.
-- `<amplify-authenticated-role-name>` and `<amplify-unauthenticated-role-name>` are Amplify roles created as part of Amplify Auth configuration via Amplify CLI.
-
-```ts
-import * as cdk from "aws-cdk-lib"
-import { Construct } from "constructs"
-import * as logs from "aws-cdk-lib/aws-logs"
-import * as path from "path"
-import * as iam from "aws-cdk-lib/aws-iam"
-
-export class RemoteLoggingConstraintsConstruct extends Construct {
-  constructor(scope: Construct, id: string, props: RemoteLoggingConstraintProps) {
-    super(scope, id)
-
-    const region = cdk.Stack.of(this).region
-    const account = cdk.Stack.of(this).account
-    const logGroupName = <log-group-name>
-    const authRoleName = <amplify-authenticated-role-name>
-    const unAuthRoleName = <amplify-unauthenticated-role-name>
-
-    new logs.LogGroup(this, 'Log Group', {
-      logGroupName: logGroupName,
-      retention: logs.RetentionDays.INFINITE
-    })
-
-    const authRole = iam.Role.fromRoleName(this, "Auth-Role", authRoleName)
-    const unAuthRole = iam.Role.fromRoleName(this, "UnAuth-Role", unAuthRoleName)
-    const logResource = `arn:aws:logs:${region}:${account}:log-group:${logGroupName}:log-stream:*`
-    const logIAMPolicy = new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      resources: [logResource],
-      actions: ["logs:PutLogEvents", "logs:DescribeLogStreams", "logs:CreateLogStream"]
-    })
-
-    authRole.addToPrincipalPolicy(logIAMPolicy)
-    unAuthRole.addToPrincipalPolicy(logIAMPolicy)
-
-    new cdk.CfnOutput(this, 'CloudWatchLogGroupName', { value: logGroupName });
-    new cdk.CfnOutput(this, 'CloudWatchRegion', { value: region });
-  }
+```swift
+let logger = Amplify.Logging.logger(forCategory: "Authentication", forNamespace: "<your-code-namespace>")
+do {
+    let jsonEncoder = JSONEncoder()
+    let person = Person(firstName: "John", lastName: "Doe", age: 25)
+    let jsonData = try jsonEncoder.encode(person)
+    let jsonString = String(data: jsonData, encoding: String.Encoding.utf8)!
+    logger.debug(jsonString)
+} catch {
+    logger.error("Error encoding person instance")
 }
 ```
 
-The `<log-group-name>` and `<region>` will be printed out in the in the terminal. You can use this information to setup the Amplify library in the next section.
+The following are existing Amplify category names that are used by default by Amplify when automatically logging errors from the library.
+* `Analytics`
+* `API`
+* `Authentication`
+* `DataStore`
+* `Geo`
+* `Hub`
+* `Logging`
+* `Predictions`
+* `PushNotifications`
+* `Storage`
 
-## Initialize Amplify Logging
+</InlineFilter>
 
-In this section, we will initialize and setup the Amplify library. The Logger can be configured via a configuration file or in code when your app is initializing.
