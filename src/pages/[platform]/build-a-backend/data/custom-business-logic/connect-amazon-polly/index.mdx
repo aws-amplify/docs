@@ -61,7 +61,7 @@ npm install @aws-sdk/client-polly
 
 ## Step 3 - Setup Storage
 
-Create a file named `amplify/storage/resource.ts` and paste the following content:
+Create a file named `amplify/storage/resource.ts` and add the following content to configure a storage resource:
 
 
 ```ts title="amplify/storage/resource.ts"
@@ -75,11 +75,11 @@ export const storage = defineStorage(
 
 ## Step 4 - Configure IAM Roles
 
- We need to set up the appropriate IAM policy for Roles. Add Amazon Polly as a source in `amplify/backend.ts` file.
+ To activate Polly, we need to configure the proper IAM policy for Lambda to utilize the desired feature effectively. Update `amplify/backend.ts` file as shown below.
 
  ```ts title= "amplify/backend.ts"
 
- import { defineBackend } from '@aws-amplify/backend';
+import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data, convertTextToSpeech } from './data/resource';
 import { Stack } from 'aws-cdk-lib';
