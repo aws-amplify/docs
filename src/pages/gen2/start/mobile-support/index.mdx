@@ -524,7 +524,7 @@ Running this command will scaffold a lightweight Amplify project in your current
 Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
 
 ```bash
-npx amplify sandbox --config-format=dart --config-out-dir=lib
+npx amplify sandbox --config-format dart --config-out-dir lib
 ```
 
 ### Adding Authentication
@@ -631,15 +631,17 @@ After the Amplify creation process, you can see a resource.ts file in the amplif
 The default code will create a Todo model with content and isDone property. The authorization rules below specify that owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
 
 ```typescript
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
-      isDone: a.boolean()
+      isDone: a.boolean(),
+      createdAt: a.datetime(),
+      updatedAt: a.datetime(),
     })
-    .authorization([a.allow.owner()])
+    .authorization([a.allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -647,15 +649,15 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'userPool'
-  }
+    defaultAuthorizationMode: "userPool",
+  },
 });
 ```
 
 To generate the model classes out of GraphQL schema, you can run the following command:
 
 ```bash
-npx amplify generate graphql-client-code --format=modelgen --model-target=dart --out=lib/models
+npx amplify generate graphql-client-code --format modelgen --model-target dart --out lib/models
 ```
 
 This will generate dart models under lib/models folder.
@@ -720,6 +722,7 @@ class _TodoScreenState extends State<TodoScreen> {
           } else {
             safePrint('Creating Todo successful.');
           }
+          _refreshTodos();
         },
       ),
       body: const Placeholder(),
@@ -730,9 +733,31 @@ class _TodoScreenState extends State<TodoScreen> {
 
 This will create a random Todo every time a user clicks on the floating action button. You can see the `ModelMutations.create` method is used to create a new Todo.
 
-And update the `Text('TODO Application')` line in your **main.dart** file to use the `TodoScreen` widget.
+And update the `MyApp` widget in your **main.dart** file like the following:
 
-Next add a `_todos` list to add the results from the API and call the refresh function:
+```dart
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Authenticator(
+      child: MaterialApp(
+        builder: Authenticator.builder(),
+        home: const Scaffold(
+          body: Column(
+            children: [
+              SignOutButton(),
+              Expanded(child: TodoScreen()),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+Next add a `_todos` list in `_TodoScreenState` to add the results from the API and call the refresh function:
 
 ```dart
 List<Todo> _todos = [];
@@ -741,6 +766,29 @@ List<Todo> _todos = [];
 void initState() {
   super.initState();
   _refreshTodos();
+}
+```
+
+
+and create a new function called `_refreshTodos`:
+
+```dart
+Future<void> _refreshTodos() async {
+  try {
+    final request = ModelQueries.list(Todo.classType);
+    final response = await Amplify.API.query(request: request).response;
+
+    final todos = response.data?.items;
+    if (response.hasErrors) {
+      safePrint('errors: ${response.errors}');
+      return;
+    }
+    setState(() {
+      _todos = todos!.whereType<Todo>().toList();
+    });
+  } on ApiException catch (e) {
+    safePrint('Query failed: $e');
+  }
 }
 ```
 
@@ -771,28 +819,6 @@ body: _todos.isEmpty == true
           );
         },
       ),
-```
-
-and create a new function called `_refreshTodos`:
-
-```dart
-Future<void> _refreshTodos() async {
-  try {
-    final request = ModelQueries.list(Todo.classType);
-    final response = await Amplify.API.query(request: request).response;
-
-    final todos = response.data?.items;
-    if (response.hasErrors) {
-      safePrint('errors: ${response.errors}');
-      return;
-    }
-    setState(() {
-      _todos = todos!.whereType<Todo>().toList();
-    });
-  } on ApiException catch (e) {
-    safePrint('Query failed: $e');
-  }
-}
 ```
 
 Now let's add a update and delete functionality.
