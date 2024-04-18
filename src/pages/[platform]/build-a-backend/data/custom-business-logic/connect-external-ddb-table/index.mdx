@@ -46,6 +46,8 @@ For the purpose of this guide we will define a `Post` type and create an externa
 First, add the `Post` custom type to your schema:
 
 ```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+
 const schema = a.schema({
   Todo: a
     .model({
@@ -392,7 +394,6 @@ export function response(ctx) {
 <Block name="deletePost">
 ```js title="amplify/data/deletePost.js"
 import { util } from "@aws-appsync/utils";
-
 import * as ddb from "@aws-appsync/utils/dynamodb";
 
 export function request(ctx) {
