@@ -50,7 +50,7 @@ There are two roles created by Cognito: an `Auth_Role` that grants signed-in-use
         "geo:GetMapGlyphs",
         "geo:GetMapStyleDescriptor"
       ],
-      "Resource": "arn:aws:geo:{region}:{account-id}:map/{enter Map name}"
+      "Resource": "arn:aws:geo:<your-geo-region>:<your-account-id>:map/<your-map-name>"
     },
     {
       "Sid": "Search",
@@ -59,7 +59,19 @@ There are two roles created by Cognito: an `Auth_Role` that grants signed-in-use
         "geo:SearchPlaceIndexForPosition",
         "geo:SearchPlaceIndexForText"
       ],
-      "Resource": "arn:aws:geo:{region}:{account-id}:place-index/{enter PlaceIndex name}"
+      "Resource": "arn:aws:geo:<your-geo-region>:<your-account-id>:place-index/<your-index-name>"
+    },
+    {
+      "Sid": "Geofence",
+      "Effect": "Allow",
+      "Action": [
+        "geo:GetGeofence",
+        "geo:PutGeofence",
+        "geo:BatchPutGeofence",
+        "geo:BatchDeleteGeofence",
+        "geo:ListGeofences",
+      ],
+      "Resource": "arn:aws:geo:<your-geo-region>:<your-account-id>:geofence-collection/<your-collection-name>"
     }
   ]
 }
