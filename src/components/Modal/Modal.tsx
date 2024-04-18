@@ -58,7 +58,7 @@ export const Modal = ({ isGen1 }: ModalProps) => {
       applications. Develop and deploy without the hassle.
       <Flex className="modal-key-points">
         <Flex className="modal-key-point">
-          <View className="modal-key-point-left">
+          <View className="modal-key-point-left" aria-hidden="true">
             <IconTSBoxed />
           </View>
           <Flex className="modal-key-point-right">
