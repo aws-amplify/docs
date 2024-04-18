@@ -69,12 +69,6 @@ curl -H "Content-Type: application/json" -d {\"name\":\"item-1\"} https://a5b4c3
 </Block>
 </BlockSwitcher>
 
-<Callout warning="true">
-
-**Warning:** Testing methods using production endpoints may result in changes to resources that cannot be undone.
-
-</Callout>
-
 ## Test the API with API Gateway console
 
 Let's test your new REST API using the route below with HTTP Method `GET` and path `/items?limit=10` which includes a `limit` query string parameter.
@@ -82,12 +76,6 @@ Let's test your new REST API using the route below with HTTP Method `GET` and pa
 ```console
 GET /items?limit=10
 ```
-
-<Callout warning="true">
-
-**Warning:** Testing methods with the API Gateway console may result in changes to resources that cannot be undone.
-
-</Callout>
 
 1. Sign in to the [API Gateway console](https://console.aws.amazon.com/apigateway)  
 2. Choose the `myRestApi` REST API  
