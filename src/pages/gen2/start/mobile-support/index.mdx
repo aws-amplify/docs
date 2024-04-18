@@ -741,12 +741,14 @@ class MyApp extends StatelessWidget {
     return Authenticator(
       child: MaterialApp(
         builder: Authenticator.builder(),
-        home: const Scaffold(
-          body: Column(
-            children: [
-              SignOutButton(),
-              Expanded(child: TodoScreen()),
-            ],
+        home: const SafeArea(
+          child: Scaffold(
+            body: Column(
+              children: [
+                SignOutButton(),
+                Expanded(child: TodoScreen()),
+              ],
+            ),
           ),
         ),
       ),
