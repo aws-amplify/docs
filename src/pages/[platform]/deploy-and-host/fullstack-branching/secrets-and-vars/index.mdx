@@ -62,7 +62,7 @@ Secrets are stored in AWS Systems Manager Parameter Store under the following na
 
 When testing features locally, you might want to test with real secrets. You can add secrets while running the cloud sandbox with the following command:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox secret set foo
 ? Enter secret value: ###
 Done!
@@ -108,7 +108,7 @@ Secrets that are used in branch deployments can be managed directly in the Ampli
 
 To remove a secret in your local environment, run the following command in your terminal:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox secret remove foo
 ```
 
@@ -126,9 +126,9 @@ You can enable access to environment variables for your fullstack branch deploym
 
 You can manage your branch environment access through the Amplify console.
 
-1. First, create an environment variable in the Amplify console and name it REACT_APP_TEST_VARIABLE.
+1. First, create an environment variable in the Amplify console (in this example, you will name it `REACT_APP_TEST_VARIABLE`)
 
-1. Next, navigate to the build settings (`amplify.yml`) and update the build settings to pipe the environment variable into an `.env` file. For example:
+1. Next, navigate to the Build Settings in console (or to the `amplify.yml` file) and update the build settings to pipe the environment variable into a file. Here is an example of writing it into an `.env` file:
 
 ```yml title="amplify.yml"
 build:
@@ -138,9 +138,17 @@ build:
     - npm run build
 ```
 
+<Callout info>
+With the implementation above, the environment variable is written in a `.env` file. However, you can write it to any file depending on your platform.
+
+- For Flutter, you can still use `.env` with an external package or generate your configuration file in Dart or JSON format.
+- For Android, you can use Build Configurations or Gradle variables.
+- For iOS, you can update your plist file with the necessary code or create a configuration file in JSON format.
+</Callout>
+
 Now the `.env` can access the environment variable through `process.env` in your client code:
 
-```ts
+```typescript
 console.log('REACT_APP_TEST_VARIABLE', process.env.REACT_APP_TEST_VARIABLE);
 ```
 
