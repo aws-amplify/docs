@@ -193,7 +193,7 @@ export default function Page() {
       <Columns columns={2}>
         <ExportedImage
           src="/images/gen2/deploy-cycle.png"
-          alt="Flowchart describing the AWS Amplify Gen 2 deployment lifecycle"
+          alt="Diagram showing a software development environment setup with two distinct sandbox environments linked to one Git repo which is connected to the Amplify console which has deployed versions of the Dev and Main branches of the application"
           width="450"
           height="412"
           style={{
