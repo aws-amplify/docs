@@ -354,7 +354,33 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/set-up-rest-api/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/customize-authz/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/fetch-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/post-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/update-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/delete-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/test-api/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/existing-resources/index.mdx'
+                    }
+                  ]
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/index.mdx',
@@ -384,6 +410,20 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/interpret-sentiment/index.mdx'
                     }
                   ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/set-up-interactions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/chatbot/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/deletion-backup-resources/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/index.mdx'
