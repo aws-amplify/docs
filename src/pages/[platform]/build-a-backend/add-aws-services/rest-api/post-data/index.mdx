@@ -56,8 +56,8 @@ async function postItem() {
 
     console.log('POST call succeeded');
     console.log(response);
-  } catch (e) {
-    console.log('POST call failed: ', JSON.parse(e.response.body));
+  } catch (error) {
+    console.log('POST call failed: ', JSON.parse(error.response.body));
   }
 }
 ```

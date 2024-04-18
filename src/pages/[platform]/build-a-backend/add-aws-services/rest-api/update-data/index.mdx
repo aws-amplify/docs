@@ -50,8 +50,8 @@ async function updateItems() {
     });
     const response = await restOperation.response;
     console.log('PUT call succeeded: ', response);
-  } catch (e) {
-    console.log('PUT call failed: ', JSON.parse(e.response.body));
+  } catch (error) {
+    console.log('PUT call failed: ', JSON.parse(error.response.body));
   }
 }
 ```
