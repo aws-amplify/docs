@@ -31,7 +31,7 @@ export function getStaticProps() {
 
 You can use `defineAuth` and `defineFunction` to create a [Cognito pre sign-up Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) that extends the behavior of sign-up to validate attribute values.
 
-To get started, create a new directory and a resource file, `amplify/auth/pre-sign-up/resource.ts`. Then, define the Function with `defineFunction`:
+To get started, create a new directory and a resource file, `amplify/auth/pre-sign-up/resource.ts`. Then, define the function with `defineFunction`:
 
 ```ts title="amplify/auth/pre-sign-up/resource.ts"
 import { defineFunction } from '@aws-amplify/backend';
