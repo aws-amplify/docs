@@ -326,33 +326,393 @@ This returns a place with metadata as shown in the example below.
 <InlineFilter filters={['swift', 'android']}>
 ## Add location search functionality on a map
 
-First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Configure Location Search](/gen1/[platform]/build-a-backend/more-features/geo/configure-location-search/) or [Use existing Amazon Location Service resources](/gen1/[platform]/build-a-backend/more-features/geo/existing-resources/) and you have already setup [displaying a map](/gen1/[platform]/build-a-backend/more-features/geo/maps/) in your application.
+First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Configure Location Search]([/platform]/build-a-backend/add-aws-services/geo/configure-location-search/) or [Use existing Amazon Location Service resources](/[platform]/build-a-backend/add-aws-services/geo/existing-resources/) and you have already setup [displaying a map](/gen1/[platform]/build-a-backend/more-features/geo/maps/) in your application.
 
-import android1 from '/src/fragments/lib/geo/android/search/30_location_search_map.mdx';
+<InlineFilter filters={['android']}>
+`AmplifyMapView` provides built-in location search, search field, and place markers. Follow the [AmplifyMapView section](/[platform]/build-a-backend/add-aws-services/geo/maps/#amplifymapview) on the Maps page to setup the `AmplifyMapView`.
+</InlineFilter>
 
-<Fragments fragments={{ android: android1 }} />
+<InlineFilter filters={['swift']}>
+To add a location search UI component to your `AMLMapView`, you will add an `AMLSearchBar` to your View in your desired layout. Upon searching, `Geo.Place`s are converted to `MGLPointFeature`s using `AmplifyMapLibre.createFeatures(places)`. Lastly assign those converted `MGLPointFeature`s to `mapState.features`. Alternatively, you can leverage the `AMLMapCompositeView` directly, which includes an `AMLSearchBar` among other pre-configured UI components.
 
-import ios2 from '/src/fragments/lib/geo/ios/search/30_location_search_map.mdx';
+```swift
+import SwiftUI
+import AmplifyMapLibreUI
+import AmplifyMapLibreAdapter
+import Amplify
 
-<Fragments fragments={{ swift: ios2 }} />
+struct MyMapView: View {
+
+    @StateObject private var mapState = AMLMapViewState()
+    @State private var searchText = ""
+    @State private var displayState: AMLSearchBar.DisplayState = .map
+
+    var body: some View {
+        ZStack(alignment: .top) {
+            AMLMapView(mapState: mapState)
+                .edgesIgnoringSafeArea(.all)
+
+            AMLSearchBar(
+                text: $searchText,
+                displayState: $displayState,
+                onEditing: { },
+                onCommit: search,
+                onCancel: { mapState.features = [] }
+            )
+            .padding()
+        }
+    }
+
+    private func search() {
+        let searchArea = Geo.SearchArea.near(mapState.center)
+        let searchOptions = Geo.SearchForTextOptions(area: searchArea)
+        Task {
+            do {
+                let places = try await Amplify.Geo.search(for: searchText, options: searchOptions)
+                await MainActor.run {
+                    self.mapState.features = AmplifyMapLibre.createFeatures(places)
+                }
+            } catch let error as Geo.Error {
+                print("Failed to search: \(error)")
+            } catch {
+                print("Unexpected error: \(error)")
+            }
+        }
+    }
+}
+```
+
+![map view of a area with search bar](/images/ios-geocoder-search-box-map.png)
+
+### Customize Feature Icons
+
+You can customize the feature images displayed on the `AMLMapView` or `AMLMapCompositeView`, you can leverage the `featureImage()` view modifier.
+
+{/* // spell-checker: disable */}
+
+```swift
+    var body: some View {
+        AMLMapView(mapState: mapState)
+            .featureImage {
+                let image = UIImage(
+                    systemName: "paperplane.circle.fill",
+                    withConfiguration: UIImage.SymbolConfiguration(
+                        font: .systemFont(ofSize: 22, weight: .medium)
+                    )
+                )!
+                return image
+             }
+            .edgesIgnoringSafeArea(.all)
+    }
+```
+
+{/* // spell-checker: enable */}
+
+![AMLMapView featureImage view modifier](/images/ios-geocoder-custom-images.png)
+</InlineFilter>
 
 ## Location-based search capabilities
 
 Amplify Geo enables you to search for locations by text, addresses, or geo-coordinates.
 
-import android3 from '/src/fragments/lib/geo/android/search/10_search_by_text.mdx';
+<InlineFilter filters={['android']}>
+### Search by text
 
-<Fragments fragments={{ android: android3 }} />
+The `Amplify.Geo.searchByText()` API enables you to search for places or points of interest by free-form text, such as an address, name, city, or region.
 
-import ios4 from '/src/fragments/lib/geo/ios/search/10_search_by_text.mdx';
+<BlockSwitcher>
+<Block name="Java">
 
-<Fragments fragments={{ swift: ios4 }} />
+```java
+String searchQuery = "Amazon Go";
+Amplify.Geo.searchByText(searchQuery,
+    result -> {
+        for (final Place place : result.getPlaces()) {
+            Log.i("MyAmplifyApp", place.toString());
+        }
+    },
+    error -> Log.e("MyAmplifyApp", "Failed to search for " + searchQuery, error)
+);
+```
 
-import android6 from '/src/fragments/lib/geo/android/search/20_search_by_coordinates.mdx';
+</Block>
+<Block name="Kotlin - Callbacks">
 
-<Fragments fragments={{ android: android6 }} />
+```kotlin
+val searchQuery = "Amazon Go"
+Amplify.Geo.searchByText(searchQuery,
+    {
+        for (place in it.places) {
+            Log.i("MyAmplifyApp", place.toString())
+        }
+    },
+    { Log.e("MyAmplifyApp", "Failed to search for $searchQuery", it) }
+)
+```
 
-import ios7 from '/src/fragments/lib/geo/ios/search/20_search_by_coordinates.mdx';
+</Block>
+<Block name="Kotlin - Coroutines">
 
-<Fragments fragments={{ swift: ios7 }} />
+```kotlin
+val searchQuery = "Amazon Go"
+try {
+    val result = Amplify.Geo.searchByText(searchQuery)
+    for (place in result.places) {
+        Log.i("MyAmplifyApp", place.toString())
+    }
+} catch (error: GeoException) { 
+    Log.e("MyAmplifyApp", "Failed to search for $searchQuery", it)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+String searchQuery = "Amazon Go";
+RxAmplify.Geo.searchByText(searchQuery).subscribe(
+    result -> {
+        for (final Place place : result.getPlaces()) {
+            Log.i("MyAmplifyApp", place.toString());
+        }
+    },
+    error -> Log.e("MyAmplifyApp", "Failed to search for " + searchQuery, error)
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+Restrict your search results by specifying following parameters inside `GeoSearchByTextOptions`:
+- `countries` - to limit the search results to given countries. Follows [ISO Alpha-3 country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3). (defaults to "USA")
+- `maxResults` - to limit the maximum result set (defaults to 50)
+- `searchArea`
+  - `near` - to act as the search origination location
+  - `within` - to limit the area to search inside of
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Coordinates position = new Coordinates(47.6153, -122.3384);
+GeoSearchByTextOptions options = GeoSearchByTextOptions.builder()
+    .maxResults(10)
+    .searchArea(SearchArea.near(position))
+    .countries(Collections.singletonList(CountryCode.USA))
+    .build();
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val position = Coordinates(47.6153, -122.3384)
+val options = GeoSearchByTextOptions.builder()
+    .maxResults(10)
+    .searchArea(SearchArea.near(position))
+    .countries(listOf(CountryCode.USA))
+    .build()
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val position = Coordinates(47.6153, -122.3384)
+val options = GeoSearchByTextOptions.builder()
+    .maxResults(10)
+    .searchArea(SearchArea.near(position))
+    .countries(listOf(CountryCode.USA))
+    .build()
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+Coordinates position = new Coordinates(47.6153, -122.3384);
+GeoSearchByTextOptions options = GeoSearchByTextOptions.builder()
+    .maxResults(10)
+    .searchArea(SearchArea.near(position))
+    .countries(Collections.singletonList(CountryCode.USA))
+    .build();
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+### Search for text
+
+The `Amplify.Geo.search(for text:)` API enables you to search for places or points of interest by free-form text, such as an address, name, city, or region.
+
+```swift
+do {
+    let places = try await Amplify.Geo.search(for: "coffee shops")
+    dump(places)
+} catch {
+    print(error)
+}
+```
+
+You can refine your search by specifying following parameters inside `Geo.SearchForTextOptions`
+
+- `area`
+  - `.near` - to act as the search origination location.
+  - `.within` - to limit the area to search within.
+- `countries` - to limit the search results to given countries.
+- `maxResults` - to limit the maximum result set (defaults to 50).
+
+```swift
+let coordinates = Geo.Coordinates(latitude: 47.62246, longitude: -122.336775)
+let options = Geo.SearchForTextOptions(area: .near(coordinates), countries: [.usa, .can], maxResults: 25)
+
+do {
+    let places = try await Amplify.Geo.search(for: "coffee shops", options: options)
+    dump(places)
+} catch let error as Geo.Error {
+    print("Failed to search: \(error)"
+} catch {
+    print("Unexpected error: \(error)")
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+### Search by coordinates
+
+The `Amplify.Geo.searchByCoordinates()` API is a reverse Geocoder that takes a coordinate point and returns information about what it finds at that point on the map.
+The returned object is the same shape as `Amplify.Geo.searchByText()` API.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Coordinates position = new Coordinates(47.6153, -122.3384);
+Amplify.Geo.searchByCoordinates(position,
+    result -> {
+        for (final Place place : result.getPlaces()) {
+            Log.i("MyAmplifyApp", place.toString());
+        }
+    },
+    error -> Log.e("MyAmplifyApp", "Failed to reverse geocode " + position, error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val position = Coordinates(47.6153, -122.3384)
+Amplify.Geo.searchByCoordinates(position,
+    {
+        for (place in it.places) {
+            Log.i("MyAmplifyApp", place.toString())
+        }
+    },
+    { Log.e("MyAmplifyApp", "Failed to reverse geocode $position", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val position = Coordinates(47.6153, -122.3384)
+try {
+    val result = Amplify.Geo.searchByCoordinates(position)
+    for (place in result.places) {
+        Log.i("MyAmplifyApp", place.toString())
+    }
+} catch (error: GeoException) {
+    Log.e("MyAmplifyApp", "Failed to reverse geocode $position", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+Coordinates position = new Coordinates(47.6153, -122.3384);
+RxAmplify.Geo.searchByCoordinates(position).subscribe(
+    result -> {
+        for (final Place place : result.getPlaces()) {
+            Log.i("MyAmplifyApp", place.toString());
+        }
+    },
+    error -> Log.e("MyAmplifyApp", "Failed to reverse geocode " + position, error)
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+Restrict your search results by specifying following parameters inside `GeoSearchByCoordinatesOptions`:
+- `maxResults` - to limit the maximum result set (defaults to 50)
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+GeoSearchByCoordinatesOptions options = GeoSearchByCoordinatesOptions.builder()
+    .maxResults(1)
+    .build();
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val options = GeoSearchByCoordinatesOptions.builder()
+    .maxResults(1)
+    .build()
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val options = GeoSearchByCoordinatesOptions.builder()
+    .maxResults(1)
+    .build()
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+GeoSearchByCoordinatesOptions options = GeoSearchByCoordinatesOptions.builder()
+    .maxResults(1)
+    .build();
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+### Search for coordinates
+
+The `Amplify.Geo.search(for coordinates:)` API is a reverse Geocoder that takes a coordinate point and returns information about what it finds at that point on the map.
+
+```swift
+do {
+    let places = try await Amplify.Geo.search(for: coordinates)
+    dump(places)
+} catch let error as Geo.Error {
+    print("Failed to search: \(error)")
+} catch {
+    print("Unexpected error: \(error)")
+}
+```
+
+You can refine your search by specifying following parameters inside `Geo.SearchForCoordinatesOptions`
+- `maxResults` - to limit the maximum result set (defaults to 50)
+
+```swift
+let options = Geo.SearchForCoordinatesOptions(maxResults: 25)
+```
+</InlineFilter>
 </InlineFilter>
