@@ -29,7 +29,7 @@ You can customize your authentication resource to enable it to behave exactly as
 
 ## Override Cognito UserPool password policies
 
-You can override the password policy by using the L1 `cfnUserPool` construct and adding a `addPropertyOverride`.
+You can override the password policy by using the L1 `cfnUserPool` construct and modifying policies directly.
 
 ```ts title="amplify/backend.ts"
 // amplify/backend.ts
@@ -40,25 +40,28 @@ const backend = defineBackend({
 });
 // extract L1 CfnUserPool resources
 const { cfnUserPool } = backend.auth.resources.cfnResources;
-// use CDK's `addPropertyOverride` to modify properties directly
-cfnUserPool.addPropertyOverride(
-  "Policies",
-  {
-    PasswordPolicy: {
-      MinimumLength: 10,
-      RequireLowercase: true,
-      RequireNumbers: true,
-      RequireSymbols: true,
-      RequireUppercase: true,
-      TemporaryPasswordValidityDays: 20,
-    },
-  }
-);
+// modify cfnUserPool policies directly
+cfnUserPool.policies = {
+  passwordPolicy: {
+    minimumLength: 10,
+    requireLowercase: true,
+    requireNumbers: true,
+    requireSymbols: true,
+    requireUppercase: true,
+    temporaryPasswordValidityDays: 20,
+  },
+};
 ```
 
 ## Custom Attributes
 
 The following code will allow you to add custom attributes using the [Userpool schema](https://docs.aws.amazon.com/cdk/api/v1/docs/@aws-cdk_aws-cognito.CfnUserPool.html#schema) property with the L1 `cfnUserPool` construct.
+
+<Callout warning>
+
+If you have customized attributes, add them to the modified Userpool schema to keep your desired attribute properties.
+
+</Callout>
 
 ```ts title="amplify/backend.ts"
 // amplify/backend.ts
@@ -73,12 +76,12 @@ const backend = defineBackend({
 
 // extract L1 CfnUserPool resources
 const { cfnUserPool } = backend.auth.resources.cfnResources;
-// use CDK's `addPropertyOverride` to modify properties directly
-cfnUserPool.addPropertyOverride("Schema", [
+// modify cfnUserPool schema directly
+cfnUserPool.schema = [
   {
-    Name: "publicName",
-    AttributeDataType: "String",
-    Mutable: true,
+    name: 'publicName',
+    attributeDataType: 'String',
+    mutable: true,
   },
-]);
+];
 ```
