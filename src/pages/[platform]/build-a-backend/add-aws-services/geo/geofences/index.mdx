@@ -42,7 +42,7 @@ npm install aws-amplify \
   @aws-amplify/ui-react-geo
 ```
 
-> **Note:** Make sure that `maplibre-gl-js-amplify` version `4.0.0` or above and `aws-amplify @aws-amplify/geo` version `6.0.0` or above are installed.
+> **Note:** Make sure that `aws-amplify @aws-amplify/geo` version `6.0.0` or above are installed.
 
 First, create a map onto which you want to add the geofence management component. See the guide on [creating and displaying maps](/[platform]/build-a-backend/add-aws-services/geo/maps).
 
@@ -152,9 +152,9 @@ export default withAuthenticator(App);
 
 > **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
 
-![Geofence Create example when selecting an area on a map](/images/geofence-create.png)
+!['Create Geofence' interface showing the process of selecting multiple points on a map to define the perimeter of a new geofence area](/images/geofence-create.png)
 
-![Geofence Edit example when selecting an area on a map](/images/geofence-edit.png)
+![ 'Edit Geofence' interface displaying the selection of an area on a map by adjusting multiple points around the perimeter of an existing geofence](/images/geofence-edit.png)
 
 ## Geofence API
 

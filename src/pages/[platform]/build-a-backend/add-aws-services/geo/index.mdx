@@ -24,13 +24,10 @@ export function getStaticProps(context) {
   const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      platform: context.params.platform,
       meta,
       childPageNodes
     }
   };
 }
 
-<Overview childPageNodes={props.childPageNodes} />import { getChildPageNodes } from '@/utils/getChildPageNodes';
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
+<Overview childPageNodes={props.childPageNodes} />
