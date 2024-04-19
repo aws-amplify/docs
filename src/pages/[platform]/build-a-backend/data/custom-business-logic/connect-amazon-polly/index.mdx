@@ -41,7 +41,7 @@ Key features of Amazon Polly include:
 
 - **High-Quality Speech**: Amazon Polly's neural and standard voices offer natural and realistic speech quality.
 
-- **Speech Marks and SSML**: Customize your speech output with Speech Synthesis Markup Language (SSML) tags and obtain speech timing information with speech marks.
+- **Speech Marks and Speech Synthesis Markup Language**: Customize your speech output with Speech Synthesis Markup Language tags and obtain speech timing information with speech marks.
 
 - **Scalable and Cost-Effective**: Amazon Polly's pay-as-you-go pricing model makes it a cost-effective solution for adding speech capabilities to your applications.
 
@@ -68,7 +68,7 @@ Create a file named `amplify/storage/resource.ts` and add the following content 
 import { defineStorage } from '@aws-amplify/backend';
 
 export const storage = defineStorage(
-  name: 'predictionsforgen2'
+  name: 'predictions_gen2'
 });
 
 ```
@@ -119,13 +119,13 @@ export const handler: Schema["convertTextToSpeech"]["functionHandler"] = async (
     Text: event.arguments.text,
     TextType: 'text',
     VoiceId: 'Amy',
-    OutputS3BucketName: env.predictionsforgen2_BUCKET_NAME,
+    OutputS3BucketName: env.predictions_gen2_BUCKET_NAME,
     OutputS3KeyPrefix: 'public/'
   })
   const result = await client.send(task)
 
   return result.SynthesisTask?.OutputUri?.replace(
-    'https://s3.us-east-1.amazonaws.com/' + env.predictionsforgen2_BUCKET_NAME + '/public/', "") ?? ""
+    'https://s3.us-east-1.amazonaws.com/' + env.predictions_gen2_BUCKET_NAME + '/public/', "") ?? ""
 }
 
 ```
@@ -175,7 +175,7 @@ import { defineStorage } from "@aws-amplify/backend"
 import { convertTextToSpeech } from "../data/resource"
 
 export const storage = defineStorage({
-  name: "predictionsforgen2",
+  name: "predictions_gen2",
   access: allow => ({
     '/public/*': [
       allow.resource(convertTextToSpeech).to(['write']),
