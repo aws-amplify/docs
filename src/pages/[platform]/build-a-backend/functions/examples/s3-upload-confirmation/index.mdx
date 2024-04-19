@@ -31,7 +31,13 @@ export function getStaticProps() {
 
 You can use `defineStorage` and `defineFunction` to create a function trigger to confirm uploading a file.
 
-First, update your storage definition to define the onUpload trigger as below:
+To get started, install the `aws-lambda` [package](https://www.npmjs.com/package/@types/aws-lambda), which contains types for different kinds of Lambda handlers, events, and responses.
+
+```bash title="Terminal" showLineNumbers={false}
+npm install --save @types/aws-lambda
+```
+
+Update your storage definition to define the onUpload trigger as below:
 
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
@@ -54,11 +60,5 @@ export const handler: S3Handler = async (event) => {
   console.log(`Upload handler invoked for objects [${objectKeys.join(', ')}]`);
 };
 ```
-
-<Callout info>
-
-**Note:** The `S3Handler` type comes from the [`@types/aws-lambda`](https://www.npmjs.com/package/@types/aws-lambda) npm package. This package contains types for different kinds of Lambda handlers, events, and responses.
-
-</Callout>
 
 Now, when you deploy your backend, this function will be invoked whenever an object is uploaded from the bucket.
