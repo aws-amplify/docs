@@ -24,10 +24,10 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([
-      a.allow.owner('oidc').identityClaim('user_id'),
-      a.allow.private('oidc'),
-      a.allow
+    .authorization(allow => [
+      allow.owner('oidc').identityClaim('user_id'),
+      allow.authenticate('oidc'),
+      allow
         .specificGroups(['testGroupName'], 'oidc')
         .withClaimIn('user_groups'),
     ]),

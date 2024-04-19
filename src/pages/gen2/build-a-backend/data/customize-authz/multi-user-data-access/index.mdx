@@ -24,7 +24,7 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.multipleOwners()]),
+    .authorization(allow => allow.ownersDefinedIn('owners')),
 });
 ```
 
@@ -74,6 +74,6 @@ const schema = a.schema({
       content: a.string(),
       authors: a.string().array(), // record owner information now stored in "authors" field
     })
-    .authorization([a.allow.multipleOwners().inField('authors')]),
+    .authorization(allow => allow.ownersDefinedIn('authors')),
 });
 ```
