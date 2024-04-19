@@ -186,7 +186,7 @@ const schema = a.schema({
     // highlight-next-line
     .arguments({ name: a.string() })
     .returns(a.ref('Channel'))
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
 });
 export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
@@ -225,7 +225,7 @@ const schema = a.schema({
     .arguments({ namePrefix: a.string() })
     .returns(a.ref('Message'))
     .handler(a.handler.custom({entry: './receive.js'}))
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
