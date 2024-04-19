@@ -39,7 +39,7 @@ const schema = a.schema({
     // 2. Create a belongsTo relationship with the reference field
     team: a.belongsTo('Team', 'teamId'),
   })
-  .authorization([a.allow.public()]),
+  .authorization(allow => [allow.publicApiKey()]),
 
   Team: a.model({
     mantra: a.string().required(),
@@ -47,7 +47,7 @@ const schema = a.schema({
     //    from the `Member`s model.
     members: a.hasMany('Member', 'teamId'),
   })
-  .authorization([a.allow.public()]),
+  .authorization(allow => [allow.publicApiKey()]),
 });
 ```
 
@@ -229,7 +229,7 @@ const schema = a.schema({
     // highlight-next-line
     posts: a.hasMany('PostTag', 'tagId'),
   }),
-}).authorization([a.allow.public()]);
+}).authorization(allow => [allow.publicApiKey()]);
 ```
 
 ## Model multiple relationships between two models
@@ -255,7 +255,7 @@ const schema = a.schema({
     authoredPosts: a.hasMany('Post', 'authorId'),
     // highlight-end
   }),
-}).authorization([a.allow.public()]);
+}).authorization(allow => [allow.publicApiKey()]);
 ```
 
 On the client-side, you can fetch the related data with the following code:
@@ -294,7 +294,7 @@ const schema = a.schema({
     authoredPosts: a.hasMany('Post', ['authorName', 'authorDoB']),
     // highlight-next-line
   }).identifier(['name', 'dateOfBirth']),
-}).authorization([a.allow.public()]);
+}).authorization(allow => [allow.publicApiKey()]);
 ```
 
 ## Make relationships required or optional
