@@ -54,7 +54,7 @@ const schema = a
     })
   })
   // highlight-start
-  .authorization([
+  .authorization(allow => [
     allow.resource(functionWithDataAccess).to(['query', 'listen'])
   ]); // allow query and subscription operations but not mutations
 // highlight-end

@@ -186,7 +186,7 @@ const schema = a.schema({
     content: a.string(),
     likes: a.integer()
       .authorization(allow => [allow.authenticated().to(['read'])])
-  }).authorization([
+  }).authorization(allow => [
     allow.owner(),
     allow.authenticated().to(['read'])
   ]),
@@ -279,7 +279,7 @@ const schema = a.schema({
     content: a.string(),
     likes: a.integer()
       .authorization(allow => [allow.authenticated().to(['read'])])
-  }).authorization([
+  }).authorization(allow => [
     allow.owner(),
     allow.authenticated().to(['read'])
   ]),
