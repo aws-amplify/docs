@@ -1,0 +1,258 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Connect to Amazon Translate for Translate language APIs',
+  description:
+    'Connect to Amazon Translate.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+# Connect to Amazon Translate for Translate language APIs
+
+Amazon Translate is a neural machine translation service provided by Amazon Web Services (AWS). It uses advanced deep learning technologies to deliver fast and high-quality language translation. With Amazon Translate, you can easily add multilingual support to your applications and services, enabling users to communicate and interact in their preferred language.
+
+Key features of Amazon Translate include:
+
+- **Accurate and Fluent Translations**: Amazon Translate produces translations that are both accurate and natural-sounding, providing a seamless experience for users.
+
+- **Support for Multiple Languages**: The service supports a broad range of languages, allowing you to expand your application’s reach to diverse audiences around the world.
+
+- **Real-Time and Batch Translation**: Amazon Translate can handle real-time translation for dynamic content and batch translation for larger volumes of text, making it suitable for various use cases.
+
+- **Cost-Effective and Scalable**: With its pay-as-you-go pricing model and automatic scaling, Amazon Translate is an economical and flexible solution for adding translation capabilities to your applications.
+
+In this section, you will learn how to integrate Amazon Translate into your application using AWS Amplify, enabling you to leverage its powerful translation capabilities effortlessly.
+
+## Step 1 - Setup the project
+
+Set up your project by following the instructions in the [Quickstart guide](/[platform]/start/quickstart/). 
+
+## Step 2 - Install Translate Libraries
+We'll create a new API endpoint that'll use the the AWS SDK to call the Amazon Translate service. To install the Amazon Translate SDK, run the following command in your project's root folder:
+
+```bash
+npm install @aws-sdk/client-translate
+
+```
+
+
+## Step 3 - Configure Http Datasource and IAM Roles
+
+ To access Amazon Translate service, you need to add translate as HttpDataSource and configure the proper IAM policy for Lambda to utilize the desired feature effectively. Update `amplify/backend.ts` file add Role policy shown below.
+
+ ```ts title= "amplify/backend.ts"
+
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { Stack } from 'aws-cdk-lib';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+
+const backend = defineBackend({
+  auth,
+  data,
+  convertTextToSpeech
+});
+
+const dataStack = Stack.of(backend.data)
+
+const translateDataSource = backend.data.addHttpDataSource(
+  "TranslateDataSource",
+  `https://translate.${dataStack.region}.amazonaws.com`,
+  {
+    authorizationConfig: {
+      signingRegion: dataStack.region,
+      signingServiceName: "translate",
+    },
+  }
+);
+
+translateDataSource.grantPrincipal.addToPrincipalPolicy(
+  new PolicyStatement({
+    actions: ["translate:TranslateText"],
+    resources: ["*"],
+  })
+);
+```
+## Step 4 - Configure custom business logic handler
+
+Custom resolvers work on a "request/response" basis.Define the custom resolver by creating a new file, `amplify/data/translate.ts`. 
+
+```ts title="amplify/data/translate.ts"
+
+export function request(ctx) {
+  return {
+    method: 'POST',
+    resourcePath: '/',
+    params: {
+      body: {
+        SourceLanguageCode: ctx.arguments.sourceLanguage,
+        TargetLanguageCode: ctx.arguments.targetLanguage,
+        Text: ctx.arguments.text
+      },
+      headers: {
+        'Content-Type': 'application/x-amz-json-1.1',
+        'X-Amz-Target': 'AWSShineFrontendService_20170701.TranslateText'
+      }
+    },
+  }
+}
+
+export function response(ctx) {
+  return JSON.parse(ctx.result.body).TranslatedText
+}
+
+```
+
+## Step 5 - Define the Custom Query
+
+In your `amplify/data/resource.ts` file, you can create a custom query and custom handler using `a.handler.custom`. Specify `TranslateDataSource` as the data source and `translate.js` as the entry point.
+
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+
+const schema = a.schema({
+  translate: a.query()
+    .arguments({
+      sourceLanguage: a.string().required(),
+      targetLanguage: a.string().required(),
+      text: a.string().required()
+    })
+    .returns(a.string())
+    .authorization([a.allow.public()])
+    .handler(a.handler.custom({
+      dataSource: "TranslateDataSource",
+      entry: './translate.js'
+    }))
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    // API Key is used for a.allow.public() rules
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
+});
+
+```
+
+## Step 6 - Configure the frontend
+
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. 
+AnilMaktala marked this conversation as resolved.
+``` ts title="main.tsx"
+import { Amplify } from 'aws-amplify'
+import amplifyconfig from '../amplifyconfiguration.json'
+
+Amplify.configure(amplifyconfig)
+
+```
+### Invoke the API
+
+Sample frontend code to translate text from one language to another.
+
+```ts title="App.tsx"
+import "./App.css";
+import { generateClient } from "aws-amplify/api";
+import type { Schema } from "../amplify/data/resource";
+import React, { useState } from "react";
+
+const client = generateClient<Schema>();
+
+function App() {
+  const [text, setText] = useState("");
+  const [translatedText, setTranslatedText] = useState("");
+  const [sourceLanguage, setSourceLanguage] = useState("en");
+  const [targetLanguage, setTargetLanguage] = useState("es");
+
+  const handleTranslate = async () => {
+    try {
+      const { data } = await client.queries.translate({
+        sourceLanguage,
+        targetLanguage,
+        text,
+      });
+      setTranslatedText(data);
+    } catch (error) {
+      console.error("Translation error:", error);
+    }
+  };
+  return (
+    <>
+      <div>
+        <h1>Amazon Translate Demo</h1>
+        <div>
+          <label>Enter text to translate:</label>
+          <input
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Source Language:</label>
+          <select
+            value={sourceLanguage}
+            onChange={(e) => setSourceLanguage(e.target.value)}
+          >
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            {/* Add more languages as needed */}
+          </select>
+        </div>
+        <div>
+          <label>Target Language:</label>
+          <select
+            value={targetLanguage}
+            onChange={(e) => setTargetLanguage(e.target.value)}
+          >
+            <option value="es">Spanish</option>
+            <option value="en">English</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            {/* Add more languages as needed */}
+          </select>
+        </div>
+        <button onClick={handleTranslate}>Translate</button>
+        <div>
+          <h3>Translated Text:</h3>
+          <p>{translatedText}</p>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default App;
+
+
+```
