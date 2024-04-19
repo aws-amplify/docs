@@ -64,7 +64,7 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization(allow => [allow.authenticated('identityPool')]),
+    .authorization(allow => [allow.authenticated('iam')]),
 });
 ```
 
