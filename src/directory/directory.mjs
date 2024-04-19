@@ -437,6 +437,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/overriding-resources/index.mdx'
                 }
               ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/q-developer/index.mdx'
             }
           ]
         },
