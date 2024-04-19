@@ -1,7 +1,7 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Connect to Amazon Translate for Translate language APIs',
+  title: 'Connect to Amazon Translate for language translation APIs',
   description:
     'Connect to Amazon Translate.',
   platforms: [
@@ -29,7 +29,7 @@ export function getStaticProps() {
   };
 }
 
-# Connect to Amazon Translate for Translate language APIs
+# Connect to Amazon Translate for language translation APIs
 
 Amazon Translate is a neural machine translation service provided by Amazon Web Services (AWS). It uses advanced deep learning technologies to deliver fast and high-quality language translation. With Amazon Translate, you can easily add multilingual support to your applications and services, enabling users to communicate and interact in their preferred language.
 
@@ -57,10 +57,9 @@ npm install @aws-sdk/client-translate
 
 ```
 
+## Step 3 - Add your Aamzon Translate as datasource
 
-## Step 3 - Configure Http Datasource and IAM Roles
-
- To access Amazon Translate service, you need to add translate as HttpDataSource and configure the proper IAM policy for Lambda to utilize the desired feature effectively. Update `amplify/backend.ts` file add Role policy shown below.
+ To access Amazon Translate service, you need to add Amazon Translate as Http DataSource and configure the proper IAM policy for Lambda to utilize the desired feature effectively. Update `amplify/backend.ts` file as shown below.
 
  ```ts title= "amplify/backend.ts"
 
