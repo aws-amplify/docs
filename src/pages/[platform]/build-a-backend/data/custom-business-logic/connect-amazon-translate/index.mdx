@@ -49,7 +49,7 @@ In this section, you will learn how to integrate Amazon Translate into your appl
 
 Set up your project by following the instructions in the [Quickstart guide](/[platform]/start/quickstart/). 
 
-## Step 2 - Install Translate Libraries
+## Step 2 - Install Amazon Translate libraries
 We'll create a new API endpoint that'll use the the AWS SDK to call the Amazon Translate service. To install the Amazon Translate SDK, run the following command in your project's root folder:
 
 ```bash
@@ -59,7 +59,7 @@ npm install @aws-sdk/client-translate
 
 ## Step 3 - Add your Aamzon Translate as Datasource
 
- To access Amazon Translate service, you need to add Amazon Translate as Http DataSource and configure the proper IAM policy for Lambda to utilize the desired feature effectively. Update `amplify/backend.ts` file as shown below.
+ To access Amazon Translate service, you need to add Amazon Translate as Http Data Source and configure the proper IAM policy for Lambda to utilize the desired feature effectively. Update `amplify/backend.ts` file as shown below.
 
  ```ts title= "amplify/backend.ts"
 
@@ -95,7 +95,7 @@ translateDataSource.grantPrincipal.addToPrincipalPolicy(
 ```
 ## Step 4 - Configure custom business logic handler
 
-Custom resolvers work on a "request/response" basis.Define the custom resolver by creating a new file, `amplify/data/translate.ts`. 
+Next, create the following `translate.ts` file in your `amplify/data` folder and use the code below to define custom resolvers. 
 
 ```ts title="amplify/data/translate.ts"
 
