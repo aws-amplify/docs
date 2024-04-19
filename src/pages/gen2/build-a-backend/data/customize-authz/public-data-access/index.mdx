@@ -23,7 +23,7 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.public()]),
+    .authorization(allow => [allow.publicApiKey()]),
 });
 ```
 
@@ -57,7 +57,7 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.public('identityPool')]),
+    .authorization(allow => [allow.guest()]),
 });
 ```
 
