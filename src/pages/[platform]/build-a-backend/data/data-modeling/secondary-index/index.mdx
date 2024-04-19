@@ -43,7 +43,7 @@ export const schema = a.schema({
     })
       // highlight-next-line
     .secondaryIndexes((index) => [index("accountRepresentativeId")])
-    .authorization([a.allow.public()]),
+    .authorization(allow => [allow.publicApiKey()]),
 });
 ```
 
@@ -88,7 +88,7 @@ export const schema = a.schema({
       // highlight-next-line
         .sortKeys(["name"]),
     ])
-    .authorization([a.allow.owner()]),
+    .authorization(allow => [allow.owner()]),
 });
 ```
 
@@ -125,7 +125,7 @@ const schema = a.schema({
         // highlight-next-line
         .queryField("listByRep"),
     ])
-    .authorization([a.allow.owner()]),
+    .authorization(allow => [allow.owner()]),
 });
 ```
 
@@ -158,6 +158,6 @@ const schema = a.schema({
         // highlight-next-line
         .name("MyCustomIndexName"),
     ])
-    .authorization([a.allow.owner()]),
+    .authorization(allow => [allow.owner()]),
 });
 ```

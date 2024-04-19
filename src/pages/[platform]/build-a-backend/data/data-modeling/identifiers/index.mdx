@@ -62,7 +62,7 @@ const schema = a.schema({
     title: a.string(),
     completed: a.boolean(),
   }).identifier(['todoId'])
-  .authorization([a.allow.public()]),
+  .authorization(allow => [allow.publicApiKey()]),
 });
 
 const client = generateClient<Schema>();
@@ -86,7 +86,7 @@ const schema = a.schema({
     zipCode: a.string(),
     streetAddress: a.string(),
   }).identifier(['tenantId', 'name'])
-  .authorization([a.allow.public()]),
+  .authorization(allow => [allow.publicApiKey()]),
 });
 
 const client = generateClient<Schema>();
