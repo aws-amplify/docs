@@ -1,0 +1,72 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Improved IAM authorization when using GraphQL API CDK construct',
+  description: 'This reference documents the behavioral improvements coming to IAM authorization when you deploy your GraphQL API using the Amplify GraphQL CDK construct.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+## What is changing?
+
+In an effort to improve the usability of the GraphQL API CDK construct with other AWS resources, such as AWS Lambda functions, we're providing a new way to configure IAM authorization. This change does not affect customers using the Amplify CLI (Gen 1) to build and deploy their GraphQL APIs (amplify add api).
+
+### How did IAM authorization work before this improvement?
+
+There are two use cases for IAM auth with the Amplify GraphQL CDK construct. 
+
+**Use case 1: Provide a deny-by-default authorization pattern for Amazon Cognito identity pool's unauthenticated and authenticated role access to the API.** We wanted to ensure if you want any unauthenticated roles to access a model, you must explicit allow-list that behavior. For example: `@auth(rules: [{ allow: public, provider: iam }])`. 
+
+**Use case 2: Provide access to the GraphQL API from other IAM principals, such as AWS Lambda functions' execution role, or to use the GraphQL query explorer from the AWS AppSync console.** In this case, despite these IAM roles having the required IAM policies to access the GraphQL API, you needed to also supply these IAM roles into the Amplify GraphQL API CDK construct's `allowListedRoles` properties. This often led to circular dependency issues that are difficult to untangle.
+
+### How does IAM authorization work after this improvement? 
+
+We'll issue a non-breaking feature improvement that'll make the use case clearer for customers.
+
+**Changes to use case 1:** To make the API more descriptive and clarify its intended behavior, we're renaming the `provider: iam` variable to `provider: identityPool` in the `@auth` rules. At the same time, we're introducing a `identityPoolConfig` property on the CDK construct that'll accept the existing values for (`identityPoolId`, `authenticatedUserRole`, `unauthenticatedUserRole`).
+
+**Changes to use case 2:** Instead of explicitly setting the `allowListedRoles`, you now only need to set the `enableIamAuthorizationMode: true` under the `iamConfig` property. Now all resource access to the API with the exception of Amazon Cognito identity pool roles are governed by the resources' IAM role and policies.
+
+### How do I take advantage of this improvement?
+
+To take advantage of this improvement, follow these steps:
+
+1. Upgrade to the latest version of the Amplify GraphQL API CDK construct by running `npm install @aws-amplify/graphql-api-construct@latest`
+2. Set the `enableIamAuthorizationMode` to `true` under `iamConfig`.
+3. Move the existing values for `identityPoolId`, `authenticatedUserRole`, `unauthenticatedUserRole` from `iamConfig` to `identityPoolConfig`.
+4. Validate that all IAM roles has the appropriate permissions to access the GraphQL API. **If you have configured prior overly permissive policies, modify the policies accordingly.**
+5. Unset the values for `allowListedRoles`. Your `iamConfig` should only have a `enableIamAuthorizationMode: true` value at this point.
+6. Deploy your GraphQL API with the updated configuration via `cdk deploy`.
+
+## Is this a breaking change?
+
+No. Your existing IAM authorization behavior will continue to work but we plan on deprecating the old behavior in the future, thus we highly recommend you to upgrade to the new behavior. If the following values under `iamConfig` are present, then the behavior remains as before: `identityPoolId`, `authenticatedUserRole`, `unauthenticatedUserRole`, `allowListedRoles`.
+
+## Who can take advantage of this improvement?
+
+Only customers using the [Amplify GraphQL API CDK construct](https://constructs.dev/packages/@aws-amplify/graphql-api-construct/v/1.6.0?lang=typescript) will be able to take advantage of this improvement.
+
+If you use the Amplify CLI (Gen 1) to deploy your GraphQL API (`amplify add api`), this improvement **does not** affect you.
