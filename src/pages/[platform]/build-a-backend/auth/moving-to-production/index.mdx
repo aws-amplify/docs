@@ -30,4 +30,33 @@ export function getStaticProps() {
 }
 
 {/* SES setup */}
+
+```ts title="amplify/backend.ts"
+import { Stack } from "aws-cdk-lib/core"
+import { EmailIdentity } from "aws-cdk-lib/aws-ses"
+import { defineBackend } from "@aws-amplify/backend"
+import { auth } from "./auth/resource"
+
+const backend = defineBackend({
+  auth,
+})
+
+const { cfnUserPool } = backend.auth.resources.cfnResources
+const authStack = Stack.of(cfnUserPool)
+
+const email = EmailIdentity.fromEmailIdentityName(
+  authStack,
+  "EmailIdentity",
+  // your email configured for use in SES
+  process.env.EMAIL
+)
+
+cfnUserPool.emailConfiguration = {
+  emailSendingAccount: "DEVELOPER",
+  sourceArn: email.emailIdentityArn,
+}
+```
+
 {/* SMS requirements */}
+{/* custom domain */}
+{/* waf */}

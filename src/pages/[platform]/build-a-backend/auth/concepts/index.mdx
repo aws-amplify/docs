@@ -98,7 +98,23 @@ export const auth = defineAuth({
 });
 ```
 
-This is not a username the user will be able to sign in with, but it can be used to mask their personal information such as their email or phone number when displaying publicly. 
+This is not a username the user will be able to sign in with, but it can be used to mask their personal information such as their email or phone number when displaying publicly.
 
 {/* frontend examples of vanity username */}
-{/* overriding defaults for pure "username" */}
+
+If you would like to override the default behavior and allow your users to sign up with an immutable username, you can use CDK to modify your auth resource's [`usernameAttributes`](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cognito.CfnUserPool.html#usernameattributes-1) configuration directly:
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend"
+import { auth } from "./auth/resource"
+import { data } from "./data/resource"
+
+const backend = defineBackend({
+  auth,
+  data,
+})
+
+const { cfnUserPool } = backend.auth.resources.cfnResources
+// an empty array denotes "email" and "phone_number" cannot be used as a username
+cfnUserPool.usernameAttributes = []
+```
