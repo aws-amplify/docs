@@ -1,0 +1,256 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Connect to Amazon Rekognition for Image Analysis APIs',
+  description:
+    'Connect to Amazon Rekognition.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amazon Rekognition is an advanced machine learning service provided by Amazon Web Services (AWS), allowing developers to incorporate image and video analysis into their applications. It uses state-of-the-art machine learning models to analyze images and videos, providing valuable insights such as object and scene detection, text recognition, face analysis, and more.
+
+Key features of Amazon Rekognition include:
+
+- **Object and Scene Detection**: Amazon Rekognition can identify thousands of objects and scenes in images and videos, providing valuable context for your media content.
+
+- **Text Detection and Recognition**: The service can detect and recognize text within images and videos, making it an invaluable tool for applications requiring text extraction.
+
+- **Facial Analysis**: Amazon Rekognition offers accurate facial analysis, enabling you to detect, analyze, and compare faces in images and videos.
+
+- **Facial Recognition**: You can build applications with the capability to recognize and verify individuals using facial recognition.
+
+- **Content Moderation**: Amazon Rekognition can analyze images and videos to identify inappropriate or objectionable content, helping you maintain safe and compliant content.
+
+In this section, you will learn how to integrate Amazon Rekognition into your application using AWS Amplify, leveraging its powerful image analysis capabilities seamlessly.
+
+## Step 1 - Setup the project
+
+Set up your project by following the instructions in the [Quickstart guide](/[platform]/start/quickstart/). 
+
+## Step 2 - Install Polly Libraries
+We'll create a new API endpoint that'll use the the AWS SDK to call the Amazon Rekognition service. To install the Amazon Polly SDK, run the following command in your project's root folder:
+
+```bash
+npm install @aws-sdk/client-rekognition
+
+```
+
+## Step 3 - Setup Storage
+
+Create a file named `amplify/storage/resource.ts` and add the following content to configure a storage resource:
+
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage } from '@aws-amplify/backend';
+
+export const storage = defineStorage(
+  name: 'predictions_gen2'
+});
+
+```
+
+## Step 4 - Configure IAM Roles
+
+ To access Amazon Rekognition service, you need to configure the proper IAM policy for Lambda to utilize the desired feature effectively. Update `amplify/backend.ts` file add Role policy shown below.
+
+ ```ts title= "amplify/backend.ts"
+
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+import { Stack } from 'aws-cdk-lib';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { storage } from './storage/resource';
+
+const backend = defineBackend({
+  auth,
+  data,
+  storage
+});
+
+const dataStack = Stack.of(backend.data)
+
+const rekognitionDataSource = backend.data.addHttpDataSource(
+  "RekognitionDataSource",
+  `https://rekognition.${dataStack.region}.amazonaws.com`,
+  {
+    authorizationConfig: {
+      signingRegion: dataStack.region,
+      signingServiceName: "rekognition",
+    },
+  }
+);
+
+rekognitionDataSource.grantPrincipal.addToPrincipalPolicy(
+  new PolicyStatement({
+    actions: ["rekognition:DetectText", "rekognition:DetectLabels"],
+    resources: ["*"],
+  })
+);
+
+backend.storage.resources.bucket.grantReadWrite(
+  rekognitionDataSource.grantPrincipal
+);
+
+```
+## Step 5 - Configure the function handler 
+
+Define the function handler by creating a new file, `amplify/data/convertTextToSpeech.ts`. This function converts text into speech using Amazon Polly and stores the synthesized speech as an MP3 file in an S3 bucket.
+
+```ts title="amplify/data/convertTextToSpeech.ts"
+
+import { Schema } from "./resource";
+import { PollyClient, StartSpeechSynthesisTaskCommand } from '@aws-sdk/client-polly'
+import { env } from '$amplify/env/convertTextToSpeech'
+
+export const handler: Schema["convertTextToSpeech"]["functionHandler"] = async (event) => {
+  const client = new PollyClient()
+  const task = new StartSpeechSynthesisTaskCommand({
+    OutputFormat: 'mp3',
+    SampleRate: '8000',
+    Text: event.arguments.text,
+    TextType: 'text',
+    VoiceId: 'Amy',
+    OutputS3BucketName: env.predictions_gen2_BUCKET_NAME,
+    OutputS3KeyPrefix: 'public/'
+  })
+  const result = await client.send(task)
+
+  return result.SynthesisTask?.OutputUri?.replace(
+    'https://s3.us-east-1.amazonaws.com/' + env.predictions_gen2_BUCKET_NAME + '/public/', "") ?? ""
+}
+
+```
+
+## Step 6 - Define the Custom Mutation and function
+
+In your `amplify/data/resource.ts` file, define the function using defineFunction and then reference the function with your mutation using a.handler.function() as a handler.
+
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData, defineFunction } from '@aws-amplify/backend';
+
+export const convertTextToSpeech = defineFunction({
+  entry: './convertTextToSpeech.ts'
+})
+
+const schema = a.schema({
+  convertTextToSpeech: a.mutation()
+    .arguments({
+      text: a.string().required()
+    })
+    .returns(a.string().required())
+    .authorization([a.allow.public()])
+    .handler(a.handler.function(convertTextToSpeech))
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    // API Key is used for a.allow.public() rules
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
+});
+
+
+```
+## Step 7 - Update Storage permissions
+
+Customize your storage settings to manage access to various paths within your storage bucket. It's necessary to update the Storage resource to provide access to the `convertTextToSpeech` resource. Modify the file `amplify/storage/resource.ts` as shown below.
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage } from "@aws-amplify/backend"
+import { convertTextToSpeech } from "../data/resource"
+
+export const storage = defineStorage({
+  name: "predictions_gen2",
+  access: allow => ({
+    '/public/*': [
+      allow.resource(convertTextToSpeech).to(['write']),
+      allow.guest.to(['read', 'write', 'get'])
+    ]
+  })
+})
+```
+
+## Step 8 - Configure the frontend
+
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. 
+``` ts title="main.tsx"
+import { Amplify } from 'aws-amplify'
+import amplifyconfig from '../amplifyconfiguration.json'
+
+Amplify.configure(amplifyconfig)
+
+```
+### Invoke the API
+
+Example frontend code to create an audio buffer for playback using a text input.
+
+```ts title="App.tsx"
+import './App.css'
+import { generateClient } from 'aws-amplify/api'
+import type { Schema } from '../amplify/data/resource'
+import { getUrl } from 'aws-amplify/storage'
+import { useState } from 'react'
+
+const client = generateClient<Schema>()
+
+function App() {
+  const [src, setSrc] = useState("")
+  const [file, setFile] = useState("")
+  return (
+    <>
+      <button onClick={async () => {
+        const { data } = await client.mutations.convertTextToSpeech({
+          text: "Hello"
+        })
+
+        setFile(data)
+      }}>Synth</button>
+      <button onClick={async () => {
+
+        const res = await getUrl({
+          key: file,
+          options: {
+            accessLevel: 'guest',
+            expiresIn: 60 * 60 * 24
+          }
+        })
+
+        setSrc(res.url.toString())
+      }}>Fetch audio</button>
+      <a href={src}>Get audio file</a>
+    </>
+  )
+}
+
+export default App
+
+```
