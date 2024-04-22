@@ -258,6 +258,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/user-attribute-validation/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/custom-message/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/google-recaptcha-challenge/index.mdx'
                     },
                     {
