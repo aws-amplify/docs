@@ -28,9 +28,6 @@ export const directory = {
                   path: 'src/pages/[platform]/start/quickstart/vite-react-app/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/start/quickstart/vite-react-app-option-2/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
@@ -520,7 +517,21 @@ export const directory = {
           path: 'src/pages/[platform]/build-ui/index.mdx',
           children: [
             {
-              path: 'src/pages/[platform]/build-ui/forms/index.mdx'
+              path: 'src/pages/[platform]/build-ui/formbuilder/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/customize/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/special-inputs/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/validations/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/lifecycle/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-ui/figma-to-code/index.mdx'
