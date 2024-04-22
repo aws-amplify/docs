@@ -11,39 +11,15 @@ import {
 
 export const frameworks = [
   {
+    title: 'Next.js',
+    key: 'nextjs',
+    href: '/nextjs',
+    icon: <IconNext />
+  },
+  {
     title: 'React',
     key: 'react',
     href: '/react',
-    icon: <IconReact />
-  },
-  {
-    title: 'JavaScript',
-    key: 'javascript',
-    href: '/javascript',
-    icon: <IconJS />
-  },
-  {
-    title: 'Flutter',
-    key: 'flutter',
-    href: '/flutter',
-    icon: <IconFlutter />
-  },
-  {
-    title: 'Swift',
-    key: 'swift',
-    href: '/swift',
-    icon: <IconSwift />
-  },
-  {
-    title: 'Android',
-    key: 'android',
-    href: '/android',
-    icon: <IconAndroid />
-  },
-  {
-    title: 'React Native',
-    key: 'react-native',
-    href: '/react-native',
     icon: <IconReact />
   },
   {
@@ -53,15 +29,39 @@ export const frameworks = [
     icon: <IconAngular />
   },
   {
-    title: 'Next.js',
-    key: 'nextjs',
-    href: '/nextjs',
-    icon: <IconNext />
-  },
-  {
     title: 'Vue',
     key: 'vue',
     href: '/vue',
     icon: <IconVue />
+  },
+  {
+    title: 'JavaScript',
+    key: 'javascript',
+    href: '/javascript',
+    icon: <IconJS />
+  },
+  {
+    title: 'Android',
+    key: 'android',
+    href: '/android',
+    icon: <IconAndroid />
+  },
+  {
+    title: 'Swift',
+    key: 'swift',
+    href: '/swift',
+    icon: <IconSwift />
+  },
+  {
+    title: 'Flutter',
+    key: 'flutter',
+    href: '/flutter',
+    icon: <IconFlutter />
+  },
+  {
+    title: 'React Native',
+    key: 'react-native',
+    href: '/react-native',
+    icon: <IconReact />
   }
 ];

@@ -20,15 +20,15 @@ export function generateGetStartedLinks(
   getStartedPathname
 ): GetStartedLinksType[] {
   const platformOrder: Platforms = [
-    'react',
-    'javascript',
-    'flutter',
-    'swift',
-    'android',
-    'react-native',
-    'angular',
     'nextjs',
-    'vue'
+    'react',
+    'angular',
+    'vue',
+    'javascript',
+    'android',
+    'swift',
+    'flutter',
+    'react-native'
   ];
 
   const getStartedItems: Partial<GetStartedLinksType>[] = platformOrder.map(

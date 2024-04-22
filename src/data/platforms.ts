@@ -78,4 +78,4 @@ export const PLATFORM_VERSIONS = {
   }
 };
 
-export const DEFAULT_PLATFORM: Platform = 'react';
+export const DEFAULT_PLATFORM: Platform = 'nextjs';
