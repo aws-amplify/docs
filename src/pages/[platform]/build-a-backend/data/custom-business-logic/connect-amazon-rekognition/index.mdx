@@ -73,7 +73,7 @@ export const storage = defineStorage(
 
 ## Step 4 - Add your Amazon Rekognition as Datasource
 
-To use the Amazon Rekognition service, you need to add Amazon Rekognition as an HTTP Data Source and configure the proper IAM policy for Lambda to effectively utilize the desired feature and grant permission to access the storage. In this case, you can add the `rekognition:DetectText` and `rekognition:DetectText` actions to the policy. Update the `amplify/backend.ts` file as shown below.
+To use the Amazon Rekognition service, you need to add Amazon Rekognition as an HTTP Data Source and configure the proper IAM policy for Lambda to effectively utilize the desired feature and grant permission to access the storage. In this case, you can add the `rekognition:DetectText` and `rekognition:DetectLabels` actions to the policy. Update the `amplify/backend.ts` file as shown below.
 
  ```ts title= "amplify/backend.ts"
 
