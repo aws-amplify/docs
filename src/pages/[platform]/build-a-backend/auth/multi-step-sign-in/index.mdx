@@ -261,7 +261,7 @@ Future<void> confirmCustomChallenge(String answer) async {
 
 <Callout warning>
 
-<b>Special Handling on confirmSignIn</b>
+**Special Handling on `confirmSignIn`**
 
 If `failAuthentication=true` is returned by the Lambda, Cognito will invalidate the session of the request. This is represented by a `NotAuthorizedException` and requires restarting the sign-in flow by calling `Amplify.Auth.signIn` again.
 
@@ -301,7 +301,7 @@ If the next step is `resetPassword`, Amplify Auth requires that the user reset t
 Use the `resetPassword` API to guide the user through resetting their password, then call `Amplify.Auth.signIn`
 when that's complete to restart the sign-in flow.
 
-See the [reset password](/gen1/[platform]/build-a-backend/auth/manage-passwords/) docs for more information.
+See the [reset password](/[platform]/build-a-backend/auth/manage-passwords/) docs for more information.
 
 ```dart
 Future<void> _handleSignInResult(SignInResult result) async {
@@ -338,7 +338,7 @@ If the next step is `resetPassword`, Amplify Auth requires that the user confirm
 Use the `resendSignUpCode` API to send a new sign up code to the registered email or phone number, followed by `confirmSignUp` 
 to complete the sign up.
 
-See the [confirm sign up](/gen1/[platform]/build-a-backend/auth/enable-sign-in/#register-a-user) docs for more information.
+See the [confirm sign up](/[platform]/build-a-backend/auth/enable-sign-in/#register-a-user) docs for more information.
 
 <Callout>
 
@@ -864,7 +864,7 @@ Once the authenticator app is set up, the user can generate a TOTP code and prov
 
 ### Confirm signin with custom challenge
 
-If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/gen1/[platform]/build-a-backend/auth/sign-in-custom-flow/). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
+If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/[platform]/build-a-backend/auth/sign-in-custom-flow/). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
 
 <BlockSwitcher>
 
@@ -966,7 +966,7 @@ RxAmplify.Auth.confirmSignIn(
 
 <Callout warning>
 
-<b>Special Handling on ConfirmSignIn</b>
+**Special Handling on `confirmSignIn`**
 
 During a confirmSignIn call if `failAuthentication=true` is returned by the lambda the session of the request gets invalidated by cognito, a NotAuthorizedException is returned and a new signIn call is expected via Amplify.Auth.signIn
 
@@ -1598,7 +1598,7 @@ func confirmSignInWithTOTPSetup(totpCodeFromAuthenticatorApp: String) -> AnyCanc
 
 ### Confirm signin with custom challenge
 
-If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/gen1/[platform]/build-a-backend/auth/sign-in-custom-flow/). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
+If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/[platform]/build-a-backend/auth/sign-in-custom-flow/). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
 
 <BlockSwitcher>
 
@@ -1657,7 +1657,7 @@ func confirmSignIn(challengeAnswerFromUser: String) -> AnyCancellable {
 
 <Callout warning>
 
-<b>Special Handling on ConfirmSignIn</b>
+**Special Handling on `confirmSignIn`**
 
 During a confirmSignIn call if `failAuthentication=true` is returned by the lambda the session of the request gets invalidated by cognito, a NotAuthorizedException is returned and a new signIn call is expected via Amplify.Auth.signIn
 
