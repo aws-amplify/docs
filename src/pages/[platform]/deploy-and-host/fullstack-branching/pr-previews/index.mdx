@@ -44,7 +44,7 @@ With fullstack previews, you can set up ephemeral fullstack environments on ever
 
 Before you get started, make sure you have the following:
 
-- [An Amplify Gen 2 app created](https://docs.amplify.aws/gen2/start/quickstart/)
+- [An Amplify Gen 2 app created](/[platform]/start/quickstart/)
 - Ensure that your git repository is private. For security purposes, fullstack previews are disabled for public repositories with Amplify backend templates.
 
 
@@ -78,9 +78,9 @@ Fullstack previews allow teams a way to preview changes from pull requests befor
 
 In some instances, you may not want to deploy new resources for every preview branch. For example, you might want all your preview branches to point to the backend resources deployed by the `dev` branch so you can reuse seed data, users, and groups.
 
-To achieve this, you can update your app build settings to reuse backend resources across your preview branches. In the Amplify console, select your app on the **All apps** page. From the **App overview** page, select **Hosting > Build settings** to view your app's build specification YML file.
+To achieve this, you can update your app build settings to reuse backend resources across your preview branches. In the Amplify console, select your app on the **All apps** page. From the **App overview** page, select **Hosting > Build settings** to view your app's build specification YAML file.
 
-![The build specification YML file on the Build settings page in Amplify console.](/images/gen2/fullstack-branching/preview-settings.png)
+![The build specification YAML file on the Build settings page in Amplify console.](/images/gen2/fullstack-branching/preview-settings.png)
 
 Update the build settings for the `backend` phase to run `npx amplify generate config --branch dev app-id $AWS_APP_ID` to generate the `amplifyconfiguration.json` file for all preview branches. After this update, any new deployed preview branches will not deploy backend resources as part of the build and instead will use the deployed backend resources from the `dev` branch.
 
