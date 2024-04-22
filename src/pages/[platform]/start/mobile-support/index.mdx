@@ -78,7 +78,7 @@ In **Select a Project Template**, select **Empty Activity** or **Empty Compose A
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
 ```bash
-npm create amplify@beta
+npm create amplify@latest
 ? Where should we create your project? (.) # press enter
 ```
 
@@ -242,7 +242,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean()
     })
-    .authorization([a.allow.owner()])
+    .authorization(allow => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -493,7 +493,7 @@ You can terminate the sandbox environment now to clean up the project.
 
 ### Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#create-remote-git-repository).
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/android/deploy-and-host/fullstack-branching/branch-deployments/).
 
 </Block>
 
@@ -515,7 +515,7 @@ For publishing the changes to cloud, you need to create a remote git repository.
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
 ```bash
-npm create amplify@beta
+npm create amplify@latest
 ? Where should we create your project? (.) # press enter
 ```
 
@@ -656,7 +656,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean()
     })
-    .authorization([a.allow.owner()])
+    .authorization(allow => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -860,7 +860,7 @@ You can terminate the sandbox environment now to clean up the project.
 
 ### Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#create-remote-git-repository).
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/flutter/deploy-and-host/fullstack-branching/branch-deployments/).
 
 </Block>
 
@@ -898,7 +898,7 @@ Now you should have your project created.
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
 ```bash
-npm create amplify@beta
+npm create amplify@latest
 ? Where should we create your project? (.) # press enter
 ```
 
@@ -1036,7 +1036,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean()
     })
-    .authorization([a.allow.owner()])
+    .authorization(allow => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -1252,7 +1252,7 @@ You can terminate the sandbox environment now to clean up the project.
 
 ### Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#create-remote-git-repository).
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/swift/deploy-and-host/fullstack-branching/branch-deployments/).
 
 </Block>
 

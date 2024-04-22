@@ -1160,6 +1160,7 @@
     "SDK's",
     "sdk",
     "SDKs",
+    "SDLC",
     "searchable",
     "searchbyLocationRadius",
     "searchQueryField",
@@ -1579,8 +1580,8 @@
     "nextamplifygen",
     "multirepo",
     "startbuild",
-    "voteField",
-    "esac"
+    "esac",
+    "voteField"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
