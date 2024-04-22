@@ -1579,8 +1579,8 @@
     "nextamplifygen",
     "multirepo",
     "startbuild",
-    "esac",
-    "voteField"
+    "voteField",
+    "esac"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
