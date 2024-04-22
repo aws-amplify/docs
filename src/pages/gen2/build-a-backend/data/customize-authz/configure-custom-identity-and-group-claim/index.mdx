@@ -15,7 +15,7 @@ Amplify Data supports using custom identity and group claims if you do not wish 
 
 To use custom claims specify `identityClaim` or `groupClaim` as appropriate. In the example below, the `identityClaim` is specified and the record owner will check against this `user_id` claim. Similarly, if the `user_groups` claim contains a "Moderator" string then access will be granted.
 
-```ts
+```ts title="amplify/data/resource.ts"
 import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
 
 const schema = a.schema({
@@ -26,9 +26,9 @@ const schema = a.schema({
       postname: a.string(),
       content: a.string(),
     })
-    .authorization([
-      a.allow.owner().identityClaim('user_id'),
-      a.allow.specificGroups(['Moderator']).withClaimIn('user_groups'),
+    .authorization(allow => [
+      allow.owner().identityClaim('user_id'),
+      allow.groups(['Moderator']).withClaimIn('user_groups'),
     ]),
 });
 
@@ -36,4 +36,25 @@ export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({ schema });
 
+```
+
+In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `userPool` auth mode.
+
+```ts
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
+
+const client = generateClient<Schema>();
+
+const { errors, data: newTodo } = await client.models.Todo.create(
+  {
+    postname: 'My New Post'
+    content: 'My post content',
+  },
+  // highlight-start
+  {
+    authMode: 'userPool',
+  }
+  // highlight-end
+);
 ```

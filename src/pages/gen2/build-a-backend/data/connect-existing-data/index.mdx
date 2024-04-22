@@ -92,7 +92,7 @@ import { schema as rdsSchema } from './schema.rds.ts'
 
 // Add an authorization rule to the schema
 // highlight-next-line
-rdsSchema.models.Todo.authorization([a.allow.public()])
+rdsSchema.models.Todo.authorization(allow => [allow.publicApiKey()])
 
 const schema = a.schema({
   Todo: a.model({
@@ -129,7 +129,7 @@ const schema = a.schema({
     content: a.string()
     isDone: a.boolean()
   })
-}).authorization([a.allow.public()])
+}).authorization(allow => [allow.publicApiKey()])
 
 const combinedSchema = a.schema.combine([
   schema,
@@ -166,7 +166,7 @@ rdsSchema.addQueries({
         ST_MakePoint(:lat, :long)
       ) <= :radiusInMeters
     `)
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
 })
 // highlight-end
 
