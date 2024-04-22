@@ -54,7 +54,6 @@ export default function Page() {
             getStartedLinks={generateGetStartedLinks(gen2GetStartedHref)}
           />
           <InternalLinkButton
-            variation="primary"
             size="large"
             href={{
               pathname: gen2HowAmplifyWorksPathname,

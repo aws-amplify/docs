@@ -27,6 +27,7 @@ export const GetStartedPopover = ({
   return (
     <Flex className="split-button">
       <InternalLinkButton
+        variation="primary"
         size="large"
         className="split-button__start"
         href={{
