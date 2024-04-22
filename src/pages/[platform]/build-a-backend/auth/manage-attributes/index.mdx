@@ -22,7 +22,7 @@ export function getStaticProps(context) {
 <InlineFilter filters={['flutter']}>
 ## Fetch the current user's attributes
 
-Invoke the following api to get the list of attributes assigned to the user.
+Invoke the following API to get the list of attributes assigned to the user.
 
 ```dart
 Future<void> fetchCurrentUserAttributes() async {
@@ -39,7 +39,7 @@ Future<void> fetchCurrentUserAttributes() async {
 
 ## Update user attribute
 
-Invoke the update api for creating new or updating existing user attributes.
+Invoke the update API for creating new or updating existing user attributes.
 
 To update a single user attribute, call `updateUserAttribute`:
 
@@ -123,7 +123,7 @@ Future<void> updateUserAttributes() async {
 
 ## Verify user attribute
 
-Some attributes require confirmation for the attribute update to complete. If the attribute need to be confirmed, the result of the above api will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the confirm attribute api with their input:
+Some attributes require confirmation for the attribute update to complete. If the attribute need to be confirmed, the result of the above API will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the confirm attribute API with their input:
 
 ```dart
 Future<void> verifyAttributeUpdate() async {
@@ -140,7 +140,7 @@ Future<void> verifyAttributeUpdate() async {
 
 ## Resend verification code
 
-If the code has expired or the user needs to resend the confirmation code, invoke the resend api as shown below:
+If the code has expired or the user needs to resend the confirmation code, invoke the resend API as shown below:
 
  ```dart
 Future<void> resendVerificationCode() async {
@@ -186,7 +186,7 @@ When working with a Cognito UserPool, you can set up [custom attributes](https:/
 <InlineFilter filters={['android']}>
 ## Fetch the current user's attributes
 
-Invoke the following api to get the list of attributes assigned to the user.
+Invoke the following API to get the list of attributes assigned to the user.
 
 <BlockSwitcher>
 <Block name="Java">
@@ -238,7 +238,7 @@ RxAmplify.Auth.fetchUserAttributes()
 
 ## Update user attribute
 
-Invoke the update api for creating new or updating existing user attributes.
+Invoke the update API for creating new or updating existing user attributes.
 
 To update a single user attribute, call `updateUserAttribute`:
 
@@ -348,7 +348,7 @@ RxAmplify.Auth.updateUserAttributes(attributes)
 
 ## Verify user attribute
 
-Some attributes require confirmation for the attribute update to complete. If the attribute need to be confirmed, the result of the above api will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the confirm attribute api with their input:
+Some attributes require confirmation for the attribute update to complete. If the attribute needs to be confirmed, the result of the above API will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the confirm attribute API with their input:
 
 <BlockSwitcher>
 <Block name="Java">
@@ -398,7 +398,7 @@ RxAmplify.Auth.confirmUserAttribute(AuthUserAttributeKey.email(), "344299")
 
 ## Resend verification code
 
-If the code has expired or the user needs to resend the confirmation code, invoke the resend api as shown below:
+If the code has expired or the user needs to resend the confirmation code, invoke the resend API as shown below:
 
 <BlockSwitcher>
 <Block name="Java">
@@ -453,7 +453,7 @@ RxAmplify.Auth.resendUserAttributeConfirmationCode(AuthUserAttributeKey.email())
 <InlineFilter filters={['swift']}>
 ## Fetch the current user's attributes
 
-Invoke the following api to get the list of attributes assigned to the user.
+Invoke the following API to get the list of attributes assigned to the user.
 
 <BlockSwitcher>
 
@@ -497,7 +497,7 @@ func fetchAttributes() -> AnyCancellable {
 
 ## Update user attribute
 
-Invoke the update api for creating new or updating existing user attributes.
+Invoke the update API for creating new or updating existing user attributes.
 
 <BlockSwitcher>
 
@@ -556,7 +556,7 @@ func updateAttribute() -> AnyCancellable {
 
 ## Verify user attribute
 
-Some attributes require confirmation for the attribute update to complete. If the attribute need to be confirmed, the result of the above api will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the confirm attribute api with their input:
+Some attributes require confirmation for the attribute update to complete. If the attribute need to be confirmed, the result of the above API will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the confirm attribute API with their input:
 
 <BlockSwitcher>
 
@@ -598,9 +598,9 @@ func confirmAttribute() -> AnyCancellable {
 
 </BlockSwitcher>
 
-## Resend verification code
+## Resend the verification code
 
-If the code has expired or the user needs to resend the confirmation code, invoke the resend api as shown below:
+If the code has expired or the user needs to resend the confirmation code, invoke the resend API as shown below:
 
 <BlockSwitcher>
 
