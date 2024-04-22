@@ -10,7 +10,7 @@ You can download to in-memory buffer [Data](https://developer.apple.com/document
 <Block name="Async/Await">
 
 ```swift
-let downloadTask = Amplify.Storage.downloadData(path: .fromString("example/path"))
+let downloadTask = Amplify.Storage.downloadData(path: .fromString("public/example/path"))
 Task {
     for await progress in await downloadTask.progress {
         print("Progress: \(progress)")
@@ -25,7 +25,7 @@ print("Completed: \(data)")
 <Block name="Combine">
 
 ```swift
-let downloadTask = Amplify.Storage.downloadData(path: .fromString("example/path"))
+let downloadTask = Amplify.Storage.downloadData(path: .fromString("public/example/path"))
 let progressSink = downloadTask
     .inProcessPublisher
     .sink { progress in
@@ -108,7 +108,7 @@ let downloadToFileName = FileManager.default.urls(
 )[0].appendingPathComponent("myFile.txt")
 
 let downloadTask = Amplify.Storage.downloadFile(
-    path: .fromString("example/path"),
+    path: .fromString("public/example/path"),
     local: downloadToFileName,
     options: nil
 )
@@ -132,7 +132,7 @@ let downloadToFileName = FileManager.default.urls(
 )[0].appendingPathComponent("myFile.txt")
 
 let downloadTask = Amplify.Storage.downloadFile(
-    path: .fromString("example/path"),
+    path: .fromString("public/example/path"),
     local: downloadToFileName,
     options: nil
 )
@@ -226,7 +226,7 @@ You can also retrieve a URL for the object in storage:
 <BlockSwitcher>
 <Block name="With StoragePath">
 ```swift
-let url = try await Amplify.Storage.getURL(path: .fromString("example/path"))
+let url = try await Amplify.Storage.getURL(path: .fromString("public/example/path"))
 print("Completed: \(url)")
 ```
 </Block>
@@ -248,7 +248,7 @@ that object.
 <Block name="With StoragePath">
 ```swift
 let url = try await Amplify.Storage.getURL(
-    path: .fromString("example/path"),
+    path: .fromString("public/example/path"),
     options: .init(
         pluginOptions: AWSStorageGetURLOptions(
             validateObjectExistence: true

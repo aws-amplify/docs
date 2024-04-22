@@ -8,7 +8,7 @@ You can list all of the objects uploaded under a given prefix by setting the `pa
 ```swift
 let options = StorageListRequest.Options(pageSize: 1000)
 let listResult = try await Amplify.Storage.list(
-    path: .fromString("example/path"), 
+    path: .fromString("public/example/path"), 
     options: options
 )
 listResult.items.forEach { item in
@@ -24,7 +24,7 @@ listResult.items.forEach { item in
 let sink = Amplify.Publisher.create {
     let options = StorageListRequest.Options(pageSize: 1000)
     try await Amplify.Storage.list(
-        path: .fromString("example/path"), 
+        path: .fromString("public/example/path"), 
         options: options
     )
 }.sink {

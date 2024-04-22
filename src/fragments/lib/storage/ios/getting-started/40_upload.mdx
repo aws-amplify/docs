@@ -8,7 +8,7 @@ func uploadData() async throws {
     let dataString = "Example file contents"
     let data = Data(dataString.utf8)
     let uploadTask = Amplify.Storage.uploadData(
-        path: .fromString("example/path"),
+        path: .fromString("public/example/path"),
         data: data
     )
     Task {
@@ -36,7 +36,7 @@ func uploadData() {
     let dataString = "Example file contents"
     let data = Data(dataString.utf8)
     let uploadTask = Amplify.Storage.uploadData(
-        path: .fromString("example/path"),
+        path: .fromString("public/example/path"),
         data: data
     )
     progressSink = uploadTask

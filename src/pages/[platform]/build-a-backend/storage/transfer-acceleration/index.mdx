@@ -244,7 +244,7 @@ For example, to upload a file using transfer acceleration:
 <Block name="With StoragePath">
 ```swift
 let uploadTask = Amplify.Storage.uploadFile(
-    path: .fromString("example/key"),
+    path: .fromString("public/example/key"),
     local: aLocalFile,
     options: .init(
         pluginOptions: [

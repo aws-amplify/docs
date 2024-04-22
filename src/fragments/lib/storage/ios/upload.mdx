@@ -10,7 +10,7 @@ To upload to S3 from a data object, specify the `path` and the `data` object to 
 let dataString = "My Data"
 let data = Data(dataString.utf8)
 let uploadTask = Amplify.Storage.uploadData(
-    path: .fromString("example/path"),
+    path: .fromString("public/example/path"),
     data: data
 )
 Task {
@@ -30,7 +30,7 @@ print("Completed: \(value)")
 let dataString = "My Data"
 let data = Data(dataString.utf8)
 let uploadTask = Amplify.Storage.uploadData(
-    path: .fromString("example/path"),
+    path: .fromString("public/example/path"),
     data: data
 )
 let progressSink = uploadTask
@@ -133,7 +133,7 @@ try dataString.write(
 )
 
 let uploadTask = Amplify.Storage.uploadFile(
-    path: .fromString("example/path/myFile.txt"),
+    path: .fromString("public/example/path/myFile.txt"),
     local: filename
 )
 
@@ -167,7 +167,7 @@ try dataString.write(
 )
 
 let uploadTask = Amplify.Storage.uploadFile(
-    path: .fromString("example/path/myFile.txt"),
+    path: .fromString("public/example/path/myFile.txt"),
     local: filename
 )
 progressSink = uploadTask
