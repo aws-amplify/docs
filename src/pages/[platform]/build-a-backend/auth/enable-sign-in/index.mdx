@@ -27,10 +27,6 @@ export function getStaticProps(context) {
 <InlineFilter filters={['flutter']}>
 The Auth category can be used to register a user, confirm attributes like email and phone, and sign in with optional multi-factor authentication. It is set up to use Amazon Cognito User Pools which manages the users and their properties.
 
-## Prerequisites
-
-* An app set up according to the [getting started walkthrough](/[platform]/build-a-backend/auth/set-up-auth/)
-
 <Callout warning>
  When configuring Social sign-in through the Amplify CLI, it's important to exercise caution when designating attributes as "required." Different social identity providers have varied scopes in terms of the information they respond back to Cognito with.  User pool attributes that are initially set up as "required" cannot be changed later, and may require you to migrate the users or create a new user pool.  
 </Callout>
@@ -88,7 +84,7 @@ void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
   );
 }
 ```
-The next step in the sign up flow is to confirm the user. A confirmation code will be sent to the email ID provided during sign up. Enter the confirmation code received via email in the `confirmSignUp` call.
+The next step in the sign up flow is to confirm the user. A confirmation code will be sent to the email provided during sign up. Enter the confirmation code received via email in the `confirmSignUp` call.
 
 ```dart
 Future<void> confirmUser({
@@ -114,7 +110,7 @@ Implement a UI to get the username and password from the user. After the user en
 
 <Callout>
 
-Please note that you will be prevented from successfully calling `signIn` if a user has already signed in and a valid session is active.  You must first call `signOut` to remove the original session.
+**Note:** that you will be prevented from successfully calling `signIn` if a user has already signed in and a valid session is active. You must first call `signOut` to remove the original session.
 
 </Callout>
 
@@ -132,9 +128,7 @@ Future<void> signInUser(String username, String password) async {
 }
 ```
 
-Depending on your configuration and how the user signed up, one or more confirmations will be necessary.
-Use the `SignInResult` returned from `Amplify.Auth.signIn` to check the next step for signing in. When
-the value is `done`, the user has successfully signed in.
+Depending on your configuration and how the user signed up, one or more confirmations will be necessary. Use the `SignInResult` returned from `Amplify.Auth.signIn` to check the next step for signing in. When the value is `done`, the user has successfully signed in.
 
 ```dart
 Future<void> _handleSignInResult(SignInResult result) async {
@@ -208,7 +202,8 @@ You can learn more about the custom auth flow [here](/[platform]/build-a-backend
 ## Multi-factor authentication
 
 <Callout>
-Note: If you create or update an SMS MFA configuration for your Cognito user pool, Cognito will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS.
+
+**Note:** If you create or update an SMS MFA configuration for your Cognito user pool, Cognito will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS.
 
 For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aws.amazon.com/sns/sms-pricing/).
 
@@ -235,7 +230,7 @@ export const auth = defineAuth({
 ```
 
 
-```sh showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --config-format dart --config-out-dir lib
 ```
 After you enable MFA you will also need to include MFA setup when users sign up. This will change depending on if you enable SMS, TOTP or both.
