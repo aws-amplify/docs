@@ -95,6 +95,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/override-cognito/index.mdx'
                 }
               ]
