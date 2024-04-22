@@ -24,11 +24,11 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([
-      a.allow.owner('oidc').identityClaim('user_id'),
-      a.allow.private('oidc'),
-      a.allow
-        .specificGroups(['testGroupName'], 'oidc')
+    .authorization(allow => [
+      allow.owner('oidc').identityClaim('user_id'),
+      allow.authenticated('oidc'),
+      allow
+        .groups(['testGroupName'], 'oidc')
         .withClaimIn('user_groups'),
     ]),
 });
@@ -47,5 +47,20 @@ export const data = defineData({
       tokenExpireFromIssueInSeconds: 600,
     },
   },
+});
+```
+
+In your application, you can perform CRUD operations against the model using `client.models.<model-name>` by specifying the `oidc` auth mode.
+
+```ts
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
+
+const client = generateClient<Schema>();
+
+const { errors, data: todos } = await client.models.Todo.list({
+  // highlight-start
+  authMode: "oidc",
+  // highlight-end
 });
 ```

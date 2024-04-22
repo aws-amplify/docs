@@ -34,7 +34,7 @@ const schema = a
     })
   })
   // highlight-next-line
-  .authorization([a.allow.resource(functionWithDataAccess)]);
+  .authorization(allow => [allow.resource(functionWithDataAccess)]);
 
 export type Schema = ClientSchema<typeof schema>;
 
@@ -43,7 +43,7 @@ export const data = defineData({
 });
 ```
 
-The object returned from `defineFunction` can be passed directly to `a.allow.resource()` in the schema authorization rules. This will grant the function the ability to execute Query, Mutation, and Subscription operations against the GraphQL API. Use the `.to()` method to narrow down access to one or more operations.
+The object returned from `defineFunction` can be passed directly to `allow.resource()` in the schema authorization rules. This will grant the function the ability to execute Query, Mutation, and Subscription operations against the GraphQL API. Use the `.to()` method to narrow down access to one or more operations.
 
 ```ts
 const schema = a
@@ -54,8 +54,8 @@ const schema = a
     })
   })
   // highlight-start
-  .authorization([
-    a.allow.resource(functionWithDataAccess).to(['query', 'listen'])
+  .authorization(allow => [
+    allow.resource(functionWithDataAccess).to(['query', 'listen'])
   ]); // allow query and subscription operations but not mutations
 // highlight-end
 ```

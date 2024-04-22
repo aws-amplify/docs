@@ -43,7 +43,7 @@ const schema = a.schema({
     })
     .returns(a.ref('Message'))
     .handler(a.handler.custom({ entry: './publish.js' }))
-    .authorization([a.allow.public()]),
+    .authorization(allow => [allow.publicApiKey()]),
 
   // highlight-start
   // Subscribe to incoming messages
@@ -55,13 +55,13 @@ const schema = a.schema({
     // subscription handler to set custom filters
     .handler(a.handler.custom({entry: './receive.js'})) 
     // authorization rules as to who can subscribe to the data
-    .authorization([a.allow.public()]),
+    .authorization(allow => [allow.publicApiKey()]),
   // highlight-end
 
   // A data model to manage channels
   Channel: a.model({
     name: a.string(),
-  }).authorization([a.allow.public()]),
+  }).authorization(allow => [allow.publicApiKey()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -166,14 +166,14 @@ const schema = a.schema({
     .handler(a.handler.custom({
       entry: "./publish.js"
     }))
-    .authorization([a.allow.private()]),
+    .authorization(allow => [allow.authenticated()]),
   
   // Subscribe to all events from the "publish" mutation
   receive: a.subscription(['publish'])
     // highlight-next-line
     .arguments({ name: a.string() })
     .returns(a.ref('Channel'))
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -193,7 +193,7 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 const schema = a.schema({
   Channel: a.model({
     name: a.string(),
-  }).authorization([a.allow.public()]),
+  }).authorization(allow => [allow.publicApiKey()]),
 
   Message: a.customType({
     content: a.string().required(),
@@ -207,7 +207,7 @@ const schema = a.schema({
     })
     .returns(a.ref('Message'))
     .handler(a.handler.custom({ entry: './publish.js' }))
-    .authorization([a.allow.public()]),
+    .authorization(allow => [allow.publicApiKey()]),
 
   receive: a.subscription()
     .for(a.ref('publish'))
@@ -215,7 +215,7 @@ const schema = a.schema({
     .arguments({ namePrefix: a.string() })
     .returns(a.ref('Message'))
     .handler(a.handler.custom({entry: './receive.js'}))
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
