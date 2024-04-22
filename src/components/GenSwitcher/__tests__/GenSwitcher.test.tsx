@@ -68,7 +68,7 @@ describe('GenSwitcher', () => {
     });
 
     expect(gen1Link.href).toBe('http://localhost/gen1');
-    expect(gen2Link.href).toContain('http://localhost');
+    expect(gen2Link.href).toBe('http://localhost/');
   });
 
   it('should have current platform in the urls if we are on a specific platform url', async () => {
