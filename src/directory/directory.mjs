@@ -25,9 +25,6 @@ export const directory = {
               path: 'src/pages/[platform]/start/quickstart/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/start/quickstart/vite-react-app/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
@@ -43,9 +40,6 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
-            },
-            {
-              path: 'src/pages/[platform]/start/mobile-support/index.mdx'
             }
           ]
         },
