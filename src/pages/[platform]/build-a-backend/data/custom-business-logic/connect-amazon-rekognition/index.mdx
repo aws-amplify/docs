@@ -50,7 +50,7 @@ In this section, you will learn how to integrate Amazon Rekognition into your ap
 Set up your project by following the instructions in the [Quickstart guide](/[platform]/start/quickstart/). 
 
 ## Step 2 - Install Polly Libraries
-We'll create a new API endpoint that'll use the the AWS SDK to call the Amazon Rekognition service. To install the Amazon Polly SDK, run the following command in your project's root folder:
+We'll create a new API endpoint that'll use the the AWS SDK to call the Amazon Rekognition service. To install the Amazon Rekognition SDK, run the following command in your project's root folder:
 
 ```bash
 npm install @aws-sdk/client-rekognition
@@ -71,9 +71,9 @@ export const storage = defineStorage(
 
 ```
 
-## Step 4 - Add your Amazon Translate as Datasource
+## Step 4 - Add your Amazon Rekognition as Datasource
 
-To access Amazon Rekognition service, you need to add Amazon Rekognition as Http Data Source and configure the proper IAM policy for Lambda to utilize the desired feature effectively. Update amplify/backend.ts file as shown below.
+To use the Amazon Rekognition service, you need to add Amazon Rekognition as an HTTP Data Source and configure the proper IAM policy for Lambda to effectively utilize the desired feature and grant permission to access the storage. In this case, you can add the `rekognition:DetectText` and `rekognition:DetectText` actions to the policy. Update the `amplify/backend.ts` file as shown below.
 
  ```ts title= "amplify/backend.ts"
 
@@ -117,7 +117,7 @@ backend.storage.resources.bucket.grantReadWrite(
 ```
 ## Step 5 - Configure the function handler 
 
-Define the function handler by creating a new file, `amplify/data/identifyText.ts`. This function converts text into speech using Amazon Polly and stores the synthesized speech as an MP3 file in an S3 bucket.
+Define the function handler by creating a new file, `amplify/data/identifyText.ts`. This function analyzes the image and extracts text using the Amazon Rekognition DetectText service.
 
 ```ts title="amplify/data/identifyText.ts"
 
@@ -191,7 +191,7 @@ export const data = defineData({
 ```
 ## Step 7 - Update Storage permissions
 
-Customize your storage settings to manage access to various paths within your storage bucket. It's necessary to update the Storage resource to provide access to the `convertTextToSpeech` resource. Modify the file `amplify/storage/resource.ts` as shown below.
+Customize your storage settings to manage access to various paths within your storage bucket. Modify the file `amplify/storage/resource.ts` as shown below.
 
 ```ts title="amplify/storage/resource.ts"
 import { defineStorage } from "@aws-amplify/backend"
@@ -217,7 +217,7 @@ import amplifyconfig from '../amplifyconfiguration.json'
 Amplify.configure(amplifyconfig);
 
 ```
-### Invoke the API
+### Invoke the Text Recognition API
 
 This code sets up a React app to upload an image to an S3 bucket and then use Amazon Rekognition to recognize the text in the uploaded image.
 
