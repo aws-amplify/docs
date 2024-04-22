@@ -51,7 +51,7 @@ By default, your auth resource is scaffolded using `email` as the default login 
 
 <Callout info>
 
-**Note:** At a minimum, you will need to pass a `loginWith` value to set up how your users sign in to your app. Signing in with email and password is configured by default if you do not provide any value.
+**Note:** At a minimum you will need to pass a `loginWith` value to set up how your users sign in to your app. Signing in with email and password is configured by default if you do not provide any value.
 
 </Callout>
 
@@ -59,7 +59,7 @@ By default, your auth resource is scaffolded using `email` as the default login 
 
 After you have chosen and defined your authentication resource, run the following command to create your resource in your personal cloud sandbox.
 
-```bash title="Terminal"
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
 ```
 
@@ -75,7 +75,7 @@ Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift
 
 First, install the `@aws-amplify/ui-react` library:
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-react
 ```
 
@@ -112,7 +112,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 First, install the `@aws-amplify/ui-vue` library:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-vue
 ```
 
@@ -148,13 +148,13 @@ The `Authenticator` component offers a simple way to add authentication flows in
 
 First, install the `@aws-amplify/ui-components` library:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-components
 ```
 
-Now open **src/main.js** and add the following below your last import:
+Now open **src/main.ts** and add the following below your last import:
 
-```js
+```js title="src/main.ts"
 import '@aws-amplify/ui-components';
 import {
   applyPolyfills,
@@ -169,13 +169,13 @@ applyPolyfills().then(() => {
 });
 ```
 
-Next, open **src/App.js** and add the `amplify-authenticator` component.
+Next, open **src/App.ts** and add the `amplify-authenticator` component.
 
 **amplify-authenticator**
 
 The `amplify-authenticator` component offers a simple way to add authentication flows into your app. This component encapsulates an authentication workflow in the framework of your choice and is backed by your backend Auth resources. The optional `amplify-sign-out` component is available if you would like to render a sign-out button.
 
-```html
+```html title="src/App.ts"
 <template>
   <amplify-authenticator>
     <div>
@@ -194,13 +194,13 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 
 First, install the `@aws-amplify/ui-angular` library:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-angular
 ```
 
 Now open **app.module.ts** and add the Amplify imports and configuration:
 
-```js
+```js title="app.module.ts"
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
@@ -221,7 +221,7 @@ export class AppModule {}
 
 Next, import the default theme inside **styles.css**:
 
-```css
+```css title="styles.css"
 @import '~@aws-amplify/ui-angular/theme.css';
 ```
 
@@ -233,7 +233,7 @@ The `Authenticator` component offers a simple way to add authentication flows in
 
 The `amplify-authenticator` component offers a simple way to add authentication flows into your app. This component encapsulates an authentication workflow in the framework of your choice and is backed by your backend Auth resources. `amplify-authenticator` passes the `user` info and `signOut` function to the inner template.
 
-```html
+```html title="app.component.html"
 <amplify-authenticator>
   <ng-template
     amplifySlot="authenticated"
