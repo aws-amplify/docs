@@ -57,12 +57,6 @@ cfnUserPool.policies = {
 
 The following code will allow you to add custom attributes using the [Userpool schema](https://docs.aws.amazon.com/cdk/api/v1/docs/@aws-cdk_aws-cognito.CfnUserPool.html#schema) property with the L1 `cfnUserPool` construct.
 
-<Callout warning>
-
-If you have customized attributes, add them to the modified Userpool schema to keep your desired attribute properties.
-
-</Callout>
-
 ```ts title="amplify/backend.ts"
 // amplify/backend.ts
 import { defineBackend } from '@aws-amplify/backend';
@@ -78,6 +72,7 @@ const backend = defineBackend({
 const { cfnUserPool } = backend.auth.resources.cfnResources;
 // modify cfnUserPool schema directly
 cfnUserPool.schema = [
+  ...(cfnUserPool.schema as any[] || []),
   {
     name: 'publicName',
     attributeDataType: 'String',
