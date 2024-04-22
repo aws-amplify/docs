@@ -17,7 +17,7 @@ export function AmplifyNavLink({ isCollapsed, setIsCollapsed, isGen1 }) {
       >
         <AmplifyLogo />
         <Text as="span" className="navbar-logo-text">
-          <span style={{ fontWeight: '400' }}>Amplify</span>
+          <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
           <span style={{ fontWeight: '300' }}>Docs</span>
         </Text>
       </Flex>
