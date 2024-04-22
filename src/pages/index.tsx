@@ -49,6 +49,10 @@ export default function Page() {
           storage, serverless functions, SSR app deployment, and more.
         </Text>
         <Flex className="home-cta">
+          <GetStartedPopover
+            platform={DEFAULT_PLATFORM}
+            getStartedLinks={generateGetStartedLinks(gen2GetStartedHref)}
+          />
           <InternalLinkButton
             variation="primary"
             size="large"
@@ -64,10 +68,6 @@ export default function Page() {
               fontSize=".875em"
             />
           </InternalLinkButton>
-          <GetStartedPopover
-            platform={DEFAULT_PLATFORM}
-            getStartedLinks={generateGetStartedLinks(gen2GetStartedHref)}
-          />
         </Flex>
       </Flex>
       <Flex className="home-section">
