@@ -112,9 +112,8 @@ export const auth = defineAuth({
 
 ### Pass user attributes during sign-up
 
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 You can also create user attributes during sign-up or when the user is authenticated. To do this as part of sign-up you can pass them in the `userAttributes` object of the `signUp` API:
-
-{/* @TODO, is this snippet accurate? are these attributes snake_case and not camelCase?? */}
 
 ```ts
 import { signUp } from 'aws-amplify/auth';
@@ -140,8 +139,220 @@ async function handleSignUp() {
 }
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+You can also create user attributes during sign-up or when the user is authenticated. To do this as part of sign-up you can pass them in the `options` object of the `SignUpOptions` object:
+
+```dart
+Future<void> signUp() async {
+  try {
+    final userAttributes = <AuthUserAttributeKey, String>{
+      AuthUserAttributeKey.email: 'me@domain.com',
+      AuthUserAttributeKey.phoneNumber: '+12128601234',
+      AuthUserAttributeKey.givenName: 'Jane',
+      AuthUserAttributeKey.familyName: 'Doe',
+      AuthUserAttributeKey.nickname: 'Jane',
+    };
+    final result = await Amplify.Auth.signUp(
+      username: 'jdoe',
+      password: 'mysecurerandompassword#123',
+      options: SignUpOptions(userAttributes: userAttributes),
+    );
+    safePrint('Result: $result');
+  } on AuthException catch (e) {
+    safePrint('Error signing up: ${e.message}');
+  }
+}
+```
+</InlineFilter>
+<InlineFilter filters={['android']}>
+
+You can also create user attributes during sign-up or when the user is authenticated. To do this as part of sign-up you can pass them in the `attributes` object of the `AuthSignUpOptions` object:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "me@domain.com"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.phoneNumber(), "+12128601234"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.givenName(), "Jane"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.familyName(), "Doe"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.nickname(), "Jane"));
+
+Amplify.Auth.signUp(
+    "jdoe",
+    "mysecurerandompassword#123",
+    AuthSignUpOptions.builder().userAttributes(attributes).build(),
+    result -> Log.i("AuthQuickstart", result.toString()),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val attrs = mapOf(
+    AuthUserAttributeKey.email() to "me@domain.com",
+    AuthUserAttributeKey.phoneNumber() to "+12128601234"
+    AuthUserAttributeKey.givenName() to "Jane"
+    AuthUserAttributeKey.familyName() to "Doe"
+    AuthUserAttributeKey.familyName() to "Jane"
+)
+val options = AuthSignUpOptions.builder()
+    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
+    .build()
+Amplify.Auth.signUp("jdoe", "mysecurerandompassword#123", options,
+    { Log.i("AuthQuickstart", "Sign up result = $it") },
+    { Log.e("AuthQuickstart", "Sign up failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val attrs = mapOf(
+    AuthUserAttributeKey.email() to "me@domain.com",
+    AuthUserAttributeKey.phoneNumber() to "+12128601234"
+    AuthUserAttributeKey.givenName() to "Jane"
+    AuthUserAttributeKey.familyName() to "Doe"
+    AuthUserAttributeKey.familyName() to "Jane"
+)
+val options = AuthSignUpOptions.builder()
+    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
+    .build()
+try {
+    val result = Amplify.Auth.signUp("jdoe", "mysecurerandompassword#123", options)
+    Log.i("AuthQuickstart", "Sign up OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign up failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "me@domain.com"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.phoneNumber(), "+12128601234"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.givenName(), "Jane"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.familyName(), "Doe"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.nickname(), "Jane"));
+
+RxAmplify.Auth.signUp(
+    "jdoe",
+    "mysecurerandompassword#123",
+    AuthSignUpOptions.builder().userAttributes(attributes).build())
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func signUp(
+  username: String, 
+  password: String, 
+  email: String, 
+  phonenumber: String,
+  givenName: String,
+  familyName: String,
+  nickname: String,
+) async {
+    let userAttributes = [
+      AuthUserAttribute(.email, value: email), 
+      AuthUserAttribute(.phoneNumber, value: phonenumber),
+      AuthUserAttribute(.givenName, value: givenName),
+      AuthUserAttribute(.familyName, value: familyName),
+      AuthUserAttribute(.nickname, value: nickname),
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+
+    do {
+        let signUpResult = try await Amplify.Auth.signUp(
+            username: username,
+            password: password,
+            options: options
+        )
+
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    } catch let error as AuthError {
+        print("An error occurred while registering a user \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func signUp(
+  username: String, 
+  password: String, 
+  email: String, 
+  phonenumber: String,
+  givenName: String,
+  familyName: String,
+  nickname: String,
+) -> AnyCancellable {
+    let userAttributes = [
+      AuthUserAttribute(.email, value: email), 
+      AuthUserAttribute(.phoneNumber, value: phonenumber),
+      AuthUserAttribute(.givenName, value: givenName),
+      AuthUserAttribute(.familyName, value: familyName),
+      AuthUserAttribute(.nickname, value: nickname),
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+    Amplify.Publisher.create {
+        try await Amplify.Auth.signUp(
+            username: username,
+            password: password,
+            options: options
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while registering a user \(authError)")
+        }
+    }
+    receiveValue: { signUpResult in
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    }
+    return sink
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
 ### Configure custom user attributes
 
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 Custom attributes can be passed in with the `userAttributes` option of the `signUp` API:
 
 ```js
@@ -164,8 +375,213 @@ The backend authentication resource authored using `defineAuth` does not current
 
 </Callout>
 
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+Amplify Flutter supports [standard OIDC user attributes](https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims) as well as custom attributes. Custom attributes can be instantiated via the custom attribute constructor:
+
+```dart
+Future<void> _signUp({
+    required String username,
+    required String password,
+    required String email,
+}) async  {
+  final userAttributes = {
+    AuthUserAttributeKey.email: email,
+    // Create and pass a custom attribute
+    const CognitoUserAttributeKey.custom('attribute_name_1'): 'attribute_value_1'
+    const CognitoUserAttributeKey.custom('attribute_name_2'): 'attribute_value_2'
+    const CognitoUserAttributeKey.custom('attribute_name_3'): 'attribute_value_3'
+  };
+  await Amplify.Auth.signUp(
+    username: username,
+    password: password,
+    options: SignUpOptions(
+      userAttributes: userAttributes,
+    ),
+  );
+}
+```
+
+When working with a Cognito UserPool, you can set up [custom attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes) via the Cognito console or AWS CLI. Although Cognito prepends a "custom:" prefix on the attribute name, there is no need for you to add this in Amplify Flutter's custom attribute constructor.
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "me@domain.com"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:attribute_name_1"), "attribute_value_1"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:attribute_name_2"), "attribute_value_2"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:attribute_name_3"), "attribute_value_3"));
+
+Amplify.Auth.signUp(
+    "jdoe",
+    "mysecurerandompassword#123",
+    AuthSignUpOptions.builder().userAttributes(attributes).build(),
+    result -> Log.i("AuthQuickstart", result.toString()),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val attrs = mapOf(
+    AuthUserAttributeKey.email() to "me@domain.com",
+    AuthUserAttributeKey.custom("custom:attribute_name_1") to "attribute_value_1",
+    AuthUserAttributeKey.custom("custom:attribute_name_2") to "attribute_value_2",
+    AuthUserAttributeKey.custom("custom:attribute_name_3") to "attribute_value_3",
+)
+val options = AuthSignUpOptions.builder()
+    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
+    .build()
+Amplify.Auth.signUp("jdoe", "mysecurerandompassword#123", options,
+    { Log.i("AuthQuickstart", "Sign up result = $it") },
+    { Log.e("AuthQuickstart", "Sign up failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val attrs = mapOf(
+    AuthUserAttributeKey.email() to "me@domain.com",
+    AuthUserAttributeKey.custom("custom:attribute_name_1") to "attribute_value_1",
+    AuthUserAttributeKey.custom("custom:attribute_name_2") to "attribute_value_2",
+    AuthUserAttributeKey.custom("custom:attribute_name_3") to "attribute_value_3",
+)
+val options = AuthSignUpOptions.builder()
+    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
+    .build()
+try {
+    val result = Amplify.Auth.signUp("jdoe", "mysecurerandompassword#123", options)
+    Log.i("AuthQuickstart", "Sign up OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign up failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "me@domain.com"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:attribute_name_1"), "attribute_value_1"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:attribute_name_2"), "attribute_value_2"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:attribute_name_3"), "attribute_value_3"));
+
+RxAmplify.Auth.signUp(
+    "jdoe",
+    "mysecurerandompassword#123",
+    AuthSignUpOptions.builder().userAttributes(attributes).build())
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+When working with a Cognito UserPool, you can set up [custom attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes) via the Cognito console or AWS CLI. Please keep in mind, Amazon Cognito prepends a "custom:" prefix on the attribute name.
+</InlineFilter>
+
+
+<InlineFilter filters={['swift']}>
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func signUp(
+  username: String, 
+  password: String, 
+  email: String, 
+) async {
+    let userAttributes = [
+      AuthUserAttribute(.email, value: email), 
+      AuthUserAttribute(.custom("custom:attribute_name_1"), value: "attribute_value_1"),
+      AuthUserAttribute(.custom("custom:attribute_name_2"), value: "attribute_value_2"),
+      AuthUserAttribute(.custom("custom:attribute_name_3"), value: "attribute_value_3"),
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+
+    do {
+        let signUpResult = try await Amplify.Auth.signUp(
+            username: username,
+            password: password,
+            options: options
+        )
+
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    } catch let error as AuthError {
+        print("An error occurred while registering a user \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func signUp(
+  username: String, 
+  password: String, 
+  email: String, 
+) -> AnyCancellable {
+    let userAttributes = [
+      AuthUserAttribute(.email, value: email), 
+      AuthUserAttribute(.custom("custom:attribute_name_1"), value: "attribute_value_1"),
+      AuthUserAttribute(.custom("custom:attribute_name_2"), value: "attribute_value_2"),
+      AuthUserAttribute(.custom("custom:attribute_name_3"), value: "attribute_value_3"),
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+    Amplify.Publisher.create {
+        try await Amplify.Auth.signUp(
+            username: username,
+            password: password,
+            options: options
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while registering a user \(authError)")
+        }
+    }
+    receiveValue: { signUpResult in
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    }
+    return sink
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+When working with a Cognito UserPool, you can set up [custom attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes) via the Cognito console or AWS CLI. Please keep in mind, Amazon Cognito prepends a "custom:" prefix on the attribute name.When working with a Cognito UserPool, you can set up [custom attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes) via the Cognito console or AWS CLI. Please keep in mind, Amazon Cognito prepends a "custom:" prefix on the attribute name.
+
 ### Retrieve user attributes
 
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 You can then retrieve user attributes for your users to read in their profile. This helps you personalize their frontend experience as well as control what they will see.
 
 You can retrieve a user's latest attributes using the `fetchUserAttributes` API.
@@ -182,6 +598,122 @@ async function handleFetchUserAttributes() {
   }
 }
 ```
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+Invoke the following api to get the list of attributes assigned to the user.
+
+```dart
+Future<void> fetchCurrentUserAttributes() async {
+  try {
+    final result = await Amplify.Auth.fetchUserAttributes();
+    for (final element in result) {
+      safePrint('key: ${element.userAttributeKey}; value: ${element.value}');
+    }
+  } on AuthException catch (e) {
+    safePrint('Error fetching user attributes: ${e.message}');
+  }
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+Invoke the following api to get the list of attributes assigned to the user.
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.fetchUserAttributes(
+    attributes -> Log.i("AuthDemo", "User attributes = " + attributes.toString()),
+    error -> Log.e("AuthDemo", "Failed to fetch user attributes.", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.fetchUserAttributes(
+    { Log.i("AuthDemo", "User attributes = $attributes") },
+    { Log.e("AuthDemo", "Failed to fetch user attributes", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val attributes = Amplify.Auth.fetchUserAttributes()
+    Log.i("AuthDemo", "User attributes = $attributes")
+} catch (error: AuthException) {
+    Log.e("AuthDemo", "Failed to fetch user attributes", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.fetchUserAttributes()
+    .doOnSubscribe(() -> Log.i("AuthDemo", "Attributes:"))
+    .flatMapObservable(Observable::fromIterable)
+    .subscribe(
+        eachAttribute -> Log.i("AuthDemo", eachAttribute.toString()),
+        error -> Log.e("AuthDemo", "Failed to fetch attributes.", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+Invoke the following api to get the list of attributes assigned to the user.
+
+<BlockSwitcher>
+
+<Block name="Listener (iOS 11+)">
+
+```swift
+func fetchAttributes() {
+    Amplify.Auth.fetchUserAttributes() { result in
+        switch result {
+        case .success(let attributes):
+            print("User attributes - \(attributes)")
+        case .failure(let error):
+            print("Fetching user attributes failed with error \(error)")
+        }
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine (iOS 13+)">
+
+```swift
+func fetchAttributes() -> AnyCancellable {
+    Amplify.Auth.fetchUserAttributes()
+        .resultPublisher
+        .sink {
+            if case let .failure(authError) = $0 {
+                print("Fetch user attributes failed with error \(authError)")
+            }
+        }
+        receiveValue: { attributes in
+            print("User attributes - \(attributes)")
+        }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 
 ## Enable users to update, verify, and delete specific attributes
 
@@ -273,14 +805,17 @@ function handleUpdateUserAttributeNextSteps(output) {
 </Block>
 </BlockSwitcher>
 
+
 <Callout>
 
 **Note:** If you change an attribute that requires confirmation (i.e. email or phone_number), the user will receive a confirmation code either to their email or cellphone. This code can be used with the confirmUserAttribute API to confirm the change.
 
 </Callout>
+</InlineFilter>
 
 ### Update user attributes
 
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 Invoke the `updateUserAttributes` API to create or update multiple existing user attributes.
 
 <BlockSwitcher>
@@ -337,8 +872,230 @@ async function handleUpdateEmailAndNameAttributes(
 </Block>
 </BlockSwitcher>
 
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+Invoke the update api for creating new or updating existing user attributes.
+
+To update a single user attribute, call `updateUserAttribute`:
+
+```dart
+Future<void> updateUserAttribute() async {
+  try {
+    final result = await Amplify.Auth.updateUserAttribute(
+      userAttributeKey: CognitoUserAttributeKey.email,
+      value: 'email@email.com',
+    );
+    if (result.nextStep.updateAttributeStep == 'CONFIRM_ATTRIBUTE_WITH_CODE') {
+      var destination = result.nextStep.codeDeliveryDetails?.destination;
+      print('Confirmation code sent to $destination');
+    } else {
+      print('Update completed');
+    }
+  } on AmplifyException catch (e) {
+    print(e.message);
+  }
+}
+```
+
+To update multiple user attributes at a time, call `updateUserAttributes`:
+
+```dart
+Future<void> updateMultipleUserAttributes() async {
+  const attributes = [
+    AuthUserAttribute(
+      userAttributeKey: CognitoUserAttributeKey.email,
+      value: 'email@email.com',
+    ),
+    AuthUserAttribute(
+      userAttributeKey: CognitoUserAttributeKey.familyName,
+      value: 'MyFamilyName',
+    ),
+  ];
+
+  try {
+    final result = await Amplify.Auth.updateUserAttributes(attributes: attributes);
+    result.forEach((key, value) {
+      if (value.nextStep.updateAttributeStep == 'CONFIRM_ATTRIBUTE_WITH_CODE') {
+        final destination = value.nextStep.codeDeliveryDetails?.destination;
+        print('Confirmation code sent to $destination for $key');
+      } else {
+        print('Update completed for $key');
+      }
+    });
+  } on AmplifyException catch (e) {
+    print(e.message);
+  }
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={['android']}>
+Invoke the update api for creating new or updating existing user attributes.
+To update a single user attribute, call `updateUserAttribute`:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AuthUserAttribute userEmail =
+    new AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com");
+Amplify.Auth.updateUserAttribute(userEmail,
+    result -> Log.i("AuthDemo", "Updated user attribute = " + result.toString()),
+    error -> Log.e("AuthDemo", "Failed to update user attribute.", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.updateUserAttribute(
+    AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com"),
+    { Log.i("AuthDemo", "Updated user attribute = $it") },
+    { Log.e("AuthDemo", "Failed to update user attribute.", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val attribute =
+    AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com")
+try {
+    val result = Amplify.Auth.updateUserAttribute(attribute)
+    Log.i("AuthDemo", "Updated user attribute = $result")
+} catch (error: AuthException) {
+    Log.e("AuthDemo", "Failed to update user attribute.", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AuthUserAttribute userEmail =
+    new AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com");
+RxAmplify.Auth.updateUserAttribute(userEmail)
+    .subscribe(
+        result -> Log.i("AuthDemo", "Updated user attribute = " + result.toString()),
+        error -> Log.e("AuthDemo", "Failed to update user attribute.", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+To update multiple user attributes at a time, call `updateUserAttributes`:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.updateUserAttributes(
+    attributes, // attributes is a list of AuthUserAttribute
+    result -> Log.i("AuthDemo", "Updated user attributes = " + result.toString()),
+    error -> Log.e("AuthDemo", "Failed to update user attributes.", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.updateUserAttributes(
+    attributes, // attributes is a list of AuthUserAttribute
+    { Log.i("AuthDemo", "Updated user attributes = $it") },
+    { Log.e("AuthDemo", "Failed to update user attributes", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.updateUserAttributes(attributes)
+    Log.i("AuthDemo", "Updated user attributes = $result")
+} catch (error: AuthException) {
+    Log.e("AuthDemo", "Failed to update user attributes", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+// attributes is a list of AuthUserAttribute
+RxAmplify.Auth.updateUserAttributes(attributes)
+    .subscribe(
+        result -> Log.i("AuthDemo", "Updated user attributes = " + result.toString()),
+        error -> Log.e("AuthDemo", "Failed to update user attributes.", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={['swift']}>
+Invoke the update api for creating new or updating existing user attributes.
+
+<BlockSwitcher>
+
+<Block name="Listener (iOS 11+)">
+
+```swift
+func updateAttribute() {
+    Amplify.Auth.update(userAttribute: AuthUserAttribute(.phoneNumber, value: "+2223334444")) { result in
+        do {
+            let updateResult = try result.get()
+            switch updateResult.nextStep {
+            case .confirmAttributeWithCode(let deliveryDetails, let info):
+                print("Confirm the attribute with details send to - \(deliveryDetails) \(info)")
+            case .done:
+                print("Update completed")
+            }
+        } catch {
+            print("Update attribute failed with error \(error)")
+        }
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine (iOS 13+)">
+
+```swift
+func updateAttribute() -> AnyCancellable {
+    Amplify.Auth.update(userAttribute: AuthUserAttribute(.phoneNumber, value: "+2223334444"))
+        .resultPublisher
+        .sink {
+            if case let .failure(authError) = $0 {
+                print("Update attribute failed with error \(authError)")
+            }
+        }
+        receiveValue: { updateResult in
+            switch updateResult.nextStep {
+            case .confirmAttributeWithCode(let deliveryDetails, let info):
+                print("Confirm the attribute with details send to - \(deliveryDetails) \(info)")
+            case .done:
+                print("Update completed")
+            }
+        }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
 ### Verify user attribute
 
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 Some attributes require confirmation for the attribute update to complete. If the attribute needs to be confirmed, part of the result of the `updateUserAttribute` or `updateUserAttributes` APIs will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the `confirmUserAttribute` API with their input:
 
 <BlockSwitcher>
@@ -382,6 +1139,120 @@ async function handleConfirmUserAttribute({
 
 </Block>
 </BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+Some attributes require confirmation for the attribute update to complete. If the attribute need to be confirmed, the result of the above api will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the confirm attribute api with their input:
+
+```dart
+Future<void> verifyAttributeUpdate() async {
+  try {
+    await Amplify.Auth.confirmUserAttribute(
+      userAttributeKey: CognitoUserAttributeKey.email,
+      confirmationCode: '390739',
+    );
+    print('Attribute verified');
+  } on AmplifyException catch (e) {
+    print(e.message);
+  }
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={['android']}>
+Some attributes require confirmation for the attribute update to complete. If the attribute need to be confirmed, the result of the above api will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the confirm attribute api with their input:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.confirmUserAttribute(AuthUserAttributeKey.email(), "344299",
+    () -> Log.i("AuthDemo", "Confirmed user attribute with correct code."),
+    error -> Log.e("AuthDemo", "Failed to confirm user attribute. Bad code?", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmUserAttribute(AuthUserAttributeKey.email(), "344299",
+    { Log.i("AuthDemo", "Confirmed user attribute with correct code.") },
+    { Log.e("AuthDemo", "Failed to confirm user attribute. Bad code?", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    Amplify.Auth.confirmUserAttribute(AuthUserAttributeKey.email(), "344299")
+    Log.i("AuthDemo", "Confirmed user attribute with correct code.") 
+} catch (error: AuthException) {
+    Log.e("AuthDemo", "Failed to confirm user attribute. Bade code?", error) 
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmUserAttribute(AuthUserAttributeKey.email(), "344299")
+    .subscribe(
+        () -> Log.i("AuthDemo", "Confirmed user attribute using correct code."),
+        error -> Log.e("AuthDemo", "Failed to confirm user attribute. Bad code?", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+<InlineFilter filters={['swift']}>
+Some attributes require confirmation for the attribute update to complete. If the attribute need to be confirmed, the result of the above api will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the confirm attribute api with their input:
+
+<BlockSwitcher>
+
+<Block name="Listener (iOS 11+)">
+
+```swift
+func confirmAttribute() {
+    Amplify.Auth.confirm(userAttribute: .email, confirmationCode: "390739") { result in
+        switch result {
+        case .success:
+            print("Attribute verified")
+        case .failure(let error):
+            print("Update attribute failed with error \(error)")
+        }
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine (iOS 13+)">
+
+```swift
+func confirmAttribute() -> AnyCancellable {
+    Amplify.Auth.confirm(userAttribute: .email, confirmationCode: "390739")
+        .resultPublisher
+        .sink {
+            if case let .failure(authError) = $0 {
+                print("Update attribute failed with error \(authError)")
+            }
+        }
+        receiveValue: { _ in
+            print("Attribute verified")
+        }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+</InlineFilter>
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 
 ### Send user attribute verification code
 
@@ -428,6 +1299,130 @@ async function handleSendUserAttributeVerificationCode(key) {
 
 </Block>
 </BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+## Resend verification code
+
+The verification code is automatically sent using the preferred method of verification. However, if the code has expired or the user needs to resend the confirmation code, they should invoke the resend API as shown below:
+
+ ```dart
+Future<void> resendVerificationCode() async {
+  try {
+    final result = await Amplify.Auth.resendUserAttributeConfirmationCode(
+      userAttributeKey: AuthUserAttributeKey.email,
+    );
+    _handleCodeDelivery(result.codeDeliveryDetails);
+  } on AuthException catch (e) {
+    safePrint('Error resending code: ${e.message}');
+  }
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={['android']}>
+## Resend verification code
+
+The verification code is automatically sent using the preferred method of verification. However, if the code has expired or the user needs to resend the confirmation code, they should invoke the resend API as shown below:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.resendUserAttributeConfirmationCode(AuthUserAttributeKey.email(),
+    result -> Log.i("AuthDemo", "Code was sent again: " + result.toString()),
+    error -> Log.e("AuthDemo", "Failed to resend code.", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.resendUserAttributeConfirmationCode(
+    AuthUserAttributeKey.email(),
+    { Log.i("AuthDemo", "Code was sent again: $it") },
+    { Log.e("AuthDemo", "Failed to resend code", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val attr = AuthUserAttributeKey.email()
+    val result = Amplify.Auth.resendUserAttributeConfirmationCode(attr)
+    Log.i("AuthDemo", "Code was sent again: $result."),
+} catch (error: AuthException) {
+    Log.e("AuthDemo", "Failed to resend code.", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.resendUserAttributeConfirmationCode(AuthUserAttributeKey.email())
+    .subscribe(
+        result -> Log.i("AuthDemo", "Code was resent: " + result.toString()),
+        error -> Log.e("AuthDemo", "Failed to resend code.", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={['swift']}>
+## Resend verification code
+
+The verification code is automatically sent using the preferred method of verification. However, if the code has expired or the user needs to resend the confirmation code, they should invoke the resend API as shown below:
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func resendCode() async {
+    do {
+        let deliveryDetails = try await Amplify.Auth.resendConfirmationCode(forUserAttributeKey: .email)
+        print("Resend code send to - \(deliveryDetails)")
+    } catch let error as AuthError {
+        print("Resend code failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func resendCode() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.resendConfirmationCode(forUserAttributeKey: .email)
+        }.sink {
+            if case let .failure(authError) = $0 {
+                print("Resend code failed with error \(authError)")
+            }
+        }
+        receiveValue: { deliveryDetails in
+            print("Resend code sent to - \(deliveryDetails)")
+        }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 
 ### Delete user attributes
 
@@ -476,6 +1471,7 @@ async function handleDeleteUserAttributes(keys) {
 </BlockSwitcher>
 
 By following the above steps your users can now update, verify, and delete specific user attributes as their information changes over time.
+</InlineFilter>
 
 ## Conclusion
 
