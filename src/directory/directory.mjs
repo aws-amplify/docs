@@ -28,9 +28,6 @@ export const directory = {
                   path: 'src/pages/[platform]/start/quickstart/vite-react-app/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/start/quickstart/vite-react-app-option-2/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
@@ -63,6 +60,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-up/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-out/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/add-social-provider/index.mdx'
@@ -168,9 +168,11 @@ export const directory = {
                   children: [
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
+
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-rekognition/index.mdx'
+
                     }
                   ]
                 },
@@ -271,6 +273,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/bedrock-response/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/s3-upload-confirmation/index.mdx'
                     }
                   ]
                 },
@@ -327,7 +332,36 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/maps/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-location-search/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/location-search/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-geofencing/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/geofences/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/existing-resources/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/google-migration/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/amazon-location-sdk/index.mdx'
+                    }
+                  ]
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/index.mdx',
@@ -488,7 +522,21 @@ export const directory = {
           path: 'src/pages/[platform]/build-ui/index.mdx',
           children: [
             {
-              path: 'src/pages/[platform]/build-ui/forms/index.mdx'
+              path: 'src/pages/[platform]/build-ui/formbuilder/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/customize/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/special-inputs/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/validations/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/lifecycle/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-ui/figma-to-code/index.mdx'
