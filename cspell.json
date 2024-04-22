@@ -1579,7 +1579,8 @@
     "parametersjson",
     "nextamplifygen",
     "multirepo",
-    "startbuild"
+    "startbuild",
+    "voteField"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
