@@ -1,0 +1,248 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Sign-up, sign-in, and sign-out',
+  description:
+    'Learn how to use Amplify Auth in your frontend application',
+  platforms: [
+    // 'android',
+    'angular',
+    // 'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    // 'react-native',
+    // 'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={["javascript, nextjs, react"]}>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator).
+
+```tsx title="src/App.tsx"
+import { Authenticator } from '@aws-amplify/ui-react';
+import { Amplify } from 'aws-amplify';
+import '@aws-amplify/ui-react/styles.css';
+import outputs from "../amplify_outputs.json";
+
+Amplify.configure(outputs);
+
+export default function App() {
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main>
+          <h1>Hello {user?.username}</h1>
+          <button onClick={signOut}>Sign out</button>
+        </main>
+      )}
+    </Authenticator>
+  );
+}
+```
+
+The Authenticator component is automatically configured based on the outputs generated from your backend. To learn more about the Authenticator and how to customize its appearance, visit the [Amplify UI documentation](https://ui.docs.amplify.aws/).
+
+Conversely, you can bring your own UI and leverage the library from [`aws-amplify`](https://www.npmjs.com/package/aws-amplify) to handle authentication flows manually.
+
+</InlineFilter>
+<InlineFilter filters={["javascript", "nextjs", "react", "angular", "vue"]}>
+
+## Sign-up
+
+Handle sign-ups with the `signUp` function.
+
+```tsx title="src/App.tsx"
+import type { FormEvent } from "react"
+import { Amplify } from "aws-amplify"
+// highlight-next-line
+import { signUp } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+interface SignUpFormElements extends HTMLFormControlsCollection {
+  email: HTMLInputElement
+  password: HTMLInputElement
+}
+
+interface SignUpForm extends HTMLFormElement {
+  readonly elements: SignUpFormElements
+}
+
+export default function App() {
+  async function handleSubmit(event: FormEvent<SignUpForm>) {
+    event.preventDefault()
+    const form = event.currentTarget
+    // ... validate inputs
+    await signUp({
+      username: form.elements.email.value,
+      password: form.elements.password.value,
+    })
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email:</label>
+      <input type="text" id="email" name="email" />
+      <label htmlFor="password">Password:</label>
+      <input type="password" id="password" name="password" />
+      <input type="submit" />
+    </form>
+  )
+}
+```
+
+<Callout info>
+
+**Note:** When specifying `email` or `phone` as a way for your users to sign-in, these are attributes that are used in place of the username. Visit the [concepts page to learn more about usernames](/[platform]/build-a-backend/auth/concepts/#usernames).
+
+</Callout>
+
+## Sign-in
+
+Similar to the `signUp` function, use the `signIn` function to sign in.
+
+```tsx title="src/App.tsx"
+import type { FormEvent } from "react"
+import { Amplify } from "aws-amplify"
+// highlight-next-line
+import { signIn } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+interface SignInFormElements extends HTMLFormControlsCollection {
+  email: HTMLInputElement
+  password: HTMLInputElement
+}
+
+interface SignInForm extends HTMLFormElement {
+  readonly elements: SignInFormElements
+}
+
+export default function App() {
+  async function handleSubmit(event: FormEvent<SignInForm>) {
+    event.preventDefault()
+    const form = event.currentTarget
+    // ... validate inputs
+    await signIn({
+      username: form.elements.email.value,
+      password: form.elements.password.value,
+    })
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email:</label>
+      <input type="text" id="email" name="email" />
+      <label htmlFor="password">Password:</label>
+      <input type="password" id="password" name="password" />
+      <input type="submit" />
+    </form>
+  )
+}
+```
+
+To sign in using an external identity provider such as Google, use the `signInWithRedirect` function.
+
+```tsx title="src/App.tsx"
+import { Amplify } from "aws-amplify"
+// highlight-next-line
+import { signInWithRedirect } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+export default function App() {
+  async function handleSignInWithGoogle() {
+    signInWithRedirect({ provider: "Google" })
+  }
+
+  return (
+    <button type="button" onClick={handleSignOut}>
+      Sign out
+    </button>
+  )
+}
+```
+
+<Callout info>
+
+**Note:** if you do not pass an argument to `signInWithRedirect` it will redirect your users to the [Cognito Hosted UI](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-integration.html), which has limited support for customization.
+
+</Callout>
+
+Alternatively if you have configured OIDC or SAML-based identity providers in your auth resource, you can specify a "custom" provider in `signInWithRedirect`:
+
+```tsx title="src/App.tsx"
+import { Amplify } from "aws-amplify"
+// highlight-next-line
+import { signInWithRedirect } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+export default function App() {
+  async function handleSignInWithGoogle() {
+    // highlight-next-line
+    signInWithRedirect({ provider: {
+      // this is the `name` specified for your provider in your backend auth resource
+      custom: "MyOidcProvider"
+    }})
+  }
+
+  return (
+    <button type="button" onClick={handleSignInWithGoogle}>
+      Sign in with Google
+    </button>
+  )
+}
+```
+
+## Sign-out
+
+Sign out using the `signOut` function
+
+```tsx title="src/App.tsx"
+import { Amplify } from "aws-amplify"
+// highlight-next-line
+import { signOut } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+export default function App() {
+  async function handleSignOut() {
+    await signOut()
+  }
+
+  return (
+    <button type="button" onClick={handleSignOut}>
+      Sign out
+    </button>
+  )
+}
+```
+
+</InlineFilter>
+
+{/* concepts for client-side auth, how does it work? */}
+{/* sign-in */}
+{/* sign-in (social) */}
+{/* sign-out */}
+{/* sessions -- how to validate */}

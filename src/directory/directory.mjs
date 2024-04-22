@@ -74,7 +74,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/manage-users/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/sign-up/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/sign-up-sign-in-sign-out/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/server-side/index.mdx'
