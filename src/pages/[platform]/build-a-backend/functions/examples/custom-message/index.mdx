@@ -78,7 +78,7 @@ import { myCustomMessageFunction } from "./custom-message/resource";
 export const auth = defineAuth({
   // ...
   triggers: {
-    myCustomMessageFunction
+    customMessage: myCustomMessageFunction,
   }
 });
 ```
