@@ -29,7 +29,7 @@ export function getStaticProps() {
   };
 }
 
-You can use `defineAuth` and `defineFunction` to create a [Cognito custom message Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-message.html) thats sends an custom email or phone verification message or a multi-factor authentication (MFA) code.
+You can use `defineAuth` and `defineFunction` to create a [Cognito custom message Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-message.html) thats sends an custom email or phone verification message, or a multi-factor authentication (MFA) code.
 
 To get started, install `@types/aws-lambda` package that will be used to define the type of the handler:
 
@@ -44,7 +44,7 @@ Next, create a new directory and a resource file, `amplify/auth/custom-message/r
 import { defineFunction } from '@aws-amplify/backend';
 
 export const myCustomMessageFunction = defineFunction({
-  entry: './handler.ts',
+  name: "custom-message",
 });
 ```
 
@@ -83,4 +83,4 @@ export const auth = defineAuth({
 });
 ```
 
-After deploying the changes, whenever a user with user attribute `locale` set to `es` attempts to reset a password they will receive an email with a one-time code in spanish.
+After deploying the changes, whenever a user with user attribute `locale` set to `es` attempts to reset a password they will receive an email with a one-time code in Spanish.
