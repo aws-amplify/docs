@@ -44,7 +44,6 @@ To get started, create a new directory and a resource file, `amplify/auth/post-c
 import { defineFunction } from '@aws-amplify/backend';
 
 export const postConfirmation = defineFunction({
-  entry: './post-confirmation-handler.ts',
   name: 'postConfirmation',
 });
 ```
@@ -57,7 +56,7 @@ import type { Schema } from "../../data/resource";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
 import { env } from "$amplify/env/post-confirmation-handler";
-import { modelIntrospection } from "./amplifyconfiguration.json";
+import { modelIntrospection } from  "../../../amplifyconfiguration.json" 
 
 Amplify.configure(
   {
@@ -102,12 +101,6 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
 
 
 ```
-<Callout warning>
-**Note:** The `amplifyconfiguration.json` file is not automatically accessible to your function. To include it with your function, you must first do a deployment of your backend using either `npx amplify sandbox` or Amplify hosting. Then copy the `amplifyconfiguration.json` file that is placed in your project root into your function directory. Now you can import the file into your function as shown above.
-
-**Note:** Whenever you update your data model, you will need to copy the `amplifyconfiguration.json` file again.
-
-</Callout>
 
 Next, update the `amplify/data/resource.ts` file to define a data model for the user's profile:
 
