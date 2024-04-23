@@ -823,9 +823,9 @@ The **amplify-outputs.json** file contains backend endpoint information, publicl
 
 ### 5. Implement delete functionality
 
-Go to the **src/toods/todos.component.ts** file and add a new `deleteTodo` function.
+Go to the **src/todos/todos.component.ts** file and add a new `deleteTodo` function.
 
-```tsx title="src/toods/todos.component.ts"
+```tsx title="src/todos/todos.component.ts"
 @Component {
   // ...
   // highlight-start
@@ -838,7 +838,7 @@ Go to the **src/toods/todos.component.ts** file and add a new `deleteTodo` funct
 
 Call the `deleteTodo` function from the UI.
 
-```html title="src/toods/todos.component.html"
+```html title="src/todos/todos.component.html"
 ...
   <ul>
     <li *ngFor="let todo of todos;" (click)="deleteTodo(todo.id)">
