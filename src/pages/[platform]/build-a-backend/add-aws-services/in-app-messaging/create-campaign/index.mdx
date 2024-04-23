@@ -1,8 +1,8 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Creating an in-app messaging campaign on AWS Console',
-  description: 'Learn how to create a new Pinpoint campaign and configure it to be used with your Amplify project.',
+  title: 'Create an in-app messaging campaign on AWS Console',
+  description: 'Create a new Pinpoint campaign and configure it to be used with your Amplify project.',
   platforms: [
     'javascript',
     'react-native',
@@ -26,7 +26,7 @@ export function getStaticProps(context) {
   };
 }
 
-Alternatively, you can use the AWS console to create a campaign that sends messages through any single channel that is supported by Amazon Pinpoint: Mobile Push, In-App, Email, SMS or Custom channels. [Learn how to create a campaign using Amazon Pinpoint](https://docs.aws.amazon.com/pinpoint/latest/userguide/campaigns.html) to continue integrating in-app messages in your app with Amplify.
+As an alternative to writing AWS Cloud Development Kit (CDK) code, you can use the AWS console to create a campaign that sends messages through any single channel that is supported by Amazon Pinpoint: Mobile Push, In-App, Email, SMS or Custom channels. [Learn how to create a campaign using Amazon Pinpoint](https://docs.aws.amazon.com/pinpoint/latest/userguide/campaigns.html) to continue integrating in-app messages in your app with Amplify.
 
 1. Login to the [AWS Console](https://console.aws.amazon.com/console/home), and Search for **Pinpoint**.
 2. Click on your project from the list of available project. Your project name would be the name you provided when you created the pinpoint project using CDK.
@@ -41,7 +41,7 @@ Alternatively, you can use the AWS console to create a campaign that sends messa
    2. Channel: **In-App messaging**
    3. set prioritization: **Fairly important**
 
-5. Click on the **Create a segment** radio button, and add a name for your segment, and then click **Next**.
+5. Click on the **Create a segment** radio button, add a name for your segment, and then click **Next**.
 
    1. You can add as many segments as needed to the campaign. For this quickstart, you can use **Include any audiences** under the _Segment group 1_ section.
    2. You can add a criteria to your segments to ensure that audiences that satisfy that criteria can receive the in-app message.
