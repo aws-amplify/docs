@@ -141,6 +141,7 @@
     "AppDelegate.swift",
     "AppDelegate",
     "appid",
+    "apigatewayv",
     "appleid",
     "appName.app",
     "AppStore",
@@ -1159,6 +1160,7 @@
     "SDK's",
     "sdk",
     "SDKs",
+    "SDLC",
     "searchable",
     "searchbyLocationRadius",
     "searchQueryField",
@@ -1577,22 +1579,15 @@
     "parametersjson",
     "nextamplifygen",
     "multirepo",
-    "startbuild"
+    "startbuild",
+    "voteField"
   ],
-  "flagWords": [
-    "hte",
-    "full-stack",
-    "Full-stack",
-    "Full-Stack",
-    "sudo"
-  ],
+  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
     {
       "name": "youtube-embed-ids",
       "pattern": "/embedId=\".*\" /"
     }
   ],
-  "ignoreRegExpList": [
-    "youtube-embed-ids"
-  ]
+  "ignoreRegExpList": ["youtube-embed-ids"]
 }

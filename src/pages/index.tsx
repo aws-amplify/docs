@@ -19,7 +19,7 @@ import {
 const meta = {
   title: 'Amplify Documentation',
   description:
-    'Amplify documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.',
+    'AWS Amplify Docs - Develop and deploy cloud-powered web and mobile apps.',
   url: 'https://docs.amplify.aws/'
 };
 
@@ -43,13 +43,17 @@ export default function Page() {
           Amplify Documentation
         </Heading>
         <Text className="home-intro__text">
-          AWS Amplify streamlines full-stack app development. With its
-          libraries, CLI, and services, you can easily connect your frontend to
-          the cloud for authentication, storage, APIs, and more.
+          AWS Amplify is everything frontend developers need to develop and
+          deploy cloud-powered fullstack applications without hassle. Easily
+          connect your frontend to the cloud for data modeling, authentication,
+          storage, serverless functions, SSR app deployment, and more.
         </Text>
         <Flex className="home-cta">
+          <GetStartedPopover
+            platform={DEFAULT_PLATFORM}
+            getStartedLinks={generateGetStartedLinks(gen2GetStartedHref)}
+          />
           <InternalLinkButton
-            variation="primary"
             size="large"
             href={{
               pathname: gen2HowAmplifyWorksPathname,
@@ -63,10 +67,6 @@ export default function Page() {
               fontSize=".875em"
             />
           </InternalLinkButton>
-          <GetStartedPopover
-            platform={DEFAULT_PLATFORM}
-            getStartedLinks={generateGetStartedLinks(gen2GetStartedHref)}
-          />
         </Flex>
       </Flex>
       <Flex className="home-section">
@@ -74,10 +74,10 @@ export default function Page() {
           Build fullstack apps with your framework of choice
         </Heading>
         <Text>
-          AWS Amplify provides libraries for popular web and mobile frameworks,
-          like JavaScript, Flutter, Swift, and React. Our guides, APIs, and
-          other resources will help you build, connect, and host fullstack apps
-          on AWS. Get started by selecting your preferred framework.
+          You can use AWS Amplify with popular web and mobile frameworks like
+          JavaScript, Flutter, Swift, and React. Build, connect, and host
+          fullstack apps on AWS. Get started by selecting your preferred
+          framework.
         </Text>
         <FrameworkGrid currentKey={DEFAULT_PLATFORM} />
       </Flex>
@@ -90,8 +90,8 @@ export default function Page() {
                 Code-first DX
               </Heading>
               <Text>
-                The code-first developer experience is a new approach that lets
-                you focus on your app code instead of infrastructure.
+                The fullstack TypeScript developer experience lets you focus on
+                your app code instead of infrastructure.
               </Text>
             </Flex>
           </Card>
@@ -101,8 +101,8 @@ export default function Page() {
                 Fullstack Git deployments
               </Heading>
               <Text>
-                Fullstack deployments from your Git branch. Deploy your frontend
-                and backend together on every code commit.
+                Deploy your frontend and backend together on every code commit.
+                Your Git branch is the source of truth.
               </Text>
             </Flex>
           </Card>
@@ -146,8 +146,9 @@ export default function Page() {
               }
             }}
           >
-            Write TypeScript across frontend and backend. Get schema validation,
-            dot completion, and end-to-end types while you code.
+            Write TypeScript across your app&pos;s frontend and backend. Get
+            schema validation, dot completion, and end-to-end types while you
+            code.
           </FeatureItem>
           <FeatureItem
             linkText="Real-time data for modern apps"
@@ -191,7 +192,7 @@ export default function Page() {
       <Columns columns={2}>
         <ExportedImage
           src="/images/gen2/deploy-cycle.png"
-          alt="Flowchart describing..."
+          alt="Diagram showing a software development environment setup with two distinct sandbox environments linked to one Git repo which is connected to the Amplify console which has deployed versions of the Dev and Main branches of the application"
           width="450"
           height="412"
           style={{
@@ -212,8 +213,8 @@ export default function Page() {
               }
             }}
           >
-            Deploy apps in Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and
-            more) by simply connecting your Git repository.
+            Deploy Next.js, Nuxt, React, Vue.js, Angular (and more) apps by
+            simply connecting your Git repository.
           </FeatureItem>
           <FeatureItem
             linkText="Faster iterations with per-developer sandboxes"
@@ -266,7 +267,7 @@ export default function Page() {
               }
             }}
           >
-            Extend or customize with AWS CDK to access 200+ AWS services.
+            Extend or customize with the AWS CDK to access 200+ AWS services.
           </FeatureItem>
           <FeatureItem
             linkText="Bring your own pipelines"
@@ -291,7 +292,7 @@ export default function Page() {
               }
             }}
           >
-            Enable support for all types of fullstack team workflows—monorepos,
+            Enable support for all types of fullstack team workflows: monorepos,
             micro frontends, multi-repos, and more.
           </FeatureItem>
         </FeatureList>

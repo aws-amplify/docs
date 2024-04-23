@@ -34,7 +34,7 @@ You might have different frontend and backend teams that maintain their own repo
 
 ## Deploy the backend app
 
-1. Run `mkdir backend-app && npm create amplify@beta` to set up a backend-only Amplify project. Commit the code to a Git provider of your choice.
+1. Run `mkdir backend-app && cd backend-app && npm create amplify@latest` to set up a backend-only Amplify project. Commit the code to a Git provider of your choice.
 
 1. Connect the `backend-app` in the new console. Navigate to the Amplify console and select **New app > Build an app (Gen 2)**.
 
@@ -43,19 +43,18 @@ You might have different frontend and backend teams that maintain their own repo
 ![Screenshot of the App Settings section in the Amplify console with Amplify Deploy listed under Auto-detected frameworks](/images/gen2/fullstack-branching/multirepo1.png)
 
 4. Once you choose **Save and deploy**, your backend project will build.
-
 ## Deploy the frontend app
 
 1. Now let's set up the frontend app and connect to the deployed backend.
 
-```
+```bash title="Terminal" showLineNumbers={false}
 npm create next-app@14 -- multi-repo-example --typescript --eslint --no-app --no-src-dir --no-tailwind --import-alias '@/*'
 
 ```
 
 2. Install Amplify dependencies.
 
-```
+```bash title="Terminal" showLineNumbers={false}
 cd multi-repo-example
 npm add @aws-amplify/backend-cli aws-amplify @aws-amplify/ui-react
 ```
