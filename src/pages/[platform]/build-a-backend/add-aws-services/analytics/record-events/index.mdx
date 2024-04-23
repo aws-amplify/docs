@@ -100,12 +100,12 @@ Events have a default configuration to flush out to the network every 30 seconds
     "plugins": {
       "awsPinpointAnalyticsPlugin": {
         "pinpointAnalytics": {
-          "appId": "AppID",
-          "region": "Region",
+          "appId": "<your-app-id>",
+          "region": "<your-app-region>",
           "autoFlushEventsInterval": 10000
         },
         "pinpointTargeting": {
-          "region": "Region"
+          "region": "<your-app-region>"
         }
       }
     }
@@ -162,10 +162,10 @@ You can report authentication events by doing either of the following:
   ```json
   "CognitoUserPool": {
       "Default": {
-          "PoolId": "<poolid>",
-          "AppClientId": "<appclientid>",
-          "Region": "<region>",
-          "PinpointAppId": "<pinpointappid>"
+          "PoolId": "<your-user-pool-id>",
+          "AppClientId": "<your-app-client-id>",
+          "Region": "<your-app-region>",
+          "PinpointAppId": "<your-pinpoint-app-id>"
      }
   }
   ```
@@ -320,17 +320,16 @@ Events have default configuration to flush out to the network every 30 seconds. 
 
 ```json
 {
-  "UserAgent": "aws-amplify-cli/2.0",
   "Version": "1.0",
   "analytics": {
     "plugins": {
       "awsPinpointAnalyticsPlugin": {
         "pinpointAnalytics": {
-          "appId": "AppID",
-          "region": "Region"
+          "appId": "<your-app-id>",
+          "region": "<your-app-region>"
         },
         "pinpointTargeting": {
-          "region": "Region"
+          "region": "<your-app-region>"
         },
         "autoFlushEventsInterval": 10
       }
@@ -421,14 +420,13 @@ If you would like to change this, update `amplifyconfiguration.json` and set the
 
 ```json
 {
-  "UserAgent": "aws-amplify-cli/2.0",
   "Version": "1.0",
   "analytics": {
     "plugins": {
       "awsPinpointAnalyticsPlugin": {
         "pinpointAnalytics": {
-          "appId": "AppID",
-          "region": "Region"
+          "appId": "<your-app-id>",
+          "region": "<your-app-region>"
         },
         "autoFlushEventsInterval": 60
       }
@@ -470,10 +468,10 @@ You can report authentication events by doing either of the following:
   ```json
   "CognitoUserPool": {
       "Default": {
-          "PoolId": "<poolid>",
-          "AppClientId": "<appclientid>",
-          "Region": "<region>",
-          "PinpointAppId": "<pinpointappid>"
+          "PoolId": "<your-user-pool-id>",
+          "AppClientId": "<your-app-client-id>",
+          "Region": "<your-app-region>",
+          "PinpointAppId": "<your-pinpoint-app-id>"
      }
   }
   ```
@@ -521,7 +519,7 @@ Amplify.Analytics.unregisterGlobalProperties(globalProperties)
 
 To record custom events call the `record` API:
 
-```javascript
+```javascript title="src/index.js"
 import { record } from 'aws-amplify/analytics';
 
 record({
@@ -539,7 +537,7 @@ Analytics events are buffered in memory and periodically sent to the service and
 
 The `record` API lets you add additional attributes to an event. For example, to record _artist_ information with an _albumVisit_ event:
 
-```javascript
+```javascript title="src/index.js"
 import { record } from 'aws-amplify/analytics';
 
 record({
@@ -554,7 +552,7 @@ Recorded events will be buffered and periodically sent to Amazon Pinpoint.
 
 Metrics can also be added to an event:
 
-```javascript
+```javascript title="src/index.js"
 import { record } from 'aws-amplify/analytics';
 
 record({
@@ -577,7 +575,7 @@ However, it can take upwards of 30 minutes for the event to display in the Filte
 
 The recorded events are saved in a buffer and sent to the remote server periodically. If needed, you have the option to manually clear all the events from the buffer by using the 'flushEvents' API.
 
-```javascript
+```javascript title="src/index.js"
 import { flushEvents } from 'aws-amplify/analytics';
 
 flushEvents();

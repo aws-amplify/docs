@@ -26,12 +26,24 @@ describe('PlatformNavigator', () => {
     expect(navigator).toBeInTheDocument();
   });
 
-  it('should show the default platform as React', async () => {
+  it('should show the current platform as React if passed as param', async () => {
     render(component);
 
     const platform = await screen.findByRole('button');
 
     expect(platform.textContent).toBe('React');
+  });
+
+  it('should show the current platform as Nextjs if passed as param', async () => {
+    const component = (
+      <PlatformNavigator currentPlatform={'nextjs'} isPrev={true} />
+    );
+
+    render(component);
+
+    const platform = await screen.findByRole('button');
+
+    expect(platform.textContent).toBe('Next.js');
   });
 
   it('should open dropdown on click', async () => {
@@ -54,9 +66,7 @@ describe('PlatformNavigator', () => {
     userEvent.tab();
     userEvent.tab();
     expect(popoverFirstItem.children[0]).toHaveFocus();
-    expect(popoverFirstItem.textContent).toBe('JavaScript');
-    expect(popoverFirstItem.children[0].getAttribute('href')).toBe(
-      '/javascript'
-    );
+    expect(popoverFirstItem.textContent).toBe('Next.js');
+    expect(popoverFirstItem.children[0].getAttribute('href')).toBe('/nextjs');
   });
 });
