@@ -1704,10 +1704,6 @@
     "condition":null
   },
   {
-<<<<<<< HEAD
-    "source":"/angular/build-a-backend/auth/email-only-sign-up/",
-    "target":"/angular/build-a-backend/auth/enable-sign-up/",
-=======
     "source":"/javascript/build-a-backend/auth/email-only-sign-up/",
     "target":"/javascript/build-a-backend/auth/enable-sign-up/",
     "status":"301",
@@ -1740,7 +1736,6 @@
   {
     "source":"/guides/authentication/listening-for-auth-events/q/platform/js/",
     "target":"/javascript/build-a-backend/auth/auth-events/",
->>>>>>> main
     "status":"301",
     "condition":null
   },
@@ -1781,10 +1776,6 @@
     "condition":null
   },
   {
-<<<<<<< HEAD
-    "source":"/angular/build-a-backend/auth/manage-user-attributes/",
-    "target":"/angular/build-a-backend/auth/manage-user-profile/",
-=======
     "source":"/javascript/build-a-backend/auth/manage-user-attributes/",
     "target":"/javascript/build-a-backend/auth/manage-user-profile/",
     "status":"301",
@@ -1817,7 +1808,6 @@
   {
     "source":"/guides/datastore/parallel-processing/q/platform/ios/",
     "target":"/swift/prev/build-a-backend/more-features/datastore/",
->>>>>>> main
     "status":"301",
     "condition":null
   },
@@ -1882,8 +1872,6 @@
     "condition":null
   },
   {
-<<<<<<< HEAD
-=======
     "source":"/javascript/build-a-backend/functions/appsync-operations-to-lambda-layer/",
     "target":"/javascript/build-a-backend/graphqlapi/client-code-generation/",
     "status":"301",
@@ -1902,7 +1890,6 @@
     "condition":null
   },
   {
->>>>>>> main
     "source":"/angular/build-a-backend/functions/appsync-operations-to-lambda-layer/",
     "target":"/angular/build-a-backend/graphqlapi/client-code-generation/",
     "status":"301",
@@ -1927,41 +1914,7 @@
     "condition":null
   },
   {
-<<<<<<< HEAD
-      "source": "/guides/functions/cognito-trigger-lambda-dynamodb/q/platform/android/",
-      "target": "/android/build-a-backend/functions/",
-      "status": "301",
-      "condition": null
-  },
-  {
-      "source": "/guides/functions/cognito-trigger-lambda-dynamodb/q/platform/ios/",
-      "target": "/swift/build-a-backend/functions/",
-      "status": "301",
-      "condition": null
-  },
-  {
-      "source": "/guides/functions/cognito-trigger-lambda-dynamodb/q/platform/js/",
-      "target": "/javascript/build-a-backend/functions/",
-      "status": "301",
-      "condition": null
-  },
-  {
-    "source":"/javascript/build-a-backend/functions/cognito-trigger-lambda-dynamodb/",
-    "target":"/javascript/build-a-backend/functions/",
-    "status":"301",
-    "condition":null
-  },
-  {
-    "source":"/swift/build-a-backend/functions/cognito-trigger-lambda-dynamodb/",
-    "target":"/swift/build-a-backend/functions/",
-    "status":"301",
-    "condition":null
-  },
-  {
-    "source":"/android/build-a-backend/functions/cognito-trigger-lambda-dynamodb/",
-=======
     "source":"/guides/functions/cognito-trigger-lambda-dynamodb/q/platform/android/",
->>>>>>> main
     "target":"/android/build-a-backend/functions/",
     "status":"301",
     "condition":null
@@ -2009,9 +1962,6 @@
     "condition":null
   },
   {
-<<<<<<< HEAD
-    "source":"/swift/build-a-backend/functions/connect-rest-api/",
-=======
     "source":"/javascript/build-a-backend/functions/cognito-trigger-lambda-dynamodb/",
     "target":"/javascript/build-a-backend/functions/",
     "status":"301",
@@ -2055,15 +2005,11 @@
   },
   {
     "source":"/guides/functions/connecting-a-rest-api/q/platform/ios/",
->>>>>>> main
     "target":"/swift/build-a-backend/functions/",
     "status":"301",
     "condition":null
   },
   {
-<<<<<<< HEAD
-    "source":"/android/build-a-backend/functions/connect-rest-api/",
-=======
     "source":"/guides/functions/connecting-a-rest-api/q/platform/js/",
     "target":"/javascript/build-a-backend/functions/",
     "status":"301",
@@ -2113,7 +2059,6 @@
   },
   {
     "source":"/guides/functions/dynamodb-from-js-lambda/q/platform/android/",
->>>>>>> main
     "target":"/android/build-a-backend/functions/",
     "status":"301",
     "condition":null
@@ -2167,15 +2112,12 @@
     "condition":null
   },
   {
-<<<<<<< HEAD
-=======
     "source":"/javascript/build-a-backend/functions/dynamodb-from-lambda-nodejs/",
     "target":"/javascript/build-a-backend/functions/",
     "status":"301",
     "condition":null
   },
   {
->>>>>>> main
     "source":"/swift/build-a-backend/functions/dynamodb-from-lambda-nodejs/",
     "target":"/swift/build-a-backend/functions/",
     "status":"301",
@@ -2183,8 +2125,6 @@
   },
   {
     "source":"/android/build-a-backend/functions/dynamodb-from-lambda-nodejs/",
-<<<<<<< HEAD
-=======
     "target":"/android/build-a-backend/functions/",
     "status":"301",
     "condition":null
@@ -2215,7 +2155,6 @@
   },
   {
     "source":"/guides/functions/dynamodb-from-python-lambda/q/platform/android/",
->>>>>>> main
     "target":"/android/build-a-backend/functions/",
     "status":"301",
     "condition":null
@@ -2305,10 +2244,6 @@
     "condition":null
   },
   {
-<<<<<<< HEAD
-    "source":"/guides/functions/graphql-from-lambda/q/platform/ios/",
-    "target":"/swift/build-a-backend/functions/graphql-from-lambda/",
-=======
     "source":"/javascript/build-a-backend/functions/dynamodb-from-lambda-python/",
     "target":"/javascript/build-a-backend/functions/",
     "status":"301",
@@ -2317,33 +2252,10 @@
   {
     "source":"/swift/build-a-backend/functions/dynamodb-from-lambda-python/",
     "target":"/swift/build-a-backend/functions/",
->>>>>>> main
     "status":"301",
     "condition":null
   },
   {
-<<<<<<< HEAD
-      "source": "/guides/functions/graphql-from-lambda/q/platform/js/",
-      "target": "/javascript/build-a-backend/functions/graphql-from-lambda/",
-      "status": "301",
-      "condition": null
-  },
-  {
-      "source": "/guides/functions/graphql-server-in-lambda/q/platform/ios/",
-      "target": "/swift/build-a-backend/functions/",
-      "status": "301",
-      "condition": null
-  },
-  {
-      "source": "/guides/functions/graphql-server-in-lambda/q/platform/js/",
-      "target": "/javascript/build-a-backend/functions/",
-      "status": "301",
-      "condition": null
-  },
-  {
-    "source":"/javascript/build-a-backend/functions/graphql-server-lambda/",
-    "target":"/javascript/build-a-backend/functions/",
-=======
     "source":"/android/build-a-backend/functions/dynamodb-from-lambda-python/",
     "target":"/android/build-a-backend/functions/",
     "status":"301",
@@ -2382,7 +2294,6 @@
   {
     "source":"/guides/functions/graphql-from-lambda/q/platform/js/",
     "target":"/javascript/build-a-backend/functions/graphql-from-lambda/",
->>>>>>> main
     "status":"301",
     "condition":null
   },
@@ -2393,9 +2304,6 @@
     "condition":null
   },
   {
-<<<<<<< HEAD
-    "source":"/android/build-a-backend/functions/graphql-server-lambda/",
-=======
     "source":"/guides/functions/graphql-server-in-lambda/q/platform/js/",
     "target":"/javascript/build-a-backend/functions/",
     "status":"301",
@@ -3825,7 +3733,6 @@
   },
   {
     "source":"/guides/functions/connecting-a-rest-api/q/platform/android/",
->>>>>>> main
     "target":"/android/build-a-backend/functions/",
     "status":"301",
     "condition":null
@@ -5265,10 +5172,6 @@
     "condition":null
   },
   {
-<<<<<<< HEAD
-    "source":"/swift/build-a-backend/functions/integrate-dynamodb-with-lambda/",
-    "target":"/swift/build-a-backend/functions/",
-=======
     "source":"/javascript/build-a-backend/functions/integrate-dynamodb-with-lambda/",
     "target":"/javascript/build-a-backend/functions/",
     "status":"301",
@@ -5313,7 +5216,6 @@
   {
     "source":"/lib-v1/analytics/autotrack/q/platform/android/",
     "target":"/android/prev/build-a-backend/more-features/analytics/auto-track-sessions/",
->>>>>>> main
     "status":"301",
     "condition":null
   },
