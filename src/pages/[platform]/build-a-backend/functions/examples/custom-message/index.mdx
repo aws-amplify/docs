@@ -50,7 +50,8 @@ export const myCustomMessageFunction = defineFunction({
 
 Next, create the corresponding handler file, `amplify/auth/custom-message/handler.ts`, file with the following contents:
 
-```ts title="amplify/auth/custom-message/handler.ts" /* spell-checker: disable */
+{/* spell-checker: disable */}
+```ts title="amplify/auth/custom-message/handler.ts" 
 import type { CustomMessageTriggerHandler } from "aws-lambda";
 
 export const handler: CustomMessageTriggerHandler = async (event) => {
@@ -68,6 +69,8 @@ export const handler: CustomMessageTriggerHandler = async (event) => {
   return event;
 };
 ```
+{/* spellchecker: enable */} 
+
 
 Lastly, set the newly created function resource on your auth resource:
 
