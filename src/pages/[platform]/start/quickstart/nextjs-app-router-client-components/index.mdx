@@ -65,7 +65,7 @@ Next, create a `components` folder in the root of your project and the contents 
 // components/ConfigureAmplify.tsx
 "use client";
 
-import config from "@/amplifyconfiguration.json";
+import config from "@/amplify_outputs.json";
 import { Amplify } from "aws-amplify";
 
 Amplify.configure(config, { ssr: true });

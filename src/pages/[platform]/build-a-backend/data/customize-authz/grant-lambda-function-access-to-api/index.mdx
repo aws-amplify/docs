@@ -101,7 +101,7 @@ import { Schema } from '../data/resource';
 import { env } from '@env/<data-access>'; // replace with your function name
 // highlight-start
 // see instructions below on copying this file
-import { modelIntrospection } from './amplifyconfiguration.json';
+import { modelIntrospection } from './amplify_outputs.json';
 // highlight-end
 
 Amplify.configure(
@@ -140,11 +140,11 @@ export const handler = async (event) => {
 }
 ```
 
-The `amplifyconfiguration.json` file is not automatically accessible to your function. To include it with your function, you must first do a deployment of your backend using either `npx amplify sandbox` or Amplify hosting. Then copy the `amplifyconfiguration.json` file that is placed in your project root into your function directory. Now you can import the file into your function as shown above.
+The `amplify_outputs.json` file is not automatically accessible to your function. To include it with your function, you must first do a deployment of your backend using either `npx amplify sandbox` or Amplify hosting. Then copy the `amplify_outputs.json` file that is placed in your project root into your function directory. Now you can import the file into your function as shown above.
 
 <Callout warning>
 
-**Note:** Whenever you update your data model, you will need to copy the `amplifyconfiguration.json` file again.
+**Note:** Whenever you update your data model, you will need to copy the `amplify_outputs.json` file again.
 
 </Callout>
 

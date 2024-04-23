@@ -403,7 +403,7 @@ Import and load the configuration file in your app. It's recommended you add the
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native"]}>
 ```javascript title="src/index.js"
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '../amplifyconfiguration.json';
+import amplifyconfig from '../amplify_outputs.json';
 
 Amplify.configure(amplifyconfig);
 const existingConfig = Amplify.getConfig();
@@ -419,7 +419,7 @@ Amplify.configure({
 <InlineFilter filters={["nextjs"]}>
 ```javascript title="pages/index.tsx"
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '@/amplifyconfiguration.json';
+import amplifyconfig from '@/amplify_outputs.json';
 
 Amplify.configure(amplifyconfig);
 Amplify.configure(amplifyconfig);

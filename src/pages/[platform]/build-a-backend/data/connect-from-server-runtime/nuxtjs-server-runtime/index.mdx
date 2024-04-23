@@ -67,7 +67,7 @@ import {
   signOut,
 } from "aws-amplify/auth";
 import { generateClient } from "aws-amplify/data";
-import config from "../amplifyconfiguration.json";
+import config from "../amplify_outputs.json";
 import type { Schema } from "@/amplify/data/resource";
 import { Amplify } from "aws-amplify";
 
@@ -139,9 +139,9 @@ import type {
   GraphQLResponseV6,
 } from "@aws-amplify/api-graphql";
 
-import config from "../amplifyconfiguration.json";
+import config from "../amplify_outputs.json";
 
-// parse the content of `amplifyconfiguration.json` into the shape of ResourceConfig
+// parse the content of `amplify_outputs.json` into the shape of ResourceConfig
 const amplifyConfig = parseAmplifyConfig(config);
 
 // create the Amplify used token cookies names array
@@ -415,7 +415,7 @@ import {
 import { parseAmplifyConfig } from "aws-amplify/utils";
 
 import type { LibraryOptions } from "@aws-amplify/core";
-import config from "~/amplifyconfiguration.json";
+import config from "~/amplify_outputs.json";
 
 const amplifyConfig = parseAmplifyConfig(config);
 

@@ -186,7 +186,7 @@ Import and load the configuration file in your app. It's recommended you add the
 ```js title="src/index.js"
 import { Amplify } from 'aws-amplify';
 import { record } from 'aws-amplify/analytics';
-import amplifyconfig from '../amplifyconfiguration.json';
+import amplifyconfig from '../amplify_outputs.json';
 
 Amplify.configure({
   ...Amplify.getConfig(),
@@ -199,7 +199,7 @@ Amplify.configure({
 ```js title="pages/_app.tsx"
 import { Amplify } from 'aws-amplify';
 import { record } from 'aws-amplify/analytics';
-import amplifyconfig from '@/amplifyconfiguration.json';
+import amplifyconfig from '@/amplify_outputs.json';
 
 Amplify.configure({
   ...Amplify.getConfig(),
