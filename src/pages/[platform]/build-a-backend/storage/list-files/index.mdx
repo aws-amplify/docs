@@ -8,7 +8,10 @@ export const meta = {
     'javascript',
     'nextjs',
     'react',
-    'vue'
+    'vue',
+    'swift',
+    'android',
+    'flutter'
   ]
 };
 
@@ -24,11 +27,11 @@ export function getStaticProps(context) {
   };
 }
 
-
-
 You can list files without having to download the entire file. You can do this by using the listFile API from the Amplify Library for Storage. You can also get properties individually for a file using the getProperties API.
 
 ## List API
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 ```javascript
 import { list } from 'aws-amplify/storage';
 
@@ -103,6 +106,95 @@ function processStorageList(response) {
 ```
 
 This places each item's data inside a special `__data` key.
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+StoragePagedListOptions options = StoragePagedListOptions.builder()
+    .setPageSize(1000)
+    .build();
+
+Amplify.Storage.list(
+    StoragePath.fromString("public/"),
+    options,
+    result -> {
+        for (StorageItem item : result.getItems()) {
+            Log.i("MyAmplifyApp", "Item: " + item.getPath());
+        }
+        Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
+    },
+    error -> Log.e("MyAmplifyApp", "List failure", error);
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val options = StoragePagedListOptions.builder()
+    .setPageSize(1000)
+    .build()
+
+Amplify.Storage.list(StoragePath.fromString("public/"), options,
+    { result ->
+        result.items.forEach { item ->
+            Log.i("MyAmplifyApp", "Item: ${item.path}")
+        }
+        Log.i("MyAmplifyApp", "Next Token: ${result.nextToken}")
+    },
+    { Log.e("MyAmplifyApp", "List failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val options = StoragePagedListOptions.builder()
+    .setPageSize(1000)
+    .build()
+
+try {
+    val result = Amplify.Storage.list(StoragePath.fromString("public/"), options)
+    result.items.forEach {
+        Log.i("MyAmplifyApp", "Item: $it")
+    }
+    Log.i("MyAmplifyApp", "next token: ${result.nextToken}")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "List failure", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+StoragePagedListOptions options = StoragePagedListOptions.builder()
+        .setPageSize(1000)
+        .build();
+
+RxAmplify.Storage.list(StoragePath.fromString("public/"), options)
+        .subscribe(
+            result -> {
+                for (StorageItem item : result.getItems()) {
+                    Log.i("MyAmplifyApp", "Item: " + item.getPath());
+                }
+                Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
+            },
+            error -> Log.e("MyAmplifyApp", "List failure", error);
+        );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
 ### List files without pagination
 
@@ -194,3 +286,4 @@ Learn more about how to setup an appropriate [CORS Policy](/[platform]/build-a-b
 
 </Callout>
 
+</InlineFilter>

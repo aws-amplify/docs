@@ -8,7 +8,10 @@ export const meta = {
     'javascript',
     'nextjs',
     'react',
-    'vue'
+    'vue',
+    'swift',
+    'android',
+    'flutter'
   ]
 };
 
@@ -54,6 +57,8 @@ cfnBucket.accelerateConfiguration = {
 ```
 Read more about [escape hatches in CDK](https://docs.aws.amazon.com/cdk/v2/guide/cfn_layer.html#develop-customize-escape).
 
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
 ## For Manually configured S3 resources
 
 {/* TODO Rewrite is this needed only for JS? or is it needed for Flutter Web for example as well? */}
@@ -94,3 +99,5 @@ The following steps will set up your CORS Policy:
 **Note:** You can restrict the access to your bucket by updating AllowedOrigin to include individual domains.
 
 </Callout>
+
+</InlineFilter>
