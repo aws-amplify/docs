@@ -29,6 +29,10 @@ export function getStaticProps() {
   };
 }
 
+You can add the functionality to enable sign-up, sign-in, and sign-out with the Amplify client libraries. You can connect this to an existing UI or create your own.
+
+{/* We will use the username and password authentication flow to get started. Both [third-party social provider federation](/[platform]/build-a-backend/auth/add-social-provider/) and [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/) can be added after this initial setup. */}
+
 <InlineFilter filters={["javascript, nextjs, react"]}>
 
 The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator).
@@ -113,6 +117,12 @@ export default function App() {
 
 </Callout>
 
+The `signUp` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
+
+- `CONFIRM_SIGN_UP` - The sign up needs to be confirmed by collecting a code from the user and calling `confirmSignUp`.
+- `DONE` - The sign up process has been fully completed.
+- `COMPLETE_AUTO_SIGN_IN` - The sign up process needs to complete by invoking the `autoSignIn` API.
+
 ## Sign-in
 
 Similar to the `signUp` function, use the `signIn` function to sign in.
@@ -157,6 +167,22 @@ export default function App() {
   )
 }
 ```
+
+The `signIn` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
+
+- `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED` - The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`.
+- `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE` - The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`.
+- `CONFIRM_SIGN_IN_WITH_TOTP_CODE` - The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`.
+- `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` - The TOTP setup process must be continued. Complete the process with `confirmSignIn`.
+- `CONFIRM_SIGN_IN_WITH_SMS_CODE` - The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`.
+- `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` - The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`.
+- `RESET_PASSWORD` - The user must reset their password via `resetPassword`.
+- `CONFIRM_SIGN_UP` - The user hasn't completed the sign-up flow fully and must be confirmed via `confirmSignUp`.
+- `DONE` - The sign in process has been completed.
+
+{/* For more information on handling the TOTP and MFA steps that may be returned, please see [_'Multi-factor authentication'_](/[platform]/build-a-backend/auth/manage-mfa/). */}
+
+### Using an external provider
 
 To sign in using an external identity provider such as Google, use the `signInWithRedirect` function.
 
@@ -234,6 +260,30 @@ export default function App() {
   return (
     <button type="button" onClick={handleSignOut}>
       Sign out
+    </button>
+  )
+}
+```
+
+You can also sign out users from all devices by performing a global sign-out. This will also invalidate all refresh tokens issued to a user. The user's current access and ID tokens will remain valid on other devices until the refresh token expires (access and ID tokens expire one hour after they are issued).
+
+```tsx title="src/App.tsx"
+import { Amplify } from "aws-amplify"
+import { signOut } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+export default function App() {
+  async function handleSignOut() {
+    // highlight-next-line
+    await signOut({ global: true })
+  }
+
+  return (
+    <button type="button" onClick={handleSignOut}>
+      // highlight-next-line
+      Sign out everywhere
     </button>
   )
 }

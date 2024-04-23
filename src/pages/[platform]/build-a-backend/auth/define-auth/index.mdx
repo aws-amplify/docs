@@ -59,9 +59,31 @@ By default, your auth resource is scaffolded using `email` as the default login 
 
 After you have chosen and defined your authentication resource, run the following command to create your resource in your personal cloud sandbox.
 
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
 ```
+</InlineFilter>
+<InlineFilter filters={['flutter']}>
+```bash title="Terminal" showLineNumbers={false}
+npx amplify sandbox --config-format dart --config-out-dir lib
+```
+</InlineFilter>
+<InlineFilter filters={['android']}>
+<Callout warning>
+Be sure to add a "raw" folder under `app/src/main/res` directory if it does not exist.
+</Callout>
+
+```bash title="Terminal" showLineNumbers={false}
+npx amplify sandbox --config-out-dir app/src/main/res/raw
+```
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+```bash title="Terminal" showLineNumbers={false}
+npx amplify sandbox
+```
+</InlineFilter>
 
 After a successful deployment, this command also generates a configuration file (`amplifyconfiguration.json`) to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated configuration file to automatically configure the frontend [`Authenticator connected component`](https://ui.docs.amplify.aws/react/connected-components/authenticator).
 

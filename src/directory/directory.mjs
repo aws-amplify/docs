@@ -67,30 +67,27 @@ export const directory = {
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-out/index.mdx'
                 },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/add-social-provider/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-user-session/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-user-profile/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/password-management/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-mfa/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/delete-user-account/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/auth-events/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/admin-actions/index.mdx'
-                },
+                // {
+                //   path: 'src/pages/[platform]/build-a-backend/auth/add-social-provider/index.mdx'
+                // },
+                // {
+                //   path: 'src/pages/[platform]/build-a-backend/auth/manage-user-session/index.mdx'
+                // },
+                // {
+                //   path: 'src/pages/[platform]/build-a-backend/auth/manage-user-profile/index.mdx'
+                // },
+                // {
+                //   path: 'src/pages/[platform]/build-a-backend/auth/password-management/index.mdx'
+                // },
+                // {
+                //   path: 'src/pages/[platform]/build-a-backend/auth/manage-mfa/index.mdx'
+                // },
+                // {
+                //   path: 'src/pages/[platform]/build-a-backend/auth/delete-user-account/index.mdx'
+                // },
+                // {
+                //   path: 'src/pages/[platform]/build-a-backend/auth/admin-actions/index.mdx'
+                // },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
                 },
@@ -99,6 +96,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/sign-up-sign-in-sign-out/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/listen-to-auth-events/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/server-side/index.mdx'
