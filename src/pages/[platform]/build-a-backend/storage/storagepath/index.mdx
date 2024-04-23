@@ -23,5 +23,40 @@ export function getStaticProps(context) {
 }
 
 <InlineFilter filters={["android", "swift"]}>
+You can now use `StoragePath` to explicitly access, upload, and download to any path in your S3 bucket.
+Instead of using access levels, which restrict you to the predefined `guest`, `private`, or `public` folder in S3, `StoragePath` gives you more flexibility and control to create, maintain, and provision the path and storage structure that best fits your needs.
 
+You can specify the path to your S3 resource by creating a `StoragePath` from a string or from constructing the path from the identity identifier.
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+  <BlockSwitcher>
+    <Block name="From String">
+    ```swift
+      StoragePath.fromString("public/example/path")
+    ```
+    </Block>
+
+    <Block name="From Identity Identifier">
+
+    ```swift
+    StoragePath.fromIdentityID { identityId in
+      return "private/\(identityId)/example/path"
+    }
+    ```
+    </Block>
+  </BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+  <BlockSwitcher>
+    <Block name="From String">
+    //android placeholder
+    </Block>
+
+    <Block name="From Identity Identifier">
+    //android placeholder
+    </Block>
+  </BlockSwitcher>
 </InlineFilter>
