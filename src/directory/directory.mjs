@@ -660,6 +660,12 @@ export const directory = {
               path: 'src/pages/[platform]/reference/cli-commands/index.mdx'
             },
             {
+              path: 'src/pages/[platform]/reference/aws-amplify-backend/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/reference/aws-amplify-backend-cli/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/reference/iam-policy/index.mdx'
             },
             {
