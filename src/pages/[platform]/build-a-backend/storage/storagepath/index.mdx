@@ -1,0 +1,27 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Using StoragePath',
+  description: "Learn more about constructing a StoragePath to use on Amplify Storage APIs",
+  platforms: [
+    'swift',
+    'android'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={["android", "swift"]}>
+
+</InlineFilter>
