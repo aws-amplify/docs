@@ -16,7 +16,13 @@ Future<void> _configureAmplify() async {
 }
 ```
 
-Make sure that the `amplifyconfiguration.dart` file generated in the project setup is included and sent to `Amplify.configure`:
+<Callout>
+
+When running your app on MacOS you will need to enable keychain sharing in Xcode, as described in the [Project setup guide](/[platform]/start/project-setup/platform-setup/#enable-keychain).
+
+</Callout>
+
+Make sure that the amplifyconfiguration.dart file generated in the project setup is included and sent to Amplify.configure:
 
 ```dart
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';

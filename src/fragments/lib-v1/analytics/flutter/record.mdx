@@ -6,13 +6,13 @@ The Amplify analytics plugin also makes it easy to record custom events within t
 Future<void> recordCustomEvent() async {
   final event = AnalyticsEvent('PasswordReset');
 
-  event.properties
+  event.customProperties
     ..addStringProperty('Channel', 'SMS')
     ..addBoolProperty('Successful', true);
 
   // You can also add the properties one by one like the following
-  event.properties.addIntProperty('ProcessDuration', 792);
-  event.properties.addDoubleProperty('doubleKey', 120.3);
+  event.customProperties.addIntProperty('ProcessDuration', 792);
+  event.customProperties.addDoubleProperty('doubleKey', 120.3);
 
   await Amplify.Analytics.recordEvent(event: event);
 }
@@ -28,6 +28,33 @@ However, it can take upwards of 30 minutes for the event to display in the Filte
 
 ## Flush events
 
+Events have default configuration to flush out to the network every 30 seconds. If you would like to change this, update `amplifyconfiguration.dart` with the value in milliseconds you would like for `autoFlushEventsInterval`. This configuration will flush events every 10 seconds:
+
+```json
+{
+  "UserAgent": "aws-amplify-cli/2.0",
+  "Version": "1.0",
+  "analytics": {
+    "plugins": {
+      "awsPinpointAnalyticsPlugin": {
+        "pinpointAnalytics": {
+          "appId": "AppID",
+          "region": "Region"
+        },
+        "pinpointTargeting": {
+          "region": "Region"
+        },
+        "autoFlushEventsInterval": 10
+      }
+    }
+  }
+}
+```
+
+> **Note**
+>
+> Setting `autoFlushEventsInterval` to 0 will **disable** the automatic flush of events and you will be responsible for submitting them.
+
 To manually flush events, call:
 
 ```dart
@@ -40,7 +67,7 @@ You can register global properties which will be sent along with all invocations
 
 ```dart
 Future<void> registerGlobalProperties() async {
-  final properties = AnalyticsProperties()
+  final properties = CustomProperties()
     ..addStringProperty('AppStyle', 'DarkMode');
   await Amplify.Analytics.registerGlobalProperties(
     globalProperties: properties,
@@ -55,5 +82,13 @@ Future<void> unregisterGlobalProperties() async {
   await Amplify.Analytics.unregisterGlobalProperties(
     propertyNames: ['AppStyle', 'OtherProperty'],
   );
+}
+```
+
+Furthermore, you can remove all global properties by calling `unregisterGlobalProperties` without `propertyNames`:
+
+```dart
+Future<void> unregisterAllGlobalProperties() async {
+  await Amplify.Analytics.unregisterGlobalProperties();
 }
 ```
