@@ -32,7 +32,7 @@ Empowering users to delete their account can improve trust and transparency. You
 
 If you have not yet created an Amplify Gen 2 app, visit the [quickstart](/[platform]/start/quickstart).
 
-## Allow my users to delete their account
+## Allow users to delete their account
 
 You can quickly set up account deletion for your users with the Amplify Libraries. Invoking the `deleteUser` API to delete a user from the Auth category will also sign out your user.
 
@@ -46,6 +46,7 @@ Before invoking the `deleteUser` API, you may need to first delete associated us
 
 You can enable account deletion using the following method:
 
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 ```ts
 import { deleteUser } from 'aws-amplify/auth';
 
@@ -57,7 +58,108 @@ async function handleDeleteUser() {
   }
 }
 ```
+</InlineFilter>
+<InlineFilter filters={['flutter']}>
+```dart
+Future<void> deleteUser() async {
+  try {
+    await Amplify.Auth.deleteUser();
+    safePrint('Delete user succeeded');
+  } on AuthException catch (e) {
+    safePrint('Delete user failed with error: $e');
+  }
+}
+```
+</InlineFilter>
+<InlineFilter filters={['android']}>
+<BlockSwitcher>
+<Block name="Java">
 
+```java
+Amplify.Auth.deleteUser(
+    () -> Log.i("AuthQuickStart", "Delete user succeeded"),
+    error -> Log.e("AuthQuickStart", "Delete user failed with error " + error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.deleteUser(
+    { Log.i("AuthQuickStart", "Delete user succeeded") },
+    { Log.e("AuthQuickStart", "Delete user failed with error", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    Amplify.Auth.deleteUser()
+    Log.i("AuthQuickStart", "Delete user succeeded")
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart", "Delete user failed with error", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.deleteUser()
+    .subscribe(
+      () -> Log.i("AuthQuickStart", "Delete user succeeded"),
+      error -> Log.e("AuthQuickStart", "Delete user failed with error " + error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+<InlineFilter filters={['swift']}>
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func deleteUser() async {
+    do {
+        try await Amplify.Auth.deleteUser()
+        print("Successfully deleted user")
+    } catch let error as AuthError {
+        print("Delete user failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func deleteUser() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.deleteUser()
+    }.sink {
+            if case let .failure(authError) = $0 {
+                print("Delete user failed with error \(authError)")
+            }
+        }
+        receiveValue: {
+            print("Successfully deleted user")
+        }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
 We recommend you update your UI to let your users know that their account is deleted and test the functionality with a test user. Note that your user will be signed out of your application when they delete their account.
 
 ## Conclusion
