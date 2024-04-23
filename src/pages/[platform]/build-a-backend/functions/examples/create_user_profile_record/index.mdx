@@ -57,9 +57,9 @@ Then, create the corresponding handler file, `amplify/auth/post-confirmation/pos
 
 ```ts title="amplify/auth/post-confirmation/handler.ts"
 import type { PostConfirmationTriggerHandler } from "aws-lambda";
+import type { Schema } from "../../data/resource";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
-import { type Schema } from "../../data/resource";
 import { env } from "$amplify/env/post-confirmation-handler";
 import { modelIntrospection } from "./amplifyconfiguration.json";
 
