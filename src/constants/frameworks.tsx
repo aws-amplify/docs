@@ -11,16 +11,16 @@ import {
 
 export const frameworks = [
   {
-    title: 'Next.js',
-    key: 'nextjs',
-    href: '/nextjs',
-    icon: <IconNext />
-  },
-  {
     title: 'React',
     key: 'react',
     href: '/react',
     icon: <IconReact />
+  },
+  {
+    title: 'Next.js',
+    key: 'nextjs',
+    href: '/nextjs',
+    icon: <IconNext />
   },
   {
     title: 'Angular',
@@ -41,6 +41,18 @@ export const frameworks = [
     icon: <IconJS />
   },
   {
+    title: 'React Native',
+    key: 'react-native',
+    href: '/react-native',
+    icon: <IconReact />
+  },
+  {
+    title: 'Flutter',
+    key: 'flutter',
+    href: '/flutter',
+    icon: <IconFlutter />
+  },
+  {
     title: 'Android',
     key: 'android',
     href: '/android',
@@ -51,17 +63,5 @@ export const frameworks = [
     key: 'swift',
     href: '/swift',
     icon: <IconSwift />
-  },
-  {
-    title: 'Flutter',
-    key: 'flutter',
-    href: '/flutter',
-    icon: <IconFlutter />
-  },
-  {
-    title: 'React Native',
-    key: 'react-native',
-    href: '/react-native',
-    icon: <IconReact />
   }
 ];

@@ -66,7 +66,7 @@ describe('PlatformNavigator', () => {
     userEvent.tab();
     userEvent.tab();
     expect(popoverFirstItem.children[0]).toHaveFocus();
-    expect(popoverFirstItem.textContent).toBe('React');
-    expect(popoverFirstItem.children[0].getAttribute('href')).toBe('/react');
+    expect(popoverFirstItem.textContent).toBe('Next.js');
+    expect(popoverFirstItem.children[0].getAttribute('href')).toBe('/nextjs');
   });
 });
