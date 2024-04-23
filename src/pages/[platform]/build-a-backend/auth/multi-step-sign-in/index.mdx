@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Multi-step sign-in',
   description:
-    'Use AWS Cognito Auth plugin to complete a multi step authentication flow',
+    'Use Amazon Cognito Auth plugin to complete a multi step authentication flow',
   platforms: ['android', 'swift', 'flutter']
 };
 
@@ -227,7 +227,7 @@ Future<void> confirmTotpUser(String totpCode) async {
 ```
 ### Confirm signin with custom challenge
 
-If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you configured as part of a [custom sign in flow](/[platform]/build-a-backend/auth/sign-in-custom-flow/).
+If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the AWS Lambda trigger you configured as part of a [custom sign in flow](/[platform]/build-a-backend/auth/sign-in-custom-flow/).
 
 For example, your custom challenge Lambda may pass a prompt to the frontend which requires the user to enter a secret code.
 
@@ -968,7 +968,7 @@ RxAmplify.Auth.confirmSignIn(
 
 **Special Handling on `confirmSignIn`**
 
-During a confirmSignIn call if `failAuthentication=true` is returned by the lambda the session of the request gets invalidated by cognito, a NotAuthorizedException is returned and a new signIn call is expected via Amplify.Auth.signIn
+During a confirmSignIn call if `failAuthentication=true` is returned by the Lambda the session of the request gets invalidated by cognito, a NotAuthorizedException is returned and a new signIn call is expected via Amplify.Auth.signIn
 
 ```java
 NotAuthorizedException{message=Failed since user is not authorized., cause=NotAuthorizedException(message=Invalid session for the user.), recoverySuggestion=Check whether the given values are correct and the user is authorized to perform the operation.}
@@ -1659,7 +1659,7 @@ func confirmSignIn(challengeAnswerFromUser: String) -> AnyCancellable {
 
 **Special Handling on `confirmSignIn`**
 
-During a confirmSignIn call if `failAuthentication=true` is returned by the lambda the session of the request gets invalidated by cognito, a NotAuthorizedException is returned and a new signIn call is expected via Amplify.Auth.signIn
+During a confirmSignIn call if `failAuthentication=true` is returned by the Lambda function the session of the request gets invalidated by cognito, a NotAuthorizedException is returned and a new signIn call is expected via Amplify.Auth.signIn
 
 ```swift
 Exception:  notAuthorized{message=Failed since user is not authorized., cause=NotAuthorizedException(message=Invalid session for the user.), recoverySuggestion=Check whether the given values are correct and the user is authorized to perform the operation.}
