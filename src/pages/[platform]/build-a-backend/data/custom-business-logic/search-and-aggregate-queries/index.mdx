@@ -37,8 +37,41 @@ DynamoDB users gain access to advanced OpenSearch features like full-text search
 
 Amazon OpenSearch Ingestion, combined with S3 exports and DynamoDB streams, facilitates seamless data input from DynamoDB tables and automatic ingestion into OpenSearch. Additionally, the pipeline can back up data to S3 for potential future re-ingestion as needed.
 
-Pre-requisites:
-1. A Todo API created with required access.
+## Step 1: Setup the project
+Begin by setting up your project by following the instructions in the [Quickstart guide](https://github.com/aws-amplify/docs/blob/dc76911faee093d7ceaf8a5bf61b54d5f49e42fb/%5Bplatform%5D/start/quickstart). For the purpose of this guide, we'll sync a Todo table from DynamoDB to OpenSearch.
+
+Firstly, add the Todo model to your schema:
+
+```ts title="amplify/data/resource.ts"
+
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  // highlight-start
+  Todo: a
+    .model({
+      content: a.string(),
+      done: a.boolean(),
+      priority: a.enum(["low", "medium", "high"]),
+    })
+    .authorization([a.allow.public()]),
+  // highlight-end  
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: "apiKey",
+    // API Key is used for a.allow.public() rules
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
+});
+
+```
 
 Important considerations:
 
@@ -46,6 +79,16 @@ Ensure Point in Time Recovery (PITR) is enabled, which is crucial for the pipeli
 Enable DynamoDB streams to capture item changes that will be ingested into OpenSearch.
 
 ```ts title="amplify/backend.ts"
+
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+
+const backend = defineBackend({
+  auth,
+  data,
+});
 
 const todoTable =
   backend.data.resources.cfnResources.amplifyDynamoDbTables["Todo"];
@@ -58,7 +101,7 @@ todoTable.streamSpecification = {
 
 ```
 
-## Step 1: Setting Up the OpenSearch Instance
+## Step 2: Setting Up the OpenSearch Instance
 
 Create an OpenSearch instance with encryption.
 
@@ -77,12 +120,23 @@ const openSearchDomain = new opensearch.Domain(
 
 ```
 
-## Step 2: Setting Up Zero ETL from DynamoDB to OpenSearch
+## Step 3: Setting Up Zero ETL from DynamoDB to OpenSearch
 
-### Step 2a: S3 Bucket and IAM Role
+### Step 3a: S3 Bucket and IAM Role
 Create an S3 bucket for backing up raw events consumed by the OpenSearch pipeline. Also, set up an IAM role for the pipeline:
 
 ``` ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
+import * as osis from "aws-cdk-lib/aws-osis";
+import * as s3 from "aws-cdk-lib/aws-s3";
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as logs from "aws-cdk-lib/aws-logs";
+import { RemovalPolicy } from "aws-cdk-lib";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 const s3BackupBucket = new s3.Bucket(
   openSearchStack,
@@ -138,7 +192,7 @@ For the S3 bucket, follow standard security practices: block public access, encr
 
 The IAM role should allow the OpenSearch Ingestion Service (OSIS) pipelines to assume it. Grant specific OpenSearch Service permissions and also provide DynamoDB and S3 access. You may customize permissions to follow the principle of least privilege.
 
-### Step 2b: OpenSearch Service Pipeline
+### Step 3b: OpenSearch Service Pipeline
 
 Define the pipeline construct and its configuration.
 
@@ -258,9 +312,9 @@ You can also check this in the DynamoDB console by going to the Integrations sec
 
 ![A screenshot of DynamoDB integration](/images/gen2/opensearch-integration/OpenSearch_DynamoDB_integration.png)
 
-## Step 3: Expose new queries on OpenSearch
+## Step 4: Expose new queries on OpenSearch
 
-### Step 3a: Add the AppSync Resolver for the Search Query
+### Step 4a: Add the AppSync Resolver for the Search Query
 
 First, update the schema and add a searchTodo query.
 
@@ -275,12 +329,12 @@ const schema = a.schema({
     })
     .authorization([a.allow.public()]),
   //highlight-start  
-  searchTodos: a.query().returns(a.ref("Todo")),
+  searchTodos: a.query().returns(a.ref("Todo").array()),
   //highlight-end
 });
 ```
 
-### Step 3b:Add OpenSearch Datasource to backend
+### Step 4b:Add OpenSearch Datasource to backend
 
 Add the OpenSearch data source to the data backend.
 
@@ -290,7 +344,7 @@ const osDataSource = backend.data.addOpenSearchDataSource(
   openSearchDomain
 );
 ```
-### Step 3c: Create Resolver and attach to query
+### Step 4c: Create Resolver and attach to query
 
 Create the search resolver and attach it to the searchTodo query. Also, grant the necessary access permissions to OpenSearch.
 
