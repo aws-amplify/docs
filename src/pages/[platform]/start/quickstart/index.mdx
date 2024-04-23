@@ -129,7 +129,7 @@ Let's learn how to enhance the app functionality by creating a delete flow for t
 
 ### 4. Set up local environment
 
-Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
+Now let's set up our local development environment to add features to the frontend. Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/getting-started/react/branch-details.mp4" />
@@ -363,11 +363,6 @@ git push
 
 Once your build completes in the Amplify Console, the `main` backend will update to support the changes made within the cloud sandbox. The data in the cloud sandbox is fully isolated and won't pollute your production database.
 
-
-## 🥳 Success
-
-That's it! You have successfully deployed your fullstack app on AWS Amplify. If you want to learn more about how to work with Amplify, here's the conceptual guide for [how Amplify works](/[platform]/how-amplify-works/concepts/).
-
 </InlineFilter>
 
 
@@ -394,7 +389,7 @@ Use our starter template to create a repository in your GitHub account. This tem
 
 <ExternalLinkButton
   size="medium"
-  href='https://github.com/new?template_name=amplify-vite-react-template&template_owner=aws-samples&name=amplify-vue-template&description=My%20Amplify%20Gen%202%20starter%20application'
+  href='https://github.com/new?template_name=amplify-vue-template&template_owner=aws-samples&name=amplify-vue-template&description=My%20Amplify%20Gen%202%20starter%20application'
 >
 <IconGithub />
 Create repository from template
@@ -461,7 +456,7 @@ Let's learn how to enhance the app functionality by creating a delete flow for t
 
 ### 4. Set up local environment
 
-Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
+Now let's set up our local development environment to add features to the frontend. Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/getting-started/react/branch-details.mp4" />
@@ -659,7 +654,7 @@ export const data = defineData({
 });
 ```
 
-In the application client code, let's also render the username to distinguish different users once they're logged in. Go to your **src/App.tsx** file and render the `user` property.
+In the application client code, let's also render the username to distinguish different users once they're logged in.
 
 ```tsx title="src/App.vue"
 <script>
@@ -702,11 +697,6 @@ git push
 
 Once your build completes in the Amplify Console, the `main` backend will update to support the changes made within the cloud sandbox. The data in the cloud sandbox is fully isolated and won't pollute your production database.
 
-
-## 🥳 Success
-
-That's it! You have successfully deployed your fullstack app on AWS Amplify. Navigate the left navigation to do more with auth, data, storage, functions, and more.
-
 </InlineFilter>
 
 
@@ -719,13 +709,13 @@ That's it! You have successfully deployed your fullstack app on AWS Amplify. Nav
 
 👋 Welcome to AWS Amplify! In this quickstart guide, you will:
 
-1. Deploy a React and Vite app
+1. Deploy an Angular app
 2. Build and connect to a database with real-time data updates
 3. Configure authentication and authorization rules
 
 ## Deploy a fullstack app to AWS
 
-We've created a starter "To-do" application to help get started faster. First, you will create a repository in your GitHub account using our starter React template.
+We've created a starter "To-do" application to help get started faster. First, you will create a repository in your GitHub account using our starter Angular template.
 
 ### 1. Create the repository
 
@@ -733,7 +723,7 @@ Use our starter template to create a repository in your GitHub account. This tem
 
 <ExternalLinkButton
   size="medium"
-  href='https://github.com/new?template_name=amplify-vite-react-template&template_owner=aws-samples&name=amplify-vite-react-template&description=My%20Amplify%20Gen%202%20starter%20application'
+  href='https://github.com/new?template_name=amplify-angular-template&template_owner=aws-samples&name=amplify-angular-template&description=My%20Amplify%20Gen%202%20starter%20application'
 >
 <IconGithub />
 Create repository from template
@@ -748,7 +738,7 @@ Now that the repository has been created, deploy it with Amplify.
 <ExternalLinkButton
   size="medium"
   variation="primary"
-  href='https://us-east-1.console.aws.amazon.com/amplify/create/repo-branch'
+  href='https://console.aws.amazon.com/amplify/create/repo-branch'
 >
 <IconAmplify />
 Deploy to AWS
@@ -774,16 +764,14 @@ Let's take a tour of the project structure in this starter repository by opening
 │   │   └── resource.ts
 |   ├── backend.ts
 │   └── tsconfig.json
-├── src/ # React UI code
-│   ├── App.tsx # UI code to sync todos in real-time
-│   ├── index.css # Styling for your app
-│   └── main.tsx # Entrypoint of the Amplify client library
+├── src/app/ # Angular UI code
+│   ├── todos/ # UI code to sync todos in real-time
+│   ├── app.component.css # Styling for your app
+│   └── app.component.ts # Entrypoint of the Amplify client library
 ├── package.json
 └── tsconfig.json
 ```
 </Accordion>
-
-{/* want to highlight any files to look at especially? Talk through any of the code? */}
 
  When the build completes, visit the newly deployed branch by selecting "View deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
 
@@ -801,7 +789,7 @@ Let's learn how to enhance the app functionality by creating a delete flow for t
 
 ### 4. Set up local environment
 
-Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
+Now let's set up our local development environment to add features to the frontend. Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/getting-started/react/branch-details.mp4" />
@@ -818,8 +806,6 @@ git clone https://github.com/<github-user>/amplify-vite-react-template.git
 cd amplify-vite-react-template && npm install
 ```
 
-{/* this file means the amplify-output.json file? */}
-
 Now move the `amplify-output.json` file you downloaded above to the root of your project.
 
 ```text
@@ -835,46 +821,37 @@ The **amplify-outputs.json** file contains backend endpoint information, publicl
 </Accordion>
 
 
-
 ### 5. Implement delete functionality
 
-Go to the **src/App.tsx** file and add in a new `deleteTodo` functionality and pass function into the `<li>` element's `onClick` handler.
+Go to the **src/toods/todos.component.ts** file and add a new `deleteTodo` function.
 
-```tsx title="src/App.tsx"
-function App() {
+```tsx title="src/toods/todos.component.ts"
+@Component {
   // ...
   // highlight-start
-  function deleteTodo(id: string) {
+  deleteTodo(id: string) {
     client.models.Todo.delete({ id })
   }
   // highlight-end
-
-  return (
-    <main>
-      <h1>My todos</h1>
-      <button onClick={createTodo}>+ new</button>
-      <ul>
-        {todos.map(todo => <li
-          // highlight-next-line
-          onClick={() => deleteTodo(todo.id)}
-          key={todo.id}>
-          {todo.content}
-        </li>)}
-      </ul> 
-      <div>
-        🥳 App successfully hosted. Try creating a new todo.
-        <br />
-        <a href="">Review next step of this tutorial.</a>
-      </div>
-    </main>
-  )
 }
+```
+
+Call the `deleteTodo` function from the UI.
+
+```html title="src/toods/todos.component.html"
+...
+  <ul>
+    <li *ngFor="let todo of todos;" (click)="deleteTodo(todo.id)">
+        {{ todo.content }}
+    </li>
+  </ul>
+...
 ```
 
 Try out the deletion functionality now by starting the local dev server:
 
 ```bash title="Terminal" showLineNumbers={false}
-npm run dev
+npm run start
 ```
 
 This should start a local dev server at http://localhost:5173.
@@ -887,38 +864,67 @@ This should start a local dev server at http://localhost:5173.
 
 ### 6. Implement login UI
 
-{/* we alternate between .ts and .tsx files in this tutorial - think they should all be .tsx */}
-
 The starter application already has a pre-configured auth backend defined in the **amplify/auth/resource.ts** file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
-The fastest way to get your login experience up and running is to use our Authenticator UI component. In your **src/App.tsx** file, import the Authenticator UI component and wrap your `<main>` element.
+The fastest way to get your login experience up and running is to use our Authenticator UI component. 
 
-```tsx title="src/App.tsx"
-// highlight-start
-import { Authenticator } from '@aws-amplify/ui-react'
-import '@aws-amplify/ui-react/styles.css'
-// highlight-end
-// ... other imports
-
-function App() {
-  // ...
-  return (
-    // highlight-start
-    <Authenticator>
-      {({ signOut, user }) => (
-    // highlight-end
-        <main>
-          {/*...*/}
-          // highlight-next-line
-          <button onClick={signOut}>Sign out</button>
-        </main>
-      )}
-    // highlight-next-line
-    </Authenticator>
-  )
-}
+```terminal showLineNumbers={false}
+npm install @aws-amplify/ui-angular
 ```
 
+In your **src/app/app.component.ts** file, import the `AmplifyAuthenticatorModule`.
+
+```ts title="src/app/app.component.ts"
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { TodosComponent } from './todos/todos.component';
+import { Amplify } from 'aws-amplify';
+import config from '../../amplifyconfiguration.json';
+// highlight-next-line
+import { AmplifyAuthenticatorModule, AuthenticatorService } from '@aws-amplify/ui-angular';
+
+Amplify.configure(config);
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
+  // highlight-next-line
+  imports: [RouterOutlet, TodosComponent,AmplifyAuthenticatorModule],
+})
+export class AppComponent {
+  title = 'amplify-angular-template';
+  // highlight-start
+  constructor(public authenticator: AuthenticatorService) {
+    Amplify.configure(config);
+  }
+  // highlight-end
+}
+```
+Update the application UI and include styles.
+
+```html title="src/app/app.component.html"
+<amplify-authenticator>
+  <ng-template
+    amplifySlot="authenticated"
+    let-user="user"
+    let-signOut="signOut"
+  >
+    <app-todos></app-todos>
+    <button (click)="signOut()">Sign Out</button>
+  </ng-template>
+</amplify-authenticator>
+```
+
+```json title="angular.json"
+...
+    "styles": [
+      "node_modules/@aws-amplify/ui-angular/theme.css",
+      "src/styles.css"
+    ],
+...
+```
 The Authenticator component auto-detects your auth backend settings and renders the correct UI state based on the auth backend's authentication flow.
 
 Try out your application in your localhost environment again. You should be presented with a login experience now.
@@ -979,8 +985,9 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 const schema = a.schema({
   Todo: a.model({
     content: a.string(),
-    // highlight-next-line
-  }).authorization([a.allow.owner()]),
+  })
+  // highlight-next-line
+  .authorization([a.allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -996,26 +1003,20 @@ export const data = defineData({
 });
 ```
 
-In the application client code, let's also render the username to distinguish different users once they're logged in. Go to your **src/App.tsx** file and render the `user` property.
+In the application client code, let's also render the username to distinguish different users once they're logged in. 
 
-```tsx title="src/App.tsx"
-// ... imports
-
-function App() {
-  // ...
-  return (
-    <Authenticator>
-      // highlight-next-line
-      {({ signOut, user }) => (
-        <main>
-          // highlight-next-line
-          <h1>{user?.signInDetails?.loginId}'s todos</h1>
-          {/* ... rest of the UI */}
-        </main>
-      )}
-    </Authenticator>
-  )
-}
+```html title="src/app/app.component.html"
+<amplify-authenticator>
+  <ng-template
+    amplifySlot="authenticated"
+    let-user="user"
+    let-signOut="signOut"
+  >
+  <h1>Hello {{user?.signInDetails?.loginId}}'s todos</h1>
+    <app-todos></app-todos>
+    <button (click)="signOut()">Sign Out</button>
+  </ng-template>
+</amplify-authenticator>
 ```
 
 Now, let's go back to your local application and test out the user isolation of the to-do items. 
@@ -1035,10 +1036,6 @@ git push
 
 Once your build completes in the Amplify Console, the `main` backend will update to support the changes made within the cloud sandbox. The data in the cloud sandbox is fully isolated and won't pollute your production database.
 
-
-## 🥳 Success
-
-That's it! You have successfully deployed your fullstack app on AWS Amplify. Navigate the left navigation to do more with auth, data, storage, functions, and more.
 
 </InlineFilter>
 
@@ -2343,11 +2340,6 @@ git push
 
 Once your build completes in the Amplify Console, the `main` backend will update to support the changes made within the cloud sandbox. The data in the cloud sandbox is fully isolated and won't pollute your production database.
 
-
-## 🥳 Success
-
-That's it! You have successfully deployed your fullstack app on AWS Amplify with Android. Navigate the left navigation to do more with auth, data, storage, functions, and more.
-
 </InlineFilter>
 
 
@@ -2676,3 +2668,8 @@ You can terminate the sandbox environment now to clean up the project.
 For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/gen2/start/quickstart/#create-remote-git-repository).
 
 </InlineFilter>
+
+## 🥳 Success
+
+That's it! You have successfully built a fullstack app on AWS Amplify. If you want to learn more about how to work with Amplify, here's the conceptual guide for [how Amplify works](/[platform]/how-amplify-works/concepts/).
+
