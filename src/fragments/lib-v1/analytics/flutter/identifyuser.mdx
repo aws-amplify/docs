@@ -2,7 +2,16 @@ This call sends information that you have specified about a user to Amazon Pinpo
 
 You can get the current user's ID from the Amplify Auth category as shown per the Auth category documentation. Be sure to have it ready before you set it as shown below (Check out the [Authentication Getting Started](/gen1/[platform]/prev/build-a-backend/auth/set-up-auth/) guide for detailed explanation).
 
-If you have asked for location access and received permission, you can also provide that in `AnalyticsUserProfileLocation`.
+If you have asked for location access and received permission, you can also provide that in `UserProfileLocation`
+
+<Callout>
+
+Breaking changes from v0 to v1:  
+
+The Analytics- prefix of the original `AnalyticsUserProfile` and `AnalyticsUserProfileLocation` classes is removed.  Furthermore, `AnalyticsProperties` is renamed to `CustomProperties`. 
+
+
+</Callout>
 
 ```dart
 Future<void> addAnalyticsWithLocation({
@@ -12,23 +21,21 @@ Future<void> addAnalyticsWithLocation({
   required String phoneNumber,
   required int age,
 }) async {
-  final location = AnalyticsUserProfileLocation()
-    ..latitude = 47.606209
-    ..longitude = -122.332069
-    ..postalCode = '98122'
-    ..city = 'Seattle'
-    ..region = 'WA'
-    ..country = 'USA';
-
-  final properties = AnalyticsProperties()
-    ..addStringProperty('phoneNumber', phoneNumber)
-    ..addIntProperty('age', age);
-
-  final userProfile = AnalyticsUserProfile()
-    ..name = name
-    ..email = email
-    ..location = location
-    ..properties = properties;
+  final userProfile = UserProfile(
+    name: name,
+    email: email,
+    location: const UserProfileLocation(
+      latitude: 47.606209,
+      longitude: -122.332069,
+      postalCode: '98122',
+      city: 'Seattle',
+      region: 'WA',
+      country: 'USA',
+    ),
+    customProperties: CustomProperties()
+      ..addStringProperty('phoneNumber', phoneNumber)
+      ..addIntProperty('age', age),
+  );
 
   await Amplify.Analytics.identifyUser(
     userId: userId,
@@ -36,3 +43,7 @@ Future<void> addAnalyticsWithLocation({
   );
 }
 ```
+
+import flutter0 from "/src/fragments/lib/analytics/native_common/identify-use-cases.mdx";
+
+<Fragments fragments={{flutter: flutter0}} />
