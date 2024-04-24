@@ -59,7 +59,7 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.public()]),
+    .authorization(allow => [allow.publicApiKey()]),
   // highlight-start
   Post: a.customType({
     id: a.id().required(),
@@ -178,7 +178,7 @@ const schema = a.schema({
       url: a.string(),
     })
     .returns(a.ref("Post"))
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
     .handler(
       a.handler.custom({
         dataSource: "ExternalPostTableDataSource",
@@ -220,7 +220,7 @@ const schema = a.schema({
     .query()
     .arguments({ id: a.id().required() })
     .returns(a.ref("Post"))
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
     .handler(
       a.handler.custom({
         dataSource: "ExternalPostTableDataSource",
@@ -269,7 +269,7 @@ const schema = a.schema({
       expectedVersion: a.integer().required(),
     })
     .returns(a.ref("Post"))
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
     .handler(
       a.handler.custom({
         dataSource: "ExternalPostTableDataSource",
@@ -311,7 +311,7 @@ const schema = a.schema({
     .mutation()
     .arguments({ id: a.id().required(), expectedVersion: a.integer() })
     .returns(a.ref("Post"))
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
     .handler(
       a.handler.custom({
         dataSource: "ExternalPostTableDataSource",

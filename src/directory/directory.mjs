@@ -186,6 +186,9 @@ export const directory = {
                   ]
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/data/optimistic-ui/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/data/override-resources/index.mdx'
                 }
               ]
@@ -253,6 +256,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/add-user-to-group/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/create_user_profile_record/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/user-attribute-validation/index.mdx'
