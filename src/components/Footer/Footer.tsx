@@ -48,7 +48,7 @@ export const Footer = ({ hasTOC = false }: FooterProps) => {
         <Flex as="ul" className="footer__links">
           <li>
             <ExternalLink
-              href={links.TWITTER}
+              href={links.X}
               className="footer-link footer-link--social"
             >
               <IconX />
