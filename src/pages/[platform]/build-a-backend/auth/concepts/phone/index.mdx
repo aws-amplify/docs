@@ -27,3 +27,22 @@ export function getStaticProps() {
     }
   };
 }
+
+By default Amplify Auth is scaffolded with `email` as the default method for user sign-in, however this can be changed or extended to also allow your users to sign in using their phone number.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    // highlight-next-line
+    phone: true,
+  },
+})
+```
+
+This will configure `email` and `phone_number` attributes that are required for sign-up. 
+
+{/* how to use client-side */}
+{/* moving to production for sms */}

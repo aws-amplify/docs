@@ -27,3 +27,25 @@ export function getStaticProps() {
     }
   };
 }
+
+By default Amplify Auth is scaffolded with `email` as the default method for user sign-in.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+})
+```
+
+This will configure an `email` attribute that is required for sign-up. 
+
+{/* how to use client-side */}
+{/* callout for moving to prod */}
+
+## Next steps
+
+- [Learn how to customize emails](/[platform]/build-a-backend/auth/customize-auth-lifecycle/email-customization/)
+- [Learn how to configure your auth resource for production workloads](/[platform]/build-a-backend/auth/moving-to-production/)

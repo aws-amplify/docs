@@ -4,21 +4,21 @@ export const meta = {
   title: 'Listen to auth events',
   description: 'Learn how to listen to auth events.',
   platforms: [
-    'android',
+    // 'android',
     'angular',
-    'flutter',
+    // 'flutter',
     'javascript',
     'nextjs',
     'react',
     'react-native',
-    'swift',
+    // 'swift',
     'vue'
   ]
 };
 
-export const getStaticPaths = async () => {
+export function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
 export function getStaticProps(context) {
   return {
@@ -26,10 +26,9 @@ export function getStaticProps(context) {
       meta
     }
   };
-
 }
 
-Tapping into auth events allows you to react to user flows in real time and trigger custom business logic. For example, you may want to capture data, synchronize your app's state, and personalize the user's experience. You can listen to and respond to events across the Auth lifecycle such as sign-in and sign-out. In this guide we will describe how you can listen to these auth events.
+Amplify Auth emits events during authentication flows, which enables you to react to user flows in real time and trigger custom business logic. For example, you may want to capture data, synchronize your app's state, and personalize the user's experience. You can listen to and respond to events across the Auth lifecycle such as sign-in and sign-out. In this guide we will describe how you can listen to these auth events.
 
 If you have not yet created an Amplify Gen 2 app, visit the [quickstart](/[platform]/start/quickstart).
 
@@ -344,14 +343,3 @@ override func viewDidLoad() {
 </BlockSwitcher>
 
 </InlineFilter>
-
-## Conclusion
-
-Congratulations! You finished the **Listen to auth events** guide. In this guide, you learned how to listen for auth events across workflows.
-
-### Next steps
-
-Now that you can listen to auth events you may also want to add some additional features. We recommend you learn more about:
-
-- [Manage user profiles](/[platform]/build-a-backend/auth/manage-user-profile/)
-- [Set up password change and recovery](/[platform]/build-a-backend/auth/password-management/)

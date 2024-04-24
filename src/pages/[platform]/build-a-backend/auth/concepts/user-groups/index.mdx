@@ -27,3 +27,30 @@ export function getStaticProps() {
     }
   };
 }
+
+Amplify Auth provides a mechanism that allows you to group users. Assigning users to groups enable you to customize access for a collection of users, or leverage for auditing purposes. For example, only "ADMINS" users are permitted to delete posts from a bulletin, or only "EDITORS" are permitted to modify posts in a "draft" state. To get started with groups, configure the `groups` property:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  // highlight-start
+  groups: ["ADMINS", "EDITORS"],
+  // highlight-end
+})
+```
+
+<Callout>
+
+**Note:** There are a few [limitations with groups](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-user-groups.html#user-pool-user-groups-limitations), including a limit of 10,000 groups per user pool.
+
+</Callout>
+
+### Next steps
+
+- [Learn how to automatically add a user to a group upon account confirmation](/[platform]/build-a-backend/functions/examples/add-user-to-group/)
+- [Learn how to secure access to data models using groups](/[platform]/build-a-backend/data/customize-authz/user-group-based-data-access)
+- [Learn how to secure access to storage objects using groups](/[platform]/build-a-backend/storage/define-storage/#user-group-access)
