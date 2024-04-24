@@ -67,16 +67,16 @@ describe('MDXHeading', () => {
   it('should render H2 with mixed elements and anchor link', () => {
     render(
       <MDXHeading level={2}>
-        Test <code>runtime</code>
+        <code>runtime</code> and <code>test</code>
       </MDXHeading>
     );
 
     const heading = screen.queryByRole('heading', { level: 2 });
-    const link = screen.queryByRole('link', { name: 'Test runtime' });
+    const link = screen.queryByRole('link', { name: 'runtime and test' });
     expect(heading).toBeInTheDocument();
     expect(link).toHaveAttribute(
       'href',
-      expect.stringMatching(/#test-runtime/)
+      expect.stringMatching(/#runtime-and-test/)
     );
   });
 });
