@@ -161,13 +161,42 @@ const openSearchIntegrationPipelineRole = new iam.Role(
         statements: [
           new iam.PolicyStatement({
             actions: ["es:DescribeDomain"],
-            resources: [openSearchDomain.domainArn],
+            resources: ["<openSearchDomain-arn>"],
             effect: iam.Effect.ALLOW,
           }),
           new iam.PolicyStatement({
             actions: ["es:ESHttp*"],
-            resources: [openSearchDomain.domainArn],
+            resources: ["<openSearchDomain-arn>"],
             effect: iam.Effect.ALLOW,
+          }),
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              "s3:GetObject",
+              "s3:AbortMultipartUpload",
+              "s3:PutObject",
+              "s3:PutObjectAcl",
+            ],
+            resources: [
+              "<s3Bucket-arn>",
+              "<s3Bucket-arn>/*"
+            ],
+          }),
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              "dynamodb:DescribeTable",
+              "dynamodb:DescribeContinuousBackups",
+              "dynamodb:ExportTableToPointInTime",
+              "dynamodb:DescribeExport",
+              "dynamodb:DescribeStream",
+              "dynamodb:GetRecords",
+              "dynamodb:GetShardIterator",
+            ],
+            resources: [
+              "<dynamodb-table-arn>",
+              "<dynamodb-table-arn>/*",
+            ],
           }),
         ],
       }),
@@ -180,12 +209,6 @@ const openSearchIntegrationPipelineRole = new iam.Role(
   }
 );
 
-openSearchIntegrationPipelineRole.addManagedPolicy(
-  iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonDynamoDBFullAccess")
-);
-openSearchIntegrationPipelineRole.addManagedPolicy(
-  iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonS3FullAccess")
-);
 
 ```
 For the S3 bucket, follow standard security practices: block public access, encrypt data at rest, and enable versioning.
