@@ -1,15 +1,39 @@
-When you have configured multiple APIs, you can specify the name of the API as a parameter as the target for an operation:
+When you have multiple authorization modes, you can specify the mode with the `authorizationMode` parameter. You can also specify the API name with the `apiName` parameter.
 
 ```dart
-Future<void> main() async {
+Future<void> mutateWithApiKey() async {
   final operation = Amplify.API.mutate<String>(
     request: GraphQLRequest(
-        document: graphQLDocumentString,
-        apiName: '[FRIENDLY-NAME-API-WITH-API-KEY]',
+      document: graphQLDocumentString,
+      authorizationMode: APIAuthorizationType.apiKey,
     ),
   );
   final response = await operation.response;
   final data = response.data;
-  print('data: $data');
+  safePrint('data: $data');
+}
+
+Future<void> mutateWithIam() async {
+  final operation = Amplify.API.mutate<String>(
+    request: GraphQLRequest(
+      document: graphQLDocumentString,
+      authorizationMode: APIAuthorizationType.iam,
+    ),
+  );
+  final response = await operation.response;
+  final data = response.data;
+  safePrint('data: $data');
+}
+
+Future<void> mutateByApiName() async {
+  final operation = Amplify.API.mutate<String>(
+    request: GraphQLRequest(
+      document: graphQLDocumentString,
+      apiName: '[FRIENDLY-NAME-API-WITH-API-KEY]',
+    ),
+  );
+  final response = await operation.response;
+  final data = response.data;
+  safePrint('data: $data');
 }
 ```

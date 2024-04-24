@@ -1,0 +1,36 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Best practice',
+  description: 'Best practices and examples for working with GraphQL.',
+  platforms: [
+    'flutter',
+  ],
+  route: '/[platform]/build-a-backend/graphqlapi/best-practice',
+  canonicalObjects: [
+    {
+      platforms: [
+        'flutter',
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/best-practice/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

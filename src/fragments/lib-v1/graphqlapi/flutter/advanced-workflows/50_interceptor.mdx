@@ -1,1 +1,35 @@
-Custom headers and interceptors are only supported in developer preview. Please follow the open [Github Issue](https://github.com/aws-amplify/amplify-flutter/issues/798). 
+The simplest option for GraphQL requests is to use the `headers` property of a `GraphQLRequest`.
+
+```dart
+Future<void> queryWithCustomHeaders() async {
+  final operation = Amplify.API.query<String>(
+    request: GraphQLRequest(
+      document: graphQLDocumentString,
+      headers: {'customHeader': 'someValue'},
+    ),
+  );
+  final response = await operation.response;
+  final data = response.data;
+  safePrint('data: $data');
+}
+```
+
+Another option is to use the `baseHttpClient` property of the API plugin which can customize headers or otherwise alter HTTP functionality for all HTTP calls.
+
+```dart
+// First create a custom HTTP client implementation to extend HTTP functionality.
+class MyHttpRequestInterceptor extends AWSBaseHttpClient {
+  @override
+  Future<AWSBaseHttpRequest> transformRequest(
+    AWSBaseHttpRequest request,
+  ) async {
+    request.headers.putIfAbsent('customHeader', () => 'someValue');
+    return request;
+  }
+}
+
+// Then you can pass an instance of this client to `baseHttpClient` when you configure Amplify.
+await Amplify.addPlugins([
+  AmplifyAPI(baseHttpClient: MyHttpRequestInterceptor()),
+]);
+```
