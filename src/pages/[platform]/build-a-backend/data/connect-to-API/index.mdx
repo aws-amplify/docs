@@ -394,7 +394,10 @@ Amplify.API.query(lambdaQuery,
 <InlineFilter filters={["swift"]}>
 
 ```swift
-try await Amplify.API.query(request: .list(Todo.self, authMode: .function))
+let result = try await Amplify.API.query(
+    request: .list(
+        Todo.self,
+        authMode: .function))
 ```
 
 </InlineFilter>
