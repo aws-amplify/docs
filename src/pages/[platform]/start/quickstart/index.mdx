@@ -1945,8 +1945,6 @@ On the **Deployed backend resources**, choose **Download outputs file** to downl
 
 Now move the `amplify-output.json` file you downloaded above to `app/src/main/res/raw` in your Android project. You will now be able to connect to this backend.
 
-TK IMAGE of the outputs file in Android Studio
-
 <Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
 The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
 </Accordion>
@@ -2051,37 +2049,55 @@ Now if you run the application on the Android emulator, you should see the authe
   <source src="/images/gen2/getting-started/android/android-getting-started-1.mp4" />
 </video>
 
-### 6. Implement data read and writes
+### 6. Read and write data
 
-To generate the model classes out of GraphQL schema, you can run the following command:
+The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource`.ts file. The default example will create a Todo model with `content` field.
 
-```bash
+Amplify can automatically generate code for interacting with the backend API. The command below generates model classes from the Data schema:
+
+
+<Accordion title='Looking for your App ID?' headingLevel='4' eyebrow='Find your App ID in the Amplify Console'>
+In the command below, replace the APP-ID with your Amplify app ID. Find this in the Amplify Console.
+![image](images/gen2/getting-started/appid.png)
+</Accordion>
+
+
+```bash title="Terminal" showLineNumbers={false}
 cd my-android-app
-npx amplify generate @aws-amplify/backend-cli graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java --app-id APPID --branch-name main
+npx @aws-amplify/backend-cli graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java --app-id APP-ID --branch-name main
 ```
 
-For using GraphQL API, you need to add the following dependencies to your app/build.gradle file:
+Once you are done, add the following dependencies to your project:
 
-```kotlin
+```kotlin title="build.gradle.kts"
 dependencies {
-  implementation("com.amplifyframework:core:2.14.4")
-  implementation("com.amplifyframework:aws-api:2.14.4")
+    // Amplify API dependencies
+    // highlight-start
+    implementation("com.amplifyframework:aws-api:2.14.11")
+    implementation("com.amplifyframework:core:2.14.11")
+    // highlight-end
+    // ... other dependencies
 }
 ```
 
-Afterwards open the `MyAmplifyApp` class and add the following line before the `configure` call:
+After adding the dependencies, open the `MyAmplifyApp` class and add the following line before the `configure` call:
 
-```kotlin
+```kotlin title="MyAmplifyApp.kt"
+
+// highlight-next-line
+import com.amplifyframework.api.aws.AWSApiPlugin
+
+.. 
+// highlight-next-line
 Amplify.addPlugin(AWSApiPlugin())
 ```
 
-Now it is time to update the UI code a bit. Update the `MainActivity` class with the following code:
+Update the `MainActivity` class with the following code to create new to-do items. The `onClick` function will create a new Todo item.
 
-```java
+```kt title="MainActivity"
 
 class MainActivity : ComponentActivity() {
 
-  private val todoList = mutableStateListOf<Todo>()
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
@@ -2092,42 +2108,33 @@ class MainActivity : ComponentActivity() {
           color = MaterialTheme.colorScheme.background
         ) {
             Authenticator { _ ->
-              Scaffold(
-                  floatingActionButton = {
-                      FloatingActionButton(
-                          onClick = {
-                              val date = Date()
-                              val offsetMillis = TimeZone.getDefault().getOffset(date.time).toLong()
-                              val offsetSeconds = TimeUnit.MILLISECONDS.toSeconds(offsetMillis).toInt()
-                              val temporalDateTime = Temporal.DateTime(date, offsetSeconds)
-                              val todo = Todo.builder()
-                                  .createdAt(temporalDateTime)
-                                  .updatedAt(temporalDateTime)
-                                  .content("My random todo ${System.currentTimeMillis()}")
-                                  .isDone(false)
-                                  .build()
+              Column {
+                Text(
+                    text = "Hello ${state.user.username}!",
+                )
+            // highlight-start
+                Column {
+                        Button(onClick = {
+                            val todo = Todo.builder()
+                                .content("My first todo")
+                                .build()
 
-                              Amplify.API.mutate(
-                                  ModelMutation.create(todo),
-                                  {
-                                    Log.i("MyAmplifyApp", "Added Todo with id: ${it.data.id}")
-                                    todoList.add(todo)
-                                  },
-                                  { Log.e("MyAmplifyApp", "Create failed", it) }
-                              )
-                          },
-                      ) {
-                          Icon(Icons.Filled.Add, "Add a random todo.")
-                      }
-                  }
-              ) {
+                            Amplify.API.mutate(ModelMutation.create(todo),
+                                { Log.i("MyAmplifyApp", "Added Todo with id: ${it.data.id}")},
+                                { Log.e("MyAmplifyApp", "Create failed", it)},
+                            )
+                        }) {
+                            Text(text = "Create Todo")
+                        }
+                    }
+              // highlight-end
+               {
                   Column(modifier = Modifier.padding(it)) {
                       Button(onClick = {
                           Amplify.Auth.signOut {  }
                       }) {
                           Text(text = "Sign Out")
                       }
-                      Text(text = "The list of items will come here.")
                   }
               }
             }
@@ -2138,95 +2145,91 @@ class MainActivity : ComponentActivity() {
 }
 ```
 
-The `onClick` function of the `FloatingActionButton` will create a random Todo item. Now it is time to add a logic to see the added items.
+Now it is time to add a logic to view the added items.
 
-First let's add a `TodoScreen` composable function:
-
-```kotlin
+```kt title="MainActivity.kt"
 @Composable
-fun TodoScreen(
-  todoList: SnapshotStateList<Todo>,
-  onItemUpdated: (Todo) -> Unit,
-  onItemDeleted: (Todo) -> Unit,
-) {
+fun TodoList() {
+    var todoList by remember { mutableStateOf(emptyList<Todo>()) }
+
+    LaunchedEffect(Unit) {
+        // API request to list all Todos
+        Amplify.API.query(ModelQuery.list(Todo::class.java),
+            {
+                todoList = it.data.items.toList()
+            },
+            { Log.e("MyAmplifyApp", "Failed to query.", it)})
+    }
+
     LazyColumn {
-        todoList.forEach { todo ->
-            item {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(
-                        checked = todo.isDone,
-                        onCheckedChange = { }
-                    )
-                    Text(todo.content)
-                }
+        items(todoList) { todo ->
+            Row {
+                // Render your activity item here
+                Checkbox(checked = todo.isDone, onCheckedChange = null)
+                Text(text = todo.content)
             }
         }
     }
 }
 ```
 
-Next let's update the `MainActivity` class to use the `TodoScreen` composable function. Update the `Authenticator` usage with the following code:
+Now call `TodoList()` from the `onCreate()` function:
 
-```kotlin
-Authenticator(modifier = Modifier.padding(it)) { _ ->
-    Column {
-            Button(onClick = {
-                Amplify.Auth.signOut { }
-            }) {
-                Text(text = "Sign Out")
-            }
-        if (todoList.isEmpty())
-            Text(text = "The list is empty.\nAdd some items by clicking the Floating Action Button.")
-        else
-            TodoScreen(
-                todoList,
-                onItemUpdated = { todo ->
-                    val foundItem =
-                        todoList.firstOrNull { it.id == todo.id }
-                    if (foundItem != null) {
-                        val index = todoList.indexOf(foundItem)
-                        todoList.removeAt(index)
-                        Log.i("updated", todo.toString())
-                        todoList.add(index, todo)
-                    }
-                },
-            ) { todo -> todoList.remove(todo) }
+```kt title="MainActivity.kt"
+ setContent {
+            MyApplicationTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background)
+                {
+                    Authenticator { state ->
+                        Column {
+                            Text(
+                                text = "Hello ${state.user.username}!",
+                            )
+                    ....
+                    //highlight-next-line
+                    TodoList()
+```
+
+### 7. Enable real-time data
+
+If you build and rerun the application, you should see the todo that was created in the previous build. But notice how when you click on the "create Todo" button, it doesn't add any new todos to the list below until the next time your app relaunches. To solve this, let's add real-time updates to the todo list.
+
+To add real-time updates, you can use the subscription feature of Amplify Data. It allows to subscribe to `onCreate`, `onUpdate`, and `onDelete` events of the application. In our example, let's append the list every time a new todo is added.
+
+```kt title="MainActivity.kt"
+@Composable
+fun TodoList() {
+    var todoList by remember { mutableStateOf(emptyList<Todo>()) }
+
+    LaunchedEffect(Unit) {
+        Amplify.API.query(ModelQuery.list(Todo::class.java),
+            {
+                todoList = it.data.items.toList()
+            },
+            { Log.e("MyAmplifyApp", "Failed to query.", it)})
+        // highlight-start
+        Amplify.API.subscribe(ModelSubscription.onCreate(Todo::class.java),
+            { Log.i("ApiQuickStart", "Subscription established") },
+            { Log.i("ApiQuickStart", "Todo create subscription received: ${it.data}")
+                todoList = todoList + it.data
+            },
+            { Log.e("ApiQuickStart", "Subscription failed", it) },
+            { Log.i("ApiQuickStart", "Subscription completed") }
+
+        )
+        // highlight-end
     }
-}
-```
 
-Now add a `todoList` variable to the `MainActivity` class before the `onCreate` call and call the `refreshItems` function before the `setContent` call:
-
-```kotlin
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    refreshItems()
-...
-}
-```
-
-Lastly create a function to fetch the items. Add the following code to the `MainActivity` class:
-
-```kotlin
-private fun refreshItems() {
-    Amplify.API.query(
-        ModelQuery.list(Todo::class.java),
-        { response ->
-            val items = response.data
-            items.forEach { todo ->
-                val foundItem = todoList.firstOrNull { it.id == todo.id }
-                if (foundItem != null) {
-                    val index = todoList.indexOf(foundItem)
-                    todoList.removeAt(index)
-                    todoList.add(index, todo)
-                } else {
-                    todoList.add(todo)
-                }
+    LazyColumn {
+        items(todoList) { todo ->
+            Row {
+                // Render your activity item here
+                Checkbox(checked = todo.isDone, onCheckedChange = null)
+                Text(text = todo.content)
             }
-            Log.i("MyAmplifyApp", "Queried items: $items")
-        },
-        { Log.e("MyAmplifyApp", "Query failure", it) }
-    )
+        }
+    }
 }
 ```
 
@@ -2235,36 +2238,14 @@ private fun refreshItems() {
 
 Let's update our backend to implement per-user authorization rules, allowing each user to only access their own to-dos.
 
-### 7. Set up local AWS credentials
+### 7. Implement per-user authorization
 
-To make backend updates, we are going to require AWS credentials to deploy backend updates from our local machine. 
+First, clone the deployed repository.
 
-**Skip ahead to step 8**, if you already have an AWS profile with credentials on your local machine, and your AWS profile has the `AmplifyBackendDeployFullAccess` permission policy.
-
-Otherwise, **[set up local AWS credentials](/[platform]/start/account-setup/)** that grant Amplify permissions to deploy backend updates from your local machine.
-
-
-### 8. Deploy cloud sandbox
-
-To update your backend without affecting the production branch, use Amplify's cloud sandbox. This feature provides a separate backend environment for each developer on a team, ideal for local development and testing.
-
-To start your cloud sandbox, run the following command in a **new Terminal window**:
-
-```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+```bash
+git clone git clone https://github.com/<github-user>/amplify-backend-template.git
 ```
-
-Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
-
-<Callout info>
-
-The `npx amplify sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
-
-</Callout>
-
-### 9. Implement per-user authorization
-
-The to-do items in the starter are currently shared across all users, but, in most cases, you want data to be isolated on a per-user basis. 
+The backend to-do model is configured to share data across all users, but, in most cases, you want data to be isolated on a per-user basis. 
 
 To isolate the data on a per-user basis, you can use an "owner-based authorization rule". Let's apply the owner-based authorization rule to your to-do items:
 
@@ -2290,45 +2271,33 @@ export const data = defineData({
   },
 });
 ```
+Commit this change to your git repository. Amplify's CI/CD system will automatically pick up the changes and build and deploy the updates.
 
-In the application client code, let's also render the username to distinguish different users once they're logged in. Go to your **src/App.tsx** file and render the `user` property.
-
-```tsx title="src/App.tsx"
-// ... imports
-
-function App() {
-  // ...
-  return (
-    <Authenticator>
-      // highlight-next-line
-      {({ signOut, user }) => (
-        <main>
-          // highlight-next-line
-          <h1>{user?.signInDetails?.loginId}'s todos</h1>
-          {/* ... rest of the UI */}
-        </main>
-      )}
-    </Authenticator>
-  )
-}
-```
-
-Now, let's go back to your local application and test out the user isolation of the to-do items. 
-
-You will need to sign up new users again because now you're working with the cloud sandbox instead of your production backend.
-
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/demo-auth.mp4" />
-</video>
-
-To get these changes to the cloud, commit them to git and push the changes upstream.
 
 ```bash title="Terminal" showLineNumbers={false}
 git commit -am "added per-user data isolation"
 git push
 ```
+### 8. Test in app
 
-Once your build completes in the Amplify Console, the `main` backend will update to support the changes made within the cloud sandbox. The data in the cloud sandbox is fully isolated and won't pollute your production database.
+Now, let's go back to your Android application and test out the user isolation of the to-do items. Fetch the latest `amplify-outputs` and model files by re-running the following command in your Android Studio terminal.
+
+<Accordion title='Looking for your App ID?' headingLevel='4' eyebrow='Find your App ID in the Amplify Console'>
+In the command below, replace the APP-ID with your Amplify app ID. Find this in the Amplify Console.
+
+![image](images/gen2/getting-started/appid.png)
+</Accordion>
+
+```bash showLineNumbers={false}
+npx @aws-amplify/backend-cli generate outputs --format=modelgen --model-target=java --out=app/src/main/java --app-id APP-ID --branch-name main
+```
+
+Also update your `amplify-outputs` file with the latest outputs information.
+
+```bash showLineNumbers={false}
+npx @aws-amplify/backend-cli generate config --out-dir=app/src/main/res/raw --app-id APP-ID --branch main
+```
+
 
 </InlineFilter>
 
