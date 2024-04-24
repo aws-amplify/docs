@@ -28,9 +28,6 @@ export const directory = {
                   path: 'src/pages/[platform]/start/quickstart/vite-react-app/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/start/quickstart/vite-react-app-option-2/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
@@ -62,10 +59,16 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/accessing-credentials/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/managing-credentials/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-up/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-attributes/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-in/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-out/index.mdx'
@@ -78,6 +81,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/manage-user-profile/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/manage-attributes/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/password-management/index.mdx'
@@ -170,7 +176,12 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
+                    }
+                  ]
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/custom-subscription/index.mdx'
@@ -185,6 +196,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/data/connect-from-server-runtime/nuxtjs-server-runtime/index.mdx'
                     }
                   ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/optimistic-ui/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/override-resources/index.mdx'
@@ -254,6 +268,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/add-user-to-group/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/create_user_profile_record/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/user-attribute-validation/index.mdx'
@@ -518,7 +535,21 @@ export const directory = {
           path: 'src/pages/[platform]/build-ui/index.mdx',
           children: [
             {
-              path: 'src/pages/[platform]/build-ui/forms/index.mdx'
+              path: 'src/pages/[platform]/build-ui/formbuilder/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/customize/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/special-inputs/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/validations/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/lifecycle/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-ui/figma-to-code/index.mdx'
