@@ -21,3 +21,154 @@ export function getStaticProps() {
     }
   };
 }
+
+Amplify provides a client library that enables you to interact with backend resources such as Amplify Auth.
+
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+
+{/* signIn api definition */}
+
+```ts
+import { signIn } from 'aws-amplify/auth'
+
+await signIn({
+  username: "hello@mycompany.com",
+  password: "hunter2",
+})
+```
+
+The `signIn` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
+
+- `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED` - The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`.
+- `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE` - The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`.
+- `CONFIRM_SIGN_IN_WITH_TOTP_CODE` - The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`.
+- `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` - The TOTP setup process must be continued. Complete the process with `confirmSignIn`.
+- `CONFIRM_SIGN_IN_WITH_SMS_CODE` - The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`.
+- `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` - The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`.
+- `RESET_PASSWORD` - The user must reset their password via `resetPassword`.
+- `CONFIRM_SIGN_UP` - The user hasn't completed the sign-up flow fully and must be confirmed via `confirmSignUp`.
+- `DONE` - The sign in process has been completed.
+
+For more information on handling the TOTP and MFA steps that may be returned, see [multi-factor authentication](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/).
+
+{/* double-filter to conditionally display this section for only platforms that have examples */}
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+## Practical Example
+
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+```tsx title="src/App.tsx"
+import type { FormEvent } from "react"
+import { Amplify } from "aws-amplify"
+// highlight-next-line
+import { signIn } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+interface SignInFormElements extends HTMLFormControlsCollection {
+  email: HTMLInputElement
+  password: HTMLInputElement
+}
+
+interface SignInForm extends HTMLFormElement {
+  readonly elements: SignInFormElements
+}
+
+export default function App() {
+  async function handleSubmit(event: FormEvent<SignInForm>) {
+    event.preventDefault()
+    const form = event.currentTarget
+    // ... validate inputs
+    await signIn({
+      username: form.elements.email.value,
+      password: form.elements.password.value,
+    })
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email:</label>
+      <input type="text" id="email" name="email" />
+      <label htmlFor="password">Password:</label>
+      <input type="password" id="password" name="password" />
+      <input type="submit" />
+    </form>
+  )
+}
+```
+
+</InlineFilter>
+</InlineFilter>
+
+## Sign-in with an external identity provider
+
+To sign in using an external identity provider such as Google, use the `signInWithRedirect` function.
+
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+```tsx title="src/App.tsx"
+import { Amplify } from "aws-amplify"
+// highlight-next-line
+import { signInWithRedirect } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+export default function App() {
+  async function handleSignInWithGoogle() {
+    signInWithRedirect({ provider: "Google" })
+  }
+
+  return (
+    <button type="button" onClick={handleSignOut}>
+      Sign out
+    </button>
+  )
+}
+```
+
+</InlineFilter>
+
+<Callout info>
+
+**Note:** if you do not pass an argument to `signInWithRedirect` it will redirect your users to the [Cognito Hosted UI](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-integration.html), which has limited support for customization.
+
+</Callout>
+
+Alternatively if you have configured OIDC or SAML-based identity providers in your auth resource, you can specify a "custom" provider in `signInWithRedirect`:
+
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+```tsx title="src/App.tsx"
+import { Amplify } from "aws-amplify"
+// highlight-next-line
+import { signInWithRedirect } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+export default function App() {
+  async function handleSignInWithGoogle() {
+    // highlight-start
+    signInWithRedirect({ provider: {
+      // this is the `name` specified for your provider in your backend auth resource
+      custom: "MyOidcProvider"
+    }})
+    // highlight-end
+  }
+
+  return (
+    <button type="button" onClick={handleSignInWithGoogle}>
+      Sign in with Google
+    </button>
+  )
+}
+```
+
+</InlineFilter>

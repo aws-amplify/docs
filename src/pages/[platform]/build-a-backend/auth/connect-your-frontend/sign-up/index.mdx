@@ -27,3 +27,114 @@ export function getStaticProps() {
     }
   };
 }
+
+Amplify provides a client library that enables you to interact with backend resources such as Amplify Auth.
+
+{/* signUp api definition */}
+
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+
+To get started, you can use the `signUp()` function to create a new user in your backend:
+
+```ts
+import { signUp } from "aws-amplify/auth"
+
+const { isSignUpComplete, userId, nextStep } = await signUp({
+  username: "hello@mycompany.com",
+  password: "hunter2",
+  options: {
+    userAttributes: {
+      email: "hello@mycompany.com",
+      phone_number: "+15555555555" // E.164 number convention
+    },
+  }
+});
+```
+
+The `signUp` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
+
+- `CONFIRM_SIGN_UP` - The sign up needs to be confirmed by collecting a code from the user and calling `confirmSignUp`.
+- `DONE` - The sign up process has been fully completed.
+- `COMPLETE_AUTO_SIGN_IN` - The sign up process needs to complete by invoking the `autoSignIn` API.
+
+## Confirm sign-up
+
+By default, each user that signs up remains in the unconfirmed status until they verify with a confirmation code that was sent to their email or phone number. The following are the default verification methods used when either `phone` or `email` are used as `loginWith` options.
+
+| Login option        | User account verification channel |
+| ------------------- | --------------------------------- |
+| `phone`             | Phone Number                      |
+| `email`             | Email                             |
+| `email` and `phone` | Email                             |
+
+You can confirm the sign-up after receiving a confirmation code from the user:
+
+```ts
+import { confirmSignUp } from 'aws-amplify/auth';
+
+const { isSignUpComplete, nextStep } = await confirmSignUp({
+  username: "hello@mycompany.com",
+  confirmationCode: "123456"
+});
+```
+
+<Callout info>
+
+**Note:** When specifying `email` or `phone` as a way for your users to sign-in, these are attributes that are used in place of the username. Visit the [concepts page to learn more about usernames](/[platform]/build-a-backend/auth/concepts/#usernames).
+
+</Callout>
+
+{/* double-filter to conditionally display this section for only platforms that have examples */}
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+## Practical Example
+
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+```tsx title="src/App.tsx"
+import type { FormEvent } from "react"
+import { Amplify } from "aws-amplify"
+// highlight-next-line
+import { signUp } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+interface SignUpFormElements extends HTMLFormControlsCollection {
+  email: HTMLInputElement
+  password: HTMLInputElement
+}
+
+interface SignUpForm extends HTMLFormElement {
+  readonly elements: SignUpFormElements
+}
+
+export default function App() {
+  async function handleSubmit(event: FormEvent<SignUpForm>) {
+    event.preventDefault()
+    const form = event.currentTarget
+    // ... validate inputs
+    await signUp({
+      username: form.elements.email.value,
+      password: form.elements.password.value,
+    })
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email:</label>
+      <input type="text" id="email" name="email" />
+      <label htmlFor="password">Password:</label>
+      <input type="password" id="password" name="password" />
+      <input type="submit" />
+    </form>
+  )
+}
+```
+
+</InlineFilter>
+</InlineFilter>

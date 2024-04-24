@@ -27,3 +27,61 @@ export function getStaticProps() {
     }
   };
 }
+
+Amplify provides a client library that enables you to interact with backend resources such as Amplify Auth.
+
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+
+{/* signOut api definition */}
+
+To sign a user out of your application you can use the `signOut` API.
+
+```ts
+import { signOut } from 'aws-amplify/auth';
+
+await signOut();
+```
+
+You can also sign out users from all devices by performing a global sign-out. This will also invalidate all refresh tokens issued to a user. The user's current access and ID tokens will remain valid on other devices until the refresh token expires (access and ID tokens expire one hour after they are issued).
+
+```ts
+import { signOut } from 'aws-amplify/auth';
+
+await signOut({ global: true });
+```
+
+{/* double-filter to conditionally display this section for only platforms that have examples */}
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+## Practical Example
+
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+```tsx title="src/App.tsx"
+import { Amplify } from "aws-amplify"
+// highlight-next-line
+import { signOut } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+export default function App() {
+  async function handleSignOut() {
+    // highlight-next-line
+    await signOut()
+  }
+
+  return (
+    <button type="button" onClick={handleSignOut}>
+      Sign out
+    </button>
+  )
+}
+```
+
+</InlineFilter>
+</InlineFilter>
