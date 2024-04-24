@@ -195,7 +195,10 @@ Amplify.API.query(apiKeyQuery,
 <InlineFilter filters={["swift"]}>
 
 ```swift
-try await Amplify.API.query(request: .list(Todo.self, authMode: .apiKey))
+let result = try await Amplify.API.query(
+    request: .list(
+        Todo.self,
+        authMode: .apiKey))
 ```
 
 </InlineFilter>
