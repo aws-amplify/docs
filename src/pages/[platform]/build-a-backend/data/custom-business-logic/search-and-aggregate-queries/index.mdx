@@ -219,7 +219,37 @@ The IAM role should allow the OpenSearch Ingestion Service (OSIS) pipelines to a
 
 Define the pipeline construct and its configuration.
 
-The configuration is a data-prepper feature of OpenSearch. For specific documentation on DynamoDB configuration, refer to [OpenSearch documentation](https://opensearch.org/docs/latest/data-prepper/pipelines/configuration/sources/dynamo-db/).
+When using OpenSearch, you can define the index template or mapping in advance based on your data structure, which allows you to set data types for each field in the document. This approach can be incredibly powerful for precise data ingestion and search. For more information on index mapping/templates, please refer to [OpenSearch documentation](https://opensearch.org/docs/latest/im-plugin/index-templates/).
+
+Customize the `template_content` JSON-representation to define the data structure for the ingestion pipeline.
+
+``` ts title="amplify/backend.ts"
+
+const indexName = "todo";
+const indexMapping = {
+  settings: {
+    number_of_shards: 1,
+    number_of_replicas: 0,
+  },
+  mappings: {
+    properties: {
+      id: {
+        type: "keyword",
+      },
+      isDone: {
+        type: "boolean",
+      },
+      content: {
+        type: "text",
+      },
+    },
+  },
+};
+```
+
+
+The configuration is a data-prepper feature of OpenSearch. For specific documentation on DynamoDB configuration, refer to [OpenSearch data-prepper documentation](https://opensearch.org/docs/latest/data-prepper/pipelines/configuration/sources/dynamo-db/).
+
 
 ``` ts title="amplify/backend.ts"
 
@@ -264,39 +294,13 @@ dynamodb-pipeline:
 
 ```
 
-This configuration outlines the desired pipeline behavior. It’s based on the example configuration in the documentation, with some important adjustments.
+This configuration outlines the desired pipeline behavior.
 
 For the source configuration, you specify DynamoDB as the data source, identifying the table you want to ingest from and the starting point of the stream. Besides ingesting the stream into OpenSearch, you also define the target S3 bucket for backup purposes. Additionally, you set the IAM role for the ingestion pipeline, making sure it has the required permissions and policies as outlined in the documentation.
 
 For the sink configuration, you specify the OpenSearch domain cluster by setting the host, the index name and type, and template_content (the index mapping) for data formatting. You also configure document-related metadata and set the maximum bulk size for requests to OpenSearch in MB. Again, you specify the IAM role for the sink portion of the pipeline.
 
-When using OpenSearch, you can define the index template or mapping in advance based on your data structure, which allows you to set data types for each field in the document. This approach can be incredibly powerful for precise data ingestion and search. For more information on index mapping/templates, please refer to [OpenSearch documentation](https://opensearch.org/docs/latest/im-plugin/index-templates/).
 
-Customize the `template_content` JSON-representation to define the data structure for the ingestion pipeline.
-
-``` ts title="amplify/backend.ts"
-
-const indexName = "todo";
-const indexMapping = {
-  settings: {
-    number_of_shards: 1,
-    number_of_replicas: 0,
-  },
-  mappings: {
-    properties: {
-      id: {
-        type: "keyword",
-      },
-      isDone: {
-        type: "boolean",
-      },
-      content: {
-        type: "text",
-      },
-    },
-  },
-};
-```
 Now, create the OSIS pipeline resource:
 
 
