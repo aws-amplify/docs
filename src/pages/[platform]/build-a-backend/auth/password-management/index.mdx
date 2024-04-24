@@ -61,8 +61,276 @@ export const auth = defineAuth({
 });
 ```
 
-<InlineFilter filters={['swift']}>
 ## Reset password
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+To reset a user's password, use the `resetPassword` API which will send a reset code to the destination (e.g. email or SMS) based on the user's settings.
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { resetPassword, type ResetPasswordOutput } from 'aws-amplify/auth';
+
+async function handleResetPassword(username: string) {
+  try {
+    const output = await resetPassword({ username });
+    handleResetPasswordNextSteps(output);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function handleResetPasswordNextSteps(output: ResetPasswordOutput) {
+  const { nextStep } = output;
+  switch (nextStep.resetPasswordStep) {
+    case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
+      const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+      console.log(
+        `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
+      );
+      // Collect the confirmation code from the user and pass to confirmResetPassword.
+      break;
+    case 'DONE':
+      console.log('Successfully reset password.');
+      break;
+  }
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { resetPassword } from 'aws-amplify/auth';
+
+async function handleResetPassword(username) {
+  try {
+    const output = await resetPassword({ username });
+    handleResetPasswordNextSteps(output);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function handleResetPasswordNextSteps(output) {
+  const { nextStep } = output;
+  switch (nextStep.resetPasswordStep) {
+    case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
+      const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+      console.log(
+        `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
+      );
+      // Collect the confirmation code from the user and pass to confirmResetPassword.
+      break;
+    case 'DONE':
+      console.log('Successfully reset password.');
+      break;
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+To complete the password reset process, invoke the `confirmResetPassword` API with the code your user received and the new password they want to set.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  confirmResetPassword,
+  type ConfirmResetPasswordInput
+} from 'aws-amplify/auth';
+
+async function handleConfirmResetPassword({
+  username,
+  confirmationCode,
+  newPassword
+}: ConfirmResetPasswordInput) {
+  try {
+    await confirmResetPassword({ username, confirmationCode, newPassword });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { confirmResetPassword } from 'aws-amplify/auth';
+
+async function handleConfirmResetPassword({
+  username,
+  confirmationCode,
+  newPassword
+}) {
+  try {
+    await confirmResetPassword({ username, confirmationCode, newPassword });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+<InlineFilter filters={['android']}>
+
+In order to reset your password, use the resetPassword API - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.resetPassword(
+   "username",
+   result -> Log.i("AuthQuickstart", result.toString()),
+   error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.resetPassword("username",
+    { Log.i("AuthQuickstart", "Password reset OK: $it") },
+    { Log.e("AuthQuickstart", "Password reset failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.resetPassword("username")
+    Log.i("AuthQuickstart", "Password reset OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Password reset failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.resetPassword("username")
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+To complete the password reset process, invoke the confirmResetPassword API with the code you were sent and the new password you want.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.confirmResetPassword(
+   "Username",
+   "NewPassword123",
+   "confirmation code you received",
+   () -> Log.i("AuthQuickstart", "New password confirmed"),
+   error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmResetPassword("Username", "NewPassword123", "confirmation code",
+   { Log.i("AuthQuickstart", "New password confirmed") },
+   { Log.e("AuthQuickstart", "Failed to confirm password reset", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    Amplify.Auth.confirmResetPassword("Username", "NewPassword123", "code you received")
+    Log.i("AuthQuickstart", "New password confirmed")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to confirm password reset", error)
+}
+```
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmResetPassword("Username","NewPassword123", "confirmation code")
+    .subscribe(
+        () -> Log.i("AuthQuickstart", "New password confirmed"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+In order to reset your password, use the resetPassword API - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
+
+```dart
+Future<void> resetPassword(String username) async {
+  try {
+    final result = await Amplify.Auth.resetPassword(
+      username: username,
+    );
+    await _handleResetPasswordResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error resetting password: ${e.message}');
+  }
+}
+```
+
+```dart
+Future<void> _handleResetPasswordResult(ResetPasswordResult result) async {
+  switch (result.nextStep.updateStep) {
+    case AuthResetPasswordStep.confirmResetPasswordWithCode:
+      final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
+      _handleCodeDelivery(codeDeliveryDetails);
+      break;
+    case AuthResetPasswordStep.done:
+      safePrint('Successfully reset password');
+      break;
+  }
+}
+```
+
+To complete the password reset process, invoke the confirmResetPassword API with the code you were sent and the new password you want.
+
+```dart
+Future<void> confirmResetPassword({
+  required String username,
+  required String newPassword,
+  required String confirmationCode,
+}) async {
+  try {
+    final result = await Amplify.Auth.confirmResetPassword(
+      username: username,
+      newPassword: newPassword,
+      confirmationCode: confirmationCode,
+    );
+    safePrint('Password reset complete: ${result.isPasswordReset}');
+  } on AuthException catch (e) {
+    safePrint('Error resetting password: ${e.message}');
+  }
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
 
 In order to reset your password, use the resetPassword API - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
 
@@ -194,9 +462,69 @@ func confirmResetPassword(
 </Block>
 
 </BlockSwitcher>
+</InlineFilter>
 
 ## Change password
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 
+You can update a signed in user's password using the `updatePassword` API.
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { updatePassword, type UpdatePasswordInput } from 'aws-amplify/auth';
+
+async function handleUpdatePassword({
+  oldPassword,
+  newPassword
+}: UpdatePasswordInput) {
+  try {
+    await updatePassword({ oldPassword, newPassword });
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { updatePassword } from 'aws-amplify/auth';
+
+async function handleUpdatePassword(oldPassword, newPassword) {
+  try {
+    await updatePassword({ oldPassword, newPassword });
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+<InlineFilter filters={['flutter']}>
+A signed in user can update their password using the updatePassword API:
+
+```dart
+Future<void> updatePassword({
+  required String oldPassword,
+  required String newPassword,
+}) async {
+  try {
+    await Amplify.Auth.updatePassword(
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    );
+  } on AuthException catch (e) {
+    safePrint('Error updating password: ${e.message}');
+  }
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
 A signed in user can update their password using the updatePassword API:
 
 <BlockSwitcher>
@@ -238,206 +566,9 @@ func changePassword(oldPassword: String, newPassword: String) -> AnyCancellable 
 </Block>
 
 </BlockSwitcher>
-
-
-## Conclusion
-
-Congratulations! You finished the **Set up user password change and recovery** guide. In this guide, you learned how to enable password changes by your users and help them recover their account and replace their password using a registered email or phone number.
-
-### Next steps
-
-Now that you enabled password management you may also want to add some additional features. We recommend you learn more about:
-
-- [Add social provider sign-in](/[platform]/build-a-backend/auth/add-social-provider/)
-- [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/)
-
 </InlineFilter>
-<InlineFilter filters={['flutter']}>
-## Reset password
 
-In order to reset your password, use the resetPassword API - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
-
-```dart
-Future<void> resetPassword(String username) async {
-  try {
-    final result = await Amplify.Auth.resetPassword(
-      username: username,
-    );
-    await _handleResetPasswordResult(result);
-  } on AuthException catch (e) {
-    safePrint('Error resetting password: ${e.message}');
-  }
-}
-```
-
-```dart
-Future<void> _handleResetPasswordResult(ResetPasswordResult result) async {
-  switch (result.nextStep.updateStep) {
-    case AuthResetPasswordStep.confirmResetPasswordWithCode:
-      final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
-      _handleCodeDelivery(codeDeliveryDetails);
-      break;
-    case AuthResetPasswordStep.done:
-      safePrint('Successfully reset password');
-      break;
-  }
-}
-```
-
-To complete the password reset process, invoke the confirmResetPassword API with the code you were sent and the new password you want.
-
-```dart
-Future<void> confirmResetPassword({
-  required String username,
-  required String newPassword,
-  required String confirmationCode,
-}) async {
-  try {
-    final result = await Amplify.Auth.confirmResetPassword(
-      username: username,
-      newPassword: newPassword,
-      confirmationCode: confirmationCode,
-    );
-    safePrint('Password reset complete: ${result.isPasswordReset}');
-  } on AuthException catch (e) {
-    safePrint('Error resetting password: ${e.message}');
-  }
-}
-```
-
-## Change password
-
-A signed in user can update their password using the updatePassword API:
-
-```dart
-Future<void> updatePassword({
-  required String oldPassword,
-  required String newPassword,
-}) async {
-  try {
-    await Amplify.Auth.updatePassword(
-      oldPassword: oldPassword,
-      newPassword: newPassword,
-    );
-  } on AuthException catch (e) {
-    safePrint('Error updating password: ${e.message}');
-  }
-}
-```
-## Conclusion
-
-Congratulations! You finished the **Set up user password change and recovery** guide. In this guide, you learned how to enable password changes by your users and help them recover their account and replace their password using a registered email or phone number.
-
-### Next steps
-
-Now that you enabled password management you may also want to add some additional features. We recommend you learn more about:
-
-- [Add social provider sign-in](/[platform]/build-a-backend/auth/add-social-provider/)
-- [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/)
-</InlineFilter>
 <InlineFilter filters={['android']}>
-## Reset Password
-
-In order to reset your password, use the resetPassword API - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-Amplify.Auth.resetPassword(
-   "username",
-   result -> Log.i("AuthQuickstart", result.toString()),
-   error -> Log.e("AuthQuickstart", error.toString())
-);
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-```kotlin
-Amplify.Auth.resetPassword("username",
-    { Log.i("AuthQuickstart", "Password reset OK: $it") },
-    { Log.e("AuthQuickstart", "Password reset failed", it) }
-)
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-```kotlin
-try {
-    val result = Amplify.Auth.resetPassword("username")
-    Log.i("AuthQuickstart", "Password reset OK: $result")
-} catch (error: AuthException) {
-    Log.e("AuthQuickstart", "Password reset failed", error)
-}
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-RxAmplify.Auth.resetPassword("username")
-    .subscribe(
-        result -> Log.i("AuthQuickstart", result.toString()),
-        error -> Log.e("AuthQuickstart", error.toString())
-    );
-```
-
-</Block>
-</BlockSwitcher>
-
-To complete the password reset process, invoke the confirmResetPassword API with the code you were sent and the new password you want.
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-Amplify.Auth.confirmResetPassword(
-   "Username",
-   "NewPassword123",
-   "confirmation code you received",
-   () -> Log.i("AuthQuickstart", "New password confirmed"),
-   error -> Log.e("AuthQuickstart", error.toString())
-);
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-```kotlin
-Amplify.Auth.confirmResetPassword("Username", "NewPassword123", "confirmation code",
-   { Log.i("AuthQuickstart", "New password confirmed") },
-   { Log.e("AuthQuickstart", "Failed to confirm password reset", it) }
-)
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-```kotlin
-try {
-    Amplify.Auth.confirmResetPassword("Username", "NewPassword123", "code you received")
-    Log.i("AuthQuickstart", "New password confirmed")
-} catch (error: AuthException) {
-    Log.e("AuthQuickstart", "Failed to confirm password reset", error)
-}
-```
-</Block>
-<Block name="RxJava">
-
-```java
-RxAmplify.Auth.confirmResetPassword("Username","NewPassword123", "confirmation code")
-    .subscribe(
-        () -> Log.i("AuthQuickstart", "New password confirmed"),
-        error -> Log.e("AuthQuickstart", error.toString())
-    );
-```
-
-</Block>
-</BlockSwitcher>
-
-## Change password
 
 A signed in user can update their password using the updatePassword API:
 
@@ -488,7 +619,7 @@ RxAmplify.Auth.updatePassword("existingPassword", "newPassword")
 
 </Block>
 </BlockSwitcher>
-
+</InlineFilter>
 ## Conclusion
 
 Congratulations! You finished the **Set up user password change and recovery** guide. In this guide, you learned how to enable password changes by your users and help them recover their account and replace their password using a registered email or phone number.
@@ -500,170 +631,3 @@ Now that you enabled password management you may also want to add some additiona
 - [Add social provider sign-in](/[platform]/build-a-backend/auth/add-social-provider/)
 - [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/)
 
-</InlineFilter>
-<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
-## Reset Password
-
-To reset a user's password, use the `resetPassword` API which will send a reset code to the destination (e.g. email or SMS) based on the user's settings.
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { resetPassword, type ResetPasswordOutput } from 'aws-amplify/auth';
-
-async function handleResetPassword(username: string) {
-  try {
-    const output = await resetPassword({ username });
-    handleResetPasswordNextSteps(output);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-function handleResetPasswordNextSteps(output: ResetPasswordOutput) {
-  const { nextStep } = output;
-  switch (nextStep.resetPasswordStep) {
-    case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
-      const codeDeliveryDetails = nextStep.codeDeliveryDetails;
-      console.log(
-        `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
-      );
-      // Collect the confirmation code from the user and pass to confirmResetPassword.
-      break;
-    case 'DONE':
-      console.log('Successfully reset password.');
-      break;
-  }
-}
-```
-
-</Block>
-<Block name="JavaScript">
-
-```js
-import { resetPassword } from 'aws-amplify/auth';
-
-async function handleResetPassword(username) {
-  try {
-    const output = await resetPassword({ username });
-    handleResetPasswordNextSteps(output);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-function handleResetPasswordNextSteps(output) {
-  const { nextStep } = output;
-  switch (nextStep.resetPasswordStep) {
-    case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
-      const codeDeliveryDetails = nextStep.codeDeliveryDetails;
-      console.log(
-        `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
-      );
-      // Collect the confirmation code from the user and pass to confirmResetPassword.
-      break;
-    case 'DONE':
-      console.log('Successfully reset password.');
-      break;
-  }
-}
-```
-
-</Block>
-</BlockSwitcher>
-To complete the password reset process, invoke the `confirmResetPassword` API with the code your user received and the new password they want to set.
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import {
-  confirmResetPassword,
-  type ConfirmResetPasswordInput
-} from 'aws-amplify/auth';
-
-async function handleConfirmResetPassword({
-  username,
-  confirmationCode,
-  newPassword
-}: ConfirmResetPasswordInput) {
-  try {
-    await confirmResetPassword({ username, confirmationCode, newPassword });
-  } catch (error) {
-    console.log(error);
-  }
-}
-```
-
-</Block>
-<Block name="JavaScript">
-
-```js
-import { confirmResetPassword } from 'aws-amplify/auth';
-
-async function handleConfirmResetPassword({
-  username,
-  confirmationCode,
-  newPassword
-}) {
-  try {
-    await confirmResetPassword({ username, confirmationCode, newPassword });
-  } catch (error) {
-    console.log(error);
-  }
-}
-```
-
-</Block>
-</BlockSwitcher>
-
-## Update password
-
-You can update a signed in user's password using the `updatePassword` API.
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { updatePassword, type UpdatePasswordInput } from 'aws-amplify/auth';
-
-async function handleUpdatePassword({
-  oldPassword,
-  newPassword
-}: UpdatePasswordInput) {
-  try {
-    await updatePassword({ oldPassword, newPassword });
-  } catch (err) {
-    console.log(err);
-  }
-}
-```
-
-</Block>
-<Block name="JavaScript">
-
-```js
-import { updatePassword } from 'aws-amplify/auth';
-
-async function handleUpdatePassword(oldPassword, newPassword) {
-  try {
-    await updatePassword({ oldPassword, newPassword });
-  } catch (err) {
-    console.log(err);
-  }
-}
-```
-
-</Block>
-</BlockSwitcher>
-
-## Conclusion
-
-Congratulations! You finished the **Set up user password change and recovery** guide. In this guide, you learned how to enable password changes by your users and help them recover their account and replace their password using a registered email or phone number.
-
-### Next steps
-
-Now that you enabled password management you may also want to add some additional features. We recommend you learn more about:
-
-- [Add social provider sign-in](/[platform]/build-a-backend/auth/add-social-provider/)
-- [Multi-factor authentication](/[platform]/build-a-backend/auth/manage-mfa/)
-</InlineFilter>
