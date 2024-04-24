@@ -2,7 +2,7 @@
 
 Now that the client is set up, you can run a GraphQL mutation with `Amplify.API.mutate` to create, update, and delete your data.
 
-import createTodo from "/src/fragments/lib-v1/graphqlapi/flutter/getting-started/50_createtodo.mdx";
+import createTodo from "/src/fragments/lib/graphqlapi/flutter/getting-started/50_createtodo.mdx";
 
 <Fragments fragments={{flutter: createTodo}} />
 
@@ -14,7 +14,7 @@ Future<void> updateTodo(Todo originalTodo) async {
 
   final request = ModelMutations.update(todoWithNewName);
   final response = await Amplify.API.mutate(request: request).response;
-  print('Response: $response');
+  safePrint('Response: $response');
 }
 ```
 
@@ -24,15 +24,20 @@ To delete the `Todo`:
 Future<void> deleteTodo(Todo todoToDelete) async {
   final request = ModelMutations.delete(todoToDelete);
   final response = await Amplify.API.mutate(request: request).response;
-  print('Response: $response');
+  safePrint('Response: $response');
 }
 ```
+
 
 ```dart
 // or delete by ID, ideal if you do not have the instance in memory, yet
 Future<void> deleteTodoById(Todo todoToDelete) async {
-  final request = ModelMutations.deleteById(Todo.classType, '8e0dd2fc-2f4a-4dc4-b47f-2052eda10775');
+  final request = ModelMutations.deleteById(
+    Todo.classType,
+    TodoModelIdentifier(id: '8e0dd2fc-2f4a-4dc4-b47f-2052eda10775'),
+  );
   final response = await Amplify.API.mutate(request: request).response;
-  print('Response: $response');
+  safePrint('Response: $response');
 }
 ```
+
