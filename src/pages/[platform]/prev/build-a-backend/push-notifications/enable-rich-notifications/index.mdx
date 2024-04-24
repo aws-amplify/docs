@@ -3,7 +3,10 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Enable rich notifications',
   description: 'Enable rich notifications for you app.',
-  platforms: ['react-native']
+  platforms: [
+    'react-native',
+    'flutter'
+    ]
 };
 
 export const getStaticPaths = async () => {
@@ -22,3 +25,7 @@ export function getStaticProps(context) {
 import enableRichNotifications from '/src/fragments/lib-v1/push-notifications/react-native/enable_rich_notifications/enable-rich-notifications.mdx';
 
 <Fragments fragments={{ 'react-native': enableRichNotifications }} />
+
+import commonRoute from '/src/fragments/lib-v1/push-notifications/common/enable-rich-notifications.mdx';
+
+<Fragments fragments={{ flutter: commonRoute }} />

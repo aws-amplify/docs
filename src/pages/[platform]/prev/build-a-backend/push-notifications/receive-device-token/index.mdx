@@ -3,7 +3,10 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Receive a device token',
   description: 'Receive a device token for use with push notifications.',
-  platforms: ['react-native']
+  platforms: [
+    'react-native',
+    'flutter',
+    ]
 };
 
 export const getStaticPaths = async () => {
@@ -22,3 +25,7 @@ export function getStaticProps(context) {
 import receiveDeviceToken from '/src/fragments/lib-v1/push-notifications/react-native/receive-device-token.mdx';
 
 <Fragments fragments={{ 'react-native': receiveDeviceToken }} />
+
+import commonRoute from '/src/fragments/lib-v1/push-notifications/common/receive-device-token.mdx';
+
+<Fragments fragments={{ flutter: commonRoute }} />
