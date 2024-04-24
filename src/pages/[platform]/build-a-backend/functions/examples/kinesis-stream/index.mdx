@@ -33,7 +33,7 @@ With AWS Lambda, you can seamlessly integrate various event sources, such as Ama
 
 In this guide, let us configure a Lambda function with a Kinesis data stream as an event source. The Lambda function is automatically triggered whenever new data is published to the stream - whether you're processing streaming data, reacting to application events, or automating workflows.
 
-To get started, install the AWS Lambda Powertools Logger package, which provides structured logging capabilities for your Lambda function.
+To get started, install the AWS Lambda Powertools Logger, which provides structured logging capabilities for your Lambda function, and the `aws-lambda` package, which is used to define the handler type.
 
 ```bash title="Terminal" showLineNumbers={false}
 npm add @aws-lambda-powertools/logger
