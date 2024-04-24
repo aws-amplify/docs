@@ -63,7 +63,7 @@ const schema = a.schema({
   }).secondaryIndexes(index => [
     a.index('representativeId')
   ]),
-}).authorization([a.allow.owner()])
+}).authorization(allow => [allow.owner()])
 ```
 
 <Overview childPageNodes={props.childPageNodes} />

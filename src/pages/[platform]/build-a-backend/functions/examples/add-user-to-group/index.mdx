@@ -43,9 +43,9 @@ To get started, install the AWS SDK v3 package that will be used to perform acti
 npm add --save-dev @aws-sdk/client-cognito-identity-provider
 ```
 
-Second, create a new directory and a resource file, `amplify/functions/post-confirmation/resource.ts`. Then, define the Function with `defineFunction`:
+Second, create a new directory and a resource file, `amplify/auth/post-confirmation/resource.ts`. Then, define the Function with `defineFunction`:
 
-```ts title="amplify/functions/post-confirmation/resource.ts"
+```ts title="amplify/auth/post-confirmation/resource.ts"
 import { defineFunction } from '@aws-amplify/backend';
 
 export const postConfirmation = defineFunction({
@@ -57,9 +57,9 @@ export const postConfirmation = defineFunction({
 });
 ```
 
-Third, create the corresponding handler file, `amplify/functions/post-confirmation/handler.ts`, file with the following contents:
+Third, create the corresponding handler file, `amplify/auth/post-confirmation/handler.ts`, file with the following contents:
 
-```ts title="amplify/functions/post-confirmation/handler.ts"
+```ts title="amplify/auth/post-confirmation/handler.ts"
 import type { PostConfirmationTriggerHandler } from 'aws-lambda';
 import {
   CognitoIdentityProviderClient,
@@ -86,7 +86,7 @@ Lastly, set the newly created Function resource on your auth resource:
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
-import { postConfirmation } from '../functions/post-confirmation/resource';
+import { postConfirmation } from './post-confirmation/resource';
 
 export const auth = defineAuth({
   // ...

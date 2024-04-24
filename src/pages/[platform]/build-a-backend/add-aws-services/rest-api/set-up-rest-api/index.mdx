@@ -1,0 +1,679 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up Amplify REST API',
+  description: 'The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. The REST API category can be used for creating signed requests against Amazon API Gateway when the API Gateway Authorization is set to AWS_IAM.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+To setup and configure your application with REST API or HTTP API to make requests to [Amazon API Gateway](https://aws.amazon.com/api-gateway/) and trigger the lambda function, you can create a REST or HTTP API using the AWS Cloud Development Kit (AWS CDK).
+
+## Set up REST API with Lambda Function
+
+Create a new directory and a resource file, `amplify/functions/api-function/resource.ts`. Then, define the function with `defineFunction`:
+  
+```ts title="amplify/functions/api-function/resource.ts"
+import { defineFunction } from "@aws-amplify/backend";
+
+export const myApiFunction = defineFunction({
+  name: "api-function",
+});
+```
+
+Create the corresponding handler file, `amplify/functions/api-function/handler.ts`, file with the following contents:
+
+```ts title="amplify/functions/api-function/handler.ts"
+import type { APIGatewayProxyHandler } from "aws-lambda";
+
+export const handler: APIGatewayProxyHandler = async (event) => {
+  console.log("event", event);
+  return {
+    statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
+    },
+    body: JSON.stringify("Hello from myFunction!"),
+  };
+};
+```
+
+Use the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create an REST API resource powered by [Amazon API Gateway](https://aws.amazon.com/api-gateway/).
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { Stack } from "aws-cdk-lib";
+import {
+  AuthorizationType,
+  CognitoUserPoolsAuthorizer,
+  Cors,
+  LambdaIntegration,
+  RestApi,
+} from "aws-cdk-lib/aws-apigateway";
+import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { myApiFunction } from "./functions/api-function/resource";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+
+const backend = defineBackend({
+  auth,
+  data,
+  myApiFunction,
+});
+
+// create a new API stack
+const apiStack = backend.createStack("api-stack");
+
+// create a new REST API
+const myRestApi = new RestApi(apiStack, "RestApi", {
+  restApiName: "myRestApi",
+  deploy: true,
+  defaultCorsPreflightOptions: {
+    allowOrigins: Cors.ALL_ORIGINS,
+    allowMethods: Cors.ALL_METHODS,
+    allowHeaders: Cors.DEFAULT_HEADERS,
+  },
+});
+
+// create a new Lambda integration
+const lambdaIntegration = new LambdaIntegration(
+  backend.myApiFunction.resources.lambda
+);
+
+// create a new resource path with IAM authorization
+const itemsPath = myRestApi.root.addResource("items", {
+  defaultMethodOptions: {
+    authorizationType: AuthorizationType.IAM,
+  },
+});
+
+// add methods you would like to create to the resource path
+itemsPath.addMethod("GET", lambdaIntegration);
+itemsPath.addMethod("POST", lambdaIntegration);
+itemsPath.addMethod("DELETE", lambdaIntegration);
+itemsPath.addMethod("PUT", lambdaIntegration);
+
+// add a proxy resource path to the API
+itemsPath.addProxy({
+  anyMethod: true,
+  defaultIntegration: lambdaIntegration,
+});
+
+// create a new Cognito User Pools authorizer
+const cognitoAuth = new CognitoUserPoolsAuthorizer(apiStack, "CognitoAuth", {
+  cognitoUserPools: [backend.auth.resources.userPool],
+});
+
+// create a new resource path with Cognito authorization
+const booksPath = myRestApi.root.addResource("cognito-auth-path");
+booksPath.addMethod("GET", lambdaIntegration, {
+  authorizationType: AuthorizationType.COGNITO,
+  authorizer: cognitoAuth,
+});
+
+// create a new IAM policy to allow Invoke access to the API
+const apiRestPolicy = new Policy(apiStack, "RestApiPolicy", {
+  statements: [
+    new PolicyStatement({
+      actions: ["execute-api:Invoke"],
+      resources: [
+        `${myRestApi.arnForExecuteApi("items")}`,
+        `${myRestApi.arnForExecuteApi("cognito-auth-path")}`,
+      ],
+    }),
+  ],
+});
+
+// attach the policy to the authenticated and unauthenticated IAM roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(
+  apiRestPolicy
+);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(
+  apiRestPolicy
+);
+
+// add outputs to the configuration file
+backend.addOutput({
+  custom: {
+    API: {
+      [myRestApi.restApiName]: {
+        endpoint: myRestApi.url,
+        region: Stack.of(myRestApi).region,
+        apiName: myRestApi.restApiName,
+      },
+    },
+  },
+});
+```
+
+## Set up HTTP API with Lambda Function
+
+Create a new directory and a resource file, `amplify/functions/api-function/resource.ts`. Then, define the function with `defineFunction`:
+  
+```ts title="amplify/functions/api-function/resource.ts"
+import { defineFunction } from "@aws-amplify/backend";
+
+export const myApiFunction = defineFunction({
+  name: "api-function",
+});
+```
+
+create the corresponding handler file, `amplify/functions/api-function/handler.ts`, file with the following contents:
+
+```ts title="amplify/functions/api-function/handler.ts"
+import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
+
+export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+  console.log("event", event);
+  return {
+    statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
+    },
+    body: JSON.stringify("Hello from myFunction!"),
+  };
+};
+```
+
+Use the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create an HTTP API resource powered by [Amazon API Gateway](https://aws.amazon.com/api-gateway/).
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { Stack } from "aws-cdk-lib";
+import {
+  CorsHttpMethod,
+  HttpApi,
+  HttpMethod,
+} from "aws-cdk-lib/aws-apigatewayv2";
+import {
+  HttpIamAuthorizer,
+  HttpUserPoolAuthorizer,
+} from "aws-cdk-lib/aws-apigatewayv2-authorizers";
+import { HttpLambdaIntegration } from "aws-cdk-lib/aws-apigatewayv2-integrations";
+import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { myApiFunction } from "./functions/api-function/resource";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+
+const backend = defineBackend({
+  auth,
+  data,
+  myApiFunction,
+});
+
+// create a new API stack
+const apiStack = backend.createStack("api-stack");
+
+// create a IAM authorizer
+const iamAuthorizer = new HttpIamAuthorizer();
+
+// create a User Pool authorizer
+const userPoolAuthorizer = new HttpUserPoolAuthorizer(
+  "userPoolAuth",
+  backend.auth.resources.userPool,
+  {
+    userPoolClients: [backend.auth.resources.userPoolClient],
+  }
+);
+
+// create a new HTTP Lambda integration
+const httpLambdaIntegration = new HttpLambdaIntegration(
+  "LambdaIntegration",
+  backend.myApiFunction.resources.lambda
+);
+
+// create a new HTTP API with IAM as default authorizer
+const httpApi = new HttpApi(apiStack, "HttpApi", {
+  apiName: "myHttpApi",
+  defaultAuthorizer: iamAuthorizer,
+  corsPreflight: {
+    allowMethods: [
+      CorsHttpMethod.GET,
+      CorsHttpMethod.POST,
+      CorsHttpMethod.PUT,
+      CorsHttpMethod.DELETE,
+    ],
+    allowOrigins: ["*"],
+    allowHeaders: ["*"],
+  },
+  createDefaultStage: true,
+});
+
+// add routes to the API with a IAM authorizer and different methods
+httpApi.addRoutes({
+  path: "/items",
+  methods: [HttpMethod.GET, HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE],
+  integration: httpLambdaIntegration,
+  authorizer: iamAuthorizer,
+});
+
+// add a proxy resource path to the API
+httpApi.addRoutes({
+  path: "/items/{proxy+}",
+  methods: [HttpMethod.OPTIONS, HttpMethod.ANY],
+  integration: httpLambdaIntegration,
+});
+
+// add route to the API with a User Pool authorizer
+httpApi.addRoutes({
+  path: "/cognito-auth-path",
+  methods: [HttpMethod.GET],
+  integration: httpLambdaIntegration,
+  authorizer: userPoolAuthorizer,
+});
+
+// create a new IAM policy to allow Invoke access to the API
+const apiPolicy = new Policy(apiStack, "ApiPolicy", {
+  statements: [
+    new PolicyStatement({
+      actions: ["execute-api:Invoke"],
+      resources: [
+        `${httpApi.arnForExecuteApi("items")}`,
+        `${httpApi.arnForExecuteApi("cognito-auth-path")}`,
+      ],
+    }),
+  ],
+});
+
+// attach the policy to the authenticated and unauthenticated IAM roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(apiPolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(apiPolicy);
+
+// add outputs to the configuration file
+backend.addOutput({
+  custom: {
+    API: {
+      [httpApi.httpApiName!]: {
+        endpoint: httpApi.url,
+        region: Stack.of(httpApi).region,
+        apiName: httpApi.httpApiName,
+      },
+    },
+  },
+});
+```
+
+## Install Amplify Libraries
+
+<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
+Use the package manager of your choice to install the amplify JS library. For example, with `npm`:
+
+```bash title="Terminal" showLineNumbers={false} 
+npm install aws-amplify
+```
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+Use the package manager of your choice to install the amplify JS library. For example, with `npm`:
+
+<Accordion title="Instructions for React Native version 0.72 and below">
+
+  `@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0` if you are using `react-native` version less than or equal to `0.72`. Open the _Podfile_ located in the _ios_ directory and update the `target` value:
+
+  ```diff
+   - platform :ios, min_ios_version_supported
+   + platform :ios, 13.0
+   ```
+
+</Accordion>
+
+```bash title="Terminal" showLineNumbers={false} 
+npm install aws-amplify @aws-amplify/react-native
+```
+
+</InlineFilter>
+
+
+<InlineFilter filters={["swift"]}>
+1. To install Amplify Libraries in your application, open your project in Xcode and select **File > Add Packages...**.
+
+2. Enter the **Amplify Library for Swift** GitHub repo URL (`https://github.com/aws-amplify/amplify-swift`) into the search bar and click **Add Package**.
+
+  <Callout>
+
+  **Note:** **Up to Next Major Version** should be selected from the **Dependency Rule** dropdown.
+
+  </Callout>
+
+3. Lastly, choose **AWSAPIPlugin**, **AWSCognitoAuthPlugin** and **Amplify**. Then click **Add Package**.
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+Expand **Gradle Scripts**, open **build.gradle (Module :app)**. You will already have configured Amplify by following the steps in the [Project Setup walkthrough](/gen1/[platform]/start/project-setup/create-application/).
+
+Add API by adding these libraries into the `dependencies` block:
+```groovy
+dependencies {
+    implementation 'com.amplifyframework:aws-api:ANDROID_VERSION'
+    implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
+
+}
+```
+
+Click **Sync Now**.
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+Add the following dependencies to your `pubspec.yaml` file and install dependencies when asked. Please keep in mind that Auth plugin is needed for IAM authorization mode, which is default for REST API:
+
+```yaml
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  amplify_flutter: ^1.0.0
+  amplify_api: ^1.0.0
+  amplify_auth_cognito: ^1.0.0 
+```
+</InlineFilter>
+
+## Initialize Amplify API
+
+<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
+To initialize the Amplify API category you need to configure Amplify with `Amplify.configure()`.
+
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `index.js` in React or `main.ts` in Angular.
+
+<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native"]}>
+```javascript title="src/index.js"
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from '../amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
+const existingConfig = Amplify.getConfig();
+Amplify.configure({
+  ...existingConfig,
+  API: {
+    REST: amplifyconfig.custom.API,
+  },
+});
+```
+</InlineFilter>
+
+<InlineFilter filters={["nextjs"]}>
+```javascript title="pages/index.tsx"
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from '@/amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
+Amplify.configure(amplifyconfig);
+const existingConfig = Amplify.getConfig();
+Amplify.configure({
+  ...existingConfig,
+  API: {
+    REST: amplifyconfig.custom.API,
+  },
+});
+```
+</InlineFilter>
+
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/gen1/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+To initialize the Amplify API and Authentication categories, you are required to use the `Amplify.addPlugin()` method for each category you want.  When you are done calling `addPlugin()` on each category, you finish configuring Amplify by calling `Amplify.configure()`.
+
+<BlockSwitcher>
+
+<Block name="SwiftUI">
+
+In your `App` scene, configure Amplify in the initializer:
+
+```swift
+@main
+struct MyAmplifyApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+
+    init() {
+        do {
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.add(plugin: AWSAPIPlugin())
+            try Amplify.configure()
+            print("Amplify configured with API and Auth plugin")
+        } catch {
+            print("Failed to initialize Amplify with \(error)")
+        }
+    }
+}
+```
+
+</Block>
+
+<Block name="UIKit">
+
+Add the following imports to the top of your `AppDelegate.swift` file:
+```swift
+import Amplify
+import AWSAPIPlugin
+```
+
+Add the following code to the `application:didFinishLaunchingWithOptions` method:
+
+```swift
+func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+) -> Bool {
+
+    do {
+        try Amplify.add(plugin: AWSCognitoAuthPlugin())
+        try Amplify.add(plugin: AWSAPIPlugin())
+        try Amplify.configure()
+        print("Amplify configured with API and Auth plugin")
+    } catch {
+        print("Failed to initialize Amplify with \(error)")
+    }
+
+    return true
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+Upon building and running this application you should see the following in your console window:
+
+```console
+Amplify configured with API and Auth plugin
+```
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+To initialize the Amplify Auth and API categories you call `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
+
+Add the following code to your `onCreate()` method in your application class:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.addPlugin(new AWSApiPlugin());
+Amplify.addPlugin(new AWSCognitoAuthPlugin());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        try {
+            // Add these lines to add the `AWSApiPlugin` and `AWSCognitoAuthPlugin`
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify.");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify.", error);
+        }
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+Amplify.addPlugin(AWSApiPlugin())
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+```
+
+Your class will look like this:
+
+```kotlin
+class MyAmplifyApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        try {
+            // Add these lines to add the `AWSApiPlugin` and `AWSCognitoAuthPlugin`
+            Amplify.addPlugin(AWSApiPlugin())
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.configure(applicationContext)
+
+            Log.i("MyAmplifyApp", "Initialized Amplify.")
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify.", error)
+        }
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.addPlugin(new AWSApiPlugin());
+RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        try {
+            // Add these lines to add the `AWSApiPlugin` and `AWSCognitoAuthPlugin`
+            RxAmplify.addPlugin(new AWSApiPlugin());
+            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+            RxAmplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify.");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify.", error);
+        }
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+To initialize the Amplify API category you call `Amplify.addPlugin()` method. To complete initialization call `Amplify.configure()`.
+
+Your code should look like this:
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:flutter/material.dart';
+
+import 'amplifyconfiguration.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    _configureAmplify();
+  }
+
+  Future<void> _configureAmplify() async {
+    // Add the following line to add API plugin to your app.
+    // Auth plugin needed for IAM authorization mode, which is default for REST API.
+    final auth = AmplifyAuthCognito();
+    final api = AmplifyAPI();
+    await Amplify.addPlugins([api, auth]);
+
+    try {
+      await Amplify.configure(amplifyconfig);
+    } on AmplifyAlreadyConfiguredException {
+      safePrint(
+          'Tried to reconfigure Amplify; this can occur when your app restarts on Android.');
+    }
+  }
+
+  Future<void> onTestApi() async {
+    // Edit this function with next steps.
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: ElevatedButton(
+            onPressed: onTestApi,
+            child: const Text('Rest API'),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+</InlineFilter>
+
