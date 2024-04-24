@@ -1587,6 +1587,17 @@ export const directory = {
                   ]
                 },
                 {
+                  path: 'src/pages/[platform]/prev/build-a-backend/existing-resources/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/existing-resources/cli/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/existing-resources/cdk/index.mdx'
+                    }
+                  ]
+                },
+                {
                   path: 'src/pages/[platform]/prev/build-a-backend/server-side-rendering/index.mdx'
                 },
                 {
