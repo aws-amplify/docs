@@ -1577,7 +1577,11 @@
     "parametersjson",
     "nextamplifygen",
     "multirepo",
-    "startbuild"
+    "startbuild",
+    "PITR",
+    "osis",
+    "prepper",
+    "OSIS"
   ],
   "flagWords": [
     "hte",

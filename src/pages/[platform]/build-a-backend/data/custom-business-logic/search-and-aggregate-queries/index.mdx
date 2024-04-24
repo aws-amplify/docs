@@ -279,7 +279,7 @@ Now, create the OSIS pipeline resource:
 
 ``` ts title="amplify/backend.ts"
 const logGroup = new logs.LogGroup(openSearchStack, "LogGroup", {
-  logGroupName: "/aws/vendedlogs/OpenSearchService/pipelines/1",
+  logGroupName: "/aws/vended-logs/OpenSearchService/pipelines/1",
   removalPolicy: RemovalPolicy.DESTROY,
 });
 
@@ -314,9 +314,57 @@ You can also check this in the DynamoDB console by going to the Integrations sec
 
 ## Step 4: Expose new queries on OpenSearch
 
-### Step 4a: Add the AppSync Resolver for the Search Query
+### Step 4a:Add OpenSearch Datasource to backend
 
-First, update the schema and add a searchTodo query.
+First, Add the OpenSearch data source to the data backend.
+
+``` ts title="amplify/backend.ts"
+
+const osDataSource = backend.data.addOpenSearchDataSource(
+  "osDataSource",
+  openSearchDomain
+);
+```
+### Step 4b: Create Resolver and attach to query
+
+Let's create the search resolver. Create a new file named `amplify/data/searchBlogResolver.ts` and paste the following code: 
+
+```ts title="amplify/data/searchBlogResolver.ts"
+
+import { util } from "@aws-appsync/utils";
+
+/**
+ * Searches for documents by using an input term
+ * @param {import('@aws-appsync/utils').Context} ctx the context
+ * @returns {*} the request
+ */
+
+export function request(ctx) {
+  return {
+    operation: "GET",
+    path: "/todo/_search",
+  };
+}
+
+/**
+ * Returns the fetched items
+ * @param {import('@aws-appsync/utils').Context} ctx the context
+ * @returns {*} the result
+ */
+
+export function response(ctx) {
+  if (ctx.error) {
+    util.error(ctx.error.message, ctx.error.type);
+  }
+  return ctx.result.hits.hits.map((hit) => hit._source);
+}
+
+
+```
+
+### Step 4c: Add the AppSync Resolver for the Search Query
+
+Update the schema and add a searchTodo query.
 
 ``` ts title="amplify/data/resource.ts"
 
@@ -345,57 +393,6 @@ const schema = a.schema({
 });
 ```
 
-### Step 4b:Add OpenSearch Datasource to backend
-
-Add the OpenSearch data source to the data backend.
-
-``` ts title="amplify/backend.ts"
-const osDataSource = backend.data.addOpenSearchDataSource(
-  "osDataSource",
-  openSearchDomain
-);
-```
-### Step 4c: Create Resolver and attach to query
-
-Create the search resolver and attach it to the searchTodo query. Also, grant the necessary access permissions to OpenSearch.
-
-```ts title="amplify/data/searchBlogResolver.ts"
-
-import { util } from "@aws-appsync/utils";
-/**
- * Searches for documents by using an input term
- * @param {import('@aws-appsync/utils').Context} ctx the context
- * @returns {*} the request
- */
-export function request(ctx) {
-  return {
-    operation: "GET",
-    path: "/todo/_search",
-  };
-}
-
-/**
- * Returns the fetched items
- * @param {import('@aws-appsync/utils').Context} ctx the context
- * @returns {*} the result
- */
-export function response(ctx) {
-  if (ctx.error) {
-    util.error(ctx.error.message, ctx.error.type);
-  }
-  return ctx.result.hits.hits.map((hit) => hit._source);
-}
-
-
-```
-
-
-
-```ts title="amplify/data/resource.ts"
-
-
-
-```
 Once you've deployed the resources, you can check the AppSync console to confirm the changes. Run the searchTodo query and review the returned results to verify their accuracy.
 
 ![A screenshot of AppSync console](/images/gen2/opensearch-integration/opensearch_appsync_console.png)
