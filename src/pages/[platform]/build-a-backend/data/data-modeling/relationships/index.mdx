@@ -289,22 +289,25 @@ final memberRemoveResponse = await Amplify.API.mutate(request: memberRemoveReque
 
 ```dart
 // Fetch the team with the team id.
-final teamRequest = ModelQueries.get<Team>(Team.classType, TeamModelIdentifier(id: "YOUR_TEAM_ID"));
-final teamResult = await Amplify.API.query(request: request).response;
+final teamRequest = ModelQueries.get<Team>(
+    Team.classType, TeamModelIdentifier(id: "YOUR_TEAM_ID"));
+final teamResult = await Amplify.API.query(request: teamRequest).response;
 final team = teamResult.data!;
 
 // Define a limit for your pagination
 const limit = 100;
 
 // Do the initial call to get the initial items
-final firstRequest = ModelQueries.list<Member>(Member.classType, limit: limit, where: Member.TEAM.eq(team));
+final firstRequest = ModelQueries.list<Member>(Member.classType,
+    limit: limit, where: Member.TEAMID.eq(team.id));
 final firstResult = await Amplify.API.query(request: firstRequest).response;
 final firstPageData = firstResult.data;
 
 // If there are more than 100 items you can reiterate the following code to get next pages.
 if (firstPageData?.hasNextResult ?? false) {
   final secondRequest = firstPageData!.requestForNextResult;
-  final secondResult = await Amplify.API.query(request: secondRequest!).response;
+  final secondResult =
+      await Amplify.API.query(request: secondRequest!).response;
   return secondResult.data?.items ?? <Member?>[];
 } else {
   // You can return the page data by calling items property.
@@ -733,14 +736,19 @@ Task {
 
 ```dart
 // Fetch the cart with the cart id.
-final cartRequest = ModelQueries.get<Cart>(Cart.classType, CartModelIdentifier(id: "MY_CART_ID"));
-final cartResult = await Amplify.API.query(request: request).response;
+final cartRequest = ModelQueries.get<Cart>(
+    Cart.classType, CartModelIdentifier(id: "MY_CART_ID"));
+final cartResult = await Amplify.API.query(request: cartRequest).response;
 final cart = cartResult.data!;
 
 // Do the customer call to with the id from cart
-final customerRequest = ModelQueries.get<Customer>(Customer.classType, CustomerModelIdentifier(id: cart.customerId));
-final customerResult = await Amplify.API.query(request: customerRequest).response;
-final customer = customerResult.data!;
+if (cart.customerId != null) {
+  final customerRequest = ModelQueries.get<Customer>(
+      Customer.classType, CustomerModelIdentifier(id: cart.customerId!));
+  final customerResult =
+      await Amplify.API.query(request: customerRequest).response;
+  final customer = customerResult.data!;
+}
 ```
 
 </InlineFilter>
