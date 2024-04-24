@@ -1581,6 +1581,7 @@
     "nextamplifygen",
     "multirepo",
     "startbuild",
+    "esac",
     "voteField"
   ],
   "flagWords": [
