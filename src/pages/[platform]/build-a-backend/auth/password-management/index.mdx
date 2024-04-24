@@ -64,7 +64,7 @@ export const auth = defineAuth({
 <InlineFilter filters={['swift']}>
 ## Reset password
 
-In order to reset your password, use the resetPassword api - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
+In order to reset your password, use the resetPassword API - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
 
 <BlockSwitcher>
 
@@ -137,7 +137,7 @@ if let authError = error as? AuthError,
 For examples of what errors are returned from Cognito for this API, see [ForgotPassword Errors](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_ForgotPassword.html#API_ForgotPassword_Errors)
 
 
-To complete the password reset process, invoke the confirmResetPassword api with the code you were sent and the new password you want.
+To complete the password reset process, invoke the confirmResetPassword API with the code you were sent and the new password you want.
 
 <BlockSwitcher>
 
@@ -197,7 +197,7 @@ func confirmResetPassword(
 
 ## Change password
 
-A signed in user can update their password using the updatePassword api:
+A signed in user can update their password using the updatePassword API:
 
 <BlockSwitcher>
 
@@ -255,7 +255,7 @@ Now that you enabled password management you may also want to add some additiona
 <InlineFilter filters={['flutter']}>
 ## Reset password
 
-In order to reset your password, use the resetPassword api - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
+In order to reset your password, use the resetPassword API - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
 
 ```dart
 Future<void> resetPassword(String username) async {
@@ -284,7 +284,7 @@ Future<void> _handleResetPasswordResult(ResetPasswordResult result) async {
 }
 ```
 
-To complete the password reset process, invoke the confirmResetPassword api with the code you were sent and the new password you want.
+To complete the password reset process, invoke the confirmResetPassword API with the code you were sent and the new password you want.
 
 ```dart
 Future<void> confirmResetPassword({
@@ -307,7 +307,7 @@ Future<void> confirmResetPassword({
 
 ## Change password
 
-A signed in user can update their password using the updatePassword api:
+A signed in user can update their password using the updatePassword API:
 
 ```dart
 Future<void> updatePassword({
@@ -338,7 +338,7 @@ Now that you enabled password management you may also want to add some additiona
 <InlineFilter filters={['android']}>
 ## Reset Password
 
-In order to reset your password, use the resetPassword api - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
+In order to reset your password, use the resetPassword API - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
 
 <BlockSwitcher>
 <Block name="Java">
@@ -387,7 +387,7 @@ RxAmplify.Auth.resetPassword("username")
 </Block>
 </BlockSwitcher>
 
-To complete the password reset process, invoke the confirmResetPassword api with the code you were sent and the new password you want.
+To complete the password reset process, invoke the confirmResetPassword API with the code you were sent and the new password you want.
 
 <BlockSwitcher>
 <Block name="Java">
@@ -439,7 +439,7 @@ RxAmplify.Auth.confirmResetPassword("Username","NewPassword123", "confirmation c
 
 ## Change password
 
-A signed in user can update their password using the updatePassword api:
+A signed in user can update their password using the updatePassword API:
 
 <BlockSwitcher>
 <Block name="Java">
