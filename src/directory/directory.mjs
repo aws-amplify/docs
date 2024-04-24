@@ -1429,6 +1429,9 @@ export const directory = {
                   path: 'src/pages/[platform]/prev/build-a-backend/restapi/index.mdx',
                   children: [
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/configure-rest-api/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/restapi/set-up-rest-api/index.mdx'
                     },
                     {
@@ -1447,13 +1450,22 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/restapi/customize-authz/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/test-api/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/restapi/existing-resources/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/override-api-gateway/index.mdx'
                     }
                   ]
                 },
                 {
                   path: 'src/pages/[platform]/prev/build-a-backend/storage/index.mdx',
                   children: [
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/storage/configure-storage/index.mdx'
+                    },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/set-up-storage/index.mdx'
                     },
@@ -1471,6 +1483,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/copy/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/storage/move/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/remove/index.mdx'
@@ -1491,16 +1506,48 @@ export const directory = {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/lambda-triggers/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/storage/import/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/custom-plugin/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/existing-resources/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/prev/build-a-backend/storage/modify-amplify-generated-resources/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/sdk/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/prev/build-a-backend/storage/data-usage-policy/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/functions/set-up-function/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/functions/layers/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/functions/environment-variables/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/functions/secrets/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/functions/build-options/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/functions/configure-options/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/prev/build-a-backend/functions/graphql-from-lambda/index.mdx'
                     }
                   ]
                 },
