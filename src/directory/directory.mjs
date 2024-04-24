@@ -618,18 +618,18 @@ export const directory = {
               isExternal: true,
               route:
                 'https://ui.docs.amplify.aws/react/connected-components/storage/storageimage',
-              title: 'StorageImage',
+              title: 'Storage Image',
               description:
-                'StorageImage is a connected component that simplifies the process of displaying images stored in an Amazon S3 bucket.',
+                'Storage Image is a connected component that simplifies the process of displaying images stored in an Amazon S3 bucket.',
               platforms: ['javascript', 'nextjs', 'react']
             },
             {
               isExternal: true,
               route:
                 'https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager',
-              title: 'StorageManager',
+              title: 'Storage Manager',
               description:
-                'StorageManager is a connected component that facilitates operations such as uploading, downloading, listing, and deleting files from an Amazon S3 bucket.',
+                'Storage Manager is a connected component that facilitates operations such as uploading, downloading, listing, and deleting files from an Amazon S3 bucket.',
               platforms: ['javascript', 'nextjs', 'react']
             },
             {
