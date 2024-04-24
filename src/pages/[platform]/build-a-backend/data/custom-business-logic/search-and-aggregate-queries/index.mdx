@@ -213,12 +213,12 @@ dynamodb-pipeline:
             start_position: "LATEST"
           # Remove the export block if only stream is needed
           export:
-            s3_bucket: "${s3BackupBucket.bucketName}"
-            s3_region: "us-east-2"
+            s3_bucket: "<s3bucketname>"
+            s3_region: "<region>"
             s3_prefix: "<tableName>/"
       aws:
-        sts_role_arn: "${openSearchIntegrationPipelineRole.roleArn}"
-        region: "us-east-2"
+        sts_role_arn: "<openSearchIntegrationPipelineRoleArn>"
+        region: "<region>"
   sink:
     - opensearch:
         hosts:
@@ -328,9 +328,20 @@ const schema = a.schema({
       priority: a.enum(["low", "medium", "high"]),
     })
     .authorization([a.allow.public()]),
+
   //highlight-start  
-  searchTodos: a.query().returns(a.ref("Todo").array()),
+    searchTodos: a
+    .query()
+    .returns(a.ref("Todo").array())
+    .authorization([a.allow.public()])
+    .handler(
+      a.handler.custom({
+        entry: "./searchBlogResolver.js",
+        dataSource: "osDataSource",
+      })
+    ),
   //highlight-end
+
 });
 ```
 
@@ -348,75 +359,43 @@ const osDataSource = backend.data.addOpenSearchDataSource(
 
 Create the search resolver and attach it to the searchTodo query. Also, grant the necessary access permissions to OpenSearch.
 
-```ts title="amplify/backend.ts"
+```ts title="amplify/data/searchBlogResolver.ts"
 
-new appsync.CfnResolver(openSearchStack, "searchBlogResolver", {
-  typeName: "Query",
-  fieldName: "searchTodos",
-  dataSourceName: "osDataSource",
-  apiId: "<app id>",
-  runtime: {
-    name: "APPSYNC_JS",
-    runtimeVersion: "1.0.0",
-  },
-  code: `import { util } from '@aws-appsync/utils'
-  /**
-   * Searches for documents by using an input term
-   * @param {import('@aws-appsync/utils').Context} ctx the context
-   * @returns {*} the request
-   */
-  export function request(ctx) {
-    return {
-      operation: 'GET',
-      path: "/todo/_search",
-    }
+import { util } from "@aws-appsync/utils";
+/**
+ * Searches for documents by using an input term
+ * @param {import('@aws-appsync/utils').Context} ctx the context
+ * @returns {*} the request
+ */
+export function request(ctx) {
+  return {
+    operation: "GET",
+    path: "/todo/_search",
+  };
+}
+
+/**
+ * Returns the fetched items
+ * @param {import('@aws-appsync/utils').Context} ctx the context
+ * @returns {*} the result
+ */
+export function response(ctx) {
+  if (ctx.error) {
+    util.error(ctx.error.message, ctx.error.type);
   }
+  return ctx.result.hits.hits.map((hit) => hit._source);
+}
 
-  /**
-   * Returns the fetched items
-   * @param {import('@aws-appsync/utils').Context} ctx the context
-   * @returns {*} the result
-   */
-  export function response(ctx) {
-    if (ctx.error) {
-      util.error(ctx.error.message, ctx.error.type)
-    }
-    return ctx.result.hits.hits.map((hit) => hit._source)
-  }
-  `,
-});
-
-const osServiceRole = new iam.Role(openSearchStack, "OpenSearchServiceRole", {
-  assumedBy: new iam.ServicePrincipal("appsync.amazonaws.com"),
-  inlinePolicies: {
-    openSearchAccessPolicy: new iam.PolicyDocument({
-      statements: [
-        new iam.PolicyStatement({
-          actions: [
-            "es:ESHttpDelete",
-            "es:ESHttpHead",
-            "es:ESHttpGet",
-            "es:ESHttpPost",
-            "es:ESHttpPut",
-          ],
-          resources: [openSearchDomain.domainArn],
-          effect: iam.Effect.ALLOW,
-        }),
-      ],
-    }),
-  },
-});
-
-openSearchDomain.addAccessPolicies(
-  new iam.PolicyStatement({
-    principals: [osServiceRole],
-    actions: ["es:ESHttp*"],
-    resources: [openSearchDomain.domainArn],
-  })
-);
 
 ```
 
+
+
+```ts title="amplify/data/resource.ts"
+
+
+
+```
 Once you've deployed the resources, you can check the AppSync console to confirm the changes. Run the searchTodo query and review the returned results to verify their accuracy.
 
 ![A screenshot of AppSync console](/images/gen2/opensearch-integration/opensearch_appsync_console.png)
