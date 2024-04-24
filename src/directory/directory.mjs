@@ -554,21 +554,65 @@ export const directory = {
             {
               isExternal: true,
               route:
-                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+                'https://ui.docs.amplify.aws/react/connected-components/authenticator',
               title: 'Authenticator',
               description:
                 'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
-              platforms: [
-                'android',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'angular',
-                'flutter',
-                'swift',
-                'vue'
-              ]
+              platforms: ['javascript', 'nextjs', 'react']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/angular/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['angular']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/swift/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['swift']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/android/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['android']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/flutter/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['flutter']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/react-native/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['react-native']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/vue/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['vue']
             },
             {
               isExternal: true,
@@ -591,7 +635,7 @@ export const directory = {
             {
               isExternal: true,
               route:
-                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+                'https://ui.docs.amplify.aws/react/connected-components/account-settings',
               title: 'Account Settings',
               description:
                 'Account Settings components are a set of standalone components that add user management flows to your application with minimal boilerplate.                .                .',
@@ -600,11 +644,29 @@ export const directory = {
             {
               isExternal: true,
               route:
-                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+                'https://ui.docs.amplify.aws/react/connected-components/liveness',
               title: 'Face Liveness',
               description:
                 'FaceLivenessDetector is a connected component that helps verify that only real users, not bad actors using spoofs, can access your services.',
-              platforms: ['android', 'javascript', 'nextjs', 'react', 'swift']
+              platforms: ['javascript', 'nextjs', 'react']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/android/connected-components/liveness',
+              title: 'Face Liveness',
+              description:
+                'FaceLivenessDetector is a connected component that helps verify that only real users, not bad actors using spoofs, can access your services.',
+              platforms: ['android']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/swift/connected-components/liveness',
+              title: 'Face Liveness',
+              description:
+                'FaceLivenessDetector is a connected component that helps verify that only real users, not bad actors using spoofs, can access your services.',
+              platforms: ['swift']
             }
           ]
         },
