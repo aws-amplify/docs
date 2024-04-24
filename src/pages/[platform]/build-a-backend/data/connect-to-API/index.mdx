@@ -243,7 +243,10 @@ Amplify.API.query(userPoolQuery,
 <InlineFilter filters={["swift"]}>
 
 ```swift
-try await Amplify.API.query(request: .list(Todo.self, authMode: .amazonCognitoUserPools))
+let result = try await Amplify.API.query(
+    request: .list(
+        Todo.self,
+        authMode: .amazonCognitoUserPools))
 ```
 
 </InlineFilter>
