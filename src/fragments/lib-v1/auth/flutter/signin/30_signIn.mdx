@@ -1,25 +1,65 @@
-```dart
-// Create a boolean for checking the sign in status
-bool isSignedIn = false;
+<Callout>
 
+Please note that you will be prevented from successfully calling `signIn` if a user has already signed in and a valid session is active.  You must first call `signOut` to remove the original session.
+
+</Callout>
+
+```dart
 Future<void> signInUser(String username, String password) async {
   try {
     final result = await Amplify.Auth.signIn(
       username: username,
       password: password,
     );
-
-    setState(() {
-      isSignedIn = result.isSignedIn;
-    });
-
+    await _handleSignInResult(result);
   } on AuthException catch (e) {
-    safePrint(e.message);
+    safePrint('Error signing in: ${e.message}');
   }
 }
 ```
 
-<Callout>
-Please note that you will be prevented from successfully calling `signIn` if a user has already signed in and a valid session is active.  You must first call `signOut` to remove the original session.  When running on the iOS platform, you will be able to call `signIn` if the session has expired, while on Android you must first call `signOut` regardless.
-</Callout>
+Depending on your configuration and how the user signed up, one or more confirmations will be necessary.
+Use the `SignInResult` returned from `Amplify.Auth.signIn` to check the next step for signing in. When
+the value is `done`, the user has successfully signed in.
 
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    case AuthSignInStep.confirmSignInWithSmsMfaCode:
+      final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
+      _handleCodeDelivery(codeDeliveryDetails);
+      break;
+    case AuthSignInStep.confirmSignInWithNewPassword:
+      safePrint('Enter a new password to continue signing in');
+      break;
+    case AuthSignInStep.confirmSignInWithCustomChallenge:
+      final parameters = result.nextStep.additionalInfo;
+      final prompt = parameters['prompt']!;
+      safePrint(prompt);
+      break;
+    case AuthSignInStep.resetPassword:
+      final resetResult = await Amplify.Auth.resetPassword(
+        username: username,
+      );
+      await _handleResetPasswordResult(resetResult);
+      break;
+    case AuthSignInStep.confirmSignUp:
+      // Resend the sign up code to the registered device.
+      final resendResult = await Amplify.Auth.resendSignUpCode(
+        username: username,
+      );
+      _handleCodeDelivery(resendResult.codeDeliveryDetails);
+      break;
+    case AuthSignInStep.done:
+      safePrint('Sign in is complete');
+      break;
+  }
+}
+
+void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
+  safePrint(
+    'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
+    'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
+  );
+}
+```

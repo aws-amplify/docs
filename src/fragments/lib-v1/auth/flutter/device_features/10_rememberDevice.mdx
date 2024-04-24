@@ -2,9 +2,9 @@
 Future<void> rememberCurrentDevice() async {
   try {
     await Amplify.Auth.rememberDevice();
-    print('Remember device succeeded');
-  } on Exception catch (e) {
-    print('Remember device failed with error: $e');
+    safePrint('Remember device succeeded');
+  } on AuthException catch (e) {
+    safePrint('Remember device failed with error: $e');
   }
 }
 ```

@@ -1,28 +1,21 @@
 Because authentication flows in Cognito can be switched via your configuration, it is still required that users register with a password.
 
 ```dart
-// Create a boolean for checking the sign up status
-bool isSignUpComplete = false;
-
-...
-
 Future<void> signUpCustomFlow() async {
   try {
-    final userAttributes = <CognitoUserAttributeKey, String>{
-      CognitoUserAttributeKey.email: 'email@domain.com',
-      CognitoUserAttributeKey.phoneNumber: '+15559101234',
+    final userAttributes = <AuthUserAttributeKey, String>{
+      AuthUserAttributeKey.email: 'email@domain.com',
+      AuthUserAttributeKey.phoneNumber: '+15559101234',
       // additional attributes as needed
     };
     final result = await Amplify.Auth.signUp(
       username: 'myusername',
       password: 'mysupersecurepassword',
-      options: CognitoSignUpOptions(userAttributes: userAttributes),
+      options: SignUpOptions(userAttributes: userAttributes),
     );
-    setState(() {
-      isSignUpComplete = result.isSignUpComplete;
-    });
+    safePrint('Sign up result: $result');
   } on AuthException catch (e) {
-    safePrint(e.message);
+    safePrint('Error signing up: ${e.message}');
   }
 }
 ```

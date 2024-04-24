@@ -1,0 +1,81 @@
+## Identity Pool Federation
+
+With identity federation, you don't need to create custom sign-in code or manage your own user identities. Instead, users of your app can sign in using a well-known external identity 
+provider (IdP), such as Login with Amazon, Facebook, Google, or any other OpenID Connect (OIDC)-compatible IdP. They can receive an authentication token, and then exchange that token for 
+temporary security credentials in AWS that map to an IAM role with permissions to use the resources in your AWS account. Using an IdP helps you keep your AWS account secure because you 
+don't have to embed and distribute long-term security credentials with your application.
+
+Imagine that you are creating a mobile app that accesses AWS resources, such as a game that runs on a mobile device and stores player and score information using Amazon S3 and DynamoDB.
+
+When you write such an app, you make requests to AWS services that must be signed with an AWS access key. However, we strongly recommend that you do not embed or distribute long-term 
+AWS credentials with apps that a user downloads to a device, even in an encrypted store. Instead, build your app so that it requests temporary AWS security credentials dynamically when 
+needed using identity federation. The supplied temporary credentials map to an AWS role that has only the permissions needed to perform the tasks required by the mobile app.
+
+You can use `federateToIdentityPool` to get AWS credentials directly from Cognito Federated Identities and not use User Pool federation. If you logged in with `Auth.signIn` you **cannot** 
+call `federateToIdentityPool` as Amplify will perform this federation automatically for you in the background. In general, you should only call `Auth.federatedSignIn()` when using OAuth flows.
+
+You can use the escape hatch API `federateToIdentityPool` with a valid token from other social providers.
+
+```dart
+final cognitoPlugin =
+    Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+const googleIdToken = 'idToken';
+final session = await cognitoPlugin.federateToIdentityPool(
+  token: googleIdToken,
+  provider: AuthProvider.google,
+);
+```
+
+<Callout>
+
+Note that when federated, APIs such as `Auth.getCurrentUser` will throw an error as the user is not authenticated with User Pools.
+
+</Callout>
+
+### Retrieve Session
+
+After federated login, you can retrieve the session using the `Auth.fetchAuthSession` API.
+
+### Token Refresh
+
+<Callout>
+
+Automatic authentication token refresh is NOT supported when federated.
+
+</Callout>
+
+By default, Amplify will **NOT** automatically refresh the tokens from the federated providers. You will need to handle the token refresh logic and provide the new token to the `federateToIdentityPool` API.
+
+### Clear Session
+
+You can clear the federated session using the `clearFederationToIdentityPool` API.
+
+```dart
+final cognitoPlugin =
+    Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+await cognitoPlugin.clearFederationToIdentityPool();
+```
+
+<Callout>
+
+`clearFederationToIdentityPool` will only clear the session from the local cache; the developer needs to handle signing out from the federated identity provider.
+
+</Callout>
+
+### Provide Custom Identity ID
+
+You can provide a custom identity ID to the `federateToIdentityPool` API. This is useful when you want to use the same identity ID across multiple sessions.
+
+```dart
+final cognitoPlugin =
+    Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+const googleIdToken = 'idToken';
+const identityId = 'us-west-2:b4cd4809-7ab1-42e1-b044-07dab9eaa768';
+final session = await cognitoPlugin.federateToIdentityPool(
+  token: googleIdToken,
+  provider: AuthProvider.google,
+  options: FederateToIdentityPoolOptions(
+    developerProvidedIdentityId: identityId,
+  ),
+);
+```

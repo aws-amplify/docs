@@ -1,0 +1,53 @@
+If the next step is `resetPassword`, Amplify Auth requires that the user confirm their email or phone number before proceeding.
+Use the `resendSignUpCode` API to send a new sign up code to the registered email or phone number, followed by `confirmSignUp` 
+to complete the sign up.
+
+See the [confirm sign up](/[platform]/build-a-backend/auth/enable-sign-in/#register-a-user) docs for more information.
+
+<Callout>
+
+The result includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery, such as the partial phone number of 
+the SMS recipient, which can be used to prompt the user on where to look for the code.
+
+</Callout>
+
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    // ...
+    case AuthSignInStep.confirmSignUp:
+      // Resend the sign up code to the registered device.
+      final resendResult = await Amplify.Auth.resendSignUpCode(
+        username: username,
+      );
+      _handleCodeDelivery(resendResult.codeDeliveryDetails);
+    // ...
+  }
+}
+
+void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
+  safePrint(
+    'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
+    'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
+  );
+}
+```
+
+```dart
+Future<void> confirmSignUp({
+  required String username,
+  required String confirmationCode,
+}) async {
+  try {
+    await Amplify.Auth.confirmSignUp(
+      username: username,
+      confirmationCode: confirmationCode,
+    );
+  } on AuthException catch (e) {
+    safePrint('Error confirming sign up: ${e.message}');
+  }
+}
+```
+
+Once the sign up is confirmed, call `Amplify.Auth.signIn` again to restart the sign-in flow.
+

@@ -6,11 +6,11 @@ Future<void> signUpWithPhoneVerification(
   await Amplify.Auth.signUp(
     username: username,
     password: password,
-    options: CognitoSignUpOptions(
-      userAttributes: <CognitoUserAttributeKey, String>{
+    options: SignUpOptions(
+      userAttributes: <AuthUserAttributeKey, String>{
         // ... if required
-        CognitoUserAttributeKey.email: 'test@example.com',
-        CognitoUserAttributeKey.phoneNumber: '+18885551234',
+        AuthUserAttributeKey.email: 'test@example.com',
+        AuthUserAttributeKey.phoneNumber: '+18885551234',
       },
     ),
   );
