@@ -55,7 +55,6 @@ We'll create a new API endpoint that'll use the the AWS SDK to call the Amazon P
 
 ```bash
 npm install @aws-sdk/client-polly
-
 ```
 
 ## Step 3 - Setup Storage
@@ -129,7 +128,7 @@ export const handler: Schema["convertTextToSpeech"]["functionHandler"] = async (
 
 ```
 
-## Step 6 - Define the Custom Mutation and function
+## Step 6 - Define the custom mutation and function
 
 In your `amplify/data/resource.ts` file, define the function using defineFunction and then reference the function with your mutation using a.handler.function() as a handler.
 
@@ -146,7 +145,7 @@ const schema = a.schema({
       text: a.string().required()
     })
     .returns(a.string().required())
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
     .handler(a.handler.function(convertTextToSpeech))
 });
 
