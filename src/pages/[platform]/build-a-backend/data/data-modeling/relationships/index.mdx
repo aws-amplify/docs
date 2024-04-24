@@ -283,12 +283,36 @@ final memberRemoveResponse = await Amplify.API.mutate(request: memberRemoveReque
 
 </InlineFilter>
 
-{/* <InlineFilter filters={["flutter"]}>
-TK ADD FLUTTER CODE SNIPPET and then add "flutter" to the filter above
+<InlineFilter filters={["flutter"]}>
 
 ### Load related data in a "Has Many" relationship
 
-</InlineFilter> */}
+```dart
+// Fetch the team with the team id.
+final teamRequest = ModelQueries.get<Team>(Team.classType, TeamModelIdentifier(id: "YOUR_TEAM_ID"));
+final teamResult = await Amplify.API.query(request: request).response;
+final team = teamResult.data!;
+
+// Define a limit for your pagination
+const limit = 100;
+
+// Do the initial call to get the initial items
+final firstRequest = ModelQueries.list<Member>(Member.classType, limit: limit, where: Member.TEAM.eq(team));
+final firstResult = await Amplify.API.query(request: firstRequest).response;
+final firstPageData = firstResult.data;
+
+// If there are more than 100 items you can reiterate the following code to get next pages.
+if (firstPageData?.hasNextResult ?? false) {
+  final secondRequest = firstPageData!.requestForNextResult;
+  final secondResult = await Amplify.API.query(request: secondRequest!).response;
+  return secondResult.data?.items ?? <Member?>[];
+} else {
+  // You can return the page data by calling items property.
+  return firstPageData?.items ?? <Member?>[];
+}
+```
+
+</InlineFilter>
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "swift", "android"]}>
 
@@ -309,29 +333,40 @@ members.forEach(member => console.log(member.id));
 <InlineFilter filters={["android"]}>
 
 ```kt
-try {
-    val members = when (val membersModelList = team.members) {
-        is LoadedModelList -> {
-            // Eager loading loads the 1st page only.
-            membersModelList.items
-        }
-        is LazyModelList -> {
-            var page = membersModelList.fetchPage()
-            var loadedMembers = mutableListOf(page.items) // initial page of members
-            // loop through all pages to fetch the full list of members
-            while (page.hasNextPage) {
-                val nextToken = page.nextToken
-                page = membersModelList.fetchPage(nextToken)
-                // add the page of members to the members variable
-                loadedMembers += page.items
+Amplify.API.query(
+    ModelQuery.get(Team::class.java, Team.TeamIdentifier("YOUR_TEAM_ID")),
+    {
+        suspend {
+            try {
+                val members =
+                    when (val membersModelList = it.data.members) {
+                        is LoadedModelList -> {
+                            // Eager loading loads the 1st page only.
+                            membersModelList.items
+                        }
+
+                        is LazyModelList -> {
+                            var page = membersModelList.fetchPage()
+                            var loadedMembers =
+                                mutableListOf(page.items) // initial page of members
+                            // loop through all pages to fetch the full list of members
+                            while (page.hasNextPage) {
+                                val nextToken = page.nextToken
+                                page =
+                                    membersModelList.fetchPage(nextToken)
+                                // add the page of members to the members variable
+                                loadedMembers += page.items
+                            }
+                            loadedMembers
+                        }
+                    }
+                Log.i("MyAmplifyApp", "members: $members")
+            } catch (error: ApiException) {
+                Log.e("MyAmplifyApp", "Failed to fetch members", error)
             }
-            loadedMembers
         }
-    }
-    Log.i("MyAmplifyApp", "members: $members")
-} catch (error: ApiException) {
-    Log.e("MyAmplifyApp", "Failed to fetch members", error)
-}
+    },
+    { Log.e("MyAmplifyApp", "Failed to fetch team")})
 ```
 
 </InlineFilter>
@@ -377,20 +412,16 @@ teamWithMembers.members.forEach(member => console.log(member.id));
 <InlineFilter filters={["android"]}>
 
 ```kt
-try {
-    val team = Amplify.API.query(
-        ModelQuery.get<Team, TeamPath>(
-            Team::class.java,
-            Team.TeamIdentifier("YOUR_TEAM_ID")
-        ) { teamPath ->
-            includes(teamPath.members)
-        }
-    ).data
-    val members = (team.members as? LoadedModelList)?.items
-    Log.i("MyAmplifyApp", "Members: $members")
-} catch (error: ApiException) {
-    Log.e("MyAmplifyApp", "Failed to fetch team", error)
-}
+Amplify.API.query(
+    ModelQuery.get<Team, TeamPath>(
+        Team::class.java,
+        Team.TeamIdentifier("YOUR_TEAM_ID")
+    ) { teamPath -> includes(teamPath.members) },
+    {
+        val members = (it.data.members as? LoadedModelList<Member>)?.items
+    },
+    { Log.e("MyAmplifyApp", "Failed to fetch team")}
+)
 ```
 
 </InlineFilter>
@@ -673,8 +704,7 @@ final cartRemoveResponse = await Amplify.API.mutate(request: cartRemoveRequest).
 </InlineFilter>
 
 
-<InlineFilter filters={["swift"]}>
-{/* TK ADD FLUTTER CODE SNIPPET and then add "flutter" to the filter above */}
+<InlineFilter filters={["swift", "flutter"]}>
 
 ### Load related data in "Has One" relationships
 
@@ -699,6 +729,22 @@ Task {
 
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+
+```dart
+// Fetch the cart with the cart id.
+final cartRequest = ModelQueries.get<Cart>(Cart.classType, CartModelIdentifier(id: "MY_CART_ID"));
+final cartResult = await Amplify.API.query(request: request).response;
+final cart = cartResult.data!;
+
+// Do the customer call to with the id from cart
+final customerRequest = ModelQueries.get<Customer>(Customer.classType, CustomerModelIdentifier(id: cart.customerId));
+final customerResult = await Amplify.API.query(request: customerRequest).response;
+final customer = customerResult.data!;
+```
+
+</InlineFilter>
+
 </InlineFilter>
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android"]}>
@@ -717,20 +763,28 @@ const { data: customer } = await cart.customer();
 <InlineFilter filters={["android"]}>
 
 ```kt
-try {
-    val customer = when (val customerReference = cart.customer) {
-        is LoadedModelReference -> {
-            customerReference.value
-        }
+Amplify.API.query(
+  ModelQuery.get(Team::class.java, Team.TeamIdentifier("YOUR_TEAM_ID")),
+      {
+          suspend {
+              try {
+                  val customer = when (val customerReference = cart.customer) {
+                      is LoadedModelReference -> {
+                          customerReference.value
+                      }
 
-        is LazyModelReference -> {
-            customerReference.fetchModel()
-        }
-    }
-    Log.i("MyAmplifyApp", "customer: $customer")
-} catch (error: ApiException) {
-    Log.e("MyAmplifyApp", "Failed to fetch customer", error)
-}
+                      is LazyModelReference -> {
+                          customerReference.fetchModel()
+                      }
+                  }
+                  Log.i("MyAmplifyApp", "customer: $customer")
+              } catch (error: ApiException) {
+                  Log.e("MyAmplifyApp", "Failed to fetch customer", error)
+              }
+          }
+      },
+      { Log.e("MyAmplifyApp", "Failed to get team")}
+)
 ```
 
 </InlineFilter>
@@ -753,20 +807,15 @@ console.log(cart.customer.id)
 <InlineFilter filters={["android"]}>
 
 ```kt
-try {
-    val cart = Amplify.API.query(
-        ModelQuery.get<Cart, CartPath>(
-            Cart::class.java,
-            Cart.CartIdentifier("YOUR_CART_ID")
-        ) { cartPath ->
-            includes(cartPath.customer)
-        }
-    ).data
-    val customer = (cart.customer as? LoadedModelReference)?.value
-    Log.i("MyAmplifyApp", "customer: $customer")
-} catch (error: ApiException) {
-    Log.e("MyAmplifyApp", "Failed to fetch cart", error)
-}
+val cart = Amplify.API.query(
+    ModelQuery.get<Cart, CartPath>(
+        Cart::class.java,
+        Cart.CartIdentifier("YOUR_CART_ID")
+    ) { cartPath ->
+        includes(cartPath.customer)
+    },
+{ val customer = (cart.customer as? LoadedModelReference)?.value },
+{ Log.e("MyAmplifyApp", "Failed to fetch cart", it) })
 ```
 
 </InlineFilter>
