@@ -141,6 +141,7 @@
     "AppDelegate.swift",
     "AppDelegate",
     "appid",
+    "apigatewayv",
     "appleid",
     "appName.app",
     "AppStore",
@@ -879,6 +880,7 @@
     "region",
     "myapp.xcodeproj",
     "myapp",
+    "myapplication",
     "mybucket",
     "mycognitoresource",
     "mycoolpassword",
@@ -1018,6 +1020,7 @@
     "posts.graphql",
     "PostsTable",
     "posttitle",
+    "powertools",
     "pre-annotated",
     "pre-built",
     "pre-created",
@@ -1046,6 +1049,7 @@
     "pubsub",
     "Pubsub",
     "PubSub",
+    "Powertools",
     "PUSHINFOPROVIDER",
     "PushListenerService",
     "pushnotification",
@@ -1156,6 +1160,7 @@
     "SDK's",
     "sdk",
     "SDKs",
+    "SDLC",
     "searchable",
     "searchbyLocationRadius",
     "searchQueryField",
@@ -1256,6 +1261,7 @@
     "task.result",
     "taskIdentifier",
     "template.json",
+    "TEAMID",
     "testappa",
     "testtable",
     "testtrigger",
@@ -1574,14 +1580,24 @@
     "parametersjson",
     "nextamplifygen",
     "multirepo",
-    "startbuild"
+    "startbuild",
+    "esac",
+    "voteField"
   ],
-  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
+  "flagWords": [
+    "hte",
+    "full-stack",
+    "Full-stack",
+    "Full-Stack",
+    "sudo"
+  ],
   "patterns": [
     {
       "name": "youtube-embed-ids",
       "pattern": "/embedId=\".*\" /"
     }
   ],
-  "ignoreRegExpList": ["youtube-embed-ids"]
+  "ignoreRegExpList": [
+    "youtube-embed-ids"
+  ]
 }

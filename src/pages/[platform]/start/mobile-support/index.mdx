@@ -78,7 +78,7 @@ In **Select a Project Template**, select **Empty Activity** or **Empty Compose A
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
 ```bash
-npm create amplify@beta
+npm create amplify@latest
 ? Where should we create your project? (.) # press enter
 ```
 
@@ -135,7 +135,7 @@ To use the Amplify UI libraries, you need to add the following dependencies to y
 ```kotlin
 dependencies {
     implementation("androidx.compose.material3:material3:1.1.0")
-    implementation("com.amplifyframework.ui:authenticator:1.0.1")
+    implementation("com.amplifyframework.ui:authenticator:1.1.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 }
 ```
@@ -242,7 +242,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean()
     })
-    .authorization([a.allow.owner()])
+    .authorization(allow => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -493,7 +493,7 @@ You can terminate the sandbox environment now to clean up the project.
 
 ### Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#create-remote-git-repository).
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/android/deploy-and-host/fullstack-branching/branch-deployments/).
 
 </Block>
 
@@ -515,7 +515,7 @@ For publishing the changes to cloud, you need to create a remote git repository.
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
 ```bash
-npm create amplify@beta
+npm create amplify@latest
 ? Where should we create your project? (.) # press enter
 ```
 
@@ -656,7 +656,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean()
     })
-    .authorization([a.allow.owner()])
+    .authorization(allow => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -860,7 +860,7 @@ You can terminate the sandbox environment now to clean up the project.
 
 ### Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#create-remote-git-repository).
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/flutter/deploy-and-host/fullstack-branching/branch-deployments/).
 
 </Block>
 
@@ -898,7 +898,7 @@ Now you should have your project created.
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
 ```bash
-npm create amplify@beta
+npm create amplify@latest
 ? Where should we create your project? (.) # press enter
 ```
 
@@ -1036,7 +1036,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean()
     })
-    .authorization([a.allow.owner()])
+    .authorization(allow => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -1057,7 +1057,7 @@ npx amplify generate graphql-client-code --format=modelgen
 
 Move the generated files to your project. You can do this by dragging and dropping the files to your project.
 
-![Shows the drag and drop phase](/images/lib/getting-started/ios/set-up-swift-8.png)
+![Dialog appears when users drag and drop the generated files into Xcode. It displays targets, added folders, and destination options. The default settings should be sufficient for drag and drop.](/images/lib/getting-started/ios/set-up-swift-8.png)
 
 Once you are done, add the API dependencies to your project. Select **File > Add Package Dependencies...** and add the `AWSAPIPlugin`.
 
@@ -1252,7 +1252,7 @@ You can terminate the sandbox environment now to clean up the project.
 
 ### Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#create-remote-git-repository).
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/swift/deploy-and-host/fullstack-branching/branch-deployments/).
 
 </Block>
 

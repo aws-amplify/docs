@@ -33,9 +33,9 @@ export function getStaticProps(context) {
 <InlineFilter filters={['javascript', 'react-native', "angular", "nextjs", "react", "vue"]}>
 ## Set up existing analytics backend
 
-The manual setup enables you to use your existing Amazon Pinpoint resource in your app.
+This manual setup enables you to use your existing Amazon Pinpoint resource in your app.
 
-```javascript
+```javascript title="src/index.js"
 import { Amplify } from 'aws-amplify';
 
 Amplify.configure({
@@ -67,7 +67,7 @@ Amplify.configure({
 
 ## Update your IAM Policy
 
-Amazon Pinpoint service requires an IAM policy in order to use the `record` and `identifyUser` APIs:
+Amazon Pinpoint requires an AWS Identity and Access Management (IAM) policy in order to use the `record` and `identifyUser` APIs:
 ```json
 {
   "Version": "2012-10-17",

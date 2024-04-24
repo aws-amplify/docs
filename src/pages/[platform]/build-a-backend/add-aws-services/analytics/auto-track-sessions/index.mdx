@@ -31,15 +31,15 @@ export function getStaticProps(context) {
 
 
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
-Analytics Auto Tracking helps you to automatically track user behaviors like sessions start/stop, page view change and web events like clicking or mouseover.
+Analytics auto tracking helps you to automatically track user behaviors like sessions' start/stop, page view change and web events like clicking or mouseover.
 
 ## Session Tracking
 
-You can track the session both in a web app or a React Native app by using Analytics. A web session can be defined in different ways. To keep it simple we define a web session as being active when the page is not hidden and inactive when the page is hidden. A session in a React Native app is active when the app is in the foreground and inactive when the app is in the background.
+You can track the session both in a web app or a React Native app by using Analytics. A web session can be defined in different ways. To keep it simple, we define a web session as being active when the page is not hidden and inactive when the page is hidden. A session in a React Native app is active when the app is in the foreground and inactive when the app is in the background.
 
 For example:
 
-```javascript
+```javascript title="src/index.js"
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
 configureAutoTrack({
@@ -70,7 +70,7 @@ By default, when the page/app transitions to the foreground, the Analytics modul
 
 This behavior can be disabled by calling `configureAutoTrack`:
 
-```javascript
+```javascript title="src/index.js"
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
 configureAutoTrack({
@@ -84,7 +84,7 @@ configureAutoTrack({
 Use this feature to track the most frequently viewed page/url in your webapp. It automatically sends events containing url information when a page is visited.
 
 This behavior can be enabled by calling `configureAutoTrack`:
-```javascript
+```javascript title="src/index.js"
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
 configureAutoTrack({
@@ -116,7 +116,7 @@ configureAutoTrack({
 ```
 
 This behavior can be disabled by calling `configureAutoTrack`:
-```javascript
+```javascript title="src/index.js"
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
 configureAutoTrack({
@@ -127,10 +127,10 @@ configureAutoTrack({
 
 ## Page Event Tracking
 
-Use this type of tracking to track user interactions with specific elements on a page. Just attach the specified selectors to your DOM element and turn on the auto tracking.
+Use page event tracking to track user interactions with specific elements on a page. Attach the specified selectors to your DOM element and turn on the auto tracking.
 
 This behavior can be enabled by calling `configureAutoTrack`:
-```javascript
+```javascript title="src/index.js"
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
 configureAutoTrack({
@@ -186,7 +186,7 @@ When the button above is clicked, an event will be sent automatically. This is e
 ```
 
 This behavior can be disabled by calling `configureAutoTrack`:
-```javascript
+```javascript title="src/index.js"
 import { configureAutoTrack } from 'aws-amplify/analytics';
 
 configureAutoTrack({
@@ -197,14 +197,14 @@ configureAutoTrack({
 
 <Callout>
 
-**Note:** Amplify doesn't capture the location automatically. Instead, you can add the location information in the default config when you [configure Analytics](/[platform]/build-a-backend/add-aws-services/analytics/set-up-analytics/#set-up-existing-analytics-backend) or while [updating the end point](/[platform]/build-a-backend/add-aws-services/analytics/existing-resources).
+**Note:** Amplify doesn't capture location automatically. Instead, you can add the location information in the default config when you [configure Analytics](/[platform]/build-a-backend/add-aws-services/analytics/set-up-analytics/#set-up-existing-analytics-backend) or while [updating the end point](/[platform]/build-a-backend/add-aws-services/analytics/existing-resources).
 
 </Callout>
 </InlineFilter>
 
 <InlineFilter filters={["swift", "android", "flutter"]}>
-The Amplify analytics plugin records when an application opens and closes. This session information can be viewed either from the AWS Console for Pinpoint.
+The Amplify analytics plugin records when an application opens and closes. This session information can be viewed either from the AWS Console for Amazon Pinpoint.
 
-1. On the Pinpoint Console under **Analytics**, choose **Events**. 
+1. In the Amazon Pinpoint Console under **Analytics**, choose **Events**. 
 2. Enable filters, you can select `Session Start` and `Session Stop` events to filter on session events.
 </InlineFilter>
