@@ -70,13 +70,14 @@ const backend = defineBackend({
 
 // extract L1 CfnUserPool resources
 const { cfnUserPool } = backend.auth.resources.cfnResources;
-// modify cfnUserPool schema directly
-cfnUserPool.schema = [
-  ...(cfnUserPool.schema as any[] || []),
-  {
-    name: 'publicName',
-    attributeDataType: 'String',
-    mutable: true,
-  },
-];
+// add custom attributes to existing Userpool schema
+if (Array.isArray(cfnUserPool.schema)) {
+  cfnUserPool.schema.push(
+    {
+      name: 'publicName',
+      attributeDataType: 'String',
+      mutable: true,
+    },
+  );
+};
 ```
