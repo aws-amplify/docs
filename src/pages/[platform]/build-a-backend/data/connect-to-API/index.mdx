@@ -292,7 +292,10 @@ Amplify.API.query(iamQuery,
 <InlineFilter filters={["swift"]}>
 
 ```swift
-try await Amplify.API.query(request: .list(Todo.self, authMode: .awsIAM))
+let result = try await Amplify.API.query(
+    request: .list(
+        Todo.self,
+        authMode: .awsIAM))
 ```
 
 </InlineFilter>
