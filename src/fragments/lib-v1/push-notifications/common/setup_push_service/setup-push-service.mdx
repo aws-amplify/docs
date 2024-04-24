@@ -1,0 +1,16 @@
+import androidSetupService from '/src/fragments/lib/push-notifications/android/setup_push_service/setup-fcm.mdx';
+import crossPlatformSetupService from '/src/fragments/lib/push-notifications/common/setup_push_service/cross-platform-setup.mdx';
+import iosSetupService from '/src/fragments/lib/push-notifications/ios/setup_push_service/setup-apns.mdx';
+
+<Fragments
+  fragments={{
+    android: androidSetupService,
+    flutter: crossPlatformSetupService,
+    swift: iosSetupService,
+    'react-native': crossPlatformSetupService
+  }}
+/>
+
+import androidHandlingActions from '/src/fragments/lib/push-notifications/android/setup_push_service/handling-actions.mdx';
+
+<Fragments fragments={{ android: androidHandlingActions }} />
