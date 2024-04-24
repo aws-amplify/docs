@@ -56,14 +56,14 @@ You can either list all objects uploaded under a given path or opt to receive a 
 
 ## list
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { list } from 'aws-amplify/storage';
 
 try {
   const result = await list({
-    path: 'photos/',
-    // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
+    path: 'public/photos/',
+    // Alternatively, path: ({identityId}) => `protected/{identityId}/photos/`
   });
 } catch (error) {
   console.log(error);
@@ -90,7 +90,7 @@ try {
 </Block>
 </BlockSwitcher>
 
-Note the trailing slash `/` - if you had requested `list({ path :  'photos' })` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
+Note the trailing slash `/` - if you had requested `list({ path :  'public/photos' })` it would also match against files like `public/photos123.jpg` alongside `public/photos/123.jpg`.
 
 The format of the response will look similar to the below example
 
@@ -98,7 +98,7 @@ The format of the response will look similar to the below example
 {
   items: [
     {
-      path: 'photos/123.jpg',
+      path: 'public/photos/123.jpg',
       eTag: '30074401292215403a42b0739f3b5262',
       lastModified: 'Thu Oct 08 2020 23:59:31 GMT+0800 (Singapore Standard Time)',
       size: 138256
@@ -157,14 +157,14 @@ This places each item's data inside a special `__data` key.
 To get a list of all files in your S3 bucket under a specific prefix, you can set `listAll` to `true`.
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { list } from 'aws-amplify/storage';
 
 try {
   const response = await list({
-    path: 'photos/',
-    // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
+    path: 'public/photos/',
+    // Alternatively, path: ({identityId}) => `protected/{identityId}/photos/`
     options: {
       listAll: true
     }
@@ -199,7 +199,7 @@ try {
 If the pageSize is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { list } from 'aws-amplify/storage';
 
@@ -208,8 +208,8 @@ let nextToken = undefined;
 //...
 const loadNextPage = async () => {
   let response = await list({
-    path: 'photos/',
-    // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
+    path: 'public/photos/',
+    // Alternatively, path: ({identityId}) => `protected/{identityId}/photos/`
     pageSize: PAGE_SIZE,
     nextToken: nextToken
     }
@@ -232,6 +232,7 @@ let nextToken = undefined;
 //...
 const loadNextPage = async () => {
   let response = await list({
+    key: 'photos/'
     options: {
       pageSize: PAGE_SIZE,
       nextToken: nextToken

@@ -50,14 +50,14 @@ You can get file properties and metadata without downloading the file
 
 ## getProperties
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { getProperties } from 'aws-amplify/storage';
 
 try {
   const result = await getProperties({
-    path: 'album/2024/1.jpg',
-    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    path: 'public/album/2024/1.jpg',
+    // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
   });
   console.log('File Properties ', result);
 } catch (error) {
@@ -71,10 +71,10 @@ import { getProperties } from 'aws-amplify/storage';
 
 try {
   const result = await getProperties({
-    key: 'abc.jpg',
+    key: 'album/2024/1.jpg',
     options: {
       accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
-      targetIdentityId: 'xxxxxxx' // ID of another user, if `accessLevel: protected`
+      targetIdentityId: 'xxxxxxx' // ID of another user, if accessLevel is `protected`
     }
   });
   console.log('File Properties ', result);
@@ -87,10 +87,10 @@ try {
 
 The properties and metadata will look similar to the below example
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```js
 {
-  path: 'album/2024/1.jpg',
+  path: 'public/album/2024/1.jpg',
   contentType: 'image/jpeg',
   contentLength: 6873,
   eTag: '\"56b32cf4779ff6ca3ba3f2d455fa56a7\"',
@@ -102,7 +102,7 @@ The properties and metadata will look similar to the below example
 <Block name="With Key (Deprecated)">
 ```js
 {
-  key : 'abc.jpg',
+  key : 'album/2024/1.jpg',
   contentType: 'image/jpeg',
   contentLength: 6873,
   eTag: '\"56b32cf4779ff6ca3ba3f2d455fa56a7\"',

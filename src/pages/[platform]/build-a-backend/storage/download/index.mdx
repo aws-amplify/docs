@@ -63,13 +63,13 @@ The following options are available for retrieving previously uploaded data:
 Get a presigned URL of a stored file and expiration of URL.
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```typescript
 import { getUrl } from 'aws-amplify/storage';
 
 const getUrlResult = await getUrl({
-  path: 'album/2024/1.jpg',
-  // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+  path: 'public/album/2024/1.jpg',
+  // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
   options: {
     validateObjectExistence?: false,  // Check if object exists before creating a URL
     expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
@@ -85,10 +85,10 @@ console.log('URL expires at: ', getUrlResult.expiresAt);
 import { getUrl } from 'aws-amplify/storage';
 
 const getUrlResult = await getUrl({
-  key: 'abc.txt',
+  key: 'album/2024/1.jpg',
   options: {
     accessLevel?: 'guest' , // can be 'private', 'protected', or 'guest' but defaults to `guest`
-    targetIdentityId?: 'XXXXXXX', // id of another user, if `accessLevel` is `guest`
+    targetIdentityId?: 'XXXXXXX', // id of another user, if `accessLevel` is `protected`
     validateObjectExistence?: false,  // Check if object exists before creating a URL
     expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
     useAccelerateEndpoint?: true; // Whether to use accelerate endpoint
@@ -120,14 +120,14 @@ Inside your template or JSX code, you can use the `url` property to create a lin
 You can check for the existence of a file in the storage category's `getUrl` API using the `validateObjectExistence` option. When this flag is enabled a `getUrl` call will return a pre-signed URL if the file exists and raise a `404` error if it does not. This allows you to check if an object exists during generating the presigned URL, which you can then use to download that object.
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { getUrl } from 'aws-amplify/storage';
 
 // To check for existence of a file
 await getUrl({
-  path: 'album/2024/1.jpg',
-  // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+  path: 'public/album/2024/1.jpg',
+  // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
   options: {
     validateObjectExistence: true // defaults to false
   }
@@ -140,7 +140,7 @@ import { getUrl } from 'aws-amplify/storage';
 
 // To check for existence of a file
 await getUrl({
-  key: 'abc.txt',
+  key: 'album/2024/1.jpg',
   options: {
     validateObjectExistence: true // defaults to false
   }
@@ -154,13 +154,13 @@ await getUrl({
 You can use `expiresIn` option to limit the availability of your URLs. This configuration returns the pre-signed URL that expires in 60 seconds:
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { getUrl } from 'aws-amplify/storage';
 
 await getUrl({ 
-  path: 'album/2024/1.jpg',
-  // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+  path: 'public/album/2024/1.jpg',
+  // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
   options: { expiresIn: 60 } 
 });
 
@@ -171,7 +171,7 @@ await getUrl({
 import { getUrl } from 'aws-amplify/storage';
 
 await getUrl({ 
-  key: 'abc.txt', 
+  key: 'album/2024/1.jpg', 
   options: { expiresIn: 60 } 
 });
 
@@ -189,14 +189,14 @@ await getUrl({
 Download a file to in-memory buffer.
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
 // Downloads file content to memory
 const { body, eTag } = await downloadData({
-  path: 'album/2024/1.jpg',
-  // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+  path: 'public/album/2024/1.jpg',
+  // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
   options: {
     onProgress: (event) => {
       console.log(event.transferredBytes);
@@ -216,7 +216,7 @@ import { downloadData } from 'aws-amplify/storage';
 
 // Downloads file content to memory
 const { body, eTag } = await downloadData({
-  key: 'abc.txt',
+  key: 'album/2024/1.jpg',
   options: {
     accessLevel: 'guest', // access level of the file being downloaded
     targetIdentityId: 'xxxxxxx', // the identity id of another user, required when setting accessLevel to 'protected'
@@ -238,14 +238,14 @@ const { body, eTag } = await downloadData({
 You can consume the value of file in any of the three formats: `blob`, `json`, or `text`. You can call the respective method on the `body` property to consume the set data in the respective format.
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
 try {
   const downloadResult = await downloadData({ 
-    path: 'album/2024/1.jpg',
-    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    path: 'public/album/2024/1.jpg',
+    // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
   }).result;
   const text = await downloadResult.body.text();
   // Alternatively, you can use `downloadResult.body.blob()`
@@ -262,7 +262,7 @@ import { downloadData } from 'aws-amplify/storage';
 
 try {
   const downloadResult = await downloadData({ 
-    key: 'abc.txt' 
+    key: 'album/2024/1.jpg' 
   }).result;
   const text = await downloadResult.body.text();
   // Alternatively, you can use `downloadResult.body.blob()`
@@ -280,15 +280,15 @@ try {
 To track the progress of your download, you can use `onProgress`:
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
 // Download a file from s3 bucket
 const { body, eTag } = await downloadData(
   {
-    path: 'album/2024/1.jpg',
-    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    path: 'public/album/2024/1.jpg',
+    // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
     options: {
       onProgress: (progress) {
         console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
@@ -306,7 +306,7 @@ import { downloadData } from 'aws-amplify/storage';
 // Download a file from s3 bucket
 const { body, eTag } = await downloadData(
   {
-    key: 'abc.txt',
+    key: 'album/2024/1.jpg',
     options: {
       onProgress: (progress) {
         console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
@@ -321,13 +321,13 @@ const { body, eTag } = await downloadData(
 ### Cancel a download task
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
 
 const downloadTask = downloadData({ 
-  path: 'album/2024/1.jpg',
-  // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg` 
+  path: 'public/album/2024/1.jpg',
+  // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg` 
 });
 downloadTask.cancel();
 try {
@@ -343,7 +343,7 @@ try {
 <Block name="With Key (Deprecated)">
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
-const downloadTask = downloadData({ key: 'abc.txt' });
+const downloadTask = downloadData({ key: 'album/2024/1.jpg' });
 downloadTask.cancel();
 try {
   await downloadTask.result;

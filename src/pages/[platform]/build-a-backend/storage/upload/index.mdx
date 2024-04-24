@@ -61,14 +61,14 @@ import ios_upload from '/src/fragments/lib/storage/ios/upload.mdx';
 The `uploadData` method uploads files into Amazon S3.
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
 
 try {
   const result = await uploadData({
-    path: 'album/2024/1.jpg', 
-    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    path: 'public/album/2024/1.jpg', 
+    // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
     data: file,
     options: {
       onProgress // Optional progress callback.
@@ -87,7 +87,7 @@ import { uploadData } from 'aws-amplify/storage';
 
 try {
   const result = await uploadData({
-    key: 'abc.txt',
+    key: 'album/2024/1.jpg',
     data: file,
     options: {
       accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
@@ -107,14 +107,14 @@ try {
 To track the progress of your upload, you can use the `onProgress` option:
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
 
 try {
   const result = uploadData({
-    path: 'album/2024/1.jpg', 
-    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    path: 'public/album/2024/1.jpg', 
+    // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
     data: file,
     options: {
       onProgress: ({ transferredBytes, totalBytes }) => {
@@ -141,7 +141,7 @@ import { uploadData } from 'aws-amplify/storage';
 
 try {
   const result = uploadData({
-    key: 'abc.txt',
+    key: 'album/2024/1.jpg',
     data: file,
     options: {
       onProgress: ({ transferredBytes, totalBytes }) => {
@@ -168,7 +168,7 @@ try {
 We have callback functions that support resuming, pausing, and cancelling `uploadData` requests.
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
 
@@ -203,7 +203,7 @@ await uploadTask.result;
 ## Cancel upload
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { uploadData, isCancelError } from 'aws-amplify/storage';
 
@@ -244,8 +244,8 @@ Other options available are:
 import { uploadData } from 'aws-amplify/storage';
 
 uploadData({
-  path: 'album/2024/1.jpg', 
-  // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+  path: 'public/album/2024/1.jpg', 
+  // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
   data: file,
   options:  {
     contentType?: 'text/html', // (String) The default content-type header value of the file when downloading it.
@@ -270,7 +270,7 @@ Uploads that were initiated over one hour ago will be cancelled automatically. T
 
 Upload a file in the browser:
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
 

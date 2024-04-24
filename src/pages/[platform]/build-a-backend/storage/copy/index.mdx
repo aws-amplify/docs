@@ -57,7 +57,7 @@ The `copy` API duplicates an existing file to a designated path and returns an o
 To copy a file, you need to provide the existing path in `source` and the destination path in `destination`.
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { copy } from 'aws-amplify/storage';
 
@@ -65,12 +65,12 @@ const copyFile = async () => {
   try {
     const response = await copy({
       source: {
-        path: 'album/2024/1.jpg',
-        // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+        path: 'public/album/2024/1.jpg',
+        // Alternatively, path: ({identityId}) => `protected/{identityId}/album/1.jpg`
       },
       destination: {
-        path: 'shared/2024/1.jpg',
-        // Alternatively, path: ({identityId}) => `shared/{identityId}/1.jpg`
+        path: 'public/shared/2024/1.jpg',
+        // Alternatively, path: ({identityId}) => `protected/{identityId}/shared/1.jpg`
       },
     });
   } catch (error) {
@@ -109,7 +109,7 @@ const copyFile = async () => {
 You can copy a file from the specified path to another path within the same [File Access Level](/[platform]/build-a-backend/storage/configure-access/).
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { copy, list } from 'aws-amplify/storage';
 
@@ -120,8 +120,8 @@ const copied = await copy({
 });
 
 // There should now be a new file 'copied/destPath' in 'public/'
-console.log((await list({ path: 'public/copied/' })).items); // [ { ..., path: 'copied/destPath' } ]
-console.log(copied); // { path: 'copied/destPath' }
+console.log((await list({ path: 'public/copied/' })).items); // [ { ..., path: 'public/copied/destPath' } ]
+console.log(copied); // { path: 'public/copied/destPath' }
 ```
 </Block>
 <Block name="With Key (Deprecated)">
@@ -146,7 +146,7 @@ console.log(copied); // { key: 'copied/destKey' }
 To copy a file to or from an access level, you'll need to explicitly provide the access level in `path` parameter.
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { copy, list } from 'aws-amplify/storage';
 
@@ -156,15 +156,15 @@ const copied = await copy({
     path: 'public/existing/srcPath'
   },
   destination: {
-    path: 'private/copied/destPath',
+    path: ({identityId}) => `private/${identityId}/copied/destPath`
   }
 });
 
 // There should now be a new file 'copied/destPath' in 'private/'
 console.log(
   (await list({ path: 'private/copied/'})).items
-); // [ { ..., path: 'copied/destPath' } ]
-console.log(copied); // { path: 'copied/destPath' }
+); // [ { ..., path: 'private/XXXXX/copied/destPath' } ]
+console.log(copied); // { path: 'private/XXXXX/copied/destPath' }
 ```
 </Block>
 <Block name="With Key (Deprecated)">
@@ -196,7 +196,7 @@ console.log(copied); // { key: 'copied/destKey' }
 You can also copy a protected file from another user by providing their identity id
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 
 ```javascript
 import { copy, list } from 'aws-amplify/storage';
@@ -215,8 +215,8 @@ const copied = await copy({
 // There should now be a new file 'copied/destPath'
 console.log(
   (await list({ path: ({identityId}) => `protected/${identityId}/copied/`})).items
-); // [..., path: 'protected/XXX/copied/destPath']
-console.log(copied); // { path: 'protected/XXX/copied/destPath' }
+); // [..., path: 'protected/XXXXX/copied/destPath']
+console.log(copied); // { path: 'protected/XXXXX/copied/destPath' }
 ```
 </Block>
 <Block name="With Key (Deprecated)">
