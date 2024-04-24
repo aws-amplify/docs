@@ -59,14 +59,123 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/define-auth/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/concepts/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/concepts/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/usernames/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/email/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/phone/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/user-attributes/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/user-groups/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/external-identity-providers/index.mdx'
+                    }
+                  ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/customize-auth/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/using-the-authenticator/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-up/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-out/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/listen-to-auth-events/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/server-side/index.mdx'
+                    }
+                  ]
                 },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/email-customization/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/triggers/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/manage-users/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/with-the-console/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/with-admin-actions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-passwords/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-devices/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-accounts/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/examples/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/examples/customize-id-token/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/examples/customize-access-token/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/federation-only/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/custom-token-providers/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/modify-resources-with-cdk/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx'
+                },
+                // mobile stuff from here down
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-out/index.mdx'
-                },
+                }
                 // {
                 //   path: 'src/pages/[platform]/build-a-backend/auth/add-social-provider/index.mdx'
                 // },
@@ -88,27 +197,6 @@ export const directory = {
                 // {
                 //   path: 'src/pages/[platform]/build-a-backend/auth/admin-actions/index.mdx'
                 // },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-users/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/sign-up-sign-in-sign-out/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/listen-to-auth-events/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/server-side/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/modify-resources-with-cdk/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx'
-                }
               ]
             },
             {

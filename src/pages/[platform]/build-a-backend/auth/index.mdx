@@ -22,7 +22,7 @@ export function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
 }
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {

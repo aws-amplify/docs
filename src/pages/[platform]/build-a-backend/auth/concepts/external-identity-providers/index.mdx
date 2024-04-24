@@ -1,0 +1,29 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'External identity providers',
+  description: 'Learn more about what Amplify Auth provisions and supports',
+  platforms: [
+    // 'android',
+    'angular',
+    // 'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    // 'react-native',
+    // 'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}

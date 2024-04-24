@@ -1,0 +1,29 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Customize access tokens',
+  description: 'Learn how to customize the access token',
+  platforms: [
+    // 'android',
+    'angular',
+    // 'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    // 'react-native',
+    // 'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta,
+    }
+  };
+}

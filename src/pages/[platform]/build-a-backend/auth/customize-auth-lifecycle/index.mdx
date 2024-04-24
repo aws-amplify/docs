@@ -1,18 +1,20 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Customize auth',
+  title: 'Customize auth lifecycle',
   description:
-    'Learn how to configure your Amplify Auth resource',
+    'Learn how to customize the auth lifecycle',
+  route: '/[platform]/build-a-backend/auth/customize-auth-lifecycle',
   platforms: [
-    'android',
+    // 'android',
     'angular',
-    'flutter',
+    // 'flutter',
     'javascript',
     'nextjs',
     'react',
     'react-native',
-    'swift',
+    // 'swift',
     'vue'
   ]
 };
@@ -22,12 +24,17 @@ export function getStaticPaths() {
 }
 
 export function getStaticProps() {
+  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      meta
+      meta,
+      childPageNodes
     }
   };
 }
+
+<Overview childPageNodes={props.childPageNodes} />
+
 
 Amplify Auth provides sensible defaults for the underlying Amazon Cognito resource definitions. You can customize your authentication resource using `defineAuth` where you can extend the user profile with additional attributes, bucket users into groups, or customize emails with your app's brand.
 

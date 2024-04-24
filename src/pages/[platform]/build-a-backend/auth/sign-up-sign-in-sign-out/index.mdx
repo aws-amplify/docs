@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Sign-up, sign-in, and sign-out',
-  description:
-    'Learn how to use Amplify Auth in your frontend application',
+  description: 'Learn how to use Amplify Auth in your frontend application',
   platforms: [
     // 'android',
     'angular',
@@ -225,11 +224,12 @@ Amplify.configure(outputs)
 
 export default function App() {
   async function handleSignInWithGoogle() {
-    // highlight-next-line
+    // highlight-start
     signInWithRedirect({ provider: {
       // this is the `name` specified for your provider in your backend auth resource
       custom: "MyOidcProvider"
     }})
+    // highlight-end
   }
 
   return (
@@ -254,6 +254,7 @@ Amplify.configure(outputs)
 
 export default function App() {
   async function handleSignOut() {
+    // highlight-next-line
     await signOut()
   }
 
