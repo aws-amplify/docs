@@ -1068,7 +1068,7 @@ Once you have installed Flutter, you can create a new Flutter project using the 
 flutter create my_amplify_app
 ```
 
-### Create Amplify Project
+## Create Backend
 
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
@@ -1077,7 +1077,7 @@ npm create amplify@beta
 ? Where should we create your project? (.) # press enter
 ```
 
-Running this command will scaffold a lightweight Amplify project in your current project with the following files added:
+Running this command will scaffold Amplify backend files in your current project with the following files added:
 
 ```text
 ├── amplify/
@@ -1094,33 +1094,22 @@ Running this command will scaffold a lightweight Amplify project in your current
 └── tsconfig.json
 ```
 
-### Running Local Development Environment
+To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
-Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
 
 ```bash
 npx amplify sandbox --config-format dart --config-out-dir lib
 ```
 
-### Adding Authentication
+## Adding Authentication
 
-After the Amplify creation process, you can see a resource.ts file in the amplify/auth folder. This file contains the configuration for the authentication resource. The base code will enable the authentication with the default configuration. You can change the configuration based on your needs. For more information about the configuration, you can check the [documentation](/gen2/build-a-backend/auth/enable-sign-up/).
+The initial scaffolding already has a pre-configured auth backend defined in the `amplify/auth/resource`.ts file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
-```typescript
-import { defineAuth } from '@aws-amplify/backend';
+The fastest way to get your login experience up and running is to use our Authenticator UI component available in the Amplify UI library. 
 
-export const auth = defineAuth({
-  loginWith: {
-    email: true
-  }
-});
-```
+To use the Authenticator, you need to add the following dependencies to your project:
 
-After you have configured the authentication resource, you can use the Amplify UI libraries to run your authentication flow. Amplify UI is a collection of accessible, themeable, performant ui components that can connect directly to the Amplify resources.
-
-To use the Amplify UI libraries, you need to add the following dependencies to your pubspec.yaml file:
-
-```yaml
+```yaml title="pubspec.yaml"
 dependencies:
   amplify_flutter: ^1.0.0
   amplify_auth_cognito: ^1.0.0
@@ -1193,17 +1182,23 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-The **Authenticator** widget provides an authentication flow according to the resources that has been configured. If you run the application now (on Flutter you can run your applications on Web, Desktop and Mobile), you can see the authentication flow working.
+The Authenticator component auto-detects your auth backend settings and renders the correct UI state based on the auth backend's authentication flow.
+
+Run your application in your local environment again. You should be presented with a login experience now.
+
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/getting-started/flutter/flutter-getting-started-1.mp4" />
 </video>
 
-### Adding Data
+## Adding Data
 
-After the Amplify creation process, you can see a resource.ts file in the amplify/data folder. This file contains the configuration for the GraphQL API resource.
+The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource`.ts file. The default example will create a Todo model with `content` field.
 
-The default code will create a Todo model with content and isDone property. The authorization rules below specify that owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
+Let's modify this to add the following:
+- A boolean `isDone` field. 
+- An authorization rules specifying owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
+- Update the `defaultAuthorizationMode` to sign API requests with the user authentication token.
 
 ```typescript
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
@@ -1226,25 +1221,24 @@ export const data = defineData({
   },
 });
 ```
+Next, let's implement UI to create, list, and delete the to-do items.
 
-To generate the model classes out of GraphQL schema, you can run the following command:
+Amplify can automatically generate code for interacting with the backend API. Run the command in the terminal to generate dart model classes from the Data schema under `lib/models`:
 
 ```bash
 npx amplify generate graphql-client-code --format modelgen --model-target dart --out lib/models
 ```
 
-This will generate dart models under lib/models folder.
 
-For using GraphQL API, you need to add the following dependencies to your pubspec.yaml file:
+Once you are done, add the API dependencies to your project. You will add `amplify_api` to connect your application with the Amplify API.
 
-```yaml
+```yaml title="pubspec.yaml"
 dependencies:
   amplify_api: ^1.0.0
 ```
 
-You will add `amplify_api` to connect your application with the Amplify API.
 
-After adding the dependencies, update the `_configureAmplify` method in your main.dart file to use the Amplify API:
+After adding the dependencies, update the `_configureAmplify` method in your `main.dart` file to use the Amplify API:
 
 ```dart title="main.dart"
 Future<void> _configureAmplify() async {
@@ -1470,7 +1464,7 @@ Before you get started, make sure you have the following installed:
 - Configure your AWS account to use with Amplify [instructions](/[platform]/start/account-setup/).
 - You need to have [Xcode and Developer Tooling](https://developer.apple.com/xcode/) installed on your machine.
 
-
+<Accordion title='Create an XCode project' headingLevel='4' eyebrow='Starting fresh?'>
 Open Xcode and select **Create New Project...**
 
 ![Shows the Xcode starter video to start project](/images/lib/getting-started/ios/set-up-swift-1.png)
@@ -1492,17 +1486,19 @@ Next steps are:
 Now you should have your project created.
 
 ![Shows the base project for SwiftUI](/images/lib/getting-started/ios/set-up-swift-4.png)
+</Accordion>
 
-## Create Amplify Project
+## Create Backend
 
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
 ```bash
-npm create amplify@beta
+cd my-app
+npm create amplify@latest
 ? Where should we create your project? (.) # press enter
 ```
 
-Running this command will scaffold a lightweight Amplify project in your current project with the following files added:
+Running this command will scaffold Amplify backend files in your current project with the following files added:
 
 ```text
 ├── amplify/
@@ -1519,15 +1515,14 @@ Running this command will scaffold a lightweight Amplify project in your current
 └── tsconfig.json
 ```
 
-## Running Local Development Environment
+To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
-Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
 
 ```bash
-npx amplify sandbox --config-format=json-mobile
+npx amplify sandbox
 ```
 
-Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+Once the sandbox environment is deployed, it will create an `amplify-outputs.json`. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
@@ -1535,21 +1530,11 @@ Once the sandbox environment is running, you would also generate the configurati
 
 ## Adding Authentication
 
-After the Amplify creation process, you can see a resource.ts file in the amplify/auth folder. This file contains the configuration for the authentication resource. The base code will enable the authentication with the default configuration. You can change the configuration based on your needs. For more information about the configuration, you can check the [documentation](/[platform]/build-a-backend/auth/enable-sign-up/).
+The initial scaffolding already has a pre-configured auth backend defined in the `amplify/auth/resource`.ts file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
-```typescript
-import { defineAuth } from '@aws-amplify/backend';
+The fastest way to get your login experience up and running is to use our Authenticator UI component available in the Amplify UI library. 
 
-export const auth = defineAuth({
-  loginWith: {
-    email: true
-  }
-});
-```
-
-After you have configured the authentication resource, you can use the Amplify UI libraries to run your authentication flow. Amplify UI is a collection of accessible, themeable, performant ui components that can connect directly to the Amplify resources.
-
-Open your project in Xcode and select **File > Add Packages...** and add the following dependencies:
+To use the Authenticator, open your project in Xcode and select **File > Add Packages...** and add the following dependencies:
 
 ![Shows the Amplify library for Swift](/images/lib/getting-started/ios/set-up-swift-5.png)
 
@@ -1613,9 +1598,10 @@ struct MyApp: App {
 }
 ```
 
-This will add the authentication flow by using the Authenticator component and add a sign out button with a create todo button.
+The Authenticator component auto-detects your auth backend settings and renders the correct UI state based on the auth backend's authentication flow.
 
-If you run the application now, you can see that the authentication flow is working.
+
+Run your application in your local environment again. You should be presented with a login experience now.
 
 <video autoPlay={true} muted={true} loop={true} width="40%" playsInline={true}>
   <source src="/images/gen2/getting-started/ios/ios-getting-started-1.mp4" />
@@ -1623,9 +1609,12 @@ If you run the application now, you can see that the authentication flow is work
 
 ## Adding Data
 
-After the Amplify creation process, you can see a resource.ts file in the amplify/data folder. This file contains the configuration for the GraphQL API resource.
+The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource`.ts file. The default example will create a Todo model with `content` field.
 
-The default code will create a Todo model with content and isDone property. The authorization rules below specify that owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
+Let's modify this to add the following:
+- A boolean `isDone` field. 
+- An authorization rules specifying owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
+- Update the `defaultAuthorizationMode` to sign API requests with the user authentication token.
 
 ```typescript
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
@@ -1648,8 +1637,9 @@ export const data = defineData({
   }
 });
 ```
+Next, let's implement UI to create, list, and delete the to-do items.
 
-To generate the model classes out of GraphQL schema, you can run the following command:
+Amplify can automatically generate code for interacting with the backend API. The command below generates model classes from the Data schema:
 
 ```bash
 npx amplify generate graphql-client-code --format=modelgen
@@ -1663,9 +1653,9 @@ Once you are done, add the API dependencies to your project. Select **File > Add
 
 ![Shows the Amplify API library for Swift selected](/images/lib/getting-started/ios/set-up-swift-9.png)
 
-Next, update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
+After adding the dependencies, update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
 
-```swift
+```swift title="MyAmplifyAppApp.swift"
 init() {
     do {
         try Amplify.add(plugin: AWSCognitoAuthPlugin())
@@ -1677,9 +1667,9 @@ init() {
 }
 ```
 
-Now it is time to update the UI code a bit. Create a `createTodo` function in the `MyAmplifyAppApp.swift` file with the following code:
+Create a `createTodo` function in the `MyAmplifyAppApp.swift` file with the following code:
 
-```swift
+```swift title="MyAmplifyAppApp.swift"
 func createTodo() async {
     let creationTime = Temporal.DateTime.now()
     let todo = Todo(
@@ -1706,9 +1696,9 @@ func createTodo() async {
 
 The code above will create a random todo with the current time.
 
-Next create a `listTodos` function in the `MyAmplifyAppApp.swift` file with the following code to have the logic of listing the items:
+Next create a `listTodos` function in the `MyAmplifyAppApp.swift` for listing to-do items:
 
-```swift
+```swift title="MyAmplifyAppApp.swift"
 func listTodos() async {
     let request = GraphQLRequest<Todo>.list(Todo.self)
     do {
@@ -2351,6 +2341,17 @@ Once your build completes in the Amplify Console, the `main` backend will update
 
 
 <InlineFilter filters={['react-native']}>
+## Prerequisites
+
+Before you get started, make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) v18.17 or later
+- [npm](https://www.npmjs.com/) v9 or later
+- [git](https://git-scm.com/) v2.14.1 or later
+- You will also need to [create an AWS Account](https://portal.aws.amazon.com/billing/signup). Note that AWS Amplify is part of the [AWS Free Tier](https://aws.amazon.com/amplify/pricing/).
+- Configure your AWS account to use with Amplify [instructions](/[platform]/start/account-setup/).
+
+  
 This Quickstart guide will walk you through how to build a Todo application using [Expo](https://expo.dev/)'s TypeScript template.
 
   <Callout>
@@ -2372,16 +2373,17 @@ npx expo prebuild
 ```
 </Callout>
 
-### Create Amplify Project
+## Create Backend
 
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
 ```bash
-npm create amplify
+cd my-app
+npm create amplify@latest
 ? Where should we create your project? (.) # press enter
 ```
 
-Running this command will scaffold a lightweight Amplify project in your current project with the following files added:
+Running this command will scaffold Amplify backend files in your current project with the following files added:
 
 ```text
 ├── amplify/
@@ -2398,9 +2400,7 @@ Running this command will scaffold a lightweight Amplify project in your current
 └── tsconfig.json
 ```
 
-### Running Local Development Environment
-
-Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
+To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
 ```bash
 npx amplify sandbox
@@ -2408,21 +2408,11 @@ npx amplify sandbox
 
 ### Adding Authentication
 
-After the Amplify creation process, you can see a resource.ts file in the amplify/auth folder. This file contains the configuration for the authentication resource. The base code will enable the authentication with the default configuration. You can change the configuration based on your needs. For more information about the configuration, you can check the [documentation](/gen2/build-a-backend/auth/enable-sign-up/).
+The initial scaffolding already has a pre-configured auth backend defined in the `amplify/auth/resource`.ts file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
-```typescript
-import { defineAuth } from '@aws-amplify/backend';
+The fastest way to get your login experience up and running is to use our Authenticator UI component available in the Amplify UI library. 
 
-export const auth = defineAuth({
-  loginWith: {
-    email: true
-  }
-});
-```
-
-After you have configured the authentication resource, you can use the Amplify UI libraries to run your authentication flow. Amplify UI is a collection of accessible, themeable, performant ui components that can connect directly to the Amplify resources.
-
-To use the Amplify UI libraries by installing the dependencies like the following:
+To use the Authenticator, you need to add the following dependencies to your project:
 
 ```sh
 npm install @aws-amplify/ui-react-native aws-amplify @aws-amplify/react-native react-native-safe-area-context @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values react-native-url-polyfill
@@ -2478,19 +2468,23 @@ const styles = StyleSheet.create({
 export default App;
 ```
 
-The Authenticator component provides an authentication flow according to the resources that has been configured through the Amplify backend code. 
+The Authenticator component auto-detects your auth backend settings and renders the correct UI state based on the auth backend's authentication flow.
 
-If you run the application now you can see the authentication flow working.
+
+Run your application in your local environment again. You should be presented with a login experience now.
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/getting-started/reactnative/reactnative-getting-started-1.mp4" />
 </video>
 
-### Adding Data
+## Adding Data
 
-After the Amplify creation process, you can see a resource.ts file in the amplify/data folder. This file contains the configuration for the GraphQL API resource.
+The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource`.ts file. The default example will create a Todo model with `content` field.
 
-The default code will create a Todo model with content and isDone property. The authorization rules below specify that owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
+Let's modify this to add the following:
+- A boolean `isDone` field. 
+- An authorization rules specifying owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
+- Update the `defaultAuthorizationMode` to sign API requests with the user authentication token.
 
 ```typescript
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
@@ -2514,9 +2508,7 @@ export const data = defineData({
 });
 ```
 
-After creating the schema, Amplify will generate the model classes for you. Additionally, it will generate the functions to use for create, update, delete operations, as well as fetching and observing data.
-
-Create a `src` folder, and within the folder, create a new file called `TodoList.tsx`. This page will contain information about creating, reading, updating, and deleting Todo items.
+Next, let's implement UI to create, list, and delete the to-do items. Create a `src` folder, and within the folder, create a new file called `TodoList.tsx`. This page will contain information about creating, reading, updating, and deleting Todo items.
 
 Copy and paste the following code into the file:
 
