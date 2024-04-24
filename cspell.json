@@ -141,6 +141,7 @@
     "AppDelegate.swift",
     "AppDelegate",
     "appid",
+    "apigatewayv",
     "appleid",
     "appName.app",
     "AppStore",
@@ -1159,6 +1160,7 @@
     "SDK's",
     "sdk",
     "SDKs",
+    "SDLC",
     "searchable",
     "searchbyLocationRadius",
     "searchQueryField",
@@ -1259,6 +1261,7 @@
     "task.result",
     "taskIdentifier",
     "template.json",
+    "TEAMID",
     "testappa",
     "testtable",
     "testtrigger",
@@ -1577,7 +1580,9 @@
     "parametersjson",
     "nextamplifygen",
     "multirepo",
-    "startbuild"
+    "startbuild",
+    "esac",
+    "voteField"
   ],
   "flagWords": [
     "hte",

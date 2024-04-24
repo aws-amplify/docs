@@ -28,7 +28,7 @@ export function getStaticProps(context) {
 
 To trigger messages, you must sync them from your In-App Messaging campaigns to your users' devices. These messages are then triggered with an analytics or In-App Messaging event. You can control when and how often this sync is performed.
 
-```js
+```js title="src/index.js"
 import { syncMessages } from 'aws-amplify/in-app-messaging';
 
 await syncMessages();
@@ -36,6 +36,6 @@ await syncMessages();
 
 <Callout informational>
 
-**Note:** Syncing messages will always overwrite existing messages currently on the user's device so they are always up to date when the sync is performed.
+**Note:** Syncing messages will always overwrite existing messages currently on the user's device so that they are always up to date when the sync is performed.
 
 </Callout>

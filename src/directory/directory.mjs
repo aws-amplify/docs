@@ -28,9 +28,6 @@ export const directory = {
                   path: 'src/pages/[platform]/start/quickstart/vite-react-app/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/start/quickstart/vite-react-app-option-2/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
@@ -65,7 +62,19 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/switching-auth-flows/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/accessing-credentials/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/managing-credentials/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-up/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-in/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-out/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/add-social-provider/index.mdx'
@@ -96,6 +105,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/override-cognito/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
                 }
               ]
             },
@@ -167,7 +179,12 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
+                    }
+                  ]
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/custom-subscription/index.mdx'
@@ -182,6 +199,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/data/connect-from-server-runtime/nuxtjs-server-runtime/index.mdx'
                     }
                   ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/optimistic-ui/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/override-resources/index.mdx'
@@ -253,7 +273,16 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/add-user-to-group/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/create-user-profile-record/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/override-token/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/user-attribute-validation/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/custom-message/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/google-recaptcha-challenge/index.mdx'
@@ -266,6 +295,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/bedrock-response/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/s3-upload-confirmation/index.mdx'
                     }
                   ]
                 },
@@ -322,7 +354,36 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/maps/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-location-search/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/location-search/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-geofencing/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/geofences/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/existing-resources/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/google-migration/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/amazon-location-sdk/index.mdx'
+                    }
+                  ]
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/index.mdx',
@@ -357,7 +418,33 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/set-up-rest-api/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/customize-authz/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/fetch-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/post-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/update-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/delete-data/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/test-api/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/existing-resources/index.mdx'
+                    }
+                  ]
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/index.mdx',
@@ -389,12 +476,67 @@ export const directory = {
                   ]
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/set-up-logging/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/send-logs/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/change-log-levels/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/flush-logs/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/enable-disable/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/configure-user/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/view-logs/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/remote-configuration/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/change-local-storage/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/hub-events/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/sdk/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/set-up-interactions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/chatbot/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/deletion-backup-resources/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/overriding-resources/index.mdx'
                 }
               ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/q-developer/index.mdx'
             }
           ]
         },
@@ -402,7 +544,21 @@ export const directory = {
           path: 'src/pages/[platform]/build-ui/index.mdx',
           children: [
             {
-              path: 'src/pages/[platform]/build-ui/forms/index.mdx'
+              path: 'src/pages/[platform]/build-ui/formbuilder/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/customize/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/special-inputs/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/validations/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/lifecycle/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-ui/figma-to-code/index.mdx'
