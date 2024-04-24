@@ -166,7 +166,7 @@ const schema = a.schema({
       path: a.string(),
     })
     .returns(a.string())
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
     .handler(a.handler.custom({
       entry: './identifyText.js',
       dataSource: 'RekognitionDataSource'
