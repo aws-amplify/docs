@@ -1,6 +1,9 @@
 /* Basic styling for generic markdown tables which don't currently
  * use Amplify UI primitives/classNames */
 table:not([class]) {
+  /* Add display: block so that we can add an overflow-x to horizontally scroll tables that are too wide */
+  display: block;
+  overflow-x: auto;
   border-collapse: collapse;
   th {
     border-top: 1px solid var(--amplify-colors-border-secondary);
