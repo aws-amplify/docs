@@ -270,6 +270,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/create_user_profile_record/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/override_token/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/user-attribute-validation/index.mdx'
                     },
                     {
