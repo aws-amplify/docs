@@ -403,7 +403,7 @@ Future<void> _signUp({
 }
 ```
 
-When working with a Cognito UserPool, you can set up [custom attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes) via the Cognito console or AWS CLI. Although Cognito prepends a "custom:" prefix on the attribute name, there is no need for you to add this in Amplify Flutter's custom attribute constructor.
+When working with a Cognito UserPool, you can set up [custom attributes](/[platform]/build-a-backend/auth/override-cognito/#custom-attributes) by overriding Amazon Cognito with AWS CDK. Although Cognito prepends a "custom:" prefix on the attribute name, there is no need for you to add this in Amplify Flutter's custom attribute constructor.
 </InlineFilter>
 
 <InlineFilter filters={['android']}>
@@ -489,7 +489,7 @@ RxAmplify.Auth.signUp(
 </Block>
 </BlockSwitcher>
 
-When working with a Cognito UserPool, you can set up [custom attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes) via the Cognito console or AWS CLI. Please keep in mind, Amazon Cognito prepends a "custom:" prefix on the attribute name.
+When working with a Cognito UserPool, you can set up [custom attributes](/[platform]/build-a-backend/auth/override-cognito/#custom-attributes) by overriding Amazon Cognito with AWS CDK. Please keep in mind, Amazon Cognito prepends a "custom:" prefix on the attribute name.
 </InlineFilter>
 
 
@@ -577,7 +577,7 @@ func signUp(
 
 </InlineFilter>
 
-When working with a Cognito UserPool, you can set up [custom attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes) via the Cognito console or AWS CLI. Please keep in mind, Amazon Cognito prepends a "custom:" prefix on the attribute name.When working with a Cognito UserPool, you can set up [custom attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes) via the Cognito console or AWS CLI. Please keep in mind, Amazon Cognito prepends a "custom:" prefix on the attribute name.
+When working with a Cognito UserPool, you can set up [custom attributes](/[platform]/build-a-backend/auth/override-cognito/#custom-attributes) by overriding Amazon Cognito with AWS CDK. Please keep in mind, Amazon Cognito prepends a "custom:" prefix on the attribute name.
 
 ### Retrieve user attributes
 
