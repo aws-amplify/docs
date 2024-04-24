@@ -389,7 +389,7 @@ You can test your custom mutation and subscriptions by using the EventBridge con
 
 2. Fill out the form, specifying the event source to be `amplify.orders` and the `detail-type` to be `OrderStatusChange`.
 
-![Amazon EventBridge console, page titled "Send events". Shows a form with input fields and values of "event bus: default", "event source: amplify.orders", "detail type: OrderStatusChange", ](/images/send-events-2.png)
+![Amazon EventBridge console, page titled "Send events". Shows a form with input fields and values of "event bus: default", "event source: amplify.orders", "detail type: OrderStatusChange", and an Event detail field with JSON data containing an "orderId", "status", and "message". ](/images/send-events-2.png)
 
 3. Choose "Send" and observe the subscription output in the AppSync Queries console.
 
