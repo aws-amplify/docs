@@ -340,7 +340,10 @@ Amplify.API.query(oidcQuery,
 <InlineFilter filters={["swift"]}>
 
 ```swift
-try await Amplify.API.query(request: .list(Todo.self, authMode: .openIDConnect))
+let result = try await Amplify.API.query(
+    request: .list(
+        Todo.self,
+        authMode: .openIDConnect))
 ```
 
 </InlineFilter>
