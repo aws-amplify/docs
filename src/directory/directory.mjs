@@ -59,7 +59,16 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/accessing-credentials/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/managing-credentials/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-up/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-in/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-out/index.mdx'
@@ -93,6 +102,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/override-cognito/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
                 }
               ]
             },
@@ -186,6 +198,9 @@ export const directory = {
                   ]
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/data/optimistic-ui/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/data/override-resources/index.mdx'
                 }
               ]
@@ -255,7 +270,16 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/add-user-to-group/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/create-user-profile-record/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/override-token/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/user-attribute-validation/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/custom-message/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/google-recaptcha-challenge/index.mdx'
