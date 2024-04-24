@@ -13,7 +13,7 @@ Future<void> savePredicateRemotely(Post post) async {
       post,
       where: Post.TITLE.beginsWith('[Amplify]'),
     );
-  } catch (e) {
+  } on DataStoreException catch (e) {
     ...
   }
 }

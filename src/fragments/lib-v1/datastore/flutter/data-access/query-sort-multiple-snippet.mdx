@@ -1,12 +1,20 @@
 ```dart
-Future<void> fetchPostsFirstInAscendingRatingOrderThenDescendingTitleOrder() async {
-  final posts = await Amplify.DataStore.query(
-    Post.classType,
-    sortBy: [
-      Post.RATING.ascending(),
-      Post.TITLE.descending(),
-    ],
-  );
-  print('Posts: $posts');
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+import 'models/ModelProvider.dart';
+
+Future<void> queryPostsFirstInAscendingRatingOrderThenDescendingTitleOrder() async {
+  try {
+    final posts = await Amplify.DataStore.query(
+      Post.classType,
+      sortBy: [
+        Post.RATING.ascending(),
+        Post.TITLE.descending(),
+      ],
+    );
+    safePrint('Posts: $posts');
+  } on DataStoreException catch (e) {
+    safePrint('Something went wrong querying posts: ${e.message}');
+  }
 }
 ```

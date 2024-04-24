@@ -1,9 +1,17 @@
 ```dart
-Future<void> fetchPostsMoreThanFourRating() async {
-  final posts = await Amplify.DataStore.query(
-    Post.classType,
-    where: Post.RATING.ge(4),
-  );
-  print('Posts: $posts');
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+import 'models/ModelProvider.dart';
+
+Future<void> queryPostsWithRatingGreaterThanFour() async {
+  try {
+    final posts = await Amplify.DataStore.query(
+      Post.classType,
+      where: Post.RATING.ge(4),
+    );
+    safePrint('Posts that have a rating > 4: $posts');
+  } on DataStoreException catch (e) {
+    safePrint('Something went wrong querying posts: ${e.message}');
+  }
 }
 ```

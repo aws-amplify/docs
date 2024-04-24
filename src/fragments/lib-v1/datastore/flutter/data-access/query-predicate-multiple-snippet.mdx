@@ -1,9 +1,17 @@
 ```dart
-Future<void> fetchPublishedWithRatingTwoPosts() async {
-  final posts = await Amplify.DataStore.query(
-    Post.classType,
-    where: Post.RATING.eq(2).and(Post.STATUS.eq(PostStatus.ACTIVE)),
-  );
-  print('Posts: $posts');
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+import 'models/ModelProvider.dart';
+
+Future<void> queryPublishedPostsWithRatingFour() async {
+  try {
+    final posts = await Amplify.DataStore.query(
+      Post.classType,
+      where: Post.RATING.eq(4).and(Post.STATUS.eq(PostStatus.ACTIVE)),
+    );
+    safePrint('Published posts that have a rating 4: $posts');
+  } on DataStoreException catch (e) {
+    safePrint('Something went wrong querying posts: ${e.message}');
+  }
 }
 ```
