@@ -122,9 +122,6 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/manage-users/index.mdx',
                   children: [
                     {
@@ -165,6 +162,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/custom-token-providers/index.mdx'
                     }
                   ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/modify-resources-with-cdk/index.mdx'
