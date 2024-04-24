@@ -4,16 +4,19 @@ import slug from './utils/slug';
 
 export const MDXHeading = (props) => {
   const { level, children } = props;
-
   let href = '';
 
   if (children && typeof children != 'string') {
     let newChildren = '';
-    for (let i = 0; i < children.length; i++) {
-      if (typeof children[i] == 'string') {
-        newChildren = newChildren + children[i];
-      } else if (typeof children[i] != 'string') {
-        newChildren = newChildren + children[i].props.children;
+    if (typeof children == 'object' && children.props?.children) {
+      newChildren = children.props.children;
+    } else {
+      for (let i = 0; i < children.length; i++) {
+        if (typeof children[i] == 'string') {
+          newChildren = newChildren + children[i];
+        } else {
+          newChildren = newChildren + children[i].props.children;
+        }
       }
     }
     href = `${slug(newChildren)}`;
