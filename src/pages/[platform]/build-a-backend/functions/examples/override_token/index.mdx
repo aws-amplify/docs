@@ -30,7 +30,7 @@ export function getStaticProps() {
 }
 
 
-You can use `defineAuth` and `defineFunction` to create a [Cognito Pre token generation Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) to override the token by adding a new claim or modifying the user's group membership.
+You can use `defineAuth` and `defineFunction` to create an [Amazon Cognito Pre token generation AWS Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) to override the token by adding a new claim or modifying the user's group membership.
 
 <Callout info>
 
@@ -38,7 +38,7 @@ A user is "confirmed" when they verify their account. Typically this happens whe
 
 </Callout>
 
-To get started, create a new directory and a resource file, `amplify/auth/pre-token-generation/resource.ts`. Then, define the Function with `defineFunction`:
+To get started, create a new directory and a resource file, `amplify/auth/pre-token-generation/resource.ts`. Then, define the function with `defineFunction`:
 
 ```ts title="amplify/auth/pre-token-generation/resource.ts"
 import { defineFunction } from '@aws-amplify/backend';
@@ -71,7 +71,7 @@ export const handler: PreTokenGenerationTriggerHandler = async (event) => {
 ```
 {/* cSpell:enable */}
 
-Lastly, set the newly created Function resource on your auth resource:
+Lastly, set the newly created function resource on your auth resource:
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
