@@ -1,33 +1,32 @@
+However, if you need to access them in relation to working with an API outside Amplify or want access to AWS specific identifying information (e.g. IdentityId), you can access these implementation details by calling fetchAuthSession on the Cognito Auth Plugin. This will return a `CognitoAuthSession`, which has additional attributes compared to `AuthSession`, which is typically returned by fetchAuthSession. See the example below:
+
 ```dart
 Future<void> fetchAuthSession() async {
   try {
-    final result = await Amplify.Auth.fetchAuthSession(
-      options: CognitoSessionOptions(getAWSCredentials: true),
-    );
-    String identityId = (result as CognitoAuthSession).identityId!;
-    safePrint('identityId: $identityId');
+    final result = await Amplify.Auth.fetchAuthSession();
+    safePrint('User is signed in: ${result.isSignedIn}');
   } on AuthException catch (e) {
-    safePrint(e.message);
+    safePrint('Error retrieving auth session: ${e.message}');
   }
 }
 ```
 
-If the `getAWSCredentials` option is true, the result will contain AWS credentials and tokens.  If it is set to false, the result will contain a simple `isSignedIn` flag.
+### Retrieving AWS credentials
 
-### Setting a timeout for fetchAuthSession
-
-On spotty networks, the `fetchAuthSession` call can take upwards of a minute to either complete or fail due to internal retries. If this is too long, consider adding a custom timeout using the `timeout` function as shown in the below example.
+Sometimes it can be helpful to retrieve the instance of the underlying plugin
+which has more specific typing. In the case of Cognito, calling `fetchAuthSession`
+on the Cognito plugin returns AWS-specific values such as the identity ID,
+AWS credentials, and Cognito User Pool tokens.
 
 ```dart
-Future<void> fetchAuthSessionWithTimeout() async {
+Future<void> fetchCognitoAuthSession() async {
   try {
-    final result = await Amplify.Auth.fetchAuthSession().timeout(
-      const Duration(seconds: 5),
-    );
-    final identityId = (result as CognitoAuthSession).identityId!;
-    safePrint('identityId: $identityId');
-  } on Exception catch (e) {
-    safePrint('Something went wrong while fetching the session: $e');
+    final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+    final result = await cognitoPlugin.fetchAuthSession();
+    final identityId = result.identityIdResult.value;
+    safePrint("Current user's identity ID: $identityId");
+  } on AuthException catch (e) {
+    safePrint('Error retrieving auth session: ${e.message}');
   }
 }
 ```

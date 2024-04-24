@@ -1,10 +1,10 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Use existing Amazon Cognito resources',
+  title: 'Use existing resources without the CLI',
   description:
     'Configure the Amplify Libraries to use existing Amazon Cognito resources by referencing them in your configuration.',
-  platforms: ['swift', 'android']
+  platforms: ['flutter', 'swift', 'android']
 };
 
 export const getStaticPaths = async () => {
@@ -20,22 +20,14 @@ export function getStaticProps(context) {
   };
 }
 
-import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
-
-<Fragments fragments={{ android: android_maintenance }} />
-
-import android0 from '/src/fragments/lib-v1/auth/existing-resources.mdx';
+import android0 from '/src/fragments/lib/auth/existing-resources.mdx';
 
 <Fragments fragments={{ android: android0 }} />
 
-import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
-
-<Fragments fragments={{ swift: ios_maintenance }} />
-
-import ios1 from '/src/fragments/lib-v1/auth/existing-resources.mdx';
+import ios1 from '/src/fragments/lib/auth/existing-resources.mdx';
 
 <Fragments fragments={{ swift: ios1 }} />
 
-import flutter2 from '/src/fragments/lib-v1/auth/existing-resources.mdx';
+import flutter2 from '/src/fragments/lib/auth/existing-resources.mdx';
 
 <Fragments fragments={{ flutter: flutter2 }} />
