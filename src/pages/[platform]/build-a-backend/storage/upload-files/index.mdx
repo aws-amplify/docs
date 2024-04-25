@@ -40,10 +40,17 @@ npm install @aws-amplify/ui-react-storage aws-amplify
 ```
 
 ```tsx
-import { StorageImage } from '@aws-amplify/ui-react-storage';
+import { StorageManager } from '@aws-amplify/ui-react-storage';
 
-export const DefaultStorageImageExample = () => {
-  return <StorageImage alt="cat" imgKey="cat.jpg" accessLevel="guest" />;
+export const DefaultStorageManagerExample = () => {
+  return (
+    <StorageManager
+      acceptedFileTypes={['image/*']}
+      accessLevel="guest"
+      maxFileCount={1}
+      isResumable
+    />
+  );
 };
 ```
 
