@@ -31,13 +31,19 @@ export function getStaticProps() {
 
 You can use `defineAuth` and `defineFunction` to create a [Cognito pre sign-up Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) that performs filtering based on the user's email address. This can allow or deny user signups based on their email address.
 
-To get started, create a new directory and a resource file, `amplify/auth/pre-sign-up/resource.ts`. Then, define the Function with `defineFunction`:
+To get started, install the `aws-lambda` package, which is used to define the handler type.
+
+```bash title="Terminal" showLineNumbers={false}
+npm add --save-dev @types/aws-lambda
+```
+
+Next, create a new directory and a resource file, `amplify/auth/pre-sign-up/resource.ts`. Then, define the Function with `defineFunction`:
 
 ```ts title="amplify/auth/pre-sign-up/resource.ts"
 import { defineFunction } from '@aws-amplify/backend';
 
 export const preSignUp = defineFunction({
-  entry: './pre-sign-up.ts',
+  name: 'pre-sign-up',
   // optionally define an environment variable for your filter
   environment: {
     ALLOW_DOMAIN: 'amazon.com'
