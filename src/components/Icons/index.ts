@@ -29,7 +29,5 @@ export { IconThumbsDown } from './IconThumbsDown';
 export { IconThumbsUp } from './IconThumbsUp';
 export { IconTOC } from './IconTOC';
 export { IconTS } from './IconTS';
-export { IconTSBoxed } from './IconTSBoxed';
-export { IconTwitter } from './IconTwitter';
 export { IconVue } from './IconVue';
 export { IconX } from './IconX';

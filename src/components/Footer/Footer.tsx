@@ -1,12 +1,7 @@
 import ExternalLink from '../ExternalLink';
 import * as links from '../../constants/links';
 import { VisuallyHidden, Flex } from '@aws-amplify/ui-react';
-import {
-  IconDiscord,
-  IconTwitter,
-  IconGithub,
-  IconAWS
-} from '@/components/Icons';
+import { IconDiscord, IconX, IconGithub, IconAWS } from '@/components/Icons';
 import { ColorModeSwitcher } from '@/components/ColorModeSwitcher';
 
 interface FooterProps {
@@ -53,11 +48,11 @@ export const Footer = ({ hasTOC = false }: FooterProps) => {
         <Flex as="ul" className="footer__links">
           <li>
             <ExternalLink
-              href={links.TWITTER}
+              href={links.X}
               className="footer-link footer-link--social"
             >
-              <IconTwitter aria-hidden="true" />
-              <VisuallyHidden>Twitter</VisuallyHidden>
+              <IconX />
+              <VisuallyHidden>X</VisuallyHidden>
             </ExternalLink>
           </li>
           <li>
@@ -65,7 +60,7 @@ export const Footer = ({ hasTOC = false }: FooterProps) => {
               href={links.DISCORD}
               className="footer-link footer-link--social"
             >
-              <IconDiscord aria-hidden="true" />
+              <IconDiscord />
               <VisuallyHidden>Discord</VisuallyHidden>
             </ExternalLink>
           </li>
@@ -74,7 +69,7 @@ export const Footer = ({ hasTOC = false }: FooterProps) => {
               href={links.GITHUB}
               className="footer-link footer-link--social"
             >
-              <IconGithub aria-hidden="true" />
+              <IconGithub />
               <VisuallyHidden>Github</VisuallyHidden>
             </ExternalLink>
           </li>

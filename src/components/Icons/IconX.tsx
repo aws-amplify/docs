@@ -13,15 +13,7 @@ export const IconX = ({ ...rest }) => {
       }}
     >
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M22 3.8182L3.81818 22L2 20.1818L20.1818 2.00002L22 3.8182Z"
-        fill="currentColor"
-      />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M3.81818 2L22 20.1818L20.1818 22L2 3.81818L3.81818 2Z"
+        d="M13.9761 10.1624L22.7186 0H20.6469L13.0558 8.82384L6.99289 0H0L9.16837 13.3432L0 24H2.07179L10.0881 14.6817L16.4911 24H23.4839L13.9761 10.1624ZM2.81829 1.55962H6.00044L20.6479 22.5113H17.4657L2.81829 1.55962Z"
         fill="currentColor"
       />
     </Icon>
