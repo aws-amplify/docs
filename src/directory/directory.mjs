@@ -107,6 +107,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/override-cognito/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/under-the-hood/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
                 }
               ]
