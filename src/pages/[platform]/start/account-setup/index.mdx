@@ -36,7 +36,7 @@ export function getStaticProps(context) {
 
 This guide will help you set up Temporary credentials with [IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html)  and [AWS Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html), which will enable you to define Single-sign on (SSO), users, groups, permission sets, and more for your team. AWS Organizations can grow to house multiple AWS accounts. Users within the organization can traverse the AWS account(s) as their permission set allows. 
 
-Amplify leverages the standard local credentials chain provider to simplify access to AWS services. While this guide highlights IdC, you can explore additional methods for [authenticating with AWS locally](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html#getting-started-prereqs-keys). 
+Amplify leverages the standard local credentials chain provider to simplify access to AWS services. While this guide highlights IAM Identity Center, you can explore additional methods for [authenticating with AWS locally](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html#getting-started-prereqs-keys). 
 
 <Accordion title="IAM Identity Center terminology">
 
@@ -93,14 +93,16 @@ Next, we are going to automate a number of steps that simulate the operations of
 
 Paste the following command in the CloudShell terminal and enter an email address you would like to associate with this AWS account:
 
-``` bash showLineNumbers={false}
+``` bash title="CloudShell" showLineNumbers={false}
 read -p "Enter email address: " user_email # hit enter
+```
+```console showLineNumbers={false}
 Enter email address: <your-email-address>
 ```
 
 Now, run the following command
 
-```bash
+```bash title="CloudShell"
 response=$(aws sso-admin list-instances)
 ssoId=$(echo $response | jq '.Instances[0].IdentityStoreId' -r)
 ssoArn=$(echo $response | jq '.Instances[0].InstanceArn' -r)
@@ -112,11 +114,12 @@ permissionSetArn=$(echo $response | jq '.PermissionSet.PermissionSetArn' -r)
 aws sso-admin attach-managed-policy-to-permission-set --instance-arn $ssoArn --permission-set-arn $permissionSetArn --managed-policy-arn arn:aws:iam::aws:policy/service-role/AmplifyBackendDeployFullAccess
 accountId=$(aws sts get-caller-identity | jq '.Account' -r)
 aws sso-admin create-account-assignment --instance-arn $ssoArn --target-id $accountId --target-type AWS_ACCOUNT --permission-set-arn $permissionSetArn --principal-type USER --principal-id $userId
+# Hit enter
 ```
 
 To validate that this worked, run the following command in the CloudShell. If something failed in this process, please **[report an issue](https://github.com/aws-amplify/amplify-backend/issues)**. Keep this information readily available for [the next step](#2-set-up-local-aws-profile).
 
-```bash showLineNumbers={false}
+```bash title="CloudShell" showLineNumbers={false}
 // highlight-next-line
 printf "\n\nStart session url: https://$ssoId.awsapps.com/start\nRegion: $AWS_REGION\nUsername: amplify-admin\n\n"
 
@@ -223,7 +226,7 @@ unzip awscliv2.zip
 
 Open  your terminal, you are ready to configure an AWS profile that uses the SSO user. Use the information from CloudShell to populate the information below. 
 
-```console title="Terminal"
+```console title="Terminal" showLineNumbers={false}
 //highlight-next-line
 aws configure sso
 
@@ -246,31 +249,36 @@ aws configure sso
 After you provide this information, the browser will automatically open asking you to sign in with the username and password you just created and configure a multi-factor device to authenticate.
 
 Now return to the terminal and enter the following information:
+
+```console title="Terminal" showLineNumbers={false}
+The only AWS account available to you is: <your-aws-account-id>
+Using the account ID <your-aws-account-id>
+The only role available to you is: amplify-policy
+Using the role name "amplify-policy"
+CLI default client Region [us-east-1]: <your-region>
+CLI default output format [None]:
 ```
-  The only AWS account available to you is: <your-aws-account-id>
-  Using the account ID <your-aws-account-id>
-  The only role available to you is: amplify-policy
-  Using the role name "amplify-policy"
-  CLI default client Region [us-east-1]: <your-region>
-  CLI default output format [None]:
-  CLI profile name [amplify-policy-<your-aws-account-id>]: default
 
-  To use this profile, specify the profile name using --profile, as shown:
+**Make sure to set the profile name to `default`**. Alternatively, remember the auto-generated profile name; you will need this later.
 
-  aws s3 ls --profile default
+```console title="Terminal" showLineNumbers={false}
+CLI profile name [amplify-policy-<your-aws-account-id>]: default
+To use this profile, specify the profile name using --profile, as shown:
+
+aws s3 ls --profile default
 ```
 
 If you inspect `~/.aws/config`, you should now see the SSO profile:
 
 ```ini title="~/.aws/config"
-[profile sso-amplify-admin]
+[profile default]
 sso_session = amplify-admin
 sso_account_id = <your-aws-account-id>
 sso_role_name = AdministratorAccess
-region = us-east-2
+region = <your-region>
 [sso-session amplify-admin]
 sso_start_url = https://xxxxxx.awsapps.com/start#
-sso_region = us-east-2
+sso_region = <your-region>
 sso_registration_scopes = sso:account:access
 ```
 
