@@ -46,7 +46,6 @@ const checkPage = async (url) => {
     .on('console', (message) => {
       if (message.type().toLowerCase() === 'error') {
         const errorText = message.text();
-        // const callingScript = message.location().url;
         const excluded = excludedErrors.some((excludedError) => {
           return errorText.includes(excludedError.errorText);
         });
@@ -74,10 +73,6 @@ const checkPage = async (url) => {
 
   await browser.close();
 
-  console.log(
-    'Console error have been found and need to be fixed in order to merge. Please note that these errors could be on pages that were not edited in this PR.'
-  );
-
   return errorsFound;
 };
 
@@ -92,6 +87,9 @@ const consoleErrors = async (domain) => {
       errorMessage += `${error.message} found on ${error.page}\n`;
     });
   }
+  console.log(
+    'Console error have been found and need to be fixed in order to merge. Please note that these errors could be on pages that were not edited in this PR.'
+  );
   console.log(errorMessage);
   return errorMessage;
 };
