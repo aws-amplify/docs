@@ -17,7 +17,7 @@ You can use the `group` authorization strategy to restrict access based on user 
 
 When you want to restrict access to a specific set of user groups, provide the group names in the `groups` parameter. In the example below, only users that are part of the "Admin" user group are granted access to the Salary model.
 
-```ts
+```ts title="amplify/data/resource.ts"
 // allow one specific group
 const schema = a.schema({
   Salary: a
@@ -25,8 +25,30 @@ const schema = a.schema({
       wage: a.float(),
       currency: a.string(),
     })
-    .authorization([a.allow.specificGroup('Admin')]),
+    .authorization(allow => [allow.group('Admin')]),
 });
+```
+
+In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `userPool` auth mode.
+
+```ts
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
+
+const client = generateClient<Schema>();
+
+// As a signed-in user that belongs to the 'Admin' User Pool Group
+const { errors, data: newSalary } = await client.models.Salary.create(
+  {
+    wage: 50.25,
+    currency: 'USD'
+  },
+  // highlight-start
+  {
+    authMode: 'userPool',
+  }
+  // highlight-end
+);
 ```
 
 This can then be updated to allow access to multiple defined groups; in this example below we added access for "Leadership".
@@ -39,7 +61,7 @@ const schema = a.schema({
       wage: a.float(),
       currency: a.string(),
     })
-    .authorization([a.allow.specificGroups(['Admin', 'Leadership'])]),
+    .authorization(allow => [allow.groups(['Admin', 'Leadership'])]),
 });
 ```
 
@@ -55,7 +77,7 @@ const schema = a.schema({
       title: a.string(),
       groups: a.string().array(),
     })
-    .authorization([a.allow.groupsDefinedIn('groups')]),
+    .authorization(allow => [allow.groupsDefinedIn('groups')]),
 });
 ```
 
@@ -65,9 +87,9 @@ const schema = a.schema({
   Post: a
     .model({
       title: a.string(),
-      groups: a.string(),
+      group: a.string(),
     })
-    .authorization([a.allow.groupDefinedIn('groups')]),
+    .authorization(allow => [allow.groupDefinedIn('group')]),
 });
 ```
 

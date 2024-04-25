@@ -13,7 +13,7 @@ export function getStaticProps(context) {
 
 Amplify Gen 2 backends are defined using TypeScript, and enable you to collocate resources depending on their function. For example, you can author a [post confirmation trigger for Amazon Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-post-confirmation.html) right next to your auth's resource file.
 
-When you create your first Amplify project using `npm create amplify@beta`, it will automatically set up the scaffolding for Data and Authentication resources:
+When you create your first Amplify project using `npm create amplify@latest`, it will automatically set up the scaffolding for Data and Authentication resources:
 
 ```text
 ├── amplify/
@@ -92,8 +92,8 @@ After the resources are defined, they are set up on the backend:
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 defineBackend({
   auth,
@@ -106,8 +106,8 @@ You can extend backends by using the [AWS Cloud Development Kit (AWS CDK)](https
 ```ts title="amplify/backend.ts"
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   auth,

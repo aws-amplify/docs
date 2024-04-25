@@ -53,7 +53,7 @@ const schema = a.schema({
     // return type of the query
     .returns(a.ref('EchoResponse'))
     // only allow signed-in users to call this API
-    .authorization([a.allow.private()])
+    .authorization(allow => [allow.authenticated()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -88,7 +88,7 @@ const schema = a.schema({
     // return type of the query
     .returns(a.ref('Post'))
     // only allow signed-in users to call this API
-    .authorization([a.allow.private()])
+    .authorization(allow => [allow.authenticated()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -112,8 +112,8 @@ After your query or mutation is defined, you need to author your custom business
 
 In your `amplify/data/echo-handler/` folder, create a `handler.ts` file. You can import a utility type for your function handler via the `Schema` type from your backend resource. This gives you type-safe handler parameters and return values.
 
-```ts title="amplify/data/echo-handler.ts"
-import type { Schema } from './resource'
+```ts title="amplify/data/echo-handler/handler.ts"
+import type { Schema } from '../resource'
 
 export const handler: Schema["echo"]["functionHandler"] = async (event, context) => {
   const start = performance.now();
@@ -149,7 +149,7 @@ const schema = a.schema({
     .query()
     .arguments({ content: a.string() })
     .returns(a.ref('EchoResponse'))
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
     // 3. set the function has the handler
     .handler(a.handler.function(echoHandler))
 });
@@ -170,7 +170,7 @@ export const data = defineData({
 </Block>
 <Block name="Custom resolver powered by AppSync JavaScript resolvers">
 
-Custom resolvers work on a "request/response" basis, you choose a data source, map your request to the data source's input parameters, and then map the data source's response back to the query/mutation's return type. Custom resolvers provide the benefit of no cold starts, less infrastructure to manage, and no additional charge for Lambda function invocations. Review [Choosing between custom resolver and function](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-reference-overview-js.html#choosing-data-source).
+Custom resolvers work on a "request/response" basis. You choose a data source, map your request to the data source's input parameters, and then map the data source's response back to the query/mutation's return type. Custom resolvers provide the benefit of no cold starts, less infrastructure to manage, and no additional charge for Lambda function invocations. Review [Choosing between custom resolver and function](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-reference-overview-js.html#choosing-data-source).
 
 In your `amplify/data/resource.ts` file, define a custom handler using `a.handler.custom`.
 
@@ -185,17 +185,17 @@ const schema = a.schema({
   Post: a.model({
     content: a.string(),
     likes: a.integer()
-      .authorization([a.allow.private().to(['read'])])
-  }).authorization([
-    a.allow.owner(),
-    a.allow.private().to(['read'])
+      .authorization(allow => [allow.authenticated().to(['read'])])
+  }).authorization(allow => [
+    allow.owner(),
+    allow.authenticated().to(['read'])
   ]),
 
   likePost: a
     .mutation()
     .arguments({ postId: a.id() })
     .returns(a.ref('Post'))
-    .authorization([a.allow.private()])
+    .authorization(allow => [allow.authenticated()])
     .handler(a.handler.custom({
       dataSource: a.ref('Post'),
       entry: './increment-like.js'
@@ -222,17 +222,17 @@ export function request(ctx) {
     key: util.dynamodb.toMapValues({ id: ctx.args.postId}),
     update: {
       expression: 'ADD likes :plusOne',
-      expressionValues: { 'plusOne': { N: 1 } },
+      expressionValues: { ':plusOne': { N: 1 } },
     }
   }
 }
 
-export function response(ctx: Context) {
+export function response(ctx) {
   return ctx.result
 }
 ```
 
-By default, you'll be able to access any existing database tables (powered by Amazon DynamoDB) using `a.ref('MODEL_NAME')`. But you can also reference any other external data source from within your AWS account, by adding them to your backend definition. 
+By default, you'll be able to access any existing database tables (powered by Amazon DynamoDB) using `a.ref('MODEL_NAME')`. But you can also reference any other external data source from within your AWS account, by adding them to your backend definition.
 
 The supported data sources are:
 - Amazon DynamoDB
@@ -278,17 +278,17 @@ const schema = a.schema({
   Post: a.model({
     content: a.string(),
     likes: a.integer()
-      .authorization([a.allow.private().to(['read'])])
-  }).authorization([
-    a.allow.owner(),
-    a.allow.private().to(['read'])
+      .authorization(allow => [allow.authenticated().to(['read'])])
+  }).authorization(allow => [
+    allow.owner(),
+    allow.authenticated().to(['read'])
   ]),
 
   likePost: a
     .mutation()
     .arguments({ postId: a.id() })
     .returns(a.ref('Post'))
-    .authorization([a.allow.private()])
+    .authorization(allow => [allow.authenticated()])
     .handler(a.handler.custom({
       // highlight-next-line
       dataSource: "ExternalTableDataSource",
@@ -314,7 +314,7 @@ export const data = defineData({
 
 <Callout warning>
 
-The `.handler()` accepts an array of handlers that will run in a pipeline. For now, in the developer preview, you can only use `a.handler.custom()` and `a.handler.function()`. All other handlers, such as `a.handler.inlineSql()` are under active development. 
+The `.handler()` accepts an array of handlers that will run in a pipeline. For now, in the developer preview, you can only use `a.handler.custom()` and `a.handler.function()`. All other handlers, such as `a.handler.inlineSql()` are under active development.
 
 </Callout>
 
