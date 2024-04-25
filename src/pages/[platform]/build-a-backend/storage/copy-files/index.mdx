@@ -33,6 +33,8 @@ export function getStaticProps(context) {
 
 You can copy an existing file to a different path within the storage bucket using the copy API.
 
+<InlineFilter filters={["angular","javascript","nextjs","react","vue"]}>
+
 The `copy` method duplicates an existing file to a designated path and returns an object `{path: 'destPath'}` upon successful completion.
 
 ```javascript
@@ -61,3 +63,38 @@ const copyFile = async () => {
 Cross identity ID copying is only allowed if the source object's access level is set to 'protected'.
 
 </Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+User who initiates a copy operation should have read permission on the copy source file.
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+Future<void> copyGuestFileToPrivate({
+  required String sourceKey,
+  required String destinationKey,
+}) async {
+  try {
+    final result = await Amplify.Storage.copy(
+      source: StorageItemWithAccessLevel(
+        storageItem: StorageItem(key: sourceKey),
+        accessLevel: StorageAccessLevel.guest,
+      ),
+      destination: StorageItemWithAccessLevel(
+        storageItem: StorageItem(key: destinationKey),
+        accessLevel: StorageAccessLevel.private,
+      ),
+    ).result;
+
+    safePrint('Copied file: ${result.copiedItem.key}');
+  } on StorageException catch (e) {
+    safePrint('Error copying file: ${e.message}');
+    rethrow;
+  }
+}
+```
+
+</InlineFilter>

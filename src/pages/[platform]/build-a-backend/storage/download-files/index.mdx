@@ -50,6 +50,12 @@ Learn more about how you can further customize the UI component by referring to 
 
 To further customize your in-app experience, you can use the `getUrl` or `downloadData` API from the Amplify Library for Storage.
 
+<Callout>
+
+**Note:** Refer to [the Transfer Acceleration documentation](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) to learn how to enable transfer acceleration for storage APIs.
+
+</Callout>
+
 ## API to get or download file from URL
 
 Get a presigned URL of a stored file and expiration of URL
@@ -175,11 +181,69 @@ RxAmplify.Storage.getUrl(StoragePath.fromString("public/example")).subscribe(
 </BlockSwitcher>
 </InlineFilter>
 
-## API to download file
+<InlineFilter filters={["swift"]}>
+```swift
+let url = try await Amplify.Storage.getURL(path: .fromString("public/example/path"))
+print("Completed: \(url)")
+```
+
+When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to
+`true` in `AWSStorageGetURLOptions`. If the file is inaccessible or does not exist, a `StorageError` is thrown.
+This allows you to check if an object exists during generating the presigned URL, which you can then use to download
+that object.
+
+```swift
+let url = try await Amplify.Storage.getURL(
+    path: .fromString("public/example/path"),
+    options: .init(
+        pluginOptions: AWSStorageGetURLOptions(
+            validateObjectExistence: true
+        )
+    )
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to
+`true` in `S3GetUrlPluginOptions`. If the file is inaccessible or does not exist, a `StorageException` is thrown.
+This allows you to check if an object exists during generating the presigned URL, which you can then use to download
+that object.
+
+```dart
+Future<String> getDownloadUrl({
+  required String key,
+  required StorageAccessLevel accessLevel,
+}) async {
+  try {
+    final result = await Amplify.Storage.getUrl(
+      key: key,
+      options: const StorageGetUrlOptions(
+        accessLevel: accessLevel,
+        pluginOptions: S3GetUrlPluginOptions(
+          validateObjectExistence: true,
+          expiresIn: Duration(days: 1),
+        ),
+      ),
+    ).result;
+    return result.url.toString();
+  } on StorageException catch (e) {
+    safePrint('Could not get a downloadable URL: ${e.message}');
+    rethrow;
+  }
+}
+```
+
+</InlineFilter>
+
+## API to download to file
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
 Use the `downloadData` API to download the file locally on the client.
 
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
@@ -202,6 +266,9 @@ const { body, eTag } = await downloadData({
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
+
+Use the `downloadFile` API to download the file locally on the client.
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -263,6 +330,132 @@ download
 </BlockSwitcher>
 </InlineFilter>
 
+<InlineFilter filters={["swift"]}>
+
+Use the `downloadFile` API to download the file locally on the client.
+
+You can download to a file [URL](https://developer.apple.com/documentation/foundation/url) with `Amplify.Storage.downloadFile`:
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let downloadToFileName = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+)[0].appendingPathComponent("myFile.txt")
+
+let downloadTask = Amplify.Storage.downloadFile(
+    path: .fromString("public/example/path"),
+    local: downloadToFileName,
+    options: nil
+)
+Task {
+    for await progress in await downloadTask.progress {
+        print("Progress: \(progress)")
+    }
+}
+try await downloadTask.value
+print("Completed")
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let downloadToFileName = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+)[0].appendingPathComponent("myFile.txt")
+
+let downloadTask = Amplify.Storage.downloadFile(
+    path: .fromString("public/example/path"),
+    local: downloadToFileName,
+    options: nil
+)
+let progressSink = downloadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
+    }
+
+let resultSink = downloadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
+    }
+    receiveValue: {
+        print("Completed")
+    }
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+You can download a file to a local directory using `Amplify.Storage.downloadFile`.
+
+You can use the [path_provider](https://pub.dev/packages/path_provider) package to create a local file in the user's documents directory where you can store the downloaded data.
+
+<BlockSwitcher>
+
+<Block name = "Mobile & Desktop">
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:path_provider/path_provider.dart';
+
+Future<void> downloadFile() async {
+  final documentsDir = await getApplicationDocumentsDirectory();
+  final filepath = '${documentsDir.path}/example.txt';
+  try {
+    final result = await Amplify.Storage.downloadFile(
+      path: const StoragePath.fromString('public/example.txt'),
+      localFile: AWSFile.fromPath(filepath),
+    ).result;
+    safePrint('Downloaded file is located at: ${result.localFile.path}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</Block>
+
+<Block name = "Web">
+
+On Web, the download process will be handled by the browser. You can provide the downloaded file name by specifying the `path` parameter of `AWSFile.fromPath`. E.g. this instructs the browser to download the file `download.txt`.
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+Future<void> downloadFile() async {
+  try {
+    final result = await Amplify.Storage.downloadFile(
+      path: const StoragePath.fromString('public/example.txt'),
+      localFile: AWSFile.fromPath('download.txt'),
+    ).result;
+    safePrint('Downloaded file: ${result.downloadedItem.path}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 ### Get the text value of downloaded File
 
@@ -285,9 +478,59 @@ try {
 ```
 </InlineFilter>
 
-### Monitor download progress
+<InlineFilter filters={["swift"]}>
+
+## API to download data in memory
+
+You can download to in-memory buffer [Data](https://developer.apple.com/documentation/foundation/data) object with `Amplify.Storage.downloadData`:
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(path: .fromString("public/example/path"))
+Task {
+    for await progress in await downloadTask.progress {
+        print("Progress: \(progress)")
+    }
+}
+let data = try await downloadTask.value
+print("Completed: \(data)")
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(path: .fromString("public/example/path"))
+let progressSink = downloadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
+    }
+
+let resultSink = downloadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
+    }
+    receiveValue: { data in
+        print("Completed: \(data)")
+    }
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+### Monitor download progress
 
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
@@ -323,6 +566,9 @@ try {
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
+
+### Monitor download progress
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -387,6 +633,27 @@ download
 
 </Block>
 </BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+### Monitor download progress
+
+```dart
+final operation = Amplify.Storage.downloadData(
+  path: const StoragePath.fromString('public/example.txt'),
+  onProgress: (progress) {
+    safePrint('fraction totalBytes: ${progress.totalBytes}');
+    safePrint('fraction transferredBytes: ${progress.transferredBytes}');
+    safePrint('fraction completed: ${progress.fractionCompleted}');
+  },
+);
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
 
 ### Query transfers
 
@@ -489,121 +756,55 @@ RxAmplify.Storage.getTransfer("TRANSFER_ID")
 
 </InlineFilter>
 
-## Transfer Acceleration
+<InlineFilter filters={["flutter"]}>
 
-You can enable [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transfer-acceleration.html) for fast and secure transfer of files over long distances between your end user device and the S3 bucket. You can override the storage resource for this configuration and then leverage the `useAccelerateEndpoint` parameter to use the accelerated S3 endpoint.
+## API to download data in memory
 
-<Callout warning>
+You can download a file to in-memory buffer with `Amplify.Storage.downloadData`:
 
-When you use Transfer Acceleration, additional data transfer charges might apply. For more information about pricing, see [Amazon S3 pricing](https://aws.amazon.com/s3/pricing/).
+```dart
+Future<void> download() async {
+  try {
+    final result = await Amplify.Storage.downloadData(
+      path: const StoragePath.fromString('public/example.txt'),
+    ).result;
+    safePrint('Downloaded data: ${result.bytes}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+### Pause, resume, and cancel downloads
+
+Calls to `downloadData` or `downloadFile` return a reference to the task that is actually performing the download.
+
+To cancel the download (for example, in response to the user pressing a **Cancel** button), you simply call `cancel()` on the download task.
+
+```swift
+func cancelDownload() {
+    downloadTask.cancel()
+}
+```
+
+You can also pause and then resume the task.
+
+```swift
+downloadTask.pause()
+downloadTask.resume()
+```
+
+
+<Callout>
+
+Download tasks are run using `URLSessionTask` instances internally. You can learn more about them in [Apple's official documentation](https://developer.apple.com/documentation/foundation/urlsessiontask).
 
 </Callout>
 
-Here is how you would enable Transfer Acceleration for your Storage resource by extending the S3 resource configuration
-
-```ts
-// highlight-next-line
-import * as s3 from 'aws-cdk-lib/aws-s3';
-import { defineBackend } from '@aws-amplify/backend';
-import { storage } from './storage/resource';
-
-const backend = defineBackend({
-  storage
-});
-
-// highlight-start
-const s3Bucket = backend.storage.resources.bucket;
-
-const cfnBucket = s3Bucket.node.defaultChild as s3.CfnBucket;
-
-cfnBucket.accelerateConfiguration = {
-  accelerationStatus: "Enabled" // 'Suspended' if you want to disable transfer acceleration
-}
-// highlight-end
-```
-<InlineFilter filters={['android']}>
-
-### Download files using the accelerated S3 endpoint
-
-We switch to the accelerated S3 endpoint by using the `useAccelerateEndpoint` parameter set to `true` in the `AWSS3StorageUploadFileOptions`.
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-AWSS3StorageUploadFileOptions awsS3StorageUploadFileOptions =
-              AWSS3StorageUploadFileOptions.builder().setUseAccelerateEndpoint(true).build();
- 
- Amplify.Storage.downloadFile(
-        StoragePath.fromString("public/example"),
-        new File(getApplicationContext().getFilesDir() + "/download.txt"),
-        awsS3StorageUploadFileOptions,
-        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
-        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
-);
-```
-</Block>
-<Block name="Kotlin - Callbacks">
-
-```kotlin
-val awsS3StorageUploadFileOptions = AWSS3StorageUploadFileOptions.builder().
-                                                  setUseAccelerateEndpoint(true).
-                                                  build()
-val file = File("${applicationContext.filesDir}/download.txt")
-Amplify.Storage.downloadFile(
-  StoragePath.fromString("public/example"), 
-  file,
-  awsS3StorageUploadFileOptions
-  { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") },
-  { Log.e("MyAmplifyApp",  "Download Failure", it) }
-)
-```
-</Block>
-<Block name="Kotlin - Coroutines">
-
-```kotlin
-val awsS3StorageUploadFileOptions = AWSS3StorageUploadFileOptions.builder().
-                                                    setUseAccelerateEndpoint(true).
-                                                    build()
-try {
-    val file = File("${applicationContext.filesDir}/download.txt")
-    val download = Amplify.Storage.downloadFile(
-                                        StoragePath.fromString("public/example"), 
-                                        file,
-                                        awsS3StorageUploadFileOptions)
-    try {
-        val fileName = download.result().file.name
-        Log.i("MyAmplifyApp", "Successfully downloaded: $fileName")
-    } catch (error: StorageException) {
-        Log.e("MyAmplifyApp", "Download Failure", error)
-    }
-}
-
-```
-</Block>
-<Block name="RxJava">
-
-```java
-AWSS3StorageUploadFileOptions awsS3StorageUploadFileOptions =
-            AWSS3StorageUploadFileOptions.builder().setUseAccelerateEndpoint(true).build();
-
-RxProgressAwareSingleOperation<StorageDownloadFileResult> download =
-        RxAmplify.Storage.downloadFile(
-            StoragePath.fromString("public/example"),
-            new File(getApplicationContext().getFilesDir() + "/download.txt",
-            awsS3StorageUploadFileOptions
-        );
-
-download
-    .observeResult()
-    .subscribe(
-        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
-        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
-    );
-
-```
-</Block>
-</BlockSwitcher>
 </InlineFilter>
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>

@@ -93,3 +93,92 @@ RxAmplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt")
 </Block>
 </BlockSwitcher>
 </InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let removedObject = try await Amplify.Storage.remove(path: .fromString("public/example/path"))
+print("Deleted \(removedObject)")
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let sink = Amplify.Publisher.create {
+    try await Amplify.Storage.remove(path: .fromString("public/example/path"))
+}.sink {
+    if case let .failure(error) = $0 {
+        print("Failed: \(error)")
+    }
+}
+receiveValue: { removedObject in
+    print("Deleted \(removedObject)")
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+## Remove single file
+
+You can remove a single file using `Amplify.Storage.remove` with the `key` and its associated access level:
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+Future<void> removeFile({
+  required String key,
+  required StorageAccessLevel accessLevel,
+}) async {
+  try {
+    final result = await Amplify.Storage.remove(
+      key: key,
+      options: StorageRemoveOptions(
+        accessLevel: accessLevel,
+      ),
+    ).result;
+    safePrint('Removed file: ${result.removedItem.key}');
+  } on StorageException catch (e) {
+    safePrint('Error deleting file: ${e.message}');
+    rethrow;
+  }
+}
+```
+
+## Remove multiple Files
+
+You can remove multiple files using `Amplify.Storage.removeMany` with the `keys`, the files to be removed in a batch should have the same access level:
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+Future<void> removePrivateFiles({
+  required List<String> keys,
+}) async {
+  try {
+    final result = await Amplify.Storage.removeMany(
+      keys: keys,
+      options: const StorageRemoveManyOptions(
+        accessLevel: StorageAccessLevel.private,
+      ),
+    ).result;
+    safePrint('Removed files: ${result.removedItems}');
+  } on StorageException catch (e) {
+    safePrint('Error deleting files: ${e.message}');
+    rethrow;
+  }
+}
+```
+
+</InlineFilter>

@@ -194,6 +194,123 @@ RxAmplify.Storage.list(StoragePath.fromString("public/"), options)
 
 </InlineFilter>
 
+<InlineFilter filters={["swift"]}>
+
+You can list all of the objects uploaded under a given prefix by setting the `pageSize`. If the `pageSize` is set lower than the total file size available, A single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, the user can use the `nextToken` from the previous call response.
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let options = StorageListRequest.Options(pageSize: 1000)
+let listResult = try await Amplify.Storage.list(
+    path: .fromString("public/example/path"), 
+    options: options
+)
+listResult.items.forEach { item in
+    print("Path: \(item.path)")
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let sink = Amplify.Publisher.create {
+    let options = StorageListRequest.Options(pageSize: 1000)
+    try await Amplify.Storage.list(
+        path: .fromString("public/example/path"), 
+        options: options
+    )
+}.sink {
+    if case let .failure(error) = $0 {
+        print("Failed: \(error)")
+    }
+}
+receiveValue: { listResult in
+    print("Completed")
+    listResult.items.forEach { item in
+        print("Path: \(item.path)")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+This will list all files located under path `album` that:
+* have `private` access level
+* are in the root of `album/` (the result doesn't include files under any sub path)
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+
+Future<void> listAlbum() async {
+  try {
+    String? nextToken;
+    bool hasNextPage;
+    do {
+      final result = await Amplify.Storage.list(
+        path: 'album/',
+        options: StorageListOptions(
+          accessLevel: StorageAccessLevel.private,
+          pageSize: 50,
+          nextToken: nextToken,
+          pluginOptions: const S3ListPluginOptions(
+            excludeSubPaths: true,
+          ),
+        ),
+      ).result;
+      safePrint('Listed items: ${result.items}');
+      nextToken = result.nextToken;
+      hasNextPage = result.hasNextPage;
+    } while (hasNextPage);
+  } on StorageException catch (e) {
+    safePrint('Error listing files: ${e.message}');
+    rethrow;
+  }
+}
+```
+
+Pagination is enabled by default. The default `pageSize` is `1000` if it is not set in the `StorageListOptions`.
+
+### List files without pagination
+
+You can also list all files under a given path without pagination by using the `pluginOptions` and `S3ListPluginOptions.listAll()` constructor.
+
+This will list all public files (i.e. those with `guest` access level):
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+
+Future<void> listAllWithGuestAccessLevel() async {
+  try {
+    final result = await Amplify.Storage.list(
+      options: const StorageListOptions(
+        accessLevel: StorageAccessLevel.guest,
+        pluginOptions: S3ListPluginOptions.listAll(),
+      ),
+    ).result;
+
+    safePrint('Listed items: ${result.items}');
+  } on StorageException catch (e) {
+    safePrint('Error listing files: ${e.message}');
+    rethrow;
+  }
+}
+```
+
+</InlineFilter>
+
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
 ### List files without pagination
@@ -285,5 +402,30 @@ To get the metadata in result for all APIs you have to configure user defined me
 Learn more about how to setup an appropriate [CORS Policy](/[platform]/build-a-backend/storage/extend-s3-resources/#for-manually-configured-s3-resources).
 
 </Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+## Get File Properties
+
+You can also view properties of an individual file.
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+Future<void> getFileProperties() async {
+  try {
+    final result = await Amplify.Storage.getProperties(
+      key: 'example.txt',
+    ).result;
+
+    safePrint('File size: ${result.storageItem.size}');
+  } on StorageException catch (e) {
+    safePrint('Could not retrieve properties: ${e.message}');
+    rethrow;
+  }
+}
+```
 
 </InlineFilter>
