@@ -339,7 +339,7 @@ Amplify.configure(config);
 
 const client = generateClient<Schema>();
 
-function Home() {
+function App() {
   const [prompt, setPrompt] = useState<string>("");
   const [answer, setAnswer] = useState<string | null>(null);
 
@@ -381,7 +381,7 @@ function Home() {
   );
 }
 
-export default Home;
+export default App;
 ```
 
 ![GIF of a webpage titled "Haiku Generator" and input field. "Frank Herbert's Dune" is entered and submitted. Shortly after, a haiku is rendered to the page.](/images/haiku-generator.gif)
