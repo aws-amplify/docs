@@ -1,0 +1,30 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Tokens and credentials',
+  description: 'Learn about how tokens and credentials are used in Amplify applications',
+  platforms: [
+    // 'android',
+    'angular',
+    // 'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    // 'react-native',
+    // 'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+

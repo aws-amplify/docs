@@ -38,7 +38,9 @@ The quickest way to get started with Amplify Auth in your frontend application i
 
 </Callout>
 
-To get started, you can use the `signUp()` function to create a new user in your backend:
+To get started, you can use the `signUp()` API to create a new user in your backend:
+
+<InlineFilter filters={["javascript", "react", "nextjs", "angular", "vue"]}>
 
 ```ts
 import { signUp } from "aws-amplify/auth"
@@ -54,6 +56,61 @@ const { isSignUpComplete, userId, nextStep } = await signUp({
   }
 });
 ```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+ ```dart
+/// Signs a user up with a username, password, and email. The required
+/// attributes may be different depending on your app's configuration.
+Future<void> signUpUser({
+  required String username,
+  required String password,
+  required String email,
+  String? phoneNumber,
+}) async {
+  try {
+    final userAttributes = {
+      AuthUserAttributeKey.email: email,
+      if (phoneNumber != null) AuthUserAttributeKey.phoneNumber: phoneNumber,
+      // additional attributes as needed
+    };
+    final result = await Amplify.Auth.signUp(
+      username: username,
+      password: password,
+      options: SignUpOptions(
+        userAttributes: userAttributes,
+      ),
+    );
+    await _handleSignUpResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error signing up user: ${e.message}');
+  }
+}
+```
+
+```dart
+Future<void> _handleSignUpResult(SignUpResult result) async {
+  switch (result.nextStep.signUpStep) {
+    case AuthSignUpStep.confirmSignUp:
+      final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
+      _handleCodeDelivery(codeDeliveryDetails);
+      break;
+    case AuthSignUpStep.done:
+      safePrint('Sign up is complete');
+      break;
+  }
+}
+
+void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
+  safePrint(
+    'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
+    'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
+  );
+}
+```
+
+</InlineFilter>
 
 The `signUp` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
 
@@ -73,6 +130,8 @@ By default, each user that signs up remains in the unconfirmed status until they
 
 You can confirm the sign-up after receiving a confirmation code from the user:
 
+<InlineFilter filters={["flutter"]}>
+
 ```ts
 import { confirmSignUp } from 'aws-amplify/auth';
 
@@ -81,6 +140,30 @@ const { isSignUpComplete, nextStep } = await confirmSignUp({
   confirmationCode: "123456"
 });
 ```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+```dart
+Future<void> confirmUser({
+  required String username,
+  required String confirmationCode,
+}) async {
+  try {
+    final result = await Amplify.Auth.confirmSignUp(
+      username: username,
+      confirmationCode: confirmationCode,
+    );
+    // Check if further confirmations are needed or if
+    // the sign up is complete.
+    await _handleSignUpResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error confirming user: ${e.message}');
+  }
+}
+```
+
+</InlineFilter>
 
 <Callout info>
 
