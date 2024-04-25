@@ -11,7 +11,8 @@ export const meta = {
     'vue',
     'android',
     'swift',
-    'flutter'
+    'flutter',
+    'react-native'
   ]
 };
 
@@ -40,7 +41,8 @@ npm install @aws-amplify/ui-react-storage aws-amplify
 import { StorageImage } from '@aws-amplify/ui-react-storage';
 
 export const DefaultStorageImageExample = () => {
-  return <StorageImage alt="cat" imgKey="cat.jpg" accessLevel="guest" />;
+  return <StorageImage alt="cat" path="guest/cat.jpg" />;
+// or <StorageImage alt="cat" path={() => "guest/cat.jpg"} />
 };
 ```
 
@@ -94,41 +96,13 @@ This function does not check if the file exists by default. As result, the signe
   
 </Callout>
 
-### Check for existence of a file
+### More `getUrl` options
 
-You can check for the existence of a file in the storage category's `getUrl` API using the `validateObjectExistence` option. When this flag is enabled a `getUrl` call will return a pre-signed URL if the file exists and raise a `404` error if it does not. This allows you to check if an object exists during generating the presigned URL, which you can then use to download that object.
-
-```javascript
-import { getUrl } from 'aws-amplify/storage';
-
-// To check for existence of a file
-await getUrl({
-  path: "album/2024/1.jpg",
-  // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
-  options: {
-    validateObjectExistence: true // defaults to false
-  }
-});
-```
-
-### Set expiry for presigned URL
-
-You can use `expiresIn` option to limit the availability of your URLs. This configuration returns the pre-signed URL that expires in 60 seconds:
-
-```javascript
-import { getUrl } from 'aws-amplify/storage';
-
-await getUrl({ 
-  path: "album/2024/1.jpg",
-  // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
-  options: { expiresIn: 60 } 
-});
-```
-<Callout>
-  The expiration time of the presigned url is dependent on the session and will
-  max out at 1 hour.
-</Callout>
-
+Option | Type | Description |
+| -- | -- | ----------- |
+| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |  |
+| validateObjectExistence | boolean | Whether to head object to make sure the object existence before downloading. Defaults to false |
+| expiresIn | number | Number of seconds till the URL expires. <br/><br/> The expiration time of the presigned url is dependent on the session and will max out at 1 hour. |
 
 </InlineFilter>
 
@@ -187,6 +161,8 @@ let url = try await Amplify.Storage.getURL(path: .fromString("public/example/pat
 print("Completed: \(url)")
 ```
 
+### Check existence of a file
+
 When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to
 `true` in `AWSStorageGetURLOptions`. If the file is inaccessible or does not exist, a `StorageError` is thrown.
 This allows you to check if an object exists during generating the presigned URL, which you can then use to download
@@ -203,6 +179,13 @@ let url = try await Amplify.Storage.getURL(
 )
 ```
 
+### More `getURL` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| expires | Integer | Number of seconds before the URL expires |
+| pluginOptions | - | Extra plugin specific options, only used in special circumstances when the existing options do not provide a way to utilize the underlying storage system's functionality. |
+
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
@@ -213,25 +196,14 @@ This allows you to check if an object exists during generating the presigned URL
 that object.
 
 ```dart
-Future<String> getDownloadUrl({
-  required String key,
-  required StorageAccessLevel accessLevel,
-}) async {
+Future<void> getDownloadUrl() async {
   try {
     final result = await Amplify.Storage.getUrl(
-      key: key,
-      options: const StorageGetUrlOptions(
-        accessLevel: accessLevel,
-        pluginOptions: S3GetUrlPluginOptions(
-          validateObjectExistence: true,
-          expiresIn: Duration(days: 1),
-        ),
-      ),
+      path: const StoragePath.fromString('public/example.txt'),
     ).result;
-    return result.url.toString();
+    safePrint('url: ${result.url}');
   } on StorageException catch (e) {
-    safePrint('Could not get a downloadable URL: ${e.message}');
-    rethrow;
+    safePrint(e.message);
   }
 }
 ```
@@ -396,6 +368,16 @@ let resultSink = downloadTask
 </Block>
 
 </BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+### More download options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| pluginOptions | - | Extra plugin specific options, only used in special circumstances when the existing options do not provide a way to utilize the underlying storage system's functionality. |
 
 </InlineFilter>
 
@@ -653,6 +635,32 @@ final operation = Amplify.Storage.downloadData(
 
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+
+### Pause, resume, and cancel downloads
+
+```dart
+
+Future<void> upload() async {
+  final operation = Amplify.Storage.downloadFile(
+    localFile: AWSFile.fromPath('/path/to/local/file'),
+    path: const StoragePath.fromString('public/example.txt'),
+  );
+
+  // pause operation
+  await operation.pause();
+
+  // resume operation
+  await operation.resume();
+
+  // cancel operation
+  await operation.cancel();
+}
+
+```
+
+</InlineFilter>
+
 <InlineFilter filters={["android"]}>
 
 ### Query transfers
@@ -775,6 +783,44 @@ Future<void> download() async {
 }
 ```
 
+## More download options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| getProperties | boolean | Whether to retrieve properties for the downloaded object using theAmplify.Storage.getProperties() after the operation completes. When set to true the returned item will contain additional info such as metadata and content type. |
+| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) |
+| bytesRange | S3DataBytesRange | The byte range to download from the object |
+
+### Example of `downloadFile` with options
+
+```dart
+final operation = Amplify.Storage.downloadFile(
+  path: const StoragePath.fromString('public/example.txt'),
+  localFile: AWSFile.fromPath('/path/to/local/file.txt'),
+  options: const StorageDownloadFileOptions(
+    pluginOptions: S3DownloadFilePluginOptions(
+      getProperties: true,
+      useAccelerateEndpoint: true,
+    ),
+  ),
+);
+```
+
+### Example of `downloadData` with options
+
+```dart
+final operation = Amplify.Storage.downloadData(
+  path: const StoragePath.fromString('public/example.txt'),
+  options: StorageDownloadDataOptions(
+    pluginOptions: S3DownloadDataPluginOptions(
+      getProperties: true,
+      useAccelerateEndpoint: true,
+      bytesRange: S3DataBytesRange(start: 0, end: 100),
+    ),
+  ),
+);
+```
+
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
@@ -804,6 +850,18 @@ downloadTask.resume()
 Download tasks are run using `URLSessionTask` instances internally. You can learn more about them in [Apple's official documentation](https://developer.apple.com/documentation/foundation/urlsessiontask).
 
 </Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+### More download options
+
+Option | Type | Description | Reference Links |
+| -- | -- | ----------- | -- |
+| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+| bytesRange |  \{ start: number; end:number; \} | bytes range parameter to download a part of the file. |  |
+| onProgress | callback | Callback function tracking the upload/download progress. |  |
 
 </InlineFilter>
 

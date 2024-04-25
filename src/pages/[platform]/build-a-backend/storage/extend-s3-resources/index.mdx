@@ -11,7 +11,8 @@ export const meta = {
     'vue',
     'swift',
     'android',
-    'flutter'
+    'flutter',
+    'react-native'
   ]
 };
 
@@ -168,11 +169,15 @@ Future<void> uploadFileUsingAcceleration(String filePath, String key) async {
 
 Read more about [escape hatches in CDK](https://docs.aws.amazon.com/cdk/v2/guide/cfn_layer.html#develop-customize-escape).
 
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native", "flutter"]}>
 
 ## For Manually configured S3 resources
 
-{/* TODO Rewrite is this needed only for JS? or is it needed for Flutter Web for example as well? */}
+<InlineFilter filters={["flutter"]}>
+
+Follow this guide if you are building against a web target.
+
+</InlineFilter>
 
 <Callout warning>
 
