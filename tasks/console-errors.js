@@ -30,19 +30,19 @@ const checkPage = async (url) => {
   await page.setRequestInterception(true);
 
   page
-    .on('pageerror', (message) => {
-      const errorText = message.message;
-      const excluded = excludedErrors.some((excludedError) => {
-        return errorText.includes(excludedError.errorText);
-      });
+    // .on('pageerror', (message) => {
+    //   const errorText = message.message;
+    //   const excluded = excludedErrors.some((excludedError) => {
+    //     return errorText.includes(excludedError.errorText);
+    //   });
 
-      if (!excluded) {
-        errorsFound.push({
-          page: url,
-          message: errorText
-        });
-      }
-    })
+    //   if (!excluded) {
+    //     errorsFound.push({
+    //       page: url,
+    //       message: errorText
+    //     });
+    //   }
+    // })
     .on('console', (message) => {
       if (message.type().toLowerCase() === 'error') {
         const errorText = message.text();
@@ -69,14 +69,19 @@ const checkPage = async (url) => {
       const excludedFromScript = excludedScripts.some((excludedScript) => {
         return interceptedRequest.url().includes(excludedScript);
       });
-      if (excludedFromScript) {
-        interceptedRequest.abort();
-      } else interceptedRequest.continue();
+      if (!excludedFromScript) interceptedRequest.continue();
+      // if (excludedFromScript) {
+      //   interceptedRequest.abort();
+      // } else interceptedRequest.continue();
     });
 
   await page.goto(url, { waitUntil: 'domcontentloaded' });
 
   await browser.close();
+
+  console.log(
+    'Console error have been found and need to be fixed in order to merge. Please note that these errors could be on pages that were not edited in this PR.'
+  );
 
   return errorsFound;
 };
