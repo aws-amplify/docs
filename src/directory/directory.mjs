@@ -684,6 +684,9 @@ export const directory = {
               path: 'src/pages/[platform]/reference/iam-policy/index.mdx'
             },
             {
+              path: 'src/pages/[platform]/reference/permissions-boundary/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/reference/telemetry/index.mdx'
             }
           ]
