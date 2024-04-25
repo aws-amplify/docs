@@ -72,10 +72,9 @@ When enabling MFA you will have two key decisions to make:
 ## Multi-factor authentication with SMS
 
 <Callout info>
-  If you are using the [Authenticator
-  component](https://ui.docs.amplify.aws/react/connected-components/authenticator)
-  with Amplify, this feature works without any additional code. The
-  guide below is for writing your own implementation.
+
+If you are using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator) with Amplify, this feature works without any additional code. The guide below is for writing your own implementation.
+
 </Callout>
 
 Once you have setup SMS as your second layer of authentication with MFA as shown above, your users will get an authentication code via a text message to complete sign-in after they sign in with their username and password.
@@ -155,9 +154,6 @@ After you initiate a user sign in with the `signIn` API where a user is required
 The `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app.
 
 Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
-
-<BlockSwitcher>
-<Block name="TypeScript">
 
 ```ts
 import { signIn, SignInOutput } from 'aws-amplify/auth';
