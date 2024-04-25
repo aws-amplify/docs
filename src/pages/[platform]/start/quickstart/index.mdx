@@ -35,13 +35,6 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={["javascript", "nextjs"]}>
-
-<Overview childPageNodes={props.childPageNodes} />
-
-</InlineFilter>
-
-
 
 <InlineFilter filters={["react"]}>
 
@@ -111,8 +104,6 @@ Let's take a tour of the project structure in this starter repository by opening
 ```
 </Accordion>
 
-{/* want to highlight any files to look at especially? Talk through any of the code? */}
-
  When the build completes, visit the newly deployed branch by selecting "View deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
@@ -146,9 +137,7 @@ git clone https://github.com/<github-user>/amplify-vite-react-template.git
 cd amplify-vite-react-template && npm install
 ```
 
-{/* this file means the amplify-output.json file? */}
-
-Now move the `amplify-output.json` file you downloaded above to the root of your project.
+Now move the `amplify-outputs.json` file you downloaded above to the root of your project.
 
 ```text
 ├── amplify
@@ -214,8 +203,6 @@ This should start a local dev server at http://localhost:5173.
 
 
 ### 6. Implement login UI
-
-{/* we alternate between .ts and .tsx files in this tutorial - think they should all be .tsx */}
 
 The starter application already has a pre-configured auth backend defined in the **amplify/auth/resource.ts** file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
@@ -368,6 +355,20 @@ Once your build completes in the Amplify Console, the `main` backend will update
 
 
 
+
+<InlineFilter filters={["nextjs"]}>
+
+👋 Welcome to AWS Amplify! In this quickstart guide, you will:
+
+1. Deploy a Next.js app 
+2. Build and connect to a database with real-time data updates
+3. Configure authentication and authorization rules
+
+We have two Quickstart guides you can follow:
+
+<Overview childPageNodes={props.childPageNodes} />
+
+</InlineFilter>
 
 
 
@@ -2630,7 +2631,18 @@ For publishing the changes to cloud, you need to create a remote git repository.
 
 </InlineFilter>
 
+<InlineFilter filters={['react-native']
+['android'],
+['angular'],
+['flutter'],
+['javascript'],
+['react'],
+['react-native'],
+['swift'],
+['vue']}>
+
 ## 🥳 Success
 
 That's it! You have successfully built a fullstack app on AWS Amplify. If you want to learn more about how to work with Amplify, here's the conceptual guide for [how Amplify works](/[platform]/how-amplify-works/concepts/).
 
+</InlineFilter>

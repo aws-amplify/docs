@@ -29,9 +29,6 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-app-router-client-components/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/quickstart/nextjs-app-router-server-components/index.mdx'
                 }
               ]
             },
@@ -283,7 +280,12 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs-app-router-server-components/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-a-backend/add-aws-services/index.mdx',
