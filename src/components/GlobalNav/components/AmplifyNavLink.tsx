@@ -2,15 +2,18 @@ import { Flex, Text, Button, VisuallyHidden } from '@aws-amplify/ui-react';
 import { AmplifyLogo } from './icons';
 import { IconChevron } from '@/components/Icons';
 import { GenSwitcher } from '@/components/GenSwitcher';
+import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 
 export function AmplifyNavLink({ isCollapsed, setIsCollapsed, isGen1 }) {
   const chevronRotation = isCollapsed ? '0' : '180';
+  const currentPlatform = useCurrentPlatform() || '';
+
   return (
     <Flex className="navbar__logo-container">
       <Flex
         className={`navbar-logo-link${isGen1 ? ' navbar-logo-link--gen1' : ''}`}
         as="a"
-        href={isGen1 ? '/gen1' : '/'}
+        href={isGen1 ? `/gen1/${currentPlatform}` : `/${currentPlatform}`}
       >
         <AmplifyLogo />
         <Text as="span" className="navbar-logo-text">
