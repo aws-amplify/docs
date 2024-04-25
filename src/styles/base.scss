@@ -10,6 +10,9 @@ html {
   -moz-text-size-adjust: none;
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
+  &:has([data-amplify-color-mode='dark']) {
+    background-color: var(--amplify-colors-neutral-100);
+  }
 }
 
 :root {
