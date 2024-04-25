@@ -1,3 +1,5 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
 export const meta = {
   title: 'Sign-in',
   description: 'Learn how to sign-in',
@@ -13,6 +15,10 @@ export const meta = {
     'vue'
   ]
 };
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
 
 export function getStaticProps() {
   return {
