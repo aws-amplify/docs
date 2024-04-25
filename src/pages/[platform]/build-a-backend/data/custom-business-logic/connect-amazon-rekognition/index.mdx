@@ -91,6 +91,12 @@ const backend = defineBackend({
 
 const dataStack = Stack.of(backend.data)
 
+// Set environment variables for the S3 Bucket name
+backend.data.resources.cfnResources.cfnGraphqlApi.environmentVariables = {
+  S3_BUCKET_NAME:
+    "<s3-bucket-name>",
+};
+
 const rekognitionDataSource = backend.data.addHttpDataSource(
   "RekognitionDataSource",
   `https://rekognition.${dataStack.region}.amazonaws.com`,
@@ -128,8 +134,7 @@ export function request(ctx) {
       body: {
         Image: {
           S3Object: {
-            Bucket:
-              "<replace with S3 Bucket name>",
+            Bucket: ctx.env.S3_BUCKET_NAME,
             Name: "public/" + ctx.arguments.path,
           },
         },
@@ -149,7 +154,6 @@ export function response(ctx) {
     .join("\n")
     .trim();
 }
-
 
 ```
 
@@ -197,8 +201,8 @@ import { defineStorage } from "@aws-amplify/backend"
 export const storage = defineStorage({
   name: "predictions_gen2",
   access: allow => ({
-    '/public/*': [
-      allow.guest.to(['read', 'write', 'get'])
+    'public/*': [
+      allow.guest.to(['list', 'write', 'get'])
     ]
   })
 })
@@ -238,8 +242,8 @@ function App() {
     try {
       // Uploading the file to the S3 bucket
       await uploadData({
-        key: event.target.files[0], // The file to be uploaded
-        data: "test1.png", // File name
+        data: event.target.files[0], // The file to be uploaded
+        key: "test1.png", // File name
       });
       console.log("Upload successful");
     } catch (error) {
