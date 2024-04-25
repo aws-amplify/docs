@@ -203,6 +203,8 @@ Next, create a `generateHaiku.js` file in your `amplify/data` folder and use the
 
 <BlockSwitcher>
 <Block name="Function">
+The following code uses the `BedrockRuntimeClient` from the `@aws-sdk/client-bedrock-runtime` package to invoke the generative AI model in Amazon Bedrock. The `handler` function takes the user prompt as an argument, invokes the model, and returns the generated haiku.
+
 ```ts title="amplify/data/generateHaiku.ts"
 import type { Schema } from "./resource";
 import {
@@ -256,10 +258,10 @@ export const handler: Schema["generate"]["functionHandler"] = async (
   return data.content[0].text;
 };
 ```
-
-The code above uses the `BedrockRuntimeClient` from the `@aws-sdk/client-bedrock-runtime` package to invoke the generative AI model in Amazon Bedrock. The `handler` function takes the user prompt as an argument, invokes the model, and returns the generated haiku.
 </Block>
 <Block name="Custom resolver powered by AppSync JavaScript resolvers">
+The following code defines a `request` function that constructs the HTTP request to invoke the generative AI model in Amazon Bedrock. The `response` function parses the response and returns the generated haiku.
+
 ```js title="amplify/data/generateHaiku.js"
 export function request(ctx) {
 
@@ -306,8 +308,6 @@ export function response(ctx) {
   return haiku;
 }
 ```
-
-The code above defines a `request` function that constructs the HTTP request to invoke the generative AI model in Amazon Bedrock. The `response` function parses the response and returns the generated haiku.
 </Block>
 </BlockSwitcher>
 
