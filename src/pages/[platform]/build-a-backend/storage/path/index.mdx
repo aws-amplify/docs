@@ -42,7 +42,8 @@ export function getStaticProps(context) {
 <InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
 You can now use the `path` parameter in the API to access any path within your S3 bucket. This provides more flexibility than the predefined `guest`, `private`, or `public` folder access levels, allowing you to create and manage a storage structure tailored to your needs.
 
-Note : `path` parameter can neither be empty or start with a '/' (leading slash)
+Note : `path` parameter can not be empty or start with a '/' (leading slash)
+The sections below explain how to use existing `guest`, `protected`, and `private` resources with path-based APIs.
 
 ## Using Guest accessLevel
 
@@ -66,6 +67,7 @@ import { getProperties } from 'aws-amplify/storage';
 
 try {
   const result = await getProperties({
+    // `identityId` will provide the ID of the currently authenticated user
     path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`,
   });
   console.log('File Properties ', result);
@@ -81,6 +83,7 @@ import { getProperties } from 'aws-amplify/storage';
 
 try {
   const result = await getProperties({
+    // `identityId` will provide the ID of the currently authenticated user
     path: ({identityId}) => `private/${identityId}/album/2024/1.jpg`,
   });
   console.log('File Properties ', result);
