@@ -30,30 +30,22 @@ const checkPage = async (url) => {
   await page.setRequestInterception(true);
 
   page
-    // .on('pageerror', (message) => {
-    //   const errorText = message.message;
-    //   const excluded = excludedErrors.some((excludedError) => {
-    //     return errorText.includes(excludedError.errorText);
-    //   });
+    .on('pageerror', (message) => {
+      const errorText = message.message;
+      const excluded = excludedErrors.some((excludedError) => {
+        return errorText.includes(excludedError.errorText);
+      });
 
-    //   if (!excluded) {
-    //     errorsFound.push({
-    //       page: url,
-    //       message: errorText
-    //     });
-    //   }
-    // })
+      if (!excluded) {
+        errorsFound.push({
+          page: url,
+          message: errorText
+        });
+      }
+    })
     .on('console', (message) => {
       if (message.type().toLowerCase() === 'error') {
         const errorText = message.text();
-        const callingScript = message.location().url;
-        const excludedFromError = excludedErrors.some((excludedError) => {
-          return errorText.includes(excludedError.errorText);
-        });
-        const excludedFromScript = excludedScripts.some((excludedScript) => {
-          return callingScript.includes(excludedScript);
-        });
-        const excluded = excludedFromError || excludedFromScript;
 
         if (!excluded) {
           errorsFound.push({
@@ -69,10 +61,9 @@ const checkPage = async (url) => {
       const excludedFromScript = excludedScripts.some((excludedScript) => {
         return interceptedRequest.url().includes(excludedScript);
       });
-      if (!excludedFromScript) interceptedRequest.continue();
-      // if (excludedFromScript) {
-      //   interceptedRequest.abort();
-      // } else interceptedRequest.continue();
+      if (excludedFromScript) {
+        interceptedRequest.abort();
+      } else interceptedRequest.continue();
     });
 
   await page.goto(url, { waitUntil: 'domcontentloaded' });
