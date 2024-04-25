@@ -1580,7 +1580,9 @@
     "nextamplifygen",
     "multirepo",
     "startbuild",
-    "voteField"
+    "voteField",
+    "awscliv",
+    "identitystore"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
