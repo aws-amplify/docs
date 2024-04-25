@@ -141,6 +141,7 @@
     "AppDelegate.swift",
     "AppDelegate",
     "appid",
+    "apigatewayv",
     "appleid",
     "appName.app",
     "AppStore",
@@ -1159,6 +1160,7 @@
     "SDK's",
     "sdk",
     "SDKs",
+    "SDLC",
     "searchable",
     "searchbyLocationRadius",
     "searchQueryField",
@@ -1259,6 +1261,7 @@
     "task.result",
     "taskIdentifier",
     "template.json",
+    "TEAMID",
     "testappa",
     "testtable",
     "testtrigger",
@@ -1581,7 +1584,9 @@
     "PITR",
     "osis",
     "prepper",
-    "OSIS"
+    "OSIS",
+    "esac",
+    "voteField"
   ],
   "flagWords": [
     "hte",
