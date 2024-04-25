@@ -46,6 +46,10 @@ const checkPage = async (url) => {
     .on('console', (message) => {
       if (message.type().toLowerCase() === 'error') {
         const errorText = message.text();
+        // const callingScript = message.location().url;
+        const excluded = excludedErrors.some((excludedError) => {
+          return errorText.includes(excludedError.errorText);
+        });
 
         if (!excluded) {
           errorsFound.push({
