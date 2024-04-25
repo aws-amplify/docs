@@ -84,7 +84,7 @@ The `generateHaikuFunction` will be defined in and exported from the `amplify/da
 </Block>
 <Block name="Custom resolver powered by AppSync JavaScript resolvers">
 
-In your `amplify/backend.ts` file, replace the content with the following code to add an HTTP data source for Amazon Bedrock to your API:
+In your `amplify/backend.ts` file, replace the content with the following code to add an HTTP data source for Amazon Bedrock to your API and grant it permissions to invoke a generative AI model:
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
