@@ -37,6 +37,9 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/start/gen1-gen2/index.mdx'
             }
           ]
         },
