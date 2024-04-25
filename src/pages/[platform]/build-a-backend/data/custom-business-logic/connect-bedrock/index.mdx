@@ -128,7 +128,7 @@ bedrockDataSource.grantPrincipal.addToPrincipalPolicy(
 
 <BlockSwitcher>
 <Block name="Function">
-Next, replace the contents of your `amplify/data/resource.ts` file with the following code. This will define and export a lambda function that was granted permission to invoke a generative AI model in Amazon Bedrock in the previous step. Also, a custom query named `generateHaiku` is added to the schema with the new lambda function as a the handler
+Next, replace the contents of your `amplify/data/resource.ts` file with the following code. This will define and export a lambda function that was granted permission to invoke a generative AI model in Amazon Bedrock in the previous step. A custom query named `generateHaiku` is added to the schema with the `generateHaikuFunction` as the handler using the `a.handler.function()` modifier:
 
 ```ts title="amplify/data/resource.ts"
 import {
