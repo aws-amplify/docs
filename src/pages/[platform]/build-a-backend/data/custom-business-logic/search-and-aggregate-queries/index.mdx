@@ -165,7 +165,7 @@ const openSearchIntegrationPipelineRole = new iam.Role(
           }),
           new iam.PolicyStatement({
             actions: ["es:ESHttp*"],
-            resources: ["<openSearchDomain-arn>"],
+            resources: ["*"],
             effect: iam.Effect.ALLOW,
           }),
           new iam.PolicyStatement({
@@ -202,7 +202,7 @@ const openSearchIntegrationPipelineRole = new iam.Role(
     },
     managedPolicies: [
       iam.ManagedPolicy.fromAwsManagedPolicyName(
-        "AmazonOpenSearchServiceFullAccess"
+        "AmazonOpenSearchIngestionFullAccess"
       ),
     ],
   }
