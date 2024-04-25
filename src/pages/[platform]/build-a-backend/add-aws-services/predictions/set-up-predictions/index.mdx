@@ -86,12 +86,15 @@ const backend = defineBackend({
   auth,
 });
 
+
+// Configure a policy for the required use case.
+// The actions included below cover all supported ML capabilities
 backend.auth.resources.unauthenticatedUserIamRole.addToPrincipalPolicy(
   new PolicyStatement({
     actions: [
       "translate:TranslateText",
-      "polly:SynthesizeSpeech",
       "transcribe:StartStreamTranscriptionWebSocket",
+      "polly:SynthesizeSpeech",      
       "comprehend:DetectSentiment",
       "comprehend:DetectEntities",
       "comprehend:DetectDominantLanguage",
@@ -103,12 +106,12 @@ backend.auth.resources.unauthenticatedUserIamRole.addToPrincipalPolicy(
       "rekognition:DetectModerationLabels",
       "rekognition:DetectText",
       "rekognition:DetectLabel",
+      "rekognition:SearchFacesByImage",      
       "textract:AnalyzeDocument",
       "textract:DetectDocumentText",
       "textract:GetDocumentAnalysis",
       "textract:StartDocumentAnalysis",
       "textract:StartDocumentTextDetection",
-      "rekognition:SearchFacesByImage",
     ],
     resources: ["*"],
   })
