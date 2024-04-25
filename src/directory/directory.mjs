@@ -186,6 +186,9 @@ export const directory = {
                   children: [
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
+                    },
+                    {
+                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-translate/index.mdx'
                     }
                   ]
                 },
