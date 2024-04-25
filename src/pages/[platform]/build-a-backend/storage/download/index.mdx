@@ -87,7 +87,7 @@ import { getUrl } from 'aws-amplify/storage';
 const getUrlResult = await getUrl({
   key: 'album/2024/1.jpg',
   options: {
-    accessLevel?: 'guest' , // can be 'private', 'protected', or 'guest' but defaults to `guest`
+    accessLevel?: 'protected' , // can be 'private', 'protected', or 'guest' but defaults to `guest`
     targetIdentityId?: 'XXXXXXX', // id of another user, if `accessLevel` is `protected`
     validateObjectExistence?: false,  // Check if object exists before creating a URL
     expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
