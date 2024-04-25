@@ -64,7 +64,6 @@ export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: "apiKey",
-    // API Key is used for a.allow.public() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30,
     },
@@ -123,7 +122,7 @@ const openSearchDomain = new opensearch.Domain(
 ## Step 3: Setting Up Zero ETL from DynamoDB to OpenSearch
 
 ### Step 3a: S3 Bucket and IAM Role
-Create an S3 bucket for backing up raw events consumed by the OpenSearch pipeline. Also, set up an IAM role for the pipeline:
+Establish an S3 bucket to back up raw events consumed by the OpenSearch pipeline. Additionally, configure an IAM role for the pipeline and assign the roles as indicated below. For further information on the required IAM roles, please refer to the [Setting up roles and users](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline-security-overview.html#pipeline-security-create) documentation.
 
 ``` ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
@@ -294,12 +293,15 @@ dynamodb-pipeline:
 
 ```
 
-This configuration outlines the desired pipeline behavior.
+This configuration defines the desired behavior of the pipeline for a single model.
 
-For the source configuration, you specify DynamoDB as the data source, identifying the table you want to ingest from and the starting point of the stream. Besides ingesting the stream into OpenSearch, you also define the target S3 bucket for backup purposes. Additionally, you set the IAM role for the ingestion pipeline, making sure it has the required permissions and policies as outlined in the documentation.
+In the source configuration, DynamoDB is specified as the data source, along with the target table for ingestion and the starting point of the stream. Additionally, besides ingesting the stream into OpenSearch, a target S3 bucket is defined for backup purposes. Furthermore, an IAM role is set for the ingestion pipeline, ensuring it possesses the necessary permissions and policies as detailed in the documentation.
 
-For the sink configuration, you specify the OpenSearch domain cluster by setting the host, the index name and type, and template_content (the index mapping) for data formatting. You also configure document-related metadata and set the maximum bulk size for requests to OpenSearch in MB. Again, you specify the IAM role for the sink portion of the pipeline.
+Regarding the sink configuration, the OpenSearch domain cluster is specified by setting the host, index name, type, and template content (index mapping) for data formatting. Document-related metadata is configured along with the maximum bulk size for requests to OpenSearch in MB. Once again, an IAM role is specified for the sink portion of the pipeline. For further details on Sink configuration, please refer to the [OpenSearch documentation](https://opensearch.org/docs/latest/data-prepper/pipelines/configuration/sinks/sinks/).
 
+The sink configuration is an array. To create a different index on the same table, you can achieve this by adding a second OpenSearch configuration to the sink array.
+
+NOTE: An OpenSearch Ingestion pipeline supports only one DynamoDB table as its source. For more details on current limitations, Please refer to [Amazon OpenSearch Limitation](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/configure-client-ddb.html#ddb-pipeline-limitations) section.
 
 Now, create the OSIS pipeline resource:
 
@@ -354,7 +356,7 @@ const osDataSource = backend.data.addOpenSearchDataSource(
 ```
 ### Step 4b: Create Resolver and attach to query
 
-Let's create the search resolver. Create a new file named `amplify/data/searchBlogResolver.ts` and paste the following code: 
+Let's create the search resolver. Create a new file named `amplify/data/searchBlogResolver.ts` and paste the following code. For additional details please refer to [Amazon OpenSearch Service Resolvers](https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-elasticsearch-resolvers-js.html)
 
 ```ts title="amplify/data/searchBlogResolver.ts"
 
