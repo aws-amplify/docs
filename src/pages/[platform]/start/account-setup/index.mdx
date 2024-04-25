@@ -71,32 +71,34 @@ You can use temporary security credentials to make programmatic requests for AWS
 </Accordion>
 
 
-## 1. Set up a user
+## Set up Identity Center
 
 Follow the steps below if **you have never set up AWS profiles before**. If you already have a profile, attach the `AmplifyBackendDeployFullAccess` managed policy to your [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_attach-policy.html).
 
-1. Sign in to the AWS Console to access [IAM Identity Center page](https://console.aws.amazon.com/singlesignon/home) and choose **Enable**.
+### 1. Create user with Amplify permissions
+
+Sign in to the AWS Console to access [IAM Identity Center page](https://console.aws.amazon.com/singlesignon/home) and choose **Enable**.
 
   ![AWS IAM Identity Center page indicating the "enable" button.](/images/gen2/account-setup/sso-enable.png)
 
-2. A dialog will open, prompting you to "Choose how to configure IAM Identity Center in your AWS environment." Select **Enable with AWS Organizations** and choose **Continue**.
+A dialog will open, prompting you to "Choose how to configure IAM Identity Center in your AWS environment." Select **Enable with AWS Organizations** and choose **Continue**.
 
   ![AWS IAM Identity Center enable dialog with AWS Organizations, indicating to "continue".](/images/gen2/account-setup/sso-enable-dialog.png)
 
-3. Next, we are going to automate a number of steps that simulate the operations of setting up a user in the IdC console. To get started open CloudShell, located in the console footer.
+Next, we are going to automate a number of steps that simulate the operations of setting up a user in the IdC console. To get started open CloudShell, located in the console footer.
 
 <video autoPlay={true} muted={true} loop={false} width="100%" playsInline={true}>
   <source src="/images/gen2/account-setup/sso-cloud-shell.mp4" />
 </video>
 
-4. Paste the following command in the CloudShell terminal and enter an email address you would like to associate with this AWS account:
+Paste the following command in the CloudShell terminal and enter an email address you would like to associate with this AWS account:
 
 ``` bash showLineNumbers={false}
 read -p "Enter email address: " user_email # hit enter
 Enter email address: <your-email-address>
 ```
 
-5. Now, run the following command
+Now, run the following command
 
 ```bash
 response=$(aws sso-admin list-instances)
@@ -112,7 +114,7 @@ accountId=$(aws sts get-caller-identity | jq '.Account' -r)
 aws sso-admin create-account-assignment --instance-arn $ssoArn --target-id $accountId --target-type AWS_ACCOUNT --permission-set-arn $permissionSetArn --principal-type USER --principal-id $userId
 ```
 
-6. To validate that this worked, run the following command in the CloudShell. If something failed in this process, please **[report an issue](https://github.com/aws-amplify/amplify-backend/issues)**. Keep this information readily available for [the next step](#2-set-up-local-aws-profile).
+To validate that this worked, run the following command in the CloudShell. If something failed in this process, please **[report an issue](https://github.com/aws-amplify/amplify-backend/issues)**. Keep this information readily available for [the next step](#2-set-up-local-aws-profile).
 
 ```bash showLineNumbers={false}
 // highlight-next-line
@@ -167,7 +169,9 @@ Expand **AWS Managed Policies (set)** and search for _amplify_. Select **Amplify
   ![AWS IAM Identity Center access portal displaying an AWS account.](/images/gen2/account-setup/sso-access-portal.png)
 </Accordion>
 
-7. Now create a password for the user that we need for the next step. In the IdC console, navigate to _Users > amplify_admin > Reset password > Send an email to the user with instructions for resetting the password_.
+### 2. Create password for user
+
+ Now create a password for the user that we need for the next step. In the IdC console, navigate to _Users > amplify_admin > Reset password > Send an email to the user with instructions for resetting the password_.
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/account-setup/sso-reset-password.mp4" />
@@ -177,11 +181,13 @@ Check your email (make sure you also check your spam folder). Click on the _Rese
 
 ![AWS IAM Identity Center password reset.](/images/gen2/account-setup/sso-reset-password.png)
 
-## 2. Set up local AWS profile
+## Finish local setup
 
 Now, set up an AWS profile that is linked to the user you just created on your local machine. There are a few options for [getting IAM Identity Center user credentials](https://docs.aws.amazon.com/singlesignon/latest/userguide/howtogetcredentials.html), but we will use the AWS CLI configuration wizard.
 
-1. Install the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
+### 3. Install the AWS CLI
+
+Install the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
 
 
 <BlockSwitcher>
@@ -213,7 +219,9 @@ unzip awscliv2.zip
 
 </BlockSwitcher>
 
-2. Open  your terminal, you are ready to configure an AWS profile that uses the SSO user. Use the information from CloudShell to populate the information below. 
+### 4. Set up local AWS profile
+
+Open  your terminal, you are ready to configure an AWS profile that uses the SSO user. Use the information from CloudShell to populate the information below. 
 
 ```console title="Terminal"
 //highlight-next-line
@@ -235,9 +243,9 @@ aws configure sso
 ## browser opens
 ```
 
-3. After you provide this information, the browser will automatically open asking you to sign in with the username and password you just created and configure a multi-factor device to authenticate.
+After you provide this information, the browser will automatically open asking you to sign in with the username and password you just created and configure a multi-factor device to authenticate.
 
-4. Now return to the terminal and enter the following information:
+Now return to the terminal and enter the following information:
 ```
   The only AWS account available to you is: <your-aws-account-id>
   Using the account ID <your-aws-account-id>
@@ -267,9 +275,9 @@ sso_registration_scopes = sso:account:access
 ```
 
 
-## 3. Bootstrap your AWS account
+### 5. Bootstrap your AWS account
 
-1. Now you are ready to use this AWS profile with AWS Amplify. Open your Amplify project and start the sandbox. If you have multiple local profiles or named your profile something other than `default`, you can specify a profile with `--profile`. 
+Now you are ready to use this AWS profile with AWS Amplify. Open your Amplify project and start the sandbox. If you have multiple local profiles or named your profile something other than `default`, you can specify a profile with `--profile`. 
 
 
 ```bash title="Terminal" showLineNumbers={false}
@@ -283,7 +291,7 @@ npx amplify sandbox --profile <profile-name>
 
 ```
 
-2. Before you can start deploying resources in the cloud sandbox environment, Amplify will need to complete a one-time bootstrap setup for the account and AWS Region before it can start deploying resources.
+Before you can start deploying resources in the cloud sandbox environment, Amplify will need to complete a one-time bootstrap setup for the account and AWS Region before it can start deploying resources.
 
 <Accordion title="What is bootstrapping?" eyebrow="Learn more">
 
@@ -293,13 +301,14 @@ Bootstrapping is the process of provisioning resources for the AWS CDK before yo
 
 ![Bootstrap status message indicating that the given Region has not been bootstrapped and that the user needs to sign in to the console and re-run the npx amplify sandbox command to complete the bootstrap process.](/images/gen2/account-setup/profile4.png)
 
-3. During the first-time setup, `npx amplify sandbox` will ask you to sign in to the AWS Management Console. Once you're signed in, you will be redirected to the Amplify console. On the **Create new app** page, choose **Initialize setup now**. It may take a few minutes for the bootstrapping process to complete.
+During the first-time setup, `npx amplify sandbox` will ask you to sign in to the AWS Management Console. Once you're signed in, you will be redirected to the Amplify console. On the **Create new app** page, choose **Initialize setup now**. It may take a few minutes for the bootstrapping process to complete.
 
 
 ![Create new app page in Amplify console with the Initialize setup now button.](/images/gen2/account-setup/profile5.png)
 
+## Success
 
-4. Done! You have successfully completed the bootstrapping process and you can now return to the terminal to create a new Amplify sandbox environment:
+You have successfully completed the bootstrapping process and you can now return to the terminal to create a new Amplify sandbox environment:
 
 ```bash showLineNumbers={false}
 npx amplify sandbox --profile <value>
