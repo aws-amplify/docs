@@ -320,9 +320,71 @@ The custom query below will prompt a generative AI model to create a haiku based
 
 ```ts title="App.tsx"
 const { data, errors } = await client.queries.generateHaiku({
-  prompt: "What is AWS Amplify?",
+  prompt: "Frank Herbert's Dune",
 });
 ```
+
+Here's an example of a simple UI that prompts a generative AI model to create a haiku based on user input:
+
+```tsx title="App.tsx"
+import { FormEvent, useState } from "react";
+
+import { generateClient } from "aws-amplify/api";
+import { Schema } from "@/amplify/data/resource";
+
+import { Amplify } from "aws-amplify";
+import config from "@/amplifyconfiguration.json";
+
+Amplify.configure(config, { ssr: true });
+
+const client = generateClient<Schema>();
+
+function Home() {
+  const [prompt, setPrompt] = useState<string>("");
+  const [answer, setAnswer] = useState<string | null>(null);
+
+  const sendPrompt = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const { data, errors } = await client.queries.generateHaiku({
+      prompt,
+    });
+
+    if (!errors) {
+      setAnswer(data);
+      setPrompt("");
+    } else {
+      console.log(errors);
+    }
+  };
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center p-24 dark:text-white">
+      <div>
+        <h1 className="text-3xl font-bold text-center mb-4">Haiku Generator</h1>
+
+        <form className="mb-4 self-center max-w-[500px]" onSubmit={sendPrompt}>
+          <input
+            className="text-black p-2 w-full"
+            placeholder="Enter a prompt..."
+            name="prompt"
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+          />
+        </form>
+
+        <div className="text-center">
+          <pre>{answer}</pre>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+export default Home;
+```
+
+![GIF of a webpage titled "Haiku Generator" and input field. "Frank Herbert's Dune" is entered and submitted. Shortly after, a haiku is rendered to the page.](/images/haiku-generator.gif)
 
 ## Conclusion
 
