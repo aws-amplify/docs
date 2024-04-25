@@ -53,7 +53,7 @@ const schema = a.schema({
     // return type of the query
     .returns(a.ref('EchoResponse'))
     // only allow signed-in users to call this API
-    .authorization([a.allow.private()])
+    .authorization(allow => [allow.authenticated()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -88,7 +88,7 @@ const schema = a.schema({
     // return type of the query
     .returns(a.ref('Post'))
     // only allow signed-in users to call this API
-    .authorization([a.allow.private()])
+    .authorization(allow => [allow.authenticated()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -149,7 +149,7 @@ const schema = a.schema({
     .query()
     .arguments({ content: a.string() })
     .returns(a.ref('EchoResponse'))
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
     // 3. set the function has the handler
     .handler(a.handler.function(echoHandler))
 });
@@ -185,17 +185,17 @@ const schema = a.schema({
   Post: a.model({
     content: a.string(),
     likes: a.integer()
-      .authorization([a.allow.private().to(['read'])])
-  }).authorization([
-    a.allow.owner(),
-    a.allow.private().to(['read'])
+      .authorization(allow => [allow.authenticated().to(['read'])])
+  }).authorization(allow => [
+    allow.owner(),
+    allow.authenticated().to(['read'])
   ]),
 
   likePost: a
     .mutation()
     .arguments({ postId: a.id() })
     .returns(a.ref('Post'))
-    .authorization([a.allow.private()])
+    .authorization(allow => [allow.authenticated()])
     .handler(a.handler.custom({
       dataSource: a.ref('Post'),
       entry: './increment-like.js'
@@ -222,7 +222,7 @@ export function request(ctx) {
     key: util.dynamodb.toMapValues({ id: ctx.args.postId}),
     update: {
       expression: 'ADD likes :plusOne',
-      expressionValues: { 'plusOne': { N: 1 } },
+      expressionValues: { ':plusOne': { N: 1 } },
     }
   }
 }
@@ -278,17 +278,17 @@ const schema = a.schema({
   Post: a.model({
     content: a.string(),
     likes: a.integer()
-      .authorization([a.allow.private().to(['read'])])
-  }).authorization([
-    a.allow.owner(),
-    a.allow.private().to(['read'])
+      .authorization(allow => [allow.authenticated().to(['read'])])
+  }).authorization(allow => [
+    allow.owner(),
+    allow.authenticated().to(['read'])
   ]),
 
   likePost: a
     .mutation()
     .arguments({ postId: a.id() })
     .returns(a.ref('Post'))
-    .authorization([a.allow.private()])
+    .authorization(allow => [allow.authenticated()])
     .handler(a.handler.custom({
       // highlight-next-line
       dataSource: "ExternalTableDataSource",
