@@ -1,4 +1,4 @@
-import { Platform } from '@/data/platforms';
+import { Platform } from '@/constants/platforms';
 
 export type PageNode = {
   /**

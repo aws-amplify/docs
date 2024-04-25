@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@aws-amplify/ui-react';
 import { findDirectoryNode as findNode } from '@/utils/findDirectoryNode';
 import classNames from 'classnames';
-import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import { PLATFORMS } from '@/constants/platforms';
 
 type BreadcrumbItem = {
   href: { pathname: string; query?: { platform: string } };
@@ -27,24 +27,24 @@ const overrides = {
   '/gen1/angular/prev': 'V5',
   '/gen1/nextjs/prev': 'V5',
   '/gen1/vue/prev': 'V5',
-  '/gen1/javascript': PLATFORM_DISPLAY_NAMES['javascript'],
-  '/gen1/react': PLATFORM_DISPLAY_NAMES['react'],
-  '/gen1/flutter': PLATFORM_DISPLAY_NAMES['flutter'],
-  '/gen1/swift': PLATFORM_DISPLAY_NAMES['swift'],
-  '/gen1/android': PLATFORM_DISPLAY_NAMES['android'],
-  '/gen1/react-native': PLATFORM_DISPLAY_NAMES['react-native'],
-  '/gen1/angular': PLATFORM_DISPLAY_NAMES['angular'],
-  '/gen1/nextjs': PLATFORM_DISPLAY_NAMES['nextjs'],
-  '/gen1/vue': PLATFORM_DISPLAY_NAMES['vue'],
-  '/javascript': PLATFORM_DISPLAY_NAMES['javascript'],
-  '/react': PLATFORM_DISPLAY_NAMES['react'],
-  '/flutter': PLATFORM_DISPLAY_NAMES['flutter'],
-  '/swift': PLATFORM_DISPLAY_NAMES['swift'],
-  '/android': PLATFORM_DISPLAY_NAMES['android'],
-  '/react-native': PLATFORM_DISPLAY_NAMES['react-native'],
-  '/angular': PLATFORM_DISPLAY_NAMES['angular'],
-  '/nextjs': PLATFORM_DISPLAY_NAMES['nextjs'],
-  '/vue': PLATFORM_DISPLAY_NAMES['vue']
+  '/gen1/javascript': PLATFORMS['javascript'],
+  '/gen1/react': PLATFORMS['react'],
+  '/gen1/flutter': PLATFORMS['flutter'],
+  '/gen1/swift': PLATFORMS['swift'],
+  '/gen1/android': PLATFORMS['android'],
+  '/gen1/react-native': PLATFORMS['react-native'],
+  '/gen1/angular': PLATFORMS['angular'],
+  '/gen1/nextjs': PLATFORMS['nextjs'],
+  '/gen1/vue': PLATFORMS['vue'],
+  '/javascript': PLATFORMS['javascript'],
+  '/react': PLATFORMS['react'],
+  '/flutter': PLATFORMS['flutter'],
+  '/swift': PLATFORMS['swift'],
+  '/android': PLATFORMS['android'],
+  '/react-native': PLATFORMS['react-native'],
+  '/angular': PLATFORMS['angular'],
+  '/nextjs': PLATFORMS['nextjs'],
+  '/vue': PLATFORMS['vue']
 };
 
 function generateBreadcrumbs(

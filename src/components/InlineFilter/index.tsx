@@ -1,9 +1,10 @@
+import type { Platform } from '@/constants/platforms';
 import { Fragment } from 'react';
 import FilterChildren from '../FilterChildren';
 
 type InlineFilterProps = {
   children: React.ReactNode;
-  filters: string[];
+  filters: Platform[];
 };
 
 export default function InlineFilter({ filters, children }: InlineFilterProps) {
@@ -11,11 +12,9 @@ export default function InlineFilter({ filters, children }: InlineFilterProps) {
     return <></>;
   }
 
-  const filteredChildren: Array<React.JSX.Element> = [];
-
-  filters.forEach((filter) => {
-    filteredChildren.push(<Fragment key={filter}>{children}</Fragment>);
-  });
+  const filteredChildren = filters.map((filter) => (
+    <Fragment key={filter}>{children}</Fragment>
+  ));
 
   return <FilterChildren>{filteredChildren}</FilterChildren>;
 }

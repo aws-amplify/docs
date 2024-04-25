@@ -10,7 +10,7 @@ import { IconChevron, IconStar, IconX, IconTSBoxed } from '@/components/Icons';
 import { useEffect, useId, useState } from 'react';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
-import { DEFAULT_PLATFORM } from '@/data/platforms';
+import { DEFAULT_PLATFORM } from '@/constants/platforms';
 import { useGen1Path } from './useGen1Path';
 
 interface ModalProps extends ViewProps {

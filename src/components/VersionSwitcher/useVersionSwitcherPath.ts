@@ -1,6 +1,6 @@
 import flatDirectory from '@/directory/flatDirectory.json';
 import { useRouter } from 'next/router';
-import { Platform } from '@/data/platforms';
+import { Platform } from '@/constants/platforms';
 
 /**
  * Hook to find other version url for the Version switcher.

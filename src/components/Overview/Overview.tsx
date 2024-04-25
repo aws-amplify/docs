@@ -2,7 +2,7 @@ import { PageNode } from '@/directory/directory';
 import { Card, Flex, View, Text } from '@aws-amplify/ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Platform } from '@/data/platforms';
+import { Platform } from '@/constants/platforms';
 import { Columns } from '@/components/Columns';
 
 type OverviewProps = {

@@ -1,13 +1,9 @@
+import type { Platform } from '@/constants/platforms';
 import { Flex, Text, View } from '@aws-amplify/ui-react';
-import { frameworks } from '@/constants/frameworks';
-
+import { FRAMEWORKS } from '@/constants/frameworks';
+import { PLATFORM_VERSIONS, PLATFORMS } from '@/constants/platforms';
 import { VersionSwitcher } from '../VersionSwitcher';
 import { Popover } from '../Popover';
-import {
-  PLATFORM_VERSIONS,
-  PLATFORM_DISPLAY_NAMES,
-  Platform
-} from '@/data/platforms';
 
 type PlatformNavigatorProps = {
   currentPlatform: Platform;
@@ -18,9 +14,9 @@ export function PlatformNavigator({
   currentPlatform,
   isGen1
 }: PlatformNavigatorProps) {
-  const platformTitle = PLATFORM_DISPLAY_NAMES[currentPlatform];
+  const platformTitle = PLATFORMS[currentPlatform];
 
-  const platformItem = frameworks.filter((platform) => {
+  const platformItem = FRAMEWORKS.filter((platform) => {
     return platform.title === platformTitle;
   })[0];
 
@@ -45,11 +41,11 @@ export function PlatformNavigator({
               {platformTitle}
             </Popover.Trigger>
             <Popover.List
-              ariaLabel="Supported frameworks and languages"
+              ariaLabel="Supported FRAMEWORKS and languages"
               anchor="left"
               fullWidth={true}
             >
-              {frameworks.map((platform, index) => {
+              {FRAMEWORKS.map((platform, index) => {
                 const title = platform.title;
                 const current = title === platformTitle;
                 return (

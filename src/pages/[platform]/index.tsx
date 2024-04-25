@@ -12,7 +12,7 @@ import {
   generateGetStartedLinks
 } from '@/components/GetStartedPopover';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
-import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import { PLATFORMS } from '@/constants/platforms';
 import {
   gen2GetStartedHref,
   gen2HowAmplifyWorksPathname
@@ -58,7 +58,7 @@ const Gen2Overview = () => {
     <Flex className="home-content">
       <Flex className="home-intro">
         <Heading level={1} className="home-intro__heading">
-          Amplify Documentation for {PLATFORM_DISPLAY_NAMES[currentPlatform]}
+          Amplify Documentation for {PLATFORMS[currentPlatform]}
         </Heading>
         <Text className="home-intro__text">
           AWS Amplify streamlines full-stack app development. With its

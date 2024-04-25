@@ -1,3 +1,4 @@
+import type { Platform } from '@/constants/platforms';
 import { useState, useEffect, ReactElement } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -15,12 +16,7 @@ import { defaultTheme } from '@/themes/defaultTheme';
 import { gen1Theme } from '@/themes/gen1Theme';
 import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
-import {
-  DEFAULT_PLATFORM,
-  PLATFORMS,
-  PLATFORM_DISPLAY_NAMES,
-  Platform
-} from '@/data/platforms';
+import { DEFAULT_PLATFORM, PLATFORMS } from '@/constants/platforms';
 import { SpaceShip } from '@/components/SpaceShip';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { LayoutProvider, LayoutHeader } from '@/components/Layout';
@@ -102,13 +98,13 @@ export const Layout = ({
 
   const currentPlatform = platform
     ? platform
-    : PLATFORMS.includes(asPathPlatform)
+    : Object.keys(PLATFORMS).includes(asPathPlatform)
       ? asPathPlatform
       : DEFAULT_PLATFORM;
 
   const title = [
     pageTitle,
-    platform ? PLATFORM_DISPLAY_NAMES[platform] : null,
+    platform ? PLATFORMS[platform] : null,
     isGen1 ? 'AWS Amplify Gen 1 Documentation' : 'AWS Amplify Documentation'
   ]
     .filter((s) => s !== '' && s !== null)

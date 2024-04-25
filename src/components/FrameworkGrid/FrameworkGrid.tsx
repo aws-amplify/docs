@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Grid, View } from '@aws-amplify/ui-react';
-import { Platform } from '@/data/platforms';
+import { Platform } from '@/constants/platforms';
 import {
   IconAndroid,
   IconAngular,

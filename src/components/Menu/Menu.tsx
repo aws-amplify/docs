@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { MenuItem } from './MenuItem';
-import { Platform } from '@/data/platforms';
+import { Platform } from '@/constants/platforms';
 import { PageNode } from '@/directory/directory';
 import { findDirectoryNode } from '@/utils/findDirectoryNode';
 

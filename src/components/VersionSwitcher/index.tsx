@@ -2,7 +2,7 @@ import { Flex } from '@aws-amplify/ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { IconCheck } from '@/components/Icons';
-import { PLATFORM_VERSIONS } from '@/data/platforms';
+import { PLATFORM_VERSIONS } from '@/constants/platforms';
 import classNames from 'classnames';
 import { trackVersionChange } from '@/utils/track';
 import { useVersionSwitcherPath } from './useVersionSwitcherPath';

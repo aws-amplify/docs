@@ -1,4 +1,4 @@
-import { DEFAULT_PLATFORM } from '@/data/platforms';
+import { DEFAULT_PLATFORM } from '@/constants/platforms';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
 import {
