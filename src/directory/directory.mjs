@@ -691,6 +691,41 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/reference/telemetry/index.mdx'
+            },
+            {
+              isExternal: true,
+              route: 'https://aws-amplify.github.io/amplify-js/api/',
+              title: 'API Documentation',
+              description: 'API references and type definitions.',
+              platforms: [
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'angular',
+                'vue'
+              ]
+            },
+            {
+              isExternal: true,
+              route: 'https://aws-amplify.github.io/amplify-swift/docs/',
+              title: 'API Documentation',
+              description: 'API references and type definitions.',
+              platforms: ['swift']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://aws-amplify.github.io/aws-sdk-android/docs/reference/',
+              title: 'API Documentation',
+              description: 'API references and type definitions.',
+              platforms: ['android']
+            },
+            {
+              path: 'src/pages/[platform]/reference/flutter-api/index.mdx',
+              title: 'API Documentation',
+              description: 'API references and type definitions.',
+              platforms: ['flutter']
             }
           ]
         }
