@@ -6,7 +6,6 @@ export const meta = {
   title: 'Next.js App Router (Client Components)',
   description: 'Get started with AWS Amplify Gen 2 using the Next.js App Router.',
   platforms: [
-    'javascript',
     'nextjs'
   ]
 };
@@ -340,9 +339,9 @@ export const data = defineData({
 });
 ```
 
-In the application client code, let's also render the username to distinguish different users once they're logged in. Go to your **src/App.tsx** file and render the `user` property.
+In the application client code, let's also render the username to distinguish different users once they're logged in. Go to your **app/page.tsx** file and render the `user` property.
 
-```tsx title="src/App.tsx"
+```tsx title="app/page.tsx"
 // ... imports
 
 function App() {
