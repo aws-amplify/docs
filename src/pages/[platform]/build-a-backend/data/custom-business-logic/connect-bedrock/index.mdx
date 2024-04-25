@@ -66,7 +66,7 @@ import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
 export const backend = defineBackend({
   auth,
   data,
-  generateFunction,
+  generateHaikuFunction,
 });
 
 backend.generateHaikuFunction.resources.lambda.addToRolePolicy(
