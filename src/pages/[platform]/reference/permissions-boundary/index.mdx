@@ -29,7 +29,7 @@ export function getStaticProps(context) {
 }
 
 
-To set the maximum permissions that can be granted to IAM Roles created by Amplify, configure a [permissions boundary](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) for the project. Then, Amplify-generated IAM roles can perform only the actions that are allowed by both the roles’ policies and permissions boundary. You can configure a different permissions boundary for each environment. For example, this enables you to deny a dev environment all access to a prod environment's resources.
+To set the maximum permissions that can be granted to IAM Roles created by Amplify, configure a [permissions boundary](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) for the project. Then, Amplify-generated IAM roles can perform only the actions that are allowed by both the roles’ policies and permissions boundary. You can configure a different permissions boundary for each environment. For example, this enables you to deny a staging or dev environment access to a production environment's resources.
 
 The IAM permissions boundary will apply to all IAM Roles created by Amplify. This includes the "auth role" assumed by users that log into the app and the "unauth role" assumed by guest users. It also applies to Lambda execution roles, Cognito user group roles, and any role configured in a [custom resource stack](/gen1/[platform]/tools/cli/custom/cloudformation/).
 
