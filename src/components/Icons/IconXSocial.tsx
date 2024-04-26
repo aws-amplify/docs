@@ -1,6 +1,6 @@
 import { Icon } from '@aws-amplify/ui-react';
 
-export const IconX = ({ ...rest }) => {
+export const IconXSocial = ({ ...rest }) => {
   return (
     <Icon
       aria-hidden="true"

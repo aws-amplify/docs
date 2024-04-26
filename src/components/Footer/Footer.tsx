@@ -1,7 +1,12 @@
 import ExternalLink from '../ExternalLink';
 import * as links from '../../constants/links';
 import { VisuallyHidden, Flex } from '@aws-amplify/ui-react';
-import { IconDiscord, IconX, IconGithub, IconAWS } from '@/components/Icons';
+import {
+  IconDiscord,
+  IconXSocial,
+  IconGithub,
+  IconAWS
+} from '@/components/Icons';
 import { ColorModeSwitcher } from '@/components/ColorModeSwitcher';
 
 interface FooterProps {
@@ -51,7 +56,7 @@ export const Footer = ({ hasTOC = false }: FooterProps) => {
               href={links.X}
               className="footer-link footer-link--social"
             >
-              <IconX />
+              <IconXSocial />
               <VisuallyHidden>X</VisuallyHidden>
             </ExternalLink>
           </li>
