@@ -27,3 +27,37 @@ export function getStaticProps() {
     }
   };
 }
+
+### Remember devices
+
+You can remember devices using the following:
+
+```ts
+import { rememberDevice } from 'aws-amplify/auth';
+
+await rememberDevice();
+```
+
+#### Forget devices
+
+You can also forget devices but note that forgotten devices are neither remembered nor tracked.
+
+```ts
+import { forgetDevice } from 'aws-amplify/auth';
+
+await forgetDevice();
+```
+
+#### Fetch devices
+
+You can fetch a list of remembered devices by using the following:
+
+```ts
+import { fetchDevices } from 'aws-amplify/auth';
+
+const output = await fetchDevices();
+```
+
+You can now set up devices to be remembered, forgotten, and fetched.
+
+{/* user agents */}
