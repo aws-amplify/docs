@@ -31,3 +31,5 @@ export { IconExternalLink } from './IconExternalLink';
 export { IconThumbsUp } from './IconThumbsUp';
 export { IconThumbsDown } from './IconThumbsDown';
 export { IconPencil } from './IconPencil';
+export { IconX } from './IconX';
+export { IconTSBoxed } from './IconTSBoxed';
