@@ -38,7 +38,7 @@ DynamoDB users gain access to advanced OpenSearch features like full-text search
 Amazon OpenSearch Ingestion, combined with S3 exports and DynamoDB streams, facilitates seamless data input from DynamoDB tables and automatic ingestion into OpenSearch. Additionally, the pipeline can back up data to S3 for potential future re-ingestion as needed.
 
 ## Step 1: Setup the project
-Begin by setting up your project by following the instructions in the [Quickstart guide](https://github.com/aws-amplify/docs/blob/dc76911faee093d7ceaf8a5bf61b54d5f49e42fb/%5Bplatform%5D/start/quickstart). For the purpose of this guide, we'll sync a Todo table from DynamoDB to OpenSearch.
+Begin by setting up your project by following the instructions in the [Quickstart guide](/[platform]/start/quickstart/). For the purpose of this guide, we'll sync a Todo table from DynamoDB to OpenSearch.
 
 Firstly, add the Todo model to your schema:
 
@@ -160,12 +160,12 @@ const openSearchIntegrationPipelineRole = new iam.Role(
         statements: [
           new iam.PolicyStatement({
             actions: ["es:DescribeDomain"],
-            resources: ["<openSearchDomain-arn>"],
+            resources: ["arn:aws:es:*:{your-account-id}:domain/*"],
             effect: iam.Effect.ALLOW,
           }),
           new iam.PolicyStatement({
             actions: ["es:ESHttp*"],
-            resources: ["*"],
+            resources: ["arn:aws:es:*:{your-account-id}:domain/{domain-namedomain}/*"],
             effect: iam.Effect.ALLOW,
           }),
           new iam.PolicyStatement({
