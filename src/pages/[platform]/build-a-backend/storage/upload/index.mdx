@@ -68,7 +68,7 @@ import { uploadData } from 'aws-amplify/storage';
 try {
   const result = await uploadData({
     path: 'public/album/2024/1.jpg', 
-    // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
     data: file,
     options: {
       onProgress // Optional progress callback.
@@ -114,7 +114,7 @@ import { uploadData } from 'aws-amplify/storage';
 try {
   const result = uploadData({
     path: 'public/album/2024/1.jpg', 
-    // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
     data: file,
     options: {
       onProgress: ({ transferredBytes, totalBytes }) => {
@@ -245,7 +245,7 @@ import { uploadData } from 'aws-amplify/storage';
 
 uploadData({
   path: 'public/album/2024/1.jpg', 
-  // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
+  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
   data: file,
   options:  {
     contentType?: 'text/html', // (String) The default content-type header value of the file when downloading it.

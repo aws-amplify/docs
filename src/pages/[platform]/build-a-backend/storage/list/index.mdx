@@ -63,7 +63,7 @@ import { list } from 'aws-amplify/storage';
 try {
   const result = await list({
     path: 'public/photos/',
-    // Alternatively, path: ({identityId}) => `protected/{identityId}/photos/`
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/photos/`
   });
 } catch (error) {
   console.log(error);
@@ -164,7 +164,7 @@ import { list } from 'aws-amplify/storage';
 try {
   const response = await list({
     path: 'public/photos/',
-    // Alternatively, path: ({identityId}) => `protected/{identityId}/photos/`
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/photos/`
     options: {
       listAll: true
     }
@@ -209,7 +209,7 @@ let nextToken = undefined;
 const loadNextPage = async () => {
   let response = await list({
     path: 'public/photos/',
-    // Alternatively, path: ({identityId}) => `protected/{identityId}/photos/`
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/photos/`
     pageSize: PAGE_SIZE,
     nextToken: nextToken
     }

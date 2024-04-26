@@ -66,11 +66,11 @@ const copyFile = async () => {
     const response = await copy({
       source: {
         path: 'public/album/2024/1.jpg',
-        // Alternatively, path: ({identityId}) => `protected/{identityId}/album/1.jpg`
+        // Alternatively, path: ({identityId}) => `protected/${identityId}/album/1.jpg`
       },
       destination: {
         path: 'public/shared/2024/1.jpg',
-        // Alternatively, path: ({identityId}) => `protected/{identityId}/shared/1.jpg`
+        // Alternatively, path: ({identityId}) => `protected/${identityId}/shared/1.jpg`
       },
     });
   } catch (error) {

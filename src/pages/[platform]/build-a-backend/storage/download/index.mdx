@@ -69,7 +69,7 @@ import { getUrl } from 'aws-amplify/storage';
 
 const getUrlResult = await getUrl({
   path: 'public/album/2024/1.jpg',
-  // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
+  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
   options: {
     validateObjectExistence?: false,  // Check if object exists before creating a URL
     expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
@@ -127,7 +127,7 @@ import { getUrl } from 'aws-amplify/storage';
 // To check for existence of a file
 await getUrl({
   path: 'public/album/2024/1.jpg',
-  // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
+  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
   options: {
     validateObjectExistence: true // defaults to false
   }
@@ -160,7 +160,7 @@ import { getUrl } from 'aws-amplify/storage';
 
 await getUrl({ 
   path: 'public/album/2024/1.jpg',
-  // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
+  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
   options: { expiresIn: 60 } 
 });
 
@@ -196,7 +196,7 @@ import { downloadData } from 'aws-amplify/storage';
 // Downloads file content to memory
 const { body, eTag } = await downloadData({
   path: 'public/album/2024/1.jpg',
-  // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
+  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
   options: {
     onProgress: (event) => {
       console.log(event.transferredBytes);
@@ -245,7 +245,7 @@ import { downloadData } from 'aws-amplify/storage';
 try {
   const downloadResult = await downloadData({ 
     path: 'public/album/2024/1.jpg',
-    // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
   }).result;
   const text = await downloadResult.body.text();
   // Alternatively, you can use `downloadResult.body.blob()`
@@ -288,7 +288,7 @@ import { downloadData } from 'aws-amplify/storage';
 const { body, eTag } = await downloadData(
   {
     path: 'public/album/2024/1.jpg',
-    // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
     options: {
       onProgress: (progress) {
         console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
@@ -327,7 +327,7 @@ import { downloadData, isCancelError } from 'aws-amplify/storage';
 
 const downloadTask = downloadData({ 
   path: 'public/album/2024/1.jpg',
-  // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg` 
+  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg` 
 });
 downloadTask.cancel();
 try {

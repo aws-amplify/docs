@@ -57,7 +57,7 @@ import { getProperties } from 'aws-amplify/storage';
 try {
   const result = await getProperties({
     path: 'public/album/2024/1.jpg',
-    // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
   });
   console.log('File Properties ', result);
 } catch (error) {

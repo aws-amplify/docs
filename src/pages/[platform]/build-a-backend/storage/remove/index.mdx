@@ -68,7 +68,7 @@ import { remove } from 'aws-amplify/storage';
 try {
   await remove({ 
     path: 'public/album/2024/1.jpg',
-    // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
   });
 } catch (error) {
   console.log('Error ', error);
