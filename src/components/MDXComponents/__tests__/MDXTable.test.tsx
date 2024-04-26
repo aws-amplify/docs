@@ -55,7 +55,7 @@ describe('MDXTable', () => {
     );
 
     const tableHeading = screen.getByText('Amplify Authenticator');
-    const scrollViewAriaLabel = screen.getByLabelText('Accessible scrollview');
+    const scrollViewAriaLabel = screen.getByLabelText('Scrollable table');
 
     expect(tableHeading).toBeInTheDocument();
     expect(scrollViewAriaLabel).toBeInTheDocument();
