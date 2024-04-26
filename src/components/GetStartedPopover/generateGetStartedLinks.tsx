@@ -21,14 +21,14 @@ export function generateGetStartedLinks(
 ): GetStartedLinksType[] {
   const platformOrder: Platforms = [
     'react',
-    'javascript',
-    'flutter',
-    'swift',
-    'android',
-    'react-native',
-    'angular',
     'nextjs',
-    'vue'
+    'angular',
+    'vue',
+    'javascript',
+    'react-native',
+    'flutter',
+    'android',
+    'swift'
   ];
 
   const getStartedItems: Partial<GetStartedLinksType>[] = platformOrder.map(

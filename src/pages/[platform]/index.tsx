@@ -66,8 +66,11 @@ const Gen2Overview = () => {
           the cloud for authentication, storage, APIs, and more.
         </Text>
         <Flex className="home-cta">
+          <GetStartedPopover
+            platform={currentPlatform}
+            getStartedLinks={generateGetStartedLinks(gen2GetStartedHref)}
+          />
           <InternalLinkButton
-            variation="primary"
             size="large"
             href={{
               pathname: gen2HowAmplifyWorksPathname,
@@ -81,10 +84,6 @@ const Gen2Overview = () => {
               fontSize=".875em"
             />
           </InternalLinkButton>
-          <GetStartedPopover
-            platform={currentPlatform}
-            getStartedLinks={generateGetStartedLinks(gen2GetStartedHref)}
-          />
         </Flex>
       </Flex>
       <Flex className="home-section">

@@ -375,9 +375,9 @@ let resultSink = downloadTask
 
 ### More download options
 
-Option | Type | Description |
-| -- | -- | ----------- |
-| pluginOptions | - | Extra plugin specific options, only used in special circumstances when the existing options do not provide a way to utilize the underlying storage system's functionality. |
+Option | Description |
+| -- | ----------- |
+| pluginOptions | Extra plugin specific options, only used in special circumstances when the existing options do not provide a way to utilize the underlying storage system's functionality. |
 
 </InlineFilter>
 
@@ -829,21 +829,13 @@ final operation = Amplify.Storage.downloadData(
 
 Calls to `downloadData` or `downloadFile` return a reference to the task that is actually performing the download.
 
-To cancel the download (for example, in response to the user pressing a **Cancel** button), you simply call `cancel()` on the download task.
-
-```swift
-func cancelDownload() {
-    downloadTask.cancel()
-}
-```
-
-You can also pause and then resume the task.
+You can pause then resume the task or cancel a task as shown below.
 
 ```swift
 downloadTask.pause()
 downloadTask.resume()
+downloadTask.cancel()
 ```
-
 
 <Callout>
 

@@ -70,7 +70,7 @@ const schema = a.schema({
     // return type of the query
     .returns(a.ref('EchoResponse'))
     // only allow signed-in users to call this API
-    .authorization([a.allow.private()])
+    .authorization(allow => [allow.authenticated()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -105,7 +105,7 @@ const schema = a.schema({
     // return type of the query
     .returns(a.ref('Post'))
     // only allow signed-in users to call this API
-    .authorization([a.allow.private()])
+    .authorization(allow => [allow.authenticated()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -166,7 +166,7 @@ const schema = a.schema({
     .query()
     .arguments({ content: a.string() })
     .returns(a.ref('EchoResponse'))
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
     // 3. set the function has the handler
     .handler(a.handler.function(echoHandler))
 });
@@ -202,17 +202,17 @@ const schema = a.schema({
   Post: a.model({
     content: a.string(),
     likes: a.integer()
-      .authorization([a.allow.private().to(['read'])])
-  }).authorization([
-    a.allow.owner(),
-    a.allow.private().to(['read'])
+      .authorization(allow => [allow.authenticated().to(['read'])])
+  }).authorization(allow => [
+    allow.owner(),
+    allow.authenticated().to(['read'])
   ]),
 
   likePost: a
     .mutation()
     .arguments({ postId: a.id() })
     .returns(a.ref('Post'))
-    .authorization([a.allow.private()])
+    .authorization(allow => [allow.authenticated()])
     .handler(a.handler.custom({
       dataSource: a.ref('Post'),
       entry: './increment-like.js'
@@ -224,7 +224,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'userPool',
+    defaultAuthorizationMode: 'apiKey',
     apiKeyAuthorizationMode: {
       expiresInDays: 30
     }
@@ -239,7 +239,7 @@ export function request(ctx) {
     key: util.dynamodb.toMapValues({ id: ctx.args.postId}),
     update: {
       expression: 'ADD likes :plusOne',
-      expressionValues: { 'plusOne': { N: 1 } },
+      expressionValues: { ':plusOne': { N: 1 } },
     }
   }
 }
@@ -295,17 +295,17 @@ const schema = a.schema({
   Post: a.model({
     content: a.string(),
     likes: a.integer()
-      .authorization([a.allow.private().to(['read'])])
-  }).authorization([
-    a.allow.owner(),
-    a.allow.private().to(['read'])
+      .authorization(allow => [allow.authenticated().to(['read'])])
+  }).authorization(allow => [
+    allow.owner(),
+    allow.authenticated().to(['read'])
   ]),
 
   likePost: a
     .mutation()
     .arguments({ postId: a.id() })
     .returns(a.ref('Post'))
-    .authorization([a.allow.private()])
+    .authorization(allow => [allow.authenticated()])
     .handler(a.handler.custom({
       // highlight-next-line
       dataSource: "ExternalTableDataSource",
@@ -343,6 +343,8 @@ All handlers must be of the same type. For example, you can't mix and match `a.h
 
 ## Step 3 - Invoke the custom query or mutation
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
 From your generated Data client, you can find all your custom queries and mutations under the `client.queries.` and `client.mutations.` APIs respectively.
 
 <BlockSwitcher>
@@ -350,7 +352,7 @@ From your generated Data client, you can find all your custom queries and mutati
 
 ```ts
 const { data, errors } = await client.queries.echo({
-  content: 'hello'
+  content: 'hello world!!!'
 });
 ```
 
@@ -365,3 +367,147 @@ const { data, errors } = await client.mutations.likePost({
 
 </Block>
 </BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+struct EchoResponse: Codable {
+    public let echo: Echo
+    
+    struct Echo: Codable {
+        public let content: String
+        public let executionDuration: Float
+    }
+}
+
+let document = """
+    query EchoQuery($content: String!) {
+        echo(content: $content) {
+            content
+            executionDuration
+        }
+    }
+    """
+
+let result = try await Amplify.API.query(request: GraphQLRequest<EchoResponse>(
+    document: document,
+    variables: [
+        "content": "hello world!!!"
+    ],
+    responseType: EchoResponse.self
+))
+switch result {
+case .success(let response):
+    print(response.echo)
+case .failure(let error):
+    print(error)
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+data class EchoDetails(
+    val content: String,
+    val executionDuration: Float
+)
+
+data class EchoResponse(
+    val echo: EchoDetails
+)
+
+val document = """
+    query EchoQuery(${'$'}content: String!) {
+        echo(content: ${'$'}content) {
+            content
+            executionDuration
+        }
+    }
+""".trimIndent()
+val echoQuery = SimpleGraphQLRequest<String>(
+    document,
+    mapOf("content" to "hello world!!!"),
+    String::class.java,
+    GsonVariablesSerializer())
+
+Amplify.API.query(
+    echoQuery,
+    {
+        var gson = Gson()
+        val response = gson.fromJson(it.data, EchoResponse::class.java)
+        Log.i("MyAmplifyApp", "${response.echo.content}")
+    },
+    { Log.e("MyAmplifyApp", "$it")}
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+First define a class that matches your response shape:
+
+```dart
+class EchoResponse {
+  final Echo echo;
+
+  EchoResponse({required this.echo});
+
+  factory EchoResponse.fromJson(Map<String, dynamic> json) {
+    return EchoResponse(
+      echo: Echo.fromJson(json['echo']),
+    );
+  }
+}
+
+class Echo {
+  final String content;
+  final double executionDuration;
+
+  Echo({required this.content, required this.executionDuration});
+
+  factory Echo.fromJson(Map<String, dynamic> json) {
+    return Echo(
+      content: json['content'],
+      executionDuration: json['executionDuration'],
+    );
+  }
+}
+```
+
+Next, make the request and map the response to the classes defined above:
+
+```dart
+// highlight-next-line
+import 'dart:convert';
+
+// highlight-start
+const graphQLDocument = '''
+  query Echo(\$content: String!) {
+    echo(content: \$content) {
+      content
+      executionDuration
+    }
+  }
+''';
+
+final echoRequest = GraphQLRequest<String>(
+  document: graphQLDocument,
+  variables: <String, String>{"content": "Hello world!!!"},
+);
+
+final response =
+    await Amplify.API.query(request: echoRequest).response;
+safePrint(response);
+
+Map<String, dynamic> jsonMap = json.decode(response.data!);
+EchoResponse echoResponse = EchoResponse.fromJson(jsonMap);
+safePrint(echoResponse.echo.content);
+// highlight-end
+```
+
+</InlineFilter>
