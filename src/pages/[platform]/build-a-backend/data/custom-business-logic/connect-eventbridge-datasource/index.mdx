@@ -153,6 +153,11 @@ const rule = new aws_events.CfnRule(eventStack, "MyOrderRule", {
   name: "broadcastOrderStatusChange",
   eventPattern: {
     source: ["amplify.orders"],
+    /* The shape of the event pattern must match EventBridge's event message structure.
+    So, this field must be spelled as "detail-type". Otherwise, events will not trigger the rule.
+
+    https://docs.aws.amazon.com/AmazonS3/latest/userguide/ev-events.html
+    */
     ["detail-type"]: ["OrderStatusChange"],
     detail: {
       orderId: [{ exists: true }],
