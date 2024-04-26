@@ -60,16 +60,21 @@ By default, your auth resource is scaffolded using `email` as the default login 
 After you have chosen and defined your authentication resource, run the following command to create your resource in your personal cloud sandbox.
 
 <InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
 ```
+
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
+
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --config-format dart --config-out-dir lib
 ```
+
 </InlineFilter>
 <InlineFilter filters={['android']}>
+
 <Callout warning>
 Be sure to add a "raw" folder under `app/src/main/res` directory if it does not exist.
 </Callout>
@@ -77,12 +82,14 @@ Be sure to add a "raw" folder under `app/src/main/res` directory if it does not 
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --config-out-dir app/src/main/res/raw
 ```
-</InlineFilter>
 
+</InlineFilter>
 <InlineFilter filters={['swift']}>
+
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
 ```
+
 </InlineFilter>
 
 After a successful deployment, this command also generates a configuration file (`amplifyconfiguration.json`) to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated configuration file to automatically configure the frontend [`Authenticator connected component`](https://ui.docs.amplify.aws/react/connected-components/authenticator).
@@ -267,6 +274,51 @@ The `amplify-authenticator` component offers a simple way to add authentication 
   </ng-template>
 </amplify-authenticator>
 ```
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+### Prerequisites
+
+An application with Amplify libraries integrated and a minimum target of any of the following:
+
+- **iOS 13.0**, using **Xcode 14.1** or later.
+- **macOS 10.15**, using **Xcode 14.1** or later.
+- **tvOS 13.0**, using **Xcode 14.3** or later.
+- **watchOS 9.0**, using **Xcode 14.3** or later.
+- **visionOS 1.0**, using **Xcode 15 beta 2** or later. (Preview support - see below for more details.)
+
+<Callout info>
+
+visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch. 
+As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
+
+For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
+
+</Callout>
+<Callout>
+
+**Note:** To use Amplify Auth in a macOS project, you'll need to enable the Keychain Sharing capability. In Xcode, navigate to **your application target** > **Signing & Capabilities** > **+ Capability**, then select **Keychain Sharing.**
+
+This capability is required because Auth uses the Data Protection Keychain on macOS as a platform best practice. See [TN3137: macOS keychain APIs and implementations](https://developer.apple.com/documentation/technotes/tn3137-on-mac-keychains) for more information on how Keychain works on macOS and the Keychain Sharing entitlement.
+
+For more information on adding capabilities to your application, see [Xcode Capabilities](https://developer.apple.com/documentation/xcode/capabilities).
+
+</Callout>
+
+{/* @TODO bare-bones example */}
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/* @TODO prerequisites if any */}
+{/* @TODO bare-bones example */}
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+{/* @TODO prerequisites if any */}
+{/* @TODO bare-bones example */}
 
 </InlineFilter>
 
