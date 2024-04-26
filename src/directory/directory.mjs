@@ -71,7 +71,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-in/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'                  
+                  path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-out/index.mdx'
@@ -121,7 +121,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/data/set-up-data/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/data/connect-to-API/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/data/connect-to-data/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/mutate-data/index.mdx'
@@ -185,7 +185,6 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/index.mdx',
                   children: [
                     {
-
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-polly/index.mdx'
                     },
                     {
@@ -225,7 +224,7 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/storage/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/define-storage/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/set-up-storage/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/authorization/index.mdx'
@@ -257,7 +256,7 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/functions/define-function/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/functions/set-up-function/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/environment-variables-and-secrets/index.mdx'
