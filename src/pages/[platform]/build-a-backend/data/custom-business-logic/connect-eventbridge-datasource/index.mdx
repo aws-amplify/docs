@@ -43,7 +43,7 @@ By adopting an event-driven architecture with EventBridge, you can achieve:
 
 This section will guide you through adding an event bus as a datasource to your API, defining routing rules, and configuring targets to build robust event-driven applications with AWS Amplify Gen 2 and Amazon EventBridge.
 
-1. Set up your GraphQL API
+1. Set up your API
 2. Add your Amazon EventBridge event bus as a data source
 3. Define custom queries and mutations
 4. Configure custom business logic handler code
@@ -51,7 +51,7 @@ This section will guide you through adding an event bus as a datasource to your 
 6. Subscribe to mutations invoked by EventBridge
 7. Invoke mutations and trigger subscriptions from EventBridge
 
-## Step 1 - Set up your GraphQL API
+## Step 1 - Set up your API
 
 For the purpose of this guide, we will define an `OrderStatusChange` custom type that represents an order status change event. This type includes fields for the order ID, status, and message.
 
@@ -90,7 +90,7 @@ export const data = defineData({
 ```
 
 <Callout info>
-**NOTE:** To comply with the GraphQL spec, at least one query is required for a schema to be valid. Otherwise, deployments will fail a schema error. The Amplify Data schema is auto-generated with a `Todo` model and corresponding queries under the hood. You can leave the `Todo` model in the schema until you add the first custom query to the schema in the next steps.
+**NOTE:** At least one query is required for a schema to be valid. Otherwise, deployments will fail a schema error. The Amplify Data schema is auto-generated with a `Todo` model and corresponding queries under the hood. You can leave the `Todo` model in the schema until you add the first custom query to the schema in the next steps.
 </Callout>
 
 ## Step 2 - Add your Amazon EventBridge event bus as a data source
@@ -130,7 +130,7 @@ const eventBus = aws_events.EventBus.fromEventBusName(
 backend.data.addEventBridgeDataSource("MyEventBridgeDataSource", eventBus);
 // highlight-end
 
-// Create a policy statement to allow invoking the AppSync GraphQL API
+// Create a policy statement to allow invoking the AppSync API's mutations
 const policyStatement = new PolicyStatement({
   effect: Effect.ALLOW,
   actions: ["appsync:GraphQL"],
@@ -197,11 +197,15 @@ const rule = new aws_events.CfnRule(eventStack, "MyOrderRule", {
 });
 ```
 
+<Callout warning>
+The selection set returned by the mutation must match the selection set of the subscription. If the selection set of the mutation is different from the selection set of the subscription, the subscription will not receive the event.
+</Callout>
+
 In the code snippet above, the `addEventBridgeDataSource` method is used to add the default event bus as a data source to your API. This allows you to reference the event bus in your custom queries and mutations.
 
-The `CfnRule` construct is used to create an EventBridge rule that routes events to the AppSync API. The rule specifies the event pattern to match and the target to invoke when the event is received. In this example, the target is an AppSync GraphQL API mutation named `publishOrderFromEventBridge`.
+The `CfnRule` construct is used to create an EventBridge rule that routes events to the AppSync API. The rule specifies the event pattern to match and the target to invoke when the event is received. In this example, the target is an AppSync mutation named `publishOrderFromEventBridge`.
 
-The `appSyncParameters` property specifies the GraphQL operation to invoke when the event is received. The `inputTransformer` property maps the event data to the mutation arguments.
+The `appSyncParameters` property specifies the mutation to invoke when the event is received. The `inputTransformer` property maps the event data to the mutation arguments.
 
 ## Step 3 - Define custom queries and mutations
 
@@ -247,7 +251,6 @@ const schema = a.schema({
     .authorization((allow) => [allow.publicApiKey(), allow.guest()])
     .handler(
       a.handler.custom({
-        dataSource: "NONE_DS",
         entry: "./publishOrderFromEventBridge.js",
       })
     ),
@@ -257,7 +260,6 @@ const schema = a.schema({
     .authorization((allow) => [allow.publicApiKey()])
     .handler(
       a.handler.custom({
-        dataSource: "NONE_DS",
         entry: "./onOrderFromEventBridge.js",
       })
     ),
@@ -308,7 +310,7 @@ export function response(ctx) {
 </Block>
 <Block name="Publish Order to EventBridge">
 
-In the following code, the `request` function constructs the event payload to be published to the event bus. To match the rule pattern configured in the previous steps, the event source is set to `amplify.orders` and the `detail-type` is set to `OrderStatusChange`. The graphql mutation arguments are passed to the event detail.
+In the following code, the `request` function constructs the event payload to be published to the event bus. To match the rule pattern configured in the previous steps, the event source is set to `amplify.orders` and the `detail-type` is set to `OrderStatusChange`. The mutation arguments are passed to the event detail.
 
 ```js title="amplify/data/publishOrderToEventBridge.js"
 export function request(ctx) {
@@ -397,7 +399,7 @@ You can test your custom mutation and subscriptions by using the EventBridge con
 
 ## Conclusion
 
-In this guide, you’ve added an Amazon EventBridge event bus as a data source to an Amplify GraphQL API and defined custom queries and mutations to publish and receive events from the event bus. You’ve also configured custom business logic handler code to handle the event data and invoke the appropriate mutations.
+In this guide, you’ve added an Amazon EventBridge event bus as a data source to an Amplify API and defined custom queries and mutations to publish and receive events from the event bus. You’ve also configured custom business logic handler code to handle the event data and invoke the appropriate mutations.
 
 To clean up, you can delete your sandbox by accepting the prompt when terminating the sandbox process in your terminal. Alternatively, you can also use the AWS Amplify console to manage and delete sandbox environments.
 
