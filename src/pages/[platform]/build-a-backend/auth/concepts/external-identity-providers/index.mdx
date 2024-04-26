@@ -28,7 +28,7 @@ export function getStaticProps() {
   };
 }
 
-Before you configure social sign-in with Amplify Auth you will need to set up your developer account with each provider you are using.
+Before you configure external sign-in with Amplify Auth you will need to set up your developer account with each provider you are using.
 
 <Callout>
 
@@ -38,7 +38,7 @@ Before you configure social sign-in with Amplify Auth you will need to set up yo
 
 <Callout warning>
 
-**Warning:** When configuring Social sign-in it's important to exercise caution when designating attributes as "required." Different social identity providers have varied scopes in terms of the information they respond back to Cognito with.  User pool attributes that are initially set up as "required" cannot be changed later, and may require you to migrate the users or create a new user pool.
+**Warning:** When configuring external sign-in it's important to exercise caution when designating attributes as "required." Different external identity providers have varied scopes in terms of the information they respond back to Cognito with.  User pool attributes that are initially set up as "required" cannot be changed later, and may require you to migrate the users or create a new user pool.
 
 </Callout>
 
@@ -102,13 +102,13 @@ Before you configure social sign-in with Amplify Auth you will need to set up yo
 </Block>
 </BlockSwitcher>
 
-Your developer accounts with the social providers are now set up and you can return to the Amplify specific configuration.
+Your developer accounts with the external providers are now set up and you can return to the Amplify specific configuration.
 
-## Configure social sign-in backend
+## Configure external sign-in backend
 
-In `amplify/auth/resource.ts` the social providers need to be added.
+In `amplify/auth/resource.ts` the external providers need to be added.
 
-The following is an example of how you would set up access to all of the social providers supported by Amplify Auth. Please note you will need to configure your `callbackUrls` and `logoutUrls` URLs for your application, which will inform your backend resources how to behave when initiating sign in and sign out operations in your app. You will also need to configure your `domainPrefix` for your user pool domain, which will be the redirect URI for your OAuth provider.
+The following is an example of how you would set up access to all of the external providers supported by Amplify Auth. Please note you will need to configure your `callbackUrls` and `logoutUrls` URLs for your application, which will inform your backend resources how to behave when initiating sign in and sign out operations in your app. You will also need to configure your `domainPrefix` for your user pool domain, which will be the redirect URI for your OAuth provider.
 
 <Callout>
 
@@ -150,7 +150,7 @@ export const auth = defineAuth({
 });
 ```
 
-You need to now inform your social provider of the newly configured authentication resource and its OAuth redirect URI:
+You need to now inform your external provider of the newly configured authentication resource and its OAuth redirect URI:
 
 <BlockSwitcher>
 <Block name="Facebook Login">
@@ -216,9 +216,9 @@ You need to now inform your social provider of the newly configured authenticati
 </Block>
 </BlockSwitcher>
 
-### Customizing scopes for retrieving user data from social providers
+### Customizing scopes for retrieving user data from external providers
 
-You can determine the pieces of data you want to retrieve from each social provider when setting them up in the `amplify/auth/resource.ts` file using `scopes`.
+You can determine the pieces of data you want to retrieve from each external provider when setting them up in the `amplify/auth/resource.ts` file using `scopes`.
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
@@ -237,7 +237,6 @@ export const auth = defineAuth({
         'https://mywebsite.com/profile'
       ],
       logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com'],
-      domainPrefix: 'subdomain'
     }
   }
 });
@@ -245,11 +244,11 @@ export const auth = defineAuth({
 
 ### Attribute mapping
 
-You can map which attributes are mapped between your social login provider and your users created in Cognito. We will be able to have the best level of protection for developers if we ensure that attribute mappings that would not work are called out by the type system.
+You can map which attributes are mapped between your external identity provider and your users created in Cognito. We will be able to have the best level of protection for developers if we ensure that attribute mappings that would not work are called out by the type system.
 
 <Callout>
 
-If you specify an attribute in your authentication resource as required, and it is not allowed for your social providers, signing in with that social provider will cause an error.
+If you specify an attribute in your authentication resource as required, and it is not allowed for your external providers, signing in with that external provider will cause an error.
 
 </Callout>
 
@@ -273,23 +272,22 @@ export const auth = defineAuth({
         'https://mywebsite.com/profile'
       ],
       logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com'],
-      domainPrefix: 'subdomain'
     }
   }
 });
 ```
 
-[Learn more about configuring the React Authenticator component for social providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#social-providers)
+[Learn more about configuring the React Authenticator component for external providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers)
 
 ## Set up your frontend
 
 <Callout info>
 
-If you are using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#social-providers) with Amplify, this feature works without any additional code. The guide below is for writing your own implementation.
+If you are using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers) with Amplify, this feature works without any additional code. The guide below is for writing your own implementation.
 
 </Callout>
 
-Enabling a signing in of a user with a social provider can be done as shown in the following code snippet.
+Enabling a signing in of a user with a external provider can be done as shown in the following code snippet.
 
 ```ts title="src/my-client-side-js.js"
 import { signInWithRedirect } from 'aws-amplify/auth';
@@ -299,7 +297,7 @@ await signInWithRedirect({
 });
 ```
 
-### (Required for Multi-Page Applications) Complete Social Sign In after Redirect
+### (Required for Multi-Page Applications) Complete external Sign In after Redirect
 
 If you are developing a multi-page application, and the redirected page is not the same page that initiated the sign in, you will need to add the following code to the redirected page to ensure the sign in gets completed:
 
@@ -332,8 +330,8 @@ Hub.listen("auth", ({ payload }) => {
 
 </Callout>
 
-<Accordion eyebrow="Under the hood" headingLevel="4" title="Why Social Sign In needs to be explicitly handled for Multi-Page Applications">
+<Accordion eyebrow="Under the hood" headingLevel="4" title="Why external Sign In needs to be explicitly handled for Multi-Page Applications">
 
-When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the social sign in when an end user is redirected back to your app. This works well in a single-page application but in a multi-page application, you might get redirected to a page that doesn't include the listener that was originally added as a side-effect. Hence you must include the specific OAuth listener on your login success page.
+When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the external sign in when an end user is redirected back to your app. This works well in a single-page application but in a multi-page application, you might get redirected to a page that doesn't include the listener that was originally added as a side-effect. Hence you must include the specific OAuth listener on your login success page.
 
 </Accordion>
