@@ -1,14 +1,18 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'List Files',
+  title: 'List file properties',
   description: 'Get list of files or file properties using Amplify Storage',
   platforms: [
     'angular',
     'javascript',
     'nextjs',
     'react',
-    'vue'
+    'vue',
+    'swift',
+    'android',
+    'flutter',
+    'react-native'
   ]
 };
 
@@ -24,11 +28,11 @@ export function getStaticProps(context) {
   };
 }
 
-
-
 You can list files without having to download the entire file. You can do this by using the listFile API from the Amplify Library for Storage. You can also get properties individually for a file using the getProperties API.
 
 ## List API
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 ```javascript
 import { list } from 'aws-amplify/storage';
 
@@ -104,28 +108,14 @@ function processStorageList(response) {
 
 This places each item's data inside a special `__data` key.
 
-### List files without pagination
+### More `list` options
 
-You can set the `listAll` option to true if you want to get all your files that match the prefix without paginating them.
-
-```javascript
-import { list } from 'aws-amplify/storage';
-
-try {
-  const response = await list({
-    path: 'photos/'
-    // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
-    options: {
-      listAll: true
-    }
-  });
-  // render list items from response.items
-} catch (error) {
-  console.log('Error ', error);
-}
-```
-
-### List files with pagination
+Option | Type | Description |
+| -- | -- | ----------- |
+| listAll | boolean | Set to true to list all files within the specified `path` |
+| pageSize | number | Sets the maximum number of files to be return. The range is 0 - 1000 |
+| nextToken | string | Indicates whether the list is being continued on this bucket with a token |
+| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 If the `pageSize` is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
 
@@ -151,11 +141,220 @@ const loadNextPage = async () => {
   // render list items from response.items
 };
 ```
-<Callout>
 
-**Note:** The range of `pageSize` can be from 0 - 1000.
+</InlineFilter>
 
-</Callout>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+StoragePagedListOptions options = StoragePagedListOptions.builder()
+    .setPageSize(1000)
+    .build();
+
+Amplify.Storage.list(
+    StoragePath.fromString("public/"),
+    options,
+    result -> {
+        for (StorageItem item : result.getItems()) {
+            Log.i("MyAmplifyApp", "Item: " + item.getPath());
+        }
+        Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
+    },
+    error -> Log.e("MyAmplifyApp", "List failure", error);
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val options = StoragePagedListOptions.builder()
+    .setPageSize(1000)
+    .build()
+
+Amplify.Storage.list(StoragePath.fromString("public/"), options,
+    { result ->
+        result.items.forEach { item ->
+            Log.i("MyAmplifyApp", "Item: ${item.path}")
+        }
+        Log.i("MyAmplifyApp", "Next Token: ${result.nextToken}")
+    },
+    { Log.e("MyAmplifyApp", "List failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val options = StoragePagedListOptions.builder()
+    .setPageSize(1000)
+    .build()
+
+try {
+    val result = Amplify.Storage.list(StoragePath.fromString("public/"), options)
+    result.items.forEach {
+        Log.i("MyAmplifyApp", "Item: $it")
+    }
+    Log.i("MyAmplifyApp", "next token: ${result.nextToken}")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "List failure", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+StoragePagedListOptions options = StoragePagedListOptions.builder()
+        .setPageSize(1000)
+        .build();
+
+RxAmplify.Storage.list(StoragePath.fromString("public/"), options)
+        .subscribe(
+            result -> {
+                for (StorageItem item : result.getItems()) {
+                    Log.i("MyAmplifyApp", "Item: " + item.getPath());
+                }
+                Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
+            },
+            error -> Log.e("MyAmplifyApp", "List failure", error);
+        );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+You can list all of the objects uploaded under a given prefix by setting the `pageSize`. If the `pageSize` is set lower than the total file size available, A single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, the user can use the `nextToken` from the previous call response.
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let options = StorageListRequest.Options(pageSize: 1000)
+let listResult = try await Amplify.Storage.list(
+    path: .fromString("public/example/path"), 
+    options: options
+)
+listResult.items.forEach { item in
+    print("Path: \(item.path)")
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let sink = Amplify.Publisher.create {
+    let options = StorageListRequest.Options(pageSize: 1000)
+    try await Amplify.Storage.list(
+        path: .fromString("public/example/path"), 
+        options: options
+    )
+}.sink {
+    if case let .failure(error) = $0 {
+        print("Failed: \(error)")
+    }
+}
+receiveValue: { listResult in
+    print("Completed")
+    listResult.items.forEach { item in
+        print("Path: \(item.path)")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+### More `list` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| pageSize | UInt | Number between 1 and 1,000 that indicates the limit of how many entries to fetch when retrieving file lists from the server |
+| nextToken | String | String indicating the page offset at which to resume a listing. |
+| pluginOptions | - | Extra plugin specific options, only used in special circumstances when the existing options do not provide a way to utilize the underlying storage system's functionality. |
+ 
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+This will list all files located under path `album` that:
+* have `private` access level
+* are in the root of `album/` (the result doesn't include files under any sub path)
+
+```dart
+Future<void> listAlbum() async {
+  try {
+    String? nextToken;
+    bool hasNextPage;
+    do {
+      final result = await Amplify.Storage.list(
+        path: const StoragePath.fromString('public/album/'),
+        options: StorageListOptions(
+          pageSize: 50,
+          nextToken: nextToken,
+          pluginOptions: const S3ListPluginOptions(
+            excludeSubPaths: true,
+          ),
+        ),
+      ).result;
+      safePrint('Listed items: ${result.items}');
+      nextToken = result.nextToken;
+      hasNextPage = result.hasNextPage;
+    } while (hasNextPage);
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+Pagination is enabled by default. The default `pageSize` is `1000` if it is not set in the `StorageListOptions`.
+
+### List all files without pagination
+
+You can also list all files under a given path without pagination by using the `pluginOptions` and `S3ListPluginOptions.listAll()` constructor.
+
+This will list all public files (i.e. those with `guest` access level):
+
+```dart
+
+Future<void> listAllUnderPublicPath() async {
+  try {
+    final result = await Amplify.Storage.list(
+      path: const StoragePath.fromString('public/'),
+      options: const StorageListOptions(
+        pluginOptions: S3ListPluginOptions.listAll(),
+      ),
+    ).result;
+    safePrint('Listed items: ${result.items}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+
+```
+
+### More `list` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| excludeSubPaths | boolean | Whether to exclude objects under the sub paths of the path to list. Defaults to false. |
+| delimiter | String | The delimiter to use when evaluating sub paths. If excludeSubPaths is false, this value has no impact on behavior. |
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
 ## Get File Properties
 
@@ -187,10 +386,47 @@ The properties and metadata will look similar to the below example
 }
 ```
 
+### More `getProperties` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+
 <Callout>
+
 To get the metadata in result for all APIs you have to configure user defined metadata in CORS.
 
 Learn more about how to setup an appropriate [CORS Policy](/[platform]/build-a-backend/storage/extend-s3-resources/#for-manually-configured-s3-resources).
 
 </Callout>
 
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+## Get File Properties
+
+You can also view properties of an individual file.
+
+```dart
+Future<void> getFileProperties() async {
+  try {
+    final result = await Amplify.Storage.getProperties(
+      path: const StoragePath.fromString('example.txt'),
+    ).result;
+    safePrint('File size: ${result.storageItem.size}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+<Callout>
+
+To get the metadata in result for all APIs when building against a web target, you have to configure user defined metadata in CORS.
+
+Learn more about how to setup an appropriate [CORS Policy](/[platform]/build-a-backend/storage/extend-s3-resources/#for-manually-configured-s3-resources).
+
+</Callout>
+
+</InlineFilter>
