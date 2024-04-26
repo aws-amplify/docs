@@ -55,7 +55,7 @@ To connect to Amazon Bedrock as a data source, you can choose between two method
 <BlockSwitcher>
 <Block name="Function">
 
-In your `amplify/backend.ts` file, replace the content with the following code to add a lambda function to your backend and grant it permission to invoke a generative AI model in Amazon Bedrock:
+In your `amplify/backend.ts` file, replace the content with the following code to add a lambda function to your backend and grant it permission to invoke a generative AI model in Amazon Bedrock. The `generateHaikuFunction` lambda function will be defined in and exported from the `amplify/data/resource.ts` file in the next steps:
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
@@ -78,8 +78,6 @@ backend.generateHaikuFunction.resources.lambda.addToRolePolicy(
     ],
   })
 );
-
-The `generateHaikuFunction` will be defined in and exported from the `amplify/data/resource.ts` file  in the next steps.
 ```
 </Block>
 <Block name="Custom resolver powered by AppSync JavaScript resolvers">
