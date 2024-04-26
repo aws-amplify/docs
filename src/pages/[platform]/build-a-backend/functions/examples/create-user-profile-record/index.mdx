@@ -37,8 +37,13 @@ You can use `defineAuth` and `defineFunction` to create a [Cognito post confirma
 A user is "confirmed" when they verify their account. Typically this happens when the user confirms their email via the verification email. The post confirmation handler will _not_ be triggered for federated sign-ins (i.e. social sign-in).
 
 </Callout>
+To get started, install the `aws-lambda` package, which is used to define the handler type.
 
-To get started, create a new directory and a resource file, `amplify/auth/post-confirmation/resource.ts`. Then, define the Function with `defineFunction`:
+```bash title="Terminal" showLineNumbers={false}
+npm add --save-dev @types/aws-lambda
+```
+
+Create a new directory and a resource file, `amplify/auth/post-confirmation/resource.ts`. Then, define the Function with `defineFunction`:
 
 ```ts title="amplify/auth/post-confirmation/resource.ts"
 import { defineFunction } from '@aws-amplify/backend';
