@@ -33,10 +33,10 @@ With AWS Lambda, you can seamlessly integrate various event sources, such as Ama
 
 In this guide, lets configure a Lambda function with an Amazon DynamoDB stream as an event source. The Lambda function is automatically triggered whenever an item is added, updated, or deleted from the table, enabling you to build real-time applications that react to changes in your data. In this example, we will use a `Todo` table created by a data model on the GraphQL API.
 
-To get started, install the AWS Lambda Powertools Logger package, which provides structured logging capabilities for your Lambda function.
+To get started, install the AWS Lambda Powertools Logger, which provides structured logging capabilities for your Lambda function, and the `aws-lambda` package, which is used to define the handler type.
 
 ```bash title="Terminal" showLineNumbers={false}
-npm add @aws-lambda-powertools/logger
+npm add --save-dev @aws-lambda-powertools/logger @types/aws-lambda
 ```
 
 Second, create a new directory and a resource file, `amplify/functions/dynamoDB-function/resource.ts`. Then, define the function with `defineFunction`:
