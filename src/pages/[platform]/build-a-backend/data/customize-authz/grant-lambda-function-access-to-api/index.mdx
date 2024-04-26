@@ -160,29 +160,18 @@ const dataClient = generateClient<Schema>();
 
 export const handler = async (event) => {
   await client.graphql({
-    query: `mutation create createTodo($input: CreateTodoInput!) {
-        createTodo(input: $input) {
-          id
-        }
-      }`,
+    query: createTodo,
     variables: {
       input: {
-        name: "First Todo",
-        description: "This is the first todo",
+        name: "My first todo",
+        description: "This is my first todo",
       },
     },
   });
 
+
   await client.graphql({
-    query: `query listTodos {
-          listTodos {
-            items {
-              id
-              name
-              description
-            }
-          }
-        }`,
+    query: listTodos,
   });
 
   return event;

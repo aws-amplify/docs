@@ -70,6 +70,7 @@ import type { Schema } from "../../data/resource";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
 import { env } from "$amplify/env/postConfirmation";
+import { createUserProfile } from "./graphql/mutations";
 
 Amplify.configure(
   {
@@ -105,24 +106,16 @@ const client = generateClient<Schema>({
 });
 
 export const handler: PostConfirmationTriggerHandler = async (event) => {
-  await client.graphql(
-    {
-      query: `mutation createUserProfile($input: CreateUserProfileInput!) {
-        createUserProfile(input: $input) {
-          id
-        }
-      }`,
-      variables: {
-        input: {
-          email: event.request.userAttributes.email,
-        },
+  await client.graphql({
+    query: createUserProfile,
+    variables: {
+      input: {
+        email: event.request.userAttributes.email,
       },
-    }
-  );  
+    },  
+  }); 
   return event;
 };
-
-
 
 ```
 
@@ -139,7 +132,7 @@ const schema = a
       .model({
         email: a.string(),
       })
-      .authorization((allow) => [allow.owner()]),
+      .authorization((allow) => [allow.publicApiKey()]),
   })
   .authorization((allow) => [allow.resource(postConfirmation)]);
 
