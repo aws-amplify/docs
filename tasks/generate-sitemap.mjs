@@ -150,11 +150,11 @@ function findHighestRankPage(pages) {
     react: 1,
     javascript: 2,
     nextjs: 3,
-    angular: 4,
-    swift: 5,
-    android: 6,
-    'react-native': 7,
-    flutter: 8,
+    swift: 4,
+    flutter: 5,
+    'react-native': 6,
+    android: 7,
+    angular: 8,
     vue: 9
   };
 
