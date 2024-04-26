@@ -111,6 +111,151 @@ void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
 ```
 
 </InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "my@email.com"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.phoneNumber(), "+15551234567"));
+
+Amplify.Auth.signUp(
+    "username",
+    "Password123",
+    AuthSignUpOptions.builder().userAttributes(attributes).build(),
+    result -> Log.i("AuthQuickstart", result.toString()),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val attrs = mapOf(
+    AuthUserAttributeKey.email() to "my@email.com",
+    AuthUserAttributeKey.phoneNumber() to "+15551234567"
+)
+val options = AuthSignUpOptions.builder()
+    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
+    .build()
+Amplify.Auth.signUp("username", "Password123", options,
+    { Log.i("AuthQuickstart", "Sign up result = $it") },
+    { Log.e("AuthQuickstart", "Sign up failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val attrs = mapOf(
+    AuthUserAttributeKey.email() to "my@email.com",
+    AuthUserAttributeKey.phoneNumber() to "+15551234567"
+)
+val options = AuthSignUpOptions.builder()
+    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
+    .build()
+try {
+    val result = Amplify.Auth.signUp("username", "Password123", options)
+    Log.i("AuthQuickstart", "Sign up OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign up failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "my@email.com"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.phoneNumber(), "+15551234567"));
+
+RxAmplify.Auth.signUp(
+    "username",
+    "Password123",
+    AuthSignUpOptions.builder().userAttributes(attributes).build())
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func signUp(username: String, password: String, email: String, phonenumber: String) async {
+    let userAttributes = [AuthUserAttribute(.email, value: email), AuthUserAttribute(.phoneNumber, value: phonenumber)]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+
+    do {
+        let signUpResult = try await Amplify.Auth.signUp(
+            username: username,
+            password: password,
+            options: options
+        )
+
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    } catch let error as AuthError {
+        print("An error occurred while registering a user \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func signUp(username: String, password: String, email: String, phonenumber: String) -> AnyCancellable {
+    let userAttributes = [
+        AuthUserAttribute(.email, value: email),
+        AuthUserAttribute(.phoneNumber, value: phonenumber)
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+    Amplify.Publisher.create {
+        try await Amplify.Auth.signUp(
+            username: username,
+            password: password,
+            options: options
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while registering a user \(authError)")
+        }
+    }
+    receiveValue: { signUpResult in
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    }
+    return sink
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
 
 The `signUp` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
 
@@ -130,7 +275,7 @@ By default, each user that signs up remains in the unconfirmed status until they
 
 You can confirm the sign-up after receiving a confirmation code from the user:
 
-<InlineFilter filters={["flutter"]}>
+<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue"]}>
 
 ```ts
 import { confirmSignUp } from 'aws-amplify/auth';
@@ -162,6 +307,118 @@ Future<void> confirmUser({
   }
 }
 ```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.confirmSignUp(
+    "username",
+    "the code you received via email",
+    result -> Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmSignUp(
+    "username", "the code you received via email",
+    { result ->
+        if (result.isSignUpComplete) {
+            Log.i("AuthQuickstart", "Confirm signUp succeeded")
+        } else {
+            Log.i("AuthQuickstart","Confirm sign up not complete")
+        }
+    },
+    { Log.e("AuthQuickstart", "Failed to confirm sign up", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val code = "code you received via email"
+    val result = Amplify.Auth.confirmSignUp("username", code)
+    if (result.isSignUpComplete) {
+        Log.i("AuthQuickstart", "Signup confirmed")
+    } else {
+        Log.i("AuthQuickstart", "Signup confirmation not yet complete")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to confirm signup", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmSignUp("username", "the code you received via email")
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func confirmSignUp(for username: String, with confirmationCode: String) async {
+    do {
+        let confirmSignUpResult = try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+        print("Confirm sign up result completed: \(confirmSignUpResult.isSignUpComplete)")
+    } catch let error as AuthError {
+        print("An error occurred while confirming sign up \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while confirming sign up \(authError)")
+        }
+    }
+    receiveValue: { _ in
+        print("Confirm signUp succeeded")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
 
 </InlineFilter>
 
