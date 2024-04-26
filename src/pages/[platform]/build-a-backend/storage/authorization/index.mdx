@@ -2,14 +2,9 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Customize authorization rules',
-  description: 'Define Authorization rules granularly for paths in the Storage bucket',
-  platforms: [
-    'angular',
-    'javascript',
-    'nextjs',
-    'react',
-    'vue'
-  ]
+  description:
+    'Define Authorization rules granularly for paths in the Storage bucket',
+  platforms: ['angular', 'javascript', 'nextjs', 'react', 'vue']
 };
 
 export const getStaticPaths = async () => {
@@ -27,6 +22,8 @@ export function getStaticProps(context) {
 Customize authorization for your storage bucket by defining access individually to file prefixes for Guest, Authenticated, and group users. Access can also be defined for functions that require access to the storage bucket.
 
 Refer to the following examples to understand how you can further customize authorization against different user types.
+
+## Access Types
 
 <Callout>
 
@@ -50,6 +47,7 @@ export const storage = defineStorage({
   })
 });
 ```
+
 </Block>
 <Block name="Authenticated Users">
 To grant all authenticated (i.e. signed in) users of your application read access to files that start with `foo/*`, use the following `access` configuration.
@@ -66,6 +64,7 @@ export const storage = defineStorage({
   })
 });
 ```
+
 </Block>
 <Block name="User Groups">
 If you have configured user groups in `defineAuth`, you can scope storage access to specific groups. Suppose you have a `defineAuth` config with `admin` and `auditor` groups.
@@ -80,6 +79,7 @@ export const auth = defineAuth({
   groups: ['admin', 'auditor']
 });
 ```
+
 With the following `access` definition, you can configure permissions such that auditors have readonly permissions to `foo/*` while admin has full permissions.
 
 ```ts title="amplify/storage/resource.ts"
@@ -87,12 +87,24 @@ export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
     'foo/*': [
-      allow.group('auditor').to(['read']),
-      allow.group('admin').to(['read', 'write', 'delete'])
+      allow.groups(['auditor']).to(['read']),
+      allow.groups(['admin']).to(['read', 'write', 'delete'])
     ]
   })
 });
 ```
+
+If multiple groups require the same set of actions, this can be combined into a single rule.
+
+```ts title="amplify/storage/resource.ts"
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    'foo/*': [allow.groups(['admin', 'auditor']).to(['read', 'write'])]
+  })
+});
+```
+
 </Block>
 <Block name="Owners">
 Access to files with a certain prefix can be scoped down to individual authenticated users. To do this, a placeholder token is used in the storage path which will be substituted with the user identity when uploading or downloading files. The access rule will only allow a user to upload or download files with their specific identity string.
@@ -112,6 +124,7 @@ export const storage = defineStorage({
   })
 });
 ```
+
 A user with identity id "123" would be able to perform read/write/delete operations on files within `foo/123/*` and would not be able to perform actions on files with any other prefix.
 
 Likewise, a user with identity ID "ABC" would be able to perform read/write/delete operation on files only within `foo/ABC/*`. In this way, each user can be granted access to a "private storage location" that is not accessible to any other user.
@@ -130,7 +143,9 @@ export const storage = defineStorage({
   })
 });
 ```
+
 When a non-ID-based rule is applied to a path with the `{entity_id}` token, the token is replaced with a wildcard (`*`). This means that the access will apply to files uploaded by _any_ user. In the above policy, write and delete is scoped to just the owner, but read is allowed for guest and authenticated users for any file within `foo/*/*`.
+
 </Block>
 <Block name="Functions">
 In addition to granting application users access to storage files, you may also want to grant a backend function access to storage files. This could be used to enable a use case like resizing images, or automatically deleting old files. The following configuration is used to define function access.
@@ -153,6 +168,7 @@ This would grant the function `demoFunction` the ability to read write and delet
 When a function is granted access to storage, it also receives an environment variable that contains the name of the S3 bucket configured by storage. This environment variable can be used in the function to make SDK calls to the storage bucket. The environment variable is named `<storage-name>_BUCKET_NAME`. In the above example, it would be named `myProjectFiles_BUCKET_NAME`.
 
 [Learn more about function resource access environment variables](/[platform]/build-a-backend/functions/#resource-access)
+
 </Block>
 </BlockSwitcher>
 
@@ -197,13 +213,13 @@ Authenticated users have access to read, write, and delete everything under `foo
 
 When you configure access to a particular storage prefix, you can scope the access to one or more CRUDL actions.
 
-| Access | Corresponding Library APIs |
-|---|----|
-|`read`|`getUrl`, `downloadData`, `list`, and `getProperties`|
-|`write`|`uploadData`, `copy`|
-|`delete`|`remove`|
+| Access   | Corresponding Library APIs                            |
+| -------- | ----------------------------------------------------- |
+| `read`   | `getUrl`, `downloadData`, `list`, and `getProperties` |
+| `write`  | `uploadData`, `copy`                                  |
+| `delete` | `remove`                                              |
 
-### For Gen 1 public, protected, and private access pattern
+## For Gen 1 public, protected, and private access pattern
 
 To configure `defineStorage` in Amplify Gen 2 to behave the same way as the storage category in Gen 1, the following definition can be used.
 
