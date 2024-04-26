@@ -174,32 +174,7 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx'
-                },
-                // mobile stuff from here down
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-out/index.mdx'
                 }
-                // {
-                //   path: 'src/pages/[platform]/build-a-backend/auth/add-social-provider/index.mdx'
-                // },
-                // {
-                //   path: 'src/pages/[platform]/build-a-backend/auth/manage-user-session/index.mdx'
-                // },
-                // {
-                //   path: 'src/pages/[platform]/build-a-backend/auth/manage-user-profile/index.mdx'
-                // },
-                // {
-                //   path: 'src/pages/[platform]/build-a-backend/auth/password-management/index.mdx'
-                // },
-                // {
-                //   path: 'src/pages/[platform]/build-a-backend/auth/manage-mfa/index.mdx'
-                // },
-                // {
-                //   path: 'src/pages/[platform]/build-a-backend/auth/delete-user-account/index.mdx'
-                // },
-                // {
-                //   path: 'src/pages/[platform]/build-a-backend/auth/admin-actions/index.mdx'
-                // },
               ]
             },
             {
