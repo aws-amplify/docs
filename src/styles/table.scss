@@ -21,6 +21,12 @@ table:not([class]) {
   }
 }
 
+.scrollview {
+  &:focus-visible {
+    outline: 2px solid var(--amplify-colors-border-focus);
+  }
+}
+
 /* These styles are used in the FeatureFlags component */
 .amplify-table {
   &__th {

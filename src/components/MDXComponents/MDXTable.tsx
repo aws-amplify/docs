@@ -7,7 +7,11 @@ interface MDXTableProps extends HTMLAttributes<HTMLTableElement> {
 
 export const MDXTable: React.FC<MDXTableProps> = ({ children, ...props }) => {
   return (
-    <ScrollView tabIndex={0} aria-label="Accessible scrollview">
+    <ScrollView
+      tabIndex={0}
+      aria-label="Scrollable table"
+      className="scrollview"
+    >
       <table {...props}>{children}</table>
     </ScrollView>
   );
