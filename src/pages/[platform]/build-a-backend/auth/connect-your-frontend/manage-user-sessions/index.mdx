@@ -1,0 +1,99 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Manage user sessions',
+  description: 'Learn how to manage user sessions',
+  platforms: [
+    // 'android',
+    'angular',
+    // 'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    // 'react-native',
+    // 'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta,
+    }
+  };
+}
+
+Amplify Auth provides access to current user sessions and tokens to help you retrieve your user's information to determine if they are signed in with a valid session and control their access to your app.
+
+## Retrieve your current authenticated user
+
+You can use the `getCurrentUser` API to get information about the currently authenticated user including the `username`, `userId` and `signInDetails`.
+
+```ts
+import { getCurrentUser } from 'aws-amplify/auth';
+
+const { username, userId, signInDetails } = await getCurrentUser();
+
+console.log("username", username);
+console.log("user id", userId);
+console.log("sign-in details", signInDetails);
+```
+
+This method can be used to check if a user is signed in. It throws an error if the user is not authenticated.
+
+<Callout info>
+
+The user's `signInDetails` are not supported when using the `Hosted UI` or the `signInWithRedirect` API.
+
+</Callout>
+
+## Retrieve a user session
+
+Your user's session is their signed-in state, which grants them access to your app. When your users sign in, their credentials are exchanged for temporary access tokens. You can get session details to access these tokens and use this information to validate user access or perform actions unique to that user.
+
+If you only need the session details, you can use the `fetchAuthSession` API which returns a `tokens` object containing the JWTs (JSON Web Tokens).
+
+<Accordion title='Review what the tokens object contains and how tokens work' headingLevel='4' eyebrow='Learn more'>
+
+This secure information in the `tokens` object includes:
+
+- `idToken` - A JWT that contains user identity information like username and email. It is used to authenticate the user.
+- `accessToken` - A JWT used to access protected AWS resources and APIs. It contains the authorized scope.
+
+Amazon Cognito tokens work by generating temporary access and ID tokens with an expiration time at user sign-in. The tokens are validated against the user pool to authorize access until they expire.
+
+</Accordion>
+
+```ts
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+const session = await fetchAuthSession();
+
+console.log("id token", session.tokens.idToken)
+console.log("access token", session.tokens.accessToken)
+```
+
+### Refreshing sessions
+
+The `fetchAuthSession` API automatically refreshes the user's session when the authentication tokens have expired and a valid `refreshToken` is present. Additionally, you can also refresh the session explicitly by calling the `fetchAuthSession` API with the `forceRefresh` flag enabled. 
+
+```ts
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+await fetchAuthSession({ forceRefresh: true });
+```
+
+<Callout warning>
+
+**Warning:** by default, sessions from external identity providers cannot be refreshed.
+
+</Callout>
+
+## Next steps
+
+- [Learn how to access and validate user sessions server-side](/[platform]/build-a-backend/auth/connect-your-frontend/server-side/#session-validation)
