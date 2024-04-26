@@ -24,8 +24,6 @@ export function getStaticProps(context) {
   };
 }
 
-<BlockSwitcher>
-<Block name="API Usage">
 Files can be removed or deleted from a storage bucket using the 'remove' API. If a file is protected by an identity Id, only the user who owns the file will be able to remove it.
 
 ```javascript
@@ -40,10 +38,3 @@ try {
   console.log('Error ', error);
 }
 ```
-</Block>
-<Block name="Amplify Console">
-You can also remove files on demand via the Amplify Console
-
-![Amplify Console showing how you can delete files on demand](/images/gen2/storage/delete.png)
-</Block>
-</BlockSwitcher>
