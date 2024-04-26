@@ -1,8 +1,8 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Define Storage',
-  description: 'Get started with Amplify Storage',
+  title: 'Set up Storage',
+  description: 'Set up Amplify Storage for your project',
   platforms: [
     'angular',
     'javascript',
@@ -74,11 +74,11 @@ export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
     // highlight-next-line
-    'some/path/*': [
+    'media/photos/*': [
       // access rules that apply to all files within "/some/path/*" go here
     ],
     // highlight-next-line
-    'another/path/*': [
+    'documents/taxes/*': [
       // access rules that apply to all files within "/another/path/*" go here
     ]
   })

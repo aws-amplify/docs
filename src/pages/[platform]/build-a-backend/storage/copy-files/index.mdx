@@ -81,8 +81,8 @@ User who initiates a copy operation should have read permission on the copy sour
 Future<void> copy() async {
   try {
     final result = await Amplify.Storage.copy(
-      source: const StoragePath.fromString('public/file-1.txt'),
-      destination: const StoragePath.fromString('public/file-2.txt'),
+      source: const StoragePath.fromString('album/2024/1.jpg'),
+      destination: const StoragePath.fromString('shared/2024/1.jpg'),
     ).result;
     safePrint('Copied file: ${result.copiedItem.path}');
   } on StorageException catch (e) {
@@ -101,8 +101,8 @@ Example of `copy` with options:
 
 ```dart
 final result = Amplify.Storage.copy(
-  source: const StoragePath.fromString('public/file-1.txt'),
-  destination: const StoragePath.fromString('public/file-2.txt'),
+  source: const StoragePath.fromString('album/2024/1.jpg'),
+  destination: const StoragePath.fromString('shared/2024/1.jpg'),
   options: const StorageCopyOptions(
     pluginOptions: S3CopyPluginOptions(
       getProperties: true,

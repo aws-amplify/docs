@@ -43,7 +43,7 @@ Refer to the following examples to understand how you can further customize auth
 
 <BlockSwitcher>
 <Block name="Guest Users">
-To grant all guest (i.e. not signed in) users of your application read access to files that start with `folder/*`, use the following `access` values.
+To grant all guest (i.e. not signed in) users of your application read access to files that start with `media/*`, use the following `access` values.
 
 Note that your backend must include `defineAuth` in order to use this access rule.
 
@@ -51,7 +51,7 @@ Note that your backend must include `defineAuth` in order to use this access rul
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    'folder/*': [
+    'media/*': [
       allow.guest.to(['read']) // additional actions such as "write" and "delete" can be specified depending on your use case
     ]
   })
@@ -60,7 +60,7 @@ export const storage = defineStorage({
 
 </Block>
 <Block name="Authenticated Users">
-To grant all authenticated (i.e. signed in) users of your application read access to files that start with `folder/*`, use the following `access` configuration.
+To grant all authenticated (i.e. signed in) users of your application read access to files that start with `media/*`, use the following `access` configuration.
 
 Note that your backend must include `defineAuth` in order to use this access rule.
 
@@ -68,7 +68,7 @@ Note that your backend must include `defineAuth` in order to use this access rul
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    'folder/*': [
+    'media/*': [
       allow.authenticated.to(['read']) // additional actions such as "write" and "delete" can be specified depending on your use case
     ]
   })
@@ -90,14 +90,14 @@ export const auth = defineAuth({
 });
 ```
 
-With the following `access` definition, you can configure permissions such that auditors have readonly permissions to `folder/*` while admin has full permissions.
+With the following `access` definition, you can configure permissions such that auditors have readonly permissions to `media/*` while admin has full permissions.
 
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    'folder/*': [
-      allow.groups(['auditor']).to(['read']),
+    'media/*': [
+      allow.groups(['friends']).to(['read']),
       allow.groups(['admin']).to(['read', 'write', 'delete'])
     ]
   })
@@ -110,24 +110,30 @@ If multiple groups require the same set of actions, this can be combined into a 
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    'folder/*': [allow.groups(['admin', 'auditor']).to(['read', 'write'])]
+    'media/*': [
+      allow.groups(['friends', 'admin']).to(['read', 'write'])
+    ]
   })
 });
 ```
 
 </Block>
 <Block name="Owners">
-Access to files with a certain prefix can be scoped down to individual authenticated users. To do this, a placeholder token is used in the storage path which will be substituted with the user identity when uploading or downloading files. The access rule will only allow a user to upload or download files with their specific identity string.
+Access to files with a certain prefix can be scoped down to individual authenticated users. 
+
+To do this, a placeholder token i.e. `entity_id`, is used in the storage path which will be substituted with the user identity when uploading or downloading files. The access rule will only allow a user to upload or download files with their specific identity string.
+
+`entity_id` represents the the ID of the entity that is being used to scope files. Currently, only Identity Pool is supported and hence, files can be scoped to `identity_id` of users.
 
 Note that your backend must include `defineAuth` in order to use this access rule.
 
-The following policy would allow authenticated users full access to files with a prefix that matches their identity id.
+The following policy would allow authenticated users full access to `media/` that matches their identity id.
 
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    'folder/{entity_id}/*': [
+    'media/{entity_id}/*': [
       // {entity_id} is the token that is replaced with the user identity id
       allow.entity('identity').to(['read', 'write', 'delete'])
     ]
@@ -135,9 +141,9 @@ export const storage = defineStorage({
 });
 ```
 
-A user with identity id "documents" would be able to perform read/write/delete operations on files within `folder/documents/*` and would not be able to perform actions on files with any other prefix.
+A user with identity id `user123` would be able to perform read/write/delete operations on files within `media/user123/*` and would not be able to perform actions on files with any other prefix.
 
-Likewise, a user with identity ID "downloads" would be able to perform read/write/delete operation on files only within `folder/downloads/*`. In this way, each user can be granted access to a "private storage location" that is not accessible to any other user.
+Likewise, a user with identity ID `userABC` would be able to perform read/write/delete operation on files only within `media/userABC/*`. In this way, each user can be granted access to a "private storage location" that is not accessible to any other user.
 
 It may be desireable for a file owner to be able to write and delete files in their private location but allow anyone to read from that location. For example, profile pictures should be readable by anyone, but only the owner can modify them. This use case can be configured with the following definition.
 
@@ -145,7 +151,7 @@ It may be desireable for a file owner to be able to write and delete files in th
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    'folder/{entity_id}/*': [
+    'media/profile-pictures/{entity_id}/*': [
       allow.entity('identity').to(['read', 'write', 'delete']),
       allow.guest.to(['read']),
       allow.authenticated.to(['read'])
@@ -154,7 +160,7 @@ export const storage = defineStorage({
 });
 ```
 
-When a non-ID-based rule is applied to a path with the `{entity_id}` token, the token is replaced with a wildcard (`*`). This means that the access will apply to files uploaded by _any_ user. In the above policy, write and delete is scoped to just the owner, but read is allowed for guest and authenticated users for any file within `folder/*/*`.
+When a non-ID-based rule is applied to a path with the `{entity_id}` token, the token is replaced with a wildcard (`*`). This means that the access will apply to files uploaded by _any_ user. In the above policy, write and delete is scoped to just the owner, but read is allowed for guest and authenticated users for any file within `media/profile-pictures/*/*`.
 
 </Block>
 <Block name="Functions">
@@ -168,12 +174,12 @@ const demoFunction = defineFunction({});
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    'folder/*': [allow.resource(demoFunction).to(['read', 'write', 'delete'])]
+    'media/*': [allow.resource(demoFunction).to(['read', 'write', 'delete'])]
   })
 });
 ```
 
-This would grant the function `demoFunction` the ability to read write and delete files within `folder/*`.
+This would grant the function `demoFunction` the ability to read write and delete files within `media/*`.
 
 When a function is granted access to storage, it also receives an environment variable that contains the name of the S3 bucket configured by storage. This environment variable can be used in the function to make SDK calls to the storage bucket. The environment variable is named `<storage-name>_BUCKET_NAME`. In the above example, it would be named `myProjectFiles_BUCKET_NAME`.
 
@@ -182,14 +188,14 @@ When a function is granted access to storage, it also receives an environment va
 </Block>
 </BlockSwitcher>
 
-### Access definition limitations
+### Access definition rules
 
-There are some limitations on the types of prefixes that can be specified in the storage access definition.
+There are some rules on the types of prefixes that can be specified in the storage access definition.
 
-1. All paths are treated as prefixes from the storage root. As such all paths must end with `/*` to make this explicit.
-2. Only one level of nesting is allowed. For example, you can define access controls on `folder/*` and `folder/documents/*` but not on `folder/documents/photos/*` because that path has 2 other prefixes.
-3. Wildcards cannot conflict with the `{entity_id}` token. For example, you cannot have both `folder/*` and `folder/{entity_id}/*` defined because the wildcard in the first path conflicts with the `{entity_id}` token in the second path.
-4. A path cannot be a prefix of another path with an `{entity_id}` token. For example `folder/*` and `folder/documents/{entity_id}/*` is not allowed.
+1. All paths must end with `/*`. This is because all paths are treated as prefixes from the storage root.
+2. Only one level of nesting is allowed. For example, you can define access controls on `media/*` and `media/albums/*` but not on `media/albums/photos/*` because that path has 2 other prefixes.
+3. Wildcards cannot conflict with the `{entity_id}` token. For example, you cannot have both `media/*` and `media/{entity_id}/*` defined because the wildcard in the first path conflicts with the `{entity_id}` token in the second path.
+4. A path cannot be a prefix of another path with an `{entity_id}` token. For example `media/*` and `media/albums/{entity_id}/*` is not allowed.
 
 ### Prefix behavior
 
@@ -199,9 +205,9 @@ When one path is a subpath of another, the permissions on the subpath _always ov
 export const storage = defineStorage({
   name: 'myProjectFiles',
   access: (allow) => ({
-    'folder/*': [allow.authenticated.to(['read', 'write', 'delete'])],
-    'folder/documents/*': [allow.guest.to(['read'])],
-    'folder/downloads/*': [allow.authenticated.to(['read'])],
+    'media/*': [allow.authenticated.to(['read', 'write', 'delete'])],
+    'media/profile-pictures/*': [allow.guest.to(['read'])],
+    'media/albums/*': [allow.authenticated.to(['read'])],
     'other/*': [
       allow.guest.to(['read']),
       allow.authenticated.to(['read', 'write'])
@@ -212,12 +218,12 @@ export const storage = defineStorage({
 
 The access control matrix for this configuration is
 
-|  | folder/\* | folder/documents/\* | folder/downloads/\* | other/\* |
+|  | media/\* | media/profile-pictures/\* | media/albums/\* | other/\* |
 | --- | --- | --- | --- | --- |
 | **Authenticated Users** | read, write, delete | NONE | read | read, write |
 | **Guest users** | NONE | read | NONE | read |
 
-Authenticated users have access to read, write, and delete everything under `folder/*` EXCEPT `folder/documents/*` and `folder/downloads/*`. For those subpaths, the scoped down access overrides the access granted on the parent `folder/*`
+Authenticated users have access to read, write, and delete everything under `media/*` EXCEPT `media/profile-pictures/*` and `media/albums/*`. For those subpaths, the scoped down access overrides the access granted on the parent `media/*`
 
 ### Available actions
 
