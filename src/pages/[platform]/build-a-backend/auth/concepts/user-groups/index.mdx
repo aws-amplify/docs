@@ -49,6 +49,8 @@ export const auth = defineAuth({
 
 </Callout>
 
+User pool groups are available as a claim in the user's ID token and access token as `cognito:groups`. Requests can be made to secure resources using the access token and validated against this claim to permit action on the resource.
+
 ### Next steps
 
 - [Learn how to automatically add a user to a group upon account confirmation](/[platform]/build-a-backend/functions/examples/add-user-to-group/)
