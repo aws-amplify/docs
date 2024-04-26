@@ -78,7 +78,6 @@ describe('Menu', () => {
     expect(menuItem.classList).toContain('menu__list-item');
   });
 
-  // needs help
   it('should expand menu on Subcategory MenuItem click', async () => {
     const component = <Menu currentPlatform="react" path="/"></Menu>;
     render(component);
@@ -89,11 +88,8 @@ describe('Menu', () => {
     expect(menuItem?.nextElementSibling?.classList).toContain(
       'menu__list--hide'
     );
-    // userEvent.click(menuItem);
-    // console.log(menuItem.nextElementSibling);
   });
 
-  // needs help
   it('handleFocus', async () => {
     const component = <Menu currentPlatform="react" path="/"></Menu>;
     render(component);
@@ -105,15 +101,15 @@ describe('Menu', () => {
   });
 
   it('should not render MenuItem if pageNode does not exist', async () => {
-    // const component = (
-    //   <Menu currentPlatform="react" path="/[platform]/prev"></Menu>
-    // );
-    // render(component);
-    // const menuItems = await screen.getAllByRole('listitem');
-    // // console.log(menuItems.key['prev/[platform]/build-a-backend/auth/set-up-auth/']);
-    // // console.log(menuItems);
-    // // menuItems.forEach((item) => {
-    // //   console.log(item.textContent);
-    // // });
+    const component = (
+      <Menu currentPlatform="react" path="/[platform]/prev"></Menu>
+    );
+    render(component);
+    const menuItems = await screen.getAllByRole('listitem');
+    // console.log(menuItems.key['prev/[platform]/build-a-backend/auth/set-up-auth/']);
+    console.log(menuItems);
+    // menuItems.forEach((item) => {
+    //   console.log(item.textContent);
+    // });
   });
 });
