@@ -93,10 +93,11 @@ Likewise, when disconnected from the internet unexpectedly, the subscription wil
 ```dart
 Future<void> _configureAmplify() async {
   final apiPlugin = AmplifyAPI(
-    modelProvider: ModelProvider.instance,
-    // Optional config
-    subscriptionOptions: const GraphQLSubscriptionOptions(
-      retryOptions: RetryOptions(maxAttempts: 10),
+    options: APIPluginOptions(
+      modelProvider: ModelProvider.instance,
+      subscriptionOptions: const GraphQLSubscriptionOptions(
+        retryOptions: RetryOptions(maxAttempts: 10),
+      ),
     ),
   );
   await Amplify.addPlugin(apiPlugin);
