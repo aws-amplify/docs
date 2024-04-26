@@ -61,14 +61,14 @@ Delete stored data from the storage bucket. To remove a file, you need to provid
 Files can only be deleted for the current user. Deletion capabilities do not extend to files associated with other users.
 
 <BlockSwitcher>
-<Block name="With Path (Above v6.x.x)">
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { remove } from 'aws-amplify/storage';
 
 try {
   await remove({ 
-    path: 'album/2024/1.jpg',
-    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    path: 'public/album/2024/1.jpg',
+    // Alternatively, path: ({identityId}) => `protected/{identityId}/album/2024/1.jpg`
   });
 } catch (error) {
   console.log('Error ', error);
@@ -81,9 +81,9 @@ import { remove } from 'aws-amplify/storage';
 
 try {
   await remove({ 
-    key: 'abc.txt', 
+    key: 'album/2024/1.jpg', 
     options: { 
-      accessLevel: 'protected' // defaults to `guest` but can be 'private' | 'protected' | 'guest'
+      accessLevel: 'guest' // defaults to `guest` but can be 'private' | 'protected' | 'guest'
     } 
   });
 } catch (error) {
