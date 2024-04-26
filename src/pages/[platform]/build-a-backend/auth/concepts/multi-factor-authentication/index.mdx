@@ -79,7 +79,14 @@ If you are using the [Authenticator component](https://ui.docs.amplify.aws/react
 
 Once you have setup SMS as your second layer of authentication with MFA as shown above, your users will get an authentication code via a text message to complete sign-in after they sign in with their username and password.
 
-If you do not have one already, you will need to configure an IAM role to use with Amazon Simple Notification Service (Amazon SNS) to manage SMS messages. You will then add this role under the "Messaging" tab for your user pool in the Amazon Cognito console. For additional information see the [_Amazon Cognito SMS text message MFA_](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa-sms-text-message.html) documentation.
+<Callout warning>
+
+**Warning:** In order to send SMS authentication codes, you must [request an origination number](https://docs.aws.amazon.com/pinpoint/latest/userguide/settings-request-number.html). [Learn more about configuring your auth resource for production workloads](/[platform]/build-a-backend/auth/moving-to-production/).
+
+</Callout>
+
+{/* moving-to-production */}
+{/* If you do not have one already, you will need to configure an IAM role to use with Amazon Simple Notification Service (Amazon SNS) to manage SMS messages. You will then add this role under the "Messaging" tab for your user pool in the Amazon Cognito console. For additional information see the [_Amazon Cognito SMS text message MFA_](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa-sms-text-message.html) documentation. */}
 
 ### Enable SMS MFA during sign-up
 
@@ -107,7 +114,7 @@ import { confirmSignUp } from 'aws-amplify/auth';
 
 await confirmSignUp({
   username: "hello@mycompany.com",
-  confirmationCode: "1234",
+  confirmationCode: "123456",
 })
 ```
 
@@ -121,7 +128,7 @@ If MFA is **ON** or enabled for the user, you must call `confirmSignIn` with the
 import { confirmSignIn } from 'aws-amplify/auth';
 
 await confirmSignIn({
-  challengeResponse: "1234"
+  challengeResponse: "123456"
 });
 ```
 
@@ -357,34 +364,7 @@ There are differences to keep in mind when working with remembered, forgotten, a
 
 </Accordion>
 
-### Remember devices
+## Next steps
 
-You can remember devices using the following:
-
-```ts
-import { rememberDevice } from 'aws-amplify/auth';
-
-await rememberDevice();
-```
-
-#### Forget devices
-
-You can also forget devices but note that forgotten devices are neither remembered nor tracked.
-
-```ts
-import { forgetDevice } from 'aws-amplify/auth';
-
-await forgetDevice();
-```
-
-#### Fetch devices
-
-You can fetch a list of remembered devices by using the following:
-
-```ts
-import { fetchDevices } from 'aws-amplify/auth';
-
-const output = await fetchDevices();
-```
-
-You can now set up devices to be remembered, forgotten, and fetched.
+- [Learn how to sign-up with MFA enabled](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#with-multi-factor-auth-enabled)
+- [Learn how to manage user devices](/[platform]/build-a-backend/auth/manage-users/manage-devices/)
