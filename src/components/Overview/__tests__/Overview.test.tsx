@@ -7,7 +7,9 @@ const routerMock = {
   __esModule: true,
   useRouter: () => {
     return {
-      query: { platform: 'react' }
+      query: { platform: 'react' },
+      pathname: '/[platform]/build-a-backend/',
+      asPath: '/[platform]/build-a-backend/'
     };
   }
 };
@@ -21,7 +23,7 @@ describe('Overview', () => {
   it('should render the Overview component', async () => {
     render(component);
     const overviewNode = await screen.getByRole('link', {
-      name: 'Authentication Enable sign-in, sign-up and sign-out within minutes with pre-built UI components and powerful authentication APIs'
+      name: 'Authentication Learn about the authentication capabilities of AWS Amplify.'
     });
     const sampleOverviewCard = overviewNode;
     expect(sampleOverviewCard).toBeInTheDocument();
