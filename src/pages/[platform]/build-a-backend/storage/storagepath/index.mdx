@@ -23,8 +23,12 @@ export function getStaticProps(context) {
 }
 
 <InlineFilter filters={["android", "swift"]}>
-You can now use `StoragePath` to explicitly access, upload, and download to any path in your S3 bucket.
-Instead of using access levels, which restrict you to the predefined `guest`, `private`, or `public` folder in S3, `StoragePath` gives you more flexibility and control to create, maintain, and provision the path and storage structure that best fits your needs.
+You can use `StoragePath` to access, upload to, or download from to any path in your S3 bucket. The Amplify Gen 1 CLI automatically creates the following directories:
+- `public/`: Accessible by all users of your application
+- `protected/<identityId>/`: Readable by all users (you need to specify the identityID of the user who uploaded the file). Writable only by the creating user
+- `private/<identityId>/`: Readable and writable only by the creating user
+
+If you are using Amplify Gen2 or an S3 bucket not created by Amplify, you can use StoragePath to access, upload to, or download from any directory in your bucket.
 
 You can specify the path to your S3 resource by creating a `StoragePath` directly from a String, or by constructing the path with the user's Cognito IdentityId.
 
