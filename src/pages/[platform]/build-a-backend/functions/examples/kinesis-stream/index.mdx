@@ -36,7 +36,7 @@ In this guide, let us configure a Lambda function with a Kinesis data stream as 
 To get started, install the AWS Lambda Powertools Logger, which provides structured logging capabilities for your Lambda function, and the `aws-lambda` package, which is used to define the handler type.
 
 ```bash title="Terminal" showLineNumbers={false}
-npm add @aws-lambda-powertools/logger
+npm add @aws-lambda-powertools/logger @types/aws-lambda
 ```
 
 Second, create a new directory and a resource file, `amplify/functions/kinesis-function/resource.ts`. Then, define the function with `defineFunction`:
@@ -102,8 +102,9 @@ Lastly, create the Kinesis stream and add it as a event source in the `amplify/b
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
-import { KinesisEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
+import { Stream } from "aws-cdk-lib/aws-kinesis";
 import { StartingPosition } from "aws-cdk-lib/aws-lambda";
+import { KinesisEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 import { myKinesisFunction } from "./functions/kinesis-function/resource";

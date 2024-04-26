@@ -25,16 +25,10 @@ export const directory = {
               path: 'src/pages/[platform]/start/quickstart/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/start/quickstart/vite-react-app/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-app-router-client-components/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/quickstart/nextjs-app-router-server-components/index.mdx'
                 }
               ]
             },
@@ -45,7 +39,7 @@ export const directory = {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/start/mobile-support/index.mdx'
+              path: 'src/pages/[platform]/start/gen1-gen2/index.mdx'
             }
           ]
         },
@@ -71,7 +65,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-in/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'                  
+                  path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-out/index.mdx'
@@ -185,7 +179,6 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/index.mdx',
                   children: [
                     {
-
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-polly/index.mdx'
                     },
                     {
@@ -225,7 +218,7 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/storage/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/define-storage/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/set-up-storage/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/authorization/index.mdx'
@@ -250,6 +243,12 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/extend-s3-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/use-aws-sdk/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/data-usage/index.mdx'
                 }
               ]
             },
@@ -312,7 +311,12 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs-app-router-server-components/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-a-backend/add-aws-services/index.mdx',

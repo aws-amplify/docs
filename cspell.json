@@ -1582,6 +1582,8 @@
     "nextamplifygen",
     "multirepo",
     "startbuild",
+    "awscliv",
+    "identitystore",
     "esac",
     "voteField"
   ],
