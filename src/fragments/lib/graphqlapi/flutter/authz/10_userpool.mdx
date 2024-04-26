@@ -19,6 +19,8 @@ Afterwards add the following code to your app before you configure Amplify:
 ```dart
 await Amplify.addPlugins([
   AmplifyAuthCognito(), 
-  AmplifyAPI(modelProvider: ModelProvider.instance),
+  AmplifyAPI(
+    options: APIPluginOptions(modelProvider: ModelProvider.instance),
+  ),
 ]);
 ```

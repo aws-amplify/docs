@@ -30,6 +30,10 @@ class MyHttpRequestInterceptor extends AWSBaseHttpClient {
 
 // Then you can pass an instance of this client to `baseHttpClient` when you configure Amplify.
 await Amplify.addPlugins([
-  AmplifyAPI(baseHttpClient: MyHttpRequestInterceptor()),
+  AmplifyAPI(
+    options: APIPluginOptions(
+      baseHttpClient: MyHttpRequestInterceptor(),
+    ),
+  ),
 ]);
 ```

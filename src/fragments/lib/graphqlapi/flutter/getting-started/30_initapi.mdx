@@ -25,7 +25,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _configureAmplify() async {
-    final api = AmplifyAPI(modelProvider: ModelProvider.instance);
+    final api = AmplifyAPI(
+      options: APIPluginOptions(modelProvider: ModelProvider.instance),
+    );
     await Amplify.addPlugin(api);
 
     try {
