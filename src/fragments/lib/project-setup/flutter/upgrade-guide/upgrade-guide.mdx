@@ -1,328 +1,173 @@
-With the release of v1 Amplify Flutter now supports Web and Desktop for Auth, API, Analytics, and Storage use cases. Developers can build cross-platform Flutter apps with Amplify that target iOS, Android, Web, and Desktop (macOS, Windows, Linux) using a single codebase.
-
-We have re-written our libraries in Dart. In some places, we have made breaking changes to improve ergonomics or enable features that had been missing from the v0 implementations.
-
-## Prerequisites
-
-- A Flutter application targeting Flutter SDK >= 3.3.0 with Amplify libraries integrated
-
-Amplify requires a minimum target platform for iOS (13.0), Android (API level 24), and macOS (10.15). Additional setup is required for some target platforms. Please see the [platform setup](/gen1/[platform]/start/project-setup/platform-setup/) guide for more details on platform-specific setup.
-
-## Platform Setup
-
-The requirements for individual platforms have been modified in some cases. If you haven't done so already, go through the [project setup](/gen1/[platform]/start/project-setup/platform-setup/) guide 
-to make sure each platform has been configured correctly.
+Amplify Flutter v2 has several changes that may require migration when upgrading from v1.
 
 ## Auth
 
-- `fetchAuthSession` has several changes. See the example below for how to migrate.
-  - `Amplify.Auth.getPlugin()` has been added to return plugin-specific subtypes. Casting to `CognitoAuthSession` is no longer needed when using this method.
-  - The `getAWSCredentials` flag was previously needed to retrieve AWS credentials. This flag has been deprecated and is no longer needed. AWS credentials will always be included in the response.
-  - `fetchAuthSession` will no longer throw exceptions. Instead, individual getters of type `AuthResult` will throw if the underlying operation fails.
-    - _Why?_ The previous behavior did not allow for partial successes in offline scenarios when user pool tokens were still valid, but AWS credentials were expired. See [amplify-flutter#760](https://github.com/aws-amplify/amplify-flutter/issues/760#issuecomment-1453559459) for more details.
-  - `CognitoAuthSession.credentials`, `CognitoAuthSession.userPoolTokens`, `CognitoAuthSession.userSub`, and `CognitoAuthSession.identityId` are deprecated and will be removed in a future release. Use `CognitoAuthSession.credentialsResult`, `CognitoAuthSession.userPoolTokensResult`, `CognitoAuthSession.userSubResult`, and `CognitoAuthSession.identityIdResult` instead.
+#### Time based OTP Exception Handling
+
+In Amplify Flutter v1, `Amplify.Auth.verifyTotpSetup()` throws an `EnableSoftwareTokenMfaException` if the provided code was incorrect. In Amplify Flutter v2 a `CodeMismatchException` is thrown.
+
+#### Auth Flow in Amplify Config
+
+In Amplify Flutter v1, the value of `“authenticationFlowType”` from the amplify configuration object is used as the default `AuthenticationFlowType` if none is provided when calling `Amplify.Auth.signIn()`. In Amplify Flutter v2 `AuthenticationFlowType.userSrpAuth` is the default if none is provided. To change the authentication flow type, provide a value in the sign in options.
 
 ```dart
-// v0
-try {
-  final session = await Amplify.Auth.fetchAuthSession(
-    options: CognitoFetchAuthSessionOptions(getAWSCredentials: true),
-  ) as CognitoAuthSession;
-
-  final accessToken = session.userPoolTokens?.accessToken;
-  safePrint('accessToken: $accessToken');
-
-  final identityId = session.identityId;
-  safePrint('identityId: $identityId');
-} on AuthException catch (e) {
-  // fetchAuthSession will fail if any of the underlying operations fail.
-  safePrint('The operation failed: ${e.message}');
-}
+await Amplify.Auth.signIn(
+  username: 'username',
+  password: 'password',
+  options: const SignInOptions(
+    pluginOptions: CognitoSignInPluginOptions(
+      authFlowType: AuthenticationFlowType.userSrpAuth,
+    ),
+  ),
+)
 ```
 
-```dart
-// v1
-final session = await Amplify.Auth.getPlugin(
-  AmplifyAuthCognito.pluginKey,
-).fetchAuthSession();
 
-// AuthResult.value will throw if the underlying operation failed.
-try {
-  final accessToken = session.userPoolTokensResult.value.accessToken.toJson();
-  safePrint('accessToken: $accessToken');
-} on SignedOutException {
-  // the user is not signed in.
-} on SessionExpiredException {
-  // the users session has expired.
-} on NetworkException {
-  // the access and/or id token is expired but cannot be refreshed because the
-  // user is offline.
-}
+## Analytics
 
-// `AuthResult.valueOrNull` will return the identityId if present or null,
-// but will never throw even if the underlying operation failed.
-final identityId = session.identityIdResult.valueOrNull;
-safePrint('identityId: $identityId');
-```
+#### Configuration of `autoFlushEventsInterval`
 
-- The next step returned from auth operations are now enums. See the example below for how to migrate for `Auth.signUp()`.
+In Amplify Flutter v1, the autoFlushEventsInterval value was configured manually in the amplifyconfiguration.dart file. In Amplify Flutter v2, the autoFlushEventsInterval value is not read from amplifyconfiguration.dart but instead is passed directly to the `AmplifyAnalyticsPinpoint()` constructor under the `AnalyticsPinpointPluginOptions`. The default value for autoFlushEventsInterval remains at 30 seconds, consistent with the behavior in Amplify Flutter v1.
+
+## Storage
+
+#### `key` and `StorageAccessLevel` have been replaced by `StoragePath`
+
+In Amplify Flutter v1, files operations were performed based on a key and an AccessLevel. Amplify translated these values to a full file path. The AccessLevel (guest, protected, or private) determined what prefix to use (`“public/”`, `“protected/<user_identity_id>/”`, or `“private/<user_identity_id>/”`). Amplify Flutter v1 forms the full path using the prefix and the provided key.
+
+Amplify Flutter v2 allows for full control of the path of the storage object. Storage paths can be constructed either from a static string or from the current users identity id using the StoragePath class.
+
+To migrate from v1 to v2, replace all uses of `key` with `path` and remove uses of `StorageAccessLevel`. The path should include the prefix that was previously added by Amplify automatically.
+
+##### Example for Public Files
 
 ```dart
-// v0
-final result = await Amplify.Auth.signUp(/* ... */);
-switch (result.nextStep?.signUpStep) {
-  case 'CONFIRM_SIGN_UP':
-    // prompt user to confirm sign in using nextStep.codeDeliveryDetails
-    break;
-  case 'DONE':
-    // sign up is complete, user can be taken to an authenticated state.
-    break;
-}
-```
-
-```dart
-// v1
-final result = await Amplify.Auth.signUp(/* ... */);
-switch (result.nextStep.signUpStep) {
-  case AuthSignUpStep.confirmSignUp:
-    // prompt user to confirm sign in using nextStep.codeDeliveryDetails
-    break;
-  case AuthSignUpStep.done:
-    // sign up is complete, user can be taken to an authenticated state.
-    break;
-}
-```
-
-- Auth hub events now have a specific subtype (`AuthHubEvent`) and contain a `type` that is an enum. See the example below for how to migrate.
-
-```dart
-// v0
-final hubSubscription = Amplify.Hub.listen([HubChannel.Auth], (hubEvent) {
-  switch(hubEvent.eventName) {
-    case 'SIGNED_IN':
-      safePrint('User is signed in.');
-      break;
-    case 'SIGNED_OUT':
-      safePrint('User is signed out.');
-      break;
-    case 'SESSION_EXPIRED':
-      safePrint('The session has expired.');
-      break;
-    case 'USER_DELETED':
-      safePrint('The user has been deleted.');
-      break;
-  }
-});
-```
-
-```dart
-// v1
-final subscription = Amplify.Hub.listen(HubChannel.Auth, (AuthHubEvent event) {
-  switch (event.type) {
-    case AuthHubEventType.signedIn:
-      safePrint('User is signed in.');
-      break;
-    case AuthHubEventType.signedOut:
-      safePrint('User is signed out.');
-      break;
-    case AuthHubEventType.sessionExpired:
-      safePrint('The session has expired.');
-      break;
-    case AuthHubEventType.userDeleted:
-      safePrint('The user has been deleted.');
-      break;
-  }
-});
-```
-
-- Cognito-specific API options such as `CognitoSignInOptions` are deprecated in favor of `pluginOptions`. The classes will be removed in a future release. See below for an example of how to migrate for `Auth.signIn()`.
-
-```dart
-// v0
-final result = await Amplify.Auth.signIn(
-  username: username,
-  password: password,
-  options: const CognitoSignInOptions(
-    clientMetadata: {'data': 'value'},
+// upload file to "public/file.txt" in Amplify Flutter v1
+Amplify.Storage.uploadFile(
+  localFile: file,
+  key: 'file.txt',
+  options: StorageUploadFileOptions(
+    accessLevel: StorageAccessLevel.guest,
   ),
 );
 ```
 
 ```dart
-// v1
-final result = await Amplify.Auth.signIn(
-  username: username,
-  password: password,
-  options: const SignInOptions(
-    pluginOptions: CognitoSignInPluginOptions(
-      clientMetadata: {'data': 'value'},
+// upload file to "public/file.txt" in Amplify Flutter v2
+Amplify.Storage.uploadFile(
+  localFile: file,
+  path: const StoragePath.fromString("public/file.txt"),
+);
+```
+
+##### Example for Protected Files
+
+```dart
+// upload file to "protected/<user_identity_id>/file.txt" in Amplify Flutter v1
+Amplify.Storage.uploadFile(
+  localFile: file,
+  key: 'file.txt',
+  options: StorageUploadFileOptions(
+    accessLevel: StorageAccessLevel.protected,
+  ),
+);
+```
+
+```dart
+// upload file to "protected/<user_identity_id>/file.txt" in Amplify Flutter v2
+Amplify.Storage.uploadFile(
+  localFile: file,
+  path: StoragePath.fromIdentityId(
+    (identityId) => "protected/$identityId/file.txt",
+  ),  
+);
+```
+
+##### Example for Private Files
+
+```dart
+// upload file to "private/<user_identity_id>/file.txt" in Amplify Flutter v1
+Amplify.Storage.uploadFile(
+  localFile: file,
+  key: 'file.txt',
+  options: StorageUploadFileOptions(
+    accessLevel: StorageAccessLevel.private,
+  ),
+);
+```
+
+```dart
+// upload file to "private/<user_identity_id>/file.txt" in Amplify Flutter v2
+Amplify.Storage.uploadFile(
+  localFile: file,
+  path: StoragePath.fromIdentityId(
+    (identityId) => "private/$identityId/file.txt",
+  ),  
+);
+```
+
+#### Prefix Resolver has been removed
+
+With the introduction of StoragePath, there is no need to override the libraries behavior for the prefix. 
+
+#### Delimiter has been moved to the List API Options
+
+In Amplify Flutter v1 `AmplifyStorageS3` accepted a `delimiter` option. This was used in list operations to determine sub paths. This option is now available as part of the List API options.
+
+```dart
+final result = Amplify.Storage.list(
+  path: const StoragePath.fromString('public/album/'),
+  options: const StorageListOptions(
+    pageSize: 50,
+    pluginOptions: S3ListPluginOptions(
+      excludeSubPaths: true,
+      delimiter: '/'
     ),
   ),
 );
 ```
 
-### Social Sign-In (Hosted UI)
+## DataStore
 
-Configuration for social sign-in (Hosted UI) varies slightly in v1 compared to v0.
+#### Configuration
 
-<BlockSwitcher>
+In Amplify Flutter v1, the `AmplifyDataStore()` constructor allows for the customization of the plugin through optional parameters such as errorHandler, conflictHandler, syncExpression, syncInterval, syncMaxRecords, syncPageSize, and authModeStrategy. In Amplify Flutter v2, these parameters have been relocated under DataStorePluginOptions, with default values that mirror those of Amplify Flutter v1.
 
-<Block name="Android">
+## Models & Query Predicates (GraphQL API & DataStore)
 
-For Android, v0 required the following changes be made to your `AndroidManifest.xml`.
+#### Configuration
 
-```xml
-<queries>
-  <intent>
-      <action android:name=
-          "android.support.customtabs.action.CustomTabsService" />
-  </intent>
-</queries>
-<application>
-  ...
-  <activity
-      android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity"
-      android:exported="true">
-      <intent-filter>
-          <action android:name="android.intent.action.VIEW" />
-          <category android:name="android.intent.category.DEFAULT" />
-          <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="myapp" />
-      </intent-filter>
-  </activity>
-  ...
-</application>
+In Amplify Flutter v1, the `AmplifyAPI()` constructor accepts optional parameters such as authProviders, baseHttpClient, modelProvider, and subscriptionOptions. In Amplify Flutter v2, these parameters have been relocated to `APIPluginOptions`.
+
+#### Generated Models
+
+##### Model.fromJson()
+
+Amplify Flutter v2 now decodes AppSync GraphQL responses in their original shape (#816). In doing so, we’ve removed the previous transformations that happened after receiving an AppSync response. This requires data Models to be regenerated with the latest Amplify CLI. After upgrading to Amplify Flutter v2 please run the following:
+
+```bash
+$ amplify upgrade
+# from the root of your Flutter project
+$ amplify codegen models
 ```
 
-Start by removing this code, then update the `AndroidManifest.xml` as follows, replacing `myapp` with your custom URI scheme you configured in your backend.
+##### Model.getId()
+
+Amplify Flutter v2 removes all usage of the generated `Model.getId()` method. Replace all instances of `Model.getId()` and with `Model.modelIdentifier`. 
+
+#### Nested Model Query Predicates
+
+Query predicates for nested model relationships when passing Model.id for equal and not equal operations are no longer supported. Please update your query predicates to use Model.modelIdentifier, for example: 
 
 ```diff
-+<queries>
-+    <intent>
-+        <action android:name=
-+            "android.support.customtabs.action.CustomTabsService" />
-+    </intent>
-+</queries>
- <application>
-  ...
-  <activity
-        android:name=".MainActivity" android:exported="true">
-+        <intent-filter>
-+            <action android:name="android.intent.action.VIEW" />
-+            <category android:name="android.intent.category.DEFAULT" />
-+            <category android:name="android.intent.category.BROWSABLE" />
-+            <data android:scheme="myapp" />
-+        </intent-filter>
-  </activity>
--  <activity
--      android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity"
--      android:exported="true">
--      <intent-filter>
--          <action android:name="android.intent.action.VIEW" />
--          <category android:name="android.intent.category.DEFAULT" />
--          <category android:name="android.intent.category.BROWSABLE" />
--          <data android:scheme="myapp" />
--      </intent-filter>
--  </activity>
-  ...
- </application>
+- Post.BLOG.eq(blog1.id)
++ Post.BLOG.eq(blog1.modelIdentifier)
+    
 ```
-
-</Block>
-
-<Block name="iOS">
-
-
-For iOS, v0 required the following changes be made to your `Info.plist`.
-
-```xml
- <plist version="1.0">
-
-     <dict>
-     <!-- YOUR OTHER PLIST ENTRIES HERE -->
-
-     <key>CFBundleURLTypes</key>
-     <array>
-         <dict>
-             <key>CFBundleURLSchemes</key>
-             <array>
-                 <string>myapp</string>
-             </array>
-         </dict>
-     </array>
-
-     <!-- ... -->
-     </dict>
-```
-
-In v1, these changes are no longer required and can be safely removed without any effect on social sign-in (Hosted UI).
+Or
 
 ```diff
--     <key>CFBundleURLTypes</key>
--     <array>
--         <dict>
--             <key>CFBundleURLSchemes</key>
--             <array>
--                 <string>myapp</string>
--             </array>
--         </dict>
--     </array>
+- Post.BLOG.eq("1234") => 
++ Post.BLOG.eq(BlogModelIdentifier(id: "1234"))
+    
 ```
-
-</Block>
-
-<Block name="Web/Desktop">
-
-Web and Desktop platforms were not supported in v0.
-
-Follow the instructions [here](/gen1/[platform]/build-a-backend/auth/add-social-provider/#platform-setup) to configure Web and Desktop platforms for social sign-in (Hosted UI) in v1.
-
-</Block>
-
-</BlockSwitcher>
-
-## Analytics
-
-- `AnalyticsProperties` renamed to `CustomProperties`
-- `AnalyticsUserProfile` renamed to `UserProfile`
-- `AnalyticsUserProfileLocation` renamed to `UserProfileLocation`
-- In v0, the `autoFlushEventsInterval` in `amplifyconfiguration.dart` was read as seconds on iOS and milliseconds on Android. v1 fixes this behavior by reading `autoFlushEventsInterval` as seconds across all platforms.
-- In v1, auto-flushing of events occurs at 30 second intervals. In v0, the default auto flush iOS was 60 seconds and Android was 30 seconds.
-- Automatic session reporting behavior has been aligned in v1. For all platforms, backgrounding and foregrounding the app will stop and start a new session. Previously on iOS, the session would pause and then resume.
-- You can now save to the `UserAttributes` field of a Pinpoint Endpoint by passing an `AWSPinpointUserProfile` to `identifyUser`.
-- Analytics cached event data is now stored differently. Existing cached analytics events will not be migrated.
-- There are now typed `AnalyticsException`s for specific exception cases.
-
-## API
-
-- REST API methods have breaking changes. See [REST API docs](/gen1/[platform]/build-a-backend/restapi/set-up-rest-api/) for more details.
-- `RestException` has been replaced with `HttpStatusException`.
-- GraphQL model helpers have a few changes:
-  - Updated codegen models are required. Please upgrade to the latest version of the Amplify CLI and run `amplify codegen models`.
-  - `ModelQueries.get()` and `ModelMutations.deleteById()` have a breaking change where the ID is no longer a `String` but a `ModelIdentifier` that supports custom primary keys. See [GraphQL docs](/gen1/[platform]/build-a-backend/graphqlapi/query-data/) for examples.
-  - `ModelSubscriptions` helpers now take a `where` clause so users can get server-side subscription filters without a custom request.
-- GraphQL subscriptions will attempt to automatically reconnect when the user's device loses and recovers internet access. Updates in connectivity status are available through new hub events on the channel `HubChannel.Api`.
-- Server-side GraphQL errors on iOS no longer throw an exception, but instead return a `GraphQLResponse` with the errors in the `.errors` field (as has always been the case in Android). This applies to all platforms but is only a change for iOS. Note this is only true for errors that come from the AppSync server as part of the server-side GraphQL response. The client will still throw exceptions for cases when a valid response could not be successfully returned.
-- Exceptions have been made more specific although they still extend abstract class `ApiException` so catch clauses that use `ApiException` will still be valid.
-
-## Storage
-
-- All Storage S3 plugin APIs now return an operation object rather than the result object. The operation object provides more control over the in-flight request, such as cancellation, pause, and resume capabilities (varies by API). The result `Future` can be retrieved via the `.result` property of the operation object. Here is an example for `uploadFile`:
-
-```dart
-// v0
-final result = await Amplify.Storage.uploadFile(
-    local: exampleFile,
-    key: 'ExampleKey',
-);
-print('Uploaded file key: ${result.key}')
-
-// v1
-final result = await Amplify.Storage.uploadFile(
-    localFile: exampleFile,
-    key: 'ExampleKey',
-).result;
-print('Uploaded file key: ${result.uploadedItem.key}');
-```
-
-See [storage docs](/gen1/[platform]/build-a-backend/storage/set-up-storage/) for more detailed examples of other storage methods.
