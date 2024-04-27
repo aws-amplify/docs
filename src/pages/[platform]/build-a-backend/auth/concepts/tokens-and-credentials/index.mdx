@@ -28,9 +28,93 @@ export function getStaticProps() {
   };
 }
 
-{/* how does Amplify interact with Cognito? */}
-{/* what kind of tokens are available? */}
-{/* what kind of tokens are available? */}
+Amplify Auth interacts with its underlying [Amazon Cognito user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html) as an OpenID Connect (OIDC) provider. When users successfully authenticate you receive OIDC-compliant JSON web tokens (JWT). These tokens are used to _identity_ your user, and _access_ resources.
+
+[**Access tokens**](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-access-token.html) are used to verify the bearer of the token (i.e. the Cognito user) is authorized to perform an action against a resource. Below is an example payload of an access token vended by Cognito:
+
+```json
+{
+  "sub": "54288468-e051-706d-a73f-03892273d7e9",
+  "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yoKn9s4Tq",
+  "client_id": "1sg675g08g6g0e9f64grv9n5sk",
+  "origin_jti": "0eadb994-a6e0-419e-b309-a7a0d522d72f",
+  "event_id": "b180897a-181c-4f73-94bb-a2946e8b4ef1",
+  "token_use": "access",
+  "scope": "aws.cognito.signin.user.admin",
+  "auth_time": 1714241873,
+  "exp": 1714245473,
+  "iat": 1714241873,
+  "jti": "57f10a4d-a1f2-453b-8672-d1cfa8187047",
+  "username": "54288468-e051-706d-a73f-03892273d7e9"
+}
+```
+
+[**ID tokens**](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-id-token.html) are intended to be used within your frontend application only. This token contains personally identifiable information (PII) and should not be used to authorize access against a resource. Below is an example of an ID token with the default Amplify Auth configuration of email and password auth.
+
+```json
+{
+  "sub": "54288468-e051-706d-a73f-03892273d7e9",
+  "email_verified": true,
+  "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yoKn9s4Tq",
+  "cognito:username": "54288468-e051-706d-a73f-03892273d7e9",
+  "origin_jti": "0eadb994-a6e0-419e-b309-a7a0d522d72f",
+  "aud": "1sg675g08g6g0e9f64grv9n5sk",
+  "event_id": "b180897a-181c-4f73-94bb-a2946e8b4ef1",
+  "token_use": "id",
+  "auth_time": 1714241873,
+  "exp": 1714245473,
+  "iat": 1714241873,
+  "jti": "bb69af10-3ce0-47c2-8d8d-5bdc8630ab58",
+  "email": "hello@mycompany.com"
+}
+```
+
+When additional user attributes are specified for Amplify Auth, their values will be found in the ID token. For example, if a `nickname` attribute is requested it will be available on the ID token with the `nickname` claim:
+
+```diff
+{
+  "sub": "54288468-e051-706d-a73f-03892273d7e9",
+  "email_verified": true,
+  "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yoKn9s4Tq",
+  "cognito:username": "54288468-e051-706d-a73f-03892273d7e9",
+  "origin_jti": "0eadb994-a6e0-419e-b309-a7a0d522d72f",
+  "aud": "1sg675g08g6g0e9f64grv9n5sk",
+  "event_id": "b180897a-181c-4f73-94bb-a2946e8b4ef1",
+  "token_use": "id",
+  "auth_time": 1714241873,
++ "nickname": "hello",
+  "exp": 1714245473,
+  "iat": 1714241873,
+  "jti": "bb69af10-3ce0-47c2-8d8d-5bdc8630ab58",
+  "email": "hello@mycompany.com"
+}
+```
+
+Conversely, user pool group claims are found in both the access token and ID token on the `cognito:groups` claim:
+
+```json
+{
+  "sub": "54288468-e051-706d-a73f-03892273d7e9",
+  "email_verified": true,
+  "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yoKn9s4Tq",
+  "cognito:username": "54288468-e051-706d-a73f-03892273d7e9",
+  "cognito:groups": ["ADMINS"],
+  "origin_jti": "0eadb994-a6e0-419e-b309-a7a0d522d72f",
+  "aud": "1sg675g08g6g0e9f64grv9n5sk",
+  "event_id": "b180897a-181c-4f73-94bb-a2946e8b4ef1",
+  "token_use": "id",
+  "auth_time": 1714241873,
+  "nickname": "hello",
+  "exp": 1714245473,
+  "iat": 1714241873,
+  "jti": "bb69af10-3ce0-47c2-8d8d-5bdc8630ab58",
+  "email": "hello@mycompany.com"
+}
+```
+
+Visit the [AWS documentation for using tokens with Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html) to learn more about tokens, how they're used with Cognito, and their intended usage.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
 ## Understand token management options
 
@@ -104,6 +188,8 @@ cognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
 
 When you get the current user session, the tokens will be saved in your custom location.
 
+</InlineFilter>
+
 ## Token Revocation
 
 Token revocation is enabled automatically in Amplify Auth. To revoke tokens you can set up global sign-out with `signOut({ global: true })` to globally sign out your user from all of their devices.
@@ -113,3 +199,7 @@ Token revocation is enabled automatically in Amplify Auth. To revoke tokens you 
 - [Learn how to customize the ID token](/[platform]/build-a-backend/auth/examples/customize-id-token/)
 - [Learn how to customize the access token](/[platform]/build-a-backend/auth/examples/customize-access-token/)
 - [Learn how to use cookie storage server-side](/[platform]/build-a-backend/auth/connect-your-frontend/server-side/)
+import { json } from "stream/consumers"
+
+import { json } from "stream/consumers"
+
