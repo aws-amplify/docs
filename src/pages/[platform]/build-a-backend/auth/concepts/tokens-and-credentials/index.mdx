@@ -4,14 +4,14 @@ export const meta = {
   title: 'Tokens and credentials',
   description: 'Learn about how tokens and credentials are used in Amplify applications',
   platforms: [
-    // 'android',
+    'android',
     'angular',
-    // 'flutter',
+    'flutter',
     'javascript',
     'nextjs',
     'react',
-    // 'react-native',
-    // 'swift',
+    'react-native',
+    'swift',
     'vue'
   ]
 };
@@ -78,9 +78,6 @@ cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
 #### Custom Storage
 
 You can implement your own custom storage mechanism by creating a class that implements the storage interface. Here is an example that uses memory storage:
-
-<BlockSwitcher>
-<Block name="TypeScript">
 
 ```ts
 import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
