@@ -103,6 +103,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-out/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/manage-user-sessions/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/listen-to-auth-events/index.mdx'
                     },
                     {
