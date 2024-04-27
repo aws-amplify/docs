@@ -59,7 +59,7 @@ By default, your auth resource is scaffolded using `email` as the default login 
 
 After you have chosen and defined your authentication resource, run the following command to create your resource in your personal cloud sandbox.
 
-<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+<InlineFilter filters={['angular', 'javascript', 'nextjs', 'react', 'react-native', 'vue']}>
 
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
@@ -276,6 +276,228 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 ```
 
 </InlineFilter>
+<InlineFilter filters={['flutter']}>
+
+First, install the `amplify_authenticator` library:
+
+```sh showLineNumbers={false}
+flutter pub add amplify_flutter
+flutter pub add amplify_auth_cognito
+flutter pub add amplify_authenticator
+```
+
+or you can update your `pubspec.yaml` file with the following 
+
+```yaml
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+  flutter: ">=3.3.0"
+
+dependencies:
+  amplify_flutter: ^1.0.0
+  amplify_auth_cognito: ^1.0.0
+  amplify_authenticator: ^1.0.0
+```
+
+and run the following command to download the libraries.
+
+```sh showLineNumbers={false}
+flutter pub get
+```
+
+Next, update your `main.dart` file with the following:
+
+```dart
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_authenticator/amplify_authenticator.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:flutter/material.dart';
+
+import 'amplifyconfiguration.dart';
+
+Future<void> main() async {
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await _configureAmplify();
+    runApp(const MyApp());
+  } on AmplifyException catch (e) {
+    runApp(Text("Error configuring Amplify: ${e.message}"));
+  }
+}
+
+// highlight-start
+Future<void> _configureAmplify() async {
+  try {
+    await Amplify.addPlugin(AmplifyAuthCognito());
+    await Amplify.configure(amplifyConfig);
+    safePrint('Successfully configured');
+  } on Exception catch (e) {
+    safePrint('Error configuring Amplify: $e');
+  }
+}
+// highlight-end
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    // highlight-next-line
+    return Authenticator(
+      child: MaterialApp(
+        // highlight-next-line
+        builder: Authenticator.builder(),
+        home: const Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // highlight-next-line
+                SignOutButton(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={['android']}>
+
+<Callout warning>
+
+Be sure to have compileSdk version as 34 or higher.
+
+</Callout>
+
+The Authenticator component is built using (Jetpack Compose)[https://developer.android.com/jetpack/compose]. Enable Jetpack Compose by adding the following to the android section of your app's build.gradle file:
+
+```groovy showLineNumbers={false}
+compileOptions {
+    // Support for Java 8 features
+    coreLibraryDesugaringEnabled true
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}
+buildFeatures {
+    compose true
+}
+composeOptions {
+  kotlinCompilerExtensionVersion '1.2.0'
+}
+```
+
+Add the following dependencies to your *app*'s `build.gradle` file and click "Sync Now" when prompted:
+
+
+<BlockSwitcher>
+<Block name="Kotlin DSL">
+
+```kotlin
+dependencies {
+    implementation("androidx.compose.material3:material3:1.1.0")
+    implementation("com.amplifyframework.ui:authenticator:1.1.0")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+}
+```
+
+</Block>
+
+<Block name="Groovy">
+
+```groovy
+dependencies {
+  dependencies {    
+    // Authenticator dependency
+    implementation 'com.amplifyframework.ui:authenticator:1.1.0'
+    implementation 'androidx.compose.material3:material3:1.1.0'
+    
+    // Support for Java 8 features
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+```kotlin title="MyAmplifyApp.kt"
+import android.app.Application
+import android.util.Log
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+
+class MyAmplifyApp: Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        try {
+            // highlight-next-line
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.configure(applicationContext)
+            Log.i("MyAmplifyApp", "Initialized Amplify")
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+        }
+    }
+}
+```
+
+Lastly update your `MainActivity.kt` file to use the Amplify UI components:
+
+```kotlin title="MainActivity.kt"
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.ui.authenticator.ui.Authenticator
+// highlight-next-line
+import <your-package-name>.ui.theme.MyAmplifyAppTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyAmplifyAppTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    // highlight-next-line
+                    Authenticator { state ->
+                        Column {
+                            Text(
+                                text = "Hello ${state.user.username}!",
+                            )
+                            Button(onClick = {
+                                // highlight-next-line
+                                Amplify.Auth.signOut {  }
+                            }) {
+                                Text(text = "Sign Out")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+</InlineFilter>
 <InlineFilter filters={["swift"]}>
 
 ### Prerequisites
@@ -307,18 +529,63 @@ For more information on adding capabilities to your application, see [Xcode Capa
 </Callout>
 
 {/* @TODO bare-bones example */}
+Move the generated files to your project. You can do this by dragging and dropping the files to your project.
 
-</InlineFilter>
-<InlineFilter filters={["android"]}>
+![Dialog appears when users drag and drop the generated files into Xcode. It displays targets, added folders, and destination options. The default settings should be sufficient for drag and drop.](/images/lib/getting-started/ios/set-up-swift-8.png)
 
-{/* @TODO prerequisites if any */}
-{/* @TODO bare-bones example */}
+Open your project in Xcode and select File > Add Packages... and add the following dependencies:
 
-</InlineFilter>
-<InlineFilter filters={["flutter"]}>
+- Amplify Library for Swift: Enter its (GitHub URL)[https://github.com/aws-amplify/amplify-swift], *select Up to Next Major Version* and click *Add Package*
 
-{/* @TODO prerequisites if any */}
-{/* @TODO bare-bones example */}
+  - Select the following libraries:
+    - Amplify
+    - AWSCognitoAuthPlugin
+
+- Amplify UI Swift - Authenticator: Enter its (GitHub URL)[https://github.com/aws-amplify/amplify-ui-swift-authenticator], *select Up to Next Major Version* and click *Add Package*
+
+  - Select the following library:
+    - Authenticator
+
+Once you are done, add the API dependencies to your project. Select **File > Add Package Dependencies...** and add the `AWSAPIPlugin`.
+
+![Shows the Amplify API library for Swift selected](/images/lib/getting-started/ios/set-up-swift-9.png)
+
+
+Next, update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
+
+```swift title="MyAmplifyApp.swift"
+import Amplify
+import Authenticator
+import AWSCognitoAuthPlugin
+import SwiftUI
+
+@main
+struct MyApp: App {
+    init() {
+        do {
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.configure()
+        } catch {
+            print("Unable to configure Amplify \(error)")
+        }
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            Authenticator { state in
+                VStack {
+                    Text("Hello, \(state.user.username)")
+                    Button("Sign out") {
+                        Task {
+                            await state.signOut()
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
 
 </InlineFilter>
 
