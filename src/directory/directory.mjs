@@ -155,6 +155,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/examples/customize-access-token/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/examples/vanity-usernames/index.mdx'
                     }
                   ]
                 },
