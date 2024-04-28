@@ -53,7 +53,7 @@ Sandbox enables you to develop your backend alongside your frontend's developmen
 - `--exclude` (_string[]_) - An array of paths or glob patterns to ignore. Paths can be relative or absolute and can either be files or directories.
 - `--identifier` (_string_) - An optional name to distinguish between different sandbox environments. Default is the name of the system user executing the process
 - `--config-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
-- `--config-format` (_string_) - Format in which the client config file is written (choices: `mjs`, `json`, `json-mobile`, `ts`, `dart`).
+- `--config-format` (_string_) - Format in which the client config file is written (choices: `json`, `dart`).
 - `--profile` (_string_) - An AWS profile name.
 
 <SubCommandHeading parentCommand="amplify-sandbox">Usage</SubCommandHeading>
@@ -210,7 +210,7 @@ Generate the client configuration file (such as `amplifyconfiguration.json`) for
 In addition to the required options noted in [`amplify generate`](#amplify-generate):
 
 - `--profile` (_string_) - An AWS profile name.
-- `--format` (_string_) - The format into which the configuration should be exported (choices: `mjs`, `json`, `json-mobile`, `ts`, `dart`).
+- `--format` (_string_) - The format into which the configuration should be exported (choices: `json`, `dart`).
 - `--out-dir` (_string_) - A path to the directory where config is written. If not provided, it defaults to the working directory of the current process.
 
 <SubCommandHeading parentCommand="amplify-generate-config">Usage</SubCommandHeading>
