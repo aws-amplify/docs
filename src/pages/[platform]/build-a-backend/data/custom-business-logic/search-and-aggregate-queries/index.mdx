@@ -99,6 +99,11 @@ todoTable.pointInTimeRecoveryEnabled = true;
 todoTable.streamSpecification = {
   streamViewType: dynamodb.StreamViewType.NEW_IMAGE,
 };
+
+// Get the DynamoDB table ARN
+const tableArn = backend.data.resources.tables["Todo"].tableArn;
+// Get the DynamoDB table name
+const tableName = backend.data.resources.tables["Todo"].tableName;
 // highlight-end 
 
 ```
