@@ -155,7 +155,7 @@ npx amplify generate graphql-client-code --out <path-function-handler-dir>/graph
 Once you have generated the client code, update the function to access the data. The following code creates a todo and then lists all todos.
 
 ```ts title="amplify/functions/data-access.ts"
-const dataClient = generateClient<Schema>();
+const client = generateClient<Schema>();
 
 export const handler = async (event) => {
   await client.graphql({

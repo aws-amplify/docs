@@ -66,10 +66,10 @@ Then, create the corresponding handler file, `amplify/auth/post-confirmation/han
 
 ```ts title="amplify/auth/post-confirmation/handler.ts"
 import type { PostConfirmationTriggerHandler } from "aws-lambda";
-import type { Schema } from "../../data/resource";
+import { type Schema } from "../../data/resource";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
-import { env } from "$amplify/env/postConfirmation";
+import { env } from "$amplify/env/postconfirmation";
 import { createUserProfile } from "./graphql/mutations";
 
 Amplify.configure(
@@ -79,7 +79,6 @@ Amplify.configure(
         endpoint: env.AMPLIFY_DATA_GRAPHQL_ENDPOINT,
         region: env.AWS_REGION,
         defaultAuthMode: "iam",
-        
       },
     },
   },
@@ -111,9 +110,11 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
     variables: {
       input: {
         email: event.request.userAttributes.email,
+        profileOwner: `${event.request.userAttributes.sub}::${event.userName}`,
       },
-    },  
-  }); 
+    },
+  });
+
   return event;
 };
 
@@ -131,11 +132,14 @@ const schema = a
     UserProfile: a
       .model({
         email: a.string(),
+        profileOwner: a.string(),
       })
-      .authorization((allow) => [allow.publicApiKey()]),
+      .authorization((allow) => [
+        allow.owner(),
+        allow.ownerDefinedIn("profileOwner"),
+      ]),
   })
   .authorization((allow) => [allow.resource(postConfirmation)]);
-
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
