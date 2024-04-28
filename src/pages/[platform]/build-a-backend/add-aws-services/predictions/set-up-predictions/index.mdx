@@ -73,7 +73,14 @@ For more information on how to use the `visionos-preview` branch, see [Platform 
 
 ### Set up the backend
 
-To enable Predictions we need to set up the appropriate IAM policy for Roles in your Cognito Identity Pool in order to use an appropriate feature. Additionally, we need to use the ```addOutput``` method to patch the custom Predictions resource to the expected output configuration.
+To enable Predictions we need to set up the appropriate IAM policy for Roles in your Amazon Cognito Identity Pool in order to use an appropriate feature. Additionally, we need to use the ```addOutput``` method to patch the custom Predictions resource to the expected output configuration.
+
+<Callout informational>
+
+**Note:** In the following example, we configure the policy to enable all supported ML capabilities. Ensure to include only the actions & resources relevant to your specific use cases.
+To learn more, check the docs of [Amazon Translate](https://docs.aws.amazon.com/translate/latest/dg/what-is.html), [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html), [Amazon Transcribe](https://docs.aws.amazon.com/transcribe/latest/dg/what-is-transcribe.html), [Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html), [Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/what-is.html), and [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/what-is.html).
+
+</Callout>
 
 ```ts title="amplify/backend.ts"
 
@@ -86,12 +93,15 @@ const backend = defineBackend({
   auth,
 });
 
+
+// Configure a policy for the required use case.
+// The actions included below cover all supported ML capabilities
 backend.auth.resources.unauthenticatedUserIamRole.addToPrincipalPolicy(
   new PolicyStatement({
     actions: [
       "translate:TranslateText",
-      "polly:SynthesizeSpeech",
       "transcribe:StartStreamTranscriptionWebSocket",
+      "polly:SynthesizeSpeech",      
       "comprehend:DetectSentiment",
       "comprehend:DetectEntities",
       "comprehend:DetectDominantLanguage",
@@ -103,12 +113,12 @@ backend.auth.resources.unauthenticatedUserIamRole.addToPrincipalPolicy(
       "rekognition:DetectModerationLabels",
       "rekognition:DetectText",
       "rekognition:DetectLabel",
+      "rekognition:SearchFacesByImage",      
       "textract:AnalyzeDocument",
       "textract:DetectDocumentText",
       "textract:GetDocumentAnalysis",
       "textract:StartDocumentAnalysis",
       "textract:StartDocumentTextDetection",
-      "rekognition:SearchFacesByImage",
     ],
     resources: ["*"],
   })

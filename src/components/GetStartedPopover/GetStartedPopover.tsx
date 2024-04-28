@@ -27,6 +27,7 @@ export const GetStartedPopover = ({
   return (
     <Flex className="split-button">
       <InternalLinkButton
+        variation="primary"
         size="large"
         className="split-button__start"
         href={{
@@ -37,7 +38,11 @@ export const GetStartedPopover = ({
         Get started
       </InternalLinkButton>
       <Popover>
-        <Popover.Trigger size="large" className="split-button__end">
+        <Popover.Trigger
+          variation="primary"
+          size="large"
+          className="split-button__end"
+        >
           <VisuallyHidden>
             Toggle getting started guides navigation
           </VisuallyHidden>
