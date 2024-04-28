@@ -25,16 +25,10 @@ export const directory = {
               path: 'src/pages/[platform]/start/quickstart/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/start/quickstart/vite-react-app/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-app-router-client-components/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/quickstart/nextjs-app-router-server-components/index.mdx'
                 }
               ]
             },
@@ -45,7 +39,7 @@ export const directory = {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/start/mobile-support/index.mdx'
+              path: 'src/pages/[platform]/start/gen1-gen2/index.mdx'
             }
           ]
         },
@@ -69,6 +63,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-in/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-out/index.mdx'
@@ -99,6 +96,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/override-cognito/index.mdx'
@@ -186,7 +186,16 @@ export const directory = {
                       path:'src/pages/[platform]/build-a-backend/data/custom-business-logic/search-and-aggregate-queries/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-polly/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-rekognition/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-translate/index.mdx'
                     }
                   ]
                 },
@@ -216,7 +225,7 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/storage/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/define-storage/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/set-up-storage/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/authorization/index.mdx'
@@ -225,18 +234,10 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/storage/upload-files/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/download-files/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/storage/download-files/get-url/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/storage/download-files/download-data/index.mdx'
-                    }
-                  ]
+                  path: 'src/pages/[platform]/build-a-backend/storage/download-files/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/get-files/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/list-files/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/remove-files/index.mdx'
@@ -249,6 +250,12 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/extend-s3-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/use-aws-sdk/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/data-usage/index.mdx'
                 }
               ]
             },
@@ -311,7 +318,12 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs-app-router-server-components/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-a-backend/add-aws-services/index.mdx',
@@ -570,44 +582,88 @@ export const directory = {
             {
               isExternal: true,
               route:
-                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+                'https://ui.docs.amplify.aws/react/connected-components/authenticator',
               title: 'Authenticator',
               description:
                 'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
-              platforms: [
-                'android',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'angular',
-                'flutter',
-                'swift',
-                'vue'
-              ]
+              platforms: ['javascript', 'nextjs', 'react']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/angular/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['angular']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/swift/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['swift']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/android/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['android']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/flutter/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['flutter']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/react-native/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['react-native']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/vue/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['vue']
             },
             {
               isExternal: true,
               route:
                 'https://ui.docs.amplify.aws/react/connected-components/storage/storageimage',
-              title: 'StorageImage',
+              title: 'Storage Image',
               description:
-                'StorageImage is a connected component that simplifies the process of displaying images stored in an Amazon S3 bucket.',
+                'Storage Image is a connected component that simplifies the process of displaying images stored in an Amazon S3 bucket.',
               platforms: ['javascript', 'nextjs', 'react']
             },
             {
               isExternal: true,
               route:
                 'https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager',
-              title: 'StorageManager',
+              title: 'Storage Manager',
               description:
-                'StorageManager is a connected component that facilitates operations such as uploading, downloading, listing, and deleting files from an Amazon S3 bucket.',
+                'Storage Manager is a connected component that facilitates operations such as uploading, downloading, listing, and deleting files from an Amazon S3 bucket.',
               platforms: ['javascript', 'nextjs', 'react']
             },
             {
               isExternal: true,
               route:
-                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+                'https://ui.docs.amplify.aws/react/connected-components/account-settings',
               title: 'Account Settings',
               description:
                 'Account Settings components are a set of standalone components that add user management flows to your application with minimal boilerplate.                .                .',
@@ -616,11 +672,29 @@ export const directory = {
             {
               isExternal: true,
               route:
-                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+                'https://ui.docs.amplify.aws/react/connected-components/liveness',
               title: 'Face Liveness',
               description:
                 'FaceLivenessDetector is a connected component that helps verify that only real users, not bad actors using spoofs, can access your services.',
-              platforms: ['android', 'javascript', 'nextjs', 'react', 'swift']
+              platforms: ['javascript', 'nextjs', 'react']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/android/connected-components/liveness',
+              title: 'Face Liveness',
+              description:
+                'FaceLivenessDetector is a connected component that helps verify that only real users, not bad actors using spoofs, can access your services.',
+              platforms: ['android']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/swift/connected-components/liveness',
+              title: 'Face Liveness',
+              description:
+                'FaceLivenessDetector is a connected component that helps verify that only real users, not bad actors using spoofs, can access your services.',
+              platforms: ['swift']
             }
           ]
         },
@@ -691,7 +765,45 @@ export const directory = {
               path: 'src/pages/[platform]/reference/iam-policy/index.mdx'
             },
             {
+              path: 'src/pages/[platform]/reference/permissions-boundary/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/reference/telemetry/index.mdx'
+            },
+            {
+              isExternal: true,
+              route: 'https://aws-amplify.github.io/amplify-js/api/',
+              title: 'API Documentation',
+              description: 'API references and type definitions.',
+              platforms: [
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'angular',
+                'vue'
+              ]
+            },
+            {
+              isExternal: true,
+              route: 'https://aws-amplify.github.io/amplify-swift/docs/',
+              title: 'API Documentation',
+              description: 'API references and type definitions.',
+              platforms: ['swift']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://aws-amplify.github.io/aws-sdk-android/docs/reference/',
+              title: 'API Documentation',
+              description: 'API references and type definitions.',
+              platforms: ['android']
+            },
+            {
+              path: 'src/pages/[platform]/reference/flutter-api/index.mdx',
+              title: 'API Documentation',
+              description: 'API references and type definitions.',
+              platforms: ['flutter']
             }
           ]
         }

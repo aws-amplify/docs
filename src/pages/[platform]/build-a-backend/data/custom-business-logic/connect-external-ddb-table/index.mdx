@@ -32,7 +32,7 @@ export function getStaticProps() {
 The `a.model()` data model allows you to define a GraphQL schema for an AWS AppSync API where models are backed by DynamoDB Tables managed by Amplify. The generated schema also provides queries and mutations to the Amplify Data client. However, you may want to connect to an external DynamoDB table and execute custom business logic against it instead.
 
 <Callout info>
-Using an external DynamoDB table as a datasource may be useful if you need to leverage patterns such as single table design.
+Using an external DynamoDB table as a data source may be useful if you need to leverage patterns such as single table design.
 </Callout>
 
 In the following sections, we walk through the steps to add and use an external DynamoDB table as a data source for your API:
@@ -88,10 +88,10 @@ export const data = defineData({
 ```
 
 <Callout info>
-**NOTE:** To comply with the GraphQL spec, at least one query is required for a schema to be valid. Otherwise, deployments will fail a schema error. The Amplify Data schema is auto-generated with a `Todo` model and corresponding queries under the hood. You can leave the `Todo` model in the schema until you add the first custom query to the schema in the next steps.
+**NOTE:** To comply with the GraphQL spec, at least one query is required for a schema to be valid. Otherwise, deployments will fail with a schema error. The Amplify Data schema is auto-generated with a `Todo` model and corresponding queries under the hood. You can leave the `Todo` model in the schema until you add the first custom query to the schema in the next steps.
 </Callout>
 
-Once the deployment successfully completes, navigate to the AppSync console and select your Amplify-generated API. Follow these steps to create a new DynamoDB table
+Once the deployment successfully completes, navigate to the AppSync console and select your Amplify-generated API. Follow these steps to create a new DynamoDB table:
 
 1. On the **Schema** page, choose **Create Resources**.
 
@@ -109,7 +109,7 @@ Once the deployment successfully completes, navigate to the AppSync console and 
 
 5. Choose **Create**.
 
-You now have a new DynamoDB data source named `PostTable`, which you can see by visiting Data sources in the side tab. You will use this data source to link your custom queries and mutations to your Amazon DynamoDB table.
+You now have a new DynamoDB table named `PostTable`, which you can see by visiting `Data sources` in the side tab. You will use this table as the data source for your custom queries and mutations to your Amazon DynamoDB table.
 
 ![AWS AppSync console, 'Data sources' page. The page shows a list of existing data sources connected to an API. The data sources include an Amazon DynamoDB table named 'PostTable' and another table named 'Todo'.*](/images/create-ddb-resource-3.png)
 
@@ -132,7 +132,7 @@ export const backend = defineBackend({
 // highlight-start
 const externalDataSourcesStack = backend.createStack("MyExternalDataSources");
 
-const externalTable = aws_dynamodb.table.fromTableName(
+const externalTable = aws_dynamodb.Table.fromTableName(
   externalDataSourcesStack,
   "MyExternalPostTable",
   "PostTable"
@@ -422,7 +422,6 @@ export function response(ctx) {
   }
   return result;
 }
-
 ```
 </Block>
 </BlockSwitcher>
@@ -469,15 +468,13 @@ const { data, errors } = await client.mutations.deletePost({
 
 ## Conclusion
 
-In this guide, you’ve added an external DynamoDB table as a datasource to an Amplify GraphQL API and defined custom queries and mutations, handled by AppSync JS resolvers, to manipulate Post items in an external DynamoDB table using the Amplify Gen 2 Data client.
+In this guide, you’ve added an external DynamoDB table as a data source to an Amplify GraphQL API and defined custom queries and mutations, handled by AppSync JS resolvers, to manipulate Post items in an external DynamoDB table using the Amplify Gen 2 Data client.
 
 To clean up, you can delete your sandbox by accepting the prompt when terminating the sandbox process in your terminal. Alternatively, you can also use the AWS Amplify console to manage and delete sandbox environments.
 
 To delete your external DynamoDB table, you can navigate to the AppSync console and click on the name of the table in the data sources list. This takes you to the DynamoDB console where you can delete the table.
 
 ## All DynamoDB operations & example resolvers
-
-This guide goes over
 
 ### GetItem
 

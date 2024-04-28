@@ -693,6 +693,7 @@
     "groupname",
     "groupsField",
     "GSIs",
+    "gson",
     "GsonVariablesSerializer",
     "gusta",
     "Gvdas",
@@ -1585,6 +1586,8 @@
     "osis",
     "prepper",
     "OSIS",
+    "awscliv",
+    "identitystore",
     "esac",
     "voteField"
   ],
