@@ -119,11 +119,9 @@ npx amplify sandbox secret set foo --profile work
 ## Work with multiple named sandboxes
 
 <Callout info>
-  Provisioning multiple sandboxes per app is possible but not recommended
-  because managing multiple ephemeral environments for a single developer
-  introduces complexity. With multiple sandboxes, it can be difficult to keep
-  track of what code version or configuration is deployed where. Sticking to a
-  single sandbox per developer keeps your workflows simpler.
+
+Provisioning multiple sandboxes per app is possible but not recommended because managing multiple ephemeral environments for a single developer introduces complexity. With multiple sandboxes, it can be difficult to keep track of what code version or configuration is deployed where. Sticking to a single sandbox per developer keeps your workflows simpler.
+
 </Callout>
 
 You can create multiple sandboxes if you want to have different features or test environments available in different sandboxes. By default, your sandbox is named based on the local machine username. To override this name, use the `--name` option:
