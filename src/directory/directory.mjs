@@ -95,6 +95,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/auth-events/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/sign-in-custom-flow/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/remember-device/index.mdx'
                 },
                 {
