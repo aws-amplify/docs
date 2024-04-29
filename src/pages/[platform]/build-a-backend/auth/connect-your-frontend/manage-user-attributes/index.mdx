@@ -32,30 +32,6 @@ User attributes such as email address, phone number help you identify individual
 
 <InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
-### Enable standard attributes
-
-Amazon Cognito provides a set of default standard attributes. There are many user attributes available to use by default in Cognito. Their definitions are based on the [OpenID Connect specification](https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims):
-
-- `address`
-- `birthdate`
-- `email`
-- `family_name`
-- `gender`
-- `given_name`
-- `locale`
-- `middle_name`
-- `name`
-- `nickname`
-- `phone_number`
-- `picture`
-- `preferred_username`
-- `profile`
-- `zoneinfo`
-- `updated_at`
-- `website`
-
-You can find a [list of all the standard attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes).
-
 ### Pass user attributes during sign-up
 
 You can create user attributes during sign-up or when the user is authenticated. To do this as part of sign-up you can pass them in the `userAttributes` object of the `signUp` API:
@@ -899,7 +875,7 @@ When working with a Cognito UserPool, you can set up [custom attributes](https:/
 
 </InlineFilter>
 
-#### References 
+#### Next Steps 
 
 - [Set up password change and recovery](/[platform]/build-a-backend/auth/manage-users/manage-passwords/)
-- [Custom Attributes](/[platform]/build-a-backend/auth/modify-resources-with-cdk/#custom-attributes)
+- [Set up custom attributes](/[platform]/build-a-backend/auth/modify-resources-with-cdk/#custom-attributes)
