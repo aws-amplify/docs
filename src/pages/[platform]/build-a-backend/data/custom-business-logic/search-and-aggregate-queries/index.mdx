@@ -29,8 +29,6 @@ export function getStaticProps() {
   };
 }
 
-# OpenSearch Integration
-
 Amazon OpenSearch Service provides a managed platform for deploying search and analytics solutions with OpenSearch or Elasticsearch. The zero-ETL integration between Amazon DynamoDB and OpenSearch Service allows seamless search on DynamoDB data by automatically replicating and transforming it without requiring custom code or infrastructure. This integration simplifies processes and reduces the operational workload of managing data pipelines.
 
 DynamoDB users gain access to advanced OpenSearch features like full-text search, fuzzy search, auto-complete, and vector search for machine learning capabilities. Amazon OpenSearch Ingestion synchronizes data between DynamoDB and OpenSearch Service, enabling near-instant updates and comprehensive insights across multiple DynamoDB tables. Developers can adjust index mapping templates to match Amazon DynamoDB fields with OpenSearch Service indexes. 
@@ -147,24 +145,55 @@ const openSearchDomain = new opensearch.Domain(
 
 ## Step 3: Setting Up Zero ETL from DynamoDB to OpenSearch
 
-### Step 3a: S3 Bucket and IAM Role
-Establish an S3 bucket to back up raw events consumed by the OpenSearch pipeline. Additionally, configure an IAM role for the pipeline and assign the roles as indicated below. For further information on the required IAM roles, please refer to the [Setting up roles and users](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline-security-overview.html#pipeline-security-create) documentation.
+### Step 3a: Setup Storage and IAM Role
+Establish Storage to back up raw events consumed by the OpenSearch pipeline. 
+Generate a file named `amplify/storage/resource.ts` and insert the provided content to set up a storage resource. Tailor your storage configurations to regulate access to different paths within your storage bucket.
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage } from "@aws-amplify/backend"
+
+export const storage = defineStorage({
+  name: "opensearch-backup-bucket-amplify-gen-2-test",
+  access: allow => ({
+    'public/*': [
+      allow.guest.to(['list', 'write', 'get'])
+    ]
+  })
+})
+
+```
+Get the `s3BucketArn` and `s3BucketName` values from storage resource as shown below. Additionally, configure an IAM role for the pipeline and assign the roles as indicated below. For further information on the required IAM roles, please refer to the [Setting up roles and users](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline-security-overview.html#pipeline-security-create) documentation.
 
 ``` ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
 
-// Create an S3 bucket for OpenSearch backup
-const s3BackupBucket = new s3.Bucket(
-  openSearchStack,
-  "OpenSearchBackupBucketAmplifyGen2",
-  {
-    blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-    bucketName: "opensearch-backup-bucket-amplify-gen-2-test",
-    enforceSSL: true,
-    versioned: true,
-    autoDeleteObjects: true,
-    removalPolicy: RemovalPolicy.DESTROY,
-  }
-);
+import * as osis from "aws-cdk-lib/aws-osis";
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as logs from "aws-cdk-lib/aws-logs";
+import { RemovalPolicy } from "aws-cdk-lib";
+
+import { Stack } from "aws-cdk-lib";
+//highlight-start  
+import { storage } from "./storage/resource";
+//highlight-end  
+// Define backend resources
+const backend = defineBackend({
+  auth,
+  data,
+  //highlight-start  
+  storage,
+  //highlight-end  
+});
+
+
+// Get the S3Bucket ARN
+const s3BucketArn = backend.storage.resources.bucket.bucketArn;
+// Get the S3Bucket Name
+const s3BucketName = backend.storage.resources.bucket.bucketName;
 
 // Create an IAM role for OpenSearch integration
 const openSearchIntegrationPipelineRole = new iam.Role(
@@ -199,10 +228,7 @@ const openSearchIntegrationPipelineRole = new iam.Role(
               "s3:PutObject",
               "s3:PutObjectAcl",
             ],
-            resources: [
-              s3BackupBucket.bucketArn,
-              s3BackupBucket.bucketArn + "/*",
-            ],
+            resources: [s3BucketArn, s3BucketArn + "/*"],
           }),
           new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
