@@ -95,7 +95,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/auth-events/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/remember-device/index.mdx'                  
+                  path: 'src/pages/[platform]/build-a-backend/auth/remember-device/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/admin-actions/index.mdx'
@@ -536,6 +536,20 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/chatbot/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/publish/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/set-up-pubsub/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/subscribe/index.mdx'
                     }
                   ]
                 },
