@@ -135,7 +135,6 @@ const schema = a
         profileOwner: a.string(),
       })
       .authorization((allow) => [
-        allow.owner(),
         allow.ownerDefinedIn("profileOwner"),
       ]),
   })
