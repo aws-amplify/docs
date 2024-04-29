@@ -14,9 +14,13 @@ const routerMock = {
 
 jest.mock('next/router', () => routerMock);
 
+const flatDirectoryMock = {};
+
+jest.mock('@/directory/flatDirectory.json', () => flatDirectoryMock);
+
 describe('PlatformNavigator', () => {
   const component = (
-    <PlatformNavigator currentPlatform={'react'} isPrev={true} />
+    <PlatformNavigator currentPlatform={'react'} isGen1={false} />
   );
 
   it('should render the PlatformNavigator component', async () => {
@@ -36,7 +40,7 @@ describe('PlatformNavigator', () => {
 
   it('should show the current platform as Nextjs if passed as param', async () => {
     const component = (
-      <PlatformNavigator currentPlatform={'nextjs'} isPrev={true} />
+      <PlatformNavigator currentPlatform={'nextjs'} isGen1={false} />
     );
 
     render(component);

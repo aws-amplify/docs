@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import type { LinkProps } from 'next/link';
 import { frameworks } from '@/constants/frameworks';
 import { VersionSwitcher } from '../VersionSwitcher';
-import flatDirectory from 'src/directory/flatDirectory.json';
+import flatDirectory from '@/directory/flatDirectory.json';
 import { Popover } from '../Popover';
 import {
   PLATFORM_VERSIONS,
