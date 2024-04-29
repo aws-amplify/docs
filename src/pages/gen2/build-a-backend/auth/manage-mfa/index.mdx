@@ -32,7 +32,7 @@ export const auth = defineAuth({
   },
 // highlight-start
   multifactor: {
-    mode: 'optional',
+    mode: 'OPTIONAL',
     totp: true
   }
 // highlight-end
@@ -636,8 +636,8 @@ You can configure device tracking with `deviceTracking` construct.
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-import { data } from './data/resource.js';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   auth,
