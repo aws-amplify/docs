@@ -149,6 +149,22 @@ const openSearchDomain = new opensearch.Domain(
 Establish Storage to back up raw events consumed by the OpenSearch pipeline. 
 Generate a file named `amplify/storage/resource.ts` and insert the provided content to set up a storage resource. Tailor your storage configurations to regulate access to different paths within your storage bucket.
 
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage } from "@aws-amplify/backend"
+
+export const storage = defineStorage({
+  name: "opensearch-backup-bucket-amplify-gen-2-test",
+  access: allow => ({
+    'public/*': [
+      allow.guest.to(['list', 'write', 'get'])
+    ]
+  })
+})
+
+```
+Retrieve the `s3BucketArn` and `s3BucketName` values from the storage resource as demonstrated below. Additionally, set up an IAM role for the pipeline and allocate the roles as specified. For additional details on the necessary IAM roles, please consult the [Setting up roles and users documentation](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline-security-overview.html#pipeline-security-create).
+
 ```ts title="amplify/storage/resource.ts"
 import { defineStorage } from "@aws-amplify/backend"
 
@@ -311,7 +327,7 @@ dynamodb-pipeline:
           stream:
             start_position: "LATEST"
           export:
-            s3_bucket: "${s3BackupBucket.bucketName}"
+            s3_bucket: "${s3BucketName}"
             s3_region: "us-east-2"
             s3_prefix: "${tableName}/"
       aws:
