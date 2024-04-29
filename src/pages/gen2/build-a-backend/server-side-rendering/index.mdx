@@ -35,7 +35,7 @@ For example, the `utils/amplifyServerUtils.ts` file may contain the following co
 
 ```typescript
 import { createServerRunner } from '@aws-amplify/adapter-nextjs';
-import config from '@/amplify_outputs.json';
+import outputs from '@/amplify_outputs.json';
 
 export const { runWithAmplifyServerContext } = createServerRunner({
   config
@@ -61,7 +61,7 @@ When you use the Amplify library on the client-side of your Next.js app, you wil
 ```typescript
 'use client';
 
-import config from '@/amplify_outputs.json';
+import outputs from '@/amplify_outputs.json';
 import { Amplify } from 'aws-amplify';
 
 Amplify.configure(config, {
@@ -93,7 +93,7 @@ If you're using the Next.js App Router, you can create a client component to con
 'use client';
 
 import { Amplify } from 'aws-amplify';
-import config from '../amplify_outputs.json';
+import outputs from '../amplify_outputs.json';
 
 Amplify.configure(config, { ssr: true });
 

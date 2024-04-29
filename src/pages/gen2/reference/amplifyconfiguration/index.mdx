@@ -51,7 +51,7 @@ In your frontend end application, you can configure Amplify as follows:
 
 ```ts title="src/index.ts"
 import { Amplify } from "aws-amplify";
-import config from "@/amplify_outputs.json";
+import outputs from "@/amplify_outputs.json";
 
 Amplify.configure(config);
 ```
@@ -84,7 +84,7 @@ In your frontend end application, you can access these custom configurations as 
 
 ```ts title="src/index.ts"
 import { Amplify } from "aws-amplify";
-import config from "@/amplify_outputs.json";
+import outputs from "@/amplify_outputs.json";
 
 Amplify.configure(config);
 const currentConfig = Amplify.getConfig(); 
