@@ -71,7 +71,10 @@ export function PlatformNavigator({
                  * we'll link to that platforms version of the page.
                  */
 
-                if (allowedPlatforms.includes(platform.key)) {
+                if (
+                  allowedPlatforms.includes(platform.key) &&
+                  pathname !== '/gen1'
+                ) {
                   href = {
                     pathname,
                     query: { platform: platform.key }
