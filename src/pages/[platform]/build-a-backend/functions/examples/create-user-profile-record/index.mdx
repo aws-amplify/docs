@@ -49,7 +49,7 @@ Create a new directory and a resource file, `amplify/auth/post-confirmation/reso
 import { defineFunction } from '@aws-amplify/backend';
 
 export const postConfirmation = defineFunction({
-  name: 'postConfirmation',
+  name: 'post-confirmation',
 });
 ```
 
@@ -69,7 +69,7 @@ import type { PostConfirmationTriggerHandler } from "aws-lambda";
 import { type Schema } from "../../data/resource";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
-import { env } from "$amplify/env/postconfirmation";
+import { env } from "$amplify/env/post-confirmation";
 import { createUserProfile } from "./graphql/mutations";
 
 Amplify.configure(
