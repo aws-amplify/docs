@@ -251,6 +251,12 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/storage/authorization/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/storage/storagepath/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/upload/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/storage/upload-files/index.mdx'
                 },
                 {

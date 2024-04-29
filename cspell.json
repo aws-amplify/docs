@@ -1228,6 +1228,8 @@
     "storagedemo",
     "storagemanager",
     "storageOptions",
+    "storagepath",
+    "StoragePath",
     "StorageType",
     "streamName",
     "struct",
