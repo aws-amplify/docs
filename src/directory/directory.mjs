@@ -53,6 +53,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/switching-auth-flows/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/accessing-credentials/index.mdx'
                 },
                 {
