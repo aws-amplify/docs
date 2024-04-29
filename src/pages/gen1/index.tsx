@@ -16,18 +16,7 @@ import {
 
 export const meta = {
   title: 'Amplify Docs (Gen 1)',
-  description: 'This is a description for the overview page.',
-  platforms: [
-    'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
-    'swift',
-    'vue'
-  ]
+  description: 'This is a description for the overview page.'
 };
 
 export function getStaticProps() {

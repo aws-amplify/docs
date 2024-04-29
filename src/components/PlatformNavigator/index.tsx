@@ -24,7 +24,7 @@ export function PlatformNavigator({
 
   /**
    * Get the allowed platforms associated with this pathname
-   * from flatDirectory.json*/
+   * from flatDirectory.json */
   let allowedPlatforms: string[] = [];
   if (flatDirectory[pathname]?.platforms) {
     allowedPlatforms = flatDirectory[pathname].platforms;
@@ -70,6 +70,7 @@ export function PlatformNavigator({
                  * If this platform in the list exists for the current pathname,
                  * we'll link to that platforms version of the page.
                  */
+
                 if (allowedPlatforms.includes(platform.key)) {
                   href = {
                     pathname,
@@ -82,6 +83,7 @@ export function PlatformNavigator({
                 } else {
                   href = isGen1 ? `/gen1${platform.href}` : platform.href;
                 }
+
                 return (
                   <Popover.ListItem
                     current={current}
