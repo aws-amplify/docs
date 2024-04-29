@@ -21,7 +21,7 @@ export function getStaticProps(context) {
 }
 
 <InlineFilter filters={['android']}>
-Some Amplify categories such as Analytics, Auth, and DataStore persist data to the local device. This application data is removed when a user uninstalls the application from the device.
+Some Amplify categories such as Analytics and Auth persist data to the local device. This application data is removed when a user uninstalls the application from the device.
 
 If the [Android Auto Backup for Apps](https://developer.android.com/guide/topics/data/autobackup) service was enabled, this service will attempt to restore application data.
 
@@ -31,7 +31,7 @@ Due to this limitation with EncryptedSharedPreferences, Auth information can’t
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
-Some Amplify categories such as Analytics, Auth, and DataStore persist data to the local device. Some of that data is automatically removed when a user uninstalls the app from the device.
+Some Amplify categories such as Analytics and Auth persist data to the local device. Some of that data is automatically removed when a user uninstalls the app from the device.
 
 Amplify stores Auth information in the local [system keychain](https://developer.apple.com/documentation/security/keychain_services), which does not guarantee any particular behavior around whether data is removed when an app is uninstalled.
 
