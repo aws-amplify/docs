@@ -58,10 +58,9 @@ To connect to Amazon Bedrock as a data source, you can choose between two method
 In your `amplify/backend.ts` file, replace the content with the following code to add a lambda function to your backend and grant it permission to invoke a generative AI model in Amazon Bedrock. The `generateHaikuFunction` lambda function will be defined in and exported from the `amplify/data/resource.ts` file in the next steps:
 
 ```ts title="amplify/backend.ts"
-import "dotenv/config";
 import { defineBackend } from "@aws-amplify/backend";
 import { auth } from "./auth/resource";
-import { data, generateHaikuFunction } from "./data/resource";
+import { data, MODEL_ID, generateHaikuFunction } from "./data/resource";
 import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 export const backend = defineBackend({
@@ -75,7 +74,7 @@ backend.generateHaikuFunction.resources.lambda.addToRolePolicy(
     effect: Effect.ALLOW,
     actions: ["bedrock:InvokeModel"],
     resources: [
-      `arn:aws:bedrock:*::foundation-model/${process.env.MODEL_ID}`,
+      `arn:aws:bedrock:*::foundation-model/${MODEL_ID}`,
     ],
   })
 );
@@ -86,23 +85,25 @@ backend.generateHaikuFunction.resources.lambda.addToRolePolicy(
 In your `amplify/backend.ts` file, replace the content with the following code to add an HTTP data source for Amazon Bedrock to your API and grant it permissions to invoke a generative AI model:
 
 ```ts title="amplify/backend.ts"
-import "dotenv/config";
 import { defineBackend } from "@aws-amplify/backend";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { Stack } from "aws-cdk-lib";
 
 export const backend = defineBackend({
   auth,
   data,
 });
 
+const MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0";
+
 const bedrockDataSource = backend.data.addHttpDataSource(
   "BedrockDataSource",
   "https://bedrock-runtime.us-east-1.amazonaws.com",
   {
     authorizationConfig: {
-      signingRegion: "us-east-1",
+      signingRegion: Stack.of(backend.data).region,
       signingServiceName: "bedrock",
     },
   }
@@ -113,29 +114,20 @@ bedrockDataSource.grantPrincipal.addToPrincipalPolicy(
     effect: Effect.ALLOW,
     actions: ["bedrock:InvokeModel"],
     resources: [
-      `arn:aws:bedrock:*::foundation-model/${process.env.MODEL_ID}`,
+      `arn:aws:bedrock:*::foundation-model/${MODEL_ID}`,
     ],
   })
 );
+
+backend.data.resources.cfnResources.cfnGraphqlApi.environmentVariables = {
+  MODEL_ID
+}
 ```
 </Block>
 </BlockSwitcher>
 
-In the code above, the ID for the Amazon Bedrock foundation model is set as an environment variable. We recommend setting your model id as an environment variable as it will need to be referenced in several places and you may want to use a different model. To learn more about setting environment variables in an Amplify app, please refer to our documentation on [secrets and environment variables](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/#local-environment).
+For the purpose of this guide, we will use Anthropic's Claude 3 Haiku to generate content. If you want to use a different model, you can find the ID for your model of choice in the Amazon Bedrock documentation's [list of model IDs](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html) or the [Amazon Bedrock console](https://console.aws.amazon.com/bedrock/) and replace the value of `MODEL_ID`.
 
-This will require creating a `.env` file in the root of your project with the following content:
-
-```sh title=".env"
-MODEL_ID=anthropic.claude-3-haiku-20240307-v1:0
-```
-
-Then, installing the `dotenv` package from npm to load the environment variables:
-
-```sh title="Terminal" showLineNumbers={false}
-npm install dotenv
-```
-
-For the purpose of this guide, we will use Anthropic's Claude 3 Haiku to generate content. If you want to use a different model, you can find the ID for your model of choice in the Amazon Bedrock documentation's [list of model IDs](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html) or the [Amazon Bedrock console](https://console.aws.amazon.com/bedrock/) and replace the value of `MODEL_ID` in your `.env` file.
 
 ## Step 2 - Define a custom query
 
@@ -151,10 +143,12 @@ import {
   defineFunction,
 } from "@aws-amplify/backend";
 
+export const MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0";
+
 export const generateHaikuFunction = defineFunction({
   entry: "./generate-haiku.ts",
   environment: {
-    MODEL_ID: process.env.MODEL_ID as string,
+    MODEL_ID,
   },
 });
 
@@ -293,7 +287,7 @@ export function request(ctx) {
 
   // Construct the HTTP request to invoke the generative AI model
   return {
-    resourcePath: `/model/${process.env.MODEL_ID}/invoke`,
+    resourcePath: `/model/${ctx.env.MODEL_ID}/invoke`,
     method: "POST",
     params: {
       headers: {
@@ -331,7 +325,9 @@ export function response(ctx) {
 </Block>
 </BlockSwitcher>
 
-The code above uses the [Messages API](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html#claude-messages-supported-models), which is supported by chat models such as Anthropic's Claude 3 Haiku. The `system` prompt is used to give the model a persona or directives to follow, and the `messages` array can contain a history of messages. The `max_tokens` parameter controls the maximum number of tokens the model can generate, and the `temperature` parameter determines the randomness, or creativity, of the generated response.
+The code above uses the [Messages API](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html), which is supported by chat models such as Anthropic's Claude 3 Haiku.
+
+The `system` prompt is used to give the model a persona or directives to follow, and the `messages` array can contain a history of messages. The `max_tokens` parameter controls the maximum number of tokens the model can generate, and the `temperature` parameter determines the randomness, or creativity, of the generated response.
 
 ## Step 4 - Invoke a custom query to prompt a generative AI model
 
