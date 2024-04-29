@@ -114,7 +114,7 @@ bedrockDataSource.grantPrincipal.addToPrincipalPolicy(
     effect: Effect.ALLOW,
     actions: ["bedrock:InvokeModel"],
     resources: [
-      `arn:aws:bedrock:*::foundation-model/${MODEL_ID}`,
+      `arn:aws:bedrock:${Stack.of(backend.data).region}::foundation-model/${MODEL_ID}`,
     ],
   })
 );
