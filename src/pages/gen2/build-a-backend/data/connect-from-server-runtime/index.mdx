@@ -71,7 +71,7 @@ To generate a Data client for the Next.js server runtime using cookies, you need
 ```ts
 import { type Schema } from '@/amplify/data/resource';
 import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/data';
-import amplifyConfig from '@/amplifyconfiguration.json';
+import amplifyConfig from '@/amplify_outputs.json';
 import { cookies } from 'next/headers';
 
 export const cookieBasedClient = generateServerClientUsingCookies<Schema>({
@@ -96,7 +96,7 @@ To generate a Data client for the Next.js server runtime using `NextRequest` and
 import { type Schema } from '@/amplify/data/resource';
 import { createServerRunner } from '@aws-amplify/adapter-nextjs';
 import { generateServerClientUsingReqRes } from '@aws-amplify/adapter-nextjs/data';
-import amplifyConfig from '@/amplifyconfiguration.json';
+import amplifyConfig from '@/amplify_outputs.json';
 
 export const { runWithAmplifyServerContext } = createServerRunner({
   config: amplifyConfig,
@@ -130,7 +130,7 @@ Import the cookie-based server Data client in your Next.js React Server Componen
 ```ts
 import { type Schema } from '@/amplify/data/resource';
 import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/data';
-import amplifyConfig from '@/amplifyconfiguration.json';
+import amplifyConfig from '@/amplify_outputs.json';
 import { cookies } from 'next/headers';
 
 export const cookieBasedClient = generateServerClientUsingCookies<Schema>({
