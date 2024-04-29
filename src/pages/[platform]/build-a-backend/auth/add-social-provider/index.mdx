@@ -28,6 +28,12 @@ export function getStaticProps(context) {
   };
 }
 
+<InlineFilter filters={['flutter', 'android', 'swift']}>
+## Prerequisites
+
+* An app set up according to the [getting started walkthrough](/[platform]/build-a-backend/auth/set-up-auth/)
+
+</InlineFilter>
 You can enable the use of sign-in with social providers using the `amplify/auth/resource.ts` file. With Amplify Auth, you can enable your users to Sign in With Apple, Sign in with Google, Login with Amazon, and Facebook.
 
 In this guide we will review how you can add sign-in with social providers by first setting up your developer account with the provider. After this step, you can then configure your Auth category and integrate social sign-in with your app.
@@ -303,6 +309,49 @@ export const auth = defineAuth({
 If you are using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#social-providers) with Amplify Gen 2, this feature works without any additional code. The guide below is for writing your own implementation.
 </Callout>
 
+
+<InlineFilter filters={['react-native']}>
+
+### Install native module
+
+`signInWithRedirect` displays the sign-in UI inside a platform-dependent webview. On iOS devices, an [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) will be launched and, on Android, a [Custom Tab](https://developer.chrome.com/docs/android/custom-tabs/). After the sign-in process is complete, the sign-in UI will redirect back to your app.
+
+To enable this capability, an additional dependency must be installed.
+
+```sh
+npm install @aws-amplify/rtn-web-browser
+```
+
+### Platform Setup
+
+On iOS, there are no additional setup steps.
+
+#### Android
+
+After a successful sign-in, the sign-in UI will attempt to redirect back to your application. To register the redirect URI scheme you configured above with the device, an `intent-filter` must be added to your application's `AndroidManifest.xml` file which should be located in your React Native app's `android/app/src/main` directory.
+
+Add the `intent-filter` to your application's main activity, replacing `myapp` with your redirect URI scheme as necessary.
+
+```xml
+<application ...>
+    <activity android:name=".MainActivity" ...>
+        ...
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="myapp" />
+        </intent-filter>
+        ...
+    </activity>
+</application>
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
+## Sign-in call
 Enabling a signing in of a user with a social provider can be done as shown in the following code snippet.
 
 ```ts title="src/my-client-side-js.js"
@@ -316,7 +365,8 @@ import { signInWithRedirect } from 'aws-amplify/auth';
     console.log('error signing up:', error);
   }
 ```
-
+</InlineFilter>
+<InlineFilter filters={['angular','javascript','nextjs','react','vue']}>
 ### (Required for Multi-Page Applications) Complete Social Sign In after Redirect
 
 If you are developing a multi-page application, and the redirected page is not the same page that initiated the sign in, you will need to add the following code to the redirected page to ensure the sign in gets completed:
@@ -356,6 +406,242 @@ When you import and use the `signInWithRedirect` function, it will add a listene
 
 </Accordion>
 
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+## How It Works
+
+Sign-in with web UI will display the sign-in UI inside a webview. After the sign-in process is complete, the sign-in UI will redirect back to your app.
+
+## Platform Setup
+
+### Web
+
+To use Hosted UI in your Flutter web application locally, you must run the app with the `--web-port=3000` argument (with the value being whichever port you assigned to localhost host when configuring your redirect URIs).
+
+### Android
+
+Add the following `queries` element to the `AndroidManifest.xml` file in your app's `android/app/src/main` directory, as well as the following `intent-filter` to the `MainActivity` in the same file.
+
+Replace `myapp` with your redirect URI scheme as necessary:
+
+```xml
+<queries>
+    <intent>
+        <action android:name=
+            "android.support.customtabs.action.CustomTabsService" />
+    </intent>
+</queries>
+<application>
+  ...
+  <activity
+        android:name=".MainActivity" android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="myapp" />
+        </intent-filter>
+  </activity>
+  ...
+</application>
+```
+
+### macOS
+
+Open XCode and enable the App Sandbox capability and then select "Incoming Connections (Server)" under "Network".
+
+![Incoming Connections setting selected in the App Sandbox section of the runner signing and capabilities tab.](/images/project-setup/flutter/mac/xcode-entitlements.png)
+
+### iOS, Windows and Linux
+
+No specific platform configuration is required.
+
+## Launch Social Web UI Sign In
+
+You're now ready to launch sign in with your social provider's web UI.
+
+```dart
+Future<void> socialSignIn() async {
+  try {
+    final result = await Amplify.Auth.signInWithWebUI(
+      provider: AuthProvider.google,
+    );
+    safePrint('Sign in result: $result');
+  } on AuthException catch (e) {
+    safePrint('Error signing in: ${e.message}');
+  }
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+## Update AndroidManifest.xml
+
+Add the following activity and queries tag to your app's `AndroidManifest.xml` file, replacing `myapp` with
+your redirect URI prefix if necessary:
+
+```xml
+<application ...>
+  ...
+  <activity
+      android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity"
+      android:exported="true">
+      <intent-filter>
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data android:scheme="myapp" />
+      </intent-filter>
+  </activity>
+  ...
+</application>
+```
+
+## Launch Social Web UI Sign In
+
+Sweet! You're now ready to launch sign in with your social provider's web UI.
+
+For now, just add this method to the `onCreate` method of MainActivity with whatever provider you're using (shown with Facebook below):
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+// Replace facebook with your chosen auth provider such as google, amazon, or apple
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.facebook(),
+    this,
+    result -> Log.i("AuthQuickstart", result.toString()),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+// Replace facebook with your chosen auth provider such as google, amazon, or apple
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.facebook(),
+    this,
+    { Log.i("AuthQuickstart", "Sign in OK: $it") },
+    { Log.e("AuthQuickstart", "Sign in failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    // Replace facebook with your chosen auth provider such as google, amazon, or apple
+    val result = Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this)
+    Log.i("AuthQuickstart", "Sign in OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+// Replace facebook with your chosen auth provider such as google, amazon, or apple
+RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this)
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+## Update Info.plist
+
+Signin with web UI require the Amplify plugin to show up the signin UI inside a webview. After the signin process is complete it will redirect back to your app. 
+You have to enable this in your app's `Info.plist`. Right click Info.plist and then choose Open As > Source Code. Add the following entry in the URL scheme:
+
+```xml
+
+ <plist version="1.0">
+
+     <dict>
+     <!-- YOUR OTHER PLIST ENTRIES HERE -->
+
+     <!-- ADD AN ENTRY TO CFBundleURLTypes for Cognito Auth -->
+     <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
+     <key>CFBundleURLTypes</key>
+     <array>
+         <dict>
+             <key>CFBundleURLSchemes</key>
+             <array>
+                 <string>myapp</string>
+             </array>
+         </dict>
+     </array>
+
+     <!-- ... -->
+     </dict>
+```
+
+When creating a new SwiftUI app using Xcode 13 no longer require configuration files such as the Info.plist. If you are missing this file, click on the project target, under Info, Url Types, and click '+' to add a new URL Type. Add `myapp` to the URL Schemes. You should see the Info.plist file now with the entry for CFBundleURLSchemes.
+
+## Launch Social Web UI Sign In
+
+Sweet! You're now ready to launch sign in with your social provider's web UI.
+
+Invoke this api with whatever provider you're using (shown with Facebook below):
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func socialSignInWithWebUI() async {
+    do {
+        let signInResult = try await Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: self.view.window!)
+        if signInResult.isSignedIn {
+            print("Sign in succeeded")
+        }
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func socialSignInWithWebUI() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: self.view.window!)
+        }.sink {
+            if case let .failure(authError) = $0 {
+                print("Sign in failed \(authError)")
+            }
+        }
+        receiveValue: { signInResult in
+            if signInResult.isSignedIn {
+                print("Sign in succeeded")
+            }
+        }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
 ## Conclusion
 
 Congratulations! You finished the **Add social provider sign-in** guide. In this guide, you learned how to set up your social auth provider with Amplify. Your users can now sign into your app using their social provider accounts.
