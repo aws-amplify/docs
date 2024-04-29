@@ -279,6 +279,7 @@ export const auth = defineAuth({
 
 [Learn more about configuring the React Authenticator component for external providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers)
 
+{/* @TODO refactor with connect-your-frontend/sign-in */}
 ## Set up your frontend
 
 <Callout info>
@@ -335,3 +336,7 @@ Hub.listen("auth", ({ payload }) => {
 When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the external sign in when an end user is redirected back to your app. This works well in a single-page application but in a multi-page application, you might get redirected to a page that doesn't include the listener that was originally added as a side-effect. Hence you must include the specific OAuth listener on your login success page.
 
 </Accordion>
+
+## Next steps
+
+- [Learn how to sign in with external providers](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#sign-in-with-external-provider)

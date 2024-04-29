@@ -4,14 +4,14 @@ export const meta = {
   title: 'Phone',
   description: 'Learn more about what Amplify Auth provisions and supports',
   platforms: [
-    // 'android',
+    'android',
     'angular',
-    // 'flutter',
+    'flutter',
     'javascript',
     'nextjs',
     'react',
-    // 'react-native',
-    // 'swift',
+    'react-native',
+    'swift',
     'vue'
   ]
 };
@@ -35,14 +35,17 @@ import { defineAuth } from "@aws-amplify/backend"
 
 export const auth = defineAuth({
   loginWith: {
-    email: true,
     // highlight-next-line
     phone: true,
   },
 })
 ```
 
-This will configure `email` and `phone_number` attributes that are required for sign-up. 
+This will configure the `phone_number` attribute that is required for sign-up.
 
 {/* how to use client-side */}
 {/* moving to production for sms */}
+
+## Next steps
+
+- [Learn how to configure your account for production SMS workloads](/[platform]/build-a-backend/auth/moving-to-production/)
