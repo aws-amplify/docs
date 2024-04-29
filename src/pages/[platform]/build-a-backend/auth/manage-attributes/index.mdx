@@ -180,7 +180,7 @@ Future<void> _signUp({
 }
 ```
 
-When working with a Cognito UserPool, you can set up [custom attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes) via the Cognito console or AWS CLI. Although Cognito prepends a "custom:" prefix on the attribute name, there is no need for you to add this in Amplify Flutter's custom attribute constructor.
+When working with a Cognito UserPool, you can set up [custom attributes](/[platform]/build-a-backend/auth/override-cognito/#custom-attributes) using the [Userpool schema](https://docs.aws.amazon.com/cdk/api/v1/docs/@aws-cdk_aws-cognito.CfnUserPool.html#schema) property with the L1 `cfnUserPool` construct. Although Cognito prepends a "custom:" prefix on the attribute name, there is no need for you to add this in Amplify Flutter's custom attribute constructor.
 </InlineFilter>
 
 <InlineFilter filters={['android']}>
