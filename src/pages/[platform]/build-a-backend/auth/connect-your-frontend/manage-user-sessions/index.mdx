@@ -56,18 +56,7 @@ The user's `signInDetails` are not supported when using the `Hosted UI` or the `
 
 Your user's session is their signed-in state, which grants them access to your app. When your users sign in, their credentials are exchanged for temporary access tokens. You can get session details to access these tokens and use this information to validate user access or perform actions unique to that user.
 
-If you only need the session details, you can use the `fetchAuthSession` API which returns a `tokens` object containing the JWTs (JSON Web Tokens).
-
-<Accordion title='Review what the tokens object contains and how tokens work' headingLevel='4' eyebrow='Learn more'>
-
-This secure information in the `tokens` object includes:
-
-- `idToken` - A JWT that contains user identity information like username and email. It is used to authenticate the user.
-- `accessToken` - A JWT used to access protected AWS resources and APIs. It contains the authorized scope.
-
-Amazon Cognito tokens work by generating temporary access and ID tokens with an expiration time at user sign-in. The tokens are validated against the user pool to authorize access until they expire.
-
-</Accordion>
+If you only need the session details, you can use the `fetchAuthSession` API which returns a `tokens` object containing the JSON Web Tokens (JWT).
 
 ```ts
 import { fetchAuthSession } from 'aws-amplify/auth';
