@@ -1738,9 +1738,6 @@ export const directory = {
                       path: 'src/pages/gen1/[platform]/build-ui/formbuilder/lifecycle/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/storage/move/index.mdx'
-                    },
-                    {
                       path: 'src/pages/gen1/[platform]/build-ui/formbuilder/call-to-action/index.mdx'
                     },
                     {
