@@ -263,15 +263,15 @@ const featureListData = {
         items: [
           {
             content:
-              'Upload and download files to and from cloud storage with advanced controls like pausing and resuming upload operations.',
-            linkText: 'Upload and Download files',
-            link: 'build-a-backend/storage/upload/'
+              'Set up cloud storage with access permissions, user access, and lambda triggers. Configure storage with Amplify CLI or through the Amplify Studio.',
+            linkText: 'Simple Configuration',
+            link: 'build-a-backend/storage/configure-storage/'
           },
           {
             content:
-              'Manage content through APIs for listing, accessing, and manipulating files. Set file permission levels, configure automatic events and triggers, and more.',
-            linkText: 'Advanced file operations and access control',
-            link: 'build-a-backend/storage/configure-access/'
+              'Upload and download files to and from cloud storage with advanced controls like pausing and resuming upload operations.',
+            linkText: 'Upload and Download files',
+            link: 'build-a-backend/storage/upload/'
           }
         ],
         heading: 'Storage'
