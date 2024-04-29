@@ -83,6 +83,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/manage-user-profile/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/manage-attributes/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/password-management/index.mdx'
                 },
                 {
