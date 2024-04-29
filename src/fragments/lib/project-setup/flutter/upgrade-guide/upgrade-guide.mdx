@@ -8,7 +8,9 @@ In Amplify Flutter v1, `Amplify.Auth.verifyTotpSetup()` throws an `EnableSoftwar
 
 #### Auth Flow in Amplify Config
 
-In Amplify Flutter v1, the value of `“authenticationFlowType”` from the amplify configuration object is used as the default `AuthenticationFlowType` if none is provided when calling `Amplify.Auth.signIn()`. In Amplify Flutter v2 `AuthenticationFlowType.userSrpAuth` is the default if none is provided. To change the authentication flow type, provide a value in the sign in options.
+In Amplify Flutter v1, the value of `“authenticationFlowType”` from the Amplify configuration object is used as the default `AuthenticationFlowType` if none is provided when calling `Amplify.Auth.signIn()`. 
+
+In Amplify Flutter v2, default type is `AuthenticationFlowType.userSrpAuth`. To change the authentication flow type, you can provide a value in the sign in options under `options` parameter..
 
 ```dart
 await Amplify.Auth.signIn(
@@ -27,19 +29,19 @@ await Amplify.Auth.signIn(
 
 #### Configuration of `autoFlushEventsInterval`
 
-In Amplify Flutter v1, the autoFlushEventsInterval value was configured manually in the amplifyconfiguration.dart file. In Amplify Flutter v2, the autoFlushEventsInterval value is not read from amplifyconfiguration.dart but instead is passed directly to the `AmplifyAnalyticsPinpoint()` constructor under the `AnalyticsPinpointPluginOptions`. The default value for autoFlushEventsInterval remains at 30 seconds, consistent with the behavior in Amplify Flutter v1.
+In Amplify Flutter v1, the `autoFlushEventsInterval` value was configured manually in the `amplifyconfiguration.dart` file. In Amplify Flutter v2, the `autoFlushEventsInterval` value is not read from `amplifyconfiguration.dart` but instead is passed directly to the `AmplifyAnalyticsPinpoint()` constructor under the `AnalyticsPinpointPluginOptions`. The default value for `autoFlushEventsInterval` remains at 30 seconds, consistent with the behavior in Amplify Flutter v1.
 
 ## Storage
 
 #### `key` and `StorageAccessLevel` have been replaced by `StoragePath`
 
-In Amplify Flutter v1, files operations were performed based on a key and an AccessLevel. Amplify translated these values to a full file path. The AccessLevel (guest, protected, or private) determined what prefix to use (`“public/”`, `“protected/<user_identity_id>/”`, or `“private/<user_identity_id>/”`). Amplify Flutter v1 forms the full path using the prefix and the provided key.
+In Amplify Flutter v1, files operations were performed based on a `key` and an `AccessLevel`. Amplify translated these values to a full file path. The `AccessLevel` (guest, protected, or private) determined what prefix to use (`“public/”`, `“protected/<user_identity_id>/”`, or `“private/<user_identity_id>/”`). Amplify Flutter v1 forms the full path using the prefix and the provided key.
 
 Amplify Flutter v2 allows for full control of the path of the storage object. Storage paths can be constructed either from a static string or from the current users identity id using the StoragePath class.
 
 To migrate from v1 to v2, replace all uses of `key` with `path` and remove uses of `StorageAccessLevel`. The path should include the prefix that was previously added by Amplify automatically.
 
-##### Example for Public Files
+##### Example Migration for Public Files
 
 ```dart
 // upload file to "public/file.txt" in Amplify Flutter v1
@@ -60,7 +62,7 @@ Amplify.Storage.uploadFile(
 );
 ```
 
-##### Example for Protected Files
+##### Example Migration for Protected Files
 
 ```dart
 // upload file to "protected/<user_identity_id>/file.txt" in Amplify Flutter v1
@@ -83,7 +85,7 @@ Amplify.Storage.uploadFile(
 );
 ```
 
-##### Example for Private Files
+##### Example Migration for Private Files
 
 ```dart
 // upload file to "private/<user_identity_id>/file.txt" in Amplify Flutter v1
