@@ -693,6 +693,7 @@
     "groupname",
     "groupsField",
     "GSIs",
+    "gson",
     "GsonVariablesSerializer",
     "gusta",
     "Gvdas",
@@ -1261,6 +1262,7 @@
     "task.result",
     "taskIdentifier",
     "template.json",
+    "TEAMID",
     "testappa",
     "testtable",
     "testtrigger",
@@ -1580,14 +1582,25 @@
     "nextamplifygen",
     "multirepo",
     "startbuild",
+    "awscliv",
+    "identitystore",
+    "esac",
     "voteField"
   ],
-  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
+  "flagWords": [
+    "hte",
+    "full-stack",
+    "Full-stack",
+    "Full-Stack",
+    "sudo"
+  ],
   "patterns": [
     {
       "name": "youtube-embed-ids",
       "pattern": "/embedId=\".*\" /"
     }
   ],
-  "ignoreRegExpList": ["youtube-embed-ids"]
+  "ignoreRegExpList": [
+    "youtube-embed-ids"
+  ]
 }

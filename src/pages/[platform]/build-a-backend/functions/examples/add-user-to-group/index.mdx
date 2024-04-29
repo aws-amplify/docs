@@ -37,10 +37,10 @@ A user is "confirmed" when they verify their account. Typically this happens whe
 
 </Callout>
 
-To get started, install the AWS SDK v3 package that will be used to perform actions against your auth resource:
+To get started, install the AWS SDK v3 package, which will be used to perform actions against your auth resource, and the `aws-lambda` package, which is used to define the handler type:
 
 ```bash title="Terminal"
-npm add --save-dev @aws-sdk/client-cognito-identity-provider
+npm add --save-dev @aws-sdk/client-cognito-identity-provider @types/aws-lambda
 ```
 
 Second, create a new directory and a resource file, `amplify/auth/post-confirmation/resource.ts`. Then, define the Function with `defineFunction`:
@@ -49,7 +49,7 @@ Second, create a new directory and a resource file, `amplify/auth/post-confirmat
 import { defineFunction } from '@aws-amplify/backend';
 
 export const postConfirmation = defineFunction({
-  entry: './post-confirmation.ts',
+  name: 'post-confirmation',
   // optionally define an environment variable for your group name
   environment: {
     GROUP_NAME: 'EVERYONE'
