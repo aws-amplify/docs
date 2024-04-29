@@ -32,7 +32,7 @@ Amplify Auth emits events during authentication flows, which enables you to reac
 
 If you have not yet created an Amplify app, visit the [quickstart](/[platform]/start/quickstart).
 
-<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+<InlineFilter filters={['angular', 'javascript', 'nextjs', 'react', 'react-native', 'vue']}>
 ## Expose hub events triggered in response to auth actions
 
 You can use Amplify Hub with its built in Amplify Auth events to subscribe a listener using a publish-subscribe pattern and capture events between different parts of your application. The Amplify Auth category publishes in the `auth` channel when auth events such as `signedIn` or `signedOut` happen independent from your app code.
@@ -50,11 +50,9 @@ Here is a basic example of setting up a listener that logs an event emitted thro
 ```js
 import { Hub } from 'aws-amplify/utils';
 
-const listener = (data) => {
-  console.log(data);
-};
-
-Hub.listen('auth', listener);
+Hub.listen('auth', (data) => {
+  console.log(data)
+});
 ```
 
 Once your app is set up to subscribe and listen to specific event types from the `auth` channel, the listeners will be notified asynchronously when an event occurs. This pattern allows for a one-to-many relationship where one auth event can be shared with many different listeners that have been subscribed. This lets your app react based on the event rather than proactively poll for information.
