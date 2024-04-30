@@ -154,14 +154,14 @@ npx amplify sandbox --config-format dart --config-out-dir lib
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format json-mobile --config-out-dir app/src/main/res/raw
+npx amplify sandbox --config-out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format json-mobile
+npx amplify sandbox
 ```
 
 Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
@@ -194,13 +194,13 @@ npx amplify generate config --app-id <app-id> --branch main --format dart --out-
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id <app-id> --branch main --format json-mobile --out-dir app/src/main/res/raw
+npx amplify generate config --app-id <app-id> --branch main --out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 <InlineFilter filters={['swift']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id <app-id> --format json-mobile
+npx amplify generate config --app-id <app-id>
 ```
 
 Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.

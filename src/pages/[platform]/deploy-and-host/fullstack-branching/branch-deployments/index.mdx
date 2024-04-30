@@ -91,7 +91,7 @@ npx amplify generate config --app-id <your-amplify-app-id> --branch main --out-d
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id=<app-id> --branch main --format json-mobile --out-dir app/src/main/res/raw
+npx amplify generate config --app-id=<app-id> --branch main --out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
@@ -101,7 +101,7 @@ npx amplify generate config --app-id <your-amplify-app-id> --branch main --forma
 </InlineFilter>
 <InlineFilter filters={['swift']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id=<app-id> --format=json-mobile
+npx amplify generate config --app-id=<app-id>
 ```
 
 Once the sandbox environment is running, you would also generate the configuration file for your application. However, Xcode won't recognize the file by default. To recognize the files, you need to drag and drop the generated configuration file to your project.

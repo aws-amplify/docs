@@ -90,12 +90,12 @@ For mobile applications, you will need to set the output directory and format of
 
 ```bash
 # for Android
-amplify sandbox --config-format json-mobile --config-out-dir app/src/main/res
+amplify sandbox --config-out-dir app/src/main/res
 ```
 
 ```bash
 # for Swift/iOS
-amplify sandbox --config-format json-mobile
+amplify sandbox
 ```
 
 ```bash
@@ -226,7 +226,7 @@ npx amplify generate config --stack amplify-nextamplifygen2-josef-sandbox-ca85e1
 Similar to `sandbox`, you can specify an alternate configuration file format by using `--format`:
 
 ```bash
-npx amplify generate config --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b --format json-mobile
+npx amplify generate config --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b
 ```
 
 ## npx amplify generate graphql-client-code
