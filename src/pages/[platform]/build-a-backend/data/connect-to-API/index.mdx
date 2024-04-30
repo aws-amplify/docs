@@ -608,6 +608,9 @@ RxAmplify.addPlugin(plugin);
 To include custom headers in your outgoing requests, add an `URLRequestInterceptor` to the `AWSAPIPlugin`. Also specify the name of one of the APIs configured in your **amplifyconfiguration.json** file.
 
 ```swift
+import Amplify
+import AWSAPIPlugin
+
 struct CustomInterceptor: URLRequestInterceptor {
     func intercept(_ request: URLRequest) throws -> URLRequest {
         var request = request
@@ -618,7 +621,7 @@ struct CustomInterceptor: URLRequestInterceptor {
 let apiPlugin = try AWSAPIPlugin()
 try Amplify.addPlugin(apiPlugin)
 try Amplify.configure()
-try apiPlugin.add(interceptor: CustomInterceptor(), for: defaultGraphQLAPI)
+try apiPlugin.add(interceptor: CustomInterceptor(), for: AWSAPIPlugin.defaultGraphQLAPI)
 ```
 
 </InlineFilter>
