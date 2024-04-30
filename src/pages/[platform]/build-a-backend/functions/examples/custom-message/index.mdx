@@ -1,0 +1,89 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Custom message',
+  description:
+    'Use an Auth custom message authentication trigger to customize the message sent to users',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+You can use `defineAuth` and `defineFunction` to create an [Amazon Cognito custom message AWS Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-message.html) thats sends an custom email or phone verification message, or a multi-factor authentication (MFA) code.
+
+To get started, install `@types/aws-lambda` package that will be used to define the type of the handler:
+
+```bash title="Terminal" showLineNumbers={false}
+npm add --save-dev @types/aws-lambda
+```
+
+
+Next, create a new directory and a resource file, `amplify/auth/custom-message/resource.ts`. Then, define the function with defineFunction:
+
+```ts title="amplify/auth/custom-message/resource.ts"
+import { defineFunction } from '@aws-amplify/backend';
+
+export const customMessage = defineFunction({
+  name: "custom-message",
+});
+```
+
+Next, create the corresponding handler file, `amplify/auth/custom-message/handler.ts`, file with the following contents:
+
+{/* spell-checker: disable */}
+```ts title="amplify/auth/custom-message/handler.ts" 
+import type { CustomMessageTriggerHandler } from "aws-lambda";
+
+export const handler: CustomMessageTriggerHandler = async (event) => {
+  if (event.triggerSource === "CustomMessage_ForgotPassword") {
+    const locale = event.request.userAttributes["locale"];
+    if (locale === "en") {
+      event.response.emailMessage = `Your new one-time code is ${event.request.codeParameter}`;
+      event.response.emailSubject = "Reset my password";
+    } else if (locale === "es") {
+      event.response.emailMessage = `Tu nuevo código de un solo uso es ${event.request.codeParameter}`;
+      event.response.emailSubject = "Restablecer mi contraseña";
+    }
+  }
+
+  return event;
+};
+```
+{/* spellchecker: enable */} 
+
+
+Lastly, set the newly created function resource on your auth resource:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+import { customMessage } from "./custom-message/resource";
+
+export const auth = defineAuth({
+  // ...
+  triggers: {
+    customMessage,
+  }
+});
+```
+
+After deploying the changes, whenever a user with user attribute `locale` set to `es` attempts to reset a password they will receive an email with a one-time code in Spanish.
