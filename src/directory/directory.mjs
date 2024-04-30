@@ -53,6 +53,20 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/manage-users/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/with-admin-actions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-passwords/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-devices/index.mdx'
+                    }
+                  ]
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/switching-auth-flows/index.mdx'
                 },
                 {
@@ -86,9 +100,6 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/manage-attributes/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/password-management/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/guest-access/index.mdx'
                 },
                 {
@@ -102,12 +113,6 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/sign-in-custom-flow/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/remember-device/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/admin-actions/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
