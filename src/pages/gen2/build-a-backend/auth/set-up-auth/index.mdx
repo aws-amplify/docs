@@ -155,7 +155,7 @@ import outputs from '@/amplify_outputs.json';
 import '@aws-amplify/ui-react/styles.css';
 import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 function App({ signOut, user, Component, pageProps }: WithAuthenticatorProps & AppProps) {
   return (
@@ -180,7 +180,7 @@ import { Amplify } from 'aws-amplify';
 import outputs from '@/amplify_outputs.json';
 import '@aws-amplify/ui-react/styles.css';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 function App({ signOut, user }) {
   return (
@@ -220,7 +220,7 @@ The `Authenticator` component offers a simple way to add authentication flows in
   import { Amplify } from 'aws-amplify';
   import outputs from '../amplify_outputs.json';
 
-  Amplify.configure(config);
+  Amplify.configure(outputs);
 </script>
 
 <template>
@@ -295,7 +295,7 @@ import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 import { AppComponent } from './app.component';
 import outputs from './amplify_outputs.json';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 @NgModule({
   declarations: [AppComponent],
