@@ -32,21 +32,17 @@ In this guide, you will learn how to set up storage in your Amplify app. You wil
 
 If you have not yet created an Amplify app, visit the [quickstart guide](/[platform]/start/quickstart/).
 
-{/* Let's add a description of what Storage is and why you would want to use it in your app. Not sure if this is how we want to message it  */}
-
-With Amplify Storage, you can enable file storage and management for user's content in your app. Paths within your storage instance can have different access rules. Amplify Storage is powered by Amazon Simple Storage Service (Amazon S3) buckets.
+Amplify Storage seamlessly integrates file storage and management capabilities into frontend web and mobile apps, built on top of Amazon S3. It provides intuitive APIs and UI components for core file operations, enabling developers to build scalable and secure file storage solutions without dealing with cloud service complexities.
 
 ## Building your storage backend
 
-First, create a file `amplify/storage/resource.ts`. This file will be the location where you configure your storage backend. Instantiate storage using the `defineStorage` function and providing a `name` for your storage bucket.
-
-{/* are there any rules they need to follow for the storage name? I would guess the same rules as an S3 bucket or is this a friendly name? I personally wouldn't call a bucket for a work project "myProjectFiles" how about amplifyTeamDrive? Either way we should explain what the name is */}
+First, create a file `amplify/storage/resource.ts`. This file will be the location where you configure your storage backend. Instantiate storage using the `defineStorage` function and providing a `name` for your storage bucket. This `name` is a friendly name to identify your bucket in your backend configuration.
 
 ```ts title="amplify/storage/resource.ts"
 import { defineStorage } from '@aws-amplify/backend';
 
 export const storage = defineStorage({
-  name: 'myProjectFiles'
+  name: 'amplifyTeamDrive'
 });
 ```
 
@@ -67,36 +63,24 @@ defineBackend({
 
 Now when you run `npx amplify sandbox` or deploy your app with Amplify, it will configure an Amazon S3 bucket where your files will be stored. Before files can be accessed in your application, you must configure storage access rules.
 
+To get these changes to the cloud, commit them to git and push the changes upstream. Amplify's CI/CD system will automatically pick up the changes and build and deploy the updates.
+
+```bash title="Terminal" showLineNumbers={false}
+git commit -am "add storage backend"
+git push
+```
+
 ### Define File Prefix Access
 
 By default, no users or other project resources have access to any files in the storage bucket. Access must be explicitly granted within `defineStorage` using the `access` callback.
-
-{/* is there a reason the examples change between the two? This is using media/photos then the next is authenticated_access_only. I'm not sure this example is necessary */}
-```ts title="amplify/storage/resource.ts"
-export const storage = defineStorage({
-  name: 'myProjectFiles',
-  access: (allow) => ({
-    // highlight-next-line
-    'media/photos/*': [
-      // access rules that apply to all files within "/some/path/*" go here
-    ],
-    // highlight-next-line
-    'documents/taxes/*': [
-      // access rules that apply to all files within "/another/path/*" go here
-    ]
-  })
-});
-```
 
 The access callback returns an object where each key in the object is a file prefix and each value in the object is an array of access rules that apply to that prefix. 
 
 Refer to the following example to construct access rules for your storage bucket. [Learn more about customizing access to file prefixes](/[platform]/build-a-backend/storage/authorization/).
 
-{/* what is an entity here? I would add an explanation or comment */}
-
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
-  name: 'myProjectFiles',
+  name: 'amplifyTeamDrive',
   access: (allow) => ({
     'authenticated_access_only/*': [
       // highlight-next-line
@@ -106,7 +90,7 @@ export const storage = defineStorage({
       // highlight-next-line
       allow.authenticated.to(['read']),
       // highlight-next-line
-      allow.entity('identity').to(['read', 'write', 'delete'])
+      allow.entity('identity').to(['read', 'write', 'delete']) // scope access rules for users based on their identity IDs
     ],
     'guest_access_only/*': [
       // highlight-next-line
@@ -121,7 +105,7 @@ Copy and paste the following definition for authorization rules to implement pub
 
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
-  name: 'myProjectFiles',
+  name: 'amplifyTeamDrive',
   access: (allow) => ({
     'public/*': [
       allow.guest.to(['read']),
@@ -501,7 +485,6 @@ class MyApp extends StatefulWidget {
 
 ## Manage files in Amplify console
 
-{/* I think we should add how to publish (Git push) - does connecting with the client APIs affect whether they can use storage manager? */}
 After successfully publishing your storage backend and connecting your project with client APIs, you can manage files and folders in [the Amplify console](https://console.aws.amazon.com/amplify). You can perform on-demand actions like upload, download, copy, and more under the Storage tab in the console.
 
 ![Showing Amplify console showing Storage tab selected](/images/gen2/storage/amplify-console-storage.png)
@@ -509,8 +492,6 @@ After successfully publishing your storage backend and connecting your project w
 ## Conclusion
 
 Congratulations! You finished the Set up Amplify Storage guide. In this guide, you set up and connected to backend resources, customized your file prefixes and access definitions, and connected your application to the backend to implement features like file uploads and downloads.
-
-{/* we didn't add file uploads or downloads */}
 
 ### Next steps
 

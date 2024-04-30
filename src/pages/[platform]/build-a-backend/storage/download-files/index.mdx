@@ -28,8 +28,8 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
-{/* should this just be for js, next, react? */}
+<InlineFilter filters={["react", "javascript", "nextjs"]}>
+
 ## Storage Image React UI Component
 
 You can easily display images in your app by using the cloud-connected Storage Image React UI component. This component fetches images securely from your storage resource and displays it on the web page.
@@ -46,10 +46,9 @@ export const DefaultStorageImageExample = () => {
 };
 ```
 
-</InlineFilter>
-{/* should this be in the inline filter? */}
-
 Learn more about how you can further customize the UI component by referring to the [Storage Image documentation](https://ui.docs.amplify.aws/react/connected-components/storage/storageimage).
+
+</InlineFilter>
 
 To further customize your in-app experience, you can use the `getUrl` or `downloadData` API from the Amplify Library for Storage.
 
@@ -61,16 +60,14 @@ To further customize your in-app experience, you can use the `getUrl` or `downlo
 
 ## Get or download file from a URL
 
-{/* what's a presigned URL? Why do we need an expiration? */}
-Get a presigned URL of a stored file and expiration of URL
+With the `getUrl` API, you can get a presigned URL which is valid for 900 seconds or 15 minutes by default. You can use this URL to create a download link for users to click on. The `expiresAt` property is a `Date` object that represents the time at which the URL will expire.
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
-{/* should we rename getUrlResult to storageFile or something?*/}
 ```typescript
 import { getUrl } from 'aws-amplify/storage';
 
-const getUrlResult = await getUrl({
+const linkToStorageFile = await getUrl({
   path: "album/2024/1.jpg",
   // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
   options: {
@@ -79,18 +76,14 @@ const getUrlResult = await getUrl({
     useAccelerateEndpoint: true; // Whether to use accelerate endpoint.
   },
 });
-console.log('signed URL: ', getUrlResult.url);
-console.log('URL expires at: ', getUrlResult.expiresAt);
+console.log('signed URL: ', linkToStorageFile.url);
+console.log('URL expires at: ', linkToStorageFile.expiresAt);
 ```
-
-{/* maybe move this above? */}
-`getUrl` returns a signed URL in the `url` property of the result. You can use this to create a download link for users to click on. The `expiresAt` property is a `Date` object that represents the time at which the URL will expire.
 
 Inside your template or JSX code, you can use the `url` property to create a link to the file:
 
-{/* use same variable name as above */}
 ```tsx
-<a href={getUrlResult.url.toString()} target="_blank" rel="noreferrer">
+<a href={linkToStorageFile.url.toString()} target="_blank" rel="noreferrer">
   {fileName} 
 </a>
 ```
@@ -159,7 +152,7 @@ RxAmplify.Storage.getUrl(StoragePath.fromString("public/example")).subscribe(
 </Block>
 </BlockSwitcher>
 </InlineFilter>
-{/* Missing JS code */}
+
 <InlineFilter filters={["swift"]}>
 ```swift
 let url = try await Amplify.Storage.getURL(path: .fromString("public/example/path"))
@@ -853,10 +846,6 @@ Option | Type | Description | Reference Links |
 | onProgress | callback | Callback function tracking the upload/download progress. |  |
 
 ## Frequently Asked Questions
-
-{/* Is this needed? we don't have this elsewhere in our docs */}
-
-Users can run into unexpected issues, we are giving you advance notice in documentation with links to open issues - please vote for what you need to help the team prioritize.
 
 - `downloadData` is cached; if you have recently modified a file you may not get the latest version right away. You can pass in `cacheControl: 'no-cache'` to get the latest version.
 - `downloadData` only returns the latest cached version of the file; there is [not yet an API to view prior versions](https://github.com/aws-amplify/amplify-js/issues/2131).
