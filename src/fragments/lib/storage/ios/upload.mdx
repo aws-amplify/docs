@@ -1,7 +1,60 @@
 ## Upload data
 
-To upload to S3 from a data object, specify the `key` and the `data` object to be uploaded.
+To upload to S3 from a data object, specify the `path` and the `data` object to be uploaded.
+#### With StoragePath
+<BlockSwitcher>
 
+<Block name="Async/Await">
+
+```swift
+let dataString = "My Data"
+let data = Data(dataString.utf8)
+let uploadTask = Amplify.Storage.uploadData(
+    path: .fromString("public/example/path"),
+    data: data
+)
+Task {
+    for await progress in await uploadTask.progress {
+        print("Progress: \(progress)")
+    }
+}
+let value = try await uploadTask.value
+print("Completed: \(value)")
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let dataString = "My Data"
+let data = Data(dataString.utf8)
+let uploadTask = Amplify.Storage.uploadData(
+    path: .fromString("public/example/path"),
+    data: data
+)
+let progressSink = uploadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
+    }
+
+let resultSink = uploadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
+    }
+    receiveValue: { data in
+        print("Completed: \(data)")
+    }
+```
+
+</Block>
+
+</BlockSwitcher>
+#### With Key (Deprecated)
 <BlockSwitcher>
 
 <Block name="Async/Await">
@@ -58,7 +111,89 @@ let resultSink = uploadTask
 ## Upload file
 
 When you have a file that you want to upload, you can specify the url to the file in the `local` parameter.
-If a file with the same `key` already exists in S3, the existing S3 file will be overwritten.
+If a file with the same `path` already exists in S3, the existing S3 file will be overwritten.
+#### With StoragePath
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let dataString = "My Data"
+let fileName = "myFile.txt"
+guard let fileUrl = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+).first?.appendingPathComponent(fileName)
+else { return }
+
+try dataString.write(
+    to: fileUrl,
+    atomically: true,
+    encoding: .utf8
+)
+
+let uploadTask = Amplify.Storage.uploadFile(
+    path: .fromString("public/example/path/myFile.txt"),
+    local: filename
+)
+
+Task {
+    for await progress in await uploadTask.progress {
+        print("Progress: \(progress)")
+    }
+}
+let data = try await uploadTask.value
+print("Completed: \(data)")
+
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let dataString = "My Data"
+let fileName = "myFile.txt"
+guard let fileUrl = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+).first?.appendingPathComponent(fileName)
+else { return }
+
+try dataString.write(
+    to: fileUrl,
+    atomically: true,
+    encoding: .utf8
+)
+
+let uploadTask = Amplify.Storage.uploadFile(
+    path: .fromString("public/example/path/myFile.txt"),
+    local: filename
+)
+progressSink = uploadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
+    }
+
+resultSink = uploadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
+    }
+    receiveValue: { data in
+        print("Completed: \(data)")
+    }
+```
+
+</Block>
+
+</BlockSwitcher>
+
+
+#### With Key (Deprecated)
 <BlockSwitcher>
 
 <Block name="Async/Await">

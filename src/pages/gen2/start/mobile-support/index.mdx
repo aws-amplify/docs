@@ -524,7 +524,7 @@ Running this command will scaffold a lightweight Amplify project in your current
 Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
 
 ```bash
-npx amplify sandbox --config-format=dart --config-out-dir=lib
+npx amplify sandbox --config-format dart --config-out-dir lib
 ```
 
 ### Adding Authentication
@@ -566,7 +566,7 @@ flutter pub get
 
 Lastly update your main.dart file to use the Amplify UI components:
 
-```dart
+```dart title="main.dart"
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -631,13 +631,13 @@ After the Amplify creation process, you can see a resource.ts file in the amplif
 The default code will create a Todo model with content and isDone property. The authorization rules below specify that owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
 
 ```typescript
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
-      isDone: a.boolean()
+      isDone: a.boolean(),
     })
     .authorization(allow => [allow.owner()])
 });
@@ -647,15 +647,15 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'userPool'
-  }
+    defaultAuthorizationMode: "userPool",
+  },
 });
 ```
 
 To generate the model classes out of GraphQL schema, you can run the following command:
 
 ```bash
-npx amplify generate graphql-client-code --format=modelgen --model-target=dart --out=lib/models
+npx amplify generate graphql-client-code --format modelgen --model-target dart --out lib/models
 ```
 
 This will generate dart models under lib/models folder.
@@ -671,7 +671,7 @@ You will add `amplify_api` to connect your application with the Amplify API.
 
 After adding the dependencies, update the `_configureAmplify` method in your main.dart file to use the Amplify API:
 
-```dart
+```dart title="main.dart"
 Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugins(
@@ -690,7 +690,7 @@ Future<void> _configureAmplify() async {
 
 Next create a new widget called `TodoScreen` and add the following code:
 
-```dart
+```dart title="main.dart"
 
 class TodoScreen extends StatefulWidget {
   const TodoScreen({super.key});
@@ -720,6 +720,7 @@ class _TodoScreenState extends State<TodoScreen> {
           } else {
             safePrint('Creating Todo successful.');
           }
+          _refreshTodos();
         },
       ),
       body: const Placeholder(),
@@ -730,11 +731,35 @@ class _TodoScreenState extends State<TodoScreen> {
 
 This will create a random Todo every time a user clicks on the floating action button. You can see the `ModelMutations.create` method is used to create a new Todo.
 
-And update the `Text('TODO Application')` line in your **main.dart** file to use the `TodoScreen` widget.
+And update the `MyApp` widget in your **main.dart** file like the following:
 
-Next add a `_todos` list to add the results from the API and call the refresh function:
+```dart title="main.dart"
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Authenticator(
+      child: MaterialApp(
+        builder: Authenticator.builder(),
+        home: const SafeArea(
+          child: Scaffold(
+            body: Column(
+              children: [
+                SignOutButton(),
+                Expanded(child: TodoScreen()),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
 
-```dart
+Next add a `_todos` list in `_TodoScreenState` to add the results from the API and call the refresh function:
+
+```dart title="main.dart"
 List<Todo> _todos = [];
 
 @override
@@ -744,9 +769,32 @@ void initState() {
 }
 ```
 
+
+and create a new function called `_refreshTodos`:
+
+```dart title="main.dart"
+Future<void> _refreshTodos() async {
+  try {
+    final request = ModelQueries.list(Todo.classType);
+    final response = await Amplify.API.query(request: request).response;
+
+    final todos = response.data?.items;
+    if (response.hasErrors) {
+      safePrint('errors: ${response.errors}');
+      return;
+    }
+    setState(() {
+      _todos = todos!.whereType<Todo>().toList();
+    });
+  } on ApiException catch (e) {
+    safePrint('Query failed: $e');
+  }
+}
+```
+
 and update the body with the following code:
 
-```dart
+```dart title="main.dart"
 body: _todos.isEmpty == true
     ? const Center(
         child: Text(
@@ -773,33 +821,11 @@ body: _todos.isEmpty == true
       ),
 ```
 
-and create a new function called `_refreshTodos`:
-
-```dart
-Future<void> _refreshTodos() async {
-  try {
-    final request = ModelQueries.list(Todo.classType);
-    final response = await Amplify.API.query(request: request).response;
-
-    final todos = response.data?.items;
-    if (response.hasErrors) {
-      safePrint('errors: ${response.errors}');
-      return;
-    }
-    setState(() {
-      _todos = todos!.whereType<Todo>().toList();
-    });
-  } on ApiException catch (e) {
-    safePrint('Query failed: $e');
-  }
-}
-```
-
 Now let's add a update and delete functionality.
 
 For update, add the following code to the `onChanged` method of the `CheckboxListTile.adaptive` widget:
 
-```dart
+```dart title="main.dart"
 final request = ModelMutations.update(
   todo.copyWith(isDone: isChecked!),
 );
@@ -817,7 +843,7 @@ This will call the `ModelMutations.update` method to update the Todo with a copi
 
 For delete functionality, add the following code to the `confirmDismiss` method of the `Dismissible` widget:
 
-```dart
+```dart title="main.dart"
 if (direction == DismissDirection.endToStart) {
   final request = ModelMutations.delete(todo);
   final response =

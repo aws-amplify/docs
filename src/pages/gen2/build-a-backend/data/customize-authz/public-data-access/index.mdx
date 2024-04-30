@@ -100,7 +100,7 @@ const { errors, data: newTodo } = await client.models.Todo.create(
   },
   // highlight-start
   {
-    authMode: 'iam',
+    authMode: 'identityPool',
   }
   // highlight-end
 );

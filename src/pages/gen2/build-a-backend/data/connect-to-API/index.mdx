@@ -101,7 +101,7 @@ import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
-  authMode: 'iam',
+  authMode: 'identityPool',
 });
 ```
 
@@ -166,7 +166,7 @@ const { data: todos, errors } = await client.models.Todo.list({
 
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
-  authMode: 'iam',
+  authMode: 'identityPool',
 });
 ```
 

@@ -185,7 +185,7 @@ npx amplify generate <subcommand> --stack <cloudformation-stack-name>
 npx amplify generate <subcommand> --app-id <app-id> --branch <git-branch-name>
 ```
 
-## npx amplify generate config
+## npx amplify generate outputs
 
 Generate the client configuration file (such as `amplifyconfiguration.json`) for your frontend application to consume. This is intended to be used to manually generate a configuration file for an environment other than your personal cloud sandbox. For example, you might use it if you would like to verify something your coworker is seeing in their cloud sandbox, or to demonstrate frontend changes locally using a pre-existing "staging" branch.
 
@@ -202,7 +202,7 @@ In addition to the required options noted in [`amplify generate`](#amplify-gener
 As mentioned above, you can specify a team member's cloud sandbox CloudFormation stack:
 
 ```bash
-npx amplify generate config --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b
+npx amplify generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b
 ```
 
 #### Use with mobile applications
@@ -210,7 +210,7 @@ npx amplify generate config --stack amplify-nextamplifygen2-josef-sandbox-ca85e1
 Similar to `sandbox`, you can specify an alternate configuration file format by using `--format`:
 
 ```bash
-npx amplify generate config --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b --format json-mobile
+npx amplify generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b --format json-mobile
 ```
 
 ## npx amplify generate graphql-client-code
