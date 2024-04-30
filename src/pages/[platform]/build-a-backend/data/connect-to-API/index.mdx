@@ -43,9 +43,9 @@ When you deploy you're iterating on your backend (`npx amplify sandbox`), an **a
 
 ```ts
 import { Amplify } from 'aws-amplify';
-import config from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 ```
 
 ## Generate the Amplify Data client
@@ -69,7 +69,7 @@ const fetchTodos = async () => {
 
 ## Configure authorization mode
 
-The **Authorization Mode** is determines how a request should be authorized with the backend. By default, Amplify Data uses the "userPool" authorization which uses the signed-in user credentials to sign an API request. If you use a `allow.publicApiKey()` authorization rules for your data models, you need to use "apiKey" an an authorization mode. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about which authorization modes to choose for which type of request. A **Default Authorization Mode** is provided as part of the **amplify_outputs.json** that is generated upon a successful deployment.
+The **Authorization Mode** determines how a request should be authorized with the backend. By default, Amplify Data uses the "userPool" authorization which uses the signed-in user credentials to sign an API request. If you use a `allow.publicApiKey()` authorization rules for your data models, you need to use "apiKey" as an authorization mode. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about which authorization modes to choose for which type of request. A **Default Authorization Mode** is provided as part of the **amplify_outputs.json** that is generated upon a successful deployment.
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
@@ -98,7 +98,7 @@ const client = generateClient<Schema>({
 </Block>
 <Block name="Amazon Cognito user pool">
 
-Use "userPool" as your authorization mode when if defined defined Amazon Cognito user pool-based authorization rules, such as `allow.authenticated()`, `allow.owner()`, `allow.ownerDefinedIn()`, `allow.groupsDefinedIn()`, or `allow.groups()`.
+Use "userPool" as your authorization mode when using Amazon Cognito user pool-based authorization rules, such as `allow.authenticated()`, `allow.owner()`, `allow.ownerDefinedIn()`, `allow.groupsDefinedIn()`, or `allow.groups()`.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
@@ -112,7 +112,7 @@ const client = generateClient<Schema>({
 </Block>
 <Block name="AWS IAM (including Amazon Cognito identity pool roles)">
 
-Use "identityPool" as your authorization mode when if defined defined Amazon Cognito identity pool-based authorization rules, such as `allow.guest()` or `allow.authenticated('identityPool')`.
+Use "identityPool" as your authorization mode when using Amazon Cognito identity pool-based authorization rules, such as `allow.guest()` or `allow.authenticated('identityPool')`.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
@@ -125,6 +125,7 @@ const client = generateClient<Schema>({
 
 </Block>
 <Block name="OpenID Connect (OIDC)">
+Use "oidc" as your authorization mode when connecting applications to a trusted identity provider. Private, owner, and group authorization can be configured with an OIDC authorization mode. Review the [OIDC authorization docs](/[platform]/build-a-backend/data/customize-authz/using-oidc-authorization-provider) to learn more.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
@@ -138,7 +139,7 @@ const client = generateClient<Schema>({
 </Block>
 <Block name="Lambda Authorizer">
 
-Use "Lambda Authorizer" when you defined your own custom authorization logic via `allow.custom()`. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about how to implement your authorization protocol.
+Use "Lambda Authorizer" when using your own custom authorization logic via `allow.custom()`. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about how to implement your authorization protocol.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
