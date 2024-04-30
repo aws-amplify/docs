@@ -41,7 +41,7 @@ Set up your project by following the instructions in the [Quickstart guide](/[pl
 Open `amplify/data/resource.ts` and add the following model as shown below:
 
 ```ts title="amplify/data/resource.ts"
-mport { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 const schema = a.schema({
   Song: a
@@ -76,7 +76,7 @@ Next, Let's configure Storage and allow access to all authenticated(signed in) u
 import { defineStorage } from "@aws-amplify/backend";
 
 export const storage = defineStorage({
-  name: "amplifygen2files",
+  name: "amplify-gen2-files",
   access: (allow) => ({
     "public/*": [allow.authenticated.to(["read", "write", "delete"])],
   }),
