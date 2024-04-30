@@ -67,7 +67,7 @@ You can configure Amplify to disable automatic builds on every code commit. Navi
 
 You can set up an incoming webhook to trigger a build without committing code to your Git repository. Currently, the Amplify Gen 2 console does not support creation of incoming webhooks. However, you can create a webhook for a Gen 2 app using the AWS CLI by running the [`create-webhook`](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/amplify/create-webhook.html) command:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 aws amplify create-webhook --app-id <value> --branch-name <value> --region <value>
 ```
 
@@ -157,7 +157,7 @@ Next, select the **Configuration** section and add the following information to 
 
 You will then need to add the following shell commands to each of the build actions:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 // This environment variable is required to run the pipeline-deploy command in a non Amplify CI environment
 - Run: export CI=1
 

@@ -29,7 +29,7 @@ Connected Forms are bound to a model in your app's data schema. Whenever a conne
 ## Generate forms
 First, install the Amplify UI library.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm install @aws-amplify/ui-react
 
 ```
@@ -37,13 +37,13 @@ npm install @aws-amplify/ui-react
 To use connected forms, you first need to deploy a data model from your sandbox environment. We will use the same example as in the getting started [tutorial](/[platform]/start/quickstart).
 To get started run the following command from your project root:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate forms
 ```
 
 This will generate create and update forms for each model defined in your schema in a folder called `ui-components`.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 File written: ui-components/graphql/subscriptions.ts
 File written: ui-components/graphql/mutations.ts
 File written: ui-components/graphql/queries.ts
