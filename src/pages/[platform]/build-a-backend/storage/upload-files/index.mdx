@@ -80,6 +80,7 @@ Learn more about how you can further customize the UI component by referring to 
 
 The following is an example of how you would upload a file from a file object, this could be retrieved from the local machine or a different source.
 
+<InlineFilter filters={["react"]}>
 ```javascript
 import React from 'react';
 import { uploadData } from 'aws-amplify/storage';
@@ -108,6 +109,33 @@ function App() {
     );
 }
 ```
+</InlineFilter>
+
+<InlineFilter filters={["javascript"]}>
+```javascript
+import { uploadData } from "aws-amplify/storage";
+
+const file = document.getElementById("file");
+const upload = document.getElementById("upload");
+
+upload.addEventListener("click", () => {
+  const fileReader = new FileReader();
+  fileReader.readAsArrayBuffer(file.files[0]);
+
+  fileReader.onload = async (event) => {
+    console.log("Complete File read successfully!", event.target.result);
+    try {
+      await uploadData({
+                data: event.target.result, 
+                path: file.files[0].name 
+            });
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+});
+```
+</InlineFilter>
 
 ### Upload from data
 
