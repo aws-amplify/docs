@@ -78,7 +78,7 @@ import { defineStorage } from "@aws-amplify/backend";
 export const storage = defineStorage({
   name: "amplifygen2files",
   access: (allow) => ({
-    "public/*": [allow.guest.to(["list", "write", "get"])],
+    "public/*": [allow.authenticated.to(["read", "write", "delete"])],
   }),
 });
 
@@ -115,9 +115,7 @@ import React, { useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 
 // Generating the client
-const client = generateClient<Schema>({
-  authMode: "iam",
-});
+const client = generateClient<Schema>();
 
 async function createSongWithImage(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
