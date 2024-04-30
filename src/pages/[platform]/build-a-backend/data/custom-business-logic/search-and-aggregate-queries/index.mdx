@@ -211,6 +211,9 @@ const s3BucketArn = backend.storage.resources.bucket.bucketArn;
 // Get the S3Bucket Name
 const s3BucketName = backend.storage.resources.bucket.bucketName;
 
+//Get the region
+const region = openSearchStack.region;
+
 // Create an IAM role for OpenSearch integration
 const openSearchIntegrationPipelineRole = new iam.Role(
   openSearchStack,
@@ -328,11 +331,11 @@ dynamodb-pipeline:
             start_position: "LATEST"
           export:
             s3_bucket: "${s3BucketName}"
-            s3_region: "us-east-2"
+            s3_region: "${region}"
             s3_prefix: "${tableName}/"
       aws:
         sts_role_arn: "${openSearchIntegrationPipelineRole.roleArn}"
-        region: "us-east-2"
+        region: "${region}"
   sink:
     - opensearch:
         hosts:
@@ -348,7 +351,7 @@ dynamodb-pipeline:
         bulk_size: 4
         aws:
           sts_role_arn: "${openSearchIntegrationPipelineRole.roleArn}"
-          region: "us-east-2"
+          region: "${region}"
 `;
 
 ```
@@ -470,13 +473,13 @@ const schema = a.schema({
       done: a.boolean(),
       priority: a.enum(["low", "medium", "high"]),
     })
-    .authorization([a.allow.public()]),
+    .authorization((allow) => [allow.publicApiKey()]),
 
   //highlight-start  
     searchTodos: a
     .query()
     .returns(a.ref("Todo").array())
-    .authorization([a.allow.public()])
+    .authorization((allow) => [allow.publicApiKey()])
     .handler(
       a.handler.custom({
         entry: "./searchBlogResolver.js",
