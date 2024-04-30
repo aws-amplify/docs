@@ -1,7 +1,7 @@
 module.exports = {
   preset: './preset.js',
   rootDir: './',
-  roots: ['<rootDir>/src'],
+  roots: ['<rootDir>/src', '<rootDir>/tasks'],
   transform: {
     '^.+\\.(ts|tsx|js|mjs)$': [
       'babel-jest',
