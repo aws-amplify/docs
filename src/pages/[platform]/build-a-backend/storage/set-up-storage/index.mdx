@@ -34,7 +34,7 @@ If you have not yet created an Amplify app, visit the [quickstart guide](/[platf
 
 {/* Let's add a description of what Storage is and why you would want to use it in your app. Not sure if this is how we want to message it  */}
 
-With Amplify Storage, you can enable file storage and management for user's content in your app. Folders within your storage instance can have different access rules. Amplify Storage is powered by Amazon Simple Storage Service (Amazon S3) buckets.
+With Amplify Storage, you can enable file storage and management for user's content in your app. Paths within your storage instance can have different access rules. Amplify Storage is powered by Amazon Simple Storage Service (Amazon S3) buckets.
 
 ## Building your storage backend
 
@@ -92,7 +92,7 @@ The access callback returns an object where each key in the object is a file pre
 
 Refer to the following example to construct access rules for your storage bucket. [Learn more about customizing access to file prefixes](/[platform]/build-a-backend/storage/authorization/).
 
-{/* what is an entity here? I would add an explanation or comment*/}
+{/* what is an entity here? I would add an explanation or comment */}
 
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
@@ -116,7 +116,7 @@ export const storage = defineStorage({
 });
 ```
 
-{/* I'm confused by this example - is this needed? why are they copying and pasting multiple examples? If the goal is to concepually tie to Gen 1 maybe we can do a separate "Storage in Gen 1 vs. Gen 2" guide or something - I personally feel this is confusing. */}
+{/* I'm confused by this example - is this needed? why are they copying and pasting multiple examples? If the goal is to conceptually tie to Gen 1 maybe we can do a separate "Storage in Gen 1 vs. Gen 2" guide or something - I personally feel this is confusing. */}
 Copy and paste the following definition for authorization rules to implement public, protected, and private prefixes (this is currently the pattern in Gen 1).
 
 ```ts title="amplify/storage/resource.ts"
@@ -145,7 +145,7 @@ The Amplify Storage library provides client APIs that connect to the backend res
 
 {/* this document has configuration but we're not actually using any of the libraries or UI components in this guide - should this instead just link you to the connect to backend guide? the intro says we "enable listing, uploading, and downloading files." but we aren't doing that - should we add that? */}
 
-{/* We're inconsistent on pre-reqs across categories - JS doesn't have them but others do, is this intentional?  */}
+{/* We're inconsistent on pre-requisites across categories - JS doesn't have them but others do, is this intentional?  */}
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `index.js` in React or `main.ts` in Angular.
 
 ```javascript
@@ -176,7 +176,7 @@ An application with Amplify libraries integrated and a minimum target of any of 
 For a full example, please follow the [project setup walkthrough](/[platform]/start/project-setup/prerequisites/).
 
 <Callout>
-
+{/* is the visionOS support callout relevant here? */}
 visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch. 
 As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
 
