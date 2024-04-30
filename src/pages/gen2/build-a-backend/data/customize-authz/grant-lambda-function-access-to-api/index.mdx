@@ -94,7 +94,7 @@ Amplify.configure(
       GraphQL: {
         endpoint: env.<amplifyData>_GRAPHQL_ENDPOINT, // replace with your defineData name
         region: env.AWS_REGION,
-        defaultAuthMode: 'iam',
+        defaultAuthMode: 'identityPool',
         modelIntrospection: modelIntrospection as never
       }
     }
