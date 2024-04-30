@@ -158,7 +158,13 @@ To use the Amplify Logger and Amplify Auth categories in your app, you need to c
 Add the following imports to the top of your main `Application` file:
 
 <Callout warning>
-Before calling the `Amplify.configure` function, make sure to move the `amplify_outputs.json` file you generated into the `app/src/main/res/raw` directory in your Android project. Otherwise, you will not be able to connect to your backend.
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```sh
+npx amplify generate config --app-id <app-id> --branch main --format json-mobile --out-dir app/src/main/res/raw
+```
+
+Next, move the file you generated into the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
 </Callout>
 
 <BlockSwitcher>
