@@ -251,12 +251,6 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/storage/authorization/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/path/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/storagepath/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/storage/upload/index.mdx'
                 },
                 {
@@ -1187,6 +1181,12 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-a-backend/storage/set-up-storage/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen1/[platform]/build-a-backend/storage/path/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen1/[platform]/build-a-backend/storage/storagepath/index.mdx'
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-a-backend/storage/upload/index.mdx'
