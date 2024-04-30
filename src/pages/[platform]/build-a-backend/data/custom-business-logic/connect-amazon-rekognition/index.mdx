@@ -226,7 +226,7 @@ This code sets up a React app to upload an image to an S3 bucket and then use Am
 ```ts title="App.tsx"
 import { type ChangeEvent, useState } from "react";
 import { generateClient } from "aws-amplify/api";
-import { uploadData, UploadDataWithPathInput } from "aws-amplify/storage";
+import { uploadData } from "aws-amplify/storage";
 import { Schema } from "@/amplify/data/resource";
 import "./App.css";
 
@@ -237,6 +237,7 @@ type IdentifyTextReturnType = Schema["identifyText"]["returnType"];
 
 function App() {
   // State to hold the recognized text
+  const [path, setPath] = useState<string>("");
   const [textData, setTextData] = useState<IdentifyTextReturnType>();
 
   // Function to handle file upload to S3 bucket
@@ -244,10 +245,18 @@ function App() {
     if (event.target.files) {
       const file = event.target.files[0];
 
-      uploadData({
-        path: "test1.png", // File name,
-        data: file,
-      });
+      const s3Path = "public/" + file.name;
+
+      try {
+        uploadData({
+          path: s3Path,
+          data: file,
+        });
+
+        setPath(s3Path);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -255,7 +264,7 @@ function App() {
   const recognizeText = async () => {
     // Identifying text in the uploaded image
     const { data } = await client.queries.identifyText({
-      path: "test1.png", // File name
+      path, // File name
     });
     setTextData(data);
   };
