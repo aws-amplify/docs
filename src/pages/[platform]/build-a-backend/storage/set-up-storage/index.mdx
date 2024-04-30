@@ -296,6 +296,10 @@ Initialize the Amplify Storage category by calling `Amplify.addPlugin()`. To com
 
 Add the following code to your `onCreate()` method in your application class:
 
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to move the `amplify_outputs.json` file you generated into the `app/src/main/res/raw` directory in your Android project. Otherwise, you will not be able to connect to your backend.
+</Callout>
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -323,7 +327,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSS3StoragePlugin plugins
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSS3StoragePlugin());
-            Amplify.configure(getApplicationContext());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -349,10 +353,6 @@ Amplify.addPlugin(AWSS3StoragePlugin())
 ```
 
 Your class will look like this:
-
-<Callout warning>
-Before calling the `Amplify.configure` function, make sure to move the `amplify-output.json` file you generated into the `app/src/main/res/raw` directory in your Android project. Otherwise, you will not be able to connect to your backend.
-</Callout>
 
 ```kotlin
 class MyAmplifyApp : Application() {
@@ -400,7 +400,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSS3StoragePlugin plugins
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
             RxAmplify.addPlugin(new AWSS3StoragePlugin());
-            RxAmplify.configure(getApplicationContext());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {

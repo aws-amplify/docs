@@ -229,6 +229,10 @@ To initialize the Amplify Predictions and Authentication categories you call `Am
 
 Add the following code to your `onCreate()` method in your application class:
 
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to move the `amplify_outputs.json` file you generated into the `app/src/main/res/raw` directory in your Android project. Otherwise, you will not be able to connect to your backend.
+</Callout>
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -257,7 +261,7 @@ public class MyAmplifyApp extends Application {
       // Add these lines to add the AWSCognitoAuthPlugin and AWSPredictionsPlugin plugins
       Amplify.addPlugin(new AWSCognitoAuthPlugin());
       Amplify.addPlugin(new AWSPredictionsPlugin());
-      Amplify.configure(getApplicationContext());
+      Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
       Log.i("MyAmplifyApp", "Initialized Amplify");
     } catch (AmplifyException error) {
@@ -284,10 +288,6 @@ Amplify.addPlugin(AWSPredictionsPlugin())
 ```
 
 Your class will look like this:
-
-<Callout warning>
-Before calling the `Amplify.configure` function, make sure to move the `amplify-output.json` file you generated into the `app/src/main/res/raw` directory in your Android project. Otherwise, you will not be able to connect to your backend.
-</Callout>
 
 ```kotlin
 class MyAmplifyApp : Application() {
@@ -336,7 +336,7 @@ public class MyAmplifyApp extends Application {
       // Add these lines to add the AWSCognitoAuthPlugin and AWSPredictionsPlugin plugins
       RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
       RxAmplify.addPlugin(new AWSPredictionsPlugin());
-      RxAmplify.configure(getApplicationContext());
+      RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
       Log.i("MyAmplifyApp", "Initialized Amplify");
     } catch (AmplifyException error) {

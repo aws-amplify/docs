@@ -156,6 +156,11 @@ The `<log-group-name>` and `<region>` is the value you specified in the CDK cons
 To use the Amplify Logger and Amplify Auth categories in your app, you need to create and configure their corresponding plugins by calling the `Amplify.addPlugin()` and `Amplify.configure()` methods.
 
 Add the following imports to the top of your main `Application` file:
+
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to move the `amplify_outputs.json` file you generated into the `app/src/main/res/raw` directory in your Android project. Otherwise, you will not be able to connect to your backend.
+</Callout>
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -182,7 +187,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSCloudWatchLoggingPlugin plugins
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSCloudWatchLoggingPlugin());
-            Amplify.configure(getApplicationContext());
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -209,10 +214,6 @@ Amplify.addPlugin(AWSCloudWatchLoggingPlugin())
 ```
 
 Your class will look like this:
-
-<Callout warning>
-Before calling the `Amplify.configure` function, make sure to move the `amplify-output.json` file you generated into the `app/src/main/res/raw` directory in your Android project. Otherwise, you will not be able to connect to your backend.
-</Callout>
 
 ```kotlin
 class MyAmplifyApp : Application() {
@@ -259,7 +260,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSCloudWatchLoggingPlugin plugins
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
             RxAmplify.addPlugin(new AWSCloudWatchLoggingPlugin());
-            RxAmplify.configure(getApplicationContext());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -308,7 +309,7 @@ public class MyAmplifyApp extends Application {
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             AWSCloudWatchLoggingPluginConfiguration config = new AWSCloudWatchLoggingPluginConfiguration (<log-group-name>,<region>,1,60);
             Amplify.addPlugin(new AWSCloudWatchLoggingPlugin(config));
-            Amplify.configure(getApplicationContext());
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -385,7 +386,7 @@ public class MyAmplifyApp extends Application {
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
             AWSCloudWatchLoggingPluginConfiguration config = new AWSCloudWatchLoggingPluginConfiguration (<log-group-name>,<region>,1,60);
             RxAmplify.addPlugin(new AWSCloudWatchLoggingPlugin(config));
-            RxAmplify.configure(getApplicationContext());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {

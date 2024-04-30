@@ -518,6 +518,10 @@ To initialize the Amplify Auth and API categories you call `Amplify.addPlugin()`
 
 Add the following code to your `onCreate()` method in your application class:
 
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to move the `amplify_outputs.json` file you generated into the `app/src/main/res/raw` directory in your Android project. Otherwise, you will not be able to connect to your backend.
+</Callout>
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -538,7 +542,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the `AWSApiPlugin` and `AWSCognitoAuthPlugin`
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.configure(getApplicationContext());
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify.");
         } catch (AmplifyException error) {
@@ -557,10 +561,6 @@ Amplify.addPlugin(AWSCognitoAuthPlugin())
 ```
 
 Your class will look like this:
-
-<Callout warning>
-Before calling the `Amplify.configure` function, make sure to move the `amplify-output.json` file you generated into the `app/src/main/res/raw` directory in your Android project. Otherwise, you will not be able to connect to your backend.
-</Callout>
 
 ```kotlin
 class MyAmplifyApp : Application() {
@@ -601,7 +601,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the `AWSApiPlugin` and `AWSCognitoAuthPlugin`
             RxAmplify.addPlugin(new AWSApiPlugin());
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
-            RxAmplify.configure(getApplicationContext());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify.");
         } catch (AmplifyException error) {
