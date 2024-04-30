@@ -53,7 +53,7 @@ Please refer to this Amazon CodeCatalyst [guide](https://docs.aws.amazon.com/cod
 
 ### Step 3: Update build specification
 
-Add the `npx amplify generate config --branch $AWS_BRANCH --app-id $AWS_APP_ID` command to the build spec and comment out the `npx amplify pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID` command. `amplify pipeline-deploy` runs a script to deploy backend updates, while `amplify generate config` fetches the latest `amplifyconfiguration.json` for the specified environment.
+Add the `npx ampx generate config --branch $AWS_BRANCH --app-id $AWS_APP_ID` command to the build spec and comment out the `npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID` command. `amplify pipeline-deploy` runs a script to deploy backend updates, while `amplify generate config` fetches the latest `amplifyconfiguration.json` for the specified environment.
 
 ![Screenshot of Build image settings section in AWS Amplify Gen 2 console, with details about the app build specification](images/gen2/cross-account-deployments/pipeline10.png)
 
@@ -165,7 +165,7 @@ You will then need to add the following shell commands to each of the build acti
 - Run: npm ci
 
 // Deploy the backend for your Amplify Gen 2 app
-- Run: npx amplify pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+- Run: npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
 
 // Trigger frontend build using incoming webhooks
 - Run: if [ $AWS_BRANCH = "main" ]; then curl -X POST -d {} "`webhookUrl`&operation=startbuild" -H "Content-Type:application/json"; fi

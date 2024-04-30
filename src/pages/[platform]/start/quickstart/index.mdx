@@ -271,14 +271,14 @@ To update your backend without affecting the production branch, use Amplify's cl
 To start your cloud sandbox, run the following command in a **new Terminal window**:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+npx ampx sandbox
 ```
 
 Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
-The `npx amplify sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
+The `npx ampx sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
 
 </Callout>
 
@@ -615,14 +615,14 @@ To update your backend without affecting the production branch, use Amplify's cl
 To start your cloud sandbox, run the following command in a **new Terminal window**:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+npx ampx sandbox
 ```
 
 Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
-The `npx amplify sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
+The `npx ampx sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
 
 </Callout>
 
@@ -963,14 +963,14 @@ To update your backend without affecting the production branch, use Amplify's cl
 To start your cloud sandbox, run the following command in a **new Terminal window**:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+npx ampx sandbox
 ```
 
 Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
-The `npx amplify sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
+The `npx ampx sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
 
 </Callout>
 
@@ -1099,7 +1099,7 @@ To deploy your backend use Amplify's per-developer cloud sandbox. This feature p
 
 
 ```bash
-npx amplify sandbox --config-format dart --config-out-dir lib
+npx ampx sandbox --config-format dart --config-out-dir lib
 ```
 
 ## Adding Authentication
@@ -1227,7 +1227,7 @@ Next, let's implement UI to create, list, and delete the to-do items.
 Amplify can automatically generate code for interacting with the backend API. Run the command in the terminal to generate dart model classes from the Data schema under `lib/models`:
 
 ```bash
-npx amplify generate graphql-client-code --format modelgen --model-target dart --out lib/models
+npx ampx generate graphql-client-code --format modelgen --model-target dart --out lib/models
 ```
 
 
@@ -1520,7 +1520,7 @@ To deploy your backend use Amplify's per-developer cloud sandbox. This feature p
 
 
 ```bash
-npx amplify sandbox
+npx ampx sandbox
 ```
 
 Once the sandbox environment is deployed, it will create an `amplify-outputs.json`. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
@@ -1649,7 +1649,7 @@ Next, let's implement UI to create, list, and delete the to-do items.
 Amplify can automatically generate code for interacting with the backend API. The command below generates model classes from the Data schema:
 
 ```bash
-npx amplify generate graphql-client-code --format=modelgen --model-target=swift
+npx ampx generate graphql-client-code --format=modelgen --model-target=swift
 ```
 
 Move the generated files to your project. You can do this by dragging and dropping the files to your project.
@@ -2379,7 +2379,7 @@ Running this command will scaffold Amplify backend files in your current project
 To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
 ```bash
-npx amplify sandbox
+npx ampx sandbox
 ```
 
 ### Adding Authentication

@@ -78,13 +78,13 @@ The first app, `my-shared-backend`, will be the only app that updates changes to
 <InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --branch main --app-id BACKEND-APP
+npx ampx generate config --branch main --app-id BACKEND-APP
 ```
 </InlineFilter>
 
 <InlineFilter filters={['flutter']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id BACKEND-APP --branch main --format dart --out-dir lib
+npx ampx generate config --app-id BACKEND-APP --branch main --format dart --out-dir lib
 ```
 </InlineFilter>
 
@@ -95,13 +95,13 @@ npx amplify generate config --app-id BACKEND-APP --branch main --format dart --o
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id BACKEND-APP --branch main --format json-mobile --out-dir app/src/main/res/raw
+npx ampx generate config --app-id BACKEND-APP --branch main --format json-mobile --out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id BACKEND-APP --format json-mobile
+npx ampx generate config --app-id BACKEND-APP --format json-mobile
 ```
 
 Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
