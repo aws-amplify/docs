@@ -564,7 +564,7 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
 
 ## Storage.copy
 
-In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the `copy` API in v6 no longer supports content options (`contentDisposition`, `contentLanguage`, and `contentType`) as these values are already provided by the existing file.
+In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#removed-options), the `copy` API in v6 no longer supports content options (`contentDisposition`, `contentLanguage`, and `contentType`) as these values are already provided by the existing file.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
@@ -698,7 +698,7 @@ In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/st
 
 ## Storage.remove
 
-In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the output of the `remove` API in v6 now only returns the `key` of the removed file. `DeleteMarker`, `VersionId`, `RequestCharged`, and `$metadata` have been removed from the output.
+In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the output of the `remove` API in v6 now only returns the `path` of the removed file. `DeleteMarker`, `VersionId`, `RequestCharged`, and `$metadata` have been removed from the output.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
@@ -1253,7 +1253,7 @@ The table below lists the analytics events previously associated to v5 APIs and 
   
     <Callout info>
 
-      The example below records an analytics event similar to what you would have seen in v5, but does not prescribe a format or content that needs to be followed. Instead, it is fully configurable and should be structured to best suit your analytics needs. Learn more about [using the Analytics category](/gen1/[platform]/build-a-backend/more-features/analytics/record-events/).
+    The example below records an analytics event similar to what you would have seen in v5, but does not prescribe a format or content that needs to be followed. Instead, it is fully configurable and should be structured to best suit your analytics needs. Learn more about [using the Analytics category](/gen1/[platform]/build-a-backend/more-features/analytics/record-events/).
 
     </Callout>
 
