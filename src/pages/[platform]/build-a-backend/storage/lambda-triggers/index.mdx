@@ -28,11 +28,14 @@ export function getStaticProps(context) {
   };
 }
 
-import flutter0 from '/src/fragments/lib/storage/flutter/gen2-banner.mdx';
 
-<Fragments
-  fragments={{ flutter: flutter0 }}
-/>
+<InlineFilter filters={['flutter']}>
+<Callout warning>
+
+Gen 2 storage support will be available in the next major version of Amplify Flutter.
+
+</Callout>
+</InlineFilter>
 
 Function triggers can be configured to enable event-based workflows when files are uploaded or deleted. To add a function trigger, modify the `defineStorage` configuration.
 

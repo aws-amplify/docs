@@ -32,10 +32,12 @@ export function getStaticProps(context) {
   };
 }
 
-import flutter0 from '/src/fragments/lib/storage/flutter/gen2-banner.mdx';
+<InlineFilter filters={['flutter']}>
+<Callout warning>
 
-<Fragments
-  fragments={{ flutter: flutter0 }}
-/>
+Gen 2 storage support will be available in the next major version of Amplify Flutter.
+
+</Callout>
+</InlineFilter>
 
 <Overview childPageNodes={props.childPageNodes} />
