@@ -53,6 +53,17 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/email-customization/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/triggers/index.mdx'
+                    }
+                  ]
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/switching-auth-flows/index.mdx'
                 },
                 {
