@@ -179,12 +179,12 @@ Alternatively, if you want to generate the config for a branch environment to te
 For Web and React Native, generating the config with the default format and output directory.
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id <app-id> --branch main
+npx amplify generate outputs --app-id <app-id> --branch main
 ```
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id <app-id> --branch main --format dart --out-dir lib
+npx amplify generate outputs --app-id <app-id> --branch main --format dart --out-dir lib
 ```
 </InlineFilter>
 <InlineFilter filters={['android']}>
@@ -194,13 +194,13 @@ npx amplify generate config --app-id <app-id> --branch main --format dart --out-
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id <app-id> --branch main --format json-mobile --out-dir app/src/main/res/raw
+npx amplify generate outputs --app-id <app-id> --branch main --format json-mobile --out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 <InlineFilter filters={['swift']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id <app-id> --format json-mobile
+npx amplify generate outputs --app-id <app-id> --format json-mobile
 ```
 
 Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
