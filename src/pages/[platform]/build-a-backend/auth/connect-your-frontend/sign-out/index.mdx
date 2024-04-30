@@ -1,27 +1,55 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Enable sign-out',
-  description: 'SignOut a user',
-  platforms: ['flutter', 'swift', 'android']
+  title: 'Sign-out',
+  description: 'Learn how to sign out',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
 };
 
-export const getStaticPaths = async () => {
+export function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   return {
     props: {
-      platform: context.params.platform,
       meta
     }
   };
 }
 
+Amplify provides a client library that enables you to interact with backend resources such as Amplify Auth.
 
-<InlineFilter filters={['flutter']}>
-Invoke the `signOut` api to sign out a user from the Auth category. You can only have one user signed in at a given time. Calling signOut without any options will delete the local cache and keychain of the user and revoke the token if enabled on Amazon Cognito User Pools. If you would like to sign out of all devices, invoke the signOut api with advanced options.
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+
+{/* signOut api definition */}
+
+To sign a user out of your application use the `signOut` API.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { signOut } from 'aws-amplify/auth';
+
+await signOut();
+```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
 
 ```dart
 Future<void> signOutCurrentUser() async {
@@ -34,44 +62,8 @@ Future<void> signOutCurrentUser() async {
 }
 ```
 
-
-## Token Revocation
-
-[Amazon Cognito now supports token revocation](https://aws.amazon.com/about-aws/whats-new/2021/06/amazon-cognito-now-supports-targeted-sign-out-through-refresh-token-revocation/). This means that the Cognito refresh token cannot be used anymore to generate new Access and Id Tokens.
-
-Access and Id Tokens are short-lived (60 minutes by default but can be set from 5 minutes to 1 day). After revocation, these tokens cannot be used with Cognito User Pools anymore. However, they are still valid when used with other services like AppSync or API Gateway.
-
-For limiting subsequent calls to these other services after invalidating tokens, we recommend lowering token expiration time for your app client in the Cognito User Pools console. 
-
-Token revocation is enabled automatically on new Amazon Cognito User Pools, however existing User Pools must enable this feature, [using the Cognito Console or AWS CLI](https://docs.aws.amazon.com/cognito/latest/developerguide/token-revocation.html).
-
-## Global Sign Out
-
-Calling signout with `globalSignOut = true` will invalidate all the Cognito User Pool tokens of the signed in user. If the user is signed into a device, they won't be authorized to perform a task that requires a valid token when a global signout is called from some other device. They need to sign in again to get valid tokens.
-
-```dart
-Future<void> signOutGlobally() async {
-  final result = await Amplify.Auth.signOut(
-    options: const SignOutOptions(globalSignOut: true),
-  );
-  if (result is CognitoCompleteSignOut) {
-    safePrint('Sign out completed successfully');
-  } else if (result is CognitoPartialSignOut) {
-    final globalSignOutException = result.globalSignOutException!;
-    final accessToken = globalSignOutException.accessToken;
-    // Retry the global sign out using the access token, if desired
-    // ...
-    safePrint('Error signing user out: ${globalSignOutException.message}');
-  } else if (result is CognitoFailedSignOut) {
-    safePrint('Error signing user out: ${result.exception.message}');
-  }
-}
-```
-
 </InlineFilter>
-
-<InlineFilter filters={['android']}>
-Invoke the `signOut` api to sign out a user from the Auth category. You can only have one user signed in at a given time. Calling signOut without any options will delete the local cache and keychain of the user and revoke the token if enabled on Amazon Cognito User Pools. If you would like to sign out of all devices, invoke the signOut api with advanced options.
+<InlineFilter filters={["android"]}>
 
 <BlockSwitcher>
 <Block name="Java">
@@ -222,44 +214,134 @@ RxAmplify.Auth.signOut()
 </Block>
 </BlockSwitcher>
 
-## Sign Out Result Types
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
 
-### CompleteSignOut
-Indicates a successful sign out with no errors.
+<BlockSwitcher>
+<Block name="Async/Await">
 
-### PartialSignOut
-Indicates that sign out was completed, but with errors. 
-The device credentials have been cleared and the user is locally signed out of the device.
-The `PartialSignOut` class will return 1 or more errors where sign out actions can be retried manually.
-* `GlobalSignOutError` - The GlobalSignOut action failed.
-    - `error`: A `GlobalSignOutException` that provides a message and recovery suggestion for the failure.
-    - `accessToken`: The access token that was unable to be revoked. The Escape Hatch can be used to manually retry the global sign out.
-* `RevokeTokenError` - The RevokeToken action failed.
-    - `error`: A `RevokeTokenException` that provides a message and recovery suggestion for the failure.
-    - `refreshToken`: The refresh token that was unable to be revoked. The Escape Hatch can be used to manually retry revoking the token.
-* `HostedUIError` - The HostedUI sign out action failed.
-    - `error`: A `HostedUISignOutException` that provides a message and recovery suggestion for the failure.
-    - `url`: The url that was used to attempt the Cognito web session sign out in the CustomTab. 
+```swift
+func signOutLocally() async {
+    let result = await Amplify.Auth.signOut()
+    guard let signOutResult = result as? AWSCognitoSignOutResult
+    else {
+        print("Signout failed")
+        return
+    }
 
-### FailedSignOut
-Indicates a failed sign out where user credentials remain on the device. 
-See the attached AuthException to determine the cause. 
-The most likely exception is a `UserCancelledException` where the user cancelled a HostedUI Sign Out before the redirect was received.
+    print("Local signout successful: \(signOutResult.signedOutLocally)")
+    switch signOutResult {
+    case .complete:
+        // Sign Out completed fully and without errors.
+        print("Signed out successfully")
 
+    case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
+        // Sign Out completed with some errors. User is signed out of the device.
+        
+        if let hostedUIError = hostedUIError {
+            print("HostedUI error  \(String(describing: hostedUIError))
+        }
 
-## Token Revocation
+        if let globalSignOutError = globalSignOutError {
+            // Optional: Use escape hatch to retry revocation of globalSignOutError.accessToken.
+            print("GlobalSignOut error  \(String(describing: globalSignOutError))
+        }
 
-[Amazon Cognito now supports token revocation](https://aws.amazon.com/about-aws/whats-new/2021/06/amazon-cognito-now-supports-targeted-sign-out-through-refresh-token-revocation/). This means that the Cognito refresh token cannot be used anymore to generate new Access and Id Tokens.
+        if let revokeTokenError = revokeTokenError {
+            // Optional: Use escape hatch to retry revocation of revokeTokenError.accessToken.
+            print("Revoke token error  \(String(describing: revokeTokenError))
+        }
 
-Access and Id Tokens are short-lived (60 minutes by default but can be set from 5 minutes to 1 day). After revocation, these tokens cannot be used with Cognito User Pools anymore. However, they are still valid when used with other services like AppSync or API Gateway.
+    case .failed(let error):
+        // Sign Out failed with an exception, leaving the user signed in.
+        print("SignOut failed with \(error)")
+    }
+}
+```
 
-For limiting subsequent calls to these other services after invalidating tokens, we recommend lowering token expiration time for your app client in the Cognito User Pools console. 
+</Block>
+<Block name="Combine">
 
-Token revocation is enabled automatically on new Amazon Cognito User Pools, however existing User Pools must enable this feature, [using the Cognito Console or AWS CLI](https://docs.aws.amazon.com/cognito/latest/developerguide/token-revocation.html).
+```swift
+func signOutLocally() -> AnyCancellable {
+    Amplify.Publisher.create {
+        await Amplify.Auth.signOut()
+    }.sink(receiveValue: { result in
+        guard let signOutResult = result as? AWSCognitoSignOutResult
+        else {
+            print("Signout failed")
+            return
+        }
+        print("Local signout successful: \(signOutResult.signedOutLocally)")
+        switch signOutResult {
+        case .complete:
+            // Sign Out completed fully and without errors.
+            print("Signed out successfully")
 
-## Global Sign Out
+        case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
+            // Sign Out completed with some errors. User is signed out of the device.
+            if let hostedUIError = hostedUIError {
+                print("HostedUI error  \(String(describing: hostedUIError))
+            }
 
-Calling signout with `globalSignOut = true` will invalidate all the Cognito User Pool tokens of the signed in user. If the user is signed into a device, they won't be authorized to perform a task that requires a valid token when a global signout is called from some other device. They need to sign in again to get valid tokens.
+            if let globalSignOutError = globalSignOutError {
+                // Optional: Use escape hatch to retry revocation of globalSignOutError.accessToken.
+                print("GlobalSignOut error  \(String(describing: globalSignOutError))
+            }
+
+            if let revokeTokenError = revokeTokenError {
+                // Optional: Use escape hatch to retry revocation of revokeTokenError.accessToken.
+                print("Revoke token error  \(String(describing: revokeTokenError))
+            }
+
+        case .failed(let error):
+            // Sign Out failed with an exception, leaving the user signed in.
+            print("SignOut failed with \(error)")
+        }
+    })
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+You can also sign out users from all devices by performing a global sign-out. This will also invalidate all refresh tokens issued to a user. The user's current access and ID tokens will remain valid on other devices until the refresh token expires (access and ID tokens expire one hour after they are issued).
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { signOut } from 'aws-amplify/auth';
+
+await signOut({ global: true });
+```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+```dart
+Future<void> signOutGlobally() async {
+  final result = await Amplify.Auth.signOut(
+    options: const SignOutOptions(globalSignOut: true),
+  );
+  if (result is CognitoCompleteSignOut) {
+    safePrint('Sign out completed successfully');
+  } else if (result is CognitoPartialSignOut) {
+    final globalSignOutException = result.globalSignOutException!;
+    final accessToken = globalSignOutException.accessToken;
+    // Retry the global sign out using the access token, if desired
+    // ...
+    safePrint('Error signing user out: ${globalSignOutException.message}');
+  } else if (result is CognitoFailedSignOut) {
+    safePrint('Error signing user out: ${result.exception.message}');
+  }
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
 
 <BlockSwitcher>
 <Block name="Java">
@@ -350,140 +432,9 @@ RxAmplify.Auth.signOut(options)
 </BlockSwitcher> 
 
 </InlineFilter>
-
-<InlineFilter filters={['swift']}>
-Invoke the `signOut` api to sign out a user from the Auth category. You can only have one user signed in at a given time. Calling signOut without any options will delete the local cache and keychain of the user and revoke the token if enabled on Amazon Cognito User Pools. If you would like to sign out of all devices, invoke the signOut api with advanced options.
+<InlineFilter filters={["swift"]}>
 
 <BlockSwitcher>
-
-<Block name="Async/Await">
-
-```swift
-func signOutLocally() async {
-    let result = await Amplify.Auth.signOut()
-    guard let signOutResult = result as? AWSCognitoSignOutResult
-    else {
-        print("Signout failed")
-        return
-    }
-
-    print("Local signout successful: \(signOutResult.signedOutLocally)")
-    switch signOutResult {
-    case .complete:
-        // Sign Out completed fully and without errors.
-        print("Signed out successfully")
-
-    case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
-        // Sign Out completed with some errors. User is signed out of the device.
-        
-        if let hostedUIError = hostedUIError {
-            print("HostedUI error  \(String(describing: hostedUIError))
-        }
-
-        if let globalSignOutError = globalSignOutError {
-            // Optional: Use escape hatch to retry revocation of globalSignOutError.accessToken.
-            print("GlobalSignOut error  \(String(describing: globalSignOutError))
-        }
-
-        if let revokeTokenError = revokeTokenError {
-            // Optional: Use escape hatch to retry revocation of revokeTokenError.accessToken.
-            print("Revoke token error  \(String(describing: revokeTokenError))
-        }
-
-    case .failed(let error):
-        // Sign Out failed with an exception, leaving the user signed in.
-        print("SignOut failed with \(error)")
-    }
-}
-```
-
-</Block>
-
-<Block name="Combine">
-
-```swift
-func signOutLocally() -> AnyCancellable {
-    Amplify.Publisher.create {
-        await Amplify.Auth.signOut()
-    }.sink(receiveValue: { result in
-        guard let signOutResult = result as? AWSCognitoSignOutResult
-        else {
-            print("Signout failed")
-            return
-        }
-        print("Local signout successful: \(signOutResult.signedOutLocally)")
-        switch signOutResult {
-        case .complete:
-            // Sign Out completed fully and without errors.
-            print("Signed out successfully")
-
-        case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
-            // Sign Out completed with some errors. User is signed out of the device.
-            if let hostedUIError = hostedUIError {
-                print("HostedUI error  \(String(describing: hostedUIError))
-            }
-
-            if let globalSignOutError = globalSignOutError {
-                // Optional: Use escape hatch to retry revocation of globalSignOutError.accessToken.
-                print("GlobalSignOut error  \(String(describing: globalSignOutError))
-            }
-
-            if let revokeTokenError = revokeTokenError {
-                // Optional: Use escape hatch to retry revocation of revokeTokenError.accessToken.
-                print("Revoke token error  \(String(describing: revokeTokenError))
-            }
-
-        case .failed(let error):
-            // Sign Out failed with an exception, leaving the user signed in.
-            print("SignOut failed with \(error)")
-        }
-    })
-}
-```
-
-</Block>
-
-</BlockSwitcher>
-
-## Sign Out Result Types
-
-### .complete
-Indicates a successful sign out with no errors.
-
-### .partial
-Indicates that sign out was completed, but with errors. 
-The device credentials have been cleared and the user is locally signed out of the device.
-The `.partial` case will return 1 or more errors where sign out actions can be retried manually.
-* `.globalSignOutError` - The GlobalSignOut action failed.
-    - `error`: Provides a message and recovery suggestion for the failure.
-    - `accessToken`: The access token that was unable to be revoked. The Escape Hatch can be used to manually retry the global sign out.
-* `.revokeTokenError` - The RevokeToken action failed.
-    - `error`:  Provides a message and recovery suggestion for the failure.
-    - `refreshToken`: The refresh token that was unable to be revoked. The Escape Hatch can be used to manually retry revoking the token.
-* `.hostedUIError` - The HostedUI sign out action failed.
-    - `error`: Provides a message and recovery suggestion for the failure.
-
-### .failed
-Indicates a failed sign out where user credentials remain on the device. 
-See the attached error to determine the cause. 
-
-
-## Token Revocation
-
-[Amazon Cognito now supports token revocation](https://aws.amazon.com/about-aws/whats-new/2021/06/amazon-cognito-now-supports-targeted-sign-out-through-refresh-token-revocation/). This means that the Cognito refresh token cannot be used anymore to generate new Access and Id Tokens.
-
-Access and Id Tokens are short-lived (60 minutes by default but can be set from 5 minutes to 1 day). After revocation, these tokens cannot be used with Cognito User Pools anymore. However, they are still valid when used with other services like AppSync or API Gateway.
-
-For limiting subsequent calls to these other services after invalidating tokens, we recommend lowering token expiration time for your app client in the Cognito User Pools console.
-
-Token revocation is enabled automatically on new Amazon Cognito User Pools, however existing User Pools must enable this feature, [using the Cognito Console or AWS CLI](https://docs.aws.amazon.com/cognito/latest/developerguide/token-revocation.html).
-
-## Global Sign Out
-
-Calling signout with `globalSignOut = true` will invalidate all the Cognito User Pool tokens of the signed in user. If the user is signed into a device, they won't be authorized to perform a task that requires a valid token when a global signout is called from some other device. They need to sign in again to get valid tokens.
-
-<BlockSwitcher>
-
 <Block name="Async/Await">
 
 ```swift
@@ -510,7 +461,6 @@ func signOutGlobally() async {
 ```
 
 </Block>
-
 <Block name="Combine">
 
 ```swift
@@ -537,7 +487,38 @@ func signOutGlobally() -> AnyCancellable {
 ```
 
 </Block>
-
 </BlockSwitcher>
 
+</InlineFilter>
+
+{/* double-filter to conditionally display this section for only platforms that have examples */}
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+## Practical Example
+
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+```tsx title="src/App.tsx"
+import { Amplify } from "aws-amplify"
+// highlight-next-line
+import { signOut } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+export default function App() {
+  async function handleSignOut() {
+    // highlight-next-line
+    await signOut()
+  }
+
+  return (
+    <button type="button" onClick={handleSignOut}>
+      Sign out
+    </button>
+  )
+}
+```
+
+</InlineFilter>
 </InlineFilter>
