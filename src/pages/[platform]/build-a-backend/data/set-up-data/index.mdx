@@ -161,6 +161,10 @@ Next, configure the Amplify client library with the generated `amplifyconfigurat
 
 Create a new `MyAmplifyApp` class that inherits from `Application` with the following code:
 
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to move the `amplify-output.json` file you generated into the `app/src/main/res/raw` directory in your Android project. Otherwise, you will not be able to connect to your backend.
+</Callout>
+
 ```kt
 package com.example.myapplication
 
@@ -180,7 +184,7 @@ class MyAmplifyApp : Application() {
             Amplify.addPlugin(AWSApiPlugin())
             // Configures the client library to be aware of your backend API
             // endpoint and authorization modes.
-            Amplify.configure(applicationContext)
+            Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), applicationContext)
 
             Log.i("Tutorial", "Initialized Amplify")
         } catch (error: AmplifyException) {
