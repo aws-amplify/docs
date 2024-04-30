@@ -28,9 +28,9 @@ export function getStaticProps(context) {
   };
 }
 
-You can list files without having to download the entire file. You can do this by using the listFile API from the Amplify Library for Storage. You can also get properties individually for a file using the getProperties API.
+You can list files without having to download all the files. You can do this by using the listFile API from the Amplify Library for Storage. You can also get properties individually for a file using the getProperties API.
 
-## List API
+## List Files
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 ```javascript
@@ -48,7 +48,7 @@ try {
 
 Note the trailing slash `/` - if you had requested `list({ path :  'photos' })` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
 
-The format of the response will look similar to the below example
+The format of the response will look similar to the below example:
 
 ```js
 {
@@ -63,8 +63,8 @@ The format of the response will look similar to the below example
   ],
 }
 ```
-
-Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files from folders. Since "folders" are a virtual concept in S3, any file may declare any depth of folder just by having a `/` in its name. If you need to list all the folders, you'll have to parse them accordingly to get an authoritative list of files and folders:
+{/* in other files we're referring to paths instead of folders, can we be consistent on terminology? */}
+Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files from folders. Since "folders" are a virtual concept in Amazon S3, any file may declare any depth of folder just by having a `/` in its name. If you need to list all the folders, you'll have to parse them accordingly to get an authoritative list of files and folders:
 
 ```js
 function processStorageList(response) {
@@ -358,7 +358,7 @@ Option | Type | Description |
 
 ## Get File Properties
 
-You can also view properties of an individual file.
+You can also view the properties of an individual file.
 
 ```javascript
 import { getProperties } from 'aws-amplify/storage';
