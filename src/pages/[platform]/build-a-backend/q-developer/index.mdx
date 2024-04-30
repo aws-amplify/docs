@@ -117,7 +117,7 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 //     .model({
 //       content: a.string(),
 //     })
-//     .authorization([a.allow.public()]),
+//     .authorization(allow => [allow.publicApiKey()]),
 // });
 
 // ...
@@ -135,7 +135,7 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 //     .model({
 //       content: a.string(),
 //     })
-//     .authorization([a.allow.public()]),
+//     .authorization(allow => [allow.publicApiKey()]),
 // });
 
 // highlight-start
