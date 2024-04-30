@@ -52,8 +52,8 @@ Sandbox enables you to develop your backend alongside your frontend's developmen
 - `--dir-to-watch` (_string_) - Directory to watch for file changes. All subdirectories and files will be included. Defaults to the amplify directory.
 - `--exclude` (_string[]_) - An array of paths or glob patterns to ignore. Paths can be relative or absolute and can either be files or directories.
 - `--name` (_string_) - An optional name to distinguish between different sandbox environments. Default is the name in your package.json.
-- `--config-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
-- `--config-format` (_string_) - Format in which the client config file is written (choices: `mjs`, `json`, `json-mobile`, `ts`, `dart`).
+- `--outputs-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
+- `--outputs-format` (_string_) - Format in which the client config file is written (choices: `mjs`, `json`, `json-mobile`, `ts`, `dart`).
 - `--profile` (_string_) - An AWS profile name.
 
 <SubCommandHeading parentCommand="amplify-sandbox">Usage</SubCommandHeading>
@@ -90,17 +90,17 @@ For mobile applications, you will need to set the output directory and format of
 
 ```bash
 # for Android
-amplify sandbox --config-format json-mobile --config-out-dir app/src/main/res
+amplify sandbox --outputs-format json-mobile --outputs-out-dir app/src/main/res
 ```
 
 ```bash
 # for Swift/iOS
-amplify sandbox --config-format json-mobile
+amplify sandbox --outputs-format json-mobile
 ```
 
 ```bash
 # for Flutter
-amplify sandbox --config-format dart --config-out-dir lib
+amplify sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
 ## npx amplify sandbox delete
@@ -325,7 +325,7 @@ Deploys the Amplify project in a CI/CD pipeline for a specified Amplify app and 
 
 - `--branch` (_string_) - Name of the git branch being deployed.
 - `--app-id` (_string_) - The app id of the target Amplify app.
-- `--config-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
+- `--outputs-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
 
 <SubCommandHeading parentCommand="amplify-pipeline-deploy">Usage</SubCommandHeading>
 

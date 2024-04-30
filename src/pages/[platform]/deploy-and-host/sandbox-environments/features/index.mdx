@@ -129,7 +129,7 @@ After successful deployment, sandboxes `s1` and `s2` will be ready. Pick sandbox
 The client config (e.g. `amplifyconfiguration.json` file for Web) contains the configuration strings for interacting with AWS resources specific to an environment. The Amplify client libraries need the client config file in order to use the library APIs to connect to backend resources. By default, the cloud sandbox generates the client configuration file at the root of the project (such as `@/amplifyconfiguration.json`). If you want to place the file at a different path you can use the following command template:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-out-dir path/to/config --config-format ["mjs", "json", "json-mobile", "ts", "dart"]
+npx amplify sandbox --outputs-out-dir path/to/config --outputs-format ["mjs", "json", "json-mobile", "ts", "dart"]
 ```
 
 ### Sandbox Environment
@@ -144,7 +144,7 @@ npx amplify sandbox
 
 <InlineFilter filters={['flutter']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format dart --config-out-dir lib
+npx amplify sandbox --outputs-format dart --outputs-out-dir lib
 ```
 </InlineFilter>
 <InlineFilter filters={['android']}>
@@ -154,14 +154,14 @@ npx amplify sandbox --config-format dart --config-out-dir lib
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format json-mobile --config-out-dir app/src/main/res/raw
+npx amplify sandbox --outputs-format json-mobile --outputs-out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format json-mobile
+npx amplify sandbox --outputs-format json-mobile
 ```
 
 Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
