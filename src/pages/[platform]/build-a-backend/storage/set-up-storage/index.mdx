@@ -28,15 +28,19 @@ export function getStaticProps(context) {
   };
 }
 
-In this guide, you will learn how to set up storage in your Amplify app. This includes setting up and connecting your backend resources and enabling file uploads, downloads, and list features.
+In this guide, you will learn how to set up storage in your Amplify app. You will set up your backend resources, and enable listing, uploading, and downloading files.
 
 If you have not yet created an Amplify app, visit the [quickstart guide](/[platform]/start/quickstart/).
 
+{/* Let's add a description of what Storage is and why you would want to use it in your app. Not sure if this is how we want to message it  */}
+
+With Amplify Storage, you can enable file storage and management for user's content in your app. Folders within your storage instance can have different access rules. Amplify Storage is powered by Amazon Simple Storage Service (Amazon S3) buckets.
+
 ## Building your storage backend
 
-By defining storage in your backend configuration, you can customize the access rules to different paths in your storage bucket.
+First, create a file `amplify/storage/resource.ts`. This file will be the location where you configure your storage backend. Instantiate storage using the `defineStorage` function and providing a `name` for your storage bucket.
 
-First, create a file `amplify/storage/resource.ts`. Paste the following content into the file.
+{/* are there any rules they need to follow for the storage name? I would guess the same rules as an S3 bucket or is this a friendly name? I personally wouldn't call a bucket for a work project "myProjectFiles" how about amplifyTeamDrive? Either way we should explain what the name is */}
 
 ```ts title="amplify/storage/resource.ts"
 import { defineStorage } from '@aws-amplify/backend';
@@ -46,7 +50,7 @@ export const storage = defineStorage({
 });
 ```
 
-Then include storage in your backend definition.
+Import your storage definition in your `amplify/backend.ts` file that contains your backend definition. Add storage to `defineBackend`. 
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
@@ -61,14 +65,13 @@ defineBackend({
 });
 ```
 
-Now when you run `npx amplify sandbox` or deploy your app on Amplify, it will configure an S3 bucket where the files will be uploaded to and downloaded from.
-
-Before files can be accessed by your application, you must configure storage access rules.
+Now when you run `npx amplify sandbox` or deploy your app with Amplify, it will configure an Amazon S3 bucket where your files will be stored. Before files can be accessed in your application, you must configure storage access rules.
 
 ### Define File Prefix Access
 
 By default, no users or other project resources have access to any files in the storage bucket. Access must be explicitly granted within `defineStorage` using the `access` callback.
 
+{/* is there a reason the examples change between the two? This is using media/photos then the next is authenticated_access_only. I'm not sure this example is necessary */}
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
   name: 'myProjectFiles',
@@ -85,9 +88,11 @@ export const storage = defineStorage({
 });
 ```
 
-The access callback returns an object where each key in the object is a file prefix and each value in the object is a list of access rules that apply to that prefix. 
+The access callback returns an object where each key in the object is a file prefix and each value in the object is an array of access rules that apply to that prefix. 
 
-Refer to the following example to construct access rules for your storage bucket or you can copy paste to test it out. [Learn more about customizing access to file prefixes](/[platform]/build-a-backend/storage/authorization/).
+Refer to the following example to construct access rules for your storage bucket. [Learn more about customizing access to file prefixes](/[platform]/build-a-backend/storage/authorization/).
+
+{/* what is an entity here? I would add an explanation or comment*/}
 
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
@@ -110,6 +115,8 @@ export const storage = defineStorage({
   })
 });
 ```
+
+{/* I'm confused by this example - is this needed? why are they copying and pasting multiple examples? If the goal is to concepually tie to Gen 1 maybe we can do a separate "Storage in Gen 1 vs. Gen 2" guide or something - I personally feel this is confusing. */}
 Copy and paste the following definition for authorization rules to implement public, protected, and private prefixes (this is currently the pattern in Gen 1).
 
 ```ts title="amplify/storage/resource.ts"
@@ -130,12 +137,15 @@ export const storage = defineStorage({
 ```
 ## Connect your app code to the storage backend
 
-Amplify Storage library provides client APIs that connect to the backend resources you defined.
+The Amplify Storage library provides client APIs that connect to the backend resources you defined.
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
 ### Configure Amplify in project
 
+{/* this document has configuration but we're not actually using any of the libraries or UI components in this guide - should this instead just link you to the connect to backend guide? the intro says we "enable listing, uploading, and downloading files." but we aren't doing that - should we add that? */}
+
+{/* We're inconsistent on pre-reqs across categories - JS doesn't have them but others do, is this intentional?  */}
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `index.js` in React or `main.ts` in Angular.
 
 ```javascript
@@ -274,7 +284,7 @@ Amplify configured with Auth and Storage plugins
 * An Android application targeting Android API level 24 (Android 7.0) or above
     * For a full example of creating Android project, please follow the [project setup walkthrough](/[platform]/start/project-setup/create-application/)
 
-### Install Amplify library
+### Install the Amplify library
 
 Expand **Gradle Scripts**, open **build.gradle (Module: app)**. You will already have configured Amplify by following the steps in the [Project Setup walkthrough](/[platform]/start/project-setup/create-application/).
 
@@ -290,9 +300,9 @@ dependencies {
 
 Click **Sync Now**.
 
-### Configure Amplify in project
+### Configure Amplify in your project
 
-Initialize the Amplify Storage category by calling `Amplify.addPlugin()`. To complete initialization call `Amplify.configure()`.
+Initialize Amplify Storage by calling `Amplify.addPlugin()`. To complete initialization, call `Amplify.configure()`.
 
 Add the following code to your `onCreate()` method in your application class:
 
@@ -491,6 +501,7 @@ class MyApp extends StatefulWidget {
 
 ## Manage files in Amplify console
 
+{/* I think we should add how to publish (Git push) - does connecting with the client APIs affect whether they can use storage manager? */}
 After successfully publishing your storage backend and connecting your project with client APIs, you can manage files and folders in [the Amplify console](https://console.aws.amazon.com/amplify). You can perform on-demand actions like upload, download, copy, and more under the Storage tab in the console.
 
 ![Showing Amplify console showing Storage tab selected](/images/gen2/storage/amplify-console-storage.png)
@@ -499,9 +510,11 @@ After successfully publishing your storage backend and connecting your project w
 
 Congratulations! You finished the Set up Amplify Storage guide. In this guide, you set up and connected to backend resources, customized your file prefixes and access definitions, and connected your application to the backend to implement features like file uploads and downloads.
 
+{/* we didn't add file uploads or downloads */}
+
 ### Next steps
 
-Now that you have completed setting up storage in your Amplify app, you can proceed to add file management features to your app. You can access the following links to jump to upload and download functionality or access to more capabilities from the sidebar under storage.
+Now that you have completed setting up storage in your Amplify app, you can proceed to add file management features to your app. You can use the following guides to implement upload and download functionality, or you can access more capabilities from the side navigation.
 
 - [Upload Files](/[platform]/build-a-backend/storage/upload-files/)
 - [Download Files](/[platform]/build-a-backend/storage/download-files/)
