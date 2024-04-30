@@ -158,7 +158,7 @@ In your app's entry point (specifically, **App.js**, **index.js**, **\_app.js**,
 ```javascript
 import { Amplify } from 'aws-amplify';
 import config from './amplifyconfiguration.json';
-Amplify.configure(outputs);
+Amplify.configure(config);
 ```
 
 <Callout warning="true">
@@ -210,7 +210,7 @@ In your app's entry point (specifically, **App.js**, **index.js**, **\_app.js**,
 ```javascript
 import { Amplify } from 'aws-amplify';
 import config from './amplifyconfiguration.json';
-Amplify.configure(outputs);
+Amplify.configure(config);
 ```
 
 <Callout warning="true">
@@ -376,7 +376,7 @@ import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
-Amplify.configure(outputs);
+Amplify.configure(config);
 
 export function App({ signOut, user }: WithAuthenticatorProps) {
   return (
@@ -399,7 +399,7 @@ import { Amplify } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
-Amplify.configure(outputs);
+Amplify.configure(config);
 
 function App({ signOut, user }) {
   return (
@@ -438,7 +438,7 @@ The `Authenticator` component offers a simple way to add authentication flows in
 
   import { Amplify } from 'aws-amplify';
   import config from './amplifyconfiguration.json';
-  Amplify.configure(outputs);
+  Amplify.configure(config);
 </script>
 
 <template>
