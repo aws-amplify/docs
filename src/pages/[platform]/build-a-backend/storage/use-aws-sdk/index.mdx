@@ -21,7 +21,7 @@ export function getStaticProps(context) {
   };
 }
 
-For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access the `S3Client` instance:
+For advanced use cases where Amplify does not provide the functionality, you can use an escape hatch to access the `S3Client` instance:
 
 <InlineFilter filters={["android"]}>
 
@@ -67,7 +67,7 @@ Add the following import:
 import AWSS3StoragePlugin
 ```
 
-Then retrieve the escape hatch with this code
+Then retrieve the escape hatch with this code:
 
 ```swift
 do {
