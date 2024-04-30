@@ -134,7 +134,7 @@ export function request(ctx) {
         Image: {
           S3Object: {
             Bucket: ctx.env.S3_BUCKET_NAME,
-            Name: "public/" + ctx.arguments.path,
+            Name: ctx.arguments.path,
           },
         },
       },
