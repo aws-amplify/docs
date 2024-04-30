@@ -532,7 +532,7 @@ To specify your own headers, use the `configureClient()` configuration option on
 
 ```java
 AWSApiPlugin plugin = AWSApiPlugin.builder()
-    .configureClient("yourApiName", okHttpBuilder -> {
+    .configureClient(AWSApiPlugin.DEFAULT_GRAPHQL_API, okHttpBuilder -> {
         okHttpBuilder.addInterceptor(chain -> {
             Request originalRequest = chain.request();
             Request updatedRequest = originalRequest.newBuilder()
@@ -550,7 +550,7 @@ Amplify.addPlugin(plugin);
 
 ```kotlin
 val plugin = AWSApiPlugin.builder()
-    .configureClient("yourApiName") { okHttpBuilder ->
+    .configureClient(AWSApiPlugin.DEFAULT_GRAPHQL_API) { okHttpBuilder ->
         okHttpBuilder.addInterceptor { chain ->
             val originalRequest = chain.request()
             val updatedRequest = originalRequest.newBuilder()
@@ -568,7 +568,7 @@ Amplify.addPlugin(plugin)
 
 ```kotlin
 val plugin = AWSApiPlugin.builder()
-    .configureClient("yourApiName") { okHttpBuilder ->
+    .configureClient(AWSApiPlugin.DEFAULT_GRAPHQL_API) { okHttpBuilder ->
         okHttpBuilder.addInterceptor { chain ->
             val originalRequest = chain.request()
             val updatedRequest = originalRequest.newBuilder()
@@ -586,7 +586,7 @@ Amplify.addPlugin(plugin)
 
 ```java
 AWSApiPlugin plugin = AWSApiPlugin.builder()
-    .configureClient("yourApiName", okHttpBuilder -> {
+    .configureClient(AWSApiPlugin.DEFAULT_GRAPHQL_API, okHttpBuilder -> {
         okHttpBuilder.addInterceptor(chain -> {
             Request originalRequest = chain.request();
             Request updatedRequest = originalRequest.newBuilder()
@@ -619,7 +619,7 @@ struct CustomInterceptor: URLRequestInterceptor {
 let apiPlugin = try AWSAPIPlugin()
 try Amplify.addPlugin(apiPlugin)
 try Amplify.configure()
-try apiPlugin.add(interceptor: CustomInterceptor(), for: "yourApiName")
+try apiPlugin.add(interceptor: CustomInterceptor(), for: AWSAPIPlugin.defaultGraphQLAPI)
 ```
 
 </InlineFilter>
