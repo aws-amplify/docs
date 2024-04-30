@@ -263,12 +263,6 @@ const featureListData = {
         items: [
           {
             content:
-              'Set up cloud storage with access permissions, user access, and lambda triggers. Configure storage with Amplify CLI or through the Amplify Studio.',
-            linkText: 'Simple Configuration',
-            link: 'build-a-backend/storage/configure-storage/'
-          },
-          {
-            content:
               'Upload and download files to and from cloud storage with advanced controls like pausing and resuming upload operations.',
             linkText: 'Upload and Download files',
             link: 'build-a-backend/storage/upload/'
