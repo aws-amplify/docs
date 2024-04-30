@@ -92,11 +92,13 @@ const consoleErrors = async (domain) => {
       errorMessage += `${error.message} found on ${error.page}\n`;
     });
   }
-  console.log(
-    `--------- Console errors have been found and need to be resolved in order to merge. -------
-    ------- Please note that these errors could be on pages that were not edited in this PR. ---------`
-  );
-  console.log(errorMessage);
+  if (errorMessage != '') {
+    console.log(
+      `--------- Console errors have been found and need to be resolved in order to merge. -------
+      ------- Please note that these errors could be on pages that were not edited in this PR. ---------`
+    );
+    console.log(errorMessage);
+  }
   return errorMessage;
 };
 
