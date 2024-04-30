@@ -25,16 +25,10 @@ export const directory = {
               path: 'src/pages/[platform]/start/quickstart/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/start/quickstart/vite-react-app/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-app-router-client-components/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/quickstart/nextjs-app-router-server-components/index.mdx'
                 }
               ]
             },
@@ -45,7 +39,7 @@ export const directory = {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/start/mobile-support/index.mdx'
+              path: 'src/pages/[platform]/start/gen1-gen2/index.mdx'
             }
           ]
         },
@@ -57,6 +51,9 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/switching-auth-flows/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/accessing-credentials/index.mdx'
@@ -86,7 +83,13 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/manage-user-profile/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/manage-attributes/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/password-management/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/guest-access/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/manage-mfa/index.mdx'
@@ -96,6 +99,12 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/auth-events/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/sign-in-custom-flow/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/remember-device/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/admin-actions/index.mdx'
@@ -108,6 +117,12 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/override-cognito/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/under-the-hood/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
@@ -189,6 +204,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-bedrock/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-rekognition/index.mdx'
@@ -317,7 +335,12 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs-app-router-server-components/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-a-backend/add-aws-services/index.mdx',
@@ -531,6 +554,20 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/chatbot/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/publish/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/set-up-pubsub/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/subscribe/index.mdx'
                     }
                   ]
                 },
