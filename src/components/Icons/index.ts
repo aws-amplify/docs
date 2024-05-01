@@ -26,7 +26,7 @@ export { IconSystem } from './IconSystem';
 export { IconTOC } from './IconTOC';
 export { IconTS } from './IconTS';
 export { IconVue } from './IconVue';
-export { IconX } from './IconX';
+export { IconXSocial } from './IconXSocial';
 export { IconExternalLink } from './IconExternalLink';
 export { IconThumbsUp } from './IconThumbsUp';
 export { IconThumbsDown } from './IconThumbsDown';

@@ -64,7 +64,7 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization(allow => [allow.authenticated('iam')]),
+    .authorization(allow => [allow.authenticated('identityPool')]),
 });
 ```
 
@@ -86,7 +86,7 @@ const { errors, data: newTodo } = await client.models.Todo.create(
   },
   // highlight-start
   {
-    authMode: 'iam',
+    authMode: 'identityPool',
   }
   // highlight-end
 );

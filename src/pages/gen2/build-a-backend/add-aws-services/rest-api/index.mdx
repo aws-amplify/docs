@@ -40,8 +40,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 Lets create API Gateway REST API with AWS Lambda proxy integration using AWS CDK and add the function.
 
 ```ts title="amplify/backend.ts"
-import { myFunction } from "./functions/my-function/resource";
 import { LambdaRestApi } from "aws-cdk-lib/aws-apigateway";
+import { myFunction } from "./functions/my-function/resource";
 
 const backend = defineBackend({
   auth, 
@@ -73,8 +73,8 @@ To initialize the REST API you need to configure Amplify with `Amplify.configure
 
 ```tsx title="pages/index.tsx"
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from './src/amplifyconfiguration.json';
-Amplify.configure(amplifyconfig):
+import outputs from '../amplify_outputs.json';
+Amplify.configure(outputs):
 
 const existingConfig = Amplify.getConfig();
 

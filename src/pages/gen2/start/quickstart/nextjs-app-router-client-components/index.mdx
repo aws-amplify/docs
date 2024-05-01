@@ -48,10 +48,10 @@ Next, create a `components` folder in the root of your project and the contents 
 // components/ConfigureAmplify.tsx
 "use client";
 
-import config from "@/amplifyconfiguration.json";
+import outputs from "@/amplify_outputs.json";
 import { Amplify } from "aws-amplify";
 
-Amplify.configure(config, { ssr: true });
+Amplify.configure(outputs, { ssr: true });
 
 export default function ConfigureAmplifyClientSide() {
   return null;
