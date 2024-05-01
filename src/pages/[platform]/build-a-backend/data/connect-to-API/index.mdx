@@ -31,8 +31,8 @@ export function getStaticProps(context) {
 
 In this guide, you will connect your application code to the backend API using the Amplify Libraries. Before you begin, you will need:
 
-- your cloud sandbox with an Amplify Data resource up and running (`npx amplify sandbox`)
-- a frontend application set up with the Amplify library installed
+- Your cloud sandbox with an Amplify Data resource up and running (`npx amplify sandbox`)
+- A frontend application set up with the Amplify library installed
 - [npm installed](https://docs.npmjs.com/getting-started)
 
 ## Configure the Amplify Library
@@ -119,7 +119,7 @@ import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
-  authMode: 'iam',
+  authMode: 'identityPool',
 });
 ```
 
@@ -268,7 +268,7 @@ final userPoolResponse = await Amplify.API.query(request: userPoolRequest).respo
 
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
-  authMode: 'iam',
+  authMode: 'identityPool',
 });
 ```
 

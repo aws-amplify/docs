@@ -132,12 +132,12 @@ See the [Amazon Cognito documentation](https://docs.aws.amazon.com/cognito/lates
 After you have chosen and set up your authentication resource, run the following command to create your first authentication resource in your personal cloud sandbox.
 
 <InlineFilter filters={['flutter']}>
-```bash title="Terminal"
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --outputs-format dart --outputs-out-dir lib
 ```
 </InlineFilter>
 <InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
-```bash title="Terminal"
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
 ```
 </InlineFilter>
@@ -146,14 +146,14 @@ npx amplify sandbox
 Be sure to add a "raw" folder under app/src/main/res directory if it doesn't exist.
 </Callout>
 
-```bash title="Terminal"
-npx amplify sandbox --outputs-format=json-mobile --outputs-out-dir=app/src/main/res/raw
+```bash title="Terminal" showLineNumbers={false}
+npx amplify sandbox --outputs-format json-mobile --outputs-out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
-```bash title="Terminal"
-npx amplify sandbox --outputs-format=json-mobile
+```bash title="Terminal" showLineNumbers={false}
+npx amplify sandbox --outputs-format json-mobile
 ```
 </InlineFilter>
 
@@ -171,7 +171,7 @@ Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift
 
 First, install the `@aws-amplify/ui-react` library:
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-react
 ```
 
@@ -242,7 +242,7 @@ export default withAuthenticator(App);
 
 First, install the `@aws-amplify/ui-vue` library:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-vue
 ```
 
@@ -278,7 +278,7 @@ The `Authenticator` component offers a simple way to add authentication flows in
 
 First, install the `@aws-amplify/ui-components` library:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-components
 ```
 
@@ -321,7 +321,7 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 
 First, install the `@aws-amplify/ui-angular` library:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-angular
 ```
 
@@ -383,14 +383,14 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 First, install the `@aws-amplify/ui-react-native` library:
 
 ```sh showLineNumbers={false}
-npm install @aws-amplify/ui-react-native aws-amplify @aws-amplify/react-native react-native-safe-area-context @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
+npm add @aws-amplify/ui-react-native aws-amplify @aws-amplify/react-native react-native-safe-area-context @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
 ```
 
 <Callout info>
 If your project will support Federated Sign In using the `React Native Authenticator` the `@aws-amplify/rtn-web-browser` package is also required:
 
 ```sh showLineNumbers={false}
-npm install @aws-amplify/rtn-web-browser
+npm add @aws-amplify/rtn-web-browser
 ```
 </Callout>
 
@@ -403,7 +403,7 @@ npx pod-install
 <Callout warning>
 For calling native libraries and platform dependencies from Expo, you need to run the prebuild command for generating the folders for related platforms. 
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npx expo prebuild
 ```
 </Callout>
@@ -631,9 +631,8 @@ Add the following dependencies to your *app*'s `build.gradle` file and click "Sy
 <Block name="Kotlin DSL">
 ```kotlin
 dependencies {
-    implementation("androidx.compose.material3:material3:1.1.0")
     implementation("com.amplifyframework.ui:authenticator:1.1.0")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
 </Block>
@@ -644,10 +643,9 @@ dependencies {
   dependencies {    
     // Authenticator dependency
     implementation 'com.amplifyframework.ui:authenticator:1.1.0'
-    implementation 'androidx.compose.material3:material3:1.1.0'
     
     // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
   }
 }
 ```

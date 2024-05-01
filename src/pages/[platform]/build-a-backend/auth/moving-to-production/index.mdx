@@ -1,0 +1,83 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Moving to production',
+  description: 'Learn how to configure your auth resources for production workloads',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify Auth provisions [Amazon Cognito](https://aws.amazon.com/cognito/) resources that are provisioned with limited capabilities for sending email and SMS messages. In its default state, it is not intended to handle production workloads, but is sufficient for developing your application and associated business logic.
+
+## Email
+
+Cognito provides a [default email functionality](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-email.html#user-pool-email-default) that limits how many emails can be sent in one day. When considering production workloads, Cognito can be configured to send emails using [Amazon Simple Email Service (Amazon SES)](https://aws.amazon.com/ses/).
+
+<Callout warning>
+
+All new AWS accounts default to a "sandbox" status with Amazon SES. This comes with the primary caveat that you can only send mail **to** verified email addresses and domains
+
+</Callout>
+
+To get started with Amazon SES in production, you must first [requesting production access](https://docs.aws.amazon.com/ses/latest/dg/request-production-access.html). Once you submit your request the submission cannot be modified, however you will receive a response from AWS within 24 hours.
+
+After you have configured your account for production access and have verified your _sender_ email, you can configure your Cognito user pool to send emails using the verified sender:
+
+```ts title="amplify/backend.ts"
+import { Stack } from "aws-cdk-lib/core"
+import { EmailIdentity } from "aws-cdk-lib/aws-ses"
+import { defineBackend } from "@aws-amplify/backend"
+import { auth } from "./auth/resource"
+
+const backend = defineBackend({
+  auth,
+})
+
+const { cfnUserPool } = backend.auth.resources.cfnResources
+const authStack = Stack.of(cfnUserPool)
+
+const email = EmailIdentity.fromEmailIdentityName(
+  authStack,
+  "EmailIdentity",
+  // your email configured for use in SES
+  process.env.EMAIL
+)
+
+cfnUserPool.emailConfiguration = {
+  emailSendingAccount: "DEVELOPER",
+  sourceArn: email.emailIdentityArn,
+}
+```
+
+Now when emails are sent on new user sign-ups, password resets, etc., the sending account will be your verified email.
+
+## SMS
+
+In order to send SMS authentication codes, you must [request an origination number](https://docs.aws.amazon.com/pinpoint/latest/userguide/settings-request-number.html). Authentication codes will be sent from the origination number. If your AWS account is in the SMS sandbox, you must also add a destination phone number, which can be done by going to the [Amazon Pinpoint Console](https://console.aws.amazon.com/pinpoint/), selecting SMS and voice in the navigation pane, and selecting Add phone number in the Destination phone numbers tab. To check if your AWS account is in the SMS sandbox, go to the [SNS console](https://console.aws.amazon.com/sns/), select the Text messaging (SMS) tab from the navigation pane, and check the status under the Account information section.
+
+{/* backend example */}
+
+{/* ## Custom domain */}
+{/* ## Protect your auth domain */}
+{/* waf */}
