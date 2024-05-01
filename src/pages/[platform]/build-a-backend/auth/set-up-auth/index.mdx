@@ -353,8 +353,8 @@ const styles = StyleSheet.create({
 
 export default App;
 ```
-</InlineFilter>
 
+</InlineFilter>
 <InlineFilter filters={['flutter']}>
 
 First, install the `amplify_authenticator` library:
@@ -386,13 +386,19 @@ flutter pub get
 
 Next, update your `main.dart` file with the following:
 
+<Callout info>
+
+**Note:** when using Amplify Gen 2 with Flutter, you must downgrade the generated client configuration file (`amplify_outputs.dart`) with [`--outputs-version 0`](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs)
+
+</Callout>
+
 ```dart
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
-import 'amplify_outputs.dart';
+import 'amplifyconfiguration.dart';
 
 Future<void> main() async {
   try {
@@ -408,7 +414,7 @@ Future<void> main() async {
 Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugin(AmplifyAuthCognito());
-    await Amplify.configure(amplifyoutputs);
+    await Amplify.configure(amplifyconfig);
     safePrint('Successfully configured');
   } on Exception catch (e) {
     safePrint('Error configuring Amplify: $e');
