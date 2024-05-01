@@ -67,7 +67,7 @@ export const data = defineData({
 });
 ```
 
-Save the file and run `npx amplify sandbox` to deploy the changes to your backend cloud sandbox. For the purposes of this guide, we'll build a Real Estate Property listing application.
+Save the file and run `npx ampx sandbox` to deploy the changes to your backend cloud sandbox. For the purposes of this guide, we'll build a Real Estate Property listing application.
 
 Next, at the root of your project, add the required TanStack Query imports, and create a client:
 
@@ -949,9 +949,9 @@ export const data = defineData({
 });
 ```
 
-Save the file and run `npx amplify sandbox` to deploy the changes to your backend cloud sandbox. For the purposes of this guide, we'll build a Real Estate Property listing application.
+Save the file and run `npx ampx sandbox` to deploy the changes to your backend cloud sandbox. For the purposes of this guide, we'll build a Real Estate Property listing application.
 
-Once the backend has been provisioned, run `npx amplify generate graphql-client-code --format modelgen --model-target swift --out <path_to_swift_project>/AmplifyModels` to generate the Swift model types for the app.
+Once the backend has been provisioned, run `npx ampx generate graphql-client-code --format modelgen --model-target swift --out <path_to_swift_project>/AmplifyModels` to generate the Swift model types for the app.
 
 Next, add the Amplify(`https://github.com/aws-amplify/amplify-swift.git`) package to your Xcode project and select the following modules to import when prompted:
 
