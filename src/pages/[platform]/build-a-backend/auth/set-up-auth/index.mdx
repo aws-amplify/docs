@@ -92,7 +92,7 @@ npx ampx sandbox
 
 </InlineFilter>
 
-After a successful deployment, this command also generates a configuration file (`amplifyconfiguration.json`) to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated configuration file to automatically configure the frontend [`Authenticator connected component`](https://ui.docs.amplify.aws/react/connected-components/authenticator).
+After a successful deployment, this command also generates a configuration file (`amplify_outputs.json`) to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated configuration file to automatically configure the frontend [`Authenticator connected component`](https://ui.docs.amplify.aws/react/connected-components/authenticator).
 
 ## Connect your application code to your auth resource
 
@@ -114,10 +114,10 @@ Next, open **pages/\_app.tsx** and add the `Authenticator` component.
 import type { AppProps } from 'next/app';
 import { Authenticator } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
-import config from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 import '@aws-amplify/ui-react/styles.css';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -157,9 +157,9 @@ The `Authenticator` component offers a simple way to add authentication flows in
   import "@aws-amplify/ui-vue/styles.css";
 
   import { Amplify } from 'aws-amplify';
-  import config from '../amplifyconfiguration.json';
+  import outputs from '../amplify_outputs.json';
 
-  Amplify.configure(config);
+  Amplify.configure(outputs);
 </script>
 
 <template>
@@ -235,9 +235,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 import { AppComponent } from './app.component';
-import config from './amplifyconfiguration.json';
+import outputs from './amplify_outputs.json';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 @NgModule({
   declarations: [AppComponent],
@@ -317,13 +317,11 @@ Next, update the `App.tsx` file with the following to set up the authentication 
 ```typescript
 import React from "react";
 import { Button, View, StyleSheet, SafeAreaView } from "react-native";
-
 import { Amplify } from "aws-amplify";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
+import outputs from "./amplify_outputs.json";
 
-import amplifyconfig from "./amplifyconfiguration.json";
-
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 
 const SignOutButton = () => {
   const { signOut } = useAuthenticator();
@@ -394,7 +392,7 @@ import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
-import 'amplifyconfiguration.dart';
+import 'amplify_outputs.dart';
 
 Future<void> main() async {
   try {
@@ -410,7 +408,7 @@ Future<void> main() async {
 Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugin(AmplifyAuthCognito());
-    await Amplify.configure(amplifyConfig);
+    await Amplify.configure(amplifyoutputs);
     safePrint('Successfully configured');
   } on Exception catch (e) {
     safePrint('Error configuring Amplify: $e');
