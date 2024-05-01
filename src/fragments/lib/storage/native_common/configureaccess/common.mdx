@@ -1,3 +1,13 @@
+<InlineFilter filters={["android", "swift"]}>
+    <Callout warning>
+    The latest version of Amplify Storage supports specifying S3 objects as a paths.
+    We recommend using the new [StoragePath](/gen1/[platform]/build-a-backend/storage/storagepath/) when defining file access permissions as it offers a more flexible approach to customize access to files.
+    
+    A summary of Amplify-generated resources with associated IAM policy and path structure can be referenced [here](/gen1/[platform]/build-a-backend/storage/modify-amplify-generated-resources/#customize-amplify-generated-s3-resources).
+    
+    Note: `accessLevel` parameter is deprecated and may be removed in next major version.
+    </Callout>
+</InlineFilter>
 When adding the Storage category, you configure the level of access users have to your S3 bucket. You can configure separate rules for authenticated vs. guest users. When using the Storage category to upload files, you can also specify an access level for each individual file: guest, protected, or private.
 
 - **Guest** Accessible by all users of your application
