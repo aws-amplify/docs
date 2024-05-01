@@ -28,7 +28,7 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+<InlineFilter filters={["react", "javascript", "nextjs"]}>
 
 ## Storage Image UI Component
 
@@ -41,8 +41,7 @@ npm add @aws-amplify/ui-react-storage aws-amplify
 import { StorageImage } from '@aws-amplify/ui-react-storage';
 
 export const DefaultStorageImageExample = () => {
-  return <StorageImage alt="cat" path="guest/cat.jpg" />;
-// or <StorageImage alt="cat" path={() => "guest/cat.jpg"} />
+  return <StorageImage alt="cat" path="your-path/cat.jpg" />;
 };
 ```
 
@@ -86,14 +85,14 @@ Inside your template or JSX code, you can use the `url` property to create a lin
 
 ```tsx
 <a href={signedURL.url.toString()} target="_blank" rel="noreferrer">
-  {fileName} 
+  {fileName}
 </a>
 ```
 
 <Callout>
 
 This function does not check if the file exists by default. As result, the signed URL may fail if the file to be download does not exist.
-  
+
 </Callout>
 
 ### More `getUrl` options
@@ -447,8 +446,8 @@ You can get the value of file in any of the three formats: `blob`, `json`, or `t
 import { downloadData } from 'aws-amplify/storage';
 
 try {
-  const downloadResult = await downloadData({ 
-    path: "/album/2024/1.jpg" 
+  const downloadResult = await downloadData({
+    path: "/album/2024/1.jpg"
   }).result;
   const text = await downloadResult.body.text();
   // Alternatively, you can use `downloadResult.body.blob()`
