@@ -170,6 +170,7 @@ npx amplify sandbox --identifier feature1sandbox secret set baz
 
 The client config, or `amplifyconfiguration.json` file, contains the configuration strings for interacting with AWS resources specific to an environment. The Amplify client libraries need the client config in order to use the library APIs to connect to backend resources. By default, the cloud sandbox generates the client configuration file at the root of the project (such as `@/amplifyconfiguration.json`). If you want to place the file at a different path (such as for a monorepo or Android app), run the following command in the terminal:
 
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --outputs-out-dir path/to/config --outputs-format ["json", "dart"]
 ```
