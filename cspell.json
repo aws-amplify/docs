@@ -972,6 +972,7 @@
     "openid",
     "OpenID",
     "OpenSearch",
+    "opensearchservice",
     "openssl",
     "orderId",
     "osis",
@@ -1588,8 +1589,7 @@
     "awscliv",
     "identitystore",
     "esac",
-    "voteField",
-    "opensearchservice"
+    "voteField"
   ],
   "flagWords": [
     "hte",
