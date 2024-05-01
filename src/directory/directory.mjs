@@ -82,6 +82,32 @@ export const directory = {
                   ]
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/using-the-authenticator/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-up/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-out/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/manage-user-sessions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/manage-user-attributes/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/listen-to-auth-events/index.mdx'
+                    }
+                  ]
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/manage-users/index.mdx',
                   children: [
                     {
@@ -105,28 +131,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/managing-credentials/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-up/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-in/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-out/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/add-social-provider/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-user-session/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-user-profile/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-attributes/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/guest-access/index.mdx'
@@ -136,9 +141,6 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/delete-user-account/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/auth-events/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/sign-in-custom-flow/index.mdx'

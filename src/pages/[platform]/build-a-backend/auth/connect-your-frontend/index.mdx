@@ -2,9 +2,10 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Manage users',
-  description: 'Learn how to manage users',
-  route: '/[platform]/build-a-backend/auth/manage-users',
+  title: 'Connect your frontend',
+  description:
+    'Learn how to connect your frontend to your backend auth resource',
+  route: '/[platform]/build-a-backend/auth/connect-your-frontend',
   platforms: [
     'android',
     'angular',
@@ -31,9 +32,5 @@ export function getStaticProps() {
     }
   };
 }
-
-{/* console experience */}
-{/* admin queries/actions */}
-{/* user devices/device management */}
 
 <Overview childPageNodes={props.childPageNodes} />
