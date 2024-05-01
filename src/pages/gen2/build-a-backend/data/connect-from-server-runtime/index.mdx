@@ -75,7 +75,7 @@ import outputs from '@/amplify_outputs.json';
 import { cookies } from 'next/headers';
 
 export const cookieBasedClient = generateServerClientUsingCookies<Schema>({
-  config: amplifyConfig,
+  config: outputs,
   cookies,
 });
 ```
@@ -99,11 +99,11 @@ import { generateServerClientUsingReqRes } from '@aws-amplify/adapter-nextjs/dat
 import outputs from '@/amplify_outputs.json';
 
 export const { runWithAmplifyServerContext } = createServerRunner({
-  config: amplifyConfig,
+  config: outputs,
 });
 
 export const reqResBasedClient = generateServerClientUsingReqRes<Schema>({
-  config: amplifyConfig,
+  config: outputs,
 });
 ```
 
@@ -134,7 +134,7 @@ import outputs from '@/amplify_outputs.json';
 import { cookies } from 'next/headers';
 
 export const cookieBasedClient = generateServerClientUsingCookies<Schema>({
-  config: amplifyConfig,
+  config: outputs,
   cookies,
 });
 
