@@ -69,11 +69,12 @@ export const data = defineData({
 });
 
 ```
-
+<Callout>
 Important considerations:
 
 Ensure Point in Time Recovery (PITR) is enabled, which is crucial for the pipeline integration.
 Enable DynamoDB streams to capture item changes that will be ingested into OpenSearch.
+</Callout>
 
 ```ts title="amplify/backend.ts"
 
