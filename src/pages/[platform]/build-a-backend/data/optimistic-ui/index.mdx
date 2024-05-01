@@ -34,7 +34,7 @@ In the following examples we'll create a list view that optimistically renders n
 
 <Callout>
 
-For more details on TanStack Query, including requirements, supported browsers, and advanced usage, see the [TanStack Query documentation](https://tanstack.com/query/latest/docs/react/overview). 
+For more details on TanStack Query, including requirements, supported browsers, and advanced usage, see the [TanStack Query documentation](https://tanstack.com/query/latest/docs/react/overview).
 For complete guidance on how to implement optimistic updates with TanStack Query, see the [TanStack Query Optimistic UI Documentation](https://tanstack.com/query/latest/docs/react/guides/optimistic-updates).
 For more on the Amplify GraphQL API, see the [API documentation](/gen1/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/).
 
@@ -101,7 +101,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
 <Callout>
 
-TanStack Query Devtools are not required, but are a useful resource for debugging and understanding how TanStack works under the hood. By default, React Query Devtools are only included in bundles when `process.env.NODE_ENV === 'development'`, meaning that no additional configuration is required to exclude them from a production build. 
+TanStack Query Devtools are not required, but are a useful resource for debugging and understanding how TanStack works under the hood. By default, React Query Devtools are only included in bundles when `process.env.NODE_ENV === 'development'`, meaning that no additional configuration is required to exclude them from a production build.
 For more information on the TanStack Query Devtools, visit the [TanStack Query Devtools docs](https://tanstack.com/query/latest/docs/react/devtools)
 
 </Callout>
@@ -114,7 +114,7 @@ For the complete working example, including required imports and React component
 
 ## How to use TanStack Query query keys with the GraphQL API
 
-TanStack Query manages query caching based on the query keys you specify. A query key must be an array. The array can contain a single string or multiple strings and nested objects. The query key must be serializable, and unique to the query's data. 
+TanStack Query manages query caching based on the query keys you specify. A query key must be an array. The array can contain a single string or multiple strings and nested objects. The query key must be serializable, and unique to the query's data.
 
 When using TanStack to render optimistic UI with Amplify Data, you must use different query keys depending on the API operation. When retrieving a list of items, a single string is used (e.g. `queryKey: ["realEstateProperties"]`). This query key is also used to optimistically render a newly created item. When updating or deleting an item, the query key must also include the unique identifier for the record being deleted or updated (e.g. `queryKey: ["realEstateProperties", newRealEstateProperty.id]`).
 
@@ -144,18 +144,18 @@ function App() {
     queryKey: ["realEstateProperties"],
     queryFn: async () => {
       const response = await client.models.RealEstateProperty.list();
-  
+
       const allRealEstateProperties = response.data;
-  
+
       if (!allRealEstateProperties) return null;
-  
+
       return allRealEstateProperties;
     },
   });
   // highlight-end
   // return ...
 }
-``` 
+```
 
 ## Optimistically rendering a newly created record
 
@@ -193,7 +193,7 @@ function App() {
 
       // Optimistically update to the new value
       if (previousRealEstateProperties) {
-        queryClient.setQueryData(["realEstateProperties"], (old: Schema["RealEstateProperty"][]) => [
+        queryClient.setQueryData(["realEstateProperties"], (old: Schema["RealEstateProperty"]["type"][]) => [
           ...old,
           newRealEstateProperty,
         ]);
@@ -253,7 +253,7 @@ function App() {
   });
   // highlight-end
 }
-``` 
+```
 
 ## Optimistically render updates for a record
 
@@ -341,7 +341,7 @@ function App() {
   });
   // highlight-end
 }
-``` 
+```
 
 ## Optimistically render deleting a record
 
@@ -418,7 +418,7 @@ function App() {
   });
   // highlight-end
 }
-``` 
+```
 
 ## Loading and error states for optimistically rendered data
 
@@ -461,7 +461,7 @@ The following example demonstrates how to use the state returned by TanStack to 
     Update Address
   </button>
 </>
-``` 
+```
 
 ## Complete example
 
@@ -549,7 +549,7 @@ function App() {
 
       // Optimistically update to the new value
       if (previousRealEstateProperties) {
-        queryClient.setQueryData(["realEstateProperties"], (old: Schema["RealEstateProperty"][]) => [
+        queryClient.setQueryData(["realEstateProperties"], (old: Schema["RealEstateProperty"]["type"][]) => [
           ...old,
           newRealEstateProperty,
         ]);
@@ -955,7 +955,7 @@ Once the backend has been provisioned, run `npx amplify generate graphql-client-
 
 Next, add the Amplify(`https://github.com/aws-amplify/amplify-swift.git`) package to your Xcode project and select the following modules to import when prompted:
 
-- AWSAPIPlugin 
+- AWSAPIPlugin
 - AWSCognitoAuthPlugin
 - AWSS3StoragePlugin
 - Amplify
@@ -976,7 +976,7 @@ A Swift actor serializes access to its underlying properties. In this example, t
 
 By providing these methods through an actor object, the underlying list will be accessed serially so that the entire operation can be rolled back if needed.
 
-To create an actor object that allows optimistic UI updates, create a new file and add the following code. 
+To create an actor object that allows optimistic UI updates, create a new file and add the following code.
 
 ```swift
 import Amplify
@@ -984,18 +984,18 @@ import SwiftUI
 import Combine
 
 actor RealEstatePropertyList {
-    
+
     private var properties: [RealEstateProperty?] = [] {
         didSet {
             subject.send(properties.compactMap { $0 })
         }
     }
-    
+
     private let subject = PassthroughSubject<[RealEstateProperty], Never>()
     var publisher: AnyPublisher<[RealEstateProperty], Never> {
         subject.eraseToAnyPublisher()
     }
-    
+
     func listProperties() async throws {
         let result = try await Amplify.API.query(request: .list(RealEstateProperty.self))
         guard case .success(let propertyList) = result else {
@@ -1005,7 +1005,7 @@ actor RealEstatePropertyList {
         properties = propertyList.elements
     }
 }
-``` 
+```
 
 Calling the `listProperties()` method will perform a query with GraphQL API and store the results in the `properties` property. When this property is set, the list is sent back to the subscribers. In your UI, create a view model and subscribe to updates:
 
@@ -1013,7 +1013,7 @@ Calling the `listProperties()` method will perform a query with GraphQL API and 
 class RealEstatePropertyContainerViewModel: ObservableObject {
     @Published var properties: [RealEstateProperty] = []
     var sink: AnyCancellable?
-    
+
     var propertyList = RealEstatePropertyList()
     init() {
         Task {
@@ -1025,7 +1025,7 @@ class RealEstatePropertyContainerViewModel: ObservableObject {
             }
         }
     }
-    
+
     func loadList() {
         Task {
             try? await propertyList.listProperties()
@@ -1036,7 +1036,7 @@ class RealEstatePropertyContainerViewModel: ObservableObject {
 struct RealEstatePropertyContainerView: View {
     @StateObject var vm = RealEstatePropertyContainerViewModel()
     @State private var propertyName: String = ""
-    
+
     var body: some View {
         Text("Hello")
     }
@@ -1074,7 +1074,7 @@ func createProperty(name: String, address: String? = nil) {
         }
     }
 }
-``` 
+```
 
 ## Optimistically rendering a record update
 
@@ -1090,7 +1090,7 @@ func updateProperty(_ property: RealEstateProperty) async {
     // Optimistically update the property, for the UI to render.
     let rollbackProperty = properties[index]
     properties[index] = property
-    
+
     do {
         // Update the property record
         let result = try await Amplify.API.mutate(request: .update(property))
@@ -1104,7 +1104,7 @@ func updateProperty(_ property: RealEstateProperty) async {
         properties[index] = rollbackProperty
     }
 }
-``` 
+```
 
 ## Optimistically render deleting a record
 
@@ -1116,11 +1116,11 @@ func deleteProperty(_ property: RealEstateProperty) async {
       print("No property to remove")
       return
   }
-  
+
   // Optimistically remove the property, for the UI to render.
   let rollbackProperty = properties[index]
   properties[index] = nil
-  
+
   do {
       // Delete the property record
       let result = try await Amplify.API.mutate(request: .delete(property))
@@ -1133,14 +1133,14 @@ func deleteProperty(_ property: RealEstateProperty) async {
           // Undo the removal
           properties[index] = rollbackProperty
       }
-      
+
   } catch {
       print("Failed with error: ", error)
       // Undo the removal
       properties[index] = rollbackProperty
   }
 }
-``` 
+```
 
 ## Complete example
 
@@ -1154,7 +1154,7 @@ import AWSAPIPlugin
 
 @main
 struct OptimisticUIApp: App {
-    
+
     init() {
         do {
             Amplify.Logging.logLevel = .verbose
@@ -1165,7 +1165,7 @@ struct OptimisticUIApp: App {
             print("Failed to initialize Amplify with \(error)")
         }
     }
-    
+
     var body: some Scene {
         WindowGroup {
             RealEstatePropertyContainerView()
@@ -1193,18 +1193,18 @@ struct TappedButtonStyle: ButtonStyle {
 
 ```swift
 actor RealEstatePropertyList {
-    
+
     private var properties: [RealEstateProperty?] = [] {
         didSet {
             subject.send(properties.compactMap { $0 })
         }
     }
-    
+
     private let subject = PassthroughSubject<[RealEstateProperty], Never>()
     var publisher: AnyPublisher<[RealEstateProperty], Never> {
         subject.eraseToAnyPublisher()
     }
-    
+
     func listProperties() async throws {
         let result = try await Amplify.API.query(request: .list(RealEstateProperty.self))
         guard case .success(let propertyList) = result else {
@@ -1213,12 +1213,12 @@ actor RealEstatePropertyList {
         }
         properties = propertyList.elements
     }
-    
+
     func createProperty(name: String, address: String? = nil) {
         let property = RealEstateProperty(name: name, address: address)
         // Optimistically send the newly created property, for the UI to render.
         properties.append(property)
-        
+
         Task {
             do {
                 // Create the property record
@@ -1250,7 +1250,7 @@ actor RealEstatePropertyList {
         // Optimistically update the property, for the UI to render.
         let rollbackProperty = properties[index]
         properties[index] = property
-        
+
         do {
             // Update the property record
             let result = try await Amplify.API.mutate(request: .update(property))
@@ -1264,17 +1264,17 @@ actor RealEstatePropertyList {
             properties[index] = rollbackProperty
         }
     }
-        
+
     func deleteProperty(_ property: RealEstateProperty) async {
         guard let index = properties.firstIndex(where: { $0?.id == property.id }) else {
             print("No property to remove")
             return
         }
-        
+
         // Optimistically remove the property, for the UI to render.
         let rollbackProperty = properties[index]
         properties[index] = nil
-        
+
         do {
             // Delete the property record
             let result = try await Amplify.API.mutate(request: .delete(property))
@@ -1287,7 +1287,7 @@ actor RealEstatePropertyList {
                 // Undo the removal
                 properties[index] = rollbackProperty
             }
-            
+
         } catch {
             print("Failed with error: ", error)
             // Undo the removal
@@ -1306,7 +1306,7 @@ actor RealEstatePropertyList {
 class RealEstatePropertyContainerViewModel: ObservableObject {
     @Published var properties: [RealEstateProperty] = []
     var sink: AnyCancellable?
-    
+
     var propertyList = RealEstatePropertyList()
     init() {
         Task {
@@ -1318,7 +1318,7 @@ class RealEstatePropertyContainerViewModel: ObservableObject {
             }
         }
     }
-    
+
     func loadList() {
         Task {
             try? await propertyList.listProperties()
@@ -1329,7 +1329,7 @@ class RealEstatePropertyContainerViewModel: ObservableObject {
             await propertyList.createProperty(name: name)
         }
     }
-    
+
     func updatePropertyButtonTapped(_ property: RealEstateProperty) {
         Task {
             await propertyList.updateProperty(property)
@@ -1346,7 +1346,7 @@ class RealEstatePropertyContainerViewModel: ObservableObject {
 struct RealEstatePropertyContainerView: View {
     @StateObject var viewModel = RealEstatePropertyContainerViewModel()
     @State private var propertyName: String = ""
-    
+
     var body: some View {
         VStack {
             ScrollView {
@@ -1365,7 +1365,7 @@ struct RealEstatePropertyContainerView: View {
                                 Image(systemName: "xmark")
                                     .foregroundColor(.red)
                             }
-                            
+
                         }.padding(.horizontal)
                     }
                 }
@@ -1375,7 +1375,7 @@ struct RealEstatePropertyContainerView: View {
             TextField("New property name", text: $propertyName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .multilineTextAlignment(.center)
-            
+
             Button("Save") {
                 viewModel.createPropertyButtonTapped(name: propertyName)
                 self.propertyName = ""
