@@ -2294,13 +2294,13 @@ In the command below, replace the APP-ID with your Amplify app ID. Find this in 
 </Accordion>
 
 ```bash showLineNumbers={false}
-npx ampx generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
+npx @aws-amplify/backend-cli generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
 ```
 
 Also update your `amplify_outputs` file with the latest outputs information.
 
 ```bash showLineNumbers={false}
-npx ampx generate outputs --out-dir app/src/main/res/raw --app-id <your-amplify-app-id> --branch main
+npx @aws-amplify/backend-cli generate outputs --out-dir app/src/main/res/raw --app-id <your-amplify-app-id> --branch main
 ```
 
 
