@@ -32,11 +32,11 @@ export function getStaticProps() {
 The Storage and GraphQL API categories can be used together to associate a file, such as an image or video, with a particular record. For example, you might create a User model with a profile picture, or a Post model with an associated image. With Amplify's GraphQL API and Storage categories, you can reference the file within the model itself to create an association.
 
 
-## Step 1 - Set up the project
+## Set up the project
 
 Set up your project by following the instructions in the [Quickstart guide](/[platform]/start/quickstart/). 
 
-## Step 2 - Define the model
+## Define the model
 
 Open `amplify/data/resource.ts` and add the following model as shown below:
 
@@ -67,7 +67,7 @@ export const data = defineData({
 });
 
 ```
-## Step 3 - Setup the Storage
+## Setup the Storage
 
 Next, Let's configure Storage and allow access to all authenticated(signed in) users of your application. create a file `amplify/storage/resource.ts` and add the following code,This will restrict file access to only the signed-in user.
 
@@ -154,7 +154,6 @@ const signedURL = await getUrl({ path: updatedSong.converArtPath });
 
 ```
 
-
 ## Add or update a file for an associated record
 
 To associate a file with a record, update the record with the key returned by the Storage upload. The following example uploads the file using Storage, updates the record with the file's key, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image.
@@ -194,7 +193,6 @@ if (!updatedSong?.converArtPath) return;
 // Retrieve the file's signed URL:
 const signedURL = await getUrl({ path: updatedSong.converArtPath });
 
-
 ```
 
 ## Query a record and retrieve the associated file
@@ -221,8 +219,6 @@ if (!song?.converArtPath) return;
 
 // Retrieve the signed URL:
 const signedURL = await getUrl({ path: song.converArtPath });
-
-
 
 ```
 
@@ -262,7 +258,6 @@ const updatedSong = await client.models.Song.update({
   converArtPath: null,
 });
 
-
 ```
 ### Remove the record association and delete the file
 
@@ -293,7 +288,6 @@ const updatedSong = await client.models.Song.update({
 
 // Delete the file from S3:
 await remove({ path: song.converArtPath });
-
 
 ```
 
@@ -408,7 +402,6 @@ const signedUrls = await Promise.all(
   )
 );
 
-
 ```
 
 ### Add new files to an associated record
@@ -470,7 +463,6 @@ const signedUrls = await Promise.all(
     async (path) => await getUrl({ path: path! })
   )
 );
-
 
 ```
 
@@ -535,8 +527,6 @@ const signedUrls = await Promise.all(
   )
 );
 
-
-
 ```
 
 ### Query a record and retrieve the associated files
@@ -570,8 +560,6 @@ const signedUrls = await Promise.all(
     return await getUrl({ path: imagePath });
   })
 );
-
-
 
 ```
 
@@ -643,7 +631,6 @@ await Promise.all(
     await remove({ path: imagePath });
   })
 );
-
 
 ```
 
@@ -1481,7 +1468,6 @@ function App({ signOut, user }) {
 }
 
 export default withAuthenticator(App);
-
 
 ```
 </Block>
