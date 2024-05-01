@@ -1065,7 +1065,7 @@ You can follow the [official documentation](https://flutter.dev/docs/get-started
 
 Once you have installed Flutter, you can create a new Flutter project using the following command:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 flutter create my_amplify_app
 ```
 
@@ -1073,7 +1073,7 @@ flutter create my_amplify_app
 
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm create amplify@beta
 ? Where should we create your project? (.) # press enter
 ```
@@ -1098,7 +1098,7 @@ Running this command will scaffold Amplify backend files in your current project
 To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --config-format dart --config-out-dir lib
 ```
 
@@ -1125,7 +1125,7 @@ You will add:
 
 After adding the dependencies, you need to run the following command to install the dependencies:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 flutter pub get
 ```
 
@@ -1226,7 +1226,7 @@ Next, let's implement UI to create, list, and delete the to-do items.
 
 Amplify can automatically generate code for interacting with the backend API. Run the command in the terminal to generate dart model classes from the Data schema under `lib/models`:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --format modelgen --model-target dart --out lib/models
 ```
 
@@ -1493,7 +1493,7 @@ Now you should have your project created.
 
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 cd my-app
 npm create amplify@latest
 ? Where should we create your project? (.) # press enter
@@ -1519,7 +1519,7 @@ Running this command will scaffold Amplify backend files in your current project
 To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
 ```
 
@@ -1648,7 +1648,7 @@ Next, let's implement UI to create, list, and delete the to-do items.
 
 Amplify can automatically generate code for interacting with the backend API. The command below generates model classes from the Data schema:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --format modelgen --model-target swift
 ```
 
@@ -2247,7 +2247,7 @@ Let's update our backend to implement per-user authorization rules, allowing eac
 
 First, clone the deployed repository.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 git clone git clone https://github.com/<github-user>/amplify-backend-template.git
 ```
 The backend to-do model is configured to share data across all users, but, in most cases, you want data to be isolated on a per-user basis. 
@@ -2334,7 +2334,7 @@ Amplify now requires native modules not available through the Expo SDK. As a res
 
 </Callout>
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npx create-expo-app my_amplify_app -t expo-template-blank-typescript
 cd my_amplify_app
 ```
@@ -2342,7 +2342,7 @@ cd my_amplify_app
 <Callout warning>
 For calling native libraries and platform dependencies, you need to have run the prebuild command for generating the folders for depending platforms. 
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npx expo prebuild
 ```
 </Callout>
@@ -2351,7 +2351,7 @@ npx expo prebuild
 
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 cd my-app
 npm create amplify@latest
 ? Where should we create your project? (.) # press enter
@@ -2376,7 +2376,7 @@ Running this command will scaffold Amplify backend files in your current project
 
 To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
 ```
 
@@ -2388,13 +2388,21 @@ The fastest way to get your login experience up and running is to use our Authen
 
 To use the Authenticator, you need to add the following dependencies to your project:
 
-```sh
-npm add @aws-amplify/ui-react-native aws-amplify @aws-amplify/react-native react-native-safe-area-context @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values react-native-url-polyfill
+```bash title="Terminal" showLineNumbers={false}
+npm add \
+  @aws-amplify/ui-react-native \
+  @aws-amplify/react-native \
+  aws-amplify \
+  @react-native-community/netinfo \
+  @react-native-async-storage/async-storage \
+  react-native-safe-area-context \
+  react-native-get-random-values \
+  react-native-url-polyfill
 ```
 
 Then install the iOS cocoapods for targeting iOS by running:
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npx pod-install
 ```
 
