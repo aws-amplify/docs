@@ -36,7 +36,7 @@ Amplify Storage seamlessly integrates file storage and management capabilities i
 
 ## Building your storage backend
 
-First, create a file `amplify/storage/resource.ts`. This file will be the location where you configure your storage backend. Instantiate storage using the `defineStorage` function and providing a `name` for your storage bucket. This `name` is a friendly name to identify your bucket in your backend configuration.
+First, create a file `amplify/storage/resource.ts`. This file will be the location where you configure your storage backend. Instantiate storage using the `defineStorage` function and providing a `name` for your storage bucket. This `name` is a friendly name to identify your bucket in your backend configuration. Amplify will generate a unique identifier for your app using a UUID, the name attribute is just for use in your app.
 
 ```ts title="amplify/storage/resource.ts"
 import { defineStorage } from '@aws-amplify/backend';
@@ -63,7 +63,7 @@ defineBackend({
 
 Now when you run `npx amplify sandbox` or deploy your app with Amplify, it will configure an Amazon S3 bucket where your files will be stored. Before files can be accessed in your application, you must configure storage access rules.
 
-To get these changes to the cloud, commit them to git and push the changes upstream. Amplify's CI/CD system will automatically pick up the changes and build and deploy the updates.
+To deploy these changes, commit them to git and push the changes upstream. Amplify's CI/CD system will automatically pick up the changes and build and deploy the updates.
 
 ```bash title="Terminal" showLineNumbers={false}
 git commit -am "add storage backend"
