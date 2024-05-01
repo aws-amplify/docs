@@ -1649,7 +1649,7 @@ Next, let's implement UI to create, list, and delete the to-do items.
 Amplify can automatically generate code for interacting with the backend API. The command below generates model classes from the Data schema:
 
 ```bash
-npx amplify generate graphql-client-code --format=modelgen --model-target=swift
+npx amplify generate graphql-client-code --format modelgen --model-target swift
 ```
 
 Move the generated files to your project. You can do this by dragging and dropping the files to your project.
@@ -2071,7 +2071,7 @@ In the command below, replace the APP-ID with your Amplify app ID. Find this in 
 
 ```bash title="Terminal" showLineNumbers={false}
 cd my-android-app
-npx @aws-amplify/backend-cli graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java --app-id APP-ID --branch-name main
+npx @aws-amplify/backend-cli graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch-name main
 ```
 
 Once you are done, add the following dependencies to your project:
@@ -2296,13 +2296,13 @@ In the command below, replace the APP-ID with your Amplify app ID. Find this in 
 </Accordion>
 
 ```bash showLineNumbers={false}
-npx @aws-amplify/backend-cli generate outputs --format=modelgen --model-target=java --out=app/src/main/java --app-id APP-ID --branch-name main
+npx @aws-amplify/backend-cli generate outputs --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch-name main
 ```
 
-Also update your `amplify-outputs` file with the latest outputs information.
+Also update your `amplify_outputs` file with the latest outputs information.
 
 ```bash showLineNumbers={false}
-npx @aws-amplify/backend-cli generate config --out-dir=app/src/main/res/raw --app-id APP-ID --branch main
+npx @aws-amplify/backend-cli generate config --out-dir app/src/main/res/raw --app-id <your-amplify-app-id> --branch main
 ```
 
 
