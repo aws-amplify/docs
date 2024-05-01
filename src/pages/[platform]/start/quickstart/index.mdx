@@ -1988,7 +1988,7 @@ class MyAmplifyApp: Application() {
 
         try {
             Amplify.addPlugin(AWSCognitoAuthPlugin())
-            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs),applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
@@ -2071,7 +2071,7 @@ In the command below, replace the APP-ID with your Amplify app ID. Find this in 
 
 ```bash title="Terminal" showLineNumbers={false}
 cd my-android-app
-npx ampx generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
+npx @aws-amplify/backend-cli generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
 ```
 
 Once you are done, add the following dependencies to your project:
