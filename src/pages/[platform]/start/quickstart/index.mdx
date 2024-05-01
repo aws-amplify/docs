@@ -2170,7 +2170,6 @@ fun TodoList() {
         items(todoList) { todo ->
             Row {
                 // Render your activity item here
-                Checkbox(checked = todo.isDone, onCheckedChange = null)
                 Text(text = todo.content)
             }
         }
@@ -2230,7 +2229,6 @@ fun TodoList() {
         items(todoList) { todo ->
             Row {
                 // Render your activity item here
-                Checkbox(checked = todo.isDone, onCheckedChange = null)
                 Text(text = todo.content)
             }
         }
@@ -2249,6 +2247,8 @@ First, clone the deployed repository.
 
 ```bash title="Terminal" showLineNumbers={false}
 git clone https://github.com/<github-user>/amplify-backend-template.git
+cd amplify-backend-template
+npm install
 ```
 The backend to-do model is configured to share data across all users, but, in most cases, you want data to be isolated on a per-user basis. 
 
