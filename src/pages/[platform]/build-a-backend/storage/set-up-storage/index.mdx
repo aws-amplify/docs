@@ -28,6 +28,13 @@ export function getStaticProps(context) {
   };
 }
 
+<InlineFilter filters={['flutter']}>
+<Callout warning>
+
+Storage for Gen 2 is not yet available for Flutter
+</Callout>
+</InlineFilter>
+
 In this guide, you will learn how to set up storage in your Amplify app. This includes setting up and connecting your backend resources and enabling file uploads, downloads, and list features.
 
 If you have not yet created an Amplify app, visit the [quickstart guide](/[platform]/start/quickstart/).
@@ -61,7 +68,7 @@ defineBackend({
 });
 ```
 
-Now when you run `npx amplify sandbox` or deploy your app on Amplify, it will configure an S3 bucket where the files will be uploaded to and downloaded from.
+Now when you run `npx ampx sandbox` or deploy your app on Amplify, it will configure an S3 bucket where the files will be uploaded to and downloaded from.
 
 Before files can be accessed by your application, you must configure storage access rules.
 
@@ -140,9 +147,9 @@ Import and load the configuration file in your app. It's recommended you add the
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from './amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 ```
 <Callout warning="true">
 

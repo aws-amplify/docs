@@ -34,7 +34,7 @@ In this guide, you will learn how to set up Amplify Data. This includes building
 
 Before you begin, you will need:
 
-- [Node.js](https://nodejs.org/) v14.x or later
+- [Node.js](https://nodejs.org/) v18.16.0 or later
 - [npm](https://www.npmjs.com/) v6.14.4 or later
 - [git](https://git-scm.com/) v2.14.1 or later
 
@@ -81,7 +81,7 @@ To deploy these resources to your cloud sandbox, run the following CLI command i
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+npx ampx sandbox
 ```
 
 </InlineFilter>
@@ -89,7 +89,7 @@ npx amplify sandbox
 <InlineFilter filters={["android"]}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format json-mobile --config-out-dir app/src/main/res/raw/
+npx ampx sandbox --outputs-out-dir app/src/main/res/raw/
 ```
 
 </InlineFilter>
@@ -97,7 +97,7 @@ npx amplify sandbox --config-format json-mobile --config-out-dir app/src/main/re
 <InlineFilter filters={["swift"]}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format json-mobile --config-out-dir <path_to_swift_project>
+npx ampx sandbox --outputs-out-dir <path_to_swift_project>
 ```
 
 Drag and drop the **amplifyconfiguration.json** file into your Xcode project to add the generate file.
@@ -106,7 +106,7 @@ Drag and drop the **amplifyconfiguration.json** file into your Xcode project to 
 <InlineFilter filters={["flutter"]}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format dart --config-out-dir lib
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
 </InlineFilter>
@@ -125,8 +125,8 @@ First, install the Amplify client library to your project:
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
-```bash
-npm install aws-amplify
+```bash title="Terminal" showLineNumbers={false}
+npm add aws-amplify
 ```
 
 In your app's entry point, typically **main.tsx** for React apps created using Vite, make the following edits:
@@ -217,7 +217,7 @@ com.example.MyAmplifyApp I/MyAmplifyApp: Initialized Amplify
 Finally, let's generate the GraphQL client code for your Android application. Amplify Data uses GraphQL under the hood to make query, mutation, and subscription requests. The generated GraphQL client code helps you to author fully-typed API requests without needing to hand-author GraphQL requests and manually map them to Kotlin or Java code.
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate graphql-client-code --format modelgen --model-target java --out <path_to_app/src/main/java/>
+npx ampx generate graphql-client-code --format modelgen --model-target java --out <path_to_app/src/main/java/>
 ```
 
 </InlineFilter>
@@ -271,7 +271,7 @@ struct MyAmplifyApp: App {
 Finally, let's generate the GraphQL client code for your Swift application. Amplify Data uses GraphQL under the hood to make query, mutation, and subscription requests. The generated GraphQL client code helps you to author fully-typed API requests without needing to hand-author GraphQL requests and manually map them to Swift code.
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate graphql-client-code --format modelgen --model-target swift --out <path_to_swift_project>/AmplifyModels
+npx ampx generate graphql-client-code --format modelgen --model-target swift --out <path_to_swift_project>/AmplifyModels
 ```
 
 Drag and drop the **AmplifyModels** folder into your Xcode project to add the generated files.
@@ -304,7 +304,7 @@ flutter pub get
 Now, let's generate the GraphQL client code for your Flutter application. Amplify Data uses GraphQL under the hood to make query, mutation, and subscription requests. The generated GraphQL client code helps you to author fully-typed API requests without needing to hand-author GraphQL requests and manually map them to Dart code.
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate graphql-client-code --format modelgen --model-target dart --out <path_to_flutter_project>/lib/models
+npx ampx generate graphql-client-code --format modelgen --model-target dart --out <path_to_flutter_project>/lib/models
 ```
 
 Finally, let's add the necessary plugins into the Flutter application by customizing the `main()` function of the **lib/main.dart** file:

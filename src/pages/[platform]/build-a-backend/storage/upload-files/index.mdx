@@ -28,16 +28,23 @@ export function getStaticProps(context) {
   };
 }
 
+<InlineFilter filters={['flutter']}>
+<Callout warning>
+
+Storage for Gen 2 is not yet available for Flutter
+</Callout>
+</InlineFilter>
+
 There are multiple ways you can implement upload functionality for your app and upload files to your storage bucket.
 
-<InlineFilter filters={["angular","javascript","nextjs","react","vue","react-native"]}>
+<InlineFilter filters={["javascript","nextjs","react"]}>
 
 ## Storage Manager UI Component
 
-Upload files from your app in minutes by using the cloud-connected Storage Manager UI Component. 
+Upload files from your app in minutes by using the cloud-connected Storage Manager UI Component.
 
-```bash
-npm install @aws-amplify/ui-react-storage aws-amplify
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-amplify/ui-react-storage aws-amplify
 ```
 
 ```tsx
@@ -47,12 +54,12 @@ export const DefaultStorageManagerExample = () => {
   return (
     <StorageManager
       acceptedFileTypes={['image/*']}
-      prefix="public/"
+      path="public/"
       maxFileCount={1}
       isResumable
     />
   );
-};  
+};
 ```
 
 ![Showing Storage Manager UI component](/images/gen2/storage/upload-ui-component.png)
@@ -111,7 +118,7 @@ import { uploadData } from 'aws-amplify/storage';
 
 try {
   const result = await uploadData({
-    path: "album/2024/1.jpg", 
+    path: "album/2024/1.jpg",
     // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
     data: file,
     options: {
@@ -670,7 +677,7 @@ import { uploadData } from 'aws-amplify/storage';
 
 try {
   const result = uploadData({
-    path: "album/2024/1.jpg", 
+    path: "album/2024/1.jpg",
     // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
     data: file,
     options: {
@@ -1129,7 +1136,7 @@ Security scoped resources refer to files that are retrieved from iCloud  or othe
 
 To upload security scoped resources, you'll need to:
 1. use [startAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1779698-startaccessingsecurityscopedreso) and [stopAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1780153-stopaccessingsecurityscopedresou) to access the data within security scoped files
-2. temporarily persist the data from the security scoped files in your app's sandbox 
+2. temporarily persist the data from the security scoped files in your app's sandbox
 3. upload files using the temporary URLs
 4. delete temporarily persisted files (optional)
 ```swift
@@ -1156,7 +1163,7 @@ func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
             return nil
         }
     }
-    
+
     // 2. write the file contents to temporary files and return the URLs of the temp files
     let localFileURLs = persistTemporaryFiles(fileContents)
 

@@ -63,11 +63,11 @@ Secrets are stored in AWS Systems Manager Parameter Store under the following na
 When testing features locally, you might want to test with real secrets. You can add secrets while running the cloud sandbox with the following command:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox secret set foo
+npx ampx sandbox secret set foo
 ? Enter secret value: ###
 Done!
 
-> npx amplify sandbox secret set bar
+> npx ampx sandbox secret set bar
 ? Enter secret value: ###
 Done!
 ```
@@ -109,7 +109,7 @@ Secrets that are used in branch deployments can be managed directly in the Ampli
 To remove a secret in your local environment, run the following command in your terminal:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox secret remove foo
+npx ampx sandbox secret remove foo
 ```
 
 ## Set environment variables
