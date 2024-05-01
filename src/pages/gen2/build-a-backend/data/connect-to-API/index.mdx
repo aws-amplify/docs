@@ -32,13 +32,13 @@ npm add aws-amplify
 
 You will then configure the library to connect with your Amplify Data's backend API:
 
-When you deploy you're iterating on your backend (`npx amplify sandbox`), an `amplifyconfiguration.json` file is generated for you. This file contains your API's endpoint information and auth configurations. Add the following code to your app's entrypoint to initialize and configure the Amplify client library:
+When you deploy you're iterating on your backend (`npx amplify sandbox`), an `amplify_outputs.json` file is generated for you. This file contains your API's endpoint information and auth configurations. Add the following code to your app's entrypoint to initialize and configure the Amplify client library:
 
 ```ts
 import { Amplify } from 'aws-amplify';
-import config from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 ```
 
 ## Generate the Amplify Data client
@@ -60,7 +60,7 @@ const fetchTodos = async () => {
 
 ## Configure authorization mode
 
-The **Authorization Mode** is determines how a request should be authorized with the backend. By default, Amplify Data uses the "userPool" authorization which uses the signed-in user credentials to sign an API request. If you use public authorization rules for you data models, you need to use "apiKey" an an authorization mode. Review [Customize your auth rules](/gen2/build-a-backend/data/customize-authz) to learn more about which authorization modes to choose for which type of request. A **Default Authorization Mode** is provided as part of the **amplifyconfiguration.json** that is generated upon a successful deployment.
+The **Authorization Mode** is determines how a request should be authorized with the backend. By default, Amplify Data uses the "userPool" authorization which uses the signed-in user credentials to sign an API request. If you use public authorization rules for you data models, you need to use "apiKey" an an authorization mode. Review [Customize your auth rules](/gen2/build-a-backend/data/customize-authz) to learn more about which authorization modes to choose for which type of request. A **Default Authorization Mode** is provided as part of the **amplify_outputs.json** that is generated upon a successful deployment.
 
 You can generate different Data clients with different authorization modes or pass in the authorization mode at the request time.
 

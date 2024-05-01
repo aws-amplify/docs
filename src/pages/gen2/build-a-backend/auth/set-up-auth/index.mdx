@@ -118,7 +118,7 @@ After you have chosen and set up your authentication resource, run the following
 npx amplify sandbox
 ```
 
-After a successful deployment, this command also generates a configuration file (`amplifyconfiguration.json`) to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated configuration file to automatically configure the frontend [`Authenticator connected component`](https://ui.docs.amplify.aws/react/connected-components/authenticator).
+After a successful deployment, this command also generates an outputs file (`amplify_outputs.json`) to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated outputs file to automatically configure the frontend [`Authenticator connected component`](https://ui.docs.amplify.aws/react/connected-components/authenticator).
 
 ## Connect your application code to the auth backend
 
@@ -151,11 +151,11 @@ A higher-order component (HOC) is a function that takes a component and returns 
 import type { AppProps } from "next/app";
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
-import config from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 import '@aws-amplify/ui-react/styles.css';
 import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 function App({ signOut, user, Component, pageProps }: WithAuthenticatorProps & AppProps) {
   return (
@@ -177,10 +177,10 @@ export default withAuthenticator(App);
 // pages/_app.js
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
-import config from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 import '@aws-amplify/ui-react/styles.css';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 function App({ signOut, user }) {
   return (
@@ -218,9 +218,9 @@ The `Authenticator` component offers a simple way to add authentication flows in
   import "@aws-amplify/ui-vue/styles.css";
 
   import { Amplify } from 'aws-amplify';
-  import config from '../amplifyconfiguration.json';
+  import outputs from '../amplify_outputs.json';
 
-  Amplify.configure(config);
+  Amplify.configure(outputs);
 </script>
 
 <template>
@@ -293,9 +293,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 import { AppComponent } from './app.component';
-import config from './amplifyconfiguration.json';
+import outputs from './amplify_outputs.json';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 @NgModule({
   declarations: [AppComponent],
