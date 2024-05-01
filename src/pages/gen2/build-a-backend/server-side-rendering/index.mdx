@@ -64,7 +64,7 @@ When you use the Amplify library on the client-side of your Next.js app, you wil
 import outputs from '@/amplify_outputs.json';
 import { Amplify } from 'aws-amplify';
 
-Amplify.configure(config, {
+Amplify.configure(outputs, {
   ssr: true // required when using Amplify with Next.js
 });
 
