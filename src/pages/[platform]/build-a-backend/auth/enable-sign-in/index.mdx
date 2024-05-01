@@ -25,7 +25,7 @@ export function getStaticProps(context) {
 }
 
 <InlineFilter filters={['flutter']}>
-The Auth category can be used to register a user, confirm attributes like email and phone, and sign in with optional multi-factor authentication. It is set up to use Amazon Cognito User Pools which manages the users and their properties.
+The Auth category can be used to register a user, confirm attributes like email/phone, and sign in with optional multi-factor authentication. It is set up to use Amazon Cognito User Pools which manages the users and their properties.
 
 <Callout warning>
 When configuring Social sign-in it's important to exercise caution when designating attributes as "required." Different social identity providers have varied scopes in terms of the information they respond back to Cognito with.  User pool attributes that are initially set up as "required" cannot be changed later, and may require you to migrate the users or create a new user pool.  
@@ -231,7 +231,7 @@ export const auth = defineAuth({
 
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format dart --config-out-dir lib
+npx ampx sandbox --config-format dart --config-out-dir lib
 ```
 After you enable MFA you will also need to include MFA setup when users sign up. This will change depending on if you enable SMS, TOTP or both.
 
@@ -524,7 +524,7 @@ Be sure to add a "raw" folder under app/src/main/res directory if it doesn't exi
 </Callout>
 
 ```sh showLineNumbers={false}
-npx amplify sandbox --config-format=json-mobile --config-out-dir=app/src/main/res/raw
+npx ampx sandbox --config-format json-mobile --config-out-dir app/src/main/res/raw
 ```
 
 After you enable MFA you will also need to include MFA setup when users sign up. This will change depending on if you enable SMS, TOTP or both.
@@ -908,7 +908,7 @@ export const auth = defineAuth({
 
 
 ```sh showLineNumbers={false}
-npx amplify sandbox --config-format=json-mobile
+npx ampx sandbox --config-format json-mobile
 ```
 
 After you enable MFA you will also need to include MFA setup when users sign up. This will change depending on if you enable SMS, TOTP or both.
