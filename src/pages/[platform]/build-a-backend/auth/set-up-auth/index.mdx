@@ -62,14 +62,14 @@ After you have chosen and defined your authentication resource, run the followin
 <InlineFilter filters={['angular', 'javascript', 'nextjs', 'react', 'react-native', 'vue']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+npx ampx sandbox
 ```
 
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format dart --config-out-dir lib
+npx ampx sandbox --config-format dart --config-out-dir lib
 ```
 
 </InlineFilter>
@@ -80,14 +80,14 @@ Be sure to add a "raw" folder under `app/src/main/res` directory if it does not 
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-out-dir app/src/main/res/raw
+npx ampx sandbox --outputs-out-dir app/src/main/res/raw
 ```
 
 </InlineFilter>
 <InlineFilter filters={['swift']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+npx ampx sandbox
 ```
 
 </InlineFilter>
@@ -217,8 +217,8 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 
 </Block>
 </BlockSwitcher>
-</InlineFilter>
 
+</InlineFilter>
 <InlineFilter filters={["angular"]}>
 
 First, install the `@aws-amplify/ui-angular` library:
@@ -276,11 +276,92 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 ```
 
 </InlineFilter>
+<InlineFilter filters={['react-native']}>
+
+First, install the `@aws-amplify/ui-react-native` library:
+
+```bash title="Terminal" showLineNumbers={false}
+npm add \
+  @aws-amplify/react-native \
+  @aws-amplify/ui-react-native \
+  aws-amplify \
+  @react-native-community/netinfo \
+  @react-native-async-storage/async-storage \
+  react-native-safe-area-context \
+  react-native-get-random-values
+```
+
+<Callout info>
+If your project will support Federated Sign In using the `React Native Authenticator` the `@aws-amplify/rtn-web-browser` package is also required:
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-amplify/rtn-web-browser
+```
+</Callout>
+
+Then install the iOS cocoapods by running:
+
+```bash title="Terminal" showLineNumbers={false}
+npx pod-install
+```
+
+<Callout warning>
+For calling native libraries and platform dependencies from Expo, you need to run the prebuild command for generating the folders for related platforms. 
+
+```bash title="Terminal" showLineNumbers={false}
+npx expo prebuild
+```
+</Callout>
+Next, update the `App.tsx` file with the following to set up the authentication flow:
+
+```typescript
+import React from "react";
+import { Button, View, StyleSheet, SafeAreaView } from "react-native";
+
+import { Amplify } from "aws-amplify";
+import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
+
+import amplifyconfig from "./amplifyconfiguration.json";
+
+Amplify.configure(amplifyconfig);
+
+const SignOutButton = () => {
+  const { signOut } = useAuthenticator();
+
+  return (
+    <View style={styles.signOutButton}>
+      <Button title="Sign Out" onPress={signOut} />
+    </View>
+  );
+};
+
+const App = () => {
+  return (
+    <Authenticator.Provider>
+      <Authenticator>
+        <SafeAreaView>
+          <SignOutButton />
+        </SafeAreaView>
+      </Authenticator>
+    </Authenticator.Provider>
+  );
+};
+
+const styles = StyleSheet.create({
+  signOutButton: {
+    alignSelf: "flex-end",
+  },
+});
+
+export default App;
+```
+</InlineFilter>
+
 <InlineFilter filters={['flutter']}>
 
 First, install the `amplify_authenticator` library:
 
-```sh showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 flutter pub add amplify_flutter
 flutter pub add amplify_auth_cognito
 flutter pub add amplify_authenticator
@@ -301,7 +382,7 @@ dependencies:
 
 and run the following command to download the libraries.
 
-```sh showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 flutter pub get
 ```
 
@@ -372,7 +453,7 @@ Be sure to have compileSdk version as 34 or higher.
 
 </Callout>
 
-The Authenticator component is built using (Jetpack Compose)[https://developer.android.com/jetpack/compose]. Enable Jetpack Compose by adding the following to the android section of your app's build.gradle file:
+The Authenticator component is built using [Jetpack Compose](https://developer.android.com/jetpack/compose). Enable Jetpack Compose by adding the following to the android section of your app's `build.gradle` file:
 
 ```groovy showLineNumbers={false}
 compileOptions {
@@ -397,14 +478,12 @@ Add the following dependencies to your *app*'s `build.gradle` file and click "Sy
 
 ```kotlin
 dependencies {
-    implementation("androidx.compose.material3:material3:1.1.0")
     implementation("com.amplifyframework.ui:authenticator:1.1.0")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
 
 </Block>
-
 <Block name="Groovy">
 
 ```groovy
@@ -412,10 +491,9 @@ dependencies {
   dependencies {    
     // Authenticator dependency
     implementation 'com.amplifyframework.ui:authenticator:1.1.0'
-    implementation 'androidx.compose.material3:material3:1.1.0'
     
     // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
   }
 }
 ```
@@ -446,9 +524,9 @@ class MyAmplifyApp: Application() {
 }
 ```
 
-Lastly update your `MainActivity.kt` file to use the Amplify UI components:
+Lastly, update your MainActivity.kt file to use the Amplify UI components:
 
-```kotlin title="MainActivity.kt"
+```kotlin
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -535,13 +613,13 @@ Move the generated files to your project. You can do this by dragging and droppi
 
 Open your project in Xcode and select File > Add Packages... and add the following dependencies:
 
-- Amplify Library for Swift: Enter its (GitHub URL)[https://github.com/aws-amplify/amplify-swift], *select Up to Next Major Version* and click *Add Package*
+- Amplify Library for Swift: Enter its [GitHub URL](https://github.com/aws-amplify/amplify-swift), *select Up to Next Major Version* and click *Add Package*
 
   - Select the following libraries:
     - Amplify
     - AWSCognitoAuthPlugin
 
-- Amplify UI Swift - Authenticator: Enter its (GitHub URL)[https://github.com/aws-amplify/amplify-ui-swift-authenticator], *select Up to Next Major Version* and click *Add Package*
+- Amplify UI Swift - Authenticator: Enter its [GitHub URL](https://github.com/aws-amplify/amplify-ui-swift-authenticator), *select Up to Next Major Version* and click *Add Package*
 
   - Select the following library:
     - Authenticator
@@ -591,13 +669,7 @@ struct MyApp: App {
 
 Once you add the Authenticator component to your app, you can test the sign-up, sign-in, and sign-out functionality. You can also [customize the Authenticator connected component](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization) to adjust colors and styling as needed.
 
-## Manage users in the Amplify console
-
-Once you deploy your code to Git, you can manage users and groups for the branch environment in the Amplify console.
-
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/authentication/user-manage.mp4" />
-</video>
+{/* ## Manage users in the Amplify console */}
 
 ### Next steps
 

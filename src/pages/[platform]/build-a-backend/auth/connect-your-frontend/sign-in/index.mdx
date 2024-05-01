@@ -1,0 +1,884 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Sign-in',
+  description: 'Learn how to sign in',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify provides a client library that enables you to interact with backend resources such as Amplify Auth.
+
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+
+## Using the signIn API
+
+{/* signIn api definition */}
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
+
+```ts
+import { signIn } from 'aws-amplify/auth'
+
+await signIn({
+  username: "hello@mycompany.com",
+  password: "hunter2",
+})
+```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+```dart
+Future<void> signInUser(String username, String password) async {
+  try {
+    final result = await Amplify.Auth.signIn(
+      username: username,
+      password: password,
+    );
+    await _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error signing in: ${e.message}');
+  }
+}
+```
+
+Depending on your configuration and how the user signed up, one or more confirmations will be necessary. Use the `SignInResult` returned from `Amplify.Auth.signIn` to check the next step for signing in. When the value is `done`, the user has successfully signed in.
+
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    case AuthSignInStep.confirmSignInWithSmsMfaCode:
+      final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
+      _handleCodeDelivery(codeDeliveryDetails);
+      break;
+    case AuthSignInStep.confirmSignInWithNewPassword:
+      safePrint('Enter a new password to continue signing in');
+      break;
+    case AuthSignInStep.confirmSignInWithCustomChallenge:
+      final parameters = result.nextStep.additionalInfo;
+      final prompt = parameters['prompt']!;
+      safePrint(prompt);
+      break;
+    case AuthSignInStep.resetPassword:
+      final resetResult = await Amplify.Auth.resetPassword(
+        username: username,
+      );
+      await _handleResetPasswordResult(resetResult);
+      break;
+    case AuthSignInStep.confirmSignUp:
+      // Resend the sign up code to the registered device.
+      final resendResult = await Amplify.Auth.resendSignUpCode(
+        username: username,
+      );
+      _handleCodeDelivery(resendResult.codeDeliveryDetails);
+      break;
+    case AuthSignInStep.done:
+      safePrint('Sign in is complete');
+      break;
+  }
+}
+
+void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
+  safePrint(
+    'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
+    'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
+  );
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.signIn(
+    "username",
+    "password",
+    result -> Log.i("AuthQuickstart", result.isSignedIn() ? "Sign in succeeded" : "Sign in not complete"),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.signIn("username", "password",
+    { result ->
+        if (result.isSignedIn) {
+            Log.i("AuthQuickstart", "Sign in succeeded")
+        } else {
+            Log.i("AuthQuickstart", "Sign in not complete")
+        }
+    },
+    { Log.e("AuthQuickstart", "Failed to sign in", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.signIn("username", "password")
+    if (result.isSignedIn) {
+        Log.i("AuthQuickstart", "Sign in succeeded")
+    } else {
+        Log.e("AuthQuickstart", "Sign in not complete")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.signIn("username", "password")
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.isSignedIn() ? "Sign in succeeded" : "Sign in not complete"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func signIn(username: String, password: String) async {
+    do {
+        let signInResult = try await Amplify.Auth.signIn(
+            username: username, 
+            password: password
+            )
+        if signInResult.isSignedIn {
+            print("Sign in succeeded")
+        }
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func signIn(username: String, password: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.signIn(
+            username: username, 
+            password: password
+            )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Sign in failed \(authError)")
+        }
+    }
+    receiveValue: { signInResult in
+        if signInResult.isSignedIn {
+            print("Sign in succeeded")
+        }
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+The `signIn` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
+
+- `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED` - The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`.
+- `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE` - The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`.
+- `CONFIRM_SIGN_IN_WITH_TOTP_CODE` - The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`.
+- `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` - The TOTP setup process must be continued. Complete the process with `confirmSignIn`.
+- `CONFIRM_SIGN_IN_WITH_SMS_CODE` - The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`.
+- `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` - The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`.
+- `RESET_PASSWORD` - The user must reset their password via `resetPassword`.
+- `CONFIRM_SIGN_UP` - The user hasn't completed the sign-up flow fully and must be confirmed via `confirmSignUp`.
+- `DONE` - The sign in process has been completed.
+
+For more information on handling the TOTP and MFA steps that may be returned, see [multi-factor authentication](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/).
+
+### Confirm sign-in
+
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func confirmSignIn() async {
+    do {
+        let signInResult = try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+        print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch let error as AuthError {
+        print("Confirm sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func confirmSignIn() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+    }.sink {
+            if case let .failure(authError) = $0 {
+                print("Confirm sign in failed \(authError)")
+            }
+        }
+        receiveValue: { signInResult in
+            print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+        }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+{/* double-filter to conditionally display this section for only platforms that have examples */}
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+### Practical Example
+
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+```tsx title="src/App.tsx"
+import type { FormEvent } from "react"
+import { Amplify } from "aws-amplify"
+// highlight-next-line
+import { signIn } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+interface SignInFormElements extends HTMLFormControlsCollection {
+  email: HTMLInputElement
+  password: HTMLInputElement
+}
+
+interface SignInForm extends HTMLFormElement {
+  readonly elements: SignInFormElements
+}
+
+export default function App() {
+  async function handleSubmit(event: FormEvent<SignInForm>) {
+    event.preventDefault()
+    const form = event.currentTarget
+    // ... validate inputs
+    await signIn({
+      username: form.elements.email.value,
+      password: form.elements.password.value,
+    })
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email:</label>
+      <input type="text" id="email" name="email" />
+      <label htmlFor="password">Password:</label>
+      <input type="password" id="password" name="password" />
+      <input type="submit" />
+    </form>
+  )
+}
+```
+
+</InlineFilter>
+</InlineFilter>
+
+{/* with multi-factor auth */}
+## With multi-factor auth enabled
+
+When multi-factor authentication (MFA) is enabled in your backend auth resource, you will also need to include MFA details when users sign up. This will change depending on if you enable SMS, TOTP, or both. Visit the [multi-factor authentication documentation](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/) to learn more about enabling MFA on your backend auth resource.
+
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "my@email.com"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.phoneNumber(), "+15551234567"));
+
+Amplify.Auth.signUp(
+    "username",
+    "Password123",
+    AuthSignUpOptions.builder().userAttributes(attributes).build(),
+    result -> Log.i("AuthQuickstart", result.toString()),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val attrs = mapOf(
+    AuthUserAttributeKey.email() to "my@email.com",
+    AuthUserAttributeKey.phoneNumber() to "+15551234567"
+)
+val options = AuthSignUpOptions.builder()
+    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
+    .build()
+Amplify.Auth.signUp("username", "Password123", options,
+    { Log.i("AuthQuickstart", "Sign up result = $it") },
+    { Log.e("AuthQuickstart", "Sign up failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val attrs = mapOf(
+    AuthUserAttributeKey.email() to "my@email.com",
+    AuthUserAttributeKey.phoneNumber() to "+15551234567"
+)
+val options = AuthSignUpOptions.builder()
+    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
+    .build()
+try {
+    val result = Amplify.Auth.signUp("username", "Password123", options)
+    Log.i("AuthQuickstart", "Sign up OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign up failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "my@email.com"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.phoneNumber(), "+15551234567"));
+
+RxAmplify.Auth.signUp(
+    "username",
+    "Password123",
+    AuthSignUpOptions.builder().userAttributes(attributes).build())
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func signUp(username: String, password: String, email: String, phonenumber: String) async {
+    let userAttributes = [AuthUserAttribute(.email, value: email), AuthUserAttribute(.phoneNumber, value: phonenumber)]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+
+    do {
+        let signUpResult = try await Amplify.Auth.signUp(
+            username: username,
+            password: password,
+            options: options
+        )
+
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    } catch let error as AuthError {
+        print("An error occurred while registering a user \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func signUp(username: String, password: String, email: String, phonenumber: String) -> AnyCancellable {
+    let userAttributes = [
+        AuthUserAttribute(.email, value: email),
+        AuthUserAttribute(.phoneNumber, value: phonenumber)
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+    Amplify.Publisher.create {
+        try await Amplify.Auth.signUp(
+            username: username,
+            password: password,
+            options: options
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while registering a user \(authError)")
+        }
+    }
+    receiveValue: { signUpResult in
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    }
+    return sink
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+You will then confirm sign-up, sign in, and receive a `nextStep` in the sign-in result of type `CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE`. A confirmation code will also be texted to the phone number provided above. Pass the code you received to the `confirmSignIn` API:
+
+<InlineFilter filters={["android", "flutter", "react-native", "swift"]}>
+<Callout info>
+
+**Note:** you must call `confirmSignIn` in the same app session as you call `signIn`. If you close the app, you will need to call `signIn` again. As a result, for testing purposes, you'll at least need an input field where you can enter the code sent via SMS and pass it to `confirmSignIn`.
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.confirmSignIn(
+    "confirmation code received via SMS",
+    result -> Log.i("AuthQuickstart", result.toString()),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmSignIn("code received via SMS",
+    { Log.i("AuthQuickstart", "Confirmed signin: $it") },
+    { Log.e("AuthQuickstart", "Failed to confirm signin", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.confirmSignIn("code received via SMS")
+    Log.i("AuthQuickstart", "Confirmed signin: $result") 
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to confirm signin", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmSignIn("confirmation code received via SMS")
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func confirmSignIn() async {
+    do {
+        let signInResult = try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+        print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch let error as AuthError {
+        print("Confirm sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func confirmSignIn() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+    }.sink {
+            if case let .failure(authError) = $0 {
+                print("Confirm sign in failed \(authError)")
+            }
+        }
+        receiveValue: { signInResult in
+            print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+        }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+## Sign in with an external identity provider
+
+To sign in using an external identity provider such as Google, use the `signInWithRedirect` function.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { signInWithRedirect } from "aws-amplify/auth"
+
+signInWithRedirect({ provider: "Google" })
+```
+
+<Callout info>
+
+**Note:** if you do not pass an argument to `signInWithRedirect` it will redirect your users to the [Cognito Hosted UI](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-integration.html), which has limited support for customization.
+
+</Callout>
+
+Alternatively if you have configured OIDC or SAML-based identity providers in your auth resource, you can specify a "custom" provider in `signInWithRedirect`:
+
+
+```ts
+import { signInWithRedirect } from "aws-amplify/auth"
+
+signInWithRedirect({ provider: {
+  custom: "MyOidcProvider"
+}})
+```
+
+</InlineFilter>
+<InlineFilter filters={['react-native']}>
+
+### Install native module
+
+`signInWithRedirect` displays the sign-in UI inside a platform-dependent webview. On iOS devices, an [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) will be launched and, on Android, a [Custom Tab](https://developer.chrome.com/docs/android/custom-tabs/). After the sign-in process is complete, the sign-in UI will redirect back to your app.
+
+To enable this capability, an additional dependency must be installed.
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-amplify/rtn-web-browser
+```
+
+### Platform Setup
+
+On iOS, there are no additional setup steps.
+
+#### Android
+
+After a successful sign-in, the sign-in UI will attempt to redirect back to your application. To register the redirect URI scheme you configured above with the device, an `intent-filter` must be added to your application's `AndroidManifest.xml` file which should be located in your React Native app's `android/app/src/main` directory.
+
+Add the `intent-filter` to your application's main activity, replacing `myapp` with your redirect URI scheme as necessary.
+
+```xml title="android/app/src/main/AndroidManifest.xml"
+<application ...>
+    <activity android:name=".MainActivity" ...>
+        ...
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="myapp" />
+        </intent-filter>
+        ...
+    </activity>
+</application>
+```
+
+</InlineFilter>
+<InlineFilter filters={['flutter']}>
+### How It Works
+
+Sign-in with web UI will display the sign-in UI inside a webview. After the sign-in process is complete, the sign-in UI will redirect back to your app.
+
+### Platform Setup
+
+#### Web
+
+To use Hosted UI in your Flutter web application locally, you must run the app with the `--web-port=3000` argument (with the value being whichever port you assigned to localhost host when configuring your redirect URIs).
+
+#### Android
+
+Add the following `queries` element to the `AndroidManifest.xml` file in your app's `android/app/src/main` directory, as well as the following `intent-filter` to the `MainActivity` in the same file.
+
+Replace `myapp` with your redirect URI scheme as necessary:
+
+```xml
+<queries>
+    <intent>
+        <action android:name=
+            "android.support.customtabs.action.CustomTabsService" />
+    </intent>
+</queries>
+<application>
+  ...
+  <activity
+        android:name=".MainActivity" android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="myapp" />
+        </intent-filter>
+  </activity>
+  ...
+</application>
+```
+
+#### macOS
+
+Open XCode and enable the App Sandbox capability and then select "Incoming Connections (Server)" under "Network".
+
+![Incoming Connections setting selected in the App Sandbox section of the runner signing and capabilities tab.](/images/project-setup/flutter/mac/xcode-entitlements.png)
+
+#### iOS, Windows and Linux
+
+No specific platform configuration is required.
+
+### Launch Social Web UI Sign In
+
+You're now ready to launch sign in with your external provider's web UI.
+
+```dart
+Future<void> socialSignIn() async {
+  try {
+    final result = await Amplify.Auth.signInWithWebUI(
+      provider: AuthProvider.google,
+    );
+    safePrint('Sign in result: $result');
+  } on AuthException catch (e) {
+    safePrint('Error signing in: ${e.message}');
+  }
+}
+```
+</InlineFilter>
+<InlineFilter filters={['android']}>
+## Update AndroidManifest.xml
+
+Add the following activity and queries tag to your app's `AndroidManifest.xml` file, replacing `myapp` with
+your redirect URI prefix if necessary:
+
+```xml
+<application ...>
+  ...
+  <activity
+      android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity"
+      android:exported="true">
+      <intent-filter>
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data android:scheme="myapp" />
+      </intent-filter>
+  </activity>
+  ...
+</application>
+```
+
+## Launch Social Web UI Sign In
+
+Sweet! You're now ready to launch sign in with your social provider's web UI.
+
+For now, just add this method to the `onCreate` method of MainActivity with whatever provider you're using (shown with Facebook below):
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+// Replace facebook with your chosen auth provider such as google, amazon, or apple
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.facebook(),
+    this,
+    result -> Log.i("AuthQuickstart", result.toString()),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+// Replace facebook with your chosen auth provider such as google, amazon, or apple
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.facebook(),
+    this,
+    { Log.i("AuthQuickstart", "Sign in OK: $it") },
+    { Log.e("AuthQuickstart", "Sign in failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    // Replace facebook with your chosen auth provider such as google, amazon, or apple
+    val result = Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this)
+    Log.i("AuthQuickstart", "Sign in OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+// Replace facebook with your chosen auth provider such as google, amazon, or apple
+RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this)
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+## Update Info.plist
+
+Sign-in with web UI requires the Amplify plugin to show up the sign-in UI inside a webview. After the sign-in process is complete it will redirect back to your app. 
+You have to enable this in your app's `Info.plist`. Right click Info.plist and then choose Open As > Source Code. Add the following entry in the URL scheme:
+
+```xml
+
+ <plist version="1.0">
+
+     <dict>
+     <!-- YOUR OTHER PLIST ENTRIES HERE -->
+
+     <!-- ADD AN ENTRY TO CFBundleURLTypes for Cognito Auth -->
+     <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
+     <key>CFBundleURLTypes</key>
+     <array>
+         <dict>
+             <key>CFBundleURLSchemes</key>
+             <array>
+                 <string>myapp</string>
+             </array>
+         </dict>
+     </array>
+
+     <!-- ... -->
+     </dict>
+```
+
+When creating a new SwiftUI app using Xcode 13 no longer require configuration files such as the Info.plist. If you are missing this file, click on the project target, under Info, Url Types, and click '+' to add a new URL Type. Add `myapp` to the URL Schemes. You should see the Info.plist file now with the entry for CFBundleURLSchemes.
+
+## Launch Social Web UI Sign In
+
+Invoke the following API with the provider you're using (shown with Facebook below):
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func socialSignInWithWebUI() async {
+    do {
+        let signInResult = try await Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: self.view.window!)
+        if signInResult.isSignedIn {
+            print("Sign in succeeded")
+        }
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func socialSignInWithWebUI() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: self.view.window!)
+        }.sink {
+            if case let .failure(authError) = $0 {
+                print("Sign in failed \(authError)")
+            }
+        }
+        receiveValue: { signInResult in
+            if signInResult.isSignedIn {
+                print("Sign in succeeded")
+            }
+        }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+{/* sign-in with web UI (this is a very limited alternative to the Authenticator) */}

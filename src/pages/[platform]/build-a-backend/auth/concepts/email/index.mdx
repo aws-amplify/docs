@@ -1,0 +1,52 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Email',
+  description: 'Learn more about what Amplify Auth provisions and supports',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+By default Amplify Auth is scaffolded with `email` as the default method for user sign-in.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+})
+```
+
+This will configure an `email` attribute that is required for sign-up and cannot be changed. 
+
+{/* how to use client-side */}
+{/* callout for moving to prod */}
+
+## Next steps
+
+- [Learn how to use the `signIn` API](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/)
+- [Learn how to customize emails](/[platform]/build-a-backend/auth/customize-auth-lifecycle/email-customization/)
+- [Learn how to configure your auth resource for production workloads](/[platform]/build-a-backend/auth/moving-to-production/)

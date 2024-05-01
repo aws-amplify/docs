@@ -31,21 +31,21 @@ export function getStaticProps(context) {
 
 In this guide, you will connect your application code to the backend API using the Amplify Libraries. Before you begin, you will need:
 
-- your cloud sandbox with an Amplify Data resource up and running (`npx amplify sandbox`)
-- a frontend application set up with the Amplify library installed
+- Your cloud sandbox with an Amplify Data resource up and running (`npx ampx sandbox`)
+- A frontend application set up with the Amplify library installed
 - [npm installed](https://docs.npmjs.com/getting-started)
 
 ## Configure the Amplify Library
 
-When you deploy you're iterating on your backend (`npx amplify sandbox`), an **amplify_outputs.json** file is generated for you. This file contains your API's endpoint information and auth configurations. Add the following code to your app's entrypoint to initialize and configure the Amplify client library:
+When you deploy you're iterating on your backend (`npx ampx sandbox`), an **amplify_outputs.json** file is generated for you. This file contains your API's endpoint information and auth configurations. Add the following code to your app's entrypoint to initialize and configure the Amplify client library:
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 ```ts
 import { Amplify } from 'aws-amplify';
-import config from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 ```
 
 ## Generate the Amplify Data client
@@ -69,7 +69,7 @@ const fetchTodos = async () => {
 
 ## Configure authorization mode
 
-The **Authorization Mode** is determines how a request should be authorized with the backend. By default, Amplify Data uses the "userPool" authorization which uses the signed-in user credentials to sign an API request. If you use a `allow.publicApiKey()` authorization rules for your data models, you need to use "apiKey" an an authorization mode. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about which authorization modes to choose for which type of request. A **Default Authorization Mode** is provided as part of the **amplify_outputs.json** that is generated upon a successful deployment.
+The **Authorization Mode** determines how a request should be authorized with the backend. By default, Amplify Data uses the "userPool" authorization which uses the signed-in user credentials to sign an API request. If you use a `allow.publicApiKey()` authorization rules for your data models, you need to use "apiKey" as an authorization mode. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about which authorization modes to choose for which type of request. A **Default Authorization Mode** is provided as part of the **amplify_outputs.json** that is generated upon a successful deployment.
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
@@ -98,7 +98,7 @@ const client = generateClient<Schema>({
 </Block>
 <Block name="Amazon Cognito user pool">
 
-Use "userPool" as your authorization mode when if defined defined Amazon Cognito user pool-based authorization rules, such as `allow.authenticated()`, `allow.owner()`, `allow.ownerDefinedIn()`, `allow.groupsDefinedIn()`, or `allow.groups()`.
+Use "userPool" as your authorization mode when using Amazon Cognito user pool-based authorization rules, such as `allow.authenticated()`, `allow.owner()`, `allow.ownerDefinedIn()`, `allow.groupsDefinedIn()`, or `allow.groups()`.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
@@ -112,19 +112,20 @@ const client = generateClient<Schema>({
 </Block>
 <Block name="AWS IAM (including Amazon Cognito identity pool roles)">
 
-Use "identityPool" as your authorization mode when if defined defined Amazon Cognito identity pool-based authorization rules, such as `allow.guest()` or `allow.authenticated('identityPool')`.
+Use "identityPool" as your authorization mode when using Amazon Cognito identity pool-based authorization rules, such as `allow.guest()` or `allow.authenticated('identityPool')`.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
-  authMode: 'iam',
+  authMode: 'identityPool',
 });
 ```
 
 </Block>
 <Block name="OpenID Connect (OIDC)">
+Use "oidc" as your authorization mode when connecting applications to a trusted identity provider. Private, owner, and group authorization can be configured with an OIDC authorization mode. Review the [OIDC authorization docs](/[platform]/build-a-backend/data/customize-authz/using-oidc-authorization-provider) to learn more.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
@@ -138,7 +139,7 @@ const client = generateClient<Schema>({
 </Block>
 <Block name="Lambda Authorizer">
 
-Use "Lambda Authorizer" when you defined your own custom authorization logic via `allow.custom()`. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about how to implement your authorization protocol.
+Use "Lambda Authorizer" when using your own custom authorization logic via `allow.custom()`. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about how to implement your authorization protocol.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
@@ -267,7 +268,7 @@ final userPoolResponse = await Amplify.API.query(request: userPoolRequest).respo
 
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
-  authMode: 'iam',
+  authMode: 'identityPool',
 });
 ```
 
@@ -531,7 +532,7 @@ To specify your own headers, use the `configureClient()` configuration option on
 
 ```java
 AWSApiPlugin plugin = AWSApiPlugin.builder()
-    .configureClient("yourApiName", okHttpBuilder -> {
+    .configureClient(AWSApiPlugin.DEFAULT_GRAPHQL_API, okHttpBuilder -> {
         okHttpBuilder.addInterceptor(chain -> {
             Request originalRequest = chain.request();
             Request updatedRequest = originalRequest.newBuilder()
@@ -549,7 +550,7 @@ Amplify.addPlugin(plugin);
 
 ```kotlin
 val plugin = AWSApiPlugin.builder()
-    .configureClient("yourApiName") { okHttpBuilder ->
+    .configureClient(AWSApiPlugin.DEFAULT_GRAPHQL_API) { okHttpBuilder ->
         okHttpBuilder.addInterceptor { chain ->
             val originalRequest = chain.request()
             val updatedRequest = originalRequest.newBuilder()
@@ -567,7 +568,7 @@ Amplify.addPlugin(plugin)
 
 ```kotlin
 val plugin = AWSApiPlugin.builder()
-    .configureClient("yourApiName") { okHttpBuilder ->
+    .configureClient(AWSApiPlugin.DEFAULT_GRAPHQL_API) { okHttpBuilder ->
         okHttpBuilder.addInterceptor { chain ->
             val originalRequest = chain.request()
             val updatedRequest = originalRequest.newBuilder()
@@ -585,7 +586,7 @@ Amplify.addPlugin(plugin)
 
 ```java
 AWSApiPlugin plugin = AWSApiPlugin.builder()
-    .configureClient("yourApiName", okHttpBuilder -> {
+    .configureClient(AWSApiPlugin.DEFAULT_GRAPHQL_API, okHttpBuilder -> {
         okHttpBuilder.addInterceptor(chain -> {
             Request originalRequest = chain.request();
             Request updatedRequest = originalRequest.newBuilder()
@@ -618,7 +619,7 @@ struct CustomInterceptor: URLRequestInterceptor {
 let apiPlugin = try AWSAPIPlugin()
 try Amplify.addPlugin(apiPlugin)
 try Amplify.configure()
-try apiPlugin.add(interceptor: CustomInterceptor(), for: "yourApiName")
+try apiPlugin.add(interceptor: CustomInterceptor(), for: AWSAPIPlugin.defaultGraphQLAPI)
 ```
 
 </InlineFilter>

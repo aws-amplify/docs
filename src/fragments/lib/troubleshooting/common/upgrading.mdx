@@ -272,7 +272,7 @@ As of v6 of Amplify, you will now import the functional API’s directly from th
     ```ts
     import { signIn, signOut } from 'aws-amplify/auth';
 
-    async function signIn({ username, password }) {
+    async function handleSignIn({ username, password }) {
       try {
         const { isSignedIn, nextStep } = await signIn({ username, password });
       } catch (error) {
