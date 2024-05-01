@@ -52,9 +52,10 @@ export const handler: APIGatewayProxyHandler = async (event) => {
   console.log("event", event);
   return {
     statusCode: 200,
+    // Modify the CORS settings below to match your specific requirements
     headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Origin": "*", // Restrict this to domains you trust
+      "Access-Control-Allow-Headers": "*", // Specify only the headers you need to allow
     },
     body: JSON.stringify("Hello from myFunction!"),
   };
@@ -92,9 +93,9 @@ const myRestApi = new RestApi(apiStack, "RestApi", {
   restApiName: "myRestApi",
   deploy: true,
   defaultCorsPreflightOptions: {
-    allowOrigins: Cors.ALL_ORIGINS,
-    allowMethods: Cors.ALL_METHODS,
-    allowHeaders: Cors.DEFAULT_HEADERS,
+    allowOrigins: Cors.ALL_ORIGINS, // Restrict this to domains you trust
+    allowMethods: Cors.ALL_METHODS, // Specify only the methods you need to allow
+    allowHeaders: Cors.DEFAULT_HEADERS, // Specify only the headers you need to allow
   },
 });
 
@@ -190,9 +191,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   console.log("event", event);
   return {
     statusCode: 200,
+    // Modify the CORS settings below to match your specific requirements
     headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Origin": "*", // Restrict this to domains you trust
+      "Access-Control-Allow-Headers": "*", // Specify only the headers you need to allow
     },
     body: JSON.stringify("Hello from myFunction!"),
   };
@@ -251,13 +253,16 @@ const httpApi = new HttpApi(apiStack, "HttpApi", {
   apiName: "myHttpApi",
   defaultAuthorizer: iamAuthorizer,
   corsPreflight: {
+    // Modify the CORS settings below to match your specific requirements
     allowMethods: [
       CorsHttpMethod.GET,
       CorsHttpMethod.POST,
       CorsHttpMethod.PUT,
       CorsHttpMethod.DELETE,
     ],
+    // Restrict this to domains you trust
     allowOrigins: ["*"],
+    // Specify only the headers you need to allow
     allowHeaders: ["*"],
   },
   createDefaultStage: true,
