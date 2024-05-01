@@ -172,13 +172,13 @@ The client config, or `amplify_outputs.json` file, contains the configuration st
 
 <InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --outputs-out-dir path/to/config --outputs-format ["json", "dart"]
+npx amplify sandbox --outputs-out-dir ./path/to/config --outputs-format ["json", "dart"]
 ```
 
 Alternatively, if you want to generate the config for a branch environment to test against, run the following command in the terminal.
 
 ```bash
-npx amplify generate config --app-id <AMPLIFY_APP_ID> --branch main --format ["mjs", "json", "json-mobile", "ts", "dart"] out-dir ./path/to/config
+npx amplify generate outputs --app-id <your-amplify-app-id> --branch main --format ["json", "dart"] out-dir ./path/to/config
 ```
 </InlineFilter>
 

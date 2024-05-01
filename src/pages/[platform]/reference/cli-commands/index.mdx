@@ -90,12 +90,12 @@ For mobile applications, you will need to set the output directory and format of
 
 ```bash title="Terminal" showLineNumbers={false}
 # for Android
-amplify sandbox --outputs-format json-mobile --outputs-out-dir app/src/main/res
+amplify sandbox --outputs-out-dir app/src/main/res
 ```
 
 ```bash title="Terminal" showLineNumbers={false}
 # for Swift/iOS
-amplify sandbox --outputs-format json-mobile
+amplify sandbox
 ```
 
 ```bash title="Terminal" showLineNumbers={false}
@@ -218,7 +218,7 @@ In addition to the required options noted in [`amplify generate`](#amplify-gener
 As mentioned above, you can specify a team member's cloud sandbox CloudFormation stack:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b
+npx amplify generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b
 ```
 
 #### Use with mobile applications
@@ -226,7 +226,7 @@ npx amplify generate config --stack amplify-nextamplifygen2-josef-sandbox-ca85e1
 Similar to `sandbox`, you can specify an alternate configuration file format by using `--format`:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b --format json-mobile
+npx amplify generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b
 ```
 
 ## npx amplify generate graphql-client-code
