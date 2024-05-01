@@ -46,25 +46,39 @@ describe('Accordion', () => {
     expect(bodyText).toBeInTheDocument();
   });
 
-  it('should expand Accordion when heading is clicked', async () => {
+  it('should toggle Accordion when heading is clicked', async () => {
     render(component);
     const accordionHeading = screen.getByText('Accordion component example');
+    const detailsEl = await screen.getByRole('group');
+    const text = await screen.getByText(content);
     userEvent.click(accordionHeading);
 
     await waitFor(() => {
-      expect(screen.getByText(content)).toBeInTheDocument();
-      expect(screen.getByText(content)).toBeVisible();
+      expect(text).toBeVisible();
+      expect(detailsEl).toHaveAttribute('open');
+    });
+
+    userEvent.click(accordionHeading);
+    await waitFor(() => {
+      expect(text).not.toBeVisible();
+      expect(detailsEl).not.toHaveAttribute('open');
     });
   });
 
   it('should collapse Accordion when close button is clicked', async () => {
     render(component);
-    await screen.getByText(content);
+    const accordionHeading = screen.getByText('Accordion component example');
+    userEvent.click(accordionHeading);
+    const detailsEl = await screen.getByRole('group');
+    expect(detailsEl).toHaveAttribute('open');
+
+    const text = await screen.getByText(content);
     const closeButton = screen.getByRole('button');
     userEvent.click(closeButton);
 
     await waitFor(() => {
-      expect(screen.getByText(content)).not.toBeVisible();
+      expect(text).not.toBeVisible();
+      expect(detailsEl).not.toHaveAttribute('open');
     });
   });
 
