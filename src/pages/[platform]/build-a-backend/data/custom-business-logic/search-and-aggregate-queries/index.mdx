@@ -115,22 +115,33 @@ Create an OpenSearch instance with encryption.
 import { defineBackend } from "@aws-amplify/backend";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
-import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+// highlight-start
 import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
-import * as osis from "aws-cdk-lib/aws-osis";
-import * as s3 from "aws-cdk-lib/aws-s3";
-import * as iam from "aws-cdk-lib/aws-iam";
-import * as logs from "aws-cdk-lib/aws-logs";
-import { RemovalPolicy } from "aws-cdk-lib";
 import {  Stack } from "aws-cdk-lib";
+// highlight-end
 
+const todoTable =
+  backend.data.resources.cfnResources.amplifyDynamoDbTables["Todo"];
 
+// Update table settings
+todoTable.pointInTimeRecoveryEnabled = true;
+
+todoTable.streamSpecification = {
+  streamViewType: dynamodb.StreamViewType.NEW_IMAGE,
+};
+
+// Get the DynamoDB table ARN
+const tableArn = backend.data.resources.tables["Todo"].tableArn;
+// Get the DynamoDB table name
+const tableName = backend.data.resources.tables["Todo"].tableName;
+
+// highlight-start
 // Get the data stack
-const openSearchStack = Stack.of(backend.data);
+const dataStack = Stack.of(backend.data);
 
 // Create the OpenSearch domain
 const openSearchDomain = new opensearch.Domain(
-  openSearchStack,
+  dataStack,
   "OpenSearchDomain",
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
@@ -140,6 +151,7 @@ const openSearchDomain = new opensearch.Domain(
     },
   }
 );
+// highlight-end
 
 ```
 
@@ -151,21 +163,7 @@ Generate a file named `amplify/storage/resource.ts` and insert the provided cont
 
 
 ```ts title="amplify/storage/resource.ts"
-import { defineStorage } from "@aws-amplify/backend"
 
-export const storage = defineStorage({
-  name: "opensearch-backup-bucket-amplify-gen-2-test",
-  access: allow => ({
-    'public/*': [
-      allow.guest.to(['list', 'write', 'get'])
-    ]
-  })
-})
-
-```
-Retrieve the `s3BucketArn` and `s3BucketName` values from the storage resource as demonstrated below. Additionally, set up an IAM role for the pipeline and allocate the roles as specified. For additional details on the necessary IAM roles, please consult the [Setting up roles and users documentation](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline-security-overview.html#pipeline-security-create).
-
-```ts title="amplify/storage/resource.ts"
 import { defineStorage } from "@aws-amplify/backend"
 
 export const storage = defineStorage({
@@ -186,16 +184,14 @@ import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
-
-import * as osis from "aws-cdk-lib/aws-osis";
-import * as iam from "aws-cdk-lib/aws-iam";
-import * as logs from "aws-cdk-lib/aws-logs";
-import { RemovalPolicy } from "aws-cdk-lib";
-
 import { Stack } from "aws-cdk-lib";
+
 //highlight-start  
 import { storage } from "./storage/resource";
+import * as osis from "aws-cdk-lib/aws-osis";
+import * as iam from "aws-cdk-lib/aws-iam";
 //highlight-end  
+
 // Define backend resources
 const backend = defineBackend({
   auth,
@@ -205,18 +201,48 @@ const backend = defineBackend({
   //highlight-end  
 });
 
+onst todoTable =
+  backend.data.resources.cfnResources.amplifyDynamoDbTables["Todo"];
 
+// Update table settings
+todoTable.pointInTimeRecoveryEnabled = true;
+
+todoTable.streamSpecification = {
+  streamViewType: dynamodb.StreamViewType.NEW_IMAGE,
+};
+
+// Get the DynamoDB table ARN
+const tableArn = backend.data.resources.tables["Todo"].tableArn;
+// Get the DynamoDB table name
+const tableName = backend.data.resources.tables["Todo"].tableName;
+
+// Get the data stack
+const dataStack = Stack.of(backend.data);
+
+// Create the OpenSearch domain
+const openSearchDomain = new opensearch.Domain(
+  dataStack,
+  "OpenSearchDomain",
+  {
+    version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    nodeToNodeEncryption: true,
+    encryptionAtRest: {
+      enabled: true,
+    },
+  }
+);
+// highlight-start
 // Get the S3Bucket ARN
 const s3BucketArn = backend.storage.resources.bucket.bucketArn;
 // Get the S3Bucket Name
 const s3BucketName = backend.storage.resources.bucket.bucketName;
 
 //Get the region
-const region = openSearchStack.region;
+const region = dataStack.region;
 
 // Create an IAM role for OpenSearch integration
 const openSearchIntegrationPipelineRole = new iam.Role(
-  openSearchStack,
+  dataStack,
   "OpenSearchIntegrationPipelineRole",
   {
     assumedBy: new iam.ServicePrincipal("osis-pipelines.amazonaws.com"),
@@ -272,7 +298,7 @@ const openSearchIntegrationPipelineRole = new iam.Role(
     ],
   }
 );
-
+//highlight-end
 ```
 For the S3 bucket, follow standard security practices: block public access, encrypt data at rest, and enable versioning.
 
@@ -425,9 +451,9 @@ const osDataSource = backend.data.addOpenSearchDataSource(
 ```
 ### Step 4b: Create Resolver and attach to query
 
-Let's create the search resolver. Create a new file named `amplify/data/searchBlogResolver.ts` and paste the following code. For additional details please refer to [Amazon OpenSearch Service Resolvers](https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-elasticsearch-resolvers-js.html)
+Let's create the search resolver. Create a new file named `amplify/data/searchTodoResolver.js` and paste the following code. For additional details please refer to [Amazon OpenSearch Service Resolvers](https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-elasticsearch-resolvers-js.html)
 
-```ts title="amplify/data/searchBlogResolver.ts"
+```ts title="amplify/data/searchTodoResolver.js"
 
 import { util } from "@aws-appsync/utils";
 
@@ -482,7 +508,7 @@ const schema = a.schema({
     .authorization((allow) => [allow.publicApiKey()])
     .handler(
       a.handler.custom({
-        entry: "./searchBlogResolver.js",
+        entry: "./searchTodoResolver.js",
         dataSource: "osDataSource",
       })
     ),
