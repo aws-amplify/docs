@@ -210,9 +210,9 @@ export const storage = defineStorage({
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point.
 ``` ts title="main.tsx"
 import { Amplify } from "aws-amplify";
-import config from "../amplify_outputs.json";
+import outputs from "../amplify_outputs.json";
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 ```
 ### Invoke the API
 
