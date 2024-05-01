@@ -130,13 +130,13 @@ Now move the `amplifyconfiguration.json` file you downloaded above to the root o
 ```text
 ├── amplify
 ├── src
-├── amplify-outputs.json <== backend outputs file
+├── amplify_outputs.json <== backend outputs file
 ├── package.json
 └── tsconfig.json
 ```
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
 </Accordion>
 
 ### 5. Implement delete functionality
@@ -302,7 +302,7 @@ To start your cloud sandbox, run the following command in a **new Terminal windo
 npx amplify sandbox
 ```
 
-Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
+Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify_outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
