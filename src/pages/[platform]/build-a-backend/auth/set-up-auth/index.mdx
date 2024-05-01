@@ -631,9 +631,8 @@ Add the following dependencies to your *app*'s `build.gradle` file and click "Sy
 <Block name="Kotlin DSL">
 ```kotlin
 dependencies {
-    implementation("androidx.compose.material3:material3:1.1.0")
     implementation("com.amplifyframework.ui:authenticator:1.1.0")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
 </Block>
@@ -644,10 +643,9 @@ dependencies {
   dependencies {    
     // Authenticator dependency
     implementation 'com.amplifyframework.ui:authenticator:1.1.0'
-    implementation 'androidx.compose.material3:material3:1.1.0'
     
     // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
   }
 }
 ```

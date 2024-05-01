@@ -137,18 +137,18 @@ git clone https://github.com/<github-user>/amplify-vite-react-template.git
 cd amplify-vite-react-template && npm install
 ```
 
-Now move the `amplify-outputs.json` file you downloaded above to the root of your project.
+Now move the `amplify_outputs.json` file you downloaded above to the root of your project.
 
 ```text
 ├── amplify
 ├── src
-├── amplify-outputs.json <== backend outputs file
+├── amplify_outputs.json <== backend outputs file
 ├── package.json
 └── tsconfig.json
 ```
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
 </Accordion>
 
 
@@ -274,7 +274,7 @@ To start your cloud sandbox, run the following command in a **new Terminal windo
 npx amplify sandbox
 ```
 
-Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
+Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify_outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
@@ -474,18 +474,18 @@ git clone https://github.com/<github-user>/amplify-vue-template.git
 cd amplify-vue-template && npm install
 ```
 
-Now move the `amplify-output.json` file you downloaded above to the root of your project.
+Now move the `amplify_outputs.json` file you downloaded above to the root of your project.
 
 ```text
 ├── amplify
 ├── src
-├── amplify-outputs.json <== backend outputs file
+├── amplify_outputs.json <== backend outputs file
 ├── package.json
 └── tsconfig.json
 ```
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
 </Accordion>
 
 
@@ -618,7 +618,7 @@ To start your cloud sandbox, run the following command in a **new Terminal windo
 npx amplify sandbox
 ```
 
-Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
+Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify_outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
@@ -807,18 +807,18 @@ git clone https://github.com/<github-user>/amplify-vite-react-template.git
 cd amplify-vite-react-template && npm install
 ```
 
-Now move the `amplify-output.json` file you downloaded above to the root of your project.
+Now move the `amplify_outputs.json` file you downloaded above to the root of your project.
 
 ```text
 ├── amplify
 ├── src
-├── amplify-outputs.json <== backend outputs file
+├── amplify_outputs.json <== backend outputs file
 ├── package.json
 └── tsconfig.json
 ```
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
 </Accordion>
 
 
@@ -966,7 +966,7 @@ To start your cloud sandbox, run the following command in a **new Terminal windo
 npx amplify sandbox
 ```
 
-Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
+Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify_outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
@@ -1523,7 +1523,7 @@ To deploy your backend use Amplify's per-developer cloud sandbox. This feature p
 npx amplify sandbox
 ```
 
-Once the sandbox environment is deployed, it will create an `amplify-outputs.json`. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+Once the sandbox environment is deployed, it will create an `amplify_outputs.json`. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
@@ -1945,21 +1945,21 @@ In **Select a Project Template**, select **Empty Activity** or **Empty Compose A
 
 </Accordion>
 
-On the **Deployed backend resources**, choose **Download outputs file** to download the `amplify-output.json` file that contains identifiers for all the deployed backend resources.
+On the **Deployed backend resources**, choose **Download outputs file** to download the `amplify_outputs.json` file that contains identifiers for all the deployed backend resources.
 
 ![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
 
-Now move the `amplify-output.json` file you downloaded above to `app/src/main/res/raw` in your Android project. You will now be able to connect to this backend.
+Now move the `amplify_outputs.json` file you downloaded above to `app/src/main/res/raw` in your Android project. You will now be able to connect to this backend.
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend. 
 </Accordion>
 
 
 ### 5. Implement login UI
 
-The deployed backend application already has a pre-configured auth backend defined in the `amplify/auth/resource.ts` file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
+The deployed backend application already has a pre-configured auth backend defined in the `amplify/auth/resource.ts` file.
 
 The fastest way to get your login experience up and running is to use our Authenticator UI component. To use the Authenticator UI component, you need to add the following dependencies to your app/build.gradle file:
 
@@ -1967,9 +1967,8 @@ The fastest way to get your login experience up and running is to use our Authen
 
 ```kotlin title="app/build.gradle"
 dependencies {
-    implementation("androidx.compose.material3:material3:1.1.0")
-    implementation("com.amplifyframework.ui:authenticator:1.1.0")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    implementation("com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
 
@@ -2071,7 +2070,7 @@ In the command below, replace the APP-ID with your Amplify app ID. Find this in 
 
 ```bash title="Terminal" showLineNumbers={false}
 cd my-android-app
-npx @aws-amplify/backend-cli graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch-name main
+npx @aws-amplify/backend-cli generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
 ```
 
 Once you are done, add the following dependencies to your project:
@@ -2080,8 +2079,7 @@ Once you are done, add the following dependencies to your project:
 dependencies {
     // Amplify API dependencies
     // highlight-start
-    implementation("com.amplifyframework:aws-api:2.14.11")
-    implementation("com.amplifyframework:core:2.14.11")
+    implementation("com.amplifyframework:aws-api:ANDROID_VERSION")
     // highlight-end
     // ... other dependencies
 }
@@ -2296,7 +2294,7 @@ In the command below, replace the APP-ID with your Amplify app ID. Find this in 
 </Accordion>
 
 ```bash showLineNumbers={false}
-npx @aws-amplify/backend-cli generate outputs --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch-name main
+npx @aws-amplify/backend-cli generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
 ```
 
 Also update your `amplify_outputs` file with the latest outputs information.
