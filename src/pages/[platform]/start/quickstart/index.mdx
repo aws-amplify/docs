@@ -1988,7 +1988,7 @@ class MyAmplifyApp: Application() {
 
         try {
             Amplify.addPlugin(AWSCognitoAuthPlugin())
-            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs),applicationContext)
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
