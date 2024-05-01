@@ -382,21 +382,28 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 
 First, install the `@aws-amplify/ui-react-native` library:
 
-```sh showLineNumbers={false}
-npm add @aws-amplify/ui-react-native aws-amplify @aws-amplify/react-native react-native-safe-area-context @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
+```bash title="Terminal" showLineNumbers={false}
+npm add \
+  @aws-amplify/react-native \
+  @aws-amplify/ui-react-native \
+  aws-amplify \
+  @react-native-community/netinfo \
+  @react-native-async-storage/async-storage \
+  react-native-safe-area-context \
+  react-native-get-random-values
 ```
 
 <Callout info>
 If your project will support Federated Sign In using the `React Native Authenticator` the `@aws-amplify/rtn-web-browser` package is also required:
 
-```sh showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/rtn-web-browser
 ```
 </Callout>
 
 Then install the iOS cocoapods by running:
 
-```sh showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx pod-install
 ```
 
@@ -456,7 +463,7 @@ export default App;
 
 First, install the `amplify_authenticator` library:
 
-```sh showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 flutter pub add amplify_flutter
 flutter pub add amplify_auth_cognito
 flutter pub add amplify_authenticator
@@ -477,7 +484,7 @@ dependencies:
 
 and run the following command to download the libraries.
 
-```sh showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 flutter pub get
 ```
 
