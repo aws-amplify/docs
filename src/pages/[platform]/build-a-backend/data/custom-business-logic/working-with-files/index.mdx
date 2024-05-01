@@ -48,7 +48,7 @@ const schema = a.schema({
     .model({
       id: a.id().required(),
       name: a.string().required(),
-      converArtKey: a.string(),
+      converArtPath: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });
@@ -78,7 +78,7 @@ import { defineStorage } from "@aws-amplify/backend";
 export const storage = defineStorage({
   name: "amplify-gen2-files",
   access: (allow) => ({
-    "public/*": [allow.authenticated.to(["read", "write", "delete"])],
+    "images/*": [allow.authenticated.to(["read", "write", "delete"])],
   }),
 });
 
@@ -107,60 +107,50 @@ The API record's `id` is prepended to the Storage file name to ensure uniqueness
 </Callout>
 
 ```ts title="src/App.tsx"
-import "./App.css";
+
 import { generateClient } from "aws-amplify/api";
 import { uploadData, getUrl } from "aws-amplify/storage";
-import React, { useState } from "react";
-
 import type { Schema } from "../amplify/data/resource";
 
 // Generating the client
-const client = generateClient<Schema>();
+const client = generateClient<Schema>({
+  authMode: "apiKey",
+});
 
-async function createSongWithImage(e: React.ChangeEvent<HTMLInputElement>) {
-    if (!e.target.files) return;
+// Create the API record:
+const response = await client.models.Song.create({
+  name: `My first song`,
+});
 
-    const file = e.target.files[0];
+const song = response.data;
 
-    try {
-      // Create the API record:
-      const response = await client.models.Song.create({
-        name: `My first song`,
-      });
+if (!song) return;
 
-      const song = response.data;
+// Upload the Storage file:
+const result = await uploadData({
+  path: `images/${song.id}-${file.name}`,
+  data: file,
+  options: {
+    contentType: "image/png", // contentType is optional
+  },
+}).result;
 
-      if (!song) return;
+// Add the file association to the record:
+const updateResponse = await client.models.Song.update({
+  id: song.id,
+  converArtPath: result?.path,
+});
 
-      // Upload the Storage file:
-      const result = await uploadData({
-        key: `${song.id}-${file.name}`,
-        data: file,
-        options: {
-          contentType: "image/png", // contentType is optional
-        },
-      }).result;
+const updatedSong = updateResponse.data;
 
-      // Add the file association to the record:
-      const updateResponse = await client.models.Song.update({
-        id: song.id,
-        converArtKey: result?.key,
-      });
+setCurrentSong(updatedSong);
 
-      const updatedSong = updateResponse.data;
+// If the record has no associated file, we can return early.
+if (!updatedSong.converArtPath) return;
 
-      setCurrentSong(updatedSong);
+// Retrieve the file's signed URL:
+const signedURL = await getUrl({ path: updatedSong.converArtPath });
 
-      // If the record has no associated file, we can return early.
-      if (!updatedSong.converArtKey) return;
-
-      // Retrieve the file's signed URL:
-      const signedURL = await getUrl({ key: updatedSong.converArtKey });
-      setCurrentImageUrl(signedURL.url.toString());
-    } catch (error) {
-      console.error("Error create song / file:", error);
-    }
-  }
 
 ```
 
@@ -170,46 +160,40 @@ async function createSongWithImage(e: React.ChangeEvent<HTMLInputElement>) {
 To associate a file with a record, update the record with the key returned by the Storage upload. The following example uploads the file using Storage, updates the record with the file's key, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image.
 
 ```ts title="src/App.tsx"
+import { generateClient } from "aws-amplify/api";
+import { uploadData, getUrl } from "aws-amplify/storage";
+import type { Schema } from "../amplify/data/resource";
 
-// Upload image, add to song, retrieve signed URL and retrieve the image.
-  // Also updates image if one already exists.
-  async function addNewImageToSong(e: React.ChangeEvent<HTMLInputElement>) {
-    if (!currentSong) return;
+// Generating the client
+const client = generateClient<Schema>({
+  authMode: "apiKey",
+});
 
-    if (!e.target.files) return;
+// Upload the Storage file:
+const result = await uploadData({
+  path: `images/${currentSong.id}-${file.name}`,
+  data: file,
+  options: {
+    contentType: "image/png", // contentType is optional
+  },
+}).result;
 
-    const file = e.target.files[0];
+// Add the file association to the record:
+const response = await client.models.Song.update({
+  id: currentSong.id,
+  converArtPath: result?.path,
+});
 
-    try {
-      // Upload the Storage file:
-      const result = await uploadData({
-        key: `${currentSong.id}-${file.name}`,
-        data: file,
-        options: {
-          contentType: "image/png", // contentType is optional
-        },
-      }).result;
+const updatedSong = response.data;
 
-      // Add the file association to the record:
-      const response = await client.models.Song.update({
-        id: currentSong.id,
-        converArtKey: result?.key,
-      });
+setCurrentSong(updatedSong);
 
-      const updatedSong = response.data;
+// If the record has no associated file, we can return early.
+if (!updatedSong?.converArtPath) return;
 
-      setCurrentSong(updatedSong);
+// Retrieve the file's signed URL:
+const signedURL = await getUrl({ path: updatedSong.converArtPath });
 
-      // If the record has no associated file, we can return early.
-      if (!updatedSong?.converArtKey) return;
-
-      // Retrieve the file's signed URL:
-      const signedURL = await getUrl({ key: updatedSong.converArtKey });
-      setCurrentImageUrl(signedURL.url.toString());
-    } catch (error) {
-      console.error("Error uploading image / adding image to song: ", error);
-    }
-  }
 
 ```
 
@@ -218,28 +202,27 @@ To associate a file with a record, update the record with the key returned by th
 To retrieve the file associated with a record, first query the record, then use Storage to get the signed URL. The signed URL can then be used to download the file, display an image, etc:
 
 ```ts title="src/App.tsx"
+import { generateClient } from "aws-amplify/api";
+import { getUrl } from "aws-amplify/storage";
+import type { Schema } from "../amplify/data/resource";
 
-  async function getImageForCurrentSong() {
-    if (!currentSong) return;
-    try {
-      // Query the record to get the file key:
+// Generating the client
+const client = generateClient<Schema>({
+  authMode: "apiKey",
+});
 
-      const response = await client.models.Song.get({
-        id: currentSong.id,
-      });
-      const song = response.data;
+const response = await client.models.Song.get({
+  id: currentSong.id,
+});
+const song = response.data;
 
-      // If the record has no associated file, we can return early.
-      if (!song?.converArtKey) return;
+// If the record has no associated file, we can return early.
+if (!song?.converArtPath) return;
 
-      // Retrieve the signed URL:
-      const signedURL = await getUrl({ key: song.converArtKey });
+// Retrieve the signed URL:
+const signedURL = await getUrl({ path: song.converArtPath });
 
-      setCurrentImageUrl(signedURL.url.toString());
-    } catch (error) {
-      console.error("Error getting song / image:", error);
-    }
-  }
+
 
 ```
 
@@ -257,31 +240,27 @@ The following example removes the file association from the record, but does not
 
 ```ts title="src/App.tsx"
 
-async function removeImageFromSong() {
-    if (!currentSong) return;
+import { generateClient } from "aws-amplify/api";
+import type { Schema } from "../amplify/data/resource";
 
-    try {
-      const response = await client.models.Song.get({
-        id: currentSong.id,
-      });
+// Generating the client
+const client = generateClient<Schema>({
+  authMode: "apiKey",
+});
 
-      const song = response.data;
+const response = await client.models.Song.get({
+  id: currentSong.id,
+});
 
-      // If the record has no associated file, we can return early.
-      if (!song?.converArtKey) return;
+const song = response.data;
 
-      const updatedSong = await client.models.Song.update({
-        id: song.id,
-        converArtKey: null,
-      });
+// If the record has no associated file, we can return early.
+if (!song?.converArtPath) return;
 
-      // If successful, the response here will be `null`:
-      setCurrentSong(updatedSong.data);
-      setCurrentImageUrl(updatedSong.data?.converArtKey);
-    } catch (error) {
-      console.error("Error removing image from song: ", error);
-    }
-  }
+const updatedSong = await client.models.Song.update({
+  id: song.id,
+  converArtPath: null,
+});
 
 
 ```
@@ -290,64 +269,58 @@ async function removeImageFromSong() {
 The following example removes the file from the record, then deletes the file from S3:
 
 ```ts title="src/App.tsx"
+import { generateClient } from "aws-amplify/api";
+import { remove } from "aws-amplify/storage";
+import type { Schema } from "../amplify/data/resource";
 
-async function deleteImageForCurrentSong() {
-    if (!currentSong) return;
+// Generating the client
+const client = generateClient<Schema>({
+  authMode: "apiKey",
+});
+const response = await client.models.Song.get({
+  id: currentSong.id,
+});
+const song = response?.data;
 
-    try {
-      const response = await client.models.Song.get({
-        id: currentSong.id,
-      });
-      const song = response?.data;
+// If the record has no associated file, we can return early.
+if (!song?.converArtPath) return;
 
-      // If the record has no associated file, we can return early.
-      if (!song?.converArtKey) return;
+// Remove associated file from record
+const updatedSong = await client.models.Song.update({
+  id: song.id,
+  converArtPath: null,
+});
 
-      // Remove associated file from record
-      const updatedSong = await client.models.Song.update({
-        id: song.id,
-        converArtKey: null,
-      });
+// Delete the file from S3:
+await remove({ path: song.converArtPath });
 
-      // Delete the file from S3:
-      await remove({ key: song.converArtKey });
-
-      // If successful, the response here will be `null`:
-      setCurrentSong(updatedSong.data);
-      setCurrentImageUrl(updatedSong.data?.converArtKey);
-    } catch (error) {
-      console.error("Error deleting image: ", error);
-    }
-  }
 
 ```
 
 ### Delete both file and record
 
 ```ts title="src/App.tsx"
-async function deleteCurrentSongAndImage() {
-    if (!currentSong) return;
+import { generateClient } from "aws-amplify/api";
+import { remove } from "aws-amplify/storage";
+import type { Schema } from "../amplify/data/resource";
 
-    try {
-      const response = await client.models.Song.get({
-        id: currentSong.id,
-      });
+// Generating the client
+const client = generateClient<Schema>({
+  authMode: "apiKey",
+});
+const response = await client.models.Song.get({
+  id: currentSong.id,
+});
 
-      const song = response.data;
+const song = response.data;
 
-      // If the record has no associated file, we can return early.
-      if (!song?.converArtKey) return;
+// If the record has no associated file, we can return early.
+if (!song?.converArtPath) return;
 
-      await remove({ key: song.converArtKey });
+await remove({ path: song.converArtPath });
 
-      // Delete the record from the API:
-      await client.models.Song.delete({ id: song.id });
-      clearLocalState();
-    } catch (error) {
-      console.error("Error deleting song: ", error);
-    }
-  }
-
+// Delete the record from the API:
+await client.models.Song.delete({ id: song.id });
 
 ```
 
@@ -360,15 +333,15 @@ You may want to add multiple files to a single record, such as a user profile wi
 Add the following model in `amplify/data/resource.ts" file.
 
 ```ts title="amplify/data/resource.ts"
-
-PhotoAlbum: a
+const schema = a.schema({
+  PhotoAlbum: a
     .model({
       id: a.id().required(),
       name: a.string().required(),
-      imageKeys: a.string().array(),
+      imagePaths: a.string().array(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
-
+});
 ```
 
 CRUD operations when working with multiple files is the same as when working with a single file, with the exception that we are now working with a list of image keys, as opposed to a single image key.
@@ -380,77 +353,61 @@ First create a record via the GraphQL API, then upload the files to Storage, and
 ```ts title="src/App.tsx"
 
 import { generateClient } from "aws-amplify/api";
-import { uploadData, getUrl, remove } from "aws-amplify/storage";
-import React, { useState } from "react";
+import { uploadData, getUrl } from "aws-amplify/storage";
 import type { Schema } from "../amplify/data/resource";
 
-// Generate the client
+// Generating the client
 const client = generateClient<Schema>({
   authMode: "apiKey",
 });
 
-// State to hold the recognized text
-  const [currentPhotoAlbum, setCurrentPhotoAlbum] = useState<PhotoAlbum | null>(
-    null
-  );
+// Create the API record:
+const response = await client.models.PhotoAlbum.create({
+  name: `My first photoAlbum`,
+});
 
-  // Used to display images for current photoAlbum:
-  const [currentImages, setCurrentImages] = useState<
-    (string | null | undefined)[] | null | undefined
-  >([]);
+const photoAlbum = response.data.createPhotoAlbum;
 
+if (!photoAlbum) return;
 
-async function createPhotoAlbumWithFirstImage(
-    e: React.ChangeEvent<HTMLInputElement>
-  ) {
-    if (!e.target.files) return;
+// Upload all files to Storage:
+const imagePaths = await Promise.all(
+  Array.from(e.target.files).map(async (file) => {
+    const result = await uploadData({
+      path: `images/${photoAlbum.id}-${file.name}`,
+      data: file,
+      options: {
+        contentType: "image/png", // contentType is optional
+      },
+    }).result;
 
-    const file = e.target.files[0];
+    return result.path;
+  })
+);
 
-    try {
-      // Create the API record:
-      const response = await client.models.PhotoAlbum.create({
-        name: `My first photoAlbum`,
-      });
+const updatePhotoAlbumDetails = {
+  id: photoAlbum.id,
+  imagePaths: imagePaths,
+};
 
-      const photoAlbum = response.data;
+// Add the file association to the record:
+const updateResponse = await client.graphql({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: updatePhotoAlbumDetails },
+});
 
-      if (!photoAlbum) return;
+const updatedPhotoAlbum = updateResponse.data.updatePhotoAlbum;
 
-      // Upload the Storage file:
-      const result = await uploadData({
-        key: `${photoAlbum.id}-${file.name}`,
-        data: file,
-        options: {
-          contentType: "image/png", // contentType is optional
-        },
-      }).result;
+// If the record has no associated file, we can return early.
+if (!updatedPhotoAlbum.imageKeys?.length) return;
 
-      const updatePhotoAlbumDetails = {
-        id: photoAlbum.id,
-        imageKeys: [result.key],
-      };
+// Retrieve signed urls for all files:
+const signedUrls = await Promise.all(
+  updatedPhotoAlbum?.imagePaths.map(
+    async (path) => await getUrl({ path: path! })
+  )
+);
 
-      // Add the file association to the record:
-      const updateResponse = await client.models.PhotoAlbum.update({
-        id: photoAlbum.id,
-        imageKeys: [result.key],
-      });
-
-      const updatedPhotoAlbum = updateResponse.data;
-
-      setCurrentPhotoAlbum(updatedPhotoAlbum);
-
-      // If the record has no associated file, we can return early.
-      if (!updatedPhotoAlbum.imageKeys?.length) return;
-
-      // Retrieve the file's signed URL:
-      const signedURL = await getUrl({ key: updatedPhotoAlbum.imageKeys[0]! });
-      setCurrentImages([signedURL.url.toString()]);
-    } catch (error) {
-      console.error("Error create photoAlbum / file:", error);
-    }
-  }
 
 ```
 
@@ -460,57 +417,60 @@ To associate additional files with a record, update the record with the keys ret
 
 ```ts title="src/App.tsx"
 
-  async function createPhotoAlbumWithFirstImage(
-    e: React.ChangeEvent<HTMLInputElement>
-  ) {
-    if (!e.target.files) return;
+import { generateClient } from "aws-amplify/api";
+import { uploadData, getUrl } from "aws-amplify/storage";
+import type { Schema } from "../amplify/data/resource";
 
-    const file = e.target.files[0];
+// Generating the client
+const client = generateClient<Schema>({
+  authMode: "apiKey",
+});
 
-    try {
-      // Create the API record:
-      const response = await client.models.PhotoAlbum.create({
-        name: `My first photoAlbum`,
-      });
+// Upload all files to Storage:
+const newimagePaths = await Promise.all(
+  Array.from(e.target.files).map(async (file) => {
+    const result = await uploadData({
+      path: `images/${currentPhotoAlbum.id}-${file.name}`,
+      data: file,
+      options: {
+        contentType: "image/png", // contentType is optional
+      },
+    }).result;
 
-      const photoAlbum = response.data;
+    return result.path;
+  })
+);
 
-      if (!photoAlbum) return;
+// Query existing record to retrieve currently associated files:
+const queriedResponse = await client.models.PhotoAlbum.get({
+  id: currentPhotoAlbum.id,
+});
 
-      // Upload the Storage file:
-      const result = await uploadData({
-        key: `${photoAlbum.id}-${file.name}`,
-        data: file,
-        options: {
-          contentType: "image/png", // contentType is optional
-        },
-      }).result;
+const photoAlbum = queriedResponse.data;
 
-      const updatePhotoAlbumDetails = {
-        id: photoAlbum.id,
-        imageKeys: [result.key],
-      };
+if (!photoAlbum?.imagePaths) return;
 
-      // Add the file association to the record:
-      const updateResponse = await client.models.PhotoAlbum.update({
-        id: photoAlbum.id,
-        imageKeys: [result.key],
-      });
+// Merge existing and new file paths:
+const updatedimagePaths = [...newimagePaths, ...photoAlbum.imagePaths];
 
-      const updatedPhotoAlbum = updateResponse.data;
+// Update record with merged file associations:
+const response = await client.models.PhotoAlbum.update({
+  id: currentPhotoAlbum.id,
+  imagePaths: updatedimagePaths,
+});
 
-      setCurrentPhotoAlbum(updatedPhotoAlbum);
+const updatedPhotoAlbum = response.data;
 
-      // If the record has no associated file, we can return early.
-      if (!updatedPhotoAlbum.imageKeys?.length) return;
+// If the record has no associated file, we can return early.
+if (!updatedPhotoAlbum?.imageKeys) return;
 
-      // Retrieve the file's signed URL:
-      const signedURL = await getUrl({ key: updatedPhotoAlbum.imageKeys[0]! });
-      setCurrentImages([signedURL.url.toString()]);
-    } catch (error) {
-      console.error("Error create photoAlbum / file:", error);
-    }
-  }
+// Retrieve signed urls for merged image paths:
+const signedUrls = await Promise.all(
+  updatedPhotoAlbum?.imagePaths.map(
+    async (path) => await getUrl({ path: path! })
+  )
+);
+
 
 ```
 
@@ -519,73 +479,62 @@ To associate additional files with a record, update the record with the keys ret
 Updating a file for an associated record is the same as updating a file for a single file record, with the exception that you will need to update the list of file keys.
 
 ```ts title="src/App.tsx"
-async function updateLastImage(e: React.ChangeEvent<HTMLInputElement>) {
-    if (!currentPhotoAlbum) return;
+import { generateClient } from "aws-amplify/api";
+import { uploadData, getUrl } from "aws-amplify/storage";
+import type { Schema } from "../amplify/data/resource";
 
-    if (!e.target.files) return;
+// Generating the client
+const client = generateClient<Schema>({
+  authMode: "apiKey",
+});
 
-    const file = e.target.files[0];
+// Upload new file to Storage:
+const result = await uploadData({
+  path: `images/${currentPhotoAlbum.id}-${file.name}`,
+  data: file,
+  options: {
+    contentType: "image/png", // contentType is optional
+  },
+}).result;
 
-    try {
-      // Upload new file to Storage:
-      const result = await uploadData({
-        key: `${currentPhotoAlbum.id}-${file.name}`,
-        data: file,
-        options: {
-          contentType: "image/png", // contentType is optional
-        },
-      }).result;
+const newFilePath = result.path;
 
-      const newFileKey = result.key;
+// Query existing record to retrieve currently associated files:
+const queriedResponse = await client.models.PhotoAlbum.get({
+  id: currentPhotoAlbum.id,
+});
 
-      // Query existing record to retrieve currently associated files:
-      const queriedResponse = await client.models.PhotoAlbum.get({
-        id: currentPhotoAlbum.id,
-      });
+const photoAlbum = queriedResponse.data;
 
-      const photoAlbum = queriedResponse.data;
+if (!photoAlbum?.imagePaths?.length) return;
 
-      if (!photoAlbum?.imageKeys?.length) return;
+// Retrieve last image path:
+const [lastImagePath] = photoAlbum.imagePaths.slice(-1);
 
-      // Retrieve last image key:
-      const [lastImageKey] = photoAlbum.imageKeys.slice(-1);
+// Remove last file association by key
+const updatedimagePaths = [
+  ...photoAlbum.imagePaths.filter((key) => key !== lastImagePath),
+  newFilePath,
+];
 
-      // Remove last file association by key
-      const updatedImageKeys = [
-        ...photoAlbum.imageKeys.filter((key) => key !== lastImageKey),
-        newFileKey,
-      ];
+// Update record with updated file associations:
+const response = await client.models.PhotoAlbum.update({
+  id: currentPhotoAlbum.id,
+  imagePaths: updatedimagePaths,
+});
 
-      // Update record with updated file associations:
-      const response = await client.models.PhotoAlbum.update({
-        id: currentPhotoAlbum.id,
-        imageKeys: updatedImageKeys,
-      });
+const updatedPhotoAlbum = response.data;
 
-      const updatedPhotoAlbum = response.data;
+// If the record has no associated file, we can return early.
+if (!updatedPhotoAlbum?.imagePaths) return;
 
-      setCurrentPhotoAlbum(updatedPhotoAlbum);
+// Retrieve signed urls for merged image paths:
+const signedUrls = await Promise.all(
+  updatedPhotoAlbum?.imagePaths.map(
+    async (path) => await getUrl({ path: path! })
+  )
+);
 
-      // If the record has no associated file, we can return early.
-      if (!updatedPhotoAlbum?.imageKeys) return;
-
-      // Retrieve signed urls for merged image keys:
-      const signedUrls = await Promise.all(
-        updatedPhotoAlbum?.imageKeys.map(
-          async (key) => await getUrl({ key: key! })
-        )
-      );
-
-      if (!signedUrls) return;
-
-      setCurrentImages(signedUrls.map((signedUrl) => signedUrl.url.toString()));
-    } catch (error) {
-      console.error(
-        "Error uploading image / adding image to photoAlbum: ",
-        error
-      );
-    }
-  }
 
 
 ```
@@ -596,34 +545,32 @@ To retrieve the files associated with a record, first query the record, then use
 
 ```ts title="src/App.tsx"
 async function getImagesForPhotoAlbum() {
-    if (!currentPhotoAlbum) {
-      return;
-    }
-    try {
-      // Query the record to get the file keys:
-      const response = await client.models.PhotoAlbum.get({
-        id: currentPhotoAlbum.id,
-      });
-      const photoAlbum = response.data;
+import { generateClient } from "aws-amplify/api";
+import { uploadData, getUrl } from "aws-amplify/storage";
+import type { Schema } from "../amplify/data/resource";
 
-      // If the record has no associated files, we can return early.
-      if (!photoAlbum?.imageKeys) return;
+// Generating the client
+const client = generateClient<Schema>({
+  authMode: "apiKey",
+});
 
-      // Retrieve the signed URLs for the associated images:
-      const signedUrls = await Promise.all(
-        photoAlbum.imageKeys.map(async (imageKey) => {
-          if (!imageKey) return;
-          return await getUrl({ key: imageKey });
-        })
-      );
+// Query the record to get the file paths:
+const response = await client.models.PhotoAlbum.get({
+  id: currentPhotoAlbum.id,
+});
+const photoAlbum = response.data;
 
-      setCurrentImages(
-        signedUrls.map((signedUrl) => signedUrl?.url.toString())
-      );
-    } catch (error) {
-      console.error("Error getting photoAlbum / image:", error);
-    }
-  }
+// If the record has no associated files, we can return early.
+if (!photoAlbum?.imagePaths) return;
+
+// Retrieve the signed URLs for the associated images:
+const signedUrls = await Promise.all(
+  photoAlbum.imagePaths.map(async (imagePath) => {
+    if (!imagePath) return;
+    return await getUrl({ path: imagePath });
+  })
+);
+
 
 
 ```
@@ -635,74 +582,67 @@ The workflow for deleting and removing files associated with API records is the 
 #### Remove the file association, continue to persist both files and record
 
 ```ts title="src/App.tsx"
- async function removeImagesFromPhotoAlbum() {
-    if (!currentPhotoAlbum) return;
 
-    try {
-      const response = await client.models.PhotoAlbum.get({
-        id: currentPhotoAlbum.id,
-      });
+import { generateClient } from "aws-amplify/api";
+import type { Schema } from "../amplify/data/resource";
 
-      const photoAlbum = response.data;
+// Generating the client
+const client = generateClient<Schema>({
+  authMode: "apiKey",
+});
 
-      // If the record has no associated file, we can return early.
-      if (!photoAlbum?.imageKeys) return;
+const response = await client.models.PhotoAlbum.get({
+  id: currentPhotoAlbum.id,
+});
 
-      const updatedPhotoAlbum = await client.models.PhotoAlbum.update({
-        id: photoAlbum.id,
-        imageKeys: null,
-      });
+const photoAlbum = response.data;
 
-      // If successful, the response here will be `null`:
-      setCurrentPhotoAlbum(updatedPhotoAlbum.data);
-      setCurrentImages(updatedPhotoAlbum.data?.imageKeys);
-    } catch (error) {
-      console.error("Error removing image from photoAlbum: ", error);
-    }
-  }
+// If the record has no associated file, we can return early.
+if (!photoAlbum?.imagePaths) return;
 
+const updatedPhotoAlbum = await client.models.PhotoAlbum.update({
+  id: photoAlbum.id,
+  imagePaths: null,
+});
 
 ```
 
 #### Remove the record association and delete the files
 
 ```ts title="src/App.tsx"
- async function deleteImagesForCurrentPhotoAlbum() {
-    if (!currentPhotoAlbum) return;
+import { generateClient } from "aws-amplify/api";
+import { remove } from "aws-amplify/storage";
+import type { Schema } from "../amplify/data/resource";
 
-    try {
-      const response = await client.models.PhotoAlbum.get({
-        id: currentPhotoAlbum.id,
-      });
+// Generating the client
+const client = generateClient<Schema>({
+  authMode: "apiKey",
+});
 
-      const photoAlbum = response.data;
+const response = await client.models.PhotoAlbum.get({
+  id: currentPhotoAlbum.id,
+});
 
-      // If the record has no associated files, we can return early.
-      if (!photoAlbum?.imageKeys) return;
+const photoAlbum = response.data;
 
-      // Remove associated files from record
-      const updateResponse = await client.models.PhotoAlbum.update({
-        id: photoAlbum.id,
-        imageKeys: null, // Set the file association to `null`
-      });
+// If the record has no associated files, we can return early.
+if (!photoAlbum?.imagePaths) return;
 
-      const updatedPhotoAlbum = updateResponse.data;
+// Remove associated files from record
+const updateResponse = await client.models.PhotoAlbum.update({
+  id: photoAlbum.id,
+  imagePaths: null, // Set the file association to `null`
+});
 
-      // Delete the files from S3:
-      await Promise.all(
-        photoAlbum?.imageKeys.map(async (imageKey) => {
-          if (!imageKey) return;
-          await remove({ key: imageKey });
-        })
-      );
+const updatedPhotoAlbum = updateResponse.data;
 
-      // If successful, the response here will be `null`:
-      setCurrentPhotoAlbum(updatedPhotoAlbum);
-      setCurrentImages(null);
-    } catch (error) {
-      console.error("Error deleting image: ", error);
-    }
-  }
+// Delete the files from S3:
+await Promise.all(
+  photoAlbum?.imagePaths.map(async (imagePath) => {
+    if (!imagePath) return;
+    await remove({ path: imagePath });
+  })
+);
 
 
 ```
@@ -711,39 +651,38 @@ The workflow for deleting and removing files associated with API records is the 
 
 ```ts title="src/App.tsx"
 
-  async function deleteCurrentPhotoAlbumAndImages() {
-    if (!currentPhotoAlbum) return;
+import { generateClient } from "aws-amplify/api";
+import { remove } from "aws-amplify/storage";
+import type { Schema } from "../amplify/data/resource";
 
-    try {
-      const response = await client.models.PhotoAlbum.get({
-        id: currentPhotoAlbum.id,
-      });
+// Generating the client
+const client = generateClient<Schema>({
+  authMode: "apiKey",
+});
 
-      const photoAlbum = response.data;
+const response = await client.models.PhotoAlbum.get({
+  id: currentPhotoAlbum.id,
+});
 
-      if (!photoAlbum) return;
+const photoAlbum = response.data;
 
-      await client.models.PhotoAlbum.delete({
-        id: photoAlbum.id,
-      });
+if (!photoAlbum) return;
 
-      setCurrentPhotoAlbum(null);
+await client.models.PhotoAlbum.delete({
+  id: photoAlbum.id,
+});
 
-      // If the record has no associated file, we can return early.
-      if (!photoAlbum?.imageKeys) return;
+setCurrentPhotoAlbum(null);
 
-      await Promise.all(
-        photoAlbum?.imageKeys.map(async (imageKey) => {
-          if (!imageKey) return;
-          await remove({ key: imageKey });
-        })
-      );
+// If the record has no associated file, we can return early.
+if (!photoAlbum?.imagePaths) return;
 
-      clearLocalState();
-    } catch (error) {
-      console.error("Error deleting photoAlbum: ", error);
-    }
-  }
+await Promise.all(
+  photoAlbum?.imagePaths.map(async (imagePath) => {
+    if (!imagePath) return;
+    await remove({ path: imagePath });
+  })
+);
 
 ```
 
@@ -761,22 +700,22 @@ It is important to understand when these mismatches can occur and to add meaning
 <Block name="Single File (TS)">
 
 ```ts title="src/App.tsx"
+
 import "./App.css";
 import { generateClient } from "aws-amplify/api";
 import { uploadData, getUrl, remove } from "aws-amplify/storage";
 import React, { useState } from "react";
-
 import type { Schema } from "../amplify/data/resource";
+import "@aws-amplify/ui-react/styles.css";
+import { withAuthenticator } from "@aws-amplify/ui-react";
+
 
 // Generating the client
 const client = generateClient<Schema>({
-  authMode: "iam",
+  authMode: "apiKey",
 });
 
-function App() {
-  // State to hold the recognized text
-  const [textData, setTextData] = useState([]);
-
+function App({ signOut, user }) {
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
 
   // Used to display image for current song:
@@ -801,7 +740,7 @@ function App() {
 
       // Upload the Storage file:
       const result = await uploadData({
-        key: `${song.id}-${file.name}`,
+        path: `images/${song.id}-${file.name}`,
         data: file,
         options: {
           contentType: "image/png", // contentType is optional
@@ -811,7 +750,7 @@ function App() {
       // Add the file association to the record:
       const updateResponse = await client.models.Song.update({
         id: song.id,
-        converArtKey: result?.key,
+        converArtPath: result?.path,
       });
 
       const updatedSong = updateResponse.data;
@@ -819,10 +758,10 @@ function App() {
       setCurrentSong(updatedSong);
 
       // If the record has no associated file, we can return early.
-      if (!updatedSong.converArtKey) return;
+      if (!updatedSong.converArtPath) return;
 
       // Retrieve the file's signed URL:
-      const signedURL = await getUrl({ key: updatedSong.converArtKey });
+      const signedURL = await getUrl({ path: updatedSong.converArtPath });
       setCurrentImageUrl(signedURL.url.toString());
     } catch (error) {
       console.error("Error create song / file:", error);
@@ -841,7 +780,7 @@ function App() {
     try {
       // Upload the Storage file:
       const result = await uploadData({
-        key: `${currentSong.id}-${file.name}`,
+        path: `images/${currentSong.id}-${file.name}`,
         data: file,
         options: {
           contentType: "image/png", // contentType is optional
@@ -851,7 +790,7 @@ function App() {
       // Add the file association to the record:
       const response = await client.models.Song.update({
         id: currentSong.id,
-        converArtKey: result?.key,
+        converArtPath: result?.path,
       });
 
       const updatedSong = response.data;
@@ -859,10 +798,10 @@ function App() {
       setCurrentSong(updatedSong);
 
       // If the record has no associated file, we can return early.
-      if (!updatedSong?.converArtKey) return;
+      if (!updatedSong?.converArtPath) return;
 
       // Retrieve the file's signed URL:
-      const signedURL = await getUrl({ key: updatedSong.converArtKey });
+      const signedURL = await getUrl({ path: updatedSong.converArtPath });
       setCurrentImageUrl(signedURL.url.toString());
     } catch (error) {
       console.error("Error uploading image / adding image to song: ", error);
@@ -872,7 +811,7 @@ function App() {
   async function getImageForCurrentSong() {
     if (!currentSong) return;
     try {
-      // Query the record to get the file key:
+      // Query the record to get the file path:
 
       const response = await client.models.Song.get({
         id: currentSong.id,
@@ -880,10 +819,10 @@ function App() {
       const song = response.data;
 
       // If the record has no associated file, we can return early.
-      if (!song?.converArtKey) return;
+      if (!song?.converArtPath) return;
 
       // Retrieve the signed URL:
-      const signedURL = await getUrl({ key: song.converArtKey });
+      const signedURL = await getUrl({ path: song.converArtPath });
 
       setCurrentImageUrl(signedURL.url.toString());
     } catch (error) {
@@ -903,16 +842,16 @@ function App() {
       const song = response.data;
 
       // If the record has no associated file, we can return early.
-      if (!song?.converArtKey) return;
+      if (!song?.converArtPath) return;
 
       const updatedSong = await client.models.Song.update({
         id: song.id,
-        converArtKey: null,
+        converArtPath: null,
       });
 
       // If successful, the response here will be `null`:
       setCurrentSong(updatedSong.data);
-      setCurrentImageUrl(updatedSong.data?.converArtKey);
+      setCurrentImageUrl(updatedSong.data?.converArtPath);
     } catch (error) {
       console.error("Error removing image from song: ", error);
     }
@@ -929,20 +868,20 @@ function App() {
       const song = response?.data;
 
       // If the record has no associated file, we can return early.
-      if (!song?.converArtKey) return;
+      if (!song?.converArtPath) return;
 
       // Remove associated file from record
       const updatedSong = await client.models.Song.update({
         id: song.id,
-        converArtKey: null,
+        converArtPath: null,
       });
 
       // Delete the file from S3:
-      await remove({ key: song.converArtKey });
+      await remove({ path: song.converArtPath });
 
       // If successful, the response here will be `null`:
       setCurrentSong(updatedSong.data);
-      setCurrentImageUrl(updatedSong.data?.converArtKey);
+      setCurrentImageUrl(updatedSong.data?.converArtPath);
     } catch (error) {
       console.error("Error deleting image: ", error);
     }
@@ -960,9 +899,9 @@ function App() {
       const song = response.data;
 
       // If the record has no associated file, we can return early.
-      if (!song?.converArtKey) return;
+      if (!song?.converArtPath) return;
 
-      await remove({ key: song.converArtKey });
+      await remove({ path: song.converArtPath });
 
       // Delete the record from the API:
       await client.models.Song.delete({ id: song.id });
@@ -978,48 +917,55 @@ function App() {
   }
 
   return (
-    <div>
-      <label>
-        <h2>{`Current Song: ${currentSong?.id}`}</h2>
-        Create song with file:
-        <input id="name" type="file" onChange={createSongWithImage} />
-      </label>
-      <label>
-        Add / update song image:
-        <input
-          id="name"
-          type="file"
-          onChange={addNewImageToSong}
-          disabled={!currentSong}
-        />
-      </label>
-      <button
-        onClick={getImageForCurrentSong}
-        disabled={!currentSong || !currentImageUrl}
-      >
-        Get image for current song
-      </button>
-      <button
-        onClick={removeImageFromSong}
-        disabled={!currentSong || !currentImageUrl}
-      >
-        Remove image from current song (does not delete image)
-      </button>
-      <button
-        onClick={deleteImageForCurrentSong}
-        disabled={!currentSong || !currentImageUrl}
-      >
-        Remove image from current song, then delete image
-      </button>
-      <button onClick={deleteCurrentSongAndImage} disabled={!currentSong}>
-        Delete current song (and image, if it exists)
-      </button>
-    </div>
+    <>
+      <h1>Hello {user?.username}</h1>
+      <button onClick={signOut}>Sign out</button>
+
+      <div>
+        <label>
+          <h2>{`Current Song: ${currentSong?.id}`}</h2>
+          Create song with file:
+          <input id="name" type="file" onChange={createSongWithImage} />
+        </label>
+        <label>
+          Add / update song image:
+          <input
+            id="name"
+            type="file"
+            onChange={addNewImageToSong}
+            disabled={!currentSong}
+          />
+        </label>
+        <button
+          onClick={getImageForCurrentSong}
+          disabled={!currentSong || !currentImageUrl}
+        >
+          Get image for current song
+        </button>
+        <button
+          onClick={removeImageFromSong}
+          disabled={!currentSong || !currentImageUrl}
+        >
+          Remove image from current song (does not delete image)
+        </button>
+        <button
+          onClick={deleteImageForCurrentSong}
+          disabled={!currentSong || !currentImageUrl}
+        >
+          Remove image from current song, then delete image
+        </button>
+        <button onClick={deleteCurrentSongAndImage} disabled={!currentSong}>
+          Delete current song (and image, if it exists)
+        </button>
+        <button onClick={signOut} className="app-button">
+          Sign out
+        </button>
+      </div>
+    </>
   );
 }
 
-export default App;
-
+export default withAuthenticator(App);
 
 ```
 </Block>
@@ -1031,9 +977,7 @@ import "./App.css";
 import { generateClient } from "aws-amplify/api";
 import { uploadData, getUrl, remove } from "aws-amplify/storage";
 import React, { useState } from "react";
-
 import type { Schema } from "../amplify/data/resource";
-
 import "@aws-amplify/ui-react/styles.css";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 
@@ -1072,7 +1016,7 @@ function App({ signOut, user }) {
 
       // Upload the Storage file:
       const result = await uploadData({
-        key: `${photoAlbum.id}-${file.name}`,
+        path: `images/${photoAlbum.id}-${file.name}`,
         data: file,
         options: {
           contentType: "image/png", // contentType is optional
@@ -1081,13 +1025,13 @@ function App({ signOut, user }) {
 
       const updatePhotoAlbumDetails = {
         id: photoAlbum.id,
-        imageKeys: [result.key],
+        imagePaths: [result.path],
       };
 
       // Add the file association to the record:
       const updateResponse = await client.models.PhotoAlbum.update({
         id: photoAlbum.id,
-        imageKeys: [result.key],
+        imagePaths: [result.path],
       });
 
       const updatedPhotoAlbum = updateResponse.data;
@@ -1095,10 +1039,12 @@ function App({ signOut, user }) {
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
       // If the record has no associated file, we can return early.
-      if (!updatedPhotoAlbum.imageKeys?.length) return;
+      if (!updatedPhotoAlbum.imagePaths?.length) return;
 
       // Retrieve the file's signed URL:
-      const signedURL = await getUrl({ key: updatedPhotoAlbum.imageKeys[0]! });
+      const signedURL = await getUrl({
+        path: updatedPhotoAlbum.imagePaths[0]!,
+      });
       setCurrentImages([signedURL.url.toString()]);
     } catch (error) {
       console.error("Error create photoAlbum / file:", error);
@@ -1125,36 +1071,36 @@ function App({ signOut, user }) {
       if (!photoAlbum) return;
 
       // Upload all files to Storage:
-      const imageKeys = await Promise.all(
+      const imagePaths = await Promise.all(
         Array.from(e.target.files).map(async (file) => {
           const result = await uploadData({
-            key: `${photoAlbum.id}-${file.name}`,
+            path: `images/${photoAlbum.id}-${file.name}`,
             data: file,
             options: {
               contentType: "image/png", // contentType is optional
             },
           }).result;
 
-          return result.key;
+          return result.path;
         })
       );
 
       // Add the file association to the record:
       const updateResponse = await client.models.PhotoAlbum.update({
         id: photoAlbum.id,
-        imageKeys: imageKeys,
+        imagePaths: imagePaths,
       });
       const updatedPhotoAlbum = updateResponse.data;
 
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
       // If the record has no associated file, we can return early.
-      if (!updatedPhotoAlbum.imageKeys?.length) return;
+      if (!updatedPhotoAlbum.imagePaths?.length) return;
 
       // Retrieve signed urls for all files:
       const signedUrls = await Promise.all(
-        updatedPhotoAlbum.imageKeys.map(
-          async (key) => await getUrl({ key: key! })
+        updatedPhotoAlbum.imagePaths.map(
+          async (path) => await getUrl({ path: path! })
         )
       );
 
@@ -1174,17 +1120,17 @@ function App({ signOut, user }) {
 
     try {
       // Upload all files to Storage:
-      const newImageKeys = await Promise.all(
+      const newimagePaths = await Promise.all(
         Array.from(e.target.files).map(async (file) => {
           const result = await uploadData({
-            key: `${currentPhotoAlbum.id}-${file.name}`,
+            path: `images/${currentPhotoAlbum.id}-${file.name}`,
             data: file,
             options: {
               contentType: "image/png", // contentType is optional
             },
           }).result;
 
-          return result.key;
+          return result.path;
         })
       );
 
@@ -1195,27 +1141,27 @@ function App({ signOut, user }) {
 
       const photoAlbum = queriedResponse.data;
 
-      if (!photoAlbum?.imageKeys) return;
+      if (!photoAlbum?.imagePaths) return;
 
-      // Merge existing and new file keys:
-      const updatedImageKeys = [...newImageKeys, ...photoAlbum.imageKeys];
+      // Merge existing and new file paths:
+      const updatedimagePaths = [...newimagePaths, ...photoAlbum.imagePaths];
 
       // Update record with merged file associations:
       const response = await client.models.PhotoAlbum.update({
         id: currentPhotoAlbum.id,
-        imageKeys: updatedImageKeys,
+        imagePaths: updatedimagePaths,
       });
 
       const updatedPhotoAlbum = response.data;
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
       // If the record has no associated file, we can return early.
-      if (!updatedPhotoAlbum?.imageKeys) return;
+      if (!updatedPhotoAlbum?.imagePaths) return;
 
-      // Retrieve signed urls for merged image keys:
+      // Retrieve signed urls for merged image paths:
       const signedUrls = await Promise.all(
-        updatedPhotoAlbum?.imageKeys.map(
-          async (key) => await getUrl({ key: key! })
+        updatedPhotoAlbum?.imagePaths.map(
+          async (path) => await getUrl({ path: path! })
         )
       );
 
@@ -1241,14 +1187,14 @@ function App({ signOut, user }) {
     try {
       // Upload new file to Storage:
       const result = await uploadData({
-        key: `${currentPhotoAlbum.id}-${file.name}`,
+        path: `images/${currentPhotoAlbum.id}-${file.name}`,
         data: file,
         options: {
           contentType: "image/png", // contentType is optional
         },
       }).result;
 
-      const newFileKey = result.key;
+      const newFilePath = result.path;
 
       // Query existing record to retrieve currently associated files:
       const queriedResponse = await client.models.PhotoAlbum.get({
@@ -1257,21 +1203,21 @@ function App({ signOut, user }) {
 
       const photoAlbum = queriedResponse.data;
 
-      if (!photoAlbum?.imageKeys?.length) return;
+      if (!photoAlbum?.imagePaths?.length) return;
 
-      // Retrieve last image key:
-      const [lastImageKey] = photoAlbum.imageKeys.slice(-1);
+      // Retrieve last image path:
+      const [lastImagePath] = photoAlbum.imagePaths.slice(-1);
 
       // Remove last file association by key
-      const updatedImageKeys = [
-        ...photoAlbum.imageKeys.filter((key) => key !== lastImageKey),
-        newFileKey,
+      const updatedimagePaths = [
+        ...photoAlbum.imagePaths.filter((key) => key !== lastImagePath),
+        newFilePath,
       ];
 
       // Update record with updated file associations:
       const response = await client.models.PhotoAlbum.update({
         id: currentPhotoAlbum.id,
-        imageKeys: updatedImageKeys,
+        imagePaths: updatedimagePaths,
       });
 
       const updatedPhotoAlbum = response.data;
@@ -1279,12 +1225,12 @@ function App({ signOut, user }) {
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
       // If the record has no associated file, we can return early.
-      if (!updatedPhotoAlbum?.imageKeys) return;
+      if (!updatedPhotoAlbum?.imagePaths) return;
 
-      // Retrieve signed urls for merged image keys:
+      // Retrieve signed urls for merged image paths:
       const signedUrls = await Promise.all(
-        updatedPhotoAlbum?.imageKeys.map(
-          async (key) => await getUrl({ key: key! })
+        updatedPhotoAlbum?.imagePaths.map(
+          async (path) => await getUrl({ path: path! })
         )
       );
 
@@ -1304,20 +1250,20 @@ function App({ signOut, user }) {
       return;
     }
     try {
-      // Query the record to get the file keys:
+      // Query the record to get the file paths:
       const response = await client.models.PhotoAlbum.get({
         id: currentPhotoAlbum.id,
       });
       const photoAlbum = response.data;
 
       // If the record has no associated files, we can return early.
-      if (!photoAlbum?.imageKeys) return;
+      if (!photoAlbum?.imagePaths) return;
 
       // Retrieve the signed URLs for the associated images:
       const signedUrls = await Promise.all(
-        photoAlbum.imageKeys.map(async (imageKey) => {
-          if (!imageKey) return;
-          return await getUrl({ key: imageKey });
+        photoAlbum.imagePaths.map(async (imagePath) => {
+          if (!imagePath) return;
+          return await getUrl({ path: imagePath });
         })
       );
 
@@ -1341,16 +1287,16 @@ function App({ signOut, user }) {
       const photoAlbum = response.data;
 
       // If the record has no associated file, we can return early.
-      if (!photoAlbum?.imageKeys) return;
+      if (!photoAlbum?.imagePaths) return;
 
       const updatedPhotoAlbum = await client.models.PhotoAlbum.update({
         id: photoAlbum.id,
-        imageKeys: null,
+        imagePaths: null,
       });
 
       // If successful, the response here will be `null`:
       setCurrentPhotoAlbum(updatedPhotoAlbum.data);
-      setCurrentImages(updatedPhotoAlbum.data?.imageKeys);
+      setCurrentImages(updatedPhotoAlbum.data?.imagePaths);
     } catch (error) {
       console.error("Error removing image from photoAlbum: ", error);
     }
@@ -1368,21 +1314,21 @@ function App({ signOut, user }) {
       const photoAlbum = response.data;
 
       // If the record has no associated files, we can return early.
-      if (!photoAlbum?.imageKeys) return;
+      if (!photoAlbum?.imagePaths) return;
 
       // Remove associated files from record
       const updateResponse = await client.models.PhotoAlbum.update({
         id: photoAlbum.id,
-        imageKeys: null, // Set the file association to `null`
+        imagePaths: null, // Set the file association to `null`
       });
 
       const updatedPhotoAlbum = updateResponse.data;
 
       // Delete the files from S3:
       await Promise.all(
-        photoAlbum?.imageKeys.map(async (imageKey) => {
-          if (!imageKey) return;
-          await remove({ key: imageKey });
+        photoAlbum?.imagePaths.map(async (imagePath) => {
+          if (!imagePath) return;
+          await remove({ path: imagePath });
         })
       );
 
@@ -1414,12 +1360,12 @@ function App({ signOut, user }) {
       setCurrentPhotoAlbum(null);
 
       // If the record has no associated file, we can return early.
-      if (!photoAlbum?.imageKeys) return;
+      if (!photoAlbum?.imagePaths) return;
 
       await Promise.all(
-        photoAlbum?.imageKeys.map(async (imageKey) => {
-          if (!imageKey) return;
-          await remove({ key: imageKey });
+        photoAlbum?.imagePaths.map(async (imagePath) => {
+          if (!imagePath) return;
+          await remove({ path: imagePath });
         })
       );
 
