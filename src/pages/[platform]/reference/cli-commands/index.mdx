@@ -51,9 +51,9 @@ Sandbox enables you to develop your backend alongside your frontend's developmen
 
 - `--dir-to-watch` (_string_) - Directory to watch for file changes. All subdirectories and files will be included. Defaults to the amplify directory.
 - `--exclude` (_string[]_) - An array of paths or glob patterns to ignore. Paths can be relative or absolute and can either be files or directories.
-- `--name` (_string_) - An optional name to distinguish between different sandbox environments. Default is the name in your package.json.
+- `--identifier` (_string_) - An optional name to distinguish between different sandbox environments. Default is the name of the system user executing the process
 - `--config-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
-- `--config-format` (_string_) - Format in which the client config file is written (choices: `mjs`, `json`, `json-mobile`, `ts`, `dart`).
+- `--config-format` (_string_) - Format in which the client config file is written (choices: `json`, `dart`).
 - `--profile` (_string_) - An AWS profile name.
 
 <SubCommandHeading parentCommand="amplify-sandbox">Usage</SubCommandHeading>
@@ -210,7 +210,7 @@ Generate the client configuration file (such as `amplifyconfiguration.json`) for
 In addition to the required options noted in [`amplify generate`](#amplify-generate):
 
 - `--profile` (_string_) - An AWS profile name.
-- `--format` (_string_) - The format into which the configuration should be exported (choices: `mjs`, `json`, `json-mobile`, `ts`, `dart`).
+- `--format` (_string_) - The format into which the configuration should be exported (choices: `json`, `dart`).
 - `--out-dir` (_string_) - A path to the directory where config is written. If not provided, it defaults to the working directory of the current process.
 
 <SubCommandHeading parentCommand="amplify-generate-config">Usage</SubCommandHeading>
@@ -258,16 +258,21 @@ Optional parameters:
 
 
 ### Generate GraphQL client code using the Amplify App ID and branch. 
+
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --app-id <your-amplify-app-id>	--branch staging
 ```
+
 ### Generate GraphQL client code for a branch that is connected to Amplify
+
 Sometimes you want to test your latest local changes with the backend of another deployed branch. If you want to generate the GraphQL client code file(s) for the latest deployment of another branch, you can run the following command:
 
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --branch staging
 ```
+
 ### Generate codegen for CDK app using a joint "AmplifyBackendStack" construct
+
 Assume you have deployed your Amplify project with the CDK construct. You will need to remember your app's project name (designated as the second parameter in your CDK construct) and stack name (designated as part of your `npx cdk deploy` context)
 
 ```ts title="lib/stack.ts" showLineNumbers={false}
@@ -282,19 +287,25 @@ export class MyAmplifyStack extends cdk.Stack {
   }
 }
 ```
+
 ### Deployment command for CDK project
-```bash  title="Terminal" showLineNumbers={false}
+
+```bash title="Terminal" showLineNumbers={false}
 npx cdk deploy
 ```
+
 Run Amplify codegen command to generate GraphQL codegen:
+
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --stack Backend --platform ts --out ./src
 ```   
+
 ### Generate codegen in specific language and format
 
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --format modelgen --type-target angular
 ```
+
 ### Supported GraphQL client code combinations:
 
 | Format | Platform | Codegen command in Amplify CLI | Command in Amplify Gen2 | Default generated file/path |
