@@ -79,7 +79,7 @@ export const auth = defineAuth({
     // add social providers
     externalProviders: {
       /**
-       * First, create your secrets using `amplify sandbox secret`
+       * First, create your secrets using `ampx sandbox secret`
        * Then, import `secret` from `@aws-amplify/backend`
        * @see https://docs.amplify.aws/gen2/deploy-and-host/sandbox-environments/features/#setting-secrets
        */
@@ -133,12 +133,12 @@ After you have chosen and set up your authentication resource, run the following
 
 <InlineFilter filters={['flutter']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --outputs-format dart --outputs-out-dir lib
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 ```
 </InlineFilter>
 <InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+npx ampx sandbox
 ```
 </InlineFilter>
 <InlineFilter filters={['android']}>
@@ -147,13 +147,13 @@ Be sure to add a "raw" folder under app/src/main/res directory if it doesn't exi
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --outputs-out-dir app/src/main/res/raw
+npx ampx sandbox --outputs-out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+npx ampx sandbox
 ```
 </InlineFilter>
 

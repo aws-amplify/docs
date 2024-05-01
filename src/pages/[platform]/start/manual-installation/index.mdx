@@ -52,11 +52,11 @@ import { defineBackend } from '@aws-amplify/backend';
 defineBackend({});
 ```
 
-Now you can run `npx amplify sandbox` to create your first backend!
+Now you can run `npx ampx sandbox` to create your first backend!
 
 <Callout warning>
 
-Amplify Gen 2 requires your backend to be configured for use with [ECMAScript modules (ESM)](https://nodejs.org/api/esm.html). If you encounter the following error during `amplify sandbox`, consider modifying your `package.json` with `"type": "module"`:
+Amplify Gen 2 requires your backend to be configured for use with [ECMAScript modules (ESM)](https://nodejs.org/api/esm.html). If you encounter the following error during `ampx sandbox`, consider modifying your `package.json` with `"type": "module"`:
 
 ```text
 The current file is a CommonJS module whose imports will produce 'require' calls; however, the referenced file is an ECMAScript module and cannot be imported with 'require'. Consider writing a dynamic 'import("@aws-amplify/backend")' call instead.
