@@ -32,7 +32,7 @@ In this guide, you will learn how to set up storage in your Amplify app. You wil
 
 If you have not yet created an Amplify app, visit the [quickstart guide](/[platform]/start/quickstart/).
 
-Amplify Storage seamlessly integrates file storage and management capabilities into frontend web and mobile apps, built on top of Amazon S3. It provides intuitive APIs and UI components for core file operations, enabling developers to build scalable and secure file storage solutions without dealing with cloud service complexities.
+Amplify Storage seamlessly integrates file storage and management capabilities into frontend web and mobile apps, built on top of Amazon Simple Storage Service (Amazon S3). It provides intuitive APIs and UI components for core file operations, enabling developers to build scalable and secure file storage solutions without dealing with cloud service complexities.
 
 ## Building your storage backend
 
@@ -76,49 +76,29 @@ By default, no users or other project resources have access to any files in the 
 
 The access callback returns an object where each key in the object is a file path and each value in the object is an array of access rules that apply to that path. 
 
-Refer to the following example to construct access rules for your storage bucket. [Learn more about customizing access to file path](/[platform]/build-a-backend/storage/authorization/).
+The following example shows you how you can set up your file storage structure for a generic photo sharing app. Here, 
+
+1. Guests have access to see all profile pictures and only the users that uploaded the profile picture can replace or delete them. Users are identified by their Identity Pool ID in this case i.e. identityID.
+2. There's also a general pool where all users can submit pictures. 
+
+[Learn more about customizing access to file path](/[platform]/build-a-backend/storage/authorization/).
 
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
   name: 'amplifyTeamDrive',
   access: (allow) => ({
-    'authenticated_access_only/*': [
-      // highlight-next-line
-      allow.authenticated.to(['read', 'write', 'delete']),
-    ],
-    'user_protected/{entity_id}/*': [
-      // highlight-next-line
-      allow.authenticated.to(['read']),
-      // highlight-next-line
-      allow.entity('identity').to(['read', 'write', 'delete']) // scope access rules for users based on their identity IDs
-    ],
-    'guest_access_only/*': [
-      // highlight-next-line
-      allow.guest.to(['read', 'write', 'delete'])
-    ]
-  })
-});
-```
-
-{/* I'm confused by this example - is this needed? why are they copying and pasting multiple examples? If the goal is to conceptually tie to Gen 1 maybe we can do a separate "Storage in Gen 1 vs. Gen 2" guide or something - I personally feel this is confusing. */}
-Copy and paste the following definition for authorization rules to implement public, protected, and private paths (this is currently the pattern in Gen 1).
-
-```ts title="amplify/storage/resource.ts"
-export const storage = defineStorage({
-  name: 'amplifyTeamDrive',
-  access: (allow) => ({
-    'public/*': [
-      allow.guest.to(['read']),
-      allow.authenticated.to(['read', 'write', 'delete']),
-    ],
-    'protected/{entity_id}/*': [
-      allow.authenticated.to(['read']),
+    'profile-pictures/{entity_id}/*': [
+      allow.guest.to(['read'])
       allow.entity('identity').to(['read', 'write', 'delete'])
     ],
-    'private/{entity_id}/*': [allow.entity('identity').to(['read', 'write', 'delete'])]
+    'picture-submissions/*': [
+      allow.authenticated.to(['read','write']),
+      allow.guest.to(['read', 'write'])
+    ],
   })
 });
 ```
+
 ## Connect your app code to the storage backend
 
 The Amplify Storage library provides client APIs that connect to the backend resources you defined.
@@ -480,6 +460,266 @@ class MyApp extends StatefulWidget {
   // ...
 }
 ```
+
+</InlineFilter>
+
+### Upload your first file
+
+Next, let's a photo to the `picture-submissions/` path.
+
+<InlineFilter filters={["react", "react-native"]}>
+```javascript
+import React from 'react';
+import { uploadData } from 'aws-amplify/storage';
+
+function App() {
+    const [file, setFile] = React.useState();
+
+    const handleChange = (event: any) => {
+        setFile(event.target.files[0]);
+    };
+
+    return (
+        <div>
+            <input type="file" onChange={handleChange} />
+            <button
+                onClick={() =>
+                    uploadData({
+                        path: `picture-submissions/${file.name}`,
+                        data: file,
+                    })
+                }
+            >
+                Upload
+            </button>
+        </div>
+    );
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={["javascript", "angular", "vue", "nextjs"]}>
+```javascript
+import { uploadData } from "aws-amplify/storage";
+
+const file = document.getElementById("file");
+const upload = document.getElementById("upload");
+
+upload.addEventListener("click", () => {
+  const fileReader = new FileReader();
+  fileReader.readAsArrayBuffer(file.files[0]);
+
+  fileReader.onload = async (event) => {
+    console.log("Complete File read successfully!", event.target.result);
+    try {
+      await uploadData({
+                data: event.target.result, 
+                path: `picture-submissions/${file.files[0].name}` 
+            });
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+});
+```
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+let dataString = "My Data"
+let fileName = "myPhoto.png"
+guard let fileUrl = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+).first?.appendingPathComponent(fileName)
+else { return }
+
+try dataString.write(
+    to: fileUrl,
+    atomically: true,
+    encoding: .utf8
+)
+
+let uploadTask = Amplify.Storage.uploadFile(
+    path: .fromString("picture-submissions/myPhoto.png"),
+    local: filename
+)
+
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+private void uploadFile() {
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "myPhoto.png");
+
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch (Exception exception) {
+        Log.e("MyAmplifyApp", "Upload failed", exception);
+    }
+
+    Amplify.Storage.uploadFile(
+            StoragePath.fromString("picture-submissions/myPhoto.png"),
+            exampleFile,
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+            storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+private fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "myPhoto.png")
+    exampleFile.writeText("Example file contents")
+
+    Amplify.Storage.uploadFile(StoragePath.fromString("picture-submissions/myPhoto.png"), exampleFile,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.path}") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
+    )
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+private suspend fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "myPhoto.png")
+    exampleFile.writeText("Example file contents")
+
+    val upload = Amplify.Storage.uploadFile(StoragePath.fromString("picture-submissions/myPhoto.png"), exampleFile)
+    try {
+        val result = upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.path}")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+private void uploadFile() {
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "myPhoto.png");
+
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch (Exception exception) {
+        Log.e("MyAmplifyApp", "Upload failed", exception);
+    }
+
+    RxProgressAwareSingleOperation<StorageUploadFileResult> rxUploadOperation =
+            RxAmplify.Storage.uploadFile(StoragePath.fromString("picture-submissions/myPhoto.png"), exampleFile);
+
+    rxUploadOperation
+            .observeResult()
+            .subscribe(
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+                error -> Log.e("MyAmplifyApp", "Upload failed", error)
+            );
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+<Callout>
+
+**Note**: To use `AWSFilePlatform`, add [aws_common](https://pub.dev/packages/aws_common) package to your Flutter project
+by running: `flutter pub add aws_common`
+
+</Callout>
+
+<BlockSwitcher>
+
+<Block name="All Platforms">
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+Future<void> uploadFile() async {
+  try {
+    final result = await Amplify.Storage.uploadFile(
+      localFile: AWSFile.fromPath('/path/to/local/myPhoto.png'),
+      path: const StoragePath.fromString('picture-submissions/myPhoto.png'),
+    ).result;
+    safePrint('Uploaded file: ${result.uploadedItem.path}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</Block>
+
+<Block name= "Mobile & Desktop">
+
+```dart
+import 'dart:io' show File;
+
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:aws_common/vm.dart';
+
+Future<void> uploadFile(File file) async {
+  try {
+    final result = await Amplify.Storage.uploadFile(
+      localFile: AWSFilePlatform.fromFile(file),
+      path: const StoragePath.fromString('picture-submissions/myPhoto.png'),
+    ).result;
+    safePrint('Uploaded file: ${result.uploadedItem.path}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</Block>
+
+<Block name="Web">
+
+```dart
+import 'dart:html' show File;
+
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:aws_common/web.dart';
+
+Future<void> uploadFile(File file) async {
+  final awsFile = AWSFilePlatform.fromFile(file);
+  try {
+    final result = await Amplify.Storage.uploadFile(
+      localFile: awsFile,
+      path: const StoragePath.fromString('picture-submissions/myPhoto.png'),
+    ).result;
+    safePrint('Uploaded file: ${result.uploadedItem.path}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
 
 </InlineFilter>
 
