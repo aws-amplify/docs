@@ -70,13 +70,13 @@ git commit -am "add storage backend"
 git push
 ```
 
-### Define File Prefix Access
+### Define File Path Access
 
 By default, no users or other project resources have access to any files in the storage bucket. Access must be explicitly granted within `defineStorage` using the `access` callback.
 
-The access callback returns an object where each key in the object is a file prefix and each value in the object is an array of access rules that apply to that prefix. 
+The access callback returns an object where each key in the object is a file path and each value in the object is an array of access rules that apply to that path. 
 
-Refer to the following example to construct access rules for your storage bucket. [Learn more about customizing access to file prefixes](/[platform]/build-a-backend/storage/authorization/).
+Refer to the following example to construct access rules for your storage bucket. [Learn more about customizing access to file path](/[platform]/build-a-backend/storage/authorization/).
 
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
@@ -101,7 +101,7 @@ export const storage = defineStorage({
 ```
 
 {/* I'm confused by this example - is this needed? why are they copying and pasting multiple examples? If the goal is to conceptually tie to Gen 1 maybe we can do a separate "Storage in Gen 1 vs. Gen 2" guide or something - I personally feel this is confusing. */}
-Copy and paste the following definition for authorization rules to implement public, protected, and private prefixes (this is currently the pattern in Gen 1).
+Copy and paste the following definition for authorization rules to implement public, protected, and private paths (this is currently the pattern in Gen 1).
 
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
@@ -491,7 +491,7 @@ After successfully publishing your storage backend and connecting your project w
 
 ## Conclusion
 
-Congratulations! You finished the Set up Amplify Storage guide. In this guide, you set up and connected to backend resources, customized your file prefixes and access definitions, and connected your application to the backend to implement features like file uploads and downloads.
+Congratulations! You finished the Set up Amplify Storage guide. In this guide, you set up and connected to backend resources, customized your file paths and access definitions, and connected your application to the backend to implement features like file uploads and downloads.
 
 ### Next steps
 
