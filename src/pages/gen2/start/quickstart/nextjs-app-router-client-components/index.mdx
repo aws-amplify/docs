@@ -51,7 +51,7 @@ Next, create a `components` folder in the root of your project and the contents 
 import outputs from "@/amplify_outputs.json";
 import { Amplify } from "aws-amplify";
 
-Amplify.configure(config, { ssr: true });
+Amplify.configure(outputs, { ssr: true });
 
 export default function ConfigureAmplifyClientSide() {
   return null;
