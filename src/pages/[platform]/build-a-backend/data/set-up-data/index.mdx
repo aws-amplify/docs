@@ -89,7 +89,7 @@ npx amplify sandbox
 <InlineFilter filters={["android"]}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format json-mobile --config-out-dir app/src/main/res/raw/
+npx amplify sandbox --outputs-out-dir app/src/main/res/raw/
 ```
 
 </InlineFilter>
@@ -97,7 +97,7 @@ npx amplify sandbox --config-format json-mobile --config-out-dir app/src/main/re
 <InlineFilter filters={["swift"]}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format json-mobile --config-out-dir <path_to_swift_project>
+npx amplify sandbox --outputs-out-dir <path_to_swift_project>
 ```
 
 Drag and drop the **amplifyconfiguration.json** file into your Xcode project to add the generate file.
@@ -106,7 +106,7 @@ Drag and drop the **amplifyconfiguration.json** file into your Xcode project to 
 <InlineFilter filters={["flutter"]}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format dart --config-out-dir lib
+npx amplify sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
 </InlineFilter>
@@ -125,8 +125,8 @@ First, install the Amplify client library to your project:
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
-```bash
-npm install aws-amplify
+```bash title="Terminal" showLineNumbers={false}
+npm add aws-amplify
 ```
 
 In your app's entry point, typically **main.tsx** for React apps created using Vite, make the following edits:

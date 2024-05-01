@@ -137,18 +137,18 @@ git clone https://github.com/<github-user>/amplify-vite-react-template.git
 cd amplify-vite-react-template && npm install
 ```
 
-Now move the `amplify-outputs.json` file you downloaded above to the root of your project.
+Now move the `amplify_outputs.json` file you downloaded above to the root of your project.
 
 ```text
 ├── amplify
 ├── src
-├── amplify-outputs.json <== backend outputs file
+├── amplify_outputs.json <== backend outputs file
 ├── package.json
 └── tsconfig.json
 ```
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
 </Accordion>
 
 
@@ -274,7 +274,7 @@ To start your cloud sandbox, run the following command in a **new Terminal windo
 npx amplify sandbox
 ```
 
-Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
+Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify_outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
@@ -295,7 +295,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     // highlight-next-line
-  }).authorization([a.allow.owner()]),
+  }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -474,18 +474,18 @@ git clone https://github.com/<github-user>/amplify-vue-template.git
 cd amplify-vue-template && npm install
 ```
 
-Now move the `amplify-output.json` file you downloaded above to the root of your project.
+Now move the `amplify_outputs.json` file you downloaded above to the root of your project.
 
 ```text
 ├── amplify
 ├── src
-├── amplify-outputs.json <== backend outputs file
+├── amplify_outputs.json <== backend outputs file
 ├── package.json
 └── tsconfig.json
 ```
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
 </Accordion>
 
 
@@ -551,7 +551,7 @@ The starter application already has a pre-configured auth backend defined in the
 The fastest way to get your login experience up and running is to use our Authenticator UI component. 
 
 ```terminal showLineNumbers={false}
-npm install @aws-amplify/ui-vue
+npm add @aws-amplify/ui-vue
 ```
 In your **src/App.vue** file, import the Authenticator UI component and wrap your `<main>` template.
 
@@ -618,7 +618,7 @@ To start your cloud sandbox, run the following command in a **new Terminal windo
 npx amplify sandbox
 ```
 
-Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
+Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify_outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
@@ -639,7 +639,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     // highlight-next-line
-  }).authorization([a.allow.owner()]),
+  }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -807,18 +807,18 @@ git clone https://github.com/<github-user>/amplify-vite-react-template.git
 cd amplify-vite-react-template && npm install
 ```
 
-Now move the `amplify-output.json` file you downloaded above to the root of your project.
+Now move the `amplify_outputs.json` file you downloaded above to the root of your project.
 
 ```text
 ├── amplify
 ├── src
-├── amplify-outputs.json <== backend outputs file
+├── amplify_outputs.json <== backend outputs file
 ├── package.json
 └── tsconfig.json
 ```
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
 </Accordion>
 
 
@@ -870,7 +870,7 @@ The starter application already has a pre-configured auth backend defined in the
 The fastest way to get your login experience up and running is to use our Authenticator UI component. 
 
 ```terminal showLineNumbers={false}
-npm install @aws-amplify/ui-angular
+npm add @aws-amplify/ui-angular
 ```
 
 In your **src/app/app.component.ts** file, import the `AmplifyAuthenticatorModule`.
@@ -966,7 +966,7 @@ To start your cloud sandbox, run the following command in a **new Terminal windo
 npx amplify sandbox
 ```
 
-Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
+Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify_outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
@@ -988,7 +988,7 @@ const schema = a.schema({
     content: a.string(),
   })
   // highlight-next-line
-  .authorization([a.allow.owner()]),
+  .authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -1065,7 +1065,7 @@ You can follow the [official documentation](https://flutter.dev/docs/get-started
 
 Once you have installed Flutter, you can create a new Flutter project using the following command:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 flutter create my_amplify_app
 ```
 
@@ -1073,7 +1073,7 @@ flutter create my_amplify_app
 
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm create amplify@beta
 ? Where should we create your project? (.) # press enter
 ```
@@ -1098,8 +1098,8 @@ Running this command will scaffold Amplify backend files in your current project
 To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
 
-```bash
-npx amplify sandbox --config-format dart --config-out-dir lib
+```bash title="Terminal" showLineNumbers={false}
+npx amplify sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
 ## Adding Authentication
@@ -1125,7 +1125,7 @@ You will add:
 
 After adding the dependencies, you need to run the following command to install the dependencies:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 flutter pub get
 ```
 
@@ -1210,7 +1210,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean(),
     })
-    .authorization([a.allow.owner()]),
+    .authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -1226,7 +1226,7 @@ Next, let's implement UI to create, list, and delete the to-do items.
 
 Amplify can automatically generate code for interacting with the backend API. Run the command in the terminal to generate dart model classes from the Data schema under `lib/models`:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --format modelgen --model-target dart --out lib/models
 ```
 
@@ -1493,7 +1493,7 @@ Now you should have your project created.
 
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 cd my-app
 npm create amplify@latest
 ? Where should we create your project? (.) # press enter
@@ -1519,11 +1519,11 @@ Running this command will scaffold Amplify backend files in your current project
 To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
 ```
 
-Once the sandbox environment is deployed, it will create an `amplify-outputs.json`. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+Once the sandbox environment is deployed, it will create an `amplify_outputs.json`. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
@@ -1648,8 +1648,8 @@ Next, let's implement UI to create, list, and delete the to-do items.
 
 Amplify can automatically generate code for interacting with the backend API. The command below generates model classes from the Data schema:
 
-```bash
-npx amplify generate graphql-client-code --format=modelgen --model-target=swift
+```bash title="Terminal" showLineNumbers={false}
+npx amplify generate graphql-client-code --format modelgen --model-target swift
 ```
 
 Move the generated files to your project. You can do this by dragging and dropping the files to your project.
@@ -1945,21 +1945,21 @@ In **Select a Project Template**, select **Empty Activity** or **Empty Compose A
 
 </Accordion>
 
-On the **Deployed backend resources**, choose **Download outputs file** to download the `amplify-output.json` file that contains identifiers for all the deployed backend resources.
+On the **Deployed backend resources**, choose **Download outputs file** to download the `amplify_outputs.json` file that contains identifiers for all the deployed backend resources.
 
 ![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
 
-Now move the `amplify-output.json` file you downloaded above to `app/src/main/res/raw` in your Android project. You will now be able to connect to this backend.
+Now move the `amplify_outputs.json` file you downloaded above to `app/src/main/res/raw` in your Android project. You will now be able to connect to this backend.
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend. 
 </Accordion>
 
 
 ### 5. Implement login UI
 
-The deployed backend application already has a pre-configured auth backend defined in the `amplify/auth/resource.ts` file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
+The deployed backend application already has a pre-configured auth backend defined in the `amplify/auth/resource.ts` file.
 
 The fastest way to get your login experience up and running is to use our Authenticator UI component. To use the Authenticator UI component, you need to add the following dependencies to your app/build.gradle file:
 
@@ -1967,9 +1967,8 @@ The fastest way to get your login experience up and running is to use our Authen
 
 ```kotlin title="app/build.gradle"
 dependencies {
-    implementation("androidx.compose.material3:material3:1.1.0")
-    implementation("com.amplifyframework.ui:authenticator:1.1.0")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    implementation("com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
 
@@ -2071,7 +2070,7 @@ In the command below, replace the APP-ID with your Amplify app ID. Find this in 
 
 ```bash title="Terminal" showLineNumbers={false}
 cd my-android-app
-npx @aws-amplify/backend-cli graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java --app-id APP-ID --branch-name main
+npx ampx generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
 ```
 
 Once you are done, add the following dependencies to your project:
@@ -2080,8 +2079,7 @@ Once you are done, add the following dependencies to your project:
 dependencies {
     // Amplify API dependencies
     // highlight-start
-    implementation("com.amplifyframework:aws-api:2.14.11")
-    implementation("com.amplifyframework:core:2.14.11")
+    implementation("com.amplifyframework:aws-api:ANDROID_VERSION")
     // highlight-end
     // ... other dependencies
 }
@@ -2172,7 +2170,6 @@ fun TodoList() {
         items(todoList) { todo ->
             Row {
                 // Render your activity item here
-                Checkbox(checked = todo.isDone, onCheckedChange = null)
                 Text(text = todo.content)
             }
         }
@@ -2232,7 +2229,6 @@ fun TodoList() {
         items(todoList) { todo ->
             Row {
                 // Render your activity item here
-                Checkbox(checked = todo.isDone, onCheckedChange = null)
                 Text(text = todo.content)
             }
         }
@@ -2249,8 +2245,10 @@ Let's update our backend to implement per-user authorization rules, allowing eac
 
 First, clone the deployed repository.
 
-```bash
-git clone git clone https://github.com/<github-user>/amplify-backend-template.git
+```bash title="Terminal" showLineNumbers={false}
+git clone https://github.com/<github-user>/amplify-backend-template.git
+cd amplify-backend-template
+npm install
 ```
 The backend to-do model is configured to share data across all users, but, in most cases, you want data to be isolated on a per-user basis. 
 
@@ -2263,7 +2261,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     // highlight-next-line
-  }).authorization([a.allow.owner()]),
+  }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -2287,7 +2285,7 @@ git push
 ```
 ### 8. Test in app
 
-Now, let's go back to your Android application and test out the user isolation of the to-do items. Fetch the latest `amplify-outputs` and model files by re-running the following command in your Android Studio terminal.
+Now, let's go back to your Android application and test out the user isolation of the to-do items. Fetch the latest `amplify_outputs.json` and model files by re-running the following command in your Android Studio terminal.
 
 <Accordion title='Looking for your App ID?' headingLevel='4' eyebrow='Find your App ID in the Amplify Console'>
 In the command below, replace the APP-ID with your Amplify app ID. Find this in the Amplify Console.
@@ -2296,13 +2294,13 @@ In the command below, replace the APP-ID with your Amplify app ID. Find this in 
 </Accordion>
 
 ```bash showLineNumbers={false}
-npx @aws-amplify/backend-cli generate outputs --format=modelgen --model-target=java --out=app/src/main/java --app-id APP-ID --branch-name main
+npx @aws-amplify/backend-cli generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
 ```
 
-Also update your `amplify-outputs` file with the latest outputs information.
+Also update your `amplify_outputs` file with the latest outputs information.
 
 ```bash showLineNumbers={false}
-npx @aws-amplify/backend-cli generate config --out-dir=app/src/main/res/raw --app-id APP-ID --branch main
+npx @aws-amplify/backend-cli generate outputs --out-dir app/src/main/res/raw --app-id <your-amplify-app-id> --branch main
 ```
 
 
@@ -2336,7 +2334,7 @@ Amplify now requires native modules not available through the Expo SDK. As a res
 
 </Callout>
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npx create-expo-app my_amplify_app -t expo-template-blank-typescript
 cd my_amplify_app
 ```
@@ -2344,7 +2342,7 @@ cd my_amplify_app
 <Callout warning>
 For calling native libraries and platform dependencies, you need to have run the prebuild command for generating the folders for depending platforms. 
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npx expo prebuild
 ```
 </Callout>
@@ -2353,7 +2351,7 @@ npx expo prebuild
 
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 cd my-app
 npm create amplify@latest
 ? Where should we create your project? (.) # press enter
@@ -2378,7 +2376,7 @@ Running this command will scaffold Amplify backend files in your current project
 
 To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
 ```
 
@@ -2390,13 +2388,21 @@ The fastest way to get your login experience up and running is to use our Authen
 
 To use the Authenticator, you need to add the following dependencies to your project:
 
-```sh
-npm install @aws-amplify/ui-react-native aws-amplify @aws-amplify/react-native react-native-safe-area-context @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values react-native-url-polyfill
+```bash title="Terminal" showLineNumbers={false}
+npm add \
+  @aws-amplify/ui-react-native \
+  @aws-amplify/react-native \
+  aws-amplify \
+  @react-native-community/netinfo \
+  @react-native-async-storage/async-storage \
+  react-native-safe-area-context \
+  react-native-get-random-values \
+  react-native-url-polyfill
 ```
 
 Then install the iOS cocoapods for targeting iOS by running:
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npx pod-install
 ```
 
@@ -2471,7 +2477,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean()
     })
-    .authorization([a.allow.owner()])
+    .authorization(allow => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
