@@ -295,7 +295,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     // highlight-next-line
-  }).authorization([a.allow.owner()]),
+  }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -639,7 +639,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     // highlight-next-line
-  }).authorization([a.allow.owner()]),
+  }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -988,7 +988,7 @@ const schema = a.schema({
     content: a.string(),
   })
   // highlight-next-line
-  .authorization([a.allow.owner()]),
+  .authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -1210,7 +1210,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean(),
     })
-    .authorization([a.allow.owner()]),
+    .authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -2070,7 +2070,7 @@ In the command below, replace the APP-ID with your Amplify app ID. Find this in 
 
 ```bash title="Terminal" showLineNumbers={false}
 cd my-android-app
-npx @aws-amplify/backend-cli generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
+npx ampx generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
 ```
 
 Once you are done, add the following dependencies to your project:
@@ -2170,7 +2170,6 @@ fun TodoList() {
         items(todoList) { todo ->
             Row {
                 // Render your activity item here
-                Checkbox(checked = todo.isDone, onCheckedChange = null)
                 Text(text = todo.content)
             }
         }
@@ -2230,7 +2229,6 @@ fun TodoList() {
         items(todoList) { todo ->
             Row {
                 // Render your activity item here
-                Checkbox(checked = todo.isDone, onCheckedChange = null)
                 Text(text = todo.content)
             }
         }
@@ -2248,7 +2246,9 @@ Let's update our backend to implement per-user authorization rules, allowing eac
 First, clone the deployed repository.
 
 ```bash title="Terminal" showLineNumbers={false}
-git clone git clone https://github.com/<github-user>/amplify-backend-template.git
+git clone https://github.com/<github-user>/amplify-backend-template.git
+cd amplify-backend-template
+npm install
 ```
 The backend to-do model is configured to share data across all users, but, in most cases, you want data to be isolated on a per-user basis. 
 
@@ -2261,7 +2261,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     // highlight-next-line
-  }).authorization([a.allow.owner()]),
+  }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -2285,7 +2285,7 @@ git push
 ```
 ### 8. Test in app
 
-Now, let's go back to your Android application and test out the user isolation of the to-do items. Fetch the latest `amplify-outputs` and model files by re-running the following command in your Android Studio terminal.
+Now, let's go back to your Android application and test out the user isolation of the to-do items. Fetch the latest `amplify_outputs.json` and model files by re-running the following command in your Android Studio terminal.
 
 <Accordion title='Looking for your App ID?' headingLevel='4' eyebrow='Find your App ID in the Amplify Console'>
 In the command below, replace the APP-ID with your Amplify app ID. Find this in the Amplify Console.
@@ -2300,7 +2300,7 @@ npx @aws-amplify/backend-cli generate graphql-client-code --format modelgen --mo
 Also update your `amplify_outputs` file with the latest outputs information.
 
 ```bash showLineNumbers={false}
-npx @aws-amplify/backend-cli generate config --out-dir app/src/main/res/raw --app-id <your-amplify-app-id> --branch main
+npx @aws-amplify/backend-cli generate outputs --out-dir app/src/main/res/raw --app-id <your-amplify-app-id> --branch main
 ```
 
 
@@ -2477,7 +2477,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean()
     })
-    .authorization([a.allow.owner()])
+    .authorization(allow => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
