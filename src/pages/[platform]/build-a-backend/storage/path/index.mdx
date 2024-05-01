@@ -42,7 +42,8 @@ export function getStaticProps(context) {
 <InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
 You can now use the `path` parameter in the API to access any path within your S3 bucket. This provides more flexibility than the predefined `protected`, `private`, or `guest` folder access levels, allowing you to create and manage a storage structure tailored to your needs.
 
-Note : `path` parameter can not be empty or start with a '/' (leading slash)
+<Callout>Note: `path` parameter can not be empty or start with a '/' (leading slash)</Callout>
+
 The sections below explain how to use existing `guest`, `protected`, and `private` resources with path-based APIs.
 
 ## Using Guest accessLevel
