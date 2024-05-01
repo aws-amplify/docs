@@ -45,20 +45,20 @@ All commands can be prefixed with [AWS CLI environment variables](https://docs.a
 
 ## npx amplify sandbox
 
-Sandbox enables you to develop your backend alongside your frontend's development server. This command will automatically watch for changes in `amplify/`, and redeploy each time you save a file. Run `npx amplify sandbox` to deploy to your personal cloud sandbox.
+Sandbox enables you to develop your backend alongside your frontend's development server. Run `npx amplify sandbox` to deploy to your personal cloud sandbox, this command will automatically watch for changes in the `amplify/` folder, and redeploy each time you save a file.
 
 <SubCommandHeading parentCommand="amplify-sandbox">Options</SubCommandHeading>
 
 - `--dir-to-watch` (_string_) - Directory to watch for file changes. All subdirectories and files will be included. Defaults to the amplify directory.
 - `--exclude` (_string[]_) - An array of paths or glob patterns to ignore. Paths can be relative or absolute and can either be files or directories.
-- `--name` (_string_) - An optional name to distinguish between different sandbox environments. Default is the name in your package.json.
+- `--identifier` (_string_) - An optional name to distinguish between different sandbox environments. Default is the name of the system user executing the process
 - `--config-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
-- `--config-format` (_string_) - Format in which the client config file is written (choices: `mjs`, `json`, `json-mobile`, `ts`, `dart`).
+- `--config-format` (_string_) - Format in which the client config file is written (choices: `json`, `dart`).
 - `--profile` (_string_) - An AWS profile name.
 
 <SubCommandHeading parentCommand="amplify-sandbox">Usage</SubCommandHeading>
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox
 ```
 
@@ -66,13 +66,13 @@ npx amplify sandbox
 
 You can use the `--profile` flag to run sandbox with an AWS profile other than `default`:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox --profile my-other-profile
 ```
 
 Additionally, you can use AWS CLI environment variables to specify a different profile:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 AWS_PROFILE=my-other-profile amplify sandbox
 ```
 
@@ -80,7 +80,7 @@ AWS_PROFILE=my-other-profile amplify sandbox
 
 Use AWS environment variables to deploy to a Region other than your AWS profile's configured Region:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 AWS_REGION=us-west-2 amplify sandbox
 ```
 
@@ -88,17 +88,17 @@ AWS_REGION=us-west-2 amplify sandbox
 
 For mobile applications, you will need to set the output directory and format of the generated configuration file, specifically `amplifyconfiguration.json`:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 # for Android
 amplify sandbox --config-format json-mobile --config-out-dir app/src/main/res
 ```
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 # for Swift/iOS
 amplify sandbox --config-format json-mobile
 ```
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 # for Flutter
 amplify sandbox --config-format dart --config-out-dir lib
 ```
@@ -115,7 +115,7 @@ Delete your personal cloud sandbox. This should only be used if you have an acti
 
 <SubCommandHeading parentCommand="amplify-sandbox-delete">Usage</SubCommandHeading>
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox delete
 ```
 
@@ -129,7 +129,7 @@ Manage backend secrets used with your personal cloud sandbox.
 
 <SubCommandHeading parentCommand="amplify-sandbox-secret">Usage</SubCommandHeading>
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox secret
 ```
 
@@ -137,13 +137,13 @@ npx amplify sandbox secret
 
 You can use the `--profile` flag to run sandbox with an AWS profile other than `default`:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox secret list --profile my-other-profile
 ```
 
 Additionally, you can use AWS environment variables to specify a different profile:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 AWS_PROFILE=my-other-profile amplify sandbox secret list
 ```
 
@@ -151,7 +151,7 @@ AWS_PROFILE=my-other-profile amplify sandbox secret list
 
 Create secrets for use with your personal cloud sandbox by using `sandbox secret set`:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox secret set LOGINWITHAMAZON_CLIENT_ID
 ```
 
@@ -161,7 +161,7 @@ This is how you configure secrets to be retrieved and used within your backend u
 
 If you want to remove a secret you previously set, use `sandbox secret remove`:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox secret remove LOGINWITHAMAZON_CLIENT_ID
 ```
 
@@ -169,7 +169,7 @@ npx amplify sandbox secret remove LOGINWITHAMAZON_CLIENT_ID
 
 List all available secrets for your personal sandbox in the default AWS profile and Region:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify sandbox secret list
 ```
 
@@ -191,12 +191,12 @@ Generate is not intended to be used standalone; however, it does offer a few sub
 
 Each of the following `generate` subcommands require either a CloudFormation stack name or an existing Amplify App ID and corresponding git branch:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 # with CloudFormation stack name
 npx amplify generate <subcommand> --stack <cloudformation-stack-name>
 ```
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 # with Amplify App ID and git branch
 npx amplify generate <subcommand> --app-id <app-id> --branch <git-branch-name>
 ```
@@ -210,14 +210,14 @@ Generate the client configuration file (such as `amplifyconfiguration.json`) for
 In addition to the required options noted in [`amplify generate`](#amplify-generate):
 
 - `--profile` (_string_) - An AWS profile name.
-- `--format` (_string_) - The format into which the configuration should be exported (choices: `mjs`, `json`, `json-mobile`, `ts`, `dart`).
+- `--format` (_string_) - The format into which the configuration should be exported (choices: `json`, `dart`).
 - `--out-dir` (_string_) - A path to the directory where config is written. If not provided, it defaults to the working directory of the current process.
 
 <SubCommandHeading parentCommand="amplify-generate-config">Usage</SubCommandHeading>
 
 As mentioned above, you can specify a team member's cloud sandbox CloudFormation stack:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b
 ```
 
@@ -225,8 +225,8 @@ npx amplify generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e
 
 Similar to `sandbox`, you can specify an alternate configuration file format by using `--format`:
 
-```bash
-npx amplify generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b --format json-mobile
+```bash title="Terminal" showLineNumbers={false}
+npx amplify generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b
 ```
 
 ## npx amplify generate graphql-client-code
@@ -258,16 +258,21 @@ Optional parameters:
 
 
 ### Generate GraphQL client code using the Amplify App ID and branch. 
+
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --app-id <your-amplify-app-id>	--branch staging
 ```
+
 ### Generate GraphQL client code for a branch that is connected to Amplify
+
 Sometimes you want to test your latest local changes with the backend of another deployed branch. If you want to generate the GraphQL client code file(s) for the latest deployment of another branch, you can run the following command:
 
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --branch staging
 ```
+
 ### Generate codegen for CDK app using a joint "AmplifyBackendStack" construct
+
 Assume you have deployed your Amplify project with the CDK construct. You will need to remember your app's project name (designated as the second parameter in your CDK construct) and stack name (designated as part of your `npx cdk deploy` context)
 
 ```ts title="lib/stack.ts" showLineNumbers={false}
@@ -282,19 +287,25 @@ export class MyAmplifyStack extends cdk.Stack {
   }
 }
 ```
+
 ### Deployment command for CDK project
-```bash  title="Terminal" showLineNumbers={false}
+
+```bash title="Terminal" showLineNumbers={false}
 npx cdk deploy
 ```
+
 Run Amplify codegen command to generate GraphQL codegen:
+
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --stack Backend --platform ts --out ./src
 ```   
+
 ### Generate codegen in specific language and format
 
 ```bash title="Terminal" showLineNumbers={false}
 npx amplify generate graphql-client-code --format modelgen --type-target angular
 ```
+
 ### Supported GraphQL client code combinations:
 
 | Format | Platform | Codegen command in Amplify CLI | Command in Amplify Gen2 | Default generated file/path |
@@ -329,6 +340,6 @@ Deploys the Amplify project in a CI/CD pipeline for a specified Amplify app and 
 
 <SubCommandHeading parentCommand="amplify-pipeline-deploy">Usage</SubCommandHeading>
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npx amplify pipeline-deploy --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID
 ```
