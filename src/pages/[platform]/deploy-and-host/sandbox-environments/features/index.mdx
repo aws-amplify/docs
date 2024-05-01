@@ -47,11 +47,11 @@ Amplify Gen 2 offers secure secret storage to manage sensitive data like API key
 You can add secrets to your sandbox environment using the following command:
 
 ```bash
-npx amplify sandbox secret set foo
+npx ampx sandbox secret set foo
 ? Enter secret value: ###
 Done!
 
-npx amplify sandbox secret set bar
+npx ampx sandbox secret set bar
 ? Enter secret value: ###
 Done!
 ```
@@ -63,7 +63,7 @@ After these commands, your sandbox will have two secrets named `foo` and `bar`.
 You can list all of the secret names available in your sandbox environment with the following command:
 
 ```bash
-npx amplify sandbox secret list
+npx ampx sandbox secret list
  - foo
  - bar
 ```
@@ -79,7 +79,7 @@ npx amplify sandbox secret list
 To show the value of a secret, run the following command.
 
 ```bash
-npx amplify sandbox secret get foo
+npx ampx sandbox secret get foo
 name: foo
 version: 1
 value: abc123
@@ -91,7 +91,7 @@ lastUpdated: Mon Nov 13 2023 22:19:12 GMT-0800 (Pacific Standard Time)
 To remove a secret from from the sandbox, run the following command in your terminal:
 
 ```bash
-npx amplify sandbox secret remove foo
+npx ampx sandbox secret remove foo
 ```
 
 ### Reference secrets
@@ -128,10 +128,10 @@ To deploy a backend that uses `secret()` references via Amplify hosting, the sec
 
 ## Work with multiple AWS profiles
 
-Sometimes you might have multiple AWS profiles set up locally. To run `amplify sandbox secret` commands, use the `--profile` flag to deploy to a specific profile. For example, let's say you have two AWS profiles set up locally—`default` and `work`. To add secrets to the sandbox in the `work` profile, run the following command in your terminal:
+Sometimes you might have multiple AWS profiles set up locally. To run `ampx sandbox secret` commands, use the `--profile` flag to deploy to a specific profile. For example, let's say you have two AWS profiles set up locally—`default` and `work`. To add secrets to the sandbox in the `work` profile, run the following command in your terminal:
 
 ```bash
-npx amplify sandbox secret set foo --profile work
+npx ampx sandbox secret set foo --profile work
 ```
 
 ## Work with multiple named sandboxes
@@ -145,7 +145,7 @@ Provisioning multiple sandboxes per app is possible but not recommended because 
 You can create multiple sandboxes if you want to have different features or test environments available in different sandboxes. By default, your sandbox is named based on the local machine username. To override this name, use the `--identifier` option:
 
 ```bash
-npx amplify sandbox --identifier feature1sandbox
+npx ampx sandbox --identifier feature1sandbox
 ```
 
 This will start a sandbox named `feature1sandbox`.
@@ -153,7 +153,7 @@ This will start a sandbox named `feature1sandbox`.
 Once the deployment completes, exit sandbox and run the following command in the terminal:
 
 ```bash
-npx amplify sandbox --identifier feature2sandbox
+npx ampx sandbox --identifier feature2sandbox
 ```
 
 After successful deployment, you will have two sandboxes `feature1sandbox` and `feature2sandbox`. You can switch between them but only one can be running at a time.
@@ -163,7 +163,7 @@ After successful deployment, you will have two sandboxes `feature1sandbox` and `
 When working with multiple sandboxes, secrets must be configured for each one. All of the `sandbox secret` commands accept the `--identifier` argument to manage secrets for named sandboxes. For example, to add a secret to `feature1sandbox`, use:
 
 ```bash
-npx amplify sandbox --identifier feature1sandbox secret set baz
+npx ampx sandbox --identifier feature1sandbox secret set baz
 ```
 
 ## Generate client config
@@ -172,19 +172,19 @@ The client config, or `amplify_outputs.json` file, contains the configuration st
 
 <InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --outputs-out-dir ./path/to/config --outputs-format ["json", "dart"]
+npx ampx sandbox --outputs-out-dir ./path/to/config --outputs-format ["json", "dart"]
 ```
 
 Alternatively, if you want to generate the config for a branch environment to test against, run the following command in the terminal.
 
 ```bash
-npx amplify generate outputs --app-id <your-amplify-app-id> --branch main --format ["json", "dart"] out-dir ./path/to/config
+npx ampx generate outputs --app-id <your-amplify-app-id> --branch main --format ["json", "dart"] out-dir ./path/to/config
 ```
 </InlineFilter>
 
 <InlineFilter filters={['flutter']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --outputs-format dart --outputs-out-dir lib
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 ```
 </InlineFilter>
 <InlineFilter filters={['android']}>
@@ -194,14 +194,14 @@ npx amplify sandbox --outputs-format dart --outputs-out-dir lib
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --outputs-format json-mobile --outputs-out-dir app/src/main/res/raw
+npx ampx sandbox --outputs-format json-mobile --outputs-out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --outputs-format json-mobile
+npx ampx sandbox --outputs-format json-mobile
 ```
 
 Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
@@ -219,12 +219,12 @@ Alternatively, if you want to generate the config for a branch environment to te
 For Web and React Native, generating the config with the default format and output directory.
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id <app-id> --branch main
+npx ampx generate config --app-id <app-id> --branch main
 ```
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id <app-id> --branch main --format dart --out-dir lib
+npx ampx generate config --app-id <app-id> --branch main --format dart --out-dir lib
 ```
 </InlineFilter>
 <InlineFilter filters={['android']}>
@@ -234,13 +234,13 @@ npx amplify generate config --app-id <app-id> --branch main --format dart --out-
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id <app-id> --branch main --format json-mobile --out-dir app/src/main/res/raw
+npx ampx generate config --app-id <app-id> --branch main --format json-mobile --out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 <InlineFilter filters={['swift']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --app-id <app-id> --format json-mobile
+npx ampx generate config --app-id <app-id> --format json-mobile
 ```
 
 Once the sandbox environment is running, it will generate the backend outputs file for your frontend application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
@@ -264,7 +264,7 @@ Codegen generates native code for Swift (iOS), Java (Android), and JavaScript th
 Once your sandbox completes a deployment, you can run the following command in the terminal to generate client code that is specific to your needs:
 
 ```bash
-npx amplify generate graphql-client-code
+npx ampx generate graphql-client-code
 --format [choices: "modelgen", "graphql-codegen", "introspection"]
 ```
 
@@ -273,5 +273,5 @@ npx amplify generate graphql-client-code
 You can delete a cloud sandbox environment in several ways:
 
 1. Ctrl+C your sandbox and choose to delete resources.
-1. Run `npx amplify sandbox delete` or `npx amplify sandbox delete --name`
+1. Run `npx ampx sandbox delete` or `npx ampx sandbox delete --name`
 1. Visit the Amplify console and [delete sandboxes](/[platform]/deploy-and-host/sandbox-environments/setup/#manage-sandbox-environments).
