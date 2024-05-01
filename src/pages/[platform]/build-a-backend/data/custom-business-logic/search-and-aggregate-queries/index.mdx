@@ -70,10 +70,12 @@ export const data = defineData({
 
 ```
 <Callout>
+
 Important considerations:
 
 Ensure Point in Time Recovery (PITR) is enabled, which is crucial for the pipeline integration.
 Enable DynamoDB streams to capture item changes that will be ingested into OpenSearch.
+
 </Callout>
 
 ```ts title="amplify/backend.ts"
@@ -81,7 +83,9 @@ Enable DynamoDB streams to capture item changes that will be ingested into OpenS
 import { defineBackend } from "@aws-amplify/backend";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
+// highlight-start
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+// highlight-end
 
 const backend = defineBackend({
   auth,
@@ -189,7 +193,6 @@ import { Stack } from "aws-cdk-lib";
 
 //highlight-start  
 import { storage } from "./storage/resource";
-import * as osis from "aws-cdk-lib/aws-osis";
 import * as iam from "aws-cdk-lib/aws-iam";
 //highlight-end  
 
@@ -314,6 +317,265 @@ When using OpenSearch, you can define the index template or mapping in advance b
 Customize the `template_content` JSON-representation to define the data structure for the ingestion pipeline.
 
 ``` ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
+import { Stack } from "aws-cdk-lib"; 
+import { storage } from "./storage/resource";
+import * as iam from "aws-cdk-lib/aws-iam";
+ 
+// Define backend resources
+const backend = defineBackend({
+  auth,
+  data,
+  storage,
+});
+
+onst todoTable =
+  backend.data.resources.cfnResources.amplifyDynamoDbTables["Todo"];
+
+// Update table settings
+todoTable.pointInTimeRecoveryEnabled = true;
+
+todoTable.streamSpecification = {
+  streamViewType: dynamodb.StreamViewType.NEW_IMAGE,
+};
+
+// Get the DynamoDB table ARN
+const tableArn = backend.data.resources.tables["Todo"].tableArn;
+// Get the DynamoDB table name
+const tableName = backend.data.resources.tables["Todo"].tableName;
+
+// Get the data stack
+const dataStack = Stack.of(backend.data);
+
+// Create the OpenSearch domain
+const openSearchDomain = new opensearch.Domain(
+  dataStack,
+  "OpenSearchDomain",
+  {
+    version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    nodeToNodeEncryption: true,
+    encryptionAtRest: {
+      enabled: true,
+    },
+  }
+);
+
+// Get the S3Bucket ARN
+const s3BucketArn = backend.storage.resources.bucket.bucketArn;
+// Get the S3Bucket Name
+const s3BucketName = backend.storage.resources.bucket.bucketName;
+
+//Get the region
+const region = dataStack.region;
+
+// Create an IAM role for OpenSearch integration
+const openSearchIntegrationPipelineRole = new iam.Role(
+  dataStack,
+  "OpenSearchIntegrationPipelineRole",
+  {
+    assumedBy: new iam.ServicePrincipal("osis-pipelines.amazonaws.com"),
+    inlinePolicies: {
+      openSearchPipelinePolicy: new iam.PolicyDocument({
+        statements: [
+          new iam.PolicyStatement({
+            actions: ["es:DescribeDomain"],
+            resources: [
+              openSearchDomain.domainArn,
+              openSearchDomain.domainArn + "/*",
+            ],
+            effect: iam.Effect.ALLOW,
+          }),
+          new iam.PolicyStatement({
+            actions: ["es:ESHttp*"],
+            resources: [
+              openSearchDomain.domainArn,
+              openSearchDomain.domainArn + "/*",
+            ],
+            effect: iam.Effect.ALLOW,
+          }),
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              "s3:GetObject",
+              "s3:AbortMultipartUpload",
+              "s3:PutObject",
+              "s3:PutObjectAcl",
+            ],
+            resources: [s3BucketArn, s3BucketArn + "/*"],
+          }),
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              "dynamodb:DescribeTable",
+              "dynamodb:DescribeContinuousBackups",
+              "dynamodb:ExportTableToPointInTime",
+              "dynamodb:DescribeExport",
+              "dynamodb:DescribeStream",
+              "dynamodb:GetRecords",
+              "dynamodb:GetShardIterator",
+            ],
+            resources: [tableArn, tableArn + "/*"],
+          }),
+        ],
+      }),
+    },
+    managedPolicies: [
+      iam.ManagedPolicy.fromAwsManagedPolicyName(
+        "AmazonOpenSearchIngestionFullAccess"
+      ),
+    ],
+  }
+);
+
+// highlight-start
+
+// Define OpenSearch index mappings
+const indexName = "todo";
+
+const indexMapping = {
+  settings: {
+    number_of_shards: 1,
+    number_of_replicas: 0,
+  },
+  mappings: {
+    properties: {
+      id: {
+        type: "keyword",
+      },
+      isDone: {
+        type: "boolean",
+      },
+      content: {
+        type: "text",
+      },
+    },
+  },
+};
+// highlight-end
+
+```
+
+The configuration is a data-prepper feature of OpenSearch. For specific documentation on DynamoDB configuration, refer to [OpenSearch data-prepper documentation](https://opensearch.org/docs/latest/data-prepper/pipelines/configuration/sources/dynamo-db/).
+
+
+``` ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
+import { Stack } from "aws-cdk-lib"; 
+import { storage } from "./storage/resource";
+import * as iam from "aws-cdk-lib/aws-iam";
+ 
+// Define backend resources
+const backend = defineBackend({
+  auth,
+  data,
+  storage,
+});
+
+onst todoTable =
+  backend.data.resources.cfnResources.amplifyDynamoDbTables["Todo"];
+
+// Update table settings
+todoTable.pointInTimeRecoveryEnabled = true;
+
+todoTable.streamSpecification = {
+  streamViewType: dynamodb.StreamViewType.NEW_IMAGE,
+};
+
+// Get the DynamoDB table ARN
+const tableArn = backend.data.resources.tables["Todo"].tableArn;
+// Get the DynamoDB table name
+const tableName = backend.data.resources.tables["Todo"].tableName;
+
+// Get the data stack
+const dataStack = Stack.of(backend.data);
+
+// Create the OpenSearch domain
+const openSearchDomain = new opensearch.Domain(
+  dataStack,
+  "OpenSearchDomain",
+  {
+    version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    nodeToNodeEncryption: true,
+    encryptionAtRest: {
+      enabled: true,
+    },
+  }
+);
+
+// Get the S3Bucket ARN
+const s3BucketArn = backend.storage.resources.bucket.bucketArn;
+// Get the S3Bucket Name
+const s3BucketName = backend.storage.resources.bucket.bucketName;
+
+//Get the region
+const region = dataStack.region;
+
+// Create an IAM role for OpenSearch integration
+const openSearchIntegrationPipelineRole = new iam.Role(
+  dataStack,
+  "OpenSearchIntegrationPipelineRole",
+  {
+    assumedBy: new iam.ServicePrincipal("osis-pipelines.amazonaws.com"),
+    inlinePolicies: {
+      openSearchPipelinePolicy: new iam.PolicyDocument({
+        statements: [
+          new iam.PolicyStatement({
+            actions: ["es:DescribeDomain"],
+            resources: [
+              openSearchDomain.domainArn,
+              openSearchDomain.domainArn + "/*",
+            ],
+            effect: iam.Effect.ALLOW,
+          }),
+          new iam.PolicyStatement({
+            actions: ["es:ESHttp*"],
+            resources: [
+              openSearchDomain.domainArn,
+              openSearchDomain.domainArn + "/*",
+            ],
+            effect: iam.Effect.ALLOW,
+          }),
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              "s3:GetObject",
+              "s3:AbortMultipartUpload",
+              "s3:PutObject",
+              "s3:PutObjectAcl",
+            ],
+            resources: [s3BucketArn, s3BucketArn + "/*"],
+          }),
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              "dynamodb:DescribeTable",
+              "dynamodb:DescribeContinuousBackups",
+              "dynamodb:ExportTableToPointInTime",
+              "dynamodb:DescribeExport",
+              "dynamodb:DescribeStream",
+              "dynamodb:GetRecords",
+              "dynamodb:GetShardIterator",
+            ],
+            resources: [tableArn, tableArn + "/*"],
+          }),
+        ],
+      }),
+    },
+    managedPolicies: [
+      iam.ManagedPolicy.fromAwsManagedPolicyName(
+        "AmazonOpenSearchIngestionFullAccess"
+      ),
+    ],
+  }
+);
 
 // Define OpenSearch index mappings
 const indexName = "todo";
@@ -338,12 +600,202 @@ const indexMapping = {
   },
 };
 
+// highlight-start
+
+// OpenSearch template definition
+const openSearchTemplate = `
+version: "2"
+dynamodb-pipeline:
+  source:
+    dynamodb:
+      acknowledgments: true
+      tables:
+        - table_arn: "${tableArn}"
+          stream:
+            start_position: "LATEST"
+          export:
+            s3_bucket: "${s3BucketName}"
+            s3_region: "${region}"
+            s3_prefix: "${tableName}/"
+      aws:
+        sts_role_arn: "${openSearchIntegrationPipelineRole.roleArn}"
+        region: "${region}"
+  sink:
+    - opensearch:
+        hosts:
+          - "https://${openSearchDomain.domainEndpoint}"
+        index: "${indexName}"
+        index_type: "custom"
+        template_content: |
+          ${JSON.stringify(indexMapping)}
+        document_id: '\${getMetadata("primary_key")}'
+        action: '\${getMetadata("opensearch_action")}'
+        document_version: '\${getMetadata("document_version")}'
+        document_version_type: "external"
+        bulk_size: 4
+        aws:
+          sts_role_arn: "${openSearchIntegrationPipelineRole.roleArn}"
+          region: "${region}"
+`;
+// highlight-end
 ```
 
-The configuration is a data-prepper feature of OpenSearch. For specific documentation on DynamoDB configuration, refer to [OpenSearch data-prepper documentation](https://opensearch.org/docs/latest/data-prepper/pipelines/configuration/sources/dynamo-db/).
+This configuration defines the desired behavior of the pipeline for a single model.
+
+In the source configuration, DynamoDB is specified as the data source, along with the target table for ingestion and the starting point of the stream. Additionally, besides ingesting the stream into OpenSearch, a target S3 bucket is defined for backup purposes. Furthermore, an IAM role is set for the ingestion pipeline, ensuring it possesses the necessary permissions and policies as detailed in the documentation.
+
+Regarding the sink configuration, the OpenSearch domain cluster is specified by setting the host, index name, type, and template content (index mapping) for data formatting. Document-related metadata is configured along with the maximum bulk size for requests to OpenSearch in MB. Once again, an IAM role is specified for the sink portion of the pipeline. For further details on Sink configuration, please refer to the [OpenSearch documentation](https://opensearch.org/docs/latest/data-prepper/pipelines/configuration/sinks/sinks/).
+
+The sink configuration is an array. To create a different index on the same table, you can achieve this by adding a second OpenSearch configuration to the sink array.
+
+To index multiple tables, you'll need to configure multiple pipelines in the configuration. For further guidance, please consult the [pipeline section](https://opensearch.org/docs/latest/data-prepper/pipelines/pipelines/) of the OpenSearch documentation.
+
+
+NOTE: An OpenSearch Ingestion pipeline supports only one DynamoDB table as its source. For more details on current limitations, Please refer to [Amazon OpenSearch Limitation](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/configure-client-ddb.html#ddb-pipeline-limitations) section.
+
+Now, create the OSIS pipeline resource:
 
 
 ``` ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
+import { Stack } from "aws-cdk-lib"; 
+import { storage } from "./storage/resource";
+import * as iam from "aws-cdk-lib/aws-iam";
+ //highlight-start
+import * as logs from "aws-cdk-lib/aws-logs";
+import { RemovalPolicy } from "aws-cdk-lib"; 
+ //highlight-end
+// Define backend resources
+const backend = defineBackend({
+  auth,
+  data,
+  storage,
+});
+
+onst todoTable =
+  backend.data.resources.cfnResources.amplifyDynamoDbTables["Todo"];
+
+// Update table settings
+todoTable.pointInTimeRecoveryEnabled = true;
+
+todoTable.streamSpecification = {
+  streamViewType: dynamodb.StreamViewType.NEW_IMAGE,
+};
+
+// Get the DynamoDB table ARN
+const tableArn = backend.data.resources.tables["Todo"].tableArn;
+// Get the DynamoDB table name
+const tableName = backend.data.resources.tables["Todo"].tableName;
+
+// Get the data stack
+const dataStack = Stack.of(backend.data);
+
+// Create the OpenSearch domain
+const openSearchDomain = new opensearch.Domain(
+  dataStack,
+  "OpenSearchDomain",
+  {
+    version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    nodeToNodeEncryption: true,
+    encryptionAtRest: {
+      enabled: true,
+    },
+  }
+);
+
+// Get the S3Bucket ARN
+const s3BucketArn = backend.storage.resources.bucket.bucketArn;
+// Get the S3Bucket Name
+const s3BucketName = backend.storage.resources.bucket.bucketName;
+
+//Get the region
+const region = dataStack.region;
+
+// Create an IAM role for OpenSearch integration
+const openSearchIntegrationPipelineRole = new iam.Role(
+  dataStack,
+  "OpenSearchIntegrationPipelineRole",
+  {
+    assumedBy: new iam.ServicePrincipal("osis-pipelines.amazonaws.com"),
+    inlinePolicies: {
+      openSearchPipelinePolicy: new iam.PolicyDocument({
+        statements: [
+          new iam.PolicyStatement({
+            actions: ["es:DescribeDomain"],
+            resources: [
+              openSearchDomain.domainArn,
+              openSearchDomain.domainArn + "/*",
+            ],
+            effect: iam.Effect.ALLOW,
+          }),
+          new iam.PolicyStatement({
+            actions: ["es:ESHttp*"],
+            resources: [
+              openSearchDomain.domainArn,
+              openSearchDomain.domainArn + "/*",
+            ],
+            effect: iam.Effect.ALLOW,
+          }),
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              "s3:GetObject",
+              "s3:AbortMultipartUpload",
+              "s3:PutObject",
+              "s3:PutObjectAcl",
+            ],
+            resources: [s3BucketArn, s3BucketArn + "/*"],
+          }),
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              "dynamodb:DescribeTable",
+              "dynamodb:DescribeContinuousBackups",
+              "dynamodb:ExportTableToPointInTime",
+              "dynamodb:DescribeExport",
+              "dynamodb:DescribeStream",
+              "dynamodb:GetRecords",
+              "dynamodb:GetShardIterator",
+            ],
+            resources: [tableArn, tableArn + "/*"],
+          }),
+        ],
+      }),
+    },
+    managedPolicies: [
+      iam.ManagedPolicy.fromAwsManagedPolicyName(
+        "AmazonOpenSearchIngestionFullAccess"
+      ),
+    ],
+  }
+);
+
+// Define OpenSearch index mappings
+const indexName = "todo";
+
+const indexMapping = {
+  settings: {
+    number_of_shards: 1,
+    number_of_replicas: 0,
+  },
+  mappings: {
+    properties: {
+      id: {
+        type: "keyword",
+      },
+      isDone: {
+        type: "boolean",
+      },
+      content: {
+        type: "text",
+      },
+    },
+  },
+};
 
 // OpenSearch template definition
 const openSearchTemplate = `
@@ -381,35 +833,16 @@ dynamodb-pipeline:
           region: "${region}"
 `;
 
-```
-
-This configuration defines the desired behavior of the pipeline for a single model.
-
-In the source configuration, DynamoDB is specified as the data source, along with the target table for ingestion and the starting point of the stream. Additionally, besides ingesting the stream into OpenSearch, a target S3 bucket is defined for backup purposes. Furthermore, an IAM role is set for the ingestion pipeline, ensuring it possesses the necessary permissions and policies as detailed in the documentation.
-
-Regarding the sink configuration, the OpenSearch domain cluster is specified by setting the host, index name, type, and template content (index mapping) for data formatting. Document-related metadata is configured along with the maximum bulk size for requests to OpenSearch in MB. Once again, an IAM role is specified for the sink portion of the pipeline. For further details on Sink configuration, please refer to the [OpenSearch documentation](https://opensearch.org/docs/latest/data-prepper/pipelines/configuration/sinks/sinks/).
-
-The sink configuration is an array. To create a different index on the same table, you can achieve this by adding a second OpenSearch configuration to the sink array.
-
-To index multiple tables, you'll need to configure multiple pipelines in the configuration. For further guidance, please consult the [pipeline section](https://opensearch.org/docs/latest/data-prepper/pipelines/pipelines/) of the OpenSearch documentation.
-
-
-NOTE: An OpenSearch Ingestion pipeline supports only one DynamoDB table as its source. For more details on current limitations, Please refer to [Amazon OpenSearch Limitation](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/configure-client-ddb.html#ddb-pipeline-limitations) section.
-
-Now, create the OSIS pipeline resource:
-
-
-``` ts title="amplify/backend.ts"
-
+// highlight-start
 // Create a CloudWatch log group
-const logGroup = new logs.LogGroup(openSearchStack, "LogGroup", {
+const logGroup = new logs.LogGroup(dataStack, "LogGroup", {
   logGroupName: "/aws/vended-logs/OpenSearchService/pipelines/1",
   removalPolicy: RemovalPolicy.DESTROY,
 });
 
 // Create an OpenSearch Integration Service pipeline
 const cfnPipeline = new osis.CfnPipeline(
-  openSearchStack,
+  dataStack,
   "OpenSearchIntegrationPipeline",
   {
     maxUnits: 4,
@@ -424,6 +857,8 @@ const cfnPipeline = new osis.CfnPipeline(
     },
   }
 );
+
+//highlight-end
 
 ```
 
@@ -441,7 +876,7 @@ You can also check this in the DynamoDB console by going to the Integrations sec
 
 ### Step 4a:Add OpenSearch Datasource to backend
 
-First, Add the OpenSearch data source to the data backend.
+First, Add the OpenSearch data source to the data backend. Add the following code to the end of the `amplify/backend.ts` file.
 
 ``` ts title="amplify/backend.ts"
 // Add OpenSearch data source 
@@ -449,6 +884,7 @@ const osDataSource = backend.data.addOpenSearchDataSource(
   "osDataSource",
   openSearchDomain
 );
+
 ```
 ### Step 4b: Create Resolver and attach to query
 
