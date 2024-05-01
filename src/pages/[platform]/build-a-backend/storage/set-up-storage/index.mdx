@@ -63,7 +63,7 @@ defineBackend({
 
 Now when you run `npx amplify sandbox` or deploy your app with Amplify, it will configure an Amazon S3 bucket where your files will be stored. Before files can be accessed in your application, you must configure storage access rules.
 
-To get these changes to the cloud, commit them to git and push the changes upstream. Amplify's CI/CD system will automatically pick up the changes and build and deploy the updates.
+To deploy these changes, commit them to git and push the changes upstream. Amplify's CI/CD system will automatically pick up the changes and build and deploy the updates.
 
 ```bash title="Terminal" showLineNumbers={false}
 git commit -am "add storage backend"
