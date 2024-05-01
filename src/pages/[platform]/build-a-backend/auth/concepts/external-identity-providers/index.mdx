@@ -4,14 +4,14 @@ export const meta = {
   title: 'External identity providers',
   description: 'Learn more about what Amplify Auth provisions and supports',
   platforms: [
-    // 'android',
+    'android',
     'angular',
-    // 'flutter',
+    'flutter',
     'javascript',
     'nextjs',
     'react',
-    // 'react-native',
-    // 'swift',
+    'react-native',
+    'swift',
     'vue'
   ]
 };
@@ -287,8 +287,9 @@ export const auth = defineAuth({
 If you are using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers) with Amplify, this feature works without any additional code. The guide below is for writing your own implementation.
 
 </Callout>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
-Enabling a signing in of a user with a external provider can be done as shown in the following code snippet.
+Use the `signInWithRedirect` API to initiate sign-in with an external identity provider.
 
 ```ts title="src/my-client-side-js.js"
 import { signInWithRedirect } from 'aws-amplify/auth';
@@ -297,6 +298,9 @@ await signInWithRedirect({
   provider: 'Apple'
 });
 ```
+
+</InlineFilter>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
 ### (Required for Multi-Page Applications) Complete external Sign In after Redirect
 
@@ -336,6 +340,7 @@ Hub.listen("auth", ({ payload }) => {
 When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the external sign in when an end user is redirected back to your app. This works well in a single-page application but in a multi-page application, you might get redirected to a page that doesn't include the listener that was originally added as a side-effect. Hence you must include the specific OAuth listener on your login success page.
 
 </Accordion>
+</InlineFilter>
 
 ## Next steps
 
