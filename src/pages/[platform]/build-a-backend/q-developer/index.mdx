@@ -1,16 +1,16 @@
-
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
 
 export const meta = {
-  title: 'Use Amazon Q Developer with Amplify',
-  description: 'Learn how to use Amazon Q Developer - Inline completions with Amplify',
+  title: "Use Amazon Q Developer with Amplify",
+  description:
+    "Learn how to use Amazon Q Developer - inline code suggestions with Amplify",
   platforms: [
-    'javascript',
-    'react-native',
-    'angular',
-    'nextjs',
-    'react',
-    'vue'
+    "javascript",
+    "react-native",
+    "angular",
+    "nextjs",
+    "react",
+    "vue",
   ],
 };
 
@@ -22,93 +22,27 @@ export function getStaticProps(context) {
   return {
     props: {
       platform: context.params.platform,
-      meta
-    }
+      meta,
+    },
   };
 }
 
-[Amazon Q Developer](https://aws.amazon.com/q/) re-imagines the experience across the entire Software Development LifeCycle (SDLC), making it faster and easier for developers and IT professionals to explore and understand problems and codebase, plan and develop a solution, build and deploy their apps, or modernize legacy workloads. Q Developer in the IDE provides [Inline completions (former Amazon CodeWhisperer)](https://docs.aws.amazon.com/codewhisperer/latest/userguide/what-is-cwspr.html) - an AI-powered productivity tool that generates code suggestions ranging from snippets to full functions in real time in the IDE based on your comments and existing code. When you start typing out singles of code or comments, Inline completions
-makes suggestions based on your current and previous inputs. 
+[Amazon Q Developer](https://aws.amazon.com/q/developer/) is a generative artificial intelligence (AI) powered conversational assistant that can help you understand, build, extend, and operate AWS applications. You can ask questions about AWS architecture, your AWS resources, best practices, documentation, support, and more. Amazon Q is constantly updating its capabilities so your questions get the most contextually relevant and actionable answers. When used in an integrated development environment (IDE), Amazon Q provides software development assistance. Amazon Q can chat about code, provide inline code completions, generate net new code, scan your code for security vulnerabilities, and make code upgrades and improvements, such as language updates, debugging, and optimizations.
 
-<Callout informational>
-
-**Note:** AWS recommends that, before using Amazon Q Developer - Inline completions, you disable any other extensions that provide code completion functionality.
-
-</Callout>
+Q Developer in the IDE provides [inline code suggestions](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/inline-suggestions.html) in real time. As you write code, Amazon Q automatically generates suggestions based on your existing code and comments. When you start typing out single lines of code or comments, Amazon Q makes suggestions based on your current and previous inputs. Inline suggestions are automatically enabled when you download the Amazon Q extension.
 
 ## Setting up Q Developer
 
-You can use Q Developer through [AWS Toolkit for VS Code](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/welcome.html) or [AWS Toolkit for JetBrains](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
+Amazon Q is available as an extension in Visual Studio Code and a plugin in JetBrains. Amazon Q is also available in the AWS Toolkit for Visual Studio. To get started, please visit [Install Amazon Q Developer](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/q-in-IDE-setup.html).
 
-### Installing or updating your IDE 
+## Use Q Developer - Inline code suggestions in your Amplify project
 
-To install VS Code for the first time, use the [VS Code download page](https://code.visualstudio.com/download). If you already have VS Code installed, update to the latest version as follows:
-
-- On MacOS, choose Code -> **Check for Updates**.
-- On Windows and Linux, choose Help -> **Check for Updates**.
-
-To install JetBrains for the first time, use the [JetBrains download page](https://www.jetbrains.com/idea/download/). If you already have JetBrains installed, update to the latest version as follows:
-
-- On MacOS, from the IDE's main dropdown menu, choose **Check for Updates**.
-- On Windows and Linux, choose Help -> **Check for Updates**.
-
-### Installing the AWS Toolkit
-
-In order to use Amazon Q Developer - Inline completions with VS Code or JetBrains, you must first download and install the AWS Toolkit.
-
-For information about installing the AWS Toolkit for VS Code, see [Setting Up the AWS Toolkit for Visual Studio Code](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/setting-up.html) in the AWS Toolkit for Visual Studio Code user guide.
-
-For information about installing the AWS Toolkit for JetBrains, see [Setting Up the AWS Toolkit for JetBrains](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/getting-started.html) in the AWS Toolkit for JetBrains user guide.
-
-### Choosing your authentication method
-
-If you plan to use Amazon Q Developer - Inline completions with VS Code (through AWS Toolkit) or JetBrains (through AWS Toolkit), you will have to authenticate using either AWS Builder ID or IAM Identity Center.
-
-If you plan to use Amazon Q Developer - Inline completions with AWS Cloud9 AWS Lambda, SageMaker Studio, JupyterLab, or AWS Glue Studio, you will have to authenticate using IAM.
-
-For information about authenticating with Amazon Q Developer - Inline completions, see [Authenticating with Amazon Q Developer - Inline completions and AWS Toolkit](https://docs.aws.amazon.com/codewhisperer/latest/userguide/whisper-setup-ide-devs.html#codewhisperer-auth).
-
-
-### Setting up your authentication method
-
-- [Builder ID](https://docs.aws.amazon.com/signin/latest/userguide/sign-in-aws_builder_id.html) (used with AWS Toolkit and VS Code or JetBrains) requires only an email address. To use it, you don't even need an AWS account.
-- [IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html) requires setup by your enterprise administrator.
-- [IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html) credentials are used within your AWS account to regulate access to, and between, various AWS services.
-
-To access AWS, you must sign up for an [AWS account](https://docs.aws.amazon.com/codewhisperer/latest/userguide/setting-up.html#getting-started-signup)
-
-## Getting started with Q Developer - Inline completions in VS Code and JetBrains
-
-<BlockSwitcher>
-<Block name="VS Code">
-
-1. From the AWS Toolkit for VS Code, in the AWS pane, under **CodeWhisperer**, choose **Sign in to get started**. The **AWS Toolkit: Add Connection to AWS** tab will open.
-1. Select the **Amazon Q + CodeWhisperer** authentication panel.
-1. Select the appropriate [authentication method](https://docs.aws.amazon.com/codewhisperer/latest/userguide/whisper-setup-ide-devs.html#codewhisperer-auth) and log in.
-
-![A screenshot of AWS Toolkit for VS Code that displays auth config options for Amazon Q + CodeWhisperer, AWS Explorer, and Amazon CodeCatalyst](/images/gen2/q-developer/VSCode.png)
-
-</Block>
-<Block name="JetBrains">
-
-1. From the AWS Toolkit for JetBrains, select the **Amazon Q + CodeWhisperer** tab.
-1. Under CodeWhisperer, choose **Sign in to get started**. The **AWS Toolkit: Setup Authentication** modal will open.
-1. Select the appropriate [authentication method](https://docs.aws.amazon.com/codewhisperer/latest/userguide/whisper-setup-ide-devs.html#codewhisperer-auth) and log in.
-
-![A screenshot of AWS Toolkit for JetBrains that displays auth config options for Amazon Q + CodeWhisperer using IAM Identity Center, AWS Builder ID, and IAM credentials](/images/gen2/q-developer/JetBrains.png)
-
-</Block>
-</BlockSwitcher>
-
-
-## Use Q Developer - Inline completions in your Gen 2 project
-
-Amplify generates two folders in our backend directory, `auth` and `data` which contain TypeScript CDK definitions for each of these resources.  We’ll build out the schema for our API through the help of Amazon Q Developer - Inline completions capabilities.
+Amplify generates two folders in your backend directory, `auth` and `data`, which contain TypeScript AWS CDK definitions for each of these resources. We’ll build out the schema for our API through the help of Amazon Q Developer's inline code suggestion capabilities.
 
 **Step 1:** Open `amplify/data/resource.ts` and comment out the default schema for Todo provided.
 
 ```ts title="amplify/data/resource.ts"
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 // ...
 
@@ -123,10 +57,10 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 // ...
 ```
 
-**Step 2:** In a new line below the commented schema, enter a comment to generate the schema using natural language. For example, `generate a restaurant model with the following fields: id, name, description, address, image, rating, style. Rating can be a float value. Authorization should allow public.`  Press `Enter` for a new line and wait for Amazon Q Developer to generate Inline completion for your schema.
+**Step 2:** In a new line below the commented schema, enter a comment to generate the schema using natural language. For example, `generate a restaurant model with the following fields: id, name, description, address, image, rating, style. Rating can be a float value. Authorization should allow public.` Press `Enter` for a new line and wait for Amazon Q Developer to generate inline code suggestion for your schema.
 
 ```ts title="amplify/data/resource.ts"
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 // ...
 
@@ -145,8 +79,7 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 // ...
 ```
 
-**Step 3:** Select the Inline completion generated by Amazon Q developer. The Inline completion feature assists you in defining the schema
-and hover over the output to select from other options.
+**Step 3:** Select the inline code suggestion generated by Amazon Q developer. The inline code suggestion feature assists you in defining the schema and hover over the output to select from other options.
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/q-developer/Amplify-Gen2-Q-Developer.mp4" />
@@ -154,9 +87,8 @@ and hover over the output to select from other options.
 
 <Callout informational>
 
-**Note:** You can also trigger Inline completion feature by invoking Amazon Q Developer manually using Option+C keyboard shortcut in VS Code. For more commands, please refer to the Commands tab in the AWS Toolkit extension. 
+**Note:** You can also trigger inline code suggestion feature by invoking Amazon Q Developer manually using Option+C keyboard shortcut in VS Code. For more commands, please refer to the Commands tab in the Amazon Q extension.
 
 </Callout>
 
-**Step 4:** Make any required changes to the schema and save the `amplify/data/resource.ts` file. This will trigger a sandbox deployment and your new data model will be deployed 
-
+**Step 4:** Make any required changes to the schema and save the `amplify/data/resource.ts` file. This will trigger a sandbox deployment and your new data model will be deployed

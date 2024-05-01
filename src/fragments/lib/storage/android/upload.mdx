@@ -3,6 +3,87 @@ Amplify allows you to upload `File`s and `InputStream`s.
 ## Upload InputStream
 To upload data to S3 from an `InputStream`:
 
+#### With StoragePath
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+private void uploadInputStream() {
+    try {
+        InputStream exampleInputStream = getContentResolver().openInputStream(uri);
+
+        Amplify.Storage.uploadInputStream(
+                StoragePath.fromString("public/example"),
+                exampleInputStream,
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+                storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+        );
+    }  catch (FileNotFoundException error) {
+        Log.e("MyAmplifyApp", "Could not find file to open for input stream.", error);
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+private fun uploadInputStream(uri: Uri) {
+    val stream = contentResolver.openInputStream(uri)
+
+    Amplify.Storage.uploadInputStream(StoragePath.fromString("public/example"), stream,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.path}") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
+    )
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+private suspend fun uploadInputStream(uri: Uri) {
+    val stream = contentResolver.openInputStream(uri)
+
+    val upload = Amplify.Storage.uploadInputStream(StoragePath.fromString("public/example"), stream)
+    try {
+        val result = upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.path}.")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed")
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+private void uploadInputStream() {
+    try {
+        InputStream exampleInputStream = getContentResolver().openInputStream(uri);
+
+        RxProgressAwareSingleOperation<StorageUploadInputStreamResult> rxUploadOperation =
+                RxAmplify.Storage.uploadInputStream(StoragePath.fromString("public/example"), exampleInputStream);
+
+        rxUploadOperation
+                .observeResult()
+                .subscribe(
+                    result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+                    error -> Log.e("MyAmplifyApp", "Upload failed", error)
+                );
+    } catch (FileNotFoundException error) {
+        Log.e("MyAmplifyApp", "Could not find file to open for input stream.", error);
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+#### With Key (Deprecated)
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -81,7 +162,98 @@ private void uploadInputStream() {
 </BlockSwitcher>
 
 ## Upload files
-To upload to S3 from a data object, specify the key and the file to be uploaded.
+To upload data to S3 from a `File`:
+
+#### With StoragePath
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+private void uploadFile() {
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "example");
+
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch (Exception exception) {
+        Log.e("MyAmplifyApp", "Upload failed", exception);
+    }
+
+    Amplify.Storage.uploadFile(
+            StoragePath.fromString("public/example"),
+            exampleFile,
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+            storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+private fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "example")
+    exampleFile.writeText("Example file contents")
+
+    Amplify.Storage.uploadFile(StoragePath.fromString("public/example"), exampleFile,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.path}") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
+    )
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+private suspend fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "example")
+    exampleFile.writeText("Example file contents")
+
+    val upload = Amplify.Storage.uploadFile(StoragePath.fromString("public/example"), exampleFile)
+    try {
+        val result = upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.path}")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+private void uploadFile() {
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "example");
+
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch (Exception exception) {
+        Log.e("MyAmplifyApp", "Upload failed", exception);
+    }
+
+    RxProgressAwareSingleOperation<StorageUploadFileResult> rxUploadOperation =
+            RxAmplify.Storage.uploadFile(StoragePath.fromString("public/example"), exampleFile);
+
+    rxUploadOperation
+            .observeResult()
+            .subscribe(
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+                error -> Log.e("MyAmplifyApp", "Upload failed", error)
+            );
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+#### With Key (Deprecated)
 
 <BlockSwitcher>
 <Block name="Java">
@@ -170,7 +342,98 @@ private void uploadFile() {
 </Block>
 </BlockSwitcher>
 
+## Track Progress
+
 To track progress of the upload, use the `uploadFile` API that includes a progress listener callback.
+
+#### With StoragePath
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+private void uploadFile() {
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "example");
+
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch (Exception exception) {
+        Log.e("MyAmplifyApp", "Upload failed", exception);
+    }
+
+    Amplify.Storage.uploadFile(
+        StoragePath.fromString("public/example"),
+        exampleFile,
+        StorageUploadFileOptions.defaultInstance(),
+        progress -> Log.i("MyAmplifyApp", "Fraction completed: " + progress.getFractionCompleted()),
+        result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+        storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+private fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "example")
+    exampleFile.writeText("Example file contents")
+
+    val options = StorageUploadFileOptions.defaultInstance()
+    Amplify.Storage.uploadFile(StoragePath.fromString("public/example"), exampleFile, options,
+        { Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}") },
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.path}") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
+    )
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+private suspend fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "example")
+    exampleFile.writeText("Example file contents")
+
+    val options = StorageUploadFileOptions.defaultInstance()
+    val upload = Amplify.Storage.uploadFile(StoragePath.fromString("public/example"), exampleFile, options)
+    val progressJob = activityScope.async {
+        upload.progress().collect {
+            Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
+        }
+    }
+    try {
+        val result = upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.path}")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
+    progressJob.cancel()
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxProgressAwareSingleOperation<StorageUploadFileResult> upload =
+        RxAmplify.Storage.uploadFile("example", exampleFile);
+
+upload
+    .observeProgress()
+    .subscribe(
+      progress -> Log.i("MyAmplifyApp", progress.getFractionCompleted())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+#### With Key (Deprecated)
 
 <BlockSwitcher>
 <Block name="Java">
@@ -260,6 +523,135 @@ upload
 ## Transfer with Object Metadata
 
 To upload a file accompanied by metadata, utilize the `StorageUploadFileOptions` builder. Start by creating a hashMap object, then incorporate it into the `StorageUploadFileOptions` during the build process before passing it along to the upload function.
+
+#### With StoragePath
+
+<BlockSwitcher>
+<Block name="Java">
+```java
+private void uploadFile() {
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "example");
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch (Exception exception) {
+        Log.e("MyAmplifyApp", "Upload failed", exception);
+    }
+
+    // Create metadata
+    Map<String, String> userMetadata = new HashMap<>();
+    userMetadata.put("myKey", "myVal");
+
+    // Configure upload options with metadata
+    StorageUploadFileOptions options = StorageUploadFileOptions.builder()
+        .metadata(userMetadata)
+        .build();
+
+    // Perform the upload
+    Amplify.Storage.uploadFile(
+        StoragePath.fromString("public/example"),
+        exampleFile,
+        options,
+        result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+        error -> Log.e("MyAmplifyApp", "Upload failed", error)
+    );
+}
+```
+</Block>
+<Block name="Kotlin - Callbacks">
+```kotlin
+fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "example")
+    exampleFile.writeText("Example file contents")
+
+    // Create metadata
+    val userMetadata: MutableMap<String, String> = HashMap()
+    userMetadata["myKey"] = "myVal"
+
+    // Configure upload options with metadata
+    val options = StorageUploadFileOptions.builder()
+        .metadata(userMetadata)
+        .build()
+
+    // Perform the upload
+    Amplify.Storage.uploadFile(
+        StoragePath.fromString("public/example"),
+        exampleFile,
+        options,
+        { result -> Log.i("MyAmplifyApp", "Successfully uploaded: ${result.path}") },
+        { error -> Log.e("MyAmplifyApp", "Upload failed", error) }
+    )
+}
+```
+</Block>
+<Block name="Kotlin - Coroutines">
+```kotlin
+fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "example")
+    exampleFile.writeText("Example file contents")
+
+    // Create metadata
+    val userMetadata: MutableMap<String, String> = HashMap()
+    userMetadata["myKey"] = "myVal"
+
+    // Configure upload options with metadata
+    val options = StorageUploadFileOptions.builder()
+        .metadata(userMetadata)
+        .build()
+
+    val upload = Amplify.Storage.uploadFile(StoragePath.fromString("public/example"), exampleFile, options)
+    val progressJob = activityScope.async {
+        upload.progress().collect {
+            Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
+        }
+    }
+    try {
+        val result = upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.path}")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
+    progressJob.cancel()
+}
+```
+</Block>
+<Block name="RxJava">
+```Java
+private void uploadFile() {
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "example");
+
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch (Exception exception) {
+        Log.e("MyAmplifyApp", "Upload failed", exception);
+    }
+
+    Map<String, String> userMetadata = new HashMap<>();
+    userMetadata.put("myKey", "myVal");
+
+    StorageUploadFileOptions options = StorageUploadFileOptions.builder()
+            .metadata(userMetadata)
+            .build();
+
+    RxStorageBinding.RxProgressAwareSingleOperation<StorageUploadFileResult> rxUploadOperation =
+            RxAmplify.Storage.uploadFile(StoragePath.fromString("public/example"), exampleFile, options);
+
+    rxUploadOperation
+            .observeResult()
+            .subscribe(
+                    result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+                    error -> Log.e("MyAmplifyApp", "Upload failed", error)
+            );
+}
+ ```
+</Block>
+</BlockSwitcher>
+
+#### With Key (Deprecated)
+
 <BlockSwitcher>
 <Block name="Java">
 ```java
