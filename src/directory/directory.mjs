@@ -589,6 +589,14 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/build-a-backend/q-developer/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/troubleshooting/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/library-not-configured/index.mdx'
+                }
+              ]
             }
           ]
         },
