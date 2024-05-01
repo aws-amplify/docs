@@ -36,7 +36,7 @@ Amplify Storage seamlessly integrates file storage and management capabilities i
 
 ## Building your storage backend
 
-First, create a file `amplify/storage/resource.ts`. This file will be the location where you configure your storage backend. Instantiate storage using the `defineStorage` function and providing a `name` for your storage bucket. This `name` is a friendly name to identify your bucket in your backend configuration.
+First, create a file `amplify/storage/resource.ts`. This file will be the location where you configure your storage backend. Instantiate storage using the `defineStorage` function and providing a `name` for your storage bucket. This `name` is a friendly name to identify your bucket in your backend configuration. Amplify will generate a unique identifier for your app using a UUID, the name attribute is just for use in your app.
 
 ```ts title="amplify/storage/resource.ts"
 import { defineStorage } from '@aws-amplify/backend';
