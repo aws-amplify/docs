@@ -53,6 +53,20 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/manage-users/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/with-admin-actions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-passwords/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-devices/index.mdx'
+                    }
+                  ]
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/switching-auth-flows/index.mdx'
                 },
                 {
@@ -86,9 +100,6 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/manage-attributes/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/password-management/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/guest-access/index.mdx'
                 },
                 {
@@ -104,19 +115,13 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/sign-in-custom-flow/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/remember-device/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/admin-actions/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/override-cognito/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/modify-resources-with-cdk/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx'
@@ -126,6 +131,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx'
                 }
               ]
             },
@@ -198,12 +206,22 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/index.mdx',
+
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-polly/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/search-and-aggregate-queries/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-eventbridge-datasource/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-polly/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-bedrock/index.mdx'
@@ -320,9 +338,6 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/dynamo-db-stream/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/functions/examples/bedrock-response/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/s3-upload-confirmation/index.mdx'
@@ -1175,6 +1190,12 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-a-backend/storage/set-up-storage/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen1/[platform]/build-a-backend/storage/path/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen1/[platform]/build-a-backend/storage/storagepath/index.mdx'
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-a-backend/storage/upload/index.mdx'
