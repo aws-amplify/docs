@@ -52,8 +52,8 @@ Sandbox enables you to develop your backend alongside your frontend's developmen
 - `--dir-to-watch` (_string_) - Directory to watch for file changes. All subdirectories and files will be included. Defaults to the amplify directory.
 - `--exclude` (_string[]_) - An array of paths or glob patterns to ignore. Paths can be relative or absolute and can either be files or directories.
 - `--identifier` (_string_) - An optional name to distinguish between different sandbox environments. Default is the name of the system user executing the process
-- `--config-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
-- `--config-format` (_string_) - Format in which the client config file is written (choices: `json`, `dart`).
+- `--outputs-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
+- `--outputs-format` (_string_) - Format in which the client config file is written (choices: `json`, `dart`).
 - `--profile` (_string_) - An AWS profile name.
 
 <SubCommandHeading parentCommand="amplify-sandbox">Usage</SubCommandHeading>
@@ -90,17 +90,17 @@ For mobile applications, you will need to set the output directory and format of
 
 ```bash title="Terminal" showLineNumbers={false}
 # for Android
-amplify sandbox --config-format json-mobile --config-out-dir app/src/main/res
+amplify sandbox --outputs-out-dir app/src/main/res
 ```
 
 ```bash title="Terminal" showLineNumbers={false}
 # for Swift/iOS
-amplify sandbox --config-format json-mobile
+amplify sandbox
 ```
 
 ```bash title="Terminal" showLineNumbers={false}
 # for Flutter
-amplify sandbox --config-format dart --config-out-dir lib
+amplify sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
 ## npx amplify sandbox delete
@@ -218,7 +218,7 @@ In addition to the required options noted in [`amplify generate`](#amplify-gener
 As mentioned above, you can specify a team member's cloud sandbox CloudFormation stack:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b
+npx amplify generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b
 ```
 
 #### Use with mobile applications
@@ -226,7 +226,7 @@ npx amplify generate config --stack amplify-nextamplifygen2-josef-sandbox-ca85e1
 Similar to `sandbox`, you can specify an alternate configuration file format by using `--format`:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate config --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b --format json-mobile
+npx amplify generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b
 ```
 
 ## npx amplify generate graphql-client-code
@@ -336,7 +336,7 @@ Deploys the Amplify project in a CI/CD pipeline for a specified Amplify app and 
 
 - `--branch` (_string_) - Name of the git branch being deployed.
 - `--app-id` (_string_) - The app id of the target Amplify app.
-- `--config-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
+- `--outputs-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
 
 <SubCommandHeading parentCommand="amplify-pipeline-deploy">Usage</SubCommandHeading>
 

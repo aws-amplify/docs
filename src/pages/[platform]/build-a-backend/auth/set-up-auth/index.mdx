@@ -133,7 +133,7 @@ After you have chosen and set up your authentication resource, run the following
 
 <InlineFilter filters={['flutter']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format dart --config-out-dir lib
+npx amplify sandbox --outputs-format dart --outputs-out-dir lib
 ```
 </InlineFilter>
 <InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
@@ -147,13 +147,13 @@ Be sure to add a "raw" folder under app/src/main/res directory if it doesn't exi
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format json-mobile --config-out-dir app/src/main/res/raw
+npx amplify sandbox --outputs-out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format json-mobile
+npx amplify sandbox
 ```
 </InlineFilter>
 
