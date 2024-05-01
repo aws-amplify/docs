@@ -95,7 +95,7 @@ If you're using the Next.js App Router, you can create a client component to con
 import { Amplify } from 'aws-amplify';
 import outputs from '../amplify_outputs.json';
 
-Amplify.configure(config, { ssr: true });
+Amplify.configure(outputs, { ssr: true });
 
 export default function ConfigureAmplifyClientSide() {
   return null;
