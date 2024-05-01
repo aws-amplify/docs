@@ -259,7 +259,7 @@ struct MyAmplifyApp: App {
         }
     }
     // highlight-end
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -376,7 +376,7 @@ Try playing around with the code completion of `.update(...)` and `.delete(...)`
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
-In your MainActivity, add a button to create a new todo. 
+In your MainActivity, add a button to create a new todo.
 
 ```kt title="MainActivity.kt"
 // imports
@@ -433,7 +433,7 @@ import SwiftUI
 import Amplify
 
 struct ContentView: View {
-    
+
     var body: some View {
         // highlight-start
         VStack {
@@ -449,7 +449,7 @@ struct ContentView: View {
         }
         // highlight-end
     }
-    
+
     // highlight-start
     private func addNewTodo() {
         Task {
@@ -481,10 +481,10 @@ Successfully created todo: Todo(id: XYZ ...)
 
 <InlineFilter filters={['flutter']}>
 
-In your page, let's add a floating action button that creates a new todo. 
+In your page, let's add a floating action button that creates a new todo.
 
 ```dart title="lib/main.dart"
-// ... main() 
+// ... main()
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -560,7 +560,7 @@ import { generateClient } from "aws-amplify/data";
 const client = generateClient<Schema>();
 
 export default function TodoList() {
-  const [todos, setTodos] = useState<Schema["Todo"][]>([]);
+  const [todos, setTodos] = useState<Schema["Todo"]["type"][]>([]);
 
   const fetchTodos = async () => {
     const { data: items, errors } = await client.models.Todo.list();
@@ -638,7 +638,7 @@ import Amplify
 struct ContentView: View {
     // highlight-next-line
     @State private var todos: [Todo] = []
-    
+
     var body: some View {
         VStack {
             // highlight-start
@@ -662,7 +662,7 @@ struct ContentView: View {
         }
         // highlight-end
     }
-    
+
     // highlight-start
     private func fetchTodos() async {
         do {
@@ -807,7 +807,7 @@ import { generateClient } from "aws-amplify/data";
 const client = generateClient<Schema>();
 
 export default function TodoList() {
-  const [todos, setTodos] = useState<Schema["Todo"][]>([]);
+  const [todos, setTodos] = useState<Schema["Todo"]["type"][]>([]);
 
   useEffect(() => {
     const sub = client.models.Todo.observeQuery().subscribe({
@@ -906,7 +906,7 @@ struct ContentView: View {
     @State private var todos: [Todo] = []
     // highlight-next-line
     private var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>
-    
+
     var body: some View {
         VStack {
             // ...
@@ -920,13 +920,13 @@ struct ContentView: View {
             // ...
         }
     }
-    
+
     // highlight-start
     init() {
         self.subscription = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
     }
     // highlight-end
-    
+
     // ... fetchTodos() and addNewTodo()
 }
 ```
@@ -938,7 +938,7 @@ Next, add a handler as new todo creation events are received:
 
 struct ContentView: View {
     // ... state & subscription vars
-    
+
     var body: some View {
         VStack {
             // ...
@@ -956,7 +956,7 @@ struct ContentView: View {
             // highlight-end
         }
     }
-    
+
     // highlight-start
     private func handleSubscriptionEvent(_ subscriptionEvent: GraphQLSubscriptionEvent<Todo>) {
         switch subscriptionEvent {
@@ -971,7 +971,7 @@ struct ContentView: View {
                 print("Got failed result with \(error.errorDescription)")
             }
         }
-    } 
+    }
     // highlight-end
     // ... init(), fetchTodos(), and addNewTodo()
 }
