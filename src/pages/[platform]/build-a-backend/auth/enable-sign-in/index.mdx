@@ -524,7 +524,7 @@ Be sure to add a "raw" folder under app/src/main/res directory if it doesn't exi
 </Callout>
 
 ```sh showLineNumbers={false}
-npx ampx sandbox --outputs-format json-mobile --outputs-out-dir app/src/main/res/raw
+npx ampx sandbox --outputs-out-dir app/src/main/res/raw
 ```
 
 After you enable MFA you will also need to include MFA setup when users sign up. This will change depending on if you enable SMS, TOTP or both.
@@ -908,7 +908,7 @@ export const auth = defineAuth({
 
 
 ```sh showLineNumbers={false}
-npx ampx sandbox --outputs-format json-mobile
+npx ampx sandbox
 ```
 
 After you enable MFA you will also need to include MFA setup when users sign up. This will change depending on if you enable SMS, TOTP or both.
