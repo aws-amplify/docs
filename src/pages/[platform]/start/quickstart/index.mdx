@@ -1961,11 +1961,11 @@ The **amplify_outputs.json** file contains backend endpoint information, publicl
 
 The deployed backend application already has a pre-configured auth backend defined in the `amplify/auth/resource.ts` file.
 
-The fastest way to get your login experience up and running is to use our Authenticator UI component. To use the Authenticator UI component, you need to add the following dependencies to your app/build.gradle file:
+The fastest way to get your login experience up and running is to use our Authenticator UI component. To use the Authenticator UI component, you need to add the following dependencies to your app/build.gradle.kts file:
 
 <Callout warning>Be sure to have compileSdk version as 34 or higher.</Callout>
 
-```kotlin title="app/build.gradle"
+```kotlin title="app/build.gradle.kts"
 dependencies {
     implementation("com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
@@ -1980,6 +1980,7 @@ import android.util.Log
 import com.amplifyframework.AmplifyException
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputs
 
 class MyAmplifyApp: Application() {
     override fun onCreate() {
@@ -1987,7 +1988,7 @@ class MyAmplifyApp: Application() {
 
         try {
             Amplify.addPlugin(AWSCognitoAuthPlugin())
-            Amplify.configure(applicationContext)
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
@@ -2070,7 +2071,7 @@ In the command below, replace the APP-ID with your Amplify app ID. Find this in 
 
 ```bash title="Terminal" showLineNumbers={false}
 cd my-android-app
-npx ampx generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
+npx @aws-amplify/backend-cli generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
 ```
 
 Once you are done, add the following dependencies to your project:
