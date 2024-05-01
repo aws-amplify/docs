@@ -73,7 +73,7 @@ import outputs from "../amplify_outputs.json";
 
 Amplify.configure(
   {
-    ...config,
+    ...outputs,
     Auth: {
       Cognito: {
         identityPoolId: config.aws_cognito_identity_pool_id,
