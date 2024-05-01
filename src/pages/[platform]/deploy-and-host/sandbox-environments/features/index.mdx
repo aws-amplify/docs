@@ -168,10 +168,11 @@ npx amplify sandbox --identifier feature1sandbox secret set baz
 
 ## Generate client config
 
-The client config, or `amplifyconfiguration.json` file, contains the configuration strings for interacting with AWS resources specific to an environment. The Amplify client libraries need the client config in order to use the library APIs to connect to backend resources. By default, the cloud sandbox generates the client configuration file at the root of the project (such as `@/amplifyconfiguration.json`). If you want to place the file at a different path (such as for a monorepo or Android app), run the following command in the terminal:
+The client config, or `amplify_outputs.json` file, contains the configuration strings for interacting with AWS resources specific to an environment. The Amplify client libraries need the client config in order to use the library APIs to connect to backend resources. By default, the cloud sandbox generates the client configuration file at the root of the project (such as `@/amplify_outputs.json`). If you want to place the file at a different path (such as for a monorepo or Android app), run the following command in the terminal:
 
-```bash
-npx amplify sandbox --config-out-dir ./path/to/config --format ["mjs", "json", "json-mobile", "ts", "dart"]
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+```bash title="Terminal" showLineNumbers={false}
+npx amplify sandbox --outputs-out-dir path/to/config --outputs-format ["json", "dart"]
 ```
 
 Alternatively, if you want to generate the config for a branch environment to test against, run the following command in the terminal.
@@ -179,6 +180,76 @@ Alternatively, if you want to generate the config for a branch environment to te
 ```bash
 npx amplify generate config --app-id <AMPLIFY_APP_ID> --branch main --format ["mjs", "json", "json-mobile", "ts", "dart"] out-dir ./path/to/config
 ```
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+```bash title="Terminal" showLineNumbers={false}
+npx amplify sandbox --outputs-format dart --outputs-out-dir lib
+```
+</InlineFilter>
+<InlineFilter filters={['android']}>
+<Callout warning>
+  Be sure to add a "raw" folder under app/src/main/res directory if it doesn't
+  exist.
+</Callout>
+
+```bash title="Terminal" showLineNumbers={false}
+npx amplify sandbox --outputs-format json-mobile --outputs-out-dir app/src/main/res/raw
+```
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```bash title="Terminal" showLineNumbers={false}
+npx amplify sandbox --outputs-format json-mobile
+```
+
+Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+  <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
+</video>
+</InlineFilter>
+
+### Deployment Environment
+
+Alternatively, if you want to generate the config for a branch environment to test against, you can run the following command below in the terminal:
+
+<InlineFilter filters={['android','angular','flutter','javascript','nextjs','react','react-native','swift','vue']}>
+For Web and React Native, generating the config with the default format and output directory.
+
+```bash title="Terminal" showLineNumbers={false}
+npx amplify generate config --app-id <app-id> --branch main
+```
+</InlineFilter>
+<InlineFilter filters={['flutter']}>
+```bash title="Terminal" showLineNumbers={false}
+npx amplify generate config --app-id <app-id> --branch main --format dart --out-dir lib
+```
+</InlineFilter>
+<InlineFilter filters={['android']}>
+<Callout warning>
+  Be sure to add a "raw" folder under app/src/main/res directory if it doesn't
+  exist.
+</Callout>
+
+```bash title="Terminal" showLineNumbers={false}
+npx amplify generate config --app-id <app-id> --branch main --format json-mobile --out-dir app/src/main/res/raw
+```
+</InlineFilter>
+<InlineFilter filters={['swift']}>
+
+```bash title="Terminal" showLineNumbers={false}
+npx amplify generate config --app-id <app-id> --format json-mobile
+```
+
+Once the sandbox environment is running, it will generate the backend outputs file for your frontend application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+  <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
+</video>
+
+</InlineFilter>
 
 ## Generate client codegen
 
