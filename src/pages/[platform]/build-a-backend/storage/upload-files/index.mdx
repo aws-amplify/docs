@@ -28,11 +28,9 @@ export function getStaticProps(context) {
   };
 }
 
-{/* I don't think you need this intro sentence unless you add why there's different ways to implement it  */}
-There are multiple ways you can implement upload functionality for your app and upload files to your storage bucket.
+<InlineFilter filters={["javascript","nextjs","react"]}>
 
-{/* should this just be for js, next, react? */}
-<InlineFilter filters={["angular","javascript","nextjs","react","vue","react-native"]}>
+You can implement upload functionality in your app by either using the Storage Manager UI component or further customizing the upload experience using the upload API.
 
 ## Storage Manager React UI Component
 
@@ -66,11 +64,7 @@ Learn more about how you can further customize the UI component by referring to 
 
 </InlineFilter>
 
-## API Usage
-
-{/* what does API usage mean here?  */}
-To further customize the upload experience from your app, refer to the API usage for uploading files using the Amplify Library for Storage.
-{/* should this be a link? */}
+## Implement upload functionality
 
 <Callout>
 
@@ -84,6 +78,9 @@ To further customize the upload experience from your app, refer to the API usage
 
 ### Upload from file
 
+The following is an example of how you would upload a file from a file object, this could be retrieved from the local machine or a different source.
+
+<InlineFilter filters={["react", "react-native"]}>
 ```javascript
 import React from 'react';
 import { uploadData } from 'aws-amplify/storage';
@@ -112,8 +109,37 @@ function App() {
     );
 }
 ```
+</InlineFilter>
+
+<InlineFilter filters={["javascript", "angular", "vue", "nextjs"]}>
+```javascript
+import { uploadData } from "aws-amplify/storage";
+
+const file = document.getElementById("file");
+const upload = document.getElementById("upload");
+
+upload.addEventListener("click", () => {
+  const fileReader = new FileReader();
+  fileReader.readAsArrayBuffer(file.files[0]);
+
+  fileReader.onload = async (event) => {
+    console.log("Complete File read successfully!", event.target.result);
+    try {
+      await uploadData({
+                data: event.target.result, 
+                path: file.files[0].name 
+            });
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+});
+```
+</InlineFilter>
 
 ### Upload from data
+
+You can following this example if you have data saved in memory and would like to upload this data to the cloud.
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
