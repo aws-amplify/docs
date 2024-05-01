@@ -90,17 +90,17 @@ For mobile applications, you will need to set the output directory and format of
 
 ```bash title="Terminal" showLineNumbers={false}
 # for Android
-amplify sandbox --outputs-out-dir app/src/main/res
+npx ampx sandbox --outputs-out-dir app/src/main/res
 ```
 
 ```bash title="Terminal" showLineNumbers={false}
 # for Swift/iOS
-amplify sandbox
+npx ampx sandbox
 ```
 
 ```bash title="Terminal" showLineNumbers={false}
 # for Flutter
-amplify sandbox --outputs-format dart --outputs-out-dir lib
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
 ## npx ampx sandbox delete
@@ -178,7 +178,7 @@ npx ampx sandbox secret list
 You can view an existing secret and its details, such as the current version and when it was last updated:
 
 ```console
-amplify sandbox secret get LOGINWITHAMAZON_CLIENT_ID
+npx ampx sandbox secret get LOGINWITHAMAZON_CLIENT_ID
  name: LOGINWITHAMAZON_CLIENT_ID
  version: 1
  value: ****
