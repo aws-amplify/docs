@@ -387,6 +387,8 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
+
 ```
 
 ```java
@@ -406,7 +408,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSPinpointAnalyticsPlugin());
-            Amplify.configure(getApplicationContext());
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -425,6 +427,7 @@ import com.amplifyframework.AmplifyException
 import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputs
 ```
 
 ```kotlin
@@ -443,7 +446,7 @@ class MyAmplifyApp : Application() {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.addPlugin(AWSPinpointAnalyticsPlugin())
-            Amplify.configure(applicationContext)
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
 
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
@@ -461,6 +464,7 @@ import android.util.Log;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
 import com.amplifyframework.rx.RxAmplify;
 ```
 
@@ -481,7 +485,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
             RxAmplify.addPlugin(new AWSPinpointAnalyticsPlugin());
-            RxAmplify.configure(getApplicationContext());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {

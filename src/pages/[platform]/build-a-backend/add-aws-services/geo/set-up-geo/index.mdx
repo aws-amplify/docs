@@ -225,7 +225,7 @@ Add the following code to your `onCreate()` method in your application class:
 ```java
 Amplify.addPlugin(new AWSCognitoAuthPlugin());
 Amplify.addPlugin(new AWSLocationGeoPlugin());
-Amplify.configure(getApplicationContext());
+Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 ```
 
 Your class will look like this:
@@ -239,7 +239,7 @@ public class MyAmplifyApp extends Application {
         try {
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSLocationGeoPlugin());
-            Amplify.configure(getApplicationContext());
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
@@ -254,7 +254,7 @@ public class MyAmplifyApp extends Application {
 ```kotlin
 Amplify.addPlugin(AWSCognitoAuthPlugin())
 Amplify.addPlugin(AWSLocationGeoPlugin())
-Amplify.configure(applicationContext)
+Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
 ```
 
 Your class will look like this:
@@ -267,7 +267,7 @@ class MyAmplifyApp : Application() {
         try {
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.addPlugin(AWSLocationGeoPlugin())
-            Amplify.configure(applicationContext)
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
@@ -282,7 +282,7 @@ class MyAmplifyApp : Application() {
 ```java
 RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
 RxAmplify.addPlugin(new AWSLocationGeoPlugin());
-RxAmplify.configure(getApplicationContext());
+RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 ```
 
 Your class will look like this:
@@ -296,7 +296,7 @@ public class MyAmplifyApp extends Application {
         try {
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
             RxAmplify.addPlugin(new AWSLocationGeoPlugin());
-            RxAmplify.configure(getApplicationContext());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
