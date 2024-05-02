@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Working with files/attachments',
   description:
-    'Connect to Amazon Polly.',
+    'Working with files/attachments.',
   platforms: [
     'android',
     'angular',
@@ -84,6 +84,25 @@ export const storage = defineStorage({
 
 
 ```
+
+Configure the storage in the `amplify/backend.ts` file as demonstrated below:
+
+```ts title="amplify/backend.ts"
+
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import { storage } from "./storage/resource";
+
+export const backend = defineBackend({
+  auth,
+  data,
+  storage,
+});
+
+```
+
+
 ## Configuring authorization
 
 Your application needs authorization credentials for reading and writing to both Storage and the GraphQL API, except in the case where all data and files are intended to be publicly accessible.
