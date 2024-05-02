@@ -29,8 +29,7 @@ export function getStaticProps() {
   };
 }
 
-The Storage and GraphQL API categories can be used together to associate a file, such as an image or video, with a particular record. For example, you might create a User model with a profile picture, or a Post model with an associated image. With Amplify's GraphQL API and Storage categories, you can reference the file within the model itself to create an association.
-
+The Storage and GraphQL API categories can be used together to associate a file, such as an image or video, with a particular record. For example, you might create a `User` model with a profile picture, or a `Post` model with an associated image. With Amplify's GraphQL API and Storage categories, you can reference the file within the model itself to create an association.
 
 ## Set up the project
 
@@ -48,7 +47,7 @@ const schema = a.schema({
     .model({
       id: a.id().required(),
       name: a.string().required(),
-      converArtPath: a.string(),
+      coverArtPath: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });
@@ -117,7 +116,7 @@ For more details on how to configure Storage authorization levels, see the [Stor
 
 ## Create a record with an associated file
 
-First create a record via the GraphQL API, then upload the file to Storage, and finally add the association between the record and file. Use the following example with the GraphQL API and Storage categories to create a record and associate the file with the record.
+You can create a record via the Amplify Data client, upload a file to Storage, and finally update the record to associate it with the uploaded file. Use the following example with the Amplify Data client and Amplify Storage library helpers, `uploadData` and `getUrl`, to create a record and associate it the file with the record.
 
 <Callout>
 
@@ -157,7 +156,7 @@ const result = await uploadData({
 // Add the file association to the record:
 const updateResponse = await client.models.Song.update({
   id: song.id,
-  converArtPath: result?.path,
+  coverArtPath: result?.path,
 });
 
 const updatedSong = updateResponse.data;
@@ -165,10 +164,10 @@ const updatedSong = updateResponse.data;
 setCurrentSong(updatedSong);
 
 // If the record has no associated file, we can return early.
-if (!updatedSong.converArtPath) return;
+if (!updatedSong.coverArtPath) return;
 
 // Retrieve the file's signed URL:
-const signedURL = await getUrl({ path: updatedSong.converArtPath });
+const signedURL = await getUrl({ path: updatedSong.coverArtPath });
 
 
 ```
@@ -199,7 +198,7 @@ const result = await uploadData({
 // Add the file association to the record:
 const response = await client.models.Song.update({
   id: currentSong.id,
-  converArtPath: result?.path,
+  coverArtPath: result?.path,
 });
 
 const updatedSong = response.data;
@@ -207,10 +206,10 @@ const updatedSong = response.data;
 setCurrentSong(updatedSong);
 
 // If the record has no associated file, we can return early.
-if (!updatedSong?.converArtPath) return;
+if (!updatedSong?.coverArtPath) return;
 
 // Retrieve the file's signed URL:
-const signedURL = await getUrl({ path: updatedSong.converArtPath });
+const signedURL = await getUrl({ path: updatedSong.coverArtPath });
 
 ```
 
@@ -234,10 +233,10 @@ const response = await client.models.Song.get({
 const song = response.data;
 
 // If the record has no associated file, we can return early.
-if (!song?.converArtPath) return;
+if (!song?.coverArtPath) return;
 
 // Retrieve the signed URL:
-const signedURL = await getUrl({ path: song.converArtPath });
+const signedURL = await getUrl({ path: song.coverArtPath });
 
 ```
 
@@ -270,11 +269,11 @@ const response = await client.models.Song.get({
 const song = response.data;
 
 // If the record has no associated file, we can return early.
-if (!song?.converArtPath) return;
+if (!song?.coverArtPath) return;
 
 const updatedSong = await client.models.Song.update({
   id: song.id,
-  converArtPath: null,
+  coverArtPath: null,
 });
 
 ```
@@ -297,16 +296,16 @@ const response = await client.models.Song.get({
 const song = response?.data;
 
 // If the record has no associated file, we can return early.
-if (!song?.converArtPath) return;
+if (!song?.coverArtPath) return;
 
 // Remove associated file from record
 const updatedSong = await client.models.Song.update({
   id: song.id,
-  converArtPath: null,
+  coverArtPath: null,
 });
 
 // Delete the file from S3:
-await remove({ path: song.converArtPath });
+await remove({ path: song.coverArtPath });
 
 ```
 
@@ -328,9 +327,9 @@ const response = await client.models.Song.get({
 const song = response.data;
 
 // If the record has no associated file, we can return early.
-if (!song?.converArtPath) return;
+if (!song?.coverArtPath) return;
 
-await remove({ path: song.converArtPath });
+await remove({ path: song.coverArtPath });
 
 // Delete the record from the API:
 await client.models.Song.delete({ id: song.id });
@@ -713,40 +712,34 @@ import { uploadData, getUrl, remove } from "aws-amplify/storage";
 import React, { useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import "@aws-amplify/ui-react/styles.css";
-import { withAuthenticator } from "@aws-amplify/ui-react";
+import {
+  type WithAuthenticatorProps,
+  withAuthenticator,
+} from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
 import outputs from "../amplify_outputs.json";
-
 Amplify.configure(outputs);
-
 // Generating the client
 const client = generateClient<Schema>({
   authMode: "apiKey",
 });
-
-function App({ signOut, user }) {
+type Song = Schema["Song"]["type"];
+function App({ signOut, user }: WithAuthenticatorProps) {
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
-
   // Used to display image for current song:
   const [currentImageUrl, setCurrentImageUrl] = useState<
     string | null | undefined
   >("");
-
   async function createSongWithImage(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
-
     const file = e.target.files[0];
-
     try {
       // Create the API record:
       const response = await client.models.Song.create({
         name: `My first song`,
       });
-
       const song = response.data;
-
       if (!song) return;
-
       // Upload the Storage file:
       const result = await uploadData({
         path: `images/${song.id}-${file.name}`,
@@ -755,37 +748,28 @@ function App({ signOut, user }) {
           contentType: "image/png", // contentType is optional
         },
       }).result;
-
       // Add the file association to the record:
       const updateResponse = await client.models.Song.update({
         id: song.id,
-        converArtPath: result?.path,
+        coverArtPath: result?.path,
       });
-
       const updatedSong = updateResponse.data;
-
       setCurrentSong(updatedSong);
-
       // If the record has no associated file, we can return early.
-      if (!updatedSong.converArtPath) return;
-
+      if (!updatedSong?.coverArtPath) return;
       // Retrieve the file's signed URL:
-      const signedURL = await getUrl({ path: updatedSong.converArtPath });
+      const signedURL = await getUrl({ path: updatedSong.coverArtPath });
       setCurrentImageUrl(signedURL.url.toString());
     } catch (error) {
       console.error("Error create song / file:", error);
     }
   }
-
   // Upload image, add to song, retrieve signed URL and retrieve the image.
   // Also updates image if one already exists.
   async function addNewImageToSong(e: React.ChangeEvent<HTMLInputElement>) {
     if (!currentSong) return;
-
     if (!e.target.files) return;
-
     const file = e.target.files[0];
-
     try {
       // Upload the Storage file:
       const result = await uploadData({
@@ -795,123 +779,95 @@ function App({ signOut, user }) {
           contentType: "image/png", // contentType is optional
         },
       }).result;
-
       // Add the file association to the record:
       const response = await client.models.Song.update({
         id: currentSong.id,
-        converArtPath: result?.path,
+        coverArtPath: result?.path,
       });
-
       const updatedSong = response.data;
-
       setCurrentSong(updatedSong);
-
       // If the record has no associated file, we can return early.
-      if (!updatedSong?.converArtPath) return;
-
+      if (!updatedSong?.coverArtPath) return;
       // Retrieve the file's signed URL:
-      const signedURL = await getUrl({ path: updatedSong.converArtPath });
+      const signedURL = await getUrl({ path: updatedSong.coverArtPath });
       setCurrentImageUrl(signedURL.url.toString());
     } catch (error) {
       console.error("Error uploading image / adding image to song: ", error);
     }
   }
-
   async function getImageForCurrentSong() {
     if (!currentSong) return;
     try {
       // Query the record to get the file path:
-
       const response = await client.models.Song.get({
         id: currentSong.id,
       });
       const song = response.data;
-
       // If the record has no associated file, we can return early.
-      if (!song?.converArtPath) return;
-
+      if (!song?.coverArtPath) return;
       // Retrieve the signed URL:
-      const signedURL = await getUrl({ path: song.converArtPath });
-
+      const signedURL = await getUrl({ path: song.coverArtPath });
       setCurrentImageUrl(signedURL.url.toString());
     } catch (error) {
       console.error("Error getting song / image:", error);
     }
   }
-
   // Remove the file association, continue to persist both file and record
   async function removeImageFromSong() {
     if (!currentSong) return;
-
     try {
       const response = await client.models.Song.get({
         id: currentSong.id,
       });
-
       const song = response.data;
-
       // If the record has no associated file, we can return early.
-      if (!song?.converArtPath) return;
-
+      if (!song?.coverArtPath) return;
       const updatedSong = await client.models.Song.update({
         id: song.id,
-        converArtPath: null,
+        coverArtPath: null,
       });
-
       // If successful, the response here will be `null`:
       setCurrentSong(updatedSong.data);
-      setCurrentImageUrl(updatedSong.data?.converArtPath);
+      setCurrentImageUrl(updatedSong.data?.coverArtPath);
     } catch (error) {
       console.error("Error removing image from song: ", error);
     }
   }
-
   // Remove the record association and delete the file
   async function deleteImageForCurrentSong() {
     if (!currentSong) return;
-
     try {
       const response = await client.models.Song.get({
         id: currentSong.id,
       });
       const song = response?.data;
-
       // If the record has no associated file, we can return early.
-      if (!song?.converArtPath) return;
-
+      if (!song?.coverArtPath) return;
       // Remove associated file from record
       const updatedSong = await client.models.Song.update({
         id: song.id,
-        converArtPath: null,
+        coverArtPath: null,
       });
-
       // Delete the file from S3:
-      await remove({ path: song.converArtPath });
-
+      await remove({ path: song.coverArtPath });
       // If successful, the response here will be `null`:
       setCurrentSong(updatedSong.data);
-      setCurrentImageUrl(updatedSong.data?.converArtPath);
+      setCurrentImageUrl(updatedSong.data?.coverArtPath);
     } catch (error) {
       console.error("Error deleting image: ", error);
     }
   }
-
   // Delete both file and record
   async function deleteCurrentSongAndImage() {
     if (!currentSong) return;
-
     try {
       const response = await client.models.Song.get({
         id: currentSong.id,
       });
-
       const song = response.data;
-
       // If the record has no associated file, we can return early.
-      if (!song?.converArtPath) return;
-
-      await remove({ path: song.converArtPath });
-
+      if (!song?.coverArtPath) return;
+      await remove({ path: song.coverArtPath });
       // Delete the record from the API:
       await client.models.Song.delete({ id: song.id });
       clearLocalState();
@@ -919,17 +875,14 @@ function App({ signOut, user }) {
       console.error("Error deleting song: ", error);
     }
   }
-
   function clearLocalState() {
     setCurrentSong(null);
     setCurrentImageUrl("");
   }
-
   return (
     <>
       <h1>Hello {user?.username}</h1>
       <button onClick={signOut}>Sign out</button>
-
       <div>
         <label>
           <h2>{`Current Song: ${currentSong?.id}`}</h2>
@@ -973,7 +926,6 @@ function App({ signOut, user }) {
     </>
   );
 }
-
 export default withAuthenticator(App);
 
 ```
