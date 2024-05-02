@@ -2020,6 +2020,16 @@ dependencies {
 
 Afterwards create a `MyAmplifyApp` class that extends `Application` and add the following code:
 
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
+
 ```kotlin title="MyAmplifyApp.kt"
 import android.app.Application
 import android.util.Log
@@ -2034,7 +2044,7 @@ class MyAmplifyApp: Application() {
 
         try {
             Amplify.addPlugin(AWSCognitoAuthPlugin())
-            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
+            Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)

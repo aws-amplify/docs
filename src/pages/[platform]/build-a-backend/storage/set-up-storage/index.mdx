@@ -277,6 +277,16 @@ Initialize Amplify Storage by calling `Amplify.addPlugin()`. To complete initial
 
 Add the following code to your `onCreate()` method in your application class:
 
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -342,8 +352,7 @@ class MyAmplifyApp : Application() {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSS3StoragePlugin plugins
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.addPlugin(AWSS3StoragePlugin())
-            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
-
+            Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
