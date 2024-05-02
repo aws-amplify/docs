@@ -193,7 +193,7 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/working-with-files/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/data/working-with-files/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/custom-subscription/index.mdx'
