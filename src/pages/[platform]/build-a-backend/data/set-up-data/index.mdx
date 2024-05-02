@@ -163,8 +163,8 @@ Create a new `MyAmplifyApp` class that inherits from `Application` with the foll
 <Callout warning>
 Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
 
-```sh
-npx amplify generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
 ```
 
 Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
