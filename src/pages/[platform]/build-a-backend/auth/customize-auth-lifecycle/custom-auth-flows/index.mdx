@@ -238,7 +238,7 @@ Since this is a custom authentication flow with a challenge, the result of the s
 
 ## Confirm sign in with custom challenge
 
-Get the custom challenge from the user and pass it to the `confirmSignin()` api.
+To get a custom challenge from the user, create an appropriate UI for the user to submit the required value, and pass that value into the `confirmSignin()` API.
 
 <BlockSwitcher>
 
@@ -824,7 +824,7 @@ user has already signed in and a valid session is active. You must first call
 </Callout>
 ## Confirm sign in with custom challenge
 
-Get the custom challenge from the user and pass it to the `confirmSignin()` api.
+To get a custom challenge from the user, create an appropriate UI for the user to submit the required value, and pass that value into the `confirmSignin()` API.
 
 ```dart
 Future<void> confirmSignIn(String generatedNumber) async {
