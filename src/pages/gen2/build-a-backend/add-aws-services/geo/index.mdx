@@ -11,21 +11,15 @@ export function getStaticProps(context) {
   };
 }
 
-<Callout warning>
-
-**Under active development:** The `addOutput` method for Amplify Gen 2 is under active development. The experience may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
-
-</Callout>
-
 Amplify provides APIs and map UI components for maps and location search for your web apps. The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create a Geo resource powered by [Amazon Location Services](https://aws.amazon.com/location/).
 
 ```ts title="amplify/backend.ts"
 import { CfnMap } from "aws-cdk-lib/aws-location";
 
 const backend = defineBackend({
-  auth, 
+  auth,
   data,
-  // additional resources 
+  // additional resources
 });
 
 const geoStack = backend.createStack("geo-stack");

@@ -11,12 +11,6 @@ export function getStaticProps(context) {
   };
 }
 
-<Callout warning>
-
-**Under active development:** The `addOutput` method for Amplify Gen 2 is under active development. The experience may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
-
-</Callout>
-
 Amplify allows interacting with In-App Messaging APIs, which enables you to send messages to your app users. In-App Messaging is a powerful tool to engage with your users and provide them with relevant information. The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create the In-App Messaging resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/).
 
 ```ts title="amplify/backend.ts"
@@ -30,9 +24,9 @@ import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { Stack } from "aws-cdk-lib";
 
 const backend = defineBackend({
-  auth, 
+  auth,
   data,
-  // additional resources 
+  // additional resources
 });
 
 const inAppMessagingStack = backend.createStack("inAppMessaging-stack");
@@ -42,7 +36,7 @@ const pinpoint = new CfnApp(inAppMessagingStack, "Pinpoint", {
   name: "myPinpointApp",
 });
 
-// create a segment 
+// create a segment
 const mySegment = new CfnSegment(inAppMessagingStack, "Segment", {
   applicationId: pinpoint.ref,
   name: "mySegment",
@@ -55,7 +49,7 @@ new CfnCampaign(inAppMessagingStack, "MyCampaign", {
   segmentId: mySegment.attrSegmentId,
   schedule: {
     // ensure the start and end time are in the future
-    startTime: "2024-02-23T14:39:34Z", 
+    startTime: "2024-02-23T14:39:34Z",
     endTime: "2024-02-29T14:32:40Z",
     frequency: "IN_APP_EVENT",
     eventFilter: {

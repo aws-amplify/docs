@@ -11,12 +11,6 @@ export function getStaticProps(context) {
   };
 }
 
-<Callout warning>
-
-**Under active development:** The `addOutput` method for Amplify Gen 2 is under active development. The experience may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
-
-</Callout>
-
 Amplify provides APIs to invoke your endpoints from your web apps. The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to add a REST API resource powered by [API Gateway](https://aws.amazon.com/api-gateway/).
 
 Create a [Function](/gen2/build-a-backend/functions) with the following.
@@ -44,7 +38,7 @@ import { LambdaRestApi } from "aws-cdk-lib/aws-apigateway";
 import { myFunction } from "./functions/my-function/resource";
 
 const backend = defineBackend({
-  auth, 
+  auth,
   data,
   myFunction
 });
