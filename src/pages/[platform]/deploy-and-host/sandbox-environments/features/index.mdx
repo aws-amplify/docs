@@ -219,12 +219,12 @@ Alternatively, if you want to generate the config for a branch environment to te
 For Web and React Native, generating the config with the default format and output directory.
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate config --app-id <app-id> --branch main
+npx ampx generate outputs --app-id <app-id> --branch main
 ```
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate config --app-id <app-id> --branch main --format dart --out-dir lib
+npx ampx generate outputs --app-id <app-id> --branch main --format dart --out-dir lib
 ```
 </InlineFilter>
 <InlineFilter filters={['android']}>
@@ -240,7 +240,7 @@ npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main
 <InlineFilter filters={['swift']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate config --app-id <app-id> --format json-mobile
+npx ampx generate outputs --app-id <app-id> --format json-mobile
 ```
 
 Once the sandbox environment is running, it will generate the backend outputs file for your frontend application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
