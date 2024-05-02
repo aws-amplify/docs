@@ -408,9 +408,9 @@ Import and load the configuration file in your app. It's recommended you add the
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native"]}>
 ```javascript title="src/index.js"
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
+Amplify.configure(outputs):
 
-Amplify.configure(amplifyconfig);
 const existingConfig = Amplify.getConfig();
 Amplify.configure({
   ...existingConfig,
