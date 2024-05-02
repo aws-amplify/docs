@@ -17,6 +17,15 @@ export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
 }
 
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
 ## POST Requests
 
 Send a POST request with a JSON body.
