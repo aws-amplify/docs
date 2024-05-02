@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Optimistic UI',
-  description: 'Learn more about implementing optimistic UI with Amplify GraphQL API.',
+  description: 'Learn more about implementing optimistic UI with Amplify Amplify Data API.',
   platforms: [
     'javascript',
     'swift',
@@ -36,7 +36,7 @@ In the following examples we'll create a list view that optimistically renders n
 
 For more details on TanStack Query, including requirements, supported browsers, and advanced usage, see the [TanStack Query documentation](https://tanstack.com/query/latest/docs/react/overview).
 For complete guidance on how to implement optimistic updates with TanStack Query, see the [TanStack Query Optimistic UI Documentation](https://tanstack.com/query/latest/docs/react/guides/optimistic-updates).
-For more on the Amplify GraphQL API, see the [API documentation](/gen1/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/).
+For more on the Amplify Data, see the [API documentation](/[platform]/build-a-backend/data/set-up-data/).
 
 </Callout>
 
@@ -44,7 +44,7 @@ To get started, run the following command in an existing Amplify project with a 
 
 ```bash title="Terminal" showLineNumbers={false}
 # Install TanStack Query
-npm i @tanstack/react-query
+npm i @tanstack/react-query @tanstack/react-query-devtools
 ```
 
 Modify your Data schema to use this "Real Estate Property" example:
@@ -77,13 +77,13 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import { Amplify } from 'aws-amplify'
-import config from '../amplifyconfiguration.json'
+import outputs from '../amplify_outputs.json'
 // highlight-start
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 // highlight-end
 
-Amplify.configure(config)
+Amplify.configure(outputs)
 
 const queryClient = new QueryClient()
 
@@ -112,7 +112,7 @@ For the complete working example, including required imports and React component
 
 </Callout>
 
-## How to use TanStack Query query keys with the GraphQL API
+## How to use TanStack Query query keys with the Amplify Data API
 
 TanStack Query manages query caching based on the query keys you specify. A query key must be an array. The array can contain a single string or multiple strings and nested objects. The query key must be serializable, and unique to the query's data.
 
@@ -122,7 +122,7 @@ For more detailed information on query keys, see the [TanStack Query documentati
 
 ## Optimistically rendering a list of records
 
-To optimistically render a list of items returned from the GraphQL API, use the TanStack `useQuery` hook, passing in the GraphQL API query as the `queryFn` parameter. The following example creates a query to retrieve all records from the API. We'll use `realEstateProperties` as the query key, which will be the same key we use to optimistically render a newly created item.
+To optimistically render a list of items returned from the Amplify Data API, use the TanStack `useQuery` hook, passing in the Data API query as the `queryFn` parameter. The following example creates a query to retrieve all records from the API. We'll use `realEstateProperties` as the query key, which will be the same key we use to optimistically render a newly created item.
 
 ```ts title="src/App.tsx"
 // highlight-start
@@ -159,14 +159,14 @@ function App() {
 
 ## Optimistically rendering a newly created record
 
-To optimistically render a newly created record returned from the GraphQL API, use the TanStack `useMutation` hook, passing in the GraphQL API mutation as the `mutationFn` parameter. We'll use the same query key used by the `useQuery` hook (`realEstateProperties`) as the query key to optimistically render a newly created item.
+To optimistically render a newly created record returned from the Amplify Data API, use the TanStack `useMutation` hook, passing in the Amplify Data API mutation as the `mutationFn` parameter. We'll use the same query key used by the `useQuery` hook (`realEstateProperties`) as the query key to optimistically render a newly created item.
 We'll use the `onMutate` function to update the cache directly, as well as the `onError` function to rollback changes when a request fails.
 
 ```ts
 import { generateClient } from 'aws-amplify/api'
 import type { Schema } from '../amplify/data/resource'
 // highlight-next-line
-import { useMutation } from '@tanstack/react-query'
+import { useQueryClient, useMutation } from '@tanstack/react-query'
 
 const client = generateClient<Schema>()
 
@@ -247,7 +247,9 @@ function App() {
     queryFn: async () => {
       if (!currentRealEstatePropertyId) { return }
 
-      const { data: property } = await client.models.RealEstateProperty.get({ currentRealEstatePropertyId });
+      const { data: property } = await client.models.RealEstateProperty.get({
+        id: currentRealEstatePropertyId,
+      });
       return property;
     },
   });
@@ -269,6 +271,7 @@ When directly interacting with the cache via the `onMutate` function, the `newRe
 ```ts title="src/App.tsx"
 import { generateClient } from 'aws-amplify/data'
 import type { Schema } from '../amplify/data/resource'
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 const client = generateClient<Schema>()
 
@@ -351,7 +354,7 @@ We'll use the `onMutate` function to update the cache directly, as well as the `
 ```ts title="src/App.tsx"
 import { generateClient } from 'aws-amplify/data'
 import type { Schema } from '../amplify/data/resource'
-import { useMutation } from '@tanstack/react-query'
+import { useQueryClient, useMutation } from '@tanstack/react-query'
 
 const client = generateClient<Schema>()
 
@@ -471,11 +474,11 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import { Amplify } from 'aws-amplify'
-import config from '../amplifyconfiguration.json'
+import outputs from '../amplify_outputs.json'
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-Amplify.configure(config)
+Amplify.configure(outputs)
 
 export const queryClient = new QueryClient()
 
@@ -1007,7 +1010,7 @@ actor RealEstatePropertyList {
 }
 ```
 
-Calling the `listProperties()` method will perform a query with GraphQL API and store the results in the `properties` property. When this property is set, the list is sent back to the subscribers. In your UI, create a view model and subscribe to updates:
+Calling the `listProperties()` method will perform a query with Amplify Data API and store the results in the `properties` property. When this property is set, the list is sent back to the subscribers. In your UI, create a view model and subscribe to updates:
 
 ```swift
 class RealEstatePropertyContainerViewModel: ObservableObject {
@@ -1045,7 +1048,7 @@ struct RealEstatePropertyContainerView: View {
 
 ## Optimistically rendering a newly created record
 
-To optimistically render a newly created record returned from the GraphQL API, add a method to the `actor RealEstatePropertyList`:
+To optimistically render a newly created record returned from the Amplify Data API, add a method to the `actor RealEstatePropertyList`:
 
 ```swift
 func createProperty(name: String, address: String? = nil) {
@@ -1108,7 +1111,7 @@ func updateProperty(_ property: RealEstateProperty) async {
 
 ## Optimistically render deleting a record
 
-To optimistically render a GraphQL API delete, use the code snippet like below:
+To optimistically render a Amplify Data API delete, use the code snippet like below:
 
 ```swift
 func deleteProperty(_ property: RealEstateProperty) async {
