@@ -1,4 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import schema from "@/data/amplify-outputs-schema-v1.json"
 
 export const meta = {
   title: 'About amplify_outputs.json',
@@ -21,16 +22,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps() {
-  async function fetchBackendOutputsSchema() {
-    const request = new Request("https://raw.githubusercontent.com/aws-amplify/amplify-backend/main/packages/client-config/src/client-config-schema/schema_v1.json")
-    const response = await fetch(request)
-    const data = await response.json()
-    return data
-  }
   return {
     props: {
       meta,
-      schema: await fetchBackendOutputsSchema()
     }
   };
 }
@@ -133,5 +127,5 @@ Amplify.configure({
 The Amplify outputs file is defined using a JSON schema. You can find this schema in the [`aws-amplify/amplify-backend` repository](https://github.com/aws-amplify/amplify-backend/blob/main/packages/client-config/src/client-config-schema/schema_v1.json).
 
 <pre><code style={{ maxWidth: "100%", overflowX: "scroll" }}>
-{JSON.stringify(props.schema, null, 2)}
+{JSON.stringify(schema, null, 2)}
 </code></pre>
