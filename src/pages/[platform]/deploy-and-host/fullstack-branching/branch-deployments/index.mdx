@@ -91,7 +91,7 @@ npx ampx generate outputs --app-id <your-amplify-app-id> --branch <your-git-bran
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --app-id <your-amplify-app-id> --branch <your-git-branch-name> --format json-mobile --out-dir app/src/main/res/raw
+npx ampx generate outputs --app-id <your-amplify-app-id> --branch <your-git-branch-name> --out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
@@ -101,7 +101,7 @@ npx ampx generate outputs --app-id <your-amplify-app-id> --branch <your-git-bran
 </InlineFilter>
 <InlineFilter filters={['swift']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --app-id <your-amplify-app-id> --branch <your-git-branch-name> --format=json-mobile
+npx ampx generate outputs --app-id <your-amplify-app-id> --branch <your-git-branch-name>
 ```
 
 Once the sandbox environment is running, you would also generate the configuration file for your application. However, Xcode won't recognize the file by default. To recognize the files, you need to drag and drop the generated configuration file to your project.

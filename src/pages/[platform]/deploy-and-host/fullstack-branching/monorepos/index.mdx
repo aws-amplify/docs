@@ -84,7 +84,7 @@ npx ampx generate outputs --branch main --app-id BACKEND-APP-ID
 
 <InlineFilter filters={['flutter']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --app-id BACKEND-APP-ID --branch main --format dart --out-dir lib
+npx ampx generate outputs --app-id <your-backend-amplify-app-id> --branch main --format dart --out-dir lib
 ```
 </InlineFilter>
 
@@ -95,13 +95,13 @@ npx ampx generate outputs --app-id BACKEND-APP-ID --branch main --format dart --
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --app-id BACKEND-APP-ID --branch main --format json-mobile --out-dir app/src/main/res/raw
+npx ampx generate outputs --app-id <your-backend-amplify-app-id> --branch main --out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --app-id BACKEND-APP-ID --format json-mobile
+npx ampx generate outputs --app-id <your-backend-amplify-app-id> --branch main
 ```
 
 Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
