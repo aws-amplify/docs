@@ -89,7 +89,7 @@ npx ampx sandbox
 <InlineFilter filters={["android"]}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx sandbox --outputs-out-dir app/src/main/res/raw/
+npx ampx sandbox --outputs-out-dir <path_to_app/src/main/res/raw/>
 ```
 
 </InlineFilter>
@@ -148,8 +148,7 @@ Under Gradle Scripts, open build.gradle (Module :app), add the following lines:
 dependencies {
     // Amplify API dependencies
     // highlight-start
-    implementation("com.amplifyframework:aws-api:2.14.11")
-    implementation("com.amplifyframework:core:2.14.11")
+    implementation("com.amplifyframework:aws-api:ANDROID_VERSION")
     // highlight-end
     // ... other dependencies
 }
@@ -179,6 +178,7 @@ import android.util.Log
 import com.amplifyframework.AmplifyException
 import com.amplifyframework.api.aws.AWSApiPlugin
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputs
 
 class MyAmplifyApp : Application() {
     override fun onCreate() {
@@ -191,7 +191,6 @@ class MyAmplifyApp : Application() {
             // Configures the client library to be aware of your backend API
             // endpoint and authorization modes.
             Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), applicationContext)
-
             Log.i("Tutorial", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("Tutorial", "Could not initialize Amplify", error)

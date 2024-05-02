@@ -294,6 +294,7 @@ Next, be sure the file you generated or downloaded is in the appropriate resourc
 import android.util.Log;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.configuration.AmplifyOutputs
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 ```
 
@@ -314,7 +315,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSS3StoragePlugin plugins
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSS3StoragePlugin());
-            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -331,6 +332,7 @@ public class MyAmplifyApp extends Application {
 import android.util.Log
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputs
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin
 ```
 
@@ -351,7 +353,6 @@ class MyAmplifyApp : Application() {
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.addPlugin(AWSS3StoragePlugin())
             Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), applicationContext)
-
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
@@ -366,6 +367,7 @@ class MyAmplifyApp : Application() {
 ```java
 import android.util.Log;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.configuration.AmplifyOutputs
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 ```
@@ -544,25 +546,40 @@ upload.addEventListener("click", () => {
 <InlineFilter filters={["swift"]}>
 
 ```swift
-let dataString = "My Data"
-let fileName = "myPhoto.png"
-guard let fileUrl = FileManager.default.urls(
-    for: .documentDirectory,
-    in: .userDomainMask
-).first?.appendingPathComponent(fileName)
-else { return }
+import Amplify
+import SwiftUI
+import PhotosUI
 
-try dataString.write(
-    to: fileUrl,
-    atomically: true,
-    encoding: .utf8
-)
+struct ContentView: View {
+    @State private var selectedPhoto: PhotosPickerItem?
+    @State private var image: Image?
 
-let uploadTask = Amplify.Storage.uploadFile(
-    path: .fromString("picture-submissions/myPhoto.png"),
-    local: filename
-)
+    var body: some View {
+        NavigationStack {
+            VStack {
+                image?
+                    .resizable()
+                    .scaledToFit()
+            }
+            .padding()
+            PhotosPicker(
+                selection: $selectedPhoto
+            ) {
+                Text("Select a photo to upload")
+            }
+            .task(id: selectedPhoto) {
+                image = try? await selectedPhoto?.loadTransferable(type: Image.self)
+                if let imageData = try? await selectedPhoto?.loadTransferable(type: Data.self) {
+                    let uploadTask = Amplify.Storage.uploadData(
+                        path: .fromString("picture-submissions/myPhoto.png"),
+                        data: imageData
+                    )
+                }
 
+            }
+        }
+    }
+}
 ```
 
 </InlineFilter>
