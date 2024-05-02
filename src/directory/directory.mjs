@@ -161,6 +161,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx'
                 }
               ]
             },
