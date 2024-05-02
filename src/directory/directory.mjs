@@ -145,13 +145,13 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/modify-resources-with-cdk/index.mdx'
