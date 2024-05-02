@@ -954,7 +954,7 @@ const client = generateClient<Schema>({
   authMode: "apiKey",
 });
 
-function App({ signOut, user }) {
+function App({ signOut, user }: WithAuthenticatorProps) {
   // State to hold the recognized text
   const [currentPhotoAlbum, setCurrentPhotoAlbum] = useState<PhotoAlbum | null>(
     null
