@@ -1063,7 +1063,7 @@ function App({ signOut, user }) {
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
       // If the record has no associated file, we can return early.
-      if (!updatedPhotoAlbum.imagePaths?.length) return;
+      if (!updatedPhotoAlbum?.imagePaths?.length) return;
 
       // Retrieve signed urls for all files:
       const signedUrls = await Promise.all(
