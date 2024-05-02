@@ -281,3 +281,138 @@ export const data = defineData({
 ```
 </Block>
 </BlockSwitcher>
+## Step 4 - Configure custom business logic handler code
+
+Next, create the following files in your `amplify/data` folder and use the code examples to define custom resolvers for the custom queries and mutations added to your schema from the previous step. These are AppSync JavaScript resolvers
+
+<BlockSwitcher>
+<Block name="addPost">
+```js title="amplify/data/addPost.js"
+import { util } from "@aws-appsync/utils";
+import * as ddb from "@aws-appsync/utils/dynamodb";
+
+export function request(ctx) {
+  const item = { ...ctx.arguments, ups: 1, downs: 0, version: 1 };
+  const key = { id: ctx.args.id ?? util.autoId() };
+  return ddb.put({ key, item });
+}
+
+export function response(ctx) {
+  return ctx.result;
+}
+```
+</Block>
+<Block name="getPost">
+```js title="amplify/data/getPost.js"
+import * as ddb from "@aws-appsync/utils/dynamodb";
+
+export function request(ctx) {
+  return ddb.get({ key: { id: ctx.args.id } });
+}
+
+export const response = (ctx) => ctx.result;
+```
+</Block>
+<Block name="updatePost">
+```js title="amplify/data/updatePost.js"
+import { util } from "@aws-appsync/utils";
+import * as ddb from "@aws-appsync/utils/dynamodb";
+
+export function request(ctx) {
+  const { id, expectedVersion, ...rest } = ctx.args;
+  const values = Object.entries(rest).reduce((obj, [key, value]) => {
+    obj[key] = value ?? ddb.operations.remove();
+    return obj;
+  }, {});
+
+  return ddb.update({
+    key: { id },
+    condition: { version: { eq: expectedVersion } },
+    update: { ...values, version: ddb.operations.increment(1) },
+  });
+}
+
+export function response(ctx) {
+  const { error, result } = ctx;
+  if (error) {
+    util.appendError(error.message, error.type);
+  }
+  return result;
+}
+```
+</Block>
+<Block name="deletePost">
+```js title="amplify/data/deletePost.js"
+import { util } from "@aws-appsync/utils";
+import * as ddb from "@aws-appsync/utils/dynamodb";
+
+export function request(ctx) {
+  let condition = null;
+  if (ctx.args.expectedVersion) {
+    condition = {
+      or: [
+        { id: { attributeExists: false } },
+        { version: { eq: ctx.args.expectedVersion } },
+      ],
+    };
+  }
+  return ddb.remove({ key: { id: ctx.args.id }, condition });
+}
+
+export function response(ctx) {
+  const { error, result } = ctx;
+  if (error) {
+    util.appendError(error.message, error.type);
+  }
+  return result;
+}
+```
+</Block>
+</BlockSwitcher>
+
+## Step 5 - Invoke custom queries or mutations
+
+From your generated Data client, you can find all your custom queries and mutations under the client.queries. and client.mutations. APIs respectively.
+
+<BlockSwitcher>
+<Block name="addPost">
+```ts title="App.tsx"
+const { data, errors } = await client.mutations.addPost({
+  title: "My Post",
+  content: "My Content",
+  author: "Chris",
+});
+```
+</Block>
+<Block name="getPost">
+```ts title="App.tsx"
+const { data, errors } = await client.queries.getPost({
+  id: "<post-id>"
+});
+```
+</Block>
+<Block name="updatePost">
+```ts title="App.tsx"
+const { data, errors } = await client.mutations.updatePost({
+  id: "<post-id>",
+  title: "An Updated Post",
+  expectedVersion: 1,
+});
+```
+</Block>
+<Block name="deletePost">
+```ts title="App.tsx"
+const { data, errors } = await client.mutations.deletePost({
+  id: "<post-id>",
+});
+```
+</Block>
+</BlockSwitcher>
+
+## Conclusion
+
+In this guide, you’ve added an external REST API as a HTTP data source to an Amplify GraphQL API and defined custom queries and mutations, handled by AppSync JS resolvers, to manipulate Post items in an external REST API using the Amplify Gen 2 Data client.
+
+To clean up, you can delete your sandbox by accepting the prompt when terminating the sandbox process in your terminal. Alternatively, you can also use the AWS Amplify console to manage and delete sandbox environments.
+
+
