@@ -43,14 +43,14 @@ You can set up your backend deployments using the following steps:
   <source src="/images/gen2/fullstack-branching/auto-build.mp4" />
 </video>
 
-3. Update the Amplify build-spec to add `npx amplify generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID` and comment out the `pipeline-deploy` script. `amplify pipeline-deploy` runs a script to deploy backend updates, while `amplify generate config` fetches the latest `amplifyconfiguration.json` for the specified environment.
+3. Update the Amplify build-spec to add `npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID` and comment out the `pipeline-deploy` script. `ampx pipeline-deploy` runs a script to deploy backend updates, while `amplify generate config` fetches the latest `amplifyconfiguration.json` for the specified environment.
 
 ![custom-ci](/images/gen2/fullstack-branching/custom-ci.png)
 
 4. Now go to your pipeline provider and update the build settings to include the following:
     * Run `npm ci`.
     * Run `export CI=1` to tell the deployment script that is a CI environment.
-    * Run `npx amplify pipeline-deploy --branch BRANCH_NAME --app-id AMPLIFY_APP_ID`. `BRANCH_NAME` refers to the branch you're deploying. `AMPLIFY_APP_ID` is the Amplify project ID. You can find this by going to the Amplify console and navigating to _backend-app > App settings > App ARN_ and copying the ID located at the end of the string `arn:aws:amplify:<region>:<account-id>:apps/*app-id*`.
+    * Run `npx ampx pipeline-deploy --branch BRANCH_NAME --app-id AMPLIFY_APP_ID`. `BRANCH_NAME` refers to the branch you're deploying. `AMPLIFY_APP_ID` is the Amplify project ID. You can find this by going to the Amplify console and navigating to _backend-app > App settings > App ARN_ and copying the ID located at the end of the string `arn:aws:amplify:<region>:<account-id>:apps/*app-id*`.
 
 The example below demonstrates how you would set up the build-spec when using Amazon CodeCatalyst.
 
@@ -74,7 +74,7 @@ Actions:
       Steps:
         - Run: export CI=1
         - Run: npm ci
-        - Run: npx amplify pipeline-deploy --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID
+        - Run: npx ampx pipeline-deploy --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID
 ```
 5. Trigger a `git push` to your branch. Your build logs should show that there is an AWS CloudFormation deployment underway.
 
@@ -108,7 +108,7 @@ aws amplify create-webhook --app-id AMPLIFY-APPID --branch-name main  --region R
       Steps:
         - Run: export CI=1
         - Run: npm ci
-        - Run: npx amplify pipeline-deploy --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID
+        - Run: npx ampx pipeline-deploy --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID
         - Run: if [ $BRANCH_NAME = "main" ]; then curl -X POST -d {}
             "https://webhooks.amplify.us-west-2.amazonaws.com/prod/webhooks?id=WEBHOOK-ID&token=TOKEN&operation=startbuild"
             -H "Content-Type:application/json"; fi

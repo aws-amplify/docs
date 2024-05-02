@@ -31,13 +31,13 @@ export function getStaticProps(context) {
 
 In this guide, you will connect your application code to the backend API using the Amplify Libraries. Before you begin, you will need:
 
-- Your cloud sandbox with an Amplify Data resource up and running (`npx amplify sandbox`)
+- Your cloud sandbox with an Amplify Data resource up and running (`npx ampx sandbox`)
 - A frontend application set up with the Amplify library installed
 - [npm installed](https://docs.npmjs.com/getting-started)
 
 ## Configure the Amplify Library
 
-When you deploy you're iterating on your backend (`npx amplify sandbox`), an **amplify_outputs.json** file is generated for you. This file contains your API's endpoint information and auth configurations. Add the following code to your app's entrypoint to initialize and configure the Amplify client library:
+When you deploy you're iterating on your backend (`npx ampx sandbox`), an **amplify_outputs.json** file is generated for you. This file contains your API's endpoint information and auth configurations. Add the following code to your app's entrypoint to initialize and configure the Amplify client library:
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
