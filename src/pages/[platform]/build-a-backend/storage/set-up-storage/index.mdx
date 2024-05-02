@@ -534,25 +534,40 @@ upload.addEventListener("click", () => {
 <InlineFilter filters={["swift"]}>
 
 ```swift
-let dataString = "My Data"
-let fileName = "myPhoto.png"
-guard let fileUrl = FileManager.default.urls(
-    for: .documentDirectory,
-    in: .userDomainMask
-).first?.appendingPathComponent(fileName)
-else { return }
+import Amplify
+import SwiftUI
+import PhotosUI
 
-try dataString.write(
-    to: fileUrl,
-    atomically: true,
-    encoding: .utf8
-)
+struct ContentView: View {
+    @State private var selectedPhoto: PhotosPickerItem?
+    @State private var image: Image?
 
-let uploadTask = Amplify.Storage.uploadFile(
-    path: .fromString("picture-submissions/myPhoto.png"),
-    local: filename
-)
+    var body: some View {
+        NavigationStack {
+            VStack {
+                image?
+                    .resizable()
+                    .scaledToFit()
+            }
+            .padding()
+            PhotosPicker(
+                selection: $selectedPhoto
+            ) {
+                Text("Select a photo to upload")
+            }
+            .task(id: selectedPhoto) {
+                image = try? await selectedPhoto?.loadTransferable(type: Image.self)
+                if let imageData = try? await selectedPhoto?.loadTransferable(type: Data.self) {
+                    let uploadTask = Amplify.Storage.uploadData(
+                        path: .fromString("picture-submissions/myPhoto.png"),
+                        data: imageData
+                    )
+                }
 
+            }
+        }
+    }
+}
 ```
 
 </InlineFilter>
