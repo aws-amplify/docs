@@ -544,7 +544,7 @@ struct CustomInterceptor: URLRequestInterceptor {
 }
 let apiPlugin = try AWSAPIPlugin()
 try Amplify.addPlugin(apiPlugin)
-try Amplify.configure(with: .amplifyOutputs)
+try Amplify.configure()
 try apiPlugin.add(interceptor: CustomInterceptor(), for: "yourApiName")
 ```
 </InlineFilter>
