@@ -56,7 +56,7 @@ For a full example, please follow the [mobile support walkthrough](/swift/start/
 
 <Callout>
 
-visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch. 
+visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch.
 As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
 
 For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
@@ -95,7 +95,7 @@ backend.auth.resources.unauthenticatedUserIamRole.addToPrincipalPolicy(
     actions: [
       "translate:TranslateText",
       "transcribe:StartStreamTranscriptionWebSocket",
-      "polly:SynthesizeSpeech",      
+      "polly:SynthesizeSpeech",
       "comprehend:DetectSentiment",
       "comprehend:DetectEntities",
       "comprehend:DetectDominantLanguage",
@@ -107,7 +107,7 @@ backend.auth.resources.unauthenticatedUserIamRole.addToPrincipalPolicy(
       "rekognition:DetectModerationLabels",
       "rekognition:DetectText",
       "rekognition:DetectLabel",
-      "rekognition:SearchFacesByImage",      
+      "rekognition:SearchFacesByImage",
       "textract:AnalyzeDocument",
       "textract:DetectDocumentText",
       "textract:GetDocumentAnalysis",
@@ -385,11 +385,11 @@ struct MyAmplifyApp: App {
         }
     }
 
-    init() { 
+    init() {
         do {
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
             try Amplify.add(plugin: AWSPredictionsPlugin())
-            try Amplify.configure()
+            try Amplify.configure(with: .amplifyOutputs)
             print("Amplify configured with Auth and Predictions plugins")
         } catch {
             print("Failed to initialize Amplify with \(error)")
@@ -414,7 +414,7 @@ func application(
   do {
     try Amplify.add(plugin: AWSCognitoAuthPlugin())
     try Amplify.add(plugin: AWSPredictionsPlugin())
-    try Amplify.configure()
+    try Amplify.configure(with: .amplifyOutputs)
     print("Amplify configured with Auth and Predictions plugins")
   } catch {
     print("Failed to initialize Amplify with \(error)")
