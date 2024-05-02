@@ -145,6 +145,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/sign-in-with-web-ui/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
                 },
                 {
@@ -158,6 +161,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx'
                 }
               ]
             },

@@ -417,7 +417,7 @@ final lambdaResponse = await Amplify.API.query(request: lambdaRequest).response;
 
 ## Set custom request headers
 
-When working with the Amplify Data endpoint, you may need to set request headers for authorization purposes or to pass additional metadata from your frontend to the backend API. 
+When working with the Amplify Data endpoint, you may need to set request headers for authorization purposes or to pass additional metadata from your frontend to the backend API.
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
@@ -525,7 +525,7 @@ const res = await client.models.Blog.get(
 
 <InlineFilter filters={["android"]}>
 
-To specify your own headers, use the `configureClient()` configuration option on the `AWSApiPlugin`'s builder. Specify the name of one of the configured APIs in your **amplifyconfiguration.json**. Apply customizations to the underlying OkHttp instance by providing a lambda expression as below.
+To specify your own headers, use the `configureClient()` configuration option on the `AWSApiPlugin`'s builder. Specify the name of one of the configured APIs in your **amplify_outputs.json**. Apply customizations to the underlying OkHttp instance by providing a lambda expression as below.
 
 <BlockSwitcher>
 <Block name="Java">
@@ -606,7 +606,7 @@ RxAmplify.addPlugin(plugin);
 
 <InlineFilter filters={["swift"]}>
 
-To include custom headers in your outgoing requests, add an `URLRequestInterceptor` to the `AWSAPIPlugin`. Also specify the name of one of the APIs configured in your **amplifyconfiguration.json** file.
+To include custom headers in your outgoing requests, add an `URLRequestInterceptor` to the `AWSAPIPlugin`. Also specify the name of one of the APIs configured in your **amplify_outputs.json** file.
 
 ```swift
 struct CustomInterceptor: URLRequestInterceptor {
@@ -618,7 +618,7 @@ struct CustomInterceptor: URLRequestInterceptor {
 }
 let apiPlugin = try AWSAPIPlugin()
 try Amplify.addPlugin(apiPlugin)
-try Amplify.configure()
+try Amplify.configure(with: .amplifyOutputs)
 try apiPlugin.add(interceptor: CustomInterceptor(), for: AWSAPIPlugin.defaultGraphQLAPI)
 ```
 

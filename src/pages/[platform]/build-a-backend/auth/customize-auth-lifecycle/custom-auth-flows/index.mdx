@@ -6,14 +6,8 @@ export const meta = {
     'Use Amazon Cognito Auth plugin to sign in a user into Amazon Cognito User Pool using user defined custom flow',
   platforms: [
     'android',
-    // 'angular',
     'flutter',
-    // 'javascript',
-    // 'nextjs',
-    // 'react',
-    // 'react-native',
     'swift',
-    // 'vue'
   ], 
 };
 
@@ -41,7 +35,7 @@ An application with Amplify libraries integrated and a minimum target of any of 
 - **watchOS 9.0**, using **Xcode 14.3** or later.
 - **visionOS 1.0**, using **Xcode 15 beta 2** or later. (Preview support - see below for more details.)
 
-For a full example, please follow the [project setup walkthrough](/[platform]/start/project-setup/prerequisites/).
+For a full example, please follow the [project setup walkthrough](/[platform]/start/quickstart/).
 
 <Callout>
 
@@ -242,7 +236,7 @@ Since this is a custom authentication flow with a challenge, the result of the s
 
 ## Confirm sign in with custom challenge
 
-Get the custom challenge (`1234` in this case) from the user and pass it to the `confirmSignin()` api.
+To get a custom challenge from the user, create an appropriate UI for the user to submit the required value, and pass that value into the `confirmSignin()` API.
 
 <BlockSwitcher>
 
@@ -292,9 +286,9 @@ Confirm sign in succeeded
 
 ### Lambda Trigger Setup
 
-AWS Amplify now supports creating functions as part of its new backend experience. For more information on the Functions and how to start with them check out [Functions documentation](/[platform]/build-a-backend/functions/). In addition, more information on available triggers can be found in the [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
+AWS Amplify now supports creating functions as part of its new backend experience. For more information on the Functions and how to start with them check out [Functions documentation](/[platform]/build-a-backend/functions/). In addition, more information on available triggers can be found in the [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html).
 
-### Custom Auth Flow with SRP
+### Custom Auth Flow with Secure Remote Password (SRP)
 
 Cognito User Pool allows to start the custom authentication flow with SRP as the first step. If you would like to use this flow, setup Define Auth Lambda trigger to handle SRP_A as the first challenge as shown below:
 
@@ -335,64 +329,6 @@ let signInResult = try await Amplify.Auth.signIn(
     options: .init(pluginOptions: options))
 ```
 
-### CAPTCHA-based authentication
-
-Here is the sample for creating a CAPTCHA challenge with a Lambda Trigger.
-
-The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and  the expected answer is added to the private challenge parameters:
-
-```javascript
-export const handler = async (event) => {
-    if (!event.request.session || event.request.session.length === 0) {
-        event.response.publicChallengeParameters = {
-            captchaUrl: <captcha url>,
-        };
-        event.response.privateChallengeParameters = {
-            answer: <expected answer>,
-        };
-        event.response.challengeMetadata = "CAPTCHA_CHALLENGE";
-    }
-    return event;
-};
-```
-
-This `Define Auth Challenge Lambda Trigger` defines a custom challenge:
-
-```javascript
-export const handler = async (event) => {
-    if (!event.request.session || event.request.session.length === 0) {
-        // If we don't have a session or it is empty then send a CUSTOM_CHALLENGE
-        event.response.challengeName = "CUSTOM_CHALLENGE";
-        event.response.failAuthentication = false;
-        event.response.issueTokens = false;
-    } else if (event.request.session.length === 1 && event.request.session[0].challengeResult === true) {
-        // If we passed the CUSTOM_CHALLENGE then issue token
-        event.response.failAuthentication = false;
-        event.response.issueTokens = true;
-    } else {
-        // Something is wrong. Fail authentication
-        event.response.failAuthentication = true;
-        event.response.issueTokens = false;
-    }
-
-    return event;
-};
-```
-
-The `Verify Auth Challenge Response Lambda Trigger` is used to verify a challenge answer:
-
-```javascript
-export const handler = async (event, context) => {
-    if (event.request.privateChallengeParameters.answer === event.request.challengeAnswer) {
-        event.response.answerCorrect = true;
-    } else {
-        event.response.answerCorrect = false;
-    }
-
-    return event;
-};
-```
-
 </InlineFilter>
 <InlineFilter filters={['android']}>
 The Auth category can be configured to perform a [custom authentication flow](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html) defined by you. The following guide shows how to setup a simple passwordless authentication flow.
@@ -400,7 +336,7 @@ The Auth category can be configured to perform a [custom authentication flow](ht
 ## Prerequisites
 
 * An Android application targeting at least Android SDK API level 24 with Amplify libraries integrated
-    * For a full example of creating Android project, please follow the [project setup walkthrough](/[platform]/start/project-setup/create-application/)
+    * For a full example of creating Android project, please follow the [project setup walkthrough](/[platform]/start/quickstart/)
 
 ## Configure Auth
 
@@ -679,9 +615,9 @@ Confirm sign in succeeded
 
 ### Lambda Trigger Setup
 
-AWS Amplify now supports creating functions as part of the AWS Amplify. For more information on the Functions and how to start with them check out [Functions documentation](/[platform]/build-a-backend/functions/). In addition, more information on available triggers can be found in the [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
+AWS Amplify now supports creating functions as part of the AWS Amplify. For more information on the Functions and how to start with them check out [Functions documentation](/[platform]/build-a-backend/functions/). In addition, more information on available triggers can be found in the [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html).
 
-### Custom Auth Flow with SRP
+### Custom Auth Flow with Secure Remote Password (SRP)
 
 Cognito User Pool allows to start the custom authentication flow with SRP as the first step. If you would like to use this flow, setup Define Auth Lambda trigger to handle SRP_A as the first challenge as shown below:
 
@@ -789,64 +725,6 @@ RxAmplify.Auth.signIn("username", "password", options)
 </Block>
 </BlockSwitcher>
 
-### CAPTCHA-based authentication
-
-Here is the sample for creating a CAPTCHA challenge with a Lambda Trigger.
-
-The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and the expected answer are added to the private challenge parameters:
-
-```javascript
-export const handler = async (event) => {
-    if (!event.request.session || event.request.session.length === 0) {
-        event.response.publicChallengeParameters = {
-            captchaUrl: <captcha url>,
-        };
-        event.response.privateChallengeParameters = {
-            answer: <expected answer>,
-        };
-        event.response.challengeMetadata = "CAPTCHA_CHALLENGE";
-    }
-    return event;
-};
-```
-
-This `Define Auth Challenge Lambda Trigger` defines a custom challenge:
-
-```javascript
-export const handler = async (event) => {
-    if (!event.request.session || event.request.session.length === 0) {
-        // If we don't have a session or it is empty then send a CUSTOM_CHALLENGE
-        event.response.challengeName = "CUSTOM_CHALLENGE";
-        event.response.failAuthentication = false;
-        event.response.issueTokens = false;
-    } else if (event.request.session.length === 1 && event.request.session[0].challengeResult === true) {
-        // If we passed the CUSTOM_CHALLENGE then issue token
-        event.response.failAuthentication = false;
-        event.response.issueTokens = true;
-    } else {
-        // Something is wrong. Fail authentication
-        event.response.failAuthentication = true;
-        event.response.issueTokens = false;
-    }
-
-    return event;
-};
-```
-
-The `Verify Auth Challenge Response Lambda Trigger` is used to verify a challenge answer:
-
-```javascript
-export const handler = async (event, context) => {
-    if (event.request.privateChallengeParameters.answer === event.request.challengeAnswer) {
-        event.response.answerCorrect = true;
-    } else {
-        event.response.answerCorrect = false;
-    }
-
-    return event;
-};
-```
-
 </InlineFilter>
 
 <InlineFilter filters={['flutter']}>
@@ -855,7 +733,7 @@ The Auth category can be configured to perform a [custom authentication flow](ht
 ## Prerequisites
 A Flutter application targeting Flutter SDK >= 3.3.0 with Amplify libraries integrated.
 
-Amplify requires a minimum target platform for iOS (13.0), Android (API level 24), and macOS (10.15). Additional setup is required for some target platforms. Please see the [platform setup](/[platform]/start/project-setup/platform-setup/) guide for more details on platform specific setup.
+Amplify requires a minimum target platform for iOS (13.0), Android (API level 24), and macOS (10.15). Additional setup is required for some target platforms. Please see the [platform setup](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#platform-setup) for more details on platform specific setup.
 
 ## Configure Auth
 
@@ -940,7 +818,7 @@ user has already signed in and a valid session is active. You must first call
 </Callout>
 ## Confirm sign in with custom challenge
 
-Get the custom challenge (`1234` in this case) from the user and pass it to the `confirmSignin()` api.
+To get a custom challenge from the user, create an appropriate UI for the user to submit the required value, and pass that value into the `confirmSignin()` API.
 
 ```dart
 Future<void> confirmSignIn(String generatedNumber) async {
@@ -971,7 +849,7 @@ Exception: `NotAuthorizedException` with a message `Invalid session for the user
 
 The example in this documentation demonstrates the passwordless custom authentication flow. However, it is also possible to require that users supply a valid password as part of the custom authentication flow.
 
-To require a valid password, you can alter the `DefineAuthChallenge` code to handle a `PASSWORD_VERIFIER` step:
+To require a valid password, you can alter the [DefineAuthChallenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-define-auth-challenge.html) code to handle a `PASSWORD_VERIFIER` step:
 
 ```js
 exports.handler = async (event) => {

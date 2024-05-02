@@ -118,8 +118,8 @@ import { AmplifyGeofenceControl } from 'maplibre-gl-js-amplify';
 import '@aws-amplify/ui-react/styles.css';
 import '@aws-amplify/ui-react-geo/styles.css';
 import 'maplibre-gl-js-amplify/dist/public/amplify-ctrl-geofence.css';
-import amplifyconfig from '../amplifyconfiguration.json';
-Amplify.configure(amplifyconfig);
+import outputs from '../amplify_outputs.json';
+Amplify.configure(outputs);
 
 function Geofence() {
   useControl(() => new AmplifyGeofenceControl());
@@ -181,7 +181,7 @@ Geo.saveGeofences(geofences, options) => Promise<SaveGeofenceResults>;
 - `geofences` - can be a single geofence object, or an array of geofence objects to save to a collection.
 - `options` - optional options object for saving geofences
   - `collectionName` - the name of the collection to save geofences to.
-    - Defaults to the default collection listed in your `amplifyconfiguration.json` file after provisioning a geofence collection resource.
+    - Defaults to the default collection listed in your `amplify_outputs.json` file after provisioning a geofence collection resource.
 
 Geofence objects must have the following properties:
 
@@ -260,7 +260,7 @@ Geo.getGeofence(geofenceId, options) => Promise<Geofence>;
 - `geofenceId` - the `id` of the geofence to get.
 - `options` - optional options object for getting a geofence
   - `collectionName` - the name of the collection to get geofence from.
-    - Defaults to the default collection listed in your `amplifyconfiguration.json` file after provisioning a geofence collection resource.
+    - Defaults to the default collection listed in your `amplify_outputs.json` file after provisioning a geofence collection resource.
 
 #### Return
 
@@ -293,7 +293,7 @@ Geo.listGeofences(options) => Promise<ListGeofenceResults>;
   - `nextToken` - the pagination token for the next page of geofences.
     - if no token is given, it will return the first page of geofences.
   - `collectionName` - the name of the collection to save geofences to.
-    - Defaults to the default collection listed in your `amplifyconfiguration.json` file after provisioning a geofence collection resource.
+    - Defaults to the default collection listed in your `amplify_outputs.json` file after provisioning a geofence collection resource.
 
 #### Return
 
@@ -329,7 +329,7 @@ Geo.deleteGeofences(geofenceIds, options) => Promise<DeleteGeofencesResults>;
 - `geofenceIds` - a single geofenceId or array of geofenceIds to delete
 - `options` - optional options object for saving geofences
   - `collectionName` - the name of the collection to save geofences to.
-    - Defaults to the default collection listed in your `amplifyconfiguration.json` file after provisioning a geofence collection resource.
+    - Defaults to the default collection listed in your `amplify_outputs.json` file after provisioning a geofence collection resource.
 
 #### Return
 

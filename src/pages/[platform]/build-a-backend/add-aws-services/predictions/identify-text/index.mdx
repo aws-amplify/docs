@@ -4,21 +4,20 @@ export const meta = {
   title: 'Identify text',
   description: 'Learn how to identify text from images and documents in your application using AWS Amplify.',
   platforms: [
-    'swift',
-    'android',
-    'javascript',
     'angular',
+    'javascript',
     'nextjs',
     'react',
-    'vue'
+    'react-native',
+    'vue',
   ]
 };
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   return {
     props: {
       meta
@@ -34,283 +33,9 @@ export function getStaticProps(context) {
 
 ## Working with the API
 
-<InlineFilter filters={['android']}>
-
-The following APIs will allow you to identify text (words, tables, pages from a book) from an image.
-
-### Detect text in an image
-
-Amplify will make calls to both Amazon Textract and Amazon Rekognition depending on the type of text you are looking to identify (i.e. image or document).
-
-Passing in `TextFormatType.PLAIN` as the identify action will yield `IdentifyResult`, which must be cast into `IdentifyTextResult`. See below for an example of plain text detection from an image.
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-public void detectText(Bitmap image) {
-  Amplify.Predictions.identify(
-    TextFormatType.PLAIN,
-    image,
-    result -> {
-      IdentifyTextResult identifyResult = (IdentifyTextResult) result;
-      Log.i("MyAmplifyApp", identifyResult.getFullText());
-    },
-    error -> Log.e("MyAmplifyApp", "Identify text failed", error)
-  );
-}
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-```kotlin
-fun detectText(image: Bitmap) {
-  Amplify.Predictions.identify(TextFormatType.PLAIN, image,
-    { result ->
-      val identifyResult = result as IdentifyTextResult
-      Log.i("MyAmplifyApp", identifyResult.fullText)
-    },
-    { Log.e("MyAmplifyApp", "Identify text failed", it) }
-  )
-}
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-```kotlin
-suspend fun detectText(image: Bitmap) {
-  try {
-    val result = Amplify.Predictions.identify(PLAIN, image)
-    val identifyResult = result as IdentifyTextResult
-    Log.i("MyAmplifyApp", identifyResult.fullText)
-  } catch (error: PredictionsResult) {
-    Log.e("MyAmplifyApp", "Identify text failed", error)
-  }
-}
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-public void detectText(Bitmap image) {
-  RxAmplify.Predictions.identify(TextFormatType.PLAIN, image)
-    .subscribe(
-      result -> {
-        IdentifyTextResult identifyResult = (IdentifyTextResult) result;
-        Log.i("MyAmplifyApp", identifyResult.getFullText());
-      },
-      error -> Log.e("MyAmplifyApp", "Identify text failed", error)
-    );
-}
-```
-
-</Block>
-</BlockSwitcher>
-
-### Detect text in a document
-
-Passing in any other format of `TextFormatType` (i.e. `FORM`, `TABLE` or `ALL`) will yield `IdentifyResult`, which must be cast into `IdentifyDocumentTextResult`. See below for an example with `TextFormatType.FORM` for detecting forms from a document.
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-public void detectText(Bitmap image) {
-  Amplify.Predictions.identify(
-    TextFormatType.FORM,
-    image,
-    result -> {
-      IdentifyDocumentTextResult identifyResult = (IdentifyDocumentTextResult) result;
-      Log.i("MyAmplifyApp", identifyResult.getFullText());
-    },
-    error -> Log.e("MyAmplifyApp", "Identify failed", error)
-  );
-}
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-```kotlin
-fun detectText(image: Bitmap) {
-  Amplify.Predictions.identify(TextFormatType.FORM, image,
-    { result ->
-      val identifyResult = result as IdentifyDocumentTextResult
-      Log.i("MyAmplifyApp", identifyResult.fullText)
-    },
-    { Log.e("MyAmplifyApp", "Identify failed", it) }
-  )
-}
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-```kotlin
-suspend fun detectText(image: Bitmap) {
-  try {
-    val result = Amplify.Predictions.identify(FORM, image)
-    val identifyResult = result as IdentifyDocumentTextResult
-    Log.i("MyAmplifyApp", identifyResult.fullText)
-  } catch (error: PredictionsException) {
-    Log.e("MyAmplifyApp", "Identify failed", error)
-  }
-}
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-public void detectText(Bitmap image) {
-  RxAmplify.Predictions.identify(TextFormatType.FORM, image)
-    .subscribe(
-      result -> {
-        IdentifyDocumentTextResult identifyResult = (IdentifyDocumentTextResult) result;
-        Log.i("MyAmplifyApp", identifyResult.getFullText());
-      },
-      error -> Log.e("MyAmplifyApp", "Identify failed", error)
-    );
-}
-```
-
-</Block>
-</BlockSwitcher>
-
-
-</InlineFilter>
-
-<InlineFilter filters={['swift']}>
-
-The following APIs will allow you to identify text (words, tables, pages from a book) from an image.
-
-For identifying text on iOS we use both AWS backend services as well as Apple's on-device Core ML [Vision Framework](https://developer.apple.com/documentation/vision) to provide you with the most accurate results.  If your device is offline, we will return results only from Core ML.  On the other hand, if you are able to connect to AWS Services, we will return a unioned result from both the service and Core ML.  Switching between backend services and Core ML is done automatically without any additional configuration required.
-
-## Identify text from image
-
-Amplify will make calls to both Amazon Textract and Rekognition depending on the type of text you are looking to identify (i.e. image or document).
-
-If you are detecting text from an image you would send in `.plain` as your text format as shown below.  Using `.plain` with `PredictionsIdentifyRequest.Options()` combines results from on device results from Core ML and AWS services to yield more accurate results.
-
-<BlockSwitcher>
-
-<Block name="Async/Await">
-
-```swift
-func detectText(_ image: URL) async throws -> [Predictions.IdentifiedWord]? {
-    do {
-        let result = try await Amplify.Predictions.identify(.text, in: image)
-        print("Identified text: \(result)")
-        return result.words
-    }  catch let error as PredictionsError {
-        print("Error identifying text: \(error)")
-        throw error
-    } catch {
-        print("Unexpected error: \(error)")
-        throw error
-    }
-  }
-}
-```
-
-</Block>
-
-<Block name="Combine">
-
-```swift
-func detectText(_ image: URL) -> AnyCancellable {
-    Amplify.Publisher.create {
-        try await Amplify.Predictions.identify(.text, in: image)
-    }
-    .sink(receiveCompletion: { completion in
-        if case let .failure(error) = completion {
-            print("Error identifying text: \(error)")
-        }
-    }, receiveValue: { value in
-        print("Identified text: \(value)")
-    })
-}
-```
-
-</Block>
-
-</BlockSwitcher>
-
-<Callout>
-Bounding boxes in IdentifyTextResult are returned as ratios. If you would like to place bounding boxes on individual recognized words that appear in the image, use the following method to calculate a frame for a single bounding box.
-Additionally it's important to note that Rekognition places (0,0) at the top left and Core ML places (0,0) at the bottom left. In order to handle this issue, we have flipped the y axis of the CoreML bounding box for you since iOS starts (0,0) from the top left.
-</Callout>
-
-
-
-
-
-To get results that utilize on-device capabilities (Core ML), without combining results from the backend, you can use the following to pass into the `options` argument of the `Amplify.Predictions.identify` function.
-```swift
-let options = Predictions.Identify.Options(defaultNetworkPolicy: .offline)
-```
-
-## Identify text in a document
-
-Sending in `.form` or `.table` or `.all` will do document analysis as well as text detection to detect tables and forms in a document. See below for an example with `.form`.
-
-<BlockSwitcher>
-
-<Block name="Async/Await">
-
-```swift
-func detectDocumentText(_ image: URL) async throws -> Predictions.Identify.DocumentText.Result {
-    do {
-        let result = try await Amplify.Predictions.identify(
-            .textInDocument(textFormatType: .form), in: image
-        )
-        print("Identified document text: \(result)")
-        return result
-    } catch let error as PredictionsError {
-        print("Error identifying text in document: \(error)")
-        throw error
-    } catch {
-        print("Unexpected error: \(error)")
-        throw error
-    }
-}
-```
-
-</Block>
-
-<Block name="Combine">
-
-```swift
-func detectDocumentText(_ image: URL) -> AnyCancellable {
-    Amplify.Publisher.create {
-        try await Amplify.Predictions.identify(
-            .textInDocument(textFormatType: .form), in: image
-        )
-    }
-    .sink(receiveCompletion: { completion in
-        if case let .failure(error) = completion {
-            print("Error identifying text in document: \(error)")
-        }
-    }, receiveValue: { value in
-        print("Identified text in document: \(value)")
-    })
-}
-```
-
-</Block>
-
-</BlockSwitcher>
-
-</InlineFilter>
-
-<InlineFilter filters={['javascript','angular','nextjs','react','vue']}>
-
 Detect text in an input image. Input can be sent directly from the browser or an Amazon S3 key from project bucket.
 
-```javascript
+```ts
 import { Predictions } from '@aws-amplify/predictions';
 
 const response = await Predictions.identify({
@@ -320,23 +45,20 @@ const response = await Predictions.identify({
     }
   }
 });
-console.log({ response });
 ```
 
 ## Identify image stored in Amazon S3
 
-```javascript
+```ts
 import { Predictions } from '@aws-amplify/predictions';
 
 const response = await Predictions.identify({
   text: {
     source: {
       key: pathToPhoto,
-      level?: 'guest' | 'private' | 'protected', //optional, default is configured on Storage category
     }
   }
 })
-console.log({ response });
 ```
 
 > The following options are independent of which `source` is specified. For demonstration purposes we will reference a `file` but it can be an S3 Key as well. `Predictions.identify({text : {...}})` can detect unstructured text `PLAIN`, structured text from tables `TABLE` or text from forms `FORM`.
@@ -345,7 +67,7 @@ console.log({ response });
 
 For detecting plain text, you can see the whole detected text, the lines detected, the position of each line of text, and each word.
 
-```javascript
+```ts
 import { Predictions } from '@aws-amplify/predictions';
 
 const response = await Predictions.identify({
@@ -380,7 +102,7 @@ const {
 
 For detecting structured forms (documents, tables, etc.) from an image, `keyValues` will return a string of the entity found in the image as well as metadata such as selected checkboxes or the relative location in the image using a `boundingBox`.
 
-```javascript
+```ts
 import { Predictions } from '@aws-amplify/predictions';
 
 const response = await Predictions.identify({
@@ -408,7 +130,7 @@ For example the below image would return `keyValues` with "Test" or "Checked" as
 
 For detecting structured tables from an image
 
-```javascript
+```ts
 import { Predictions } from '@aws-amplify/predictions';
 
 const response = await Predictions.identify({
@@ -436,10 +158,10 @@ const {
 
 For detecting tables and forms on the image just select format "ALL"
 
-```javascript
+```ts
 import { Predictions } from '@aws-amplify/predictions';
 
-const response = await Predictions.identify({
+const { text } = await Predictions.identify({
   text: {
     source: {
       file
@@ -447,11 +169,4 @@ const response = await Predictions.identify({
     format: 'ALL'
   }
 });
-
-const {
-  text: {
-    // same as PLAIN + FORM + TABLE
-  }
-} = response;
 ```
-</InlineFilter>

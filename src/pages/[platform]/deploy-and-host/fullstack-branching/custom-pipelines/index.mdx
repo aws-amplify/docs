@@ -43,7 +43,7 @@ You can set up your backend deployments using the following steps:
   <source src="/images/gen2/fullstack-branching/auto-build.mp4" />
 </video>
 
-3. Update the Amplify build-spec to add `npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID` and comment out the `pipeline-deploy` script. `ampx pipeline-deploy` runs a script to deploy backend updates, while `amplify generate config` fetches the latest `amplifyconfiguration.json` for the specified environment.
+3. Update the Amplify build-spec to add `npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID` and comment out the `pipeline-deploy` script. `ampx pipeline-deploy` runs a script to deploy backend updates, while `ampx generate config` fetches the latest `amplify_outputs.json` for the specified environment.
 
 ![custom-ci](/images/gen2/fullstack-branching/custom-ci.png)
 
@@ -114,4 +114,4 @@ aws amplify create-webhook --app-id AMPLIFY-APPID --branch-name main  --region R
             -H "Content-Type:application/json"; fi
 ```
 
-4. This should trigger a build in your Amplify app. Amplify CI will build and first generate the `amplifyconfiguration.json` for the branch and then build, deploy, and host the frontend.
+4. This should trigger a build in your Amplify app. Amplify CI will build and first generate the `amplify_outputs.json` for the branch and then build, deploy, and host the frontend.

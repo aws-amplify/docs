@@ -34,7 +34,7 @@ To setup and configure your application with REST API or HTTP API to make reques
 ## Set up REST API with Lambda Function
 
 Create a new directory and a resource file, `amplify/functions/api-function/resource.ts`. Then, define the function with `defineFunction`:
-  
+
 ```ts title="amplify/functions/api-function/resource.ts"
 import { defineFunction } from "@aws-amplify/backend";
 
@@ -173,7 +173,7 @@ backend.addOutput({
 ## Set up HTTP API with Lambda Function
 
 Create a new directory and a resource file, `amplify/functions/api-function/resource.ts`. Then, define the function with `defineFunction`:
-  
+
 ```ts title="amplify/functions/api-function/resource.ts"
 import { defineFunction } from "@aws-amplify/backend";
 
@@ -327,7 +327,7 @@ backend.addOutput({
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
 Use the package manager of your choice to install the amplify JS library. For example, with `npm`:
 
-```bash title="Terminal" showLineNumbers={false} 
+```bash title="Terminal" showLineNumbers={false}
 npm add aws-amplify
 ```
 </InlineFilter>
@@ -346,7 +346,7 @@ Use the package manager of your choice to install the amplify JS library. For ex
 
 </Accordion>
 
-```bash title="Terminal" showLineNumbers={false} 
+```bash title="Terminal" showLineNumbers={false}
 npm add aws-amplify @aws-amplify/react-native
 ```
 
@@ -394,7 +394,7 @@ dependencies:
     sdk: flutter
   amplify_flutter: ^1.0.0
   amplify_api: ^1.0.0
-  amplify_auth_cognito: ^1.0.0 
+  amplify_auth_cognito: ^1.0.0
 ```
 </InlineFilter>
 
@@ -408,9 +408,9 @@ Import and load the configuration file in your app. It's recommended you add the
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native"]}>
 ```javascript title="src/index.js"
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 const existingConfig = Amplify.getConfig();
 Amplify.configure({
   ...existingConfig,
@@ -424,10 +424,10 @@ Amplify.configure({
 <InlineFilter filters={["nextjs"]}>
 ```javascript title="pages/index.tsx"
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
+Amplify.configure(outputs);
 const existingConfig = Amplify.getConfig();
 Amplify.configure({
   ...existingConfig,
@@ -497,7 +497,7 @@ func application(
     do {
         try Amplify.add(plugin: AWSCognitoAuthPlugin())
         try Amplify.add(plugin: AWSAPIPlugin())
-        try Amplify.configure()
+        try Amplify.configure(with: .amplifyOutputs)
         print("Amplify configured with API and Auth plugin")
     } catch {
         print("Failed to initialize Amplify with \(error)")
@@ -523,6 +523,16 @@ To initialize the Amplify Auth and API categories you call `Amplify.addPlugin()`
 
 Add the following code to your `onCreate()` method in your application class:
 
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -543,7 +553,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the `AWSApiPlugin` and `AWSCognitoAuthPlugin`
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.configure(getApplicationContext());
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify.");
         } catch (AmplifyException error) {
@@ -572,7 +582,7 @@ class MyAmplifyApp : Application() {
             // Add these lines to add the `AWSApiPlugin` and `AWSCognitoAuthPlugin`
             Amplify.addPlugin(AWSApiPlugin())
             Amplify.addPlugin(AWSCognitoAuthPlugin())
-            Amplify.configure(applicationContext)
+            Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), applicationContext)
 
             Log.i("MyAmplifyApp", "Initialized Amplify.")
         } catch (error: AmplifyException) {
@@ -602,7 +612,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the `AWSApiPlugin` and `AWSCognitoAuthPlugin`
             RxAmplify.addPlugin(new AWSApiPlugin());
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
-            RxAmplify.configure(getApplicationContext());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify.");
         } catch (AmplifyException error) {
@@ -653,7 +663,7 @@ class _MyAppState extends State<MyApp> {
     await Amplify.addPlugins([api, auth]);
 
     try {
-      await Amplify.configure(amplifyconfig);
+      await Amplify.configure(outputs);
     } on AmplifyAlreadyConfiguredException {
       safePrint(
           'Tried to reconfigure Amplify; this can occur when your app restarts on Android.');
