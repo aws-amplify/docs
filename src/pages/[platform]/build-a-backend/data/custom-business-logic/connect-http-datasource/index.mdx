@@ -487,82 +487,126 @@ Next, create the following files in your `amplify/data` folder and use the code 
 <Block name="addPost">
 ```js title="amplify/data/addPost.js"
 import { util } from "@aws-appsync/utils";
-import * as ddb from "@aws-appsync/utils/dynamodb";
 
 export function request(ctx) {
-  const item = { ...ctx.arguments, ups: 1, downs: 0, version: 1 };
-  const key = { id: ctx.args.id ?? util.autoId() };
-  return ddb.put({ key, item });
+  return {
+    method: "POST",
+    resourcePath: "/post",
+    params: {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        id:  ctx.arguments.id,
+        author:  ctx.arguments.author,
+        title:  ctx.arguments.title,
+        content: ctx.arguments.content,
+        url:ctx.arguments.url,
+      },
+    },
+  };
 }
 
 export function response(ctx) {
-  return ctx.result;
+  if (ctx.error) {
+    return util.error(ctx.error.message, ctx.error.type);
+  }
+  if (ctx.result.statusCode == 200) {
+    return JSON.parse(ctx.result.body).data;
+  } else {
+    return util.appendError(ctx.result.body, "ctx.result.statusCode");
+  }
 }
 ```
 </Block>
 <Block name="getPost">
 ```js title="amplify/data/getPost.js"
-import * as ddb from "@aws-appsync/utils/dynamodb";
+import { util } from "@aws-appsync/utils";
 
 export function request(ctx) {
-  return ddb.get({ key: { id: ctx.args.id } });
+  return {
+    method: "GET",
+    resourcePath: "/posts/" + ctx.arguments.id,
+    params: {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  };
 }
 
-export const response = (ctx) => ctx.result;
+export function response(ctx) {
+  if (ctx.error) {
+    return util.error(ctx.error.message, ctx.error.type);
+  }
+  if (ctx.result.statusCode == 200) {
+    return JSON.parse(ctx.result.body).data;
+  } else {
+    return util.appendError(ctx.result.body, "ctx.result.statusCode");
+  }
+}
 ```
 </Block>
 <Block name="updatePost">
 ```js title="amplify/data/updatePost.js"
 import { util } from "@aws-appsync/utils";
-import * as ddb from "@aws-appsync/utils/dynamodb";
 
 export function request(ctx) {
-  const { id, expectedVersion, ...rest } = ctx.args;
-  const values = Object.entries(rest).reduce((obj, [key, value]) => {
-    obj[key] = value ?? ddb.operations.remove();
-    return obj;
-  }, {});
-
-  return ddb.update({
-    key: { id },
-    condition: { version: { eq: expectedVersion } },
-    update: { ...values, version: ddb.operations.increment(1) },
-  });
+  return {
+    method: "POST",
+    resourcePath: "/posts/" + ctx.arguments.id,
+    params: {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        author: ctx.arguments.author,
+        title: ctx.arguments.title,
+        content: ctx.arguments.content,
+        url: ctx.arguments.url,
+      },
+    },
+  };
 }
 
 export function response(ctx) {
-  const { error, result } = ctx;
-  if (error) {
-    util.appendError(error.message, error.type);
+  if (ctx.error) {
+    return util.error(ctx.error.message, ctx.error.type);
   }
-  return result;
+  if (ctx.result.statusCode == 200) {
+    return JSON.parse(ctx.result.body).data;
+  } else {
+    return util.appendError(ctx.result.body, "ctx.result.statusCode");
+  }
 }
+
 ```
 </Block>
 <Block name="deletePost">
 ```js title="amplify/data/deletePost.js"
 import { util } from "@aws-appsync/utils";
-import * as ddb from "@aws-appsync/utils/dynamodb";
 
 export function request(ctx) {
-  let condition = null;
-  if (ctx.args.expectedVersion) {
-    condition = {
-      or: [
-        { id: { attributeExists: false } },
-        { version: { eq: ctx.args.expectedVersion } },
-      ],
-    };
-  }
-  return ddb.remove({ key: { id: ctx.args.id }, condition });
+  return {
+    method: "DELETE",
+    resourcePath: "/posts/" + ctx.arguments.id,
+    params: {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  };
 }
 
 export function response(ctx) {
-  const { error, result } = ctx;
-  if (error) {
-    util.appendError(error.message, error.type);
+  if (ctx.error) {
+    return util.error(ctx.error.message, ctx.error.type);
   }
-  return result;
+  if (ctx.result.statusCode == 200) {
+    return JSON.parse(ctx.result.body).data;
+  } else {
+    return util.appendError(ctx.result.body, "ctx.result.statusCode");
+  }
 }
 ```
 </Block>
