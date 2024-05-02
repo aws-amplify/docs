@@ -940,7 +940,10 @@ import { uploadData, getUrl, remove } from "aws-amplify/storage";
 import React, { useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import "@aws-amplify/ui-react/styles.css";
-import { withAuthenticator } from "@aws-amplify/ui-react";
+import {
+  type WithAuthenticatorProps,
+  withAuthenticator,
+} from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
 import outputs from "../amplify_outputs.json";
 
