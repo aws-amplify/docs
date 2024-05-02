@@ -33,7 +33,7 @@ export function getStaticProps(context) {
 We are actively developing migration tooling to aid in transitioning your project from Gen 1 to Gen 2. Until then, we recommend you continue working with your Gen 1 Amplify project.  We remain committed to supporting both Gen 1 and Gen 2 for the foreseeable future. For new projects, we recommend adopting Gen 2 to take advantage of its [enhanced capabilities](/[platform]/how-amplify-works/concepts/). Meanwhile, customers on Gen 1 will continue to receive support for high-priority bugs and essential security updates.
 
 
-## Gen 1 vs Gen 2 feature matrix
+## Gen 1 vs. Gen 2 feature matrix
 
 The tables below present a feature matrix for Gen 1 customers who are considering Gen 2 for their apps. This will help determine the support availability for various features.
 
@@ -48,13 +48,13 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | Google | Yes | Yes |
 | Amazon | Yes | Yes |
 | Sign-in with Apple | Yes | Yes |
-| Add User pool groups | Yes | Yes |
+| Add user pool groups | Yes | Yes |
 | User pool group preference | Yes | Yes |
 | Email verification link redirect | Yes | Yes |
 | Sign-up attributes | Yes | Yes |
 | Auth trigger support | Yes | Yes |
 | Auth trigger templates: Add Google reCaptcha Challenge | Yes | Yes |
-| Auth trigger templates: Add User to Group | Yes | Yes |
+| Auth trigger templates: Add user to Group | Yes | Yes |
 | Auth trigger templates: Email Domain Filtering (denylist) | Yes | Yes |
 | Auth trigger templates: Email Domain Filtering (allowlist) | Yes | Yes |
 | Auth trigger templates: Override ID Token Claims | Yes | Yes |
@@ -93,7 +93,7 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | belongsTo | Yes | Yes |
 | manyToMany | Yes | Yes |
 | default | Yes | Yes |
-| ----------- auth - model level ---- |   |   |
+| **auth - model level** |   |   |
 | auth - public - apiKey | Yes | Yes |
 | auth - public - iam | Yes | Yes |
 | auth - owner - userPools | Yes | Yes |
@@ -110,7 +110,7 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | auth - group - oidc | Yes | Yes |
 | auth - group - dynamic - oidc | Yes | Yes |
 | auth - custom - function | Yes | Yes |
-| --- auth -- field level |   |   |
+| **auth - field level** |   |   |
 | auth - public - apiKey | Yes | Yes |
 | auth - public - iam | Yes | Yes |
 | auth - owner - userPools | Yes | Yes |
@@ -127,20 +127,20 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | auth - group - oidc | Yes | Yes |
 | auth - group - dynamic - oidc | Yes | Yes |
 | auth - custom - function | Yes | Yes |
-| --- other directives --- |   |   |
+| **other directives** |   |   |
 | searchable | Yes | No but we offer a guide using Zero-ETL DynamoDB-to-OpenSearch |
 | predictions | Yes | No but we offer a guide with AI service integrations |
-| Custom Mutation, Query, Subscription | Yes | Yes |
-| - VTL handler | Yes | Yes with CDK |
-| - JavaScript resolver handler | No | Yes |
-| - function handler | Yes | Yes |
-| - http handler | Yes | Yes - we support custom data sources including `http` |
-| ---- Other configurations ---- |  |  |
+| **Custom Mutations, Queries, Subscriptions** | Yes | Yes |
+| VTL handler | Yes | Yes with CDK |
+| JavaScript resolver handler | No | Yes |
+| function handler | Yes | Yes |
+| http handler | Yes | Yes - we support custom data sources including `http` |
+| **Other configurations** |  |  |
 | DataStore support | Yes | No but we'll offer a migration guide soon |
 | Visual configuration | Yes | No - Gen 2 is code-first by design |
 | @model queries, mutations, subscriptions, and timestamps modifiers | Yes | No |
 | Custom GraphQL Transformer plugins | Yes | No |
-| MySQL and Postgres support | No | Yes |
+| MySQL and PostgreSQL support | No | Yes |
 | In-IDE end-to-end type safety | No | Yes |
 
 ### Storage
@@ -168,17 +168,17 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | Feature | Gen 1 | Gen 2 |
 |---|---|---|
 | Function runtime: TypeScript | No | Yes |
-| Function resource access permissions: ◯ auth | Yes | Yes |
-| Function resource access permissions: ◯ function | Yes | Yes |
-| Function resource access permissions: ◯ api | Yes | Yes |
+| Function resource access permissions: auth | Yes | Yes |
+| Function resource access permissions: function | Yes | Yes |
+| Function resource access permissions: API | Yes | Yes |
 | Function resource access permissions CRUD operations | Yes | Yes |
 | Function resource access permissions: custom | No | Yes |
 | Environment variables | Yes | Yes |
 | Secrets | Yes | Yes |
 | Cron jobs | Yes | Yes |
 | Configure memory size | Yes | Yes |
-| Function build options for NodeJS | Yes | Yes |
-| Function templates: AppSync - GraphQL API request (with IAM) | Yes | Yes |
+| Function build options for Node.js | Yes | Yes |
+| Function templates: AWS AppSync - GraphQL API request (with IAM) | Yes | Yes |
 | Function templates: CRUD function for DynamoDB (Integration with API Gateway) | Yes | Yes |
 | Function templates: GraphQL Lambda Authorizer | Yes | Yes |
 | Function templates: Hello World | Yes | Yes |
@@ -186,10 +186,10 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | Function logs in console | Yes | Yes |
 | Function resource access permissions: ◯ geo | Yes | Yes with CDK |
 | Function resource access permissions: ◯ analytics | Yes | Yes with CDK |
-| Function runtime: NET 6 | Yes | Yes with CDK |
+| Function runtime: .NET 6 | Yes | Yes with CDK |
 | Function runtime: Go | Yes | Yes with CDK |
 | Function runtime: Java | Yes | Yes with CDK |
-| Function runtime: JS | Yes | Yes with CDK |
+| Function runtime: JavaScript | Yes | Yes with CDK |
 | Function runtime: Python | Yes | Yes with CDK |
 | Lambda layers | Yes | No |
 

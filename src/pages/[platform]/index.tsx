@@ -18,9 +18,9 @@ import {
   gen2HowAmplifyWorksPathname
 } from '@/data/index-page-data';
 export const meta = {
-  title: 'Amplify Docs (Gen 2)',
+  title: 'Amplify Docs',
   description:
-    'Build apps with the Amplify code-first developer experience (Gen 2) using TypeScript-based development.',
+    'AWS Amplify Docs - Develop and deploy cloud-powered web and mobile apps.',
   platforms: [
     'android',
     'angular',
@@ -64,9 +64,10 @@ const Gen2Overview = () => {
           Amplify Documentation for {PLATFORM_DISPLAY_NAMES[currentPlatform]}
         </Heading>
         <Text className="home-intro__text">
-          AWS Amplify streamlines full-stack app development. With its
-          libraries, CLI, and services, you can easily connect your frontend to
-          the cloud for authentication, storage, APIs, and more.
+          AWS Amplify is everything frontend developers need to develop and
+          deploy cloud-powered fullstack applications without hassle. Easily
+          connect your frontend to the cloud for data modeling, authentication,
+          storage, serverless functions, SSR app deployment, and more.
         </Text>
         <Flex className="home-cta">
           <GetStartedPopover
@@ -94,10 +95,10 @@ const Gen2Overview = () => {
           Build fullstack apps with your framework of choice
         </Heading>
         <Text>
-          AWS Amplify provides libraries for popular web and mobile frameworks,
-          like JavaScript, Flutter, Swift, and React. Our guides, APIs, and
-          other resources will help you build, connect, and host fullstack apps
-          on AWS. Get started by selecting your preferred framework.
+          You can use AWS Amplify with popular web and mobile frameworks like
+          JavaScript, Flutter, Swift, and React. Build, connect, and host
+          fullstack apps on AWS. Get started by selecting your preferred
+          framework.
         </Text>
         <FrameworkGrid currentKey={currentPlatform} />
       </Flex>
@@ -110,8 +111,8 @@ const Gen2Overview = () => {
                 Code-first DX
               </Heading>
               <Text>
-                The code-first developer experience is a new approach that lets
-                you focus on your app code instead of infrastructure.
+                The fullstack TypeScript developer experience lets you focus on
+                your app code instead of infrastructure.
               </Text>
             </Flex>
           </Card>
@@ -121,8 +122,8 @@ const Gen2Overview = () => {
                 Fullstack Git deployments
               </Heading>
               <Text>
-                Fullstack deployments from your Git branch. Deploy your frontend
-                and backend together on every code commit.
+                Deploy your frontend and backend together on every code commit.
+                Your Git branch is the source of truth.
               </Text>
             </Flex>
           </Card>
@@ -166,8 +167,9 @@ const Gen2Overview = () => {
               }
             }}
           >
-            Write TypeScript across frontend and backend. Get schema validation,
-            dot completion, and end-to-end types while you code.
+            Write TypeScript across your app&pos;s frontend and backend. Get
+            schema validation, dot completion, and end-to-end types while you
+            code.
           </FeatureItem>
           <FeatureItem
             linkText="Real-time data for modern apps"
@@ -235,8 +237,8 @@ const Gen2Overview = () => {
                 }
               }}
             >
-              Deploy apps in Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and
-              more) by simply connecting your Git repository.
+            Deploy Next.js, Nuxt, React, Vue.js, Angular (and more) apps by
+            simply connecting your Git repository.
             </FeatureItem>
           )}
           <FeatureItem
@@ -290,7 +292,7 @@ const Gen2Overview = () => {
               }
             }}
           >
-            Extend or customize with AWS CDK to access 200+ AWS services.
+            Extend or customize with the AWS CDK to access 200+ AWS services.
           </FeatureItem>
           <FeatureItem
             linkText="Bring your own pipelines"
@@ -315,7 +317,7 @@ const Gen2Overview = () => {
               }
             }}
           >
-            Enable support for all types of fullstack team workflows—monorepos,
+            Enable support for all types of fullstack team workflows: monorepos,
             micro frontends, multi-repos, and more.
           </FeatureItem>
         </FeatureList>

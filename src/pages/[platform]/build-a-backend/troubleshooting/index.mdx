@@ -1,18 +1,16 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Use with Server-Side Rendering (SSR)',
-  description:
-    'Learn how to use Amplify with SSR.',
+  title: 'Troubleshooting',
+  description: 'Debugging guides for frequent customer errors',
+  route: '/[platform]/build-a-backend/troubleshooting',
   platforms: [
-    'android',
     'angular',
-    'flutter',
     'javascript',
     'nextjs',
     'react',
     'react-native',
-    'swift',
     'vue'
   ]
 };
@@ -22,10 +20,13 @@ export const getStaticPaths = async () => {
 };
 
 export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      meta
+      meta,
+      childPageNodes
     }
   };
-
 }
+
+<Overview childPageNodes={props.childPageNodes} />

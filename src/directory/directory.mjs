@@ -77,6 +77,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/auth/concepts/external-identity-providers/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/guest-access/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/auth/concepts/tokens-and-credentials/index.mdx'
                     }
                   ]
@@ -104,6 +107,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/listen-to-auth-events/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/delete-user-account/index.mdx'
                     }
                   ]
                 },
@@ -125,6 +131,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/index.mdx',
                   children: [
                     {
+                      path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/email-customization/index.mdx'
                     },
                     {
@@ -133,46 +142,19 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/switching-auth-flows/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/accessing-credentials/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/managing-credentials/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/guest-access/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-mfa/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/delete-user-account/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/sign-in-custom-flow/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/modify-resources-with-cdk/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/under-the-hood/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/modify-resources-with-cdk/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx'
@@ -340,7 +322,7 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/functions/define-function/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/functions/set-up-function/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/environment-variables-and-secrets/index.mdx'
@@ -641,6 +623,14 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/build-a-backend/q-developer/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/troubleshooting/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/library-not-configured/index.mdx'
+                }
+              ]
             }
           ]
         },
