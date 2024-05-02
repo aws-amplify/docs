@@ -64,18 +64,18 @@ const Gen2Overview = () => {
         <Heading level={1} className="home-intro__heading">
           Amplify Documentation for {PLATFORM_DISPLAY_NAMES[currentPlatform]}
         </Heading>
-        {isMobilePlatform ? (
-          <Text className="home-intro__text">
-            AWS Amplify is everything mobile developers need to develop
-            cloud-powered fullstack applications without hassle. Easily connect
-            your cross-platform applications to the cloud for data modeling,
-            authentication, storage, serverless functions, and more.
-          </Text>
-        ) : isFlutter ? (
+        {isFlutter ? (
           <Text className="home-intro__text">
             AWS Amplify is everything Flutter developers need to develop
             cloud-powered fullstack applications without hassle. Easily connect
             your Flutter applications to the cloud for data modeling,
+            authentication, storage, serverless functions, and more.
+          </Text>
+        ) : isMobilePlatform ? (
+          <Text className="home-intro__text">
+            AWS Amplify is everything mobile developers need to develop
+            cloud-powered fullstack applications without hassle. Easily connect
+            your cross-platform applications to the cloud for data modeling,
             authentication, storage, serverless functions, and more.
           </Text>
         ) : (
