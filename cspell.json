@@ -914,6 +914,7 @@
     "Neue",
     "NEW_PASSWORD_REQUIRED",
     "newHire",
+    "newimage",
     "NextActivity.class",
     "NextActivity",
     "nextActivityClass",
@@ -1335,6 +1336,7 @@
     "Untag",
     "updateapi",
     "updateauth",
+    "updatedimage",
     "UpdateTable",
     "updateTodo",
     "uploadData",
@@ -1588,20 +1590,12 @@
     "esac",
     "voteField"
   ],
-  "flagWords": [
-    "hte",
-    "full-stack",
-    "Full-stack",
-    "Full-Stack",
-    "sudo"
-  ],
+  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
     {
       "name": "youtube-embed-ids",
       "pattern": "/embedId=\".*\" /"
     }
   ],
-  "ignoreRegExpList": [
-    "youtube-embed-ids"
-  ]
+  "ignoreRegExpList": ["youtube-embed-ids"]
 }
