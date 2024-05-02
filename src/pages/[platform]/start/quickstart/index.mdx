@@ -2019,34 +2019,34 @@ import com.amplifyframework.core.Amplify
 //highlight-end
 
 class MainActivity : ComponentActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContent {
-        MyAmplifyAppTheme {
-            // A surface container using the 'background' color from the theme
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.background
-            )
-            //highlight-start
-            {
-              Authenticator { state ->
-                  Column {
-                      Text(
-                          text = "Hello ${state.user.username}!",
-                      )
-                      Button(onClick = {
-                          Amplify.Auth.signOut {  }
-                      }) {
-                          Text(text = "Sign Out")
-                      }
-                  }
-              }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyAmplifyAppTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                )
+                //highlight-start
+                {
+                    Authenticator { state ->
+                        Column {
+                            Text(
+                                text = "Hello ${state.user.username}!",
+                            )
+                            Button(onClick = {
+                                Amplify.Auth.signOut {  }
+                            }) {
+                                Text(text = "Sign Out")
+                            }
+                        }
+                    }
+                }
+                //highlight-end
             }
-            //highlight-end
         }
     }
-  }
 }
 ```
 
@@ -2103,51 +2103,46 @@ Update the `MainActivity` class with the following code to create new to-do item
 ```kt title="MainActivity"
 
 class MainActivity : ComponentActivity() {
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContent {
-      MyApplicationTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(
-          modifier = Modifier.fillMaxSize(),
-          color = MaterialTheme.colorScheme.background
-        ) {
-            Authenticator { _ ->
-              Column {
-                Text(
-                    text = "Hello ${state.user.username}!",
-                )
-            // highlight-start
-                Column {
-                        Button(onClick = {
-                            val todo = Todo.builder()
-                                .content("My first todo")
-                                .build()
-
-                            Amplify.API.mutate(ModelMutation.create(todo),
-                                { Log.i("MyAmplifyApp", "Added Todo with id: ${it.data.id}")},
-                                { Log.e("MyAmplifyApp", "Create failed", it)},
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyAmplifyAppTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Authenticator { state ->
+                        Column {
+                            Text(
+                                text = "Hello ${state.user.username}!",
                             )
-                        }) {
-                            Text(text = "Create Todo")
+                            // highlight-start
+                            Button(onClick = {
+                                val todo = Todo.builder()
+                                    .content("My first todo")
+                                    .build()
+
+                                Amplify.API.mutate(
+                                    ModelMutation.create(todo),
+                                    { Log.i("MyAmplifyApp", "Added Todo with id: ${it.data.id}")},
+                                    { Log.e("MyAmplifyApp", "Create failed", it)},
+                                )
+                            }) {
+                                Text(text = "Create Todo")
+                            }
+                            // highlight-end
+                            Button(onClick = {
+                                Amplify.Auth.signOut {  }
+                            }) {
+                                Text(text = "Sign Out")
+                            }
                         }
                     }
-              // highlight-end
-               {
-                  Column(modifier = Modifier.padding(it)) {
-                      Button(onClick = {
-                          Amplify.Auth.signOut {  }
-                      }) {
-                          Text(text = "Sign Out")
-                      }
-                  }
-              }
+                }
             }
         }
-      }
     }
-  }
 }
 ```
 
@@ -2160,11 +2155,11 @@ fun TodoList() {
 
     LaunchedEffect(Unit) {
         // API request to list all Todos
-        Amplify.API.query(ModelQuery.list(Todo::class.java),
-            {
-                todoList = it.data.items.toList()
-            },
-            { Log.e("MyAmplifyApp", "Failed to query.", it)})
+        Amplify.API.query(
+            ModelQuery.list(Todo::class.java),
+            { todoList = it.data.items.toList() },
+            { Log.e("MyAmplifyApp", "Failed to query.", it) }
+        )
     }
 
     LazyColumn {
@@ -2181,16 +2176,18 @@ fun TodoList() {
 Now call `TodoList()` from the `onCreate()` function:
 
 ```kt title="MainActivity.kt"
- setContent {
-            MyApplicationTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background)
-                {
-                    Authenticator { state ->
-                        Column {
-                            Text(
-                                text = "Hello ${state.user.username}!",
-                            )
+setContent {
+    MyAmplifyAppTheme {
+        // A surface container using the 'background' color from the theme
+        Surface(
+            modifier = Modifier.fillMaxSize(), 
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Authenticator { state ->
+                Column {
+                    Text(
+                        text = "Hello ${state.user.username}!",
+                    )
                     ....
                     //highlight-next-line
                     TodoList()
@@ -2208,20 +2205,21 @@ fun TodoList() {
     var todoList by remember { mutableStateOf(emptyList<Todo>()) }
 
     LaunchedEffect(Unit) {
-        Amplify.API.query(ModelQuery.list(Todo::class.java),
-            {
-                todoList = it.data.items.toList()
-            },
-            { Log.e("MyAmplifyApp", "Failed to query.", it)})
+        Amplify.API.query(
+            ModelQuery.list(Todo::class.java),
+            { todoList = it.data.items.toList() },
+            { Log.e("MyAmplifyApp", "Failed to query.", it) }
+        )
         // highlight-start
-        Amplify.API.subscribe(ModelSubscription.onCreate(Todo::class.java),
+        Amplify.API.subscribe(
+            ModelSubscription.onCreate(Todo::class.java),
             { Log.i("ApiQuickStart", "Subscription established") },
-            { Log.i("ApiQuickStart", "Todo create subscription received: ${it.data}")
+            { 
+                Log.i("ApiQuickStart", "Todo create subscription received: ${it.data}")
                 todoList = todoList + it.data
             },
             { Log.e("ApiQuickStart", "Subscription failed", it) },
             { Log.i("ApiQuickStart", "Subscription completed") }
-
         )
         // highlight-end
     }
