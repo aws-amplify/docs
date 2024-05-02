@@ -53,7 +53,7 @@ Please refer to this Amazon CodeCatalyst [guide](https://docs.aws.amazon.com/cod
 
 ### Step 3: Update build specification
 
-Add the `npx amplify generate config --branch $AWS_BRANCH --app-id $AWS_APP_ID` command to the build spec and comment out the `npx amplify pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID` command. `amplify pipeline-deploy` runs a script to deploy backend updates, while `amplify generate config` fetches the latest `amplify_outputs.json` for the specified environment.
+Add the `npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID` command to the build spec and comment out the `npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID` command. `ampx pipeline-deploy` runs a script to deploy backend updates, while `ampx generate outputs` fetches the latest `amplify_outputs.json` for the specified environment.
 
 ![Screenshot of Build image settings section in AWS Amplify Gen 2 console, with details about the app build specification](images/gen2/cross-account-deployments/pipeline10.png)
 
@@ -183,4 +183,4 @@ Next, you can review the result of the workflow run from the **Runs** tab:
 
 ![Screenshot of CodeCatalyst console showing the Workflows section, focusing on the Runs tab](images/gen2/cross-account-deployments/pipeline11.png)
 
-Done! You have successfully set up a custom cross-account pipeline to deploy your frontend and backend for apps built using Amplify Gen 2. To summarize, this custom pipeline will enable you to deploy your backend initially with your `staging` environment using `amplify pipeline-deploy` in the CodeCatalyst workflow and `amplify generate config` will generate the `amplify_outputs.json` file for the `main` branch. Amplify Hosting will not deploy backend resources as part of the build and instead will use the deployed backend resources from the `main` branch. Once the staging environment deploys successfully, a similar process will be followed to deploy your `production` environment in a different AWS account.
+Done! You have successfully set up a custom cross-account pipeline to deploy your frontend and backend for apps built using Amplify Gen 2. To summarize, this custom pipeline will enable you to deploy your backend initially with your `staging` environment using `ampx pipeline-deploy` in the CodeCatalyst workflow and `ampx generate outputs` will generate the `amplify_outputs.json` file for the `main` branch. Amplify Hosting will not deploy backend resources as part of the build and instead will use the deployed backend resources from the `main` branch. Once the staging environment deploys successfully, a similar process will be followed to deploy your `production` environment in a different AWS account.

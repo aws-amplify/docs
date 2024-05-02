@@ -31,7 +31,7 @@ export async function getStaticProps() {
 
 In Amplify Gen 2, the CLI will generate an `amplify_outputs.json` file with your backend's outputs such as your Data endpoint and Auth metadata. This file -- also known as the "client configuration file" -- is used to configure the client libraries in order to interact with your backend resources. Locally, this file is created while using `ampx sandbox`. In Amplify's CI/CD, this is created automatically for you based on the current Amplify app ID and git branch.
 
-You can also manually create this file for a specified Amplify app ID and branch, or an AWS CloudFormation stack name with [`ampx generate config`](/[platform]/reference/cli-commands#npx-ampx-generate-config).
+You can also manually create this file for a specified Amplify app ID and branch, or an AWS CloudFormation stack name with [`ampx generate outputs`](/[platform]/reference/cli-commands#npx-ampx-generate-outputs).
 
 {/* @TODO full type/interface to reference */}
 
