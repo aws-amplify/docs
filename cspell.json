@@ -871,6 +871,7 @@
     "Multifactor",
     "multipart",
     "multiPartConcurrencyLimit",
+    "multishells",
     "Mutation.createTodo",
     "mutationName",
     "MY_BUCKET",
