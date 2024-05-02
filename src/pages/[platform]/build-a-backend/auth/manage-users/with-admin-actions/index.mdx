@@ -4,14 +4,14 @@ export const meta = {
   title: 'With admin actions',
   description: 'Learn how to manage users with Admin Actions',
   platforms: [
-    // 'android',
+    'android',
     'angular',
-    // 'flutter',
+    'flutter',
     'javascript',
     'nextjs',
     'react',
-    // 'react-native',
-    // 'swift',
+    'react-native',
+    'swift',
     'vue'
   ]
 };
@@ -128,6 +128,10 @@ export const handler: Handler = async (event) => {
 }
 ```
 
+{/* double-up the filter for web platforms until mobile examples are written */}
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
 In your frontend, use the generated client to call your mutation using the group name and the user's ID.
 
 ```ts title="src/client.ts"
@@ -141,3 +145,21 @@ await client.mutations.addUserToGroup({
   userId: "5468d468-4061-70ed-8870-45c766d26225",
 })
 ```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+{/* @todo */}
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/* @todo */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+{/* @todo */}
+
+</InlineFilter>
+</InlineFilter>
