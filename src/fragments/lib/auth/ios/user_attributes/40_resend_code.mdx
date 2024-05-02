@@ -3,9 +3,9 @@
 <Block name="Async/Await">
 
 ```swift
-func resendCode() async {
+func sendVerificationCode() async {
     do {
-        let deliveryDetails = try await Amplify.Auth.resendConfirmationCode(forUserAttributeKey: .email)
+        let deliveryDetails = try await Amplify.Auth.sendVerificationCode(forUserAttributeKey: .email)
         print("Resend code send to - \(deliveryDetails)")
     } catch let error as AuthError {
         print("Resend code failed with error \(error)")
@@ -20,9 +20,9 @@ func resendCode() async {
 <Block name="Combine">
 
 ```swift
-func resendCode() -> AnyCancellable {
+func sendVerificationCode() -> AnyCancellable {
     Amplify.Publisher.create {
-        try await Amplify.Auth.resendConfirmationCode(forUserAttributeKey: .email)
+        try await Amplify.Auth.sendVerificationCode(forUserAttributeKey: .email)
         }.sink {
             if case let .failure(authError) = $0 {
                 print("Resend code failed with error \(authError)")
