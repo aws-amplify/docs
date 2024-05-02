@@ -80,7 +80,7 @@ Be sure to add a "raw" folder under `app/src/main/res` directory if it does not 
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx sandbox --outputs-out-dir app/src/main/res/raw
+npx ampx sandbox --outputs-out-dir <path_to_app/src/main/res/raw>
 ```
 
 </InlineFilter>
@@ -92,7 +92,7 @@ npx ampx sandbox
 
 </InlineFilter>
 
-After a successful deployment, this command also generates a configuration file (`amplify_outputs.json`) to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated configuration file to automatically configure the frontend [`Authenticator connected component`](https://ui.docs.amplify.aws/react/connected-components/authenticator).
+After a successful deployment, this command also generates an outputs file (`amplify_outputs.json`) to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated outputs file to automatically configure the frontend [`Authenticator connected component`](https://ui.docs.amplify.aws/react/connected-components/authenticator).
 
 ## Connect your application code to your auth resource
 
@@ -306,7 +306,7 @@ npx pod-install
 ```
 
 <Callout warning>
-For calling native libraries and platform dependencies from Expo, you need to run the prebuild command for generating the folders for related platforms. 
+For calling native libraries and platform dependencies from Expo, you need to run the prebuild command for generating the folders for related platforms.
 
 ```bash title="Terminal" showLineNumbers={false}
 npx expo prebuild
@@ -365,7 +365,7 @@ flutter pub add amplify_auth_cognito
 flutter pub add amplify_authenticator
 ```
 
-or you can update your `pubspec.yaml` file with the following 
+or you can update your `pubspec.yaml` file with the following
 
 ```yaml
 environment:
@@ -482,7 +482,7 @@ Add the following dependencies to your *app*'s `build.gradle` file and click "Sy
 
 ```kotlin
 dependencies {
-    implementation("com.amplifyframework.ui:authenticator:1.1.0")
+    implementation("com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
@@ -492,10 +492,10 @@ dependencies {
 
 ```groovy
 dependencies {
-  dependencies {    
+  dependencies {
     // Authenticator dependency
-    implementation 'com.amplifyframework.ui:authenticator:1.1.0'
-    
+    implementation 'com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION'
+
     // Support for Java 8 features
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
   }
@@ -505,12 +505,23 @@ dependencies {
 </Block>
 </BlockSwitcher>
 
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
+
 ```kotlin title="MyAmplifyApp.kt"
 import android.app.Application
 import android.util.Log
 import com.amplifyframework.AmplifyException
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputs
 
 class MyAmplifyApp: Application() {
     override fun onCreate() {
@@ -519,7 +530,7 @@ class MyAmplifyApp: Application() {
         try {
             // highlight-next-line
             Amplify.addPlugin(AWSCognitoAuthPlugin())
-            Amplify.configure(applicationContext)
+            Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
@@ -594,7 +605,7 @@ An application with Amplify libraries integrated and a minimum target of any of 
 
 <Callout info>
 
-visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch. 
+visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch.
 As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
 
 For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
@@ -646,7 +657,7 @@ struct MyApp: App {
     init() {
         do {
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
-            try Amplify.configure()
+            try Amplify.configure(with: .amplifyOutputs)
         } catch {
             print("Unable to configure Amplify \(error)")
         }

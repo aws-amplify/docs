@@ -4,21 +4,20 @@ export const meta = {
   title: 'Text to speech',
   description: 'Learn how to integrate text-to-speech capabilities into your application using Amplify.',
   platforms: [
-    'swift',
-    'android',
-    'javascript',
     'angular',
+    'javascript',
     'nextjs',
     'react',
-    'vue'
+    'react-native',
+    'vue',
   ]
 };
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   return {
     props: {
       meta
@@ -36,258 +35,10 @@ export function getStaticProps(context) {
 
 Generate an audio buffer for playback from a text input.
 
-<InlineFilter filters={['android']}>
-
-<BlockSwitcher>
-<Block name="Java">
-
-Open `MainActivity.java` and add the following code:
-
-```java
-private final MediaPlayer mp = new MediaPlayer();
-
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-  super.onCreate(savedInstanceState);
-  setContentView(R.layout.activity_main);
-
-  Amplify.Predictions.convertTextToSpeech(
-    "I like to eat spaghetti",
-    result -> playAudio(result.getAudioData()),
-    error -> Log.e("MyAmplifyApp", "Conversion failed", error)
-  );
-}
-
-private void playAudio(InputStream data) {
-  File mp3File = new File(getCacheDir(), "audio.mp3");
-
-  try (OutputStream out = new FileOutputStream(mp3File)) {
-    byte[] buffer = new byte[8 * 1_024];
-    int bytesRead;
-    while ((bytesRead = data.read(buffer)) != -1) {
-        out.write(buffer, 0, bytesRead);
-    }
-    mp.reset();
-    mp.setOnPreparedListener(MediaPlayer::start);
-    mp.setDataSource(new FileInputStream(mp3File).getFD());
-    mp.prepareAsync();
-  } catch (IOException error) {
-    Log.e("MyAmplifyApp", "Error writing audio file", error);
-  }
-}
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-Open `MainActivity.kt` and add the following code:
-
-```kotlin
-private val mp = MediaPlayer()
-
-override fun onCreate(savedInstanceState: Bundle?) {
-  super.onCreate(savedInstanceState)
-  setContentView(R.layout.activity_main)
-  convertTextToSpeech()
-}
-
-private fun convertTextToSpeech() {
-  Amplify.Predictions.convertTextToSpeech("I like to eat spaghetti!",
-    { playAudio(it.audioData) },
-    { Log.e("MyAmplifyApp", "Failed to convert text to speech", it) }
-  )
-}
-
-private fun playAudio(data: InputStream) {
-  val mp3File = File(cacheDir, "audio.mp3")
-  try {
-    FileOutputStream(mp3File).use { out ->
-      val buffer = ByteArray(8 * 1024)
-      var bytesRead: Int
-      while (data.read(buffer).also { bytesRead = it } != -1) {
-          out.write(buffer, 0, bytesRead)
-      }
-      mp.reset()
-      mp.setOnPreparedListener { obj: MediaPlayer -> obj.start() }
-      mp.setDataSource(FileInputStream(mp3File).fd)
-      mp.prepareAsync()
-    }
-  } catch (error: IOException) {
-    Log.e("MyAmplifyApp", "Error writing audio file.")
-  }
-}
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-Open `MainActivity.kt` and add the following code:
-
-```kotlin
-private val mp = MediaPlayer()
-
-override fun onCreate(savedInstanceState: Bundle?) {
-  super.onCreate(savedInstanceState)
-  setContentView(R.layout.activity_main)
-  convertTextToSpeech()
-}
-
-private fun convertTextToSpeech() = activityScope.launch {
-  val text = "I like to eat spaghetti!"
-  try {
-    val result = Amplify.Predictions.convertTextToSpeech(text)
-    playAudio(result.audioData)
-  } catch (error: PredictionsException) {
-    Log.e("MyAmplifyApp", "Failed to convert text to speech", error)
-  }
-}
-
-private fun playAudio(data: InputStream) {
-  val mp3File = File(cacheDir, "audio.mp3")
-  try {
-    FileOutputStream(mp3File).use { out ->
-      val buffer = ByteArray(8 * 1024)
-      var bytesRead: Int
-      while (data.read(buffer).also { bytesRead = it } != -1) {
-        out.write(buffer, 0, bytesRead)
-      }
-      mp.reset()
-      mp.setOnPreparedListener { obj: MediaPlayer -> obj.start() }
-      mp.setDataSource(FileInputStream(mp3File).fd)
-      mp.prepareAsync()
-    }
-  } catch (error: IOException) {
-    Log.e("MyAmplifyApp", "Error writing audio file.")
-  }
-}
-```
-
-</Block>
-<Block name="RxJava">
-
-Open `MainActivity.java` and add the following code:
-
-```java
-private final MediaPlayer mp = new MediaPlayer();
-
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-  super.onCreate(savedInstanceState);
-  setContentView(R.layout.activity_main);
-
-  RxAmplify.Predictions.convertTextToSpeech("I like to eat spaghetti")
-    .subscribe(
-      result -> playAudio(result.getAudioData()),
-      error -> Log.e("MyAmplifyApp", "Conversion failed", error)
-    );
-}
-
-private void playAudio(InputStream data) {
-  File mp3File = new File(getCacheDir(), "audio.mp3");
-
-  try (OutputStream out = new FileOutputStream(mp3File)) {
-    byte[] buffer = new byte[8 * 1_024];
-    int bytesRead;
-    while ((bytesRead = data.read(buffer)) != -1) {
-      out.write(buffer, 0, bytesRead);
-    }
-    mp.reset();
-    mp.setOnPreparedListener(MediaPlayer::start);
-    mp.setDataSource(new FileInputStream(mp3File).getFD());
-    mp.prepareAsync();
-  } catch (IOException error) {
-    Log.e("MyAmplifyApp", "Error writing audio file", error);
-  }
-}
-```
-
-</Block>
-</BlockSwitcher>
-
-This example works on all supported versions of Android. Android API 23 added support for [`MediaDataSource`](https://developer.android.com/reference/android/media/MediaDataSource), which allows for `InputStream` from Amplify to be read directly without writing to a file.
-
-As a result of running this code, you will hear audio of the text being emitted from your device.
-
-
-</InlineFilter>
-
-<InlineFilter filters={['swift']}>
-
-
-<BlockSwitcher>
-
-<Block name="Async/Await">
-
-```swift
-import Amplify
-import AWSPredictionsPlugin
-import AVFoundation
-
-//...
-
-var player: AVAudioPlayer?
-
-//...
-
-func textToSpeech() async throws {
-  let result = try await Amplify.Predictions.convert(
-      .textToSpeech("Hello, world!"),
-      options: .init(voice: .englishFemaleIvy)
-  )
-  print("TextToSpeech result: \(result)")
-  self.player = try AVAudioPlayer(data: result.audioData)
-  player?.play()
-}
-```
-
-</Block>
-
-<Block name="Combine">
-
-```swift
-import Amplify
-import AWSPredictionsPlugin
-import AVFoundation
-
-//...
-
-var player: AVAudioPlayer?
-var textToSpeechSink: AnyCancellable?
-
-//...
-
-func textToSpeech() {
-  textToSpeechSink = Amplify.Publisher.create {
-     try await Amplify.Predictions.convert(
-        .textToSpeech("Hello, world!"),
-        options: .init(voice: .englishFemaleIvy)
-    )
-  }
-  .sink(receiveCompletion: { completion in
-      if case let .failure(error) = completion {
-          print("Error converting text to speech: \(error)")
-      }
-  }, receiveValue: { result in
-      print("TextToSpeech result: \(result)")
-      self.player = try? AVAudioPlayer(data: result.audioData)
-      self.player?.play()
-  })
-}
-```
-
-</Block>
-
-</BlockSwitcher>
-
-As a result of running this code, you will hear audio of the text being emitted from your device.
-
-</InlineFilter>
-<InlineFilter filters={['javascript','angular','nextjs','react','vue']}>
-
-```
+```ts
 import { Predictions } from '@aws-amplify/predictions';
 
-Predictions.convert({
+const result = await Predictions.convert({
   textToSpeech: {
     source: {
       text: textToGenerateSpeech
@@ -295,12 +46,7 @@ Predictions.convert({
     voiceId: "Amy" 
   }
 })
-.then(result => console.log({ result }))
-.catch(err => console.log({ err }));
-
 ```
-
-</InlineFilter>
 
 To view the complete list of voiceId options refer to [Voices in Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html).
 

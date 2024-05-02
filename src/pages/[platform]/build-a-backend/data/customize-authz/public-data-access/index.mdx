@@ -78,7 +78,7 @@ const schema = a.schema({
 });
 ```
 
-In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `iam` auth mode.
+In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `identityPool` auth mode.
 
 <Callout info>
 If you're not using the auto-generated **amplify_outputs.json** file, then you must set the Amplify Library resource configuration's `allowGuestAccess` flag to `true`. This lets the Amplify Library use the unauthenticated role from your Cognito identity pool when your user isn't logged in.
@@ -90,7 +90,7 @@ import outputs from "../amplify_outputs.json";
 
 Amplify.configure(
   {
-    ...config,
+    ...outputs,
     Auth: {
       Cognito: {
         identityPoolId: config.aws_cognito_identity_pool_id,

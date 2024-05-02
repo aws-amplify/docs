@@ -53,7 +53,7 @@ export const storage = defineStorage({
 });
 ```
 
-Import your storage definition in your `amplify/backend.ts` file that contains your backend definition. Add storage to `defineBackend`. 
+Import your storage definition in your `amplify/backend.ts` file that contains your backend definition. Add storage to `defineBackend`.
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
@@ -81,12 +81,12 @@ git push
 
 By default, no users or other project resources have access to any files in the storage bucket. Access must be explicitly granted within `defineStorage` using the `access` callback.
 
-The access callback returns an object where each key in the object is a file path and each value in the object is an array of access rules that apply to that path. 
+The access callback returns an object where each key in the object is a file path and each value in the object is an array of access rules that apply to that path.
 
-The following example shows you how you can set up your file storage structure for a generic photo sharing app. Here, 
+The following example shows you how you can set up your file storage structure for a generic photo sharing app. Here,
 
 1. Guests have access to see all profile pictures and only the users that uploaded the profile picture can replace or delete them. Users are identified by their Identity Pool ID in this case i.e. identityID.
-2. There's also a general pool where all users can submit pictures. 
+2. There's also a general pool where all users can submit pictures.
 
 [Learn more about customizing access to file path](/[platform]/build-a-backend/storage/authorization/).
 
@@ -148,7 +148,7 @@ For a full example, please follow the [project setup walkthrough](/[platform]/st
 
 <Callout>
 {/* is the visionOS support callout relevant here? */}
-visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch. 
+visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch.
 As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
 
 For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
@@ -191,11 +191,11 @@ struct MyAmplifyApp: App {
         }
     }
 
-    init() { 
+    init() {
         do {
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
             try Amplify.add(plugin: AWSS3StoragePlugin())
-            try Amplify.configure()
+            try Amplify.configure(with: .amplifyOutputs)
             print("Amplify configured with Auth and Storage plugins")
         } catch {
             print("Failed to initialize Amplify with \(error)")
@@ -226,7 +226,7 @@ func application(
     do {
         try Amplify.add(plugin: AWSCognitoAuthPlugin())
         try Amplify.add(plugin: AWSS3StoragePlugin())
-        try Amplify.configure()
+        try Amplify.configure(with: .amplifyOutputs)
         print("Amplify configured with Auth and Storage plugins")
     } catch {
         print("Failed to initialize Amplify with \(error)")
@@ -277,6 +277,16 @@ Initialize Amplify Storage by calling `Amplify.addPlugin()`. To complete initial
 
 Add the following code to your `onCreate()` method in your application class:
 
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -284,6 +294,7 @@ Add the following code to your `onCreate()` method in your application class:
 import android.util.Log;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 ```
 
@@ -304,7 +315,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSS3StoragePlugin plugins
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSS3StoragePlugin());
-            Amplify.configure(getApplicationContext());
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -321,6 +332,7 @@ public class MyAmplifyApp extends Application {
 import android.util.Log
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputs
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin
 ```
 
@@ -340,8 +352,7 @@ class MyAmplifyApp : Application() {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSS3StoragePlugin plugins
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.addPlugin(AWSS3StoragePlugin())
-            Amplify.configure(applicationContext)
-
+            Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
@@ -356,6 +367,7 @@ class MyAmplifyApp : Application() {
 ```java
 import android.util.Log;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 ```
@@ -377,7 +389,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSS3StoragePlugin plugins
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
             RxAmplify.addPlugin(new AWSS3StoragePlugin());
-            RxAmplify.configure(getApplicationContext());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -520,8 +532,8 @@ upload.addEventListener("click", () => {
     console.log("Complete File read successfully!", event.target.result);
     try {
       await uploadData({
-                data: event.target.result, 
-                path: `picture-submissions/${file.files[0].name}` 
+                data: event.target.result,
+                path: `picture-submissions/${file.files[0].name}`
             });
     } catch (e) {
       console.log("error", e);

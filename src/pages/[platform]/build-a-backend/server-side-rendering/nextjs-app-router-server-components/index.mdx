@@ -63,7 +63,7 @@ import { Amplify } from "aws-amplify";
 
 import outputs from "@/amplify_outputs.json";
 
-Amplify.configure(config, { ssr: true });
+Amplify.configure(outputs, { ssr: true });
 
 export default function ConfigureAmplifyClientSide() {
   return null;
@@ -126,7 +126,7 @@ import { type Schema } from "@/amplify/data/resource";
 import outputs from "@/amplify_outputs.json";
 
 export const { runWithAmplifyServerContext } = createServerRunner({
-  config,
+  outputs,
 });
 
 export const cookiesClient = generateServerClientUsingCookies<Schema>({
