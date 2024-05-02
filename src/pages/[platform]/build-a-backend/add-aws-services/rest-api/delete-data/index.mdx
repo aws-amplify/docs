@@ -4,21 +4,18 @@ export const meta = {
   title: 'Delete data',
   description: 'Using the Delete API REST in Amplify',
   platforms: [
-    'javascript',
-    'react-native',
-    'flutter',
-    'swift',
-    'android',
     'angular',
+    'javascript',
     'nextjs',
     'react',
+    'react-native',
     'vue'
   ],
 };
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
 export function getStaticProps(context) {
   return {
@@ -32,9 +29,8 @@ export function getStaticProps(context) {
 ## DELETE requests
 
 To delete an item via the API endpoint:
-<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
 
-```javascript
+```ts
 import { del } from 'aws-amplify/api';
 
 async function deleteItem() {
@@ -50,132 +46,3 @@ async function deleteItem() {
   }
 }
 ```
-</InlineFilter>
-
-<InlineFilter filters={['swift']}>
-
-<BlockSwitcher>
-
-<Block name="Async/Await">
-
-```swift
-func deleteItem() async {
-    let request = RESTRequest(path: "items")
-    do {
-        let data = try await Amplify.API.delete(request: request)
-        let str = String(decoding: data, as: UTF8.self)
-        print("Success: \(str)")
-    } catch let error as APIError {
-            print("Failed due to API error: ", error)
-    } catch {
-        print("Unexpected error: \(error)")
-    }
-}
-```
-
-</Block>
-
-<Block name="Combine">
-
-```swift
-func deleteItem() -> AnyCancellable {
-    let request = RESTRequest(path: "items")
-    let sink = Amplify.Publisher.create {
-        try await Amplify.API.delete(request: request)
-    }
-    .sink {
-        if case let .failure(apiError) = $0 {
-            print("Failed", apiError)
-        }
-    }
-    receiveValue: { data in
-        let str = String(decoding: data, as: UTF8.self)
-        print("Success \(str)")
-    }
-    return sink
-}
-```
-
-</Block>
-
-</BlockSwitcher>
-</InlineFilter>
-
-<InlineFilter filters={['android']}>
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-RestOptions options = RestOptions.builder()
-    .addPath("/items/1")
-    .build();
-
-Amplify.API.delete(options,
-    response -> Log.i("MyAmplifyApp", "DELETE succeeded: " + response),
-    error -> Log.e("MyAmplifyApp", "DELETE failed.", error)
-);
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-```kotlin
-val options = RestOptions.builder()
-    .addPath("/items/1")
-    .build()
-
-Amplify.API.delete(options,
-    { Log.i("MyAmplifyApp", "DELETE succeeded: $it") },
-    { Log.e("MyAmplifyApp", "DELETE failed.", it) }
-)
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-```kotlin
-val request = RestOptions.builder()
-    .addPath("/items/1")
-    .build()
-try {
-    val response = Amplify.API.delete(request)
-    Log.i("MyAmplifyApp", "DELETE succeeded: $response")
-} catch (error: ApiException) {
-    Log.e("MyAmplifyApp", "DELETE failed", error)
-}
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-RestOptions options = RestOptions.builder()
-    .addPath("/items/1")
-    .build();
-
-RxAmplify.API.delete(options)
-    .subscribe(
-        response -> Log.i("MyAmplifyApp", "DELETE succeeded: " + response),
-        error -> Log.e("MyAmplifyApp", "DELETE failed.", error)
-    );
-```
-
-</Block>
-</BlockSwitcher>
-</InlineFilter>
-
-<InlineFilter filters={['flutter']}>
-
-```dart
-Future<void> deleteItems() async {
-  try {
-    final restOperation = Amplify.API.delete('items/1');
-    final response = await restOperation.response;
-    print('DELETE call succeeded: ${response.decodeBody()}');
-  } on ApiException catch (e) {
-    print('DELETE call failed: $e');
-  }
-}
-```
-</InlineFilter>

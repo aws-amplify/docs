@@ -5,22 +5,19 @@ export const meta = {
   title: 'API (REST)',
   description: 'A straightforward and secure solution for making HTTP requests using REST APIs',
   platforms: [
-    'android',
     'angular',
-    'flutter',
     'javascript',
     'nextjs',
     'react',
     'react-native',
-    'swift',
     'vue'
   ],
   route: '/[platform]/build-a-backend/add-aws-services/rest-api',
 };
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
 export function getStaticProps(context) {
   const childPageNodes = getChildPageNodes(meta.route);

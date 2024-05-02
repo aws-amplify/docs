@@ -4,21 +4,18 @@ export const meta = {
   title: 'Use existing AWS resources',
   description: 'Configure the Amplify Libraries to use existing Amazon API Gateway resources by referencing them in your configuration.',
   platforms: [
-    'flutter',
-    'swift',
-    'android',
-    'javascript',
-    'react-native',
     'angular',
+    'javascript',
     'nextjs',
     'react',
+    'react-native',
     'vue'
   ],
 };
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
 export function getStaticProps(context) {
   return {
@@ -29,40 +26,9 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={['android', 'swift', 'flutter']}>
-Existing Amazon API Gateway resources can be used with the Amplify Libraries by referencing your API Gateway **endpoint** and configuring authorization in your `amplifyconfiguration.json` file.
-
-```json
-{
-  "api": {
-    "plugins": {
-      "awsAPIPlugin": {
-        "<your-api-name>": {
-          "endpointType": "REST",
-          "endpoint": "<your-api-endpoint>",
-          "region": "<your-api-region>",
-          "authorizationType": "<your-api-authorization-type>"
-        }
-      }
-    }
-  }
-}
-```
-
-- **your-api-name**: Friendly name for the API (e.g., *api*)
-  - **endpoint**: The HTTPS endpoint of the API (e.g. *https://aaaaaaaaaa.execute-api.us-east-1.amazonaws.com/api*)
-  - **region**:  AWS Region where the resources are provisioned (e.g. *us-east-1*)
-  - **authorizationType**: Authorization mode for accessing the API. This can be one of: `NONE`, `AWS_IAM`, `AMAZON_COGNITO_USER_POOLS`, or `API_KEY`. Each mode with the exception of `NONE` requires additional configuration parameters. See [Configure authorization modes](/[platform]/build-a-backend/add-aws-services/rest-api/customize-authz/) for  details.
-
-Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/[platform]/build-a-backend/add-aws-services/rest-api/set-up-rest-api/#install-amplify-libraries). 
-
-</InlineFilter>
-
-<InlineFilter filters={['javascript','angular','nextjs','react','vue','react-native']}>
-
 Existing Amazon API Gateway resources can be used with the Amplify Libraries by calling `Amplify.configure()` with the API Gateway API name and options. Note, you will need to supply the full resource configuration and library options objects when calling `Amplify.configure()`. The following example shows how to configure additional API Gateway resources to an existing Amplify application:
 
-```javascript
+```ts
 import { Amplify } from 'aws-amplify';
 import amplifyconfig from '../amplifyconfiguration.json';
 Amplify.configure(amplifyconfig):
@@ -91,5 +57,3 @@ Amplify.configure({
   - **region**: AWS Region where the resources are provisioned. If not specified, the region will be inferred from the endpoint.
 
 Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/[platform]/build-a-backend/add-aws-services/rest-api/set-up-rest-api/#install-amplify-libraries).
-
-</InlineFilter>
