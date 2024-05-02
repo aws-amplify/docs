@@ -53,6 +53,9 @@ export function getStaticProps() {
 
 const Gen2Overview = () => {
   const currentPlatform = useCurrentPlatform();
+  const mobilePlatform = ['swift', 'android', 'flutter'].includes(
+    currentPlatform
+  );
 
   return (
     <Flex className="home-content">
@@ -190,18 +193,20 @@ const Gen2Overview = () => {
             Choose the auth strategy (such as passwords, social, email links)
             and control data access based on users and groups.
           </FeatureItem>
-          <FeatureItem
-            linkText="Auto-generate CRUD forms wired to data"
-            href={{
-              pathname: '/[platform]/build-ui/',
-              query: {
-                platform: currentPlatform
-              }
-            }}
-          >
-            Map CRUD forms to your data model with form-level validations and
-            error states built in.
-          </FeatureItem>
+          {!mobilePlatform && (
+            <FeatureItem
+              linkText="Auto-generate CRUD forms wired to data"
+              href={{
+                pathname: '/[platform]/build-ui/',
+                query: {
+                  platform: currentPlatform
+                }
+              }}
+            >
+              Map CRUD forms to your data model with form-level validations and
+              error states built in.
+            </FeatureItem>
+          )}
         </Columns>
       </Flex>
 
@@ -220,18 +225,20 @@ const Gen2Overview = () => {
         />
 
         <FeatureList heading="Deploy" level={2}>
-          <FeatureItem
-            linkText="SSR/SSG/ISR hosting support"
-            href={{
-              pathname: '/[platform]/deploy-and-host/hosting/',
-              query: {
-                platform: currentPlatform
-              }
-            }}
-          >
-            Deploy apps in Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and
-            more) by simply connecting your Git repository.
-          </FeatureItem>
+          {!mobilePlatform && (
+            <FeatureItem
+              linkText="SSR/SSG/ISR hosting support"
+              href={{
+                pathname: '/[platform]/deploy-and-host/hosting/',
+                query: {
+                  platform: currentPlatform
+                }
+              }}
+            >
+              Deploy apps in Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and
+              more) by simply connecting your Git repository.
+            </FeatureItem>
+          )}
           <FeatureItem
             linkText="Faster iterations with per-developer sandboxes"
             href={{
