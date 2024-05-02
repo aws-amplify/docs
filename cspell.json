@@ -1520,7 +1520,7 @@
     "privatesaccess",
     "menudetaileditors",
     "editorgroupaccess",
-    "publicauthreadonly",
+    "authreadonly",
     "envs",
     "Onetoone",
     "onetomany",
