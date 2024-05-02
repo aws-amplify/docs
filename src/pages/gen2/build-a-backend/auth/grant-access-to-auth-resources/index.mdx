@@ -11,12 +11,6 @@ export function getStaticProps(context) {
   };
 }
 
-<Callout warning>
-
-**Under active development:** The Authentication experience for Amplify Gen 2 is under active development. The experience may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
-
-</Callout>
-
 ### Grant function access
 
 You can grant your backend function access to authentication resources, which will enable the function to perform administrative operations such as creating users, handling user password recovery, or adding users to groups.
@@ -68,7 +62,7 @@ export const handler = async(event) => {
 |manageUsers | Grants CRUD access to users in the UserPool | <ul><li>cognito-idp:AdminConfirmSignUp</li><li>cognito-idp:AdminCreateUser</li><li>cognito-idp:AdminDeleteUser</li><li>cognito-idp:AdminDeleteUserAttributes</li><li>cognito-idp:AdminDisableUser</li><li>cognito-idp:AdminEnableUser</li><li>cognito-idp:AdminGetUser</li><li>cognito-idp:AdminListGroupsForUser</li><li>cognito-idp:AdminRespondToAuthChallenge</li><li>cognito-idp:AdminSetUserMFAPreference</li><li>cognito-idp:AdminSetUserSettings</li><li>cognito-idp:AdminUpdateUserAttributes</li><li>cognito-idp:AdminUserGlobalSignOut</li></ul>|
 |manageGroupMembership | Grants permission to add and remove users from groups | <ul><li>cognito-idp:AdminAddUserToGroup</li><li>cognito-idp:AdminRemoveUserFromGroup</li></ul>|
 |manageUserDevices | Manages devices registered to users| <ul><li>cognito-idp:AdminForgetDevice</li><li>cognito-idp:AdminGetDevice</li><li>cognito-idp:AdminListDevices</li><li>cognito-idp:AdminUpdateDeviceStatus</li></ul>|
-|managePasswordRecovery | Grants permission to reset user passwords | <ul><li>cognito-idp:AdminResetUserPassword</li><li>cognito-idp:AdminSetUserPassword</li></ul>| 
+|managePasswordRecovery | Grants permission to reset user passwords | <ul><li>cognito-idp:AdminResetUserPassword</li><li>cognito-idp:AdminSetUserPassword</li></ul>|
 |addUserToGroup | Grants permission to add any user to any group. | <ul><li>cognito-idp:AdminAddUserToGroup</li></ul>
 |createUser | Grants permission to create new users and send welcome messages via email or SMS. | <ul><li>cognito-idp:AdminCreateUser</li></ul>
 |deleteUser | Grants permission to delete any user | <ul><li>cognito-idp:AdminDeleteUser</li></ul>

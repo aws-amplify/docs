@@ -57,12 +57,6 @@ Most L1 and L2 AWS CDK constructs that are used by the `define*` functions are a
 
 ## Example - Grant access permissions between resources
 
-<Callout info>
-
-**Under active development**: We are working to improve the experience of granting one resource access to another. For the time being, overrides can be used to achieve this.
-
-</Callout>
-
 Consider the case that we want to grant a function created by `defineFunction` access to call the Cognito user pool created by `defineAuth`. This can be accomplished with the following overrides.
 
 ```ts title="amplify/backend.ts"
