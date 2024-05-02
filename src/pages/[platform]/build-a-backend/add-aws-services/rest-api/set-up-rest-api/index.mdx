@@ -467,7 +467,7 @@ struct MyAmplifyApp: App {
         do {
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
             try Amplify.add(plugin: AWSAPIPlugin())
-            try Amplify.configure(with: .amplifyOutputs)
+            try Amplify.configure()
             print("Amplify configured with API and Auth plugin")
         } catch {
             print("Failed to initialize Amplify with \(error)")
