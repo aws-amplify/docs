@@ -1007,7 +1007,7 @@ function App({ signOut, user }) {
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
       // If the record has no associated file, we can return early.
-      if (!updatedPhotoAlbum.imagePaths?.length) return;
+      if (!updatedPhotoAlbum?.imagePaths?.length) return;
 
       // Retrieve the file's signed URL:
       const signedURL = await getUrl({
