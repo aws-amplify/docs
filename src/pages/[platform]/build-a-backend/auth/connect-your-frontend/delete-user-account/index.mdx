@@ -16,9 +16,9 @@ export const meta = {
   ]
 };
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
 export function getStaticProps(context) {
   return {
@@ -156,19 +156,8 @@ func deleteUser() -> AnyCancellable {
 ```
 
 </Block>
-
 </BlockSwitcher>
 
 </InlineFilter>
+
 We recommend you update your UI to let your users know that their account is deleted and test the functionality with a test user. Note that your user will be signed out of your application when they delete their account.
-
-## Conclusion
-
-Congratulations! You finished the **Delete user account** guide and learned how to enable account deletion for your users.
-
-### Next steps
-
-Now that you enabled account deletion you may also want to add some additional features. We recommend you learn more about:
-
-- [Manage user profile](/[platform]/build-a-backend/auth/manage-user-profile/)
-- [Set up password change and recovery](/[platform]/build-a-backend/auth/password-management/)
