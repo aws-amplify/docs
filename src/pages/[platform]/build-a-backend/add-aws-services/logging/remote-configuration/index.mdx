@@ -316,7 +316,7 @@ do {
     let remoteConfigProvider = DefaultRemoteLoggingConstraintsProvider(endpoint: endpointUrl, region: "<region>")
     let loggingPlugin = AWSCloudWatchLoggingPlugin(remoteLoggingConstraintsProvider: remoteConfigProvider)
     try Amplify.add(plugin: loggingPlugin)
-    try Amplify.configure()
+    try Amplify.configure(with: .amplifyOutputs)
 } catch {
     assert(false, "Error initializing Amplify: \(error)")
 }

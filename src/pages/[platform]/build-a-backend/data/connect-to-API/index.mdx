@@ -417,7 +417,7 @@ final lambdaResponse = await Amplify.API.query(request: lambdaRequest).response;
 
 ## Set custom request headers
 
-When working with the Amplify Data endpoint, you may need to set request headers for authorization purposes or to pass additional metadata from your frontend to the backend API. 
+When working with the Amplify Data endpoint, you may need to set request headers for authorization purposes or to pass additional metadata from your frontend to the backend API.
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
@@ -618,7 +618,7 @@ struct CustomInterceptor: URLRequestInterceptor {
 }
 let apiPlugin = try AWSAPIPlugin()
 try Amplify.addPlugin(apiPlugin)
-try Amplify.configure()
+try Amplify.configure(with: .amplifyOutputs)
 try apiPlugin.add(interceptor: CustomInterceptor(), for: AWSAPIPlugin.defaultGraphQLAPI)
 ```
 

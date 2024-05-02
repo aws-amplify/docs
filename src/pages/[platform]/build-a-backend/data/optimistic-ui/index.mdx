@@ -1162,7 +1162,7 @@ struct OptimisticUIApp: App {
         do {
             Amplify.Logging.logLevel = .verbose
             try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
-            try Amplify.configure()
+            try Amplify.configure(with: .amplifyOutputs)
             print("Amplify configured with API, Storage, and Auth plugins!")
         } catch {
             print("Failed to initialize Amplify with \(error)")

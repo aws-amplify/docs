@@ -113,11 +113,11 @@ npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 
 ## Connect your application code to the data backend
 
-Once the cloud sandbox is up and running, it will also create an `amplifyconfiguration.json` file, which includes the relevant connection information to your data backend, like your API endpoint URL and API key.
+Once the cloud sandbox is up and running, it will also create an `amplify_outputs.json` file, which includes the relevant connection information to your data backend, like your API endpoint URL and API key.
 
 To connect your frontend code to your backend, you need to:
 
-1. configure the Amplify library with the Amplify client configuration file
+1. configure the Amplify library with the Amplify client configuration file (`amplify_outputs.json`)
 2. generate a new API client from the Amplify library
 3. make an API request with end-to-end type-safety
 
@@ -133,9 +133,9 @@ In your app's entry point, typically **main.tsx** for React apps created using V
 
 ```tsx title="src/main.tsx"
 import { Amplify } from 'aws-amplify';
-import config from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 ```
 
 </InlineFilter>
@@ -260,7 +260,7 @@ struct MyAmplifyApp: App {
         let awsApiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
         do {
             try Amplify.add(plugin: awsApiPlugin)
-            try Amplify.configure()
+            try Amplify.configure(with: .amplifyOutputs)
             print("Initialized Amplify");
         } catch {
             // simplified error handling for the tutorial
