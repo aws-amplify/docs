@@ -830,7 +830,7 @@ export const directory = {
               path: 'src/pages/[platform]/reference/project-structure/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/reference/amplifyconfiguration/index.mdx'
+              path: 'src/pages/[platform]/reference/amplify_outputs.json/index.mdx'
             },
             {
               path: 'src/pages/[platform]/reference/cdk-constructs/index.mdx'
