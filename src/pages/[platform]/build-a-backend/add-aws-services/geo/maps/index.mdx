@@ -243,14 +243,14 @@ To display a map on your html website, add the following scripts to your html we
 <script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.1.0/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-7/RxWonKW1nM9zCKiwU9x6bkQTjldosg0D1vZYm0Zj+K/vUSnA3sOMhlRRWAtHPi" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 ```
 
-Next, add a div element with id `map` anywhere in your webpage where you want to render the map. Include the following code snippet to configure Amplify (update the `amplifyconfiguration.json` file path accordingly) and instantiate the map.
+Next, add a div element with id `map` anywhere in your webpage where you want to render the map. Include the following code snippet to configure Amplify (update the `amplify_outputs.json` file path accordingly) and instantiate the map.
 
 ```html
 <script type="module">
-  import amplifyconfig from './amplifyconfiguration.json' assert { type: 'json' };
+  import outputs from './amplify_outputs.json' assert { type: 'json' };
   const { Amplify } = aws_amplify_core;
   const { createMap } = AmplifyMapLibre;
-  Amplify.configure(amplifyconfig);
+  Amplify.configure(outputs);
   createMap({
     container: 'map',
     center: [-123.1187, 49.2819], // [Longitude, Latitude]
@@ -284,10 +284,10 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
     <body>
         <div id="map"></div>
         <script type="module">
-            import amplifyconfig from "./amplifyconfiguration.json" assert { type: "json" };
+            import outputs from "./amplify_outputs.json" assert { type: "json" };
             const { Amplify } = aws_amplify_core;
             const { createMap } = AmplifyMapLibre;
-            Amplify.configure(amplifyconfig);
+            Amplify.configure(outputs);
             createMap({
                 container: "map",
                 center: [-123.1187, 49.2819], // [Longitude, Latitude]

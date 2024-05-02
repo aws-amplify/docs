@@ -43,7 +43,7 @@ You can set up your backend deployments using the following steps:
   <source src="/images/gen2/fullstack-branching/auto-build.mp4" />
 </video>
 
-3. Update the Amplify build-spec to add `npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID` and comment out the `pipeline-deploy` script. `ampx pipeline-deploy` runs a script to deploy backend updates, while `ampx generate outputs` fetches the latest `amplify_outputs.json` for the specified environment.
+3. Update the Amplify build-spec to add `npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID` and comment out the `pipeline-deploy` script. `ampx pipeline-deploy` runs a script to deploy backend updates, while `ampx generate config` fetches the latest `amplify_outputs.json` for the specified environment.
 
 ![custom-ci](/images/gen2/fullstack-branching/custom-ci.png)
 

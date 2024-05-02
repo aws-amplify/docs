@@ -186,7 +186,7 @@ Import and load the configuration file in your app. It's recommended you add the
 ```js title="src/index.js"
 import { Amplify } from 'aws-amplify';
 import { record } from 'aws-amplify/analytics';
-import amplifyconfig from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
 Amplify.configure({
   ...Amplify.getConfig(),
@@ -199,7 +199,7 @@ Amplify.configure({
 ```js title="pages/_app.tsx"
 import { Amplify } from 'aws-amplify';
 import { record } from 'aws-amplify/analytics';
-import amplifyconfig from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 
 Amplify.configure({
   ...Amplify.getConfig(),
@@ -323,7 +323,7 @@ Future<void> _configureAmplify() async {
   // Once Plugins are added, configure Amplify
   // Note: Amplify can only be configured once.
   try {
-    await Amplify.configure(amplifyconfig);
+    await Amplify.configure(outputs);
   } on AmplifyAlreadyConfiguredException {
     safePrint(
       'Tried to reconfigure Amplify; this can occur when your app restarts on Android.',
@@ -351,7 +351,7 @@ Future<void> _configureAmplify() async {
   // Once Plugins are added, configure Amplify
   // Note: Amplify can only be configured once.
   try {
-    await Amplify.configure(amplifyconfig);
+    await Amplify.configure(outputs);
   } on AmplifyAlreadyConfiguredException {
     safePrint(
       'Tried to reconfigure Amplify; this can occur when your app restarts on Android.',

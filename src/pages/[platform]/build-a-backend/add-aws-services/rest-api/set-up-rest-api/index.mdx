@@ -408,9 +408,9 @@ Import and load the configuration file in your app. It's recommended you add the
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native"]}>
 ```javascript title="src/index.js"
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 const existingConfig = Amplify.getConfig();
 Amplify.configure({
   ...existingConfig,
@@ -424,10 +424,10 @@ Amplify.configure({
 <InlineFilter filters={["nextjs"]}>
 ```javascript title="pages/index.tsx"
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
+Amplify.configure(outputs);
 const existingConfig = Amplify.getConfig();
 Amplify.configure({
   ...existingConfig,
@@ -663,7 +663,7 @@ class _MyAppState extends State<MyApp> {
     await Amplify.addPlugins([api, auth]);
 
     try {
-      await Amplify.configure(amplifyconfig);
+      await Amplify.configure(outputs);
     } on AmplifyAlreadyConfiguredException {
       safePrint(
           'Tried to reconfigure Amplify; this can occur when your app restarts on Android.');

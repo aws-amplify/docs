@@ -100,7 +100,7 @@ npx ampx sandbox --outputs-out-dir <path_to_app/src/main/res/raw/>
 npx ampx sandbox --outputs-out-dir <path_to_swift_project>
 ```
 
-Drag and drop the **amplifyconfiguration.json** file into your Xcode project to add the generate file.
+Drag and drop the **amplify_outputs.json** file into your Xcode project to add the generate file.
 
 </InlineFilter>
 <InlineFilter filters={["flutter"]}>
@@ -156,7 +156,7 @@ dependencies {
 
 Click **Sync Now** in the notification bar above the file editor to sync these dependencies.
 
-Next, configure the Amplify client library with the generated `amplifyconfiguration.json` file to make it aware of the backend API endpoint. *Note: verify that the **amplifyconfiguration.json** file is present in your **res/raw/** folder.
+Next, configure the Amplify client library with the generated `amplify_outputs.json` file to make it aware of the backend API endpoint. *Note: verify that the **amplify_outputs.json** file is present in your **res/raw/** folder.
 
 Create a new `MyAmplifyApp` class that inherits from `Application` with the following code:
 
@@ -233,7 +233,7 @@ npx ampx generate graphql-client-code --format modelgen --model-target java --ou
 
 <InlineFilter filters={["swift"]}>
 
-Drag and drop the **amplifyconfiguration.json** file from the Finder into Xcode.
+Drag and drop the **amplify_outputs.json** file from the Finder into Xcode.
 
 Next, add Amplify Library for Swift through the Swift Package Manager.  In Xcode, select **File** > **Add Packages...**.
 
@@ -335,7 +335,7 @@ Future<void> main() async {
   try {
     final api = AmplifyAPI(modelProvider: ModelProvider.instance);
     await Amplify.addPlugins([api]);
-    await Amplify.configure(amplifyConfig);
+    await Amplify.configure(outputs);
 
     safePrint('Successfully configured Amplify');
   } on Exception catch (e) {

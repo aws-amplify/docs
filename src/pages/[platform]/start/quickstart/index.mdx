@@ -880,11 +880,11 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TodosComponent } from './todos/todos.component';
 import { Amplify } from 'aws-amplify';
-import config from '../../amplifyconfiguration.json';
+import outputs from '../../amplify_outputs.json';
 // highlight-next-line
 import { AmplifyAuthenticatorModule, AuthenticatorService } from '@aws-amplify/ui-angular';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 @Component({
   selector: 'app-root',
@@ -898,7 +898,7 @@ export class AppComponent {
   title = 'amplify-angular-template';
   // highlight-start
   constructor(public authenticator: AuthenticatorService) {
-    Amplify.configure(config);
+    Amplify.configure(outputs);
   }
   // highlight-end
 }
@@ -1152,7 +1152,7 @@ Future<void> main() async {
 Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugin(AmplifyAuthCognito());
-    await Amplify.configure(amplifyConfig);
+    await Amplify.configure(outputs);
     safePrint('Successfully configured');
   } on Exception catch (e) {
     safePrint('Error configuring Amplify: $e');
@@ -1250,7 +1250,7 @@ Future<void> _configureAmplify() async {
         AmplifyAPI(modelProvider: ModelProvider.instance),
       ],
     );
-    await Amplify.configure(amplifyConfig);
+    await Amplify.configure(outputs);
     safePrint('Successfully configured');
   } on Exception catch (e) {
     safePrint('Error configuring Amplify: $e');
@@ -2470,9 +2470,9 @@ import { Button, View, StyleSheet, SafeAreaView } from "react-native";
 import { Amplify } from "aws-amplify";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
 
-import amplifyconfig from "./amplifyconfiguration.json";
+import outputs from "./amplify_outputs.json";
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 
 const SignOutButton = () => {
   const { signOut } = useAuthenticator();
