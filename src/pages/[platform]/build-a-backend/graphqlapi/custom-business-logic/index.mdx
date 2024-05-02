@@ -749,14 +749,99 @@ export class cdkStack extends cdk.Stack {
       // Previously the ApiId is the variable Name which is wrong , it should be variable value as below
       apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
       fieldName: 'querySomething',
-      typeName: 'Query', // Query | Mutation | Subscription
+      typeName: 'Query', // <Model Name> | Query | Mutation | Subscription
       requestMappingTemplate: requestVTL,
       responseMappingTemplate: responseVTL,
-      dataSourceName: 'TodoTable' // DataSource name
+      dataSourceName: 'TodoTable' // DataSource name ('Table' is required at the end)
     });
   }
 }
 ```
+
+##### Referencing a model in an attribute of another model
+For this example we will assume the following models
+
+```graphql
+type User @model {
+  id: ID!
+  name: String
+  isFriend: Boolean
+}
+
+type Friendship @model {
+  id: ID!
+  userId: ID! @index(
+    name: "byUserIdAndFriendId"
+    queryField: "friendshipsByUserIdAndFriendId"
+    sortKeyFields: ["friendId"]
+  )
+  friendId: ID!
+}
+```
+
+If we want `isFriend` to be populated if the user is a friend of the authenticated
+user we can use a custom resolver to return a boolean value. Implement the custom resolver as above
+with the following changes:
+
+```console
+? How do you want to define this custom resource?
+❯ AWS CDK
+? Provide a name for your custom resource
+❯ UserIsFriendResolver
+```
+
+```ts
+// ... imports are the same
+
+const requestVTL = `
+<SEE BELOW FOR REQUEST VTL>
+`;
+const responseVTL = `
+<SEE BELOW FOR RESPONSE VTL>
+`;
+
+export class cdkStack extends cdk.Stack {
+  // ... constructor and retVal initialization are the same
+
+    const resolver = new appsync.CfnResolver(this, 'user-is-friend-resolver', {
+      apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
+      fieldName: 'isFriend',
+      typeName: 'User',
+      requestMappingTemplate: requestVTL,
+      responseMappingTemplate: responseVTL,
+      dataSourceName: 'FriendshipTable'
+    });
+  }
+}
+```
+
+For the VTL we can query using the model id (the id of the returned user)
+
+```ts
+const requestVTL = `
+{
+  "version": "2018-05-29",
+  "operation": "Query",
+  "query": {
+    "expression": "userId = :userId AND friendId = :friendId",
+    "expressionValues": {
+      ":userId": $util.dynamodb.toDynamoDBJson($context.identity.username),
+      ":friendId": $util.dynamodb.toDynamoDBJson($context.source.id)
+    }
+  },
+  "index": "byUserIdAndFriendId"
+}
+`;
+
+const responseVTL = `
+#if (!$util.isNull($context.result) && $context.result.items.size() > 0)
+  true
+#else
+  false
+#end
+`;
+```
+
 
 #### Pipeline Resolver
 
